@@ -11,7 +11,6 @@ class PreferencesRepository(
 	private val api: ApiClient,
 	private val liveTvPreferences: LiveTvPreferences,
 	private val userSettingPreferences: UserSettingPreferences,
-	private val playbackPreferenceBridge: PlaybackPreferenceBridge,
 ) {
 	private val libraryPreferences = mutableMapOf<String, LibraryPreferences>()
 
@@ -33,7 +32,5 @@ class PreferencesRepository(
 		userSettingPreferences.update()
 
 		libraryPreferences.clear()
-
-		playbackPreferenceBridge.update()
 	}
 }

@@ -8,8 +8,8 @@ import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.PlaybackPreferenceBridge
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.playback.GarbagePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.LegacyMediaManager
@@ -24,10 +24,10 @@ import org.jellyfin.playback.jellyfin.jellyfinPlugin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
+import kotlin.time.Duration.Companion.milliseconds
 import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManager
 
 val playbackModule = module {
-	single { PlaybackPreferenceBridge(get()) }
 	single { LegacyPlaybackManager(get()) }
 	single { VideoQueueManager() }
 	single { LegacyMediaManager(get()) }
@@ -77,7 +77,7 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	)))
 
 	// Options
-	val bridge = get<PlaybackPreferenceBridge>()
-	defaultRewindAmount = bridge.defaultRewindAmount
-	defaultFastForwardAmount = bridge.defaultFastForwardAmount
+	val userSettingPreferences = get<UserSettingPreferences>()
+	defaultRewindAmount = { userSettingPreferences[UserSettingPreferences.skipBackLength].milliseconds }
+	defaultFastForwardAmount ={ userSettingPreferences[UserSettingPreferences.skipForwardLength].milliseconds }
 }

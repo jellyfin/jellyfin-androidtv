@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.koin.dsl.module
 
 val preferenceModule = module {
-	single { PreferencesRepository(get(), get(), get(), get()) }
+	single { PreferencesRepository(get(), get(), get()) }
 
 	single { LiveTvPreferences(get()) }
 	single { UserSettingPreferences(get()) }

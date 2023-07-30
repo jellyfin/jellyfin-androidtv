@@ -3,8 +3,6 @@ package org.jellyfin.playback.core
 import android.content.Context
 import android.os.Build
 import androidx.core.content.getSystemService
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import org.jellyfin.playback.core.backend.PlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.plugin.PlaybackPlugin
@@ -18,8 +16,8 @@ class PlaybackManagerBuilder(context: Context) {
 	else AndroidPlayerVolumeState(audioManager = requireNotNull(context.getSystemService()))
 
 	// Options
-	var defaultRewindAmount: StateFlow<Duration>? = null
-	var defaultFastForwardAmount: StateFlow<Duration>? = null
+	var defaultRewindAmount: (() -> Duration)? = null
+	var defaultFastForwardAmount: (() -> Duration)? = null
 
 	fun install(pluginFactory: PlaybackPlugin) {
 		factories.add(pluginFactory)
@@ -50,8 +48,8 @@ class PlaybackManagerBuilder(context: Context) {
 		require(backends.size == 1)
 		val options = PlaybackManagerOptions(
 			playerVolumeState = volumeState,
-			defaultRewindAmount = defaultRewindAmount ?: MutableStateFlow(10.seconds),
-			defaultFastForwardAmount = defaultFastForwardAmount ?: MutableStateFlow(10.seconds),
+			defaultRewindAmount = defaultRewindAmount ?: { 10.seconds },
+			defaultFastForwardAmount = defaultFastForwardAmount ?: { 10.seconds },
 		)
 		return PlaybackManager(backends.first(), services, mediaStreamResolvers, options)
 	}
