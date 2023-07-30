@@ -27,6 +27,7 @@ fun DreamView(
 		transitionSpec = {
 			fadeIn(tween(durationMillis = 1_000)) with fadeOut(snap(delayMillis = 1_000))
 		},
+		label = "DreamContentTransition"
 	) { content ->
 		when (content) {
 			DreamContent.Logo -> DreamContentLogo()
