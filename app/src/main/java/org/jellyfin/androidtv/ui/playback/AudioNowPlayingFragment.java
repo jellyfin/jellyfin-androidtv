@@ -93,6 +93,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         FragmentAudioNowPlayingBinding binding = FragmentAudioNowPlayingBinding.inflate(getLayoutInflater(), container, false);
 
         mPoster = binding.poster;
+        mPoster.setClipToOutline(true);
         mArtistName = binding.artistTitle;
         mGenreRow = binding.genreRow;
         mSongTitle = binding.song;

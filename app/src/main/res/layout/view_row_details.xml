@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -154,13 +155,13 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="140dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_card"
             android:contentDescription="@null"
             android:foregroundGravity="fill_horizontal"
-            android:paddingStart="50dp"
-            android:paddingTop="80dp"
-            android:paddingEnd="50dp"
-            android:paddingBottom="30dp"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/blank30x30" />
 

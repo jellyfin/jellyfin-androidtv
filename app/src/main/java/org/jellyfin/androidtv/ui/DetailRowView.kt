@@ -48,5 +48,6 @@ class DetailRowView @JvmOverloads constructor(
 
 	init {
 		binding.fdButtonRow.setOnHierarchyChangeListener(buttonsHierarchyChangeListener)
+		binding.mainImage.clipToOutline = true
 	}
 }
