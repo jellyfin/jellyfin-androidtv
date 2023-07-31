@@ -139,17 +139,19 @@ public class CardPresenter extends Presenter {
                         case EPISODE:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
-                            switch (itemDto.getLocationType()) {
-                                case FILE_SYSTEM:
-                                    break;
-                                case REMOTE:
-                                    break;
-                                case VIRTUAL:
-                                    mCardView.setBanner(itemDto.getPremiereDate() == null || itemDto.getPremiereDate().isAfter(LocalDateTime.now()) ? R.drawable.banner_edge_future : R.drawable.banner_edge_missing);
-                                    break;
-                                case OFFLINE:
-                                    mCardView.setBanner(R.drawable.banner_edge_offline);
-                                    break;
+                            if (itemDto.getLocationType() != null) {
+                                switch (itemDto.getLocationType()) {
+                                    case FILE_SYSTEM:
+                                        break;
+                                    case REMOTE:
+                                        break;
+                                    case VIRTUAL:
+                                        mCardView.setBanner(itemDto.getPremiereDate() == null || itemDto.getPremiereDate().isAfter(LocalDateTime.now()) ? R.drawable.banner_edge_future : R.drawable.banner_edge_missing);
+                                        break;
+                                    case OFFLINE:
+                                        mCardView.setBanner(R.drawable.banner_edge_offline);
+                                        break;
+                                }
                             }
                             showProgress = true;
                             //Always show info for episodes
@@ -254,16 +256,18 @@ public class CardPresenter extends Presenter {
                     if (cardWidth < 5) {
                         cardWidth = 115;  //Guard against zero size images causing picasso to barf
                     }
-                    switch (program.getLocationType()) {
-                        case FILE_SYSTEM:
-                        case REMOTE:
-                        case OFFLINE:
-                            break;
-                        case VIRTUAL:
-                            if (program.getStartDate() != null && program.getStartDate().isAfter(LocalDateTime.now())) {
-                                mCardView.setBanner(R.drawable.banner_edge_future);
-                            }
-                            break;
+                    if (program.getLocationType() != null) {
+                        switch (program.getLocationType()) {
+                            case FILE_SYSTEM:
+                            case REMOTE:
+                            case OFFLINE:
+                                break;
+                            case VIRTUAL:
+                                if (program.getStartDate() != null && program.getStartDate().isAfter(LocalDateTime.now())) {
+                                    mCardView.setBanner(R.drawable.banner_edge_future);
+                                }
+                                break;
+                        }
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
