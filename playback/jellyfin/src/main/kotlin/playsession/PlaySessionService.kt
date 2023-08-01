@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.plugin.PlayerService
-import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
@@ -24,10 +24,11 @@ import kotlin.math.roundToInt
 class PlaySessionService(
 	private val api: ApiClient,
 ) : PlayerService() {
+	private var playSessionId: String? = null
 	private var reportedItem: BaseItemDto? = null
 
 	override suspend fun onInitialize() {
-		state.queue.entry.onEach { entry -> onItemChange(entry) }.launchIn(coroutineScope)
+		state.streams.current.onEach { stream -> onMediaStreamChange(stream) }.launchIn(coroutineScope)
 
 		state.playState.onEach { playState ->
 			when (playState) {
@@ -45,9 +46,13 @@ class PlaySessionService(
 		}
 	}
 
-	private fun onItemChange(item: QueueEntry?) {
-		if (item !is BaseItemDtoUserQueueEntry) return
-		reportedItem = item.baseItem
+	private fun onMediaStreamChange(stream: MediaStream?) {
+		playSessionId = stream?.identifier
+		reportedItem = when (val entry = stream?.queueEntry) {
+			is BaseItemDtoUserQueueEntry -> entry.baseItem
+			else -> null
+		}
+
 		onStart()
 	}
 
@@ -83,6 +88,7 @@ class PlaySessionService(
 	private suspend fun startBaseItem(item: BaseItemDto) {
 		api.playStateApi.reportPlaybackStart(PlaybackStartInfo(
 			itemId = item.id,
+			playSessionId = playSessionId,
 			playlistItemId = item.playlistItemId,
 			canSeek = true,
 			isMuted = state.volume.muted,
@@ -99,6 +105,7 @@ class PlaySessionService(
 	private suspend fun updateBaseItem(item: BaseItemDto) {
 		api.playStateApi.reportPlaybackProgress(PlaybackProgressInfo(
 			itemId = item.id,
+			playSessionId = playSessionId,
 			playlistItemId = item.playlistItemId,
 			canSeek = true,
 			isMuted = state.volume.muted,
@@ -115,6 +122,7 @@ class PlaySessionService(
 	private suspend fun stopBaseItem(item: BaseItemDto) {
 		api.playStateApi.reportPlaybackStopped(PlaybackStopInfo(
 			itemId = item.id,
+			playSessionId = playSessionId,
 			playlistItemId = item.playlistItemId,
 			positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
 			failed = false,

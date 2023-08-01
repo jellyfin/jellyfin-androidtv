@@ -31,13 +31,14 @@ class DefaultMediaStreamState(
 
 	init {
 		state.queue.entry.onEach { entry ->
+			Timber.d("Queue entry changed to $entry")
+
 			if (entry == null) {
 				setCurrent(null)
 			} else {
 				val stream = mediaStreamResolvers.firstNotNullOfOrNull { resolver -> resolver.getStream(entry) }
-				if (stream == null) {
-					Timber.e("Unable to resolve stream for entry $entry")
-				}
+				if (stream == null) Timber.e("Unable to resolve stream for entry $entry")
+
 				setCurrent(stream)
 			}
 		}.launchIn(coroutineScope)
@@ -46,6 +47,7 @@ class DefaultMediaStreamState(
 	}
 
 	private suspend fun setCurrent(stream: MediaStream?) {
+		Timber.d("Current stream changed to $stream")
 		val backend = requireNotNull(backendService.backend)
 
 		_current.value = stream
