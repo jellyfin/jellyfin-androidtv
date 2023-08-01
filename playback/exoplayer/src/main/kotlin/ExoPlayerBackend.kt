@@ -95,6 +95,7 @@ class ExoPlayerBackend(
 
 		if (!streamIsPrepared) prepareStream(stream)
 
+		exoPlayer.seekToNextMediaItem()
 		exoPlayer.play()
 	}
 
