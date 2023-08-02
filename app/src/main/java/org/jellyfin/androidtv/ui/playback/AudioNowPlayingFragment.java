@@ -184,7 +184,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
         mRowsFragment = new RowsSupportFragment();
-        requireActivity().getSupportFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+        getChildFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
