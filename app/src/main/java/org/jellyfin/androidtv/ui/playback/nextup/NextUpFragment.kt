@@ -44,7 +44,7 @@ class NextUpFragment : Fragment() {
 		viewModel.setItemId(id)
 
 		viewModel.state
-			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
 			.onEach { state ->
 				when (state) {
 					// Open next item
@@ -61,7 +61,7 @@ class NextUpFragment : Fragment() {
 		_binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
 		viewModel.item
-			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
 			.filterNotNull()
 			.onEach { data ->
 				backgroundService.setBackground(data.baseItem)
