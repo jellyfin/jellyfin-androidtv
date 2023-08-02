@@ -59,7 +59,12 @@ class MyDetailsOverviewRowPresenter(
 			}
 
 			binding.fdButtonRow.removeAllViews()
-			for (button in row.actions) binding.fdButtonRow.addView(button)
+			for (button in row.actions) {
+				val parent = button.parent
+				if (parent is ViewGroup) parent.removeView(button)
+
+				binding.fdButtonRow.addView(button)
+			}
 		}
 
 		fun setTitle(title: String?) {
