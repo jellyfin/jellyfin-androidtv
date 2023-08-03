@@ -182,7 +182,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
         mRowsFragment = new RowsSupportFragment();
-        getChildFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.rowsFragment, mRowsFragment).commit();
 
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
