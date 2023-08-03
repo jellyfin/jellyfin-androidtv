@@ -77,7 +77,7 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Sugerido</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Finaliza a las %1$s</string>
+    <string name="lbl_playback_control_ends">Finaliza a las %1$shs</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
@@ -127,7 +127,7 @@
     <string name="pref_video_player_auto">Elegir automáticamente</string>
     <string name="pref_theme_emerald">Esmeralda clásico</string>
     <string name="pref_theme_dark">Obscuro (Por defecto)</string>
-    <string name="lbl_my_media">Mi contenido multimedia</string>
+    <string name="lbl_my_media">Mi contenido</string>
     <string name="lbl_image_size">Tamaño de imagen</string>
     <string name="lbl_image_type">Tipo de imagen</string>
     <string name="lbl_start_favorites">Colocar los favoritos al principio</string>
@@ -447,7 +447,7 @@
     <plurals name="episodes">
         <item quantity="one">%1$s episodio</item>
         <item quantity="many">%1$s episodios</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="lbl_subtitle_delay">Retraso en los subtitulos</string>
