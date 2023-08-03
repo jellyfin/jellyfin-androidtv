@@ -79,5 +79,5 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	// Options
 	val userSettingPreferences = get<UserSettingPreferences>()
 	defaultRewindAmount = { userSettingPreferences[UserSettingPreferences.skipBackLength].milliseconds }
-	defaultFastForwardAmount ={ userSettingPreferences[UserSettingPreferences.skipForwardLength].milliseconds }
+	defaultFastForwardAmount = { userSettingPreferences[UserSettingPreferences.skipForwardLength].milliseconds }
 }
