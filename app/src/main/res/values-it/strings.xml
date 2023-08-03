@@ -515,4 +515,8 @@
     <string name="lbl_album_artists">Artisti dell\'album</string>
     <string name="not_set">Non impostato</string>
     <string name="lbl_latest_in">Aggiunto di recente in %1$s</string>
+    <string name="pref_music_cat">Musica</string>
+    <string name="pref_music_rewrite_disable">Disabilita il nuovo backend per la musica</string>
+    <string name="pref_music_rewrite_enable_description">Disabilita solo se stai riscontrando problemi nella riproduzione della musica</string>
+    <string name="disable_ui_mode_warning">Disabilita avvisi riguardo al tipo di dispositivo</string>
 </resources>
