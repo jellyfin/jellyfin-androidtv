@@ -62,6 +62,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -927,20 +928,23 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO_ALBUM
                 && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM) {
             Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
-            mCurrentItem.refresh(new EmptyLifecycleAwareResponse(getLifecycle()) {
+            BaseRowItem item = mCurrentItem;
+            item.refresh(new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
-                public void onResponse() {
+                public void onResponse(BaseItemDto response) {
                     if (!getActive()) return;
 
-                    mAdapter.notifyItemRangeChanged(mAdapter.indexOf(mCurrentItem), 1);
+                    if (response == null) mAdapter.removeAt(mAdapter.indexOf(item), 1);
+                    else mAdapter.notifyItemRangeChanged(mAdapter.indexOf(item), 1);
+
                     //Now - if filtered make sure we still pass
-                    if (mAdapter.getFilters() != null) {
-                        if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+                    if (response != null && mAdapter.getFilters() != null) {
+                        if ((mAdapter.getFilters().isFavoriteOnly() && !item.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && item.isPlayed())) {
                             // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
                             binding.toolBar.requestFocus();
-                            mAdapter.remove(mCurrentItem);
+                            mAdapter.remove(item);
                             mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
-                            updateCounter(mCurrentItem.getIndex());
+                            updateCounter(item.getIndex());
                         }
                     }
                 }

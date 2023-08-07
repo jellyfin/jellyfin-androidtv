@@ -44,11 +44,12 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.util.KeyProcessor
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.sockets.SocketInstance
 import org.jellyfin.sdk.api.sockets.addGlobalListener
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.socket.LibraryChangedMessage
 import org.jellyfin.sdk.model.socket.UserDataChangedMessage
@@ -236,12 +237,13 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 			Timber.d("Refresh item ${item.getFullName(requireContext())}")
 
-			item.refresh(object : EmptyLifecycleAwareResponse(lifecycle) {
-				override fun onResponse() {
+			item.refresh(object : LifecycleAwareResponse<BaseItemDto?>(lifecycle) {
+				override fun onResponse(response: BaseItemDto?) {
 					if (!active) return
 
 					val adapter = currentRow?.adapter as? ItemRowAdapter
-					adapter?.notifyItemRangeChanged(adapter.indexOf(item), 1)
+					if (response == null) adapter?.removeAt(adapter.indexOf(item), 1)
+					else adapter?.notifyItemRangeChanged(adapter.indexOf(item), 1)
 				}
 			})
 		}
