@@ -3,7 +3,7 @@
     <string name="lbl_loading_elipses">Ładowanie…</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Podaj adres serwera (IP lub domena/nazwa serwera)</string>
-    <string name="lbl_enter_server_address">Podaj Adres Serwera</string>
+    <string name="lbl_enter_server_address">Podaj adres serwera</string>
     <string name="lbl_yes">Tak</string>
     <string name="lbl_no">Nie</string>
     <string name="lbl_play_trailers">Odtwórz zwiastun(y)</string>
@@ -57,7 +57,7 @@
     <string name="lbl_views">Odtworzeń</string>
     <string name="lbl_on_now">Teraz</string>
     <string name="lbl_next_up">Następne</string>
-    <string name="lbl_continue_watching">Kontynuuj Oglądanie</string>
+    <string name="lbl_continue_watching">Kontynuuj oglądanie</string>
     <string name="lbl_settings">Ustawienia</string>
     <string name="chapters">Rozdziały</string>
     <string name="pref_authentication_cat">Autoryzacja</string>
@@ -84,8 +84,8 @@
     <string name="pref_max_bitrate_title">Maksymalna przepływność transmisji</string>
     <string name="lbl_now_playing_album">z %1$s</string>
     <string name="lbl_now_playing_track">%1$s z %2$s</string>
-    <string name="lbl_add_favorite">Dodaj do Ulubionych</string>
-    <string name="lbl_remove_favorite">Usuń z Ulubionych</string>
+    <string name="lbl_add_favorite">Dodaj do ulubionych</string>
+    <string name="lbl_remove_favorite">Usuń z ulubionych</string>
     <string name="lbl_mark_played">Oznacz jako odtworzone</string>
     <string name="lbl_mark_unplayed">Oznacz jako nieodtworzone</string>
     <string name="lbl_play_first_unwatched">Odtwórz pierwszy nieobejrzany</string>
@@ -100,7 +100,7 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_songs">Utwory</string>
     <string name="lbl_song">Utwór</string>
-    <string name="lbl_artists">Artyści</string>
+    <string name="lbl_artists">Wykonawcy</string>
     <string name="lbl_albums">Albumy</string>
     <string name="lbl_programs">Programy</string>
     <string name="msg_error_live_stream">Błąd przesyłania TV. Ponawianie…</string>
@@ -113,9 +113,9 @@
     <string name="lbl_ended">ZAKOŃCZONE</string>
     <string name="lbl_display_preferences">Preferencje wyświetlania</string>
     <string name="lbl_rating">Ocena</string>
-    <string name="lbl_critic_rating">Ocena Krytyków</string>
-    <string name="lbl_premier_date">Data Premiery</string>
-    <string name="lbl_date_added">Data Dodania</string>
+    <string name="lbl_critic_rating">Ocena krytyków</string>
+    <string name="lbl_premier_date">Data premiery</string>
+    <string name="lbl_date_added">Data dodania</string>
     <string name="lbl_name">Nazwa</string>
     <string name="lbl_sorted_by">sortowanie</string>
     <string name="lbl_all_items">Wszystkie elementy</string>
@@ -123,7 +123,7 @@
     <string name="lbl_audio_output">Wyjście audio</string>
     <string name="pref_audio_compat">Downmix do stereo</string>
     <string name="lbl_only_new_episodes">Tylko nowe odcinki</string>
-    <string name="lbl_similar_items_library">Podobne elementy w Bibliotece</string>
+    <string name="lbl_similar_items_library">Podobne elementy w bibliotece</string>
     <string name="lbl_program_ended">Program zakończony</string>
     <string name="msg_recording_now">Obecnie nagrywane</string>
     <string name="lbl_tune_to_channel">Dostrajanie do kanału</string>
@@ -137,11 +137,11 @@
     <string name="lbl_delete">Usuń</string>
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
     <string name="lbl_remove_from_queue">Usuń z kolejki</string>
-    <string name="lbl_now_playing">Obecnie Odtwarzane</string>
+    <string name="lbl_now_playing">Obecnie odtwarzane</string>
     <string name="lbl_prev_item">Poprzedni element</string>
     <string name="lbl_next_item">Następny element</string>
-    <string name="lbl_open_album">Otwórz Album</string>
-    <string name="lbl_open_artist">Pokaż Artystę</string>
+    <string name="lbl_open_album">Pokaż album</string>
+    <string name="lbl_open_artist">Pokaż wykonawcę</string>
     <string name="lbl_add_to_queue">Dodaj do kolejki</string>
     <string name="msg_items_added">" przedmiotów dodanych"</string>
     <string name="lbl_recorded_tv">Nagrania TV</string>
@@ -168,7 +168,7 @@
     <string name="lbl_bitstream_ac3">Dźwięk w technologii Bitstream Dolby Digital</string>
     <string name="desc_automatic_fav_songs">Automatyczna lista ulubionych piosenek</string>
     <string name="msg_item_added">" pozycja dodana"</string>
-    <string name="lbl_instant_mix">Szybka Składanka</string>
+    <string name="lbl_instant_mix">Szybka składanka</string>
     <string name="lbl_play_from_here">Odtwarzaj od tego momentu</string>
     <string name="lbl_direct_stream_live">Bezpośrednia transmisja TV na żywo</string>
     <string name="lbl__continuing">KONTYNUACJA</string>
@@ -177,10 +177,10 @@
     <string name="lbl_goto_series">Przejdź do serii</string>
     <string name="pref_audio_direct">Bezpośredni</string>
     <string name="msg_cancel_entire_series">Czy na pewno chcesz anulować CAŁĄ SERIĘ\?</string>
-    <string name="lbl_repeat_options">Opcje Powtarzania</string>
+    <string name="lbl_repeat_options">Opcje powtarzania</string>
     <string name="lbl_record_any_time">Nagrywaj w dowolnym momencie</string>
     <string name="lbl_record_any_channel">Nagrywaj na dowolnym kanale</string>
-    <string name="lbl_end_padding">Kończenie Wypełniania</string>
+    <string name="lbl_end_padding">Kończenie wypełniania</string>
     <string name="lbl_begin_padding">Rozpocznij wypełnianie</string>
     <string name="lbl_schedule">Harmonogram</string>
     <string name="lbl_live">Na żywo</string>
@@ -209,7 +209,7 @@
     <string name="pref_video_player_auto">Wybór automatyczny</string>
     <string name="pref_theme_emerald">Klasyczny szmaragd</string>
     <string name="pref_theme_dark">Ciemny (Domyślny)</string>
-    <string name="lbl_my_media">Moje Media</string>
+    <string name="lbl_my_media">Moje media</string>
     <string name="lbl_image_size">Wielkość obrazu</string>
     <string name="lbl_image_type">Typ obrazu</string>
     <string name="lbl_start_favorites">Umieść ulubione na początku</string>
@@ -331,9 +331,9 @@
     <string name="lbl_switch_user">Zmień konto</string>
     <string name="no_network_permissions">Jellyfin wymaga uprawnień sieciowych do działania</string>
     <string name="pref_theme_muted_purple">Wyciszony fiolet</string>
-    <string name="lbl_record_all">Nagra wszystkie epizody</string>
+    <string name="lbl_record_all">Nagra wszystkie odcinki</string>
     <string name="lbl_start_end_on_schedule">Początek i koniec zgodnie z planem</string>
-    <string name="lbl_starting_on_schedule_ending_after">Początek zgodnie z planem i zakończenie %1$s po planowanym zakonczeniu</string>
+    <string name="lbl_starting_on_schedule_ending_after">Początek zgodnie z planem i zakończenie %1$s po planowanym zakończeniu</string>
     <string name="lbl_starting_early_ending_on_schedule">Początek %1$s wcześniej i zakończenie zgodnie z planem</string>
     <string name="lbl_starting_early_ending_after">Początek %1$s wcześniej i koniec %2$s po zaplanowanym zakończeniu</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
@@ -355,7 +355,7 @@
     <string name="welcome_content">Połącz się z serwerem aby rozpocząć.</string>
     <string name="welcome_title">Witaj w Jellyfin!</string>
     <string name="saved_servers">Zapisane serwery</string>
-    <string name="press_to_close">Naciśnij aby zamknąć</string>
+    <string name="press_to_close">Naciśnij, aby zamknąć</string>
     <string name="pref_next_up_behavior_title">Pokaż informacje o następnym wideo</string>
     <string name="advanced_settings">Zaawansowane</string>
     <string name="always_authenticate_description">Włączenie tej funkcji wyłącza automatyczne logowanie</string>
@@ -365,7 +365,7 @@
     <string name="enable_playback_module_description">Jest to funkcja eksperymentalna. Nie jest zapewnione żadne wsparcie.</string>
     <string name="lbl_fit">Normalny</string>
     <string name="lbl_stretch">Rozciągnij</string>
-    <string name="lbl_auto_crop">Automatyczne Przycinanie</string>
+    <string name="lbl_auto_crop">Automatyczne przycinanie</string>
     <string name="lbl_community_rating">Ocena Społeczności</string>
     <string name="pref_subtitles_size">Rozmiar napisów</string>
     <string name="pref_subtitles_background_summary">Wyświetl czarne tło za napisami</string>
@@ -405,7 +405,7 @@
     <string name="pref_customization">Dostosowywanie</string>
     <string name="server_issue_ssl_handshake">Uzgodnienie SSL nieudane</string>
     <string name="server_issue_timeout">Przekroczono limit czasu połączenia</string>
-    <string name="server_issue_outdated_version">Serwer używa wersji %1$s, ale musi być %2$s lub nowsza</string>
+    <string name="server_issue_outdated_version">Serwer używa nieobsługiwanej wersji %1$s. Zaktualizuj do %2$s lub nowszej</string>
     <string name="server_issue_unsupported_version">Serwer używa wersji %1$s, która nie jest obsługiwana</string>
     <string name="server_issue_missing_version">Nie można określić wersję serwera</string>
     <string name="server_issue_invalid_product">Oprogramowanie serwera jest niekompatybilne</string>
@@ -423,7 +423,7 @@
     <string name="license_artifact">Aretfakt</string>
     <string name="server_connection_failed_candidates">Nie można połączyć się z serwerem, wypróbowane adresy: %1$s</string>
     <string name="pref_show_backdrop_description">Zmień tło na wybrane elementy</string>
-    <string name="lbl_playback_speed">Prędkość Odtwarzania</string>
+    <string name="lbl_playback_speed">Prędkość odtwarzania</string>
     <string name="login_quickconnect_step_3">3. Wpisz podany kod:</string>
     <string name="login_quickconnect_step_1">1. Otwórz aplikację Jellyfin na swoim telefonie lub w przeglądarce i zaloguj się na swoje konto</string>
     <string name="login_connect_to">Łączenie z %1$s</string>
@@ -431,28 +431,28 @@
     <string name="input_username">Nazwa użytkownika</string>
     <string name="action_use_password">Użyj hasła</string>
     <string name="action_login">Zaloguj się</string>
-    <string name="lbl_shuffle_queue">Przełącz Losowanie</string>
+    <string name="lbl_shuffle_queue">Przełącz losowanie</string>
     <string name="lbl_additional_parts">Dodatkowe części</string>
     <string name="pref_audio_night_mode">Tryb nocny audio (eksperymentalne)</string>
     <string name="image_type_poster">Podstawowy</string>
     <string name="login_other_options">Inne opcje:</string>
     <string name="app_notification_uimode_invalid">Ta aplikacja jest zoptymalizowana dla telewizorów. Zalecamy użycie naszej aplikacji mobilnej na innych urządzeniach.</string>
-    <string name="server_unsupported_notification">Ten serwer używa Jellyfin w wersji %1$s, który nie jest wspierany. Zaktualizuj do wersji Jellyfin %2$s by kontynuować korzystanie z aplikacji.</string>
+    <string name="server_unsupported_notification">Ten serwer używa Jellyfin w wersji %1$s, która nie jest obsługiwana. Zaktualizuj do wersji Jellyfin %2$s lub nowszej, aby nadal korzystać z aplikacji.</string>
     <string name="live_tv_preferences">Ustawienia TV na żywo</string>
     <string name="crash_report_toast">Ups! Coś poszło nie tak, raport o błędzie został wysłany do twojego serwera Jellyfin.</string>
     <string name="lbl_quality_profile">Profil jakościowy</string>
-    <string name="image_size_xlarge">Bardzo Duży</string>
+    <string name="image_size_xlarge">Bardzo duży</string>
     <string name="login_quickconnect_step_2">2. Otwórz menu użytkownika i stronę Szybkiego Łączenia</string>
     <string name="pref_refresh_rate_scale_on_tv">Skala na telewizorze</string>
     <string name="pref_crash_report_logs">Dołącz logi</string>
-    <string name="lbl_subtitle_delay">Opóźnienie Napisów</string>
+    <string name="lbl_subtitle_delay">Opóźnienie napisów</string>
     <string name="lbl_subtitle_fg">Kolor napisów</string>
     <string name="lbl_subtitle_stroke">Rozmiar napisów</string>
     <string name="lbl_subtitle_position">Odległość napisów od dołu</string>
     <string name="image_size_smallest">Najmniejszy</string>
     <string name="color_white">Biały</string>
     <string name="color_black">Czarny</string>
-    <string name="color_darkgrey">Ciemny Szary</string>
+    <string name="color_darkgrey">Ciemny szary</string>
     <string name="color_red">Czerwony</string>
     <string name="color_green">Zielony</string>
     <string name="color_blue">Niebieski</string>
@@ -519,4 +519,9 @@
         <item quantity="other">%1$s odcinków</item>
     </plurals>
     <string name="not_set">Nie ustawiony</string>
+    <string name="lbl_album_artists">Wykonawcy albumu</string>
+    <string name="disable_ui_mode_warning">Wyłącz ostrzeżenie o typie urządzenia</string>
+    <string name="pref_music_cat">Muzyka</string>
+    <string name="pref_music_rewrite_disable">Wyłącz nowy backend muzyki</string>
+    <string name="pref_music_rewrite_enable_description">Wyłącz tę opcję tylko wtedy, gdy masz problemy z odtwarzaniem muzyki</string>
 </resources>
