@@ -51,7 +51,7 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -349,13 +349,15 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM &&
                 mCurrentItem.getBaseItemType() != BaseItemKind.PLAYLIST
         ) {
-            mCurrentItem.refresh(new EmptyLifecycleAwareResponse(getLifecycle()) {
+            BaseRowItem item = mCurrentItem;
+            item.refresh(new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
-                public void onResponse() {
+                public void onResponse(BaseItemDto response) {
                     if (!getActive()) return;
 
                     ItemRowAdapter adapter = (ItemRowAdapter) mCurrentRow.getAdapter();
-                    adapter.notifyItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                    if (response == null) adapter.removeAt(adapter.indexOf(item), 1);
+					else adapter.notifyItemRangeChanged(adapter.indexOf(item), 1);
                 }
             });
         }
