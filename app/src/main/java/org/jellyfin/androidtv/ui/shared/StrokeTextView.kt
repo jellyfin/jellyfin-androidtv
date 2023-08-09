@@ -33,7 +33,7 @@ class StrokeTextView @JvmOverloads constructor(
 		super.invalidate()
 	}
 
-	override fun onDraw(canvas: Canvas?) {
+	override fun onDraw(canvas: Canvas) {
 		if (strokeWidth <= 0) return super.onDraw(canvas)
 		isDrawing = true
 		paint.isAntiAlias = true
