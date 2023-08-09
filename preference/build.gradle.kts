@@ -5,11 +5,10 @@ plugins {
 
 android {
 	namespace = "org.jellyfin.preference"
-	compileSdk = 33
+	compileSdk = 34
 
 	defaultConfig {
 		minSdk = 21
-		targetSdk = 33
 	}
 
 	buildFeatures {
