@@ -27,16 +27,16 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.constant.ItemSortBy
-import org.koin.androidx.compose.get
+import org.koin.compose.rememberKoinInject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun DreamHost() {
-	val api = get<ApiClient>()
-	val userPreferences = get<UserPreferences>()
-	val mediaManager = get<MediaManager>()
-	val imageLoader = get<ImageLoader>()
+	val api = rememberKoinInject<ApiClient>()
+	val userPreferences = rememberKoinInject<UserPreferences>()
+	val mediaManager = rememberKoinInject<MediaManager>()
+	val imageLoader = rememberKoinInject<ImageLoader>()
 	val context = LocalContext.current
 
 	var libraryShowcase by remember { mutableStateOf<DreamContent.LibraryShowcase?>(null) }
