@@ -373,7 +373,7 @@
     <string name="pref_crash_reports">Send nedbrud rapporter til serveren</string>
     <string name="pref_telemetry_description">Send nedbrud rapporter, inkluder logfiler</string>
     <string name="pref_telemetry_category">Rapportering ved nedbrud</string>
-    <string name="server_unsupported_notification">Denne server bruger Jellyfin version %1$s som ikke er understøttet. Venligst opdater til Jellyfin %2$s for at bruge appen.</string>
+    <string name="server_unsupported_notification">Denne server bruger Jellyfin version %1$s som ikke er understøttet. Opdater venligst til Jellyfin %2$s eller nyere for at bruge appen.</string>
     <string name="app_notification_uimode_invalid">Denne app er optimeret til fjernsyn. Vi anbefaler at du bruger vores mobile app på andre enheder.</string>
     <string name="live_tv_preferences">Live TV muligheder</string>
     <string name="action_connect">Forbind</string>
@@ -410,7 +410,7 @@
     <string name="pref_customization">Brugerdefineret</string>
     <string name="server_issue_ssl_handshake">SSL håndtryk fejlede</string>
     <string name="server_issue_timeout">Forbindelsen blev afbrudt</string>
-    <string name="server_issue_outdated_version">Serveren bruger version %1$s men skal være %2$s eller nyere</string>
+    <string name="server_issue_outdated_version">Serveren bruger version %1$s opdater venligst til %2$s eller nyere</string>
     <string name="server_issue_unsupported_version">Serveren bruger version %1$s som ikke er understøttet</string>
     <string name="server_issue_missing_version">Kunne ikke fastslå server versionen</string>
     <string name="server_issue_invalid_product">Server softwaren er ikke kompentiabel</string>
@@ -510,4 +510,8 @@
     <string name="not_set">Ikke indstillet</string>
     <string name="pref_screensaver_inapp_enabled">Brug pauseskærm i appen</string>
     <string name="lbl_album_artists">Album kunstnere</string>
+    <string name="pref_music_rewrite_disable">Deaktiver nye musik bagplan</string>
+    <string name="pref_music_rewrite_enable_description">Aktiver kun dette hvis du oplever problemer med musik afspilning</string>
+    <string name="disable_ui_mode_warning">Deaktiver enhed type advarsel</string>
+    <string name="pref_music_cat">Musik</string>
 </resources>
