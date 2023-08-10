@@ -518,4 +518,5 @@
     <string name="pref_music_cat">Música</string>
     <string name="pref_music_rewrite_disable">Deshabilitar el nuevo manejo de la librería de música</string>
     <string name="pref_music_rewrite_enable_description">Deshabilita ésto solo si experimentas problemas con la reproducción de música</string>
+    <string name="disable_ui_mode_warning">Deshabilitar advertencia de tipo de dispositivo</string>
 </resources>
