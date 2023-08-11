@@ -93,12 +93,14 @@ internal class MediaSessionPlayer(
 				val previous = state.queue.peekPrevious()
 				val next = state.queue.peekNext()
 
-				listOfNotNull(previous, current, next).map {
-					MediaItemData.Builder(requireNotNull(it.metadata.mediaId)).apply {
-						setMediaItem(it.metadata.toMediaItem())
-						setDurationUs(it.metadata.duration?.inWholeMicroseconds ?: C.TIME_UNSET)
-					}.build()
-				}.let(::setPlaylist)
+				listOfNotNull(previous, current, next)
+					.distinctBy { it.metadata.mediaId }
+					.map {
+						MediaItemData.Builder(requireNotNull(it.metadata.mediaId)).apply {
+							setMediaItem(it.metadata.toMediaItem())
+							setDurationUs(it.metadata.duration?.inWholeMicroseconds ?: C.TIME_UNSET)
+						}.build()
+					}.let(::setPlaylist)
 
 				setPlaybackState(when (state.playState.value) {
 					PlayState.STOPPED -> STATE_IDLE
