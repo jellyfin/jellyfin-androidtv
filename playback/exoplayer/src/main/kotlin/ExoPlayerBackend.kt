@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO
 import com.google.android.exoplayer2.video.VideoSize
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
@@ -34,6 +33,7 @@ class ExoPlayerBackend(
 				setEnableDecoderFallback(true)
 				setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
 			})
+			.setPauseAtEndOfMediaItems(true)
 			.build()
 			.also { player -> player.addListener(PlayerListener()) }
 	}
@@ -60,10 +60,9 @@ class ExoPlayerBackend(
 			onIsPlayingChanged(exoPlayer.isPlaying)
 		}
 
-		override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-			if (reason == MEDIA_ITEM_TRANSITION_REASON_AUTO) {
-				val stream = mediaItem?.localConfiguration?.tag as? MediaStream
-				if (stream != currentStream) listener?.onMediaStreamEnd(requireNotNull(stream))
+		override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+			if (reason == Player.PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM) {
+				listener?.onMediaStreamEnd(requireNotNull(currentStream))
 			}
 		}
 	}
