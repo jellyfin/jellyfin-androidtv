@@ -99,7 +99,7 @@
     <string name="lbl_begin_padding">Startutfylling</string>
     <string name="lbl_program_ended">Program slutt</string>
     <string name="lbl_end_padding">Sluttutfylling</string>
-    <string name="lbl_similar_items_library">Lignende elementer i biblioteket</string>
+    <string name="lbl_similar_items_library">Lignende elementer i biblioteket ditt</string>
     <string name="lbl_record_any_channel">Ta opp fra enhver kanal</string>
     <string name="lbl_record_any_time">Ta opp til enhver tid</string>
     <string name="lbl_only_new_episodes">Bare nye episoder</string>
