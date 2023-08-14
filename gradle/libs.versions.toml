@@ -40,7 +40,7 @@ kotlinx-serialization = "1.5.1"
 leakcanary = "2.12"
 libvlc = "3.5.1"
 markwon = "4.6.2"
-mockk = "1.13.5"
+mockk = "1.13.7"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
