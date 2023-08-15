@@ -458,4 +458,68 @@
     <string name="licenses_link_description">Ogled licenc knjižnic, ki jih uporablja aplikacija Jellyfin</string>
     <string name="advanced_settings">Napredno</string>
     <string name="always_authenticate_description">Vklop te funkcije onemogoči samodejni vpis</string>
+    <string name="pref_audio_night_mode">Nočni način zvoka (poskusno)</string>
+    <string name="lbl_quality_profile">Profil kakovosti</string>
+    <string name="item_deleted">%1$s izbrisano</string>
+    <string name="item_delete_confirm_title">Izbriši element</string>
+    <string name="enable_reactive_homepage">Omogoči reaktivno domačo stran</string>
+    <string name="not_set">Ni nastavljeno</string>
+    <string name="lbl_album_artists">Izvajalci albuma</string>
+    <string name="pref_music_rewrite_enable_description">To onemogočite le, če imate težave s predvajanjem glasbe</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s epizoda</item>
+        <item quantity="two">%1$s epizodi</item>
+        <item quantity="few">%1$s epizode</item>
+        <item quantity="other">%1$s epizod</item>
+    </plurals>
+    <string name="pref_music_cat">Glasba</string>
+    <string name="pref_music_rewrite_disable">Onemogoči novo glasbeno ozadje</string>
+    <string name="disable_ui_mode_warning">Onemogoči opozorilo o vrsti naprave</string>
+    <string name="color_darkgrey">Temno siva</string>
+    <string name="pref_enable_media_management">Omogoči upravljanje predstavnosti</string>
+    <string name="episode_name_special">posebna</string>
+    <string name="pref_enable_media_management_description">Pokaži možnost za upravljanje predstavnosti med brskanjem</string>
+    <string name="pref_screensaver">Ohranjevalnik zaslona</string>
+    <string name="pref_screensaver_inapp_enabled">Uporabite ohranjevalnik zaslona v aplikaciji</string>
+    <string name="pref_screensaver_inapp_enabled_description">Pokaži Jellyfinov ohranjevalnik zaslona, ko je aplikacija odprta</string>
+    <string name="pref_screensaver_inapp_timeout">Zaženi ohranjevalnik zaslona po</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s sled</item>
+        <item quantity="two">%1$s sledi</item>
+        <item quantity="few">%1$s sledi</item>
+        <item quantity="other">%1$s sledi</item>
+    </plurals>
+    <string name="lbl_subtitle_fg">Barva podnapisov</string>
+    <string name="lbl_subtitle_stroke">Velikost podnapisov</string>
+    <string name="color_white">Bela</string>
+    <string name="color_yellow">Rumena</string>
+    <string name="color_pink">Roza</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekunda</item>
+        <item quantity="two">%1$s sekundi</item>
+        <item quantity="few">%1$s sekunde</item>
+        <item quantity="other">%1$s sekund</item>
+    </plurals>
+    <string name="color_black">Črna</string>
+    <string name="color_red">Rdeča</string>
+    <string name="color_green">Zelena</string>
+    <string name="item_deletion_failed">Ni mogoče izbrisati %1$s</string>
+    <string name="lbl_subtitle_position">Odmik podnapisov od dna</string>
+    <string name="color_blue">Modra</string>
+    <string name="app_notification_beta">Aplikacija je posodobljena na %1$s
+\nHvala za sodelovanje v programu Jellyfin beta</string>
+    <string name="item_delete_confirm_message">Ali ste prepričani, da želite izbrisati ta element iz strežnika\? Tega dejanja ni mogoče razveljaviti.</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuta</item>
+        <item quantity="two">%1$s minuti</item>
+        <item quantity="few">%1$s minute</item>
+        <item quantity="other">%1$s minut</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s ura</item>
+        <item quantity="two">%1$s uri</item>
+        <item quantity="few">%1$s ure</item>
+        <item quantity="other">%1$s ur</item>
+    </plurals>
+    <string name="lbl_latest_in">Nedavno dodano v %1$s</string>
 </resources>
