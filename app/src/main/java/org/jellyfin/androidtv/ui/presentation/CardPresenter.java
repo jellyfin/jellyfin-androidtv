@@ -385,7 +385,6 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        float requiredImageHeight = 100;
         String blurHash = null;
         if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
             Map<String, String> blurHashMap;
@@ -393,26 +392,22 @@ public class CardPresenter extends Presenter {
             if (aspect == ASPECT_RATIO_BANNER) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
-                //Calculate the height of the image required to fill the banner
-                requiredImageHeight = (float) (holder.getCardHeight() * ASPECT_RATIO_BANNER / (1 / ImageUtils.ASPECT_RATIO_16_9));
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemKind.EPISODE || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY) || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
                 imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY)) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
-                //Calculate the height of the image required to fill the banner
-                requiredImageHeight = (float) (holder.getCardHeight() * ImageUtils.ASPECT_RATIO_16_9 * ImageUtils.ASPECT_RATIO_16_9);
             } else {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
-                requiredImageHeight = holder.getCardHeight();
             }
 
             if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null && blurHashMap.get(imageTag) != null) {
                 blurHash = blurHashMap.get(imageTag);
             }
         }
-        requiredImageHeight *= holder.mCardView.getResources().getDisplayMetrics().density;
+
+        float maxHeight = holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density;
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(requiredImageHeight)),
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(maxHeight)),
                 blurHash
         );
     }

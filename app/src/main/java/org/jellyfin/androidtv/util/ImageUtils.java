@@ -8,6 +8,7 @@ import androidx.annotation.AnyRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
@@ -84,6 +85,8 @@ public class ImageUtils {
 
     public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.BANNER)) {
+            //Calculate the height of the image required to fill the banner
+            maxHeight *= CardPresenter.ASPECT_RATIO_BANNER * ASPECT_RATIO_16_9;
             return getPrimaryImageUrl(item, false, maxHeight);
         }
 
@@ -107,6 +110,8 @@ public class ImageUtils {
 
     public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.THUMB)) {
+            //Calculate the height of the image required to fill the thumbnail
+            maxHeight *= ASPECT_RATIO_16_9 * ASPECT_RATIO_16_9;
             return getPrimaryImageUrl(item, true, maxHeight);
         }
 
