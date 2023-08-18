@@ -64,12 +64,37 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/icon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_margin="2dp"
-            android:visibility="gone" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iconBackground"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="?attr/backgroundCircle"
+                android:visibility="visible"
+                lb:layout_constraintBottom_toBottomOf="@+id/icon"
+                lb:layout_constraintRight_toRightOf="@+id/icon"
+                lb:layout_constraintLeft_toLeftOf="@+id/icon"
+                lb:layout_constraintTop_toTopOf="@+id/icon"/>
+
+            <ImageView
+                android:id="@+id/iconImage"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:visibility="visible"
+                lb:layout_constraintBottom_toBottomOf="@id/iconBackground"
+                lb:layout_constraintRight_toRightOf="@id/iconBackground"
+                lb:layout_constraintLeft_toLeftOf="@id/iconBackground"
+                lb:layout_constraintTop_toTopOf="@id/iconBackground" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
             android:id="@+id/watchedIndicator"
@@ -87,7 +112,7 @@
                 android:id="@+id/watched"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="?attr/accentShape" />
+                android:src="?attr/accentCircle" />
 
             <TextView
                 android:id="@+id/unwatchedCount"
@@ -132,7 +157,7 @@
                 android:id="@+id/overlay_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="25dp"
                 android:ellipsize="end"
@@ -147,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/overlay_text"
                 android:layout_alignParentEnd="true"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginEnd="3dp"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"

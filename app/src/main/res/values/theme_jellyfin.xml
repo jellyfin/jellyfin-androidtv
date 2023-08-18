@@ -48,7 +48,10 @@
         <item name="popupMenuRounding">3dp</item>
 
         <!-- Watched Indicator Shape -->
-        <item name="accentShape">@drawable/circle_accent</item>
+        <item name="accentCircle">@drawable/circle_accent</item>
+
+        <!-- Item Type Indicator Shape -->
+        <item name="backgroundCircle">@drawable/circle_background</item>
 
         <!-- Dim level of non-focus grid items -->
         <item name="overlayDimDimmedLevel">30%</item>
