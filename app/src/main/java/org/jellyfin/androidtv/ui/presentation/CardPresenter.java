@@ -405,9 +405,9 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        float requiredWidth = holder.getCardWidth() * holder.mCardView.getResources().getDisplayMetrics().density;
+        float preferedWidth = holder.getCardWidth() * holder.mCardView.getResources().getDisplayMetrics().density;
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(requiredWidth)),
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(preferedWidth)),
                 blurHash
         );
     }
