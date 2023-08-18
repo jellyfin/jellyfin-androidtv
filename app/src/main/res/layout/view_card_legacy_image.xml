@@ -75,6 +75,7 @@
             tools:visibility="visible">
 
             <ImageView
+                android:contentDescription="@null"
                 android:id="@+id/iconBackground"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -86,6 +87,7 @@
                 lb:layout_constraintTop_toTopOf="@+id/icon"/>
 
             <ImageView
+                android:contentDescription="@null"
                 android:id="@+id/iconImage"
                 android:layout_width="14dp"
                 android:layout_height="14dp"

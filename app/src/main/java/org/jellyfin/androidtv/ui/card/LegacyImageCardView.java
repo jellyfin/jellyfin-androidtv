@@ -9,8 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
@@ -141,10 +142,12 @@ public class LegacyImageCardView extends BaseCardView {
         }
     }
 
-    public void insertCardData (String fullName, int icon, boolean visible) {
+    public void insertCardData (@Nullable String fullName, @NonNull int icon, @NonNull boolean iconVisible) {
         binding.overlayText.setText(fullName);
-        binding.iconImage.setImageResource(icon);
-        if (visible) binding.icon.setVisibility(VISIBLE);
+        if (iconVisible) {
+            binding.iconImage.setImageResource(icon);
+            binding.icon.setVisibility(VISIBLE);
+        }
     }
 
     public CharSequence gettitle() {
