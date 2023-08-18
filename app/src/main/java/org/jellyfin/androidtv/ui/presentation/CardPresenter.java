@@ -175,6 +175,8 @@ public class CardPresenter extends Presenter {
                             showWatched = false;
                             break;
                         case PHOTO_ALBUM:
+                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_photos);
+                            break;
                         case PLAYLIST:
                             showWatched = false;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);

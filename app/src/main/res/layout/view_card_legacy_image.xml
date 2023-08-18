@@ -64,6 +64,13 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/watchedIndicator"
             android:layout_width="wrap_content"
@@ -117,27 +124,17 @@
             android:layout_alignEnd="@id/main_image"
             android:layout_alignBottom="@id/main_image"
             android:background="@color/black_transparent_light"
-            android:gravity="center_vertical"
             android:padding="4dp"
             android:visibility="gone"
             tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_folder" />
 
             <TextView
                 android:id="@+id/overlay_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/icon"
+                android:layout_gravity="left"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="25dp"
-                android:layout_toEndOf="@+id/icon"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
@@ -148,8 +145,9 @@
                 android:id="@+id/overlay_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/icon"
+                android:layout_alignBottom="@id/overlay_text"
                 android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
                 android:layout_marginEnd="3dp"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"

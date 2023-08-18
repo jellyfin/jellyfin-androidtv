@@ -119,14 +119,15 @@ public class LegacyImageCardView extends BaseCardView {
                 case PHOTO:
                     binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.getDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_camera);
+                    binding.icon.setVisibility(VISIBLE);
                     break;
                 case PHOTO_ALBUM:
                     binding.overlayText.setText(item.getFullName(getContext()));
-                    binding.icon.setImageResource(R.drawable.ic_photos);
                     break;
                 case VIDEO:
                     binding.overlayText.setText(item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_movie);
+                    binding.icon.setVisibility(VISIBLE);
                     break;
                 case PLAYLIST:
                 case MUSIC_ARTIST:
@@ -136,7 +137,6 @@ public class LegacyImageCardView extends BaseCardView {
                     break;
                 default:
                     binding.overlayText.setText(item.getFullName(getContext()));
-                    binding.icon.setImageResource(item.isFolder() ? R.drawable.ic_folder : R.drawable.blank30x30);
                     break;
             }
             binding.overlayCount.setText(item.getChildCountStr());
