@@ -8,7 +8,6 @@ import androidx.annotation.AnyRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
@@ -56,8 +55,8 @@ public class ImageUtils {
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : ASPECT_RATIO_7_9;
     }
 
-    public static String getPrimaryImageUrl(@NonNull BaseItemPerson item, @Nullable int maxHeight) {
-        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, maxHeight);
+    public static String getPrimaryImageUrl(@NonNull BaseItemPerson item, @Nullable int requiredWidth) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, requiredWidth);
     }
 
     public static String getPrimaryImageUrl(@NonNull UserDto item) {
@@ -83,11 +82,9 @@ public class ImageUtils {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 
-    public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int requiredWidth) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.BANNER)) {
-            //Calculate the height of the image required to fill the banner
-            maxHeight *= CardPresenter.ASPECT_RATIO_BANNER * ASPECT_RATIO_16_9;
-            return getPrimaryImageUrl(item, false, maxHeight);
+            return getPrimaryImageUrl(item, false, requiredWidth);
         }
 
         ImageOptions options = new ImageOptions();
@@ -108,11 +105,9 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId().toString(), options);
     }
 
-    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int requiredWidth) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.THUMB)) {
-            //Calculate the height of the image required to fill the thumbnail
-            maxHeight *= ASPECT_RATIO_16_9 * ASPECT_RATIO_16_9;
-            return getPrimaryImageUrl(item, true, maxHeight);
+            return getPrimaryImageUrl(item, true, requiredWidth);
         }
 
         ImageOptions options = new ImageOptions();
@@ -121,8 +116,8 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId().toString(), options);
     }
 
-    public static String getPrimaryImageUrl(@NonNull org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
-        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, preferParentThumb, maxHeight);
+    public static String getPrimaryImageUrl(@NonNull org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int requiredWidth) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, preferParentThumb, requiredWidth);
     }
 
     public static String getLogoImageUrl(@Nullable org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull int maxWidth, @NonNull boolean useSeriesFallback) {
