@@ -74,7 +74,7 @@ public class PlaybackManager {
             request.setAudioStreamIndex(audioIdx);
         }
         Integer subIdx = options.getSubtitleStreamIndex();
-        if (subIdx != null && subIdx >= 0) {
+        if (subIdx != null) {
             request.setSubtitleStreamIndex(subIdx);
         }
 
