@@ -156,9 +156,8 @@ class SocketHandler(
 			PlaystateCommand.SEEK -> playbackController?.seek(
 				(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
 			)
-			// FIXME get rewind/forward amount from displayprefs
-			PlaystateCommand.REWIND -> playbackController?.skip(REWIND_MS)
-			PlaystateCommand.FAST_FORWARD -> playbackController?.skip(FORWARD_MS)
+			PlaystateCommand.REWIND -> playbackController?.rewind()
+			PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
 		}
 	}
 
@@ -196,7 +195,5 @@ class SocketHandler(
 
 	companion object {
 		const val TICKS_TO_MS = 10000L
-		const val REWIND_MS = -11000
-		const val FORWARD_MS = 30000
 	}
 }
