@@ -72,8 +72,8 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 			KeyEvent.KEYCODE_MEDIA_PLAY -> playbackController?.play(0)
 			KeyEvent.KEYCODE_MEDIA_PAUSE -> playbackController?.pause()
 			KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> playbackController?.playPause()
-			KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, KeyEvent.KEYCODE_BUTTON_R1, KeyEvent.KEYCODE_BUTTON_R2 -> playbackController?.skip(30000)
-			KeyEvent.KEYCODE_MEDIA_REWIND, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_L2 -> playbackController?.skip(-11000)
+			KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, KeyEvent.KEYCODE_BUTTON_R1, KeyEvent.KEYCODE_BUTTON_R2 -> playbackController?.fastForward()
+			KeyEvent.KEYCODE_MEDIA_REWIND, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_L2 -> playbackController?.rewind()
 
 			// Use parent handler
 			else -> return super.onKeyUp(keyCode, event)
