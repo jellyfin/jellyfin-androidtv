@@ -40,6 +40,8 @@ class UniversalAudioMediaStreamResolver(
 			queueEntry = queueEntry,
 			conversionMethod = MediaConversionMethod.None,
 			url = url,
+			container = mediaInfo.getMediaStreamContainer(),
+			tracks = mediaInfo.getTracks()
 		)
 	}
 }
