@@ -26,15 +26,15 @@ class AudioMediaStreamResolver(
 
 		val conversionMethod = when {
 			// Direct play
-			mediaInfo.mediaSource.supportsDirectPlay || forceDirectPlay ->  MediaConversionMethod.None
+			mediaInfo.mediaSource.supportsDirectPlay || forceDirectPlay -> MediaConversionMethod.None
 			// Remux (Direct stream)
-			mediaInfo.mediaSource.supportsDirectStream ->  MediaConversionMethod.Remux
+			mediaInfo.mediaSource.supportsDirectStream -> MediaConversionMethod.Remux
 			// Transcode
 			mediaInfo.mediaSource.supportsTranscoding -> MediaConversionMethod.Transcode
 			else -> error("Unable to find a suitable playback method for media")
 		}
 
-		val url = when(conversionMethod) {
+		val url = when (conversionMethod) {
 			// Direct play
 			is MediaConversionMethod.None -> {
 				api.audioApi.getAudioStreamUrl(
@@ -73,6 +73,8 @@ class AudioMediaStreamResolver(
 			queueEntry = queueEntry,
 			conversionMethod = conversionMethod,
 			url = url,
+			container = mediaInfo.getMediaStreamContainer(),
+			tracks = mediaInfo.getTracks()
 		)
 	}
 }

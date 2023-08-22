@@ -39,15 +39,26 @@ class DefaultMediaStreamState(
 				val streamResult = runCatching {
 					mediaStreamResolvers.firstNotNullOfOrNull { resolver -> resolver.getStream(entry) }
 				}
+				val stream = streamResult.getOrNull()
 				when {
 					streamResult.isFailure -> Timber.e(streamResult.exceptionOrNull(), "Media stream resolver failed for $entry")
-					streamResult.getOrNull() == null -> Timber.e("Unable to resolve stream for entry $entry")
-					else -> setCurrent(streamResult.getOrThrow())
+					stream == null -> Timber.e("Unable to resolve stream for entry $entry")
+					else -> {
+						if (!canPlayStream(stream)) {
+							Timber.w("Playback of the received media stream for $entry is not supported")
+						}
+
+						setCurrent(stream)
+					}
 				}
 			}
 		}.launchIn(coroutineScope)
 
 		// TODO Register some kind of event when $current item is at -30 seconds to setNext()
+	}
+
+	private suspend fun canPlayStream(stream: MediaStream) = withContext(Dispatchers.Main) {
+		backendService.backend?.supportsStream(stream)?.canPlay == true
 	}
 
 	private suspend fun setCurrent(stream: MediaStream?) {
