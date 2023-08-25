@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lbl_cancel_recording">Tühista Salvestamine</string>
+    <string name="lbl_cancel_recording">Tühista salvestamine</string>
     <string name="lbl_cancel">Tühista</string>
     <string name="lbl_pause">Pausi</string>
     <string name="lbl_play">Esita</string>
     <string name="lbl_shuffle_all">Juhustage Kõik</string>
-    <string name="lbl_play_all">Esita Kõik</string>
+    <string name="lbl_play_all">Esita kõik</string>
     <string name="lbl_because_you_watched">"Sest sa vaatasid "</string>
     <string name="lbl_other">Muud</string>
     <string name="lbl_tv_series">Telesarjad</string>
     <string name="lbl_movies">Filmid</string>
     <string name="lbl_collections">Kollektsioonid</string>
-    <string name="lbl_other_channels">Muud Kanalid</string>
-    <string name="lbl_favorite_channels">Lemmikud Kanalid</string>
+    <string name="lbl_other_channels">Muud kanalid</string>
+    <string name="lbl_favorite_channels">Lemmikud kanalid</string>
     <string name="lbl_coming_up">Tulekul</string>
     <string name="lbl_favorites">Lemmikud</string>
-    <string name="lbl_by_name">Nime Järgi</string>
-    <string name="lbl_latest">Viimased</string>
+    <string name="lbl_by_name">Nime järgi</string>
+    <string name="lbl_latest">Hiljuti lisatud</string>
     <string name="msg_not_implemented">" ei ole rakendatud"</string>
     <string name="lbl_search">Otsing</string>
     <string name="lbl_genres">Žanrid</string>
