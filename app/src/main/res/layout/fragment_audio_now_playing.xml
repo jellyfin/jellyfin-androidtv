@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/artistTitle"
         android:layout_alignStart="@+id/artistTitle"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="4dp"
         android:minHeight="22sp" />
 
     <ScrollView
@@ -53,9 +53,9 @@
                     android:id="@+id/information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="40dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="40dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
