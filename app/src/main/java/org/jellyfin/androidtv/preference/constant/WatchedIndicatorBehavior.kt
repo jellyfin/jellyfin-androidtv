@@ -19,7 +19,7 @@ enum class WatchedIndicatorBehavior(
 	/**
 	 * Hide unwatched count indicator, show watched check mark on individual episodes only.
 	 */
-	EPISODES_ONLY(R.string.lbl_episode_marks),
+	EPISODES_ONLY(R.string.lbl_hide_watched_checkmark),
 
 	/**
 	 * Never show watched indicators.
