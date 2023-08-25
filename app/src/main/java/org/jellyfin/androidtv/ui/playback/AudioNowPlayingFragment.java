@@ -273,8 +273,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
 
         @Override
         public void onProgress(long pos) {
-            // Round the current time as otherwise the time played and time remaining will not be in sync
-            setCurrentTime(Math.round(pos / 1000) * 1000);
+            setCurrentTime(pos);
             if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
                 mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
             }
@@ -384,6 +383,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     }
 
     public void setCurrentTime(long time) {
+        // Round the current time as otherwise the time played and time remaining will not be in sync
+        time = Math.round(time / 1000) * 1000;
         mCurrentProgress.setProgress(((Long) time).intValue());
         mCurrentPos.setText(TimeUtils.formatMillis(time));
         mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
