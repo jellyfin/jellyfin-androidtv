@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/artistTitle"
         android:layout_alignStart="@+id/artistTitle"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="4dp"
         android:minHeight="22sp" />
 
     <ScrollView
@@ -51,10 +51,12 @@
 
                 <LinearLayout
                     android:id="@+id/information"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@id/buttonRow"
+                    android:layout_marginStart="40dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
@@ -96,6 +98,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/information"
+                    android:layout_alignStart="@id/buttonRow"
+                    android:layout_alignEnd="@id/buttonRow"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
@@ -112,14 +116,14 @@
                     <ProgressBar
                         android:id="@+id/playerProgress"
                         style="@style/player_progress"
-                        android:layout_width="250dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="20dp"
-                        android:maxHeight="5sp"
-                        android:minWidth="525sp" />
+                        android:layout_weight="1"
+                        android:maxHeight="5sp" />
 
                     <TextView
                         android:id="@+id/remainingTime"
@@ -139,7 +143,6 @@
                     android:layout_below="@+id/progress"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:alpha="0.8"
                     android:divider="@drawable/blank20x20"
                     android:gravity="center_vertical"
                     android:minHeight="35sp"
