@@ -497,10 +497,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 mPlaybackController.playPause();
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
-                mPlaybackController.skip(30000);
+                mPlaybackController.fastForward();
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
-                mPlaybackController.skip(-11000);
+                mPlaybackController.rewind();
                 return true;
             }
         }

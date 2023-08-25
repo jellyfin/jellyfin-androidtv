@@ -1283,7 +1283,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         currentSkipPos = 0;
     };
 
-    public void skip(int msec) {
+    private void skip(int msec) {
         if (hasInitializedVideoManager() && (isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
             mHandler.removeCallbacks(skipRunnable);
             refreshCurrentPosition();
