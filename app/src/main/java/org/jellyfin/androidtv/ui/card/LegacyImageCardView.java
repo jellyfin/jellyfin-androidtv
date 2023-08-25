@@ -228,14 +228,14 @@ public class LegacyImageCardView extends BaseCardView {
 
     public void setUnwatchedCount(int count) {
         WatchedIndicatorBehavior showIndicator = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
-            if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.EPISODES_ONLY) && count > 0) {
-                binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : nf.format(count));
-                binding.unwatchedCount.setVisibility(VISIBLE);
-                binding.watchedIndicator.setVisibility(VISIBLE);
-            } else if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.HIDE_UNWATCHED) && count == 0) {
-                binding.checkMark.setVisibility(VISIBLE);
-                binding.watchedIndicator.setVisibility(VISIBLE);
-            }
+        if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.EPISODES_ONLY) && count > 0) {
+            binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : nf.format(count));
+            binding.unwatchedCount.setVisibility(VISIBLE);
+            binding.watchedIndicator.setVisibility(VISIBLE);
+        } else if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.HIDE_UNWATCHED) && count == 0) {
+            binding.checkMark.setVisibility(VISIBLE);
+            binding.watchedIndicator.setVisibility(VISIBLE);
+        }
     }
 
     public void setProgress(int pct) {
