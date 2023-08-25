@@ -98,7 +98,7 @@ public class CardPresenter extends Presenter {
 
                 case BaseItem:
                     org.jellyfin.sdk.model.api.BaseItemDto itemDto = mItem.getBaseItem();
-                    boolean showWatched = false;
+                    boolean showWatched = true;
                     boolean showProgress = false;
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
@@ -116,6 +116,7 @@ public class CardPresenter extends Presenter {
                             } else if (aspect < .8) {
                                 aspect = 1.0;
                             }
+                            showWatched = false;
                             break;
                         case PERSON:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
@@ -127,13 +128,13 @@ public class CardPresenter extends Presenter {
                             } else if (aspect < .8) {
                                 aspect = 1.0;
                             }
+                            showWatched = false;
                             break;
                         case SEASON:
                         case SERIES:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
                             if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
-                            showWatched = true;
                             break;
                         case EPISODE:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
@@ -171,9 +172,11 @@ public class CardPresenter extends Presenter {
                             break;
                         case PHOTO:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_photo);
+                            showWatched = false;
                             break;
                         case PHOTO_ALBUM:
                         case PLAYLIST:
+                            showWatched = false;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
                             break;
                         case MOVIE:
@@ -202,8 +205,17 @@ public class CardPresenter extends Presenter {
                     }
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null) {
-                        if (userData.getUnplayedItemCount() != null) {
-                            mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                        WatchedIndicatorBehavior showIndicator = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
+                        if (userData.getPlayed()) {
+                            if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getType() == BaseItemKind.EPISODE) && userData.getPlayCount() > 0)
+                                mCardView.setUnwatchedCount(0);
+                            else
+                                mCardView.setUnwatchedCount(-1);
+                        } else if (userData.getUnplayedItemCount() != null) {
+                            if (showIndicator == WatchedIndicatorBehavior.ALWAYS)
+                                mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         }
                     }
 

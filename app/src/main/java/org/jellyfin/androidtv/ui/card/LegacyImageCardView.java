@@ -16,14 +16,11 @@ import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.koin.java.KoinJavaComponent;
 
 import java.text.NumberFormat;
 
@@ -227,14 +224,17 @@ public class LegacyImageCardView extends BaseCardView {
     }
 
     public void setUnwatchedCount(int count) {
-        WatchedIndicatorBehavior showIndicator = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
-        if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.EPISODES_ONLY) && count > 0) {
+        if (count > 0) {
             binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : nf.format(count));
             binding.unwatchedCount.setVisibility(VISIBLE);
+            binding.checkMark.setVisibility(INVISIBLE);
             binding.watchedIndicator.setVisibility(VISIBLE);
-        } else if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.HIDE_UNWATCHED) && count == 0) {
+        } else if (count == 0) {
             binding.checkMark.setVisibility(VISIBLE);
+            binding.unwatchedCount.setVisibility(INVISIBLE);
             binding.watchedIndicator.setVisibility(VISIBLE);
+        } else {
+            binding.watchedIndicator.setVisibility(GONE);
         }
     }
 
