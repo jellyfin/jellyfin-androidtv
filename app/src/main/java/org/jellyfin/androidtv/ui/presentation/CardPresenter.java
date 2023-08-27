@@ -83,8 +83,8 @@ public class CardPresenter extends Presenter {
             this.lifecycleOwner = lifecycleOwner;
         }
 
-        public int getCardWidth() {
-            return cardWidth;
+        public int getCardHeight() {
+            return cardHeight;
         }
 
         public void setItem(BaseRowItem m) {
@@ -405,9 +405,9 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        float preferredWidth = holder.getCardWidth() * holder.mCardView.getResources().getDisplayMetrics().density;
+        float maxHeight = holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density;
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(preferredWidth)),
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(maxHeight)),
                 blurHash
         );
     }

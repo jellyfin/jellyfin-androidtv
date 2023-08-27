@@ -152,27 +152,27 @@ open class BaseRowItem protected constructor(
 		BaseItemKind.MUSIC_ARTIST
 	).contains(baseItem?.type)
 
-	fun getImageUrl(context: Context, imageType: ImageType, preferredWidth: Int) = when (baseRowType) {
+	fun getImageUrl(context: Context, imageType: ImageType, maxHeight: Int) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
 		BaseRowType.LiveTvRecording -> {
 			val apiClient = get<LegacyApiClient>()
 			when (imageType) {
-				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, preferredWidth)
-				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, preferredWidth)
-				else -> getPrimaryImageUrl(context, preferredWidth)
+				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, maxHeight)
+				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, maxHeight)
+				else -> getPrimaryImageUrl(context, maxHeight)
 			}
 		}
 
-		else -> getPrimaryImageUrl(context, preferredWidth)
+		else -> getPrimaryImageUrl(context, maxHeight)
 	}
 
-	fun getPrimaryImageUrl(context: Context, preferredWidth: Int) = when (baseRowType) {
+	fun getPrimaryImageUrl(context: Context, maxHeight: Int) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> ImageUtils.getPrimaryImageUrl(baseItem!!, preferParentThumb, preferredWidth)
+		BaseRowType.LiveTvRecording -> ImageUtils.getPrimaryImageUrl(baseItem!!, preferParentThumb, maxHeight)
 
-		BaseRowType.Person -> ImageUtils.getPrimaryImageUrl(basePerson!!, preferredWidth)
+		BaseRowType.Person -> ImageUtils.getPrimaryImageUrl(basePerson!!, maxHeight)
 		BaseRowType.Chapter -> chapterInfo?.imagePath
 		BaseRowType.LiveTvChannel -> ImageUtils.getPrimaryImageUrl(baseItem!!)
 		BaseRowType.GridButton -> gridButton?.imageRes?.let { ImageUtils.getResourceUrl(context, it) }
