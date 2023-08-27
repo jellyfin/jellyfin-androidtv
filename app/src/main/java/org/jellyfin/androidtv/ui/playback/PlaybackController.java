@@ -752,12 +752,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         } else {
             Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
         }
-        // give the user a second to read the error message
-        try {
-            Thread.sleep(750);
-        } catch (InterruptedException e) {
-            Timber.e(e);
-        }
         if (mFragment != null) mFragment.closePlayer();
     }
 
@@ -1113,17 +1107,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
-            if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
-            //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
-            try {
-                Thread.sleep(150);
-            } catch (InterruptedException e) {
-                Timber.e(e);
-            }
-            Long mbPos = mCurrentPosition * 10000;
-            ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
-            clearPlaybackSessionOptions();
         }
+
+        if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
+        Long mbPos = mCurrentPosition * 10000;
+        ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+        clearPlaybackSessionOptions();
     }
 
     public void refreshStream() {
