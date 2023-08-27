@@ -1,5 +1,6 @@
 package org.jellyfin.playback.jellyfin.mediastream
 
+import org.jellyfin.playback.core.mediastream.MediaConversionMethod
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
@@ -23,9 +24,19 @@ class AudioMediaStreamResolver(
 
 		val mediaInfo = getPlaybackInfo(queueEntry.baseItem)
 
-		val url = when {
+		val conversionMethod = when {
 			// Direct play
-			mediaInfo.mediaSource.supportsDirectPlay || forceDirectPlay -> {
+			mediaInfo.mediaSource.supportsDirectPlay || forceDirectPlay ->  MediaConversionMethod.None
+			// Remux (Direct stream)
+			mediaInfo.mediaSource.supportsDirectStream ->  MediaConversionMethod.Remux
+			// Transcode
+			mediaInfo.mediaSource.supportsTranscoding -> MediaConversionMethod.Transcode
+			else -> error("Unable to find a suitable playback method for media")
+		}
+
+		val url = when(conversionMethod) {
+			// Direct play
+			is MediaConversionMethod.None -> {
 				api.audioApi.getAudioStreamUrl(
 					itemId = queueEntry.baseItem.id,
 					mediaSourceId = mediaInfo.mediaSource.id,
@@ -34,7 +45,7 @@ class AudioMediaStreamResolver(
 				)
 			}
 			// Remux (Direct stream)
-			mediaInfo.mediaSource.supportsDirectStream -> {
+			is MediaConversionMethod.Remux -> {
 				val container = requireNotNull(mediaInfo.mediaSource.container) {
 					"MediaSource supports direct stream but container is null"
 				}
@@ -47,7 +58,7 @@ class AudioMediaStreamResolver(
 				)
 			}
 			// Transcode
-			mediaInfo.mediaSource.supportsTranscoding -> {
+			is MediaConversionMethod.Transcode -> {
 				val url = requireNotNull(mediaInfo.mediaSource.transcodingUrl) {
 					"MediaSource supports transcoding but transcodingUrl is null"
 				}
@@ -55,12 +66,12 @@ class AudioMediaStreamResolver(
 				// TODO Use ignorePathParameters=true with SDK 1.5
 				api.createUrl(url)
 			}
-			else -> error("Unable to find a suitable playback method for media")
 		}
 
 		return MediaStream(
 			identifier = mediaInfo.playSessionId,
 			queueEntry = queueEntry,
+			conversionMethod = conversionMethod,
 			url = url,
 		)
 	}
