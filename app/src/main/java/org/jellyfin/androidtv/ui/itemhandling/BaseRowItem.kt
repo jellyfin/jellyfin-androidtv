@@ -152,14 +152,14 @@ open class BaseRowItem protected constructor(
 		BaseItemKind.MUSIC_ARTIST
 	).contains(baseItem?.type)
 
-	fun getImageUrl(context: Context, imageType: ImageType, maxHeight: Int) = when (baseRowType) {
+	fun getImageUrl(context: Context, imageType: ImageType, maxHeight: Int, preferredWidth: Int) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
 		BaseRowType.LiveTvRecording -> {
 			val apiClient = get<LegacyApiClient>()
 			when (imageType) {
-				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, maxHeight)
-				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, maxHeight)
+				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, preferredWidth)
+				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, preferredWidth)
 				else -> getPrimaryImageUrl(context, maxHeight)
 			}
 		}

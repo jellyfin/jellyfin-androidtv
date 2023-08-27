@@ -98,6 +98,19 @@ class ImageHelper(
 		)
 	}
 
+	fun getPrimaryImageUrlByWidth(item: BaseItemDto, preferredWidth: Int): String {
+		var itemId = item.id
+		var imageTag = item.imageTags?.get(ImageType.PRIMARY)
+		var imageType = ImageType.PRIMARY
+
+		return api.imageApi.getItemImageUrl(
+				itemId = itemId,
+				imageType = imageType,
+				tag = imageTag,
+				maxWidth = preferredWidth,
+		)
+	}
+
 	fun getLogoImageUrl(item: BaseItemDto?, maxWidth: Int? = null, useSeriesFallback: Boolean = true): String? {
 		val logoTag = item?.imageTags?.get(ImageType.LOGO)
 		return when {

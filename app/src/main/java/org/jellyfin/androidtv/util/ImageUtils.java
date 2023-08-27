@@ -82,9 +82,9 @@ public class ImageUtils {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 
-    public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int preferredWidth) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.BANNER)) {
-            return getPrimaryImageUrl(item, false, maxHeight);
+            return getPrimaryImageUrlByWidth(item, preferredWidth);
         }
 
         ImageOptions options = new ImageOptions();
@@ -105,9 +105,9 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId().toString(), options);
     }
 
-    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int preferredWidth) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.THUMB)) {
-            return getPrimaryImageUrl(item, true, maxHeight);
+            return getPrimaryImageUrlByWidth(item, preferredWidth);
         }
 
         ImageOptions options = new ImageOptions();
@@ -118,6 +118,10 @@ public class ImageUtils {
 
     public static String getPrimaryImageUrl(@NonNull org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, preferParentThumb, maxHeight);
+    }
+
+    public static String getPrimaryImageUrlByWidth(@NonNull org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull int preferredWidth) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrlByWidth(item, preferredWidth);
     }
 
     public static String getLogoImageUrl(@Nullable org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull int maxWidth, @NonNull boolean useSeriesFallback) {

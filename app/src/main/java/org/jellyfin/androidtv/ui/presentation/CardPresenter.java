@@ -87,6 +87,10 @@ public class CardPresenter extends Presenter {
             return cardHeight;
         }
 
+        public int getCardWidth() {
+            return cardWidth;
+        }
+
         public void setItem(BaseRowItem m) {
             setItem(m, ImageType.POSTER, 130, 150, 150);
         }
@@ -404,10 +408,10 @@ public class CardPresenter extends Presenter {
                 blurHash = blurHashMap.get(imageTag);
             }
         }
-
+        float preferredWidth = holder.getCardWidth() * holder.mCardView.getResources().getDisplayMetrics().density;
         float maxHeight = holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density;
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(maxHeight)),
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(maxHeight), Math.round(preferredWidth)),
                 blurHash
         );
     }
