@@ -147,15 +147,17 @@
                 android:id="@+id/overlay_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
                 android:layout_alignParentStart="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="2dp"
                 android:layout_toStartOf="@id/overlay_count"
+                android:contentDescription="@string/lbl_name"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
+                android:textColor="@color/white"
                 android:textSize="16sp"
-                tools:text="overlay text"
-                android:contentDescription="@string/lbl_name"/>
+                tools:text="overlay text" />
 
             <TextView
                 android:id="@+id/overlay_count"
@@ -165,10 +167,11 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
                 android:layout_marginEnd="3dp"
+                android:alpha=".7"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
-                android:textSize="16sp"
-                android:alpha=".5" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 

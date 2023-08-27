@@ -137,8 +137,6 @@ public class LegacyImageCardView extends BaseCardView {
             }
             binding.overlayCount.setText(item.getChildCountStr());
             binding.nameOverlay.setVisibility(VISIBLE);
-        } else {
-            binding.nameOverlay.setVisibility(GONE);
         }
     }
 
