@@ -719,8 +719,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     updateCounter(mAdapter.getTotalItems() > 0 ? 1 : 0);
                 }
                 mLetterButton.setVisibility(ItemSortBy.SortName.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
-                if (mAdapter.getTotalItems() == 0) {
-                    binding.toolBar.requestFocus();
+                if (mAdapter.getItemsLoaded() == 0) {
                     mHandler.postDelayed(() -> {
                         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))
                             return;
