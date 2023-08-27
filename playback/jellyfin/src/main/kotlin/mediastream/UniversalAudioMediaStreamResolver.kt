@@ -1,5 +1,6 @@
 package org.jellyfin.playback.jellyfin.mediastream
 
+import org.jellyfin.playback.core.mediastream.MediaConversionMethod
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
@@ -37,6 +38,7 @@ class UniversalAudioMediaStreamResolver(
 		return MediaStream(
 			identifier = mediaInfo.playSessionId,
 			queueEntry = queueEntry,
+			conversionMethod = MediaConversionMethod.None,
 			url = url,
 		)
 	}
