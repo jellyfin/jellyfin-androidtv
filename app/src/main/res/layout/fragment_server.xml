@@ -40,7 +40,7 @@
     <androidx.leanback.widget.HorizontalGridView
         android:id="@+id/users"
         android:layout_width="match_parent"
-        android:layout_height="153dp"
+        android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:scrollbars="none"
@@ -49,7 +49,6 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:rowHeight="153dp"
         tools:itemCount="4"
-        tools:layout_height="120dp"
         tools:listitem="@layout/view_card_default" />
 
     <TextView
