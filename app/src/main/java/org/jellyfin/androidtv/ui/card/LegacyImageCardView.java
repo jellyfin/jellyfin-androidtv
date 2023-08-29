@@ -9,8 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
@@ -105,7 +106,6 @@ public class LegacyImageCardView extends BaseCardView {
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY) {
             binding.overlayText.setText(text);
             binding.nameOverlay.setVisibility(VISIBLE);
-            hideIcon();
         } else {
             binding.nameOverlay.setVisibility(GONE);
         }
@@ -117,41 +117,35 @@ public class LegacyImageCardView extends BaseCardView {
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
             switch (item.getBaseItemType()) {
                 case PHOTO:
-                    binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.getDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()));
-                    binding.icon.setImageResource(R.drawable.ic_camera);
+                    insertCardData(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.getDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()), R.drawable.ic_camera, true);
                     break;
                 case PHOTO_ALBUM:
-                    binding.overlayText.setText(item.getFullName(getContext()));
-                    binding.icon.setImageResource(R.drawable.ic_photos);
+                    insertCardData(item.getFullName(getContext()), R.drawable.ic_photos, true);
                     break;
                 case VIDEO:
-                    binding.overlayText.setText(item.getFullName(getContext()));
-                    binding.icon.setImageResource(R.drawable.ic_movie);
+                    insertCardData(item.getFullName(getContext()), R.drawable.ic_movie, true);
+                    break;
+                case FOLDER:
+                    insertCardData(item.getFullName(getContext()), R.drawable.ic_folder, true);
                     break;
                 case PLAYLIST:
                 case MUSIC_ARTIST:
                 case PERSON:
-                    binding.overlayText.setText(item.getFullName(getContext()));
-                    hideIcon();
-                    break;
                 default:
                     binding.overlayText.setText(item.getFullName(getContext()));
-                    binding.icon.setImageResource(item.isFolder() ? R.drawable.ic_folder : R.drawable.blank30x30);
                     break;
             }
             binding.overlayCount.setText(item.getChildCountStr());
             binding.nameOverlay.setVisibility(VISIBLE);
-        } else {
-            binding.nameOverlay.setVisibility(GONE);
         }
     }
 
-    protected void hideIcon() {
-        binding.icon.setVisibility(GONE);
-        RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) binding.overlayText.getLayoutParams();
-        parms.rightMargin = noIconMargin;
-        parms.leftMargin = noIconMargin;
-        binding.overlayText.setLayoutParams(parms);
+    public void insertCardData (@Nullable String fullName, @NonNull int icon, @NonNull boolean iconVisible) {
+        binding.overlayText.setText(fullName);
+        if (iconVisible) {
+            binding.iconImage.setImageResource(icon);
+            binding.icon.setVisibility(VISIBLE);
+        }
     }
 
     public CharSequence gettitle() {

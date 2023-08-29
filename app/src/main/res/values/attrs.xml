@@ -23,7 +23,6 @@
         <attr name="inputDefaultStrokeWidth" format="dimension" />
         <attr name="inputDefaultStrokeColor" format="reference|color" />
         <attr name="popupMenuBackground" format="reference|color" />
-        <attr name="accentShape" format="reference" />
         <attr name="controlIconBackground" format="reference|color" />
         <attr name="controlIconForegroundActive" format="reference|color" />
         <attr name="controlIconForegroundInactive" format="reference|color" />
