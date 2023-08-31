@@ -17,7 +17,7 @@
     <string name="desc_premieres">İzlediğiniz herhangi bir seri için bir sıra yeni bölüm pilotu gösterin</string>
     <string name="lbl_show_premieres">Göz atarken sezon prömiyerlerini göster</string>
     <string name="lbl_refresh_switching">Yenileme Hızı Değiştirme</string>
-    <string name="lbl_show_backdrop">Gezinirken Arka Planı Göster</string>
+    <string name="lbl_show_backdrop">Arka planı göster</string>
     <string name="lbl_open">Aç</string>
     <string name="lbl_play_next_up">Sıradakini Oynat</string>
     <string name="lbl_clear_queue">Kuyruğu Temizle</string>
