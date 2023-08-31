@@ -198,12 +198,12 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">libVLC (deneysel)</string>
     <string name="lbl_from">,</string>
     <string name="lbl_playback_control_ends">Bitiş zamanı %1$s</string>
     <string name="lbl_sign_in">Lütfen Giriş Yapın</string>
     <string name="play_with">Şununla oynat</string>
-    <string name="play_with_external_app">Dış bir uygulama ile oynat</string>
+    <string name="play_with_external_app">Harici bir uygulama ile oynat</string>
     <string name="play_with_exo_player">ExoPlayer ile oynat</string>
     <string name="play_with_vlc">libVLC ile oynat</string>
     <string name="just_one">Sadece bu</string>
@@ -242,7 +242,7 @@
     <string name="pref_media_player">Tercih edilen medya oynatıcısı</string>
     <string name="pref_about_title">Hakkında</string>
     <string name="pref_video_player_choose">Her zaman sor</string>
-    <string name="pref_video_player_external">Dış uygulama</string>
+    <string name="pref_video_player_external">Harici uygulama</string>
     <string name="pref_video_player_auto">Otomatik olarak seç</string>
     <string name="pref_theme_emerald">Klasik Zümrük</string>
     <string name="pref_theme_dark">Karanlık (Varsayılan)</string>
@@ -281,7 +281,7 @@
     <string name="msg_settings_updated">Ayarlar güncellendi</string>
     <string name="login_username_field_empty">Kullanıcı adı boş olamaz</string>
     <string name="login_server_unavailable">Sunucuya bağlanılamadı</string>
-    <string name="login_invalid_credentials">Geçersiz kullanıcı adı veya şifre</string>
+    <string name="login_invalid_credentials">Geçersiz kullanıcı adı veya parola</string>
     <string name="server_field_empty">Adres boş olamaz</string>
     <string name="server_connection_failed">Sunucuya bağlanamadı</string>
     <string name="server_connecting">%1$s-ya bağlanılıyor</string>
@@ -425,4 +425,6 @@
     <string name="server_issue_outdated_version">%1$s sunucu versiyonu desteklenmektedir. Lütfen %2$s veya daha yeni bir versiyona güncelleyin</string>
     <string name="pref_behavior">Davranış</string>
     <string name="server_issue_unsupported_version">Bu sunucu versiyonu %1$s desteklenmemektedir</string>
+    <string name="action_use_password">Bir parola kullanın</string>
+    <string name="input_password">Parola</string>
 </resources>
