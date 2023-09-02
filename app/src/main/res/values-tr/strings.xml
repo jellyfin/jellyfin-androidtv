@@ -198,7 +198,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_video_player_vlc">libVLC (deneysel)</string>
+    <string name="pref_video_player_vlc">LibVLC (deneysel)</string>
     <string name="lbl_from">,</string>
     <string name="lbl_playback_control_ends">Bitiş zamanı %1$s</string>
     <string name="lbl_sign_in">Lütfen Giriş Yapın</string>
@@ -220,8 +220,8 @@
     <string name="episode_missing_message_2">Bu bölüm kütüphanenizde eksik. Oynatma duracak.</string>
     <string name="episode_missing_message">Bu bölüm kütüphanenizde eksil. Bunu atlayıp bir sonrakine geçmek ister misiniz\?</string>
     <string name="episode_missing">Bölüm Eksik</string>
-    <string name="no_player_message">Yüklü video oynatma özellikli bir uygulamanız olmadığı görülüyor. Bu seçenek, video içeriğini oynatmak için 3. taraf bir uygulama yüklemenizi gerektirir.</string>
-    <string name="no_player">Oynatıcı Yok</string>
+    <string name="no_player_message">Video oynatma özellikli bir uygulamanız olmadığı görülüyor. Bu seçenek, video içeriğini oynatmak için 3. taraf bir uygulama yüklemenizi gerektirir.</string>
+    <string name="no_player">Oynatıcı yok</string>
     <string name="mark_watched_message">Öğe, süresi kadar oynamış görünmüyor. İzlendi olarak işaretle\?</string>
     <string name="mark_watched">İzlendi İşaretle</string>
     <string name="bitrate_auto">Otomatik</string>
