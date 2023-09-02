@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.data.service
 
 import android.content.Context
+import android.content.res.Resources
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
@@ -60,6 +61,7 @@ class BackgroundService(
 				imageType = ImageType.BACKDROP,
 				tag = tag,
 				imageIndex = index,
+				maxWidth = Resources.getSystem().getDisplayMetrics().widthPixels,
 			)
 		}
 	}
