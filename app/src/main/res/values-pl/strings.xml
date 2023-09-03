@@ -109,7 +109,7 @@
     <string name="lbl_no_recordings">Brak dostępnych nagrań</string>
     <string name="msg_unable_load_subs">Nie można wczytać napisów</string>
     <string name="msg_subtitles_loading">Wczytuję napisy…</string>
-    <string name="lbl_filters">Filtry TV na żywo</string>
+    <string name="lbl_filters">Filtry TV</string>
     <string name="lbl_ended">ZAKOŃCZONE</string>
     <string name="lbl_display_preferences">Preferencje wyświetlania</string>
     <string name="lbl_rating">Ocena</string>
@@ -170,7 +170,7 @@
     <string name="msg_item_added">" pozycja dodana"</string>
     <string name="lbl_instant_mix">Szybka składanka</string>
     <string name="lbl_play_from_here">Odtwarzaj od tego momentu</string>
-    <string name="lbl_direct_stream_live">Bezpośrednia transmisja TV na żywo</string>
+    <string name="lbl_direct_stream_live">Bezpośrednia transmisja TV</string>
     <string name="lbl__continuing">KONTYNUACJA</string>
     <string name="lbl_showing">Seans</string>
     <string name="desc_debug">Podaj dodatkowe informacje do debugowania</string>
@@ -390,7 +390,7 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Napisy</string>
     <string name="pref_video">Wideo</string>
-    <string name="pref_playback_description">Wideo, napisy, TV na żywo, następne</string>
+    <string name="pref_playback_description">Wideo, napisy, telewizja, następne</string>
     <string name="pref_customization_description">Motyw, strona główna, ponowne mapowanie</string>
     <string name="pref_login_description">Serwery, konta, automatyczne logowanie</string>
     <string name="pref_login">Login</string>
@@ -414,7 +414,7 @@
     <string name="searchable_hint">Szukaj Jellyfin</string>
     <string name="home_section_i">Sekcja domowa %1$d</string>
     <string name="home_section_none">Żadne</string>
-    <string name="home_section_livetv">TV na żywo</string>
+    <string name="home_section_livetv">Telewizja</string>
     <string name="home_section_active_recordings">Aktywne nagrania</string>
     <string name="home_section_library_small">Moje media (małe)</string>
     <string name="home_section_library">Moje media</string>
@@ -438,7 +438,7 @@
     <string name="login_other_options">Inne opcje:</string>
     <string name="app_notification_uimode_invalid">Ta aplikacja jest zoptymalizowana dla telewizorów. Zalecamy użycie naszej aplikacji mobilnej na innych urządzeniach.</string>
     <string name="server_unsupported_notification">Ten serwer używa Jellyfin w wersji %1$s, która nie jest obsługiwana. Zaktualizuj do wersji Jellyfin %2$s lub nowszej, aby nadal korzystać z aplikacji.</string>
-    <string name="live_tv_preferences">Ustawienia TV na żywo</string>
+    <string name="live_tv_preferences">Ustawienia TV</string>
     <string name="crash_report_toast">Ups! Coś poszło nie tak, raport o błędzie został wysłany do twojego serwera Jellyfin.</string>
     <string name="lbl_quality_profile">Profil jakościowy</string>
     <string name="image_size_xlarge">Bardzo duży</string>
