@@ -130,7 +130,7 @@
     <string name="lbl_no_recordings">Žádné nahrávky</string>
     <string name="lbl_live_tv_guide">Programový průvodce</string>
     <string name="lbl_recorded_tv">Nahrané pořady</string>
-    <string name="pref_live_tv_cat">Televize</string>
+    <string name="pref_live_tv_cat">Živý přenos</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>
     <string name="lbl_artists">Úmělci</string>
