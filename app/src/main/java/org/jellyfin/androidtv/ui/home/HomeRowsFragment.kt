@@ -168,7 +168,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				if (userPreferences[UserPreferences.homeReactive]) {
 					val listener = socketInstance.addGlobalListener {
 						if (it is UserDataChangedMessage || it is LibraryChangedMessage) {
-							refreshRows(force = true)
+							refreshRows(force = true, delayed = false)
 						}
 					}
 
@@ -220,9 +220,10 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		nowPlaying.update(requireContext(), adapter as MutableObjectAdapter<Row>)
 	}
 
-	private fun refreshRows(force: Boolean = false) {
+	private fun refreshRows(force: Boolean = false, delayed: Boolean = true) {
 		lifecycleScope.launch(Dispatchers.IO) {
-			delay(1.5.seconds)
+			if (delayed) delay(1.5.seconds)
+
 			repeat(adapter.size()) { i ->
 				val rowAdapter = (adapter[i] as? ListRow)?.adapter as? ItemRowAdapter
 				if (force) rowAdapter?.Retrieve()
