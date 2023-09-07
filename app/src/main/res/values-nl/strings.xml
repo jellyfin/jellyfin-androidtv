@@ -51,7 +51,7 @@
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duur</string>
     <string name="lbl_min">" min"</string>
-    <string name="lbl_ends">Einde</string>
+    <string name="lbl_ends">Afgelopen</string>
     <string name="lbl_directed_by">Regie</string>
     <string name="lbl_last_played">"Laatst afgespeeld: "</string>
     <string name="lbl_other_options">Andere opties</string>
