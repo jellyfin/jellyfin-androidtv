@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.composable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
@@ -14,7 +14,7 @@ import kotlin.time.Duration.Companion.seconds
  */
 @Composable
 fun rememberCurrentTime(): Long {
-	var value by remember { mutableStateOf(System.currentTimeMillis()) }
+	var value by remember { mutableLongStateOf(System.currentTimeMillis()) }
 
 	LaunchedEffect(Unit) {
 		while (true) {
