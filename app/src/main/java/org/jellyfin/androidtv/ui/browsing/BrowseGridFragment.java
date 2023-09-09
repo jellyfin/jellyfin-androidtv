@@ -719,16 +719,17 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     updateCounter(mAdapter.getTotalItems() > 0 ? 1 : 0);
                 }
                 mLetterButton.setVisibility(ItemSortBy.SortName.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
-                if (mAdapter.getTotalItems() == 0) {
-                    binding.toolBar.requestFocus();
+                if (mAdapter.getItemsLoaded() == 0) {
+                    mGridView.setFocusable(false);
                     mHandler.postDelayed(() -> {
                         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))
                             return;
 
                         binding.title.setText(mFolder.getName());
                     }, 500);
-                } else {
-                    if (mGridView != null) mGridView.requestFocus();
+                } else if (mGridView != null) {
+                    mGridView.setFocusable(true);
+                    mGridView.requestFocus();
                 }
             }
         });
