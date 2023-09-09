@@ -18,7 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -128,7 +128,7 @@ fun DreamContentNowPlaying(
 
 			Spacer(modifier = Modifier.height(10.dp))
 
-			var progress by remember { mutableStateOf(0f) }
+			var progress by remember { mutableFloatStateOf(0f) }
 			DisposableEffect(Unit) {
 				val listener = object : AudioEventListener {
 					override fun onProgress(pos: Long) {
