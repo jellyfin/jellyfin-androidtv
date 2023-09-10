@@ -83,6 +83,10 @@ public class CardPresenter extends Presenter {
             this.lifecycleOwner = lifecycleOwner;
         }
 
+        public int getCardWidth() {
+            return cardWidth;
+        }
+
         public int getCardHeight() {
             return cardHeight;
         }
@@ -405,9 +409,11 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        float maxHeight = holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density;
+        int fillWidth = Math.round(holder.getCardWidth() * holder.mCardView.getResources().getDisplayMetrics().density);
+        int fillHeight = Math.round(holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density);
+
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, Math.round(maxHeight)),
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, fillWidth, fillHeight),
                 blurHash
         );
     }

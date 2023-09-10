@@ -82,9 +82,9 @@ public class ImageUtils {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 
-    public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getBannerImageUrl(org.jellyfin.sdk.model.api.BaseItemDto item, ApiClient apiClient, int fillWidth, int fillHeight) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.BANNER)) {
-            return getPrimaryImageUrl(item, false, maxHeight);
+            return getPrimaryImageUrl(item, false, fillWidth, fillHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -105,9 +105,9 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId().toString(), options);
     }
 
-    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int fillWidth, int fillHeight) {
         if (!item.getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.THUMB)) {
-            return getPrimaryImageUrl(item, true, maxHeight);
+            return getPrimaryImageUrl(item, true, fillWidth, fillHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -116,11 +116,11 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId().toString(), options);
     }
 
-    public static String getPrimaryImageUrl(@NonNull org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
-        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, preferParentThumb, maxHeight);
+    public static String getPrimaryImageUrl(@NonNull org.jellyfin.sdk.model.api.BaseItemDto item, boolean preferParentThumb, @Nullable Integer fillWidth, @Nullable Integer fillHeight) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item, preferParentThumb, fillWidth, fillHeight);
     }
 
-    public static String getLogoImageUrl(@Nullable org.jellyfin.sdk.model.api.BaseItemDto item, @NonNull int maxWidth, @NonNull boolean useSeriesFallback) {
+    public static String getLogoImageUrl(@Nullable org.jellyfin.sdk.model.api.BaseItemDto item, int maxWidth, boolean useSeriesFallback) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getLogoImageUrl(item, maxWidth, useSeriesFallback);
     }
 
