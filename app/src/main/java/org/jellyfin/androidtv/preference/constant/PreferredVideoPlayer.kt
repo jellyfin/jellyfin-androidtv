@@ -12,11 +12,6 @@ enum class PreferredVideoPlayer(
 	EXOPLAYER(R.string.pref_video_player_exoplayer),
 
 	/**
-	 * Force libVLC
-	 */
-	VLC(R.string.pref_video_player_vlc),
-
-	/**
 	 * Use external player
 	 */
 	EXTERNAL(R.string.pref_video_player_external),
