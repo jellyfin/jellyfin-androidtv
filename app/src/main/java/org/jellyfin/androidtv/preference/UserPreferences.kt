@@ -122,11 +122,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1)
 
 		/**
-		 * Default audio delay in milliseconds for libVLC
-		 */
-		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
-
-		/**
 		 * Use playback rewrite module for audio
 		 */
 		var playbackRewriteAudioEnabled = booleanPreference("playback_new_audio", true)
@@ -140,7 +135,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Preferred video player for live TV
 		 */
-		var liveTvVideoPlayer = enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
+		var liveTvVideoPlayer = enumPreference("live_tv_video_player", PreferredVideoPlayer.EXOPLAYER)
 
 		/**
 		 * Shortcut used for changing the audio track

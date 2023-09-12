@@ -63,7 +63,7 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Chosen player for play with button. Changes every time user chooses a player with "play with" button.
 		 */
-		var chosenPlayer = enumPreference("chosen_player", PreferredVideoPlayer.VLC)
+		var chosenPlayer = enumPreference("chosen_player", PreferredVideoPlayer.EXOPLAYER)
 
 		/**
 		 * The version name for the latest dismissed beta notification or empty if none.

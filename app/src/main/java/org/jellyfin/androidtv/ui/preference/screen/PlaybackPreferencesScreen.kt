@@ -191,17 +191,6 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.dtsEnabled)
 				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
-
-			@Suppress("MagicNumber")
-			seekbar {
-				setTitle(R.string.pref_libvlc_audio_delay_title)
-				min = -5_000
-				max = 5_000
-				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-					override fun display(value: Int) = "${value}ms"
-				}
-				bind(userPreferences, UserPreferences.libVLCAudioDelay)
-			}
 		}
 
 		category {

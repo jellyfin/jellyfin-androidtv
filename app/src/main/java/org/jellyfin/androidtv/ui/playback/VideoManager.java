@@ -2,18 +2,13 @@ package org.jellyfin.androidtv.ui.playback;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.PixelFormat;
 import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
 import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -41,8 +36,6 @@ import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.koin.java.KoinJavaComponent;
@@ -64,11 +57,7 @@ public class VideoManager {
     private DynamicsProcessing mDynamicsProcessing;
     private Limiter mLimiter;
     private PlaybackControllerNotifiable mPlaybackControllerNotifiable;
-    private SurfaceHolder mSurfaceHolder;
-    private SurfaceView mSurfaceView;
     private PlaybackOverlayFragmentHelper _helper;
-    private SurfaceView mSubtitlesSurface;
-    private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
     private StyledPlayerView mExoPlayerView;
     private Handler mHandler = new Handler();
@@ -77,19 +66,11 @@ public class VideoManager {
     private long lastExoPlayerPosition = -1;
     private boolean nightModeEnabled;
 
-    private boolean mSurfaceReady = false;
     public boolean isContracted = false;
 
     public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
-        mSurfaceView = view.findViewById(R.id.player_surface);
         _helper = helper;
-        mSurfaceHolder = mSurfaceView.getHolder();
-        mSurfaceHolder.addCallback(mSurfaceCallback);
-        mSurfaceFrame = view.findViewById(R.id.player_surface_frame);
-        mSubtitlesSurface = view.findViewById(R.id.subtitles_surface);
-        mSubtitlesSurface.setZOrderMediaOverlay(true);
-        mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         nightModeEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getAudioNightMode());
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
@@ -188,19 +169,7 @@ public class VideoManager {
     }
 
     public boolean isInitialized() {
-        return mSurfaceReady && mExoPlayer != null;
-    }
-
-    public void init(int buffer, boolean isInterlaced) {
-        createPlayer(buffer, isInterlaced);
-    }
-
-    public void setNativeMode(boolean value) {
-
-    }
-
-    public boolean isNativeMode() {
-        return true;
+        return mExoPlayer != null;
     }
 
     public int getZoomMode() {
@@ -220,11 +189,6 @@ public class VideoManager {
                 mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
                 break;
         }
-    }
-
-    // set by playbackController when a new vlc transcode stream starts, and before seeking
-    public void setMetaVLCStreamStartPosition(long value) {
-
     }
 
     public void setMetaDuration(long duration) {
@@ -357,10 +321,6 @@ public class VideoManager {
         index += indexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
 
         return index < 0 || index > allStreams.size() ? -1 : index;
-    }
-
-    public boolean setSubtitleTrack(int index, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        return false;
     }
 
     public int getExoPlayerTrack(@Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
@@ -500,14 +460,6 @@ public class VideoManager {
         return true;
     }
 
-    public int getVLCAudioTrack(@Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        return -1;
-    }
-
-    public int setVLCAudioTrack(int ndx, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        return -1;
-    }
-
     public float getPlaybackSpeed(){
         if (!isInitialized()) {
             return 1.0f;
@@ -526,53 +478,10 @@ public class VideoManager {
         mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
     }
 
-    public void setSubtitleDelay(long value) {
-
-    }
-
-    public long getSubtitleDelay() {
-        return 0;
-    }
-
-    public void setAudioDelay(long value) {
-
-    }
-
-    public long getAudioDelay() {
-        return 0;
-    }
-
-    public void setCompatibleAudio() {
-
-    }
-
-    public void setAudioMode() {
-
-    }
-
-
-    public void setVideoTrack(MediaSourceInfo mediaSource) {
-
-    }
-
     public void destroy() {
         mPlaybackControllerNotifiable = null;
         stopPlayback();
         releasePlayer();
-    }
-
-    private void createPlayer(int buffer, boolean isInterlaced) {
-        if (isInitialized())
-            return;
-
-        try {
-            mSurfaceHolder.addCallback(mSurfaceCallback);
-            Timber.d("Surface attached");
-            mSurfaceReady = true;
-        } catch (Exception e) {
-            Timber.e(e, "Error creating VLC player");
-            Utils.showToast(mActivity, mActivity.getString(R.string.msg_video_playback_error));
-        }
     }
 
     private void releasePlayer() {
@@ -623,73 +532,6 @@ public class VideoManager {
         isContracted = false;
     }
 
-    private void changeSurfaceLayout(int videoWidth, int videoHeight, int videoVisibleWidth, int videoVisibleHeight, int sarNum, int sarDen) {
-        int sw;
-        int sh;
-
-        // get screen size
-        if (mActivity == null) return; //called during destroy
-        sw = mActivity.getWindow().getDecorView().getWidth();
-        sh = mActivity.getWindow().getDecorView().getHeight();
-
-        double dw = sw, dh = sh;
-        boolean isPortrait;
-
-        isPortrait = mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-
-        if (sw > sh && isPortrait || sw < sh && !isPortrait) {
-            dw = sh;
-            dh = sw;
-        }
-
-        // sanity check
-        if (dw * dh == 0 || videoWidth * videoHeight == 0) {
-            Timber.e("Invalid surface size");
-            return;
-        }
-
-        // compute the aspect ratio
-        double ar;
-        if (sarDen == sarNum) {
-            /* No indication about the density, assuming 1:1 */
-            ar = (double) videoVisibleWidth / (double) videoVisibleHeight;
-        } else {
-            /* Use the specified aspect ratio */
-            double vw = videoVisibleWidth * (double) sarNum / sarDen;
-            ar = vw / videoVisibleHeight;
-        }
-
-        // compute the display aspect ratio
-        double dar = dw / dh;
-
-        if (dar < ar)
-            dh = dw / ar;
-        else
-            dw = dh * ar;
-
-        // set display size
-        ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
-        lp.width = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
-        lp.height = (int) Math.ceil(dh * videoHeight / videoVisibleHeight);
-        normalWidth = lp.width;
-        normalHeight = lp.height;
-        mSurfaceView.setLayoutParams(lp);
-        mSubtitlesSurface.setLayoutParams(lp);
-
-        // set frame size (crop if necessary)
-        if (mSurfaceFrame != null) {
-            lp = mSurfaceFrame.getLayoutParams();
-            lp.width = (int) Math.floor(dw);
-            lp.height = (int) Math.floor(dh);
-            mSurfaceFrame.setLayoutParams(lp);
-
-        }
-
-        Timber.d("Surface sized %d x %d ", lp.width, lp.height);
-        mSurfaceView.invalidate();
-        mSubtitlesSurface.invalidate();
-    }
-
     private Runnable progressLoop;
     private void startProgressLoop() {
         stopProgressLoop();
@@ -708,23 +550,6 @@ public class VideoManager {
             mHandler.removeCallbacks(progressLoop);
         }
     }
-
-    private SurfaceHolder.Callback mSurfaceCallback = new SurfaceHolder.Callback() {
-        @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            mSurfaceReady = false;
-        }
-    };
 
     private void enableAudioNightMode(int audioSessionId) {
         // Equaliser variables.

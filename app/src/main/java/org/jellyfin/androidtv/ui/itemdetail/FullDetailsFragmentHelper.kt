@@ -91,11 +91,6 @@ fun FullDetailsFragment.showPlayWithMenu(
 		play(mBaseItem, 0, shuffle)
 	}
 
-	item(getString(R.string.play_with_vlc)) {
-		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.VLC
-		play(mBaseItem, 0, shuffle)
-	}
-
 	item(getString(R.string.play_with_external_app)) {
 		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.EXTERNAL
 
