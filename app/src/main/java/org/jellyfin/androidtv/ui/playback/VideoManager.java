@@ -46,19 +46,13 @@ import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.koin.java.KoinJavaComponent;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.MediaPlayer.TrackDescription;
-import org.videolan.libvlc.interfaces.IVLCVout;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import timber.log.Timber;
 
-public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
+public class VideoManager {
     public final static int ZOOM_FIT = 0;
     public final static int ZOOM_AUTO_CROP = 1;
     public final static int ZOOM_STRETCH = 2;
@@ -77,26 +71,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
     private StyledPlayerView mExoPlayerView;
-    private LibVLC mLibVLC;
-    private MediaPlayer mVlcPlayer;
-    private Media mCurrentMedia;
-    private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private Handler mHandler = new Handler();
-    private int mVideoHeight;
-    private int mVideoWidth;
-    private int mVideoVisibleHeight;
-    private int mVideoVisibleWidth;
-    private int mSarNum;
-    private int mSarDen;
 
-    private long mForcedTime = -1;
-    private long mLastTime = -1;
     private long mMetaDuration = -1;
-    private long mMetaVLCStreamStartPosition = -1;
     private long lastExoPlayerPosition = -1;
-    private boolean nightModeEnabled = false;
+    private boolean nightModeEnabled;
 
-    private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
 
@@ -185,7 +165,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void subscribe(@NonNull PlaybackControllerNotifiable notifier){
         mPlaybackControllerNotifiable = notifier;
-        setupVLCListeners();
     }
 
     /**
@@ -209,7 +188,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean isInitialized() {
-        return mSurfaceReady && (isNativeMode() ? mExoPlayer != null : mVlcPlayer != null);
+        return mSurfaceReady && mExoPlayer != null;
     }
 
     public void init(int buffer, boolean isInterlaced) {
@@ -217,18 +196,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void setNativeMode(boolean value) {
-        nativeMode = value;
-        if (nativeMode) {
-            _helper.setScreensaverLock(false);
-            mExoPlayerView.setVisibility(View.VISIBLE);
-        } else {
-            _helper.setScreensaverLock(true);
-            mExoPlayerView.setVisibility(View.GONE);
-        }
+
     }
 
     public boolean isNativeMode() {
-        return nativeMode;
+        return true;
     }
 
     public int getZoomMode() {
@@ -252,11 +224,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     // set by playbackController when a new vlc transcode stream starts, and before seeking
     public void setMetaVLCStreamStartPosition(long value) {
-        mMetaVLCStreamStartPosition = value;
-    }
 
-    public long getMetaVLCStreamStartPosition() {
-        return mMetaVLCStreamStartPosition;
     }
 
     public void setMetaDuration(long duration) {
@@ -264,19 +232,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public long getDuration() {
-        if (nativeMode) {
-            return isInitialized() && mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
-        } else {
-            return isInitialized() && mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
-        }
+        return isInitialized() && mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
     }
 
     public long getBufferedPosition() {
         if (!isInitialized())
-            return -1;
-
-        // only exoplayer supports reporting buffered position
-        if (!isNativeMode())
             return -1;
 
         long bufferedPosition = mExoPlayer.getBufferedPosition();
@@ -288,83 +248,40 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public long getCurrentPosition() {
-        if (nativeMode) {
-            if (mExoPlayer == null || !isPlaying()) {
-                return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
-            } else {
-                long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
-                lastExoPlayerPosition = mExoPlayerCurrentPosition;
-                return mExoPlayerCurrentPosition;
-            }
+        if (mExoPlayer == null || !isPlaying()) {
+            return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
+        } else {
+            long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
+            lastExoPlayerPosition = mExoPlayerCurrentPosition;
+            return mExoPlayerCurrentPosition;
         }
-
-        if (mVlcPlayer == null) return 0;
-
-        long time = mVlcPlayer.getTime();
-
-        // vlc returns ms from stream start. metaStartPosition + time = actual position
-        time = mMetaVLCStreamStartPosition != -1 ? time + getMetaVLCStreamStartPosition() : time;
-        if (mForcedTime != -1 && mLastTime != -1) {
-            /* XXX: After a seek, mLibVLC.getTime can return the position before or after
-             * the seek position. Therefore we return mForcedTime in order to avoid the seekBar
-             * to move between seek position and the actual position.
-             * We have to wait for a valid position (that is after the seek position).
-             * to re-init mLastTime and mForcedTime to -1 and return the actual position.
-             */
-            if (mLastTime > mForcedTime) {
-                if (time <= mLastTime && time > mForcedTime)
-                    mLastTime = mForcedTime = -1;
-            } else {
-                if (time > mForcedTime)
-                    mLastTime = mForcedTime = -1;
-            }
-        }
-        return mForcedTime == -1 ? time : mForcedTime;
     }
 
     public boolean isPlaying() {
-        return nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer != null && mVlcPlayer.isPlaying();
+        return mExoPlayer.isPlaying();
     }
 
     public void start() {
-        if (nativeMode) {
-            if (mExoPlayer == null) {
-                Timber.e("mExoPlayer should not be null!!");
-                _helper.getFragment().closePlayer();
-                return;
-            }
-            mExoPlayer.setPlayWhenReady(true);
-            normalWidth = mExoPlayerView.getLayoutParams().width;
-            normalHeight = mExoPlayerView.getLayoutParams().height;
-        } else {
-            if (!mSurfaceReady) {
-                Timber.e("Attempt to play before surface ready");
-                return;
-            }
-            if (!mVlcPlayer.isPlaying()) {
-                mVlcPlayer.play();
-            }
+        if (mExoPlayer == null) {
+            Timber.e("mExoPlayer should not be null!!");
+            _helper.getFragment().closePlayer();
+            return;
         }
+        mExoPlayer.setPlayWhenReady(true);
+        normalWidth = mExoPlayerView.getLayoutParams().width;
+        normalHeight = mExoPlayerView.getLayoutParams().height;
     }
 
     public void play() {
-        if (nativeMode) {
-            mExoPlayer.setPlayWhenReady(true);
-        } else {
-            mVlcPlayer.play();
-        }
+        mExoPlayer.setPlayWhenReady(true);
     }
 
     public void pause() {
-        if (nativeMode) {
-            mExoPlayer.setPlayWhenReady(false);
-        } else {
-            mVlcPlayer.pause();
-        }
+        mExoPlayer.setPlayWhenReady(false);
     }
 
     public void stopPlayback() {
-        if (nativeMode && mExoPlayer != null) {
+        if (mExoPlayer != null) {
             mExoPlayer.stop();
             disableSubs();
 
@@ -372,21 +289,16 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                     .buildUpon()
                     .clearOverridesOfType(C.TRACK_TYPE_AUDIO)
                     .build());
-        } else if (mVlcPlayer != null) {
-            mVlcPlayer.stop();
         }
+
         stopProgressLoop();
     }
 
     public boolean isSeekable() {
         if (!isInitialized())
             return false;
-        boolean canSeek;
-        if (isNativeMode())
-            canSeek = mExoPlayer.isCurrentMediaItemSeekable();
-        else {
-            canSeek = mVlcPlayer.isSeekable() && mVlcPlayer.getLength() > 0;
-        }
+
+        boolean canSeek = mExoPlayer.isCurrentMediaItemSeekable();
         Timber.d("current media item is%s seekable", canSeek ? "" : " not");
         return canSeek;
     }
@@ -394,27 +306,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public long seekTo(long pos) {
         if (!isInitialized())
             return -1;
-        if (nativeMode) {
-            Timber.i("Exo length in seek is: %d", getDuration());
-            mExoPlayer.seekTo(pos);
-            return pos;
-        } else {
-            if (mVlcPlayer == null || !mVlcPlayer.isSeekable()) return -1;
-            mForcedTime = pos;
-            mLastTime = mVlcPlayer.getTime();
-            Timber.i("VLC length in seek is: %d", getDuration());
-            try {
-                if (getDuration() > 0) mVlcPlayer.setPosition((float) pos / getDuration());
-                else mVlcPlayer.setTime(pos);
 
-                return pos;
-
-            } catch (Exception e) {
-                Timber.e(e, "Error seeking in VLC");
-                Utils.showToast(mActivity, mActivity.getString(R.string.seek_error));
-                return -1;
-            }
-        }
+        Timber.i("Exo length in seek is: %d", getDuration());
+        mExoPlayer.seekTo(pos);
+        return pos;
     }
 
     public void setVideoPath(@Nullable String path) {
@@ -424,33 +319,22 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
         Timber.i("Video path set to: %s", path);
 
-        if (nativeMode) {
-            try {
-                mExoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(path)));
-                mExoPlayer.prepare();
-            } catch (IllegalStateException e) {
-                Timber.e(e, "Unable to set video path.  Probably backing out.");
-            }
-        } else {
-            mCurrentMedia = new Media(mLibVLC, Uri.parse(path));
-            mCurrentMedia.parse();
-            mVlcPlayer.setMedia(mCurrentMedia);
-
-            mCurrentMedia.release();
+        try {
+            mExoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(path)));
+            mExoPlayer.prepare();
+        } catch (IllegalStateException e) {
+            Timber.e(e, "Unable to set video path.  Probably backing out.");
         }
     }
 
     public void disableSubs() {
         if (!isInitialized())
             return;
-        if (isNativeMode()) {
-            mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
-                                                    .buildUpon()
-                                                    .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
-                                                    .build());
-        } else {
-            mVlcPlayer.setSpuTrack(-1);
-        }
+
+        mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                .buildUpon()
+                .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
+                .build());
     }
 
     private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
@@ -476,33 +360,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean setSubtitleTrack(int index, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        if (isNativeMode() || allStreams == null)
-            return false;
-
-        int vlcIndex = offsetStreamIndex(index, false, false, allStreams);
-
-        if (vlcIndex < 0)
-            return false;
-
-        TrackDescription vlcSub = null;
-        for (TrackDescription subTrack: mVlcPlayer.getSpuTracks()) {
-            Timber.d("libvlc subtitle track %s %s", subTrack.id, subTrack.name);
-            if (subTrack.id == vlcIndex)
-                vlcSub = subTrack;
-        }
-
-        if (vlcSub == null) {
-            Timber.e("Could not locate subtitle with index %s in vlc track info", vlcIndex);
-            return false;
-        }
-
-        Timber.i("Setting Vlc sub to %s", vlcSub.name);
-        return mVlcPlayer.setSpuTrack(vlcSub.id);
-
+        return false;
     }
 
     public int getExoPlayerTrack(@Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || streamType == null || allStreams == null)
+        if (!isInitialized() || streamType == null || allStreams == null)
             return -1;
         if (streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
             return -1;
@@ -550,7 +412,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean setExoPlayerTrack(int index, @Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || allStreams == null || allStreams.isEmpty() || streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
+        if (!isInitialized() || allStreams == null || allStreams.isEmpty() || streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
             return false;
 
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
@@ -639,61 +501,18 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public int getVLCAudioTrack(@Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        if (!isInitialized() || nativeMode)
-            return -1;
-
-        int ndx = offsetStreamIndex(mVlcPlayer.getAudioTrack(), true, false, allStreams);
-        Timber.d("re-retrieved libVLC audio track index %s", ndx);
-
-        return ndx;
+        return -1;
     }
 
     public int setVLCAudioTrack(int ndx, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        if (!isInitialized() || isNativeMode())
-            return -1;
-
-        int vlcID = offsetStreamIndex(ndx, false, false, allStreams);
-        if (vlcID < 0)
-            return -1;
-
-        TrackDescription vlcTrack = null;
-        Timber.d("Setting VLC audio track index to: %d", vlcID);
-
-        int vlcNdx = 0;
-        for (TrackDescription track : mVlcPlayer.getAudioTracks()) {
-            Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
-            if (track.id == vlcID)
-                vlcTrack = track;
-            if (vlcTrack == null)
-                vlcNdx++;
-        }
-
-        if (vlcTrack == null) {
-            Timber.e("Could not locate audio track with index %s in vlc", vlcID);
-            return -1;
-        }
-
-        if (mVlcPlayer.getAudioTrack() == vlcID) {
-            Timber.d("provided index points to the audio track already in use, aborting");
-            return ndx;
-        }
-
-        if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
-            Timber.i("Setting by ID was successful");
-        } else {
-            Timber.i("Setting by ID not successful, trying index %s", vlcNdx);
-            mVlcPlayer.setAudioTrack(vlcNdx);
-        }
-        return ndx;
+        return -1;
     }
 
     public float getPlaybackSpeed(){
         if (!isInitialized()) {
             return 1.0f;
-        } else if (isNativeMode()){
-            return mExoPlayer.getPlaybackParameters().speed;
         } else {
-            return mVlcPlayer.getRate();
+            return mExoPlayer.getPlaybackParameters().speed;
         }
     }
 
@@ -704,76 +523,36 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
         Timber.d("Setting playback speed: %f", speed);
 
-        if (nativeMode) {
-            mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
-        } else {
-            mVlcPlayer.setRate(speed);
-            // VLC will always change rate, so we can post this immediately
-            if (mPlaybackControllerNotifiable != null){
-                mPlaybackControllerNotifiable.onPlaybackSpeedChange(speed);
-            }
-        }
+        mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
     }
 
     public void setSubtitleDelay(long value) {
-        if (!nativeMode && mVlcPlayer != null) {
-            if (!mVlcPlayer.setSpuDelay(value * 1000)) {
-                Timber.e("Error setting subtitle offset");
-            } else {
-                Timber.i("Subtitle offset set to %d", value);
-            }
-        }
+
     }
 
     public long getSubtitleDelay() {
-        return mVlcPlayer != null ? mVlcPlayer.getSpuDelay() / 1000 : 0;
+        return 0;
     }
 
     public void setAudioDelay(long value) {
-        if (!nativeMode && mVlcPlayer != null) {
-            if (!mVlcPlayer.setAudioDelay(value * 1000)) {
-                Timber.e("Error setting audio delay");
-            } else {
-                Timber.i("Audio delay set to %d", value);
-            }
-        }
+
     }
 
     public long getAudioDelay() {
-        return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;
+        return 0;
     }
 
     public void setCompatibleAudio() {
-        if (!nativeMode) {
-            mVlcPlayer.setAudioOutput("opensles_android");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
-        }
+
     }
 
     public void setAudioMode() {
-        if (!nativeMode) {
-            setVlcAudioOptions();
-        }
+
     }
 
-    private void setVlcAudioOptions() {
-        if (!Utils.downMixAudio(mActivity)) {
-            mVlcPlayer.setAudioDigitalOutputEnabled(true);
-        } else {
-            setCompatibleAudio();
-        }
-    }
 
     public void setVideoTrack(MediaSourceInfo mediaSource) {
-        if (!nativeMode && mediaSource != null && mediaSource.getMediaStreams() != null) {
-            for (org.jellyfin.sdk.model.api.MediaStream stream : mediaSource.getMediaStreams()) {
-                if (stream.getType() == org.jellyfin.sdk.model.api.MediaStreamType.VIDEO && stream.getIndex() >= 0) {
-                    Timber.d("Setting video index to: %d", stream.getIndex());
-                    mVlcPlayer.setVideoTrack(stream.getIndex());
-                    return;
-                }
-            }
-        }
+
     }
 
     public void destroy() {
@@ -787,44 +566,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             return;
 
         try {
-            // Create a new media player
-            ArrayList<String> options = new ArrayList<>(20);
-            options.add("--network-caching=" + buffer);
-            options.add("--audio-time-stretch");
-            options.add("--avcodec-skiploopfilter");
-            options.add("1");
-            options.add("--avcodec-skip-frame");
-            options.add("0");
-            options.add("--avcodec-skip-idct");
-            options.add("0");
-            options.add("--android-display-chroma");
-            options.add("RV32");
-            options.add("--audio-resampler");
-            options.add("soxr");
-            options.add("--stats");
-            if (isInterlaced) {
-                options.add("--video-filter=deinterlace");
-                options.add("--deinterlace-mode=Bob");
-            }
-            options.add("--audio-desync");
-            options.add(String.valueOf(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
-            options.add("-v");
-            options.add("--vout=android-opaque,android-display");
-
-            mLibVLC = new LibVLC(mActivity, options);
-            Timber.i("Network buffer set to %d", buffer);
-
-            mVlcPlayer = new MediaPlayer(mLibVLC);
-            setVlcAudioOptions();
-
             mSurfaceHolder.addCallback(mSurfaceCallback);
-            mVlcPlayer.setEventListener(mVlcHandler);
-
-            //setup surface
-            mVlcPlayer.getVLCVout().detachViews();
-            mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
-            mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
-            mVlcPlayer.getVLCVout().attachViews(this);
             Timber.d("Surface attached");
             mSurfaceReady = true;
         } catch (Exception e) {
@@ -834,16 +576,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void releasePlayer() {
-        if (mVlcPlayer != null) {
-            mVlcPlayer.setEventListener(null);
-            mVlcPlayer.stop();
-            mVlcPlayer.getVLCVout().detachViews();
-            mVlcPlayer.release();
-            mLibVLC.release();
-            mLibVLC = null;
-            mVlcPlayer = null;
-        }
-
         if (mExoPlayer != null) {
             mExoPlayerView.setPlayer(null);
             mExoPlayer.release();
@@ -855,7 +587,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     int normalHeight;
 
     public void contractVideo(int height) {
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mExoPlayerView.getLayoutParams();
         if (isContracted) return;
 
         int sw = mActivity.getWindow().getDecorView().getWidth();
@@ -866,18 +598,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         lp.rightMargin = ((lp.width - normalWidth) / 2) - 110;
         lp.bottomMargin = ((lp.height - normalHeight) / 2) - 50;
 
-        if (nativeMode) {
-            mExoPlayerView.setLayoutParams(lp);
-            mExoPlayerView.invalidate();
-        } else mSurfaceView.setLayoutParams(lp);
+        mExoPlayerView.setLayoutParams(lp);
+        mExoPlayerView.invalidate();
 
         isContracted = true;
-
     }
 
     public void setVideoFullSize(boolean force) {
         if (normalHeight == 0) return;
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mExoPlayerView.getLayoutParams();
         if (force) {
             lp.height = -1;
             lp.width = -1;
@@ -885,15 +614,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             lp.height = normalHeight;
             lp.width = normalWidth;
         }
-        if (nativeMode) {
-            lp.rightMargin = 0;
-            lp.bottomMargin = 0;
-            mExoPlayerView.setLayoutParams(lp);
-            mExoPlayerView.invalidate();
-        } else mSurfaceView.setLayoutParams(lp);
+
+        lp.rightMargin = 0;
+        lp.bottomMargin = 0;
+        mExoPlayerView.setLayoutParams(lp);
+        mExoPlayerView.invalidate();
 
         isContracted = false;
-
     }
 
     private void changeSurfaceLayout(int videoWidth, int videoHeight, int videoVisibleWidth, int videoVisibleHeight, int sarNum, int sarDen) {
@@ -963,29 +690,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.invalidate();
     }
 
-    private void setupVLCListeners() {
-        mVlcHandler.setOnCompletionListener(() -> {
-            if (mPlaybackControllerNotifiable != null) {
-                mPlaybackControllerNotifiable.onCompletion();
-            }
-        });
-        mVlcHandler.setOnErrorListener(() -> {
-            if (mPlaybackControllerNotifiable != null) {
-                mPlaybackControllerNotifiable.onError();
-            }
-        });
-        mVlcHandler.setOnPreparedListener(() -> {
-            if (mPlaybackControllerNotifiable != null) {
-                mPlaybackControllerNotifiable.onPrepared();
-            }
-        });
-        mVlcHandler.setOnProgressListener(() -> {
-            if (mPlaybackControllerNotifiable != null) {
-                mPlaybackControllerNotifiable.onProgress();
-            }
-        });
-    }
-
     private Runnable progressLoop;
     private void startProgressLoop() {
         stopProgressLoop();
@@ -1018,9 +722,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            if (mVlcPlayer != null) mVlcPlayer.getVLCVout().detachViews();
             mSurfaceReady = false;
-
         }
     };
 
@@ -1054,26 +756,5 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mDynamicsProcessing.setLimiterAllChannelsTo(mLimiter);
             mDynamicsProcessing.setEnabled(true);
         }
-    }
-
-    @Override
-    public void onNewVideoLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        if (width * height == 0 || isContracted)
-            return;
-
-        // store video size
-        mVideoHeight = height;
-        mVideoWidth = width;
-        mVideoVisibleHeight = visibleHeight;
-        mVideoVisibleWidth = visibleWidth;
-        mSarNum = sarNum;
-        mSarDen = sarDen;
-
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-            }
-        });
     }
 }
