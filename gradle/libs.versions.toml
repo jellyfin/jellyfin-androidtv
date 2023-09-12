@@ -38,7 +38,6 @@ kotlin = "1.9.21"
 kotlinx-coroutines = "1.7.3"
 kotlinx-serialization = "1.6.2"
 leakcanary = "2.12"
-libvlc = "3.5.1"
 markwon = "4.6.2"
 mockk = "1.13.7"
 slf4j-timber = "0.0.4"
@@ -95,7 +94,6 @@ koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager
 # Media players
 exoplayer = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }
 jellyfin-exoplayer-ffmpegextension = { group = "org.jellyfin.exoplayer", name = "exoplayer-ffmpeg-extension", version.ref = "jellyfin-exoplayer-ffmpegextension" }
-libvlc = { module = "org.videolan.android:libvlc-all", version.ref = "libvlc" }
 
 # Markwon
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
