@@ -114,11 +114,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
 
-		/**
-		 * Default audio delay in milliseconds for libVLC
-		 */
-		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
-
 		/* Live TV */
 		/**
 		 * Use direct play

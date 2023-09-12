@@ -19,7 +19,6 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
@@ -31,7 +30,6 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
-import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.androidtv.util.sdk.ModelUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
@@ -67,7 +65,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
-    private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
@@ -75,7 +72,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     List<org.jellyfin.sdk.model.api.BaseItemDto> mItems;
     VideoManager mVideoManager;
-    int mCurrentIndex = 0;
+    int mCurrentIndex;
     private long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
@@ -92,8 +89,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean burningSubs = false;
     private float mRequestedPlaybackSpeed = -1.0f;
 
-    private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
-
     private Runnable mReportLoop;
     private Handler mHandler;
 
@@ -109,9 +104,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mCurrentTranscodeStartTime;
     private boolean isLiveTv = false;
     private boolean directStreamLiveTv;
-    private boolean useVlc;
-
-    private boolean vlcErrorEncountered;
     private boolean exoErrorEncountered;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
@@ -137,9 +129,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
             getDisplayModes();
 
-        // Set default value for useVlc field
-        // when set to auto the default will be exoplayer
-        useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
     }
 
     public boolean hasFragment() {
@@ -160,14 +149,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setItems(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
         mItems = items;
         mCurrentIndex = 0;
-    }
-
-    public PlayMethod getPlaybackMethod() {
-        return mPlaybackMethod;
-    }
-
-    public void setPlaybackMethod(@NonNull PlayMethod value) {
-        mPlaybackMethod = value;
     }
 
     public float getPlaybackSpeed() {
@@ -237,10 +218,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return null;
     }
 
-    public boolean isNativeMode() {
-        return mVideoManager == null || mVideoManager.isNativeMode();
-    }
-
     public boolean isTranscoding() {
         // use or here so that true is the default since
         // this method is used to exclude features that may break unless we are sure playback is direct
@@ -264,25 +241,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return mPlaybackState == PlaybackState.PLAYING && hasInitializedVideoManager() && mVideoManager.isPlaying();
     }
 
-    public void setAudioDelay(long value) {
-        if (hasInitializedVideoManager()) mVideoManager.setAudioDelay(value);
-    }
-
-    public long getAudioDelay() {
-        return hasInitializedVideoManager() ? mVideoManager.getAudioDelay() : 0;
-    }
-
-    public void setSubtitleDelay(long value) {
-        if (hasInitializedVideoManager()) mVideoManager.setSubtitleDelay(value);
-    }
-
-    public long getSubtitleDelay() {
-        return hasInitializedVideoManager() ? mVideoManager.getSubtitleDelay() : 0;
-    }
-
     public void playerErrorEncountered() {
-        if (isNativeMode()) exoErrorEncountered = true;
-        else vlcErrorEncountered = true;
+        exoErrorEncountered = true;
 
         // reset the retry count if it's been more than 30s since previous error
         if (playbackRetries > 0 && Instant.now().toEpochMilli() - lastPlaybackError > 30000) {
@@ -461,8 +421,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 }
                 // just resume
                 mVideoManager.play();
-                if (mVideoManager.isNativeMode())
-                    mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
+                mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
                 mFragment.setFadingEnabled(true);
                 startReportLoop();
                 break;
@@ -531,10 +490,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 int maxBitrate = Utils.getMaxBitrate(userPreferences.getValue());
                 Timber.d("Max bitrate is: %d", maxBitrate);
-                VideoOptions vlcOptions = buildVLCOptions(forcedSubtitleIndex, item, maxBitrate);
                 VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item, maxBitrate);
 
-                playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
+                playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
                 mFragment.setPlayPauseActionState(0);
                 mFragment.setCurrentTime(position);
@@ -567,141 +525,47 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return internalOptions;
     }
 
-    @NonNull
-    private VideoOptions buildVLCOptions(@Nullable Integer forcedSubtitleIndex, org.jellyfin.sdk.model.api.BaseItemDto item, int maxBitrate) {
-        VideoOptions vlcOptions = new VideoOptions();
-        vlcOptions.setItemId(item.getId());
-        vlcOptions.setMediaSources(item.getMediaSources());
-        vlcOptions.setMaxBitrate(maxBitrate);
-        if (vlcErrorEncountered) {
-            Timber.i("*** Disabling direct play/stream due to previous error");
-            vlcOptions.setEnableDirectStream(false);
-            vlcOptions.setEnableDirectPlay(false);
-        }
-        vlcOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
-        vlcOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
-        DeviceProfile vlcProfile = new LibVlcProfile(mFragment.getContext(), isLiveTv);
-        vlcOptions.setProfile(vlcProfile);
-        return vlcOptions;
-    }
-
-    public int getBufferAmount() {
-        return 600;
-    }
-
-    private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
+    private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final Long position, final VideoOptions internalOptions) {
         if (isLiveTv) {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
-            //Choose appropriate player now to avoid opening two streams
-            if (!directStreamLiveTv || userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
-                //internal/exo player
-                Timber.i("Using internal player for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
-                    @Override
-                    public void onResponse(StreamInfo response) {
-                        if (mVideoManager == null)
-                            return;
-                        mVideoManager.init(getBufferAmount(), false);
-                        mCurrentOptions = internalOptions;
-                        useVlc = false;
-                        startItem(item, position, response);
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        handlePlaybackInfoError(exception);
-                    }
-                });
-
-            } else {
-                //VLC
-                Timber.i("Using VLC for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
-                    @Override
-                    public void onResponse(StreamInfo response) {
-                        if (mVideoManager == null)
-                            return;
-                        mVideoManager.init(getBufferAmount(), JavaCompat.getVideoStream(response.getMediaSource()).isInterlaced() && (JavaCompat.getVideoStream(response.getMediaSource()).getWidth() == null || JavaCompat.getVideoStream(response.getMediaSource()).getWidth() > 1200));
-                        mCurrentOptions = vlcOptions;
-                        useVlc = true;
-                        startItem(item, position, response);
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        handlePlaybackInfoError(exception);
-                    }
-                });
-
-
-            }
-        } else {
-            // Get playback info for each player and then decide on which one to use
-            playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+            //internal/exo player
+            Timber.i("Using internal player for Live TV");
+            playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
-                public void onResponse(final StreamInfo vlcResponse) {
-                    Timber.i("VLC would %s", vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-                    playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
-                        @Override
-                        public void onResponse(StreamInfo internalResponse) {
-                            Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-                            org.jellyfin.sdk.model.api.MediaStream videoStream = JavaCompat.getVideoStream(vlcResponse.getMediaSource());
-                            boolean useDeinterlacing = videoStream != null &&
-                                    videoStream.isInterlaced() &&
-                                    (videoStream.getWidth() == null ||
-                                            videoStream.getWidth() > 1200);
-                            Timber.i(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
-
-                            PreferredVideoPlayer preferredVideoPlayer = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer());
-
-                            Timber.i("User preferred player is: %s", preferredVideoPlayer);
-
-                            if (preferredVideoPlayer == PreferredVideoPlayer.VLC) {
-                                // Force VLC
-                                useVlc = true;
-                            } else if (preferredVideoPlayer == PreferredVideoPlayer.EXOPLAYER) {
-                                // Make sure to not use VLC
-                                useVlc = false;
-                            } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
-                                PreferredVideoPlayer preferredVideoPlayerByPlayWith = systemPreferences.getValue().get(SystemPreferences.Companion.getChosenPlayer());
-
-                                useVlc = preferredVideoPlayerByPlayWith == PreferredVideoPlayer.VLC;
-
-                                Timber.i("PREFERRED PLAYER %s", preferredVideoPlayerByPlayWith.name());
-                            }
-
-                            Timber.i(useVlc ? "Preferring VLC" : "Will use internal player");
-                            if (mVideoManager == null)
-                                return;
-                            mVideoManager.init(getBufferAmount(), useDeinterlacing);
-                            mCurrentOptions = useVlc ? vlcOptions : internalOptions;
-                            startItem(item, position, useVlc ? vlcResponse : internalResponse);
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            Timber.e(exception, "Unable to get stream info for internal player - falling back to libVLC");
-                            if (mVideoManager == null)
-                                return;
-
-                            org.jellyfin.sdk.model.api.MediaStream videoStream = JavaCompat.getVideoStream(vlcResponse.getMediaSource());
-                            boolean useDeinterlacing = videoStream != null &&
-                                    videoStream.isInterlaced() &&
-                                    (videoStream.getWidth() == null ||
-                                            videoStream.getWidth() > 1200);
-
-                            mVideoManager.init(getBufferAmount(), useDeinterlacing);
-                            mCurrentOptions = vlcOptions;
-                            startItem(item, position, vlcResponse);
-                        }
-                    });
-
+                public void onResponse(StreamInfo response) {
+                    if (mVideoManager == null)
+                        return;
+                    mCurrentOptions = internalOptions;
+                    startItem(item, position, response);
                 }
 
                 @Override
                 public void onError(Exception exception) {
                     handlePlaybackInfoError(exception);
+                }
+            });
+        } else {
+            playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+                @Override
+                public void onResponse(StreamInfo internalResponse) {
+                    Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
+
+                    PreferredVideoPlayer preferredVideoPlayer = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer());
+
+                    Timber.i("User preferred player is: %s", preferredVideoPlayer);
+                    Timber.i("Will use internal player");
+                    if (mVideoManager == null)
+                        return;
+                    mCurrentOptions = internalOptions;
+                    startItem(item, position, internalResponse);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    Timber.e(exception, "Unable to get stream info for internal player");
+                    if (mVideoManager == null)
+                        return;
                 }
             });
         }
@@ -762,19 +626,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         Long mbPos = position * 10000;
 
-        setPlaybackMethod(response.getPlayMethod());
-
-        // Force VLC when media is not live TV and the preferred player is VLC
-        boolean forceVlc = !isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
-
-        if (mVideoManager != null && (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv)))) {
-            Timber.i("Playing back in VLC.");
-            mVideoManager.setNativeMode(false);
-        } else if (mVideoManager != null) {
-            mVideoManager.setNativeMode(true);
-            Timber.i("Playing back in native mode.");
-        }
-
         // set refresh rate
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED) {
             setRefreshRate(JavaCompat.getVideoStream(response.getMediaSource()));
@@ -786,22 +637,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         if (mFragment != null) mFragment.updateDisplay();
 
-        if (mVideoManager != null && !mVideoManager.isNativeMode()) {
-            mVideoManager.setCompatibleAudio();
-            Timber.i("Setting compatible audio mode...");
-        } else if (mVideoManager != null) {
-            mVideoManager.setAudioMode();
-        }
-
         if (mVideoManager != null) {
             mVideoManager.setVideoPath(response.getMediaUrl());
-            mVideoManager.setVideoTrack(response.getMediaSource());
-        }
-
-        // save the position where the stream starts. vlc gettime() will return ms since this point, which will be
-        // added to this to get actual position
-        if (mVideoManager != null && (forceVlc || useVlc) && getPlaybackMethod().equals(PlayMethod.Transcode)) {
-            mVideoManager.setMetaVLCStreamStartPosition(position);
         }
 
         //wait a beat before attempting to start so the player surface is fully initialized and video is ready
@@ -839,8 +676,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         } else if (isTranscoding() && getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
             currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
         } else if (hasInitializedVideoManager() && !isTranscoding()) {
-            currIndex = isNativeMode() ? mVideoManager.getExoPlayerTrack(org.jellyfin.sdk.model.api.MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams()) :
-                    mVideoManager.getVLCAudioTrack(getCurrentlyPlayingItem().getMediaStreams());
+            currIndex = mVideoManager.getExoPlayerTrack(org.jellyfin.sdk.model.api.MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams());
         }
         return currIndex;
     }
@@ -893,20 +729,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // get current timestamp first
         refreshCurrentPosition();
 
-        if (isNativeMode() && !isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams())) {
+        if (!isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams())) {
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
-        } else if (!isNativeMode() && !isTranscoding() && mVideoManager.setVLCAudioTrack(index, getCurrentlyPlayingItem().getMediaStreams()) == index) {
-            // if setAudioTrack succeeded it will return the requested index
-            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-            mCurrentOptions.setAudioStreamIndex(index);
-            mVideoManager.setAudioMode();
         } else {
             startSpinner();
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
             stop();
-            playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions, mCurrentOptions);
+            playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
         }
     }
@@ -964,24 +795,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         switch (streamInfo.getDeliveryMethod()) {
             case Embed:
-                if (!mVideoManager.isNativeMode()) {
-                    if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
-                        // error selecting internal subs
-                        if (mFragment != null)
-                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-                    } else {
-                        mCurrentOptions.setSubtitleStreamIndex(index);
-                        mDefaultSubIndex = index;
-                    }
+                if (!mVideoManager.setExoPlayerTrack(index, MediaStreamType.SUBTITLE, getCurrentlyPlayingItem().getMediaStreams())) {
+                    // error selecting internal subs
+                    if (mFragment != null)
+                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
                 } else {
-                    if (!mVideoManager.setExoPlayerTrack(index, MediaStreamType.SUBTITLE, getCurrentlyPlayingItem().getMediaStreams())) {
-                        // error selecting internal subs
-                        if (mFragment != null)
-                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-                    } else {
-                        mCurrentOptions.setSubtitleStreamIndex(index);
-                        mDefaultSubIndex = index;
-                    }
+                    mCurrentOptions.setSubtitleStreamIndex(index);
+                    mDefaultSubIndex = index;
                 }
                 break;
             case External:
@@ -1103,7 +923,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void resetPlayerErrors() {
-        vlcErrorEncountered = false;
         exoErrorEncountered = false;
     }
 
@@ -1114,8 +933,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         finishedInitialSeek = false;
         wasSeeking = false;
         burningSubs = false;
-        if (mVideoManager != null)
-            mVideoManager.setMetaVLCStreamStartPosition(-1);
     }
 
     public void next() {
@@ -1177,17 +994,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
 
-        // rebuild the stream for libVLC
+        // rebuild the stream
         // if an older device uses exoplayer to play a transcoded stream but falls back to the generic http stream instead of hls, rebuild the stream
         if (!mVideoManager.isSeekable()) {
             Timber.d("Seek method - rebuilding the stream");
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
             mPlaybackState = PlaybackState.BUFFERING;
-
-            // this value should only NOT be -1 if vlc is being used for transcoding
-            if (!isNativeMode())
-                mVideoManager.setMetaVLCStreamStartPosition(pos);
 
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, api.getValue().getDeviceInfo(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
@@ -1214,7 +1027,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
             // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
             // if seek() is called from skip()
-            Timber.d("Seek method - native");
             mPlaybackState = PlaybackState.SEEKING;
             if (mVideoManager.seekTo(pos) < 0) {
                 if (mFragment != null)
@@ -1481,7 +1293,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 updateTvProgramInfo();
             }
             if (mFragment != null && finishedInitialSeek)
-                mFragment.updateSubtitles(mCurrentPosition - getSubtitleDelay());
+                mFragment.updateSubtitles(mCurrentPosition);
         }
         if (mFragment != null)
             mFragment.setCurrentTime(mCurrentPosition);
