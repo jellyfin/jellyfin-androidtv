@@ -30,11 +30,9 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
-import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -42,8 +40,6 @@ import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.sdk.model.DeviceInfo;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,13 +62,9 @@ public class LegacyMediaManager implements MediaManager {
     private StreamInfo mCurrentAudioStreamInfo;
     private long mCurrentAudioPosition;
 
-    private LibVLC mLibVLC;
-    private org.videolan.libvlc.MediaPlayer mVlcPlayer;
-    private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private ExoPlayer mExoPlayer;
     private AudioManager mAudioManager;
     private boolean audioInitialized = false;
-    private boolean nativeMode = false;
 
     private List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
@@ -115,7 +107,7 @@ public class LegacyMediaManager implements MediaManager {
 
     @Override
     public boolean isAudioPlayerInitialized() {
-        return audioInitialized && (nativeMode ? mExoPlayer != null : mVlcPlayer != null);
+        return audioInitialized && mExoPlayer != null;
     }
 
     @Override
@@ -183,13 +175,13 @@ public class LegacyMediaManager implements MediaManager {
             return false;
         }
 
-        return createPlayer(context, 600);
+        return createPlayer(context);
     }
 
     private boolean isPaused() {
         // report true if player is null
         // allows remote tvApiEventListener to call playPauseAudio() and start playback if playback is stopped
-        return nativeMode ? (mExoPlayer != null ? !mExoPlayer.isPlaying() : true) : (mVlcPlayer != null ? !mVlcPlayer.isPlaying() : true);
+        return mExoPlayer != null ? !mExoPlayer.isPlaying() : true;
     }
 
     private void reportProgress() {
@@ -201,7 +193,7 @@ public class LegacyMediaManager implements MediaManager {
         if (System.currentTimeMillis() < lastProgressEvent + 750) return;
         lastProgressEvent = System.currentTimeMillis();
 
-        mCurrentAudioPosition = nativeMode ? mExoPlayer.getCurrentPosition() : mVlcPlayer.getTime();
+        mCurrentAudioPosition = mExoPlayer.getCurrentPosition();
 
         // until MediaSessions are used to handle playback interruptions that won't be caught by the player, catch them with a timeout
         if (mCurrentAudioPosition != lastReportedPlaybackPosition || lastUniqueProgressEvent == -1) {
@@ -240,96 +232,43 @@ public class LegacyMediaManager implements MediaManager {
 
     private void releasePlayer() {
         Timber.d("releasing audio player");
-        if (mVlcPlayer != null) {
-            mVlcPlayer.setEventListener(null);
-            mVlcPlayer.release();
-            mLibVLC.release();
-            mLibVLC = null;
-            mVlcPlayer = null;
-        }
         if (mExoPlayer != null) {
             mExoPlayer.release();
             mExoPlayer = null;
         }
     }
 
-    private boolean createPlayer(Context context, int buffer) {
+    private boolean createPlayer(Context context) {
         try {
             // Create a new media player based on platform
-            if (DeviceUtils.is60()) {
-                Timber.i("creating audio player using: exoplayer");
-                nativeMode = true;
+            Timber.i("creating audio player");
 
-                ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
-                DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
-                defaultRendererFactory.setEnableDecoderFallback(true);
-                defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
-                exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-                mExoPlayer = exoPlayerBuilder.build();
-                mExoPlayer.addListener(new Player.Listener() {
-                    @Override
-                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                        if (playbackState == Player.STATE_READY) {
-                            startProgressLoop();
-                        } else if (playbackState == Player.STATE_ENDED) {
-                            onComplete();
-                            stopProgressLoop();
-                        } else if (playbackState == Player.STATE_IDLE) {
-                            stopProgressLoop();
-                        }
-                    }
-                    @Override
-                    public void onPlayerError(PlaybackException error) {
-                        Timber.d("player error!");
-                        stopAudio(true);
-                    }
-                });
-            } else {
-                Timber.i("creating audio player using: libVLC");
-                ArrayList<String> options = new ArrayList<>(20);
-                options.add("--network-caching=" + buffer);
-                options.add("--no-audio-time-stretch");
-                options.add("-v");
-
-                mLibVLC = new LibVLC(context, options);
-
-                mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-                if(!Utils.downMixAudio(context)) {
-                    mVlcPlayer.setAudioDigitalOutputEnabled(true);
-                } else {
-                    mVlcPlayer.setAudioOutput("opensles_android");
-                    mVlcPlayer.setAudioOutputDevice("hdmi");
-                }
-
-                mVlcHandler.setOnPreparedListener(new PlaybackListener() {
-                    @Override
-                    public void onEvent() {
-                        Timber.i("libVLC onPrepared - starting progress loop");
+            ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
+            DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
+            defaultRendererFactory.setEnableDecoderFallback(true);
+            defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+            exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+            mExoPlayer = exoPlayerBuilder.build();
+            mExoPlayer.addListener(new Player.Listener() {
+                @Override
+                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                    if (playbackState == Player.STATE_READY) {
                         startProgressLoop();
-                    }
-                });
-
-                mVlcHandler.setOnProgressListener(new PlaybackListener() {
-                    @Override
-                    public void onEvent() {
-                        if (!isPlayingAudio()) {
-                            stopProgressLoop();
-                        }
-                    }
-                });
-
-                mVlcHandler.setOnCompletionListener(new PlaybackListener() {
-                    @Override
-                    public void onEvent() {
+                    } else if (playbackState == Player.STATE_ENDED) {
                         onComplete();
+                        stopProgressLoop();
+                    } else if (playbackState == Player.STATE_IDLE) {
+                        stopProgressLoop();
                     }
-                });
-
-                mVlcPlayer.setEventListener(mVlcHandler);
-
-            }
+                }
+                @Override
+                public void onPlayerError(PlaybackException error) {
+                    Timber.d("player error!");
+                    stopAudio(true);
+                }
+            });
         } catch (Exception e) {
-            Timber.e(e, "Error creating VLC player");
+            Timber.e(e, "Error creating player");
             Utils.showToast(context, context.getString(R.string.msg_video_playback_error));
             return false;
         }
@@ -497,7 +436,7 @@ public class LegacyMediaManager implements MediaManager {
     }
 
     @Override
-    public boolean isPlayingAudio() { return isAudioPlayerInitialized() && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
+    public boolean isPlayingAudio() { return isAudioPlayerInitialized() && mExoPlayer.isPlaying(); }
 
     private boolean ensureInitialized() {
         if (!audioInitialized || !isAudioPlayerInitialized()) {
@@ -603,12 +542,7 @@ public class LegacyMediaManager implements MediaManager {
         Integer maxBitrate = Utils.getMaxBitrate();
         if (maxBitrate != null) options.setMaxBitrate(maxBitrate);
         options.setMediaSources(item.getMediaSources());
-        DeviceProfile profile;
-        if (DeviceUtils.is60()) {
-            profile = new ExoPlayerProfile(context, false, false);
-        } else {
-            profile = new LibVlcProfile(context, false);
-        }
+        DeviceProfile profile = new ExoPlayerProfile(context, false, false);
         options.setProfile(profile);
 
         DeviceInfo deviceInfo = KoinJavaComponent.<org.jellyfin.sdk.api.client.ApiClient>get(org.jellyfin.sdk.api.client.ApiClient.class).getDeviceInfo();
@@ -619,24 +553,15 @@ public class LegacyMediaManager implements MediaManager {
                 mCurrentAudioStreamInfo = response;
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
-                if (nativeMode) {
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, "ATV/ExoPlayer");
 
-                    mExoPlayer.setPlayWhenReady(true);
-                    Uri mediaUri = Uri.parse(response.toUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
-                    MediaItem source = new MediaItem.Builder().setUri(mediaUri).build();
-                    mExoPlayer.setMediaSource(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(source));
-                    mExoPlayer.prepare();
-                } else {
-                    Timber.i("Playback attempt via VLC of %s", response.getMediaUrl());
-                    Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
-                    media.parse();
-                    mVlcPlayer.setMedia(media);
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, "ATV/ExoPlayer");
 
-                    media.release();
-                    mVlcPlayer.play();
+                mExoPlayer.setPlayWhenReady(true);
+                Uri mediaUri = Uri.parse(response.toUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                MediaItem source = new MediaItem.Builder().setUri(mediaUri).build();
+                mExoPlayer.setMediaSource(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(source));
+                mExoPlayer.prepare();
 
-                }
                 if (mCurrentAudioQueuePosition == 0) {
                     //we just started or repeated - re-create managed queue
                     createManagedAudioQueue();
@@ -804,8 +729,7 @@ public class LegacyMediaManager implements MediaManager {
         if (mCurrentAudioQueue == null || (!mRepeat && mCurrentAudioQueue.size() == 0)) return -1;
         if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
             //just back up to the beginning of current item
-            if (nativeMode) mExoPlayer.seekTo(0);
-            else mVlcPlayer.setTime(0);
+            mExoPlayer.seekTo(0);
             return mCurrentAudioQueuePosition;
         }
 
@@ -825,8 +749,7 @@ public class LegacyMediaManager implements MediaManager {
 
     private void stop() {
         if (!isAudioPlayerInitialized()) return ;
-        if (nativeMode) mExoPlayer.stop();
-        else mVlcPlayer.stop();
+        mExoPlayer.stop();
     }
 
     @Override
@@ -850,8 +773,7 @@ public class LegacyMediaManager implements MediaManager {
 
     private void pause() {
         if (!isAudioPlayerInitialized()) return;
-        if (nativeMode) mExoPlayer.setPlayWhenReady(false);
-        else mVlcPlayer.pause();
+        mExoPlayer.setPlayWhenReady(false);
     }
 
     @Override
@@ -880,8 +802,7 @@ public class LegacyMediaManager implements MediaManager {
     public void resumeAudio() {
         if (mCurrentAudioItem != null && isAudioPlayerInitialized()) {
             ensureAudioFocus();
-            if (nativeMode) mExoPlayer.setPlayWhenReady(true);
-            else mVlcPlayer.play();
+            mExoPlayer.setPlayWhenReady(true);
             updateCurrentAudioItemPlaying(true);
             lastProgressReport = System.currentTimeMillis();
             ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000, false);
@@ -906,18 +827,10 @@ public class LegacyMediaManager implements MediaManager {
 
     private void seek(int offset) {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
-            if (nativeMode) {
-                Timber.d("Fast forward %d with ExoPlayer", offset);
-                if (mExoPlayer.isCurrentMediaItemSeekable()) {
-                    mCurrentAudioPosition = Utils.getSafeSeekPosition(mExoPlayer.getCurrentPosition() + offset, mExoPlayer.getDuration());
-                    mExoPlayer.seekTo(mCurrentAudioPosition);
-                }
-            } else {
-                Timber.d("Fast forward %d with VLC Player", offset);
-                if (mVlcPlayer.isSeekable()) {
-                    mCurrentAudioPosition = Utils.getSafeSeekPosition(mVlcPlayer.getTime() + offset, mVlcPlayer.getLength());
-                    mVlcPlayer.setTime(mCurrentAudioPosition);
-                }
+            Timber.d("Fast forward %d", offset);
+            if (mExoPlayer.isCurrentMediaItemSeekable()) {
+                mCurrentAudioPosition = Utils.getSafeSeekPosition(mExoPlayer.getCurrentPosition() + offset, mExoPlayer.getDuration());
+                mExoPlayer.seekTo(mCurrentAudioPosition);
             }
         }
     }
