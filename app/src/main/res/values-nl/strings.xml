@@ -277,7 +277,7 @@
     <string name="lbl_load_guide_data">Gidsgegevens laden</string>
     <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als gekeken\?</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Eindigt om %1$s</string>
+    <string name="lbl_playback_control_ends">Afgelopen om %1$s</string>
     <string name="lbl_sign_in">Log alsjeblieft in</string>
     <string name="pref_clock_display_playback">Tijdens afspelen</string>
     <string name="pref_clock_display_browsing">Tijdens bladeren</string>
