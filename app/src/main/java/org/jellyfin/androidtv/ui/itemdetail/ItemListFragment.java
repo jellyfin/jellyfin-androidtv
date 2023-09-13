@@ -33,6 +33,7 @@ import org.jellyfin.androidtv.databinding.FragmentItemListBinding;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ItemListView;
+import org.jellyfin.androidtv.ui.ItemListViewHelperKt;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -156,7 +157,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
             public void onRowClicked(ItemRowView row) {
-                showMenu(row, ModelCompat.asSdk(row.getItem()).getType() != BaseItemKind.AUDIO);
+                showMenu(row, row.getItem().getType() != BaseItemKind.AUDIO);
             }
         });
 
@@ -221,7 +222,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                     public void run() {
                         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-                        mItemList.refresh();
+                        ItemListViewHelperKt.refresh(mItemList);
                         lastUpdated = Calendar.getInstance();
 
                     }
@@ -273,7 +274,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             open.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, requireContext());
+                    ItemLauncher.launch(new BaseRowItem(row.getItem()), null, 0, requireContext());
                     return true;
                 }
             });
@@ -295,15 +296,15 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 return true;
             }
         });
-        if (ModelCompat.asSdk(row.getItem()).getType() == BaseItemKind.AUDIO) {
+        if (row.getItem().getType() == BaseItemKind.AUDIO) {
             MenuItem queue = menu.getMenu().add(0, 2, order++, R.string.lbl_add_to_queue);
             queue.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                    if (playbackLauncher.interceptPlayRequest(requireContext(), ModelCompat.asSdk(row.getItem()))) return true;
+                    if (playbackLauncher.interceptPlayRequest(requireContext(), row.getItem())) return true;
 
-                    mediaManager.getValue().queueAudioItem(ModelCompat.asSdk(row.getItem()));
+                    mediaManager.getValue().queueAudioItem(row.getItem());
                     return true;
                 }
             });
@@ -312,7 +313,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    PlaybackHelper.playInstantMix(requireContext(), ModelCompat.asSdk(row.getItem()));
+                    PlaybackHelper.playInstantMix(requireContext(), row.getItem());
                     return true;
                 }
             });
@@ -417,7 +418,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 mItems = new ArrayList<>();
                 int i = 0;
                 for (BaseItemDto item : response.getItems()) {
-                    mItemList.addItem(item, i++);
+                    mItemList.addItem(ModelCompat.asSdk(item), i++);
                     mItems.add(item);
                 }
                 if (mediaManager.getValue().isPlayingAudio()) {
