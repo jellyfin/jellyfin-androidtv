@@ -34,7 +34,7 @@
     <string name="lbl_movies">Movies</string>
     <string name="lbl_tv_series">TV series</string>
     <string name="lbl_other">Other</string>
-    <string name="lbl_because_you_watched">"Because you watched "</string>
+    <string name="because_you_watched">Because you watched %1$s</string>
     <string name="lbl_play_all">Play all</string>
     <string name="lbl_shuffle_all">Shuffle all</string>
     <string name="lbl_play">Play</string>
