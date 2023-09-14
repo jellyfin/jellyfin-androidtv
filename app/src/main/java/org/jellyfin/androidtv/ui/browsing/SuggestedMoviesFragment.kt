@@ -53,7 +53,7 @@ class SuggestedMoviesFragment : EnhancedBrowseFragment() {
 					ItemFields.MediaSources
 				)
 				similar.limit = 7
-				mRows.add(BrowseRowDef(getString(R.string.lbl_because_you_watched) + item.name, similar, QueryType.SimilarMovies))
+				mRows.add(BrowseRowDef(getString(R.string.because_you_watched, item.name), similar, QueryType.SimilarMovies))
 			}
 
 			rowLoader.loadRows(mRows)
