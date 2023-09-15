@@ -27,7 +27,6 @@
     <string name="lbl_movies">Films</string>
     <string name="lbl_tv_series">Tv-series</string>
     <string name="lbl_other">Overig</string>
-    <string name="lbl_because_you_watched">"Omdat je keek naar "</string>
     <string name="lbl_play_all">Alles afspelen</string>
     <string name="lbl_shuffle_all">Alles willekeurig afspelen</string>
     <string name="lbl_play">Afspelen</string>

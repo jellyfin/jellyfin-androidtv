@@ -65,7 +65,6 @@
     <string name="lbl_cancel">Mégse</string>
     <string name="lbl_play">Lejátszás</string>
     <string name="lbl_play_all">Összes lejátszása</string>
-    <string name="lbl_because_you_watched">"Amiért megnézted ezt: {0} "</string>
     <string name="lbl_other">Egyéb</string>
     <string name="lbl_tv_series">Sorozatok</string>
     <string name="lbl_movies">Filmek</string>

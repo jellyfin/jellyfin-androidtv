@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmy</string>
     <string name="lbl_tv_series">Seriály</string>
     <string name="lbl_other">Další</string>
-    <string name="lbl_because_you_watched">"Protože jste sledovali "</string>
     <string name="lbl_play_all">Přehrát vše</string>
     <string name="lbl_shuffle_all">Náhodně</string>
     <string name="lbl_play">Přehrát</string>

@@ -31,7 +31,6 @@
     <string name="lbl_movies">సినిమాలు</string>
     <string name="lbl_tv_series">టీవీ సీరియల్</string>
     <string name="lbl_other">ఇతర</string>
-    <string name="lbl_because_you_watched">"ఎందుకంటే మీరు చూశారు "</string>
     <string name="lbl_play_all">అన్నింటినీ Play చేయండి</string>
     <string name="lbl_shuffle_all">అన్నీ షఫుల్ చేయండి</string>
     <string name="lbl_play">ప్లే</string>

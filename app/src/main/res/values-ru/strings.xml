@@ -28,7 +28,6 @@
     <string name="lbl_movies">Фильмы</string>
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
-    <string name="lbl_because_you_watched">"Потому что вы смотрели "</string>
     <string name="lbl_play_all">Воспроизвести все</string>
     <string name="lbl_shuffle_all">Перемешать все</string>
     <string name="lbl_play">Воспроизвести</string>

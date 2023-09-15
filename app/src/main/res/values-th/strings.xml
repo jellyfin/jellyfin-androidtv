@@ -43,7 +43,6 @@
     <string name="lbl_play">เล่น</string>
     <string name="lbl_shuffle_all">เล่นแบบสุ่มทั้งหมด</string>
     <string name="lbl_play_all">เล่นทั้งหมด</string>
-    <string name="lbl_because_you_watched">"เพราะว่าคุณดู "</string>
     <string name="lbl_other">อื่นๆ</string>
     <string name="lbl_movies">ภาพยนตร์</string>
     <string name="lbl_other_channels">ช่องอื่นๆ</string>

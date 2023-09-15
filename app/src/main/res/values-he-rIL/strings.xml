@@ -23,7 +23,6 @@
     <string name="lbl_series">סדרות</string>
     <string name="lbl_watched">נצפה</string>
     <string name="lbl_cancel">בטל</string>
-    <string name="lbl_because_you_watched">"בגלל שצפית "</string>
     <string name="lbl_item">פריטים</string>
     <string name="lbl_collections">אוספים</string>
     <string name="lbl_by_name">לפי שם</string>

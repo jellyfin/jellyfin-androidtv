@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmer</string>
     <string name="lbl_tv_series">TV-serier</string>
     <string name="lbl_other">Annet</string>
-    <string name="lbl_because_you_watched">"Fordi du så på "</string>
     <string name="lbl_play_all">Spill alle</string>
     <string name="lbl_shuffle_all">Spill av alt i tilfeldig rekkefølge</string>
     <string name="lbl_play">Spill av</string>

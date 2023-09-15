@@ -6,7 +6,6 @@
     <string name="lbl_play">Esita</string>
     <string name="lbl_shuffle_all">Juhustage Kõik</string>
     <string name="lbl_play_all">Esita kõik</string>
-    <string name="lbl_because_you_watched">"Sest sa vaatasid "</string>
     <string name="lbl_other">Muud</string>
     <string name="lbl_tv_series">Telesarjad</string>
     <string name="lbl_movies">Filmid</string>

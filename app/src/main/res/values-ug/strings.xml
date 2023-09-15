@@ -3,7 +3,6 @@
     <string name="lbl_continue_watching">داۋامىنى كۆرۈش</string>
     <string name="lbl_latest">يېقىندا قويۇلغانلىرى</string>
     <string name="lbl_by_name">ئىسىم تەرتىپى</string>
-    <string name="lbl_because_you_watched">"چۈنكى سىز كۆرۈپ بولغان "</string>
     <string name="lbl_cancel_series">ھەممە سىنغا ئېلىشنى بىكار قىلىش</string>
     <string name="msg_set_to_record">سىنغا ئېلىش پروگراممىسى</string>
     <string name="video_error_unknown_error">يۈكلىنىش مەغلۇب بولدى</string>

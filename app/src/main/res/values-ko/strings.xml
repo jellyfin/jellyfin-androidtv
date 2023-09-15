@@ -21,7 +21,6 @@
     <string name="lbl_collections">컬렉션</string>
     <string name="lbl_movies">영화</string>
     <string name="lbl_tv_series">TV 시리즈</string>
-    <string name="lbl_because_you_watched">"시청했기 때문에 "</string>
     <string name="lbl_play_all">모두 재생</string>
     <string name="lbl_shuffle_all">모두 셔플</string>
     <string name="lbl_play">재생</string>
