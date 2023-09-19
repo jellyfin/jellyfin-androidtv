@@ -222,7 +222,7 @@ class ServerFragment : Fragment() {
 			holder.cardView.title = user.name
 			holder.cardView.setImage(
 				url = startupViewModel.getUserImage(server, user),
-				placeholder = ContextCompat.getDrawable(context, R.drawable.tile_port_user)
+				placeholder = ContextCompat.getDrawable(context, R.drawable.tile_user)
 			)
 			holder.cardView.setPopupMenu {
 				// Logout button
