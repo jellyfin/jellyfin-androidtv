@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
@@ -16,7 +17,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -27,10 +27,9 @@ import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
-import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
@@ -170,7 +169,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                markPlayed(mItemsToPlay.get(mCurrentNdx).getId().toString());
+                                ExternalPlayerActivityHelperKt.markPlayed(ExternalPlayerActivity.this, mItemsToPlay.get(mCurrentNdx).getId());
                                 playNext();
                             }
                         })
@@ -187,7 +186,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         })
                         .show();
             } else {
-                markPlayed(mItemsToPlay.get(mCurrentNdx).getId().toString());
+                ExternalPlayerActivityHelperKt.markPlayed(ExternalPlayerActivity.this, mItemsToPlay.get(mCurrentNdx).getId());
                 playNext();
             }
 
@@ -252,10 +251,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
         }
     }
 
-    protected void markPlayed(String itemId) {
-        apiClient.getValue().MarkPlayedAsync(itemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<UserItemDataDto>());
-    }
-
     protected void playNext() {
         mItemsToPlay.remove(0);
         if (mItemsToPlay.size() > 0) {
@@ -286,7 +281,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         options.setProfile(new ExternalPlayerProfile());
 
         // Get playback info for each player and then decide on which one to use
-        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, JavaCompat.getResumePositionTicks(item), apiClient.getValue(), new Response<StreamInfo>() {
+        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, JavaCompat.getResumePositionTicks(item), get(org.jellyfin.apiclient.interaction.ApiClient.class), new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentStreamInfo = response;
@@ -399,7 +394,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private void adaptExternalSubtitles(StreamInfo mediaStreamInfo, Intent playerIntent) {
 
         List<SubtitleStreamInfo> externalSubs = mediaStreamInfo.getSubtitleProfiles(false,
-                        apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken()).stream()
+                        apiClient.getValue().getBaseUrl(), apiClient.getValue().getAccessToken()).stream()
                 .filter(stream -> stream.getDeliveryMethod() == SubtitleDeliveryMethod.External && stream.getUrl() != null)
                 .collect(Collectors.toList());
 
