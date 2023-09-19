@@ -125,9 +125,10 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_watch"
                 android:contentDescription="@null"
-                android:visibility="invisible"/>
+                android:src="@drawable/ic_watch"
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
         </FrameLayout>
 
