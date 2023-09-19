@@ -60,6 +60,8 @@ class BackgroundService(
 				imageType = ImageType.BACKDROP,
 				tag = tag,
 				imageIndex = index,
+				fillWidth = context.resources.displayMetrics.widthPixels,
+				fillHeight = context.resources.displayMetrics.heightPixels,
 			)
 		}
 	}
