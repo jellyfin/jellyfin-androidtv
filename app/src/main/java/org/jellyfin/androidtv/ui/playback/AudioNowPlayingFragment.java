@@ -322,7 +322,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
         int posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 150) : Utils.convertDpToPixel(requireActivity(), 250);
 
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, false, posterHeight);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, false, null, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
     }

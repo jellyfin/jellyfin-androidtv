@@ -15,8 +15,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ItemRowBinding;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.constant.MediaType;
 
 public class ItemRowView extends FrameLayout {
@@ -91,8 +90,8 @@ public class ItemRowView extends FrameLayout {
         mBaseItem = item;
         ourIndex = ndx + 1;
         mIndexNo.setText(Integer.toString(ourIndex));
-        switch (item.getBaseItemType()) {
-            case Audio:
+        switch (item.getType()) {
+            case AUDIO:
                 mItemName.setText(item.getName());
                 String artist = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : !TextUtils.isEmpty(item.getAlbumArtist()) ? item.getAlbumArtist() : null;
                 if (!TextUtils.isEmpty(artist)) {
@@ -102,7 +101,7 @@ public class ItemRowView extends FrameLayout {
                 }
                 break;
             default:
-                String series = item.getSeriesName() != null ? BaseItemExtensionsKt.getFullName(ModelCompat.asSdk(item), mContext) : null;
+                String series = item.getSeriesName() != null ? BaseItemExtensionsKt.getFullName(item, mContext) : null;
                 if (!TextUtils.isEmpty(series)) {
                     mItemName.setText(series);
                     mExtraName.setText(item.getName());

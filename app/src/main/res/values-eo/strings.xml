@@ -243,7 +243,6 @@
     <string name="lbl_tune_to_channel">Ŝanĝi al kanalo</string>
     <string name="msg_no_playable_items">Neniuj ludeblaj aĵoj</string>
     <string name="lbl_play_first_unwatched">Ludi Unue Nespektiton</string>
-    <string name="lbl_because_you_watched">"Ĉar vi spektis "</string>
     <string name="pref_max_bitrate_title">Maksimuma elsendflua bitrapido</string>
     <string name="advanced_settings">Aldone</string>
     <string name="lbl_next_up_minimal">Sen avizo</string>

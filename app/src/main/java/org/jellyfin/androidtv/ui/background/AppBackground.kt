@@ -7,7 +7,7 @@ import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -69,7 +69,7 @@ fun AppBackground() {
 		targetState = currentBackground,
 		transitionSpec = {
 			val duration = (BackgroundService.TRANSITION_DURATION.inWholeMilliseconds / 2).toInt()
-			fadeIn(tween(durationMillis = duration)) with fadeOut(snap(delayMillis = duration))
+			fadeIn(tween(durationMillis = duration)) togetherWith fadeOut(snap(delayMillis = duration))
 		},
 		label = "BackgroundTransition",
 	) { background ->

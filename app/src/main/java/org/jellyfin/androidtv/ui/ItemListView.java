@@ -7,23 +7,17 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import org.jellyfin.androidtv.auth.repository.UserRepository;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.databinding.ItemListBinding;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.koin.java.KoinJavaComponent;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemListView extends FrameLayout {
     Context mContext;
     LinearLayout mList;
-    List<String> mItemIds = new ArrayList<>();
+    List<UUID> mItemIds = new ArrayList<>();
     ItemRowView.RowSelectedListener mRowSelectedListener;
     ItemRowView.RowClickedListener mRowClickedListener;
 
@@ -75,33 +69,5 @@ public class ItemListView extends FrameLayout {
             }
         }
         return ret;
-    }
-
-    public void refresh() {
-        //update watched state for all items
-        //get them in batch for better performance
-        StdItemQuery query = new StdItemQuery(new ItemFields[] {
-                ItemFields.MediaSources,
-                ItemFields.ChildCount
-        });
-        query.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        String[] ids = new String[mItemIds.size()];
-        query.setIds(mItemIds.toArray(ids));
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null) {
-                    int i = 0;
-                    for (BaseItemDto item : response.getItems()) {
-                        // we have title view as first one
-                        View view = mList.getChildAt(i + 1);
-                        if (view instanceof ItemRowView) {
-                            ItemRowView row = (ItemRowView) view;
-                            row.setItem(item, i++);
-                        }
-                    }
-                }
-            }
-        });
     }
 }

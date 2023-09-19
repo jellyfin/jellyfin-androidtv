@@ -57,7 +57,7 @@ class ImageHelper(
 		)
 	}
 
-	fun getPrimaryImageUrl(item: BaseItemDto, preferParentThumb: Boolean, maxHeight: Int): String {
+	fun getPrimaryImageUrl(item: BaseItemDto, preferParentThumb: Boolean, fillWidth: Int? = null, fillHeight: Int? = null): String {
 		var itemId = item.id
 		var imageTag = item.imageTags?.get(ImageType.PRIMARY)
 		var imageType = ImageType.PRIMARY
@@ -94,7 +94,8 @@ class ImageHelper(
 			itemId = itemId,
 			imageType = imageType,
 			tag = imageTag,
-			maxHeight = maxHeight,
+			fillWidth = fillWidth,
+			fillHeight = fillHeight,
 		)
 	}
 

@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
@@ -217,8 +216,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 .setNegativeButton(R.string.turn_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.AUTO);
-                        userPreferences.getValue().set(UserPreferences.Companion.getLiveTvVideoPlayer(), PreferredVideoPlayer.AUTO);
+                        userPreferences.getValue().reset(UserPreferences.Companion.getVideoPlayer());
+                        userPreferences.getValue().reset(UserPreferences.Companion.getLiveTvVideoPlayer());
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {

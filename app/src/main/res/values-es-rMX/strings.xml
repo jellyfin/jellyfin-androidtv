@@ -27,7 +27,6 @@
     <string name="lbl_movies">Películas</string>
     <string name="lbl_tv_series">Series de TV</string>
     <string name="lbl_other">Otro</string>
-    <string name="lbl_because_you_watched">"Porque viste "</string>
     <string name="lbl_play_all">Reproducir todos</string>
     <string name="lbl_shuffle_all">Mezclar todos</string>
     <string name="lbl_play">Reproducir</string>

@@ -47,9 +47,6 @@
         <item name="inputRounding">3dp</item>
         <item name="popupMenuRounding">3dp</item>
 
-        <!-- Watched Indicator Shape -->
-        <item name="accentShape">@drawable/circle_accent</item>
-
         <!-- Dim level of non-focus grid items -->
         <item name="overlayDimDimmedLevel">30%</item>
 

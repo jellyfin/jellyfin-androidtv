@@ -18,7 +18,6 @@
     <string name="lbl_play">Відтворити</string>
     <string name="lbl_shuffle_all">Перемішати усе</string>
     <string name="lbl_play_all">Відтворити усі</string>
-    <string name="lbl_because_you_watched">"На основі ваших переглядів "</string>
     <string name="lbl_other">Інше</string>
     <string name="lbl_movies">Фільми</string>
     <string name="lbl_collections">Колекції</string>
@@ -524,4 +523,5 @@
     <string name="disable_ui_mode_warning">Вимкнути попередження про тип пристрою</string>
     <string name="pref_music_cat">Музика</string>
     <string name="pref_music_rewrite_enable_description">Вимикайте цю опцію, лише якщо у вас виникають проблеми з відтворенням музики</string>
+    <string name="because_you_watched">Тому що ви дивилися %1$s</string>
 </resources>

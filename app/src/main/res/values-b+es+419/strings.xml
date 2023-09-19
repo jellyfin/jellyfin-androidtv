@@ -51,7 +51,6 @@
     <string name="lbl_movies">Películas</string>
     <string name="lbl_tv_series">Series de TV</string>
     <string name="lbl_other">Otro</string>
-    <string name="lbl_because_you_watched">"Porque viste "</string>
     <string name="lbl_play">Reproducir</string>
     <string name="lbl_cancel">Cancelar</string>
     <string name="lbl_record">Grabar</string>

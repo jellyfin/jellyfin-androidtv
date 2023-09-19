@@ -27,7 +27,6 @@
     <string name="lbl_movies">Films</string>
     <string name="lbl_tv_series">Tv-series</string>
     <string name="lbl_other">Overig</string>
-    <string name="lbl_because_you_watched">"Omdat je keek naar "</string>
     <string name="lbl_play_all">Alles afspelen</string>
     <string name="lbl_shuffle_all">Alles willekeurig afspelen</string>
     <string name="lbl_play">Afspelen</string>
@@ -51,7 +50,7 @@
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duur</string>
     <string name="lbl_min">" min"</string>
-    <string name="lbl_ends">Einde</string>
+    <string name="lbl_ends">Afgelopen</string>
     <string name="lbl_directed_by">Regie</string>
     <string name="lbl_last_played">"Laatst afgespeeld: "</string>
     <string name="lbl_other_options">Andere opties</string>
@@ -277,7 +276,7 @@
     <string name="lbl_load_guide_data">Gidsgegevens laden</string>
     <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als gekeken\?</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Eindigt om %1$s</string>
+    <string name="lbl_playback_control_ends">Afgelopen om %1$s</string>
     <string name="lbl_sign_in">Log alsjeblieft in</string>
     <string name="pref_clock_display_playback">Tijdens afspelen</string>
     <string name="pref_clock_display_browsing">Tijdens bladeren</string>
@@ -514,4 +513,5 @@
     <string name="pref_music_rewrite_disable">Nieuwe muziek-backend uitschakelen</string>
     <string name="pref_music_rewrite_enable_description">Schakel dit uit als je problemen ondervindt tijdens het afspelen van muziek</string>
     <string name="disable_ui_mode_warning">Waarschuwing voor apparaattype uitschakelen</string>
+    <string name="because_you_watched">Omdat je %1$s hebt gekeken</string>
 </resources>

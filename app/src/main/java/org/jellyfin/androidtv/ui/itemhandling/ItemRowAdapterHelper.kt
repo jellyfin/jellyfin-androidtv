@@ -7,6 +7,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import timber.log.Timber
+import kotlin.math.min
 
 fun <T : Any> ItemRowAdapter.setItems(
 	items: Array<T>,
@@ -27,7 +28,7 @@ fun <T : Any> ItemRowAdapter.setItems(
 		mappedItems.forEach { add(it) }
 
 		// Add current items after loaded items
-		repeat(size() - itemsLoaded - mappedItems.size) {
+		repeat(min(totalItems, size()) - itemsLoaded - mappedItems.size) {
 			add(this@setItems.get(it + itemsLoaded + mappedItems.size))
 		}
 	}

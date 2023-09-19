@@ -23,7 +23,10 @@ fun jellyfinPlugin(
 		transcodingProfiles = emptyList(),
 		xmlRootAttributes = emptyList(),
 	)
-	provide(AudioMediaStreamResolver(api, profile))
+	provide(AudioMediaStreamResolver(api, profile).apply {
+		// TODO: Remove once we have a proper device profile
+		forceDirectPlay = true
+	})
 
 	val playSessionService = PlaySessionService(api)
 	provide(playSessionService)

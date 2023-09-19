@@ -19,7 +19,7 @@ abstract class JellyfinStreamResolver(
 
 	protected suspend fun getPlaybackInfo(
 		item: BaseItemDto,
-		mediaSource: MediaSourceInfo?=null,
+		mediaSource: MediaSourceInfo? = null,
 	): MediaInfo {
 		val response by api.mediaInfoApi.getPostedPlaybackInfo(
 			itemId = item.id,
@@ -42,7 +42,7 @@ abstract class JellyfinStreamResolver(
 			error("Failed to get media info for item ${item.id} source ${mediaSource?.id}: ${response.errorCode}")
 		}
 
-		val responseMediaSource = when(mediaSource){
+		val responseMediaSource = when (mediaSource) {
 			null -> response.mediaSources.firstOrNull()
 			else -> response.mediaSources.firstOrNull { it.id === mediaSource.id }
 		}

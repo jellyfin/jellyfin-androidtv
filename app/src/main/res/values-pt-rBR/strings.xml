@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmes</string>
     <string name="lbl_tv_series">Séries de TV</string>
     <string name="lbl_other">Outro</string>
-    <string name="lbl_because_you_watched">"Porque você assistiu "</string>
     <string name="lbl_play_all">Reproduzir todos</string>
     <string name="lbl_shuffle_all">Todos em aleatório</string>
     <string name="lbl_play">Reproduzir</string>
@@ -397,7 +396,7 @@
     <string name="licenses_link">Licenças</string>
     <string name="server_issue_ssl_handshake">Falha no \"SSL handshake\"</string>
     <string name="server_issue_timeout">A conexão expirou</string>
-    <string name="server_issue_outdated_version">Servidor está usando a versão %1$s, mas é necessário a versão %2$s ou superior</string>
+    <string name="server_issue_outdated_version">Versão não suportada %1$s, Por favor atualize para a versão %2$s ou superior</string>
     <string name="server_issue_unsupported_version">Servidor está usando a versão %1$s que não é mais suportada</string>
     <string name="server_issue_missing_version">Não foi possível identificar a versão do servidor</string>
     <string name="server_issue_invalid_product">O programa do servidor é incompatível</string>
@@ -443,7 +442,7 @@
     <string name="state_disabled">Desabilitado</string>
     <string name="image_size_xlarge">Extragrande</string>
     <string name="app_notification_uimode_invalid">Este aplicativo é otimizado para televisões. Recomendamos usar nosso aplicativo para dispositivos móveis em outros aparelhos.</string>
-    <string name="server_unsupported_notification">Esse servidor usa a versão %1$s do Jellyfin que não é suportada. Por favor atualize o Jellyfin para a versão %2$s para continuar usando o app.</string>
+    <string name="server_unsupported_notification">Esse servidor usa a versão %1$s do Jellyfin que não é suportada. Por favor atualize o Jellyfin para a versão %2$s ou superior para continuar usando o app.</string>
     <string name="live_tv_preferences">Opções de TV Ao Vivo</string>
     <string name="image_type_poster">Pôster</string>
     <string name="image_size_smallest">Menor</string>
@@ -515,4 +514,9 @@
     <string name="lbl_album_artists">Artistas do álbum</string>
     <string name="enable_reactive_homepage">Ativar página inicial reativa</string>
     <string name="not_set">Não definido</string>
+    <string name="pref_music_cat">Musica</string>
+    <string name="pref_music_rewrite_disable">Desativar novo backend de musicas</string>
+    <string name="pref_music_rewrite_enable_description">Apenas desative caso você esteja experenciando problemas com a reprodução de musicas</string>
+    <string name="disable_ui_mode_warning">Desativar avisos de tipo de dispositivos</string>
+    <string name="because_you_watched">Por você ter assistido %1$s</string>
 </resources>

@@ -27,7 +27,6 @@
     <string name="lbl_movies">Film</string>
     <string name="lbl_tv_series">TV serier</string>
     <string name="lbl_other">Andre</string>
-    <string name="lbl_because_you_watched">"Fordi du har set "</string>
     <string name="lbl_play_all">Afspil alle</string>
     <string name="lbl_shuffle_all">Bland alle</string>
     <string name="lbl_play">Afspil</string>

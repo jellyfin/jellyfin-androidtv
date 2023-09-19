@@ -95,7 +95,6 @@
     <string name="lbl_play">Toista</string>
     <string name="lbl_shuffle_all">Sekoita kaikki</string>
     <string name="lbl_play_all">Toista kaikki</string>
-    <string name="lbl_because_you_watched">"Koska katsoit "</string>
     <string name="lbl_other">Muut</string>
     <string name="lbl_tv_series">Sarjat</string>
     <string name="lbl_movies">Elokuvat</string>
@@ -514,4 +513,5 @@
     <string name="disable_ui_mode_warning">Älä varoita laitteen tyypistä</string>
     <string name="pref_music_rewrite_disable">Älä käytä uuttaa musiikin taustajärjestelmää</string>
     <string name="pref_music_rewrite_enable_description">Poista käytöstä vain, jos kohtaat musiikin toisto-ongelmia.</string>
+    <string name="because_you_watched">Koska katselit: %1$s</string>
 </resources>

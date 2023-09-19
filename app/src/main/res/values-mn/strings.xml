@@ -29,7 +29,6 @@
     <string name="lbl_movies">Кино</string>
     <string name="lbl_tv_series">ТВ шоу</string>
     <string name="lbl_other">Бусад</string>
-    <string name="lbl_because_you_watched">"Та үзсэн болохоор "</string>
     <string name="lbl_play_all">Бүгдийг тоглуулах</string>
     <string name="lbl_shuffle_all">Бүгдийг хутгах</string>
     <string name="lbl_play">Тоглуулах</string>

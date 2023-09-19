@@ -64,15 +64,39 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iconBackground"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/circle_background"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iconImage"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:contentDescription="@null"
+                android:layout_gravity="center"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/watchedIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/main_image"
             android:layout_alignEnd="@id/main_image"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:gravity="end"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -80,34 +104,32 @@
                 android:id="@+id/watched"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="?attr/accentShape" />
+                android:contentDescription="@null"
+                android:src="@drawable/circle_accent"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/unwatchedCount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignStart="@+id/watched"
-                android:layout_alignTop="@+id/watched"
-                android:layout_alignEnd="@+id/watched"
-                android:layout_alignBottom="@+id/watched"
-                android:gravity="center"
+                android:layout_gravity="center"
+                android:contentDescription="@string/lbl_unwatched"
                 android:textAlignment="center"
-                android:textSize="11sp"
-                android:visibility="invisible"
+                android:textSize="10sp"
+                tools:ignore="TextContrastCheck"
                 tools:text="5"
-                tools:visibility="visible" />
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/checkMark"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_alignStart="@+id/watched"
-                android:layout_alignTop="@+id/watched"
-                android:layout_alignEnd="@+id/watched"
-                android:layout_alignBottom="@+id/watched"
-                android:src="@drawable/ic_watch" />
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_watch"
+                android:contentDescription="@null"
+                android:visibility="invisible"/>
 
-        </RelativeLayout>
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/name_overlay"
@@ -117,30 +139,23 @@
             android:layout_alignEnd="@id/main_image"
             android:layout_alignBottom="@id/main_image"
             android:background="@color/black_transparent_light"
-            android:gravity="center_vertical"
             android:padding="4dp"
             android:visibility="gone"
             tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_folder" />
 
             <TextView
                 android:id="@+id/overlay_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/icon"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="25dp"
-                android:layout_toEndOf="@+id/icon"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="2dp"
+                android:layout_toStartOf="@id/overlay_count"
+                android:contentDescription="@string/lbl_name"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 tools:text="overlay text" />
 
@@ -148,11 +163,14 @@
                 android:id="@+id/overlay_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/icon"
+                android:layout_alignBottom="@id/overlay_text"
                 android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
                 android:layout_marginEnd="3dp"
+                android:alpha=".7"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
         </RelativeLayout>

@@ -55,7 +55,7 @@ class ZoomAction(
 					isChecked = playbackController.zoomMode == VideoManager.ZOOM_STRETCH
 				}
 
-				setGroupCheckable(0, true, false)
+				setGroupCheckable(0, true, true)
 			}
 
 			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }

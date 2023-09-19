@@ -93,7 +93,6 @@
     <string name="lbl_record_series">Εγγραφή σειράς</string>
     <string name="lbl_cancel_series">Ακύρωση σειράς</string>
     <string name="lbl_shuffle_all">Τυχαία προβολή</string>
-    <string name="lbl_because_you_watched">"Επειδή παρακολουθήσατε "</string>
     <string name="lbl_coming_up">Ακολουθεί</string>
     <string name="msg_not_implemented">" δεν εφαρμόζεται"</string>
     <string name="lbl_by_letter">Αλφαβητικά</string>

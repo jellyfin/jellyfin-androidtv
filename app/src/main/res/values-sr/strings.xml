@@ -69,7 +69,6 @@
     <string name="lbl_people">Особе</string>
     <string name="lbl_sd">СД</string>
     <string name="lbl_upcoming">Предстојећи</string>
-    <string name="lbl_because_you_watched">"Зато што сте гледали "</string>
     <string name="pref_authentication_cat">Аутентикација</string>
     <string name="pref_default_rating">Подразумевани тип оцене</string>
     <string name="lbl_tomatoes">Парадајзи</string>

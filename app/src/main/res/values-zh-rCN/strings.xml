@@ -26,7 +26,6 @@
     <string name="lbl_movies">电影</string>
     <string name="lbl_tv_series">电视剧</string>
     <string name="lbl_other">其它</string>
-    <string name="lbl_because_you_watched">"因为你已观看 "</string>
     <string name="lbl_play_all">全部播放</string>
     <string name="lbl_shuffle_all">随机播放</string>
     <string name="lbl_play">播放</string>
