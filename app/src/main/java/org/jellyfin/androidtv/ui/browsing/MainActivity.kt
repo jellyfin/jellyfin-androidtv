@@ -14,6 +14,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -106,6 +107,15 @@ class MainActivity : FragmentActivity() {
 		super.onPause()
 
 		screensaverViewModel.activityPaused = true
+	}
+
+	override fun onStop() {
+		super.onStop()
+
+		lifecycleScope.launch {
+			Timber.d("MainActivity stopped")
+			sessionRepository.restoreSession()
+		}
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {

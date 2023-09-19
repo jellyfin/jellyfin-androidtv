@@ -36,10 +36,14 @@ class DefaultMediaStreamState(
 			if (entry == null) {
 				setCurrent(null)
 			} else {
-				val stream = mediaStreamResolvers.firstNotNullOfOrNull { resolver -> resolver.getStream(entry) }
-				if (stream == null) Timber.e("Unable to resolve stream for entry $entry")
-
-				setCurrent(stream)
+				val streamResult = runCatching {
+					mediaStreamResolvers.firstNotNullOfOrNull { resolver -> resolver.getStream(entry) }
+				}
+				when {
+					streamResult.isFailure -> Timber.e(streamResult.exceptionOrNull(), "Media stream resolver failed for $entry")
+					streamResult.getOrNull() == null -> Timber.e("Unable to resolve stream for entry $entry")
+					else -> setCurrent(streamResult.getOrThrow())
+				}
 			}
 		}.launchIn(coroutineScope)
 
