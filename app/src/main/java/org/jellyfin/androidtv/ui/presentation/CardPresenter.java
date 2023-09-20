@@ -103,6 +103,10 @@ public class CardPresenter extends Presenter {
                     org.jellyfin.sdk.model.api.BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = false;
                     boolean showProgress = false;
+
+                    //Reset the unwatched icon
+                    mCardView.setUnwatchedCount(-1);
+
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
                     } else if (imageType.equals(ImageType.THUMB)) {

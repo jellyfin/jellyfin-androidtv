@@ -233,7 +233,7 @@ public class LegacyImageCardView extends BaseCardView {
         } else if ((showIndicator == WatchedIndicatorBehavior.ALWAYS || showIndicator == WatchedIndicatorBehavior.HIDE_UNWATCHED) && count == 0) {
             binding.checkMark.setVisibility(VISIBLE);
             binding.watchedIndicator.setVisibility(VISIBLE);
-        }
+        } else binding.watchedIndicator.setVisibility(GONE);
     }
 
     public void setProgress(int pct) {
