@@ -49,6 +49,7 @@ open class BaseRowItem protected constructor(
 	val chapterInfo: ChapterItemInfo? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
+	var preferSeriesPoster: Boolean = false,
 ) : KoinComponent {
 	// Start of constructor hell
 	@JvmOverloads
@@ -58,6 +59,7 @@ open class BaseRowItem protected constructor(
 		preferParentThumb: Boolean = false,
 		staticHeight: Boolean = false,
 		selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
+		preferSeriesPoster: Boolean = false,
 	) : this(
 		baseRowType = when (item.asSdk().type) {
 			BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
@@ -69,6 +71,7 @@ open class BaseRowItem protected constructor(
 		preferParentThumb = preferParentThumb,
 		selectAction = selectAction,
 		baseItem = item.asSdk(),
+		preferSeriesPoster = preferSeriesPoster,
 	)
 
 	@JvmOverloads
@@ -157,9 +160,16 @@ open class BaseRowItem protected constructor(
 		BaseRowType.LiveTvProgram,
 		BaseRowType.LiveTvRecording -> {
 			val apiClient = get<LegacyApiClient>()
-			when (imageType) {
-				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, fillWidth, fillHeight)
-				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, fillWidth, fillHeight)
+			val seriesId = baseItem?.seriesId
+			val seriesPrimaryImageTag = baseItem?.seriesPrimaryImageTag
+
+			when {
+				preferSeriesPoster && seriesId != null && seriesPrimaryImageTag != null -> {
+					ImageUtils.getImageUrl(seriesId.toString(), org.jellyfin.apiclient.model.entities.ImageType.Primary, seriesPrimaryImageTag)
+				}
+
+				imageType == ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, fillWidth, fillHeight)
+				imageType == ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, fillWidth, fillHeight)
 				else -> getPrimaryImageUrl(context, fillHeight)
 			}
 		}

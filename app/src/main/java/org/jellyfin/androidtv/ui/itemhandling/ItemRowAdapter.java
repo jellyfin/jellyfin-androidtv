@@ -938,7 +938,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 if (response != null && response.length > 0) {
                     setTotalItems(response.length);
 
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response, (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response, (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight(), BaseRowItemSelectAction.ShowDetails, getPreferParentThumb()));
                 } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
