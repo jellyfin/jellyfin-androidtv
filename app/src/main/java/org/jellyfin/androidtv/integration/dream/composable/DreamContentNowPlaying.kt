@@ -24,9 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -73,8 +71,9 @@ fun DreamContentNowPlaying(
 			alignment = Alignment.Center,
 			contentScale = ContentScale.Crop,
 			modifier = Modifier.fillMaxSize(),
-			colorFilter = ColorFilter.tint(Color(0f, 0f, 0f, 0.4f), BlendMode.SrcAtop)
 		)
+
+		DreamContentVignette()
 	}
 
 	// Overlay
