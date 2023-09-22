@@ -3,8 +3,8 @@
     <string name="lbl_suggested">ממולץ</string>
     <string name="lbl_by_letter">לפי אות</string>
     <string name="lbl_views">צפיות</string>
-    <string name="lbl_on_now">עכשיו</string>
-    <string name="lbl_next_up">הבא</string>
+    <string name="lbl_on_now">משודר כעת</string>
+    <string name="lbl_next_up">המידה הבא</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
     <string name="lbl_settings">הגדרות</string>
     <string name="chapters">פרקים</string>
@@ -45,11 +45,16 @@
     <string name="msg_recording_cancelled">הקלטה בוטלה</string>
     <string name="lbl_record_series">הקלט סדרה</string>
     <string name="lbl_last_played">"נוגן לאחרונה "</string>
-    <string name="lbl_latest">אחרון</string>
+    <string name="lbl_latest">נוסף לאחרונה</string>
     <string name="lbl_play_all">נגן הכל</string>
     <string name="lbl_movies">סרטים</string>
     <string name="lbl_favorite">מועדף</string>
     <string name="lbl_other">אחר</string>
     <string name="lbl_chapters">פרקים</string>
     <string name="lbl_coming_up">בקרוב</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="byletter_letters">אבגדהוזחטיכלמנסעפצקרשת</string>
+    <string name="msg_not_implemented">" לא יישם"</string>
+    <string name="state_disabled">לא פעיל</string>
+    <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
 </resources>
