@@ -14,10 +14,10 @@
     <string name="pref_media_player">Föredragen mediaspelare</string>
     <string name="pref_about_title">Om</string>
     <string name="pref_video_player_external">Extern app</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Välj automatiskt</string>
-    <string name="lbl_my_media">Min Media</string>
+    <string name="lbl_my_media">Min media</string>
     <string name="lbl_image_size">Bildstorlek</string>
     <string name="lbl_image_type">Bildtyp</string>
     <string name="lbl_start_favorites">Placera favoriter i början</string>
@@ -79,7 +79,7 @@
     <string name="msg_item_added">" föremål tillagt"</string>
     <string name="lbl_delete">Ta bort</string>
     <string name="lbl_instant_mix">Omedelbar mix</string>
-    <string name="lbl_goto_now_playing">Gå till Spelas upp nu</string>
+    <string name="lbl_goto_now_playing">Gå till spelas upp nu</string>
     <string name="lbl_remove_from_queue">Ta bort från kö</string>
     <string name="lbl_play_from_here">Spela upp härifrån</string>
     <string name="lbl_now_playing">Spelas upp nu</string>
@@ -87,7 +87,7 @@
     <string name="lbl_next_item">Nästa föremål</string>
     <string name="lbl_open_album">Öppna album</string>
     <string name="lbl_open_artist">Öppna artist</string>
-    <string name="lbl_add_to_queue">Lägg till kö</string>
+    <string name="lbl_add_to_queue">Lägg till i kö</string>
     <string name="msg_items_added">" föremål tillagt"</string>
     <string name="lbl_playlists">Spellistor</string>
     <string name="sum_enable_cinema_mode">Spela upp intros och trailers innan filmen påbörjas</string>
@@ -124,7 +124,7 @@
     <string name="pref_audio_compat">Mixa ner till stereo</string>
     <string name="pref_audio_direct">Direkt</string>
     <string name="msg_cancel_entire_series">Är du säker på att du vill avbryta HELA denna serien\?</string>
-    <string name="lbl_repeat_options">Upprepa Alternativ</string>
+    <string name="lbl_repeat_options">Upprepa alternativ</string>
     <string name="lbl_only_new_episodes">Endast nya avsnitt</string>
     <string name="lbl_record_any_time">Spela in närsomhelst</string>
     <string name="lbl_record_any_channel">Spela in på valfri kanal</string>
@@ -134,7 +134,7 @@
     <string name="lbl_begin_padding">Börja förskjutning</string>
     <string name="msg_will_record">Skall spelas in</string>
     <string name="msg_recording_now">Spelas in för närvarande</string>
-    <string name="lbl_tune_to_channel">Sök till Kanal</string>
+    <string name="lbl_tune_to_channel">Sök till kanal</string>
     <string name="lbl_on">På</string>
     <string name="lbl_tomorrow">Imorgon</string>
     <string name="lbl_today">Idag</string>
@@ -166,7 +166,7 @@
     <string name="lbl_enter_server_address">Ange serveradress</string>
     <string name="lbl_yes">Ja</string>
     <string name="lbl_no">Nej</string>
-    <string name="lbl_play_trailers">Spela Trailer(s)</string>
+    <string name="lbl_play_trailers">Spela trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_bracket_unknown">Okänd</string>
     <string name="msg_video_playback_error">"Videouppspelningsfel "</string>
@@ -191,7 +191,7 @@
     <string name="lbl_trailers">Trailers</string>
     <string name="lbl_specials">Specialsäsong</string>
     <string name="lbl_chapters">Kapitel</string>
-    <string name="lbl_cast_crew">Medverkande/Personal</string>
+    <string name="lbl_cast_crew">Medverkande &amp; Personal</string>
     <string name="msg_unable_to_cancel">Kan inte avbryta inspelning</string>
     <string name="msg_recording_cancelled">Inspelning avbruten</string>
     <string name="msg_unable_to_create_recording">Kan inte skapa inspelning</string>
@@ -213,13 +213,13 @@
     <string name="lbl_coming_up">Kommer härnäst</string>
     <string name="lbl_favorites">Favoriter</string>
     <string name="lbl_by_name">Efter namn</string>
-    <string name="lbl_latest">Senaste</string>
+    <string name="lbl_latest">Senast tillagda</string>
     <string name="msg_not_implemented">" stöds ännu inte"</string>
     <string name="lbl_search">Sök</string>
     <string name="lbl_genres">Genrer</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Föreslagna</string>
-    <string name="lbl_by_letter">Efter bokstav</string>
+    <string name="lbl_by_letter">I bokstavsordning</string>
     <string name="lbl_views">Visningar</string>
     <string name="lbl_on_now">Visas just nu</string>
     <string name="lbl_next_up">Kommer härnäst</string>
@@ -233,7 +233,7 @@
     <string name="lbl_recorded_tv">Inspelad TV</string>
     <string name="pref_libvlc_audio_delay_title">Standardfördröjning av ljud för LibVLC</string>
     <string name="pref_theme_dark">Mörk (Standard)</string>
-    <string name="pref_theme_emerald">Klassisk Smaragd</string>
+    <string name="pref_theme_emerald">Klassisk smaragd</string>
     <string name="pref_app_theme">Apptema</string>
     <string name="grid_direction">Rutnätsriktning</string>
     <string name="pref_device_model">Enhetens modell</string>
@@ -247,7 +247,7 @@
     <string name="pref_subtitle_track_button">Undertextknapp</string>
     <string name="pref_audio_track_button">Ljudspårsknapp</string>
     <string name="lbl_unknown_key">Okänd (%1s)</string>
-    <string name="mark_watched">Markera uppspelad</string>
+    <string name="mark_watched">Markera som uppspelad</string>
     <string name="lbl_tv_channel_status">%1$d av %2$d kanaler</string>
     <string name="msg_no_items">Inga föremål att spela</string>
     <string name="subtitle_error">Går ej att välja undertext</string>
@@ -376,7 +376,7 @@
     <string name="home_section_resume">Fortsätt titta på</string>
     <string name="home_section_library_small">Min media (liten)</string>
     <string name="home_section_library">Min media</string>
-    <string name="home_section_latest_media">Senaste i media</string>
+    <string name="home_section_latest_media">Nyligen tillagd media</string>
     <string name="home_sections">Hemsektioner</string>
     <string name="home_prefs">Hemskärm</string>
     <string name="license_license">Licens</string>
@@ -416,7 +416,7 @@
     <string name="pref_customization">Anpassning</string>
     <string name="server_issue_ssl_handshake">SSL-handskakning misslyckades</string>
     <string name="server_issue_timeout">Anslutningen överskred tidsbegränsningen</string>
-    <string name="server_issue_outdated_version">Servern använder version %1$s men bör vara på %2$s eller senare</string>
+    <string name="server_issue_outdated_version">Servern har inte stöd för version %1$s. Vänligen uppdatera till %2$s eller senare</string>
     <string name="server_issue_unsupported_version">Servern använder version %1$s vilket stöds ej</string>
     <string name="server_issue_missing_version">Kunde ej bestämma serverversion</string>
     <string name="server_issue_invalid_product">Servermjukvara är inkompatibel</string>
@@ -433,10 +433,10 @@
     <string name="login_connect_to">Ansluter till %1$s</string>
     <string name="input_password">Lösenord</string>
     <string name="input_username">Användarnamn</string>
-    <string name="action_use_quickconnect">Använd QuickConnect</string>
+    <string name="action_use_quickconnect">Använd Quick Connect</string>
     <string name="action_use_password">Använd ett lösenord</string>
     <string name="action_login">Logga in</string>
-    <string name="lbl_shuffle_queue">Aktivera Shuffle</string>
+    <string name="lbl_shuffle_queue">Aktivera shuffle</string>
     <string name="lbl_subtitle_delay">Undertextfördröjning</string>
     <string name="lbl_adjust">Justera</string>
     <string name="state_disabled">Inaktiverad</string>
@@ -451,12 +451,12 @@
     <string name="pref_crash_reports">Skicka kraschrapporter till server</string>
     <string name="pref_telemetry_description">Skicka kraschrapporter, inkludera loggar</string>
     <string name="pref_telemetry_category">Kraschrapportering</string>
-    <string name="server_unsupported_notification">Den här servern använder Jellyfin version %1$s som inte stöds. Vänligen uppdatera till Jellyfin %2$s för att fortsätta använda appen.</string>
+    <string name="server_unsupported_notification">Den här servern använder Jellyfin version %1$s som inte stöds. Vänligen uppdatera till Jellyfin %2$s eller senare för att fortsätta använda appen.</string>
     <string name="app_notification_uimode_invalid">Den här appen är optimiserad för tv-apparater. Vi rekommenderar att du använder vår mobilapp på andra enheter.</string>
     <string name="image_size_xlarge">Extra Stor</string>
     <string name="image_size_smallest">Minsta</string>
     <string name="image_type_poster">Affisch</string>
-    <string name="lbl_additional_parts">Ytterligare Komponenter</string>
+    <string name="lbl_additional_parts">Ytterligare komponenter</string>
     <string name="episode_name_special">specialavsnitt</string>
     <string name="lbl_quality_profile">Kvalitetsprofil</string>
     <string name="desc_audio_night_mode">Jämnar ut ljudnivån automatiskt</string>
@@ -475,4 +475,38 @@
     <string name="color_cyan">Ljusblå</string>
     <string name="app_notification_beta">Appen uppdaterades till %1$s
 \nTack för att du deltar i Jellyfins uttestningsprogram</string>
+    <string name="lbl_album_artists">Albumartist</string>
+    <string name="pref_screensaver">Skärmsläckare</string>
+    <string name="pref_music_cat">Musik</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s timme</item>
+        <item quantity="other">%1$s timmar</item>
+    </plurals>
+    <string name="pref_enable_media_management">Slå på mediahantering</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minut</item>
+        <item quantity="other">%1$s minuter</item>
+    </plurals>
+    <string name="item_delete_confirm_title">Ta bort objekt</string>
+    <string name="pref_enable_media_management_description">Visa inställningar för mediahantering under bläddring</string>
+    <string name="item_delete_confirm_message">Är du säker på att du vill ta bort denna från servern\? Det går inte att ångra.</string>
+    <string name="pref_screensaver_inapp_enabled">Använd appens skärmsläckare</string>
+    <string name="pref_screensaver_inapp_enabled_description">Visa Jellyfins skärmsläckare när appen är öppen</string>
+    <string name="pref_screensaver_inapp_timeout">Starta skärmsläckaren efter</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekund</item>
+        <item quantity="other">%1$s sekunder</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s spår</item>
+        <item quantity="other">%1$s spår</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s avsnitt</item>
+        <item quantity="other">%1$s avsnitt</item>
+    </plurals>
+    <string name="item_deletion_failed">Kunde inte ta bort %1$s</string>
+    <string name="item_deleted">%1$s borttagen</string>
+    <string name="lbl_latest_in">Nyligen tillagda i %1$s</string>
+    <string name="because_you_watched">Eftersom du såg %1$s</string>
 </resources>
