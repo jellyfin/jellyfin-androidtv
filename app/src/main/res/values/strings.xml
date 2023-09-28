@@ -66,6 +66,7 @@
     <string name="lbl_ends">"Ends"</string>
     <string name="lbl_directed_by">"Directed by"</string>
     <string name="lbl_last_played">"Last played "</string>
+    <string name="lbl_runtime">Runtime</string>
     <string name="lbl_other_options">Other options</string>
     <string name="lbl_people">People</string>
     <string name="lbl_videos">Videos</string>
