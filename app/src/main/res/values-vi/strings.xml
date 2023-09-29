@@ -494,4 +494,5 @@
     <string name="pref_screensaver_inapp_enabled_description">Hiển thị trình bảo vệ màn hình Jellyfin khi ứng dụng đang mở</string>
     <string name="pref_music_rewrite_enable_description">Chỉ tắt tính năng này nếu bạn đang gặp sự cố khi phát lại nhạc</string>
     <string name="disable_ui_mode_warning">Tắt cảnh báo loại thiết bị</string>
+    <string name="because_you_watched">Bởi vì bạn đã xem %1$s</string>
 </resources>
