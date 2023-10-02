@@ -518,4 +518,5 @@
     <string name="pref_music_rewrite_disable">Désactiver le nouveau fournisseur de musique</string>
     <string name="pref_music_rewrite_enable_description">Désactivez ceci uniquement si vous éprouvez des problèmes de lecture de musique</string>
     <string name="disable_ui_mode_warning">Désactiver l\'avertissement du type d\'appareil</string>
+    <string name="because_you_watched">Parce que vous avez regardé %1$s</string>
 </resources>
