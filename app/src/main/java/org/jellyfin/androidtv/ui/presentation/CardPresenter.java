@@ -215,7 +215,6 @@ public class CardPresenter extends Presenter {
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null && userData.getUnplayedItemCount() != null) {
                         mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
-
                     }
                     if (showProgress && itemDto.getRunTimeTicks() != null && itemDto.getRunTimeTicks() > 0 && userData != null && userData.getPlaybackPositionTicks() > 0) {
                         mCardView.setProgress(((int) (userData.getPlaybackPositionTicks() * 100.0 / itemDto.getRunTimeTicks()))); // force floating pt math with 100.0
