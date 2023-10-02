@@ -5,7 +5,9 @@ import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.MissingBaseUrlException
 import org.jellyfin.sdk.api.client.extensions.audioApi
+import org.jellyfin.sdk.api.client.util.UrlBuilder
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.DeviceProfile
 
@@ -26,15 +28,15 @@ class AudioMediaStreamResolver(
 
 		val conversionMethod = when {
 			// Direct play
-			mediaInfo.mediaSource.supportsDirectPlay || forceDirectPlay ->  MediaConversionMethod.None
+			mediaInfo.mediaSource.supportsDirectPlay || forceDirectPlay -> MediaConversionMethod.None
 			// Remux (Direct stream)
-			mediaInfo.mediaSource.supportsDirectStream ->  MediaConversionMethod.Remux
+			mediaInfo.mediaSource.supportsDirectStream -> MediaConversionMethod.Remux
 			// Transcode
 			mediaInfo.mediaSource.supportsTranscoding -> MediaConversionMethod.Transcode
 			else -> error("Unable to find a suitable playback method for media")
 		}
 
-		val url = when(conversionMethod) {
+		val url = when (conversionMethod) {
 			// Direct play
 			is MediaConversionMethod.None -> {
 				api.audioApi.getAudioStreamUrl(
@@ -63,8 +65,12 @@ class AudioMediaStreamResolver(
 					"MediaSource supports transcoding but transcodingUrl is null"
 				}
 
-				// TODO Use ignorePathParameters=true with SDK 1.5
-				api.createUrl(url)
+				// TODO Use api.createUrl() with SDK 1.5
+				UrlBuilder.buildUrl(
+					api.baseUrl ?: throw MissingBaseUrlException(),
+					url,
+					ignorePathParameters = true,
+				)
 			}
 		}
 
@@ -73,6 +79,8 @@ class AudioMediaStreamResolver(
 			queueEntry = queueEntry,
 			conversionMethod = conversionMethod,
 			url = url,
+			container = mediaInfo.getMediaStreamContainer(),
+			tracks = mediaInfo.getTracks()
 		)
 	}
 }

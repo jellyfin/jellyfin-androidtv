@@ -513,4 +513,5 @@
     <string name="pref_music_cat">Music</string>
     <string name="pref_music_rewrite_disable">Disable new music backend</string>
     <string name="disable_ui_mode_warning">Disable device type warning</string>
+    <string name="because_you_watched">Because you watched %1$s</string>
 </resources>

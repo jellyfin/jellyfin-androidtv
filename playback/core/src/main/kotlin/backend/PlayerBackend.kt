@@ -2,6 +2,7 @@ package org.jellyfin.playback.core.backend
 
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PositionInfo
+import org.jellyfin.playback.core.support.PlaySupportReport
 import kotlin.time.Duration
 
 /**
@@ -9,6 +10,9 @@ import kotlin.time.Duration
  * preload items.
  */
 interface PlayerBackend {
+	// Testing
+	fun supportsStream(stream: MediaStream): PlaySupportReport
+
 	// Data retrieval
 
 	fun setListener(eventListener: PlayerBackendEventListener?)

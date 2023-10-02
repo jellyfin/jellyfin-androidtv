@@ -14,7 +14,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,11 +64,7 @@ fun DreamHeader(
 				text = DateUtils.formatDateTime(LocalContext.current, time, DateUtils.FORMAT_SHOW_TIME),
 				style = TextStyle(
 					color = Color.White,
-					fontSize = 20.sp,
-					shadow = Shadow(
-						color = Color.Black,
-						blurRadius = 2f,
-					)
+					fontSize = 20.sp
 				),
 			)
 		}

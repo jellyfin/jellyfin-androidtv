@@ -143,25 +143,30 @@ public class CardPresenter extends Presenter {
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case EPISODE:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
-                            aspect = ImageUtils.ASPECT_RATIO_16_9;
-                            if (itemDto.getLocationType() != null) {
-                                switch (itemDto.getLocationType()) {
-                                    case FILE_SYSTEM:
-                                        break;
-                                    case REMOTE:
-                                        break;
-                                    case VIRTUAL:
-                                        mCardView.setBanner(itemDto.getPremiereDate() == null || itemDto.getPremiereDate().isAfter(LocalDateTime.now()) ? R.drawable.banner_edge_future : R.drawable.banner_edge_missing);
-                                        break;
-                                    case OFFLINE:
-                                        mCardView.setBanner(R.drawable.banner_edge_offline);
-                                        break;
+                            if (m.getPreferSeriesPoster()) {
+                                mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                                aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            } else {
+                                mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
+                                aspect = ImageUtils.ASPECT_RATIO_16_9;
+                                if (itemDto.getLocationType() != null) {
+                                    switch (itemDto.getLocationType()) {
+                                        case FILE_SYSTEM:
+                                            break;
+                                        case REMOTE:
+                                            break;
+                                        case VIRTUAL:
+                                            mCardView.setBanner(itemDto.getPremiereDate() == null || itemDto.getPremiereDate().isAfter(LocalDateTime.now()) ? R.drawable.banner_edge_future : R.drawable.banner_edge_missing);
+                                            break;
+                                        case OFFLINE:
+                                            mCardView.setBanner(R.drawable.banner_edge_offline);
+                                            break;
+                                    }
                                 }
+                                showProgress = true;
+                                //Always show info for episodes
+                                mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             }
-                            showProgress = true;
-                            //Always show info for episodes
-                            mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
                         case COLLECTION_FOLDER:
                         case USER_VIEW:
@@ -210,6 +215,7 @@ public class CardPresenter extends Presenter {
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null && userData.getUnplayedItemCount() != null) {
                         mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+
                     }
                     if (showProgress && itemDto.getRunTimeTicks() != null && itemDto.getRunTimeTicks() > 0 && userData != null && userData.getPlaybackPositionTicks() > 0) {
                         mCardView.setProgress(((int) (userData.getPlaybackPositionTicks() * 100.0 / itemDto.getRunTimeTicks()))); // force floating pt math with 100.0
@@ -384,6 +390,9 @@ public class CardPresenter extends Presenter {
             if (aspect == ASPECT_RATIO_BANNER) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
+            } else if (aspect == ImageUtils.ASPECT_RATIO_2_3 && rowItem.getBaseItemType() == BaseItemKind.EPISODE && rowItem.getPreferSeriesPoster()) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
+                imageTag = rowItem.getBaseItem().getSeriesPrimaryImageTag();
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemKind.EPISODE || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY) || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
                 imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY)) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.THUMB);

@@ -42,7 +42,7 @@
     <string name="lbl_cast_crew">Darsteller/Crew</string>
     <string name="lbl_chapters">Kapitel</string>
     <string name="lbl_specials">Extras</string>
-    <string name="lbl_trailers">Trailers</string>
+    <string name="lbl_trailers">Trailer</string>
     <string name="lbl_items">Einträge</string>
     <string name="lbl_item">Eintrag</string>
     <string name="lbl_seasons">Staffeln</string>
@@ -513,4 +513,5 @@
     <string name="pref_music_rewrite_disable">Neues Musik-Backend deaktivieren</string>
     <string name="pref_music_rewrite_enable_description">Nur deaktivieren, wenn bei dir Probleme bei der Musikwiedergabe auftreten</string>
     <string name="disable_ui_mode_warning">Warnung für Gerätetyp deaktivieren</string>
+    <string name="because_you_watched">Weil du %1$s angesehen hast</string>
 </resources>

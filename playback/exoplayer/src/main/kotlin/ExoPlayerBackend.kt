@@ -12,6 +12,9 @@ import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
+import org.jellyfin.playback.core.support.PlaySupportReport
+import org.jellyfin.playback.exoplayer.support.getPlaySupportReport
+import org.jellyfin.playback.exoplayer.support.toFormat
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
@@ -66,6 +69,10 @@ class ExoPlayerBackend(
 			}
 		}
 	}
+
+	override fun supportsStream(
+		stream: MediaStream
+	): PlaySupportReport = exoPlayer.getPlaySupportReport(stream.toFormat())
 
 	override fun prepareStream(stream: MediaStream) {
 		val mediaItem = MediaItem.Builder().apply {

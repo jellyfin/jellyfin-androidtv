@@ -35,7 +35,8 @@ class HomeFragmentLatestRow(
 					fields = arrayOf(
 						ItemFields.PrimaryImageAspectRatio,
 						ItemFields.Overview,
-						ItemFields.ChildCount
+						ItemFields.ChildCount,
+						ItemFields.SeriesPrimaryImage,
 					)
 					imageTypeLimit = 1
 					parentId = item.id.toString()

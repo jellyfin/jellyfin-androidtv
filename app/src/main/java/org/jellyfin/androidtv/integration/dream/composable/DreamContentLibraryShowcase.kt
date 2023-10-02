@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -37,6 +36,9 @@ fun DreamContentLibraryShowcase(
 			contentScale = ContentScale.Crop,
 			modifier = Modifier.fillMaxSize()
 		)
+
+		// Image vignette
+		DreamContentVignette()
 	}
 
 	// Overlay
@@ -49,11 +51,7 @@ fun DreamContentLibraryShowcase(
 			text = content.item.name.orEmpty(),
 			style = TextStyle(
 				color = Color.White,
-				fontSize = 32.sp,
-				shadow = Shadow(
-					color = Color.Black,
-					blurRadius = 2f,
-				)
+				fontSize = 32.sp
 			),
 		)
 	}
