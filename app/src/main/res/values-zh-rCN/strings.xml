@@ -504,4 +504,6 @@
     <string name="enable_reactive_homepage">启用响应式主页</string>
     <string name="not_set">未设置</string>
     <string name="lbl_album_artists">专辑艺术家</string>
+    <string name="pref_music_cat">音乐</string>
+    <string name="because_you_watched">因为你看过 %1$s</string>
 </resources>
