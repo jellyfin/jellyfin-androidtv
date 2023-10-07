@@ -52,6 +52,8 @@ class ExoPlayerProfile(
 		add(Codec.Audio.TRUEHD)
 		add(Codec.Audio.PCM_ALAW)
 		add(Codec.Audio.PCM_MULAW)
+		add(Codec.Audio.OPUS)
+		add(Codec.Audio.FLAC)
 	}.toTypedArray()
 
 	private val allSupportedAudioCodecsWithoutFFmpegExperimental = allSupportedAudioCodecs
@@ -129,14 +131,12 @@ class ExoPlayerProfile(
 			// Audio direct play
 			add(audioDirectPlayProfile(allSupportedAudioCodecs + arrayOf(
 				Codec.Audio.MPA,
-				Codec.Audio.FLAC,
 				Codec.Audio.WAV,
 				Codec.Audio.WMA,
 				Codec.Audio.OGG,
 				Codec.Audio.OGA,
 				Codec.Audio.WEBMA,
 				Codec.Audio.APE,
-				Codec.Audio.OPUS,
 			)))
 			// Photo direct play
 			add(photoDirectPlayProfile)
