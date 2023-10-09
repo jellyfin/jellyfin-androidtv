@@ -4,7 +4,7 @@
     <string name="btn_cancel">Ακύρωση</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
-    <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά…</string>
+    <string name="msg_error_live_stream">Σφάλμα ροής ζωντανής τηλεόρασης. Θα προσπαθήσουμε ξανά…</string>
     <string name="lbl_direct_stream_live">Άμεση μετάδοση ζωντανής τηλεόρασης</string>
     <string name="lbl_programs">προγράμμα</string>
     <string name="lbl_albums">Άλμπουμ</string>
@@ -75,12 +75,12 @@
     <string name="lbl_people">Ανθρωποι</string>
     <string name="lbl_last_played">"Προβλήθηκαν πρόσφατα "</string>
     <string name="lbl_ends">Τελειώνει</string>
-    <string name="lbl_min">" ελάχ"</string>
+    <string name="lbl_min">" λεπτά"</string>
     <string name="lbl_runs">Τρέχει</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Παρακολούθησα</string>
     <string name="lbl_favorite">Αγαπημένο</string>
-    <string name="lbl_upcoming">Ανερχόμενος</string>
+    <string name="lbl_upcoming">Προσεχώς</string>
     <string name="lbl_item">Είδος</string>
     <string name="lbl_items">Είδη</string>
     <string name="lbl_specials">Έκτακτα</string>
@@ -509,4 +509,9 @@
         <item quantity="other">%1$s δευτερόλεπτα</item>
     </plurals>
     <string name="lbl_latest_in">Προστέθηκαν πρόσφατα σε %1$s</string>
+    <string name="pref_music_cat">Μουσική</string>
+    <string name="pref_music_rewrite_disable">Απενεργοποιήστε τη νέα μουσική υποστήριξη</string>
+    <string name="pref_music_rewrite_enable_description">Απενεργοποιήστε αυτή την επιλογή μόνο εάν αντιμετωπίζετε προβλήματα με την αναπαραγωγή μουσικής</string>
+    <string name="disable_ui_mode_warning">Απενεργοποιήστε την προειδοποίηση τύπου συσκευής</string>
+    <string name="because_you_watched">Επειδή παρακολουθήσατε %1$s</string>
 </resources>
