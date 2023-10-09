@@ -575,7 +575,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 mFragment.getContext(),
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
                 getDirectPlayPreferences(),
-                getAudioTranscodeTarget()
+                getAudioTranscodeTarget(),
+                userPreferences.getValue().get(UserPreferences.Companion.getEnable4kSupport())
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;

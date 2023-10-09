@@ -108,6 +108,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
 				depends { DeviceUtils.is60() && userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
+
+			checkbox {
+				setTitle(R.string.pref_enable_4k_support)
+				setContent(R.string.pref_enable_4k_support_description)
+				bind(userPreferences, UserPreferences.enable4kSupport)
+			}
 		}
 
 		category {

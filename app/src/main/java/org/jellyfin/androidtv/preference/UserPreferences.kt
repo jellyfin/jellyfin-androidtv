@@ -101,6 +101,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
+		/**
+		 * Enable 4k codecs for direct play and transcode target
+		 */
+		var enable4kSupport = booleanPreference("pref_enable_4k_support", DeviceUtils.has4kVideoSupport())
+
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.

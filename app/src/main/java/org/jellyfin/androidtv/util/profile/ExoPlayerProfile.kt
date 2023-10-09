@@ -29,7 +29,8 @@ class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
 	audioDirectPlayCodecs : Array<String>,
-	audioTranscodeTarget : Array<String>
+	audioTranscodeTarget : Array<String>,
+	enable4KSupport : Boolean
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -127,7 +128,7 @@ class ExoPlayerProfile(
 				conditions = buildList {
 					add(h264VideoProfileCondition)
 					add(h264VideoLevelProfileCondition)
-					if (!DeviceUtils.has4kVideoSupport()) addAll(max1080pProfileConditions)
+					if (!enable4KSupport) addAll(max1080pProfileConditions)
 				}.toTypedArray()
 			})
 			// H264 ref frames profile
@@ -173,7 +174,7 @@ class ExoPlayerProfile(
 			// AV1 profile
 			add(deviceAV1CodecProfile)
 			// Limit video resolution support for older devices
-			if (!DeviceUtils.has4kVideoSupport()) {
+			if (!enable4KSupport) {
 				add(CodecProfile().apply {
 					type = CodecType.Video
 					conditions = max1080pProfileConditions
