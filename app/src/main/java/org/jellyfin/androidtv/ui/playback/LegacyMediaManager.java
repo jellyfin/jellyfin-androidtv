@@ -19,6 +19,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.constant.Codec;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
@@ -606,7 +607,9 @@ public class LegacyMediaManager implements MediaManager {
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile;
         if (DeviceUtils.is60()) {
-            profile = new ExoPlayerProfile(context, false, false);
+            String[] audioDirectPlay = { Codec.Audio.AAC, Codec.Audio.MP3, Codec.Audio.MP2 };
+            String[] audioTranscode = { Codec.Audio.AAC, Codec.Audio.MP3, Codec.Audio.MP2 };
+            profile = new ExoPlayerProfile(context, false, audioDirectPlay, audioTranscode);
         } else {
             profile = new LibVlcProfile(context, false);
         }
