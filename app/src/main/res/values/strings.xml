@@ -494,6 +494,8 @@
     <string name="pref_music_rewrite_disable">Disable new music backend</string>
     <string name="pref_music_rewrite_enable_description">Only disable this if you\'re experiencing issues with music playback</string>
     <string name="disable_ui_mode_warning">Disable device type warning</string>
+    <string name="lbl_bypass_aac">Transcode AAC to Dolby Digital audio</string>
+    <string name="desc_bypass_aac">Must have Dolby Digital bitstreaming enabled</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

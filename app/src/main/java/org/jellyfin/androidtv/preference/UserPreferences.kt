@@ -122,6 +122,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1)
 
 		/**
+		 * Prefer AC3
+		 */
+		var aacBypassEnabled = booleanPreference("pref_bypass_aac", false)
+
+		/**
 		 * Default audio delay in milliseconds for libVLC
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)

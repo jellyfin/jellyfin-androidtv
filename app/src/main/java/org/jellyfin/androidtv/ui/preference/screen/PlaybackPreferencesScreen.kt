@@ -192,6 +192,13 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
+			checkbox {
+				setTitle(R.string.lbl_bypass_aac)
+				setContent(R.string.desc_bypass_aac)
+				bind(userPreferences, UserPreferences.aacBypassEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
 			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.pref_libvlc_audio_delay_title)
