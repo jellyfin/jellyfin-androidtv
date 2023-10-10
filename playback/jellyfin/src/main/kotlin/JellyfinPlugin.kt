@@ -7,6 +7,9 @@ import org.jellyfin.playback.jellyfin.playsession.PlaySessionSocketService
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.sockets.SocketInstance
 import org.jellyfin.sdk.model.api.DeviceProfile
+import org.jellyfin.sdk.model.api.DlnaProfileType
+import org.jellyfin.sdk.model.api.EncodingContext
+import org.jellyfin.sdk.model.api.TranscodingProfile
 
 fun jellyfinPlugin(
 	api: ApiClient,
@@ -20,13 +23,23 @@ fun jellyfinPlugin(
 		responseProfiles = emptyList(),
 		subtitleProfiles = emptyList(),
 		supportedMediaTypes = "",
-		transcodingProfiles = emptyList(),
+		// Add at least one transcoding profile so the server returns a value
+		// for "SupportsTranscoding" based on the user policy
+		// We don't actually use this profile in the client
+		transcodingProfiles = listOf(
+			TranscodingProfile(
+				type = DlnaProfileType.AUDIO,
+				context = EncodingContext.STREAMING,
+				protocol = "hls",
+				container = "mp3",
+				audioCodec = "mp3",
+				videoCodec = "",
+				conditions = emptyList()
+			)
+		),
 		xmlRootAttributes = emptyList(),
 	)
-	provide(AudioMediaStreamResolver(api, profile).apply {
-		// TODO: Remove once we have a proper device profile
-		forceDirectPlay = true
-	})
+	provide(AudioMediaStreamResolver(api, profile))
 
 	val playSessionService = PlaySessionService(api)
 	provide(playSessionService)

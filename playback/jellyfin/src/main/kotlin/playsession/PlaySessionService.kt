@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
-import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
@@ -25,7 +25,7 @@ import org.jellyfin.sdk.model.api.RepeatMode as SdkRepeatMode
 class PlaySessionService(
 	private val api: ApiClient,
 ) : PlayerService() {
-	private var reportedStream: MediaStream? = null
+	private var reportedStream: PlayableMediaStream? = null
 
 	override suspend fun onInitialize() {
 		state.streams.current.onEach { stream -> onMediaStreamChange(stream) }.launchIn(coroutineScope)
@@ -40,7 +40,7 @@ class PlaySessionService(
 		}.launchIn(coroutineScope)
 	}
 
-	private val MediaStream.baseItem
+	private val PlayableMediaStream.baseItem
 		get() = when (val entry = queueEntry) {
 			is BaseItemDtoUserQueueEntry -> entry.baseItem
 			else -> null
@@ -66,7 +66,7 @@ class PlaySessionService(
 		}
 	}
 
-	private fun onMediaStreamChange(stream: MediaStream?) {
+	private fun onMediaStreamChange(stream: PlayableMediaStream?) {
 		reportedStream = stream
 		onStart()
 	}
@@ -98,7 +98,7 @@ class PlaySessionService(
 			.map { QueueItem(id = it.baseItem.id, playlistItemId = it.baseItem.playlistItemId) }
 	}
 
-	private suspend fun sendStreamStart(stream: MediaStream) {
+	private suspend fun sendStreamStart(stream: PlayableMediaStream) {
 		val item = stream.baseItem ?: return
 		api.playStateApi.reportPlaybackStart(PlaybackStartInfo(
 			itemId = item.id,
@@ -116,7 +116,7 @@ class PlaySessionService(
 		))
 	}
 
-	private suspend fun sendStreamUpdate(stream: MediaStream) {
+	private suspend fun sendStreamUpdate(stream: PlayableMediaStream) {
 		val item = stream.baseItem ?: return
 		api.playStateApi.reportPlaybackProgress(PlaybackProgressInfo(
 			itemId = item.id,
@@ -134,7 +134,7 @@ class PlaySessionService(
 		))
 	}
 
-	private suspend fun sendStreamStop(stream: MediaStream) {
+	private suspend fun sendStreamStop(stream: PlayableMediaStream) {
 		val item = stream.baseItem ?: return
 		api.playStateApi.reportPlaybackStopped(PlaybackStopInfo(
 			itemId = item.id,
