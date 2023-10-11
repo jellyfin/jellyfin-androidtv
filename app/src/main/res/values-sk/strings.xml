@@ -10,7 +10,7 @@
     <string name="lbl_movies">Filmy</string>
     <string name="lbl_favorites">Obľúbené</string>
     <string name="lbl_by_name">Podľa mena</string>
-    <string name="lbl_latest">Najnovšie</string>
+    <string name="lbl_latest">Najnovšie pridané</string>
     <string name="lbl_search">Vyhľadávanie</string>
     <string name="lbl_genres">Žánre</string>
     <string name="lbl_next_up">Nasleduje</string>
@@ -385,7 +385,7 @@
     <string name="home_section_resume">Pokračovať v pozeraní</string>
     <string name="home_section_library_small">Moje médiá (malé)</string>
     <string name="home_section_library">Moje médiá</string>
-    <string name="home_section_latest_media">Najnovšie médiá</string>
+    <string name="home_section_latest_media">Najnovšie pridané médiá</string>
     <string name="home_sections">Sekcie obrazovky Domov</string>
     <string name="home_prefs">Domov</string>
     <string name="searchable_settings_description">Médiá</string>
@@ -396,7 +396,7 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">Spojenie SSL zlyhalo</string>
     <string name="server_issue_timeout">Čas pre pripojenie vypršal</string>
-    <string name="server_issue_outdated_version">Verzia serveru %1$s už nie je podporovaná. Aktualizujte server na verziu %2$s alebo novšiu.</string>
+    <string name="server_issue_outdated_version">Verzia serveru %1$s už nie je podporovaná. Aktualizujte server na verziu %2$s alebo novšiu</string>
     <string name="server_issue_unsupported_version">Server používa verziu %1$s, ktorá nie je podporovaná</string>
     <string name="server_issue_missing_version">Nebolo možné určiť verziu serveru</string>
     <string name="server_issue_invalid_product">Serverový softvér nie je kompatibilný</string>
@@ -510,8 +510,13 @@
         <item quantity="few">%1$s hodinách</item>
         <item quantity="other">%1$s hodinách</item>
     </plurals>
-    <string name="lbl_latest_in">Najnovšie v %1$s</string>
+    <string name="lbl_latest_in">Najnovšie pridané v %1$s</string>
     <string name="not_set">Nie je nastavené</string>
     <string name="lbl_album_artists">Album interpretov</string>
     <string name="enable_reactive_homepage">Povoliť reaktívnu domovskú stránku</string>
+    <string name="pref_music_rewrite_enable_description">Zakážte iba v prípade problémov s prehrávaním hudby</string>
+    <string name="pref_music_cat">Hudba</string>
+    <string name="pref_music_rewrite_disable">Zakázať nový prehrávač hudby</string>
+    <string name="disable_ui_mode_warning">Zakázať upozornenia na typ zariadenia</string>
+    <string name="because_you_watched">Pretože ste pozerali %1$s</string>
 </resources>
