@@ -512,4 +512,6 @@
     <string name="pref_music_rewrite_disable">Deshabilita el nou backend de musica</string>
     <string name="pref_music_rewrite_enable_description">Deshabilita això només si experimentes problemes amb la reproducció de musica</string>
     <string name="pref_music_cat">Musica</string>
+    <string name="disable_ui_mode_warning">Desactiva l\'avís de tipus de dispositiu</string>
+    <string name="because_you_watched">Perquè heu vist %1$s</string>
 </resources>
