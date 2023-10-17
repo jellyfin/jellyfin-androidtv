@@ -222,7 +222,7 @@
     <string name="lbl_play_trailers">Rulează Trailer(e)</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_video_player_external">Aplicație externă</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
+    <string name="pref_video_player_vlc">LibVLC (nivel experimental)</string>
     <string name="pref_video_player_exoplayer">Exo Player</string>
     <string name="pref_video_player_auto">Alege automat</string>
     <string name="lbl_my_media">Fișierele mele media</string>
@@ -370,7 +370,7 @@
     <string name="pref_customization">Customizare</string>
     <string name="server_issue_ssl_handshake">Handshake-ul SSL a eșuat</string>
     <string name="server_issue_timeout">Conexiunea a expirat</string>
-    <string name="server_issue_outdated_version">Serverul utilizează versiunea %1$s, dar trebuie să fie %2$s sau mai nouă</string>
+    <string name="server_issue_outdated_version">Serverul folosește o versiune neacceptată %1$s. Vă rugăm să actualizați la %2$s sau mai nou</string>
     <string name="server_issue_unsupported_version">Serverul utilizează versiunea %1$s care nu este suportată</string>
     <string name="server_issue_missing_version">Nu s-a putut determina versiunea serverului</string>
     <string name="server_issue_invalid_product">Software-ul serverului este incompatibil</string>
@@ -427,7 +427,7 @@
     <string name="state_disabled">Dezactivat</string>
     <string name="lbl_latest_in">Adăugate recent în %1$s</string>
     <string name="app_notification_uimode_invalid">Această aplicație este optimizată pentru televizoare. Recomandăm să folosiți aplicația mobilă pe alte dispozitive.</string>
-    <string name="server_unsupported_notification">Acest server folosește Jellyfin versiunea %1$s care nu mai este suportată. Vă rugăm actualizați Jellyfin la versiunea %2$s pentru a folosi aplicația.</string>
+    <string name="server_unsupported_notification">Acest server folosește versiunea Jellyfin %1$s care nu mai este suportata. Vă rugăm să actualizați la Jellyfin %2$s sau mai noua pentru a continua să utilizați aplicația.</string>
     <string name="pref_crash_reports_enabled">Crash-urile vor fi trimise către ultimul tău server folosit</string>
     <string name="action_use_password">Folosește o parolă</string>
     <string name="color_white">Alb</string>
@@ -488,7 +488,7 @@
         <item quantity="few">%1$s piese</item>
         <item quantity="other">%1$s de piese</item>
     </plurals>
-    <string name="image_type_poster">Poster</string>
+    <string name="image_type_poster">Afis</string>
     <string name="pref_crash_report_logs_enabled">Jurnalele vor fi incluse în raporturi</string>
     <string name="enable_reactive_homepage">Activați pagina de pornire reactivă</string>
     <string name="live_tv_preferences">Opțiuni TV în direct</string>
@@ -512,4 +512,11 @@
     </plurals>
     <string name="desc_audio_night_mode">Egalează automat volumul audio</string>
     <string name="lbl_subtitle_stroke">Dimensiunea liniilor de subtitrare</string>
+    <string name="not_set">Nu este setat</string>
+    <string name="lbl_album_artists">Album artisti</string>
+    <string name="pref_music_cat">Muzica</string>
+    <string name="pref_music_rewrite_disable">Dezactivare finalul noilor melodii</string>
+    <string name="pref_music_rewrite_enable_description">Dezactivați numai dacă întâmpinați probleme cu redarea muzicii</string>
+    <string name="disable_ui_mode_warning">Dezactivare avertizare tip dispozitiv</string>
+    <string name="because_you_watched">Pentru că te-ai uitat %1$s</string>
 </resources>
