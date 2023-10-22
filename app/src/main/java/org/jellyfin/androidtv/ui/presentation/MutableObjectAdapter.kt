@@ -41,13 +41,20 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 		notifyItemRangeChanged(index, 1)
 	}
 
-	fun replaceAll(items: List<T>) {
+	fun replaceAll(
+		items: List<T>,
+		areItemsTheSame: (old: T, new: T) -> Boolean = { old, new -> old == new },
+		areContentsTheSame: (old: T, new: T) -> Boolean = { old, new -> old == new },
+	) {
 		val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
 			override fun getOldListSize(): Int = data.size
 			override fun getNewListSize(): Int = items.size
 
-			override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = areContentsTheSame(oldItemPosition, newItemPosition)
-			override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = data[oldItemPosition] == items[newItemPosition]
+			override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+				areItemsTheSame(data[oldItemPosition], items[newItemPosition])
+
+			override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+				areContentsTheSame(data[oldItemPosition], items[newItemPosition])
 		})
 
 		data.clear()
