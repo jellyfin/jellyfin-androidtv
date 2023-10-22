@@ -407,7 +407,7 @@ public class LegacyMediaManager implements MediaManager {
     }
 
     @Override
-    public int queueAudioItem(org.jellyfin.sdk.model.api.BaseItemDto item) {
+    public void queueAudioItem(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (mCurrentAudioQueue == null) {
             createAudioQueue(new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>());
             clearUnShuffledQueue();
@@ -415,7 +415,6 @@ public class LegacyMediaManager implements MediaManager {
         pushToUnShuffledQueue();
         mCurrentAudioQueue.add(new AudioQueueItem(mCurrentAudioQueue.size(), item));
         fireQueueStatusChange();
-        return mCurrentAudioQueue.size()-1;
     }
 
     @Override
