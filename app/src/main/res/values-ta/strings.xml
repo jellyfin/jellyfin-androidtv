@@ -62,7 +62,7 @@
     <string name="lbl_trailers">டிரெய்லர்கள்</string>
     <string name="lbl_specials">சிறப்பு</string>
     <string name="lbl_chapters">அத்தியாயங்கள்</string>
-    <string name="lbl_cast_crew">நடிகர்கள் / குழு</string>
+    <string name="lbl_cast_crew">நடிகர்கள் &amp; குழு</string>
     <string name="msg_unable_to_cancel">பதிவை ரத்து செய்ய முடியவில்லை</string>
     <string name="msg_recording_cancelled">பதிவு ரத்து செய்யப்பட்டது</string>
     <string name="msg_unable_to_create_recording">பதிவை உருவாக்க முடியவில்லை</string>
@@ -83,7 +83,7 @@
     <string name="lbl_favorite_channels">பிடித்த சேனல்கள்</string>
     <string name="lbl_coming_up">அடுத்து வருவது</string>
     <string name="lbl_favorites">பிடித்தவை</string>
-    <string name="lbl_by_name">பெயரின் மூலம்</string>
+    <string name="lbl_by_name">பெயரின் படி</string>
     <string name="lbl_latest">சமீபத்தியது</string>
     <string name="msg_not_implemented">" செயல்படுத்தப்படவில்லை"</string>
     <string name="lbl_search">தேடு</string>
@@ -127,7 +127,7 @@
     <string name="pref_subtitle_track_button">வசனத் தட பொத்தான்</string>
     <string name="pref_audio_track_button">ஆடியோ டிராக் பொத்தான்</string>
     <string name="lbl_unknown_key">தெரியவில்லை (%1s)</string>
-    <string name="grid_direction_vertical">செங்குத்து (சோதனை)</string>
+    <string name="grid_direction_vertical">செங்குத்து</string>
     <string name="grid_direction_horizontal">கிடைமட்ட</string>
     <string name="grid_direction">கட்டம் திசை</string>
     <string name="pref_device_model">சாதன மாதிரி</string>
@@ -139,7 +139,7 @@
     <string name="pref_media_player">விருப்பமான மீடியா பிளேயர்</string>
     <string name="pref_about_title">பற்றி</string>
     <string name="pref_video_player_external">வெளிப்புற பயன்பாடு</string>
-    <string name="pref_video_player_vlc">Libவிஎல்சி</string>
+    <string name="pref_video_player_vlc">LibVLC (சோதனை முறை)</string>
     <string name="pref_video_player_exoplayer">எக்ஸோ பிளேயர்</string>
     <string name="pref_video_player_auto">தானாக தேர்வு செய்யவும்</string>
     <string name="pref_theme_emerald">கிளாசிக் எமரால்டு</string>
@@ -161,7 +161,7 @@
     <string name="lbl_album_name">ஆல்பத்தின் பெயர்</string>
     <string name="lbl_next_episode">அடுத்த அத்தியாயம்</string>
     <string name="lbl_previous_episode">முந்தைய அத்தியாயம்</string>
-    <string name="lbl_more_like_this">இது போன்றது</string>
+    <string name="lbl_more_like_this">இதே போன்றவை</string>
     <string name="lbl_resume_from">%1$s இலிருந்து மீண்டும் தொடங்குங்கள்</string>
     <string name="lbl_resume_preroll">முன் ரோலை மீண்டும் தொடங்குங்கள்</string>
     <string name="lbl_guide_option_number">சேனல் எண்</string>
@@ -187,7 +187,7 @@
     <string name="no_program_data">நிரல் தரவு கிடைக்கவில்லை</string>
     <string name="msg_record_entire_series">முழு தொடரையும் பதிவு செய்யவா\?</string>
     <string name="lbl_just_this_once">ஒரு முறை</string>
-    <string name="lbl_select_date">தேதி தேர்ந்தெடுக்கவும்</string>
+    <string name="lbl_select_date">தேதி தேர்ந்தெடு</string>
     <string name="lbl_in_x_days">%d நாட்களில்</string>
     <string name="lbl_bitstream_dts">பிட்ஸ்ட்ரீம் DTS ஆடியோ</string>
     <string name="desc_premieres">நீங்கள் பார்க்கும் எந்தத் தொடருக்கும் புதிய எபிசோட் விமானிகளின் வரிசையைக் காட்டு</string>
@@ -213,7 +213,7 @@
     <string name="lbl_prev_item">முந்தைய உருப்படி</string>
     <string name="lbl_next_item">அடுத்த உருப்படி</string>
     <string name="lbl_open_album">ஆல்பத்தைத் திறக்கவும்</string>
-    <string name="lbl_open_artist">கலைஞரை திறக்கவும்</string>
+    <string name="lbl_open_artist">கலைஞர் பட்டியலைத் திறக்கவும்</string>
     <string name="lbl_add_to_queue">வரிசையில் சேர்</string>
     <string name="msg_items_added">" உருப்படிகள் சேர்க்கப்பட்டன"</string>
     <string name="lbl_playlists">பிளேலிஸ்ட்கள்</string>
@@ -235,7 +235,7 @@
     <string name="msg_burn_sub_warning">வசன வரிகள் பதிக்க சில நிமிடங்கள் ஆகலாம்…</string>
     <string name="msg_unable_load_subs">வசனத்தை ஏற்ற முடியவில்லை</string>
     <string name="msg_subtitles_loading">வசன வரிகள் ஏற்றுதல்…</string>
-    <string name="lbl_filters">வடிப்பான்கள்</string>
+    <string name="lbl_filters">நேரலை டிவி வடிப்பான்கள்</string>
     <string name="lbl_ended">முடிந்தது</string>
     <string name="lbl__continuing">தொடர்கிறது</string>
     <string name="lbl_display_preferences">காட்சி விருப்பத்தேர்வுகள்</string>
@@ -260,7 +260,7 @@
     <string name="lbl_only_new_episodes">புதிய அத்தியாயங்கள் மட்டுமே</string>
     <string name="lbl_record_any_time">எந்த நேரத்திலும் பதிவு செய்யுங்கள்</string>
     <string name="lbl_record_any_channel">எந்த சேனலிலும் பதிவு செய்யுங்கள்</string>
-    <string name="lbl_similar_items_library">உங்கள் நூலகத்தில் இதே போன்ற உருப்படிகள்</string>
+    <string name="lbl_similar_items_library">உங்கள் தொகுப்புகளில் இதே போன்ற உருப்படிகள்</string>
     <string name="lbl_end_padding">முடிவு திணிப்பு</string>
     <string name="lbl_program_ended">நிரல் முடிந்தது</string>
     <string name="lbl_begin_padding">திணிப்பு தொடங்குங்கள்</string>
@@ -329,7 +329,7 @@
     <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
     <string name="lbl_switch_user">கணக்கை மாற்றவும்</string>
     <string name="no_network_permissions">ஜெல்லிஃபின் செயல்பட பிணைய அனுமதிகள் தேவை</string>
-    <string name="pref_theme_muted_purple">முடக்கிய ஊதா</string>
+    <string name="pref_theme_muted_purple">மழுங்கிய ஊதா</string>
     <string name="lbl_next_up_minimal">சிறுபடம் இல்லாமல்</string>
     <string name="lbl_next_up_extended">சிறுபடத்துடன்</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
@@ -359,7 +359,7 @@
     <string name="enable_playback_module_description">இது ஒரு சோதனை அம்சம். எந்த ஆதரவும் வழங்கப்படவில்லை.</string>
     <string name="lbl_fit">சாதாரண</string>
     <string name="lbl_stretch">நீட்டு</string>
-    <string name="lbl_auto_crop">தானாக படத்தை செதுக்கவும்</string>
+    <string name="lbl_auto_crop">தானாக படத்தை செதுக்கு</string>
     <string name="alphabetical">அகரவரிசை</string>
     <string name="last_use">மிக சமீபத்தில் பயன்படுத்தப்பட்டது</string>
     <string name="advanced_settings">மேம்படுத்தபட்ட</string>
@@ -410,7 +410,7 @@
     <string name="pref_customization">தனிப்பயனாக்கம்</string>
     <string name="server_issue_ssl_handshake">SSL கைகுலுக்க முடியவில்லை</string>
     <string name="server_issue_timeout">இணைப்பின் நேரம் முடிந்தது</string>
-    <string name="server_issue_outdated_version">சேவையகம் %1$s பதிப்பைப் பயன்படுத்துகிறது ஆனால் %2$s அல்லது புதியதாக இருக்க வேண்டும்</string>
+    <string name="server_issue_outdated_version">சேவையகம் %1$s ஆதரிக்கப்படாத பதிப்பைப் பயன்படுத்துகிறது. தயவுசெய்து %2$s அல்லது புதியதாக புதுப்பிக்கவும்</string>
     <string name="server_issue_unsupported_version">சேவையகம் ஆதரிக்கப்படாத %1$s பதிப்பைப் பயன்படுத்துகிறது</string>
     <string name="server_issue_missing_version">சர்வர் பதிப்பை தீர்மானிக்க முடியவில்லை</string>
     <string name="server_issue_invalid_product">சர்வர் மென்பொருள் இணக்கமற்றது</string>
@@ -438,4 +438,39 @@
     <string name="action_use_password">கடவுச்சொல்லைப் பயன்படுத்தவும்</string>
     <string name="action_login">உள்நுழையவும்</string>
     <string name="state_disabled">முடக்கப்பட்டது</string>
+    <string name="app_notification_uimode_invalid">இந்த செயலி தொலைக்காட்சிகளுக்கு உகந்ததாக வடிவமைக்க பட்டுள்ளது. பிற சாதனங்களில் எங்கள் மொபைல் பயன்பாட்டைப் பயன்படுத்த பரிந்துரைக்கிறோம்.</string>
+    <string name="server_unsupported_notification">இந்தச் சேவையகம் ஆதரிக்கப்படாத %1$s பதிப்பான Jellyfin ஐப் பயன்படுத்துகிறது. பயன்பாட்டைத் தொடர்ந்து பயன்படுத்த, Jellyfin %2$s அல்லது அதற்குப் புதியதாகப் புதுப்பிக்கவும்.</string>
+    <string name="image_type_poster">சுவரொட்டி</string>
+    <string name="lbl_quality_profile">தர சுயவிவரம்</string>
+    <string name="crash_report_toast">அச்சச்சோ! ஏதோ தவறாகிவிட்டது, உங்கள் Jellyfin சர்வருக்கு செயலிழப்பு அறிக்கை அனுப்பப்பட்டது.</string>
+    <string name="pref_audio_night_mode">ஆடியோ இரவு முறை (சோதனை)</string>
+    <string name="desc_audio_night_mode">ஆடியோ ஒலியளவை தானாகவே சமன் செய்</string>
+    <string name="lbl_subtitle_fg">வசன வரி நிறம்</string>
+    <string name="color_black">கருப்பு</string>
+    <string name="color_red">சிவப்பு</string>
+    <string name="color_yellow">மஞ்சள்</string>
+    <string name="pref_telemetry_category">செயலிழப்பு அறிக்கை</string>
+    <string name="image_size_smallest">மிகச் சிறியது</string>
+    <string name="image_size_xlarge">மிக பெரியது</string>
+    <string name="color_white">வெள்ளை</string>
+    <string name="color_darkgrey">அடர் சாம்பல்</string>
+    <string name="color_green">பச்சை</string>
+    <string name="color_blue">நீலம்</string>
+    <string name="color_pink">இளஞ்சிவப்பு</string>
+    <string name="pref_telemetry_description">செயலிழப்பு அறிக்கைகளை அனுப்பு, பதிவுகளை உள்ளடக்கு</string>
+    <string name="pref_crash_reports">செயலிழப்பு அறிக்கைகளை சேவையகத்திற்கு அனுப்பு</string>
+    <string name="pref_crash_reports_enabled">செயலிழப்பு அறிக்கைகள் நீங்கள் கடைசியாகப் பயன்படுத்திய சேவையகத்திற்கு அனுப்பப்படும்</string>
+    <string name="pref_crash_reports_disabled">செயலிழப்பு அறிக்கைகள் சமர்ப்பிக்கப்படாது</string>
+    <string name="lbl_additional_parts">கூடுதல் பாகங்கள்</string>
+    <string name="lbl_adjust">சரிசெய்</string>
+    <string name="color_cyan">நீல- பச்சை</string>
+    <string name="pref_crash_report_logs_enabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படும்</string>
+    <string name="live_tv_preferences">Live TV விருப்பங்கள்</string>
+    <string name="lbl_subtitle_delay">வசன தாமதம்</string>
+    <string name="lbl_subtitle_stroke">வசன வரி அளவு</string>
+    <string name="lbl_subtitle_position">வசன வரி தொடக்க அளவு கீழிருந்து</string>
+    <string name="pref_crash_report_logs">பதிவுகளை உள்ளடக்கு</string>
+    <string name="pref_crash_report_logs_disabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படாது</string>
+    <string name="lbl_latest_in">%1$s சமீபத்தில் சேர்க்கப்பட்டது</string>
+    <string name="because_you_watched">நீங்கள் %1$sஐப் பார்த்ததால்</string>
 </resources>
