@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -70,6 +71,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.CoroutineUtils;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -764,6 +766,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (mPlaybackController != null && mPlaybackController.getFragment() == this) {
             Timber.d("this fragment belongs to the current session, ending it");
             mPlaybackController.endPlayback();
+        }
+
+        // Reset display mode back to "no preference"
+        if (DeviceUtils.is60()) {
+            WindowManager.LayoutParams params = requireActivity().getWindow().getAttributes();
+            params.preferredDisplayModeId = 0;
+            requireActivity().getWindow().setAttributes(params);
         }
     }
 

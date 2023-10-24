@@ -1,6 +1,6 @@
 package org.jellyfin.playback.core.backend
 
-import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 
 /**
@@ -42,7 +42,7 @@ class BackendService {
 			callListeners { onVideoSizeChange(width, height) }
 		}
 
-		override fun onMediaStreamEnd(mediaStream: MediaStream) {
+		override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
 			callListeners { onMediaStreamEnd(mediaStream) }
 		}
 	}

@@ -1107,12 +1107,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
-        }
 
-        if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
-        Long mbPos = mCurrentPosition * 10000;
-        ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
-        clearPlaybackSessionOptions();
+            if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
+            Long mbPos = mCurrentPosition * 10000;
+            ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            clearPlaybackSessionOptions();
+        }
     }
 
     public void refreshStream() {

@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.mediastream.DefaultMediaStreamState
-import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.mediastream.MediaStreamState
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.PositionInfo
@@ -100,7 +100,7 @@ class MutablePlayerState(
 				_videoSize.value = VideoSize(width, height)
 			}
 
-			override fun onMediaStreamEnd(mediaStream: MediaStream) = Unit
+			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) = Unit
 		})
 
 		queue = DefaultPlayerQueueState(this, scope, backendService)

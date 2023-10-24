@@ -30,6 +30,9 @@ class GridButtonPresenter @JvmOverloads constructor(
 ) : Presenter() {
 	private class ComposeViewWrapper(composeView: ComposeView) : FrameLayout(composeView.context) {
 		init {
+			isFocusable = true
+			isFocusableInTouchMode = true
+			descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 			addView(composeView)
 		}
 

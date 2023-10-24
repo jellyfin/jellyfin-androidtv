@@ -54,6 +54,7 @@ import org.videolan.libvlc.interfaces.IVLCVout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import timber.log.Timber;
 
@@ -554,10 +555,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
-        // Make sure the index is not out of bounds
-        if (index >= allStreams.size()) return false;
+        // Make sure the index is present
+        Optional<MediaStream> candidateOptional = allStreams.stream().filter(stream -> stream.getIndex() == index).findFirst();
+        if (!candidateOptional.isPresent()) return false;
 
-        org.jellyfin.sdk.model.api.MediaStream candidate = allStreams.get(index);
+        org.jellyfin.sdk.model.api.MediaStream candidate = candidateOptional.get();
         if (candidate.isExternal() || candidate.getType() != streamType)
             return false;
 

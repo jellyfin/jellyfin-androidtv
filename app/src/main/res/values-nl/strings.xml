@@ -52,7 +52,7 @@
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Afgelopen</string>
     <string name="lbl_directed_by">Regie</string>
-    <string name="lbl_last_played">"Laatst afgespeeld: "</string>
+    <string name="lbl_last_played">"Laatst afgespeeld "</string>
     <string name="lbl_other_options">Andere opties</string>
     <string name="lbl_people">Mensen</string>
     <string name="lbl_videos">Video\'s</string>
@@ -77,7 +77,7 @@
     <string name="msg_cannot_play">Dit item kan niet afgespeeld worden</string>
     <string name="lbl_no_items">Geen items</string>
     <string name="lbl_empty">Leeg</string>
-    <string name="lbl_tv_queuing">Zet alle volgende afleveringen in de wachtrij</string>
+    <string name="lbl_tv_queuing">Alle volgende afleveringen in wachtrij plaatsen</string>
     <string name="sum_tv_queuing">Voeg de rest van het seizoen toe aan de wachtrij als er een aflevering afgespeeld wordt</string>
     <string name="lbl_search_hint">Zoektekst (selecteer voor toetsenbord)</string>
     <string name="lbl_play_first_unwatched">Eerste ongekeken aflevering afspelen</string>
@@ -86,7 +86,7 @@
     <string name="lbl_remove_favorite">Favoriet verwijderen</string>
     <string name="lbl_add_favorite">Favoriet toevoegen</string>
     <string name="msg_no_playable_items">Geen afspeelbare items</string>
-    <string name="lbl_unwatched">Niet-gekeken</string>
+    <string name="lbl_unwatched">Ongekeken</string>
     <string name="lbl_load_channels">"Laad kanalen "</string>
     <string name="lbl_today">Vandaag</string>
     <string name="lbl_tomorrow">Morgen</string>
@@ -107,9 +107,9 @@
     <string name="pref_audio_compat">Naar stereo mixen</string>
     <string name="lbl_audio_output">Geluidsuitgang</string>
     <string name="lbl_goto_series">Naar serie gaan</string>
-    <string name="lbl_enable_debug">Ontwikkelaarsopties</string>
-    <string name="desc_debug">Toon extra informatie voor debugging</string>
-    <string name="lbl_showing">Tonen</string>
+    <string name="lbl_enable_debug">Opties voor foutopsporing</string>
+    <string name="desc_debug">Toon extra informatie voor foutopsporing</string>
+    <string name="lbl_showing">Toont</string>
     <string name="lbl_all_items">Alle items</string>
     <string name="lbl_sorted_by">gesorteerd op</string>
     <string name="lbl_from">van</string>
@@ -119,7 +119,7 @@
     <string name="lbl_critic_rating">Beoordeling recensenten</string>
     <string name="lbl_rating">Beoordeling</string>
     <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
-    <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
+    <string name="lbl_display_preferences">Weergavevoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
     <string name="lbl_filters">Live-tv-filters</string>
@@ -165,7 +165,7 @@
     <string name="pref_authentication_cat">Authenticatie</string>
     <string name="loading">Laden…</string>
     <string name="lbl_in_x_days">Over %d dagen</string>
-    <string name="lbl_bitstream_dts">DTS audio bitstream</string>
+    <string name="lbl_bitstream_dts">DTS-audio bitstreamen</string>
     <string name="desc_premieres">Toon een rij nieuwe pilotafleveringen voor elke serie die je kijkt</string>
     <string name="lbl_show_premieres">Seizoenspremières tonen</string>
     <string name="lbl_refresh_switching">Beeldverversingsfrequentie wisselen</string>
@@ -173,7 +173,7 @@
     <string name="btn_got_it">Duidelijk</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Vereist geschikte hardware</string>
-    <string name="lbl_bitstream_ac3">Dolby Digital audio bitstreamen</string>
+    <string name="lbl_bitstream_ac3">Dolby Digital-audio bitstreamen</string>
     <string name="lbl_new_premieres">Nieuwe premières</string>
     <string name="lbl_now_playing_album">van %1$s</string>
     <string name="lbl_now_playing_track">%1$s van %2$s</string>
@@ -202,7 +202,7 @@
     <string name="lbl_song_title">Nummertitel</string>
     <string name="lbl_more_like_this">Meer zoals dit</string>
     <string name="lbl_resume_from">Hervatten vanaf %1$s</string>
-    <string name="lbl_resume_preroll">Pre-roll hervatten</string>
+    <string name="lbl_resume_preroll">Terugspoelen bij hervatten</string>
     <string name="lbl_guide_option_number">Kanaalnummer</string>
     <string name="lbl_guide_option_played">Laatst afgespeeld</string>
     <string name="lbl_premiere">Première</string>
@@ -277,7 +277,7 @@
     <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als gekeken\?</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Afgelopen om %1$s</string>
-    <string name="lbl_sign_in">Log alsjeblieft in</string>
+    <string name="lbl_sign_in">Meld je aan</string>
     <string name="pref_clock_display_playback">Tijdens afspelen</string>
     <string name="pref_clock_display_browsing">Tijdens bladeren</string>
     <string name="lbl_always">Altijd</string>
@@ -309,7 +309,7 @@
     <string name="lbl_remove_user_content">Account verwijderen</string>
     <string name="lbl_remove_users">Dit zal ook alle bijbehorende accounts verwijderen</string>
     <string name="lbl_manage_servers">Servers beheren</string>
-    <string name="login_help_description">Jellyfin vereist een server om mee te verbinden. Lees onze documentatie op docs.jellyfin.org of scan de QR-code over hoe te beginnen met Jellyfin.</string>
+    <string name="login_help_description">Jellyfin vereist een server om mee te verbinden. Raadpleeg onze documentatie op docs.jellyfin.org of scan de QR-code om met Jellyfin van start te gaan.</string>
     <string name="login_help_title">Hulp nodig\?</string>
     <string name="connect_manually_by_address">Serveradres opgeven</string>
     <string name="discovered_servers_empty">Geen servers gevonden op het lokale netwerk.</string>
@@ -320,7 +320,7 @@
     <string name="user_picker_last_user_title">Meest recent gebruikt</string>
     <string name="user_picker_disable_summary">Aanmeldscherm altijd tonen</string>
     <string name="user_picker_disable_title">Uitschakelen</string>
-    <string name="auto_sign_in">Automatisch inloggen</string>
+    <string name="auto_sign_in">Automatisch aanmelden</string>
     <string name="lbl_use_series_thumbnails_description">Gebruik miniatuur van serie wanneer afleveringen worden getoond</string>
     <string name="lbl_use_series_thumbnails">Voorkeur voor serieminiaturen</string>
     <string name="lbl_episode_marks">Alleen bij afleveringen</string>
@@ -328,7 +328,7 @@
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>
     <string name="lbl_switch_user">Account wisselen</string>
     <string name="pref_theme_muted_purple">Muted purple</string>
-    <string name="lbl_hide_unwatched_count">Aantal niet-gekeken verbergen</string>
+    <string name="lbl_hide_unwatched_count">Aantal ongekeken verbergen</string>
     <string name="pref_watched_indicator">Gekeken-vinkjes tonen</string>
     <string name="press_to_close">Druk om te sluiten</string>
     <string name="lbl_community_rating">Beoordeling gemeenschap</string>
@@ -393,7 +393,7 @@
     <string name="pref_subtitles_background_summary">Toon een zwarte achtergrond bij de ondertiteling</string>
     <string name="home_section_next_up">Volgende</string>
     <string name="home_section_library_small">Mijn media (klein)</string>
-    <string name="licenses_link_description">Bekijk de licenties van de software die wordt gebruikt door de Jellyfin-app</string>
+    <string name="licenses_link_description">Bekijk de licenties van de bibliotheken die door de Jellyfin-app worden gebruikt</string>
     <string name="server_issue_unsupported_version">Server gebruikt niet-ondersteunde versie %1$s</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
     <string name="pref_show_backdrop_description">Verander achtergrondafbeelding naar geselecteerde items</string>
@@ -511,7 +511,7 @@
     <string name="not_set">Niet ingesteld</string>
     <string name="pref_music_cat">Muziek</string>
     <string name="pref_music_rewrite_disable">Nieuwe muziek-backend uitschakelen</string>
-    <string name="pref_music_rewrite_enable_description">Schakel dit uit als je problemen ondervindt tijdens het afspelen van muziek</string>
+    <string name="pref_music_rewrite_enable_description">Schakel dit alleen uit als je problemen ondervindt bij het afspelen van muziek</string>
     <string name="disable_ui_mode_warning">Waarschuwing voor apparaattype uitschakelen</string>
     <string name="because_you_watched">Omdat je %1$s hebt gekeken</string>
 </resources>

@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.playback.rewrite
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -29,14 +29,17 @@ import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
+import kotlin.math.max
 
 @Suppress("TooManyFunctions")
 class RewriteMediaManager(
-	private val context: Context,
-	private val api: ApiClient,
+	context: Context,
+	api: ApiClient,
 	private val navigationRepository: NavigationRepository,
 	private val playbackManager: PlaybackManager,
 ) : MediaManager {
+	private val queue = BaseItemQueue(api)
+
 	override fun hasAudioQueueItems(): Boolean = currentAudioQueue.size() > 0 && currentAudioItem != null
 
 	override val currentAudioQueueSize: Int
@@ -127,28 +130,31 @@ class RewriteMediaManager(
 			}
 		}.launchIn(this)
 
-		playbackManager.state.queue.entry.onEach {
-			// Get all items as BaseRowItem
-			val items = (playbackManager.state.queue.current.value as? BaseItemQueue)
-				?.items
-				.orEmpty()
-				.run {
-					val currentItemIndex = playbackManager.state.queue.entryIndex.value ?: -1
-					// Drop previous items
-					if (currentItemIndex >= 0) drop(currentItemIndex) else this
-				}
-				.map(::BaseRowItem)
-				.apply {
-					// Set first as playing
-					if (isNotEmpty()) first().playing = true
-					forEachIndexed { index, item -> item.index = index }
-				}
+		playbackManager.state.queue.entry.onEach { updateAdapter() }.launchIn(this)
+	}
 
-			// Update item row
-			currentAudioQueue.replaceAll(items)
+	private fun updateAdapter() {
+		// Get all items as BaseRowItem
+		val items = queue
+			.items
+			// Map to audio queue items
+			.mapIndexed { index, item ->
+				AudioQueueItem(index, item).apply {
+					playing = playbackManager.state.queue.entryIndex.value == index
+				}
+			}
+			// Remove items before currently playing item
+			.drop(max(0, playbackManager.state.queue.entryIndex.value))
 
-			notifyListeners { onQueueReplaced() }
-		}.launchIn(this)
+		// Update item row
+		currentAudioQueue.replaceAll(
+			items,
+			areItemsTheSame = { old, new -> (old as AudioQueueItem).baseItem == (new as AudioQueueItem).baseItem },
+			// The equals functions for BaseRowItem only compare by id
+			areContentsTheSame = { _, _ -> false },
+		)
+
+		notifyListeners { onQueueReplaced() }
 	}
 
 	private fun notifyListeners(body: AudioEventListener.() -> Unit) {
@@ -166,10 +172,8 @@ class RewriteMediaManager(
 		}
 	}
 
-	override fun queueAudioItem(item: BaseItemDto?): Int {
-		// TODO
-		Toast.makeText(context, "queueAudioItem() - Not yet implemented", Toast.LENGTH_LONG).show()
-		return 0
+	override fun queueAudioItem(item: BaseItemDto) {
+		addToAudioQueue(listOf(item))
 	}
 
 	override fun clearAudioQueue() {
@@ -181,13 +185,32 @@ class RewriteMediaManager(
 	}
 
 	override fun addToAudioQueue(items: List<BaseItemDto>) {
-		// TODO
-		Toast.makeText(context, "addToAudioQueue() - Not yet implemented", Toast.LENGTH_LONG).show()
+		if (items.isEmpty()) return
+
+		val addIndex = when (playbackManager.state.playState.value) {
+			PlayState.PLAYING -> playbackManager.state.queue.entryIndex.value + 1
+			else -> 0
+		}
+
+		queue.items.addAll(addIndex, items)
+
+		if (
+			playbackManager.state.queue.current.value != queue ||
+			playbackManager.state.playState.value != PlayState.PLAYING
+		) {
+			playbackManager.state.setPlaybackOrder(if (isShuffleMode) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
+			playbackManager.state.play(queue)
+		}
+
+		updateAdapter()
 	}
 
 	override fun removeFromAudioQueue(ndx: Int) {
-		// TODO
-		Toast.makeText(context, "removeFromAudioQueue() - Not yet implemented", Toast.LENGTH_LONG).show()
+		// Disallow removing currently playing item (legacy UI cannot keep up)
+		if (playbackManager.state.queue.entryIndex.value == ndx) return
+
+		queue.items.removeAt(ndx)
+		updateAdapter()
 	}
 
 	override val isPlayingAudio: Boolean
@@ -195,7 +218,8 @@ class RewriteMediaManager(
 
 	override fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean) {
 		val filteredItems = items.drop(position)
-		val queue = BaseItemQueue(filteredItems, api)
+		queue.items.clear()
+		queue.items.addAll(filteredItems)
 		playbackManager.state.setPlaybackOrder(if (shuffle) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
 		playbackManager.state.play(queue)
 
@@ -275,9 +299,10 @@ class RewriteMediaManager(
 	}
 
 	private class BaseItemQueue(
-		val items: List<BaseItemDto>,
 		private val api: ApiClient,
 	) : Queue {
+		val items = mutableListOf<BaseItemDto>()
+
 		override val size: Int
 			get() = items.size
 

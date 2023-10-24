@@ -1,3 +1,3 @@
-Hvala za uporabo Jellyfin na Android TV! Uporaba najnovejšega izdanega Strežnika Jellyfin je vedno priporočljivo.
+Hvala, ker uporabljate Jellyfin na Android TV! Priporočena je uporaba najnovejše različice strežnika Jellyfin.
 
-Za več informacij si oglejte naš blog na jellyfin.org, ali pa preberite celoten changelog na GitHub.
+Za več informacij si oglejte naš blog na jellyfin.org, ali pa preberite celoten dnevnik sprememb na GitHub.
