@@ -76,7 +76,7 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Sugerido</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Finaliza a las %1$shs</string>
+    <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
@@ -478,12 +478,12 @@
     <plurals name="seconds">
         <item quantity="one">%1$s segundo</item>
         <item quantity="many">%1$s segundos</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="hours">
         <item quantity="one">%1$s hora</item>
         <item quantity="many">%1$s horas</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="lbl_album_artists">Artistas del álbum</string>
     <string name="login_quickconnect_step_2">2. Abrí el menú de usuario y andá a la página Conexión Rápida</string>
@@ -511,12 +511,12 @@
     <plurals name="minutes">
         <item quantity="one">%1$s minuto</item>
         <item quantity="many">%1$s minutos</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="tracks">
         <item quantity="one">%1$s pista</item>
         <item quantity="many">%1$s pistas</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="because_you_watched">Porque viste %1$s</string>
 </resources>
