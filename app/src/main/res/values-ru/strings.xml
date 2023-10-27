@@ -288,7 +288,7 @@
     <string name="login_username_field_empty">Имя пользователя не может быть пустым</string>
     <string name="login_server_unavailable">Невозможно подключиться к серверу</string>
     <string name="login_invalid_credentials">Неверные имя пользователя и/или пароль</string>
-    <string name="login_authenticating">Авторизация</string>
+    <string name="login_authenticating">Аутентификация…</string>
     <string name="server_field_empty">Адрес не может быть пустым</string>
     <string name="server_connection_failed">Невозможно подключиться к серверу</string>
     <string name="server_connecting">Подключение к %1$s</string>
