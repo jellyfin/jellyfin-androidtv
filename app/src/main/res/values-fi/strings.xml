@@ -232,7 +232,7 @@
     <string name="lbl_now_playing_track">%1$s/%2$s</string>
     <string name="pref_video">Video</string>
     <string name="lbl_starting_early_ending_on_schedule">Aloitetaan %1$s etuajassa ja lopetetaan ohjelmiston mukaisesti</string>
-    <string name="image_type_thumbnail">Kuva</string>
+    <string name="image_type_thumbnail">Pienoiskuva</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_on">Kanavalla</string>
     <string name="home_section_resume_book">Jatka lukemista</string>
@@ -440,7 +440,7 @@
     <string name="lbl_subtitle_delay">Tekstitysviive</string>
     <string name="lbl_adjust">Säädä</string>
     <string name="live_tv_preferences">Television asetukset</string>
-    <string name="lbl_from">lähteestä</string>
+    <string name="lbl_from">kansiosta</string>
     <string name="app_notification_uimode_invalid">Sovellus on optimoitu televisioille. Muille laitteille suosittelemme mobiilisovellustamme.</string>
     <string name="image_size_xlarge">Erittäin suuri</string>
     <string name="image_size_smallest">Pienin</string>
