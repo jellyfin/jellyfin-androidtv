@@ -174,7 +174,7 @@
     <string name="pref_video_player_external">Εξωτερική εφαρμογή</string>
     <string name="pref_video_player_auto">Αυτόματη επιλογή</string>
     <string name="pref_theme_dark">Σκοτεινό (Προεπιλογή)</string>
-    <string name="lbl_my_media">Τα μέσα μου</string>
+    <string name="lbl_my_media">Τα πολυμέσα μου</string>
     <string name="lbl_audio_delay">Καθυστέρηση ήχου</string>
     <string name="lbl_unwatched">Δεν προβλήθηκε</string>
     <string name="lbl_song_title">Τίτλος τραγουδιού</string>
@@ -284,7 +284,7 @@
     <string name="lbl_starting_early_ending_after">Ξεκινάει στις %1$s και τελειώνει στις %2$s έπειτα από προγραμματισμό</string>
     <string name="server_issue_ssl_handshake">Η χειραψία μέσω SSL απέτυχε</string>
     <string name="server_issue_timeout">Το χρονικό όριο της σύνδεσης έληξε</string>
-    <string name="server_issue_outdated_version">Ο διακομιστής χρησιμοποιεί την έκδοση %1$s αλλά πρέπει να έχει την %2$s ή νεότερη</string>
+    <string name="server_issue_outdated_version">Ο διακομιστής χρησιμοποιεί μη υποστηριζόμενη έκδοση %1$s. Παρακαλούμε ενημερώστε σε %2$s ή νεότερη</string>
     <string name="server_issue_unsupported_version">Ο διακομιστής χρησιμοποιεί την έκδοση %1$s, η οποία δεν υποστηρίζεται</string>
     <string name="server_issue_missing_version">Δεν μπορεί να καθοριστεί η έκδοση του διακομιστή</string>
     <string name="server_issue_invalid_product">Το λογισμικό του διακομιστή δεν είναι συμβατό</string>
@@ -429,7 +429,7 @@
     <string name="lbl_quality_profile">Προφίλ ποιότητας</string>
     <string name="pref_theme_muted_purple">Μουντό μωβ</string>
     <string name="pref_video">Βίντεο</string>
-    <string name="server_unsupported_notification">Αυτός ο διακομιστής χρησιμοποιεί την έκδοση %1$s του Jellyfin η οποία δεν υποστηρίζετα. Παρακαλώ αναβαθμίστε το Jellyfin στην έκδοση %2$s για να συνεχίσετε να χρησιμοποιείτε την εφαρμογή.</string>
+    <string name="server_unsupported_notification">Αυτός ο διακομιστής χρησιμοποιεί την έκδοση Jellyfin %1$s, η οποία δεν υποστηρίζεται. Παρακαλούμε ενημερώστε σε Jellyfin %2$s ή νεότερη για να συνεχίσετε να χρησιμοποιείτε την εφαρμογή.</string>
     <string name="pref_customization">Προσαρμογή</string>
     <string name="pref_accounts">Λογαριασμοί Χρηστών</string>
     <string name="pref_behavior">Συμπεριφορά</string>
