@@ -135,6 +135,7 @@
     <string name="lbl_critic_rating">Critic rating</string>
     <string name="lbl_community_rating">Community rating</string>
     <string name="lbl_rating">Rating</string>
+    <string name="lbl_random">Random</string>
     <string name="lbl_starting_with">beginning with those whose name starts with</string>
     <string name="lbl_display_preferences">Display preferences</string>
     <string name="lbl__continuing"> CONTINUING </string>
