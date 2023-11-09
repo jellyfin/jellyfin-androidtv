@@ -89,4 +89,36 @@
     <string name="lbl_tv_queuing">Паставіць у чаргу ўсе наступныя эпізоды</string>
     <string name="sum_tv_queuing">Дадаць астатнюю частку сезона ў чаргу пры прайграванні эпізоду</string>
     <string name="because_you_watched">Таму што вы глядзелі %1$s</string>
+    <string name="lbl_mark_unplayed">Пазначыць непрайграваным</string>
+    <string name="msg_recording_now">Запісваецца зараз</string>
+    <string name="lbl_runs">Працягвацца</string>
+    <string name="lbl_search_hint">Пошук тэксту (выбраць для клавіятуры)</string>
+    <string name="lbl_now_playing_track">%1$s з %2$s</string>
+    <string name="lbl_now_playing_album">з %1$s</string>
+    <string name="msg_no_playable_items">Няма элементаў для прайгравання</string>
+    <string name="lbl_unwatched">Непрагледжанае</string>
+    <string name="lbl_today">Сёння</string>
+    <string name="lbl_tomorrow">Заўтра</string>
+    <string name="license_license">Ліцэнзія</string>
+    <string name="home_section_library">Мае медыя</string>
+    <string name="lbl_play_first_unwatched">Спачатку прайграваць непрагледжанае</string>
+    <string name="lbl_mark_played">Пазначыць прайграваным</string>
+    <string name="lbl_remove_favorite">Выдаліць з абранага</string>
+    <string name="lbl_tune_to_channel">Пераключыць на канал</string>
+    <string name="msg_will_record">Будзе запісана</string>
+    <string name="lbl_program_ended">Праграма скончана</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s эпізод</item>
+        <item quantity="few">%1$s эпізодаў</item>
+        <item quantity="many">%1$s эпізоды</item>
+        <item quantity="other">%1$s эпізоды</item>
+    </plurals>
+    <string name="lbl_load_channels">"Загрузіць каналы "</string>
+    <string name="lbl_add_favorite">Дадаць у абранае</string>
+    <string name="home_prefs">Дадому</string>
+    <string name="home_sections">Хатнія раздзелы</string>
+    <string name="home_section_latest_media">Нядаўна дададзеныя медыя</string>
+    <string name="home_section_library_small">Мае медыя (скарочана)</string>
+    <string name="home_section_resume_audio">Працягнуць праслухоўваць</string>
+    <string name="home_section_resume">Працягнуць прагляд</string>
 </resources>
