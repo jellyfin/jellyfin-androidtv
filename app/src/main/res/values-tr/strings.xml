@@ -154,7 +154,7 @@
     <string name="msg_unable_to_create_recording">Kayıt oluşturulamadı</string>
     <string name="msg_set_to_record">Program kaydedilmeye ayarlandı</string>
     <string name="lbl_record">Kayıt</string>
-    <string name="lbl_record_series">Diziyi kaydet</string>
+    <string name="lbl_record_series">Dizileri kaydet</string>
     <string name="lbl_cancel_series">Diziyi iptal Et</string>
     <string name="lbl_cancel_recording">Kaydı iptal et</string>
     <string name="lbl_cancel">İptal Et</string>
