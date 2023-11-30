@@ -181,7 +181,7 @@
     <string name="lbl_views">Görüntüleme</string>
     <string name="lbl_on_now">Yayında</string>
     <string name="lbl_next_up">Sıradaki bölüm</string>
-    <string name="lbl_continue_watching">İzlemeye Devam Et</string>
+    <string name="lbl_continue_watching">İzlemeye devam et</string>
     <string name="lbl_settings">Tercihler</string>
     <string name="chapters">Bölümler</string>
     <string name="pref_authentication_cat">Doğrulama</string>
@@ -245,14 +245,14 @@
     <string name="pref_video_player_auto">Otomatik olarak seç</string>
     <string name="pref_theme_emerald">Klasik zümrüt</string>
     <string name="pref_theme_dark">Karanlık (Varsayılan)</string>
-    <string name="lbl_my_media">Medyam</string>
+    <string name="lbl_my_media">Benim medyam</string>
     <string name="lbl_image_size">Resim boyutu</string>
     <string name="lbl_image_type">Resim türü</string>
     <string name="lbl_start_favorites">Favorileri başa yerleştir</string>
     <string name="lbl_colored_backgrounds">Renk kodlu arka planlar</string>
     <string name="lbl_hd_programs">HD Programlar</string>
     <string name="lbl_live_broadcasts">Canlı yayınlar</string>
-    <string name="lbl_repeat_episodes">Tekrar Bölümler</string>
+    <string name="lbl_repeat_episodes">Tekrarlanan bölümler</string>
     <string name="lbl_premieres">Prömierler</string>
     <string name="lbl_new_episodes">Yeni bölümler</string>
     <string name="lbl_audio_delay">Ses gecikmesi</string>
@@ -369,7 +369,7 @@
     <string name="image_size_small">Küçük</string>
     <string name="image_type_banner">Afiş</string>
     <string name="image_type_thumbnail">Miniresim</string>
-    <string name="enable_smart_view_description">Akıllı ekran grid yerine ilgili olanları gösterir</string>
+    <string name="enable_smart_view_description">Akıllı ekran tablo yerine ilgili ögeleri gösterir</string>
     <string name="enable_smart_view">Akıllı ekranı aktifleştir</string>
     <string name="lbl_sign_out">Çıkış yap</string>
     <string name="lbl_remove">Kaldır</string>
