@@ -4,7 +4,7 @@
     <string name="lbl_cancel">Tühista</string>
     <string name="lbl_pause">Pausi</string>
     <string name="lbl_play">Esita</string>
-    <string name="lbl_shuffle_all">Juhustage Kõik</string>
+    <string name="lbl_shuffle_all">Sega kõik</string>
     <string name="lbl_play_all">Esita kõik</string>
     <string name="lbl_other">Muud</string>
     <string name="lbl_tv_series">Telesarjad</string>
@@ -30,4 +30,19 @@
     <string name="video_error_unknown_error">Video laadimine ebaõnnestus</string>
     <string name="chapters">Peatükid</string>
     <string name="lbl_continue_watching">Jätka vaatamist</string>
+    <string name="lbl_settings">Eelistused</string>
+    <string name="lbl_trailers">Treilerid</string>
+    <string name="settings_title">Eelistused</string>
+    <string name="pref_authentication_cat">Autentimine</string>
+    <string name="msg_unable_to_create_recording">Salvestust ei saa luua</string>
+    <string name="lbl_cancel_series">Tühista seeria</string>
+    <string name="lbl_record">Salvesta</string>
+    <string name="lbl_additional_parts">Lisaosad</string>
+    <string name="lbl_record_series">Salvesta seeria</string>
+    <string name="lbl_cast_crew">Näitlejad ja meeskond</string>
+    <string name="lbl_views">Vaatamised</string>
+    <string name="msg_unable_to_cancel">Pole võimalik tühistada salvestamist</string>
+    <string name="lbl_chapters">Peatükid</string>
+    <string name="msg_set_to_record">Programm on seatud salvestama</string>
+    <string name="msg_recording_cancelled">Salvestus tühistatud</string>
 </resources>
