@@ -215,7 +215,7 @@
     <string name="seek_error">Gezinilemiyor</string>
     <string name="msg_live_tv_prev">Önceki %1$d saati yükle\?</string>
     <string name="msg_live_tv_next">Sıradaki %1$d saati yükle\?</string>
-    <string name="lbl_load_guide_data">Kılavuz verilerini yükle</string>
+    <string name="lbl_load_guide_data">Rehber verilerini yükle</string>
     <string name="episode_missing_message_2">Bu bölüm kütüphanenizde eksik. Oynatma duracak.</string>
     <string name="episode_missing_message">Bu bölüm kütüphanenizde eksil. Bunu atlayıp bir sonrakine geçmek ister misiniz\?</string>
     <string name="episode_missing">Bölüm eksik</string>
@@ -437,7 +437,7 @@
     <string name="pref_home_description">Gösterilen bölümleri yapılandırın</string>
     <string name="pref_customization_description">Tema, ana sayfa, yeniden eşleştirme</string>
     <string name="pref_video">Video</string>
-    <string name="action_use_quickconnect">Hızlı Bağlantı Kullanın</string>
+    <string name="action_use_quickconnect">Hızlı Bağlan\'ı Kullan</string>
     <string name="app_notification_uimode_invalid">Bu uygulama televizyonlar için optimize edilmiştir. Mobil uygulamamızı diğer cihazlarda kullanmanızı öneririz.</string>
     <string name="pref_crash_reports_disabled">Çökme raporları gönderilmeyecektir</string>
     <string name="pref_crash_report_logs">Günlükleri dahil et</string>
@@ -485,7 +485,7 @@
     <string name="input_username">Kullanıcı adı</string>
     <string name="login_other_options">Diğer seçenekler:</string>
     <string name="login_quickconnect_step_1">1. Telefonunuzda veya web tarayıcınızda Jellyfin uygulamasını açın ve hesabınızla oturum açın</string>
-    <string name="login_quickconnect_step_2">2. Kullanıcı menüsünü açın ve Hızlı Bağlantı sayfasına gidin</string>
+    <string name="login_quickconnect_step_2">2. Kullanıcı menüsünü açın ve Hızlı Bağlan sayfasına gidin</string>
     <string name="action_connect">Bağlan</string>
     <string name="login_quickconnect_step_3">3. Aşağıdaki kodu girin:</string>
     <string name="server_unsupported_notification">Bu sunucu desteklenmeyen Jellyfin %1$s sürümünü kullanıyor. Uygulamayı kullanmaya devam etmek için lütfen Jellyfin %2$s veya daha yeni bir sürüme güncelleyin.</string>
