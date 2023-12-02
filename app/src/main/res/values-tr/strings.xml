@@ -200,7 +200,7 @@
     <string name="pref_video_player_vlc">LibVLC (deneysel)</string>
     <string name="lbl_from">,</string>
     <string name="lbl_playback_control_ends">Bitiş zamanı %1$s</string>
-    <string name="lbl_sign_in">Lütfen giriş yapın</string>
+    <string name="lbl_sign_in">Lütfen oturum açın</string>
     <string name="play_with">Şununla oynat</string>
     <string name="play_with_external_app">Harici bir uygulama ile oynat</string>
     <string name="play_with_exo_player">ExoPlayer ile oynat</string>
@@ -323,7 +323,7 @@
     <string name="licenses_link">Lisanslar</string>
     <string name="select_version">Sürüm</string>
     <string name="advanced_settings">Gelişmiş</string>
-    <string name="always_authenticate_description">Bu fonksiyonun aktifleştirilmesi otomatik girişi devre dışı bırakır</string>
+    <string name="always_authenticate_description">Bu fonksiyonun etkinleştirilmesi otomatik oturum açmayı devre dışı bırakır</string>
     <string name="always_authenticate">Her zaman kullanıcı bilgilerini sor</string>
     <string name="alphabetical">Alfabetik</string>
     <string name="last_use">En son kullanılan</string>
@@ -348,9 +348,9 @@
     <string name="lbl_switch_user">Hesap değiştir</string>
     <string name="user_picker_last_user_summary">Son etkin hesabı kullanın</string>
     <string name="user_picker_last_user_title">En son kullanılan</string>
-    <string name="user_picker_disable_summary">Her zaman giriş ekranını göster</string>
+    <string name="user_picker_disable_summary">Her zaman oturum açma ekranını göster</string>
     <string name="user_picker_disable_title">Devre dışı bırak</string>
-    <string name="auto_sign_in">Otomatik giriş yap</string>
+    <string name="auto_sign_in">Otomatik oturum aç</string>
     <string name="lbl_use_series_thumbnails_description">Bölümleri oynatırken dizi küçük resimlerini kullan</string>
     <string name="lbl_use_series_thumbnails">Dizi küçük resimlerini tercih et</string>
     <string name="lbl_episode_marks">Sadece bölümler üzerinde</string>
@@ -371,12 +371,12 @@
     <string name="image_type_thumbnail">Küçük resim</string>
     <string name="enable_smart_view_description">Akıllı ekran tablo yerine ilgili ögeleri gösterir</string>
     <string name="enable_smart_view">Akıllı ekranı aktifleştir</string>
-    <string name="lbl_sign_out">Çıkış yap</string>
+    <string name="lbl_sign_out">Oturumu kapat</string>
     <string name="lbl_remove">Kaldır</string>
     <string name="lbl_server">Sunucu</string>
     <string name="lbl_user_last_used">En son %1$s tarihinde saat %2$s\'de kullanıldı</string>
     <string name="lbl_remove_server">Sunucuyu kaldır</string>
-    <string name="lbl_sign_out_content">Bir sonraki kullanımda giriş yapmayı gerektirir</string>
+    <string name="lbl_sign_out_content">Bir sonraki kullanımda oturum açma gerektirir</string>
     <string name="lbl_remove_user_content">Hesabı kaldır</string>
     <string name="lbl_remove_users">Bu aynı zamanda ilişkili tüm hesapları da kaldıracaktır</string>
     <string name="lbl_manage_servers">Sunucuları yönet</string>
@@ -435,7 +435,7 @@
     <string name="pref_show_backdrop_description">Seçili ögelerin arka plan resmini değiştir</string>
     <string name="image_size_smallest">En Küçük</string>
     <string name="pref_home_description">Gösterilen bölümleri yapılandırın</string>
-    <string name="pref_customization_description">Tema, ana sayfa, yeniden eşleştirme</string>
+    <string name="pref_customization_description">Tema, ana ekran, yeniden eşleştirme</string>
     <string name="pref_video">Video</string>
     <string name="action_use_quickconnect">Hızlı Bağlan\'ı Kullan</string>
     <string name="app_notification_uimode_invalid">Bu uygulama televizyonlar için optimize edilmiştir. Mobil uygulamamızı diğer cihazlarda kullanmanızı öneririz.</string>
@@ -464,7 +464,7 @@
         <item quantity="one">%1$s parça</item>
         <item quantity="other">%1$s parça</item>
     </plurals>
-    <string name="enable_reactive_homepage">Reaktif ana sayfayı etkinleştirin</string>
+    <string name="enable_reactive_homepage">Reaktif ana ekranı etkinleştirin</string>
     <plurals name="episodes">
         <item quantity="one">%1$s bölüm</item>
         <item quantity="other">%1$s bölüm</item>
