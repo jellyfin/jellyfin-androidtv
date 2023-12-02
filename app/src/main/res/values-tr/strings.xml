@@ -305,13 +305,13 @@
     <string name="home_section_none">Hiçbiri</string>
     <string name="home_section_livetv">Canlı TV</string>
     <string name="home_section_next_up">Sıradaki</string>
-    <string name="home_section_active_recordings">Aktif kayıtlar</string>
+    <string name="home_section_active_recordings">Etkin kayıtlar</string>
     <string name="home_section_resume_audio">Dinlemeye devam et</string>
     <string name="home_section_resume">İzlemeye devam et</string>
     <string name="home_section_library_small">Benim medyam (küçük)</string>
     <string name="home_section_library">Benim medyam</string>
     <string name="home_section_latest_media">Son eklenen medya</string>
-    <string name="home_sections">Ana Ekran bölümleri</string>
+    <string name="home_sections">Ana ekran bölümleri</string>
     <string name="home_prefs">Ana Ekran</string>
     <string name="license_license">Lisans</string>
     <string name="license_author">Yazar</string>
@@ -368,7 +368,7 @@
     <string name="image_size_medium">Orta</string>
     <string name="image_size_small">Küçük</string>
     <string name="image_type_banner">Afiş</string>
-    <string name="image_type_thumbnail">Miniresim</string>
+    <string name="image_type_thumbnail">Küçük resim</string>
     <string name="enable_smart_view_description">Akıllı ekran tablo yerine ilgili ögeleri gösterir</string>
     <string name="enable_smart_view">Akıllı ekranı aktifleştir</string>
     <string name="lbl_sign_out">Çıkış yap</string>
@@ -395,7 +395,7 @@
     <string name="lbl_adjust">Ayarla</string>
     <string name="lbl_subtitle_delay">Altyazı gecikmesi</string>
     <string name="server_connection_failed_candidates">Sunucuya bağlanılamıyor, şu adresler denendi: %1$s</string>
-    <string name="image_type_poster">Afiş</string>
+    <string name="image_type_poster">Poster</string>
     <string name="pref_subtitles_background_summary">Altyazıların arkasında siyah bir arka plan göster</string>
     <string name="color_black">Siyah</string>
     <string name="color_red">Kırmızı</string>
