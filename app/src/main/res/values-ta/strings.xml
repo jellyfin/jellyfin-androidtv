@@ -473,4 +473,45 @@
     <string name="pref_crash_report_logs_disabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படாது</string>
     <string name="lbl_latest_in">%1$s சமீபத்தில் சேர்க்கப்பட்டது</string>
     <string name="because_you_watched">நீங்கள் %1$sஐப் பார்த்ததால்</string>
+    <string name="pref_screensaver">ஸ்கிரீன்சேவர்</string>
+    <string name="pref_screensaver_inapp_enabled_description">பயன்பாடு திறந்திருக்கும் போது ஜெல்லிஃபின் ஸ்கிரீன்சேவரைக் காட்டு</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s அத்தியாயம்</item>
+        <item quantity="other">%1$s அத்தியாயங்கள்</item>
+    </plurals>
+    <string name="pref_music_cat">இசை</string>
+    <string name="disable_ui_mode_warning">சாதன வகை எச்சரிக்கையை முடக்கு</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s டிராக்</item>
+        <item quantity="other">%1$s டிராக்குகள்</item>
+    </plurals>
+    <string name="server_setup_incomplete">இந்த சேவையகத்தின் அமைவு முடிக்கப்படவில்லை. உள்நுழைவதற்கு முன் அமைவை முடிக்க இணைய உலாவியில் ஜெல்லிஃபினைத் திறக்கவும்.</string>
+    <string name="pref_screensaver_inapp_timeout">பிறகு ஸ்கிரீன்சேவரைத் தொடங்கவும்</string>
+    <string name="enable_reactive_homepage">எதிர்வினை முகப்புப்பக்கத்தை இயக்கவும்</string>
+    <string name="not_set">அமைக்கப்படவில்லை</string>
+    <string name="lbl_album_artists">ஆல்பம் கலைஞர்கள்</string>
+    <string name="pref_music_rewrite_disable">புதிய இசை பின்னணியை முடக்கு</string>
+    <string name="pref_music_rewrite_enable_description">மியூசிக் பிளேபேக்கில் சிக்கல்கள் இருந்தால் மட்டுமே இதை முடக்கவும்</string>
+    <string name="pref_enable_media_management">மீடியா நிர்வாகத்தை இயக்கு</string>
+    <string name="item_delete_confirm_message">சேவையகத்திலிருந்து இந்த உருப்படியை நிச்சயமாக நீக்க விரும்புகிறீர்களா\? இந்தச் செயலைச் செயல்தவிர்க்க முடியாது.</string>
+    <string name="app_notification_beta">பயன்பாடு %1$sக்கு புதுப்பிக்கப்பட்டது
+\nஜெல்லிஃபின் பீட்டா திட்டத்தில் பங்கேற்றதற்கு நன்றி</string>
+    <string name="item_deleted">%1$s நீக்கப்பட்டது</string>
+    <string name="item_deletion_failed">%1$sஐ நீக்க முடியவில்லை</string>
+    <string name="pref_enable_media_management_description">உலாவும்போது மீடியாவை நிர்வகிப்பதற்கான விருப்பத்தைக் காட்டு</string>
+    <string name="item_delete_confirm_title">உருப்படியை நீக்கு</string>
+    <string name="pref_screensaver_inapp_enabled">பயன்பாட்டில் உள்ள ஸ்கிரீன்சேவரைப் பயன்படுத்தவும்</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s நிமிடம்</item>
+        <item quantity="other">%1$s நிமிடங்கள்</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%1$s வினாடி</item>
+        <item quantity="other">%1$s வினாடிகள்</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s மணிநேரம்</item>
+        <item quantity="other">%1$s மணிநேரம்</item>
+    </plurals>
+    <string name="episode_name_special">பிரத்யேகமான</string>
 </resources>
