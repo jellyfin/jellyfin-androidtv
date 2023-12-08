@@ -728,6 +728,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onResume() {
         super.onResume();
 
+        // Close player when resuming without a valid playback contoller
+        if (!mPlaybackController.hasFragment()) {
+            if (navigationRepository.getValue().getCanGoBack()) {
+                navigationRepository.getValue().goBack();
+            } else {
+                navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
+            }
+
+            return;
+        }
+
         // Hide system bars
         WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
         WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
