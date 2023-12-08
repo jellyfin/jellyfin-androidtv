@@ -375,15 +375,16 @@ public class InfoLayoutHelper {
 
     private static void addVideoCodecDetails(Context context, LinearLayout layout, MediaStream stream) {
         if (stream != null) {
+            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
+                String codec = stream.getCodec().toUpperCase();
+                addBlockText(context, layout, codec);
+                addSpacer(context, layout, "  ");
+            }
             if (stream.getVideoDoViTitle() != null && stream.getVideoDoViTitle().trim().length() > 0) {
                 addBlockText(context, layout, "VISION");
                 addSpacer(context, layout, "  ");
             } else if (stream.getVideoRangeType() != null && !stream.getVideoRangeType().equals("SDR")) {
                 addBlockText(context, layout, stream.getVideoRangeType().toUpperCase());
-                addSpacer(context, layout, "  ");
-            } else if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
-                String codec = stream.getCodec().toUpperCase();
-                addBlockText(context, layout, codec);
                 addSpacer(context, layout, "  ");
             }
         }
