@@ -24,6 +24,8 @@ import org.jellyfin.sdk.model.api.SeriesStatus;
 import org.koin.java.KoinJavaComponent;
 
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -315,7 +317,7 @@ public class InfoLayoutHelper {
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(DateFormat.getMediumDateFormat(context).format(TimeUtils.getDate(item.getPremiereDate())));
+                    date.setText(item.getPremiereDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
                     layout.addView(date);
                     addSpacer(context, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
