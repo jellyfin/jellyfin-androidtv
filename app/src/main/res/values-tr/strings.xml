@@ -23,9 +23,9 @@
     <string name="lbl_clear_queue">Kuyruğu temizle</string>
     <string name="btn_got_it">Anladım</string>
     <string name="lbl_subtitle_track">Altyazı parçası seç</string>
-    <string name="lbl_audio_track">Ses parçası seç</string>
+    <string name="lbl_audio_track">Ses parçası seçin</string>
     <string name="lbl_zoom">Yakınlaşma</string>
-    <string name="desc_bitstream_ac3">Kapasiteli donanım gerektirir</string>
+    <string name="desc_bitstream_ac3">Uyumlu donanım gerektirir</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital ses</string>
     <string name="lbl_new_premieres">Yeni prömiyerler</string>
     <string name="desc_automatic_fav_songs">Favori şarkılardan oluşan otomatik çalma listesi</string>
@@ -52,7 +52,7 @@
     <string name="lbl_artists">Sanatçılar</string>
     <string name="lbl_albums">Albümler</string>
     <string name="lbl_programs">Programlar</string>
-    <string name="lbl_direct_stream_live">Doğrudan Canlı TV akışı</string>
+    <string name="lbl_direct_stream_live">Doğrudan canlı TV akışı</string>
     <string name="msg_error_live_stream">Canlı TV akışı hatası. Yeniden denenecek…</string>
     <string name="pref_live_tv_cat">Canlı TV</string>
     <string name="lbl_recorded_tv">Kaydedilmiş TV</string>
@@ -79,7 +79,7 @@
     <string name="lbl_goto_series">Dizilere git</string>
     <string name="lbl_audio_output">Ses çıkışı</string>
     <string name="pref_audio_compat">Stereo\'ya düşür</string>
-    <string name="pref_audio_direct">Direk</string>
+    <string name="pref_audio_direct">Doğrudan</string>
     <string name="msg_cancel_entire_series">TÜM DİZİYİ iptal etmek istediğinize emin misini\?</string>
     <string name="lbl_repeat_options">Tekrar seçenekleri</string>
     <string name="lbl_only_new_episodes">Sadece yeni bölümler</string>
@@ -186,7 +186,7 @@
     <string name="chapters">Bölümler</string>
     <string name="pref_authentication_cat">Doğrulama</string>
     <string name="settings_title">Tercihler</string>
-    <string name="pref_max_bitrate_title">Maksimum Akış Bit Hızı</string>
+    <string name="pref_max_bitrate_title">Maksimum akış bit hızı</string>
     <string name="pref_playback">Oynatma</string>
     <string name="byletter_letters">ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ</string>
     <string name="btn_cancel">İptal</string>
@@ -438,7 +438,7 @@
     <string name="pref_customization_description">Tema, ana ekran, yeniden eşleştirme</string>
     <string name="pref_video">Video</string>
     <string name="action_use_quickconnect">Hızlı Bağlan\'ı Kullan</string>
-    <string name="app_notification_uimode_invalid">Bu uygulama televizyonlar için optimize edilmiştir. Mobil uygulamamızı diğer cihazlarda kullanmanızı öneririz.</string>
+    <string name="app_notification_uimode_invalid">Bu uygulama televizyonlar için optimize edilmiştir. Diğer cihazlarda mobil uygulamamızı kullanmanızı öneririz.</string>
     <string name="pref_crash_reports_disabled">Çökme raporları gönderilmeyecektir</string>
     <string name="pref_crash_report_logs">Günlükleri dahil et</string>
     <string name="pref_crash_report_logs_disabled">Günlükler çökme raporlarına dahil edilmeyecektir</string>
@@ -459,7 +459,7 @@
     <string name="pref_music_rewrite_disable">Yeni müzik arka ucunu devre dışı bırak</string>
     <string name="disable_ui_mode_warning">Cihaz türü uyarısını devre dışı bırak</string>
     <string name="pref_browsing">Gözatma</string>
-    <string name="pref_crash_reports">Sunucuya çökme raporları gönderme</string>
+    <string name="pref_crash_reports">Sunucuya çökme raporlarını gönder</string>
     <plurals name="tracks">
         <item quantity="one">%1$s parça</item>
         <item quantity="other">%1$s parça</item>
