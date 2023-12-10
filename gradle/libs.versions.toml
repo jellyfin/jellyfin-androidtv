@@ -84,7 +84,7 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
 androidx-tvprovider = { module = "androidx.tvprovider:tvprovider", version.ref = "androidx-tvprovider" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
-androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
 
 # Dependency Injection
 koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
