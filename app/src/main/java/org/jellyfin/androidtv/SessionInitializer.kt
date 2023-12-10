@@ -18,7 +18,7 @@ class SessionInitializer : Initializer<Unit> {
 
 		// Restore system session
 		ProcessLifecycleOwner.get().lifecycleScope.launch {
-			koin.get<SessionRepository>().restoreSession()
+			koin.get<SessionRepository>().restoreSession(destroyOnly = false)
 		}
 	}
 

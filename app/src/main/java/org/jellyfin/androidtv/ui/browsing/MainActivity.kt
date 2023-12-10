@@ -117,7 +117,7 @@ class MainActivity : FragmentActivity() {
 
 		lifecycleScope.launch {
 			Timber.d("MainActivity stopped")
-			sessionRepository.restoreSession()
+			sessionRepository.restoreSession(destroyOnly = true)
 		}
 	}
 
