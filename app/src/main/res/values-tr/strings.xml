@@ -173,7 +173,7 @@
     <string name="lbl_by_name">İsme göre</string>
     <string name="lbl_latest">Son eklenen</string>
     <string name="msg_not_implemented">" uygulanmadı"</string>
-    <string name="lbl_search">Arama</string>
+    <string name="lbl_search">Ara</string>
     <string name="lbl_genres">Türler</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Önerilen</string>
