@@ -137,7 +137,7 @@
     <string name="lbl_songs">Písně</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Epizody</string>
-    <string name="lbl_enable_cinema_mode">Povolit režim kina</string>
+    <string name="lbl_enable_cinema_mode">Kino režim</string>
     <string name="lbl_playlists">Seznam skladeb</string>
     <string name="msg_items_added">" položky přidány"</string>
     <string name="lbl_add_to_queue">Přidat do fronty</string>
