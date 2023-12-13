@@ -265,8 +265,8 @@
     <string name="lbl_next_episode">Sonraki bölüm</string>
     <string name="lbl_previous_episode">Önceki bölüm</string>
     <string name="lbl_more_like_this">Bunu gibi daha fazlası</string>
-    <string name="lbl_resume_from">%1$s\'den devam et</string>
-    <string name="lbl_resume_preroll">Ön gösterimi devam ettir</string>
+    <string name="lbl_resume_from">Sürdür: %1$s</string>
+    <string name="lbl_resume_preroll">Ön gösterimi sürdür</string>
     <string name="lbl_guide_option_number">Kanal numarası</string>
     <string name="lbl_guide_option_played">Son oynatılan</string>
     <string name="lbl_show_indicators">Göstergeleri göster:</string>
