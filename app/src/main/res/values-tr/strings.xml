@@ -420,7 +420,7 @@
     <string name="pref_theme">Tema</string>
     <string name="pref_customization">Özelleştirme</string>
     <string name="pref_subtitles_background_title">Arka planı etkinleştir</string>
-    <string name="server_issue_missing_version">Sunucu versiyonu algılanamadı</string>
+    <string name="server_issue_missing_version">Sunucu sürümü algılanamadı</string>
     <string name="server_issue_outdated_version">Sunucu desteklenmeyen %1$s sürümünü kullanıyor. Lütfen %2$s veya daha yeni bir sürüme güncelleyin</string>
     <string name="pref_behavior">Davranış</string>
     <string name="server_issue_unsupported_version">Sunucu desteklenmeyen %1$s sürümünü kullanıyor</string>
