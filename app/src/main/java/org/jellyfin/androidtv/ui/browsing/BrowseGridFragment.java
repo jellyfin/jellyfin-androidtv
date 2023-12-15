@@ -145,17 +145,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mGridHeight = Math.round(display.heightPixels / getResources().getDisplayMetrics().density - 130.6f);
         mGridWidth = Math.round(display.widthPixels / getResources().getDisplayMetrics().density);
 
-        sortOptions = new HashMap<>();
-        {
-            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SortName, SortOrder.ASCENDING));
-            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
-            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.Runtime + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
-        }
 
         mActivity = getActivity();
 
@@ -172,6 +161,22 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             setGridPresenter(new VerticalGridPresenter());
         else
             setGridPresenter(new HorizontalGridPresenter());
+
+        sortOptions = new HashMap<>();
+        {
+            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SortName, SortOrder.ASCENDING));
+            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
+            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            if(mFolder.getType() == BaseItemKind.COLLECTION_FOLDER){
+                String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
+                if(type.equals(CollectionType.Movies))
+                    sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.Runtime + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
+            }
+        }
 
         setDefaultGridRowCols(mPosterSizeSetting, mImageType);
         setAutoCardGridValues();
