@@ -1,1 +1,1 @@
-Fjernsyns klient til jellyfin, den gratise software medie system
+Fjernsyns klient til Jellyfin, det gratis software medie system

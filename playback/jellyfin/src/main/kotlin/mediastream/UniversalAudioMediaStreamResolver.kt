@@ -2,7 +2,9 @@ package org.jellyfin.playback.jellyfin.mediastream
 
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
 import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.queue.item.QueueEntry
+import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.universalAudioApi
@@ -13,7 +15,10 @@ class UniversalAudioMediaStreamResolver(
 	val api: ApiClient,
 	val profile: DeviceProfile,
 ) : JellyfinStreamResolver(api, profile) {
-	override suspend fun getStream(queueEntry: QueueEntry): MediaStream? {
+	override suspend fun getStream(
+		queueEntry: QueueEntry,
+		testStream: (stream: MediaStream) -> PlaySupportReport,
+	): PlayableMediaStream? {
 		if (queueEntry !is BaseItemDtoUserQueueEntry) return null
 		if (queueEntry.baseItem.type != BaseItemKind.AUDIO) return null
 
@@ -35,13 +40,13 @@ class UniversalAudioMediaStreamResolver(
 			audioCodec = "mp3",
 		)
 
-		return MediaStream(
+		return PlayableMediaStream(
 			identifier = mediaInfo.playSessionId,
 			queueEntry = queueEntry,
 			conversionMethod = MediaConversionMethod.None,
 			url = url,
 			container = mediaInfo.getMediaStreamContainer(),
 			tracks = mediaInfo.getTracks()
-		)
+		).takeIf { stream -> testStream(stream).canPlay }
 	}
 }

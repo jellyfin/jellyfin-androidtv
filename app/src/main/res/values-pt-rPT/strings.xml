@@ -9,8 +9,8 @@
     <string name="settings_title">Definições</string>
     <string name="chapters">Capítulos</string>
     <string name="lbl_settings">Definições</string>
-    <string name="lbl_continue_watching">Continuar a Ver</string>
-    <string name="lbl_next_up">A Seguir</string>
+    <string name="lbl_continue_watching">Continue watching</string>
+    <string name="lbl_next_up">A seguir</string>
     <string name="lbl_on_now">No Ar</string>
     <string name="lbl_views">Visualizações</string>
     <string name="lbl_by_letter">Por Letra</string>
@@ -481,4 +481,42 @@
     <string name="item_deletion_failed">Não foi possível apagar %1$s</string>
     <string name="pref_enable_media_management_description">Mostrar opção para gerir media enquanto navega</string>
     <string name="item_delete_confirm_message">Tem a certeza que pretende apagar este item\? Esta ação não é irreversível.</string>
+    <plurals name="tracks">
+        <item quantity="one">faixa</item>
+        <item quantity="many">faixas</item>
+        <item quantity="other">faixas</item>
+    </plurals>
+    <string name="pref_music_cat">Musica</string>
+    <string name="disable_ui_mode_warning">Desativar aviso de tipo de dispositivo</string>
+    <string name="enable_reactive_homepage">Ativar pagina inicial reativa</string>
+    <string name="pref_screensaver">Papel de parede</string>
+    <string name="pref_screensaver_inapp_enabled">Usar papel de parede da aplicação</string>
+    <string name="pref_screensaver_inapp_enabled_description">Ver o papel de parede do Jellyfin enquanto a aplicação estiver aberta</string>
+    <string name="pref_screensaver_inapp_timeout">Iniciar o papel de parede depois de</string>
+    <string name="not_set">Não definido</string>
+    <string name="lbl_album_artists">Artistas do album</string>
+    <string name="pref_music_rewrite_enable_description">Desative isto apenas se estiver a ter problemas com a execução de musicas</string>
+    <plurals name="minutes">
+        <item quantity="one">minuto</item>
+        <item quantity="many">minutos</item>
+        <item quantity="other">minutos</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">episódio</item>
+        <item quantity="many">episódios</item>
+        <item quantity="other">episódios</item>
+    </plurals>
+    <string name="pref_music_rewrite_disable">Desativar Back-end de novas músicas</string>
+    <plurals name="seconds">
+        <item quantity="one">segundo</item>
+        <item quantity="many">segundos</item>
+        <item quantity="other">segundos</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">hora</item>
+        <item quantity="many">horas</item>
+        <item quantity="other">horas</item>
+    </plurals>
+    <string name="lbl_latest_in">Adicionado recentemente em</string>
+    <string name="because_you_watched">Porque viste</string>
 </resources>

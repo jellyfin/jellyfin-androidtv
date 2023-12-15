@@ -423,4 +423,5 @@
     <string name="lbl_end_padding">پایان پر کردن</string>
     <string name="lbl_begin_padding">شروع پر کردن</string>
     <string name="lbl_tune_to_channel">تغییر به کانال</string>
+    <string name="state_disabled">ناتوان کردن</string>
 </resources>

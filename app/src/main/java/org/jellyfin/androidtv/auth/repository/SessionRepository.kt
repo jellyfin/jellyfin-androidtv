@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.auth.repository
 
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.apiclient.ApiBinder
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
@@ -39,7 +41,7 @@ interface SessionRepository {
 	val currentSession: StateFlow<Session?>
 	val state: StateFlow<SessionRepositoryState>
 
-	suspend fun restoreSession()
+	suspend fun restoreSession(destroyOnly: Boolean)
 	suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean
 	fun destroyCurrentSession()
 }
@@ -61,23 +63,28 @@ class SessionRepositoryImpl(
 	private val _state = MutableStateFlow(SessionRepositoryState.READY)
 	override val state = _state.asStateFlow()
 
-	override suspend fun restoreSession(): Unit = currentSessionMutex.withLock {
-		Timber.i("Restoring session")
-		_state.value = SessionRepositoryState.RESTORING_SESSION
+	override suspend fun restoreSession(destroyOnly: Boolean): Unit = withContext(NonCancellable) {
+		currentSessionMutex.withLock {
+			Timber.i("Restoring session")
 
-		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
+			_state.value = SessionRepositoryState.RESTORING_SESSION
 
-		when (authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]) {
-			DISABLED -> destroyCurrentSession()
-			LAST_USER -> setCurrentSession(createLastUserSession())
-			SPECIFIC_USER -> {
-				val serverId = authenticationPreferences[AuthenticationPreferences.autoLoginServerId].toUUIDOrNull()
-				val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
-				if (serverId != null && userId != null) setCurrentSession(createUserSession(serverId, userId))
+			val alwaysAuthenticate = authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]
+			val autoLoginBehavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
+
+			when {
+				alwaysAuthenticate -> destroyCurrentSession()
+				autoLoginBehavior == DISABLED -> destroyCurrentSession()
+				autoLoginBehavior == LAST_USER && !destroyOnly -> setCurrentSession(createLastUserSession())
+				autoLoginBehavior == SPECIFIC_USER && !destroyOnly -> {
+					val serverId = authenticationPreferences[AuthenticationPreferences.autoLoginServerId].toUUIDOrNull()
+					val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
+					if (serverId != null && userId != null) setCurrentSession(createUserSession(serverId, userId))
+				}
 			}
-		}
 
-		_state.value = SessionRepositoryState.READY
+			_state.value = SessionRepositoryState.READY
+		}
 	}
 
 	override suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean {
@@ -93,6 +100,7 @@ class SessionRepositoryImpl(
 		val session = createUserSession(serverId, userId)
 		if (session == null) {
 			Timber.w("Could not switch to non-existing session for user $userId")
+			_state.value = SessionRepositoryState.READY
 			return false
 		}
 

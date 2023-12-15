@@ -481,4 +481,17 @@
     <string name="pref_audio">Audio</string>
     <string name="searchable_hint">Pretraži Jellyfin</string>
     <string name="episode_name_special">specijalna</string>
+    <string name="pref_screensaver_inapp_enabled">Koristi čuvar zaslona u aplikaciji</string>
+    <string name="not_set">Nije postavljeno</string>
+    <string name="pref_music_rewrite_enable_description">Samo onemogući ovo ako imate poteškoća sa reprodukcijom glazbe</string>
+    <string name="lbl_album_artists">Izvođači albuma</string>
+    <string name="pref_music_cat">Glazba</string>
+    <string name="pref_music_rewrite_disable">Onemogući novu pozadinu glazbe</string>
+    <string name="disable_ui_mode_warning">Onemogući upozorenje vrste uređaja</string>
+    <string name="enable_reactive_homepage">Omogući reaktivnu početnu stranicu</string>
+    <string name="pref_screensaver_inapp_timeout">Pokreni čuvar zaslona nakon</string>
+    <string name="pref_screensaver">Čuvar zaslona</string>
+    <string name="pref_screensaver_inapp_enabled_description">Prikaži Jellyfin čuvar zaslona kada je aplikacija otvorena</string>
+    <string name="lbl_latest_in">Nedavno dodano u %1$s</string>
+    <string name="because_you_watched">Zato što si gledao %1$s</string>
 </resources>

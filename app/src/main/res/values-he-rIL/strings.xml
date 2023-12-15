@@ -6,11 +6,11 @@
     <string name="lbl_on_now">משודר כעת</string>
     <string name="lbl_next_up">המידה הבא</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
-    <string name="lbl_settings">הגדרות</string>
+    <string name="lbl_settings">העדפות</string>
     <string name="chapters">פרקים</string>
-    <string name="pref_authentication_cat">התחברות</string>
+    <string name="pref_authentication_cat">אימות זהות</string>
     <string name="settings_title">הגדרות</string>
-    <string name="pref_max_bitrate_title">מקסימום ביטרייט סטרים</string>
+    <string name="pref_max_bitrate_title">ביטרייט מקסימלי בסטרימינג</string>
     <string name="pref_playback">ניגון</string>
     <string name="btn_cancel">בטל</string>
     <string name="loading">טוען…</string>
@@ -34,7 +34,7 @@
     <string name="lbl_favorite_channels">ערוצים מועדפים</string>
     <string name="lbl_other_channels">ערוצים אחרים</string>
     <string name="lbl_items">פריטים</string>
-    <string name="lbl_cast_crew">שחקנים/צוות</string>
+    <string name="lbl_cast_crew">שחקנים וצוות</string>
     <string name="lbl_runs">פעיל</string>
     <string name="lbl_pause">השהה</string>
     <string name="lbl_other_options">אפשרויות אחרות</string>
@@ -57,4 +57,9 @@
     <string name="msg_not_implemented">" לא יישם"</string>
     <string name="state_disabled">לא פעיל</string>
     <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
+    <string name="lbl_cancel_series">בטל סדרה</string>
+    <string name="msg_unable_to_cancel">לא ניתן לבטל את ההקלטה</string>
+    <string name="msg_set_to_record">התוכנית מוגדרת להקלטה</string>
+    <string name="lbl_upcoming">בקרוב</string>
+    <string name="because_you_watched">בגלל שאתה צפית ב%1$s</string>
 </resources>

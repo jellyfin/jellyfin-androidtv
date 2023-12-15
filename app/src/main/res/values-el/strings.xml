@@ -4,7 +4,7 @@
     <string name="btn_cancel">Ακύρωση</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
-    <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά…</string>
+    <string name="msg_error_live_stream">Σφάλμα ροής ζωντανής τηλεόρασης. Θα προσπαθήσουμε ξανά…</string>
     <string name="lbl_direct_stream_live">Άμεση μετάδοση ζωντανής τηλεόρασης</string>
     <string name="lbl_programs">προγράμμα</string>
     <string name="lbl_albums">Άλμπουμ</string>
@@ -75,12 +75,12 @@
     <string name="lbl_people">Ανθρωποι</string>
     <string name="lbl_last_played">"Προβλήθηκαν πρόσφατα "</string>
     <string name="lbl_ends">Τελειώνει</string>
-    <string name="lbl_min">" ελάχ"</string>
+    <string name="lbl_min">" λεπτά"</string>
     <string name="lbl_runs">Τρέχει</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Παρακολούθησα</string>
     <string name="lbl_favorite">Αγαπημένο</string>
-    <string name="lbl_upcoming">Ανερχόμενος</string>
+    <string name="lbl_upcoming">Προσεχώς</string>
     <string name="lbl_item">Είδος</string>
     <string name="lbl_items">Είδη</string>
     <string name="lbl_specials">Έκτακτα</string>
@@ -174,7 +174,7 @@
     <string name="pref_video_player_external">Εξωτερική εφαρμογή</string>
     <string name="pref_video_player_auto">Αυτόματη επιλογή</string>
     <string name="pref_theme_dark">Σκοτεινό (Προεπιλογή)</string>
-    <string name="lbl_my_media">Τα μέσα μου</string>
+    <string name="lbl_my_media">Τα πολυμέσα μου</string>
     <string name="lbl_audio_delay">Καθυστέρηση ήχου</string>
     <string name="lbl_unwatched">Δεν προβλήθηκε</string>
     <string name="lbl_song_title">Τίτλος τραγουδιού</string>
@@ -284,7 +284,7 @@
     <string name="lbl_starting_early_ending_after">Ξεκινάει στις %1$s και τελειώνει στις %2$s έπειτα από προγραμματισμό</string>
     <string name="server_issue_ssl_handshake">Η χειραψία μέσω SSL απέτυχε</string>
     <string name="server_issue_timeout">Το χρονικό όριο της σύνδεσης έληξε</string>
-    <string name="server_issue_outdated_version">Ο διακομιστής χρησιμοποιεί την έκδοση %1$s αλλά πρέπει να έχει την %2$s ή νεότερη</string>
+    <string name="server_issue_outdated_version">Ο διακομιστής χρησιμοποιεί μη υποστηριζόμενη έκδοση %1$s. Παρακαλούμε ενημερώστε σε %2$s ή νεότερη</string>
     <string name="server_issue_unsupported_version">Ο διακομιστής χρησιμοποιεί την έκδοση %1$s, η οποία δεν υποστηρίζεται</string>
     <string name="server_issue_missing_version">Δεν μπορεί να καθοριστεί η έκδοση του διακομιστή</string>
     <string name="server_issue_invalid_product">Το λογισμικό του διακομιστή δεν είναι συμβατό</string>
@@ -429,7 +429,7 @@
     <string name="lbl_quality_profile">Προφίλ ποιότητας</string>
     <string name="pref_theme_muted_purple">Μουντό μωβ</string>
     <string name="pref_video">Βίντεο</string>
-    <string name="server_unsupported_notification">Αυτός ο διακομιστής χρησιμοποιεί την έκδοση %1$s του Jellyfin η οποία δεν υποστηρίζετα. Παρακαλώ αναβαθμίστε το Jellyfin στην έκδοση %2$s για να συνεχίσετε να χρησιμοποιείτε την εφαρμογή.</string>
+    <string name="server_unsupported_notification">Αυτός ο διακομιστής χρησιμοποιεί την έκδοση Jellyfin %1$s, η οποία δεν υποστηρίζεται. Παρακαλούμε ενημερώστε σε Jellyfin %2$s ή νεότερη για να συνεχίσετε να χρησιμοποιείτε την εφαρμογή.</string>
     <string name="pref_customization">Προσαρμογή</string>
     <string name="pref_accounts">Λογαριασμοί Χρηστών</string>
     <string name="pref_behavior">Συμπεριφορά</string>
@@ -509,4 +509,9 @@
         <item quantity="other">%1$s δευτερόλεπτα</item>
     </plurals>
     <string name="lbl_latest_in">Προστέθηκαν πρόσφατα σε %1$s</string>
+    <string name="pref_music_cat">Μουσική</string>
+    <string name="pref_music_rewrite_disable">Απενεργοποιήστε τη νέα μουσική υποστήριξη</string>
+    <string name="pref_music_rewrite_enable_description">Απενεργοποιήστε αυτή την επιλογή μόνο εάν αντιμετωπίζετε προβλήματα με την αναπαραγωγή μουσικής</string>
+    <string name="disable_ui_mode_warning">Απενεργοποιήστε την προειδοποίηση τύπου συσκευής</string>
+    <string name="because_you_watched">Επειδή παρακολουθήσατε %1$s</string>
 </resources>

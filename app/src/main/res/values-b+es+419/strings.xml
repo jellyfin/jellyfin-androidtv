@@ -213,7 +213,7 @@
     <string name="lbl_play_trailers">Reproducir trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_people">Personas</string>
-    <string name="lbl_trailers">Trailers</string>
+    <string name="lbl_trailers">Avances</string>
     <string name="lbl_last_played">"Última reproducción "</string>
     <string name="lbl_directed_by">Dirigido por</string>
     <string name="lbl_upcoming">Próximos</string>
@@ -282,7 +282,7 @@
     <string name="lbl_tomatoes">Tomates</string>
     <string name="lbl_stars">Estrellas</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina a las %1$s</string>
+    <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor inicie sesión</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
@@ -518,4 +518,5 @@
     <string name="pref_music_rewrite_disable">Deshabilitar el nuevo manejo de la librería de música</string>
     <string name="pref_music_rewrite_enable_description">Deshabilita ésto solo si experimentas problemas con la reproducción de música</string>
     <string name="disable_ui_mode_warning">Deshabilitar advertencia de tipo de dispositivo</string>
+    <string name="because_you_watched">Porque viste %1$s</string>
 </resources>

@@ -1,0 +1,14 @@
+Sizin medyanız, sizin şartlarınıza göre.
+
+Jellyfin projesi açık kaynaklı, ücretsiz bir yazılım medya sunucusudur. Ücret yok, takip yok, gizli gündem yok. Tüm ses, video, fotoğraf ve daha fazlasını tek bir yerde toplamak için ücretsiz sunucumuzu edinin.
+
+Uygulamayı kullanmak için, kurulmuş ve çalışır durumda bir Jellyfin sunucunuz olmalıdır. <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a> adresinde daha fazla bilgi edinin.
+
+Jellyfin sunucusuyla şunları yapabilirsiniz:
+
+* Jellyfin sunucunuzdan Canlı TV ve kaydedilmiş programları izleyin (ek donanım/hizmetler gereklidir)
+* Ağınızdaki bir Chromecast cihazına akış yapın
+* Medyanızı Android cihazınıza aktarın
+* Koleksiyonunuzu kullanımı kolay bir arayüzde görüntüleyin
+
+Bu, Android için resmi Jellyfin arkadaşı uygulamasıdır. Jellyfin'i kullandığınız için teşekkür ederiz!

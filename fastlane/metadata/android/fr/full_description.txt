@@ -1,6 +1,6 @@
 Vos médias, comme vous le souhaitez.
 
-Jellyfin est un serveur multimédia libre et open-source. Pas de frais, pas de pistage et pas d'intentions cachées. Procurez-vous notre serveur gratuit pour centraliser tous vos fichiers audio, vidéo, photos et autres.
+Jellyfin est un serveur multimédia libre et open-source. Pas de frais, pas de pistage et pas d'intentions cachées. Procurez-vous notre serveur gratuit pour centraliser tous vos fichiers audio, vidéo, photos et bien plus encore.
 
 Pour utiliser cette application, vous devez au préalable installer et configurer un serveur Jellyfin. Pour en savoir plus, consultez <a href="https ://jellyfin.org/" target="_blank">jellyfin.org</a>.
 

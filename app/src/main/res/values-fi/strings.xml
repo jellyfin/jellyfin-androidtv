@@ -232,7 +232,7 @@
     <string name="lbl_now_playing_track">%1$s/%2$s</string>
     <string name="pref_video">Video</string>
     <string name="lbl_starting_early_ending_on_schedule">Aloitetaan %1$s etuajassa ja lopetetaan ohjelmiston mukaisesti</string>
-    <string name="image_type_thumbnail">Thumbnail</string>
+    <string name="image_type_thumbnail">Pienoiskuva</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_on">Kanavalla</string>
     <string name="home_section_resume_book">Jatka lukemista</string>
@@ -254,7 +254,7 @@
     <string name="server_issue_ssl_handshake">SSL-kättely epäonnistui</string>
     <string name="server_issue_timeout">Yhteys aikakatkaistiin</string>
     <string name="server_issue_unsupported_version">Palvelimen versio on %1$s, eikä sitä tueta</string>
-    <string name="server_issue_outdated_version">Palvelimen versio on %1$s, jota ei tueta. Päivitä vähintään versioon %2$s.</string>
+    <string name="server_issue_outdated_version">Palvelimen versio on %1$s, jota ei tueta. Päivitä vähintään versioon %2$s</string>
     <string name="server_issue_missing_version">Palvelimen versiota ei tunnistettu</string>
     <string name="server_issue_invalid_product">Palvelinohjelmisto ei ole yhteensopiva</string>
     <string name="server_issue_unable_to_connect">Ei saatu yhteyttä</string>
@@ -434,13 +434,13 @@
     <string name="action_use_quickconnect">Käytä Pikayhdistystä</string>
     <string name="action_use_password">Käytä salasanaa</string>
     <string name="action_login">Kirjaudu</string>
-    <string name="lbl_tv_filter_status">seuraavien %1$d tunnin ajan</string>
+    <string name="lbl_tv_filter_status">seuraavat %1$d tuntia</string>
     <string name="lbl_starting_with">alkaen niillä, joiden nimi alkaa</string>
     <string name="state_disabled">Poistettu käytöstä</string>
     <string name="lbl_subtitle_delay">Tekstitysviive</string>
     <string name="lbl_adjust">Säädä</string>
     <string name="live_tv_preferences">Television asetukset</string>
-    <string name="lbl_from">lähteestä</string>
+    <string name="lbl_from">kansiosta</string>
     <string name="app_notification_uimode_invalid">Sovellus on optimoitu televisioille. Muille laitteille suosittelemme mobiilisovellustamme.</string>
     <string name="image_size_xlarge">Erittäin suuri</string>
     <string name="image_size_smallest">Pienin</string>
@@ -512,6 +512,6 @@
     <string name="pref_music_cat">Musiikki</string>
     <string name="disable_ui_mode_warning">Älä varoita laitteen tyypistä</string>
     <string name="pref_music_rewrite_disable">Älä käytä uuttaa musiikin taustajärjestelmää</string>
-    <string name="pref_music_rewrite_enable_description">Poista käytöstä vain, jos kohtaat musiikin toisto-ongelmia.</string>
+    <string name="pref_music_rewrite_enable_description">Poista käytöstä vain, jos kohtaat musiikin toisto-ongelmia</string>
     <string name="because_you_watched">Koska katselit: %1$s</string>
 </resources>

@@ -276,7 +276,7 @@
     <string name="lbl_audio_track">Selecciona un track de audio</string>
     <string name="lbl_pause">Pausar</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina a las %1$s</string>
+    <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="pref_clock_display_browsing">Durante la navegación</string>
     <string name="pref_clock_display_playback">Durante la reproducción</string>
@@ -518,4 +518,5 @@
     <string name="pref_music_cat">Música</string>
     <string name="pref_music_rewrite_disable">Deshabilitar el nuevo backend de música</string>
     <string name="disable_ui_mode_warning">Deshabilitar advertencia sobre el tipo de dispositivo</string>
+    <string name="because_you_watched">Ya que viste %1$s</string>
 </resources>

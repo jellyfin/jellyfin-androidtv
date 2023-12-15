@@ -18,11 +18,20 @@ class ScreensaverViewModel(
 ) : ViewModel() {
 	private var timer: Job? = null
 	private var locks = 0
-	val enabled get() = userPreferences[UserPreferences.screensaverInAppEnabled]
+
+	// Preferences
+
+	val inAppEnabled get() = userPreferences[UserPreferences.screensaverInAppEnabled]
 	private val timeout get() = userPreferences[UserPreferences.screensaverInAppTimeout].milliseconds
+
+	// State
 
 	private val _visible = MutableStateFlow(false)
 	val visible get() = _visible.asStateFlow()
+
+	private val _keepScreenOn = MutableStateFlow(inAppEnabled)
+	val keepScreenOn get() = _keepScreenOn.asStateFlow()
+
 	var activityPaused: Boolean = false
 		set(value) {
 			field = value
@@ -38,17 +47,20 @@ class ScreensaverViewModel(
 		timer?.cancel()
 
 		// Hide when interacted with allowed cancelation or when disabled
-		if (_visible.value && (canCancel || !enabled || activityPaused)) {
+		if (_visible.value && (canCancel || !inAppEnabled || activityPaused)) {
 			_visible.value = false
 		}
 
 		// Create new timer to show screensaver when enabled
-		if (enabled && !activityPaused && locks == 0) {
+		if (inAppEnabled && !activityPaused && locks == 0) {
 			timer = viewModelScope.launch {
 				delay(timeout)
 				_visible.value = true
 			}
 		}
+
+		// Update KEEP_SCREEN_ON flag value
+		_keepScreenOn.value = inAppEnabled || locks > 0
 	}
 
 	/**

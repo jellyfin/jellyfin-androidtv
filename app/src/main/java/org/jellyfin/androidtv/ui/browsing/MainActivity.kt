@@ -56,6 +56,12 @@ class MainActivity : FragmentActivity() {
 
 		if (!validateAuthentication()) return
 
+		screensaverViewModel.keepScreenOn.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.onEach { keepScreenOn ->
+				if (keepScreenOn) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+				else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+			}.launchIn(lifecycleScope)
+
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
 		supportFragmentManager.addOnBackStackChangedListener {
@@ -87,9 +93,6 @@ class MainActivity : FragmentActivity() {
 		applyTheme()
 
 		screensaverViewModel.activityPaused = false
-
-		if (screensaverViewModel.enabled) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-		else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 	}
 
 	private fun validateAuthentication(): Boolean {
@@ -114,7 +117,7 @@ class MainActivity : FragmentActivity() {
 
 		lifecycleScope.launch {
 			Timber.d("MainActivity stopped")
-			sessionRepository.restoreSession()
+			sessionRepository.restoreSession(destroyOnly = true)
 		}
 	}
 

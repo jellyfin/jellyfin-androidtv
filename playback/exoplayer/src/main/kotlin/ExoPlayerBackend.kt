@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.video.VideoSize
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.support.PlaySupportReport
@@ -23,7 +24,7 @@ import kotlin.time.Duration.Companion.milliseconds
 class ExoPlayerBackend(
 	private val context: Context,
 ) : BasePlayerBackend() {
-	private var currentStream: MediaStream? = null
+	private var currentStream: PlayableMediaStream? = null
 
 	private val exoPlayer by lazy {
 		val renderersFactory = DefaultRenderersFactory(context).apply {
@@ -74,7 +75,7 @@ class ExoPlayerBackend(
 		stream: MediaStream
 	): PlaySupportReport = exoPlayer.getPlaySupportReport(stream.toFormat())
 
-	override fun prepareStream(stream: MediaStream) {
+	override fun prepareStream(stream: PlayableMediaStream) {
 		val mediaItem = MediaItem.Builder().apply {
 			setTag(stream)
 			setMediaId(stream.hashCode().toString())
@@ -89,7 +90,7 @@ class ExoPlayerBackend(
 		exoPlayer.prepare()
 	}
 
-	override fun playStream(stream: MediaStream) {
+	override fun playStream(stream: PlayableMediaStream) {
 		if (currentStream == stream) return
 
 		currentStream = stream

@@ -19,6 +19,7 @@ import timber.log.Timber;
 public class ReportingHelper {
     public static void reportStopped(org.jellyfin.sdk.model.api.BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
+            Timber.i("ReportingHelper.reportStopped called for " + item.getId() + " at position " + pos);
             PlaybackStopInfo info = new PlaybackStopInfo();
             info.setItemId(item.getId().toString());
             info.setPositionTicks(pos);

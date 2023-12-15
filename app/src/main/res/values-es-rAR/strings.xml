@@ -76,7 +76,7 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Sugerido</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Finaliza a las %1$shs</string>
+    <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
@@ -130,7 +130,7 @@
     <string name="lbl_image_size">Tamaño de imagen</string>
     <string name="lbl_image_type">Tipo de imagen</string>
     <string name="lbl_start_favorites">Colocar los favoritos al principio</string>
-    <string name="lbl_colored_backgrounds">Color de fondo en código</string>
+    <string name="lbl_colored_backgrounds">Código de color de fondo</string>
     <string name="lbl_hd_programs">Programas en HD</string>
     <string name="lbl_live_broadcasts">Transmisiones en vivo</string>
     <string name="lbl_repeat_episodes">Repetir episodios</string>
@@ -283,7 +283,7 @@
     <string name="lbl_always">Siempre</string>
     <string name="pref_clock_display">Mostrar Reloj</string>
     <string name="pref_default_rating">Tipo de Puntuación por Defecto</string>
-    <string name="lbl_tomatoes">Tomatoes</string>
+    <string name="lbl_tomatoes">Tomates</string>
     <string name="lbl_stars">Estrellas</string>
     <string name="login_username_field_empty">El nombre de usuario no puede estar vacío</string>
     <string name="login_server_unavailable">No se puede conectar al servidor</string>
@@ -461,4 +461,62 @@
     <string name="login_connect_to">Conectando a %1$s</string>
     <string name="action_connect">Conectar</string>
     <string name="lbl_latest_in">Añadido recientemente en %1$s</string>
+    <string name="login_quickconnect_step_1">1. Abrí la aplicación Jellyfin en tu teléfono o navegador web e inicia sesión con tu cuenta</string>
+    <string name="app_notification_uimode_invalid">Esta aplicación está optimizada para televisiones. Recomendamos utilizar nuestra aplicación para móviles en otros dispositivos.</string>
+    <string name="pref_crash_reports">Enviar informes de fallos al servidor</string>
+    <string name="app_notification_beta">Applicación actualizada a versión %1$s
+\nGracias por participar en el programa beta de Jellyfin</string>
+    <string name="pref_screensaver_inapp_enabled">Usar el salvapantallas de la aplicación</string>
+    <string name="pref_screensaver_inapp_enabled_description">Mostrar el salvapantallas de Jellyfin mientras la aplicación esté abierta</string>
+    <string name="pref_screensaver">Salvapantallas</string>
+    <string name="item_delete_confirm_message">¿Estás seguro de borrar este elemento en el servidor\? Esta acción no puede deshacer.</string>
+    <string name="enable_reactive_homepage">Activar página de inicio reactiva</string>
+    <string name="pref_music_cat">Música</string>
+    <string name="pref_music_rewrite_disable">Deshabilitar el nuevo backend de música</string>
+    <string name="pref_music_rewrite_enable_description">Solo deshabilitá esto si estás experimentando problemas con la reproducción de música</string>
+    <string name="disable_ui_mode_warning">Deshabilitar advertencia sobre el tipo de dispositivo</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s segundo</item>
+        <item quantity="many">%1$s segundos</item>
+        <item quantity="other"/>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s hora</item>
+        <item quantity="many">%1$s horas</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="lbl_album_artists">Artistas del álbum</string>
+    <string name="login_quickconnect_step_2">2. Abrí el menú de usuario y andá a la página Conexión Rápida</string>
+    <string name="pref_telemetry_description">Enviar informe de fallos incluyendo registros</string>
+    <string name="pref_crash_reports_disabled">Los informes de fallos no serán enviados</string>
+    <string name="item_deleted">%1$s borrado</string>
+    <string name="item_delete_confirm_title">Borrar elemento</string>
+    <string name="pref_crash_report_logs">Incluir registros</string>
+    <string name="pref_crash_report_logs_disabled">Los registros no se incluirán en los informes de fallos</string>
+    <string name="login_quickconnect_step_3">3. Ingresá el siguiente código:</string>
+    <string name="lbl_subtitle_stroke">Tamaño de trazo del subtítulo</string>
+    <string name="pref_refresh_rate_scale_on_device">Escala en el dispositivo</string>
+    <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
+    <string name="server_setup_incomplete">El servidor no se ha configurado aún. Abrí Jellyfin en un navegador web para terminar la configuración antes de iniciar sesión.</string>
+    <string name="pref_enable_media_management">Permitir administración de medios</string>
+    <string name="pref_screensaver_inapp_timeout">Iniciar el salvapantallas después de</string>
+    <string name="not_set">No establecido</string>
+    <string name="server_unsupported_notification">Este servidor utiliza la versión %1$s de Jellyfin, la cual no está soportada. Por favor actualiza a Jellyfin %2$s o mas reciente para seguir utilizando esta aplicación.</string>
+    <string name="crash_report_toast">Epa! Algo salió mal, se envió un informe de fallos a tu servidor Jellyfin.</string>
+    <string name="pref_refresh_rate_scale_on_tv">Escalado en TV</string>
+    <string name="episode_name_special">especial</string>
+    <string name="pref_crash_report_logs_enabled">Los registros serán incluidos en el informe de fallos</string>
+    <string name="item_deletion_failed">No se ha podido borrar %1$s</string>
+    <string name="pref_enable_media_management_description">Mostrar opción de administrar medios mientras navegas</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="many">%1$s minutos</item>
+        <item quantity="other"/>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s pista</item>
+        <item quantity="many">%1$s pistas</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="because_you_watched">Porque viste %1$s</string>
 </resources>

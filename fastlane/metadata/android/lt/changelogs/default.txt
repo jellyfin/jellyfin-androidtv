@@ -1,0 +1,3 @@
+Ačiū, kad naudojatės Jellyfin su Android TV! Visada rekomenduojama naudotis vėliausia Jellyfin versija.
+
+Daugiau informacijos rasite mūsų internetinėje svetainėje jellyfin.org, arba galite perskaityti pilną mūsų pakeitimų žurnalą Github.

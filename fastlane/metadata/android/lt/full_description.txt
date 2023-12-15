@@ -1,0 +1,9 @@
+Jūsų turinys, jūsų sąlygos.
+Jellyfin projektas yra atviro kodo, nemokamas turinio valdymo serveris. Jokių mokesčių, jokio sekimo, jokių paslapčių. Atsisiųskite mūsų nemokamą serverį surinkti visus jūsų vaizdo ir garso įrašus, bei nuotraukas, knygas, ir daugiau į vieną vietą.
+Naudotis programa privalote turėti veikiantį Jellyfin serverį. Išsiaiškinkite daugiau <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+Su Jellyfin serveriu galite:
+*Gyvai žiūrėti televiziją ir atsisiųstus serialus iš savo Jellyfin serverio (reikalauja papildomos aparatūros/paslaugų)
+*Dalintis turiniu su Chromecast įrenginiu savo tinkle
+*Dalintis turiniu su savo Android įrenginiu
+*Matyti savo kolekcija lengvoje naudoti naudotojo sąsajoje
+Tai yra oficialioji Jellyfin programėlė Android TV. Ačiū, kad naudojatės Jellyfin!

@@ -148,7 +148,7 @@
     <string name="pref_subtitle_track_button">Tombol trek subtitle</string>
     <string name="msg_unable_load_subs">Tidak dapat memuat takarir</string>
     <string name="msg_subtitles_loading">Memuat takarir…</string>
-    <string name="lbl_filters">Filters</string>
+    <string name="lbl_filters">Filters TV live</string>
     <string name="bitrate_auto">Otomatis</string>
     <string name="sum_enable_cinema_mode">Putar intro dan pratinjau yang tersedia sebelum film dimulai</string>
     <string name="lbl_yes">Ya</string>
@@ -368,4 +368,16 @@
     <string name="user_picker_last_user_title">Paling terakhir digunakan</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_next_up_minimal">Tanpa keluku</string>
+    <string name="enable_playback_module_description">Ini adalah fitur percobaan. Tidak akan ada support.</string>
+    <string name="alphabetical">Abjad</string>
+    <string name="lbl_on_channel">Di %1$s</string>
+    <string name="lbl_starting_early_ending_on_schedule">Dimulai pada %1$s dan berakhir sesuai jadwal</string>
+    <string name="lbl_starting_on_schedule_ending_after">Dimulai sesuai jadwal dan berakhir %1$s setelah jadwal</string>
+    <string name="lbl_start_end_on_schedule">Dimulai dan diakhiri sesuai jadwal</string>
+    <string name="lbl_record_only_new">Hanya akan merekam episode baru</string>
+    <string name="last_use">Paling baru digunakan</string>
+    <string name="lbl_starting_early_ending_after">Dimulai %1$s lebih awal dan berakhir %2$s setelah jadwal</string>
+    <string name="lbl_record_all">Akan merekam semua episode</string>
+    <string name="lbl_on_any_channel">Di semua channel</string>
+    <string name="because_you_watched">karena kamu menonton %1$s</string>
 </resources>

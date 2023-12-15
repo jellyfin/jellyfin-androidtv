@@ -24,6 +24,8 @@ import org.jellyfin.sdk.model.api.SeriesStatus;
 import org.koin.java.KoinJavaComponent;
 
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -315,7 +317,7 @@ public class InfoLayoutHelper {
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(DateFormat.getMediumDateFormat(context).format(TimeUtils.getDate(item.getPremiereDate())));
+                    date.setText(item.getPremiereDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
                     layout.addView(date);
                     addSpacer(context, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
@@ -375,15 +377,16 @@ public class InfoLayoutHelper {
 
     private static void addVideoCodecDetails(Context context, LinearLayout layout, MediaStream stream) {
         if (stream != null) {
+            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
+                String codec = stream.getCodec().toUpperCase();
+                addBlockText(context, layout, codec);
+                addSpacer(context, layout, "  ");
+            }
             if (stream.getVideoDoViTitle() != null && stream.getVideoDoViTitle().trim().length() > 0) {
                 addBlockText(context, layout, "VISION");
                 addSpacer(context, layout, "  ");
             } else if (stream.getVideoRangeType() != null && !stream.getVideoRangeType().equals("SDR")) {
                 addBlockText(context, layout, stream.getVideoRangeType().toUpperCase());
-                addSpacer(context, layout, "  ");
-            } else if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
-                String codec = stream.getCodec().toUpperCase();
-                addBlockText(context, layout, codec);
                 addSpacer(context, layout, "  ");
             }
         }

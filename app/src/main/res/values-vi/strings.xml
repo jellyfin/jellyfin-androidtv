@@ -348,7 +348,7 @@
     <string name="welcome_title">Chào mừng bạn đến với Jellyfin!</string>
     <string name="saved_servers">Máy chủ đã lưu</string>
     <string name="press_to_close">Nhấn để đóng</string>
-    <string name="pref_theme_muted_purple">Tím Im Lặng</string>
+    <string name="pref_theme_muted_purple">Tím im lặng</string>
     <string name="pref_next_up_behavior_title">Hiển thị thông tin video tiếp theo</string>
     <string name="enable_playback_module_description">Đây là một tính năng thử nghiệm. Không có hỗ trợ nào được cung cấp.</string>
     <string name="lbl_fit">Bình thường</string>
@@ -455,7 +455,7 @@
     <string name="lbl_subtitle_fg">Màu văn bản phụ đề</string>
     <string name="color_white">Trắng</string>
     <string name="color_black">Đen</string>
-    <string name="color_darkgrey">Xám Đen</string>
+    <string name="color_darkgrey">Xám đen</string>
     <string name="app_notification_beta">Ứng dụng được cập nhật lên %1$s
 \nCảm ơn bạn đã tham gia chương trình Jellyfin beta</string>
     <string name="lbl_subtitle_stroke">Kích thước nét phụ đề</string>
@@ -494,4 +494,6 @@
     <string name="pref_screensaver_inapp_enabled_description">Hiển thị trình bảo vệ màn hình Jellyfin khi ứng dụng đang mở</string>
     <string name="pref_music_rewrite_enable_description">Chỉ tắt tính năng này nếu bạn đang gặp sự cố khi phát lại nhạc</string>
     <string name="disable_ui_mode_warning">Tắt cảnh báo loại thiết bị</string>
+    <string name="because_you_watched">Bởi vì bạn đã xem %1$s</string>
+    <string name="pref_music_cat">Nhạc</string>
 </resources>
