@@ -11,10 +11,9 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
 
 import kotlin.Lazy;
+import timber.log.Timber;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
-
-    private PlaybackController playbackController;
     private CustomPlaybackTransportControlGlue playerGlue;
     private VideoPlayerAdapter playerAdapter;
     private boolean shouldShowOverlay = true;
@@ -27,14 +26,17 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         setBackgroundType(BG_LIGHT);
 
         PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        if (playbackController == null) {
+            Timber.w("PlaybackController is null, skipping initialization.");
+            return;
+        }
 
         playerAdapter = new VideoPlayerAdapter(playbackController, this);
         playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController);
         playerGlue.setHost(new CustomPlaybackFragmentGlueHost(this));
     }
 
-    public void initFromView(PlaybackController playbackController, CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
-        this.playbackController = playbackController;
+    public void initFromView(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
         playerGlue.setInitialPlaybackDrawable();
         playerAdapter.setMasterOverlayFragment(customPlaybackOverlayFragment);
     }
@@ -69,7 +71,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     }
 
     public void mediaInfoChanged() {
-        org.jellyfin.sdk.model.api.BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        org.jellyfin.sdk.model.api.BaseItemDto currentlyPlayingItem = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
         if (currentlyPlayingItem == null) return;
 
         playerGlue.invalidatePlaybackControls();
