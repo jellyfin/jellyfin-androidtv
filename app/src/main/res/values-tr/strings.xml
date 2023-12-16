@@ -31,7 +31,7 @@
     <string name="desc_automatic_fav_songs">Favori şarkılardan oluşan otomatik çalma listesi</string>
     <string name="msg_item_added">" öğe eklendi"</string>
     <string name="lbl_delete">Sil</string>
-    <string name="lbl_instant_mix">Anında mix</string>
+    <string name="lbl_instant_mix">Anlık mix</string>
     <string name="lbl_goto_now_playing">Şimdi oynatılana git</string>
     <string name="lbl_remove_from_queue">Kuyruktan kaldır</string>
     <string name="lbl_play_from_here">Buradan oynat</string>
@@ -107,13 +107,13 @@
     <string name="lbl_play_first_unwatched">İlk izlenmeyeni oynat</string>
     <string name="lbl_search_hint">Arama metni (klavye için seçin)</string>
     <string name="sum_tv_queuing">Bir bölümü oynatırken sezonun geri kalanını kuyruğa ekle</string>
-    <string name="lbl_tv_queuing">Tüm sonraki bölümleri sıraya ekle</string>
+    <string name="lbl_tv_queuing">Tüm sonraki bölümleri kuyruğa ekle</string>
     <string name="lbl_empty">Boş</string>
     <string name="lbl_no_items">Öge yok</string>
     <string name="msg_cannot_play">Bu öğe oynatılamaz</string>
     <string name="msg_cannot_play_time">Bu öğe şu anda oynatılamıyor</string>
     <string name="lbl_never">Asla</string>
-    <string name="msg_playback_incompatible">Bu video formatı oynatılamıyor</string>
+    <string name="msg_playback_incompatible">Bu video biçimi oynatılamıyor</string>
     <string name="msg_playback_restricted">Yönetici şu anda bu öğenin oynatılmasını kısıtladı</string>
     <string name="msg_playback_not_allowed">Oynatmaya şuan izin verilmiyor</string>
     <string name="lbl_loading_elipses">Yükleniyor…</string>
