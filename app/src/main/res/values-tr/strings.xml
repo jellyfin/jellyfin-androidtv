@@ -180,7 +180,7 @@
     <string name="lbl_by_letter">Harfe göre</string>
     <string name="lbl_views">Görüntüleme</string>
     <string name="lbl_on_now">Yayında</string>
-    <string name="lbl_next_up">Sıradaki bölüm</string>
+    <string name="lbl_next_up">Sıradaki bölümler</string>
     <string name="lbl_continue_watching">İzlemeye devam et</string>
     <string name="lbl_settings">Tercihler</string>
     <string name="chapters">Bölümler</string>
@@ -237,7 +237,7 @@
     <string name="pref_libvlc_audio_delay_title">libVLC için varsayılan ses gecikmesi</string>
     <string name="watch_now">Şimdi izle</string>
     <string name="pref_next_up_timeout_title">Sıradaki zamanlayıcı süresi</string>
-    <string name="pref_next_up_timeout_summary">Bir sonraki öğeyi çalmadan önce bekleme süresi</string>
+    <string name="pref_next_up_timeout_summary">Bir sonraki ögeyi çalmadan önce bekleme süresi</string>
     <string name="pref_media_player">Tercih edilen medya oynatıcısı</string>
     <string name="pref_about_title">Hakkında</string>
     <string name="pref_video_player_choose">Her zaman sor</string>
@@ -304,7 +304,7 @@
     <string name="home_section_i">Ana Ekran bölümü %1$d</string>
     <string name="home_section_none">Hiçbiri</string>
     <string name="home_section_livetv">Canlı TV</string>
-    <string name="home_section_next_up">Sıradaki</string>
+    <string name="home_section_next_up">Sıradaki bölümler</string>
     <string name="home_section_active_recordings">Etkin kayıtlar</string>
     <string name="home_section_resume_audio">Dinlemeye devam et</string>
     <string name="home_section_resume">İzlemeye devam et</string>
@@ -427,7 +427,7 @@
     <string name="action_use_password">Bir parola kullanın</string>
     <string name="input_password">Parola</string>
     <string name="pref_audio_night_mode">Gece ses modu (deneysel)</string>
-    <string name="because_you_watched">%1$s izlediğin için</string>
+    <string name="because_you_watched">%1$s izlediğiniz için</string>
     <string name="image_size_xlarge">Ekstra Büyük</string>
     <string name="sort_accounts_by">Hesapları sırala:</string>
     <string name="lbl_quality_profile">Kalite profili</string>
