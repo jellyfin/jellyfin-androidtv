@@ -35,7 +35,7 @@ val playbackModule = module {
 
 	factory {
 		val preferences = get<UserPreferences>()
-		val useRewrite = preferences[UserPreferences.playbackRewriteAudioEnabled] && BuildConfig.DEVELOPMENT
+		val useRewrite = preferences[UserPreferences.playbackRewriteAudioEnabled]
 
 		if (useRewrite) get<RewriteMediaManager>()
 		else get<LegacyMediaManager>()
