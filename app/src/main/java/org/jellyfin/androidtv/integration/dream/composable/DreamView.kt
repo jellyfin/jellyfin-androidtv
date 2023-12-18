@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.integration.dream.composable
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun DreamView(
 	content: DreamContent,

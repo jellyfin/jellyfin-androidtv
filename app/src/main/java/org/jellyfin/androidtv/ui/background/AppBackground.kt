@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.background
 
 import android.graphics.drawable.ColorDrawable
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -60,7 +59,6 @@ private fun AppThemeBackground() {
 }
 
 @Composable
-@OptIn(ExperimentalAnimationApi::class)
 fun AppBackground() {
 	val backgroundService = rememberKoinInject<BackgroundService>()
 	val currentBackground by backgroundService.currentBackground.collectAsState()
