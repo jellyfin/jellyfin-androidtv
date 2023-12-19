@@ -492,8 +492,8 @@
     </plurals>
     <string name="pref_enable_media_management_description">Option zum Verwalten von Medien während dem Durchsuchen anzeigen</string>
     <plurals name="tracks">
-        <item quantity="one">%1$s Spur</item>
-        <item quantity="other">%1$s Spuren</item>
+        <item quantity="one">%1$s Titel</item>
+        <item quantity="other">%1$s Titel</item>
     </plurals>
     <plurals name="minutes">
         <item quantity="one">%1$s Minute</item>
