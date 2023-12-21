@@ -339,7 +339,7 @@
     <string name="lbl_special">Spesial</string>
     <string name="help">Hjelp</string>
     <string name="who_is_watching">Hvem ser på\?</string>
-    <string name="no_user_warning">Kunne ikke finne noen brukere!
+    <string name="no_user_warning">Vi kunne ikke finne noen brukere!
 \nLegg til ny bruker ved å trykke på \"Legg til bruker\" knappen.</string>
     <string name="add_user">Legg til bruker</string>
     <string name="welcome_content">Koble til serveren din for å starte.</string>
@@ -496,4 +496,19 @@
     <string name="login_connect_to">Kobler til %1$s</string>
     <string name="episode_name_special">spesiell</string>
     <string name="because_you_watched">Fordi du så %1$s</string>
+    <string name="lbl_community_rating">Samfunnsvurdering</string>
+    <string name="lbl_subtitle_stroke">Undertekststrekstørrelse</string>
+    <string name="lbl_start_end_on_schedule">Starter etter planen og slutter etter planen</string>
+    <string name="pref_browsing">Søking</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skala på TV</string>
+    <string name="pref_crash_reports_enabled">Krasj raporter vil bli sent til din siste brukte server</string>
+    <string name="pref_crash_report_logs_enabled">Logger vil bli inkludert i krasj rapporter</string>
+    <string name="server_issue_ssl_handshake">SSL-håndtrykk mislyktes</string>
+    <string name="pref_crash_reports">Send krasj raport til server</string>
+    <string name="crash_report_toast">Oops! Noe gikk galt, en krasj rapport er sendt til din Jellyfin server.</string>
+    <string name="license_artifact">Gjenstand</string>
+    <string name="pref_crash_reports_disabled">Krasj rapporter vil ikke bli sendt</string>
+    <string name="pref_refresh_rate_scale_on_device">Scala på enhet</string>
+    <string name="pref_crash_report_logs_disabled">logger vil ikke bli inkudert i krasj rapporter</string>
+    <string name="license_repository">Depot</string>
 </resources>
