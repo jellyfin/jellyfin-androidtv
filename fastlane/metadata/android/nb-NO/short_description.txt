@@ -1,1 +1,1 @@
-TV klient for Jellyfin, det gratis programvaremediesystemet
+TV klient for Jellyfin, ett gratis programvare medie system
