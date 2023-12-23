@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.RowsSupportFragment
 import androidx.lifecycle.lifecycleScope
@@ -63,12 +65,23 @@ class TextSearchFragment : Fragment() {
 	}
 
 	private fun EditText.onSubmit(onSubmit: (String) -> Unit) {
-		setOnEditorActionListener { _, actionId, _ ->
-			if (actionId == EditorInfo.IME_ACTION_DONE) {
-				onSubmit(text.toString())
-				true
-			} else {
-				false
+		setOnEditorActionListener { view, actionId, _ ->
+			when (actionId) {
+				EditorInfo.IME_ACTION_DONE,
+				EditorInfo.IME_ACTION_SEARCH,
+				EditorInfo.IME_ACTION_PREVIOUS -> {
+					onSubmit(text.toString())
+
+					// Manually close IME to workaround focus issue with Fire TV
+					context.getSystemService<InputMethodManager>()
+						?.hideSoftInputFromWindow(view.windowToken, 0)
+
+					// Focus on search results
+					binding.resultsFrame.requestFocus()
+					true
+				}
+
+				else -> false
 			}
 		}
 	}
