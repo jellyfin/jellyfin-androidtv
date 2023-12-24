@@ -20,13 +20,13 @@ internal class ShuffleOrderIndexProvider : OrderIndexProvider {
 		} else {
 			val remainingIndices = (0..queue.size).filterNot {
 				it in playedIndices || it in nextIndices
-			}.shuffled()
+			}
 
 			List(min(amount, remainingItemsSize)) { i ->
-				if (i <= nextIndices.lastIndex) {
+				if (i < nextIndices.lastIndex) {
 					nextIndices[i]
 				} else {
-					val index = remainingIndices[i - nextIndices.size]
+					val index = remainingIndices.random()
 					nextIndices.add(index)
 					index
 				}
