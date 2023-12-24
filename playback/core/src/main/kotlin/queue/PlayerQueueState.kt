@@ -89,21 +89,23 @@ class DefaultPlayerQueueState(
 	}
 
 	override fun replaceQueue(queue: Queue) {
-		Timber.d("Queue changed, setting index to 0")
-
+		Timber.d("Queue changed")
 		_current.value = queue
 		orderIndexProvider.reset()
 		if (orderIndexProvider != defaultOrderIndexProvider) defaultOrderIndexProvider.reset()
 
 		currentQueueIndicesPlayed.clear()
 
-		coroutineScope.launch {
-			when (state.playbackOrder.value) {
-				PlaybackOrder.DEFAULT -> setIndex(0)
-				PlaybackOrder.RANDOM,
-				PlaybackOrder.SHUFFLE -> setIndex((0 until queue.size).random())
-			}
+		// Don't set index for empty queue
+		if (queue.size == 0) return
+
+		val index = when (state.playbackOrder.value) {
+			PlaybackOrder.DEFAULT -> 0
+			PlaybackOrder.RANDOM,
+			PlaybackOrder.SHUFFLE -> (0 until queue.size).random()
 		}
+		Timber.d("Changing queue index to $index")
+		coroutineScope.launch { setIndex(index) }
 	}
 
 	private fun getNextIndices(amount: Int, usePlaybackOrder: Boolean, useRepeatMode: Boolean): Collection<Int> {
