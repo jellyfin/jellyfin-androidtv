@@ -91,18 +91,14 @@ class DefaultPlayerQueueState(
 	override fun replaceQueue(queue: Queue) {
 		Timber.d("Queue changed, setting index to 0")
 
-		_current.value = queue
-		orderIndexProvider.reset()
-		if (orderIndexProvider != defaultOrderIndexProvider) defaultOrderIndexProvider.reset()
-
-		currentQueueIndicesPlayed.clear()
-
 		coroutineScope.launch {
-			when (state.playbackOrder.value) {
-				PlaybackOrder.DEFAULT -> setIndex(0)
-				PlaybackOrder.RANDOM,
-				PlaybackOrder.SHUFFLE -> setIndex((0 until queue.size).random())
-			}
+			_current.value = queue
+			orderIndexProvider.reset()
+			if (orderIndexProvider != defaultOrderIndexProvider) defaultOrderIndexProvider.reset()
+
+			currentQueueIndicesPlayed.clear()
+
+			setIndex(0)
 		}
 	}
 
