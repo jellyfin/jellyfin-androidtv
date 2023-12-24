@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
+import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -137,27 +138,43 @@ class SocketHandler(
 	@Suppress("ComplexMethod")
 	private fun onPlayStateMessage(message: PlayStateMessage) = coroutineScope.launch(Dispatchers.Main) {
 		Timber.i("Received PlayStateMessage with command ${message.request.command}")
-		val playbackController = playbackControllerContainer.playbackController
-		// Audio playback uses the mediaManager, video playback and live tv use the playbackController
-		if (mediaManager.isAudioPlayerInitialized) when (message.request.command) {
-			PlaystateCommand.STOP -> mediaManager.stopAudio(true)
-			PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> mediaManager.playPauseAudio()
-			PlaystateCommand.NEXT_TRACK -> mediaManager.nextAudioItem()
-			PlaystateCommand.PREVIOUS_TRACK -> mediaManager.prevAudioItem()
-			// Not implemented
-			PlaystateCommand.SEEK,
-			PlaystateCommand.REWIND,
-			PlaystateCommand.FAST_FORWARD -> Unit
-		} else when (message.request.command) {
-			PlaystateCommand.STOP -> playbackController?.endPlayback(true)
-			PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> playbackController?.playPause()
-			PlaystateCommand.NEXT_TRACK -> playbackController?.next()
-			PlaystateCommand.PREVIOUS_TRACK -> playbackController?.prev()
-			PlaystateCommand.SEEK -> playbackController?.seek(
-				(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
-			)
-			PlaystateCommand.REWIND -> playbackController?.rewind()
-			PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
+
+		// Audio playback uses (Rewrite)MediaManager, (legacy) video playback uses playbackController
+		when {
+			// Ignore RewriteMediaManager
+			mediaManager is RewriteMediaManager && mediaManager.hasAudioQueueItems() -> {
+				Timber.i("Ignoring PlayStateMessage: should be handled by PlaySessionSocketService")
+				return@launch
+			}
+
+			// LegacyMediaManager
+			mediaManager.hasAudioQueueItems() -> when (message.request.command) {
+				PlaystateCommand.STOP -> mediaManager.stopAudio(true)
+				PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> mediaManager.playPauseAudio()
+				PlaystateCommand.NEXT_TRACK -> mediaManager.nextAudioItem()
+				PlaystateCommand.PREVIOUS_TRACK -> mediaManager.prevAudioItem()
+				// Not implemented
+				PlaystateCommand.SEEK,
+				PlaystateCommand.REWIND,
+				PlaystateCommand.FAST_FORWARD -> Unit
+			}
+
+			// PlaybackController
+			else -> {
+				val playbackController = playbackControllerContainer.playbackController
+				when (message.request.command) {
+					PlaystateCommand.STOP -> playbackController?.endPlayback(true)
+					PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> playbackController?.playPause()
+					PlaystateCommand.NEXT_TRACK -> playbackController?.next()
+					PlaystateCommand.PREVIOUS_TRACK -> playbackController?.prev()
+					PlaystateCommand.SEEK -> playbackController?.seek(
+						(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
+					)
+
+					PlaystateCommand.REWIND -> playbackController?.rewind()
+					PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
+				}
+			}
 		}
 	}
 
