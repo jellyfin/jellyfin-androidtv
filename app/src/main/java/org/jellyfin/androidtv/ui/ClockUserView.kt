@@ -11,6 +11,8 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageUtils
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -24,6 +26,7 @@ class ClockUserView @JvmOverloads constructor(
 	private val binding: ClockUserBugBinding = ClockUserBugBinding.inflate(LayoutInflater.from(context), this, true)
 	private val userPreferences by inject<UserPreferences>()
 	private val userRepository by inject<UserRepository>()
+	private val navigationRepository by inject<NavigationRepository>()
 
 	var isVideoPlayer = false
 		set(value) {
@@ -42,6 +45,10 @@ class ClockUserView @JvmOverloads constructor(
 		)
 
 		binding.clockUserImage.isVisible = currentUser != null
+
+		binding.home.setOnClickListener {
+			navigationRepository.reset(Destinations.home)
+		}
 	}
 
 	private fun updateClockVisibility() {
