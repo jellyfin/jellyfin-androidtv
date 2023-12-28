@@ -1,7 +1,9 @@
 package org.jellyfin.playback.exoplayer
 
+import android.app.ActivityManager
 import android.content.Context
 import androidx.annotation.OptIn
+import androidx.core.content.getSystemService
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -11,7 +13,10 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.extractor.DefaultExtractorsFactory
+import androidx.media3.extractor.ts.TsExtractor
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
@@ -29,6 +34,11 @@ import kotlin.time.Duration.Companion.milliseconds
 class ExoPlayerBackend(
 	private val context: Context,
 ) : BasePlayerBackend() {
+	companion object {
+		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
+		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
+	}
+
 	private var currentStream: PlayableMediaStream? = null
 
 	private val exoPlayer by lazy {
@@ -45,6 +55,16 @@ class ExoPlayerBackend(
 					}.build())
 				})
 			})
+			.setMediaSourceFactory(DefaultMediaSourceFactory(
+				context,
+				DefaultExtractorsFactory().apply {
+					val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+					setTsExtractorTimestampSearchBytes(when (isLowRamDevice) {
+						true -> TS_SEARCH_BYTES_LM
+						false -> TS_SEARCH_BYTES_HM
+					})
+				}
+			))
 			.setPauseAtEndOfMediaItems(true)
 			.build()
 			.also { player -> player.addListener(PlayerListener()) }
