@@ -6,10 +6,12 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
@@ -34,6 +36,14 @@ class ExoPlayerBackend(
 			.setRenderersFactory(DefaultRenderersFactory(context).apply {
 				setEnableDecoderFallback(true)
 				setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+			})
+			.setTrackSelector(DefaultTrackSelector(context).apply {
+				setParameters(buildUponParameters().apply {
+					setTunnelingEnabled(true)
+					setAudioOffloadPreferences(TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
+						setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+					}.build())
+				})
 			})
 			.setPauseAtEndOfMediaItems(true)
 			.build()
