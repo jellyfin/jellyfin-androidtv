@@ -34,6 +34,7 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.extractor.DefaultExtractorsFactory;
 import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
@@ -204,6 +205,17 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
         exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+
+        DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
+        trackSelector.setParameters(trackSelector.buildUponParameters()
+                .setTunnelingEnabled(true)
+                .setAudioOffloadPreferences(new TrackSelectionParameters.AudioOffloadPreferences.Builder()
+                        .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+                        .build()
+                )
+                .build()
+        );
+        exoPlayerBuilder.setTrackSelector(trackSelector);
 
         DefaultExtractorsFactory defaultExtractorsFactory = new DefaultExtractorsFactory().setTsExtractorTimestampSearchBytes(TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3);
         exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(context, defaultExtractorsFactory));
