@@ -21,15 +21,20 @@ class SearchViewModel(
 		private val debounceDuration = 600.milliseconds
 
 		private val groups = mapOf(
-			R.string.lbl_movies to setOf(BaseItemKind.MOVIE, BaseItemKind.BOX_SET),
+			R.string.lbl_movies to setOf(BaseItemKind.MOVIE),
 			R.string.lbl_series to setOf(BaseItemKind.SERIES),
 			R.string.lbl_episodes to setOf(BaseItemKind.EPISODE),
-			R.string.lbl_people to setOf(BaseItemKind.PERSON),
 			R.string.lbl_videos to setOf(BaseItemKind.VIDEO),
 			R.string.lbl_programs to setOf(BaseItemKind.LIVE_TV_PROGRAM),
+			R.string.channels to setOf(BaseItemKind.LIVE_TV_CHANNEL),
+			R.string.lbl_playlists to setOf(BaseItemKind.PLAYLIST),
 			R.string.lbl_artists to setOf(BaseItemKind.MUSIC_ARTIST),
 			R.string.lbl_albums to setOf(BaseItemKind.MUSIC_ALBUM),
 			R.string.lbl_songs to setOf(BaseItemKind.AUDIO),
+			R.string.photo_albums to setOf(BaseItemKind.PHOTO_ALBUM),
+			R.string.photos to setOf(BaseItemKind.PHOTO),
+			R.string.lbl_collections to setOf(BaseItemKind.BOX_SET),
+			R.string.lbl_people to setOf(BaseItemKind.PERSON),
 		)
 	}
 
