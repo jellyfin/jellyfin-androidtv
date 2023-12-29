@@ -524,4 +524,7 @@
     <string name="pref_music_rewrite_disable">Wyłącz nowy backend muzyki</string>
     <string name="pref_music_rewrite_enable_description">Wyłącz tę opcję tylko wtedy, gdy masz problemy z odtwarzaniem muzyki</string>
     <string name="because_you_watched">Bo obejrzałeś %1$s</string>
+    <string name="channels">Kanały</string>
+    <string name="photos">Zdjęcia</string>
+    <string name="photo_albums">Albumy zdjęciowe</string>
 </resources>
