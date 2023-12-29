@@ -514,4 +514,7 @@
     <string name="pref_music_rewrite_enable_description">Schakel dit alleen uit als je problemen ondervindt bij het afspelen van muziek</string>
     <string name="disable_ui_mode_warning">Waarschuwing voor apparaattype uitschakelen</string>
     <string name="because_you_watched">Omdat je %1$s hebt gekeken</string>
+    <string name="photo_albums">Fotoalbums</string>
+    <string name="photos">Foto\'s</string>
+    <string name="channels">Kanalen</string>
 </resources>
