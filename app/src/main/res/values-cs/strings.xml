@@ -519,4 +519,7 @@
     <string name="not_set">Nenastaveno</string>
     <string name="disable_ui_mode_warning">Vypnout upozornění na typ zařízení</string>
     <string name="because_you_watched">Protože jste sledovali %1$s</string>
+    <string name="photo_albums">Fotoalba</string>
+    <string name="channels">Kanály</string>
+    <string name="photos">Fotky</string>
 </resources>
