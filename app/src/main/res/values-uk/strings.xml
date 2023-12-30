@@ -524,4 +524,7 @@
     <string name="pref_music_cat">Музика</string>
     <string name="pref_music_rewrite_enable_description">Вимикайте цю опцію, лише якщо у вас виникають проблеми з відтворенням музики</string>
     <string name="because_you_watched">Тому що ви дивилися %1$s</string>
+    <string name="channels">Канали</string>
+    <string name="photo_albums">Фотоальбоми</string>
+    <string name="photos">Фотографії</string>
 </resources>
