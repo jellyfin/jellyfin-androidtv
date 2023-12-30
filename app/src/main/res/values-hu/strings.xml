@@ -514,4 +514,7 @@
     <string name="pref_music_rewrite_enable_description">Csak akkor kapcsolja ki, ha problémái vannak a zenelejátszással</string>
     <string name="disable_ui_mode_warning">Eszköztípus figyelmeztetés letiltása</string>
     <string name="because_you_watched">Mert nézed %1$s</string>
+    <string name="photos">Fotók</string>
+    <string name="channels">Csatornák</string>
+    <string name="photo_albums">Fotóalbumok</string>
 </resources>
