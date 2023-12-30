@@ -514,4 +514,7 @@
     <string name="pref_music_rewrite_disable">Älä käytä uuttaa musiikin taustajärjestelmää</string>
     <string name="pref_music_rewrite_enable_description">Poista käytöstä vain, jos kohtaat musiikin toisto-ongelmia</string>
     <string name="because_you_watched">Koska katselit: %1$s</string>
+    <string name="channels">Kanavat</string>
+    <string name="photos">Valokuvat</string>
+    <string name="photo_albums">Valokuva-albumit</string>
 </resources>
