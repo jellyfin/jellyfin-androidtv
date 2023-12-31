@@ -514,4 +514,7 @@
     <string name="pref_music_cat">Musica</string>
     <string name="disable_ui_mode_warning">Desactiva l\'avís de tipus de dispositiu</string>
     <string name="because_you_watched">Perquè heu vist %1$s</string>
+    <string name="photo_albums">Àlbums de fotografies</string>
+    <string name="photos">Fotografies</string>
+    <string name="channels">Canals</string>
 </resources>
