@@ -37,6 +37,7 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.extractor.DefaultExtractorsFactory;
 import androidx.media3.extractor.ts.TsExtractor;
+import androidx.media3.session.MediaSession;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.PlayerView;
 
@@ -117,6 +118,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         nightModeEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getAudioNightMode());
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
+        new MediaSession.Builder(activity, mExoPlayer).build();
 
         // Volume normalisation (audio night mode).
         if (nightModeEnabled) enableAudioNightMode(mExoPlayer.getAudioSessionId());
