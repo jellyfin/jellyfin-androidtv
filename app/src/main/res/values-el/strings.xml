@@ -514,4 +514,7 @@
     <string name="pref_music_rewrite_enable_description">Απενεργοποιήστε αυτή την επιλογή μόνο εάν αντιμετωπίζετε προβλήματα με την αναπαραγωγή μουσικής</string>
     <string name="disable_ui_mode_warning">Απενεργοποιήστε την προειδοποίηση τύπου συσκευής</string>
     <string name="because_you_watched">Επειδή παρακολουθήσατε %1$s</string>
+    <string name="channels">Κανάλια</string>
+    <string name="photo_albums">Άλμπουμ φωτογραφιών</string>
+    <string name="photos">Φωτογραφίες</string>
 </resources>
