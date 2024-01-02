@@ -519,4 +519,7 @@
     <string name="pref_music_rewrite_enable_description">Disabilita solo se stai riscontrando problemi nella riproduzione della musica</string>
     <string name="disable_ui_mode_warning">Disabilita avvisi riguardo al tipo di dispositivo</string>
     <string name="because_you_watched">Perché hai guardato %1$s</string>
+    <string name="channels">Canali</string>
+    <string name="photos">Foto</string>
+    <string name="photo_albums">Album fotografici</string>
 </resources>
