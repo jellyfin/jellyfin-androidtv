@@ -37,12 +37,9 @@ import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.PlayerView;
 
-import com.google.common.collect.ImmutableSet;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.sdk.model.api.MediaStream;
-import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -83,11 +80,6 @@ public class VideoManager {
 
         // Volume normalisation (audio night mode).
         if (nightModeEnabled) enableAudioNightMode(mExoPlayer.getAudioSessionId());
-
-        mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
-                                                            .buildUpon()
-                                                            .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
-                                                            .build());
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
@@ -268,7 +260,6 @@ public class VideoManager {
     public void stopPlayback() {
         if (mExoPlayer != null) {
             mExoPlayer.stop();
-            disableSubs();
 
             mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
                     .buildUpon()
@@ -310,16 +301,6 @@ public class VideoManager {
         } catch (IllegalStateException e) {
             Timber.e(e, "Unable to set video path.  Probably backing out.");
         }
-    }
-
-    public void disableSubs() {
-        if (!isInitialized())
-            return;
-
-        mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
-                .buildUpon()
-                .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
-                .build());
     }
 
     private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
@@ -399,12 +380,8 @@ public class VideoManager {
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
         // Make sure the index is present
-        Optional<MediaStream> candidateOptional = allStreams.stream().filter(stream -> stream.getIndex() == index).findFirst();
+        Optional<MediaStream> candidateOptional = allStreams.stream().filter(stream -> stream.getIndex() == index && !stream.isExternal() && stream.getType() == streamType).findFirst();
         if (!candidateOptional.isPresent()) return false;
-
-        org.jellyfin.sdk.model.api.MediaStream candidate = candidateOptional.get();
-        if (candidate.isExternal() || candidate.getType() != streamType)
-            return false;
 
         int exoTrackID = offsetStreamIndex(index, false, true, allStreams);
         if (exoTrackID < 0)
@@ -471,8 +448,6 @@ public class VideoManager {
         try {
             TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
             mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
-            if (streamType == MediaStreamType.SUBTITLE)
-                mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
             mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
         } catch (Exception e) {
             Timber.d("Error setting track selection");
