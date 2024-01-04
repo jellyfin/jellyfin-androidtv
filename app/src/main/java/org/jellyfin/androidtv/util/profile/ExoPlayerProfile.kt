@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecProfiles
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditions
@@ -191,8 +192,9 @@ class ExoPlayerProfile(
 					)
 				)
 			})
-			// HEVC profile
+			// HEVC profiles
 			add(deviceHevcCodecProfile)
+			addAll(deviceHevcLevelCodecProfiles)
 			// AV1 profile
 			add(deviceAV1CodecProfile)
 			// Limit video resolution support for older devices
