@@ -524,4 +524,7 @@
     <string name="pref_music_rewrite_enable_description">Отключите эту опцию, если у вас возникают проблемы с воспроизведением музыки</string>
     <string name="disable_ui_mode_warning">Отключить предупреждение о типе устройства</string>
     <string name="because_you_watched">На основе просмотра %1$s</string>
+    <string name="channels">Каналы</string>
+    <string name="photo_albums">Фотоальбомы</string>
+    <string name="photos">Фото</string>
 </resources>
