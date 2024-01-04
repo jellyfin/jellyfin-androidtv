@@ -511,4 +511,10 @@
     <string name="pref_refresh_rate_scale_on_device">Scala på enhet</string>
     <string name="pref_crash_report_logs_disabled">logger vil ikke bli inkudert i krasj rapporter</string>
     <string name="license_repository">Depot</string>
+    <string name="pref_music_rewrite_disable">Slå av ny musikkserver</string>
+    <string name="channels">Kanaler</string>
+    <string name="photo_albums">Fotoalbum</string>
+    <string name="photos">Bilder</string>
+    <string name="disable_ui_mode_warning">Slå av enhetstype-advarsel</string>
+    <string name="pref_enable_media_management_description">Vis alternativ for å behandle media mens du utforsker</string>
 </resources>
