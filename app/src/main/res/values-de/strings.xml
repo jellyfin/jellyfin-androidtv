@@ -514,4 +514,7 @@
     <string name="pref_music_rewrite_enable_description">Nur deaktivieren, wenn bei dir Probleme bei der Musikwiedergabe auftreten</string>
     <string name="disable_ui_mode_warning">Warnung für Gerätetyp deaktivieren</string>
     <string name="because_you_watched">Weil du %1$s angesehen hast</string>
+    <string name="channels">Kanäle</string>
+    <string name="photo_albums">Fotoalben</string>
+    <string name="photos">Fotos</string>
 </resources>
