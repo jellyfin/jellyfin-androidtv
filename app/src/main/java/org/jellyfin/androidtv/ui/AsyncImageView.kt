@@ -82,7 +82,10 @@ class AsyncImageView @JvmOverloads constructor(
 				}.build())
 			} else {
 				imageLoader.enqueue(ImageRequest.Builder(context).apply {
-					crossfade(crossFadeDuration.inWholeMilliseconds.toInt())
+					val crossFadeDurationMs = crossFadeDuration.inWholeMilliseconds.toInt()
+					if (crossFadeDurationMs > 0) crossfade(crossFadeDurationMs)
+					else crossfade(false)
+
 					target(this@AsyncImageView)
 					data(url)
 					placeholder(placeholderOrBlurHash)
