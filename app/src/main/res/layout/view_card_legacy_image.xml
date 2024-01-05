@@ -12,6 +12,7 @@
      MODIFIED to add Jellyfin specifics
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:lb="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="androidx.leanback.widget.BaseCardView">
@@ -26,6 +27,7 @@
         tools:ignore="UnusedAttribute"
         tools:visibility="visible">
 
+        <!-- Crossfading is broken with this specific layout, especially when using thumbnails -->
         <org.jellyfin.androidtv.ui.AsyncImageView
             android:id="@+id/main_image"
             android:layout_width="wrap_content"
@@ -33,6 +35,7 @@
             android:background="@drawable/shape_card_image_background"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
+            app:crossfadeDuration="0"
             lb:layout_viewType="main"
             tools:src="@drawable/app_logo" />
 
