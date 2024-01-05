@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util.apiclient;
 
 import android.content.Context;
+import android.provider.MediaStore;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.SessionRepository;
@@ -8,6 +9,8 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -298,7 +301,12 @@ public class PlaybackHelper {
                     default:
                         KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
                         Destination destination = playbackLauncher.getPlaybackDestination(item.getType(), pos);
-                        navigationRepository.navigate(destination);
+
+                        PlaybackController playbackController = KoinJavaComponent.<PlaybackControllerContainer>get(PlaybackControllerContainer.class).getPlaybackController();
+                        navigationRepository.navigate(
+                                destination,
+                                playbackController != null && playbackController.hasFragment()
+                        );
                 }
             }
         });
