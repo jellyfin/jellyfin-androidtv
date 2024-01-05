@@ -12,6 +12,7 @@
  - [GodTamIt](https://github.com/GodTamIt)
  - [sparky3387](https://github.com/sparky3387)
  - [mohd-akram](https://github.com/mohd-akram)
+ - [3l0w](https://github.com/3l0w)
 
 # Emby Contributors
 

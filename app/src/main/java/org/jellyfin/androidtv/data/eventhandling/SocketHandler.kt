@@ -178,12 +178,12 @@ class SocketHandler(
 		}
 	}
 
-	private fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) {
+	private fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) = coroutineScope.launch(Dispatchers.Main) {
 		val playbackController = playbackControllerContainer.playbackController
 
 		if (playbackController?.isPlaying == true || playbackController?.isPaused == true) {
 			Timber.i("Not launching $itemId: playback in progress")
-			return
+			return@launch
 		}
 
 		Timber.i("Launching $itemId")
