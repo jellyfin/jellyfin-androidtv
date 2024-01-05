@@ -57,6 +57,8 @@ class SocketHandler(
 				supportsMediaControl = true,
 				supportedCommands = buildList {
 					add(GeneralCommandType.DISPLAY_CONTENT)
+					add(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)
+					add(GeneralCommandType.SET_AUDIO_STREAM_INDEX)
 
 					add(GeneralCommandType.DISPLAY_MESSAGE)
 					add(GeneralCommandType.SEND_STRING)
@@ -91,6 +93,26 @@ class SocketHandler(
 			// Media playback
 			addListener<PlayMessage> { message -> onPlayMessage(message) }
 			addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
+
+			addGeneralCommandsListener(setOf(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)) { message ->
+				val index by message
+				if (index == null)
+					return@addGeneralCommandsListener
+
+				coroutineScope.launch(Dispatchers.Main) {
+					playbackControllerContainer.playbackController?.switchSubtitleStream(index!!.toInt())
+				}
+			}
+
+			addGeneralCommandsListener(setOf(GeneralCommandType.SET_AUDIO_STREAM_INDEX)) { message ->
+				val index by message
+				if (index == null)
+					return@addGeneralCommandsListener
+
+				coroutineScope.launch(Dispatchers.Main) {
+					playbackControllerContainer.playbackController?.switchAudioStream(index!!.toInt())
+				}
+			}
 
 			// General commands
 			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_CONTENT)) { message ->
