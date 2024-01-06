@@ -45,16 +45,16 @@
     <string name="lbl_always">Завжди</string>
     <string name="pref_clock_display">Показати годинник</string>
     <string name="lbl_song_title">Назва пісні</string>
-    <string name="lbl_album_name">Ім‘я альбому</string>
+    <string name="lbl_album_name">Ім’я альбому</string>
     <string name="lbl_next_episode">Наступний епізод</string>
     <string name="lbl_previous_episode">Попередній епізод</string>
-    <string name="lbl_more_like_this">Більше схожого</string>
+    <string name="lbl_more_like_this">Подібні до цього</string>
     <string name="lbl_resume_from">Продовжити з %1$s</string>
     <string name="lbl_guide_option_number">Номер каналу</string>
     <string name="lbl_guide_option_played">Останні відтворення</string>
     <string name="lbl_show_indicators">Показати позначки для</string>
     <string name="lbl_sort_by">Сортувати за</string>
-    <string name="lbl_premiere">Прем‘єра</string>
+    <string name="lbl_premiere">Прем’єра</string>
     <string name="lbl_guest_stars">Запрошені зірки</string>
     <string name="lbl_on_schedule">На майбутнє</string>
     <string name="lbl_save">Зберегти</string>
@@ -85,7 +85,7 @@
     <string name="msg_playback_not_allowed">Відтворення заборонене</string>
     <string name="lbl_born">"Народився/лась "</string>
     <string name="lbl_ok">ОК</string>
-    <string name="lbl_valid_server_address">Введіть адресу сервера (IP або домен/ім\'я комп\'ютера)</string>
+    <string name="lbl_valid_server_address">Введіть адресу сервера (IP або домен/ім’я комп’ютера)</string>
     <string name="lbl_enter_server_address">Введіть адресу сервера</string>
     <string name="lbl_yes">Так</string>
     <string name="lbl_no">Ні</string>
@@ -155,7 +155,7 @@
     <string name="pref_video_player_auto">Вибрати автоматично</string>
     <string name="pref_theme_emerald">Класичний смарагдовий</string>
     <string name="pref_theme_dark">Темний (за замовчуванням)</string>
-    <string name="lbl_my_media">Мої медіа</string>
+    <string name="lbl_my_media">Мої медіафайли</string>
     <string name="lbl_image_size">Розмір зображення</string>
     <string name="lbl_image_type">Тип зображення</string>
     <string name="lbl_start_favorites">Розмістіть обрані на початку</string>
@@ -163,7 +163,7 @@
     <string name="lbl_hd_programs">HD Програми</string>
     <string name="lbl_live_broadcasts">Наживо</string>
     <string name="lbl_repeat_episodes">Повторні епізоди</string>
-    <string name="lbl_premieres">Прем\'єри</string>
+    <string name="lbl_premieres">Прем’єри</string>
     <string name="lbl_new_episodes">Нові епізоди</string>
     <string name="lbl_audio_delay">Затримка звуку</string>
     <string name="lbl_new_only">Тільки нове</string>
@@ -250,7 +250,7 @@
     <string name="msg_will_record">Буду записувати</string>
     <string name="lbl_on">Ввімкнути</string>
     <string name="lbl_now_playing_track">%1$s з %2$s</string>
-    <string name="lbl_loading_elipses">Завантажую…</string>
+    <string name="lbl_loading_elipses">Завантажується…</string>
     <string name="lbl_play_trailers">Програти трейлери</string>
     <string name="msg_no_items">Немає елементів для відтворення</string>
     <string name="subtitle_error">Не вдається вибрати субтитри</string>
@@ -364,7 +364,7 @@
     <string name="lbl_on_any_channel">На будь якому каналі</string>
     <string name="lbl_start_end_on_schedule">Починається і закінчується за розкладом</string>
     <string name="lbl_starting_on_schedule_ending_after">Починається за розкладом і закінчується на %1$s пізніше розкладу</string>
-    <string name="lbl_starting_early_ending_on_schedule">Починається на %1$s раніше розкладу, і закінчується вчасно</string>
+    <string name="lbl_starting_early_ending_on_schedule">Починається на %1$s раніше розкладу і закінчується вчасно</string>
     <string name="lbl_starting_early_ending_after">Починається на %1$s раніше і закінчується на %2$s пізніше розкладу</string>
     <string name="lbl_next_up_minimal">Без мініатюри</string>
     <string name="lbl_next_up_extended">З мініатюрою</string>
@@ -418,7 +418,7 @@
     <string name="lbl_manage_servers">Керувати серверами</string>
     <string name="login_username_field_empty">Ім\'я користувача не може бути порожнім</string>
     <string name="login_server_unavailable">Неможливо підключитись до сервера</string>
-    <string name="login_invalid_credentials">Неправильне ім\'я користувача та/або пароль</string>
+    <string name="login_invalid_credentials">Неправильне ім’я користувача та/або пароль</string>
     <string name="login_authenticating">Автентифікація…</string>
     <string name="server_field_empty">Ця адреса не може бути пустою</string>
     <string name="server_connection_failed_candidates">Не вийшло підключитись до сервера, спробували такі адреси: %1$s</string>
