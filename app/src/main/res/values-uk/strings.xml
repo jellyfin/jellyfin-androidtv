@@ -45,7 +45,7 @@
     <string name="lbl_always">Завжди</string>
     <string name="pref_clock_display">Показати годинник</string>
     <string name="lbl_song_title">Назва пісні</string>
-    <string name="lbl_album_name">Ім’я альбому</string>
+    <string name="lbl_album_name">Назва альбому</string>
     <string name="lbl_next_episode">Наступний епізод</string>
     <string name="lbl_previous_episode">Попередній епізод</string>
     <string name="lbl_more_like_this">Подібні до цього</string>
@@ -72,7 +72,7 @@
     <string name="lbl_mark_played">Позначити як відтворене</string>
     <string name="lbl_mark_unplayed">Позначити як невідтворене</string>
     <string name="lbl_play_first_unwatched">Відтворити перше непереглянуте</string>
-    <string name="lbl_search_hint">Шукати текст (виберіть для відображення клавіатури)</string>
+    <string name="lbl_search_hint">Знайти текст (оберіть для відображення клавіатури)</string>
     <string name="sum_tv_queuing">Додати решту сезону до черги при відтворенні епізоду</string>
     <string name="lbl_tv_queuing">Додати до черги всі наступні епізоди</string>
     <string name="lbl_empty">Пусто</string>
@@ -127,8 +127,8 @@
     <string name="lbl_select_date">Вибір дати</string>
     <string name="lbl_in_x_days">За %d днів</string>
     <string name="desc_premieres">Показувати рядок нових епізодів для будь-якого серіалу, який ви переглядаєте</string>
-    <string name="lbl_show_premieres">Прем\'єри сезонів</string>
-    <string name="desc_debug">Надавати додаткову інформацію для налагодження</string>
+    <string name="lbl_show_premieres">Прем’єри сезонів</string>
+    <string name="desc_debug">Надати додаткову інформацію для налагодження</string>
     <string name="lbl_enable_debug">Параметри налагодження</string>
     <string name="lbl_goto_series">Перейти до серіалу</string>
     <string name="lbl_audio_output">Аудіо вихід</string>
@@ -194,8 +194,8 @@
     <string name="lbl_upcoming">Незабаром</string>
     <string name="lbl_series">Серіали</string>
     <string name="lbl_trailers">Трейлери</string>
-    <string name="lbl_new_premieres">Нові прем\'єри</string>
-    <string name="desc_automatic_fav_songs">Автоматичний список відтворення обраних пісень</string>
+    <string name="lbl_new_premieres">Нові прем’єри</string>
+    <string name="desc_automatic_fav_songs">Автоматичний плейлист улюблених пісень</string>
     <string name="msg_item_added">" елементів додано"</string>
     <string name="lbl_delete">Видалити</string>
     <string name="lbl_instant_mix">Миттєвий мікс</string>
@@ -236,9 +236,9 @@
     <string name="lbl_rating">Рейтинг</string>
     <string name="lbl_community_rating">Рейтинг спільноти</string>
     <string name="lbl_critic_rating">Рейтинг критиків</string>
-    <string name="lbl_premier_date">Прем\'єра</string>
+    <string name="lbl_premier_date">Прем’єра</string>
     <string name="lbl_date_added">Додано</string>
-    <string name="lbl_name">Ім\'я</string>
+    <string name="lbl_name">Ім’я</string>
     <string name="lbl_from">з</string>
     <string name="lbl_sorted_by">Сортувати за</string>
     <string name="lbl_all_items">Всі елементи</string>
@@ -262,7 +262,7 @@
     <string name="lbl_load_guide_data">Завантажте дані керування</string>
     <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
     <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
-    <string name="episode_missing">Відсутній епізод</string>
+    <string name="episode_missing">Епізод відсутній</string>
     <string name="no_player_message">Схоже, у вас не встановлено програму з підтримкою відео. Для цього параметра потрібно встановити сторонню програму для відтворення відеовмісту.</string>
     <string name="no_player">Немає відтворювача</string>
     <string name="mark_watched_message">Здавалося, елемент не відтворювався так довго, як його тривалість. Позначити як переглянуте\?</string>
@@ -354,7 +354,7 @@
     <string name="select_version">Версія</string>
     <string name="advanced_settings">Розширені</string>
     <string name="always_authenticate_description">Увімкнення цієї функції вимикає автоматичний вхід</string>
-    <string name="always_authenticate">Завжди питати облікові дані</string>
+    <string name="always_authenticate">Завжди запитувати облікові дані</string>
     <string name="alphabetical">За алфавітом</string>
     <string name="last_use">Нещодавно застосовані</string>
     <string name="enable_playback_module_description">Це експериментальна можливість. Підтримка не надається.</string>
@@ -374,7 +374,7 @@
     <string name="add_user">Додати обліковий запис</string>
     <string name="who_is_watching">Хто дивиться\?</string>
     <string name="no_user_warning">Не знайшли жодних облікових записів!
-\nДодати новий обліковий запис можна натиснувши кнопку \"Додати обліковий запис\".</string>
+\nДодати новий обліковий запис можна натиснувши кнопку «Додати обліковий запис».</string>
     <string name="welcome_content">Підключіться до вашого сервера для початку роботи.</string>
     <string name="welcome_title">Вітаємо в Jellyfin!</string>
     <string name="saved_servers">Збережені сервери</string>
@@ -404,8 +404,8 @@
     <string name="image_size_small">Маленький</string>
     <string name="image_type_banner">Банер</string>
     <string name="image_type_thumbnail">Мініатюра</string>
-    <string name="enable_smart_view_description">Розумний екран показує доречні елементи замість сітки</string>
-    <string name="enable_smart_view">Включити розумний екран</string>
+    <string name="enable_smart_view_description">Розумний екран відображає доречні елементи замість сітки</string>
+    <string name="enable_smart_view">Увімкнути розумний екран</string>
     <string name="lbl_sign_out">Вийти</string>
     <string name="lbl_remove">Видалити</string>
     <string name="lbl_server">Сервер</string>
@@ -414,9 +414,9 @@
     <string name="lbl_remove_server">Видалити сервер</string>
     <string name="lbl_sign_out_content">Вимагає входу перед наступним використанням</string>
     <string name="lbl_remove_user_content">Видалити обліковий запис</string>
-    <string name="lbl_remove_users">Це також видалить всі пов\'язані облікові записи</string>
+    <string name="lbl_remove_users">Це також видалить всі пов’язані облікові записи</string>
     <string name="lbl_manage_servers">Керувати серверами</string>
-    <string name="login_username_field_empty">Ім\'я користувача не може бути порожнім</string>
+    <string name="login_username_field_empty">Ім’я користувача не може бути порожнім</string>
     <string name="login_server_unavailable">Неможливо підключитись до сервера</string>
     <string name="login_invalid_credentials">Неправильне ім’я користувача та/або пароль</string>
     <string name="login_authenticating">Автентифікація…</string>
@@ -436,7 +436,7 @@
     <string name="play_with_vlc">Грати з LibVLC</string>
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкніть цю опцію</string>
-    <string name="audio_error">Неможливо відтворити звук %1$s</string>
+    <string name="audio_error">Неможливо відтворити аудіо %1$s</string>
     <string name="lbl_subtitle_delay">Затримка субтитрів</string>
     <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>
@@ -459,7 +459,7 @@
     <string name="pref_telemetry_description">Надіслати звіти про збої, включаючи журнали</string>
     <string name="pref_telemetry_category">Звіт про збої</string>
     <string name="pref_audio_night_mode">Нічний режим аудіо (експериментальний)</string>
-    <string name="desc_audio_night_mode">Автоматично вирівнює гучність звуку</string>
+    <string name="desc_audio_night_mode">Автовирівнювання гучності звуку</string>
     <string name="lbl_quality_profile">Профіль якості</string>
     <string name="item_deleted">%1$s видалено</string>
     <string name="item_deletion_failed">Не вдалося видалити %1$s</string>
@@ -516,14 +516,14 @@
         <item quantity="many">%1$s доріжок</item>
         <item quantity="other">%1$s доріжок</item>
     </plurals>
-    <string name="enable_reactive_homepage">Увімкнути динамічну домашню сторінку</string>
+    <string name="enable_reactive_homepage">Увімкнути динамічну головну сторінку</string>
     <string name="lbl_album_artists">Виконавці альбому</string>
     <string name="not_set">Не встановлено</string>
     <string name="pref_music_rewrite_disable">Вимкнути новий музичний бекенд</string>
     <string name="disable_ui_mode_warning">Вимкнути попередження про тип пристрою</string>
     <string name="pref_music_cat">Музика</string>
     <string name="pref_music_rewrite_enable_description">Вимикайте цю опцію, лише якщо у вас виникають проблеми з відтворенням музики</string>
-    <string name="because_you_watched">Тому що ви дивилися %1$s</string>
+    <string name="because_you_watched">Тому що ви переглянули %1$s</string>
     <string name="channels">Канали</string>
     <string name="photo_albums">Фотоальбоми</string>
     <string name="photos">Фотографії</string>
