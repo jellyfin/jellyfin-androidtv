@@ -254,7 +254,7 @@
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
-    <string name="player_error">Błąd odtwarzacza. Próbuje ponownie…</string>
+    <string name="player_error">Błąd odtwarzacza. Próbuję ponownie…</string>
     <string name="seek_error">Niemożliwe do odnalezienia</string>
     <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin\?</string>
     <string name="msg_live_tv_next">Załaduj następne %1$d godzin\?</string>
@@ -278,7 +278,7 @@
     <string name="lbl_subtitle_track">Wybierz napisy</string>
     <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
     <string name="login_username_field_empty">Nazwa użytkownika nie może być pusta</string>
-    <string name="login_server_unavailable">Niemożna połączyć z serwerem</string>
+    <string name="login_server_unavailable">Nie można połączyć z serwerem</string>
     <string name="login_invalid_credentials">Niepoprawna nazwa użytkownika i/lub hasło</string>
     <string name="login_authenticating">Uwierzytelnianie…</string>
     <string name="server_field_empty">Adres nie może być pusty</string>
