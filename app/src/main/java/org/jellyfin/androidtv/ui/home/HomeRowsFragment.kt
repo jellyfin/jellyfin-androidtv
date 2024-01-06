@@ -17,11 +17,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.CustomMessage
 import org.jellyfin.androidtv.constant.HomeSectionType
@@ -88,15 +91,17 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 		adapter = MutableObjectAdapter<Row>(PositionableListRowPresenter())
 
-		val currentUser = userRepository.currentUser.value
-
 		lifecycleScope.launch(Dispatchers.IO) {
+			val currentUser = withTimeout(30.seconds) {
+				userRepository.currentUser.filterNotNull().first()
+			}
+
 			// Start out with default sections
 			val homesections = userSettingPreferences.homesections
 			var includeLiveTvRows = false
 
 			// Check for live TV support
-			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser?.policy?.enableLiveTvAccess == true) {
+			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
 				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
