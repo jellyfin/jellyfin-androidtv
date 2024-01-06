@@ -30,6 +30,7 @@ import androidx.lifecycle.Lifecycle;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
@@ -267,6 +268,9 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                     break;
                 case SeriesTimer:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getSeriesTimerQuery(), mCardPresenter, mRowsAdapter);
+                    break;
+                case Specials:
+                    rowAdapter = new ItemRowAdapter(requireContext(), def.getSpecialsQuery(), new CardPresenter(true, ImageType.THUMB, 150), mRowsAdapter);
                     break;
                 default:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
