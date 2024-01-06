@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_toStartOf="@id/toolbar_actions"
+            style="@style/Widget.Leanback.Title.Text"/>
+
+        <androidx.leanback.widget.SearchOrbView
+            android:id="@+id/title_orb"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:transitionGroup="true"
+            tools:ignore="UnusedAttribute"
+            android:layout_gravity="center_vertical|start"
+            android:visibility="invisible" />
+
+        <org.jellyfin.androidtv.ui.ClockUserView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar_actions"
+            android:layout_alignTop="@id/title_text"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</merge>
