@@ -509,4 +509,7 @@
     <string name="pref_music_rewrite_enable_description">仅当您遇到音乐播放问题时才禁用此功能</string>
     <string name="disable_ui_mode_warning">禁用设备类型警告</string>
     <string name="pref_music_rewrite_disable">禁用新的音乐后端</string>
+    <string name="photos">照片</string>
+    <string name="channels">频道</string>
+    <string name="photo_albums">相册</string>
 </resources>
