@@ -514,4 +514,7 @@
     <string name="disable_ui_mode_warning">Deaktiver enhed type advarsel</string>
     <string name="pref_music_cat">Musik</string>
     <string name="because_you_watched">Fordi du så %1$s</string>
+    <string name="photo_albums">Fotoalbummer</string>
+    <string name="photos">Fotos</string>
+    <string name="channels">Kanaler</string>
 </resources>
