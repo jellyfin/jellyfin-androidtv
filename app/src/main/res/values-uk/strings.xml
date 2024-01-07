@@ -24,7 +24,7 @@
     <string name="lbl_other_channels">Інші канали</string>
     <string name="lbl_favorite_channels">Обрані канали</string>
     <string name="lbl_coming_up">Очікується наступним</string>
-    <string name="lbl_favorites">Обрані</string>
+    <string name="lbl_favorites">Обране</string>
     <string name="lbl_by_name">За назвою</string>
     <string name="lbl_latest">Нещодавно додано</string>
     <string name="msg_not_implemented">" не реалізовано"</string>
@@ -67,7 +67,7 @@
     <string name="lbl_unwatched">Непереглянуте</string>
     <string name="msg_no_playable_items">Немає елементів для вітворення</string>
     <string name="lbl_now_playing_album">з %1$s</string>
-    <string name="lbl_add_favorite">Додати у обрані</string>
+    <string name="lbl_add_favorite">Додати до обраного</string>
     <string name="lbl_remove_favorite">Видалити з обраного</string>
     <string name="lbl_mark_played">Позначити як відтворене</string>
     <string name="lbl_mark_unplayed">Позначити як невідтворене</string>
@@ -102,7 +102,7 @@
     <string name="lbl_min">" хв"</string>
     <string name="lbl_runs">Триває</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_favorite">Обрані</string>
+    <string name="lbl_favorite">Обране</string>
     <string name="lbl_seasons">Сезони</string>
     <string name="lbl_item">Елемент</string>
     <string name="lbl_items">Елементи</string>
@@ -282,8 +282,8 @@
     <string name="pref_app_theme">Тема додатку</string>
     <string name="lbl_record_all">Записуватиме всі епізоди</string>
     <string name="lbl_record_only_new">Записуватиме тільки нові епізоди</string>
-    <string name="lbl_episode_range">Е%1$d–%2$d</string>
-    <string name="lbl_episode_number">Е%1$d</string>
+    <string name="lbl_episode_range">Епізоди %1$d–%2$d</string>
+    <string name="lbl_episode_number">Епізод %1$d</string>
     <string name="lbl_episode_marks">Тільки на епізодах</string>
     <string name="live_tv_preferences">Налаштування телеканалів</string>
     <string name="action_connect">Підʼєднатися</string>
