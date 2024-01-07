@@ -141,7 +141,7 @@
     <string name="lbl_program_ended">Програма закінчена</string>
     <string name="lbl_cancel_series">Скасувати серіал</string>
     <string name="pref_libvlc_audio_delay_title">Стандартна затримка звуку для LibVLC</string>
-    <string name="pref_next_up_behavior_title">Показати інформацію про наступне відео</string>
+    <string name="pref_next_up_behavior_title">Відображати інформацію про наступне відео</string>
     <string name="watch_now">Дивитися</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_next_up_timeout_title">Тривалість відображення інформації</string>
@@ -301,7 +301,7 @@
     <string name="action_login">Вхід</string>
     <string name="home_section_resume_book">Продовжити читання</string>
     <string name="pref_direct_stream_live_on">Перекодування вимкнено</string>
-    <string name="pref_direct_stream_live_off">Перекодування використовується за потреби</string>
+    <string name="pref_direct_stream_live_off">Перекодування виконується при необхідності</string>
     <string name="pref_audio">Звук</string>
     <string name="pref_subtitles">Субтитри</string>
     <string name="pref_video">Відео</string>
@@ -375,7 +375,7 @@
     <string name="who_is_watching">Хто дивиться\?</string>
     <string name="no_user_warning">Не знайшли жодних облікових записів!
 \nДодати новий обліковий запис можна натиснувши кнопку «Додати обліковий запис».</string>
-    <string name="welcome_content">Підключіться до вашого сервера для початку роботи.</string>
+    <string name="welcome_content">Щоб розпочати роботу, підключіться до свого медіасервера.</string>
     <string name="welcome_title">Вітаємо в Jellyfin!</string>
     <string name="saved_servers">Збережені сервери</string>
     <string name="press_to_close">Натисніть для закриття</string>
