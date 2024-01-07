@@ -49,7 +49,6 @@ class ExoPlayerBackend(
 			})
 			.setTrackSelector(DefaultTrackSelector(context).apply {
 				setParameters(buildUponParameters().apply {
-					setTunnelingEnabled(true)
 					setAudioOffloadPreferences(TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
 						setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
 					}.build())
