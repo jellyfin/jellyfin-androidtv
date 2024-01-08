@@ -688,6 +688,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 ItemRowAdapter seasonsAdapter = new ItemRowAdapter(requireContext(), seasons, new CardPresenter(), adapter);
                 addItemRow(adapter, seasonsAdapter, 1, getString(R.string.lbl_seasons));
 
+                //Specials
+                if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
+                }
+
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
                 upcoming.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 upcoming.setParentId(mBaseItem.getId());
