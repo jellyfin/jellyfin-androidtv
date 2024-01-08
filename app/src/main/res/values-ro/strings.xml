@@ -519,4 +519,7 @@
     <string name="pref_music_rewrite_enable_description">Dezactivați numai dacă întâmpinați probleme cu redarea muzicii</string>
     <string name="disable_ui_mode_warning">Dezactivare avertizare tip dispozitiv</string>
     <string name="because_you_watched">Pentru că te-ai uitat %1$s</string>
+    <string name="channels">Canale</string>
+    <string name="photo_albums">Albume foto</string>
+    <string name="photos">Poze</string>
 </resources>
