@@ -17,7 +17,7 @@
     <string name="lbl_cancel">Скасувати</string>
     <string name="lbl_play">Відтворити</string>
     <string name="lbl_shuffle_all">Перемішати все</string>
-    <string name="lbl_play_all">Відтворити всі</string>
+    <string name="lbl_play_all">Відтворити все</string>
     <string name="lbl_other">Інше</string>
     <string name="lbl_movies">Фільми</string>
     <string name="lbl_collections">Колекції</string>
@@ -92,13 +92,13 @@
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_bracket_unknown">Невідомо</string>
     <string name="msg_video_playback_error">"Помилка відтворення відео - "</string>
-    <string name="lbl_none">Нічого</string>
+    <string name="lbl_none">Немає</string>
     <string name="lbl_recordings">Записи</string>
     <string name="lbl_people">Люди</string>
     <string name="lbl_other_options">Інші опції</string>
     <string name="lbl_last_played">"Останнє відтворене "</string>
     <string name="lbl_directed_by">Режисер</string>
-    <string name="lbl_ends">Закінчується</string>
+    <string name="lbl_ends">Завершується</string>
     <string name="lbl_min">" хв"</string>
     <string name="lbl_runs">Триває</string>
     <string name="lbl_sd">SD</string>
@@ -179,7 +179,7 @@
     <string name="pref_show_backdrop_description">Змінює зображення тла щоразу, коли обирається інший елемент медіатеки</string>
     <string name="lbl_show_backdrop">Відображати задники</string>
     <string name="lbl_open">Відкрити</string>
-    <string name="lbl_play_next_up">Відтворити далі</string>
+    <string name="lbl_play_next_up">Продовжити перегляд</string>
     <string name="lbl_clear_queue">Очистити чергу</string>
     <string name="btn_got_it">Добре</string>
     <string name="lbl_subtitle_track">Обрати доріжку субтитрів</string>
@@ -199,9 +199,9 @@
     <string name="msg_item_added">" елементів додано"</string>
     <string name="lbl_delete">Видалити</string>
     <string name="lbl_instant_mix">Миттєвий мікс</string>
-    <string name="lbl_goto_now_playing">Перейти до \"Відтворюється\"</string>
+    <string name="lbl_goto_now_playing">Перейти до «Відтворюється»</string>
     <string name="lbl_remove_from_queue">Видалити з черги</string>
-    <string name="lbl_play_from_here">Грати звідси</string>
+    <string name="lbl_play_from_here">Відтворити звідси</string>
     <string name="lbl_now_playing">Відтворюється</string>
     <string name="lbl_prev_item">Попередній</string>
     <string name="lbl_next_item">Наступний</string>
@@ -209,7 +209,7 @@
     <string name="lbl_open_artist">Відкрити виконавця</string>
     <string name="lbl_add_to_queue">Додати до черги</string>
     <string name="msg_items_added">" елементів додано"</string>
-    <string name="lbl_playlists">Списки відтворення</string>
+    <string name="lbl_playlists">Плейлисти</string>
     <string name="sum_enable_cinema_mode">Відтворює доступні вступи та попередні перегляди перед початком фільму</string>
     <string name="lbl_enable_cinema_mode">Режим «Кінотеатр»</string>
     <string name="lbl_episodes">Епізоди</string>
@@ -229,8 +229,8 @@
     <string name="msg_unable_load_subs">Не вдається завантажити субтитри</string>
     <string name="msg_subtitles_loading">Завантаження субтитрів…</string>
     <string name="lbl_filters">Фільтри телеканалів</string>
-    <string name="lbl_ended">ЗАКІНЧЕНО</string>
-    <string name="lbl__continuing">ПРОДОВЖЕННЯ</string>
+    <string name="lbl_ended">ЗАВЕРШЕНО</string>
+    <string name="lbl__continuing">ПРОДОВЖУЄТЬСЯ</string>
     <string name="lbl_display_preferences">Налаштування відображення</string>
     <string name="lbl_starting_with">починаючи з тих, чиє ім’я починається на</string>
     <string name="lbl_rating">Рейтинг</string>
@@ -245,13 +245,13 @@
     <string name="lbl_showing">Показ</string>
     <string name="pref_audio_direct">Пряме</string>
     <string name="lbl_record_any_channel">Записати будь-який канал</string>
-    <string name="lbl_end_padding">Кінець заповнення</string>
-    <string name="lbl_begin_padding">Почніть заповнення</string>
+    <string name="lbl_end_padding">Відступ в кінці</string>
+    <string name="lbl_begin_padding">Відступ на початку</string>
     <string name="msg_will_record">Буду записувати</string>
     <string name="lbl_on">Ввімкнути</string>
     <string name="lbl_now_playing_track">%1$s з %2$s</string>
     <string name="lbl_loading_elipses">Завантажується…</string>
-    <string name="lbl_play_trailers">Програти трейлери</string>
+    <string name="lbl_play_trailers">Відтворити трейлер(и)</string>
     <string name="msg_no_items">Немає елементів для відтворення</string>
     <string name="subtitle_error">Не вдається вибрати субтитри</string>
     <string name="too_many_errors">Занадто багато помилок. Все здаюся</string>
@@ -259,7 +259,7 @@
     <string name="seek_error">Неможливо знайти</string>
     <string name="msg_live_tv_prev">Завантажити попередні %1$d годин\?</string>
     <string name="msg_live_tv_next">Завантажити наступні %1$d годин\?</string>
-    <string name="lbl_load_guide_data">Завантажте дані керування</string>
+    <string name="lbl_load_guide_data">Завантажити дані телегіда</string>
     <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
     <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
     <string name="episode_missing">Епізод відсутній</string>
@@ -401,7 +401,7 @@
     <string name="pref_developer_link">Налаштування розробника</string>
     <string name="image_size_large">Великий</string>
     <string name="image_size_medium">Середній</string>
-    <string name="image_size_small">Маленький</string>
+    <string name="image_size_small">Малий</string>
     <string name="image_type_banner">Банер</string>
     <string name="image_type_thumbnail">Мініатюра</string>
     <string name="enable_smart_view_description">Розумний екран відображає доречні елементи замість сітки</string>
@@ -428,7 +428,7 @@
     <string name="lbl_tomatoes">Помідори</string>
     <string name="lbl_stars">Зірки</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Закінчиться в %1$s</string>
+    <string name="lbl_playback_control_ends">Завершиться о %1$s</string>
     <string name="lbl_sign_in">Будь ласка, увійдіть</string>
     <string name="play_with">Грати з</string>
     <string name="play_with_external_app">Грати з зовнішнім застосунком</string>
@@ -494,7 +494,7 @@
         <item quantity="many">%1$s хвилин</item>
         <item quantity="other">%1$s хвилин</item>
     </plurals>
-    <string name="lbl_latest_in">Нещодавно додано в %1$s</string>
+    <string name="lbl_latest_in">Нещодавно додано у %1$s</string>
     <string name="pref_screensaver_inapp_enabled">Використовувати вбудовану заставку</string>
     <string name="pref_screensaver_inapp_enabled_description">Відображає заставку Jellyfin, коли додаток певний час простоює</string>
     <string name="pref_screensaver_inapp_timeout">Запустити заставку через</string>
