@@ -519,4 +519,7 @@
     <string name="pref_music_rewrite_disable">Zakázať nový prehrávač hudby</string>
     <string name="disable_ui_mode_warning">Zakázať upozornenia na typ zariadenia</string>
     <string name="because_you_watched">Pretože ste pozerali %1$s</string>
+    <string name="channels">Kanály</string>
+    <string name="photo_albums">Fotoalbumy</string>
+    <string name="photos">Fotky</string>
 </resources>
