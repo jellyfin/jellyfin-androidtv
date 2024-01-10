@@ -524,4 +524,7 @@
     <string name="pref_music_rewrite_enable_description">יש להשבית את זה רק אם חווית תקלות בניגון מוזיקה</string>
     <string name="disable_ui_mode_warning">השבתת אזהרת סוג התקן</string>
     <string name="because_you_watched">כיוון שצפית ב־%1$s</string>
+    <string name="channels">ערוצים</string>
+    <string name="photos">תמונות</string>
+    <string name="photo_albums">אלבומי תמונות</string>
 </resources>
