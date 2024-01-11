@@ -514,4 +514,7 @@
     </plurals>
     <string name="login_connect_to">%1$s sunucusuna bağlanılıyor</string>
     <string name="episode_name_special">özel</string>
+    <string name="channels">Kanallar</string>
+    <string name="photo_albums">Fotoğraf albümleri</string>
+    <string name="photos">Fotoğraflar</string>
 </resources>
