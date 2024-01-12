@@ -465,6 +465,7 @@
     <string name="live_tv_preferences">Live TV options</string>
     <string name="app_notification_uimode_invalid">This app is optimized for televisions. We recommend using our mobile app on other devices.</string>
     <string name="server_unsupported_notification">This server uses Jellyfin version %1$s which is unsupported. Please update to Jellyfin %2$s or newer to continue using the app.</string>
+    <string name="server_unsupported_notification_downgrade">This server uses Jellyfin version %1$s which is unsupported. Please downgrade to Jellyfin %2$s to continue using the app.</string>
     <string name="pref_telemetry_category">Crash reporting</string>
     <string name="pref_telemetry_description">Send crash reports, include logs</string>
     <string name="pref_crash_reports">Send crash reports to server</string>

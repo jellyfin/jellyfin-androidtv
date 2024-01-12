@@ -90,7 +90,7 @@ class ServerFragment : Fragment() {
 					is ServerVersionNotSupported -> Toast.makeText(
 						context,
 						getString(
-							R.string.server_issue_outdated_version,
+							if (server.versionTooNew) R.string.server_issue_unsupported_version else R.string.server_issue_outdated_version,
 							state.server.version,
 							ServerRepository.recommendedServerVersion.toString()
 						),
@@ -156,8 +156,9 @@ class ServerFragment : Fragment() {
 
 		if (!server.versionSupported) {
 			binding.notification.isVisible = true
+
 			binding.notification.text = getString(
-				R.string.server_unsupported_notification,
+				if (server.versionTooNew) R.string.server_issue_unsupported_version else R.string.server_unsupported_notification,
 				server.version,
 				ServerRepository.recommendedServerVersion.toString(),
 			)

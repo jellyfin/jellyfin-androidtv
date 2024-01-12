@@ -19,7 +19,10 @@ data class Server(
 	var dateLastAccessed: Date = Date(0),
 ) {
 	private val serverVersion = version?.let(ServerVersion::fromString)
-	val versionSupported = serverVersion != null && serverVersion >= ServerRepository.minimumServerVersion
+
+	val versionTooOld = serverVersion == null || serverVersion < ServerRepository.minimumServerVersion
+	val versionTooNew = serverVersion != null && ServerRepository.minimumUnsupportedServerVersion != null && serverVersion >= ServerRepository.minimumUnsupportedServerVersion
+	val versionSupported = !versionTooOld && !versionTooNew
 
 	operator fun compareTo(other: ServerVersion): Int = serverVersion?.compareTo(other) ?: -1
 

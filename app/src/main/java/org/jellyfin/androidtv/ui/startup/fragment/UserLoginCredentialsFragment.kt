@@ -70,7 +70,7 @@ class UserLoginCredentialsFragment : Fragment() {
 		userLoginViewModel.loginState.onEach { state ->
 			when (state) {
 				is ServerVersionNotSupported -> binding.error.setText(getString(
-					R.string.server_issue_outdated_version,
+					if (state.server.versionTooNew) R.string.server_issue_unsupported_version else R.string.server_issue_outdated_version,
 					state.server.version,
 					ServerRepository.recommendedServerVersion.toString()
 				))

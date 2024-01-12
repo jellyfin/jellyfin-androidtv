@@ -22,6 +22,7 @@ import org.jellyfin.sdk.api.client.extensions.brandingApi
 import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
+import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.BrandingOptions
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
@@ -45,7 +46,24 @@ interface ServerRepository {
 	suspend fun deleteServer(server: UUID): Boolean
 
 	companion object {
+		/**
+		 * The minimum Jellyfin server version required to use the app. This is normally set to the
+		 * minimum version of the SDK (`Jellyfin.minimumVersion`).
+		 */
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
+
+		/**
+		 * The first unsupported version of the Jellyfin server. This is normally set to either
+		 * `null` or the upcoming minor release in case of breaking changes.
+		 */
+		@Suppress("RedundantNullableReturnType")
+		val minimumUnsupportedServerVersion: ServerVersion? = ServerVersion(10, 9, 0)
+
+		/**
+		 * The recommended version of the Jellyfin server. This is normally set to the current
+		 * version used to generate the SDK, which should be latest stable release
+		 * (`Jellyfin.apiVersion`).
+		 */
 		val recommendedServerVersion = Jellyfin.apiVersion.copy(build = null)
 	}
 }
@@ -99,6 +117,7 @@ class ServerRepositoryImpl(
 					goodRecommendations += recommendedServer
 					false
 				}
+
 				else -> {
 					badRecommendations += recommendedServer
 					false
