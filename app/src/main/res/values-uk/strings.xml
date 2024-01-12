@@ -330,7 +330,7 @@
     <string name="pref_subtitles_background_title">Увімкнути тло</string>
     <string name="searchable_settings_description">Медіа</string>
     <string name="searchable_hint">Пошук в Jellyfin</string>
-    <string name="home_section_i">Розділ головної сторінки %1$d</string>
+    <string name="home_section_i">Розділ %1$d</string>
     <string name="home_section_none">Жодного</string>
     <string name="home_section_livetv">Телеканали</string>
     <string name="home_section_next_up">Далі</string>
