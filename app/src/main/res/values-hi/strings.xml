@@ -55,4 +55,10 @@
     <string name="lbl_series">शृंखला</string>
     <string name="lbl_seasons">मौसम के</string>
     <string name="lbl_upcoming">आगामी</string>
+    <string name="lbl_favorite">पसंदीदा</string>
+    <string name="lbl_watched">देखा गया</string>
+    <string name="lbl_runs">चलता है</string>
+    <string name="lbl_min">" कम से कम"</string>
+    <string name="lbl_ends">समाप्त</string>
+    <string name="lbl_directed_by">द्वारा निर्देशित</string>
 </resources>
