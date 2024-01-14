@@ -319,7 +319,7 @@
     <string name="lbl_manage_servers">Zarządzaj serwerami</string>
     <string name="lbl_use_series_thumbnails_description">Podczas wyświetlania odcinków używaj miniatur seriali</string>
     <string name="lbl_use_series_thumbnails">Preferuj miniatury seriali</string>
-    <string name="lbl_hide_unwatched_count">Ukryj liczbę nieobejrzanych</string>
+    <string name="lbl_hide_unwatched_count">Gdy pozycja jest obserwowana</string>
     <string name="pref_watched_indicator">Pokaż obserwowane wskaźniki</string>
     <string name="user_picker_last_user_summary">Użyj ostatniego aktywnego konta</string>
     <string name="user_picker_last_user_title">Ostatnio używany</string>
@@ -526,4 +526,5 @@
     <string name="channels">Kanały</string>
     <string name="photos">Zdjęcia</string>
     <string name="photo_albums">Albumy zdjęciowe</string>
+    <string name="lbl_hide_watched_checkmark">Gdy pozostały odcinki</string>
 </resources>
