@@ -29,6 +29,7 @@ import org.jellyfin.sdk.model.api.GeneralCommandType
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
 import org.jellyfin.sdk.model.api.PlaystateCommand
 import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.extensions.get
 import org.jellyfin.sdk.model.extensions.getValue
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.jellyfin.sdk.model.socket.LibraryChangedMessage
@@ -95,22 +96,18 @@ class SocketHandler(
 			addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
 
 			addGeneralCommandsListener(setOf(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)) { message ->
-				val index by message
-				if (index == null)
-					return@addGeneralCommandsListener
+				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
 
 				coroutineScope.launch(Dispatchers.Main) {
-					playbackControllerContainer.playbackController?.switchSubtitleStream(index!!.toInt())
+					playbackControllerContainer.playbackController?.switchSubtitleStream(index)
 				}
 			}
 
 			addGeneralCommandsListener(setOf(GeneralCommandType.SET_AUDIO_STREAM_INDEX)) { message ->
-				val index by message
-				if (index == null)
-					return@addGeneralCommandsListener
+				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
 
 				coroutineScope.launch(Dispatchers.Main) {
-					playbackControllerContainer.playbackController?.switchAudioStream(index!!.toInt())
+					playbackControllerContainer.playbackController?.switchAudioStream(index)
 				}
 			}
 
