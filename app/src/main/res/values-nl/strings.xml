@@ -327,7 +327,7 @@
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>
     <string name="lbl_switch_user">Account wisselen</string>
     <string name="pref_theme_muted_purple">Muted purple</string>
-    <string name="lbl_hide_unwatched_count">Aantal ongekeken verbergen</string>
+    <string name="lbl_hide_unwatched_count">Als het item is gekeken</string>
     <string name="pref_watched_indicator">Gekeken-vinkjes tonen</string>
     <string name="press_to_close">Druk om te sluiten</string>
     <string name="lbl_community_rating">Beoordeling gemeenschap</string>
@@ -516,4 +516,5 @@
     <string name="photo_albums">Fotoalbums</string>
     <string name="photos">Foto\'s</string>
     <string name="channels">Kanalen</string>
+    <string name="lbl_hide_watched_checkmark">Als er resterende afleveringen zijn</string>
 </resources>
