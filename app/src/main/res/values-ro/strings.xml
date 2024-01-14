@@ -299,7 +299,6 @@
     <string name="auto_sign_in">Autentificare automată</string>
     <string name="lbl_use_series_thumbnails_description">Utilizați miniaturi de serial când afișați episoadele</string>
     <string name="lbl_use_series_thumbnails">Preferă miniaturile de serial</string>
-    <string name="lbl_episode_marks">Pe episoade doar</string>
     <string name="lbl_hide_unwatched_count">Ascundeți numărul nevizionat</string>
     <string name="pref_watched_indicator">Afișați indicatorii urmărit</string>
     <string name="login_help_description">Jellyfin necesită un server pentru a vă conecta. Vizitați documentația noastră la docs.jellyfin.org sau scanați codul QR pentru a începe să utilizați Jellyfin.</string>

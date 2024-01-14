@@ -409,7 +409,6 @@
     <string name="user_picker_disable_summary">Näytä kirjautumisruutu aina</string>
     <string name="user_picker_disable_title">Poista käytöstä</string>
     <string name="lbl_use_series_thumbnails_description">Käytä sarjojen thumbnail-kuvia näytettäesä jaksoja</string>
-    <string name="lbl_episode_marks">Vain jaksoissa</string>
     <string name="lbl_hide_unwatched_count">Piilota katsomattomien määrä</string>
     <string name="login_help_description">Jellyfin tarvitsee palvelimen, johon yhdistää. Lue lisää Jellyfinin käytön aloituksesta osoitteesta docs.jellyfin.org tai lue QR-koodi.</string>
     <string name="login_help_title">Tarvitsetko apua\?</string>

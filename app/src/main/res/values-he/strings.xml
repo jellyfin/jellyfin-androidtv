@@ -302,7 +302,6 @@
     <string name="auto_sign_in">התחברות אוטומטית</string>
     <string name="lbl_use_series_thumbnails_description">הצג את תמונת הכותרת של הסדרה בהצגת פרקים</string>
     <string name="lbl_use_series_thumbnails">העדף שימוש בתמונת הכותרת של הסדרה</string>
-    <string name="lbl_episode_marks">רק על פרקים</string>
     <string name="lbl_hide_unwatched_count">הסתר את מספר התכנים שלא נצפו</string>
     <string name="pref_watched_indicator">הצג סימן עבור פריטים שנצפו</string>
     <string name="login_help_description">Jellyfin לא יכולה לפעול בלי שרת מחובר. היעזר במדריך שלנו בכתובת docs.jellyfin.org או דרך קוד QR המוצג על מנת להתחיל להשתמש בתוכנה.</string>

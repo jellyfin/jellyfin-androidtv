@@ -316,7 +316,6 @@
     <string name="auto_sign_in">Inicio de sesión automático</string>
     <string name="lbl_use_series_thumbnails_description">Usar miniaturas de series al mostrar episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de series</string>
-    <string name="lbl_episode_marks">Solamente en episodios</string>
     <string name="lbl_hide_unwatched_count">Ocultar contador de contenido sin ver</string>
     <string name="pref_watched_indicator">Mostrar indicadores de contenido visto</string>
     <string name="login_help_description">Jellyfin requiere de un servidor al cual conectarse. Visita nuestra documentación en docs.jellyfin.org o escanea el código QR para comenzar a usar Jellyfin.</string>

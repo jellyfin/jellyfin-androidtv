@@ -320,7 +320,6 @@
     <string name="pref_watched_indicator">显示已观看标志</string>
     <string name="lbl_use_series_thumbnails_description">显示章节时使用剧集缩略图</string>
     <string name="lbl_use_series_thumbnails">优先使用剧集缩略图</string>
-    <string name="lbl_episode_marks">仅在章节中</string>
     <string name="lbl_hide_unwatched_count">隐藏未观看计数</string>
     <string name="user_picker_last_user_summary">使用最后一个活跃账户</string>
     <string name="user_picker_last_user_title">最近常用</string>

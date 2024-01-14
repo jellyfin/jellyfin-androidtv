@@ -317,7 +317,6 @@
     <string name="lbl_remove_user_content">Benutzerkonto entfernen</string>
     <string name="lbl_remove_users">Dadurch werden auch alle zugehörigen Konten entfernt</string>
     <string name="lbl_manage_servers">Server verwalten</string>
-    <string name="lbl_episode_marks">Nur bei Episoden</string>
     <string name="lbl_use_series_thumbnails_description">Serien-Vorschaubilder verwenden, wenn Episoden angezeigt werden</string>
     <string name="lbl_use_series_thumbnails">Serien-Vorschaubilder bevorzugen</string>
     <string name="lbl_hide_unwatched_count">Anzahl an ungesehenen Einträgen verbergen</string>

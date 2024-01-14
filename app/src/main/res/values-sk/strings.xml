@@ -327,7 +327,6 @@
     <string name="auto_sign_in">Automatické prihlásenie</string>
     <string name="lbl_use_series_thumbnails_description">Použiť seriálové thumbnaily počas zobrazenia epizód</string>
     <string name="lbl_use_series_thumbnails">Preferovať seriálové thumbnaily</string>
-    <string name="lbl_episode_marks">Iba pri epizódach</string>
     <string name="lbl_hide_unwatched_count">Skryť počet nepozretých</string>
     <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
     <string name="press_to_close">Stlačením zavriete</string>

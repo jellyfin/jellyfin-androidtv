@@ -294,7 +294,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_use_series_thumbnails_description">Bruk serieminiatyrbilder når du viser episoder</string>
     <string name="lbl_use_series_thumbnails">Foretrekker serieminiatyrbilder</string>
-    <string name="lbl_episode_marks">Bare på episoder</string>
     <string name="lbl_hide_unwatched_count">Skjul ukjent antall</string>
     <string name="pref_watched_indicator">Vis overvåkede indikatorer</string>
     <string name="login_help_description">Jellyfin krever en tjener å koble seg til. Gå til dokumentasjonen vår på docs.jellyfin.org eller skann QR-koden for å komme i gang med Jellyfin.</string>

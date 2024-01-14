@@ -293,7 +293,6 @@
     <string name="lbl_tomatoes">Tomater</string>
     <string name="lbl_stars">Stjerner</string>
     <string name="lbl_use_series_thumbnails">Foretræk miniaturebilleder fra serie</string>
-    <string name="lbl_episode_marks">Kun på afsnit</string>
     <string name="lbl_hide_unwatched_count">Skjul ikke afspillede antal</string>
     <string name="pref_watched_indicator">Vis indikator for afspillet</string>
     <string name="login_help_description">Jellyfin kræver en server at forbinde til. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>

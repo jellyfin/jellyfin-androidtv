@@ -300,7 +300,6 @@
     <string name="auto_sign_in">Automatic sign in</string>
     <string name="lbl_use_series_thumbnails_description">Use programme thumbnails when displaying episodes</string>
     <string name="lbl_use_series_thumbnails">Prefer programme thumbnails</string>
-    <string name="lbl_episode_marks">On episodes only</string>
     <string name="lbl_hide_unwatched_count">Hide unwatched count</string>
     <string name="pref_watched_indicator">Show watched indicators</string>
     <string name="login_help_description">Jellyfin requires a server to connect with. Visit our documentation at docs.jellyfin.org or scan the QR code to get started with Jellyfin.</string>

@@ -375,7 +375,6 @@
     <string name="image_size_smallest">Најмало</string>
     <string name="image_size_small">Мало</string>
     <string name="pref_watched_indicator">Прикажи показатели за изгледано</string>
-    <string name="lbl_episode_marks">Само на епизоди</string>
     <string name="pref_theme_muted_purple">Стишена лилава</string>
     <string name="who_is_watching">Кој гледа\?</string>
     <string name="lbl_season_number">С%1$d</string>

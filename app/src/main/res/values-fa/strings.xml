@@ -307,7 +307,6 @@
     <string name="auto_sign_in">ورود خودکار</string>
     <string name="lbl_use_series_thumbnails_description">زمان نمایش قسمت ها، از تصاویر بند انگشتی سریال استفاده کن</string>
     <string name="lbl_use_series_thumbnails">ترجیح تصاویر بندانگشتی سریال ها</string>
-    <string name="lbl_episode_marks">فقط برای قسمت ها</string>
     <string name="lbl_hide_unwatched_count">پنهان کردن تعداد تماشا نشده ها</string>
     <string name="pref_watched_indicator">نمایش شاخص های تماشا شده</string>
     <string name="login_help_description">Jellyfin نیاز به سروری دارد که به آن متصل شود. مستندات ما در docs.jellyfin.org را مطالعه کنید یا کد QR را برای شروع کار با Jellyfin اسکن کنید.</string>

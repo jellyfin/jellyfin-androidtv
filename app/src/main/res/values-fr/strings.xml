@@ -297,7 +297,6 @@
     <string name="lbl_manage_servers">Gérer les serveurs</string>
     <string name="lbl_user_server">%1$s sur %2$s</string>
     <string name="lbl_sign_out_content">Demande une connexion à la prochaine utilisation</string>
-    <string name="lbl_episode_marks">Uniquement pour les épisodes</string>
     <string name="lbl_hide_unwatched_count">Masquer le décompte des éléments non visionnés</string>
     <string name="pref_watched_indicator">Afficher les indicateurs de visionnage</string>
     <string name="login_help_description">Jellyfin a besoin d\'un serveur auquel se connecter. Visitez notre documentation docs.jellyfin.org ou scannez le QR code pour commencer à utiliser Jellyfin.</string>

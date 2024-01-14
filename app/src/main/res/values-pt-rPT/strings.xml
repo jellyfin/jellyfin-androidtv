@@ -302,7 +302,6 @@
     <string name="auto_sign_in">Autenticar automáticamente</string>
     <string name="lbl_use_series_thumbnails_description">Mostrar miniaturas de séries quando episódios são mostrados</string>
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de séries</string>
-    <string name="lbl_episode_marks">Apenas em episódios</string>
     <string name="lbl_hide_unwatched_count">Esconder contagem de não assistidos</string>
     <string name="pref_watched_indicator">Mostra indicadores de assistido</string>
     <string name="login_help_description">O Jellyfin precisa de um servidor para se ligar. Visita a nossa documentação em docs.jellyfin.org ou faça scan ao código QR para começar com o Jellyfin.</string>

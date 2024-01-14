@@ -54,7 +54,6 @@
     <string name="auto_sign_in">യാന്ത്രിക പ്രവേശനം</string>
     <string name="lbl_use_series_thumbnails_description">എപ്പിസോഡുകൾ പ്രദർശിപ്പിക്കുമ്പോൾ സീരീസ് ലഘുചിത്രങ്ങൾ ഉപയോഗിക്കുക</string>
     <string name="lbl_use_series_thumbnails">സീരീസ് ലഘുചിത്രങ്ങൾ തിരഞ്ഞെടുക്കുക</string>
-    <string name="lbl_episode_marks">എപ്പിസോഡുകളിൽ മാത്രം</string>
     <string name="lbl_hide_unwatched_count">കാണാത്ത എണ്ണം മറയ്‌ക്കുക</string>
     <string name="pref_watched_indicator">കണ്ട സൂചകങ്ങൾ കാണിക്കുക</string>
     <string name="login_help_description">കണക്റ്റുചെയ്യാൻ ജെല്ലിഫിന് ഒരു സെർവർ ആവശ്യമാണ്. Docs.jellyfin.org- ലെ ഞങ്ങളുടെ ഡോക്യുമെന്റേഷൻ സന്ദർശിക്കുക അല്ലെങ്കിൽ ജെല്ലിഫിൻ ഉപയോഗിച്ച് ആരംഭിക്കുന്നതിന് QR കോഡ് സ്കാൻ ചെയ്യുക.</string>

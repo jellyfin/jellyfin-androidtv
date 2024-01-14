@@ -362,7 +362,6 @@
     <string name="auto_sign_in">Samodejna prijava</string>
     <string name="lbl_use_series_thumbnails_description">Uporabi sličice za serijo ob pogledu epizod</string>
     <string name="lbl_use_series_thumbnails">Prikazuj sličice serij</string>
-    <string name="lbl_episode_marks">Samo pri epizodah</string>
     <string name="lbl_hide_unwatched_count">Skrij števec za neogledane vsebine</string>
     <string name="pref_watched_indicator">Prikaži kazalnike za funkcijo že ogledano</string>
     <string name="login_help_description">Jellyfin zahteva strežnik za povezavo. Obiščite našo dokumentacijo na docs.jellyfin.org ali skenirajte QR kodo za pričetek uporabe Jellyfin.</string>

@@ -293,7 +293,6 @@
     <string name="lbl_stars">Stjärnor</string>
     <string name="lbl_playback_control_ends">Slutar vid %1$s</string>
     <string name="image_type_thumbnail">Miniatyr</string>
-    <string name="lbl_episode_marks">Endast på avsnitt</string>
     <string name="pref_watched_indicator">Visa indikator för antal tittade</string>
     <string name="lbl_hide_unwatched_count">Dölj antal ej uppspelade föremål</string>
     <string name="login_help_description">Jellyfin behöver en server att ansluta till. Besök vår dokumentation på docs.jellyfin.org eller skanna QR-koden för att komma igång med Jellyfin.</string>

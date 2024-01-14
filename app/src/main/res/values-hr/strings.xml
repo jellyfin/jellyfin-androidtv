@@ -295,7 +295,6 @@
     <string name="user_picker_last_user_title">Posljednje korišteno</string>
     <string name="lbl_use_series_thumbnails_description">Prilikom prikazivanja epizoda koristi sličice iz serije</string>
     <string name="lbl_use_series_thumbnails">Preferira sličice serije</string>
-    <string name="lbl_episode_marks">Samo u epizodama</string>
     <string name="image_size_medium">Srednje</string>
     <string name="image_size_small">Malo</string>
     <string name="enable_smart_view_description">\'Smart screen\' prikazuje relevantne stavke umjesto rešetke</string>
