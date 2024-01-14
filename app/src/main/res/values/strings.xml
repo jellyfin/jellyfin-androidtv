@@ -344,7 +344,7 @@
     <string name="login_help_title">Need help?</string>
     <string name="login_help_description">Jellyfin requires a server to connect with. Visit our documentation at docs.jellyfin.org or scan the QR code to get started with Jellyfin.</string>
     <string name="pref_watched_indicator">Show watched indicators</string>
-    <string name="lbl_hide_unwatched_count">When the show has been watched</string>
+    <string name="lbl_hide_unwatched_count">When the item is watched</string>
     <string name="lbl_hide_watched_checkmark">When there are episodes remaining</string>
     <string name="lbl_use_series_thumbnails">Prefer series thumbnails</string>
     <string name="lbl_use_series_thumbnails_description">Use series thumbnails when displaying episodes</string>
