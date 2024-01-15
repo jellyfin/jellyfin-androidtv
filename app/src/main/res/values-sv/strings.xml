@@ -513,4 +513,8 @@
     <string name="pref_music_rewrite_enable_description">Inaktivera endast vid problem med musikuppspelning</string>
     <string name="disable_ui_mode_warning">Inaktivera varningar om enhetstyp</string>
     <string name="not_set">Inte inställd</string>
+    <string name="lbl_hide_watched_checkmark">Dölj uppspelad markering</string>
+    <string name="channels">Kanaler</string>
+    <string name="photo_albums">Fotoalbum</string>
+    <string name="photos">Foton</string>
 </resources>
