@@ -388,7 +388,7 @@
     <string name="auto_sign_in">Автоматична авторизація</string>
     <string name="lbl_use_series_thumbnails_description">Використовує мініатюри серіалів під час відображення епізодів</string>
     <string name="lbl_use_series_thumbnails">Надавати перевагу мініатюрам серіалів</string>
-    <string name="lbl_hide_unwatched_count">Сховати кількість непереглянутих</string>
+    <string name="lbl_hide_unwatched_count">Коли елемент переглянуто</string>
     <string name="pref_watched_indicator">Відображати індикатор перегляду</string>
     <string name="login_help_description">Jellyfin вимагає наявності сервера, до якого підʼєднуватиметься. Радимо скористатися документацією на docs.jellyfin.org або сканувати QR код для початку роботи з Jellyfin.</string>
     <string name="login_help_title">Потрібна допомога\?</string>
@@ -526,4 +526,5 @@
     <string name="channels">Канали</string>
     <string name="photo_albums">Фотоальбоми</string>
     <string name="photos">Фотографії</string>
+    <string name="lbl_hide_watched_checkmark">Коли залишаються епізоди</string>
 </resources>
