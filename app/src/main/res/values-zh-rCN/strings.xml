@@ -15,9 +15,9 @@
     <string name="lbl_by_letter">字母顺序</string>
     <string name="lbl_suggested">推荐欣赏</string>
     <string name="lbl_genres">风格类型</string>
-    <string name="msg_not_implemented">" 未实装"</string>
+    <string name="msg_not_implemented">" 未实现"</string>
     <string name="lbl_latest">最近添加</string>
-    <string name="lbl_by_name">名称顺序</string>
+    <string name="lbl_by_name">按名称排序</string>
     <string name="lbl_favorites">我的收藏</string>
     <string name="lbl_coming_up">即将上映</string>
     <string name="lbl_favorite_channels">收藏频道</string>
@@ -320,7 +320,7 @@
     <string name="pref_watched_indicator">显示已观看标志</string>
     <string name="lbl_use_series_thumbnails_description">显示章节时使用剧集缩略图</string>
     <string name="lbl_use_series_thumbnails">优先使用剧集缩略图</string>
-    <string name="lbl_hide_unwatched_count">隐藏未观看计数</string>
+    <string name="lbl_hide_unwatched_count">视频已观看</string>
     <string name="user_picker_last_user_summary">使用最后一个活跃账户</string>
     <string name="user_picker_last_user_title">最近常用</string>
     <string name="user_picker_disable_summary">允许显示登录界面</string>
@@ -511,4 +511,5 @@
     <string name="photos">照片</string>
     <string name="channels">频道</string>
     <string name="photo_albums">相册</string>
+    <string name="lbl_hide_watched_checkmark">还有剩余剧集</string>
 </resources>
