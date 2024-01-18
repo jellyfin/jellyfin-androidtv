@@ -299,7 +299,7 @@
     <string name="auto_sign_in">Autentificare automată</string>
     <string name="lbl_use_series_thumbnails_description">Utilizați miniaturi de serial când afișați episoadele</string>
     <string name="lbl_use_series_thumbnails">Preferă miniaturile de serial</string>
-    <string name="lbl_hide_unwatched_count">Ascundeți numărul nevizionat</string>
+    <string name="lbl_hide_unwatched_count">Când articolul este vizionat</string>
     <string name="pref_watched_indicator">Afișați indicatorii urmărit</string>
     <string name="login_help_description">Jellyfin necesită un server pentru a vă conecta. Vizitați documentația noastră la docs.jellyfin.org sau scanați codul QR pentru a începe să utilizați Jellyfin.</string>
     <string name="login_help_title">Aveți nevoie de ajutor\?</string>
@@ -521,4 +521,5 @@
     <string name="channels">Canale</string>
     <string name="photo_albums">Albume foto</string>
     <string name="photos">Poze</string>
+    <string name="lbl_hide_watched_checkmark">Când sunt episoade rămase</string>
 </resources>
