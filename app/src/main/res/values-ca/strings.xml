@@ -367,7 +367,7 @@
     <string name="auto_sign_in">Iniciar sessió automàticament</string>
     <string name="lbl_use_series_thumbnails_description">Utilitza miniatures de sèries al mostrar episodis</string>
     <string name="lbl_use_series_thumbnails">Prioritzar miniatures de sèries</string>
-    <string name="lbl_hide_unwatched_count">Oculta les marques de visualització</string>
+    <string name="lbl_hide_unwatched_count">Quan l\'element estigui vist</string>
     <string name="pref_watched_indicator">Marca els elements ja visualitzats</string>
     <string name="login_help_description">Jellyfin necessita un servidor on connectar-se. Visita la documentació a docs.jellyfin.org o escaneja el codi QR per començar.</string>
     <string name="login_help_title">Necessites ajuda\?</string>
@@ -516,4 +516,5 @@
     <string name="photo_albums">Àlbums de fotografies</string>
     <string name="photos">Fotografies</string>
     <string name="channels">Canals</string>
+    <string name="lbl_hide_watched_checkmark">Quan quedin episodis per veure</string>
 </resources>
