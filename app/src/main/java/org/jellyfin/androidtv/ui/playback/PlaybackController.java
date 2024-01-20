@@ -12,8 +12,10 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.acra.config.CoreConfiguration;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
+import org.jellyfin.androidtv.constant.Codec;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -22,6 +24,7 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
+import org.jellyfin.androidtv.preference.constant.AudioTranscodeTarget;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
@@ -51,6 +54,8 @@ import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.PlayAccess;
 import org.koin.java.KoinJavaComponent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import kotlin.Lazy;
@@ -569,10 +574,82 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 mFragment.getContext(),
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
+                getDirectPlayPreferences(),
+                getAudioTranscodeTarget(),
+                userPreferences.getValue().get(UserPreferences.Companion.getEnable4kSupport())
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
+    }
+
+    @NonNull
+    private String[] getDirectPlayPreferences() {
+        ArrayList<String> codecs = new ArrayList<>();
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getMpegEnabled())) {
+            codecs.add(Codec.Audio.MP2);
+            codecs.add(Codec.Audio.MP3);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getAacEnabled())) {
+            codecs.add(Codec.Audio.AAC);
+            codecs.add(Codec.Audio.AAC_LATM);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
+            codecs.add(Codec.Audio.AC3);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getEac3Enabled())) {
+            codecs.add(Codec.Audio.EAC3);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getDtsEnabled())) {
+            codecs.add(Codec.Audio.DTS);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getThdEnabled())) {
+            codecs.add(Codec.Audio.TRUEHD);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getPcmEnabled())) {
+            codecs.add(Codec.Audio.PCM_ALAW);
+            codecs.add(Codec.Audio.PCM_MULAW);
+        }
+
+        if(userPreferences.getValue().get(UserPreferences.Companion.getOtherAudioEnabled())) {
+            codecs.add(Codec.Audio.DCA);
+            codecs.add(Codec.Audio.MLP);
+            codecs.add(Codec.Audio.OPUS);
+            codecs.add(Codec.Audio.FLAC);
+        }
+
+        return codecs.toArray(new String[0]);
+    }
+
+    @NonNull
+    private String[] getAudioTranscodeTarget() {
+        AudioTranscodeTarget target = userPreferences.getValue().get(UserPreferences.Companion.getAudioTranscodeTarget());
+        switch (target) {
+            case AUTO:
+                String[] directPlayCodecs = getDirectPlayPreferences();
+                // If any codecs are enabled, return those
+                if(directPlayCodecs.length > 0) return directPlayCodecs;
+                // Otherwise fallback to MP3
+                return new String[]{ Codec.Audio.MP3 };
+            case AAC:
+                return new String[] { Codec.Audio.AAC, Codec.Audio.AAC_LATM };
+            case DTS:
+                return new String[]{ Codec.Audio.DTS };
+            case PCM:
+                return new String[]{ Codec.Audio.PCM_ALAW, Codec.Audio.PCM_MULAW };
+            case AC3:
+                return new String[]{ Codec.Audio.AC3 };
+            case EAC3:
+                return new String[]{ Codec.Audio.EAC3 };
+            default:
+                throw new IllegalArgumentException("Unknown audio transcode target preference");
+        }
     }
 
     @NonNull

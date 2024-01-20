@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.AudioTranscodeTarget
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
@@ -107,6 +108,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
 				depends { DeviceUtils.is60() && userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
+
+			checkbox {
+				setTitle(R.string.pref_enable_4k_support)
+				setContent(R.string.pref_enable_4k_support_description)
+				bind(userPreferences, UserPreferences.enable4kSupport)
+			}
 		}
 
 		category {
@@ -171,25 +178,17 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
+			enum<AudioTranscodeTarget> {
+				setTitle(R.string.pref_audio_transcodetarget)
+				bind(userPreferences, UserPreferences.audioTranscodeTarget)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
 			checkbox {
 				setTitle(R.string.pref_audio_night_mode)
 				setContent(R.string.desc_audio_night_mode)
 				bind(userPreferences, UserPreferences.audioNightMode)
 				depends { Build.VERSION.SDK_INT >= Build.VERSION_CODES.P }
-			}
-
-			checkbox {
-				setTitle(R.string.lbl_bitstream_ac3)
-				setContent(R.string.desc_bitstream_ac3)
-				bind(userPreferences, UserPreferences.ac3Enabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
-			}
-
-			checkbox {
-				setTitle(R.string.lbl_bitstream_dts)
-				setContent(R.string.desc_bitstream_ac3)
-				bind(userPreferences, UserPreferences.dtsEnabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
 			@Suppress("MagicNumber")
@@ -201,6 +200,66 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					override fun display(value: Int) = "${value}ms"
 				}
 				bind(userPreferences, UserPreferences.libVLCAudioDelay)
+			}
+		}
+
+		category {
+			setTitle(R.string.pref_audio_directplay)
+
+			checkbox {
+				setTitle(R.string.lbl_codec_mpeg)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.mpegEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_pcm)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.pcmEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_aac)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.aacEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_dts)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.dtsEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_ac3)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.ac3Enabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_eac3)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.eac3Enabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_thd)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.thdEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_codec_other)
+				setContent(R.string.desc_bitstream_generic)
+				bind(userPreferences, UserPreferences.otherAudioEnabled)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.preference.constant.AudioTranscodeTarget
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
@@ -100,6 +101,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
+		/**
+		 * Enable 4k codecs for direct play and transcode target
+		 */
+		var enable4kSupport = booleanPreference("pref_enable_4k_support", DeviceUtils.has4kVideoSupport())
+
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.
@@ -112,6 +118,21 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var audioNightMode = enumPreference("audio_night_mode", false)
 
 		/**
+		 * Enable mp2/mp3
+		 */
+		var mpegEnabled = booleanPreference("pref_bitstream_mpeg", true)
+
+		/**
+		 * Enable PCM
+		 */
+		var pcmEnabled = booleanPreference("pref_bitstream_pcm", true)
+
+		/**
+		 * Enable AAC
+		 */
+		var aacEnabled = booleanPreference("pref_bitstream_aac", true)
+
+		/**
 		 * Enable DTS
 		 */
 		var dtsEnabled = booleanPreference("pref_bitstream_dts", false)
@@ -120,6 +141,26 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable AC3
 		 */
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1)
+
+		/**
+		 * Enable EAC3
+		 */
+		var eac3Enabled = booleanPreference("pref_bitstream_eac3", !DeviceUtils.isFireTvStickGen1)
+
+		/**
+		 * Enable TrueUD
+		 */
+		var thdEnabled = booleanPreference("pref_bitstream_thd", false)
+
+		/**
+		 * Enable Other
+		 */
+		var otherAudioEnabled = booleanPreference("pref_bitstream_other_audio", false)
+
+		/**
+		 * Preferred audio transcode target codec
+		 */
+		var audioTranscodeTarget = enumPreference("audio_transcode_target", AudioTranscodeTarget.AUTO)
 
 		/**
 		 * Default audio delay in milliseconds for libVLC

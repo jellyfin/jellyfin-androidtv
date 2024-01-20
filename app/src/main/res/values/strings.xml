@@ -8,6 +8,8 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Playback</string>
     <string name="pref_max_bitrate_title">Max streaming bitrate</string>
+    <string name="pref_enable_4k_support">Enable 4k playback</string>
+    <string name="pref_enable_4k_support_description">Allow device to receive 4k streams</string>
     <string name="settings_title">Preferences</string>
     <string name="pref_authentication_cat">Authentication</string>
     <string name="chapters">Chapters</string>
@@ -175,8 +177,18 @@
     <string name="msg_item_added">" item added"</string>
     <string name="desc_automatic_fav_songs">Automatic playlist of favorite songs</string>
     <string name="lbl_new_premieres">New premieres</string>
-    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
-    <string name="desc_bitstream_ac3">Requires capable hardware</string>
+    <string name="pref_audio_directplay">Direct Play Audio Codecs</string>
+    <string name="lbl_codec_mpeg">MP2/MP3</string>
+    <string name="lbl_codec_pcm">PCM</string>
+    <string name="lbl_codec_aac">AAC</string>
+    <string name="lbl_codec_dts">DTS</string>
+    <string name="lbl_codec_ac3">Dolby Digital</string>
+    <string name="lbl_codec_eac3">Dolby Digital+</string>
+    <string name="lbl_codec_thd">Dolby TrueHD</string>
+    <string name="lbl_codec_other">Other audio codecs</string>
+    <string name="desc_bitstream_generic">Requires capable hardware</string>
+    <string name="pref_audio_transcodetarget">Audio transcode preference</string>
+    <string name="lbl_audiotarget_auto">Automatically choose</string>
     <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_auto_crop">Auto crop</string>
@@ -194,7 +206,6 @@
     <string name="pref_show_backdrop_description">Change background image to selected items</string>
     <string name="lbl_show_premieres">Show season premieres</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
     <string name="lbl_in_x_days">In %d days</string>
     <string name="lbl_select_date">Select date</string>
     <string name="lbl_just_this_once">Just this once</string>

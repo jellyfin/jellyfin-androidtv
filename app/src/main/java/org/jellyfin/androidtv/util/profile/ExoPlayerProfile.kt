@@ -28,37 +28,15 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
-	isAC3Enabled: Boolean = false,
+	audioDirectPlayCodecs : Array<String>,
+	audioTranscodeTarget : Array<String>,
+	enable4KSupport : Boolean
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
 		Codec.Audio.MP3,
 		Codec.Audio.MP2
 	)
-
-	/**
-	 * Returns all audio codecs used commonly in video containers.
-	 * This does not include containers / codecs found in audio files
-	 */
-	private val allSupportedAudioCodecs = buildList {
-		addAll(downmixSupportedAudioCodecs)
-		add(Codec.Audio.AAC_LATM)
-		add(Codec.Audio.ALAC)
-		if (isAC3Enabled) add(Codec.Audio.AC3)
-		if (isAC3Enabled) add(Codec.Audio.EAC3)
-		add(Codec.Audio.DCA)
-		add(Codec.Audio.DTS)
-		add(Codec.Audio.MLP)
-		add(Codec.Audio.TRUEHD)
-		add(Codec.Audio.PCM_ALAW)
-		add(Codec.Audio.PCM_MULAW)
-		add(Codec.Audio.OPUS)
-		add(Codec.Audio.FLAC)
-	}.toTypedArray()
-
-	private val allSupportedAudioCodecsWithoutFFmpegExperimental = allSupportedAudioCodecs
-		.filterNot { it == Codec.Audio.DCA || it == Codec.Audio.TRUEHD }
-		.toTypedArray()
 
 	init {
 		name = "AndroidTV-ExoPlayer"
@@ -77,9 +55,9 @@ class ExoPlayerProfile(
 					add(Codec.Video.H264)
 				}.joinToString(",")
 				audioCodec = when {
-					Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
-					else -> allSupportedAudioCodecsWithoutFFmpegExperimental
-				}.joinToString(",")
+					Utils.downMixAudio(context) -> downmixSupportedAudioCodecs.joinToString(",")
+					else -> audioTranscodeTarget.joinToString(",")
+				}
 				protocol = "hls"
 				copyTimestamps = false
 			},
@@ -124,12 +102,12 @@ class ExoPlayerProfile(
 
 					audioCodec = when {
 						Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
-						else -> allSupportedAudioCodecs
+						else -> audioDirectPlayCodecs
 					}.joinToString(",")
 				})
 			}
 			// Audio direct play
-			add(audioDirectPlayProfile(allSupportedAudioCodecs + arrayOf(
+			add(audioDirectPlayProfile(audioDirectPlayCodecs + arrayOf(
 				Codec.Audio.MPA,
 				Codec.Audio.WAV,
 				Codec.Audio.WMA,
@@ -150,7 +128,7 @@ class ExoPlayerProfile(
 				conditions = buildList {
 					add(h264VideoProfileCondition)
 					add(h264VideoLevelProfileCondition)
-					if (!DeviceUtils.has4kVideoSupport()) addAll(max1080pProfileConditions)
+					if (!enable4KSupport) addAll(max1080pProfileConditions)
 				}.toTypedArray()
 			})
 			// H264 ref frames profile
@@ -196,7 +174,7 @@ class ExoPlayerProfile(
 			// AV1 profile
 			add(deviceAV1CodecProfile)
 			// Limit video resolution support for older devices
-			if (!DeviceUtils.has4kVideoSupport()) {
+			if (!enable4KSupport) {
 				add(CodecProfile().apply {
 					type = CodecType.Video
 					conditions = max1080pProfileConditions
