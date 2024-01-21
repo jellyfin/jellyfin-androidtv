@@ -14,7 +14,6 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
-import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -160,22 +159,9 @@ class SocketHandler(
 
 		// Audio playback uses (Rewrite)MediaManager, (legacy) video playback uses playbackController
 		when {
-			// Ignore RewriteMediaManager
-			mediaManager is RewriteMediaManager && mediaManager.hasAudioQueueItems() -> {
+			mediaManager.hasAudioQueueItems() -> {
 				Timber.i("Ignoring PlayStateMessage: should be handled by PlaySessionSocketService")
 				return@launch
-			}
-
-			// LegacyMediaManager
-			mediaManager.hasAudioQueueItems() -> when (message.request.command) {
-				PlaystateCommand.STOP -> mediaManager.stopAudio(true)
-				PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> mediaManager.playPauseAudio()
-				PlaystateCommand.NEXT_TRACK -> mediaManager.nextAudioItem()
-				PlaystateCommand.PREVIOUS_TRACK -> mediaManager.prevAudioItem()
-				// Not implemented
-				PlaystateCommand.SEEK,
-				PlaystateCommand.REWIND,
-				PlaystateCommand.FAST_FORWARD -> Unit
 			}
 
 			// PlaybackController

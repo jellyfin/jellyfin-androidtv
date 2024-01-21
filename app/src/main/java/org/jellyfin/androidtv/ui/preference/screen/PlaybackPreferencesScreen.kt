@@ -205,20 +205,6 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 		}
 
 		category {
-			setTitle(R.string.pref_music_cat)
-
-			checkbox {
-				setTitle(R.string.pref_music_rewrite_disable)
-				bind {
-					get { !userPreferences[UserPreferences.playbackRewriteAudioEnabled] }
-					set { value -> userPreferences[UserPreferences.playbackRewriteAudioEnabled] = !value }
-					default { !UserPreferences.playbackRewriteAudioEnabled.defaultValue }
-				}
-				setContent(R.string.pref_music_rewrite_enable_description)
-			}
-		}
-
-		category {
 			setTitle(R.string.pref_live_tv_cat)
 
 			enum<PreferredVideoPlayer> {

@@ -12,7 +12,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.playback.GarbagePlaybackLauncher
-import org.jellyfin.androidtv.ui.playback.LegacyMediaManager
+import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
@@ -30,16 +30,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManag
 val playbackModule = module {
 	single { LegacyPlaybackManager(get()) }
 	single { VideoQueueManager() }
-	single { LegacyMediaManager(get()) }
-	single { RewriteMediaManager(get(), get(), get(), get()) }
-
-	factory {
-		val preferences = get<UserPreferences>()
-		val useRewrite = preferences[UserPreferences.playbackRewriteAudioEnabled]
-
-		if (useRewrite) get<RewriteMediaManager>()
-		else get<LegacyMediaManager>()
-	}
+	single<MediaManager> { RewriteMediaManager(get(), get(), get(), get()) }
 
 	factory {
 		val preferences = get<UserPreferences>()
