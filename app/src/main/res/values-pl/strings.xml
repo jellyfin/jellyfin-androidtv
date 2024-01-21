@@ -519,7 +519,6 @@
     <string name="not_set">Nie ustawiony</string>
     <string name="lbl_album_artists">Wykonawcy albumu</string>
     <string name="disable_ui_mode_warning">Wyłącz ostrzeżenie o typie urządzenia</string>
-    <string name="pref_music_rewrite_disable">Wyłącz nowy backend muzyki</string>
     <string name="because_you_watched">Bo obejrzałeś %1$s</string>
     <string name="channels">Kanały</string>
     <string name="photos">Zdjęcia</string>

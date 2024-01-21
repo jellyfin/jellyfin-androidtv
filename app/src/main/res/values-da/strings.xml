@@ -508,7 +508,6 @@
     <string name="not_set">Ikke indstillet</string>
     <string name="pref_screensaver_inapp_enabled">Brug pauseskærm i appen</string>
     <string name="lbl_album_artists">Album kunstnere</string>
-    <string name="pref_music_rewrite_enable_description">Aktiver kun dette hvis du oplever problemer med musik afspilning</string>
     <string name="disable_ui_mode_warning">Deaktiver enhed type advarsel</string>
     <string name="because_you_watched">Fordi du så %1$s</string>
     <string name="photo_albums">Fotoalbummer</string>

@@ -513,7 +513,6 @@
     <string name="pref_screensaver_inapp_enabled_description">Mostrar el salvapantallas de Jellyfin mientras la aplicación esté abierta</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar el salvapantallas después de</string>
     <string name="pref_screensaver">Salvapantallas</string>
-    <string name="pref_music_cat">Música</string>
     <string name="disable_ui_mode_warning">Deshabilitar advertencia sobre el tipo de dispositivo</string>
     <string name="because_you_watched">Ya que viste %1$s</string>
 </resources>

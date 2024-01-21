@@ -508,7 +508,6 @@
     <string name="not_set">Nicht gesetzt</string>
     <string name="lbl_album_artists">Albuminterpret</string>
     <string name="enable_reactive_homepage">Reaktive Homepage aktivieren</string>
-    <string name="pref_music_rewrite_disable">Neues Musik-Backend deaktivieren</string>
     <string name="disable_ui_mode_warning">Warnung für Gerätetyp deaktivieren</string>
     <string name="because_you_watched">Weil du %1$s angesehen hast</string>
     <string name="channels">Kanäle</string>

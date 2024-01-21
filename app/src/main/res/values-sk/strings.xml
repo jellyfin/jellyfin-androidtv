@@ -513,7 +513,6 @@
     <string name="not_set">Nie je nastavené</string>
     <string name="lbl_album_artists">Album interpretov</string>
     <string name="enable_reactive_homepage">Povoliť reaktívnu domovskú stránku</string>
-    <string name="pref_music_cat">Hudba</string>
     <string name="disable_ui_mode_warning">Zakázať upozornenia na typ zariadenia</string>
     <string name="because_you_watched">Pretože ste pozerali %1$s</string>
     <string name="channels">Kanály</string>

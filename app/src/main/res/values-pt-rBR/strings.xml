@@ -513,7 +513,6 @@
     <string name="lbl_album_artists">Artistas do álbum</string>
     <string name="enable_reactive_homepage">Ativar página inicial reativa</string>
     <string name="not_set">Não definido</string>
-    <string name="pref_music_rewrite_disable">Desativar novo backend de musicas</string>
     <string name="disable_ui_mode_warning">Desativar avisos de tipo de dispositivos</string>
     <string name="because_you_watched">Por você ter assistido %1$s</string>
 </resources>

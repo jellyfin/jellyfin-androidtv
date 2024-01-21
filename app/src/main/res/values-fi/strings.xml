@@ -509,7 +509,6 @@
     <string name="lbl_album_artists">Albumin esittäjät</string>
     <string name="not_set">Ei määritetty</string>
     <string name="disable_ui_mode_warning">Älä varoita laitteen tyypistä</string>
-    <string name="pref_music_rewrite_enable_description">Poista käytöstä vain, jos kohtaat musiikin toisto-ongelmia</string>
     <string name="because_you_watched">Koska katselit: %1$s</string>
     <string name="channels">Kanavat</string>
     <string name="photos">Valokuvat</string>

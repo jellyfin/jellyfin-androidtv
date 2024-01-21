@@ -508,7 +508,6 @@
     <string name="enable_reactive_homepage">Reactieve startpagina inschakelen</string>
     <string name="lbl_album_artists">Albumartiesten</string>
     <string name="not_set">Niet ingesteld</string>
-    <string name="pref_music_rewrite_disable">Nieuwe muziek-backend uitschakelen</string>
     <string name="disable_ui_mode_warning">Waarschuwing voor apparaattype uitschakelen</string>
     <string name="because_you_watched">Omdat je %1$s hebt gekeken</string>
     <string name="photo_albums">Fotoalbums</string>

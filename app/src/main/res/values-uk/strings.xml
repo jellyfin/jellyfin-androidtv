@@ -519,7 +519,6 @@
     <string name="lbl_album_artists">Виконавці альбому</string>
     <string name="not_set">Не встановлено</string>
     <string name="disable_ui_mode_warning">Вимкнути попередження про тип пристрою</string>
-    <string name="pref_music_rewrite_enable_description">Вимикайте цю опцію, лише якщо у вас виникають проблеми з відтворенням музики</string>
     <string name="because_you_watched">Тому що ви переглянули %1$s</string>
     <string name="channels">Канали</string>
     <string name="photo_albums">Фотоальбоми</string>

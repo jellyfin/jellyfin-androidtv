@@ -469,7 +469,6 @@
         <item quantity="few">%1$s epizode</item>
         <item quantity="other">%1$s epizod</item>
     </plurals>
-    <string name="pref_music_rewrite_disable">Onemogoči novo glasbeno ozadje</string>
     <string name="disable_ui_mode_warning">Onemogoči opozorilo o vrsti naprave</string>
     <string name="color_darkgrey">Temno siva</string>
     <string name="pref_enable_media_management">Omogoči upravljanje predstavnosti</string>

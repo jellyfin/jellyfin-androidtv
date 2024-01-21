@@ -483,7 +483,6 @@
     <string name="pref_screensaver_inapp_enabled">Koristi čuvar zaslona u aplikaciji</string>
     <string name="not_set">Nije postavljeno</string>
     <string name="lbl_album_artists">Izvođači albuma</string>
-    <string name="pref_music_rewrite_disable">Onemogući novu pozadinu glazbe</string>
     <string name="disable_ui_mode_warning">Onemogući upozorenje vrste uređaja</string>
     <string name="enable_reactive_homepage">Omogući reaktivnu početnu stranicu</string>
     <string name="pref_screensaver_inapp_timeout">Pokreni čuvar zaslona nakon</string>

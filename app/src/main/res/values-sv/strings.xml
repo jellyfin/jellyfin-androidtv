@@ -508,7 +508,6 @@
     <string name="lbl_latest_in">Nyligen tillagda i %1$s</string>
     <string name="because_you_watched">Eftersom du såg %1$s</string>
     <string name="enable_reactive_homepage">Aktivera reaktiv hemskärm</string>
-    <string name="pref_music_rewrite_enable_description">Inaktivera endast vid problem med musikuppspelning</string>
     <string name="disable_ui_mode_warning">Inaktivera varningar om enhetstyp</string>
     <string name="not_set">Inte inställd</string>
     <string name="lbl_hide_watched_checkmark">Dölj uppspelad markering</string>

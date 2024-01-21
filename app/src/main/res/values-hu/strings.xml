@@ -508,7 +508,6 @@
         <item quantity="other">%1$s zeneszámok</item>
     </plurals>
     <string name="not_set">Nincs beállítva</string>
-    <string name="pref_music_cat">Zene</string>
     <string name="disable_ui_mode_warning">Eszköztípus figyelmeztetés letiltása</string>
     <string name="because_you_watched">Mert nézed %1$s</string>
     <string name="photos">Fotók</string>

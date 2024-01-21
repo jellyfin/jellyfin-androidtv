@@ -513,7 +513,6 @@
     <string name="lbl_subtitle_stroke">Dimensiunea liniilor de subtitrare</string>
     <string name="not_set">Nu este setat</string>
     <string name="lbl_album_artists">Album artisti</string>
-    <string name="pref_music_rewrite_disable">Dezactivare finalul noilor melodii</string>
     <string name="disable_ui_mode_warning">Dezactivare avertizare tip dispozitiv</string>
     <string name="because_you_watched">Pentru că te-ai uitat %1$s</string>
     <string name="channels">Canale</string>

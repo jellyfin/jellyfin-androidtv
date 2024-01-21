@@ -513,7 +513,6 @@
         <item quantity="other">%1$s pistas</item>
     </plurals>
     <string name="color_cyan">Cian</string>
-    <string name="pref_music_rewrite_disable">Deshabilitar el nuevo manejo de la librería de música</string>
     <string name="disable_ui_mode_warning">Deshabilitar advertencia de tipo de dispositivo</string>
     <string name="because_you_watched">Porque viste %1$s</string>
     <string name="channels">Canales</string>

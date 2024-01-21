@@ -518,7 +518,6 @@
         <item quantity="many">%1$s минут</item>
         <item quantity="other">%1$s минут</item>
     </plurals>
-    <string name="pref_music_rewrite_disable">Отключить новый музыкальный бэкенд</string>
     <string name="disable_ui_mode_warning">Отключить предупреждение о типе устройства</string>
     <string name="because_you_watched">На основе просмотра %1$s</string>
     <string name="channels">Каналы</string>

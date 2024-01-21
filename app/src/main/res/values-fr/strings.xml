@@ -513,7 +513,6 @@
         <item quantity="other">%1$s piste(s)</item>
     </plurals>
     <string name="lbl_album_artists">Artistes de l\'album</string>
-    <string name="pref_music_rewrite_disable">Désactiver le nouveau fournisseur de musique</string>
     <string name="disable_ui_mode_warning">Désactiver l\'avertissement du type d\'appareil</string>
     <string name="because_you_watched">Parce que vous avez regardé %1$s</string>
     <string name="photo_albums">Albums photo</string>
