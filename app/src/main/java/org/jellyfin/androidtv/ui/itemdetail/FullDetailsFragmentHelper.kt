@@ -105,7 +105,7 @@ fun FullDetailsFragment.showPlayWithMenu(
 				if (!active) return
 
 				if (baseItem.type == BaseItemKind.MUSIC_ARTIST) {
-					mediaManager.value.playNow(requireContext(), response, false)
+					mediaManager.value.playNow(requireContext(), response, 0, false)
 				} else {
 					videoQueueManager.value.setCurrentVideoQueue(response)
 					navigationRepository.value.navigate(Destinations.externalPlayer(0))

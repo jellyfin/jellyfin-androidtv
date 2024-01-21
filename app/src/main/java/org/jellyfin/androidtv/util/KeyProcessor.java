@@ -376,7 +376,7 @@ public class KeyProcessor {
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(mCurrentRowItemNdx);
                     return true;
                 case MENU_CLEAR_QUEUE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue(true);
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue();
                     return true;
                 case MENU_INSTANT_MIX:
                     PlaybackHelper.playInstantMix(mCurrentActivity, mCurrentItem);
