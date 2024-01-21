@@ -463,14 +463,12 @@
     <string name="enable_reactive_homepage">Omogoči reaktivno domačo stran</string>
     <string name="not_set">Ni nastavljeno</string>
     <string name="lbl_album_artists">Izvajalci albuma</string>
-    <string name="pref_music_rewrite_enable_description">To onemogočite le, če imate težave s predvajanjem glasbe</string>
     <plurals name="episodes">
         <item quantity="one">%1$s epizoda</item>
         <item quantity="two">%1$s epizodi</item>
         <item quantity="few">%1$s epizode</item>
         <item quantity="other">%1$s epizod</item>
     </plurals>
-    <string name="pref_music_cat">Glasba</string>
     <string name="pref_music_rewrite_disable">Onemogoči novo glasbeno ozadje</string>
     <string name="disable_ui_mode_warning">Onemogoči opozorilo o vrsti naprave</string>
     <string name="color_darkgrey">Temno siva</string>

@@ -470,9 +470,7 @@
     <string name="pref_screensaver">Salvapantallas</string>
     <string name="item_delete_confirm_message">¿Estás seguro de borrar este elemento en el servidor\? Esta acción no puede deshacer.</string>
     <string name="enable_reactive_homepage">Activar página de inicio reactiva</string>
-    <string name="pref_music_cat">Música</string>
     <string name="pref_music_rewrite_disable">Deshabilitar el nuevo backend de música</string>
-    <string name="pref_music_rewrite_enable_description">Solo deshabilitá esto si estás experimentando problemas con la reproducción de música</string>
     <string name="disable_ui_mode_warning">Deshabilitar advertencia sobre el tipo de dispositivo</string>
     <plurals name="seconds">
         <item quantity="one">%1$s segundo</item>

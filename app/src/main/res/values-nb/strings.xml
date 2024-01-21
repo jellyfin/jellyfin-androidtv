@@ -376,7 +376,6 @@
     <string name="lbl_latest_in">Nylig lagt til i %1$s</string>
     <string name="pref_screensaver">Skjermsparer</string>
     <string name="pref_libraries">Biblioteker</string>
-    <string name="pref_music_rewrite_enable_description">Bare deaktiver dette hvis du har problemer med musikkavspilling</string>
     <string name="home_section_latest_media">Nylig lagt til media</string>
     <string name="pref_subtitles_background_summary">Vis en svart bakgrunn bak undertekstene</string>
     <string name="color_black">Svart</string>
@@ -403,7 +402,6 @@
         <item quantity="one">%1$s minutt</item>
         <item quantity="other">%1$s minutter</item>
     </plurals>
-    <string name="pref_music_cat">Musikk</string>
     <plurals name="episodes">
         <item quantity="one">%1$s episode</item>
         <item quantity="other">%1$s episoder</item>
@@ -510,7 +508,6 @@
     <string name="pref_refresh_rate_scale_on_device">Scala på enhet</string>
     <string name="pref_crash_report_logs_disabled">logger vil ikke bli inkudert i krasj rapporter</string>
     <string name="license_repository">Depot</string>
-    <string name="pref_music_rewrite_disable">Slå av ny musikkserver</string>
     <string name="channels">Kanaler</string>
     <string name="photo_albums">Fotoalbum</string>
     <string name="photos">Bilder</string>

@@ -476,7 +476,6 @@
 \nTack för att du deltar i Jellyfins uttestningsprogram</string>
     <string name="lbl_album_artists">Albumartist</string>
     <string name="pref_screensaver">Skärmsläckare</string>
-    <string name="pref_music_cat">Musik</string>
     <plurals name="hours">
         <item quantity="one">%1$s timme</item>
         <item quantity="other">%1$s timmar</item>
@@ -509,7 +508,6 @@
     <string name="lbl_latest_in">Nyligen tillagda i %1$s</string>
     <string name="because_you_watched">Eftersom du såg %1$s</string>
     <string name="enable_reactive_homepage">Aktivera reaktiv hemskärm</string>
-    <string name="pref_music_rewrite_disable">Inaktivera ny backend för musik</string>
     <string name="pref_music_rewrite_enable_description">Inaktivera endast vid problem med musikuppspelning</string>
     <string name="disable_ui_mode_warning">Inaktivera varningar om enhetstyp</string>
     <string name="not_set">Inte inställd</string>

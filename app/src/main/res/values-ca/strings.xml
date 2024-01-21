@@ -508,9 +508,7 @@
     <string name="pref_screensaver">Protector de pantalla</string>
     <string name="pref_screensaver_inapp_enabled">Utilitzar el protector de pantalla de l\'aplicació</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar protector de pantalla després de</string>
-    <string name="pref_music_rewrite_disable">Deshabilita el nou backend de musica</string>
     <string name="pref_music_rewrite_enable_description">Deshabilita això només si experimentes problemes amb la reproducció de musica</string>
-    <string name="pref_music_cat">Musica</string>
     <string name="disable_ui_mode_warning">Desactiva l\'avís de tipus de dispositiu</string>
     <string name="because_you_watched">Perquè heu vist %1$s</string>
     <string name="photo_albums">Àlbums de fotografies</string>

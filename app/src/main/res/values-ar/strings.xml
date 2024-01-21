@@ -527,9 +527,7 @@
     </plurals>
     <string name="enable_reactive_homepage">تفعيل الصفحة الرئيسية المتفاعلة</string>
     <string name="lbl_album_artists">فنانو الألبوم</string>
-    <string name="pref_music_rewrite_disable">تعطيل خلفية الموسيقى الجديدة</string>
     <string name="disable_ui_mode_warning">تعطيل تنبيه نوع الجهاز</string>
-    <string name="pref_music_cat">موسيقى</string>
     <string name="pref_music_rewrite_enable_description">عطل هذا فقط عند المشاكل في تشغيل الموسيقى</string>
     <string name="not_set">غير محدد</string>
     <string name="because_you_watched">لأنك شاهدت %1$-</string>

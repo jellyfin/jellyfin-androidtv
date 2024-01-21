@@ -508,9 +508,7 @@
     <string name="enable_reactive_homepage">Enable reactive homepage</string>
     <string name="not_set">Not set</string>
     <string name="lbl_album_artists">Album artists</string>
-    <string name="pref_music_rewrite_enable_description">Only disable this if you\'re experiencing issues with music playback</string>
     <string name="pref_music_cat">Music</string>
-    <string name="pref_music_rewrite_disable">Disable new music backend</string>
     <string name="disable_ui_mode_warning">Disable device type warning</string>
     <string name="because_you_watched">Because you watched %1$s</string>
     <string name="channels">Channels</string>

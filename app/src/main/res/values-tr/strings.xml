@@ -448,14 +448,12 @@
     <string name="pref_screensaver_inapp_enabled">Uygulama içi ekran koruyucuyu kullanın</string>
     <string name="not_set">Ayarlanmadı</string>
     <string name="lbl_album_artists">Albüm sanatçıları</string>
-    <string name="pref_music_cat">Müzik</string>
     <string name="pref_music_rewrite_enable_description">Bunu yalnızca müzik çalma ile ilgili sorunlar yaşıyorsanız devre dışı bırakın</string>
     <plurals name="minutes">
         <item quantity="one">%1$s dakika</item>
         <item quantity="other">%1$s dakika</item>
     </plurals>
     <string name="pref_playback_description">Video, altyazılar, canlı tv, sıradaki bölüm</string>
-    <string name="pref_music_rewrite_disable">Yeni müzik arka ucunu devre dışı bırak</string>
     <string name="disable_ui_mode_warning">Cihaz türü uyarısını devre dışı bırak</string>
     <string name="pref_browsing">Gözatma</string>
     <string name="pref_crash_reports">Sunucuya çökme raporlarını gönder</string>
