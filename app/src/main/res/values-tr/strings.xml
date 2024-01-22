@@ -353,7 +353,7 @@
     <string name="auto_sign_in">Otomatik oturum aç</string>
     <string name="lbl_use_series_thumbnails_description">Bölümleri oynatırken dizi küçük resimlerini kullan</string>
     <string name="lbl_use_series_thumbnails">Dizi küçük resimlerini tercih et</string>
-    <string name="lbl_hide_unwatched_count">İzlenmedi sayacını gizle</string>
+    <string name="lbl_hide_unwatched_count">Öge izlendiğinde</string>
     <string name="pref_watched_indicator">İzlendi göstergelerini göster</string>
     <string name="login_help_description">Jellyfin bağlantı kurmak için bir sunucuya ihtiyaç duyar. Jellyfin kullanmaya başlamak için QR kodu tarayın veya docs.jellyfin.org adresindeki dokümanlarımızı okuyun.</string>
     <string name="login_help_title">Yardım lazım mı\?</string>
@@ -513,4 +513,5 @@
     <string name="channels">Kanallar</string>
     <string name="photo_albums">Fotoğraf albümleri</string>
     <string name="photos">Fotoğraflar</string>
+    <string name="lbl_hide_watched_checkmark">Kalan bölümler olduğunda</string>
 </resources>
