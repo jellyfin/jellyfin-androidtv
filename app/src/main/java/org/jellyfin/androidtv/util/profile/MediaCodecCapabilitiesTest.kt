@@ -9,6 +9,23 @@ import timber.log.Timber
 class MediaCodecCapabilitiesTest {
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
 
+	// HEVC levels as reported by ffprobe are multiplied by 30, e.g. level 4.1 is 123
+	private val hevcLevelStrings = listOf(
+		CodecProfileLevel.HEVCMainTierLevel1 to "30",
+		CodecProfileLevel.HEVCMainTierLevel2 to "60",
+		CodecProfileLevel.HEVCMainTierLevel21 to "63",
+		CodecProfileLevel.HEVCMainTierLevel3 to "90",
+		CodecProfileLevel.HEVCMainTierLevel31 to "93",
+		CodecProfileLevel.HEVCMainTierLevel4 to "120",
+		CodecProfileLevel.HEVCMainTierLevel41 to "123",
+		CodecProfileLevel.HEVCMainTierLevel5 to "150",
+		CodecProfileLevel.HEVCMainTierLevel51 to "153",
+		CodecProfileLevel.HEVCMainTierLevel52 to "156",
+		CodecProfileLevel.HEVCMainTierLevel6 to "180",
+		CodecProfileLevel.HEVCMainTierLevel61 to "183",
+		CodecProfileLevel.HEVCMainTierLevel62 to "186",
+	)
+
 	fun supportsAV1(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
 		hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AV1)
 
@@ -41,25 +58,12 @@ class MediaCodecCapabilitiesTest {
 		CodecProfileLevel.AVCLevel4
 	)
 
-	private fun getHevcLevelString(profile: Int) : String {
+	private fun getHevcLevelString(profile: Int): String {
 		val level = getDecoderLevel(MediaFormat.MIMETYPE_VIDEO_HEVC, profile)
 
-		when {
-			level < CodecProfileLevel.HEVCMainTierLevel1 -> return "0"
-			level < CodecProfileLevel.HEVCMainTierLevel2 -> return "30"
-			level < CodecProfileLevel.HEVCMainTierLevel21 -> return "60"
-			level < CodecProfileLevel.HEVCMainTierLevel3 -> return "63"
-			level < CodecProfileLevel.HEVCMainTierLevel31 -> return "90"
-			level < CodecProfileLevel.HEVCMainTierLevel4 -> return "93"
-			level < CodecProfileLevel.HEVCMainTierLevel41 -> return "120"
-			level < CodecProfileLevel.HEVCMainTierLevel5 -> return "123"
-			level < CodecProfileLevel.HEVCMainTierLevel51 -> return "150"
-			level < CodecProfileLevel.HEVCMainTierLevel52 -> return "153"
-			level < CodecProfileLevel.HEVCMainTierLevel6 -> return "156"
-			level < CodecProfileLevel.HEVCMainTierLevel61 -> return "180"
-			level < CodecProfileLevel.HEVCMainTierLevel62 -> return "183"
-			else -> return "186"
-		}
+		return hevcLevelStrings.asReversed().find { item: Pair<Int, String> ->
+			level >= item.first
+		}?.second ?: "0"
 	}
 
 	private fun getDecoderLevel(mime: String, profile: Int) : Int {
@@ -76,7 +80,7 @@ class MediaCodecCapabilitiesTest {
 					}
 				}
 			} catch (e: IllegalArgumentException) {
-				Timber.w(e)
+				Timber.d(e, "Decoder %s does not support %s", info.name, mime)
 			}
 		}
 
