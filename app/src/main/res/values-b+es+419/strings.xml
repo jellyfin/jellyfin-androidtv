@@ -292,7 +292,7 @@
     <string name="lbl_subtitle_track">Seleccionar pista de subtítulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
     <string name="lbl_pause">Pausa</string>
-    <string name="lbl_hide_unwatched_count">Ocultar recuento de no vistos</string>
+    <string name="lbl_hide_unwatched_count">Cuando el contenido fue visto</string>
     <string name="pref_watched_indicator">Mostrar indicadores observados</string>
     <string name="login_help_description">Jellyfin requiere un servidor para conectarse. Visite nuestra documentación en docs.jellyfin.org o escanee el código QR para comenzar con Jellyfin.</string>
     <string name="login_help_title">¿Necesitas ayuda\?</string>
@@ -518,4 +518,5 @@
     <string name="channels">Canales</string>
     <string name="photo_albums">Álbum de Fotos</string>
     <string name="photos">Fotos</string>
+    <string name="lbl_hide_watched_checkmark">Cuando hay episodios pendientes</string>
 </resources>
