@@ -263,7 +263,7 @@
     <string name="image_type_banner">لافتة</string>
     <string name="lbl_auto_crop">قص تلقائي</string>
     <string name="lbl_special">الخاص</string>
-    <string name="lbl_hide_unwatched_count">إخفاء عدد التي لم يتم مشاهدتها</string>
+    <string name="lbl_hide_unwatched_count">عندما يكون قد تم مشاهدة العنصر</string>
     <string name="login_help_description">Jellyfin يستلزم خادم للإتصال به. قم بزيارة وثائقنا على docs.jellyfin.org او قم بمسح رمز QR للبدأ مع Jellyfin.</string>
     <string name="pref_developer_link">إعدادات المطورين</string>
     <string name="lbl_manage_servers">إدارة الخوادم</string>
@@ -529,5 +529,9 @@
     <string name="lbl_album_artists">فنانو الألبوم</string>
     <string name="disable_ui_mode_warning">تعطيل تنبيه نوع الجهاز</string>
     <string name="not_set">غير محدد</string>
-    <string name="because_you_watched">لأنك شاهدت %1$-</string>
+    <string name="because_you_watched">لأنك شاهدت %1$s</string>
+    <string name="lbl_hide_watched_checkmark">عندما تكون هناك حلقات متبقية</string>
+    <string name="channels">القنوات</string>
+    <string name="photo_albums">ألبومات الصور</string>
+    <string name="photos">الصور</string>
 </resources>
