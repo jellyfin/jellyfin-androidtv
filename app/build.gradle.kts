@@ -5,9 +5,6 @@ plugins {
 	alias(libs.plugins.aboutlibraries)
 }
 
-// Apply workaround
-apply("baselineWorkaround.gradle")
-
 android {
 	namespace = "org.jellyfin.androidtv"
 	compileSdk = 34
@@ -86,7 +83,7 @@ aboutLibraries {
 }
 
 val versionTxt by tasks.registering {
-	val path = buildDir.resolve("version.txt")
+	val path = layout.buildDirectory.asFile.get().resolve("version.txt")
 
 	doLast {
 		val versionString = "v${android.defaultConfig.versionName}=${android.defaultConfig.versionCode}"
