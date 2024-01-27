@@ -66,7 +66,7 @@ class MediaCodecCapabilitiesTest {
 		}?.second ?: "0"
 	}
 
-	private fun getDecoderLevel(mime: String, profile: Int) : Int {
+	private fun getDecoderLevel(mime: String, profile: Int): Int {
 		var maxLevel = 0
 
 		for (info in mediaCodecList.codecInfos) {
