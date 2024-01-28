@@ -254,7 +254,7 @@
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
-    <string name="player_error">Błąd odtwarzacza. Próbuje ponownie…</string>
+    <string name="player_error">Błąd odtwarzacza. Próbuję ponownie…</string>
     <string name="seek_error">Niemożliwe do odnalezienia</string>
     <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin\?</string>
     <string name="msg_live_tv_next">Załaduj następne %1$d godzin\?</string>
@@ -278,7 +278,7 @@
     <string name="lbl_subtitle_track">Wybierz napisy</string>
     <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
     <string name="login_username_field_empty">Nazwa użytkownika nie może być pusta</string>
-    <string name="login_server_unavailable">Niemożna połączyć z serwerem</string>
+    <string name="login_server_unavailable">Nie można połączyć z serwerem</string>
     <string name="login_invalid_credentials">Niepoprawna nazwa użytkownika i/lub hasło</string>
     <string name="login_authenticating">Uwierzytelnianie…</string>
     <string name="server_field_empty">Adres nie może być pusty</string>
@@ -319,8 +319,7 @@
     <string name="lbl_manage_servers">Zarządzaj serwerami</string>
     <string name="lbl_use_series_thumbnails_description">Podczas wyświetlania odcinków używaj miniatur seriali</string>
     <string name="lbl_use_series_thumbnails">Preferuj miniatury seriali</string>
-    <string name="lbl_episode_marks">Tylko w odcinkach</string>
-    <string name="lbl_hide_unwatched_count">Ukryj liczbę nieobejrzanych</string>
+    <string name="lbl_hide_unwatched_count">Gdy pozycja jest obserwowana</string>
     <string name="pref_watched_indicator">Pokaż obserwowane wskaźniki</string>
     <string name="user_picker_last_user_summary">Użyj ostatniego aktywnego konta</string>
     <string name="user_picker_last_user_title">Ostatnio używany</string>
@@ -520,8 +519,9 @@
     <string name="not_set">Nie ustawiony</string>
     <string name="lbl_album_artists">Wykonawcy albumu</string>
     <string name="disable_ui_mode_warning">Wyłącz ostrzeżenie o typie urządzenia</string>
-    <string name="pref_music_cat">Muzyka</string>
-    <string name="pref_music_rewrite_disable">Wyłącz nowy backend muzyki</string>
-    <string name="pref_music_rewrite_enable_description">Wyłącz tę opcję tylko wtedy, gdy masz problemy z odtwarzaniem muzyki</string>
     <string name="because_you_watched">Bo obejrzałeś %1$s</string>
+    <string name="channels">Kanały</string>
+    <string name="photos">Zdjęcia</string>
+    <string name="photo_albums">Albumy zdjęciowe</string>
+    <string name="lbl_hide_watched_checkmark">Gdy pozostały odcinki</string>
 </resources>

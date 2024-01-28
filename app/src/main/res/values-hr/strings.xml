@@ -295,7 +295,6 @@
     <string name="user_picker_last_user_title">Posljednje korišteno</string>
     <string name="lbl_use_series_thumbnails_description">Prilikom prikazivanja epizoda koristi sličice iz serije</string>
     <string name="lbl_use_series_thumbnails">Preferira sličice serije</string>
-    <string name="lbl_episode_marks">Samo u epizodama</string>
     <string name="image_size_medium">Srednje</string>
     <string name="image_size_small">Malo</string>
     <string name="enable_smart_view_description">\'Smart screen\' prikazuje relevantne stavke umjesto rešetke</string>
@@ -483,10 +482,7 @@
     <string name="episode_name_special">specijalna</string>
     <string name="pref_screensaver_inapp_enabled">Koristi čuvar zaslona u aplikaciji</string>
     <string name="not_set">Nije postavljeno</string>
-    <string name="pref_music_rewrite_enable_description">Samo onemogući ovo ako imate poteškoća sa reprodukcijom glazbe</string>
     <string name="lbl_album_artists">Izvođači albuma</string>
-    <string name="pref_music_cat">Glazba</string>
-    <string name="pref_music_rewrite_disable">Onemogući novu pozadinu glazbe</string>
     <string name="disable_ui_mode_warning">Onemogući upozorenje vrste uređaja</string>
     <string name="enable_reactive_homepage">Omogući reaktivnu početnu stranicu</string>
     <string name="pref_screensaver_inapp_timeout">Pokreni čuvar zaslona nakon</string>

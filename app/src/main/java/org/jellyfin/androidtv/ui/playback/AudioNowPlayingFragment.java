@@ -5,7 +5,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
-import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -49,7 +47,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListener {
+public class AudioNowPlayingFragment extends Fragment {
     private ImageButton mHomeButton;
 
     private TextView mGenreRow;
@@ -112,7 +110,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().playPauseAudio();
+                if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
+                else mediaManager.getValue().resumeAudio();
             }
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -231,36 +230,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         super.onPause();
         dismissPopup();
         mediaManager.getValue().removeAudioEventListener(audioEventListener);
-    }
-
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_UP) return false;
-
-        // Rewrite uses media sessions which the system automatically manipulates on key presses
-        if (mediaManager.getValue() instanceof RewriteMediaManager) return false;
-
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-            case KeyEvent.KEYCODE_MEDIA_PLAY:
-                if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
-                else mediaManager.getValue().resumeAudio();
-                return true;
-            case KeyEvent.KEYCODE_MEDIA_NEXT:
-                mediaManager.getValue().nextAudioItem();
-                return true;
-            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                mediaManager.getValue().fastForward();
-                return true;
-            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                mediaManager.getValue().prevAudioItem();
-                return true;
-            case KeyEvent.KEYCODE_MEDIA_REWIND:
-                mediaManager.getValue().rewind();
-                return true;
-        }
-
-        return false;
     }
 
     private AudioEventListener audioEventListener = new AudioEventListener() {

@@ -318,8 +318,7 @@
     <string name="pref_developer_link">Opzioni Sviluppatore</string>
     <string name="lbl_use_series_thumbnails_description">Utilizza miniature delle serie anche per gli episodi</string>
     <string name="lbl_use_series_thumbnails">Preferisci etichette di serie</string>
-    <string name="lbl_episode_marks">Solo episodi</string>
-    <string name="lbl_hide_unwatched_count">Nascondi numero di non visti</string>
+    <string name="lbl_hide_unwatched_count">Quando l\'elemento è stato visto</string>
     <string name="pref_watched_indicator">Mostra indicatori di avvenuta visione</string>
     <string name="lbl_tomatoes">Pomodori</string>
     <string name="user_picker_last_user_summary">Utilizza l\'ultimo utente attivo</string>
@@ -514,9 +513,10 @@
     <string name="lbl_album_artists">Artisti dell\'album</string>
     <string name="not_set">Non impostato</string>
     <string name="lbl_latest_in">Aggiunto di recente in %1$s</string>
-    <string name="pref_music_cat">Musica</string>
-    <string name="pref_music_rewrite_disable">Disabilita il nuovo backend per la musica</string>
-    <string name="pref_music_rewrite_enable_description">Disabilita solo se stai riscontrando problemi nella riproduzione della musica</string>
     <string name="disable_ui_mode_warning">Disabilita avvisi riguardo al tipo di dispositivo</string>
     <string name="because_you_watched">Perché hai guardato %1$s</string>
+    <string name="channels">Canali</string>
+    <string name="photos">Foto</string>
+    <string name="photo_albums">Album fotografici</string>
+    <string name="lbl_hide_watched_checkmark">Quando ci sono episodi rimanenti</string>
 </resources>

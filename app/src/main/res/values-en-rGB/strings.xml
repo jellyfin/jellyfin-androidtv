@@ -301,8 +301,7 @@
     <string name="auto_sign_in">Automatic sign in</string>
     <string name="lbl_use_series_thumbnails_description">Use programme thumbnails when displaying episodes</string>
     <string name="lbl_use_series_thumbnails">Prefer programme thumbnails</string>
-    <string name="lbl_episode_marks">On episodes only</string>
-    <string name="lbl_hide_unwatched_count">Hide unwatched count</string>
+    <string name="lbl_hide_unwatched_count">When the item is watched</string>
     <string name="pref_watched_indicator">Show watched indicators</string>
     <string name="login_help_description">Jellyfin requires a server to connect with. Visit our documentation at docs.jellyfin.org or scan the QR code to get started with Jellyfin.</string>
     <string name="connect_manually_by_address">Enter server address</string>
@@ -510,9 +509,10 @@
     <string name="enable_reactive_homepage">Enable reactive homepage</string>
     <string name="not_set">Not set</string>
     <string name="lbl_album_artists">Album artists</string>
-    <string name="pref_music_rewrite_enable_description">Only disable this if you\'re experiencing issues with music playback</string>
-    <string name="pref_music_cat">Music</string>
-    <string name="pref_music_rewrite_disable">Disable new music backend</string>
     <string name="disable_ui_mode_warning">Disable device type warning</string>
     <string name="because_you_watched">Because you watched %1$s</string>
+    <string name="channels">Channels</string>
+    <string name="photo_albums">Photo albums</string>
+    <string name="photos">Photos</string>
+    <string name="lbl_hide_watched_checkmark">When there are episodes remaining</string>
 </resources>

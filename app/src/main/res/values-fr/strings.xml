@@ -297,8 +297,7 @@
     <string name="lbl_manage_servers">Gérer les serveurs</string>
     <string name="lbl_user_server">%1$s sur %2$s</string>
     <string name="lbl_sign_out_content">Demande une connexion à la prochaine utilisation</string>
-    <string name="lbl_episode_marks">Uniquement pour les épisodes</string>
-    <string name="lbl_hide_unwatched_count">Masquer le décompte des éléments non visionnés</string>
+    <string name="lbl_hide_unwatched_count">Quand l\'élément est visionné</string>
     <string name="pref_watched_indicator">Afficher les indicateurs de visionnage</string>
     <string name="login_help_description">Jellyfin a besoin d\'un serveur auquel se connecter. Visitez notre documentation docs.jellyfin.org ou scannez le QR code pour commencer à utiliser Jellyfin.</string>
     <string name="login_help_title">Besoin d\'aide \?</string>
@@ -514,9 +513,10 @@
         <item quantity="other">%1$s piste(s)</item>
     </plurals>
     <string name="lbl_album_artists">Artistes de l\'album</string>
-    <string name="pref_music_cat">Musique</string>
-    <string name="pref_music_rewrite_disable">Désactiver le nouveau fournisseur de musique</string>
-    <string name="pref_music_rewrite_enable_description">Désactivez ceci uniquement si vous éprouvez des problèmes de lecture de musique</string>
     <string name="disable_ui_mode_warning">Désactiver l\'avertissement du type d\'appareil</string>
     <string name="because_you_watched">Parce que vous avez regardé %1$s</string>
+    <string name="photo_albums">Albums photo</string>
+    <string name="photos">Photos</string>
+    <string name="channels">Chaînes</string>
+    <string name="lbl_hide_watched_checkmark">Quand il reste des épisodes</string>
 </resources>

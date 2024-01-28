@@ -319,7 +319,6 @@
     <string name="lbl_manage_servers">Spravovat servery</string>
     <string name="lbl_use_series_thumbnails_description">Použít náhledy seriálů při zobrazení epizod</string>
     <string name="lbl_use_series_thumbnails">Preferovat náhledy seriálů</string>
-    <string name="lbl_episode_marks">Pouze u epizod</string>
     <string name="lbl_hide_unwatched_count">Skrýt počet nezhlédnutých</string>
     <string name="pref_watched_indicator">Zobrazit indikátory zhlédnutí</string>
     <string name="user_picker_last_user_summary">Použít poslední aktivní účet</string>
@@ -513,10 +512,10 @@
     <string name="lbl_latest_in">Naposledy přidáno v %1$s</string>
     <string name="pref_screensaver_inapp_enabled_description">Zobrazit Jellfin spořič obrazovky když je aplikace otevřená</string>
     <string name="lbl_album_artists">Umělci alba</string>
-    <string name="pref_music_cat">Hudba</string>
-    <string name="pref_music_rewrite_disable">Zakázat nový přehrávač hudby</string>
-    <string name="pref_music_rewrite_enable_description">Zakažte pouze v případě problémů s přehráváním hudby</string>
     <string name="not_set">Nenastaveno</string>
     <string name="disable_ui_mode_warning">Vypnout upozornění na typ zařízení</string>
     <string name="because_you_watched">Protože jste sledovali %1$s</string>
+    <string name="photo_albums">Fotoalba</string>
+    <string name="channels">Kanály</string>
+    <string name="photos">Fotky</string>
 </resources>

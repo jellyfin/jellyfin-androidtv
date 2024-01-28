@@ -126,11 +126,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
 
-		/**
-		 * Use playback rewrite module for audio
-		 */
-		var playbackRewriteAudioEnabled = booleanPreference("playback_new_audio", true)
-
 		/* Live TV */
 		/**
 		 * Use direct play

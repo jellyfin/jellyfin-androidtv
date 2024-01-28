@@ -29,6 +29,7 @@ import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import timber.log.Timber;
@@ -108,7 +109,7 @@ public class ItemLauncher {
                             Timber.d("playing audio queue item");
                             mediaManager.playFrom(pos);
                         } else if (adapter.getQueryType() == QueryType.Search) {
-                            mediaManager.playNow(context, rowItem.getBaseItem());
+                            mediaManager.playNow(context, Arrays.asList(rowItem.getBaseItem()), 0, false);
                         } else {
                             Timber.d("playing audio item");
                             List<BaseItemDto> audioItemsAsList = new ArrayList<>();

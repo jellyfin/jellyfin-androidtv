@@ -292,8 +292,7 @@
     <string name="server_field_empty">La dirección no puede estar vacía</string>
     <string name="server_connection_failed">Imposible conectar con el servidor</string>
     <string name="server_connecting">Conectando con %1$s</string>
-    <string name="lbl_episode_marks">Solo en episodios</string>
-    <string name="lbl_hide_unwatched_count">Ocultar contador de \"no visto\"</string>
+    <string name="lbl_hide_unwatched_count">Cuando el contenido fue visto</string>
     <string name="pref_watched_indicator">Mostrar indicadores de \"ya visto\"</string>
     <string name="login_help_description">Jellyfin necesita un servidor al cual conectarse. Visita nuestra documentación en docs.jellyfin.org o escanea el código QR para comenzar a usar Jellyfin.</string>
     <string name="login_help_title">¿Necesitas ayuda\?</string>
@@ -514,9 +513,10 @@
     <string name="pref_screensaver_inapp_enabled_description">Mostrar el salvapantallas de Jellyfin mientras la aplicación esté abierta</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar el salvapantallas después de</string>
     <string name="pref_screensaver">Salvapantallas</string>
-    <string name="pref_music_rewrite_enable_description">Solo deshabilite esto si está experimentando problemas con la reproducción de música</string>
-    <string name="pref_music_cat">Música</string>
-    <string name="pref_music_rewrite_disable">Deshabilitar el nuevo backend de música</string>
     <string name="disable_ui_mode_warning">Deshabilitar advertencia sobre el tipo de dispositivo</string>
     <string name="because_you_watched">Ya que viste %1$s</string>
+    <string name="lbl_hide_watched_checkmark">Cuando hay episodios pendientes</string>
+    <string name="photos">Fotos</string>
+    <string name="photo_albums">Álbum de fotos</string>
+    <string name="channels">Canales</string>
 </resources>

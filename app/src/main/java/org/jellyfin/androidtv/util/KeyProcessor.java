@@ -17,7 +17,6 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
@@ -67,10 +66,7 @@ public class KeyProcessor {
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 if (mediaManager.isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
                     // Rewrite uses media sessions which the system automatically manipulates on key presses
-                    if (mediaManager instanceof RewriteMediaManager) return false;
-
-                    mediaManager.pauseAudio();
-                    return true;
+                    return false;
                 }
 
                 switch (rowItem.getBaseRowType()) {
@@ -134,13 +130,8 @@ public class KeyProcessor {
                         break;
                 }
 
-                if (mediaManager.hasAudioQueueItems()) {
-                    // Rewrite uses media sessions which the system automatically manipulates on key presses
-                    if (mediaManager instanceof RewriteMediaManager) return false;
-
-                    mediaManager.resumeAudio();
-                    return true;
-                }
+                // Rewrite uses media sessions which the system automatically manipulates on key presses
+                if (mediaManager.hasAudioQueueItems()) return false;
 
                 break;
             case KeyEvent.KEYCODE_MENU:
@@ -385,7 +376,7 @@ public class KeyProcessor {
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(mCurrentRowItemNdx);
                     return true;
                 case MENU_CLEAR_QUEUE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue(true);
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue();
                     return true;
                 case MENU_INSTANT_MIX:
                     PlaybackHelper.playInstantMix(mCurrentActivity, mCurrentItem);

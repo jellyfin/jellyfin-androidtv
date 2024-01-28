@@ -299,8 +299,7 @@
     <string name="auto_sign_in">Autentificare automată</string>
     <string name="lbl_use_series_thumbnails_description">Utilizați miniaturi de serial când afișați episoadele</string>
     <string name="lbl_use_series_thumbnails">Preferă miniaturile de serial</string>
-    <string name="lbl_episode_marks">Pe episoade doar</string>
-    <string name="lbl_hide_unwatched_count">Ascundeți numărul nevizionat</string>
+    <string name="lbl_hide_unwatched_count">Când articolul este vizionat</string>
     <string name="pref_watched_indicator">Afișați indicatorii urmărit</string>
     <string name="login_help_description">Jellyfin necesită un server pentru a vă conecta. Vizitați documentația noastră la docs.jellyfin.org sau scanați codul QR pentru a începe să utilizați Jellyfin.</string>
     <string name="login_help_title">Aveți nevoie de ajutor\?</string>
@@ -514,9 +513,10 @@
     <string name="lbl_subtitle_stroke">Dimensiunea liniilor de subtitrare</string>
     <string name="not_set">Nu este setat</string>
     <string name="lbl_album_artists">Album artisti</string>
-    <string name="pref_music_cat">Muzica</string>
-    <string name="pref_music_rewrite_disable">Dezactivare finalul noilor melodii</string>
-    <string name="pref_music_rewrite_enable_description">Dezactivați numai dacă întâmpinați probleme cu redarea muzicii</string>
     <string name="disable_ui_mode_warning">Dezactivare avertizare tip dispozitiv</string>
     <string name="because_you_watched">Pentru că te-ai uitat %1$s</string>
+    <string name="channels">Canale</string>
+    <string name="photo_albums">Albume foto</string>
+    <string name="photos">Poze</string>
+    <string name="lbl_hide_watched_checkmark">Când sunt episoade rămase</string>
 </resources>

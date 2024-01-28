@@ -293,7 +293,6 @@
     <string name="lbl_tomatoes">Tomater</string>
     <string name="lbl_stars">Stjerner</string>
     <string name="lbl_use_series_thumbnails">Foretræk miniaturebilleder fra serie</string>
-    <string name="lbl_episode_marks">Kun på afsnit</string>
     <string name="lbl_hide_unwatched_count">Skjul ikke afspillede antal</string>
     <string name="pref_watched_indicator">Vis indikator for afspillet</string>
     <string name="login_help_description">Jellyfin kræver en server at forbinde til. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
@@ -509,9 +508,9 @@
     <string name="not_set">Ikke indstillet</string>
     <string name="pref_screensaver_inapp_enabled">Brug pauseskærm i appen</string>
     <string name="lbl_album_artists">Album kunstnere</string>
-    <string name="pref_music_rewrite_disable">Deaktiver nye musik bagplan</string>
-    <string name="pref_music_rewrite_enable_description">Aktiver kun dette hvis du oplever problemer med musik afspilning</string>
     <string name="disable_ui_mode_warning">Deaktiver enhed type advarsel</string>
-    <string name="pref_music_cat">Musik</string>
     <string name="because_you_watched">Fordi du så %1$s</string>
+    <string name="photo_albums">Fotoalbummer</string>
+    <string name="photos">Fotos</string>
+    <string name="channels">Kanaler</string>
 </resources>

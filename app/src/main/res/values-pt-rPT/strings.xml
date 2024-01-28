@@ -302,7 +302,6 @@
     <string name="auto_sign_in">Autenticar automáticamente</string>
     <string name="lbl_use_series_thumbnails_description">Mostrar miniaturas de séries quando episódios são mostrados</string>
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de séries</string>
-    <string name="lbl_episode_marks">Apenas em episódios</string>
     <string name="lbl_hide_unwatched_count">Esconder contagem de não assistidos</string>
     <string name="pref_watched_indicator">Mostra indicadores de assistido</string>
     <string name="login_help_description">O Jellyfin precisa de um servidor para se ligar. Visita a nossa documentação em docs.jellyfin.org ou faça scan ao código QR para começar com o Jellyfin.</string>
@@ -486,7 +485,6 @@
         <item quantity="many">faixas</item>
         <item quantity="other">faixas</item>
     </plurals>
-    <string name="pref_music_cat">Musica</string>
     <string name="disable_ui_mode_warning">Desativar aviso de tipo de dispositivo</string>
     <string name="enable_reactive_homepage">Ativar pagina inicial reativa</string>
     <string name="pref_screensaver">Papel de parede</string>
@@ -495,7 +493,6 @@
     <string name="pref_screensaver_inapp_timeout">Iniciar o papel de parede depois de</string>
     <string name="not_set">Não definido</string>
     <string name="lbl_album_artists">Artistas do album</string>
-    <string name="pref_music_rewrite_enable_description">Desative isto apenas se estiver a ter problemas com a execução de musicas</string>
     <plurals name="minutes">
         <item quantity="one">minuto</item>
         <item quantity="many">minutos</item>
@@ -506,7 +503,6 @@
         <item quantity="many">episódios</item>
         <item quantity="other">episódios</item>
     </plurals>
-    <string name="pref_music_rewrite_disable">Desativar Back-end de novas músicas</string>
     <plurals name="seconds">
         <item quantity="one">segundo</item>
         <item quantity="many">segundos</item>

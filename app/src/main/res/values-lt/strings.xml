@@ -435,7 +435,6 @@
     <string name="lbl_use_series_thumbnails">Pirmenybė teikiama serijų miniatiūroms</string>
     <string name="pref_audio_compat">Downmix į stereo</string>
     <string name="lbl_end_padding">Pabaigos tarpas</string>
-    <string name="lbl_episode_marks">Tik and epizodų</string>
     <string name="user_picker_disable_title">Išjungti</string>
     <string name="lbl_record_all">Įrašys visus epizodus</string>
     <string name="always_authenticate">Visada prašyti prisijungimo informacijos</string>

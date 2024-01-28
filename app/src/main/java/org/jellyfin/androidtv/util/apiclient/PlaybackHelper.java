@@ -8,6 +8,8 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -32,6 +34,7 @@ import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -277,11 +280,11 @@ public class PlaybackHelper {
                 switch (item.getType()) {
                     case MUSIC_ALBUM:
                     case MUSIC_ARTIST:
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
+                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, 0, shuffle);
                         break;
                     case PLAYLIST:
                         if (MediaType.Audio.equals(item.getMediaType())) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, 0, shuffle);
                         } else {
                             BaseItemKind itemType = response.size() > 0 ? response.get(0).getType() : null;
                             KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
@@ -291,14 +294,19 @@ public class PlaybackHelper {
                         break;
                     case AUDIO:
                         if (response.size() > 0) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response.get(0));
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, Arrays.asList(response.get(0)), 0, false);
                         }
                         break;
 
                     default:
                         KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
                         Destination destination = playbackLauncher.getPlaybackDestination(item.getType(), pos);
-                        navigationRepository.navigate(destination);
+
+                        PlaybackController playbackController = KoinJavaComponent.<PlaybackControllerContainer>get(PlaybackControllerContainer.class).getPlaybackController();
+                        navigationRepository.navigate(
+                                destination,
+                                playbackController != null && playbackController.hasFragment()
+                        );
                 }
             }
         });
@@ -343,7 +351,7 @@ public class PlaybackHelper {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(context, JavaCompat.mapBaseItemArray(response), false);
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(context, JavaCompat.mapBaseItemArray(response), 0, false);
                 } else {
                     Utils.showToast(context, R.string.msg_no_playable_items);
                 }

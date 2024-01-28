@@ -180,10 +180,6 @@ class RewriteMediaManager(
 		playbackManager.state.stop()
 	}
 
-	override fun clearAudioQueue(releasePlayer: Boolean) {
-		playbackManager.state.stop()
-	}
-
 	override fun addToAudioQueue(items: List<BaseItemDto>) {
 		if (items.isEmpty()) return
 
@@ -226,14 +222,6 @@ class RewriteMediaManager(
 		navigationRepository.navigate(Destinations.nowPlaying)
 	}
 
-	override fun playNow(context: Context, items: List<BaseItemDto>, shuffle: Boolean) {
-		playNow(context, items, 0, shuffle)
-	}
-
-	override fun playNow(context: Context, item: BaseItemDto) {
-		playNow(context, listOf(item), 0, false)
-	}
-
 	override fun playFrom(ndx: Int): Boolean = runBlocking {
 		playbackManager.state.queue.setIndex(ndx) != null
 	}
@@ -246,12 +234,6 @@ class RewriteMediaManager(
 
 		playbackManager.state.setPlaybackOrder(newMode)
 	}
-
-	override val nextAudioItem: BaseItemDto?
-		get() = runBlocking { (playbackManager.state.queue.peekNext() as? BaseItemDtoUserQueueEntry)?.baseItem }
-
-	override val prevAudioItem: BaseItemDto?
-		get() = runBlocking { (playbackManager.state.queue.peekPrevious() as? BaseItemDtoUserQueueEntry)?.baseItem }
 
 	override fun hasNextAudioItem(): Boolean = runBlocking {
 		playbackManager.state.queue.peekNext() != null
@@ -281,21 +263,8 @@ class RewriteMediaManager(
 		playbackManager.state.pause()
 	}
 
-	override fun playPauseAudio() {
-		if (playbackManager.state.playState.value != PlayState.PAUSED) pauseAudio()
-		else resumeAudio()
-	}
-
 	override fun resumeAudio() {
 		playbackManager.state.unpause()
-	}
-
-	override fun fastForward() {
-		playbackManager.state.fastForward()
-	}
-
-	override fun rewind() {
-		playbackManager.state.rewind()
 	}
 
 	private class BaseItemQueue(

@@ -317,7 +317,6 @@
     <string name="lbl_remove_user_content">கணக்கை அகற்று</string>
     <string name="lbl_remove_users">இது தொடர்புடைய அனைத்து கணக்குகளையும் அகற்றும்</string>
     <string name="lbl_manage_servers">சேவையகங்களை நிர்வகிக்கவும்</string>
-    <string name="lbl_episode_marks">அத்தியாயங்களில் மட்டுமே</string>
     <string name="lbl_hide_unwatched_count">பார்க்கப்படாத எண்ணிக்கையை மறைக்க</string>
     <string name="pref_watched_indicator">பார்த்த குறிகாட்டிகளைக் காட்டு</string>
     <string name="lbl_use_series_thumbnails_description">அத்தியாயங்களைக் காண்பிக்கும் போது தொடர் சிறுபடங்களைப் பயன்படுத்தவும்</string>
@@ -479,7 +478,6 @@
         <item quantity="one">%1$s அத்தியாயம்</item>
         <item quantity="other">%1$s அத்தியாயங்கள்</item>
     </plurals>
-    <string name="pref_music_cat">இசை</string>
     <string name="disable_ui_mode_warning">சாதன வகை எச்சரிக்கையை முடக்கு</string>
     <plurals name="tracks">
         <item quantity="one">%1$s டிராக்</item>
@@ -490,8 +488,6 @@
     <string name="enable_reactive_homepage">எதிர்வினை முகப்புப்பக்கத்தை இயக்கவும்</string>
     <string name="not_set">அமைக்கப்படவில்லை</string>
     <string name="lbl_album_artists">ஆல்பம் கலைஞர்கள்</string>
-    <string name="pref_music_rewrite_disable">புதிய இசை பின்னணியை முடக்கு</string>
-    <string name="pref_music_rewrite_enable_description">மியூசிக் பிளேபேக்கில் சிக்கல்கள் இருந்தால் மட்டுமே இதை முடக்கவும்</string>
     <string name="pref_enable_media_management">மீடியா நிர்வாகத்தை இயக்கு</string>
     <string name="item_delete_confirm_message">சேவையகத்திலிருந்து இந்த உருப்படியை நிச்சயமாக நீக்க விரும்புகிறீர்களா\? இந்தச் செயலைச் செயல்தவிர்க்க முடியாது.</string>
     <string name="app_notification_beta">பயன்பாடு %1$sக்கு புதுப்பிக்கப்பட்டது

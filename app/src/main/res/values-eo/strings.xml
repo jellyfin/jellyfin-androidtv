@@ -208,7 +208,6 @@
     <string name="user_picker_last_user_title">Plej lastatempe uzata</string>
     <string name="auto_sign_in">Aŭtomata ensaluto</string>
     <string name="lbl_use_series_thumbnails">Preferi seriajn avizojn</string>
-    <string name="lbl_episode_marks">Nur en epizodoj</string>
     <string name="lbl_hide_unwatched_count">Kaŝi nespektitan kalkulon</string>
     <string name="pref_watched_indicator">Montri spektindikilojn</string>
     <string name="enable_smart_view">Ebligi inteligentan ekranon</string>

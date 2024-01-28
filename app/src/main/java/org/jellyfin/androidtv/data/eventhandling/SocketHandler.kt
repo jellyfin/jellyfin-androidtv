@@ -28,6 +28,7 @@ import org.jellyfin.sdk.model.api.GeneralCommandType
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
 import org.jellyfin.sdk.model.api.PlaystateCommand
 import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.extensions.get
 import org.jellyfin.sdk.model.extensions.getValue
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.jellyfin.sdk.model.socket.LibraryChangedMessage
@@ -56,6 +57,8 @@ class SocketHandler(
 				supportsMediaControl = true,
 				supportedCommands = buildList {
 					add(GeneralCommandType.DISPLAY_CONTENT)
+					add(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)
+					add(GeneralCommandType.SET_AUDIO_STREAM_INDEX)
 
 					add(GeneralCommandType.DISPLAY_MESSAGE)
 					add(GeneralCommandType.SEND_STRING)
@@ -90,6 +93,22 @@ class SocketHandler(
 			// Media playback
 			addListener<PlayMessage> { message -> onPlayMessage(message) }
 			addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
+
+			addGeneralCommandsListener(setOf(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)) { message ->
+				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
+
+				coroutineScope.launch(Dispatchers.Main) {
+					playbackControllerContainer.playbackController?.switchSubtitleStream(index)
+				}
+			}
+
+			addGeneralCommandsListener(setOf(GeneralCommandType.SET_AUDIO_STREAM_INDEX)) { message ->
+				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
+
+				coroutineScope.launch(Dispatchers.Main) {
+					playbackControllerContainer.playbackController?.switchAudioStream(index)
+				}
+			}
 
 			// General commands
 			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_CONTENT)) { message ->
@@ -137,36 +156,39 @@ class SocketHandler(
 	@Suppress("ComplexMethod")
 	private fun onPlayStateMessage(message: PlayStateMessage) = coroutineScope.launch(Dispatchers.Main) {
 		Timber.i("Received PlayStateMessage with command ${message.request.command}")
-		val playbackController = playbackControllerContainer.playbackController
-		// Audio playback uses the mediaManager, video playback and live tv use the playbackController
-		if (mediaManager.isAudioPlayerInitialized) when (message.request.command) {
-			PlaystateCommand.STOP -> mediaManager.stopAudio(true)
-			PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> mediaManager.playPauseAudio()
-			PlaystateCommand.NEXT_TRACK -> mediaManager.nextAudioItem()
-			PlaystateCommand.PREVIOUS_TRACK -> mediaManager.prevAudioItem()
-			// Not implemented
-			PlaystateCommand.SEEK,
-			PlaystateCommand.REWIND,
-			PlaystateCommand.FAST_FORWARD -> Unit
-		} else when (message.request.command) {
-			PlaystateCommand.STOP -> playbackController?.endPlayback(true)
-			PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> playbackController?.playPause()
-			PlaystateCommand.NEXT_TRACK -> playbackController?.next()
-			PlaystateCommand.PREVIOUS_TRACK -> playbackController?.prev()
-			PlaystateCommand.SEEK -> playbackController?.seek(
-				(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
-			)
-			PlaystateCommand.REWIND -> playbackController?.rewind()
-			PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
+
+		// Audio playback uses (Rewrite)MediaManager, (legacy) video playback uses playbackController
+		when {
+			mediaManager.hasAudioQueueItems() -> {
+				Timber.i("Ignoring PlayStateMessage: should be handled by PlaySessionSocketService")
+				return@launch
+			}
+
+			// PlaybackController
+			else -> {
+				val playbackController = playbackControllerContainer.playbackController
+				when (message.request.command) {
+					PlaystateCommand.STOP -> playbackController?.endPlayback(true)
+					PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> playbackController?.playPause()
+					PlaystateCommand.NEXT_TRACK -> playbackController?.next()
+					PlaystateCommand.PREVIOUS_TRACK -> playbackController?.prev()
+					PlaystateCommand.SEEK -> playbackController?.seek(
+						(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
+					)
+
+					PlaystateCommand.REWIND -> playbackController?.rewind()
+					PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
+				}
+			}
 		}
 	}
 
-	private fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) {
+	private fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) = coroutineScope.launch(Dispatchers.Main) {
 		val playbackController = playbackControllerContainer.playbackController
 
 		if (playbackController?.isPlaying == true || playbackController?.isPaused == true) {
 			Timber.i("Not launching $itemId: playback in progress")
-			return
+			return@launch
 		}
 
 		Timber.i("Launching $itemId")

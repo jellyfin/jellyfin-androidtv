@@ -299,7 +299,6 @@
     <string name="user_picker_disable_title">Онемогући</string>
     <string name="auto_sign_in">Аутоматско пријављивање</string>
     <string name="lbl_use_series_thumbnails">Дајте предност сличицама серије</string>
-    <string name="lbl_episode_marks">Само на епизодама</string>
     <string name="lbl_hide_unwatched_count">Сакриј бројчаник за неодгледано</string>
     <string name="pref_watched_indicator">Прикажи индикаторе за одгледано</string>
     <string name="login_help_description">Jellyfin захтева сервер за повезивање. Посетите нашу документацију на docs.jellyfin.org или скенирајте QR код да бисте започели са Jellyfin-ом.</string>

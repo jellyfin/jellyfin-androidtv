@@ -297,7 +297,7 @@
     <string name="lbl_remove">Удалить</string>
     <string name="lbl_server">Сервер</string>
     <string name="lbl_user_server">%1$s на %2$s</string>
-    <string name="lbl_user_last_used">Последнее использование - %1$s в %2$s</string>
+    <string name="lbl_user_last_used">Последнее использование ̶ %1$s в %2$s</string>
     <string name="lbl_remove_server">Удалить сервер</string>
     <string name="lbl_sign_out_content">Требуется вход при следующем обращении</string>
     <string name="lbl_remove_user_content">Удалить учётную запись</string>
@@ -319,11 +319,10 @@
     <string name="image_type_thumbnail">Бегунок</string>
     <string name="lbl_use_series_thumbnails_description">Использовать бегунки сериалов при отображении эпизодов</string>
     <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
-    <string name="lbl_episode_marks">Только в эпизодах</string>
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
     <string name="pref_watched_indicator">Индикаторы просмотра</string>
     <string name="user_picker_last_user_summary">Использовать последнюю активную учётную запись</string>
-    <string name="user_picker_last_user_title">Последнее использование</string>
+    <string name="user_picker_last_user_title">Наиболее часто используемые</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
     <string name="user_picker_disable_title">Отключить</string>
     <string name="auto_sign_in">Автоматический вход</string>
@@ -361,7 +360,7 @@
     <string name="lbl_stretch">Растяжение</string>
     <string name="lbl_auto_crop">Автообрезка</string>
     <string name="alphabetical">Алфавитный</string>
-    <string name="last_use">Последнее использование</string>
+    <string name="last_use">Недавно использованные</string>
     <string name="advanced_settings">Расширенное</string>
     <string name="always_authenticate_description">Включение этой функции отключает автоматический вход в систему</string>
     <string name="always_authenticate">Всегда запрашивать учётные данные</string>
@@ -519,9 +518,9 @@
         <item quantity="many">%1$s минут</item>
         <item quantity="other">%1$s минут</item>
     </plurals>
-    <string name="pref_music_cat">Музыка</string>
-    <string name="pref_music_rewrite_disable">Отключить новый музыкальный бэкенд</string>
-    <string name="pref_music_rewrite_enable_description">Отключите эту опцию, если у вас возникают проблемы с воспроизведением музыки</string>
     <string name="disable_ui_mode_warning">Отключить предупреждение о типе устройства</string>
     <string name="because_you_watched">На основе просмотра %1$s</string>
+    <string name="channels">Каналы</string>
+    <string name="photo_albums">Фотоальбомы</string>
+    <string name="photos">Фото</string>
 </resources>

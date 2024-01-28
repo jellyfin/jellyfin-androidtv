@@ -319,7 +319,6 @@
     <string name="lbl_manage_servers">Szerverek kezelése</string>
     <string name="lbl_use_series_thumbnails_description">Az epizódok megjelenítésekor sorozat bélyegképeket használjon</string>
     <string name="lbl_use_series_thumbnails">Inkább a sorozat indexképeit</string>
-    <string name="lbl_episode_marks">Csak epizódokon</string>
     <string name="lbl_hide_unwatched_count">Megnézetlen számláló elrejtése</string>
     <string name="pref_watched_indicator">Megtekintett mutatók megjelenítése</string>
     <string name="user_picker_last_user_summary">Használja az utolsó aktív felhasználót</string>
@@ -509,9 +508,9 @@
         <item quantity="other">%1$s zeneszámok</item>
     </plurals>
     <string name="not_set">Nincs beállítva</string>
-    <string name="pref_music_rewrite_disable">Új zenei backend kikapcsolása</string>
-    <string name="pref_music_cat">Zene</string>
-    <string name="pref_music_rewrite_enable_description">Csak akkor kapcsolja ki, ha problémái vannak a zenelejátszással</string>
     <string name="disable_ui_mode_warning">Eszköztípus figyelmeztetés letiltása</string>
     <string name="because_you_watched">Mert nézed %1$s</string>
+    <string name="photos">Fotók</string>
+    <string name="channels">Csatornák</string>
+    <string name="photo_albums">Fotóalbumok</string>
 </resources>

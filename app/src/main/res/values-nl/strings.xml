@@ -323,12 +323,11 @@
     <string name="auto_sign_in">Automatisch aanmelden</string>
     <string name="lbl_use_series_thumbnails_description">Gebruik miniatuur van serie wanneer afleveringen worden getoond</string>
     <string name="lbl_use_series_thumbnails">Voorkeur voor serieminiaturen</string>
-    <string name="lbl_episode_marks">Alleen bij afleveringen</string>
     <string name="lbl_sign_out_content">De volgende keer is aanmelden vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>
     <string name="lbl_switch_user">Account wisselen</string>
     <string name="pref_theme_muted_purple">Muted purple</string>
-    <string name="lbl_hide_unwatched_count">Aantal ongekeken verbergen</string>
+    <string name="lbl_hide_unwatched_count">Als het item is gekeken</string>
     <string name="pref_watched_indicator">Gekeken-vinkjes tonen</string>
     <string name="press_to_close">Druk om te sluiten</string>
     <string name="lbl_community_rating">Beoordeling gemeenschap</string>
@@ -509,9 +508,10 @@
     <string name="enable_reactive_homepage">Reactieve startpagina inschakelen</string>
     <string name="lbl_album_artists">Albumartiesten</string>
     <string name="not_set">Niet ingesteld</string>
-    <string name="pref_music_cat">Muziek</string>
-    <string name="pref_music_rewrite_disable">Nieuwe muziek-backend uitschakelen</string>
-    <string name="pref_music_rewrite_enable_description">Schakel dit alleen uit als je problemen ondervindt bij het afspelen van muziek</string>
     <string name="disable_ui_mode_warning">Waarschuwing voor apparaattype uitschakelen</string>
     <string name="because_you_watched">Omdat je %1$s hebt gekeken</string>
+    <string name="photo_albums">Fotoalbums</string>
+    <string name="photos">Foto\'s</string>
+    <string name="channels">Kanalen</string>
+    <string name="lbl_hide_watched_checkmark">Als er resterende afleveringen zijn</string>
 </resources>

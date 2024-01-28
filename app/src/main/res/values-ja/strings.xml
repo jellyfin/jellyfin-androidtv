@@ -263,7 +263,6 @@
     <string name="auto_sign_in">自動サインイン</string>
     <string name="lbl_use_series_thumbnails_description">エピソードを表示する際、シリーズのサムネイルを使用する</string>
     <string name="lbl_use_series_thumbnails">シリーズのサムネイルを優先する</string>
-    <string name="lbl_episode_marks">エピソードのみ</string>
     <string name="lbl_hide_unwatched_count">未視聴数を隠す</string>
     <string name="login_help_description">Jellyfinは、接続するためのサーバーを必要とします。docs.jellyfin.orgのドキュメントをご覧になるか、QRコードをスキャンして、Jellyfinを始めてみてください。</string>
     <string name="login_help_title">お困りですか？</string>
@@ -355,7 +354,6 @@
     <string name="input_password">パスワード</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_tomatoes">RottenTomatoes.com</string>
-    <string name="pref_music_cat">音楽</string>
     <string name="color_red">赤</string>
     <string name="color_green">緑</string>
     <string name="color_white">白</string>

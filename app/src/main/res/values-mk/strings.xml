@@ -123,11 +123,8 @@
     <string name="episode_missing_message">Оваа епизода недостасува во вашата библиотека. Дали би сакале да ја прескокнете и да продолжите со следната\?</string>
     <string name="episode_missing_message_2">Оваа епизода недостасува во вашата библиотека. Репродукцијата ќе запре.</string>
     <string name="seek_error">Невозможно е пребарувањето</string>
-    <string name="pref_music_cat">Музика</string>
     <string name="subtitle_error">Невозможно е да се избере превод</string>
-    <string name="pref_music_rewrite_disable">Оневозможи нова музичка заднина</string>
     <string name="audio_error">Невозможно е да се пушти аудио %1$s</string>
-    <string name="pref_music_rewrite_enable_description">Оневозможете го ова само ако имате проблеми со пуштање на музика</string>
     <string name="turn_off">Исклучи ја оваа опција</string>
     <string name="pref_clock_display">Прикажи часовник</string>
     <string name="server_field_empty">Адресата неможе да биде празна</string>
@@ -375,7 +372,6 @@
     <string name="image_size_smallest">Најмало</string>
     <string name="image_size_small">Мало</string>
     <string name="pref_watched_indicator">Прикажи показатели за изгледано</string>
-    <string name="lbl_episode_marks">Само на епизоди</string>
     <string name="pref_theme_muted_purple">Стишена лилава</string>
     <string name="who_is_watching">Кој гледа\?</string>
     <string name="lbl_season_number">С%1$d</string>
