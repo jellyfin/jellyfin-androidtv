@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar_actions"
             android:layout_alignTop="@id/title_text"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp" />
     </RelativeLayout>
 </merge>
