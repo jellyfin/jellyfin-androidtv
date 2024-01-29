@@ -362,7 +362,7 @@
     <string name="auto_sign_in">Samodejna prijava</string>
     <string name="lbl_use_series_thumbnails_description">Uporabi sličice za serijo ob pogledu epizod</string>
     <string name="lbl_use_series_thumbnails">Prikazuj sličice serij</string>
-    <string name="lbl_hide_unwatched_count">Skrij števec za neogledane vsebine</string>
+    <string name="lbl_hide_unwatched_count">Ko je vsebina ogledana</string>
     <string name="pref_watched_indicator">Prikaži kazalnike za funkcijo že ogledano</string>
     <string name="login_help_description">Jellyfin zahteva strežnik za povezavo. Obiščite našo dokumentacijo na docs.jellyfin.org ali skenirajte QR kodo za pričetek uporabe Jellyfin.</string>
     <string name="login_help_title">Potrebujete pomoč\?</string>
@@ -520,4 +520,8 @@
     <string name="desc_audio_night_mode">Samodejno izravna glasnost zvoka</string>
     <string name="color_cyan">Cian</string>
     <string name="because_you_watched">Ker ste gledali %1$s</string>
+    <string name="lbl_hide_watched_checkmark">Ko so še preostale epizode</string>
+    <string name="photos">Slike</string>
+    <string name="photo_albums">Foto albumi</string>
+    <string name="channels">Kanali</string>
 </resources>
