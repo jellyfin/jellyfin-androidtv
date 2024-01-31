@@ -107,7 +107,7 @@ public class InfoLayoutHelper {
         if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
         addSeriesStatus(context, item, layout);
         addRatingAndRes(context, item, mediaSourceIndex, layout);
-        addMediaDetails(context, audioStream, layout);
+        addMediaDetails(context, item, mediaSourceIndex, layout);
     }
 
     private static void addText(Context context, String text, LinearLayout layout, int maxWidth) {
@@ -392,25 +392,27 @@ public class InfoLayoutHelper {
         }
     }
 
-    private static void addMediaDetails(Context context, MediaStream stream, LinearLayout layout) {
+    private static void addMediaDetails(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout) {
 
-        if (stream != null) {
-            if (stream.getProfile() != null && stream.getProfile().contains("Dolby Atmos")) {
+        MediaStream audioStream = StreamHelper.getFirstAudioStream(item, mediaSourceIndex);
+
+        if (audioStream != null) {
+            if (audioStream.getProfile() != null && audioStream.getProfile().contains("Dolby Atmos")) {
                 addBlockText(context, layout, "ATMOS");
                 addSpacer(context, layout, " ");
-            } else if (stream.getProfile() != null && stream.getProfile().contains("DTS:X")) {
+            } else if (audioStream.getProfile() != null && audioStream.getProfile().contains("DTS:X")) {
                 addBlockText(context, layout, "DTS:X");
                 addSpacer(context, layout, " ");
             } else {
                 String codec = null;
-                if (stream.getProfile() != null && stream.getProfile().contains("DTS-HD")) {
+                if (audioStream.getProfile() != null && audioStream.getProfile().contains("DTS-HD")) {
                     codec = "DTS-HD";
-                } else if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
-                    switch (stream.getCodec().toLowerCase()) {
+                } else if (audioStream.getCodec() != null &audioStream.getCodec().trim().length() > 0) {
+                    switch (audioStream.getCodec().toLowerCase()) {
                         case "dca": codec = "DTS"; break;
                         case "eac3": codec = "DD+"; break;
                         case "ac3": codec = "DD"; break;
-                        default: codec = stream.getCodec().toUpperCase();
+                        default: codec = audioStream.getCodec().toUpperCase();
                     }
                 }
                 if (codec != null) {
@@ -418,8 +420,8 @@ public class InfoLayoutHelper {
                     addSpacer(context, layout, " ");
                 }
             }
-            if (stream.getChannelLayout() != null && stream.getChannelLayout().trim().length() > 0) {
-                addBlockText(context, layout, stream.getChannelLayout().toUpperCase());
+            if (audioStream.getChannelLayout() != null && audioStream.getChannelLayout().trim().length() > 0) {
+                addBlockText(context, layout, audioStream.getChannelLayout().toUpperCase());
                 addSpacer(context, layout, "  ");
             }
         }
