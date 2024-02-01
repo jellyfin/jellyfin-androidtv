@@ -48,66 +48,64 @@ public class InfoLayoutHelper {
         }
     }
 
-    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
-        layout.removeAllViews();
-        if (item.getId() != null) {
-            addInfoRow(context, item, mediaSourceIndex, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
-        }else{
-            addProgramChannel(context, item, layout);
-        }
-    }
-
     public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         addInfoRow(context, item, 0, layout, includeRuntime, includeEndTime);
     }
 
-    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
-        RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
-        if (ratingType != RatingType.RATING_HIDDEN) {
-            addCriticInfo(context, item, layout);
-        }
-        switch (item.getType()) {
-            case EPISODE:
-                addSeasonEpisode(context, item, layout);
-                addDate(context, item, layout);
-                break;
-            case BOX_SET:
-                addBoxSetCounts(context, item, layout);
-                break;
-            case SERIES:
-                //addSeasonCount(context, item, layout);
-                addSeriesAirs(context, item, layout);
-                addDate(context, item, layout);
-                includeEndTime = false;
-                break;
-            case PROGRAM:
-                addProgramInfo(context, item, layout);
-                break;
-            case MUSIC_ARTIST:
-                Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
-                addCount(context, artistAlbums, layout, artistAlbums != null && artistAlbums == 1 ? context.getResources().getString(R.string.lbl_album) : context.getResources().getString(R.string.lbl_albums));
-                return;
-            case MUSIC_ALBUM:
-                String artist = item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getArtists() != null && item.getAlbumArtists().size() > 0 ? item.getArtists().get(0) : null;
-                if (artist != null) {
-                    addText(context, artist+" ", layout, 500);
-                }
-                addDate(context, item, layout);
-                Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
-                addCount(context, songCount, layout, songCount == 1 ? context.getResources().getString(R.string.lbl_song) : context.getResources().getString(R.string.lbl_songs));
-                return;
-            case PLAYLIST:
-                if (item.getChildCount() != null) addCount(context, item.getChildCount(), layout, item.getChildCount() == 1 ? context.getResources().getString(R.string.lbl_item) : context.getResources().getString(R.string.lbl_items));
-                if (item.getCumulativeRunTimeTicks() != null) addText(context, " ("+ TimeUtils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
-                break;
-            default:
-                addDate(context, item, layout);
+    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+        layout.removeAllViews();
+        if (item.getId() != null) {
+            RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+            if (ratingType != RatingType.RATING_HIDDEN) {
+                addCriticInfo(context, item, layout);
+            }
+            switch (item.getType()) {
+                case EPISODE:
+                    addSeasonEpisode(context, item, layout);
+                    addDate(context, item, layout);
+                    break;
+                case BOX_SET:
+                    addBoxSetCounts(context, item, layout);
+                    break;
+                case SERIES:
+                    //addSeasonCount(context, item, layout);
+                    addSeriesAirs(context, item, layout);
+                    addDate(context, item, layout);
+                    includeEndTime = false;
+                    break;
+                case PROGRAM:
+                    addProgramInfo(context, item, layout);
+                    break;
+                case MUSIC_ARTIST:
+                    Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
+                    addCount(context, artistAlbums, layout, artistAlbums != null && artistAlbums == 1 ? context.getResources().getString(R.string.lbl_album) : context.getResources().getString(R.string.lbl_albums));
+                    return;
+                case MUSIC_ALBUM:
+                    String artist = item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getArtists() != null && item.getAlbumArtists().size() > 0 ? item.getArtists().get(0) : null;
+                    if (artist != null) {
+                        addText(context, artist+" ", layout, 500);
+                    }
+                    addDate(context, item, layout);
+                    Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
+                    addCount(context, songCount, layout, songCount == 1 ? context.getResources().getString(R.string.lbl_song) : context.getResources().getString(R.string.lbl_songs));
+                    return;
+                case PLAYLIST:
+                    if (item.getChildCount() != null) addCount(context, item.getChildCount(), layout, item.getChildCount() == 1 ? context.getResources().getString(R.string.lbl_item) : context.getResources().getString(R.string.lbl_items));
+                    if (item.getCumulativeRunTimeTicks() != null) addText(context, " ("+ TimeUtils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
+                    break;
+                default:
+                    addDate(context, item, layout);
 
+            }
+            if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
+            addSeriesStatus(context, item, layout);
+            addRatingAndRes(context, item, mediaSourceIndex, layout);
+            addMediaDetails(context, item, mediaSourceIndex, layout);
+
+        }else{
+            addProgramChannel(context, item, layout);
         }
-        if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
-        addSeriesStatus(context, item, layout);
-        addRatingAndRes(context, item, mediaSourceIndex, layout);
-        addMediaDetails(context, item, mediaSourceIndex, layout);
+
     }
 
     private static void addText(Context context, String text, LinearLayout layout, int maxWidth) {
