@@ -524,4 +524,5 @@
     <string name="photos">Zdjęcia</string>
     <string name="photo_albums">Albumy zdjęciowe</string>
     <string name="lbl_hide_watched_checkmark">Gdy pozostały odcinki</string>
+    <string name="lbl_runtime">Czas odtwarzania</string>
 </resources>
