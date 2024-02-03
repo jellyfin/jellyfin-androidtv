@@ -171,10 +171,9 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
             sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
             sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            if(mFolder.getType() == BaseItemKind.COLLECTION_FOLDER){
-                String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
-                if(type.equals(CollectionType.Movies))
-                    sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.Runtime + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
+
+            if (mFolder.getCollectionType() != null && mFolder.getCollectionType().equalsIgnoreCase(CollectionType.Movies)) {
+                sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.Runtime + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
             }
         }
 
