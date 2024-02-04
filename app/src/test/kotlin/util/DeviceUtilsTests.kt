@@ -65,6 +65,14 @@ class DeviceUtilsTests : FunSpec({
 		}
 	}
 
+	test("DeviceUtils.isFireTv4k() works correctly") {
+		arrayOf("AFTHA001", "AFTHA004").forEach { input ->
+			withBuildModel(input) {
+				DeviceUtils.isFireTv4k shouldBe true
+			}
+		}
+	}
+
 	test("DeviceUtils.has4kVideoSupport() works correctly") {
 		arrayOf("AFTM", "AFTT", "AFTSSS", "AFTSS", "AFTB", "AFTS").forEach { input ->
 			withBuildModel(input) {
