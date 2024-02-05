@@ -1,3 +1,3 @@
 package org.jellyfin.androidtv.data.querying
 
-object ViewQuery
+data object ViewQuery
