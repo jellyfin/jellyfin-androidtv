@@ -514,4 +514,5 @@
         <item quantity="other">%1$s minutit</item>
     </plurals>
     <string name="pref_screensaver_inapp_enabled">Kasutage rakendusesisest ekraanisäästjat</string>
+    <string name="lbl_runtime">Kestus</string>
 </resources>
