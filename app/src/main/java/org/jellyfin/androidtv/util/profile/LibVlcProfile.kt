@@ -6,13 +6,9 @@ import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecProfiles
-import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
-import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
-import org.jellyfin.apiclient.model.dlna.CodecProfile
-import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.ContainerProfile
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
@@ -122,14 +118,8 @@ class LibVlcProfile(
 			add(deviceHevcCodecProfile)
 			addAll(deviceHevcLevelCodecProfiles)
 			// H264 profile
-			add(CodecProfile().apply {
-				type = CodecType.Video
-				codec = Codec.Video.H264
-				conditions = arrayOf(
-					h264VideoProfileCondition,
-					h264VideoLevelProfileCondition
-				)
-			})
+			add(ProfileHelper.deviceAVCCodecProfile)
+			addAll(ProfileHelper.deviceAVCLevelCodecProfiles)
 			// Audio channel profile
 			add(maxAudioChannelsCodecProfile(channels = 8))
 		}.toTypedArray()
