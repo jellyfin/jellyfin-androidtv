@@ -76,6 +76,9 @@ private suspend fun getRandomLibraryShowcase(
 			sortBy = listOf(ItemSortBy.Random),
 			limit = 5,
 			imageTypes = listOf(ImageType.BACKDROP),
+			// TODO: Add preferences for these two settings
+			maxOfficialRating = "PG-13",
+			// hasParentalRating = true,
 		)
 
 		val item = response.items?.firstOrNull { item ->
