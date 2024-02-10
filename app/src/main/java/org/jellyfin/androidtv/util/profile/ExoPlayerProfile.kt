@@ -207,7 +207,8 @@ class ExoPlayerProfile(
 				})
 			}
 			// Audio channel profile
-			add(maxAudioChannelsCodecProfile(channels = 8))
+			if (!Utils.downMixAudio(context)) add(maxAudioChannelsCodecProfile(channels = 8))
+			else add(maxAudioChannelsCodecProfile(channels = 2))
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
