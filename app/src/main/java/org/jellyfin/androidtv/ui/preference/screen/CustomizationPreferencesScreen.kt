@@ -121,6 +121,37 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 
 				depends { userPreferences[UserPreferences.screensaverInAppEnabled] }
 			}
+
+			checkbox {
+				setTitle(R.string.pref_screensaver_ageratingrequired_title)
+				setContent(
+					R.string.pref_screensaver_ageratingrequired_enabled,
+					R.string.pref_screensaver_ageratingrequired_disabled,
+				)
+
+				bind(userPreferences, UserPreferences.screensaverAgeRatingRequired)
+			}
+
+			list {
+				setTitle(R.string.pref_screensaver_ageratingmax)
+
+				// Note: Must include 13 (default value)
+				// We may want to fetch this mapping from the server in the future
+				@Suppress("MagicNumber")
+				val ages = setOf(5, 10, 13, 14, 16, 18, 21)
+
+				entries = buildMap {
+					put("0", getString(R.string.pref_screensaver_ageratingmax_zero))
+					ages.forEach { age -> put(age.toString(), getString(R.string.pref_screensaver_ageratingmax_entry, age)) }
+					put("-1", getString(R.string.pref_screensaver_ageratingmax_unlimited))
+				}
+
+				bind {
+					get { userPreferences[UserPreferences.screensaverAgeRatingMax].toString() }
+					set { value -> userPreferences[UserPreferences.screensaverAgeRatingMax] = value.toInt() }
+					default { UserPreferences.screensaverAgeRatingMax.defaultValue.toString() }
+				}
+			}
 		}
 
 		category {
