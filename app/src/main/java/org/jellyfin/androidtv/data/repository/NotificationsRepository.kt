@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.data.repository
 
-import android.app.UiModeManager
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +18,6 @@ interface NotificationsRepository {
 
 class NotificationsRepositoryImpl(
 	private val context: Context,
-	private val uiModeManager: UiModeManager,
 	private val systemPreferences: SystemPreferences,
 ) : NotificationsRepository {
 	override val notifications = MutableStateFlow(emptyList<AppNotification>())

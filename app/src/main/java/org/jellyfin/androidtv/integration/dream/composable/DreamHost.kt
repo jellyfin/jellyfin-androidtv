@@ -46,7 +46,9 @@ fun DreamHost() {
 		delay(2.seconds)
 
 		while (true) {
-			libraryShowcase = getRandomLibraryShowcase(api, imageLoader, context)
+			val requireParentalRating = userPreferences[UserPreferences.screensaverAgeRatingRequired]
+			val maxOfficialRating = userPreferences[UserPreferences.screensaverAgeRatingMax]
+			libraryShowcase = getRandomLibraryShowcase(context, api, maxOfficialRating, requireParentalRating, imageLoader)
 			delay(30.seconds)
 		}
 	}
@@ -65,9 +67,11 @@ fun DreamHost() {
 }
 
 private suspend fun getRandomLibraryShowcase(
+	context: Context,
 	api: ApiClient,
+	maxParentalRating: Int,
+	requireParentalRating: Boolean,
 	imageLoader: ImageLoader,
-	context: Context
 ): DreamContent.LibraryShowcase? {
 	try {
 		val response by api.itemsApi.getItemsByUserId(
@@ -76,9 +80,8 @@ private suspend fun getRandomLibraryShowcase(
 			sortBy = listOf(ItemSortBy.Random),
 			limit = 5,
 			imageTypes = listOf(ImageType.BACKDROP),
-			// TODO: Add preferences for these two settings
-			maxOfficialRating = "PG-13",
-			// hasParentalRating = true,
+			maxOfficialRating = if (maxParentalRating == -1) null else maxParentalRating.toString(),
+			hasParentalRating = if (requireParentalRating) true else null,
 		)
 
 		val item = response.items?.firstOrNull { item ->
