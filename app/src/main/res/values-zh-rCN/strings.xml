@@ -509,4 +509,5 @@
     <string name="channels">频道</string>
     <string name="photo_albums">相册</string>
     <string name="lbl_hide_watched_checkmark">还有剩余剧集</string>
+    <string name="lbl_runtime">运行时</string>
 </resources>
