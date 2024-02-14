@@ -2,8 +2,6 @@ package org.jellyfin.androidtv
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -18,7 +16,6 @@ import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.telemetry.TelemetryService
-import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
@@ -39,7 +36,6 @@ class JellyfinApplication : Application() {
 	 */
 	suspend fun onSessionStart() = withContext(Dispatchers.IO) {
 		val workManager by inject<WorkManager>()
-		val autoBitrate by inject<AutoBitrate>()
 		val socketListener by inject<SocketHandler>()
 
 		// Update background worker
@@ -59,10 +55,6 @@ class JellyfinApplication : Application() {
 
 		// Update WebSockets
 		launch { socketListener.updateSession() }
-
-		// Detect auto bitrate
-		// running in a different scope to prevent slow startups
-		ProcessLifecycleOwner.get().lifecycleScope.launch { autoBitrate.detect() }
 	}
 
 	override fun onLowMemory() {
