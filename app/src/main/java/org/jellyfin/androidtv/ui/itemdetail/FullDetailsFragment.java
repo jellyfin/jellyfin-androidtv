@@ -334,9 +334,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             @Override
             public void run() {
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+                // View holder may be null when the base item is still loading - this is a rare case
+                // which generally happens when the server is unresponsive
+                MyDetailsOverviewRowPresenter.ViewHolder viewholder = mDorPresenter.getViewHolder();
+                if (viewholder == null) return;
 
                 if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
-                    mDorPresenter.getViewHolder().setInfoValue3(getEndTime());
+                    viewholder.setInfoValue3(getEndTime());
                     mLoopHandler.postDelayed(this, 15000);
                 }
             }
@@ -411,6 +415,14 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     if (!getActive()) return;
 
                     setBaseItem(response);
+                }
+
+                @Override
+                public void onError(@Nullable Exception exception) {
+                    Timber.w(exception, "Failed to load item, trying to navigate back.");
+                    super.onError(exception);
+
+                    navigationRepository.getValue().goBack();
                 }
             });
         }
