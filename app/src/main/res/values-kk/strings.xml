@@ -247,7 +247,6 @@
     <string name="mark_watched">Qaralğan</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Avtomatty</string>
     <string name="lbl_Reset">Ysyru</string>
     <string name="pref_subtitle_track_button">Subtitrler jolşyğynyñ tüimeşıgı</string>
     <string name="pref_audio_track_button">Dybys jolşyğynyñ tüimeşıgı</string>

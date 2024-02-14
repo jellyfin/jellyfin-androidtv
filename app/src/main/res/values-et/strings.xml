@@ -121,7 +121,6 @@
     <string name="lbl_unknown_key">Tundmatu (%1s)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_audio_track_button">Heliriba nupp</string>
-    <string name="bitrate_auto">Automaatne</string>
     <string name="no_player">Mängija puudub</string>
     <string name="no_player_message">Näib, et teil pole installitud videot toetavat rakendust. See suvand eeldab, et installite videosisu esitamiseks kolmanda osapoole rakenduse.</string>
     <string name="pref_next_up_timeout_title">Järgmisena taimeri kestus</string>

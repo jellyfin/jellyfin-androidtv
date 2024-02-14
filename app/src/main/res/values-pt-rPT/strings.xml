@@ -222,7 +222,6 @@
     <string name="btn_got_it">Entendido</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automático</string>
     <string name="lbl_Reset">Reiniciar</string>
     <string name="pref_button_remapping_description">Pressione qualquer botão no seu comando do Televisor para atribuí-lo</string>
     <string name="pref_subtitle_track_button">Botão da faixa de legendas</string>

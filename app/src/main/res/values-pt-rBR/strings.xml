@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Desconhecido (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbps</string>
     <string name="bitrate_mbit">%1$,.0f Mbps</string>
-    <string name="bitrate_auto">Automático</string>
     <string name="no_player_message">Parece que você nao tem nenhum app para reprodução de vídeo instalado. Essa opção requer que você instale um reprodutor de vídeos de terceiros.</string>
     <string name="no_player">Nenhum reprodutor de vídeo</string>
     <string name="mark_watched_message">O item não parece ter sido reproduzido totalmente. Marcar como assitido\?</string>

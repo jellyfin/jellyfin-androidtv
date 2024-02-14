@@ -28,7 +28,6 @@
     <string name="image_type_banner">Standardo</string>
     <string name="lbl_remove">Forigu</string>
     <string name="lbl_server">Servilo</string>
-    <string name="bitrate_auto">Aŭtomata</string>
     <string name="grid_direction_horizontal">Horizontala</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_premieres">Premieroj</string>

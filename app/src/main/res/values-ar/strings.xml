@@ -155,7 +155,6 @@
     <string name="no_player">لا مشغل</string>
     <string name="mark_watched_message">يبدو أن العنصر لم يتم تشغيله لكامل مدته. هل نضع علامة \"تمت مشاهدته\"؟</string>
     <string name="mark_watched">وضع علامة تمت مشاهدته</string>
-    <string name="bitrate_auto">تلقائي</string>
     <string name="lbl_Reset">إعادة ضبط</string>
     <string name="pref_button_remapping_description">اضغط على أي زر في جهاز التحكم عن بعد لتعيينه</string>
     <string name="pref_subtitle_track_button">زر مقطع الترجمة</string>

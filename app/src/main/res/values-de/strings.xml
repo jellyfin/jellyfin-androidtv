@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Unbekannt (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automatisch</string>
     <string name="just_one">Nur dieses eine</string>
     <string name="turn_off">Diese Option ausschalten</string>
     <string name="audio_error">Audio %1$s kann nicht abgespielt werden</string>

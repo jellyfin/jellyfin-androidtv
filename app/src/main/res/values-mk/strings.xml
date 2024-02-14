@@ -359,7 +359,6 @@
     <string name="pref_libvlc_audio_delay_title">Зададено доцнење на звук за LibVLC</string>
     <string name="grid_direction_horizontal">Хоризонтално</string>
     <string name="pref_subtitle_track_button">Копче за превод</string>
-    <string name="bitrate_auto">Автоматски</string>
     <string name="lbl_load_guide_data">Вчитај информации од водич</string>
     <string name="msg_no_items">Нема ставки за репродукција</string>
     <string name="pref_default_rating">Зададен тип на оценка</string>

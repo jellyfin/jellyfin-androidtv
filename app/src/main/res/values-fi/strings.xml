@@ -346,7 +346,6 @@
     <string name="mark_watched_message">Kohdetta ei ilmeisesti toistettu kokonaan. Merkitäänkö se katsotuksi\?</string>
     <string name="mark_watched">Merkitse katsotuksi</string>
     <string name="bitrate_kbit">%1$,.0f kbit/s</string>
-    <string name="bitrate_auto">Automaattinen</string>
     <string name="lbl_Reset">Palauta</string>
     <string name="pref_button_remapping_description">Määritä jokin television kauko-ohjaimen painike painamalla sitä</string>
     <string name="pref_subtitle_track_button">Tekstitysraita-painike</string>

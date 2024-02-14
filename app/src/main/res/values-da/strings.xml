@@ -246,7 +246,6 @@
     <string name="grid_direction">Gitter retning</string>
     <string name="no_player">Ingen afspiller</string>
     <string name="mark_watched">Marker som afspillet</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Slutter %1$s</string>
     <string name="lbl_sign_in">Log venligst ind</string>

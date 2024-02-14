@@ -188,7 +188,6 @@
     <string name="lbl_recent_recordings">Najnowsze nagrania</string>
     <string name="lbl_kids">Dzieci</string>
     <string name="lbl_sports">Sport</string>
-    <string name="bitrate_auto">Automatycznie</string>
     <string name="lbl_Reset">Resetowanie</string>
     <string name="pref_button_remapping_description">Naciśnij dowolny przycisk na pilocie telewizora, aby go przypisać</string>
     <string name="pref_subtitle_track_button">Przycisk ścieżki napisów</string>

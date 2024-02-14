@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Neznámy (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automaticky</string>
     <string name="no_player">Žiadny prehrávač</string>
     <string name="mark_watched_message">Zdá sa, že položka nebola prehratá celá. Aj tak označiť ako pozreté\?</string>
     <string name="mark_watched">Označiť ako pozreté</string>

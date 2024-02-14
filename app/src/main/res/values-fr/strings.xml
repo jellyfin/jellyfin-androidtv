@@ -245,7 +245,6 @@
     <string name="pref_audio_track_button">Bouton piste audio</string>
     <string name="lbl_unknown_key">Inconnu (%1s)</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="msg_no_items">Aucun élément à jouer</string>
     <string name="subtitle_error">Impossible de choisir le sous-titre</string>

@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Neznámý (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automaticky</string>
     <string name="just_one">Jen tuto</string>
     <string name="turn_off">Vypnout tuto možnost</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>

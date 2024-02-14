@@ -76,7 +76,6 @@
     <string name="lbl_remove">Tynnu</string>
     <string name="lbl_server">Gweinydd</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="bitrate_auto">Awto</string>
     <string name="grid_direction_horizontal">Llorweddol</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>

@@ -181,7 +181,6 @@
     <string name="mark_watched">Označi kot ogledano</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Samodejno</string>
     <string name="lbl_Reset">Ponastavi</string>
     <string name="pref_button_remapping_description">Pritisni kateri koli gumb TV daljinca za določitev</string>
     <string name="pref_subtitle_track_button">Gumb sledi podnapisov</string>

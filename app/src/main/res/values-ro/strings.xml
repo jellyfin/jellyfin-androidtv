@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Necunoscut (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit / s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit / s</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="msg_no_items">Nu există articole de redat</string>
     <string name="subtitle_error">Imposibil de selectat subtitrarea</string>
     <string name="too_many_errors">Prea multe erori. Renunț</string>

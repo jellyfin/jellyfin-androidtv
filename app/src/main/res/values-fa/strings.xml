@@ -366,7 +366,6 @@
     <string name="mark_watched">علامت گذاری به عنوان تماشا شده</string>
     <string name="bitrate_kbit">%1$,.0f کیلوبیت بر ثانیه</string>
     <string name="bitrate_mbit">%1$,.0f مگابیت بر ثانیه</string>
-    <string name="bitrate_auto">خودکار</string>
     <string name="lbl_Reset">تنظیم مجدد</string>
     <string name="pref_button_remapping_description">دکمه ای را از روی کنترل تلویزیون برای اختصاص دادن آن فشار دهید</string>
     <string name="pref_subtitle_track_button">دکمه زیرنویس</string>

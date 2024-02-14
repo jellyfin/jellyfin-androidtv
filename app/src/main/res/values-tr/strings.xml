@@ -223,7 +223,6 @@
     <string name="no_player">Oynatıcı yok</string>
     <string name="mark_watched_message">Öge süresi kadar oynamış görünmüyor. İzlendi olarak işaretlensin mi\?</string>
     <string name="mark_watched">İzlendi olarak işaretle</string>
-    <string name="bitrate_auto">Otomatik</string>
     <string name="lbl_Reset">Sıfırla</string>
     <string name="pref_button_remapping_description">Atamak için TV uzaktan kumandasındaki herhangi bir düğmeye basın</string>
     <string name="pref_subtitle_track_button">Altyazı parçası düğmesi</string>

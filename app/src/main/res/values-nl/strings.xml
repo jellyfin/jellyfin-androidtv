@@ -240,7 +240,6 @@
     <string name="grid_direction">Rasterrichting</string>
     <string name="pref_device_model">Apparaatmodel</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automatisch</string>
     <string name="lbl_Reset">Herstellen</string>
     <string name="pref_button_remapping_description">Druk op een afstandsbedieningsknop om toe te kennen</string>
     <string name="lbl_unknown_key">Onbekend (%1s)</string>

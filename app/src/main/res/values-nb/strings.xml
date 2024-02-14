@@ -246,7 +246,6 @@
     <string name="pref_device_model">Enhetsmodell</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automatisk</string>
     <string name="just_one">Kun denne</string>
     <string name="turn_off">Slå av dette alternativet</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>

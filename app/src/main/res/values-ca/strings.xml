@@ -269,7 +269,6 @@
     <string name="no_player">Sense reproductor</string>
     <string name="mark_watched_message">L\'element no semblava reproduir-se mentre durés. Marcar com vist\?</string>
     <string name="mark_watched">Marcar com a vist</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="lbl_Reset">Restablir</string>
     <string name="pref_button_remapping_description">Premeu qualsevol botó del comandament TV per assignar-lo</string>
     <string name="pref_subtitle_track_button">Botó de pista de subtítols</string>

@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Неизвестно (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Кбит/с</string>
     <string name="bitrate_mbit">%1$,.0f Мбит/с</string>
-    <string name="bitrate_auto">Авто</string>
     <string name="play_with">Воспроизвести в</string>
     <string name="play_with_external_app">Воспроизвести во внешнем приложении</string>
     <string name="play_with_exo_player">Воспроизвести в ExoPlayer</string>

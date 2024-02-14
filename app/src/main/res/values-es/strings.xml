@@ -244,7 +244,6 @@
     <string name="pref_button_remapping_description">Presiona un botón en el mando a distancia para asignarlo</string>
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="lbl_unknown_key">Desconocido (%1s)</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="bitrate_kbit">%1$,.0f Kbps</string>
     <string name="bitrate_mbit">%1$,.0f Mbps</string>
     <string name="just_one">Únicamente esto</string>

@@ -246,7 +246,6 @@
     <string name="lbl_unknown_key">Ismeretlen (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automatikus</string>
     <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
     <string name="no_player">Nincs elérhető lejátszó</string>
     <string name="mark_watched">Nézettnek jelöl</string>

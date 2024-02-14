@@ -174,7 +174,6 @@
     <string name="no_player">Nema izvođača</string>
     <string name="mark_watched_message">Stavka se nije reproducirala do kraja. Označiti ju kao pogledanu\?</string>
     <string name="mark_watched">Označi kao gledano</string>
-    <string name="bitrate_auto">Automatski</string>
     <string name="lbl_Reset">Ponovno postavi</string>
     <string name="pref_button_remapping_description">Pritisnite bilo koji gumb na daljinskom upravljaču da mu dodijelite funkciju</string>
     <string name="pref_subtitle_track_button">Gumb zapisa titla</string>

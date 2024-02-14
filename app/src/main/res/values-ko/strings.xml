@@ -236,7 +236,6 @@
     <string name="mark_watched_message">이 항목은 전체길이만큼 재생되지 않는 것 같습니다. 구역 마킹을 확인해보셨나요\?</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">자동</string>
     <string name="lbl_Reset">리셋</string>
     <string name="pref_button_remapping_description">할당하려면 TV 리모컨의 아무 버튼이나 누르십시오</string>
     <string name="lbl_colored_backgrounds">배경색</string>
