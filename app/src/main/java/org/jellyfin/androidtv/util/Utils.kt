@@ -78,14 +78,14 @@ object Utils : KoinComponent {
 	fun join(separator: String, vararg items: String?): String = join(separator, items.toList())
 
 	@JvmStatic
-	fun getMaxBitrate(): Int {
-		val maxRate = get<UserPreferences>()[UserPreferences.maxBitrate]
-		val autoRate = get<AutoBitrate>().bitrate
+	fun getMaxBitrate(userPreferences: UserPreferences): Int {
+		var maxRate = userPreferences[UserPreferences.maxBitrate]
 
-		return when {
-			maxRate == UserPreferences.MAX_BITRATE_AUTO && autoRate != null -> autoRate.toInt()
-			else -> (maxRate.toFloat() * 1000000).toInt()
-		}
+		// Use default when value is what was previously "auto"
+		if (maxRate == "0") maxRate = UserPreferences.maxBitrate.defaultValue
+
+		// Convert megabit to bit
+		return (maxRate.toFloat() * 1_000_000).toInt()
 	}
 
 	@JvmStatic

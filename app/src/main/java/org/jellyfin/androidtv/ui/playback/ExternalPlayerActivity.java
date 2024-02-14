@@ -277,7 +277,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         VideoOptions options = new VideoOptions();
         options.setItemId(item.getId().toString());
         options.setMediaSources(item.getMediaSources());
-        options.setMaxBitrate(Utils.getMaxBitrate());
+        options.setMaxBitrate(Utils.getMaxBitrate(userPreferences.getValue()));
         options.setProfile(new ExternalPlayerProfile());
 
         // Get playback info for each player and then decide on which one to use

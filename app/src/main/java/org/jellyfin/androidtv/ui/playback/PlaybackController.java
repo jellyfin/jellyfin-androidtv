@@ -535,7 +535,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                int maxBitrate = Utils.getMaxBitrate();
+                int maxBitrate = Utils.getMaxBitrate(userPreferences.getValue());
                 Timber.d("Max bitrate is: %d", maxBitrate);
                 VideoOptions vlcOptions = buildVLCOptions(forcedSubtitleIndex, item, maxBitrate);
                 VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item, maxBitrate);
