@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.util;
 
-import android.app.Activity;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
@@ -54,11 +56,11 @@ public class KeyProcessor {
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
-    private static Activity mCurrentActivity;
+    private static FragmentActivity mCurrentActivity;
     private static int mCurrentRowItemNdx;
     private static boolean isMusic;
 
-    public static boolean HandleKey(int key, BaseRowItem rowItem, Activity activity) {
+    public static boolean HandleKey(int key, BaseRowItem rowItem, FragmentActivity activity) {
         if (rowItem == null) return false;
         MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
         switch (key) {
@@ -179,7 +181,7 @@ public class KeyProcessor {
         return false;
     }
 
-    public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
+    public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, FragmentActivity activity) {
         BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
@@ -269,7 +271,7 @@ public class KeyProcessor {
         return menu;
     }
 
-    private static void createPlayMenu(BaseItemDto item, boolean isMusic, Activity activity) {
+    private static void createPlayMenu(BaseItemDto item, boolean isMusic, FragmentActivity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
         if (!isMusic && item.getType() != BaseItemKind.PLAYLIST) {
@@ -351,16 +353,16 @@ public class KeyProcessor {
                     });
                     return true;
                 case MENU_MARK_FAVORITE:
-                    toggleFavorite(true);
+                    toggleFavorite(mCurrentActivity, true);
                     return true;
                 case MENU_UNMARK_FAVORITE:
-                    toggleFavorite(false);
+                    toggleFavorite(mCurrentActivity, false);
                     return true;
                 case MENU_MARK_PLAYED:
-                    togglePlayed(true);
+                    togglePlayed(mCurrentActivity, true);
                     return true;
                 case MENU_UNMARK_PLAYED:
-                    togglePlayed(false);
+                    togglePlayed(mCurrentActivity, false);
                     return true;
                 case MENU_GOTO_NOW_PLAYING:
                     NavigationRepository navigationRepository = KoinJavaComponent.get(NavigationRepository.class);
@@ -387,10 +389,10 @@ public class KeyProcessor {
         }
     };
 
-    private static void togglePlayed(boolean played) {
+    private static void togglePlayed(LifecycleOwner lifecycleOwner, boolean played) {
         ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
-        CoroutineUtils.runBlocking((scope, continuation) ->
+        CoroutineUtils.runOnLifecycle(lifecycleOwner.getLifecycle(), (scope, continuation) ->
                 itemMutationRepository.setPlayed(mCurrentItem.getId(), played, continuation)
         );
 
@@ -398,10 +400,10 @@ public class KeyProcessor {
         customMessageRepository.pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
     }
 
-    private static void toggleFavorite(boolean favorite) {
+    private static void toggleFavorite(LifecycleOwner lifecycleOwner, boolean favorite) {
         ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
-        CoroutineUtils.runBlocking((scope, continuation) ->
+        CoroutineUtils.runOnLifecycle(lifecycleOwner.getLifecycle(), (scope, continuation) ->
                 itemMutationRepository.setFavorite(mCurrentItem.getId(), favorite, continuation)
         );
 
