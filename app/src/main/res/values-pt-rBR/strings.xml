@@ -318,7 +318,7 @@
     <string name="lbl_manage_servers">Gerenciar servidores</string>
     <string name="lbl_use_series_thumbnails_description">Use miniaturas de séries ao exibir episódios</string>
     <string name="lbl_use_series_thumbnails">Prefira miniaturas de séries</string>
-    <string name="lbl_hide_unwatched_count">Ocultar contagem não assistida</string>
+    <string name="lbl_hide_unwatched_count">Quando o item foi assistido</string>
     <string name="pref_watched_indicator">Mostrar indicadores assistidos</string>
     <string name="user_picker_last_user_summary">Usar a última conta ativa</string>
     <string name="user_picker_last_user_title">Mais usado recentemente</string>
@@ -514,4 +514,9 @@
     <string name="not_set">Não definido</string>
     <string name="disable_ui_mode_warning">Desativar avisos de tipo de dispositivos</string>
     <string name="because_you_watched">Por você ter assistido %1$s</string>
+    <string name="lbl_hide_watched_checkmark">Quando houverem episódios restantes</string>
+    <string name="photo_albums">Albuns de fotos</string>
+    <string name="channels">Canais</string>
+    <string name="photos">Fotos</string>
+    <string name="lbl_runtime">Duração</string>
 </resources>
