@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.browsing
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
@@ -26,6 +27,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
+import org.jellyfin.androidtv.util.isMediaSessionKeyEvent
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -192,5 +194,39 @@ class MainActivity : FragmentActivity() {
 		super.onUserInteraction()
 
 		screensaverViewModel.notifyInteraction(false)
+	}
+
+	@Suppress("RestrictedApi") // False positive
+	override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+		// Ignore the key event that closes the screensaver
+		if (!event.isMediaSessionKeyEvent() && screensaverViewModel.visible.value) {
+			screensaverViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP)
+			return true
+		}
+
+		@Suppress("RestrictedApi") // False positive
+		return super.dispatchKeyEvent(event)
+	}
+
+	@Suppress("RestrictedApi") // False positive
+	override fun dispatchKeyShortcutEvent(event: KeyEvent): Boolean {
+		// Ignore the key event that closes the screensaver
+		if (!event.isMediaSessionKeyEvent() && screensaverViewModel.visible.value) {
+			screensaverViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP)
+			return true
+		}
+
+		@Suppress("RestrictedApi") // False positive
+		return super.dispatchKeyShortcutEvent(event)
+	}
+
+	override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+		// Ignore the touch event that closes the screensaver
+		if (screensaverViewModel.visible.value) {
+			screensaverViewModel.notifyInteraction(true)
+			return true
+		}
+
+		return super.dispatchTouchEvent(ev)
 	}
 }
