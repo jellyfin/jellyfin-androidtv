@@ -180,7 +180,7 @@
     <string name="lbl_my_media">Meu Conteúdo</string>
     <string name="lbl_image_type">Tipo de imagem</string>
     <string name="lbl_start_favorites">Posicionar Favoritos no Início</string>
-    <string name="lbl_hd_programs">Programas em HD (Halta-Definição)</string>
+    <string name="lbl_hd_programs">Programas em HD (Alta-Definição)</string>
     <string name="lbl_live_broadcasts">Emissões em Directo</string>
     <string name="lbl_repeat_episodes">Repetir Episódios</string>
     <string name="lbl_new_episodes">Novos Episódios</string>
