@@ -476,7 +476,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 mSummary.setText(markdownRenderer.getValue().toMarkdownSpanned(summary));
             else mSummary.setText(null);
 
-            InfoLayoutHelper.addInfoRow(requireContext(), rowItem, mInfoRow, true, true);
+            InfoLayoutHelper.addInfoRow(requireContext(), rowItem.getBaseItem(), mInfoRow, true);
 
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());

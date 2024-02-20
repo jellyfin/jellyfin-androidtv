@@ -277,7 +277,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     public void setItem(BaseRowItem item) {
         if (item != null) {
             binding.title.setText(item.getFullName(requireContext()));
-            InfoLayoutHelper.addInfoRow(requireContext(), item, binding.infoRow, true, true);
+            InfoLayoutHelper.addInfoRow(requireContext(), item.getBaseItem(), binding.infoRow, true);
         } else {
             binding.title.setText("");
             binding.infoRow.removeAllViews();
@@ -580,7 +580,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                         albumArtists.setFields(new ItemFields[]{
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ItemCounts,
-                                ItemFields.ChildCount
+                                ItemFields.ChildCount,
                         });
                         albumArtists.setParentId(mParentId.toString());
                         setRowDef(new BrowseRowDef("", albumArtists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));

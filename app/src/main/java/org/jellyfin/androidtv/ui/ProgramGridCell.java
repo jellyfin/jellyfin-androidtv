@@ -86,11 +86,11 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10, Color.BLACK, R.drawable.block_text_bg);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowHDIndicator()) && Utils.isTrue(program.getIsHD())) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10, Color.BLACK, R.drawable.block_text_bg);
         }
 
         if (program.getSeriesTimerId() != null) {

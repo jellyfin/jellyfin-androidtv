@@ -494,6 +494,15 @@
     <string name="channels">Channels</string>
     <string name="photo_albums">Photo albums</string>
     <string name="photos">Photos</string>
+    <string name="person_birthday_and_age">Born %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
@@ -513,5 +522,25 @@
     <plurals name="episodes">
         <item quantity="one">%1$s episode</item>
         <item quantity="other">%1$s episodes</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s item</item>
+        <item quantity="other">%1$s items</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s movie</item>
+        <item quantity="other">%1$s movies</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV series</item>
+        <item quantity="other">%1$s TV series</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s song</item>
+        <item quantity="other">%1$s songs</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other">%1$s albums</item>
     </plurals>
 </resources>

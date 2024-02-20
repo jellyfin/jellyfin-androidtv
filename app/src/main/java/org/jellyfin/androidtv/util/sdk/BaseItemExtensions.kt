@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.format.DateFormat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
-import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.getQuantityString
 import org.jellyfin.sdk.api.client.ApiClient
@@ -16,7 +15,7 @@ import org.jellyfin.sdk.model.api.LocationType
 import org.jellyfin.sdk.model.api.PlayAccess
 import java.util.Calendar
 
-fun BaseItemDto.getDisplayName(context: Context): String {
+fun BaseItemDto.getSeasonEpisodeName(context: Context): String {
 	val seasonNumber = when {
 		type == BaseItemKind.EPISODE
 			&& parentIndexNumber != null
@@ -24,6 +23,7 @@ fun BaseItemDto.getDisplayName(context: Context): String {
 			context.getString(R.string.lbl_season_number, parentIndexNumber)
 		else -> null
 	}
+
 	val episodeNumber = when {
 		type != BaseItemKind.EPISODE -> indexNumber?.toString()
 		parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
@@ -32,14 +32,17 @@ fun BaseItemDto.getDisplayName(context: Context): String {
 				?: context.getString(R.string.lbl_episode_number, start)
 		}
 	}
-	val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
 
+	return listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
+}
+
+fun BaseItemDto.getDisplayName(context: Context): String {
 	val nameSeparator = when (type) {
 		BaseItemKind.EPISODE -> " — "
 		else -> ". "
 	}
 
-	return listOfNotNull(seasonEpisodeNumbers, name)
+	return listOfNotNull(getSeasonEpisodeName(context), name)
 		.filter { it.isNotEmpty() }
 		.joinToString(nameSeparator)
 }
@@ -54,8 +57,6 @@ fun BaseItemDto?.canPlay() = this != null
 
 fun BaseItemDto.isLiveTv() = type == BaseItemKind.PROGRAM || type == BaseItemKind.LIVE_TV_CHANNEL
 fun BaseItemDto.isNew() = isSeries == true && isNews != true && isRepeat != true
-
-fun BaseItemDto.getProgramUnknownChannelName(): String? = TvManager.getChannel(TvManager.getAllChannelsIndex(channelId?.toString())).name
 
 fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 	// Add the channel name if set

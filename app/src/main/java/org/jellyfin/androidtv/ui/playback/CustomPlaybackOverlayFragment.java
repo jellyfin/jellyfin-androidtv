@@ -1130,7 +1130,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.guideTitle.setText(mSelectedProgram.getName());
         tvGuideBinding.summary.setText(mSelectedProgram.getOverview());
         //info row
-        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(mSelectedProgram), tvGuideBinding.guideInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(mSelectedProgram), tvGuideBinding.guideInfoRow, false);
         if (mSelectedProgram.getId() != null) {
             tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
         }
