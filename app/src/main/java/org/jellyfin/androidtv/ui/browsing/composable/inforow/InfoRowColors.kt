@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.browsing.composable.inforow
 import androidx.compose.ui.graphics.Color
 
 /**
- * Colors used inm the [BaseItemInfoRow].
+ * Colors used in the [BaseItemInfoRow].
  */
 object InfoRowColors {
 	val Default = Color(0xFF333333)
