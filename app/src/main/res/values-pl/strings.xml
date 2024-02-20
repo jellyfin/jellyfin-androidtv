@@ -97,8 +97,8 @@
     <string name="lbl_enable_cinema_mode">Tryb kinowy</string>
     <string name="lbl_episodes">Odcinki</string>
     <string name="lbl_album">Album</string>
-    <string name="lbl_songs">Utwory</string>
-    <string name="lbl_song">Utwór</string>
+    <string name="lbl_songs">Piosenki</string>
+    <string name="lbl_song">Piosenka</string>
     <string name="lbl_artists">Wykonawcy</string>
     <string name="lbl_albums">Albumy</string>
     <string name="lbl_programs">Programy</string>
@@ -524,4 +524,43 @@
     <string name="photo_albums">Albumy zdjęciowe</string>
     <string name="lbl_hide_watched_checkmark">Gdy pozostały odcinki</string>
     <string name="lbl_runtime">Czas odtwarzania</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="ac3">DD</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="few">%1$s filmy</item>
+        <item quantity="many">%1$s filmów</item>
+        <item quantity="other">%1$s filmów</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s piosenka</item>
+        <item quantity="few">%1$s piosenki</item>
+        <item quantity="many">%1$s piosenek</item>
+        <item quantity="other">%1$s piosenek</item>
+    </plurals>
+    <string name="person_birthday_and_age">Urodzony(-a) %1$s (%2$d)</string>
+    <string name="dca">DTS</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">%1$s pozycja</item>
+        <item quantity="few">%1$s pozycje</item>
+        <item quantity="many">%1$s pozycji</item>
+        <item quantity="other">%1$s pozycji</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s serial</item>
+        <item quantity="few">%1$s seriale</item>
+        <item quantity="many">%1$s seriali</item>
+        <item quantity="other">%1$s seriali</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="few">%1$s albumy</item>
+        <item quantity="many">%1$s albumów</item>
+        <item quantity="other">%1$s albumów</item>
+    </plurals>
 </resources>
