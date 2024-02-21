@@ -145,12 +145,14 @@ class SocketHandler(
 	private fun onPlayMessage(message: PlayMessage) {
 		val itemId = message.request.itemIds?.firstOrNull() ?: return
 
-		PlaybackHelper.retrieveAndPlay(
-			itemId.toString(),
-			false,
-			message.request.startPositionTicks,
-			context
-		)
+		runCatching {
+			PlaybackHelper.retrieveAndPlay(
+				itemId.toString(),
+				false,
+				message.request.startPositionTicks,
+				context
+			)
+		}.onFailure { Timber.w(it, "Failed to start playback") }
 	}
 
 	@Suppress("ComplexMethod")
