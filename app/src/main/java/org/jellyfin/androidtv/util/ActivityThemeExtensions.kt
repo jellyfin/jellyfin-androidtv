@@ -1,5 +1,9 @@
 package org.jellyfin.androidtv.util
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -9,14 +13,22 @@ import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
+const val Sony = "Sony"
+
 /**
  * Getter to get the style resource for a given theme.
  */
 private val AppTheme.style
 	get() = when (this) {
-		AppTheme.DARK -> R.style.Theme_Jellyfin
-		AppTheme.EMERALD -> R.style.Theme_Jellyfin_Emerald
-		AppTheme.MUTED_PURPLE -> R.style.Theme_Jellyfin_MutedPurple
+		AppTheme.DARK ->
+			if (Build.MANUFACTURER.equals(Sony)) R.style.Theme_Jellyfin_Transparent
+			else R.style.Theme_Jellyfin
+		AppTheme.EMERALD ->
+			if (Build.MANUFACTURER.equals(Sony)) R.style.Theme_Jellyfin_Emerald_Transparent
+			else R.style.Theme_Jellyfin_Emerald
+		AppTheme.MUTED_PURPLE ->
+			if (Build.MANUFACTURER.equals(Sony)) R.style.Theme_Jellyfin_MutedPurple_Transparent
+			else R.style.Theme_Jellyfin_MutedPurple
 	}
 
 /**

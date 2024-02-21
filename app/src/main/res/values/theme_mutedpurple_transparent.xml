@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Jellyfin.MutedPurple_Transparent" parent="Theme.Jellyfin.MutedPurple">
+        <!-- Background resource or color -->
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+</resources>
