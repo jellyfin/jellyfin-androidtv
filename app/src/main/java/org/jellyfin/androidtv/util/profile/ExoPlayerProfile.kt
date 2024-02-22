@@ -147,16 +147,15 @@ class ExoPlayerProfile(
 
 		codecProfiles = buildList {
 			// H264 profile
-			if (!DeviceUtils.has4kVideoSupport())   {
-				add(CodecProfile().apply {
-					type = CodecType.Video
-					codec = Codec.Video.H264
-					conditions = max1080pProfileConditions
-				})
-			}else {
-				add(deviceAVCCodecProfile)
-				addAll(deviceAVCLevelCodecProfiles)
-			}
+			add(CodecProfile().apply {
+				type = CodecType.Video
+				codec = Codec.Video.H264
+				conditions = buildList {
+					addAll(deviceAVCCodecProfile)
+					addAll(deviceAVCLevelCodecProfiles)
+					if (!DeviceUtils.has4kVideoSupport()) addAll(max1080pProfileConditions)
+				}.toTypedArray()
+			})
 			// H264 ref frames profile
 			add(CodecProfile().apply {
 				type = CodecType.Video
@@ -196,29 +195,20 @@ class ExoPlayerProfile(
 				)
 			})
 			// HEVC profiles
-			if (!DeviceUtils.has4kVideoSupport())   {
-				add(CodecProfile().apply {
-					type = CodecType.Video
-					codec = Codec.Video.HEVC
-					conditions = max1080pProfileConditions
-				})
-			}else {
-				add(deviceHevcCodecProfile)
-				addAll(deviceHevcLevelCodecProfiles)
-			}
+			add(deviceHevcCodecProfile)
+			addAll(deviceHevcLevelCodecProfiles)
 			// AV1 profile
-			if (!DeviceUtils.has4kVideoSupport()) {
-				add(CodecProfile().apply {
-					type = CodecType.Video
-					codec = Codec.Video.AV1
-					conditions = max1080pProfileConditions
-				})
-			}else {
-				add(deviceAV1CodecProfile)
-			}
+			add(deviceAV1CodecProfile)
 			// Audio channel profile
 			if (!Utils.downMixAudio(context)) add(maxAudioChannelsCodecProfile(channels = 8))
 			else add(maxAudioChannelsCodecProfile(channels = 2))
+			// Limit video resolution support for older devices
+			if (!DeviceUtils.has4kVideoSupport()) {
+				add(CodecProfile().apply {
+					type = CodecType.Video
+					conditions = max1080pProfileConditions
+				})
+			}
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(

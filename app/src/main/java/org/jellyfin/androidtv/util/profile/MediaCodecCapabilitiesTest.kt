@@ -21,7 +21,7 @@ class MediaCodecCapabilitiesTest {
 		CodecProfileLevel.AVCLevel22 to "22",
 		CodecProfileLevel.AVCLevel3 to "30",
 		CodecProfileLevel.AVCLevel31 to "31",
-		CodecProfileLevel.AVCLevel32 to "33",
+		CodecProfileLevel.AVCLevel32 to "32",
 		CodecProfileLevel.AVCLevel4 to "40",
 		CodecProfileLevel.AVCLevel41 to "41",
 		CodecProfileLevel.AVCLevel42 to "42",

@@ -58,14 +58,11 @@ object ProfileHelper {
 	}
 
 	val deviceAVCCodecProfile by lazy {
-		CodecProfile().apply {
-			type = CodecType.Video
-			codec = Codec.Video.H264
-			conditions = when {
+		buildList {
+			when {
 				!MediaTest.supportsAVC() -> {
-					// The following condition is a method to exclude all AVC
 					Timber.i("*** Does NOT support AVC")
-					arrayOf(
+					add(
 						ProfileCondition(
 							ProfileConditionType.Equals,
 							ProfileConditionValue.VideoProfile,
@@ -75,7 +72,7 @@ object ProfileHelper {
 				}
 				!MediaTest.supportsAVCHigh() -> {
 					Timber.i("*** Does NOT support AVC High")
-					arrayOf(
+					add(
 						ProfileCondition(
 							ProfileConditionType.NotEquals,
 							ProfileConditionValue.VideoProfile,
@@ -84,8 +81,8 @@ object ProfileHelper {
 					)
 				}
 				!MediaTest.supportsAVCHigh10() -> {
-					Timber.i("*** Does NOT support AVC High 10")
-					arrayOf(
+					Timber.i("*** Does NOT support AVC High 10 bit")
+					add(
 						ProfileCondition(
 							ProfileConditionType.NotEquals,
 							ProfileConditionValue.VideoProfile,
@@ -94,9 +91,8 @@ object ProfileHelper {
 					)
 				}
 				else -> {
-					// supports all AVC
 					Timber.i("*** Supports AVC High 10 bit")
-					arrayOf(
+					add(
 						ProfileCondition(
 							ProfileConditionType.NotEquals,
 							ProfileConditionValue.VideoProfile,
@@ -110,78 +106,34 @@ object ProfileHelper {
 
 	val deviceAVCLevelCodecProfiles by lazy {
 		buildList {
-			if (MediaTest.supportsAVC()) {
-				add(CodecProfile().apply {
-					type = CodecType.Video
-					codec = Codec.Video.H264
-
-					applyConditions = arrayOf(
+			when {
+				!MediaTest.supportsAVCHigh10() && MediaTest.supportsAVCHigh() -> {
+					add(
 						ProfileCondition(
-							ProfileConditionType.EqualsAny,
-							ProfileConditionValue.VideoProfile,
-							listOfNotNull(
-								"main",
-								"baseline",
-								"constrained baseline"
-							).joinToString("|")
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.VideoLevel,
+							MediaTest.getAVCHighLevel()
 						)
 					)
-
-					conditions = arrayOf(
+				}
+				MediaTest.supportsAVCHigh10() -> {
+					add(
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.VideoLevel,
+							MediaTest.getAVCHigh10Level()
+						)
+					)
+				}
+				else -> {
+					add(
 						ProfileCondition(
 							ProfileConditionType.LessThanEqual,
 							ProfileConditionValue.VideoLevel,
 							MediaTest.getAVCMainLevel()
 						)
 					)
-				})
-
-				if (MediaTest.supportsAVCHigh()) {
-					add(CodecProfile().apply {
-						type = CodecType.Video
-						codec = Codec.Video.H264
-
-						applyConditions = arrayOf(
-							ProfileCondition(
-								ProfileConditionType.Equals,
-								ProfileConditionValue.VideoProfile,
-								"high"
-							)
-						)
-
-						conditions = arrayOf(
-							ProfileCondition(
-								ProfileConditionType.LessThanEqual,
-								ProfileConditionValue.VideoLevel,
-								MediaTest.getAVCHighLevel()
-							)
-						)
-					})
-
 				}
-					if (MediaTest.supportsAVCHigh10()) {
-						add(CodecProfile().apply {
-							type = CodecType.Video
-							codec = Codec.Video.H264
-
-							applyConditions = arrayOf(
-								ProfileCondition(
-									ProfileConditionType.Equals,
-									ProfileConditionValue.VideoProfile,
-									"high 10"
-								)
-							)
-
-							conditions = arrayOf(
-								ProfileCondition(
-									ProfileConditionType.LessThanEqual,
-									ProfileConditionValue.VideoLevel,
-									MediaTest.getAVCHigh10Level()
-								)
-							)
-						})
-
-					}
 			}
 		}
 	}
