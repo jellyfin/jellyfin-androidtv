@@ -21,12 +21,28 @@ public class CollectionFragment extends EnhancedBrowseFragment {
         movies.setIncludeItemTypes(new String[]{BaseItemKind.MOVIE.getSerialName()});
         mRows.add(new BrowseRowDef(getString(R.string.lbl_movies), movies, 100));
 
-        StdItemQuery series = new StdItemQuery();
+        StdItemQuery series = new StdItemQuery(new ItemFields[]{
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.Overview,
+                ItemFields.ItemCounts,
+                ItemFields.DisplayPreferencesId,
+                ItemFields.ChildCount,
+                ItemFields.MediaStreams,
+                ItemFields.MediaSources
+        });
         series.setParentId(mFolder.getId().toString());
         series.setIncludeItemTypes(new String[]{BaseItemKind.SERIES.getSerialName()});
         mRows.add(new BrowseRowDef(getString(R.string.lbl_tv_series), series, 100));
 
-        StdItemQuery others = new StdItemQuery();
+        StdItemQuery others = new StdItemQuery(new ItemFields[]{
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.Overview,
+                ItemFields.ItemCounts,
+                ItemFields.DisplayPreferencesId,
+                ItemFields.ChildCount,
+                ItemFields.MediaStreams,
+                ItemFields.MediaSources
+        });
         others.setParentId(mFolder.getId().toString());
         others.setExcludeItemTypes(new String[]{BaseItemKind.MOVIE.getSerialName(), BaseItemKind.SERIES.getSerialName()});
         mRows.add(new BrowseRowDef(getString(R.string.lbl_other), others, 100));
