@@ -142,7 +142,7 @@ public class ItemLauncher {
                 }
 
                 // or generic handling
-                if (baseItem.isFolder()) {
+                if (Utils.isTrue(baseItem.isFolder())) {
                     // Some items don't have a display preferences id, but it's required for StdGridFragment
                     // Use the id of the item as a workaround, it's a unique key for the specific item
                     // Which is exactly what we want
