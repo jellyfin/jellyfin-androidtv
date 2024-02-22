@@ -70,16 +70,6 @@ object ProfileHelper {
 						)
 					)
 				}
-				!MediaTest.supportsAVCHigh() -> {
-					Timber.i("*** Does NOT support AVC High")
-					add(
-						ProfileCondition(
-							ProfileConditionType.NotEquals,
-							ProfileConditionValue.VideoProfile,
-							"High"
-						)
-					)
-				}
 				!MediaTest.supportsAVCHigh10() -> {
 					Timber.i("*** Does NOT support AVC High 10 bit")
 					add(
@@ -107,15 +97,6 @@ object ProfileHelper {
 	val deviceAVCLevelCodecProfiles by lazy {
 		buildList {
 			when {
-				!MediaTest.supportsAVCHigh10() && MediaTest.supportsAVCHigh() -> {
-					add(
-						ProfileCondition(
-							ProfileConditionType.LessThanEqual,
-							ProfileConditionValue.VideoLevel,
-							MediaTest.getAVCHighLevel()
-						)
-					)
-				}
 				MediaTest.supportsAVCHigh10() -> {
 					add(
 						ProfileCondition(

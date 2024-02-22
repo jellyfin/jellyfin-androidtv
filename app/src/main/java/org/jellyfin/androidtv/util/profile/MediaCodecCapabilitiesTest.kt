@@ -75,12 +75,6 @@ class MediaCodecCapabilitiesTest {
 
 	fun supportsAVC(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AVC)
 
-	fun supportsAVCHigh(): Boolean = hasDecoder(
-		MediaFormat.MIMETYPE_VIDEO_AVC,
-		CodecProfileLevel.AVCProfileHigh,
-		CodecProfileLevel.AVCLevel4
-	)
-
 	fun supportsAVCHigh10(): Boolean = hasDecoder(
 		MediaFormat.MIMETYPE_VIDEO_AVC,
 		CodecProfileLevel.AVCProfileHigh10,
@@ -91,9 +85,6 @@ class MediaCodecCapabilitiesTest {
 		CodecProfileLevel.AVCProfileMain
 	)
 
-	fun getAVCHighLevel(): String = getAVCLevelString(
-		CodecProfileLevel.AVCProfileHigh
-	)
 	fun getAVCHigh10Level(): String = getAVCLevelString(
 		CodecProfileLevel.AVCProfileHigh10
 	)
