@@ -199,9 +199,6 @@ class ExoPlayerProfile(
 			addAll(deviceHevcLevelCodecProfiles)
 			// AV1 profile
 			add(deviceAV1CodecProfile)
-			// Audio channel profile
-			if (!Utils.downMixAudio(context)) add(maxAudioChannelsCodecProfile(channels = 8))
-			else add(maxAudioChannelsCodecProfile(channels = 2))
 			// Limit video resolution support for older devices
 			if (!DeviceUtils.has4kVideoSupport()) {
 				add(CodecProfile().apply {
@@ -209,6 +206,9 @@ class ExoPlayerProfile(
 					conditions = max1080pProfileConditions
 				})
 			}
+			// Audio channel profile
+			if (!Utils.downMixAudio(context)) add(maxAudioChannelsCodecProfile(channels = 8))
+			else add(maxAudioChannelsCodecProfile(channels = 2))
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
