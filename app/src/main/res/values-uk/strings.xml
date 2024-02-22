@@ -523,4 +523,34 @@
     <string name="photo_albums">Фотоальбоми</string>
     <string name="photos">Фотографії</string>
     <string name="lbl_hide_watched_checkmark">Коли залишаються епізоди</string>
+    <plurals name="items">
+        <item quantity="one">%1$s елемент</item>
+        <item quantity="few">%1$s елементи</item>
+        <item quantity="many">%1$s елементів</item>
+        <item quantity="other">%1$s елементів</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s фільм</item>
+        <item quantity="few">%1$s фільми</item>
+        <item quantity="many">%1$s фільмів</item>
+        <item quantity="other">%1$s фільмів</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s серіал</item>
+        <item quantity="few">%1$s серіали</item>
+        <item quantity="many">%1$s серіалів</item>
+        <item quantity="other">%1$s серіалів</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s пісня</item>
+        <item quantity="few">%1$s пісні</item>
+        <item quantity="many">%1$s пісень</item>
+        <item quantity="other">%1$s пісень</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s альбом</item>
+        <item quantity="few">%1$s альбоми</item>
+        <item quantity="many">%1$s альбомів</item>
+        <item quantity="other">%1$s альбомів</item>
+    </plurals>
 </resources>
