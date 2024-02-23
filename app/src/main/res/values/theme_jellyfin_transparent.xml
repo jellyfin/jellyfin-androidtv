@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.Jellyfin_Transparent" parent="Theme.Jellyfin">
-        <!-- Background resource or color -->
-        <item name="android:windowBackground">@color/transparent</item>
-    </style>
-</resources>
