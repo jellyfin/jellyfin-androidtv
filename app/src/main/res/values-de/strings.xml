@@ -514,4 +514,26 @@
     <string name="photos">Fotos</string>
     <string name="lbl_runtime">Laufzeit</string>
     <string name="lbl_hide_watched_checkmark">Wenn es weitere Episoden gibt</string>
+    <string name="person_birthday_and_age">Geboren %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision™</string>
+    <plurals name="items">
+        <item quantity="one">%1$s Element</item>
+        <item quantity="other">%1$s Elemente</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s Film</item>
+        <item quantity="other">%1$s Filme</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s Fernseh-Serie</item>
+        <item quantity="other">%1$s Fernseh-Serien</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s Lied</item>
+        <item quantity="other">%1$s Lieder</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s Album</item>
+        <item quantity="other">%1$s Alben</item>
+    </plurals>
 </resources>
