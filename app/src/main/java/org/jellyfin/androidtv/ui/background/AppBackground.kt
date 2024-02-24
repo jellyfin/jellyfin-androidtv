@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -34,7 +33,8 @@ private fun AppThemeBackground() {
 	val context = LocalContext.current
 	val themeBackground = remember(context.theme) {
 		val attributes = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
-		val drawable = attributes.getDrawable(0)
+		val drawable = ColorDrawable(context.getResources().getColor(R.color.not_quite_black))
+		//val drawable = ColorDrawable(android.graphics.Color.TRANSPARENT)
 		attributes.recycle()
 
 		if (drawable is ColorDrawable) drawable.toBitmap(1, 1).asImageBitmap()
@@ -53,7 +53,7 @@ private fun AppThemeBackground() {
 		Box(
 			modifier = Modifier
 				.fillMaxSize()
-				.background(Color.Black)
+				.background(androidx.compose.ui.graphics.Color.Black)
 		)
 	}
 }

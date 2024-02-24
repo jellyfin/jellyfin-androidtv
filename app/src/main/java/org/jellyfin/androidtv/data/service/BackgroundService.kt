@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.data.service
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
@@ -125,6 +127,13 @@ class BackgroundService(
 		if (_backgrounds.isEmpty()) return
 
 		_backgrounds = emptyList()
+		update()
+	}
+
+	fun removeBackgrounds() {
+		loadBackgroundsJob?.cancel()
+
+		_backgrounds = listOf(ColorDrawable(Color.TRANSPARENT).toBitmap(1, 1).asImageBitmap())
 		update()
 	}
 
