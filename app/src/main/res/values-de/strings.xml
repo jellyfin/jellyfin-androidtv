@@ -14,7 +14,7 @@
     <string name="lbl_views">Aufrufe</string>
     <string name="lbl_by_letter">Nach Buchstabe</string>
     <string name="lbl_suggested">Vorgeschlagen</string>
-    <string name="lbl_genres">Genres</string>
+    <string name="lbl_genres">Genre</string>
     <string name="lbl_search">Suche</string>
     <string name="msg_not_implemented">" Nicht implementiert"</string>
     <string name="lbl_latest">Kürzlich hinzugefügt</string>
@@ -536,4 +536,11 @@
         <item quantity="one">%1$s Album</item>
         <item quantity="other">%1$s Alben</item>
     </plurals>
+    <string name="indicator_subtitles">UT</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
 </resources>
