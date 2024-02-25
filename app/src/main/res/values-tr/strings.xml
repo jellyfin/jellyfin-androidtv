@@ -514,4 +514,33 @@
     <string name="photos">Fotoğraflar</string>
     <string name="lbl_hide_watched_checkmark">Kalan bölümler olduğunda</string>
     <string name="lbl_runtime">Süre</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="person_birthday_and_age">%1$s tarihinde doğdu (%2$d)</string>
+    <plurals name="items">
+        <item quantity="one">%1$s öge</item>
+        <item quantity="other">%1$s öge</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="other">%1$s film</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s dizi</item>
+        <item quantity="other">%1$s dizi</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s şarkı</item>
+        <item quantity="other">%1$s şarkı</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s albüm</item>
+        <item quantity="other">%1$s albüm</item>
+    </plurals>
 </resources>
