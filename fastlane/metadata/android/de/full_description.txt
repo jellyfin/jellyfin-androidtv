@@ -1,6 +1,6 @@
 Deine Medien, nach deinen Vorstellungen.
 
-Das Jellyfin-Projekt ist ein freier, Open Source Media Server. Keine Gebühren, kein Tracking, keine versteckte Agenda. Hol dir unseren kostenlosen Server, um deine Musik, Videos und Fotos und mehr an einem Ort zu sammeln.
+Das Jellyfin-Projekt ist ein kostenloser, Open Source Media Server. Keine Gebühren, kein Tracking, keine versteckte Agenda. Hol dir unseren kostenlosen Server, um deine Musik, Videos, Fotos und mehr an einem Ort zu sammeln.
 
 Um die App zu nutzen, benötigst du einen Jellyfin-Server. Mehr Information dazu findest du unter <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
 
