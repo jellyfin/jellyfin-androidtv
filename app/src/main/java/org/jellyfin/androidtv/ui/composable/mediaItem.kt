@@ -9,11 +9,11 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.sdk.model.api.BaseItemDto
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Composable
 fun rememberMediaItem(
-	mediaManager: MediaManager = rememberKoinInject(),
+	mediaManager: MediaManager = koinInject(),
 ): State<BaseItemDto?> {
 	val item = remember { mutableStateOf(mediaManager.currentAudioItem) }
 
