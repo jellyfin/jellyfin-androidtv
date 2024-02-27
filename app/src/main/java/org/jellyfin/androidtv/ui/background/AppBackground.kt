@@ -34,7 +34,7 @@ import org.koin.compose.rememberKoinInject
 private fun AppThemeBackground() {
 	val context = LocalContext.current
 	val themeBackground = remember(context.theme) {
-		val attributes = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+		val attributes = context.theme.obtainStyledAttributes(intArrayOf(R.attr.defaultBackground))
 		val drawable = attributes.getDrawable(0)
 		attributes.recycle()
 
@@ -64,26 +64,29 @@ private fun AppThemeBackground() {
 fun AppBackground() {
 	val backgroundService = rememberKoinInject<BackgroundService>()
 	val currentBackground by backgroundService.currentBackground.collectAsState()
+	val enabled by backgroundService.enabled.collectAsState()
 
-	AnimatedContent(
-		targetState = currentBackground,
-		transitionSpec = {
-			val duration = (BackgroundService.TRANSITION_DURATION.inWholeMilliseconds / 2).toInt()
-			fadeIn(tween(durationMillis = duration)) togetherWith fadeOut(snap(delayMillis = duration))
-		},
-		label = "BackgroundTransition",
-	) { background ->
-		if (background != null) {
-			Image(
-				bitmap = background,
-				contentDescription = null,
-				alignment = Alignment.Center,
-				contentScale = ContentScale.Crop,
-				colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
-				modifier = Modifier.fillMaxSize()
-			)
-		} else {
-			AppThemeBackground()
+	if (enabled) {
+		AnimatedContent(
+			targetState = currentBackground,
+			transitionSpec = {
+				val duration = (BackgroundService.TRANSITION_DURATION.inWholeMilliseconds / 2).toInt()
+				fadeIn(tween(durationMillis = duration)) togetherWith fadeOut(snap(delayMillis = duration))
+			},
+			label = "BackgroundTransition",
+		) { background ->
+			if (background != null) {
+				Image(
+					bitmap = background,
+					contentDescription = null,
+					alignment = Alignment.Center,
+					contentScale = ContentScale.Crop,
+					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
+					modifier = Modifier.fillMaxSize()
+				)
+			} else {
+				AppThemeBackground()
+			}
 		}
 	}
 }
