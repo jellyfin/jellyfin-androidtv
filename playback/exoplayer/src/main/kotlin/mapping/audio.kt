@@ -1,9 +1,14 @@
 package org.jellyfin.playback.exoplayer.mapping
 
+import androidx.annotation.OptIn
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 
+@OptIn(UnstableApi::class)
 fun getFfmpegAudioMimeType(codec: String): String {
-	return ffmpegAudioMimeTypes.getOrDefault(codec, codec)
+	return ffmpegAudioMimeTypes[codec]
+		?: MimeTypes.getAudioMediaMimeType(codec)
+		?: codec
 }
 
 val ffmpegAudioMimeTypes = mapOf(
