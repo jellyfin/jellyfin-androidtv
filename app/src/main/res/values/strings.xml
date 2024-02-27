@@ -503,6 +503,7 @@
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
+    <string name="pref_avc_high10_bypass">AVC High10 compatibility mode</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

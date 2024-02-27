@@ -53,6 +53,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 		/* Playback - General*/
 		/**
+		 * Preferred behavior for audio streaming.
+		 */
+		var avcHigh10Bypass = enumPreference("avc_high10_bypass", false)
+
+		/**
 		 * Maximum bitrate in megabit for playback.
 		 */
 		var maxBitrate = stringPreference("pref_max_bitrate", "100")
