@@ -129,7 +129,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Preferred video player for live TV
 		 */
-		var liveTvVideoPlayer = enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
+		var liveTvVideoPlayer = enumPreference("live_tv_video_player", PreferredVideoPlayer.EXOPLAYER)
 
 		/**
 		 * Shortcut used for changing the audio track

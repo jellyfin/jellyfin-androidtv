@@ -7,11 +7,6 @@ enum class PreferredVideoPlayer(
 	override val nameRes: Int,
 ) : PreferenceEnum {
 	/**
-	 *  Automatically selects between exoplayer and vlc
-	 */
-	AUTO(R.string.pref_video_player_auto),
-
-	/**
 	 *  Force ExoPlayer
 	 */
 	EXOPLAYER(R.string.pref_video_player_exoplayer),
