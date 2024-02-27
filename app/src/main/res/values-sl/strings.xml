@@ -198,7 +198,6 @@
     <string name="pref_video_player_external">Zunanja aplikacija</string>
     <string name="pref_video_player_vlc">LibVLC (poskusno)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Izberi avtomatsko</string>
     <string name="pref_theme_emerald">Klasični smaragd</string>
     <string name="pref_theme_dark">Temno (Privzeto)</string>
     <string name="lbl_my_media">Moja predstavnost</string>

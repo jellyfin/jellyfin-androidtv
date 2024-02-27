@@ -16,7 +16,6 @@
     <string name="pref_video_player_external">Extern app</string>
     <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Välj automatiskt</string>
     <string name="lbl_my_media">Min media</string>
     <string name="lbl_image_size">Bildstorlek</string>
     <string name="lbl_image_type">Bildtyp</string>

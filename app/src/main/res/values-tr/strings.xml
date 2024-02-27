@@ -241,7 +241,6 @@
     <string name="pref_about_title">Hakkında</string>
     <string name="pref_video_player_choose">Her zaman sor</string>
     <string name="pref_video_player_external">Harici uygulama</string>
-    <string name="pref_video_player_auto">Otomatik olarak seç</string>
     <string name="pref_theme_emerald">Klasik zümrüt</string>
     <string name="pref_theme_dark">Karanlık (Varsayılan)</string>
     <string name="lbl_my_media">Benim medyam</string>

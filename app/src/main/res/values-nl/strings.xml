@@ -224,7 +224,6 @@
     <string name="pref_video_player_external">Externe app</string>
     <string name="pref_video_player_vlc">LibVLC (experimenteel)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automatisch selecteren</string>
     <string name="lbl_my_media">Mijn media</string>
     <string name="watch_now">Nu kijken</string>
     <string name="pref_next_up_timeout_summary">Hoe lang te wachten voordat het volgende item wordt afgespeeld</string>

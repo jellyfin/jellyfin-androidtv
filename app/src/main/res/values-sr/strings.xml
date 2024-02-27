@@ -120,7 +120,6 @@
     <string name="pref_video_player_external">Спољна апликација</string>
     <string name="pref_video_player_vlc">либВЛЦ</string>
     <string name="pref_video_player_exoplayer">Exo плејер</string>
-    <string name="pref_video_player_auto">Изабери аутоматски</string>
     <string name="pref_theme_emerald">Класично смарагдно</string>
     <string name="pref_theme_dark">Тамно (подразумевано)</string>
     <string name="lbl_my_media">Моји медији</string>

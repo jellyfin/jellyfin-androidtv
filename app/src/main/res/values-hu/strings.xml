@@ -132,7 +132,6 @@
     <string name="pref_video_player_external">Külső alkalmazás</string>
     <string name="pref_video_player_vlc">LibVLC (kísérleti)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automatikus kiválasztás</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
     <string name="pref_theme_dark">Sötét (Alapértelmezett)</string>
     <string name="lbl_my_media">Én médiám</string>

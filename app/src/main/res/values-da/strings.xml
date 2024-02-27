@@ -215,7 +215,6 @@
     <string name="pref_video_player_external">Ekstern app</string>
     <string name="pref_video_player_vlc">LibVLC (eksperimentel)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automatisk vælg</string>
     <string name="lbl_my_media">Mine medier</string>
     <string name="lbl_image_size">Billede størrelse</string>
     <string name="lbl_image_type">Billed type</string>

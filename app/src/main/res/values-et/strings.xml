@@ -180,7 +180,6 @@
     <string name="pref_theme_dark">Tume (Vaikimisi)</string>
     <string name="pref_theme_emerald">Klassikaline smaragd</string>
     <string name="lbl_image_size">Pildi suurus</string>
-    <string name="pref_video_player_auto">Vali automaatselt</string>
     <string name="pref_video_player_vlc">LibVLC (eksperimentaalne)</string>
     <string name="pref_about_title">Teave</string>
     <string name="pref_video_player_external">Väline äpp</string>

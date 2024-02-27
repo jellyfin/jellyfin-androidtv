@@ -172,7 +172,6 @@
     <string name="pref_about_title">حول</string>
     <string name="pref_video_player_choose">إسأل دائما</string>
     <string name="pref_video_player_external">تطبيق خارجي</string>
-    <string name="pref_video_player_auto">إختر تلقائياً</string>
     <string name="pref_theme_dark">الداكن (الافتراضي)</string>
     <string name="pref_theme_emerald">الزمرد الكلاسيكي</string>
     <string name="lbl_my_media">الوسائط الخاصة بي</string>

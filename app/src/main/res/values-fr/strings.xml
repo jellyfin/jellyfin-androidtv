@@ -224,7 +224,6 @@
     <string name="pref_next_up_timeout_title">Durée d\'attente avant la lecture du suivant</string>
     <string name="pref_about_title">A propos</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Choix automatique</string>
     <string name="lbl_my_media">Mes médias</string>
     <string name="watch_now">Regardez maintenant</string>
     <string name="pref_next_up_timeout_summary">Combien de temps attendre avant de lire l\'élément suivant</string>

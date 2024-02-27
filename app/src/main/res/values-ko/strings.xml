@@ -177,7 +177,6 @@
     <string name="pref_video_player_external">외부 앱</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">자동으로 선택하기</string>
     <string name="pref_theme_emerald">클래식 에메랄드</string>
     <string name="pref_theme_dark">다크 (기본값)</string>
     <string name="lbl_my_media">내 미디어</string>

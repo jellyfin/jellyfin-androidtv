@@ -115,7 +115,6 @@
     <string name="lbl_adjust">Прилагоди</string>
     <string name="lbl_hd_programs">HD програми</string>
     <string name="pref_theme_dark">Темно (Зададено)</string>
-    <string name="pref_video_player_auto">Избери автоматски</string>
     <string name="pref_next_up_behavior_title">Прикажи инфо за следно видео</string>
     <string name="pref_app_theme">Тема на апликација</string>
     <string name="mark_watched_message">Оваа ставка не беше пуштена до крај. Да се означи како гледано\?</string>

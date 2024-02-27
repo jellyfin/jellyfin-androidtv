@@ -253,7 +253,6 @@
     <string name="pref_video_player_choose">שאל תמיד</string>
     <string name="pref_video_player_external">נגן חיצוני</string>
     <string name="pref_video_player_exoplayer">אקסופליר</string>
-    <string name="pref_video_player_auto">בחר אוטומאטית</string>
     <string name="pref_theme_emerald">קלאסי</string>
     <string name="pref_theme_dark">חשוך (רגיל)</string>
     <string name="lbl_my_media">המדיה שלי</string>

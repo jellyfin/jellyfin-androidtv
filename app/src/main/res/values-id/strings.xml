@@ -13,7 +13,6 @@
     <string name="pref_video_player_external">Aplikasi eksternal</string>
     <string name="pref_video_player_vlc">LibVLC (eksperimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Pilih secara otomatis</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Gelap (Default)</string>
     <string name="lbl_my_media">Media saya</string>

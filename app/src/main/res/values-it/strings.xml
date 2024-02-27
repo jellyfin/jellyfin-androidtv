@@ -220,7 +220,6 @@
     <string name="pref_video_player_external">App esterna</string>
     <string name="pref_video_player_vlc">LibVLC (sperimentale)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Selezione automatica</string>
     <string name="pref_theme_emerald">Smeraldo</string>
     <string name="pref_theme_dark">Scuro (default)</string>
     <string name="lbl_my_media">I miei media</string>

@@ -229,7 +229,6 @@
     <string name="pref_video_player_external">Syrtqy qoldanba</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Avtomatty tañdau</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
     <string name="pref_app_theme">Qoldanba taqyryby</string>
     <string name="pref_theme_emerald">Klasikalyq kök-jasyl</string>

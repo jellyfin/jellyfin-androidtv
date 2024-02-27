@@ -124,7 +124,6 @@
     <string name="pref_about_title">കുറിച്ച്</string>
     <string name="pref_video_player_choose">എപ്പോഴും ചോദിക്കുക</string>
     <string name="pref_video_player_external">ബാഹ്യ അപ്ലിക്കേഷൻ</string>
-    <string name="pref_video_player_auto">യാന്ത്രികമായി തിരഞ്ഞെടുക്കുക</string>
     <string name="pref_theme_emerald">ക്ലാസിക് എമറാൾഡ്</string>
     <string name="pref_theme_dark">ഇരുണ്ടത് (സ്ഥിരസ്ഥിതി)</string>
     <string name="lbl_my_media">എന്റെ മീഡിയ</string>

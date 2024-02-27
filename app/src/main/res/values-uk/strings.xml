@@ -152,7 +152,6 @@
     <string name="pref_video_player_external">Зовнішній додаток</string>
     <string name="pref_video_player_vlc">LibVLC (експериментально)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Обирати автоматично</string>
     <string name="pref_theme_emerald">Класична (смарагдова)</string>
     <string name="pref_theme_dark">Темна (за замовчуванням)</string>
     <string name="lbl_my_media">Мої медіафайли</string>

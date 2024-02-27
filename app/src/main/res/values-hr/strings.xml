@@ -192,7 +192,6 @@
     <string name="pref_about_title">O</string>
     <string name="pref_video_player_choose">Uvijek pitaj</string>
     <string name="pref_video_player_external">Vanjska aplikacija</string>
-    <string name="pref_video_player_auto">Automatski odaberi</string>
     <string name="pref_theme_emerald">Klasični Smaragd</string>
     <string name="pref_theme_dark">Tamno (Zadano)</string>
     <string name="lbl_my_media">Moji mediji</string>

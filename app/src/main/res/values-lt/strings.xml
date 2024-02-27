@@ -223,7 +223,6 @@
     <string name="lbl_premieres">Premjeros</string>
     <string name="lbl_image_type">Paveikslėlio tipas</string>
     <string name="pref_theme_dark">Tamsus (numatytas)</string>
-    <string name="pref_video_player_auto">Automatiškai pasirinkti</string>
     <string name="pref_video_player_external">Išorinė aplikacija</string>
     <string name="pref_theme_emerald">Klasikinis emeraldas</string>
     <string name="lbl_unknown_key">Nežinomas (%1s)</string>
