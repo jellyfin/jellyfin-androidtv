@@ -201,7 +201,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             }
         };
 
-        backgroundService.getValue().clearBackgrounds();
+        backgroundService.getValue().disable();
     }
 
     @Nullable

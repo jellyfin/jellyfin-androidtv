@@ -47,7 +47,9 @@ class BackgroundService(
 	private var _backgrounds = emptyList<ImageBitmap>()
 	private var _currentIndex = 0
 	private var _currentBackground = MutableStateFlow<ImageBitmap?>(null)
+	private var _enabled = MutableStateFlow(true)
 	val currentBackground get() = _currentBackground.asStateFlow()
+	val enabled get() = _enabled.asStateFlow()
 
 	// Helper function for [setBackground]
 	private fun List<String>?.getUrls(itemId: UUID?): List<String> {
@@ -104,6 +106,9 @@ class BackgroundService(
 	private fun loadBackgrounds(backdropUrls: Set<String>) {
 		if (backdropUrls.isEmpty()) return clearBackgrounds()
 
+		// Re-enable backgrounds if disabled
+		_enabled.value = true
+
 		// Cancel current loading job
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
@@ -122,10 +127,20 @@ class BackgroundService(
 	fun clearBackgrounds() {
 		loadBackgroundsJob?.cancel()
 
+		// Re-enable backgrounds if disabled
+		_enabled.value = true
+
 		if (_backgrounds.isEmpty()) return
 
 		_backgrounds = emptyList()
 		update()
+	}
+
+	/**
+	 * Disable the showing of backgrounds until any function manipulating the backgrounds is called.
+	 */
+	fun disable() {
+		_enabled.value = false
 	}
 
 	internal fun update() {
