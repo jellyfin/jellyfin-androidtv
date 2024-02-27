@@ -183,6 +183,19 @@ object ProfileHelper {
 			).joinToString("|")
 		)
 	}
+	val h264VideoProfileConditionBypass by lazy {
+		ProfileCondition(
+			ProfileConditionType.EqualsAny,
+			ProfileConditionValue.VideoProfile,
+			listOfNotNull(
+				"high",
+				"main",
+				"baseline",
+				"constrained baseline",
+				"high 10"
+			).joinToString("|")
+		)
+	}
 
 	val max1080pProfileConditions by lazy {
 		arrayOf(

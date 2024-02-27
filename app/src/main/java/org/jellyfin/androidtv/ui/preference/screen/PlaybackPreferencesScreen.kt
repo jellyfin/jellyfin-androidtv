@@ -107,6 +107,13 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
 				depends { DeviceUtils.is60() && userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
+
+			checkbox {
+				setTitle(R.string.pref_avc_high10_bypass)
+				setContent(R.string.desc_bitstream_ac3)
+				bind(userPreferences, UserPreferences.avcHigh10Bypass)
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
 		}
 
 		category {

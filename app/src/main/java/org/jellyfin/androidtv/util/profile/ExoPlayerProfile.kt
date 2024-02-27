@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecProfiles
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
+import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileConditionBypass
 import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditions
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
@@ -30,6 +31,7 @@ class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
 	isAC3Enabled: Boolean = false,
+	isAVCHigh10BypassEnabled: Boolean = false,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -151,7 +153,8 @@ class ExoPlayerProfile(
 				type = CodecType.Video
 				codec = Codec.Video.H264
 				conditions = buildList {
-					add(h264VideoProfileCondition)
+					if (!isAVCHigh10BypassEnabled) add(h264VideoProfileCondition)
+					else add(h264VideoProfileConditionBypass)
 					add(h264VideoLevelProfileCondition)
 					if (!DeviceUtils.has4kVideoSupport()) addAll(max1080pProfileConditions)
 				}.toTypedArray()
