@@ -42,7 +42,7 @@ import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.extensions.ticks
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -52,8 +52,8 @@ fun DreamContentNowPlaying(
 ) = Box(
 	modifier = Modifier.fillMaxSize(),
 ) {
-	val api = rememberKoinInject<ApiClient>()
-	val mediaManager = rememberKoinInject<MediaManager>()
+	val api = koinInject<ApiClient>()
+	val mediaManager = koinInject<MediaManager>()
 	val item = content.item ?: return@Box
 
 	val primaryImageTag = item.imageTags?.get(ImageType.PRIMARY)

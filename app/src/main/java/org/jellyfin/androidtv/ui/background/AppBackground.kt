@@ -27,7 +27,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.core.graphics.drawable.toBitmap
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Composable
 private fun AppThemeBackground() {
@@ -60,7 +60,7 @@ private fun AppThemeBackground() {
 
 @Composable
 fun AppBackground() {
-	val backgroundService = rememberKoinInject<BackgroundService>()
+	val backgroundService = koinInject<BackgroundService>()
 	val currentBackground by backgroundService.currentBackground.collectAsState()
 
 	AnimatedContent(
