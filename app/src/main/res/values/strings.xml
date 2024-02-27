@@ -250,7 +250,6 @@
     <string name="lbl_my_media">My media</string>
     <string name="pref_theme_dark">Dark (Default)</string>
     <string name="pref_theme_emerald">Classic emerald</string>
-    <string name="pref_video_player_auto">Automatically choose</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_external">External app</string>

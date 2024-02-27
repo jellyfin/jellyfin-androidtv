@@ -671,24 +671,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                             } else if (preferredVideoPlayer == PreferredVideoPlayer.EXOPLAYER) {
                                 // Make sure to not use VLC
                                 useVlc = false;
-                            } else if (preferredVideoPlayer == PreferredVideoPlayer.AUTO) {
-                                // TODO: Clean up this logic
-                                // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
-                                useVlc = !vlcErrorEncountered &&
-                                        !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
-                                        (DeviceUtils.is60() ||
-                                                !userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()) ||
-                                                vlcResponse.getMediaSource() == null ||
-                                                JavaCompat.getDefaultAudioStream(vlcResponse.getMediaSource()) == null ||
-                                                (!"ac3".equals(JavaCompat.getDefaultAudioStream(vlcResponse.getMediaSource()).getCodec()) &&
-                                                        !"truehd".equals(JavaCompat.getDefaultAudioStream(vlcResponse.getMediaSource()).getCodec()))) &&
-                                        (Utils.downMixAudio(mFragment.getContext()) ||
-                                                !DeviceUtils.is60() ||
-                                                internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
-                                                !userPreferences.getValue().get(UserPreferences.Companion.getDtsEnabled()) ||
-                                                internalResponse.getMediaSource() == null ||
-                                                JavaCompat.getDefaultAudioStream(internalResponse.getMediaSource()) == null ||
-                                                (JavaCompat.getVideoStream(vlcResponse.getMediaSource()) != null && JavaCompat.getVideoStream(vlcResponse.getMediaSource()).getWidth() < 1000));
                             } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
                                 PreferredVideoPlayer preferredVideoPlayerByPlayWith = systemPreferences.getValue().get(SystemPreferences.Companion.getChosenPlayer());
 
