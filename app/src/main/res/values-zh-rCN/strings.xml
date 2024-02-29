@@ -508,4 +508,23 @@
     <string name="photo_albums">相册</string>
     <string name="lbl_hide_watched_checkmark">还有剩余剧集</string>
     <string name="lbl_runtime">运行时</string>
+    <string name="person_birthday_and_age">用户出生年月</string>
+    <string name="dolby_vision">杜比视界</string>
+    <plurals name="items">
+        <item quantity="other">选项</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="other">电影</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">歌曲</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="other">相册,专辑</item>
+    </plurals>
+    <string name="dolby_atmos">杜比全景声</string>
+    <plurals name="tv_series">
+        <item quantity="other">电视剧</item>
+    </plurals>
+    <string name="clear_image_cache">清除图片缓存</string>
 </resources>
