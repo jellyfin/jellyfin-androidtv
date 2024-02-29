@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.Codec
+import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
@@ -58,11 +59,15 @@ object ProfileHelper {
 	}
 
 	val deviceAVCCodecProfile by lazy {
-		buildList {
-			when {
-				!MediaTest.supportsAVC() -> {
+		CodecProfile().apply {
+			type = CodecType.Video
+			codec = Codec.Video.H264
+
+			conditions = when {
+				!MediaTest.supportsAVC() && DeviceUtils.has4kVideoSupport() -> {
+					// The following condition is a method to exclude all AVC
 					Timber.i("*** Does NOT support AVC")
-					add(
+					arrayOf(
 						ProfileCondition(
 							ProfileConditionType.Equals,
 							ProfileConditionValue.VideoProfile,
@@ -70,23 +75,112 @@ object ProfileHelper {
 						)
 					)
 				}
-				!MediaTest.supportsAVCHigh10() -> {
-					Timber.i("*** Does NOT support AVC High 10 bit")
-					add(
+
+				!MediaTest.supportsAVC() && !DeviceUtils.has4kVideoSupport() -> {
+					// The following condition is a method to exclude all AVC
+					Timber.i("*** Does NOT support AVC")
+					arrayOf(
 						ProfileCondition(
-							ProfileConditionType.NotEquals,
+							ProfileConditionType.Equals,
 							ProfileConditionValue.VideoProfile,
-							"High 10"
+							"none"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Width,
+							"1920"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Height,
+							"1080"
 						)
 					)
 				}
-				else -> {
-					Timber.i("*** Supports AVC High 10 bit")
-					add(
+
+				!MediaTest.supportsAVCHigh10() && DeviceUtils.has4kVideoSupport() -> {
+					Timber.i("*** Does support AVC 10 bit")
+					arrayOf(
 						ProfileCondition(
-							ProfileConditionType.NotEquals,
+							ProfileConditionType.EqualsAny,
 							ProfileConditionValue.VideoProfile,
-							"none"
+							listOfNotNull(
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline"
+							).joinToString("|")
+						)
+					)
+				}
+
+				!MediaTest.supportsAVCHigh10() && !DeviceUtils.has4kVideoSupport() -> {
+					Timber.i("*** Does not support AVC 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.EqualsAny,
+							ProfileConditionValue.VideoProfile,
+							listOfNotNull(
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline"
+							).joinToString("|")
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Width,
+							"1920"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Height,
+							"1080"
+						)
+					)
+				}
+
+				MediaTest.supportsAVCHigh10() && !DeviceUtils.has4kVideoSupport() -> {
+					Timber.i("*** Supports AVC 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.EqualsAny,
+							ProfileConditionValue.VideoProfile,
+							listOfNotNull(
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline",
+								"high 10"
+							).joinToString("|")
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Width,
+							"1920"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Height,
+							"1080"
+						)
+					)
+				}
+
+				else -> {
+					// supports all AVC
+					Timber.i("*** Supports AVC 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.EqualsAny,
+							ProfileConditionValue.VideoProfile,
+							listOfNotNull(
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline",
+								"high 10"
+							).joinToString("|")
 						)
 					)
 				}
@@ -96,28 +190,65 @@ object ProfileHelper {
 
 	val deviceAVCLevelCodecProfiles by lazy {
 		buildList {
-			when {
-				MediaTest.supportsAVCHigh10() -> {
-					add(
+			if (MediaTest.supportsAVC()) {
+				add(CodecProfile().apply {
+					type = CodecType.Video
+					codec = Codec.Video.H264
+
+					applyConditions = arrayOf(
 						ProfileCondition(
-							ProfileConditionType.LessThanEqual,
-							ProfileConditionValue.VideoLevel,
-							MediaTest.getAVCHigh10Level()
+							ProfileConditionType.EqualsAny,
+							ProfileConditionValue.VideoProfile,
+							listOfNotNull(
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline"
+							).joinToString("|")
 						)
 					)
-				}
-				else -> {
-					add(
+
+					conditions = arrayOf(
 						ProfileCondition(
 							ProfileConditionType.LessThanEqual,
 							ProfileConditionValue.VideoLevel,
 							MediaTest.getAVCMainLevel()
 						)
 					)
+				})
+
+				if (MediaTest.supportsAVCHigh10()) {
+					add(CodecProfile().apply {
+						type = CodecType.Video
+						codec = Codec.Video.H264
+
+						applyConditions = arrayOf(
+							ProfileCondition(
+								ProfileConditionType.EqualsAny,
+								ProfileConditionValue.VideoProfile,
+								listOfNotNull(
+									"high",
+									"main",
+									"baseline",
+									"constrained baseline",
+									"high 10"
+								).joinToString("|")
+							)
+						)
+
+						conditions = arrayOf(
+							ProfileCondition(
+								ProfileConditionType.LessThanEqual,
+								ProfileConditionValue.VideoLevel,
+								MediaTest.getAVCHigh10Level()
+							)
+						)
+					})
 				}
 			}
 		}
 	}
+
 
 	val deviceHevcCodecProfile by lazy {
 		CodecProfile().apply {

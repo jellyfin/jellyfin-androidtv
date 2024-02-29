@@ -147,15 +147,8 @@ class ExoPlayerProfile(
 
 		codecProfiles = buildList {
 			// H264 profile
-			add(CodecProfile().apply {
-				type = CodecType.Video
-				codec = Codec.Video.H264
-				conditions = buildList {
-					addAll(deviceAVCCodecProfile)
-					addAll(deviceAVCLevelCodecProfiles)
-					if (!DeviceUtils.has4kVideoSupport()) addAll(max1080pProfileConditions)
-				}.toTypedArray()
-			})
+			add(deviceAVCCodecProfile)
+			addAll(deviceAVCLevelCodecProfiles)
 			// H264 ref frames profile
 			add(CodecProfile().apply {
 				type = CodecType.Video
