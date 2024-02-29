@@ -73,7 +73,7 @@ object ProfileHelper {
 			codec = Codec.Video.HEVC
 
 			conditions = when {
-				!supportsHevc -> {
+				!supportsHevc && DeviceUtils.has4kVideoSupport() -> {
 					// The following condition is a method to exclude all HEVC
 					Timber.i("*** Does NOT support HEVC")
 					arrayOf(
@@ -84,13 +84,73 @@ object ProfileHelper {
 						)
 					)
 				}
-				!MediaTest.supportsHevcMain10() -> {
+				!MediaTest.supportsHevc() && !DeviceUtils.has4kVideoSupport() -> {
+					Timber.i("*** Does NOT support HEVC")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.Equals,
+							ProfileConditionValue.VideoProfile,
+							"none"
+						),
+						ProfileCondition(
+									ProfileConditionType.LessThanEqual,
+									ProfileConditionValue.Width,
+									"1920"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Height,
+							"1080"
+						)
+					)
+				}
+				!MediaTest.supportsHevcMain10()&& DeviceUtils.has4kVideoSupport() -> {
 					Timber.i("*** Does NOT support HEVC 10 bit")
 					arrayOf(
 						ProfileCondition(
 							ProfileConditionType.NotEquals,
 							ProfileConditionValue.VideoProfile,
 							"Main 10"
+						)
+					)
+				}
+				!MediaTest.supportsHevcMain10() && !DeviceUtils.has4kVideoSupport() -> {
+					Timber.i("*** Does not support HEVC 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.NotEquals,
+							ProfileConditionValue.VideoProfile,
+							"Main 10"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Width,
+							"1920"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Height,
+							"1080"
+						)
+					)
+				}
+				MediaTest.supportsHevcMain10() && !DeviceUtils.has4kVideoSupport() -> {
+					Timber.i("*** Supports HEVC 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.NotEquals,
+							ProfileConditionValue.VideoProfile,
+							"none"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Width,
+							"1920"
+						),
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.Height,
+							"1080"
 						)
 					)
 				}
