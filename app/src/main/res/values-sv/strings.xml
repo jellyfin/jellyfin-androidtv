@@ -513,4 +513,7 @@
     <string name="photo_albums">Fotoalbum</string>
     <string name="photos">Foton</string>
     <string name="lbl_runtime">Speltid</string>
+    <string name="person_birthday_and_age">Född %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="clear_image_cache">Rensa bildcache</string>
 </resources>
