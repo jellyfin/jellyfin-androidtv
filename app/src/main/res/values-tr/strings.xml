@@ -542,4 +542,6 @@
         <item quantity="one">%1$s albüm</item>
         <item quantity="other">%1$s albüm</item>
     </plurals>
+    <string name="clear_image_cache_content">Kullanıldı: %1$s</string>
+    <string name="clear_image_cache">Resim önbelleğini temizle</string>
 </resources>
