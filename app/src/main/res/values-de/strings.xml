@@ -542,4 +542,6 @@
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
+    <string name="clear_image_cache">Bild-Cache leeren</string>
+    <string name="clear_image_cache_content">Benutzt: %1$s</string>
 </resources>
