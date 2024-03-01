@@ -561,6 +561,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setItemId(item.getId().toString());
         internalOptions.setMediaSources(item.getMediaSources());
         internalOptions.setMaxBitrate(maxBitrate);
+        boolean hasSurroundAudio = getNumberOfChannels() > 2;
         if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
             internalOptions.setEnableDirectStream(false);
         internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
@@ -569,7 +570,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 mFragment.getContext(),
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
+                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()), (hasSurroundAudio)
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
@@ -860,6 +861,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                                             mVideoManager.getVLCAudioTrack(getCurrentlyPlayingItem().getMediaStreams());
         }
         return currIndex;
+    }
+
+    public Integer getNumberOfChannels() {
+        Integer numberOfChannels = 0;
+        if (getCurrentMediaSource() != null &&
+                JavaCompat.getDefaultAudioStream(getCurrentMediaSource()) != null &&
+                JavaCompat.getDefaultAudioStream(getCurrentMediaSource()).getChannels() != null) {
+            numberOfChannels = JavaCompat.getDefaultAudioStream(getCurrentMediaSource()).getChannels();
+        }
+        return numberOfChannels;
     }
 
     private Integer bestGuessAudioTrack(MediaSourceInfo info) {

@@ -30,12 +30,14 @@ class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
 	isAC3Enabled: Boolean = false,
+	isSurroundSound: Boolean = false,
 ) : DeviceProfile() {
-	private val downmixSupportedAudioCodecs = arrayOf(
-		Codec.Audio.AAC,
-		Codec.Audio.MP3,
-		Codec.Audio.MP2
-	)
+	private val downmixSupportedAudioCodecs = buildList {
+		if (isAC3Enabled) add(Codec.Audio.AC3)
+		if (!DeviceUtils.isTV() || (!isSurroundSound)) add(Codec.Audio.AAC)
+		add(Codec.Audio.MP3)
+		add(Codec.Audio.MP2)
+	}.toTypedArray()
 
 	/**
 	 * Returns all audio codecs used commonly in video containers.
@@ -43,18 +45,19 @@ class ExoPlayerProfile(
 	 */
 	private val allSupportedAudioCodecs = buildList {
 		addAll(downmixSupportedAudioCodecs)
-		add(Codec.Audio.AAC_LATM)
-		add(Codec.Audio.ALAC)
-		if (isAC3Enabled) add(Codec.Audio.AC3)
 		if (isAC3Enabled) add(Codec.Audio.EAC3)
 		add(Codec.Audio.DCA)
 		add(Codec.Audio.DTS)
-		add(Codec.Audio.MLP)
-		add(Codec.Audio.TRUEHD)
-		add(Codec.Audio.PCM_ALAW)
-		add(Codec.Audio.PCM_MULAW)
-		add(Codec.Audio.OPUS)
-		add(Codec.Audio.FLAC)
+		if (!DeviceUtils.isTV() || (!isSurroundSound)) {
+			add(Codec.Audio.AAC_LATM)
+			add(Codec.Audio.ALAC)
+			add(Codec.Audio.MLP)
+			add(Codec.Audio.TRUEHD)
+			add(Codec.Audio.PCM_ALAW)
+			add(Codec.Audio.PCM_MULAW)
+			add(Codec.Audio.OPUS)
+			add(Codec.Audio.FLAC)
+		}
 	}.toTypedArray()
 
 	private val allSupportedAudioCodecsWithoutFFmpegExperimental = allSupportedAudioCodecs

@@ -33,8 +33,19 @@ object DeviceUtils {
 	private const val SHIELD_TV_MODEL = "SHIELD Android TV"
 	private const val UNKNOWN = "Unknown"
 
+	//Television Manufacturers
+	private const val HISENSE = "Hisense"
+	private const val PANASONIC = "Panasonic"
+	private const val PHILIPS = "Philips"
+	private const val SHARP = "Sharp"
+	private const val SONY = "Sony"
+	private const val TCL = "TCL"
+	private const val TOSHIBA = "Toshiba"
+
 	// Stub to allow for mock injection
 	fun getBuildModel(): String = Build.MODEL ?: UNKNOWN
+
+	fun getManufacturer(): String = Build.MANUFACTURER ?: UNKNOWN
 
 	@JvmStatic val isChromecastWithGoogleTV: Boolean get() = getBuildModel() == CHROMECAST_GOOGLE_TV
 	@JvmStatic val isFireTv: Boolean get() = getBuildModel().startsWith(FIRE_TV_PREFIX)
@@ -54,6 +65,17 @@ object DeviceUtils {
 		FIRE_STICK_LITE_MODEL,
 		FIRE_TV_MODEL_GEN_1,
 		FIRE_TV_MODEL_GEN_2
+	)
+
+	@JvmStatic
+	fun isTV(): Boolean = getManufacturer() in listOf(
+		HISENSE,
+		PANASONIC,
+		PHILIPS,
+		SHARP,
+		SONY,
+		TCL,
+		TOSHIBA
 	)
 
 	@JvmStatic
