@@ -110,7 +110,9 @@ class ExoPlayerProfile(
 						Codec.Container.OGM,
 						Codec.Container.OGV,
 						Codec.Container.MP4,
-						Codec.Container.WEBM
+						Codec.Container.WEBM,
+						Codec.Container.TS,
+						Codec.Container.HLS
 					).joinToString(",")
 
 					videoCodec = arrayOf(
@@ -205,7 +207,8 @@ class ExoPlayerProfile(
 				})
 			}
 			// Audio channel profile
-			add(maxAudioChannelsCodecProfile(channels = 8))
+			if (!Utils.downMixAudio(context)) add(maxAudioChannelsCodecProfile(channels = 8))
+			else add(maxAudioChannelsCodecProfile(channels = 2))
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(

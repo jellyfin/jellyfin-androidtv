@@ -110,7 +110,6 @@
     <string name="pref_media_player">預設播放器</string>
     <string name="pref_about_title">關於</string>
     <string name="pref_video_player_external">外部應用程式</string>
-    <string name="pref_video_player_auto">自動選擇</string>
     <string name="pref_theme_dark">暗色（預設）</string>
     <string name="lbl_my_media">我的媒體</string>
     <string name="lbl_image_size">圖片尺寸</string>
@@ -244,7 +243,6 @@
     <string name="pref_subtitle_track_button">字幕選擇按鍵</string>
     <string name="pref_audio_track_button">音軌按鍵</string>
     <string name="lbl_unknown_key">未知 (%1s)</string>
-    <string name="bitrate_auto">自動位元率</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/秒</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/秒</string>
     <string name="lbl_pause">暫停</string>

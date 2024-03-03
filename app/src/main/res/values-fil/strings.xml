@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_cancel">Kanselahin</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="settings_title">preperénsiyá</string>
+    <string name="chapters">Mga Pangkat</string>
+    <string name="lbl_settings">preperénsiyá</string>
+    <string name="lbl_continue_watching">Patuloy na manood</string>
+    <string name="lbl_next_up">Susunod</string>
+    <string name="lbl_by_letter">Bawat titik</string>
+    <string name="lbl_movies">Pelikula</string>
+    <string name="lbl_tv_series">Teleserye</string>
+    <string name="lbl_cancel">Kanselahin</string>
+</resources>

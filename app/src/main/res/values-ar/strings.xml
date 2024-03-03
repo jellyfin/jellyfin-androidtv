@@ -155,7 +155,6 @@
     <string name="no_player">لا مشغل</string>
     <string name="mark_watched_message">يبدو أن العنصر لم يتم تشغيله لكامل مدته. هل نضع علامة \"تمت مشاهدته\"؟</string>
     <string name="mark_watched">وضع علامة تمت مشاهدته</string>
-    <string name="bitrate_auto">تلقائي</string>
     <string name="lbl_Reset">إعادة ضبط</string>
     <string name="pref_button_remapping_description">اضغط على أي زر في جهاز التحكم عن بعد لتعيينه</string>
     <string name="pref_subtitle_track_button">زر مقطع الترجمة</string>
@@ -173,7 +172,6 @@
     <string name="pref_about_title">حول</string>
     <string name="pref_video_player_choose">إسأل دائما</string>
     <string name="pref_video_player_external">تطبيق خارجي</string>
-    <string name="pref_video_player_auto">إختر تلقائياً</string>
     <string name="pref_theme_dark">الداكن (الافتراضي)</string>
     <string name="pref_theme_emerald">الزمرد الكلاسيكي</string>
     <string name="lbl_my_media">الوسائط الخاصة بي</string>

@@ -176,11 +176,10 @@
     <string name="pref_video_player_external">App externa</string>
     <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">Reprodutor Externo (ExoPlayer)</string>
-    <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Meu Conteúdo</string>
     <string name="lbl_image_type">Tipo de imagem</string>
     <string name="lbl_start_favorites">Posicionar Favoritos no Início</string>
-    <string name="lbl_hd_programs">Programas em HD (Halta-Definição)</string>
+    <string name="lbl_hd_programs">Programas em HD (Alta-Definição)</string>
     <string name="lbl_live_broadcasts">Emissões em Directo</string>
     <string name="lbl_repeat_episodes">Repetir Episódios</string>
     <string name="lbl_new_episodes">Novos Episódios</string>
@@ -222,7 +221,6 @@
     <string name="btn_got_it">Entendido</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automático</string>
     <string name="lbl_Reset">Reiniciar</string>
     <string name="pref_button_remapping_description">Pressione qualquer botão no seu comando do Televisor para atribuí-lo</string>
     <string name="pref_subtitle_track_button">Botão da faixa de legendas</string>

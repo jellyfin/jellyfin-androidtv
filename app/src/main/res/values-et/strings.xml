@@ -121,7 +121,6 @@
     <string name="lbl_unknown_key">Tundmatu (%1s)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_audio_track_button">Heliriba nupp</string>
-    <string name="bitrate_auto">Automaatne</string>
     <string name="no_player">Mängija puudub</string>
     <string name="no_player_message">Näib, et teil pole installitud videot toetavat rakendust. See suvand eeldab, et installite videosisu esitamiseks kolmanda osapoole rakenduse.</string>
     <string name="pref_next_up_timeout_title">Järgmisena taimeri kestus</string>
@@ -181,7 +180,6 @@
     <string name="pref_theme_dark">Tume (Vaikimisi)</string>
     <string name="pref_theme_emerald">Klassikaline smaragd</string>
     <string name="lbl_image_size">Pildi suurus</string>
-    <string name="pref_video_player_auto">Vali automaatselt</string>
     <string name="pref_video_player_vlc">LibVLC (eksperimentaalne)</string>
     <string name="pref_about_title">Teave</string>
     <string name="pref_video_player_external">Väline äpp</string>
@@ -514,4 +512,5 @@
         <item quantity="other">%1$s minutit</item>
     </plurals>
     <string name="pref_screensaver_inapp_enabled">Kasutage rakendusesisest ekraanisäästjat</string>
+    <string name="lbl_runtime">Kestus</string>
 </resources>

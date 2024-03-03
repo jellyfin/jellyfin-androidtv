@@ -121,7 +121,6 @@
     <string name="mark_watched">பார்த்ததாகக் குறிக்கவும்</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">தானியங்கி</string>
     <string name="lbl_Reset">மீட்டமை</string>
     <string name="pref_button_remapping_description">அதை ஒதுக்க டிவி ரிமோட்டில் உள்ள எந்த பொத்தானையும் அழுத்தவும்</string>
     <string name="pref_subtitle_track_button">வசனத் தட பொத்தான்</string>
@@ -141,7 +140,6 @@
     <string name="pref_video_player_external">வெளிப்புற பயன்பாடு</string>
     <string name="pref_video_player_vlc">LibVLC (சோதனை முறை)</string>
     <string name="pref_video_player_exoplayer">எக்ஸோ பிளேயர்</string>
-    <string name="pref_video_player_auto">தானாக தேர்வு செய்யவும்</string>
     <string name="pref_theme_emerald">கிளாசிக் எமரால்டு</string>
     <string name="pref_theme_dark">இருண்ட (இயல்புநிலை)</string>
     <string name="lbl_my_media">எனது மீடியா</string>

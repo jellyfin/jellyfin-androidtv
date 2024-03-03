@@ -314,7 +314,6 @@
     <string name="episode_missing">エピソードがありません</string>
     <string name="no_player_message">ビデオ対応アプリがインストールされていないようです。このオプションでは、ビデオコンテンツを再生するためのサードパーティのアプリケーションをインストールする必要があります。</string>
     <string name="mark_watched">視聴済みにする</string>
-    <string name="bitrate_auto">自動</string>
     <string name="lbl_Reset">リセット</string>
     <string name="pref_button_remapping_description">テレビのリモコンの任意のボタンを押して割り当てます</string>
     <string name="pref_subtitle_track_button">字幕トラックボタン</string>
@@ -330,7 +329,6 @@
     <string name="pref_next_up_behavior_title">次のビデオの情報を表示する</string>
     <string name="pref_video_player_choose">常に確認する</string>
     <string name="pref_video_player_external">外部アプリ</string>
-    <string name="pref_video_player_auto">自動選択</string>
     <string name="lbl_my_media">私のメディア</string>
     <string name="lbl_fit">通常</string>
     <string name="sum_enable_cinema_mode">サーバーによって有効にされていると、ムービーの再生前にイントロとプレビューを再生します</string>

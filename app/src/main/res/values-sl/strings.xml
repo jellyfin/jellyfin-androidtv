@@ -181,7 +181,6 @@
     <string name="mark_watched">Označi kot ogledano</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Samodejno</string>
     <string name="lbl_Reset">Ponastavi</string>
     <string name="pref_button_remapping_description">Pritisni kateri koli gumb TV daljinca za določitev</string>
     <string name="pref_subtitle_track_button">Gumb sledi podnapisov</string>
@@ -199,7 +198,6 @@
     <string name="pref_video_player_external">Zunanja aplikacija</string>
     <string name="pref_video_player_vlc">LibVLC (poskusno)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Izberi avtomatsko</string>
     <string name="pref_theme_emerald">Klasični smaragd</string>
     <string name="pref_theme_dark">Temno (Privzeto)</string>
     <string name="lbl_my_media">Moja predstavnost</string>
@@ -362,7 +360,7 @@
     <string name="auto_sign_in">Samodejna prijava</string>
     <string name="lbl_use_series_thumbnails_description">Uporabi sličice za serijo ob pogledu epizod</string>
     <string name="lbl_use_series_thumbnails">Prikazuj sličice serij</string>
-    <string name="lbl_hide_unwatched_count">Skrij števec za neogledane vsebine</string>
+    <string name="lbl_hide_unwatched_count">Ko je vsebina ogledana</string>
     <string name="pref_watched_indicator">Prikaži kazalnike za funkcijo že ogledano</string>
     <string name="login_help_description">Jellyfin zahteva strežnik za povezavo. Obiščite našo dokumentacijo na docs.jellyfin.org ali skenirajte QR kodo za pričetek uporabe Jellyfin.</string>
     <string name="login_help_title">Potrebujete pomoč\?</string>
@@ -520,4 +518,8 @@
     <string name="desc_audio_night_mode">Samodejno izravna glasnost zvoka</string>
     <string name="color_cyan">Cian</string>
     <string name="because_you_watched">Ker ste gledali %1$s</string>
+    <string name="lbl_hide_watched_checkmark">Ko so še preostale epizode</string>
+    <string name="photos">Slike</string>
+    <string name="photo_albums">Foto albumi</string>
+    <string name="channels">Kanali</string>
 </resources>

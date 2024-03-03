@@ -234,7 +234,6 @@
     <string name="no_player">אין נגן</string>
     <string name="mark_watched_message">לא נראה שזמן הריצה תואם את הזמן הצפוי, האם לסמן כנצפה\?</string>
     <string name="mark_watched">סמן כנצפה</string>
-    <string name="bitrate_auto">אוטומאטי</string>
     <string name="lbl_Reset">הפעל מחדש</string>
     <string name="pref_button_remapping_description">לחץ על כל מקש בשלט כדי לקבוע אותו</string>
     <string name="pref_subtitle_track_button">כפתור כתוביות</string>
@@ -254,7 +253,6 @@
     <string name="pref_video_player_choose">שאל תמיד</string>
     <string name="pref_video_player_external">נגן חיצוני</string>
     <string name="pref_video_player_exoplayer">אקסופליר</string>
-    <string name="pref_video_player_auto">בחר אוטומאטית</string>
     <string name="pref_theme_emerald">קלאסי</string>
     <string name="pref_theme_dark">חשוך (רגיל)</string>
     <string name="lbl_my_media">המדיה שלי</string>

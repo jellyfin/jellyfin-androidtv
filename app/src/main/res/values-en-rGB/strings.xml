@@ -227,7 +227,6 @@
     <string name="pref_video_player_external">External app</string>
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automatically choose</string>
     <string name="lbl_my_media">My media</string>
     <string name="pref_libvlc_audio_delay_title">Default audio delay for LibVLC</string>
     <string name="watch_now">Watch now</string>
@@ -247,7 +246,6 @@
     <string name="lbl_unknown_key">Unknown (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="just_one">Just this one</string>
     <string name="turn_off">Turn this option off</string>
     <string name="audio_error">Unable to play audio %1$s</string>
@@ -515,4 +513,36 @@
     <string name="photo_albums">Photo albums</string>
     <string name="photos">Photos</string>
     <string name="lbl_hide_watched_checkmark">When there are episodes remaining</string>
+    <string name="lbl_runtime">Runtime</string>
+    <string name="clear_image_cache">Clear image cache</string>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other">%1$s albums</item>
+    </plurals>
+    <string name="person_birthday_and_age">Born %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">%1$s item</item>
+        <item quantity="other">%1$s items</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s movie</item>
+        <item quantity="other">%1$s movies</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s song</item>
+        <item quantity="other">%1$s songs</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV series</item>
+        <item quantity="other">%1$s TV series</item>
+    </plurals>
+    <string name="clear_image_cache_content">Used: %1$s</string>
 </resources>

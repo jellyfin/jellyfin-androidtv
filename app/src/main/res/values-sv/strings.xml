@@ -16,7 +16,6 @@
     <string name="pref_video_player_external">Extern app</string>
     <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Välj automatiskt</string>
     <string name="lbl_my_media">Min media</string>
     <string name="lbl_image_size">Bildstorlek</string>
     <string name="lbl_image_type">Bildtyp</string>
@@ -241,7 +240,6 @@
     <string name="grid_direction_horizontal">Horisontell</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automatisk</string>
     <string name="lbl_Reset">Återställ</string>
     <string name="pref_button_remapping_description">Tryck på valfri knapp på TV-fjärrkontrollen för att tilldela den</string>
     <string name="pref_subtitle_track_button">Undertextknapp</string>
@@ -514,4 +512,8 @@
     <string name="channels">Kanaler</string>
     <string name="photo_albums">Fotoalbum</string>
     <string name="photos">Foton</string>
+    <string name="lbl_runtime">Speltid</string>
+    <string name="person_birthday_and_age">Född %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="clear_image_cache">Rensa bildcache</string>
 </resources>

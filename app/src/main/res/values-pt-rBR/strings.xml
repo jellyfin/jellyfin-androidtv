@@ -230,7 +230,6 @@
     <string name="pref_video_player_external">Aplicação externa</string>
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Minha mídia</string>
     <string name="pref_app_theme">Tema do aplicativo</string>
     <string name="pref_theme_emerald">Esmeralda clássica</string>
@@ -246,7 +245,6 @@
     <string name="lbl_unknown_key">Desconhecido (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbps</string>
     <string name="bitrate_mbit">%1$,.0f Mbps</string>
-    <string name="bitrate_auto">Automático</string>
     <string name="no_player_message">Parece que você nao tem nenhum app para reprodução de vídeo instalado. Essa opção requer que você instale um reprodutor de vídeos de terceiros.</string>
     <string name="no_player">Nenhum reprodutor de vídeo</string>
     <string name="mark_watched_message">O item não parece ter sido reproduzido totalmente. Marcar como assitido\?</string>
@@ -319,7 +317,7 @@
     <string name="lbl_manage_servers">Gerenciar servidores</string>
     <string name="lbl_use_series_thumbnails_description">Use miniaturas de séries ao exibir episódios</string>
     <string name="lbl_use_series_thumbnails">Prefira miniaturas de séries</string>
-    <string name="lbl_hide_unwatched_count">Ocultar contagem não assistida</string>
+    <string name="lbl_hide_unwatched_count">Quando o item foi assistido</string>
     <string name="pref_watched_indicator">Mostrar indicadores assistidos</string>
     <string name="user_picker_last_user_summary">Usar a última conta ativa</string>
     <string name="user_picker_last_user_title">Mais usado recentemente</string>
@@ -515,4 +513,9 @@
     <string name="not_set">Não definido</string>
     <string name="disable_ui_mode_warning">Desativar avisos de tipo de dispositivos</string>
     <string name="because_you_watched">Por você ter assistido %1$s</string>
+    <string name="lbl_hide_watched_checkmark">Quando houverem episódios restantes</string>
+    <string name="photo_albums">Albuns de fotos</string>
+    <string name="channels">Canais</string>
+    <string name="photos">Fotos</string>
+    <string name="lbl_runtime">Duração</string>
 </resources>

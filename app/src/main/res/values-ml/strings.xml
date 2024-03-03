@@ -108,7 +108,6 @@
     <string name="no_player">പ്ലെയർ ഇല്ല</string>
     <string name="mark_watched_message">ഇനത്തിന്റെ ദൈർഘ്യം ഉള്ളിടത്തോളം പ്ലേ ചെയ്യുന്നതായി തോന്നുന്നില്ല. മാർക്ക് കണ്ടോ\?</string>
     <string name="mark_watched">മാർക്ക് കണ്ടു</string>
-    <string name="bitrate_auto">യാന്ത്രികം</string>
     <string name="lbl_Reset">പുന et സജ്ജമാക്കുക</string>
     <string name="pref_button_remapping_description">അത് നൽകാൻ ടിവി റിമോട്ടിലെ ഏതെങ്കിലും ബട്ടൺ അമർത്തുക</string>
     <string name="pref_subtitle_track_button">സബ്‌ടൈറ്റിൽ ട്രാക്ക് ബട്ടൺ</string>
@@ -125,7 +124,6 @@
     <string name="pref_about_title">കുറിച്ച്</string>
     <string name="pref_video_player_choose">എപ്പോഴും ചോദിക്കുക</string>
     <string name="pref_video_player_external">ബാഹ്യ അപ്ലിക്കേഷൻ</string>
-    <string name="pref_video_player_auto">യാന്ത്രികമായി തിരഞ്ഞെടുക്കുക</string>
     <string name="pref_theme_emerald">ക്ലാസിക് എമറാൾഡ്</string>
     <string name="pref_theme_dark">ഇരുണ്ടത് (സ്ഥിരസ്ഥിതി)</string>
     <string name="lbl_my_media">എന്റെ മീഡിയ</string>

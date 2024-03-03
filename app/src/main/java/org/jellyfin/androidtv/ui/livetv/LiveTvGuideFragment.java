@@ -798,7 +798,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mSummary.setText(mSelectedProgram.getOverview());
 
         //info row
-        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(mSelectedProgram), mInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(mSelectedProgram), mInfoRow, false);
 
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));

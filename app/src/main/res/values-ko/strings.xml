@@ -177,7 +177,6 @@
     <string name="pref_video_player_external">외부 앱</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">자동으로 선택하기</string>
     <string name="pref_theme_emerald">클래식 에메랄드</string>
     <string name="pref_theme_dark">다크 (기본값)</string>
     <string name="lbl_my_media">내 미디어</string>
@@ -236,7 +235,6 @@
     <string name="mark_watched_message">이 항목은 전체길이만큼 재생되지 않는 것 같습니다. 구역 마킹을 확인해보셨나요\?</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">자동</string>
     <string name="lbl_Reset">리셋</string>
     <string name="pref_button_remapping_description">할당하려면 TV 리모컨의 아무 버튼이나 누르십시오</string>
     <string name="lbl_colored_backgrounds">배경색</string>

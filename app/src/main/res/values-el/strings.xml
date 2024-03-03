@@ -172,7 +172,6 @@
     <string name="pref_media_player">Προτιμώμενη εφαρμογή αναπαραγωγής</string>
     <string name="pref_about_title">Περί</string>
     <string name="pref_video_player_external">Εξωτερική εφαρμογή</string>
-    <string name="pref_video_player_auto">Αυτόματη επιλογή</string>
     <string name="pref_theme_dark">Σκοτεινό (Προεπιλογή)</string>
     <string name="lbl_my_media">Τα πολυμέσα μου</string>
     <string name="lbl_audio_delay">Καθυστέρηση ήχου</string>
@@ -249,7 +248,6 @@
     <string name="lbl_tv_channel_status">%1$d από %2$d κανάλια</string>
     <string name="lbl_bitstream_dts">Ήχος Bitstream DTS</string>
     <string name="lbl_recorded_tv">Εγγραφές TV</string>
-    <string name="bitrate_auto">Αυτόματο</string>
     <string name="lbl_Reset">Επαναφορά</string>
     <string name="pref_button_remapping_description">Πατήστε οποιδήποτε κουμπί του τηλεχειριστηρίου για να το αναθέσετε</string>
     <string name="grid_direction_horizontal">Οριζόντιο</string>

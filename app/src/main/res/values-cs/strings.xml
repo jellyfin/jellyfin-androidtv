@@ -224,7 +224,6 @@
     <string name="pref_video_player_external">Externí aplikace</string>
     <string name="pref_video_player_vlc">LibVLC (experimentální)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Vybrat automaticky</string>
     <string name="lbl_my_media">Moje média</string>
     <string name="pref_about_title">Obsah</string>
     <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro LibVLC</string>
@@ -246,7 +245,6 @@
     <string name="lbl_unknown_key">Neznámý (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automaticky</string>
     <string name="just_one">Jen tuto</string>
     <string name="turn_off">Vypnout tuto možnost</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>
@@ -319,7 +317,7 @@
     <string name="lbl_manage_servers">Spravovat servery</string>
     <string name="lbl_use_series_thumbnails_description">Použít náhledy seriálů při zobrazení epizod</string>
     <string name="lbl_use_series_thumbnails">Preferovat náhledy seriálů</string>
-    <string name="lbl_hide_unwatched_count">Skrýt počet nezhlédnutých</string>
+    <string name="lbl_hide_unwatched_count">Pokud je položka zhlédnutá</string>
     <string name="pref_watched_indicator">Zobrazit indikátory zhlédnutí</string>
     <string name="user_picker_last_user_summary">Použít poslední aktivní účet</string>
     <string name="user_picker_last_user_title">Naposledy použité</string>
@@ -518,4 +516,40 @@
     <string name="photo_albums">Fotoalba</string>
     <string name="channels">Kanály</string>
     <string name="photos">Fotky</string>
+    <string name="lbl_hide_watched_checkmark">Pokud zbývají epizody</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">%1$s položka</item>
+        <item quantity="few">%1$s položek</item>
+        <item quantity="other">%1$s položek</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV seriál</item>
+        <item quantity="few">%1$s TV seriály</item>
+        <item quantity="other">%1$s TV seriálů</item>
+    </plurals>
+    <string name="person_birthday_and_age">Narozen %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="few">%1$s filmy</item>
+        <item quantity="other">%1$s filmů</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s skladba</item>
+        <item quantity="few">%1$s skladby</item>
+        <item quantity="other">%1$s skladeb</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="few">%1$s alba</item>
+        <item quantity="other">%1$s alb</item>
+    </plurals>
+    <string name="lbl_runtime">Doba trvání</string>
 </resources>

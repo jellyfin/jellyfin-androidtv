@@ -224,7 +224,6 @@
     <string name="pref_video_player_vlc">LibVLC (экспериментальный)</string>
     <string name="pref_video_player_external">Внешнее приложение</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Автоматический выбор</string>
     <string name="lbl_my_media">Мои медиафайлы</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
@@ -246,7 +245,6 @@
     <string name="lbl_unknown_key">Неизвестно (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Кбит/с</string>
     <string name="bitrate_mbit">%1$,.0f Мбит/с</string>
-    <string name="bitrate_auto">Авто</string>
     <string name="play_with">Воспроизвести в</string>
     <string name="play_with_external_app">Воспроизвести во внешнем приложении</string>
     <string name="play_with_exo_player">Воспроизвести в ExoPlayer</string>

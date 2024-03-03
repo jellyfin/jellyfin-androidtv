@@ -222,7 +222,6 @@
     <string name="lbl_new_only">只有新的</string>
     <string name="lbl_news">新闻</string>
     <string name="pref_video_player_external">外部应用</string>
-    <string name="pref_video_player_auto">自动选择</string>
     <string name="lbl_my_media">我的媒体</string>
     <string name="watch_now">立即播放</string>
     <string name="pref_next_up_timeout_title">自动播放倒计时</string>
@@ -246,7 +245,6 @@
     <string name="lbl_unknown_key">未知 (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
     <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
-    <string name="bitrate_auto">自动码率</string>
     <string name="no_player_message">你似乎没有安装可播放视频的应用。此选项需要您安装第三方应用来播放视频内容。</string>
     <string name="no_player">无播放器</string>
     <string name="mark_watched">标记为已观看</string>
@@ -509,4 +507,24 @@
     <string name="channels">频道</string>
     <string name="photo_albums">相册</string>
     <string name="lbl_hide_watched_checkmark">还有剩余剧集</string>
+    <string name="lbl_runtime">运行时</string>
+    <string name="person_birthday_and_age">用户出生年月</string>
+    <string name="dolby_vision">杜比视界</string>
+    <plurals name="items">
+        <item quantity="other">选项</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="other">电影</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">歌曲</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="other">相册,专辑</item>
+    </plurals>
+    <string name="dolby_atmos">杜比全景声</string>
+    <plurals name="tv_series">
+        <item quantity="other">电视剧</item>
+    </plurals>
+    <string name="clear_image_cache">清除图片缓存</string>
 </resources>

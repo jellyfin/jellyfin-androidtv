@@ -100,7 +100,6 @@
     <string name="mark_watched">Означи као гледано</string>
     <string name="bitrate_kbit">%1$,.0f Кбит/с</string>
     <string name="bitrate_mbit">%1$,.0f Мбит/с</string>
-    <string name="bitrate_auto">Аутоматски</string>
     <string name="lbl_Reset">Ресетуј</string>
     <string name="pref_button_remapping_description">Притисните било које дугме на даљинском управљачу ТВ-а да бисте га доделили</string>
     <string name="pref_subtitle_track_button">Дугме за запис титла</string>
@@ -121,7 +120,6 @@
     <string name="pref_video_player_external">Спољна апликација</string>
     <string name="pref_video_player_vlc">либВЛЦ</string>
     <string name="pref_video_player_exoplayer">Exo плејер</string>
-    <string name="pref_video_player_auto">Изабери аутоматски</string>
     <string name="pref_theme_emerald">Класично смарагдно</string>
     <string name="pref_theme_dark">Тамно (подразумевано)</string>
     <string name="lbl_my_media">Моји медији</string>

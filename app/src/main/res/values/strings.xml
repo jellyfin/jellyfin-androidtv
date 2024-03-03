@@ -67,6 +67,7 @@
     <string name="lbl_ends">"Ends"</string>
     <string name="lbl_directed_by">"Directed by"</string>
     <string name="lbl_last_played">"Last played "</string>
+    <string name="lbl_runtime">Runtime</string>
     <string name="lbl_other_options">Other options</string>
     <string name="lbl_people">People</string>
     <string name="lbl_videos">Videos</string>
@@ -250,7 +251,6 @@
     <string name="lbl_my_media">My media</string>
     <string name="pref_theme_dark">Dark (Default)</string>
     <string name="pref_theme_emerald">Classic emerald</string>
-    <string name="pref_video_player_auto">Automatically choose</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_external">External app</string>
@@ -273,7 +273,6 @@
     <string name="pref_subtitle_track_button">Subtitle track button</string>
     <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
     <string name="lbl_Reset">Reset</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="mark_watched">Mark watched</string>
@@ -495,6 +494,17 @@
     <string name="channels">Channels</string>
     <string name="photo_albums">Photo albums</string>
     <string name="photos">Photos</string>
+    <string name="person_birthday_and_age">Born %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="clear_image_cache">Clear image cache</string>
+    <string name="clear_image_cache_content">Used: %1$s</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
@@ -514,5 +524,25 @@
     <plurals name="episodes">
         <item quantity="one">%1$s episode</item>
         <item quantity="other">%1$s episodes</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s item</item>
+        <item quantity="other">%1$s items</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s movie</item>
+        <item quantity="other">%1$s movies</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV series</item>
+        <item quantity="other">%1$s TV series</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s song</item>
+        <item quantity="other">%1$s songs</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other">%1$s albums</item>
     </plurals>
 </resources>

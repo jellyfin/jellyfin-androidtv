@@ -9,7 +9,6 @@
     <string name="pref_video_player_external">Ārēja lietotne</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automātiski izvēlēties</string>
     <string name="lbl_my_media">Mana Multvide</string>
     <string name="lbl_image_size">Attēla Lielums</string>
     <string name="lbl_image_type">Attēla Veids</string>
@@ -245,6 +244,5 @@
     <string name="pref_device_model">Ierīces Modelis</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="grid_direction">Režģa virziens</string>
 </resources>

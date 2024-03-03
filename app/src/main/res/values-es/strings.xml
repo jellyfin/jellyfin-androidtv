@@ -220,7 +220,6 @@
     <string name="pref_video_player_external">Aplicación externa</string>
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer (Reproductor externo)</string>
-    <string name="pref_video_player_auto">Seleccionar automáticamente</string>
     <string name="lbl_my_media">Mis medios</string>
     <string name="lbl_image_size">Tamaño de la imagen</string>
     <string name="lbl_start_favorites">Colocar favoritos al inicio</string>
@@ -244,7 +243,6 @@
     <string name="pref_button_remapping_description">Presiona un botón en el mando a distancia para asignarlo</string>
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="lbl_unknown_key">Desconocido (%1s)</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="bitrate_kbit">%1$,.0f Kbps</string>
     <string name="bitrate_mbit">%1$,.0f Mbps</string>
     <string name="just_one">Únicamente esto</string>

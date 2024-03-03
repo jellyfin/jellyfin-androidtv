@@ -4,15 +4,13 @@ import androidx.annotation.OptIn
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 
+@OptIn(UnstableApi::class)
 fun getFfmpegContainerMimeType(codec: String): String {
-	// Find in container mime type list
-	return ffmpegContainerMimeTypes.getOrElse(codec) {
-		// Find in audio mime type list
-		ffmpegAudioMimeTypes.getOrElse(codec) {
-			// Return input
-			codec
-		}
-	}
+	return ffmpegContainerMimeTypes[codec]
+		?: ffmpegVideoMimeTypes[codec]
+		?: ffmpegAudioMimeTypes[codec]
+		?: MimeTypes.getMediaMimeType(codec)
+		?: codec
 }
 
 @OptIn(UnstableApi::class)

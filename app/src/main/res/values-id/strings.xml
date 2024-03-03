@@ -13,7 +13,6 @@
     <string name="pref_video_player_external">Aplikasi eksternal</string>
     <string name="pref_video_player_vlc">LibVLC (eksperimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Pilih secara otomatis</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Gelap (Default)</string>
     <string name="lbl_my_media">Media saya</string>
@@ -149,7 +148,6 @@
     <string name="msg_unable_load_subs">Tidak dapat memuat takarir</string>
     <string name="msg_subtitles_loading">Memuat takarir…</string>
     <string name="lbl_filters">Filters TV live</string>
-    <string name="bitrate_auto">Otomatis</string>
     <string name="sum_enable_cinema_mode">Putar intro dan pratinjau yang tersedia sebelum film dimulai</string>
     <string name="lbl_yes">Ya</string>
     <string name="lbl_no">Tidak</string>

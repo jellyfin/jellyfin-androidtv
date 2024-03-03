@@ -27,16 +27,16 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.constant.ItemSortBy
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun DreamHost() {
-	val api = rememberKoinInject<ApiClient>()
-	val userPreferences = rememberKoinInject<UserPreferences>()
-	val mediaManager = rememberKoinInject<MediaManager>()
-	val imageLoader = rememberKoinInject<ImageLoader>()
+	val api = koinInject<ApiClient>()
+	val userPreferences = koinInject<UserPreferences>()
+	val mediaManager = koinInject<MediaManager>()
+	val imageLoader = koinInject<ImageLoader>()
 	val context = LocalContext.current
 
 	var libraryShowcase by remember { mutableStateOf<DreamContent.LibraryShowcase?>(null) }
@@ -76,6 +76,9 @@ private suspend fun getRandomLibraryShowcase(
 			sortBy = listOf(ItemSortBy.Random),
 			limit = 5,
 			imageTypes = listOf(ImageType.BACKDROP),
+			// TODO: Add preferences for these two settings
+			maxOfficialRating = "PG-13",
+			// hasParentalRating = true,
 		)
 
 		val item = response.items?.firstOrNull { item ->

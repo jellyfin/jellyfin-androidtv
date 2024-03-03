@@ -14,7 +14,7 @@
     <string name="lbl_views">Aufrufe</string>
     <string name="lbl_by_letter">Nach Buchstabe</string>
     <string name="lbl_suggested">Vorgeschlagen</string>
-    <string name="lbl_genres">Genres</string>
+    <string name="lbl_genres">Genre</string>
     <string name="lbl_search">Suche</string>
     <string name="msg_not_implemented">" Nicht implementiert"</string>
     <string name="lbl_latest">Kürzlich hinzugefügt</string>
@@ -224,7 +224,6 @@
     <string name="pref_video_player_external">Externe App</string>
     <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automatisch auswählen</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
     <string name="pref_media_player">Bevorzugter Mediaplayer</string>
@@ -246,7 +245,6 @@
     <string name="lbl_unknown_key">Unbekannt (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Automatisch</string>
     <string name="just_one">Nur dieses eine</string>
     <string name="turn_off">Diese Option ausschalten</string>
     <string name="audio_error">Audio %1$s kann nicht abgespielt werden</string>
@@ -319,7 +317,7 @@
     <string name="lbl_manage_servers">Server verwalten</string>
     <string name="lbl_use_series_thumbnails_description">Serien-Vorschaubilder verwenden, wenn Episoden angezeigt werden</string>
     <string name="lbl_use_series_thumbnails">Serien-Vorschaubilder bevorzugen</string>
-    <string name="lbl_hide_unwatched_count">Anzahl an ungesehenen Einträgen verbergen</string>
+    <string name="lbl_hide_unwatched_count">Wenn der Eintrag gesehen wurde</string>
     <string name="pref_watched_indicator">Präferierte Vorschläge anzeigen</string>
     <string name="user_picker_last_user_summary">Das zuletzt aktive Konto verwenden</string>
     <string name="user_picker_last_user_title">Als Letztes verwendet</string>
@@ -513,4 +511,37 @@
     <string name="channels">Kanäle</string>
     <string name="photo_albums">Fotoalben</string>
     <string name="photos">Fotos</string>
+    <string name="lbl_runtime">Laufzeit</string>
+    <string name="lbl_hide_watched_checkmark">Wenn es weitere Episoden gibt</string>
+    <string name="person_birthday_and_age">Geboren %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision™</string>
+    <plurals name="items">
+        <item quantity="one">%1$s Element</item>
+        <item quantity="other">%1$s Elemente</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s Film</item>
+        <item quantity="other">%1$s Filme</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s Fernseh-Serie</item>
+        <item quantity="other">%1$s Fernseh-Serien</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s Lied</item>
+        <item quantity="other">%1$s Lieder</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s Album</item>
+        <item quantity="other">%1$s Alben</item>
+    </plurals>
+    <string name="indicator_subtitles">UT</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="clear_image_cache">Bild-Cache leeren</string>
+    <string name="clear_image_cache_content">Benutzt: %1$s</string>
 </resources>

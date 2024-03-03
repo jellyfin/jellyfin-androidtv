@@ -5,12 +5,12 @@ sealed class QuickConnectState
 /**
  * State unknown untill first poll completed.
  */
-object UnknownQuickConnectState : QuickConnectState()
+data object UnknownQuickConnectState : QuickConnectState()
 
 /**
  * Server does not have QuickConnect enabled.
  */
-object UnavailableQuickConnectState : QuickConnectState()
+data object UnavailableQuickConnectState : QuickConnectState()
 
 /**
  * Connection is pending.
@@ -20,4 +20,4 @@ data class PendingQuickConnectState(val code: String) : QuickConnectState()
 /**
  * User connected.
  */
-object ConnectedQuickConnectState : QuickConnectState()
+data object ConnectedQuickConnectState : QuickConnectState()

@@ -45,7 +45,7 @@ import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 class SelectServerFragment : Fragment() {
 	private var _binding: FragmentSelectServerBinding? = null
@@ -158,7 +158,7 @@ class SelectServerFragment : Fragment() {
 
 		// Notifications
 		binding.notifications.setContent {
-			val notificationsRepository = rememberKoinInject<NotificationsRepository>()
+			val notificationsRepository = koinInject<NotificationsRepository>()
 			val notifications by notificationsRepository.notifications.collectAsState()
 
 			Column(

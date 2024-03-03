@@ -229,7 +229,6 @@
     <string name="pref_video_player_external">Syrtqy qoldanba</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Avtomatty tañdau</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
     <string name="pref_app_theme">Qoldanba taqyryby</string>
     <string name="pref_theme_emerald">Klasikalyq kök-jasyl</string>
@@ -247,7 +246,6 @@
     <string name="mark_watched">Qaralğan</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Avtomatty</string>
     <string name="lbl_Reset">Ysyru</string>
     <string name="pref_subtitle_track_button">Subtitrler jolşyğynyñ tüimeşıgı</string>
     <string name="pref_audio_track_button">Dybys jolşyğynyñ tüimeşıgı</string>

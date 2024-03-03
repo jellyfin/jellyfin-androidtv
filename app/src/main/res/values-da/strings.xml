@@ -215,7 +215,6 @@
     <string name="pref_video_player_external">Ekstern app</string>
     <string name="pref_video_player_vlc">LibVLC (eksperimentel)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_video_player_auto">Automatisk vælg</string>
     <string name="lbl_my_media">Mine medier</string>
     <string name="lbl_image_size">Billede størrelse</string>
     <string name="lbl_image_type">Billed type</string>
@@ -246,7 +245,6 @@
     <string name="grid_direction">Gitter retning</string>
     <string name="no_player">Ingen afspiller</string>
     <string name="mark_watched">Marker som afspillet</string>
-    <string name="bitrate_auto">Auto</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Slutter %1$s</string>
     <string name="lbl_sign_in">Log venligst ind</string>

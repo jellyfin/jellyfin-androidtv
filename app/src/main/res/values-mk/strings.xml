@@ -115,7 +115,6 @@
     <string name="lbl_adjust">Прилагоди</string>
     <string name="lbl_hd_programs">HD програми</string>
     <string name="pref_theme_dark">Темно (Зададено)</string>
-    <string name="pref_video_player_auto">Избери автоматски</string>
     <string name="pref_next_up_behavior_title">Прикажи инфо за следно видео</string>
     <string name="pref_app_theme">Тема на апликација</string>
     <string name="mark_watched_message">Оваа ставка не беше пуштена до крај. Да се означи како гледано\?</string>
@@ -359,7 +358,6 @@
     <string name="pref_libvlc_audio_delay_title">Зададено доцнење на звук за LibVLC</string>
     <string name="grid_direction_horizontal">Хоризонтално</string>
     <string name="pref_subtitle_track_button">Копче за превод</string>
-    <string name="bitrate_auto">Автоматски</string>
     <string name="lbl_load_guide_data">Вчитај информации од водич</string>
     <string name="msg_no_items">Нема ставки за репродукција</string>
     <string name="pref_default_rating">Зададен тип на оценка</string>

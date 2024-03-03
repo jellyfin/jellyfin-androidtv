@@ -162,6 +162,7 @@ object ProfileHelper {
 			when {
 				// https://developer.amazon.com/docs/fire-tv/device-specifications.html
 				DeviceUtils.isFireTvStick4k -> H264_LEVEL_5_2
+				DeviceUtils.isFireTv4k -> H264_LEVEL_5_2
 				DeviceUtils.isFireTv -> H264_LEVEL_4_1
 				DeviceUtils.isShieldTv -> H264_LEVEL_5_2
 				else -> H264_LEVEL_5_1
