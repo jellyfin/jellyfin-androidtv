@@ -8,6 +8,7 @@ import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -21,6 +22,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
+import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
@@ -157,6 +159,21 @@ class MainActivity : FragmentActivity() {
 		}
 
 		NavigationAction.GoBack -> supportFragmentManager.popBackStack()
+
+		NavigationAction.GoHome -> {
+			// Clear the current back stack
+			val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
+			supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+			// Navigate to the home fragment without adding to the stack, this mimics the app first loading
+			// to maintain pressing back leaving the app.
+			supportFragmentManager.commit {
+				val destination = Destinations.home
+
+				setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+				replace(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
+			}
+		}
 
 		NavigationAction.Nothing -> Unit
 	}

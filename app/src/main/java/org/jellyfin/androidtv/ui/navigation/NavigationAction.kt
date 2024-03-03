@@ -27,6 +27,11 @@ sealed interface NavigationAction {
 	data object GoBack : NavigationAction
 
 	/**
+	 * Go back to the home fragment
+	 */
+	data object GoHome: NavigationAction
+
+	/**
 	 * Do nothing.
 	 */
 	data object Nothing : NavigationAction

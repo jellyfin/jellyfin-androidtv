@@ -47,7 +47,7 @@ class ClockUserView @JvmOverloads constructor(
 		binding.clockUserImage.isVisible = currentUser != null
 
 		binding.home.setOnClickListener {
-			navigationRepository.reset(Destinations.home)
+			navigationRepository.goHome()
 		}
 	}
 
@@ -60,5 +60,7 @@ class ClockUserView @JvmOverloads constructor(
 			ClockBehavior.IN_VIDEO -> isVideoPlayer
 			ClockBehavior.IN_MENUS -> !isVideoPlayer
 		}
+
+		binding.home.isVisible = !isVideoPlayer
 	}
 }

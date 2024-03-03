@@ -47,10 +47,15 @@ interface NavigationRepository {
 	fun goBack(): Boolean
 
 	/**
-	 * Reset navigation to it's initial state and remvoe all history.
+	 * Reset navigation to it's initial state and remove all history.
 	 * Optionally use a [Destination.Fragment] instead of the default destination.
 	 */
 	fun reset(destination: Destination.Fragment? = null)
+
+	/**
+	 * Navigates back to the home fragment, clearing all back stack and fragment history.
+	 */
+	fun goHome(): Boolean
 }
 
 class NavigationRepositoryImpl(
@@ -100,6 +105,13 @@ class NavigationRepositoryImpl(
 		val actualDestination = destination ?: initialDestination
 		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false, false))
 		Timber.d("Navigating to $actualDestination (via reset)")
+	}
+
+	override fun goHome(): Boolean {
+		fragmentHistory.clear()
+		_currentAction.tryEmit(NavigationAction.GoHome)
+		Timber.d("Navigating home")
+		return true
 	}
 }
 
