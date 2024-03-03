@@ -4,6 +4,7 @@ import android.content.Context
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
+import org.jellyfin.androidtv.util.isActualTv
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
@@ -26,6 +27,7 @@ import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
+
 class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
@@ -34,7 +36,7 @@ class ExoPlayerProfile(
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = buildList {
 		if (isAC3Enabled) add(Codec.Audio.AC3)
-		if (!DeviceUtils.isTV() || (!isSurroundSound)) add(Codec.Audio.AAC)
+		if (!context.isActualTv() || !isSurroundSound) add(Codec.Audio.AAC)
 		add(Codec.Audio.MP3)
 		add(Codec.Audio.MP2)
 	}.toTypedArray()
@@ -45,10 +47,10 @@ class ExoPlayerProfile(
 	 */
 	private val allSupportedAudioCodecs = buildList {
 		addAll(downmixSupportedAudioCodecs)
-		if (isAC3Enabled) add(Codec.Audio.EAC3)
+		if (isAC3Enabled)add(Codec.Audio.EAC3)
 		add(Codec.Audio.DCA)
 		add(Codec.Audio.DTS)
-		if (!DeviceUtils.isTV() || (!isSurroundSound)) {
+		if (!context.isActualTv()|| !isSurroundSound) {
 			add(Codec.Audio.AAC_LATM)
 			add(Codec.Audio.ALAC)
 			add(Codec.Audio.MLP)

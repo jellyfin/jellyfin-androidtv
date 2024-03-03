@@ -32,3 +32,17 @@ fun Context.isTvDevice(): Boolean {
 		packageManager.hasSystemFeature("android.hardware.hdmi.cec") or
 		!packageManager.hasSystemFeature("android.hardware.touchscreen")
 }
+
+fun Context.isActualTv(): Boolean {
+	val uiModeManager = getSystemService<UiModeManager>()
+	val supportedUiModes = setOf(Configuration.UI_MODE_TYPE_TELEVISION, Configuration.UI_MODE_TYPE_UNDEFINED)
+
+	return supportedUiModes.contains(uiModeManager?.currentModeType) and
+			packageManager.hasSystemFeature("android.hardware.hdmi.cec") and
+			!packageManager.hasSystemFeature("android.hardware.touchscreen") and
+			!packageManager.hasSystemFeature("android.hardware.faketouch") and
+			!packageManager.hasSystemFeature("android.hardware.telephony") and
+			!packageManager.hasSystemFeature("android.hardware.camera") and
+			!packageManager.hasSystemFeature("android.hardware.location.gps") and
+			!packageManager.hasSystemFeature("android.hardware.screen.portrait")
+}
