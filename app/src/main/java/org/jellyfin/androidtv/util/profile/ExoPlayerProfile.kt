@@ -32,6 +32,7 @@ class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
 	isAC3Enabled: Boolean = false,
+	isDTSEnabled: Boolean = false,
 	isSurroundSound: Boolean = false,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = buildList {
@@ -47,10 +48,12 @@ class ExoPlayerProfile(
 	 */
 	private val allSupportedAudioCodecs = buildList {
 		addAll(downmixSupportedAudioCodecs)
-		if (isAC3Enabled)add(Codec.Audio.EAC3)
-		add(Codec.Audio.DCA)
-		add(Codec.Audio.DTS)
-		if (!context.isActualTv()|| !isSurroundSound) {
+		if (isAC3Enabled) add(Codec.Audio.EAC3)
+		if (isDTSEnabled) {
+			add(Codec.Audio.DCA)
+			add(Codec.Audio.DTS)
+		}
+		if (!context.isActualTv() || !isSurroundSound) {
 			add(Codec.Audio.AAC_LATM)
 			add(Codec.Audio.ALAC)
 			add(Codec.Audio.MLP)
