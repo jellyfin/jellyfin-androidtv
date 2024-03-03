@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.preference.PreferenceEnum
 
 enum class AudioBehavior(
@@ -17,6 +16,3 @@ enum class AudioBehavior(
 	 */
 	DOWNMIX_TO_STEREO(R.string.pref_audio_compat),
 }
-
-val defaultAudioBehavior = if (DeviceUtils.isChromecastWithGoogleTV) AudioBehavior.DOWNMIX_TO_STEREO
-else AudioBehavior.DIRECT_STREAM

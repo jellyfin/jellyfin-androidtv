@@ -17,7 +17,6 @@ import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
-import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.android.ext.android.inject
 
@@ -105,7 +104,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
-				depends { DeviceUtils.is60() && userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 
