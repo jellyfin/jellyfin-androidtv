@@ -4,11 +4,11 @@
     <string name="btn_cancel">Annuler</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Lecture</string>
-    <string name="pref_max_bitrate_title">Débit max de streaming</string>
+    <string name="pref_max_bitrate_title">Débit de streaming maximum</string>
     <string name="settings_title">Préférences</string>
     <string name="chapters">Chapitres</string>
     <string name="lbl_settings">Préférences</string>
-    <string name="lbl_continue_watching">Continuer la lecture</string>
+    <string name="lbl_continue_watching">Continuer à regarder</string>
     <string name="lbl_next_up">À suivre</string>
     <string name="lbl_on_now">En cours</string>
     <string name="lbl_views">Vues</string>
@@ -16,7 +16,7 @@
     <string name="lbl_suggested">Suggestions</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Rechercher</string>
-    <string name="msg_not_implemented">" non implémentés"</string>
+    <string name="msg_not_implemented">" - non implémentés"</string>
     <string name="lbl_latest">Récemment ajouté</string>
     <string name="lbl_by_name">Par nom</string>
     <string name="lbl_favorites">Favoris</string>
@@ -47,7 +47,7 @@
     <string name="lbl_item">Élément</string>
     <string name="lbl_seasons">Saisons</string>
     <string name="lbl_upcoming">À venir</string>
-    <string name="lbl_sd">DS</string>
+    <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Durée</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Fin</string>
@@ -61,7 +61,7 @@
     <string name="msg_video_playback_error">"Erreur de lecture de la vidéo - "</string>
     <string name="lbl_bracket_unknown">Inconnu</string>
     <string name="lbl_trailer">"Bande-annonce "</string>
-    <string name="lbl_play_trailers">Lire la (les) bande(s)-annonce(s)</string>
+    <string name="lbl_play_trailers">Lire la bande-annonce</string>
     <string name="lbl_no">Non</string>
     <string name="lbl_yes">Oui</string>
     <string name="lbl_enter_server_address">Saisir l\'adresse du serveur</string>
@@ -79,7 +79,7 @@
     <string name="lbl_empty">Vide</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
     <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
-    <string name="lbl_search_hint">Mot à rechercher (\"select\" pour le clavier)</string>
+    <string name="lbl_search_hint">Rechercher du texte (sélectionner pour le clavier)</string>
     <string name="lbl_play_first_unwatched">Lire le premier élément non vu</string>
     <string name="lbl_mark_unplayed">Marquer comme non vu</string>
     <string name="lbl_mark_played">Marqué comme vu</string>
@@ -165,7 +165,7 @@
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
     <string name="lbl_new_premieres">Nouvelles saisons</string>
     <string name="lbl_open">Ouvrir</string>
-    <string name="lbl_play_next_up">Lire le suivant</string>
+    <string name="lbl_play_next_up">Lire la prochaine vidéo</string>
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds</string>
@@ -180,7 +180,7 @@
     <string name="lbl_in_x_days">Dans %d jours</string>
     <string name="lbl_just_this_once">Juste cette fois</string>
     <string name="lbl_live">Direct</string>
-    <string name="lbl_more_like_this">Plus du même genre</string>
+    <string name="lbl_more_like_this">Plus comme ceci</string>
     <string name="lbl_new">Nouveau</string>
     <string name="lbl_recent_recordings">Enregistrements récents</string>
     <string name="lbl_repeat">Répéter</string>
@@ -529,4 +529,29 @@
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS:HD</string>
     <string name="clear_image_cache">Vider le cache d\'images</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s chanson</item>
+        <item quantity="many">%1$s chansons</item>
+        <item quantity="other">%1$s chansons</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s objet</item>
+        <item quantity="many">%1$s objets</item>
+        <item quantity="other">%1$s objets</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="many">%1$s films</item>
+        <item quantity="other">%1$s films</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s série TV</item>
+        <item quantity="many">%1$s séries TV</item>
+        <item quantity="other">%1$s séries TV</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="many">%1$s albums</item>
+        <item quantity="other">%1$s albums</item>
+    </plurals>
 </resources>
