@@ -16,7 +16,7 @@
     <string name="lbl_suggested">Suggestions</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Rechercher</string>
-    <string name="msg_not_implemented">" - non implémentés"</string>
+    <string name="msg_not_implemented">" non implémentés"</string>
     <string name="lbl_latest">Récemment ajouté</string>
     <string name="lbl_by_name">Par nom</string>
     <string name="lbl_favorites">Favoris</string>
