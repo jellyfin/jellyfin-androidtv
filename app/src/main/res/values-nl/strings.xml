@@ -542,4 +542,6 @@
         <item quantity="one">%1$s nummer</item>
         <item quantity="other">%1$s nummers</item>
     </plurals>
+    <string name="clear_image_cache_content">Gebruikt: %1$s</string>
+    <string name="clear_image_cache">Afbeeldingscache wissen</string>
 </resources>
