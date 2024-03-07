@@ -19,6 +19,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -42,6 +43,7 @@ import org.jellyfin.androidtv.ui.card.DefaultCardView
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
+import org.jellyfin.mobile.utils.WakeOnLan
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -119,6 +121,15 @@ class ServerFragment : Fragment() {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				val updated = startupViewModel.updateServer(server)
 				if (updated) startupViewModel.getServer(server.id)?.let(::onServerChange)
+			}
+		}
+
+		// Wake Remote System
+		viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+			val mac = ""
+			val broadcast = ""
+			if(mac.isNotEmpty() && broadcast.isNotEmpty()) {
+				WakeOnLan().sendAsync(mac, broadcast)
 			}
 		}
 
