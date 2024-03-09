@@ -23,12 +23,12 @@
     <string name="lbl_favorites">Favoritos</string>
     <string name="lbl_coming_up">A Seguir</string>
     <string name="lbl_favorite_channels">Canais Favoritos</string>
-    <string name="lbl_other_channels">Outros Canais</string>
+    <string name="lbl_other_channels">Outros canais</string>
     <string name="lbl_collections">Coleções</string>
     <string name="lbl_movies">Filmes</string>
     <string name="lbl_tv_series">Séries de TV</string>
     <string name="lbl_other">Outro</string>
-    <string name="lbl_play_all">Reproduzir Tudo</string>
+    <string name="lbl_play_all">Reproduzir tudo</string>
     <string name="lbl_shuffle_all">Reproduzir Todos Aleatoriamente</string>
     <string name="lbl_play">Reproduzir</string>
     <string name="lbl_cancel">Cancelar</string>
@@ -54,7 +54,7 @@
     <string name="lbl_ends">Termina às</string>
     <string name="lbl_directed_by">Realizado por</string>
     <string name="lbl_last_played">"Reproduzido Anteriormente "</string>
-    <string name="lbl_other_options">Outras Opções</string>
+    <string name="lbl_other_options">Outras opções</string>
     <string name="lbl_people">Pessoas</string>
     <string name="lbl_videos">Vídeos</string>
     <string name="lbl_recordings">Gravações</string>
@@ -102,7 +102,7 @@
     <string name="lbl_similar_items_library">Itens Similares em sua Biblioteca</string>
     <string name="lbl_record_any_channel">Gravar em qualquer canal</string>
     <string name="lbl_record_any_time">Gravar a qualquer hora</string>
-    <string name="lbl_only_new_episodes">Apenas Novos Episódios</string>
+    <string name="lbl_only_new_episodes">Apenas novos episódios</string>
     <string name="lbl_repeat_options">Repetir Opções</string>
     <string name="msg_cancel_entire_series">Tem a certeza que deseja cancelar a SÉRIE COMPLETA?</string>
     <string name="pref_audio_direct">Direto</string>
@@ -117,7 +117,7 @@
     <string name="lbl_from">de</string>
     <string name="lbl_name">Nome</string>
     <string name="lbl_date_added">Data Adicionado</string>
-    <string name="lbl_premier_date">Data da Estreia</string>
+    <string name="lbl_premier_date">Data de estreia</string>
     <string name="lbl_critic_rating">Avaliação da Crítica</string>
     <string name="lbl_rating">Classificação</string>
     <string name="lbl_starting_with">"começando com aqueles que o nome inicia com"</string>
@@ -128,7 +128,7 @@
     <string name="msg_subtitles_loading">A Carregar as Legendas…</string>
     <string name="msg_unable_load_subs">Não foi possível carregar as legendas</string>
     <string name="msg_burn_sub_warning">Legendas embutidas podem demorar alguns minutos. Por favor, aguarde…</string>
-    <string name="lbl_no_recordings">Sem Gravações Disponíveis</string>
+    <string name="lbl_no_recordings">Não há gravações disponíveis</string>
     <string name="lbl_live_tv_guide">Guia TV</string>
     <string name="lbl_recorded_tv">Gravações TV</string>
     <string name="pref_live_tv_cat">TV ao Vivo</string>
@@ -146,11 +146,11 @@
     <string name="lbl_playlists">Listas de Reprodução</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="lbl_add_to_queue">Adicionar à Fila</string>
-    <string name="lbl_open_artist">Artista Livre</string>
-    <string name="lbl_open_album">Álbum Livre</string>
+    <string name="lbl_open_artist">Abrir artista</string>
+    <string name="lbl_open_album">Abrir álbum</string>
     <string name="lbl_next_item">Item Seguinte</string>
     <string name="lbl_prev_item">Item Anterior</string>
-    <string name="lbl_now_playing">A Reproduzir</string>
+    <string name="lbl_now_playing">A reproduzir</string>
     <string name="lbl_play_from_here">Reproduzir daqui</string>
     <string name="lbl_remove_from_queue">Remover da Fila</string>
     <string name="lbl_goto_now_playing">Ir para A Reproduzir</string>
