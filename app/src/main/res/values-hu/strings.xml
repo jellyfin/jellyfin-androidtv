@@ -317,7 +317,7 @@
     <string name="lbl_manage_servers">Szerverek kezelése</string>
     <string name="lbl_use_series_thumbnails_description">Az epizódok megjelenítésekor sorozat bélyegképeket használjon</string>
     <string name="lbl_use_series_thumbnails">Inkább a sorozat indexképeit</string>
-    <string name="lbl_hide_unwatched_count">Megnézetlen számláló elrejtése</string>
+    <string name="lbl_hide_unwatched_count">Amikor az elemet megnézed</string>
     <string name="pref_watched_indicator">Megtekintett mutatók megjelenítése</string>
     <string name="user_picker_last_user_summary">Használja az utolsó aktív felhasználót</string>
     <string name="user_picker_last_user_title">Legutóbb használt</string>
@@ -521,4 +521,27 @@
         <item quantity="one">%1$s film</item>
         <item quantity="other">%1$s film</item>
     </plurals>
+    <string name="lbl_hide_watched_checkmark">Ha vannak még epizódok</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="clear_image_cache">Kép gyorsítótár törlése</string>
+    <string name="clear_image_cache_content">Használt: %1$s</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$sTV sorozat</item>
+        <item quantity="other">%1$sTV sorozat</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s dal</item>
+        <item quantity="other">%1$s dal</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other">%1$s album</item>
+    </plurals>
+    <string name="lbl_runtime">Futásidő</string>
 </resources>
