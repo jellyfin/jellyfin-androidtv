@@ -78,6 +78,9 @@ jobs:
           envs: JELLYFIN_VERSION
           script_stop: true
           script: |
+            if [ -d "/srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}" ] && [ -n "${{ env.JELLYFIN_VERSION }}" ]; then
+                sudo rm -r /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
+            fi
             sudo mv /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }} /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
             cd /srv/repository/main/client/androidtv;
             sudo rm -rf *.apk version.txt;
