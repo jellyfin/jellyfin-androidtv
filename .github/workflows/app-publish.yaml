@@ -65,7 +65,7 @@ jobs:
         with:
           switches: -vrptz
           path: build/jellyfin-publish/
-          remote_path: /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
+          remote_path: /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }}/
           remote_host: ${{ secrets.REPO_HOST }}
           remote_user: ${{ secrets.REPO_USER }}
           remote_key: ${{ secrets.REPO_KEY }}
@@ -78,7 +78,8 @@ jobs:
           envs: JELLYFIN_VERSION
           script_stop: true
           script: |
+            sudo mv /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }} /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
             cd /srv/repository/main/client/androidtv;
-            rm -rf *.apk version.txt;
-            ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
-            ln -s versions/v${JELLYFIN_VERSION}/version.txt .;
+            sudo rm -rf *.apk version.txt;
+            sudo ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
+            sudo ln -s versions/v${JELLYFIN_VERSION}/version.txt .;
