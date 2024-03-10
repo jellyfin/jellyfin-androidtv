@@ -159,7 +159,7 @@
     <string name="lbl_kids">Enfants</string>
     <string name="btn_got_it">Ok</string>
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
-    <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes des séries que vous regardez</string>
+    <string name="desc_premieres">Afficher une ligne pour les nouveaux pilotes d’épisode pour toutes les séries regardées</string>
     <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
     <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
@@ -225,7 +225,7 @@
     <string name="pref_about_title">A propos</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mes médias</string>
-    <string name="watch_now">Regardez maintenant</string>
+    <string name="watch_now">Regarder maintenant</string>
     <string name="pref_next_up_timeout_summary">Combien de temps attendre avant de lire l\'élément suivant</string>
     <string name="pref_media_player">Lecteur multimédia préféré</string>
     <string name="pref_video_player_external">Application externe</string>
@@ -407,7 +407,7 @@
     <string name="pref_playback_description">Vidéo, sous-titres, TV en direct, prochains à voir</string>
     <string name="pref_customization_description">Thème, accueil, remappage</string>
     <string name="pref_login_description">Serveurs, comptes, connexion automatique</string>
-    <string name="pref_login">Connexion</string>
+    <string name="pref_login">Se connecter</string>
     <string name="pref_libraries_description">Changer le type d\'affichage des bibliothèques</string>
     <string name="pref_libraries">Bibliothèques</string>
     <string name="pref_home_description">Configurer les sections affichées</string>
@@ -434,7 +434,7 @@
     <string name="input_username">Nom d\'utilisateur</string>
     <string name="action_use_quickconnect">Utiliser Quick Connect</string>
     <string name="action_use_password">Utiliser un mot de passe</string>
-    <string name="action_login">Connexion</string>
+    <string name="action_login">Se connecter</string>
     <string name="live_tv_preferences">Options TV Live</string>
     <string name="lbl_subtitle_delay">Décalage sous-titre</string>
     <string name="lbl_adjust">Ajuster</string>
