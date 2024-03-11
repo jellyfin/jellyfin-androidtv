@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.integration.dream.composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -26,5 +27,6 @@ fun DreamContentLogo() = Box(
 		modifier = Modifier
 			.align(Alignment.Center)
 			.width(400.dp)
+			.fillMaxHeight()
 	)
 }

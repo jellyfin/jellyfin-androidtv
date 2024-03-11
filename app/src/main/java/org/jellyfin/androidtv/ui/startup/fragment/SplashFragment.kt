@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Surface
@@ -33,7 +34,9 @@ fun SplashScreen() {
 			Image(
 				painter = painterResource(R.drawable.app_logo),
 				contentDescription = stringResource(R.string.app_name),
-				modifier = Modifier.width(400.dp)
+				modifier = Modifier
+					.width(400.dp)
+					.fillMaxHeight()
 			)
 		}
 	}
