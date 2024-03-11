@@ -4,6 +4,7 @@
     android:id="@+id/main_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground"
     android:elevation="@dimen/lb_preference_decor_elevation"
     android:orientation="vertical"
     android:transitionGroup="false">
