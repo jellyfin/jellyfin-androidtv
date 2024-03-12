@@ -92,14 +92,14 @@ fun InfoRowSeriesStatus(
 		when (seriesStatus) {
 			SeriesStatus.CONTINUING -> InfoRowItem(
 				contentDescription = stringResource(R.string.lbl__continuing),
-				background = InfoRowColors.Green,
+				colors = InfoRowColors.Green,
 			) {
 				Text(stringResource(R.string.lbl__continuing))
 			}
 
 			SeriesStatus.ENDED -> InfoRowItem(
 				contentDescription = stringResource(R.string.lbl_ended),
-				background = InfoRowColors.Red,
+				colors = InfoRowColors.Red,
 			) {
 				Text(stringResource(R.string.lbl_ended))
 			}
@@ -150,7 +150,7 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 	if (item.hasSubtitles == true) {
 		InfoRowItem(
 			contentDescription = null,
-			background = InfoRowColors.Default,
+			colors = InfoRowColors.Default,
 		) {
 			Text(stringResource(R.string.indicator_subtitles))
 		}
@@ -166,7 +166,7 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 
 		InfoRowItem(
 			contentDescription = null,
-			background = InfoRowColors.Default,
+			colors = InfoRowColors.Default,
 		) {
 			Text(resolution)
 		}
@@ -183,7 +183,7 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 	if (!videoCodecName.isNullOrBlank()) {
 		InfoRowItem(
 			contentDescription = null,
-			background = InfoRowColors.Default,
+			colors = InfoRowColors.Default,
 		) {
 			Text(videoCodecName)
 		}
@@ -204,7 +204,7 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 	if (!audioCodecName.isNullOrBlank()) {
 		InfoRowItem(
 			contentDescription = null,
-			background = InfoRowColors.Default,
+			colors = InfoRowColors.Default,
 		) {
 			Text(audioCodecName)
 		}
@@ -215,7 +215,7 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 	if (!audioChannelLayout.isNullOrBlank()) {
 		InfoRowItem(
 			contentDescription = null,
-			background = InfoRowColors.Default,
+			colors = InfoRowColors.Default,
 		) {
 			Text(audioChannelLayout)
 		}
@@ -295,7 +295,7 @@ fun BaseItemInfoRow(
 				if (item.isNew()) {
 					InfoRowItem(
 						contentDescription = null,
-						background = InfoRowColors.Green,
+						colors = InfoRowColors.Green,
 					) {
 						Text(stringResource(R.string.lbl_new))
 					}
@@ -304,7 +304,7 @@ fun BaseItemInfoRow(
 				if (item.isSeries == true && item.isNews != true) {
 					InfoRowItem(
 						contentDescription = null,
-						background = InfoRowColors.Default,
+						colors = InfoRowColors.Default,
 					) {
 						Text(stringResource(R.string.lbl_repeat))
 					}
@@ -313,7 +313,7 @@ fun BaseItemInfoRow(
 				if (item.isLive == true) {
 					InfoRowItem(
 						contentDescription = null,
-						background = InfoRowColors.Default,
+						colors = InfoRowColors.Default,
 					) {
 						Text(stringResource(R.string.lbl_live))
 					}
