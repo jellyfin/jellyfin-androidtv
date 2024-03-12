@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.browsing.composable.inforow
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
@@ -50,7 +49,7 @@ fun InfoRowCriticRating(criticRating: Float) {
 fun InfoRowParentalRating(parentalRating: String) {
 	InfoRowItem(
 		contentDescription = stringResource(R.string.lbl_rating),
-		background = Color(0xFF333333),
+		colors = InfoRowColors.Default,
 	) {
 		Text(parentalRating)
 	}

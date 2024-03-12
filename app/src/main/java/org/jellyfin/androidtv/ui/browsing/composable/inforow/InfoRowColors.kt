@@ -6,7 +6,8 @@ import androidx.compose.ui.graphics.Color
  * Colors used in the [BaseItemInfoRow].
  */
 object InfoRowColors {
-	val Default = Color(0xFF333333)
-	val Green = Color(0xFF30843D)
-	val Red = Color(0xFFB20000)
+	val Transparent = Color.Transparent to Color.White
+	val Default = Color(0x80FFFFFF) to Color.Black
+	val Green = Color(0x8034D97C) to Color.Black
+	val Red = Color(0x80F2364D) to Color.Black
 }
