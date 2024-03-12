@@ -48,9 +48,8 @@
         app:layout_constraintTop_toTopOf="@id/logo" />
 
     <!-- Fragment showing search results -->
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/results_frame"
-        android:name="androidx.leanback.app.RowsSupportFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="27dp"
