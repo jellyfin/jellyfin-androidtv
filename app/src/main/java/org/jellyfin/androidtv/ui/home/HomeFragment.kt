@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
 		}
 
 		binding.search.setOnClickListener {
-			navigationRepository.navigate(Destinations.search)
+			navigationRepository.navigate(Destinations.search())
 		}
 
 		return binding.root
