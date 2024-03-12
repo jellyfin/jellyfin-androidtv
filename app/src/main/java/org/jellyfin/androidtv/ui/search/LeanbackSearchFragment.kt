@@ -31,6 +31,9 @@ class LeanbackSearchFragment : SearchSupportFragment(), SearchSupportFragment.Se
 		viewModel.searchResultsFlow
 			.onEach { searchFragmentDelegate.showResults(it) }
 			.launchIn(lifecycleScope)
+
+		val query = arguments?.getString(SearchFragment.EXTRA_QUERY)
+		if (!query.isNullOrBlank()) setSearchQuery(query, true)
 	}
 
 	override fun getResultsAdapter() = searchFragmentDelegate.rowsAdapter

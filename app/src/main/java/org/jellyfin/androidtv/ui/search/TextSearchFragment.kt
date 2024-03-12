@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.leanback.app.RowsSupportFragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
@@ -36,26 +37,40 @@ class TextSearchFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentSearchTextBinding.inflate(inflater, container, false)
-		return binding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
 
 		binding.searchBar.apply {
 			onTextChanged { viewModel.searchDebounced(it) }
 			onSubmit { viewModel.searchImmediately(it) }
 		}
 
-		binding.resultsFrame.getFragment<RowsSupportFragment?>()?.let {
-			it.adapter = searchFragmentDelegate.rowsAdapter
-			it.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
-			it.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
+		val rowsSupportFragment = RowsSupportFragment().apply {
+			adapter = searchFragmentDelegate.rowsAdapter
+			onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
+			onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
 		}
+
+		childFragmentManager.commit {
+			replace(binding.resultsFrame.id, rowsSupportFragment)
+		}
+
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
 		viewModel.searchResultsFlow
 			.onEach { searchFragmentDelegate.showResults(it) }
 			.launchIn(lifecycleScope)
+
+		val query = arguments?.getString(SearchFragment.EXTRA_QUERY)
+		if (!query.isNullOrBlank()) {
+			binding.searchBar.setText(query)
+			viewModel.searchImmediately(query)
+			binding.resultsFrame.requestFocus()
+		} else {
+			binding.searchBar.requestFocus()
+		}
 	}
 
 	override fun onDestroyView() {

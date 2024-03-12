@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.startup
 
 import android.Manifest
+import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -137,7 +138,9 @@ class StartupActivity : FragmentActivity() {
 		// Create destination
 		val destination = when {
 			// Search is requested
-			intent.action === Intent.ACTION_SEARCH -> Destinations.search
+			intent.action === Intent.ACTION_SEARCH -> Destinations.search(
+				query = intent.getStringExtra(SearchManager.QUERY)
+			)
 			// User view item is requested
 			itemId != null && itemIsUserView -> {
 				val item by api.userLibraryApi.getItem(itemId = itemId)
