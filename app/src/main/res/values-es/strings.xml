@@ -274,7 +274,7 @@
     <string name="lbl_audio_track">Selecciona un track de audio</string>
     <string name="lbl_pause">Pausar</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina %1$shs</string>
+    <string name="lbl_playback_control_ends">Termina %1$s</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="pref_clock_display_browsing">Durante la navegación</string>
     <string name="pref_clock_display_playback">Durante la reproducción</string>
@@ -517,4 +517,41 @@
     <string name="photos">Fotos</string>
     <string name="photo_albums">Álbum de fotos</string>
     <string name="channels">Canales</string>
+    <string name="person_birthday_and_age">Fecha de nacimiento %1$s (%2$d)</string>
+    <string name="indicator_subtitles">subtítulos descriptivos</string>
+    <string name="clear_image_cache">Limpiar cache de imágenes</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="clear_image_cache_content">Usado: %1$s</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s película</item>
+        <item quantity="many">%1$s películas</item>
+        <item quantity="other">%1$s películas</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s serie de televisión</item>
+        <item quantity="many">%1$s series de televisión</item>
+        <item quantity="other">%1$s series de televisión</item>
+    </plurals>
+    <string name="ac3">DD</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="eac3">DD+</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="lbl_runtime">Duración</string>
+    <plurals name="items">
+        <item quantity="one">%1$s elemento</item>
+        <item quantity="many">%1$s elementos</item>
+        <item quantity="other">%1$s elementos</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s canción</item>
+        <item quantity="many">%1$s canciones</item>
+        <item quantity="other">%1$s canciones</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s álbum</item>
+        <item quantity="many">%1$s álbumes</item>
+        <item quantity="other">%1$s álbumes</item>
+    </plurals>
 </resources>
