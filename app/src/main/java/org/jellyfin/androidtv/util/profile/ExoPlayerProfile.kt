@@ -4,6 +4,7 @@ import android.content.Context
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
+import org.jellyfin.androidtv.util.isActualTv
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
@@ -26,16 +27,20 @@ import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
+
 class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
 	isAC3Enabled: Boolean = false,
+	isDTSEnabled: Boolean = false,
+	isSurroundSound: Boolean = false,
 ) : DeviceProfile() {
-	private val downmixSupportedAudioCodecs = arrayOf(
-		Codec.Audio.AAC,
-		Codec.Audio.MP3,
-		Codec.Audio.MP2
-	)
+	private val downmixSupportedAudioCodecs = buildList {
+		if (isAC3Enabled) add(Codec.Audio.AC3)
+		if (!context.isActualTv() || !isSurroundSound) add(Codec.Audio.AAC)
+		add(Codec.Audio.MP3)
+		add(Codec.Audio.MP2)
+	}.toTypedArray()
 
 	/**
 	 * Returns all audio codecs used commonly in video containers.
@@ -43,18 +48,21 @@ class ExoPlayerProfile(
 	 */
 	private val allSupportedAudioCodecs = buildList {
 		addAll(downmixSupportedAudioCodecs)
-		add(Codec.Audio.AAC_LATM)
-		add(Codec.Audio.ALAC)
-		if (isAC3Enabled) add(Codec.Audio.AC3)
 		if (isAC3Enabled) add(Codec.Audio.EAC3)
-		add(Codec.Audio.DCA)
-		add(Codec.Audio.DTS)
-		add(Codec.Audio.MLP)
-		add(Codec.Audio.TRUEHD)
-		add(Codec.Audio.PCM_ALAW)
-		add(Codec.Audio.PCM_MULAW)
-		add(Codec.Audio.OPUS)
-		add(Codec.Audio.FLAC)
+		if (isDTSEnabled) {
+			add(Codec.Audio.DCA)
+			add(Codec.Audio.DTS)
+		}
+		if (!context.isActualTv() || !isSurroundSound) {
+			add(Codec.Audio.AAC_LATM)
+			add(Codec.Audio.ALAC)
+			add(Codec.Audio.MLP)
+			add(Codec.Audio.TRUEHD)
+			add(Codec.Audio.PCM_ALAW)
+			add(Codec.Audio.PCM_MULAW)
+			add(Codec.Audio.OPUS)
+			add(Codec.Audio.FLAC)
+		}
 	}.toTypedArray()
 
 	private val allSupportedAudioCodecsWithoutFFmpegExperimental = allSupportedAudioCodecs
