@@ -4,7 +4,7 @@
     <string name="btn_cancel">Annuleren</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Afspelen</string>
-    <string name="pref_max_bitrate_title">Maximale streambitrate</string>
+    <string name="pref_max_bitrate_title">Limiet bitsnelheid bij streamen</string>
     <string name="settings_title">Voorkeuren</string>
     <string name="chapters">Hoofdstukken</string>
     <string name="lbl_settings">Voorkeuren</string>
@@ -64,7 +64,7 @@
     <string name="lbl_play_trailers">Trailer(s) afspelen</string>
     <string name="lbl_no">Nee</string>
     <string name="lbl_yes">Ja</string>
-    <string name="lbl_enter_server_address">Voer serveradres in</string>
+    <string name="lbl_enter_server_address">Serveradres invoeren</string>
     <string name="lbl_valid_server_address">Vul het serveradres in (IP-adres of domein-/servernaam)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geboren "</string>
@@ -309,7 +309,7 @@
     <string name="lbl_manage_servers">Servers beheren</string>
     <string name="login_help_description">Jellyfin vereist een server om mee te verbinden. Raadpleeg onze documentatie op docs.jellyfin.org of scan de QR-code om met Jellyfin van start te gaan.</string>
     <string name="login_help_title">Hulp nodig\?</string>
-    <string name="connect_manually_by_address">Serveradres opgeven</string>
+    <string name="connect_manually_by_address">Serveradres invoeren</string>
     <string name="discovered_servers_empty">Geen servers gevonden op het lokale netwerk.</string>
     <string name="discovered_servers_title">Gevonden servers</string>
     <string name="lbl_hidden">Verborgen</string>
