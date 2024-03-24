@@ -88,7 +88,7 @@
     <string name="lbl_mark_played">Oznacz jako odtworzone</string>
     <string name="lbl_mark_unplayed">Oznacz jako nieodtworzone</string>
     <string name="lbl_play_first_unwatched">Odtwórz pierwszy nieobejrzany</string>
-    <string name="lbl_search_hint">Wyszukaj (wybierz aby wyświetlić klawiaturę)</string>
+    <string name="lbl_search_hint">Wyszukaj (wybierz, aby wyświetlić klawiaturę)</string>
     <string name="sum_tv_queuing">Dodaj resztę sezonu do kolejki gdy odtwarzasz odcinek</string>
     <string name="lbl_cancel_series">Anuluj serię</string>
     <string name="lbl_status">%1$s / %2$s</string>
@@ -290,7 +290,7 @@
     <string name="lbl_tomatoes">Pomidory</string>
     <string name="lbl_stars">Gwiazdy</string>
     <string name="lbl_playback_control_ends">Koniec o %1$s</string>
-    <string name="login_help_description">Jellyfin wymaga serwera do połączenia. Odwiedź naszą dokumentację na docs.jellyfin.org, lub zeskanuj kod QR aby rozpocząć pracę z Jellyfin.</string>
+    <string name="login_help_description">Jellyfin wymaga serwera do połączenia. Odwiedź naszą dokumentację na docs.jellyfin.org, lub zeskanuj kod QR, aby rozpocząć pracę z Jellyfin.</string>
     <string name="login_help_title">Potrzebuję pomocy\?</string>
     <string name="connect_manually_by_address">Wprowadź adres serwera</string>
     <string name="discovered_servers_empty">Nie wykryto serwerów w sieci lokalnej.</string>
@@ -348,7 +348,7 @@
     <string name="who_is_watching">Kto ogląda\?</string>
     <string name="no_user_warning">Nie możemy znaleźć żadnych kont!
 \nDodaj nowe konto używając przycisku \"Dodaj konto\".</string>
-    <string name="welcome_content">Połącz się z serwerem aby rozpocząć.</string>
+    <string name="welcome_content">Połącz się z serwerem, aby rozpocząć.</string>
     <string name="welcome_title">Witaj w Jellyfin!</string>
     <string name="saved_servers">Zapisane serwery</string>
     <string name="press_to_close">Naciśnij, aby zamknąć</string>
