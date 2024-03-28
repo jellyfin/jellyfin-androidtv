@@ -7,13 +7,13 @@
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nepoznato</string>
-    <string name="msg_video_playback_error">"Greška pri reprodukciji "</string>
+    <string name="msg_video_playback_error">"Greška pri izvođenju "</string>
     <string name="lbl_none">Nijedan</string>
     <string name="lbl_recordings">Snimke</string>
     <string name="lbl_videos">Video</string>
     <string name="lbl_people">Osobe</string>
     <string name="lbl_other_options">Ostale opcije</string>
-    <string name="lbl_last_played">"Posljednje reproducirano "</string>
+    <string name="lbl_last_played">"Posljednje izvedeno "</string>
     <string name="lbl_directed_by">Redatelj</string>
     <string name="lbl_ends">Završava</string>
     <string name="lbl_min">" min"</string>
@@ -37,8 +37,8 @@
     <string name="lbl_cancel_recording">Otkaži snimanje</string>
     <string name="lbl_cancel">Odustani</string>
     <string name="lbl_play">Reproduciraj</string>
-    <string name="lbl_shuffle_all">Promiješaj sve</string>
-    <string name="lbl_play_all">Reproduciraj sve</string>
+    <string name="lbl_shuffle_all">Nasumično izvedi</string>
+    <string name="lbl_play_all">Izvedi sve</string>
     <string name="lbl_other">Ostalo</string>
     <string name="lbl_tv_series">Serije</string>
     <string name="lbl_movies">Filmovi</string>
@@ -123,9 +123,9 @@
     <string name="lbl_now_playing_track">%1$s od %2$s</string>
     <string name="lbl_add_favorite">Dodaj u omiljene</string>
     <string name="lbl_remove_favorite">Ukloni iz omiljenih</string>
-    <string name="lbl_mark_played">Označi da je reproducirano</string>
-    <string name="lbl_mark_unplayed">Označi da nije reproducirano</string>
-    <string name="lbl_play_first_unwatched">Reproduciraj prvo negledane</string>
+    <string name="lbl_mark_played">Označi da je izvedeno</string>
+    <string name="lbl_mark_unplayed">Označi da nije izvedeno</string>
+    <string name="lbl_play_first_unwatched">Izvedi prvo negledane</string>
     <string name="lbl_search_hint">Traži tekst (tipka izaberi za tipkovnicu)</string>
     <string name="sum_tv_queuing">Za vrijeme reprodukcije dodaj ostatak sezone u red</string>
     <string name="lbl_tv_queuing">Stavi u red sve sljedeće epizode</string>
@@ -138,7 +138,7 @@
     <string name="msg_playback_not_allowed">Reprodukcija trenutno nije dozvoljena</string>
     <string name="lbl_born">"Rođen "</string>
     <string name="lbl_valid_server_address">Molimo, unesite adresu poslužitelja (IP ili domena/ime računala)</string>
-    <string name="lbl_play_trailers">Reproduciraj kratke prikaz(e)</string>
+    <string name="lbl_play_trailers">Izvedi najave</string>
     <string name="lbl_trailer">"Kratki prikaz "</string>
     <string name="lbl_runs">U tijeku</string>
     <string name="lbl_artists">Izvođači</string>
@@ -542,4 +542,11 @@
         <item quantity="few">%1$s minute</item>
         <item quantity="other">%1$s minuta</item>
     </plurals>
+    <string name="indicator_subtitles">Titlovi</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS-X</string>
+    <string name="dts_hd">DTS-HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
 </resources>
