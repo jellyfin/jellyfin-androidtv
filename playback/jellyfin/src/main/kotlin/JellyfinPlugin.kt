@@ -9,6 +9,7 @@ import org.jellyfin.sdk.api.sockets.SocketInstance
 import org.jellyfin.sdk.model.api.DeviceProfile
 import org.jellyfin.sdk.model.api.DlnaProfileType
 import org.jellyfin.sdk.model.api.EncodingContext
+import org.jellyfin.sdk.model.api.MediaStreamProtocol
 import org.jellyfin.sdk.model.api.TranscodingProfile
 
 fun jellyfinPlugin(
@@ -20,9 +21,7 @@ fun jellyfinPlugin(
 		codecProfiles = emptyList(),
 		containerProfiles = emptyList(),
 		directPlayProfiles = emptyList(),
-		responseProfiles = emptyList(),
 		subtitleProfiles = emptyList(),
-		supportedMediaTypes = "",
 		// Add at least one transcoding profile so the server returns a value
 		// for "SupportsTranscoding" based on the user policy
 		// We don't actually use this profile in the client
@@ -30,14 +29,13 @@ fun jellyfinPlugin(
 			TranscodingProfile(
 				type = DlnaProfileType.AUDIO,
 				context = EncodingContext.STREAMING,
-				protocol = "hls",
+				protocol = MediaStreamProtocol.HLS,
 				container = "mp3",
 				audioCodec = "mp3",
 				videoCodec = "",
 				conditions = emptyList()
 			)
 		),
-		xmlRootAttributes = emptyList(),
 	)
 	provide(AudioMediaStreamResolver(api, profile))
 

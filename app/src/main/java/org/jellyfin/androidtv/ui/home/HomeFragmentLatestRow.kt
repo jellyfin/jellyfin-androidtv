@@ -13,8 +13,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery
-import org.jellyfin.sdk.model.constant.CollectionType
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
+import org.jellyfin.sdk.model.api.CollectionType
 
 class HomeFragmentLatestRow(
 	private val userRepository: UserRepository,
@@ -25,7 +24,7 @@ class HomeFragmentLatestRow(
 		val configuration = userRepository.currentUser.value?.configuration
 
 		// Create a list of views to include
-		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty().mapNotNull { it.toUUIDOrNull() }
+		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty()
 		val views = runBlocking { userViewsRepository.views.first() }
 		views
 			.filterNot { item -> item.collectionType in EXCLUDED_COLLECTION_TYPES || item.id in latestItemsExcludes }
@@ -55,10 +54,10 @@ class HomeFragmentLatestRow(
 	companion object {
 		// Collections exclused from latest row based on app support and common sense
 		private val EXCLUDED_COLLECTION_TYPES = arrayOf(
-			CollectionType.Playlists,
-			CollectionType.LiveTv,
-			CollectionType.BoxSets,
-			CollectionType.Books,
+			CollectionType.PLAYLISTS,
+			CollectionType.LIVETV,
+			CollectionType.BOXSETS,
+			CollectionType.BOOKS,
 		)
 
 		// Maximum ammount of items loaded for a row

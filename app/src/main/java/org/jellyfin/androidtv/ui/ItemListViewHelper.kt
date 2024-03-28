@@ -12,7 +12,7 @@ fun ItemListView.refresh() {
 	val api by KoinJavaComponent.inject<ApiClient>(ApiClient::class.java)
 
 	findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
-		val response by api.itemsApi.getItemsByUserId(
+		val response by api.itemsApi.getItems(
 			ids = mItemIds,
 			fields = setOf(
 				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,

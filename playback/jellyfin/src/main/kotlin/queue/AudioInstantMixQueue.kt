@@ -36,7 +36,7 @@ class AudioInstantMixQueue(
 		if (offset > 0) return emptyList()
 
 		val result by api.instantMixApi.getInstantMixFromItem(
-			id = item.id,
+			itemId = item.id,
 			userId = api.userId,
 			fields = listOf(ItemFields.MEDIA_SOURCES),
 			// Pagination

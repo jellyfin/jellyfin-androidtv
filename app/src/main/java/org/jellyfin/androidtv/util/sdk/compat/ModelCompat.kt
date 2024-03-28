@@ -4,6 +4,12 @@ package org.jellyfin.androidtv.util.sdk.compat
 
 import org.jellyfin.androidtv.util.sdk.toNameGuidPair
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.CollectionType
+import org.jellyfin.sdk.model.api.MediaStreamProtocol
+import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.PersonKind
+import org.jellyfin.sdk.model.api.VideoRange
+import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.extensions.toNameGuidPair
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -92,7 +98,6 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	hasSubtitles = this.hasSubtitles,
 	preferredMetadataLanguage = this.preferredMetadataLanguage,
 	preferredMetadataCountryCode = this.preferredMetadataCountryCode,
-	supportsSync = false,
 	container = this.container,
 	sortName = this.sortName,
 	forcedSortName = this.forcedSortName,
@@ -152,7 +157,8 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	artists = this.artists,
 	artistItems = this.artistItems?.map { it.asSdk().toNameGuidPair() },
 	album = this.album,
-	collectionType = this.collectionType,
+	collectionType = this.collectionType?.let { CollectionType.fromNameOrNull(this.collectionType.lowercase()) }
+		?: CollectionType.UNKNOWN,
 	displayOrder = this.displayOrder,
 	albumId = this.albumId?.toUUID(),
 	albumPrimaryImageTag = this.albumPrimaryImageTag,
@@ -180,7 +186,7 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	chapters = this.chapters?.map { it.asSdk() },
 	locationType = this.locationType?.asSdk(),
 	isoType = this.isoType?.asSdk(),
-	mediaType = this.mediaType,
+	mediaType = MediaType.fromName(this.mediaType.lowercase().replaceFirstChar { it.uppercase() }),
 	endDate = this.endDate?.toLocalDateTime(),
 	lockedFields = this.lockedFields?.map { it.asSdk() },
 	trailerCount = this.trailerCount,
@@ -334,7 +340,7 @@ fun LegacyMediaSourceInfo.asSdk(): ModernMediaSourceInfo = ModernMediaSourceInfo
 	timestamp = this.timestamp?.asSdk(),
 	requiredHttpHeaders = this.requiredHttpHeaders,
 	transcodingUrl = this.transcodingUrl,
-	transcodingSubProtocol = this.transcodingSubProtocol,
+	transcodingSubProtocol = MediaStreamProtocol.fromName(this.transcodingSubProtocol.lowercase()),
 	transcodingContainer = this.transcodingContainer,
 	analyzeDurationMs = null, // this.analyzeDurationMs
 	defaultAudioStreamIndex = this.defaultAudioStreamIndex,
@@ -376,7 +382,7 @@ fun LegacyBaseItemPerson.asSdk(): ModernBaseItemPerson = ModernBaseItemPerson(
 	name = this.name,
 	id = this.id.toUUID(),
 	role = this.role,
-	type = this.type,
+	type = PersonKind.fromName(this.type),
 	primaryImageTag = this.primaryImageTag,
 	imageBlurHashes = null, // this.imageBlurHashes
 )
@@ -415,7 +421,7 @@ fun LegacyMediaStream.asSdk(): ModernMediaStream = ModernMediaStream(
 	timeBase = this.timeBase,
 	codecTimeBase = this.codecTimeBase,
 	title = this.title,
-	videoRange = null, // this.videoRange
+	videoRange = VideoRange.UNKNOWN, // this.videoRange
 	localizedUndefined = null, // this.localizedUndefined
 	localizedDefault = null, // this.localizedDefault
 	localizedForced = null, // this.localizedForced
@@ -451,6 +457,8 @@ fun LegacyMediaStream.asSdk(): ModernMediaStream = ModernMediaStream(
 	pixelFormat = this.pixelFormat,
 	level = this.level,
 	isAnamorphic = this.isAnamorphic,
+	isHearingImpaired = false,
+	videoRangeType = VideoRangeType.UNKNOWN,
 )
 
 fun LegacyMediaStreamType?.asSdk(): ModernMediaStreamType = when (this) {
@@ -622,7 +630,7 @@ fun LegacyChannelInfoDto.asSdk() = ModernBaseItemDto(
 //	serviceName = this.serviceName,
 	channelType = this.channelType?.asSdk(),
 	type = BaseItemKind.from(this.type)!!,
-	mediaType = this.mediaType,
+	mediaType = MediaType.fromName(this.mediaType.lowercase()),
 	userData = this.userData?.asSdk(),
 	currentProgram = this.currentProgram?.asSdk(),
 	primaryImageAspectRatio = this.primaryImageAspectRatio,

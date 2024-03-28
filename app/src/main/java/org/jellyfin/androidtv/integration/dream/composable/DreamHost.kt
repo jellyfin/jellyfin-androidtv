@@ -26,7 +26,7 @@ import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.koin.compose.koinInject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
@@ -70,10 +70,10 @@ private suspend fun getRandomLibraryShowcase(
 	context: Context
 ): DreamContent.LibraryShowcase? {
 	try {
-		val response by api.itemsApi.getItemsByUserId(
+		val response by api.itemsApi.getItems(
 			includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 			recursive = true,
-			sortBy = listOf(ItemSortBy.Random),
+			sortBy = listOf(ItemSortBy.RANDOM),
 			limit = 5,
 			imageTypes = listOf(ImageType.BACKDROP),
 			// TODO: Add preferences for these two settings

@@ -70,7 +70,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 	 * Gets the resumable items or returns null
 	 */
 	private suspend fun searchItems(query: String, limit: Int): BaseItemDtoQueryResult? = try {
-		val items by api.itemsApi.getItemsByUserId(
+		val items by api.itemsApi.getItems(
 			searchTerm = query,
 			recursive = true,
 			limit = limit,

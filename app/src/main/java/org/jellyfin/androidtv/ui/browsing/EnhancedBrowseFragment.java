@@ -57,7 +57,6 @@ import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.constant.CollectionType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -163,16 +162,16 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         if (mFolder.getCollectionType() != null) {
             switch (mFolder.getCollectionType()) {
-                case CollectionType.Movies:
+                case MOVIES:
                     itemTypeString = "Movie";
                     break;
-                case CollectionType.TvShows:
+                case TVSHOWS:
                     itemTypeString = "Series";
                     break;
-                case CollectionType.Music:
+                case MUSIC:
                     itemTypeString = "MusicAlbum";
                     break;
-                case CollectionType.Folders:
+                case FOLDERS:
                     showViews = false;
                     break;
                 default:

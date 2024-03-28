@@ -41,7 +41,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemFields
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -271,7 +271,7 @@ class LeanbackChannelWorker(
 					fields = listOf(ItemFields.DATE_CREATED),
 					imageTypeLimit = 1,
 					limit = 10,
-					mediaTypes = listOf(MediaType.Video),
+					mediaTypes = listOf(MediaType.VIDEO),
 					includeItemTypes = listOf(BaseItemKind.EPISODE, BaseItemKind.MOVIE),
 					excludeActiveSessions = true,
 				).content.items.orEmpty()

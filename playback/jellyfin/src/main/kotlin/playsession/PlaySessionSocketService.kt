@@ -25,14 +25,14 @@ class PlaySessionSocketService(
 		// Player control
 		listeners += socketInstance.addPlayStateCommandsListener { message ->
 			coroutineScope.launch(Dispatchers.Main) {
-				when (message.request.command) {
+				when (message.data?.command) {
 					PlaystateCommand.STOP -> state.stop()
 					PlaystateCommand.PAUSE -> state.pause()
 					PlaystateCommand.UNPAUSE -> state.unpause()
 					PlaystateCommand.NEXT_TRACK -> state.queue.next()
 					PlaystateCommand.PREVIOUS_TRACK -> state.queue.previous()
 					PlaystateCommand.SEEK -> {
-						val to = message.request.seekPositionTicks?.ticks ?: Duration.ZERO
+						val to = message.data?.seekPositionTicks?.ticks ?: Duration.ZERO
 						state.seek(to)
 					}
 
@@ -42,6 +42,9 @@ class PlaySessionSocketService(
 						PlayState.PLAYING -> state.pause()
 						else -> state.unpause()
 					}
+
+					// Do nothing
+					null -> Unit
 				}
 				coroutineScope.launch { playSessionService.sendUpdateIfActive() }
 			}

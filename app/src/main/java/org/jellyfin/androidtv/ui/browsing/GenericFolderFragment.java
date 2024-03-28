@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.api.ItemSortBy;
 
 import java.util.Arrays;
 
@@ -41,7 +41,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
                     resume.setParentId(mFolder.getId().toString());
                     resume.setLimit(50);
                     resume.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-                    resume.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                    resume.setSortBy(new String[]{ItemSortBy.DATE_PLAYED.getSerialName()});
                     resume.setSortOrder(SortOrder.Descending);
                     mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resume, 0));
                 }
@@ -50,7 +50,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
                 latest.setParentId(mFolder.getId().toString());
                 latest.setLimit(50);
                 latest.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                latest.setSortBy(new String[]{ItemSortBy.DateCreated});
+                latest.setSortBy(new String[]{ItemSortBy.DATE_CREATED.getSerialName()});
                 latest.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latest, 0));
 

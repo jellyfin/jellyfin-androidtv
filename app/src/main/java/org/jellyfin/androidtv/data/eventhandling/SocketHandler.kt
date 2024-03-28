@@ -25,15 +25,15 @@ import org.jellyfin.sdk.api.sockets.addGeneralCommandsListener
 import org.jellyfin.sdk.api.sockets.addListener
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.GeneralCommandType
+import org.jellyfin.sdk.model.api.LibraryChangedMessage
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
+import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.PlayMessage
 import org.jellyfin.sdk.model.api.PlaystateCommand
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.PlaystateMessage
 import org.jellyfin.sdk.model.extensions.get
 import org.jellyfin.sdk.model.extensions.getValue
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import org.jellyfin.sdk.model.socket.LibraryChangedMessage
-import org.jellyfin.sdk.model.socket.PlayMessage
-import org.jellyfin.sdk.model.socket.PlayStateMessage
 import timber.log.Timber
 import java.util.UUID
 
@@ -53,7 +53,7 @@ class SocketHandler(
 	suspend fun updateSession() {
 		try {
 			api.sessionApi.postCapabilities(
-				playableMediaTypes = listOf(MediaType.Video, MediaType.Audio),
+				playableMediaTypes = listOf(MediaType.VIDEO, MediaType.AUDIO),
 				supportsMediaControl = true,
 				supportedCommands = buildList {
 					add(GeneralCommandType.DISPLAY_CONTENT)
@@ -88,11 +88,11 @@ class SocketHandler(
 	init {
 		socketInstance.apply {
 			// Library
-			addListener<LibraryChangedMessage> { message -> onLibraryChanged(message.info) }
+			addListener<LibraryChangedMessage> { message -> message.data?.let(::onLibraryChanged) }
 
 			// Media playback
 			addListener<PlayMessage> { message -> onPlayMessage(message) }
-			addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
+			addListener<PlaystateMessage> { message -> onPlayStateMessage(message) }
 
 			addGeneralCommandsListener(setOf(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)) { message ->
 				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
@@ -143,21 +143,21 @@ class SocketHandler(
 	}
 
 	private fun onPlayMessage(message: PlayMessage) {
-		val itemId = message.request.itemIds?.firstOrNull() ?: return
+		val itemId = message.data?.itemIds?.firstOrNull() ?: return
 
 		runCatching {
 			PlaybackHelper.retrieveAndPlay(
 				itemId.toString(),
 				false,
-				message.request.startPositionTicks,
+				message.data?.startPositionTicks,
 				context
 			)
 		}.onFailure { Timber.w(it, "Failed to start playback") }
 	}
 
 	@Suppress("ComplexMethod")
-	private fun onPlayStateMessage(message: PlayStateMessage) = coroutineScope.launch(Dispatchers.Main) {
-		Timber.i("Received PlayStateMessage with command ${message.request.command}")
+	private fun onPlayStateMessage(message: PlaystateMessage) = coroutineScope.launch(Dispatchers.Main) {
+		Timber.i("Received PlayStateMessage with command ${message.data?.command}")
 
 		// Audio playback uses (Rewrite)MediaManager, (legacy) video playback uses playbackController
 		when {
@@ -169,17 +169,19 @@ class SocketHandler(
 			// PlaybackController
 			else -> {
 				val playbackController = playbackControllerContainer.playbackController
-				when (message.request.command) {
+				when (message.data?.command) {
 					PlaystateCommand.STOP -> playbackController?.endPlayback(true)
 					PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> playbackController?.playPause()
 					PlaystateCommand.NEXT_TRACK -> playbackController?.next()
 					PlaystateCommand.PREVIOUS_TRACK -> playbackController?.prev()
 					PlaystateCommand.SEEK -> playbackController?.seek(
-						(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
+						(message.data?.seekPositionTicks ?: 0) / TICKS_TO_MS
 					)
 
 					PlaystateCommand.REWIND -> playbackController?.rewind()
 					PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
+
+					null -> Unit
 				}
 			}
 		}

@@ -142,7 +142,7 @@ class SessionRepositoryImpl(
 
 			if (applied && session != null) {
 				// Update crash reporting URL
-				val crashReportUrl = userApiClient.clientLogApi.logFileUrl(includeCredentials = false)
+				val crashReportUrl = userApiClient.clientLogApi.logFileUrl()
 				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
 				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
 

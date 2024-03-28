@@ -14,6 +14,7 @@ import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
 import org.jellyfin.sdk.model.api.PlayMethod
+import org.jellyfin.sdk.model.api.PlaybackOrder
 import org.jellyfin.sdk.model.api.PlaybackProgressInfo
 import org.jellyfin.sdk.model.api.PlaybackStartInfo
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
@@ -113,6 +114,11 @@ class PlaySessionService(
 			playMethod = stream.conversionMethod.playMethod,
 			repeatMode = state.repeatMode.value.remoteRepeatMode,
 			nowPlayingQueue = getQueue(),
+			playbackOrder = when (state.playbackOrder.value) {
+				org.jellyfin.playback.core.model.PlaybackOrder.DEFAULT -> PlaybackOrder.DEFAULT
+				org.jellyfin.playback.core.model.PlaybackOrder.RANDOM -> PlaybackOrder.SHUFFLE
+				org.jellyfin.playback.core.model.PlaybackOrder.SHUFFLE -> PlaybackOrder.SHUFFLE
+			}
 		))
 	}
 
@@ -131,6 +137,11 @@ class PlaySessionService(
 			playMethod = stream.conversionMethod.playMethod,
 			repeatMode = state.repeatMode.value.remoteRepeatMode,
 			nowPlayingQueue = getQueue(),
+			playbackOrder = when (state.playbackOrder.value) {
+				org.jellyfin.playback.core.model.PlaybackOrder.DEFAULT -> PlaybackOrder.DEFAULT
+				org.jellyfin.playback.core.model.PlaybackOrder.RANDOM -> PlaybackOrder.SHUFFLE
+				org.jellyfin.playback.core.model.PlaybackOrder.SHUFFLE -> PlaybackOrder.SHUFFLE
+			}
 		))
 	}
 

@@ -6,8 +6,8 @@ import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
-import org.jellyfin.sdk.model.api.request.GetItemsByUserIdRequest
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import timber.log.Timber
 
 interface SearchRepository {
@@ -28,7 +28,7 @@ class SearchRepositoryImpl(
 		searchTerm: String,
 		itemTypes: Collection<BaseItemKind>,
 	): Result<List<BaseItemDto>> = try {
-		var request = GetItemsByUserIdRequest(
+		var request = GetItemsRequest(
 			userId = requireNotNull(apiClient.userId),
 			searchTerm = searchTerm,
 			limit = QUERY_LIMIT,
@@ -46,13 +46,13 @@ class SearchRepositoryImpl(
 		// Special case for video row
 		if (itemTypes.size == 1 && itemTypes.first() == BaseItemKind.VIDEO) {
 			request = request.copy(
-				mediaTypes = setOf(MediaType.Video),
+				mediaTypes = setOf(MediaType.VIDEO),
 				includeItemTypes = null,
 				excludeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.EPISODE, BaseItemKind.TV_CHANNEL)
 			)
 		}
 
-		val result by apiClient.itemsApi.getItemsByUserId(request)
+		val result by apiClient.itemsApi.getItems(request)
 
 		Result.success(result.items.orEmpty())
 	} catch (e: ApiClientException) {
