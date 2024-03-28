@@ -9,6 +9,18 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
+    <ImageButton
+        android:id="@+id/home"
+        style="@style/Button.Icon"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:contentDescription="@string/lbl_home"
+        android:src="@drawable/ic_house" />
+
+    <Space
+        android:layout_width="8dp"
+        android:layout_height="0dp" />
+
     <org.jellyfin.androidtv.ui.AsyncImageView
         android:id="@+id/clock_user_image"
         android:layout_width="41dp"
