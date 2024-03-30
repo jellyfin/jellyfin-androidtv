@@ -325,7 +325,7 @@
     <string name="auto_sign_in">Automatické prihlásenie</string>
     <string name="lbl_use_series_thumbnails_description">Použiť seriálové thumbnaily počas zobrazenia epizód</string>
     <string name="lbl_use_series_thumbnails">Preferovať seriálové thumbnaily</string>
-    <string name="lbl_hide_unwatched_count">Skryť počet nepozretých</string>
+    <string name="lbl_hide_unwatched_count">Keď je položka pozretá</string>
     <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
     <string name="press_to_close">Stlačením zavriete</string>
     <string name="lbl_starting_on_schedule_ending_after">Začína načas a končí o %1$s neskôr</string>
@@ -516,4 +516,6 @@
     <string name="channels">Kanály</string>
     <string name="photo_albums">Fotoalbumy</string>
     <string name="photos">Fotky</string>
+    <string name="lbl_hide_watched_checkmark">Keď zostávajú epizódy</string>
+    <string name="lbl_runtime">Doba prehrávania</string>
 </resources>
