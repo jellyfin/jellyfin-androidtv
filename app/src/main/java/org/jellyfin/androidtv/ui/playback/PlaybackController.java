@@ -435,7 +435,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void play(long position, @Nullable Integer forcedSubtitleIndex) {
-        Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+        Timber.i("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+
+        if (mFragment == null) {
+            Timber.w("mFragment is null, returning");
+            return;
+        }
 
         if (position < 0) {
             Timber.i("Negative start requested - adjusting to zero");
@@ -454,8 +459,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 mVideoManager.play();
                 if (mVideoManager.isNativeMode())
                     mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
-                if (mFragment != null)
-                    mFragment.setFadingEnabled(true);
+                mFragment.setFadingEnabled(true);
                 startReportLoop();
                 break;
             case BUFFERING:
@@ -468,23 +472,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 mSeekPosition = position;
                 mCurrentPosition = 0;
 
-                if (mFragment != null) {
-                    mFragment.setFadingEnabled(false);
-                }
+                mFragment.setFadingEnabled(false);
 
                 org.jellyfin.sdk.model.api.BaseItemDto item = getCurrentlyPlayingItem();
 
                 if (item == null) {
                     Timber.d("item is null - aborting play");
-                    if (mFragment != null) {
-                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
-                        mFragment.closePlayer();
-                    }
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
+                    mFragment.closePlayer();
                     return;
                 }
 
                 // make sure item isn't missing
-                if (item.getLocationType() == LocationType.VIRTUAL && mFragment != null) {
+                if (item.getLocationType() == LocationType.VIRTUAL) {
                     if (hasNextItem()) {
                         new AlertDialog.Builder(mFragment.getContext())
                                 .setTitle(R.string.episode_missing)
@@ -521,8 +521,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 // confirm we actually can play
                 if (item.getPlayAccess() != PlayAccess.FULL) {
-                    if (mFragment == null) return;
-
                     String msg = item.isPlaceHolder() ? mFragment.getString(R.string.msg_cannot_play) : mFragment.getString(R.string.msg_cannot_play_time);
                     Utils.showToast(mFragment.getContext(), msg);
                     return;
@@ -541,10 +539,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
-                if (mFragment != null) {
-                    mFragment.setPlayPauseActionState(0);
-                    mFragment.setCurrentTime(position);
-                }
+                mFragment.setPlayPauseActionState(0);
+                mFragment.setCurrentTime(position);
 
                 long duration = getCurrentlyPlayingItem().getRunTimeTicks() != null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
                 if (mVideoManager != null)
