@@ -435,16 +435,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void play(long position, @Nullable Integer forcedSubtitleIndex) {
-        Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+        Timber.i("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+
+        if (mFragment == null) {
+            Timber.w("mFragment is null, returning");
+            return;
+        }
 
         if (position < 0) {
             Timber.i("Negative start requested - adjusting to zero");
             position = 0;
-        }
-
-        if (mFragment == null) {
-            Timber.i("mFragment is null, returning");
-            return;
         }
 
         switch (mPlaybackState) {
