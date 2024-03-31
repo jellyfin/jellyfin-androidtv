@@ -505,6 +505,7 @@
     <string name="clear_image_cache">Clear image cache</string>
     <string name="clear_image_cache_content">Used: %1$s</string>
     <string name="random">Random</string>
+    <string name="unreleased">Not yet released</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
