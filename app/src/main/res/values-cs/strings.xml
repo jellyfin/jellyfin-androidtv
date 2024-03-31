@@ -552,4 +552,6 @@
         <item quantity="other">%1$s alb</item>
     </plurals>
     <string name="lbl_runtime">Doba trvání</string>
+    <string name="clear_image_cache">Vymazat vyrovnávací paměť obrázků</string>
+    <string name="clear_image_cache_content">Použité: %1$s</string>
 </resources>
