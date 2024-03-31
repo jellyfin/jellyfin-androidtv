@@ -21,7 +21,8 @@ fun MediaStream.getMediaStreamTrack() = when (type) {
 
 	// Ignore other track types
 	MediaStreamType.EMBEDDED_IMAGE,
-	MediaStreamType.DATA -> null
+	MediaStreamType.DATA,
+	MediaStreamType.LYRIC -> null
 }
 
 private fun getAudioTrack(stream: MediaStream) = MediaStreamAudioTrack(

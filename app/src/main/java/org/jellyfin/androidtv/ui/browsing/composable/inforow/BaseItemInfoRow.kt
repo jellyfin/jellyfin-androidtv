@@ -103,6 +103,13 @@ fun InfoRowSeriesStatus(
 			) {
 				Text(stringResource(R.string.lbl_ended))
 			}
+
+			SeriesStatus.UNRELEASED -> InfoRowItem(
+				contentDescription = stringResource(R.string.unreleased),
+				colors = InfoRowColors.Default,
+			) {
+				Text(stringResource(R.string.unreleased))
+			}
 		}
 	}
 }
