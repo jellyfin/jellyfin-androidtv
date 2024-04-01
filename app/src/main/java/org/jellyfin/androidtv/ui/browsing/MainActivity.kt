@@ -135,6 +135,12 @@ class MainActivity : FragmentActivity() {
 				inTransaction = false
 			}
 
+			if(action.clear) {
+				// Clear the current back stack
+				val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
+				supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+			}
+
 			supportFragmentManager.commit {
 				val destination = action.destination
 				val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
@@ -161,21 +167,6 @@ class MainActivity : FragmentActivity() {
 		}
 
 		NavigationAction.GoBack -> supportFragmentManager.popBackStack()
-
-		NavigationAction.GoHome -> {
-			// Clear the current back stack
-			val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
-			supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-			// Navigate to the home fragment without adding to the stack, this mimics the app first loading
-			// to maintain pressing back leaving the app.
-			supportFragmentManager.commit {
-				val destination = Destinations.home
-
-				setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-				replace(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
-			}
-		}
 
 		NavigationAction.Nothing -> Unit
 	}

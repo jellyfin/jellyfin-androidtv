@@ -11,6 +11,7 @@ sealed interface NavigationAction {
 		val destination: Destination.Fragment,
 		val addToBackStack: Boolean,
 		val replace: Boolean,
+		val clear: Boolean = false,
 	) : NavigationAction
 
 	/**
@@ -25,11 +26,6 @@ sealed interface NavigationAction {
 	 * Go back to the previous fragment manager state.
 	 */
 	data object GoBack : NavigationAction
-
-	/**
-	 * Go back to the home fragment
-	 */
-	data object GoHome: NavigationAction
 
 	/**
 	 * Do nothing.

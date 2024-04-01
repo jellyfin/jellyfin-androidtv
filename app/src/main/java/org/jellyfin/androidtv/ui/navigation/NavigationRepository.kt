@@ -109,7 +109,7 @@ class NavigationRepositoryImpl(
 
 	override fun goHome(): Boolean {
 		fragmentHistory.clear()
-		_currentAction.tryEmit(NavigationAction.GoHome)
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(Destinations.home, false, false, true))
 		Timber.d("Navigating home")
 		return true
 	}
