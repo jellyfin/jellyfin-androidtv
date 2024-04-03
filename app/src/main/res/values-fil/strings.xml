@@ -11,4 +11,8 @@
     <string name="lbl_movies">Pelikula</string>
     <string name="lbl_tv_series">Teleserye</string>
     <string name="lbl_cancel">Kanselahin</string>
+    <string name="video_error_unknown_error">Ayaw mag-load ng video</string>
+    <string name="loading">Maghintay…</string>
+    <string name="lbl_other_channels">Ibang channels</string>
+    <string name="lbl_collections">Mga Koleksyon</string>
 </resources>
