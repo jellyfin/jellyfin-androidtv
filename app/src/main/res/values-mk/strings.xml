@@ -543,4 +543,5 @@
     <string name="clear_image_cache">Избриши кеш на слика</string>
     <string name="clear_image_cache_content">Користено: %1$s</string>
     <string name="lbl_runtime">Времетраење</string>
+    <string name="dolby_vision">Dolby Vision</string>
 </resources>
