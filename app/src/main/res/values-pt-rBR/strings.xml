@@ -518,4 +518,40 @@
     <string name="channels">Canais</string>
     <string name="photos">Fotos</string>
     <string name="lbl_runtime">Duração</string>
+    <string name="person_birthday_and_age">Nascido em %1$s (%2$d)</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">Utilizados:%1$s</item>
+        <item quantity="many">Utilizados:%1$s</item>
+        <item quantity="other">Utilizados:%1$s</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">Filmes %1$s</item>
+        <item quantity="many">Filmes %1$s</item>
+        <item quantity="other">Filmes %1$s</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s séries de TV</item>
+        <item quantity="many">%1$s séries de TV</item>
+        <item quantity="other">%1$s séries de TV</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">Músicas de %1$s</item>
+        <item quantity="many">Músicas de %1$s</item>
+        <item quantity="other">Músicas de %1$s</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">Álbum %1$s</item>
+        <item quantity="many">Álbums %1$s</item>
+        <item quantity="other">Álbum %1$s</item>
+    </plurals>
+    <string name="clear_image_cache">Limpar cache de imagens</string>
+    <string name="clear_image_cache_content">Usado: %1$s</string>
 </resources>
