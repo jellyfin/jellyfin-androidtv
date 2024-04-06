@@ -15,13 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jellyfin.androidtv.integration.dream.composable.DreamHost
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InAppScreensaver() {
-	val screensaverViewModel = viewModel<ScreensaverViewModel>()
+	val screensaverViewModel = koinViewModel<ScreensaverViewModel>()
 	val visible by screensaverViewModel.visible.collectAsState()
 
 	AnimatedVisibility(
