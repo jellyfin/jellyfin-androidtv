@@ -39,6 +39,7 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
@@ -60,7 +61,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
         String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
         switch (type) {
             case CollectionType.Movies:
-                itemTypeString = "Movie";
+                itemType = BaseItemKind.MOVIE;
 
                 //Resume
                 StdItemQuery resumeMovies = new StdItemQuery(new ItemFields[]{
@@ -131,7 +132,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 rowLoader.loadRows(mRows);
                 break;
             case CollectionType.TvShows:
-                itemTypeString = "Series";
+                itemType = BaseItemKind.SERIES;
 
                 //Resume
                 StdItemQuery resumeEpisodes = new StdItemQuery(new ItemFields[]{
