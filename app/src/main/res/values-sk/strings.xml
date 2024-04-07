@@ -554,4 +554,6 @@
         <item quantity="few">%1$s skladby</item>
         <item quantity="other">%1$s skladieb</item>
     </plurals>
+    <string name="random">Náhodne</string>
+    <string name="unreleased">Zatiaľ nevydané</string>
 </resources>
