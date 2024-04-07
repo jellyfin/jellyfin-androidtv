@@ -478,7 +478,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                     @Override
                     public void onError(Exception exception) {
-                        exception.printStackTrace();
+                        Timber.e(exception, "Failed to get items");
                     }
                 });
                 break;
