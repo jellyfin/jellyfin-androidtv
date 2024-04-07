@@ -564,4 +564,5 @@
     </plurals>
     <string name="clear_image_cache_content">Używane: %1$s</string>
     <string name="clear_image_cache">Wyczyść pamięć podręczną obrazów</string>
+    <string name="random">Losowo</string>
 </resources>
