@@ -75,6 +75,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -95,7 +96,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private BaseItemDto mBaseItem;
     private List<BaseItemDto> mItems = new ArrayList<>();
-    private String mItemId;
+    private UUID mItemId;
 
     private int mBottomScrollThreshold;
 
@@ -168,7 +169,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mItemId = getArguments().getString("ItemId");
+        mItemId = UUIDSerializerKt.toUUIDOrNull(getArguments().getString("ItemId"));
         loadItem(mItemId);
     }
 
@@ -323,9 +324,9 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         menu.show();
     }
 
-    private void loadItem(String id) {
+    private void loadItem(UUID id) {
         //Special case handling
-        if (FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString().equals(id)) {
+        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(id)) {
             BaseItemDto item = new BaseItemDto();
             item.setId(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString());
             item.setName(getString(R.string.lbl_favorites));
@@ -336,7 +337,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             item.setIsFolder(true);
             setBaseItem(item);
         } else {
-            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+            apiClient.getValue().GetItemAsync(id.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     if (!getActive()) return;
@@ -362,7 +363,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         //get items
         if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PLAYLIST) {
             // Have to use different query here
-            if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString().equals(mItemId)) {//Get favorited and liked songs from this area
+            if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mItemId)) {//Get favorited and liked songs from this area
                 StdItemQuery favSongs = new StdItemQuery(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Genres,
@@ -440,7 +441,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     };
 
     private void updatePoster(BaseItemDto item){
-        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString().equals(mItemId)) {
+        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mItemId)) {
             mPoster.setImageResource(R.drawable.favorites);
         } else {
             Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
@@ -560,7 +561,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
         }
 
-        if (!FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString().equals(mItemId)) {
+        if (!FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mItemId)) {
             //Favorite
             TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override
