@@ -553,7 +553,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @NonNull
     private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, org.jellyfin.sdk.model.api.BaseItemDto item, int maxBitrate) {
         VideoOptions internalOptions = new VideoOptions();
-        internalOptions.setItemId(item.getId().toString());
+        internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
         internalOptions.setMaxBitrate(maxBitrate);
         if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
@@ -573,7 +573,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @NonNull
     private VideoOptions buildVLCOptions(@Nullable Integer forcedSubtitleIndex, org.jellyfin.sdk.model.api.BaseItemDto item, int maxBitrate) {
         VideoOptions vlcOptions = new VideoOptions();
-        vlcOptions.setItemId(item.getId().toString());
+        vlcOptions.setItemId(item.getId());
         vlcOptions.setMediaSources(item.getMediaSources());
         vlcOptions.setMaxBitrate(maxBitrate);
         if (vlcErrorEncountered) {

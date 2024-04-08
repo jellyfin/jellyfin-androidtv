@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
@@ -42,24 +41,9 @@ public class PlaybackManager {
         }
     }
 
-    public void getAudioStreamInfo(DeviceInfo deviceInfo, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
-        PlaybackInfoRequest request = new PlaybackInfoRequest();
-        request.setId(options.getItemId());
-        request.setUserId(apiClient.getCurrentUserId());
-        request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
-        request.setMediaSourceId(options.getMediaSourceId());
-        request.setStartTimeTicks(startPositionTicks);
-        request.setDeviceProfile(options.getProfile());
-        request.setMaxAudioChannels(options.getMaxAudioChannels());
-
-        request.setAllowAudioStreamCopy(true);
-
-        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, false, startPositionTicks));
-    }
-
     public void getVideoStreamInfo(DeviceInfo deviceInfo, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
         PlaybackInfoRequest request = new PlaybackInfoRequest();
-        request.setId(options.getItemId());
+        request.setId(options.getItemId().toString());
         request.setUserId(apiClient.getCurrentUserId());
         request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
         request.setMediaSourceId(options.getMediaSourceId());

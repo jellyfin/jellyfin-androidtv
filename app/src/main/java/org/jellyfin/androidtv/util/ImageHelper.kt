@@ -7,7 +7,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.UserDto
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
+import java.util.UUID
 
 class ImageHelper(
 	private val api: ApiClient,
@@ -48,14 +48,12 @@ class ImageHelper(
 		)
 	}
 
-	fun getImageUrl(item: String, imageType: ImageType, imageTag: String): String? = item.toUUIDOrNull()?.let { itemId ->
-		api.imageApi.getItemImageUrl(
-			itemId = itemId,
-			imageType = imageType,
-			tag = imageTag,
-			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
-		)
-	}
+	fun getImageUrl(itemId: UUID, imageType: ImageType, imageTag: String): String = api.imageApi.getItemImageUrl(
+		itemId = itemId,
+		imageType = imageType,
+		tag = imageTag,
+		maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
+	)
 
 	fun getPrimaryImageUrl(item: BaseItemDto, preferParentThumb: Boolean, fillWidth: Int? = null, fillHeight: Int? = null): String {
 		var itemId = item.id
@@ -130,6 +128,7 @@ class ImageHelper(
 					maxWidth = maxWidth,
 				)
 			}
+
 			else -> null
 		}
 	}

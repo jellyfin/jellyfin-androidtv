@@ -238,7 +238,7 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
     private LiveStreamRequest getLiveStreamRequest() {
         LiveStreamRequest request = new LiveStreamRequest();
         request.setMaxStreamingBitrate(options.getMaxBitrate());
-        request.setItemId(options.getItemId());
+        request.setItemId(options.getItemId().toString());
         request.setDeviceProfile(options.getProfile());
         request.setMaxAudioChannels(options.getMaxAudioChannels());
 
