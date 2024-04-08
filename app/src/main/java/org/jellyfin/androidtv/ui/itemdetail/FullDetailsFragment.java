@@ -190,8 +190,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         mDorPresenter = new MyDetailsOverviewRowPresenter(markdownRenderer.getValue());
 
-        mItemId = UUIDSerializerKt.toUUIDOrNull(getArguments().getString("ItemId"));
-        mChannelId = UUIDSerializerKt.toUUIDOrNull(getArguments().getString("ChannelId"));
+        mItemId = Utils.uuidOrNull(getArguments().getString("ItemId"));
+        mChannelId = Utils.uuidOrNull(getArguments().getString("ChannelId"));
         String programJson = getArguments().getString("ProgramInfo");
         if (programJson != null) {
             mProgramInfo =Json.Default.decodeFromString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), programJson);

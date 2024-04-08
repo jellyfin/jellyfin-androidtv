@@ -169,7 +169,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mItemId = UUIDSerializerKt.toUUIDOrNull(getArguments().getString("ItemId"));
+        mItemId = Utils.uuidOrNull(getArguments().getString("ItemId"));
         loadItem(mItemId);
     }
 

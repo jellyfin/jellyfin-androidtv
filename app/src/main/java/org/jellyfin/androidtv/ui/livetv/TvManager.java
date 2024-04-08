@@ -39,7 +39,6 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class TvManager {
     private static boolean forceReload;
 
     public static UUID getLastLiveTvChannel() {
-        return UUIDSerializerKt.toUUIDOrNull(KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel()));
+        return Utils.uuidOrNull(KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel()));
     }
 
     public static void setLastLiveTvChannel(UUID id) {
@@ -76,7 +75,7 @@ public class TvManager {
     }
 
     public static UUID getPrevLiveTvChannel() {
-        return UUIDSerializerKt.toUUIDOrNull(KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel()));
+        return Utils.uuidOrNull(KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel()));
     }
 
     public static List<ChannelInfoDto> getAllChannels() {
