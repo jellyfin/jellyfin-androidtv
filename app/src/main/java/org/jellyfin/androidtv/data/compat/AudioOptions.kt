@@ -3,11 +3,12 @@ package org.jellyfin.androidtv.data.compat
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.EncodingContext
 import org.jellyfin.sdk.model.api.MediaSourceInfo
+import java.util.UUID
 
 open class AudioOptions {
 	var enableDirectPlay = true
 	var enableDirectStream = true
-	var itemId: String? = null
+	var itemId: UUID? = null
 	var mediaSources: List<MediaSourceInfo>? = null
 	var profile: DeviceProfile? = null
 

@@ -23,6 +23,7 @@ import org.koin.java.KoinJavaComponent;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class ImageUtils {
     public static final double ASPECT_RATIO_2_3 = 2.0 / 3.0;
@@ -78,7 +79,7 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item, options);
     }
 
-    public static String getImageUrl(@NonNull String itemId, @NonNull ImageType imageType, @NonNull String imageTag) {
+    public static String getImageUrl(@NonNull UUID itemId, @NonNull ImageType imageType, @NonNull String imageTag) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 

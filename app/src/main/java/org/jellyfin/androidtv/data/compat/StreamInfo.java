@@ -15,6 +15,7 @@ import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class StreamInfo {
     private static final String START_TIME_TICKS = "StartTimeTicks";
@@ -25,13 +26,13 @@ public class StreamInfo {
         setAudioCodecs(new String[]{});
     }
 
-    private String ItemId;
+    private UUID ItemId;
 
-    public final String getItemId() {
+    public final UUID getItemId() {
         return ItemId;
     }
 
-    public final void setItemId(String value) {
+    public final void setItemId(UUID value) {
         ItemId = value;
     }
 
@@ -271,7 +272,7 @@ public class StreamInfo {
         list.add(new NameValuePair("LiveStreamId", (liveStreamId != null) ? liveStreamId : ""));
 
         if (isDlna) {
-            list.add(new NameValuePair("ItemId", item.getItemId()));
+            list.add(new NameValuePair("ItemId", item.getItemId().toString()));
         }
 
         list.add(new NameValuePair("CopyTimestamps", "false"));
