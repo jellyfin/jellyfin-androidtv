@@ -7,9 +7,11 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.audioBehaviour
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.sdk.model.api.UserDto
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import timber.log.Timber
+import java.util.UUID
 import kotlin.math.roundToInt
 
 /**
@@ -115,4 +117,7 @@ object Utils : KoinComponent {
 
 	@JvmStatic
 	fun canManageRecordings(user: UserDto?): Boolean = user?.policy?.enableLiveTvManagement == true
+
+	@JvmStatic
+	fun uuidOrNull(string: String?): UUID? = string?.toUUIDOrNull()
 }
