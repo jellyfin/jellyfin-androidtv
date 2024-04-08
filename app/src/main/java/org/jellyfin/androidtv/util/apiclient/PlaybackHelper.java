@@ -312,7 +312,7 @@ public class PlaybackHelper {
         });
     }
 
-    public static void retrieveAndPlay(String id, boolean shuffle, Context activity) {
+    public static void retrieveAndPlay(UUID id, boolean shuffle, Context activity) {
         retrieveAndPlay(id, shuffle, null, activity);
     }
 
@@ -325,9 +325,9 @@ public class PlaybackHelper {
         }
     }
 
-    public static void retrieveAndPlay(String id, final boolean shuffle, final Long position, final Context activity) {
+    public static void retrieveAndPlay(UUID id, final boolean shuffle, final Long position, final Context activity) {
         UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id, userId.toString(), new Response<BaseItemDto>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id.toString(), userId.toString(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll() : 0;

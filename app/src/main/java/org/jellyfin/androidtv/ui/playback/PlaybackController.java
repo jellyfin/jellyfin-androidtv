@@ -595,7 +595,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         if (isLiveTv) {
             updateTvProgramInfo();
-            TvManager.setLastLiveTvChannel(item.getId().toString());
+            TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
             if (!directStreamLiveTv || userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player

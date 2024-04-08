@@ -32,9 +32,11 @@ import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.UserItemDataDto;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -54,7 +56,7 @@ public class KeyProcessor {
     public static final int MENU_CLEAR_QUEUE = 12;
     public static final int MENU_TOGGLE_SHUFFLE = 13;
 
-    private static String mCurrentItemId;
+    private static UUID mCurrentItemId;
     private static BaseItemDto mCurrentItem;
     private static FragmentActivity mCurrentActivity;
     private static int mCurrentRowItemNdx;
@@ -90,7 +92,7 @@ public class KeyProcessor {
                             case PROGRAM:
                             case TRAILER:
                                 // retrieve full item and play
-                                PlaybackHelper.retrieveAndPlay(item.getId().toString(), false, activity);
+                                PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                                 return true;
                             case SERIES:
                             case SEASON:
@@ -122,11 +124,11 @@ public class KeyProcessor {
                     case LiveTvChannel:
                     case LiveTvRecording:
                         // retrieve full item and play
-                        PlaybackHelper.retrieveAndPlay(rowItem.getItemId(), false, activity);
+                        PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(rowItem.getItemId()), false, activity);
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
-                        PlaybackHelper.retrieveAndPlay(rowItem.getBaseItem().getChannelId().toString(), false, activity);
+                        PlaybackHelper.retrieveAndPlay(rowItem.getBaseItem().getChannelId(), false, activity);
                         return true;
                     case GridButton:
                         break;
@@ -263,7 +265,7 @@ public class KeyProcessor {
         // use a single event handler
         mCurrentItem = rowItem.getBaseItem();
         mCurrentRowItemNdx = rowItem.getIndex();
-        mCurrentItemId = item.getId().toString();
+        mCurrentItemId = item.getId();
         mCurrentActivity = activity;
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
@@ -286,7 +288,7 @@ public class KeyProcessor {
         //Not sure I like this but I either duplicate processing with in-line events or do this and
         // use a single event handler
         mCurrentItem = item;
-        mCurrentItemId = item.getId().toString();
+        mCurrentItemId = item.getId();
         mCurrentActivity = activity;
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
@@ -326,7 +328,7 @@ public class KeyProcessor {
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
                     StdItemQuery query = new StdItemQuery();
-                    query.setParentId(mCurrentItemId);
+                    query.setParentId(mCurrentItemId.toString());
                     query.setRecursive(true);
                     query.setIsVirtualUnaired(false);
                     query.setIsMissing(false);
@@ -341,7 +343,7 @@ public class KeyProcessor {
                             if (response.getTotalRecordCount() == 0) {
                                 Utils.showToast(mCurrentActivity, R.string.msg_no_items);
                             } else {
-                                PlaybackHelper.retrieveAndPlay(response.getItems()[0].getId(), false, mCurrentActivity);
+                                PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, mCurrentActivity);
                             }
                         }
 
