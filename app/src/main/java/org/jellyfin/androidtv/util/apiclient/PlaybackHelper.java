@@ -346,8 +346,7 @@ public class PlaybackHelper {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(context, item)) return;
 
-        String seedId = item.getId().toString();
-        getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
+        getInstantMixAsync(item.getId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
@@ -359,10 +358,10 @@ public class PlaybackHelper {
         });
     }
 
-    public static void getInstantMixAsync(String seedId, final Response<BaseItemDto[]> outerResponse) {
+    public static void getInstantMixAsync(UUID seedId, final Response<BaseItemDto[]> outerResponse) {
         UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
         SimilarItemsQuery query = new SimilarItemsQuery();
-        query.setId(seedId);
+        query.setId(seedId.toString());
         query.setUserId(userId.toString());
         query.setFields(new ItemFields[] {
                 ItemFields.PrimaryImageAspectRatio,

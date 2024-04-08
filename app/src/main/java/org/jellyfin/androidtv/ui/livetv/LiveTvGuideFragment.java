@@ -247,10 +247,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         });
     }
 
-    public void refreshFavorite(String channelId){
+    public void refreshFavorite(UUID channelId){
         for (int i = 0; i < mChannels.getChildCount(); i++) {
             GuideChannelHeader gch = (GuideChannelHeader)mChannels.getChildAt(i);
-            if (gch.getChannel().getId().equals(channelId))
+            if (gch.getChannel().getId().equals(channelId.toString()))
                 gch.refreshFavorite();
         }
     }
@@ -560,7 +560,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 if (isCancelled()) return null;
                 final ChannelInfoDto channel = TvManager.getChannel(i);
                 List<BaseItemDto> programs = TvManager.getProgramsForChannel(channel.getId(), mFilters);
-                final LinearLayout row = getProgramRow(programs, channel.getId());
+                final LinearLayout row = getProgramRow(programs, UUIDSerializerKt.toUUID(channel.getId()));
                 if (row == null) continue; // no row to show
 
                 if (first) {
@@ -635,7 +635,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         return new GuideChannelHeader(context, this, channel);
     }
 
-    private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
+    private LinearLayout getProgramRow(List<BaseItemDto> programs, UUID channelId) {
 
         LinearLayout programRow = new LinearLayout(requireContext());
 
@@ -649,7 +649,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 empty.setId(UUID.randomUUID().toString());
                 empty.setBaseItemType(BaseItemType.Folder);
                 empty.setName(getString(R.string.no_program_data));
-                empty.setChannelId(channelId);
+                empty.setChannelId(channelId.toString());
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
@@ -681,7 +681,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 empty.setId(UUID.randomUUID().toString());
                 empty.setBaseItemType(BaseItemType.Folder);
                 empty.setName(getString(R.string.no_program_data));
-                empty.setChannelId(channelId);
+                empty.setChannelId(channelId.toString());
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
@@ -719,7 +719,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             empty.setId(UUID.randomUUID().toString());
             empty.setBaseItemType(BaseItemType.Folder);
             empty.setName(getString(R.string.no_program_data));
-            empty.setChannelId(channelId);
+            empty.setChannelId(channelId.toString());
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
             Long duration = (mCurrentLocalGuideEnd - prevEnd);
             empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
