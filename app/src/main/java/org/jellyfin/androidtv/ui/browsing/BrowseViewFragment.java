@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
+import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -445,44 +446,45 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 break;
 
-            case "seriestimers":
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
-                rowLoader.loadRows(mRows);
-                break;
             default:
-                // Fall back to rows defined by the view children
-                final List<BrowseRowDef> rows = new ArrayList<>();
-                final UUID userId = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId();
+                if (mFolder.getId() == FakeBaseItem.INSTANCE.getSERIES_TIMERS_ID()) {
+                    mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
+                    rowLoader.loadRows(mRows);
+                } else {
+                    // Fall back to rows defined by the view children
+                    final List<BrowseRowDef> rows = new ArrayList<>();
+                    final UUID userId = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId();
 
-                ItemQuery query = new ItemQuery();
-                query.setParentId(mFolder.getId().toString());
-                query.setUserId(userId.toString());
-                query.setImageTypeLimit(1);
-                query.setSortBy(new String[]{ItemSortBy.SortName});
+                    ItemQuery query = new ItemQuery();
+                    query.setParentId(mFolder.getId().toString());
+                    query.setUserId(userId.toString());
+                    query.setImageTypeLimit(1);
+                    query.setSortBy(new String[]{ItemSortBy.SortName});
 
-                apiClient.getValue().GetItemsAsync(query, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
-                    @Override
-                    public void onResponse(ItemsResult response) {
-                        if (!getActive()) return;
+                    apiClient.getValue().GetItemsAsync(query, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
+                        @Override
+                        public void onResponse(ItemsResult response) {
+                            if (!getActive()) return;
 
-                        if (response.getTotalRecordCount() > 0) {
-                            for (BaseItemDto item : response.getItems()) {
-                                ItemQuery rowQuery = new StdItemQuery();
-                                rowQuery.setParentId(item.getId());
-                                rowQuery.setUserId(userId.toString());
-                                rows.add(new BrowseRowDef(item.getName(), rowQuery, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                            if (response.getTotalRecordCount() > 0) {
+                                for (BaseItemDto item : response.getItems()) {
+                                    ItemQuery rowQuery = new StdItemQuery();
+                                    rowQuery.setParentId(item.getId());
+                                    rowQuery.setUserId(userId.toString());
+                                    rows.add(new BrowseRowDef(item.getName(), rowQuery, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                                }
                             }
+
+                            rowLoader.loadRows(rows);
                         }
 
-                        rowLoader.loadRows(rows);
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        Timber.e(exception, "Failed to get items");
-                    }
-                });
-                break;
+                        @Override
+                        public void onError(Exception exception) {
+                            Timber.e(exception, "Failed to get items");
+                        }
+                    });
+                    break;
+                }
         }
     }
 
