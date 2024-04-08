@@ -39,6 +39,7 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -61,20 +63,20 @@ public class TvManager {
     private static Calendar programNeedLoadTime;
     private static boolean forceReload;
 
-    public static String getLastLiveTvChannel() {
-        return KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel());
+    public static UUID getLastLiveTvChannel() {
+        return UUIDSerializerKt.toUUIDOrNull(KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel()));
     }
 
-    public static void setLastLiveTvChannel(String id) {
+    public static void setLastLiveTvChannel(UUID id) {
         SystemPreferences systemPreferences = KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class);
         systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
-        systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
+        systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id.toString());
         updateLastPlayedDate(id);
         fillChannelIds();
     }
 
-    public static String getPrevLiveTvChannel() {
-        return KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel());
+    public static UUID getPrevLiveTvChannel() {
+        return UUIDSerializerKt.toUUIDOrNull(KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel()));
     }
 
     public static List<ChannelInfoDto> getAllChannels() {
@@ -86,9 +88,9 @@ public class TvManager {
     }
     public static boolean shouldForceReload() { return forceReload; }
 
-    public static int getAllChannelsIndex(String id) {
+    public static int getAllChannelsIndex(UUID id) {
         for (int i = 0; i < allChannels.size(); i++) {
-            if (allChannels.get(i).getId().equals(id)) return i;
+            if (allChannels.get(i).getId().equals(id.toString())) return i;
         }
         return -1;
     }
@@ -97,7 +99,7 @@ public class TvManager {
         return allChannels.get(ndx);
     }
 
-    public static void updateLastPlayedDate(String channelId) {
+    public static void updateLastPlayedDate(UUID channelId) {
         if (allChannels != null) {
             int ndx = getAllChannelsIndex(channelId);
             if (ndx >= 0) {
@@ -141,11 +143,11 @@ public class TvManager {
         int ndx = 0;
         if (allChannels != null) {
             channelIds = new String[allChannels.size()];
-            String last = getLastLiveTvChannel();
+            UUID last = getLastLiveTvChannel();
             int i = 0;
             for (ChannelInfoDto channel : allChannels) {
                 channelIds[i++] = channel.getId();
-                if (channel.getId().equals(last)) ndx = i;
+                if (channel.getId().equals(last.toString())) ndx = i;
             }
         }
 

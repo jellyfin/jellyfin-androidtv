@@ -58,6 +58,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
@@ -94,7 +95,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private RelativeLayout mSelectedProgramView;
 
     private List<ChannelInfoDto> mAllChannels;
-    private String mFirstFocusChannelId;
+    private UUID mFirstFocusChannelId;
     private boolean focusAtEnd;
     private GuideFilters mFilters = new GuideFilters();
 
@@ -334,7 +335,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     Date curUTC = TimeUtils.convertToUtcDate(new Date());
                     if (mSelectedProgramView instanceof ProgramGridCell) {
                         if (mSelectedProgram.getStartDate().before(curUTC))
-                            PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
+                            PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()), false, requireContext());
                         else
                             showProgramOptions();
                         return true;
@@ -347,7 +348,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                         && mSelectedProgram != null
                         && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
+                    PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()), false, requireContext());
                     return true;
                 }
 
@@ -439,7 +440,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         Timber.i("page to %s", (new Date(startTime)).toString());
         TvManager.forceReload(); // don't allow cache
         if (mSelectedProgram != null) {
-            mFirstFocusChannelId = mSelectedProgram.getChannelId();
+            mFirstFocusChannelId = UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId());
         }
         fillTimeLine(startTime, getGuideHours());
         loadProgramData();
@@ -461,7 +462,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 public void onResponse() {
                     if (!getActive()) return;
 
-                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
+                    PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()), false, requireContext());
                 }
             });
         }

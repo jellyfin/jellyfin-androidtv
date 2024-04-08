@@ -89,6 +89,7 @@ import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ChapterInfo;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -426,7 +427,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
             } else if (item instanceof ChannelInfoDto) {
                 hidePopupPanel();
-                switchChannel(((ChannelInfoDto) item).getId());
+                switchChannel(UUIDSerializerKt.toUUID(((ChannelInfoDto) item).getId()));
             }
         }
     };
@@ -473,12 +474,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     if (mGuideVisible && mSelectedProgramView instanceof ProgramGridCell && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
                         Date curUTC = TimeUtils.convertToUtcDate(new Date());
                         if (mSelectedProgram.getStartDate().before(curUTC))
-                            switchChannel(mSelectedProgram.getChannelId());
+                            switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
                         else
                             showProgramOptions();
                         return true;
                     } else if (mSelectedProgramView instanceof GuideChannelHeader) {
-                        switchChannel(((GuideChannelHeader) mSelectedProgramView).getChannel().getId(), false);
+                        switchChannel(UUIDSerializerKt.toUUID(((GuideChannelHeader) mSelectedProgramView).getChannel().getId()), false);
                         return true;
                     }
                 }
@@ -585,7 +586,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
                             (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                         // tune to the current channel
-                        switchChannel(mSelectedProgram.getChannelId());
+                        switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
                         return true;
                     } else {
                         return true;
@@ -678,12 +679,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         return mCurrentLocalGuideEnd;
     }
 
-    public void switchChannel(String id) {
+    public void switchChannel(UUID id) {
         switchChannel(id, true);
     }
 
-    public void switchChannel(String id, boolean hideGuide) {
-        if (Utils.isEmpty(id)) return;
+    public void switchChannel(UUID id, boolean hideGuide) {
         if (playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem().getId().equals(id)) {
             // same channel, just dismiss overlay
             if (hideGuide)
@@ -692,7 +692,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             playbackControllerContainer.getValue().getPlaybackController().stop();
             if (hideGuide)
                 hideGuide();
-            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+            apiClient.getValue().GetItemAsync(id.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     if (!getActive()) return;
@@ -1171,7 +1171,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 public void onResponse() {
                     if (!getActive()) return;
 
-                    switchChannel(mSelectedProgram.getChannelId());
+                    switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
                 }
             });
         mDetailPopup.setContent(mSelectedProgram, (ProgramGridCell) mSelectedProgramView);

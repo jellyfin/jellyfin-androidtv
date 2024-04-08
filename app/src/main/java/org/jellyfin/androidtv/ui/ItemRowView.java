@@ -18,6 +18,8 @@ import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.constant.MediaType;
 
+import java.util.UUID;
+
 public class ItemRowView extends FrameLayout {
     Context mContext;
     RelativeLayout mWholeRow;
@@ -149,7 +151,7 @@ public class ItemRowView extends FrameLayout {
         return playing;
     }
 
-    public boolean setPlaying(String id) {
+    public boolean setPlaying(UUID id) {
         return setPlaying(getItem().getId().equals(id));
     }
 

@@ -249,7 +249,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
                 mCurrentlyPlayingRow = mItemList.updatePlaying(null);
             } else {
-                mCurrentlyPlayingRow = mItemList.updatePlaying(currentItem.getId().toString());
+                mCurrentlyPlayingRow = mItemList.updatePlaying(currentItem.getId());
             }
         }
 
@@ -535,7 +535,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
                             //use server retrieval in order to get all items
-                            PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, requireContext());
+                            PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(mBaseItem.getId()), true, requireContext());
                         } else {
                             Utils.showToast(requireContext(), R.string.msg_no_playable_items);
                         }

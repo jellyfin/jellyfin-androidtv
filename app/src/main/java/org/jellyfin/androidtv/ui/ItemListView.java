@@ -58,7 +58,7 @@ public class ItemListView extends FrameLayout {
         mItemIds.add(item.getId());
     }
 
-    public ItemRowView updatePlaying(String id) {
+    public ItemRowView updatePlaying(UUID id) {
         //look through our song rows and update the playing indicator
         ItemRowView ret = null;
         for (int i = 0; i < mList.getChildCount(); i++) {
