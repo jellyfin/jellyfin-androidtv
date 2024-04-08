@@ -142,10 +142,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     protected org.jellyfin.sdk.model.api.BaseItemDto mProgramInfo;
     protected SeriesTimerInfoDto mSeriesTimerInfo;
     protected UUID mItemId;
-    protected String mChannelId;
+    protected UUID mChannelId;
     protected BaseRowItem mCurrentItem;
     private Calendar mLastUpdated;
-    private String mPrevItemId;
+    private UUID mPrevItemId;
 
     private RowsSupportFragment mRowsFragment;
     private MutableObjectAdapter<Row> mRowsAdapter;
@@ -191,7 +191,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mDorPresenter = new MyDetailsOverviewRowPresenter(markdownRenderer.getValue());
 
         mItemId = UUIDSerializerKt.toUUIDOrNull(getArguments().getString("ItemId"));
-        mChannelId = getArguments().getString("ChannelId");
+        mChannelId = UUIDSerializerKt.toUUIDOrNull(getArguments().getString("ChannelId"));
         String programJson = getArguments().getString("ProgramInfo");
         if (programJson != null) {
             mProgramInfo =Json.Default.decodeFromString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), programJson);
@@ -382,7 +382,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private void loadItem(UUID id) {
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
-            apiClient.getValue().GetLiveTvChannelAsync(mChannelId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<ChannelInfoDto>(getLifecycle()) {
+            apiClient.getValue().GetLiveTvChannelAsync(mChannelId.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<ChannelInfoDto>(getLifecycle()) {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     if (!getActive()) return;
@@ -532,7 +532,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         backgroundService.getValue().setBackground(ModelCompat.asSdk(item));
         if (mBaseItem != null) {
             if (mChannelId != null) {
-                mBaseItem.setParentId(mChannelId);
+                mBaseItem.setParentId(mChannelId.toString());
                 mBaseItem.setPremiereDate(TimeUtils.getDate(mProgramInfo.getStartDate()));
                 mBaseItem.setEndDate(TimeUtils.getDate(mProgramInfo.getEndDate(), ZoneId.systemDefault()));
                 mBaseItem.setRunTimeTicks(mProgramInfo.getRunTimeTicks());
@@ -1274,7 +1274,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 @Override
                 public void onClick(View v) {
                     if (mPrevItemId != null) {
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mPrevItemId)));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(mPrevItemId));
                     }
                 }
             });
@@ -1294,7 +1294,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     if (response.getTotalRecordCount() > 0) {
                         //Just look at first item - if it isn't us, then it is the prev episode
                         if (!mBaseItem.getId().equals(response.getItems()[0].getId())) {
-                            mPrevItemId = response.getItems()[0].getId();
+                            mPrevItemId = UUIDSerializerKt.toUUID(response.getItems()[0].getId());
                             mPrevButton.setVisibility(View.VISIBLE);
                         } else {
                             mPrevButton.setVisibility(View.GONE);

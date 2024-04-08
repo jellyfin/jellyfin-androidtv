@@ -380,7 +380,7 @@ public class LiveProgramDetailPopup {
                     public void onResponse(UserItemDataDto response) {
                         channel.setUserData(response);
                         fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
-                        mTvGuide.refreshFavorite(channel.getId());
+                        mTvGuide.refreshFavorite(UUIDSerializerKt.toUUID(channel.getId()));
                         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                         dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                     }

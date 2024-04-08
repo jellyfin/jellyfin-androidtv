@@ -40,12 +40,13 @@ import org.koin.java.KoinJavaComponent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import kotlin.Lazy;
 
 public class RecordPopup {
     PopupWindow mPopup;
-    String mProgramId;
+    UUID mProgramId;
     SeriesTimerInfoDto mCurrentOptions;
     RecordingIndicatorView mSelectedView;
     View mAnchorView;
@@ -160,7 +161,7 @@ public class RecordPopup {
 
                 } else {
                     TimerInfoDto updated = new TimerInfoDto();
-                    updated.setProgramId(mProgramId);
+                    updated.setProgramId(mProgramId.toString());
                     updated.setPrePaddingSeconds(mCurrentOptions.getPrePaddingSeconds());
                     updated.setPostPaddingSeconds(mCurrentOptions.getPostPaddingSeconds());
                     updated.setIsPrePaddingRequired(mCurrentOptions.getIsPrePaddingRequired());
@@ -174,7 +175,7 @@ public class RecordPopup {
                             mPopup.dismiss();
                             customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
                                 @Override
                                 public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                     mSelectedView.setRecTimer(response.getTimerId());
@@ -211,7 +212,7 @@ public class RecordPopup {
     }
 
     public void setContent(Context context, BaseItemDto program, SeriesTimerInfoDto current, RecordingIndicatorView selectedView, boolean recordSeries) {
-        mProgramId = program.getId().toString();
+        mProgramId = program.getId();
         mCurrentOptions = current;
         mRecordSeries = recordSeries;
         mSelectedView = selectedView;
