@@ -513,4 +513,6 @@
     </plurals>
     <string name="lbl_latest_in">Adicionado recentemente em</string>
     <string name="because_you_watched">Porque viste</string>
+    <string name="random">Aleatório</string>
+    <string name="unreleased">Ainda não foi lançado</string>
 </resources>
