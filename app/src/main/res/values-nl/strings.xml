@@ -544,4 +544,6 @@
     </plurals>
     <string name="clear_image_cache_content">Gebruikt: %1$s</string>
     <string name="clear_image_cache">Afbeeldingscache wissen</string>
+    <string name="random">Willekeurig</string>
+    <string name="unreleased">Nog niet uitgebracht</string>
 </resources>
