@@ -565,4 +565,5 @@
     <string name="clear_image_cache_content">Використано: %1$s</string>
     <string name="lbl_runtime">Час виконання</string>
     <string name="random">Випадково</string>
+    <string name="unreleased">Ще не випущено</string>
 </resources>
