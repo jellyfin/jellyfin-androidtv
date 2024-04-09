@@ -554,4 +554,6 @@
         <item quantity="many">%1$s albums</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+    <string name="unreleased">Pas encore sorti</string>
+    <string name="random">Aléatoire</string>
 </resources>
