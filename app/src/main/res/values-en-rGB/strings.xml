@@ -199,6 +199,7 @@
     <string name="lbl_next_up">Next up</string>
     <string name="lbl_continue_watching">Continue watching</string>
     <string name="lbl_settings">Preferences</string>
+    <string name="lbl_home">Home</string>
     <string name="chapters">Chapters</string>
     <string name="lbl_image_size">Image size</string>
     <string name="lbl_image_type">Image type</string>

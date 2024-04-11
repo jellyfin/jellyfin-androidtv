@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -125,7 +126,11 @@ class MainActivity : FragmentActivity() {
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
 		is NavigationAction.NavigateFragment -> {
-			if (action.replace) {
+			if (action.clear) {
+				// Clear the current back stack
+				val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
+				supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+			} else if (action.replace) {
 				// Prevent back stack changed listener from resetting when popping to
 				// the initial destination
 				inTransaction = true

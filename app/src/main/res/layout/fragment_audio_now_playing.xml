@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="40sp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="160sp"
+        android:layout_marginEnd="180sp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-light"
         android:maxLines="1"
