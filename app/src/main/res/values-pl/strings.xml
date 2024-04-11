@@ -566,4 +566,5 @@
     <string name="clear_image_cache">Wyczyść pamięć podręczną obrazów</string>
     <string name="random">Losowy</string>
     <string name="unreleased">Jeszcze niewydany</string>
+    <string name="pref_playback_advanced">Zaawansowane preferencje odtwarzania</string>
 </resources>
