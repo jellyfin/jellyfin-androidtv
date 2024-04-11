@@ -48,7 +48,7 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class AudioNowPlayingFragment extends Fragment {
-    private ImageButton mHomeButton;
+    private ImageButton homeButton;
 
     private TextView mGenreRow;
     private ImageButton mPlayPauseButton;
@@ -92,8 +92,8 @@ public class AudioNowPlayingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentAudioNowPlayingBinding binding = FragmentAudioNowPlayingBinding.inflate(getLayoutInflater(), container, false);
 
-        mHomeButton = binding.getRoot().findViewById(R.id.home);
-        mHomeButton.setOnFocusChangeListener(mainAreaFocusListener);
+        homeButton = binding.clock.getHomeButton();
+        homeButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mPoster = binding.poster;
         mPoster.setClipToOutline(true);
@@ -278,7 +278,7 @@ public class AudioNowPlayingFragment extends Fragment {
     private View.OnFocusChangeListener mainAreaFocusListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (!hasFocus && v != mHomeButton) {
+            if (!hasFocus && v != homeButton) {
                 // when the playback control buttons lose focus, and the home button is not focused
                 // the only other focusable object is the queue row.
                 // Scroll to the bottom of the scrollView
@@ -403,6 +403,6 @@ public class AudioNowPlayingFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        mHomeButton.setOnFocusChangeListener(null);
+        homeButton.setOnFocusChangeListener(null);
     }
 }

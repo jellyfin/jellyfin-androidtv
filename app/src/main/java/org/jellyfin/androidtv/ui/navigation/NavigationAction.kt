@@ -11,7 +11,7 @@ sealed interface NavigationAction {
 		val destination: Destination.Fragment,
 		val addToBackStack: Boolean,
 		val replace: Boolean,
-		val clear: Boolean = false,
+		val clear: Boolean,
 	) : NavigationAction
 
 	/**

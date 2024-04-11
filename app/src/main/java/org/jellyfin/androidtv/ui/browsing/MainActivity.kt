@@ -23,7 +23,6 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
-import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
@@ -127,18 +126,16 @@ class MainActivity : FragmentActivity() {
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
 		is NavigationAction.NavigateFragment -> {
-			if (action.replace) {
+			if (action.clear) {
+				// Clear the current back stack
+				val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
+				supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+			} else if (action.replace) {
 				// Prevent back stack changed listener from resetting when popping to
 				// the initial destination
 				inTransaction = true
 				supportFragmentManager.popBackStack()
 				inTransaction = false
-			}
-
-			if(action.clear) {
-				// Clear the current back stack
-				val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
-				supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 			}
 
 			supportFragmentManager.commit {

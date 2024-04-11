@@ -47,15 +47,16 @@ interface NavigationRepository {
 	fun goBack(): Boolean
 
 	/**
-	 * Reset navigation to it's initial state and remove all history.
-	 * Optionally use a [Destination.Fragment] instead of the default destination.
+	 * Reset navigation to the initial destination or a specific [Destination.Fragment].
+	 *
+	 * @param clearHistory Empty out the back stack
 	 */
-	fun reset(destination: Destination.Fragment? = null)
+	fun reset(destination: Destination.Fragment? = null, clearHistory: Boolean)
 
 	/**
-	 * Navigates back to the home fragment, clearing all back stack and fragment history.
+	 * Reset navigation to the initial destination or a specific [Destination.Fragment] without clearing history.
 	 */
-	fun goHome(): Boolean
+	fun reset(destination: Destination.Fragment? = null) = reset(destination, false)
 }
 
 class NavigationRepositoryImpl(
@@ -69,14 +70,14 @@ class NavigationRepositoryImpl(
 	init {
 		// Never add the initial destination to the history to prevent an empty screen when the user
 		// uses the "back" button to close the app
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false, false))
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false, false, false))
 		Timber.d("Navigating to $initialDestination (via init)")
 	}
 
 	override fun navigate(destination: Destination, replace: Boolean) {
 		Timber.d("Navigating to $destination (via navigate function)")
 		val action = when (destination) {
-			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true, replace)
+			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true, replace, false)
 			is Destination.Activity -> NavigationAction.NavigateActivity(destination) {
 				Timber.d("Navigating to nothing")
 				_currentAction.tryEmit(NavigationAction.Nothing)
@@ -100,18 +101,11 @@ class NavigationRepositoryImpl(
 		return true
 	}
 
-	override fun reset(destination: Destination.Fragment?) {
+	override fun reset(destination: Destination.Fragment?, clearHistory: Boolean) {
 		fragmentHistory.clear()
 		val actualDestination = destination ?: initialDestination
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false, false))
-		Timber.d("Navigating to $actualDestination (via reset)")
-	}
-
-	override fun goHome(): Boolean {
-		fragmentHistory.clear()
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(Destinations.home, false, false, true))
-		Timber.d("Navigating home")
-		return true
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false, false, clearHistory))
+		Timber.d("Navigating to $actualDestination (via reset, clearHistory=$clearHistory)")
 	}
 }
 

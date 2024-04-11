@@ -34,6 +34,8 @@ class ClockUserView @JvmOverloads constructor(
 			updateClockVisibility()
 		}
 
+	val homeButton get() = binding.home
+
 	init {
 		updateClockVisibility()
 
@@ -47,7 +49,7 @@ class ClockUserView @JvmOverloads constructor(
 		binding.clockUserImage.isVisible = currentUser != null
 
 		binding.home.setOnClickListener {
-			navigationRepository.goHome()
+			navigationRepository.reset(Destinations.home, clearHistory = true)
 		}
 	}
 
