@@ -55,6 +55,7 @@ class ExoPlayerProfile(
 		add(Codec.Audio.PCM_MULAW)
 		add(Codec.Audio.OPUS)
 		add(Codec.Audio.FLAC)
+		add(Codec.Audio.VORBIS)
 	}.toTypedArray()
 
 	private val allSupportedAudioCodecsWithoutFFmpegExperimental = allSupportedAudioCodecs

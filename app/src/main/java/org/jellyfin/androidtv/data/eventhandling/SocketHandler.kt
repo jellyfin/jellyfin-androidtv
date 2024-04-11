@@ -147,7 +147,7 @@ class SocketHandler(
 
 		runCatching {
 			PlaybackHelper.retrieveAndPlay(
-				itemId.toString(),
+				itemId,
 				false,
 				message.request.startPositionTicks,
 				context

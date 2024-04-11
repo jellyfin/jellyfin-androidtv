@@ -7,13 +7,13 @@
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nepoznato</string>
-    <string name="msg_video_playback_error">"Greška pri reprodukciji "</string>
+    <string name="msg_video_playback_error">"Greška pri izvođenju "</string>
     <string name="lbl_none">Nijedan</string>
     <string name="lbl_recordings">Snimke</string>
     <string name="lbl_videos">Video</string>
     <string name="lbl_people">Osobe</string>
     <string name="lbl_other_options">Ostale opcije</string>
-    <string name="lbl_last_played">"Posljednje reproducirano "</string>
+    <string name="lbl_last_played">"Posljednje izvedeno "</string>
     <string name="lbl_directed_by">Redatelj</string>
     <string name="lbl_ends">Završava</string>
     <string name="lbl_min">" min"</string>
@@ -37,8 +37,8 @@
     <string name="lbl_cancel_recording">Otkaži snimanje</string>
     <string name="lbl_cancel">Odustani</string>
     <string name="lbl_play">Reproduciraj</string>
-    <string name="lbl_shuffle_all">Promiješaj sve</string>
-    <string name="lbl_play_all">Reproduciraj sve</string>
+    <string name="lbl_shuffle_all">Nasumično izvedi</string>
+    <string name="lbl_play_all">Izvedi sve</string>
     <string name="lbl_other">Ostalo</string>
     <string name="lbl_tv_series">Serije</string>
     <string name="lbl_movies">Filmovi</string>
@@ -48,7 +48,7 @@
     <string name="lbl_coming_up">Slijedi</string>
     <string name="lbl_favorites">Favoriti</string>
     <string name="lbl_by_name">Prema nazivu</string>
-    <string name="lbl_latest">Posljednje</string>
+    <string name="lbl_latest">Nedavno dodano</string>
     <string name="lbl_search">Traži</string>
     <string name="lbl_genres">Žanrovi</string>
     <string name="lbl_status">%1$s / %2$s</string>
@@ -123,9 +123,9 @@
     <string name="lbl_now_playing_track">%1$s od %2$s</string>
     <string name="lbl_add_favorite">Dodaj u omiljene</string>
     <string name="lbl_remove_favorite">Ukloni iz omiljenih</string>
-    <string name="lbl_mark_played">Označi da je reproducirano</string>
-    <string name="lbl_mark_unplayed">Označi da nije reproducirano</string>
-    <string name="lbl_play_first_unwatched">Reproduciraj prvo negledane</string>
+    <string name="lbl_mark_played">Označi da je izvedeno</string>
+    <string name="lbl_mark_unplayed">Označi da nije izvedeno</string>
+    <string name="lbl_play_first_unwatched">Izvedi prvo negledane</string>
     <string name="lbl_search_hint">Traži tekst (tipka izaberi za tipkovnicu)</string>
     <string name="sum_tv_queuing">Za vrijeme reprodukcije dodaj ostatak sezone u red</string>
     <string name="lbl_tv_queuing">Stavi u red sve sljedeće epizode</string>
@@ -138,7 +138,7 @@
     <string name="msg_playback_not_allowed">Reprodukcija trenutno nije dozvoljena</string>
     <string name="lbl_born">"Rođen "</string>
     <string name="lbl_valid_server_address">Molimo, unesite adresu poslužitelja (IP ili domena/ime računala)</string>
-    <string name="lbl_play_trailers">Reproduciraj kratke prikaz(e)</string>
+    <string name="lbl_play_trailers">Izvedi najave</string>
     <string name="lbl_trailer">"Kratki prikaz "</string>
     <string name="lbl_runs">U tijeku</string>
     <string name="lbl_artists">Izvođači</string>
@@ -265,7 +265,7 @@
     <string name="lbl_now_playing">Reproducira se</string>
     <string name="lbl_prev_item">Prethodna stavka</string>
     <string name="lbl_next_item">Sljedeća stavka</string>
-    <string name="lbl_open_album">Otvori Album</string>
+    <string name="lbl_open_album">Otvori album</string>
     <string name="lbl_open_artist">Otvori izvođača</string>
     <string name="lbl_add_to_queue">Dodaj u red</string>
     <string name="msg_items_added">" stavki dodano"</string>
@@ -488,4 +488,65 @@
     <string name="pref_screensaver_inapp_enabled_description">Prikaži Jellyfin čuvar zaslona kada je aplikacija otvorena</string>
     <string name="lbl_latest_in">Nedavno dodano u %1$s</string>
     <string name="because_you_watched">Zato što si gledao %1$s</string>
+    <string name="photo_albums">Foto albumi</string>
+    <string name="lbl_hide_watched_checkmark">Kad postoje preostale epizode</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekunda</item>
+        <item quantity="few">%1$s seknude</item>
+        <item quantity="other">%1$s sekundi</item>
+    </plurals>
+    <string name="channels">Kanali</string>
+    <string name="photos">Fotografije</string>
+    <string name="clear_image_cache_content">Iskorišteno: %1$s</string>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="few">%1$s albuma</item>
+        <item quantity="other">%1$s albuma</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="few">%1$s filma</item>
+        <item quantity="other">%1$s filmova</item>
+    </plurals>
+    <string name="person_birthday_and_age">Rođen(a) %1$s (%2$d)</string>
+    <plurals name="items">
+        <item quantity="one">%1$s stavka</item>
+        <item quantity="few">%1$s stavke</item>
+        <item quantity="other">%1$s stavki</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s serija</item>
+        <item quantity="few">%1$s serije</item>
+        <item quantity="other">%1$s serija</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s pjesma</item>
+        <item quantity="few">%1$s pjesme</item>
+        <item quantity="other">%1$s pjesmi</item>
+    </plurals>
+    <string name="dolby_vision">Dolby Vision</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s epizoda</item>
+        <item quantity="few">%1$s epizode</item>
+        <item quantity="other">%1$s epizoda</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s sat</item>
+        <item quantity="few">%1$s sata</item>
+        <item quantity="other">%1$s sati</item>
+    </plurals>
+    <string name="clear_image_cache">Očisti predmemoriju slika</string>
+    <string name="lbl_runtime">Vrijeme izvođenja</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuta</item>
+        <item quantity="few">%1$s minute</item>
+        <item quantity="other">%1$s minuta</item>
+    </plurals>
+    <string name="indicator_subtitles">Titlovi</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS-X</string>
+    <string name="dts_hd">DTS-HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
 </resources>

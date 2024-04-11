@@ -4,14 +4,13 @@ import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
-import org.jellyfin.androidtv.preference.constant.defaultAudioBehavior
-import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
 import org.jellyfin.preference.intPreference
@@ -98,7 +97,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Preferred behavior for audio streaming.
 		 */
-		var audioBehaviour = enumPreference("audio_behavior", defaultAudioBehavior)
+		var audioBehaviour = enumPreference("audio_behavior", AudioBehavior.DOWNMIX_TO_STEREO)
 
 		/**
 		 * Preferred behavior for audio streaming.
@@ -113,7 +112,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1)
+		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
 
 		/**
 		 * Default audio delay in milliseconds for libVLC

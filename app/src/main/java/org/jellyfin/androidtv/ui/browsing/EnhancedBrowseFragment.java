@@ -55,6 +55,7 @@ import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
+import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.CollectionType;
@@ -73,6 +74,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
     protected static final int BY_LETTER = 0;
     protected static final int GENRES = 1;
+    protected static final int RANDOM = 2;
     protected static final int SUGGESTED = 4;
     protected static final int GRID = 6;
     protected static final int ALBUMS = 7;
@@ -82,7 +84,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected static final int SERIES = 11;
     protected static final int ALBUM_ARTISTS = 12;
     protected BaseItemDto mFolder;
-    protected String itemTypeString;
+    protected BaseItemKind itemType;
     protected boolean showViews = true;
     protected boolean justLoaded = true;
 
@@ -101,6 +103,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<ApiClient> api = inject(ApiClient.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,13 +167,13 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         if (mFolder.getCollectionType() != null) {
             switch (mFolder.getCollectionType()) {
                 case CollectionType.Movies:
-                    itemTypeString = "Movie";
+                    itemType = BaseItemKind.MOVIE;
                     break;
                 case CollectionType.TvShows:
-                    itemTypeString = "Series";
+                    itemType = BaseItemKind.SERIES;
                     break;
                 case CollectionType.Music:
-                    itemTypeString = "MusicAlbum";
+                    itemType = BaseItemKind.MUSIC_ALBUM;
                     break;
                 case CollectionType.Folders:
                     showViews = false;
@@ -297,17 +300,24 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
 
-        switch (itemTypeString) {
-            case "Movie":
+        switch (itemType) {
+            case MOVIE:
                 gridRowAdapter.add(new GridButton(SUGGESTED, getString(R.string.lbl_suggested)));
                 addStandardViewButtons(gridRowAdapter);
+                gridRowAdapter.add(new GridButton(RANDOM, getString(R.string.random)));
                 break;
 
-            case "MusicAlbum":
+            case MUSIC_ALBUM:
                 gridRowAdapter.add(new GridButton(ALBUMS, getString(R.string.lbl_albums)));
                 gridRowAdapter.add(new GridButton(ALBUM_ARTISTS, getString(R.string.lbl_album_artists)));
                 gridRowAdapter.add(new GridButton(ARTISTS, getString(R.string.lbl_artists)));
                 gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres)));
+                gridRowAdapter.add(new GridButton(RANDOM, getString(R.string.random)));
+                break;
+
+            case SERIES:
+                addStandardViewButtons(gridRowAdapter);
+                gridRowAdapter.add(new GridButton(RANDOM, getString(R.string.random)));
                 break;
 
             default:
@@ -379,7 +389,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                     case ALBUMS:
                         mFolder = JavaCompat.copyWithDisplayPreferencesId(mFolder, mFolder.getId() + "AL");
 
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, "MusicAlbum"));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, BaseItemKind.MUSIC_ALBUM.getSerialName()));
                         break;
 
                     case ALBUM_ARTISTS:
@@ -395,11 +405,25 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         break;
 
                     case BY_LETTER:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByLetter(mFolder, itemTypeString));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByLetter(mFolder, itemType.getSerialName()));
                         break;
 
                     case GENRES:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByGenres(mFolder, itemTypeString));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByGenres(mFolder, itemType.getSerialName()));
+                        break;
+
+                    case RANDOM:
+                        BrowsingUtils.getRandomItem(api.getValue(), getViewLifecycleOwner(), mFolder, itemType, randomItem -> {
+                            if (randomItem != null) {
+                                if (randomItem.getType() == BaseItemKind.MUSIC_ALBUM) {
+                                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(randomItem.getId()));
+                                } else {
+                                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(randomItem.getId()));
+                                }
+                            }
+
+                            return null;
+                        });
                         break;
 
                     case SUGGESTED:

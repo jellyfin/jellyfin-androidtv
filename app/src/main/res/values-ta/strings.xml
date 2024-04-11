@@ -315,7 +315,7 @@
     <string name="lbl_remove_user_content">கணக்கை அகற்று</string>
     <string name="lbl_remove_users">இது தொடர்புடைய அனைத்து கணக்குகளையும் அகற்றும்</string>
     <string name="lbl_manage_servers">சேவையகங்களை நிர்வகிக்கவும்</string>
-    <string name="lbl_hide_unwatched_count">பார்க்கப்படாத எண்ணிக்கையை மறைக்க</string>
+    <string name="lbl_hide_unwatched_count">ஏற்கனவே பார்த்தது</string>
     <string name="pref_watched_indicator">பார்த்த குறிகாட்டிகளைக் காட்டு</string>
     <string name="lbl_use_series_thumbnails_description">அத்தியாயங்களைக் காண்பிக்கும் போது தொடர் சிறுபடங்களைப் பயன்படுத்தவும்</string>
     <string name="lbl_use_series_thumbnails">தொடர் சிறு உருவங்களை விரும்புங்கள்</string>
@@ -508,4 +508,40 @@
         <item quantity="other">%1$s மணிநேரம்</item>
     </plurals>
     <string name="episode_name_special">பிரத்யேகமான</string>
+    <string name="channels">சேனல்கள்</string>
+    <string name="lbl_hide_watched_checkmark">எபிசோடுகள் மீதமுள்ள போது</string>
+    <string name="person_birthday_and_age">பிறந்த %1$s (%2$d)</string>
+    <string name="dolby_vision">டால்பி விஷன்</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dolby_atmos">டால்பி அட்மோஸ்</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s டிவி தொடர்</item>
+        <item quantity="other">%1$s டிவி தொடர்கள்</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s பாடல்</item>
+        <item quantity="other">%1$s பாடல்கள்</item>
+    </plurals>
+    <string name="clear_image_cache">தற்காலிக பட சேமிப்பை அழிக்கவும்</string>
+    <string name="clear_image_cache_content">பயன்படுத்தப்பட்டது: %1$s</string>
+    <plurals name="items">
+        <item quantity="one">%1$s உருப்படி</item>
+        <item quantity="other">%1$s உருப்படிகள்</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s திரைப்படம்</item>
+        <item quantity="other">%1$s திரைப்படங்கள்</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s ஆல்பம்</item>
+        <item quantity="other">%1$s ஆல்பங்கள்</item>
+    </plurals>
+    <string name="photo_albums">புகைப்பட ஆல்பங்கள்</string>
+    <string name="photos">புகைப்படங்கள்</string>
+    <string name="lbl_runtime">இயக்க நேரம்</string>
 </resources>

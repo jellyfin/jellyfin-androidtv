@@ -35,6 +35,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.Date;
@@ -367,7 +368,7 @@ public class LiveProgramDetailPopup {
     }
 
     public android.widget.ImageButton createFavoriteButton() {
-        ChannelInfoDto channel = TvManager.getChannel(TvManager.getAllChannelsIndex(mProgram.getChannelId()));
+        ChannelInfoDto channel = TvManager.getChannel(TvManager.getAllChannelsIndex(UUIDSerializerKt.toUUID(mProgram.getChannelId())));
         boolean isFav = channel.getUserData() != null && channel.getUserData().getIsFavorite();
 
         android.widget.ImageButton fave = addImgButton(mDButtonRow, isFav ? R.drawable.ic_heart_red : R.drawable.ic_heart);
@@ -379,7 +380,7 @@ public class LiveProgramDetailPopup {
                     public void onResponse(UserItemDataDto response) {
                         channel.setUserData(response);
                         fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
-                        mTvGuide.refreshFavorite(channel.getId());
+                        mTvGuide.refreshFavorite(UUIDSerializerKt.toUUID(channel.getId()));
                         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                         dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                     }

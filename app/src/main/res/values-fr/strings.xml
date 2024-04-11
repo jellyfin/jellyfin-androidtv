@@ -4,11 +4,11 @@
     <string name="btn_cancel">Annuler</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Lecture</string>
-    <string name="pref_max_bitrate_title">Débit max de streaming</string>
+    <string name="pref_max_bitrate_title">Débit de streaming maximum</string>
     <string name="settings_title">Préférences</string>
     <string name="chapters">Chapitres</string>
     <string name="lbl_settings">Préférences</string>
-    <string name="lbl_continue_watching">Continuer la lecture</string>
+    <string name="lbl_continue_watching">Continuer à regarder</string>
     <string name="lbl_next_up">À suivre</string>
     <string name="lbl_on_now">En cours</string>
     <string name="lbl_views">Vues</string>
@@ -42,12 +42,12 @@
     <string name="lbl_cast_crew">Distribution et équipe</string>
     <string name="lbl_chapters">Chapitres</string>
     <string name="lbl_specials">Épisodes spéciaux</string>
-    <string name="lbl_trailers">Bandes-annonces</string>
+    <string name="lbl_trailers">Bandes annonces</string>
     <string name="lbl_items">Éléments</string>
     <string name="lbl_item">Élément</string>
     <string name="lbl_seasons">Saisons</string>
     <string name="lbl_upcoming">À venir</string>
-    <string name="lbl_sd">DS</string>
+    <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Durée</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Fin</string>
@@ -60,8 +60,8 @@
     <string name="lbl_none">Aucun</string>
     <string name="msg_video_playback_error">"Erreur de lecture de la vidéo - "</string>
     <string name="lbl_bracket_unknown">Inconnu</string>
-    <string name="lbl_trailer">"Bande-annonce "</string>
-    <string name="lbl_play_trailers">Lire la (les) bande(s)-annonce(s)</string>
+    <string name="lbl_trailer">"Bandes annonce "</string>
+    <string name="lbl_play_trailers">Lire bandes annonces</string>
     <string name="lbl_no">Non</string>
     <string name="lbl_yes">Oui</string>
     <string name="lbl_enter_server_address">Saisir l\'adresse du serveur</string>
@@ -79,7 +79,7 @@
     <string name="lbl_empty">Vide</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
     <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
-    <string name="lbl_search_hint">Mot à rechercher (\"select\" pour le clavier)</string>
+    <string name="lbl_search_hint">Rechercher du texte (sélectionner pour le clavier)</string>
     <string name="lbl_play_first_unwatched">Lire le premier élément non vu</string>
     <string name="lbl_mark_unplayed">Marquer comme non vu</string>
     <string name="lbl_mark_played">Marqué comme vu</string>
@@ -159,13 +159,13 @@
     <string name="lbl_kids">Enfants</string>
     <string name="btn_got_it">Ok</string>
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
-    <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes des séries que vous regardez</string>
+    <string name="desc_premieres">Afficher une ligne pour les nouveaux pilotes d’épisode pour toutes les séries regardées</string>
     <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
     <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
     <string name="lbl_new_premieres">Nouvelles saisons</string>
     <string name="lbl_open">Ouvrir</string>
-    <string name="lbl_play_next_up">Lire le suivant</string>
+    <string name="lbl_play_next_up">Lire la prochaine vidéo</string>
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds</string>
@@ -180,7 +180,7 @@
     <string name="lbl_in_x_days">Dans %d jours</string>
     <string name="lbl_just_this_once">Juste cette fois</string>
     <string name="lbl_live">Direct</string>
-    <string name="lbl_more_like_this">Plus du même genre</string>
+    <string name="lbl_more_like_this">Plus comme ceci</string>
     <string name="lbl_new">Nouveau</string>
     <string name="lbl_recent_recordings">Enregistrements récents</string>
     <string name="lbl_repeat">Répéter</string>
@@ -225,7 +225,7 @@
     <string name="pref_about_title">A propos</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mes médias</string>
-    <string name="watch_now">Regardez maintenant</string>
+    <string name="watch_now">Regarder maintenant</string>
     <string name="pref_next_up_timeout_summary">Combien de temps attendre avant de lire l\'élément suivant</string>
     <string name="pref_media_player">Lecteur multimédia préféré</string>
     <string name="pref_video_player_external">Application externe</string>
@@ -407,7 +407,7 @@
     <string name="pref_playback_description">Vidéo, sous-titres, TV en direct, prochains à voir</string>
     <string name="pref_customization_description">Thème, accueil, remappage</string>
     <string name="pref_login_description">Serveurs, comptes, connexion automatique</string>
-    <string name="pref_login">Connexion</string>
+    <string name="pref_login">Se connecter</string>
     <string name="pref_libraries_description">Changer le type d\'affichage des bibliothèques</string>
     <string name="pref_libraries">Bibliothèques</string>
     <string name="pref_home_description">Configurer les sections affichées</string>
@@ -434,7 +434,7 @@
     <string name="input_username">Nom d\'utilisateur</string>
     <string name="action_use_quickconnect">Utiliser Quick Connect</string>
     <string name="action_use_password">Utiliser un mot de passe</string>
-    <string name="action_login">Connexion</string>
+    <string name="action_login">Se connecter</string>
     <string name="live_tv_preferences">Options TV Live</string>
     <string name="lbl_subtitle_delay">Décalage sous-titre</string>
     <string name="lbl_adjust">Ajuster</string>
@@ -518,4 +518,42 @@
     <string name="channels">Chaînes</string>
     <string name="lbl_hide_watched_checkmark">Quand il reste des épisodes</string>
     <string name="lbl_runtime">Durée de lecture</string>
+    <string name="indicator_subtitles">ST</string>
+    <string name="person_birthday_and_age">Née %1$s (%2$d)</string>
+    <string name="clear_image_cache_content">Utilisé : %1$s</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="eac3">DD+</string>
+    <string name="dca">DTS</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="ac3">DD</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="clear_image_cache">Vider le cache d\'images</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s chanson</item>
+        <item quantity="many">%1$s chansons</item>
+        <item quantity="other">%1$s chansons</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s objet</item>
+        <item quantity="many">%1$s objets</item>
+        <item quantity="other">%1$s objets</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="many">%1$s films</item>
+        <item quantity="other">%1$s films</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s série TV</item>
+        <item quantity="many">%1$s séries TV</item>
+        <item quantity="other">%1$s séries TV</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="many">%1$s albums</item>
+        <item quantity="other">%1$s albums</item>
+    </plurals>
+    <string name="unreleased">Pas encore sorti</string>
+    <string name="random">Aléatoire</string>
 </resources>

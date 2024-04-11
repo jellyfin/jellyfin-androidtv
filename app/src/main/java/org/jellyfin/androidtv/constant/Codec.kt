@@ -50,6 +50,7 @@ object Codec {
 		const val PCM_S16LE = "pcm_s16le"
 		const val PCM_S24LE = "pcm_s24le"
 		const val TRUEHD = "truehd"
+		const val VORBIS = "vorbis"
 		const val WAV = "wav"
 		const val WEBMA = "webma"
 		const val WMA = "wma"

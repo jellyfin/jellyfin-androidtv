@@ -544,4 +544,6 @@
     </plurals>
     <string name="clear_image_cache_content">Kullanıldı: %1$s</string>
     <string name="clear_image_cache">Resim önbelleğini temizle</string>
+    <string name="random">Rastgele</string>
+    <string name="unreleased">Henüz yayınlanmadı</string>
 </resources>

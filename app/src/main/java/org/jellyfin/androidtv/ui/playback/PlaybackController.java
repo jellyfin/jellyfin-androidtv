@@ -26,7 +26,6 @@ import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -129,11 +128,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = fragment;
         mHandler = new Handler();
 
-        if (DeviceUtils.is60()) {
-            refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
-            if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
-                getDisplayModes();
-        }
+
+        refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
+        if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
+            getDisplayModes();
 
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
@@ -320,7 +318,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @TargetApi(23)
     private Display.Mode findBestDisplayMode(MediaStream videoStream) {
-        if (mFragment == null || mDisplayModes == null || videoStream.getRealFrameRate() == null) return null;
+        if (mFragment == null || mDisplayModes == null || videoStream.getRealFrameRate() == null)
+            return null;
 
 
         int curWeight = 0;
@@ -388,7 +387,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     best.getModeId(), best.getPhysicalWidth(), best.getPhysicalHeight(), best.getRefreshRate());
             if (current.getModeId() != best.getModeId()) {
                 Timber.i("*** Attempting to change refresh rate from: %s - %dx%d@%f", current.getModeId(), current.getPhysicalWidth(),
-                                                                                                current.getPhysicalHeight(),current.getRefreshRate());
+                        current.getPhysicalHeight(), current.getRefreshRate());
                 WindowManager.LayoutParams params = mFragment.requireActivity().getWindow().getAttributes();
                 params.preferredDisplayModeId = best.getModeId();
                 mFragment.requireActivity().getWindow().setAttributes(params);
@@ -436,7 +435,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void play(long position, @Nullable Integer forcedSubtitleIndex) {
-        Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+        Timber.i("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+
+        if (mFragment == null) {
+            Timber.w("mFragment is null, returning");
+            return;
+        }
 
         if (position < 0) {
             Timber.i("Negative start requested - adjusting to zero");
@@ -455,8 +459,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 mVideoManager.play();
                 if (mVideoManager.isNativeMode())
                     mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
-                if (mFragment != null)
-                    mFragment.setFadingEnabled(true);
+                mFragment.setFadingEnabled(true);
                 startReportLoop();
                 break;
             case BUFFERING:
@@ -469,23 +472,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 mSeekPosition = position;
                 mCurrentPosition = 0;
 
-                if (mFragment != null) {
-                    mFragment.setFadingEnabled(false);
-                }
+                mFragment.setFadingEnabled(false);
 
                 org.jellyfin.sdk.model.api.BaseItemDto item = getCurrentlyPlayingItem();
 
                 if (item == null) {
                     Timber.d("item is null - aborting play");
-                    if (mFragment != null) {
-                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
-                        mFragment.closePlayer();
-                    }
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
+                    mFragment.closePlayer();
                     return;
                 }
 
                 // make sure item isn't missing
-                if (item.getLocationType() == LocationType.VIRTUAL && mFragment != null) {
+                if (item.getLocationType() == LocationType.VIRTUAL) {
                     if (hasNextItem()) {
                         new AlertDialog.Builder(mFragment.getContext())
                                 .setTitle(R.string.episode_missing)
@@ -522,8 +521,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 // confirm we actually can play
                 if (item.getPlayAccess() != PlayAccess.FULL) {
-                    if (mFragment == null) return;
-
                     String msg = item.isPlaceHolder() ? mFragment.getString(R.string.msg_cannot_play) : mFragment.getString(R.string.msg_cannot_play_time);
                     Utils.showToast(mFragment.getContext(), msg);
                     return;
@@ -542,10 +539,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
-                if (mFragment != null) {
-                    mFragment.setPlayPauseActionState(0);
-                    mFragment.setCurrentTime(position);
-                }
+                mFragment.setPlayPauseActionState(0);
+                mFragment.setCurrentTime(position);
 
                 long duration = getCurrentlyPlayingItem().getRunTimeTicks() != null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
                 if (mVideoManager != null)
@@ -558,7 +553,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @NonNull
     private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, org.jellyfin.sdk.model.api.BaseItemDto item, int maxBitrate) {
         VideoOptions internalOptions = new VideoOptions();
-        internalOptions.setItemId(item.getId().toString());
+        internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
         internalOptions.setMaxBitrate(maxBitrate);
         if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
@@ -578,7 +573,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @NonNull
     private VideoOptions buildVLCOptions(@Nullable Integer forcedSubtitleIndex, org.jellyfin.sdk.model.api.BaseItemDto item, int maxBitrate) {
         VideoOptions vlcOptions = new VideoOptions();
-        vlcOptions.setItemId(item.getId().toString());
+        vlcOptions.setItemId(item.getId());
         vlcOptions.setMediaSources(item.getMediaSources());
         vlcOptions.setMaxBitrate(maxBitrate);
         if (vlcErrorEncountered) {
@@ -600,7 +595,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         if (isLiveTv) {
             updateTvProgramInfo();
-            TvManager.setLastLiveTvChannel(item.getId().toString());
+            TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
             if (!directStreamLiveTv || userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player
@@ -794,16 +789,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         if (mFragment != null) mFragment.updateDisplay();
 
-        // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
-        if (mVideoManager != null && !mVideoManager.isNativeMode() &&
-                ((isLiveTv && DeviceUtils.isFireTv()) ||
-                        (response.getMediaSource() != null &&
-                                JavaCompat.getDefaultAudioStream(response.getMediaSource()) != null &&
-                                JavaCompat.getDefaultAudioStream(response.getMediaSource()).getChannels() != null &&
-                                (JavaCompat.getDefaultAudioStream(response.getMediaSource()).getChannels() <= 2 ||
-                                        (DeviceUtils.isFireTv() &&
-                                                ("ac3".equals(JavaCompat.getDefaultAudioStream(response.getMediaSource()).getCodec()) ||
-                                                        "truehd".equals(JavaCompat.getDefaultAudioStream(response.getMediaSource()).getCodec()))))))) {
+        if (mVideoManager != null && !mVideoManager.isNativeMode()) {
             mVideoManager.setCompatibleAudio();
             Timber.i("Setting compatible audio mode...");
         } else if (mVideoManager != null) {
@@ -857,7 +843,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
         } else if (hasInitializedVideoManager() && !isTranscoding()) {
             currIndex = isNativeMode() ? mVideoManager.getExoPlayerTrack(org.jellyfin.sdk.model.api.MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams()) :
-                                            mVideoManager.getVLCAudioTrack(getCurrentlyPlayingItem().getMediaStreams());
+                    mVideoManager.getVLCAudioTrack(getCurrentlyPlayingItem().getMediaStreams());
         }
         return currIndex;
     }
@@ -1115,7 +1101,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         resetPlayerErrors();
     }
 
-    public void endPlayback(){
+    public void endPlayback() {
         endPlayback(false);
     }
 

@@ -165,7 +165,7 @@ open class BaseRowItem protected constructor(
 
 			when {
 				preferSeriesPoster && seriesId != null && seriesPrimaryImageTag != null -> {
-					ImageUtils.getImageUrl(seriesId.toString(), org.jellyfin.apiclient.model.entities.ImageType.Primary, seriesPrimaryImageTag)
+					ImageUtils.getImageUrl(seriesId, org.jellyfin.apiclient.model.entities.ImageType.Primary, seriesPrimaryImageTag)
 				}
 
 				imageType == ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, fillWidth, fillHeight)

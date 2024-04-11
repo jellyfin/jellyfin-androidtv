@@ -379,7 +379,7 @@
     <string name="pref_video_player_vlc">LibVLC (kokeellinen)</string>
     <string name="lbl_resume_preroll">Toistoa jatkettaessa takaisin palattava aika</string>
     <string name="lbl_showing">Näytetään</string>
-    <string name="lbl_runs">Käynnistystä</string>
+    <string name="lbl_runs">Kesto</string>
     <string name="pref_subtitles_background_title">Käytä taustaa</string>
     <string name="home_section_livetv">Televisio</string>
     <string name="home_section_resume_audio">Jatka kuuntelua</string>

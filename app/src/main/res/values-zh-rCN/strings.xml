@@ -527,4 +527,11 @@
         <item quantity="other">电视剧</item>
     </plurals>
     <string name="clear_image_cache">清除图片缓存</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS-HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">杜比数字</string>
+    <string name="eac3">杜比数字+</string>
+    <string name="indicator_subtitles">隐藏字幕</string>
+    <string name="clear_image_cache_content">已使用：%1$s</string>
 </resources>

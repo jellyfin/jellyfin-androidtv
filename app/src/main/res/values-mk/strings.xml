@@ -56,7 +56,7 @@
     <string name="lbl_now_playing_track">%1$s од %2$s</string>
     <string name="lbl_add_favorite">Додади во омилени</string>
     <string name="lbl_remove_favorite">Отстрани омилено</string>
-    <string name="lbl_mark_played">Означи како гледано</string>
+    <string name="lbl_mark_played">Означи како пуштено</string>
     <string name="lbl_mark_unplayed">Означи како негледано</string>
     <string name="lbl_search_hint">Пребарувај текст (одбери за приказ на тастатура)</string>
     <string name="sum_tv_queuing">Додади го остатокот од сезоната во редот при гледање на епизода</string>
@@ -266,7 +266,7 @@
     <string name="advanced_settings">Напредно</string>
     <string name="color_blue">Сина</string>
     <string name="color_cyan">Тиркизна</string>
-    <string name="pref_login">Најави се</string>
+    <string name="pref_login">Најава</string>
     <string name="pref_playback_description">Видео, превод, ТВ во живо, следно</string>
     <string name="login_quickconnect_step_2">2. Отворете го корисничкото мени и одете на Quick Connect</string>
     <string name="login_quickconnect_step_3">3. Внесете ја следната шифра:</string>
@@ -508,4 +508,40 @@
     <string name="lbl_latest_in">Последно додадено во %1$s</string>
     <string name="episode_name_special">специјално</string>
     <string name="because_you_watched">Бидејќи гледавте %1$s</string>
+    <string name="channels">Канали</string>
+    <string name="person_birthday_and_age">Роден %1$s (%2$d)</string>
+    <string name="indicator_subtitles">Превод</string>
+    <string name="dca">ДТС</string>
+    <string name="dts_hd">ДТС:ХД</string>
+    <string name="ac3">ДД</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s ТВ Серија</item>
+        <item quantity="other">%1$s ТВ Серии</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s песна</item>
+        <item quantity="other">%1$s песни</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s албум</item>
+        <item quantity="other">%1$s албуми</item>
+    </plurals>
+    <string name="lbl_hide_watched_checkmark">Кога преостауваат епизоди</string>
+    <string name="photo_albums">Албум со слики</string>
+    <string name="dolby_atmos">Долби Атмос</string>
+    <string name="dts_x">ДТС:Х</string>
+    <string name="eac3">ДД+</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s филм</item>
+        <item quantity="other">%1$s филмови</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s предмет</item>
+        <item quantity="other">%1$s предмети</item>
+    </plurals>
+    <string name="photos">Слики</string>
+    <string name="clear_image_cache">Избриши кеш на слика</string>
+    <string name="clear_image_cache_content">Користено: %1$s</string>
+    <string name="lbl_runtime">Времетраење</string>
+    <string name="dolby_vision">Dolby Vision</string>
 </resources>

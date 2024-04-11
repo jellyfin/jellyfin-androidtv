@@ -513,4 +513,42 @@
     <string name="channels">Canals</string>
     <string name="lbl_hide_watched_checkmark">Quan quedin episodis per veure</string>
     <string name="lbl_runtime">Temps d\'execució</string>
+    <string name="indicator_subtitles">CC</string>
+    <plurals name="items">
+        <item quantity="one">%1$s element</item>
+        <item quantity="many">%1$s elements</item>
+        <item quantity="other"/>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s pel·lícula</item>
+        <item quantity="many">%1$s pel·lícules</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="dts_x">DTS:X</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s sèrie de televisió</item>
+        <item quantity="many">%1$s sèries de televisió</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="person_birthday_and_age">Data de naixement %1$s (%2$d)</string>
+    <plurals name="albums">
+        <item quantity="one">%1$s àlbum</item>
+        <item quantity="many">%1$s àlbums</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="clear_image_cache">Netejar memòria cau d\'imatges</string>
+    <string name="clear_image_cache_content">Utilitzat: %1$s</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s cançó</item>
+        <item quantity="many">%1$s cançons</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="random">Aleatori</string>
+    <string name="unreleased">Encara no s\'ha publicat</string>
 </resources>

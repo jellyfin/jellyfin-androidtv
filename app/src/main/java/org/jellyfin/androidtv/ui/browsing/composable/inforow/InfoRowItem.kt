@@ -28,13 +28,15 @@ fun InfoRowItem(
 	icon: Painter? = null,
 	contentDescription: String?,
 	// Styling
-	background: Color = Color.Transparent,
+	colors: Pair<Color, Color> = InfoRowColors.Transparent,
 	// Content
 	content: @Composable RowScope.() -> Unit,
 ) {
+	val (backgroundColor, foregroundColor) = colors
+
 	val modifier = when {
-		background.alpha > 0f -> Modifier
-			.background(background, RoundedCornerShape(3.dp))
+		backgroundColor.alpha > 0f -> Modifier
+			.background(backgroundColor, RoundedCornerShape(3.dp))
 			.padding(horizontal = 5.dp)
 
 		else -> Modifier
@@ -42,8 +44,8 @@ fun InfoRowItem(
 
 	ProvideTextStyle(
 		value = TextStyle(
-			color = Color.LightGray,
-			fontSize = if (background.alpha > 0f) 12.sp else 16.sp,
+			color = foregroundColor,
+			fontSize = if (backgroundColor.alpha > 0f) 12.sp else 16.sp,
 		)
 	) {
 		Row(
@@ -55,7 +57,7 @@ fun InfoRowItem(
 				Image(
 					painter = icon,
 					contentDescription = contentDescription,
-					modifier = Modifier.size(if (background.alpha > 0f) 16.dp else 18.dp),
+					modifier = Modifier.size(if (backgroundColor.alpha > 0f) 16.dp else 18.dp),
 				)
 			}
 

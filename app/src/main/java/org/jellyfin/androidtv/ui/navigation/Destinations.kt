@@ -46,7 +46,9 @@ object Destinations {
 
 	// General
 	val home = fragmentDestination<HomeFragment>()
-	val search = fragmentDestination<SearchFragment>()
+	fun search(query: String? = null) = fragmentDestination<SearchFragment>(
+		SearchFragment.EXTRA_QUERY to query,
+	)
 	val userPreferences = preferenceDestination<UserPreferencesScreen>()
 
 	// Browsing

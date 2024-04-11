@@ -312,7 +312,7 @@ public class PlaybackHelper {
         });
     }
 
-    public static void retrieveAndPlay(String id, boolean shuffle, Context activity) {
+    public static void retrieveAndPlay(UUID id, boolean shuffle, Context activity) {
         retrieveAndPlay(id, shuffle, null, activity);
     }
 
@@ -325,9 +325,9 @@ public class PlaybackHelper {
         }
     }
 
-    public static void retrieveAndPlay(String id, final boolean shuffle, final Long position, final Context activity) {
+    public static void retrieveAndPlay(UUID id, final boolean shuffle, final Long position, final Context activity) {
         UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id, userId.toString(), new Response<BaseItemDto>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id.toString(), userId.toString(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll() : 0;
@@ -346,8 +346,7 @@ public class PlaybackHelper {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(context, item)) return;
 
-        String seedId = item.getId().toString();
-        getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
+        getInstantMixAsync(item.getId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
@@ -359,10 +358,10 @@ public class PlaybackHelper {
         });
     }
 
-    public static void getInstantMixAsync(String seedId, final Response<BaseItemDto[]> outerResponse) {
+    public static void getInstantMixAsync(UUID seedId, final Response<BaseItemDto[]> outerResponse) {
         UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
         SimilarItemsQuery query = new SimilarItemsQuery();
-        query.setId(seedId);
+        query.setId(seedId.toString());
         query.setUserId(userId.toString());
         query.setFields(new ItemFields[] {
                 ItemFields.PrimaryImageAspectRatio,

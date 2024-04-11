@@ -14,12 +14,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Setup Java
-        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
+        uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # v4.2.1
         with:
           distribution: temurin
           java-version: 17
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/setup-gradle@1168cd3d07c1876a65e1724114de42ccbdfa7b78 # v3.2.1
       - name: Set JELLYFIN_VERSION
         run: echo "JELLYFIN_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
       - name: Assemble release files
@@ -55,7 +55,7 @@ jobs:
           mv ${{ steps.signAab.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.aab
           mv app/build/version.txt build/jellyfin-publish/
       - name: Upload release archive to GitHub release
-        uses: alexellis/upload-assets@259de5111cb56966d046ced998941e93f91d2c93 # tag=0.4.0
+        uses: alexellis/upload-assets@13926a61cdb2cb35f5fdef1c06b8b591523236d3 # 0.4.1
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         with:
@@ -65,20 +65,24 @@ jobs:
         with:
           switches: -vrptz
           path: build/jellyfin-publish/
-          remote_path: /srv/repository/releases/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
-          remote_host: ${{ secrets.DEPLOY_HOST }}
-          remote_user: ${{ secrets.DEPLOY_USER }}
-          remote_key: ${{ secrets.DEPLOY_KEY }}
+          remote_path: /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }}/
+          remote_host: ${{ secrets.REPO_HOST }}
+          remote_user: ${{ secrets.REPO_USER }}
+          remote_key: ${{ secrets.REPO_KEY }}
       - name: Update repo.jellyfin.org symlinks
         uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262 # v1.0.3
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_KEY }}
+          host: ${{ secrets.REPO_HOST }}
+          username: ${{ secrets.REPO_USER }}
+          key: ${{ secrets.REPO_KEY }}
           envs: JELLYFIN_VERSION
           script_stop: true
           script: |
-            cd /srv/repository/releases/client/androidtv;
-            rm -rf *.apk version.txt;
-            ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
-            ln -s versions/v${JELLYFIN_VERSION}/version.txt .;
+            if [ -d "/srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}" ] && [ -n "${{ env.JELLYFIN_VERSION }}" ]; then
+                sudo rm -r /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
+            fi
+            sudo mv /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }} /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
+            cd /srv/repository/main/client/androidtv;
+            sudo rm -rf *.apk version.txt;
+            sudo ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
+            sudo ln -s versions/v${JELLYFIN_VERSION}/version.txt .;

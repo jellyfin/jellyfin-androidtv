@@ -6,9 +6,14 @@ import android.os.Bundle
 import android.speech.SpeechRecognizer
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import org.jellyfin.androidtv.R
 
 class SearchFragment : Fragment(R.layout.fragment_content_view) {
+	companion object {
+		const val EXTRA_QUERY = "query"
+	}
+
 	private val isSpeechEnabled by lazy {
 		SpeechRecognizer.isRecognitionAvailable(requireContext())
 			&& ContextCompat.checkSelfPermission(
@@ -22,14 +27,13 @@ class SearchFragment : Fragment(R.layout.fragment_content_view) {
 
 		// Determine fragment to use
 		val searchFragment = when {
-			isSpeechEnabled -> LeanbackSearchFragment()
-			else -> TextSearchFragment()
+			isSpeechEnabled -> LeanbackSearchFragment::class.java
+			else -> TextSearchFragment::class.java
 		}
 
 		// Add fragment
-		childFragmentManager
-			.beginTransaction()
-			.replace(R.id.content_view, searchFragment)
-			.commit()
+		childFragmentManager.commit {
+			replace(R.id.content_view, searchFragment, arguments)
+		}
 	}
 }
