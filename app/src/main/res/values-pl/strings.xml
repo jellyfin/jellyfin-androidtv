@@ -567,4 +567,5 @@
     <string name="random">Losowy</string>
     <string name="unreleased">Jeszcze niewydany</string>
     <string name="pref_playback_advanced">Zaawansowane preferencje odtwarzania</string>
+    <string name="lbl_home">Start</string>
 </resources>
