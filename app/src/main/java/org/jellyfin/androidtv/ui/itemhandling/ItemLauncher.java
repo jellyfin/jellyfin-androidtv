@@ -23,7 +23,6 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.api.PlayAccess;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
@@ -158,20 +157,16 @@ public class ItemLauncher {
                             navigationRepository.navigate(Destinations.INSTANCE.itemDetails(baseItem.getId()));
                             break;
                         case Play:
-                            if (baseItem.getPlayAccess() == org.jellyfin.sdk.model.api.PlayAccess.FULL) {
-                                //Just play it directly
-                                final BaseItemKind itemType = baseItem.getType();
-                                PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
-                                    @Override
-                                    public void onResponse(List<BaseItemDto> response) {
-                                        KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
-                                        Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(itemType, 0);
-                                        navigationRepository.navigate(destination);
-                                    }
-                                });
-                            } else {
-                                Utils.showToast(context, "Item not playable at this time");
-                            }
+                            //Just play it directly
+                            final BaseItemKind itemType = baseItem.getType();
+                            PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
+                                @Override
+                                public void onResponse(List<BaseItemDto> response) {
+                                    KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
+                                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(itemType, 0);
+                                    navigationRepository.navigate(destination);
+                                }
+                            });
                             break;
                     }
                 }
@@ -205,22 +200,18 @@ public class ItemLauncher {
                         navigationRepository.navigate(Destinations.INSTANCE.channelDetails(program.getId(), program.getChannelId(), program));
                         break;
                     case Play:
-                        if (program.getPlayAccess() == org.jellyfin.sdk.model.api.PlayAccess.FULL) {
-                            //Just play it directly - need to retrieve program channel via items api to convert to BaseItem
-                            ItemLauncherHelper.getItem(program.getChannelId(), new Response<BaseItemDto>() {
-                                @Override
-                                public void onResponse(BaseItemDto response) {
-                                    List<BaseItemDto> items = new ArrayList<>();
-                                    items.add(response);
-                                    KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(items);
-                                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(response.getType(), 0);
-                                    navigationRepository.navigate(destination);
+                        //Just play it directly - need to retrieve program channel via items api to convert to BaseItem
+                        ItemLauncherHelper.getItem(program.getChannelId(), new Response<BaseItemDto>() {
+                            @Override
+                            public void onResponse(BaseItemDto response) {
+                                List<BaseItemDto> items = new ArrayList<>();
+                                items.add(response);
+                                KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(items);
+                                Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(response.getType(), 0);
+                                navigationRepository.navigate(destination);
 
-                                }
-                            });
-                        } else {
-                            Utils.showToast(context, "Item not playable at this time");
-                        }
+                            }
+                        });
                 }
                 break;
 
@@ -249,21 +240,17 @@ public class ItemLauncher {
                         navigationRepository.navigate(Destinations.INSTANCE.itemDetails(rowItem.getBaseItem().getId()));
                         break;
                     case Play:
-                        if (rowItem.getBaseItem().getPlayAccess() == PlayAccess.FULL) {
-                            //Just play it directly but need to retrieve as base item
-                            ItemLauncherHelper.getItem(rowItem.getBaseItem().getId(), new Response<BaseItemDto>() {
-                                @Override
-                                public void onResponse(BaseItemDto response) {
-                                    List<BaseItemDto> items = new ArrayList<>();
-                                    items.add(response);
-                                    KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(items);
-                                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(rowItem.getBaseItemType(), 0);
-                                    navigationRepository.navigate(destination);
-                                }
-                            });
-                        } else {
-                            Utils.showToast(context, "Item not playable at this time");
-                        }
+                        //Just play it directly but need to retrieve as base item
+                        ItemLauncherHelper.getItem(rowItem.getBaseItem().getId(), new Response<BaseItemDto>() {
+                            @Override
+                            public void onResponse(BaseItemDto response) {
+                                List<BaseItemDto> items = new ArrayList<>();
+                                items.add(response);
+                                KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(items);
+                                Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(rowItem.getBaseItemType(), 0);
+                                navigationRepository.navigate(destination);
+                            }
+                        });
                         break;
                 }
                 break;

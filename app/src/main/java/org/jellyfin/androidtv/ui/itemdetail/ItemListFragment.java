@@ -59,7 +59,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
-import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
@@ -331,7 +330,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             item.setId(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString());
             item.setName(getString(R.string.lbl_favorites));
             item.setOverview(getString(R.string.desc_automatic_fav_songs));
-            item.setPlayAccess(PlayAccess.Full);
             item.setMediaType(MediaType.Audio);
             item.setBaseItemType(BaseItemType.Playlist);
             item.setIsFolder(true);

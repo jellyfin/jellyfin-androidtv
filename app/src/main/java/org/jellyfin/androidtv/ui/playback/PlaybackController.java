@@ -47,7 +47,6 @@ import org.jellyfin.sdk.model.api.LocationType;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
-import org.jellyfin.sdk.model.api.PlayAccess;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -516,13 +515,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                                 .create()
                                 .show();
                     }
-                    return;
-                }
-
-                // confirm we actually can play
-                if (item.getPlayAccess() != PlayAccess.FULL) {
-                    String msg = item.isPlaceHolder() ? mFragment.getString(R.string.msg_cannot_play) : mFragment.getString(R.string.msg_cannot_play_time);
-                    Utils.showToast(mFragment.getContext(), msg);
                     return;
                 }
 
