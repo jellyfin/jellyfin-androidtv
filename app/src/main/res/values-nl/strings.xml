@@ -546,4 +546,6 @@
     <string name="clear_image_cache">Afbeeldingscache wissen</string>
     <string name="random">Willekeurig</string>
     <string name="unreleased">Nog niet uitgebracht</string>
+    <string name="pref_playback_advanced">Geavanceerde afspeelvoorkeuren</string>
+    <string name="lbl_home">Startpagina</string>
 </resources>
