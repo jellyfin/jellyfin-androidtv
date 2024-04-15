@@ -556,4 +556,6 @@
     </plurals>
     <string name="random">Náhodne</string>
     <string name="unreleased">Zatiaľ nevydané</string>
+    <string name="pref_playback_advanced">Pokročilé nastavenia prehrávania</string>
+    <string name="lbl_home">Domov</string>
 </resources>
