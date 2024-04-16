@@ -516,4 +516,7 @@
     <string name="person_birthday_and_age">Född %1$s (%2$d)</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="clear_image_cache">Rensa bildcache</string>
+    <string name="random">Slumpmässig</string>
+    <string name="unreleased">Inte släppt än</string>
+    <string name="lbl_home">Hem</string>
 </resources>
