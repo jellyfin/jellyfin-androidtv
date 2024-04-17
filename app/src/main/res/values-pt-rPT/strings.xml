@@ -515,4 +515,6 @@
     <string name="because_you_watched">Porque viste</string>
     <string name="random">Aleatório</string>
     <string name="unreleased">Ainda não foi lançado</string>
+    <string name="pref_playback_advanced">Preferências avançadas de reprodução</string>
+    <string name="lbl_home">Início</string>
 </resources>
