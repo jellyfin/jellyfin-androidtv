@@ -19,4 +19,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@6cec5d49d4d6d4bb982fbed7047db31ea6d38f11 # v3.3.0
+        uses: gradle/actions/wrapper-validation@750cdda3edd6d51b7fdfc069d2e2818cf3c44f4c # v3.3.1
