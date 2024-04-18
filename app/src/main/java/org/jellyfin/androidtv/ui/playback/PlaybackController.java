@@ -35,6 +35,7 @@ import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.androidtv.util.sdk.ModelUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
@@ -51,6 +52,8 @@ import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.PlayAccess;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import kotlin.Lazy;
@@ -101,8 +104,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean wasSeeking = false;
     private boolean finishedInitialSeek = false;
 
-    private long mCurrentProgramEndTime;
-    private long mCurrentProgramStartTime = 0;
+    private LocalDateTime mCurrentProgramEnd = null;
+    private LocalDateTime mCurrentProgramStart = null;
     private long mCurrentTranscodeStartTime;
     private boolean isLiveTv = false;
     private boolean directStreamLiveTv;
@@ -404,7 +407,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private void refreshCurrentPosition() {
         long newPos = -1;
 
-        if (isLiveTv && mCurrentProgramStartTime > 0) {
+        if (isLiveTv && mCurrentProgramStart != null) {
             newPos = getRealTimeProgress();
             // live tv
         } else if (hasInitializedVideoManager()) {
@@ -1289,8 +1292,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             apiClient.getValue().GetLiveTvChannelAsync(channel.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
-                    BaseItemDto program = response.getCurrentProgram();
-                    if (program != null) {
+                    BaseItemDto legacyProgram = response.getCurrentProgram();
+                    if (legacyProgram != null) {
+                        org.jellyfin.sdk.model.api.BaseItemDto program = ModelCompat.asSdk(legacyProgram);
                         // TODO Do we need these setters?
 //                        channel.setName(program.getName() + liveTvChannelName);
 //                        channel.setPremiereDate(program.getStartDate());
@@ -1299,8 +1303,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 //                        channel.setOverview(program.getOverview());
 //                        channel.setRunTimeTicks(program.getRunTimeTicks());
 //                        channel.setCurrentProgram(program);
-                        mCurrentProgramEndTime = program.getEndDate() != null ? program.getEndDate().getTime() : 0;
-                        mCurrentProgramStartTime = program.getPremiereDate() != null ? program.getPremiereDate().getTime() : 0;
+                        mCurrentProgramEnd = program.getEndDate();
+                        mCurrentProgramStart = program.getPremiereDate();
                         if (mFragment != null) mFragment.updateDisplay();
                     }
                 }
@@ -1310,12 +1314,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private long getRealTimeProgress() {
-        return System.currentTimeMillis() - mCurrentProgramStartTime;
+        long progress = System.currentTimeMillis();
+        if (mCurrentProgramStart != null) {
+            progress -= mCurrentProgramStart.toInstant(ZoneOffset.UTC).toEpochMilli();
+        }
+        return progress;
     }
 
     private long getTimeShiftedProgress() {
         refreshCurrentPosition();
-        return !directStreamLiveTv ? mCurrentPosition + (mCurrentTranscodeStartTime - mCurrentProgramStartTime) : getRealTimeProgress();
+        return !directStreamLiveTv ? mCurrentPosition + (mCurrentTranscodeStartTime - (mCurrentProgramStart == null ? 0 : mCurrentProgramStart.toInstant(ZoneOffset.UTC).toEpochMilli())) : getRealTimeProgress();
     }
 
     private void startReportLoop() {
@@ -1502,7 +1510,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 }
             }
 
-            if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
+            if (isLiveTv && mCurrentProgramEnd != null && mCurrentProgramEnd.isAfter(LocalDateTime.now())) {
                 // crossed fire off an async routine to update the program info
                 updateTvProgramInfo();
             }
