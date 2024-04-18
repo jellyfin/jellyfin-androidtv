@@ -336,7 +336,7 @@
     <string name="enable_smart_view">Hidupkan fitur \"smart screen\"</string>
     <string name="image_size_xlarge">Extra besar</string>
     <string name="lbl_hidden">Tersembunyi</string>
-    <string name="discovered_servers_empty">Tidak ditemukan server dalam koneksi lokal</string>
+    <string name="discovered_servers_empty">Tidak ditemukan server dalam koneksi lokal.</string>
     <string name="welcome_content">Koneksikan ke server anda untuk memulai.</string>
     <string name="saved_servers">Server yang tersimpan</string>
     <string name="lbl_episode_number">E%1$d</string>
