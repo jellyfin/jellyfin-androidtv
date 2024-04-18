@@ -25,18 +25,15 @@ androidx-work = "2.9.0"
 blurhash = "0.3.0"
 coil = "2.6.0"
 detekt = "1.23.6"
-gson = "2.8.9"
 jellyfin-androidx-media = "1.3.1+1"
 jellyfin-apiclient = "v0.7.10"
 jellyfin-sdk = "1.4.7"
-junit = "4.13.2"
 koin = "3.5.6"
 koin-compose = "3.5.6"
 kotest = "5.8.1"
 kotlin = "1.9.23"
 kotlinx-coroutines = "1.8.0"
 kotlinx-serialization = "1.6.3"
-leakcanary = "2.13"
 libvlc = "3.5.1"
 markwon = "4.6.2"
 mockk = "1.13.10"
@@ -118,9 +115,6 @@ aboutlibraries = { module = "com.mikepenz:aboutlibraries-core", version.ref = "a
 # Logging
 slf4j-timber = { module = "io.github.unveloper:slf4j-timber", version.ref = "slf4j-timber" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-
-# Debugging
-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 # Compatibility (desugaring)
 android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugar" }

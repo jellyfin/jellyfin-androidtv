@@ -159,10 +159,6 @@ dependencies {
 	implementation(libs.timber)
 	implementation(libs.slf4j.timber)
 
-	// Debugging
-	if (getProperty("leakcanary.enable")?.toBoolean() == true)
-		debugImplementation(libs.leakcanary)
-
 	// Compatibility (desugaring)
 	coreLibraryDesugaring(libs.android.desugar)
 
