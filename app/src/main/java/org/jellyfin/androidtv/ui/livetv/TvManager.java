@@ -87,6 +87,7 @@ public class TvManager {
     public static boolean shouldForceReload() { return forceReload; }
 
     public static int getAllChannelsIndex(String id) {
+        if (allChannels == null) return -1;
         for (int i = 0; i < allChannels.size(); i++) {
             if (allChannels.get(i).getId().equals(id)) return i;
         }
