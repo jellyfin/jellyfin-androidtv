@@ -39,6 +39,7 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -88,8 +89,9 @@ public class TvManager {
     public static boolean shouldForceReload() { return forceReload; }
 
     public static int getAllChannelsIndex(UUID id) {
+        if (allChannels == null) return -1;
         for (int i = 0; i < allChannels.size(); i++) {
-            if (allChannels.get(i).getId().equals(id.toString())) return i;
+            if (UUIDSerializerKt.toUUIDOrNull(allChannels.get(i).getId()).equals(id)) return i;
         }
         return -1;
     }
