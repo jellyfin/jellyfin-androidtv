@@ -7,7 +7,7 @@ Untuk menggunakan piranti lunak ini, anda harus memiliki sebuah server Jellyfin 
 Dengan sebuah server Jellyfin anda dapat:
 
 * Menonton siaran TV langsung dan rekaman acara dari server Jellyfin anda (piranti keras/layanan tambahan dibutuhkan)
-* Aliran  ke perangkat Chromecast pada jaringan anda
+* Aliran ke perangkat Chromecast pada jaringan anda
 * Aliran ke perangkat Android anda
 * Melihat koleksi anda pada tampilan yang mudah digunakan
 
