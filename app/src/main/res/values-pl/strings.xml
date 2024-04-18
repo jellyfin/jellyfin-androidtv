@@ -568,4 +568,11 @@
     <string name="unreleased">Jeszcze niewydany</string>
     <string name="pref_playback_advanced">Zaawansowane preferencje odtwarzania</string>
     <string name="lbl_home">Start</string>
+    <string name="pref_screensaver_ageratingmax_zero">Każdy wiek</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Wyłącz maksymalny wiek</string>
+    <string name="pref_screensaver_ageratingrequired_title">Wymagaj kategorii wiekowej</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Wyświetlaj jedynie elementy z ustawioną kategorią wiekową</string>
+    <string name="pref_screensaver_ageratingmax_entry">Maksymalnie do wieku %1$d</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Wyświetlaj wszystkie elementy</string>
+    <string name="pref_screensaver_ageratingmax">Maksymalna kategoria wiekowa</string>
 </resources>
