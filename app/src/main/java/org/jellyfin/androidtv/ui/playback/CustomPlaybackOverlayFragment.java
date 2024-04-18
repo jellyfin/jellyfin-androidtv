@@ -1468,7 +1468,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
                 channelAdapter.addAll(0, TvManager.getAllChannels());
                 if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-                mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.channels)), channelAdapter);
+                mChapterRow = new ListRow(new HeaderItem("Channels"), channelAdapter);
                 mPopupRowAdapter.add(mChapterRow);
             }
         });
