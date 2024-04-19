@@ -548,4 +548,11 @@
     <string name="unreleased">Nog niet uitgebracht</string>
     <string name="pref_playback_advanced">Geavanceerde afspeelvoorkeuren</string>
     <string name="lbl_home">Startpagina</string>
+    <string name="pref_screensaver_ageratingmax_zero">Alle leeftijden</string>
+    <string name="pref_screensaver_ageratingmax">Maximale leeftijdsclassificatie</string>
+    <string name="pref_screensaver_ageratingmax_entry">Tot leeftijd %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Maximum uitschakelen</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Toont alle items</string>
+    <string name="pref_screensaver_ageratingrequired_title">Leeftijdsclassificatie vereisen</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Toont alleen items met leeftijdsclassificatie</string>
 </resources>
