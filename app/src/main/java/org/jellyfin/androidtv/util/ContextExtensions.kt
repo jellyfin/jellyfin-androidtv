@@ -5,8 +5,10 @@ import android.app.UiModeManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.os.Build
 import androidx.annotation.PluralsRes
 import androidx.core.content.getSystemService
+import java.util.Locale
 
 /**
  * Get the activity hosting the current context
@@ -32,3 +34,10 @@ fun Context.isTvDevice(): Boolean {
 		packageManager.hasSystemFeature("android.hardware.hdmi.cec") or
 		!packageManager.hasSystemFeature("android.hardware.touchscreen")
 }
+
+@Suppress("DEPRECATION")
+val Context.locale: Locale
+	get() = when {
+		Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> resources.configuration.getLocales().get(0)
+		else -> resources.configuration.locale
+	}
