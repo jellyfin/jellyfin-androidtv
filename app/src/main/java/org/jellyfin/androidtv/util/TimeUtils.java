@@ -91,31 +91,6 @@ public class TimeUtils {
         return convertedDate;
     }
 
-    public static int numYears(Date start, Date end) {
-        Calendar calStart = Calendar.getInstance();
-        calStart.setTime(start);
-        Calendar calEnd = Calendar.getInstance();
-        calEnd.setTime(end);
-        return numYears(calStart, calEnd);
-    }
-
-    public static int numYears(Date start, Calendar end) {
-        Calendar calStart = Calendar.getInstance();
-        calStart.setTime(start);
-        return numYears(calStart, end);
-    }
-
-    public static int numYears(Calendar start, Calendar end) {
-        int age = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
-        if (end.get(Calendar.MONTH) < start.get(Calendar.MONTH)) {
-            age--;
-        } else if (end.get(Calendar.MONTH) == start.get(Calendar.MONTH)
-                && end.get(Calendar.DAY_OF_MONTH) < start.get(Calendar.DAY_OF_MONTH)) {
-            age--;
-        }
-        return age;
-    }
-
     public static String getFriendlyDate(Context context, Date date) {
         return getFriendlyDate(context, date, false);
     }
