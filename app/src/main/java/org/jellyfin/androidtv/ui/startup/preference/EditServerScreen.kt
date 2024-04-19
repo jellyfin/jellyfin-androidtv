@@ -12,7 +12,7 @@ import org.jellyfin.androidtv.util.getValue
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.text.DateFormat
-import java.util.Date
+import java.time.Instant
 import java.util.UUID
 
 class EditServerScreen : OptionsFragment() {
@@ -40,7 +40,7 @@ class EditServerScreen : OptionsFragment() {
 						title = user.name
 						icon = R.drawable.ic_user
 
-						val lastUsedDate = Date(user.lastUsed)
+						val lastUsedDate = Instant.ofEpochMilli(user.lastUsed)
 						content = context.getString(
 							R.string.lbl_user_last_used,
 							DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastUsedDate),

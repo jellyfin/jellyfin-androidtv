@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import org.jellyfin.sdk.model.serializer.UUIDSerializer
-import java.util.Date
+import java.time.Instant
 import java.util.UUID
 
 /**
@@ -20,7 +20,7 @@ data class AuthenticationStoreServer(
 	@SerialName("login_disclaimer")  val loginDisclaimer: String? = null,
 	@SerialName("splashscreen_enabled")  val splashscreenEnabled: Boolean = false,
 	@SerialName("setup_completed")  val setupCompleted: Boolean = true,
-	@SerialName("last_used") val lastUsed: Long = Date().time,
-	@SerialName("last_refreshed") val lastRefreshed: Long = Date().time,
+	@SerialName("last_used") val lastUsed: Long = Instant.now().toEpochMilli(),
+	@SerialName("last_refreshed") val lastRefreshed: Long = Instant.now().toEpochMilli(),
 	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),
 )

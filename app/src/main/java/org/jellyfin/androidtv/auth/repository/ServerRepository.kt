@@ -26,7 +26,7 @@ import org.jellyfin.sdk.model.api.BrandingOptions
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
-import java.util.Date
+import java.time.Instant
 import java.util.UUID
 
 /**
@@ -135,7 +135,7 @@ class ServerRepositoryImpl(
 				loginDisclaimer = branding.loginDisclaimer,
 				splashscreenEnabled = branding.splashscreenEnabled,
 				setupCompleted = systemInfo.startupWizardCompleted ?: true,
-				lastUsed = Date().time
+				lastUsed = Instant.now().toEpochMilli()
 			) ?: AuthenticationStoreServer(
 				name = systemInfo.serverName ?: "Jellyfin Server",
 				address = chosenRecommendation.address,
@@ -185,7 +185,7 @@ class ServerRepositoryImpl(
 	}
 
 	private suspend fun updateServerInternal(id: UUID, server: AuthenticationStoreServer): AuthenticationStoreServer? {
-		val now = Date().time
+		val now = Instant.now().toEpochMilli()
 
 		// Only update every 10 minutes
 		if (now - server.lastRefreshed < 600000 && server.version != null) return null
@@ -223,7 +223,7 @@ class ServerRepositoryImpl(
 		loginDisclaimer = loginDisclaimer,
 		splashscreenEnabled = splashscreenEnabled,
 		setupCompleted = setupCompleted,
-		dateLastAccessed = Date(lastUsed),
+		dateLastAccessed = Instant.ofEpochMilli(lastUsed),
 	)
 
 	/**
