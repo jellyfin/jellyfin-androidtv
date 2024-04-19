@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.auth.model
 
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.sdk.model.ServerVersion
-import java.util.Date
+import java.time.Instant
 import java.util.UUID
 
 /**
@@ -16,7 +16,7 @@ data class Server(
 	val loginDisclaimer: String? = null,
 	val splashscreenEnabled: Boolean = false,
 	val setupCompleted: Boolean = true,
-	var dateLastAccessed: Date = Date(0),
+	var dateLastAccessed: Instant = Instant.MIN,
 ) {
 	private val serverVersion = version?.let(ServerVersion::fromString)
 	val versionSupported = serverVersion != null && serverVersion >= ServerRepository.minimumServerVersion
