@@ -568,4 +568,11 @@
     <string name="unreleased">Ще не випущено</string>
     <string name="pref_playback_advanced">Розширені налаштування відтворення</string>
     <string name="lbl_home">Головна</string>
+    <string name="pref_screensaver_ageratingmax">Максимальний віковий рейтинг</string>
+    <string name="pref_screensaver_ageratingmax_zero">Будь-який вік</string>
+    <string name="pref_screensaver_ageratingrequired_title">Вимагати віковий рейтинг</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Відображаються лише елементи з встановленим віковим рейтингом</string>
+    <string name="pref_screensaver_ageratingmax_entry">До віку %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Вимкнути максимум</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Показати всі елементи</string>
 </resources>
