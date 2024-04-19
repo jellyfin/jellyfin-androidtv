@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
+import java.time.Instant
 import kotlin.time.Duration.Companion.seconds
 
 /**
@@ -14,11 +15,11 @@ import kotlin.time.Duration.Companion.seconds
  */
 @Composable
 fun rememberCurrentTime(): Long {
-	var value by remember { mutableLongStateOf(System.currentTimeMillis()) }
+	var value by remember { mutableLongStateOf(Instant.now().toEpochMilli()) }
 
 	LaunchedEffect(Unit) {
 		while (true) {
-			value = System.currentTimeMillis()
+			value = Instant.now().toEpochMilli()
 			delay(1.seconds)
 		}
 	}

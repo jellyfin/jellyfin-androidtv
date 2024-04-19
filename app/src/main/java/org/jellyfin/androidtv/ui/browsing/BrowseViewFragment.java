@@ -45,6 +45,7 @@ import org.jellyfin.sdk.model.constant.CollectionType;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -348,7 +349,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                 if (!getActive()) return;
 
                                 List<BaseItemDto> nearTimers = new ArrayList<>();
-                                long next24 = System.currentTimeMillis() + ticks24;
+                                long next24 = Instant.now().toEpochMilli() + ticks24;
                                 //Get scheduled items for next 24 hours
                                 for (TimerInfoDto timer : response.getItems()) {
                                     if (TimeUtils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
@@ -374,8 +375,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                     List<BaseItemDto> dayItems = new ArrayList<>();
                                     List<BaseItemDto> weekItems = new ArrayList<>();
 
-                                    long past24 = System.currentTimeMillis() - ticks24;
-                                    long pastWeek = System.currentTimeMillis() - (ticks24 * 7);
+                                    long past24 = Instant.now().toEpochMilli() - ticks24;
+                                    long pastWeek = Instant.now().toEpochMilli() - (ticks24 * 7);
                                     for (BaseItemDto item : recordingsResponse.getItems()) {
                                         if (item.getDateCreated() != null) {
                                             if (TimeUtils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {

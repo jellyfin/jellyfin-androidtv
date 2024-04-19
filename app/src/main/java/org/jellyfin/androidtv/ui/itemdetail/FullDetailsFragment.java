@@ -112,6 +112,7 @@ import org.jellyfin.sdk.model.constant.PersonType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -261,11 +262,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                 long lastPlaybackTime = dataRefreshService.getValue().getLastPlayback();
-                Timber.d("current time %s last playback event time %s last refresh time %s", System.currentTimeMillis(), lastPlaybackTime, mLastUpdated.getTimeInMillis());
+                Timber.d("current time %s last playback event time %s last refresh time %s", Instant.now().toEpochMilli(), lastPlaybackTime, mLastUpdated.getTimeInMillis());
 
                 // if last playback event exists, and event time is greater than last sync or within 2 seconds of current time
                 // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
-                if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || System.currentTimeMillis() - lastPlaybackTime < 2000) && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST) {
+                if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || Instant.now().toEpochMilli() - lastPlaybackTime < 2000) && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST) {
                     org.jellyfin.sdk.model.api.BaseItemDto lastPlayedItem = dataRefreshService.getValue().getLastPlayedItem();
                     if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
                         Timber.i("Re-loading after new episode playback");
@@ -848,9 +849,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (mBaseItem != null && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.PERSON) {
             Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : Instant.now().toEpochMilli() + runtime / 10000;
                 if (mBaseItem.getCanResume()) {
-                    endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
+                    endTimeTicks = Instant.now().toEpochMilli() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
                 }
                 return android.text.format.DateFormat.getTimeFormat(requireContext()).format(new Date(endTimeTicks));
             }
@@ -886,7 +887,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 mBaseItem.setUserData(response);
                 favButton.setActivated(response.getIsFavorite());
-                dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
+                dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now().toEpochMilli());
             }
         });
     }
@@ -1076,7 +1077,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
 
         if (mProgramInfo != null && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
-            if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
+            if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > Instant.now().toEpochMilli()) {
                 //Record button
                 mRecordButton = TextUnderButton.create(requireContext(), R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
                     @Override
@@ -1561,13 +1562,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
-                dataRefreshService.getValue().setLastPlayback(System.currentTimeMillis());
+                dataRefreshService.getValue().setLastPlayback(Instant.now().toEpochMilli());
                 switch (mBaseItem.getType()) {
                     case "Movie":
-                        dataRefreshService.getValue().setLastMoviePlayback(System.currentTimeMillis());
+                        dataRefreshService.getValue().setLastMoviePlayback(Instant.now().toEpochMilli());
                         break;
                     case "Episode":
-                        dataRefreshService.getValue().setLastTvPlayback(System.currentTimeMillis());
+                        dataRefreshService.getValue().setLastTvPlayback(Instant.now().toEpochMilli());
                         break;
                 }
                 showMoreButtonIfNeeded();
@@ -1586,13 +1587,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
-                dataRefreshService.getValue().setLastPlayback(System.currentTimeMillis());
+                dataRefreshService.getValue().setLastPlayback(Instant.now().toEpochMilli());
                 switch (mBaseItem.getType()) {
                     case "Movie":
-                        dataRefreshService.getValue().setLastMoviePlayback(System.currentTimeMillis());
+                        dataRefreshService.getValue().setLastMoviePlayback(Instant.now().toEpochMilli());
                         break;
                     case "Episode":
-                        dataRefreshService.getValue().setLastTvPlayback(System.currentTimeMillis());
+                        dataRefreshService.getValue().setLastTvPlayback(Instant.now().toEpochMilli());
                         break;
                 }
                 showMoreButtonIfNeeded();

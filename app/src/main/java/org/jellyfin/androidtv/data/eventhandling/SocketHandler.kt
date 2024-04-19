@@ -35,6 +35,7 @@ import org.jellyfin.sdk.model.socket.LibraryChangedMessage
 import org.jellyfin.sdk.model.socket.PlayMessage
 import org.jellyfin.sdk.model.socket.PlayStateMessage
 import timber.log.Timber
+import java.time.Instant
 import java.util.UUID
 
 class SocketHandler(
@@ -139,7 +140,7 @@ class SocketHandler(
 		})
 
 		if (info.itemsAdded.any() || info.itemsRemoved.any())
-			dataRefreshService.lastLibraryChange = System.currentTimeMillis()
+			dataRefreshService.lastLibraryChange = Instant.now().toEpochMilli()
 	}
 
 	private fun onPlayMessage(message: PlayMessage) {

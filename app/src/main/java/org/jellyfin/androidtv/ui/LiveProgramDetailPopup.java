@@ -38,6 +38,7 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.Date;
 
 import kotlin.Lazy;
@@ -382,7 +383,7 @@ public class LiveProgramDetailPopup {
                         fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
                         mTvGuide.refreshFavorite(UUIDSerializerKt.toUUID(channel.getId()));
                         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                        dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                        dataRefreshService.setLastFavoriteUpdate(Instant.now().toEpochMilli());
                     }
                 });
             }

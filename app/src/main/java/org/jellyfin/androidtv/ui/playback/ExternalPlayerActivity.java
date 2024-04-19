@@ -34,6 +34,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -113,7 +114,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        long playerFinishedTime = System.currentTimeMillis();
+        long playerFinishedTime = Instant.now().toEpochMilli();
         Timber.d("Returned from player, result <%d>, extra data <%s>", resultCode, data);
         org.jellyfin.sdk.model.api.BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
         long runtime = item.getRunTimeTicks() != null ? item.getRunTimeTicks() / RUNTIME_TICKS_TO_MS : 0;
@@ -373,7 +374,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         Timber.i("Starting external playback of path: %s and mime: video/%s at position/ms: %s", path, container, mPosition);
 
         try {
-            mLastPlayerStart = System.currentTimeMillis();
+            mLastPlayerStart = Instant.now().toEpochMilli();
             ReportingHelper.reportStart(item, mPosition * RUNTIME_TICKS_TO_MS);
             startReportLoop();
             startActivityForResult(external, 1);

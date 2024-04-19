@@ -92,6 +92,7 @@ import org.jellyfin.sdk.model.api.ChapterInfo;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -527,7 +528,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                    dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                    dataRefreshService.setLastFavoriteUpdate(Instant.now().toEpochMilli());
                 }
             });
         }

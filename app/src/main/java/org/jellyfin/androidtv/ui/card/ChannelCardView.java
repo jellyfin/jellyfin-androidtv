@@ -14,6 +14,8 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
+
 public class ChannelCardView extends FrameLayout {
     private ViewCardChannelBinding binding = ViewCardChannelBinding.inflate(LayoutInflater.from(getContext()), this, true);
 
@@ -27,7 +29,7 @@ public class ChannelCardView extends FrameLayout {
 
         BaseItemDto program = channel.getCurrentProgram();
         if (program != null) {
-            if (program.getEndDate() != null && System.currentTimeMillis() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
+            if (program.getEndDate() != null && Instant.now().toEpochMilli() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
                 //need to update program
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
@@ -54,7 +56,7 @@ public class ChannelCardView extends FrameLayout {
             binding.time.setText(android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.convertToLocalDate(program.getStartDate()))
                     + "-" + android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.convertToLocalDate(program.getEndDate())));
             long start = TimeUtils.convertToLocalDate(program.getStartDate()).getTime();
-            long current = System.currentTimeMillis() - start;
+            long current = Instant.now().toEpochMilli() - start;
             if (current > 0) {
                 long duration = TimeUtils.convertToLocalDate(program.getEndDate()).getTime() - start;
                 binding.progress.setProgress((int) ((current * 100.0 / duration)));

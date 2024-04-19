@@ -14,6 +14,8 @@ import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
+
 import timber.log.Timber;
 
 public class ReportingHelper {
@@ -26,13 +28,13 @@ public class ReportingHelper {
             KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
 
             DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-            dataRefreshService.setLastPlayback(System.currentTimeMillis());
+            dataRefreshService.setLastPlayback(Instant.now().toEpochMilli());
             switch (item.getType()) {
                 case MOVIE:
-                    dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
+                    dataRefreshService.setLastMoviePlayback(Instant.now().toEpochMilli());
                     break;
                 case EPISODE:
-                    dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
+                    dataRefreshService.setLastTvPlayback(Instant.now().toEpochMilli());
                     break;
             }
         }

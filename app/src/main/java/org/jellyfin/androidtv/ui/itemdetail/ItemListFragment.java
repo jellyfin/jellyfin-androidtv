@@ -69,6 +69,7 @@ import org.jellyfin.sdk.model.constant.MediaType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -572,7 +573,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
                             mBaseItem.setUserData(response);
                             ((TextUnderButton)v).setActivated(response.getIsFavorite());
-                            dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
+                            dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now().toEpochMilli());
                         }
                     });
                 }

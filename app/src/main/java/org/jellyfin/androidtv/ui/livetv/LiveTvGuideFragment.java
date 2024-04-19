@@ -61,6 +61,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -101,7 +102,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private Calendar mCurrentGuideStart;
     private Calendar mCurrentGuideEnd;
-    private long mCurrentLocalGuideStart = System.currentTimeMillis();
+    private long mCurrentLocalGuideStart = Instant.now().toEpochMilli();
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
@@ -169,7 +170,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pageGuideTo(System.currentTimeMillis());
+                pageGuideTo(Instant.now().toEpochMilli());
             }
         });
 
@@ -264,7 +265,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     }
 
     protected void doLoad() {
-        if (TvManager.shouldForceReload() || System.currentTimeMillis() >= mCurrentLocalGuideStart + 1800000  || mChannels.getChildCount() == 0) {
+        if (TvManager.shouldForceReload() || Instant.now().toEpochMilli() >= mCurrentLocalGuideStart + 1800000  || mChannels.getChildCount() == 0) {
             load();
 
             mFirstFocusChannelId = TvManager.getLastLiveTvChannel();
@@ -287,7 +288,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     public void onDestroy() {
         super.onDestroy();
 
-        if (mCurrentLocalGuideStart > System.currentTimeMillis()) {
+        if (mCurrentLocalGuideStart > Instant.now().toEpochMilli()) {
             TvManager.forceReload(); //we paged ahead - force a re-load if we come back in
         }
     }
@@ -363,7 +364,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 if (requireActivity().getCurrentFocus() instanceof ProgramGridCell
                         && mSelectedProgramView != null
                         && ((ProgramGridCell)mSelectedProgramView).isFirst()
-                        && TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis()) {
+                        && TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > Instant.now().toEpochMilli()) {
                     focusAtEnd = true;
                     requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
                 }
@@ -393,7 +394,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                    dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                    dataRefreshService.setLastFavoriteUpdate(Instant.now().toEpochMilli());
                 }
             });
         }
@@ -405,7 +406,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         FrameLayout scrollPane = (FrameLayout) getLayoutInflater().inflate(R.layout.horizontal_scroll_pane, null);
         LinearLayout scrollItems = scrollPane.findViewById(R.id.scrollItems);
         for (long increment = 0; increment < 15; increment++) {
-            scrollItems.addView(new FriendlyDateButton(requireContext(), System.currentTimeMillis() + (increment * 86400000), datePickedListener));
+            scrollItems.addView(new FriendlyDateButton(requireContext(), Instant.now().toEpochMilli() + (increment * 86400000), datePickedListener));
         }
 
         dateDialog = new AlertDialog.Builder(requireContext())
@@ -436,7 +437,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     }
 
     private void pageGuideTo(long startTime) {
-        if (startTime < System.currentTimeMillis()) startTime = System.currentTimeMillis(); // don't allow the past
+        if (startTime < Instant.now().toEpochMilli()) startTime = Instant.now().toEpochMilli(); // don't allow the past
         Timber.i("page to %s", (new Date(startTime)).toString());
         TvManager.forceReload(); // don't allow cache
         if (mSelectedProgram != null) {
@@ -620,7 +621,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             mFilterStatus.setText(mFilters.toString() + " for "+getGuideHours()+" hours");
             mFilterStatus.setTextColor(mFilters.any() ? Color.WHITE : Color.GRAY);
 
-            mResetButton.setVisibility(mCurrentLocalGuideStart > System.currentTimeMillis() ? View.VISIBLE : View.GONE); // show reset button if paged ahead
+            mResetButton.setVisibility(mCurrentLocalGuideStart > Instant.now().toEpochMilli() ? View.VISIBLE : View.GONE); // show reset button if paged ahead
 
             mSpinner.setVisibility(View.GONE);
             if (firstFocusView != null) {
