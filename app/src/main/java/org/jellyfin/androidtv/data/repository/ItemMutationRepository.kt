@@ -23,7 +23,7 @@ class ItemMutationRepositoryImpl(
 			else -> api.userLibraryApi.unmarkFavoriteItem(itemId = item)
 		}
 
-		dataRefreshService.lastFavoriteUpdate = Instant.now().toEpochMilli()
+		dataRefreshService.lastFavoriteUpdate = Instant.now()
 		return response
 	}
 

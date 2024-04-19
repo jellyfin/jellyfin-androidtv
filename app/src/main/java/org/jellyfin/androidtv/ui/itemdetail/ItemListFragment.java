@@ -71,7 +71,6 @@ import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -103,7 +102,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private DisplayMetrics mMetrics;
 
     private boolean firstTime = true;
-    private Calendar lastUpdated = Calendar.getInstance();
+    private Instant lastUpdated = Instant.now();
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
@@ -216,7 +215,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(mediaManager.getValue().isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, mediaManager.getValue().getCurrentAudioItem());
 
-        if (!firstTime && dataRefreshService.getValue().getLastPlayback() > lastUpdated.getTimeInMillis()) {
+        if (!firstTime && dataRefreshService.getValue().getLastPlayback() != null && dataRefreshService.getValue().getLastPlayback().isAfter(lastUpdated)) {
             if (MediaType.Video.equals(mBaseItem.getMediaType())) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -224,7 +223,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                         ItemListViewHelperKt.refresh(mItemList);
-                        lastUpdated = Calendar.getInstance();
+                        lastUpdated = Instant.now();
 
                     }
                 }, 500);
@@ -573,7 +572,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
                             mBaseItem.setUserData(response);
                             ((TextUnderButton)v).setActivated(response.getIsFavorite());
-                            dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now().toEpochMilli());
+                            dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
                         }
                     });
                 }

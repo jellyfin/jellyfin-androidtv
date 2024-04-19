@@ -394,7 +394,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                    dataRefreshService.setLastFavoriteUpdate(Instant.now().toEpochMilli());
+                    dataRefreshService.setLastFavoriteUpdate(Instant.now());
                 }
             });
         }

@@ -65,6 +65,7 @@ import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -100,7 +101,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private EmptyLifecycleAwareResponse mRetrieveFinishedListener;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[]{};
-    private Calendar lastFullRetrieve;
+    private Instant lastFullRetrieve;
 
     private BaseItemPerson[] mPersons;
     private List<ChapterItemInfo> mChapters;
@@ -635,22 +636,16 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         for (ChangeTriggerType trigger : reRetrieveTriggers) {
             switch (trigger) {
                 case LibraryUpdated:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastLibraryChange();
+                    retrieve |= dataRefreshService.getLastLibraryChange() != null && lastFullRetrieve.isBefore(dataRefreshService.getLastLibraryChange());
                     break;
                 case MoviePlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastMoviePlayback();
+                    retrieve |= dataRefreshService.getLastMoviePlayback() != null && lastFullRetrieve.isBefore(dataRefreshService.getLastMoviePlayback());
                     break;
                 case TvPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastTvPlayback();
-                    break;
-                case MusicPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastMusicPlayback();
+                    retrieve |= dataRefreshService.getLastTvPlayback() != null && lastFullRetrieve.isBefore(dataRefreshService.getLastTvPlayback());
                     break;
                 case FavoriteUpdate:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastFavoriteUpdate();
-                    break;
-                case VideoQueueChange:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastVideoQueueChange();
+                    retrieve |= dataRefreshService.getLastFavoriteUpdate() != null && lastFullRetrieve.isBefore(dataRefreshService.getLastFavoriteUpdate());
                     break;
                 case GuideNeedsLoad:
                     Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
@@ -674,7 +669,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     public void Retrieve() {
         notifyRetrieveStarted();
-        lastFullRetrieve = Calendar.getInstance();
+        lastFullRetrieve = Instant.now();
         itemsLoaded = 0;
         switch (queryType) {
             case Items:

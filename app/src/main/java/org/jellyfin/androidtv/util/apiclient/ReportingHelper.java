@@ -28,13 +28,13 @@ public class ReportingHelper {
             KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
 
             DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-            dataRefreshService.setLastPlayback(Instant.now().toEpochMilli());
+            dataRefreshService.setLastPlayback(Instant.now());
             switch (item.getType()) {
                 case MOVIE:
-                    dataRefreshService.setLastMoviePlayback(Instant.now().toEpochMilli());
+                    dataRefreshService.setLastMoviePlayback(Instant.now());
                     break;
                 case EPISODE:
-                    dataRefreshService.setLastTvPlayback(Instant.now().toEpochMilli());
+                    dataRefreshService.setLastTvPlayback(Instant.now());
                     break;
             }
         }
