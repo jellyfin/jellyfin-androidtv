@@ -50,6 +50,7 @@ import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -283,13 +284,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         else vlcErrorEncountered = true;
 
         // reset the retry count if it's been more than 30s since previous error
-        if (playbackRetries > 0 && System.currentTimeMillis() - lastPlaybackError > 30000) {
+        if (playbackRetries > 0 && Instant.now().toEpochMilli() - lastPlaybackError > 30000) {
             Timber.d("playback stabilized - retry count reset to 0 from %s", playbackRetries);
             playbackRetries = 0;
         }
 
         playbackRetries++;
-        lastPlaybackError = System.currentTimeMillis();
+        lastPlaybackError = Instant.now().toEpochMilli();
 
         if (playbackRetries < 3) {
             if (mFragment != null)
@@ -1278,7 +1279,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private long getRealTimeProgress() {
-        long progress = System.currentTimeMillis();
+        long progress = Instant.now().toEpochMilli();
         if (mCurrentProgramStart != null) {
             progress -= mCurrentProgramStart.toInstant(ZoneOffset.UTC).toEpochMilli();
         }
@@ -1402,7 +1403,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             if (mFragment != null) mFragment.setFadingEnabled(true);
 
             mPlaybackState = PlaybackState.PLAYING;
-            mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
+            mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? Instant.now().toEpochMilli() : 0;
             startReportLoop();
         }
 

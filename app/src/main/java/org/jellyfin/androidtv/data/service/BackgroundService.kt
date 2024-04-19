@@ -20,6 +20,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
+import java.time.Instant
 import java.util.UUID
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -144,7 +145,7 @@ class BackgroundService(
 	}
 
 	internal fun update() {
-		val now = System.currentTimeMillis()
+		val now = Instant.now().toEpochMilli()
 		if (lastBackgroundTimerUpdate > now - TRANSITION_DURATION.inWholeMilliseconds)
 			return setTimer((lastBackgroundTimerUpdate - now).milliseconds + TRANSITION_DURATION, false)
 

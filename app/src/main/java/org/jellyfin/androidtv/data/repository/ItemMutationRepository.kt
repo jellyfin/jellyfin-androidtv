@@ -6,6 +6,7 @@ import org.jellyfin.sdk.api.client.extensions.playStateApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.UUID
 import org.jellyfin.sdk.model.api.UserItemDataDto
+import java.time.Instant
 
 interface ItemMutationRepository {
 	suspend fun setFavorite(item: UUID, favorite: Boolean): UserItemDataDto
@@ -22,7 +23,7 @@ class ItemMutationRepositoryImpl(
 			else -> api.userLibraryApi.unmarkFavoriteItem(itemId = item)
 		}
 
-		dataRefreshService.lastFavoriteUpdate = System.currentTimeMillis()
+		dataRefreshService.lastFavoriteUpdate = Instant.now().toEpochMilli()
 		return response
 	}
 

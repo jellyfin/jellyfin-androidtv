@@ -32,6 +32,7 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +130,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 if (!getActive()) return;
 
                 List<BaseItemDto> nearTimers = new ArrayList<>();
-                long next24 = System.currentTimeMillis() + ticks24;
+                long next24 = Instant.now().toEpochMilli() + ticks24;
                 //Get scheduled items for next 24 hours
                 for (TimerInfoDto timer : response.getItems()) {
                     if (TimeUtils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {

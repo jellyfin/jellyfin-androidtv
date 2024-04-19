@@ -46,6 +46,7 @@ import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
+import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import kotlin.time.Duration
@@ -455,7 +456,7 @@ class LeanbackChannelWorker(
 
 			setLastEngagementTimeUtcMillis(
 				engagement?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
-					?: System.currentTimeMillis()
+					?: Instant.now().toEpochMilli()
 			)
 
 			// Episode runtime has been determined
