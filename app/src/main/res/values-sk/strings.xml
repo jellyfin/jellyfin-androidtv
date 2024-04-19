@@ -558,4 +558,11 @@
     <string name="unreleased">Zatiaľ nevydané</string>
     <string name="pref_playback_advanced">Pokročilé nastavenia prehrávania</string>
     <string name="lbl_home">Domov</string>
+    <string name="pref_screensaver_ageratingmax">Maximálne vekové hodnotenie</string>
+    <string name="pref_screensaver_ageratingmax_zero">Všetky vekové kategórie</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Zobrazenie všetkých položiek</string>
+    <string name="pref_screensaver_ageratingmax_entry">Do veku %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Zakázať maximum</string>
+    <string name="pref_screensaver_ageratingrequired_title">Vyžadovať vekové hodnotenie</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Zobrazenie iba položiek s nastaveným vekovým hodnotením</string>
 </resources>
