@@ -116,7 +116,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -145,7 +144,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     protected UUID mItemId;
     protected UUID mChannelId;
     protected BaseRowItem mCurrentItem;
-    private Calendar mLastUpdated;
+    private Instant mLastUpdated;
     private UUID mPrevItemId;
 
     private RowsSupportFragment mRowsFragment;
@@ -261,12 +260,12 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             public void run() {
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-                long lastPlaybackTime = dataRefreshService.getValue().getLastPlayback();
-                Timber.d("current time %s last playback event time %s last refresh time %s", Instant.now().toEpochMilli(), lastPlaybackTime, mLastUpdated.getTimeInMillis());
+                Instant lastPlaybackTime = dataRefreshService.getValue().getLastPlayback();
+                Timber.d("current time %s last playback event time %s last refresh time %s", Instant.now().toEpochMilli(), lastPlaybackTime, mLastUpdated.toEpochMilli());
 
                 // if last playback event exists, and event time is greater than last sync or within 2 seconds of current time
                 // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
-                if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || Instant.now().toEpochMilli() - lastPlaybackTime < 2000) && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST) {
+                if (lastPlaybackTime != null && (lastPlaybackTime.isAfter(mLastUpdated) || Instant.now().toEpochMilli() - lastPlaybackTime.toEpochMilli() < 2000) && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST) {
                     org.jellyfin.sdk.model.api.BaseItemDto lastPlayedItem = dataRefreshService.getValue().getLastPlayedItem();
                     if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
                         Timber.i("Re-loading after new episode playback");
@@ -294,7 +293,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                     showMoreButtonIfNeeded();
                                 }
                                 updateWatched();
-                                mLastUpdated = Calendar.getInstance();
+                                mLastUpdated = Instant.now();
                             }
                         });
                     }
@@ -429,7 +428,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             });
         }
 
-        mLastUpdated = Calendar.getInstance();
+        mLastUpdated = Instant.now();
     }
 
     @Override
@@ -799,7 +798,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private void updateInfo(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
 
-        mLastUpdated = Calendar.getInstance();
+        mLastUpdated = Instant.now();
     }
 
     public void setTitle(String title) {
@@ -887,7 +886,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 mBaseItem.setUserData(response);
                 favButton.setActivated(response.getIsFavorite());
-                dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now().toEpochMilli());
+                dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
             }
         });
     }
@@ -1562,13 +1561,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
-                dataRefreshService.getValue().setLastPlayback(Instant.now().toEpochMilli());
+                dataRefreshService.getValue().setLastPlayback(Instant.now());
                 switch (mBaseItem.getType()) {
                     case "Movie":
-                        dataRefreshService.getValue().setLastMoviePlayback(Instant.now().toEpochMilli());
+                        dataRefreshService.getValue().setLastMoviePlayback(Instant.now());
                         break;
                     case "Episode":
-                        dataRefreshService.getValue().setLastTvPlayback(Instant.now().toEpochMilli());
+                        dataRefreshService.getValue().setLastTvPlayback(Instant.now());
                         break;
                 }
                 showMoreButtonIfNeeded();
@@ -1587,13 +1586,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
-                dataRefreshService.getValue().setLastPlayback(Instant.now().toEpochMilli());
+                dataRefreshService.getValue().setLastPlayback(Instant.now());
                 switch (mBaseItem.getType()) {
                     case "Movie":
-                        dataRefreshService.getValue().setLastMoviePlayback(Instant.now().toEpochMilli());
+                        dataRefreshService.getValue().setLastMoviePlayback(Instant.now());
                         break;
                     case "Episode":
-                        dataRefreshService.getValue().setLastTvPlayback(Instant.now().toEpochMilli());
+                        dataRefreshService.getValue().setLastTvPlayback(Instant.now());
                         break;
                 }
                 showMoreButtonIfNeeded();

@@ -383,7 +383,7 @@ public class LiveProgramDetailPopup {
                         fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
                         mTvGuide.refreshFavorite(UUIDSerializerKt.toUUID(channel.getId()));
                         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                        dataRefreshService.setLastFavoriteUpdate(Instant.now().toEpochMilli());
+                        dataRefreshService.setLastFavoriteUpdate(Instant.now());
                     }
                 });
             }

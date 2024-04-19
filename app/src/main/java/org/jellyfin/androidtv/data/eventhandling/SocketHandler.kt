@@ -140,7 +140,7 @@ class SocketHandler(
 		})
 
 		if (info.itemsAdded.any() || info.itemsRemoved.any())
-			dataRefreshService.lastLibraryChange = Instant.now().toEpochMilli()
+			dataRefreshService.lastLibraryChange = Instant.now()
 	}
 
 	private fun onPlayMessage(message: PlayMessage) {
