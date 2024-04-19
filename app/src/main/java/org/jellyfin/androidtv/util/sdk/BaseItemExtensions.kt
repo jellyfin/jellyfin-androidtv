@@ -12,7 +12,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.LocationType
-import java.util.Calendar
+import java.time.LocalDateTime
 
 fun BaseItemDto.getSeasonEpisodeName(context: Context): String {
 	val seasonNumber = when {
@@ -64,7 +64,7 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 	episodeTitle?.let { append(episodeTitle, " ") }
 
 	// If the start time is on a different day, add the date
-	if (startDate?.dayOfYear != Calendar.getInstance()[Calendar.DAY_OF_YEAR])
+	if (startDate?.dayOfYear != LocalDateTime.now().dayOfYear)
 		append(TimeUtils.getFriendlyDate(context, TimeUtils.getDate(startDate)), " ")
 
 	// Add the start and end time

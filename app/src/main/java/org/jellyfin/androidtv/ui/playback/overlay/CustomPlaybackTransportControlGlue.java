@@ -48,7 +48,8 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 import org.koin.java.KoinJavaComponent;
 
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
@@ -314,9 +315,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         long msLeft = getPlayerAdapter().getDuration() - getPlayerAdapter().getCurrentPosition();
         long realTimeLeft = round(msLeft / playbackController.getPlaybackSpeed());
 
-        Calendar endTime = Calendar.getInstance();
-        endTime.setTimeInMillis(endTime.getTimeInMillis() + realTimeLeft);
-        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(endTime.getTime())));
+        Instant endTime = Instant.now().plus(realTimeLeft, ChronoUnit.MILLIS);
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(endTime.toEpochMilli())));
     }
 
     private void notifyActionChanged(Action action) {
