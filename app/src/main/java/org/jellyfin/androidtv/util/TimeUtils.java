@@ -9,9 +9,9 @@ import org.jellyfin.androidtv.R;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -96,21 +96,21 @@ public class TimeUtils {
     }
 
     public static String getFriendlyDate(Context context, Date date, boolean relative) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        Calendar now = Calendar.getInstance();
-        if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
-            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
+        LocalDateTime dateTime = getLocalDateTime(date);
+        LocalDateTime now = LocalDateTime.now();
+
+        if (dateTime.getYear() == now.getYear()) {
+            if (dateTime.getDayOfYear() == now.getDayOfYear()) {
                 return context.getString(R.string.lbl_today);
             }
-            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR) + 1) {
+            if (dateTime.getDayOfYear() == now.getDayOfYear() + 1) {
                 return context.getString(R.string.lbl_tomorrow);
             }
-            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR) + 7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) {
-                return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            if (dateTime.getDayOfYear() < now.getDayOfYear() + 7 && dateTime.getDayOfYear() > now.getDayOfYear()) {
+                return dateTime.format(DateTimeFormatter.ofPattern("EE", ContextExtensionsKt.getLocale(context)));
             }
             if (relative) {
-                return context.getString(R.string.lbl_in_x_days, cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
+                return context.getString(R.string.lbl_in_x_days, dateTime.getDayOfYear() - now.getDayOfYear());
             }
         }
 
@@ -125,5 +125,10 @@ public class TimeUtils {
         if (date == null) return null;
 
         return Date.from(date.atZone(zone).toInstant());
+    }
+    public static LocalDateTime getLocalDateTime(Date date) {
+        if (date == null) return null;
+
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 }
