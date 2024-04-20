@@ -551,4 +551,13 @@
     </plurals>
     <string name="random">Aleatori</string>
     <string name="unreleased">Encara no s\'ha publicat</string>
+    <string name="lbl_home">Inici</string>
+    <string name="pref_screensaver_ageratingmax">Classificació d\'edat màxima</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Només es mostren elements amb una classificació per edat establerta</string>
+    <string name="pref_playback_advanced">Opcions avançades de reproducció</string>
+    <string name="pref_screensaver_ageratingmax_zero">Totes les edats</string>
+    <string name="pref_screensaver_ageratingmax_entry">Fins als %1$d anys</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar el màxim</string>
+    <string name="pref_screensaver_ageratingrequired_title">Requereix classificació d\'edat</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrant tots els elements</string>
 </resources>
