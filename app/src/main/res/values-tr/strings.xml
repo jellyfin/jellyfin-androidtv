@@ -554,4 +554,5 @@
     <string name="pref_screensaver_ageratingrequired_title">Yaş derecelendirmesi gerektir</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Yalnızca yaş derecelendirmesi ayarlanmış ögeleri göster</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Tüm ögeler gösteriliyor</string>
+    <string name="lbl_home">Ana Ekran</string>
 </resources>
