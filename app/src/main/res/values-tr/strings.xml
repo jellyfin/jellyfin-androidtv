@@ -546,4 +546,12 @@
     <string name="clear_image_cache">Resim önbelleğini temizle</string>
     <string name="random">Rastgele</string>
     <string name="unreleased">Henüz yayınlanmadı</string>
+    <string name="pref_playback_advanced">Gelişmiş oynatma tercihleri</string>
+    <string name="pref_screensaver_ageratingmax">En yüksek yaş derecelendirmesi</string>
+    <string name="pref_screensaver_ageratingmax_entry">%1$d yaşına kadar</string>
+    <string name="pref_screensaver_ageratingmax_zero">Bütün yaşlar</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">En yüksek yaşı devre dışı bırak</string>
+    <string name="pref_screensaver_ageratingrequired_title">Yaş derecelendirmesi gerektir</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Yalnızca yaş derecelendirmesi ayarlanmış ögeleri göster</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Tüm ögeler gösteriliyor</string>
 </resources>
