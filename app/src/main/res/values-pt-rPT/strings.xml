@@ -517,4 +517,11 @@
     <string name="unreleased">Ainda não foi lançado</string>
     <string name="pref_playback_advanced">Preferências avançadas de reprodução</string>
     <string name="lbl_home">Início</string>
+    <string name="pref_screensaver_ageratingrequired_title">Exigir classificação etária</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Mostrar apenas itens com uma classificação etária definida</string>
+    <string name="pref_screensaver_ageratingmax">Classificação etária máxima</string>
+    <string name="pref_screensaver_ageratingmax_zero">Todas as idades</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Desativar o máximo</string>
+    <string name="pref_screensaver_ageratingmax_entry">Até aos %1$d anos</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrar todos os itens</string>
 </resources>
