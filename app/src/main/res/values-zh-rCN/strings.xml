@@ -534,4 +534,7 @@
     <string name="eac3">杜比数字+</string>
     <string name="indicator_subtitles">隐藏字幕</string>
     <string name="clear_image_cache_content">已使用：%1$s</string>
+    <string name="random">随机</string>
+    <string name="unreleased">尚未发布</string>
+    <string name="pref_playback_advanced">高级回放偏好</string>
 </resources>
