@@ -129,4 +129,5 @@
     <string name="msg_cancel_entire_series">Вы ўпэўнены, што жадаеце адмяніць УВЕСЬ СЕРЫЯЛ\?</string>
     <string name="pref_audio_compat">Звесці ў стэрэа</string>
     <string name="lbl_audio_output">Аўдыё выхад</string>
+    <string name="lbl_runtime">Час выканання</string>
 </resources>
