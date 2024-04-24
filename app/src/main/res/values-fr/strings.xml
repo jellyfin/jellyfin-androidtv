@@ -556,4 +556,13 @@
     </plurals>
     <string name="unreleased">Pas encore sorti</string>
     <string name="random">Aléatoire</string>
+    <string name="pref_screensaver_ageratingmax">Restriction d\'âge maximale</string>
+    <string name="pref_screensaver_ageratingmax_zero">Tout public</string>
+    <string name="pref_screensaver_ageratingmax_entry">Jusqu\'à %1$d ans</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Sans limite</string>
+    <string name="pref_screensaver_ageratingrequired_title">Requiert une restriction d\'âge</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Ne montrer que les éléments avec une restriction d\'âge définie</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Afficher tous les éléments</string>
+    <string name="lbl_home">Accueil</string>
+    <string name="pref_playback_advanced">Préférences de lecture avancées</string>
 </resources>
