@@ -10,7 +10,7 @@
     <string name="lbl_movies">Filmy</string>
     <string name="lbl_favorites">Obľúbené</string>
     <string name="lbl_by_name">Podľa mena</string>
-    <string name="lbl_latest">Najnovšie pridané</string>
+    <string name="lbl_latest">Nedávno pridané</string>
     <string name="lbl_search">Vyhľadávanie</string>
     <string name="lbl_genres">Žánre</string>
     <string name="lbl_next_up">Nasleduje</string>
@@ -173,7 +173,7 @@
     <string name="btn_got_it">Rozumiem</string>
     <string name="lbl_zoom">Priblíženie</string>
     <string name="desc_bitstream_ac3">Vyžaduje schopný hardvér</string>
-    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital zvuk</string>
+    <string name="lbl_bitstream_ac3">Bitstreamovať Dolby Digital zvuk</string>
     <string name="lbl_new_premieres">Nové premiéry</string>
     <string name="desc_automatic_fav_songs">Automatický playlist obľúbených skladieb</string>
     <string name="msg_item_added">" položka pridaná"</string>
@@ -219,7 +219,7 @@
     <string name="msg_cannot_play">Táto položka sa nedá prehrať</string>
     <string name="msg_cannot_play_time">Túto položku nie je možne teraz prehrať</string>
     <string name="msg_playback_incompatible">Tento formát sa nedá prehrať</string>
-    <string name="lbl_last_played">"Naposledy pozreté "</string>
+    <string name="lbl_last_played">"Naposledy prehrané "</string>
     <string name="lbl_watched">Pozreté</string>
     <string name="pref_video_player_external">Externá aplikácia</string>
     <string name="pref_video_player_vlc">LibVLC (experimentálne)</string>
@@ -230,7 +230,7 @@
     <string name="pref_next_up_timeout_title">Časový limit pre nasledujúcu položku</string>
     <string name="watch_now">Pozerať teraz</string>
     <string name="pref_next_up_timeout_summary">Dĺžka čakania pred prehratím ďalšej položky</string>
-    <string name="pref_libvlc_audio_delay_title">Predvolené zvukové oneskorenie pre LibVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Predvolené oneskorenie zvuku pre LibVLC</string>
     <string name="pref_app_theme">Téma aplikácie</string>
     <string name="pref_theme_emerald">Klasická emeraldová</string>
     <string name="pref_theme_dark">Tmavá (predvolená)</string>
@@ -323,8 +323,8 @@
     <string name="user_picker_disable_summary">Vždy zobraziť prihlasovaciu obrazovku</string>
     <string name="user_picker_disable_title">Zakázať</string>
     <string name="auto_sign_in">Automatické prihlásenie</string>
-    <string name="lbl_use_series_thumbnails_description">Použiť seriálové thumbnaily počas zobrazenia epizód</string>
-    <string name="lbl_use_series_thumbnails">Preferovať seriálové thumbnaily</string>
+    <string name="lbl_use_series_thumbnails_description">Použiť seriálové náhľady počas zobrazenia epizód</string>
+    <string name="lbl_use_series_thumbnails">Preferovať seriálové náhľady</string>
     <string name="lbl_hide_unwatched_count">Keď je položka pozretá</string>
     <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
     <string name="press_to_close">Stlačením zavriete</string>
@@ -338,8 +338,8 @@
     <string name="lbl_on_any_channel">Na akomkoľvek kanáli</string>
     <string name="lbl_record_all">Budú sa nahrávať všetky epizódy</string>
     <string name="lbl_record_only_new">Budú sa nahrávať iba nové epizódy</string>
-    <string name="lbl_next_up_minimal">Bez thumbnailu</string>
-    <string name="lbl_next_up_extended">S thumbnailom</string>
+    <string name="lbl_next_up_minimal">Bez náhľadu</string>
+    <string name="lbl_next_up_extended">S náhľadom</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
@@ -382,7 +382,7 @@
     <string name="home_section_resume">Pokračovať v pozeraní</string>
     <string name="home_section_library_small">Moje médiá (malé)</string>
     <string name="home_section_library">Moje médiá</string>
-    <string name="home_section_latest_media">Najnovšie pridané médiá</string>
+    <string name="home_section_latest_media">Nedávno pridané médiá</string>
     <string name="home_sections">Sekcie obrazovky Domov</string>
     <string name="home_prefs">Domov</string>
     <string name="searchable_settings_description">Médiá</string>
@@ -507,9 +507,9 @@
         <item quantity="few">%1$s hodinách</item>
         <item quantity="other">%1$s hodinách</item>
     </plurals>
-    <string name="lbl_latest_in">Najnovšie pridané v %1$s</string>
+    <string name="lbl_latest_in">Nedávno pridané v knižnici %1$s</string>
     <string name="not_set">Nie je nastavené</string>
-    <string name="lbl_album_artists">Album interpretov</string>
+    <string name="lbl_album_artists">Interpreti albumu</string>
     <string name="enable_reactive_homepage">Povoliť reaktívnu domovskú stránku</string>
     <string name="disable_ui_mode_warning">Zakázať upozornenia na typ zariadenia</string>
     <string name="because_you_watched">Pretože ste pozerali %1$s</string>
