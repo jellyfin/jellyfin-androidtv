@@ -554,4 +554,15 @@
     <string name="lbl_runtime">Doba trvání</string>
     <string name="clear_image_cache">Vymazat vyrovnávací paměť obrázků</string>
     <string name="clear_image_cache_content">Použité: %1$s</string>
+    <string name="pref_playback_advanced">Rozšířené možnosti přehrávání</string>
+    <string name="random">Náhodný</string>
+    <string name="unreleased">Dosud nevydáno</string>
+    <string name="lbl_home">Domů</string>
+    <string name="pref_screensaver_ageratingmax">Nejvyšší hodnocení věku</string>
+    <string name="pref_screensaver_ageratingmax_zero">Všechny věkové kategorie</string>
+    <string name="pref_screensaver_ageratingmax_entry">Do věku %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Vypnout maximální</string>
+    <string name="pref_screensaver_ageratingrequired_title">Vyžaduje hodnocení věku</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Zobrazit pouze položky, které mají nastaveno hodnocení věku</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Zobrazení všech položek</string>
 </resources>
