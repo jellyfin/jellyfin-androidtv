@@ -554,4 +554,15 @@
     </plurals>
     <string name="clear_image_cache">Limpar cache de imagens</string>
     <string name="clear_image_cache_content">Usado: %1$s</string>
+    <string name="random">Aleatório</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Exibindo apenas itens com classificação etária</string>
+    <string name="pref_playback_advanced">Preferências avançadas de reprodução</string>
+    <string name="unreleased">Ainda não lançado</string>
+    <string name="lbl_home">Início</string>
+    <string name="pref_screensaver_ageratingmax">Classificação etária máxima</string>
+    <string name="pref_screensaver_ageratingmax_zero">Todas as faixas etárias</string>
+    <string name="pref_screensaver_ageratingmax_entry">Até faixa etária %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Desabilitar máximo</string>
+    <string name="pref_screensaver_ageratingrequired_title">Requerer classificação etária</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Exibindo todos os itens</string>
 </resources>
