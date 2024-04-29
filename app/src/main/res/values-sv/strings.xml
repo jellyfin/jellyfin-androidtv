@@ -537,4 +537,10 @@
         <item quantity="one">%1$s Film</item>
         <item quantity="other">%1$s Filmer</item>
     </plurals>
+    <string name="ac3">DD</string>
+    <string name="dca">DTS</string>
+    <string name="eac3">DD+</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_hd">DTS:HD</string>
 </resources>
