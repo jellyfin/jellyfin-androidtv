@@ -543,4 +543,16 @@
     <string name="dts_x">DTS:X</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_hd">DTS:HD</string>
+    <string name="clear_image_cache_content">Använt: %1$s</string>
+    <string name="pref_screensaver_ageratingmax">Maximal åldersgräns</string>
+    <string name="pref_screensaver_ageratingmax_entry">Upp till %1$d års ålder</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Inaktivera maxålder</string>
+    <string name="pref_screensaver_ageratingrequired_title">Kräv åldersbegränsning</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Visa all titlar</string>
+    <plurals name="items">
+        <item quantity="one">%1$s titel</item>
+        <item quantity="other">%1$s titlar</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingrequired_enabled">Visa bara de titlar som har åldersbegränsning</string>
+    <string name="pref_playback_advanced">Avancerade uppspelningsinställningar</string>
 </resources>
