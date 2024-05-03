@@ -545,4 +545,14 @@
         <item quantity="other">%1$s TV series</item>
     </plurals>
     <string name="clear_image_cache_content">Used: %1$s</string>
+    <string name="random">Random</string>
+    <string name="pref_playback_advanced">Advanced playback preferences</string>
+    <string name="unreleased">Not yet released</string>
+    <string name="pref_screensaver_ageratingmax">Maximum age rating</string>
+    <string name="pref_screensaver_ageratingmax_zero">All ages</string>
+    <string name="pref_screensaver_ageratingmax_entry">Up to age %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Disable maximum</string>
+    <string name="pref_screensaver_ageratingrequired_title">Require age rating</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Only showing items with an age rating set</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Showing all items</string>
 </resources>
