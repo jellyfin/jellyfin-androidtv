@@ -13,12 +13,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.compose.content
 import org.jellyfin.androidtv.R
 
 @Composable
@@ -47,9 +47,7 @@ class SplashFragment : Fragment() {
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
-	) = ComposeView(requireContext()).apply {
-		setContent {
-			SplashScreen()
-		}
+	) = content {
+		SplashScreen()
 	}
 }
