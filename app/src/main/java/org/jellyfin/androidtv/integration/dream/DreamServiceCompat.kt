@@ -4,6 +4,7 @@ import android.service.dreams.DreamService
 import androidx.annotation.CallSuper
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.setViewTreeLifecycleOwner
@@ -46,6 +47,8 @@ abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner {
 
 	fun setContent(content: @Composable () -> Unit) {
 		val view = ComposeView(this)
+		// Set composition strategy
+		view.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
 		// Inject dependencies normally added by appcompat activities
 		view.setViewTreeLifecycleOwner(this)
