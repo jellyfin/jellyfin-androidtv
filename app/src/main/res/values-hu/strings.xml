@@ -541,7 +541,18 @@
     </plurals>
     <plurals name="albums">
         <item quantity="one">%1$s album</item>
-        <item quantity="other">%1$s album</item>
+        <item quantity="other">%1$s albumok</item>
     </plurals>
     <string name="lbl_runtime">Futásidő</string>
+    <string name="lbl_home">Kezdőlap</string>
+    <string name="unreleased">Még nem kiadott</string>
+    <string name="pref_playback_advanced">Fejlett lejátszási beállítások</string>
+    <string name="random">Véletlenszerű</string>
+    <string name="pref_screensaver_ageratingmax">Maximum korhatár</string>
+    <string name="pref_screensaver_ageratingmax_zero">Minden korosztály</string>
+    <string name="pref_screensaver_ageratingmax_entry">%1$d éves korig</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Maximum tiltása</string>
+    <string name="pref_screensaver_ageratingrequired_title">Korhatár megkövetelése</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Csak a beállított korhatárnak megfelelő elemeket mutassa</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Minden elem mutatása</string>
 </resources>
