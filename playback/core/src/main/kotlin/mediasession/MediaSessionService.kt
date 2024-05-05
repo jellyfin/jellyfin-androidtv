@@ -12,7 +12,8 @@ import androidx.media3.session.MediaStyleNotificationHelper
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jellyfin.playback.core.plugin.PlayerService
-import org.jellyfin.playback.core.queue.item.QueueEntry
+import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.metadata
 
 class MediaSessionService(
 	private val androidContext: Context,

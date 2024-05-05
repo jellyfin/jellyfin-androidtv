@@ -14,7 +14,6 @@ import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
-import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.core.queue.order.DefaultOrderIndexProvider
 import org.jellyfin.playback.core.queue.order.OrderIndexProvider
 import org.jellyfin.playback.core.queue.order.RandomOrderIndexProvider

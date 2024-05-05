@@ -1,6 +1,6 @@
 package org.jellyfin.playback.core.mediastream
 
-import org.jellyfin.playback.core.queue.item.QueueEntry
+import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 
 /**
