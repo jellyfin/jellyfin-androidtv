@@ -292,7 +292,7 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_use_series_thumbnails_description">Bruk serieminiatyrbilder når du viser episoder</string>
     <string name="lbl_use_series_thumbnails">Foretrekker serieminiatyrbilder</string>
-    <string name="lbl_hide_unwatched_count">Skjul ukjent antall</string>
+    <string name="lbl_hide_unwatched_count">Når elementet er sett</string>
     <string name="pref_watched_indicator">Vis overvåkede indikatorer</string>
     <string name="login_help_description">Jellyfin krever en tjener å koble seg til. Gå til dokumentasjonen vår på docs.jellyfin.org eller skann QR-koden for å komme i gang med Jellyfin.</string>
     <string name="login_help_title">Trenger du hjelp\?</string>
@@ -512,4 +512,47 @@
     <string name="disable_ui_mode_warning">Slå av enhetstype-advarsel</string>
     <string name="pref_enable_media_management_description">Vis alternativ for å behandle media mens du utforsker</string>
     <string name="lbl_runtime">Spilletid</string>
+    <string name="random">Tilfeldig</string>
+    <string name="pref_playback_advanced">Avanserte avspillingspreferanser</string>
+    <string name="unreleased">Ikke utgitt enda</string>
+    <string name="person_birthday_and_age">Født %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="ac3">DD</string>
+    <string name="dca">DTS</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">%1$s element</item>
+        <item quantity="other">%1$s elementer</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="other">%1$s filmer</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s sang</item>
+        <item quantity="other">%1$s sanger</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other">%1$s albumer</item>
+    </plurals>
+    <string name="lbl_hide_watched_checkmark">Når det gjenstår episoder</string>
+    <string name="clear_image_cache">Tøm bildebufferen</string>
+    <string name="lbl_home">Hjem</string>
+    <string name="clear_image_cache_content">Brukt: %1$s</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV serie</item>
+        <item quantity="other">%1$s TV serier</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax">Maksimal aldersgrense</string>
+    <string name="pref_screensaver_ageratingmax_zero">All aldre</string>
+    <string name="pref_screensaver_ageratingmax_entry">Opp til alder %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Deaktiver maksimum</string>
+    <string name="pref_screensaver_ageratingrequired_title">Krev aldersgrense</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Kun vis elementer med en aldersgrense</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Viser alle elementer</string>
 </resources>
