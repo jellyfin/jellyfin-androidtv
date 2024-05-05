@@ -11,6 +11,7 @@ import kotlinx.coroutines.plus
 import org.jellyfin.playback.core.PlayerState
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackend
+import org.jellyfin.playback.core.queue.QueueEntry
 import timber.log.Timber
 
 interface MediaStreamState {
@@ -38,13 +39,7 @@ class DefaultMediaStreamState(
 			if (entry == null) {
 				backend.setCurrent(null)
 			} else {
-				val stream = mediaStreamResolvers.firstNotNullOfOrNull { resolver ->
-					runCatching {
-						resolver.getStream(entry, backend::supportsStream)
-					}.onFailure {
-						Timber.e(it, "Media stream resolver failed for $entry")
-					}.getOrNull()
-				}
+				val stream = entry.getOrComputeMediaStream(backend)
 
 				if (stream == null) {
 					Timber.e("Unable to resolve stream for entry $entry")
@@ -63,6 +58,16 @@ class DefaultMediaStreamState(
 
 		// TODO Register some kind of event when $current item is at -30 seconds to setNext()
 	}
+
+	private suspend fun QueueEntry.getOrComputeMediaStream(
+		backend: PlayerBackend,
+	): PlayableMediaStream? = mediaStream ?: mediaStreamResolvers.firstNotNullOfOrNull { resolver ->
+		runCatching {
+			resolver.getStream(this, backend::supportsStream)
+		}.onFailure {
+			Timber.e(it, "Media stream resolver failed for $this")
+		}.getOrNull()
+	}.also { mediaStream = it }
 
 	private fun PlayerBackend.setCurrent(stream: PlayableMediaStream?) {
 		Timber.d("Current stream changed to $stream")
