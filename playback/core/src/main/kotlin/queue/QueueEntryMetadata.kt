@@ -1,5 +1,7 @@
-package org.jellyfin.playback.core.queue.item
+package org.jellyfin.playback.core.queue
 
+import org.jellyfin.playback.core.element.ElementKey
+import org.jellyfin.playback.core.element.requiredElement
 import java.time.LocalDate
 import kotlin.time.Duration
 
@@ -33,3 +35,10 @@ data class QueueEntryMetadata(
 		val Empty = QueueEntryMetadata()
 	}
 }
+
+private val metadataKey = ElementKey<QueueEntryMetadata>("QueueEntryMetadata")
+
+/**
+ * Get or set the [QueueEntryMetadata] for this [QueueEntry]. Defaults to [QueueEntryMetadata.Empty].
+ */
+var QueueEntry.metadata by requiredElement(metadataKey) { QueueEntryMetadata.Empty }

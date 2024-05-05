@@ -3,9 +3,9 @@ package org.jellyfin.playback.jellyfin.mediastream
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
-import org.jellyfin.playback.core.queue.item.QueueEntry
+import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
-import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
+import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.universalAudioApi
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -19,13 +19,13 @@ class UniversalAudioMediaStreamResolver(
 		queueEntry: QueueEntry,
 		testStream: (stream: MediaStream) -> PlaySupportReport,
 	): PlayableMediaStream? {
-		if (queueEntry !is BaseItemDtoUserQueueEntry) return null
-		if (queueEntry.baseItem.type != BaseItemKind.AUDIO) return null
+		val baseItem = queueEntry.baseItem
+		if (baseItem == null || baseItem.type != BaseItemKind.AUDIO) return null
 
-		val mediaInfo = getPlaybackInfo(queueEntry.baseItem)
+		val mediaInfo = getPlaybackInfo(baseItem)
 
 		val url = api.universalAudioApi.getUniversalAudioStreamUrl(
-			itemId = queueEntry.baseItem.id,
+			itemId = baseItem.id,
 			mediaSourceId = mediaInfo.mediaSource.id,
 			enableRedirection = false,
 			enableRemoteMedia = false,

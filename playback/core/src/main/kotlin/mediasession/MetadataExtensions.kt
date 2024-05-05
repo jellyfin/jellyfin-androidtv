@@ -3,7 +3,7 @@ package org.jellyfin.playback.core.mediasession
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
-import org.jellyfin.playback.core.queue.item.QueueEntryMetadata
+import org.jellyfin.playback.core.queue.QueueEntryMetadata
 
 fun QueueEntryMetadata.toMediaItem() = MediaItem.Builder().apply {
 	if (mediaId != null) setMediaId(mediaId)

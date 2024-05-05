@@ -25,8 +25,9 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.queue.Queue
-import org.jellyfin.playback.core.queue.item.QueueEntry
-import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
+import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.jellyfin.queue.baseItem
+import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
 import kotlin.math.max
@@ -59,7 +60,7 @@ class RewriteMediaManager(
 			?: currentAudioQueue.size()).toString()
 
 	override val currentAudioItem: BaseItemDto?
-		get() = (playbackManager.state.queue.entry.value as? BaseItemDtoUserQueueEntry)?.baseItem
+		get() = playbackManager.state.queue.entry.value?.baseItem
 
 	override fun toggleRepeat(): Boolean {
 		val newMode = when (playbackManager.state.repeatMode.value) {
@@ -277,7 +278,7 @@ class RewriteMediaManager(
 
 		override suspend fun getItem(index: Int): QueueEntry? {
 			val item = items.getOrNull(index) ?: return null
-			return BaseItemDtoUserQueueEntry.build(api, item)
+			return createBaseItemQueueEntry(api, item)
 		}
 	}
 }

@@ -1,7 +1,5 @@
 package org.jellyfin.playback.core.queue
 
-import org.jellyfin.playback.core.queue.item.QueueEntry
-
 abstract class PagedQueue(
 	private val pageSize: Int = 10,
 ) : Queue {
