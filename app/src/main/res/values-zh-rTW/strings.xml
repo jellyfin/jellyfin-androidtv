@@ -501,4 +501,6 @@
     <string name="item_deletion_failed">無法刪除 %1$s</string>
     <string name="pref_enable_media_management">啟用媒體文件管理</string>
     <string name="item_delete_confirm_title">刪除</string>
+    <string name="lbl_home">主頁</string>
+    <string name="because_you_watched">因為你已觀看 %1$s</string>
 </resources>
