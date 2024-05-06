@@ -516,4 +516,9 @@
     <string name="pref_playback_advanced">高級回放偏好</string>
     <string name="pref_screensaver_ageratingmax">最大年齡分級</string>
     <string name="pref_screensaver_ageratingmax_zero">所有年齡段</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">停用最大值</string>
+    <string name="pref_screensaver_ageratingrequired_title">需要年齡分級</string>
+    <string name="pref_screensaver_ageratingmax_entry">直至 %1$d 歲</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">顯示所有項目</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">僅顯示設置了年齡分級的項目</string>
 </resources>
