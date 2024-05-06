@@ -522,4 +522,6 @@
     <string name="photos">Slike</string>
     <string name="photo_albums">Foto albumi</string>
     <string name="channels">Kanali</string>
+    <string name="dolby_atmos"></string>
+    <string name="clear_image_cache"></string>
 </resources>
