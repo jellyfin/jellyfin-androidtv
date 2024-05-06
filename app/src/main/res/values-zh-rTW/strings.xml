@@ -248,7 +248,7 @@
     <string name="lbl_pause">暫停</string>
     <string name="lbl_use_series_thumbnails_description">顯示集數時使用系列預覽圖</string>
     <string name="lbl_use_series_thumbnails">偏好系列預覽圖</string>
-    <string name="lbl_hide_unwatched_count">隱藏未觀看數</string>
+    <string name="lbl_hide_unwatched_count">影片已觀看</string>
     <string name="pref_watched_indicator">顯示已觀看指示</string>
     <string name="login_help_description">Jellyfin 需要可以連接上的伺服器。前往 docs.jellyfin.org 閱讀文件或掃描此QR code以了解如何使用 Jellyfin。</string>
     <string name="login_help_title">需要幫助嗎？</string>
@@ -340,7 +340,7 @@
     <string name="pref_customization">客製化</string>
     <string name="server_issue_ssl_handshake">SSL 握手失敗</string>
     <string name="server_issue_timeout">連線逾時</string>
-    <string name="server_issue_outdated_version">伺服器使用的版本為%1$s，但需要%2$s或更新版本</string>
+    <string name="server_issue_outdated_version">伺服器使用的版本為不被支援的%1$s版本，請更新至%2$s或更新版本</string>
     <string name="server_issue_unsupported_version">伺服器使用的版本 %1$s 不被支援</string>
     <string name="server_issue_missing_version">無法確定伺服器版本</string>
     <string name="server_issue_invalid_product">伺服器版本不相容</string>
@@ -464,7 +464,7 @@
     <string name="lbl_album_artists">專輯藝術家</string>
     <string name="enable_reactive_homepage">啟用反應式(reactive) 主頁</string>
     <string name="lbl_quality_profile">質量概况</string>
-    <string name="server_unsupported_notification">此伺服器使用 Jellyfin %1$s 版本不被支援。請更新到 Jellyfin %2$s 版本以繼續使用程式。</string>
+    <string name="server_unsupported_notification">此伺服器使用 Jellyfin %1$s 版本不被支援。請更新到 Jellyfin %2$s 或更新版本以繼續使用程式。</string>
     <string name="pref_audio_night_mode">音訊夜間模式（實驗性）</string>
     <string name="not_set">未設置</string>
     <plurals name="minutes">
@@ -503,4 +503,17 @@
     <string name="item_delete_confirm_title">刪除</string>
     <string name="lbl_home">主頁</string>
     <string name="because_you_watched">因為你已觀看 %1$s</string>
+    <string name="lbl_hide_watched_checkmark">還有剩餘集數</string>
+    <string name="random">隨機</string>
+    <string name="channels">頻道</string>
+    <string name="disable_ui_mode_warning">停用裝置類型警告</string>
+    <string name="unreleased">尚未發佈</string>
+    <string name="dolby_vision">杜比視界</string>
+    <string name="person_birthday_and_age">出生於 %1$s (%2$d)</string>
+    <string name="clear_image_cache">清除圖片緩存</string>
+    <string name="photo_albums">相冊</string>
+    <string name="photos">照片</string>
+    <string name="pref_playback_advanced">高級回放偏好</string>
+    <string name="pref_screensaver_ageratingmax">最大年齡分級</string>
+    <string name="pref_screensaver_ageratingmax_zero">所有年齡段</string>
 </resources>
