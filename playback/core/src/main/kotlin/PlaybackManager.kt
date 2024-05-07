@@ -18,7 +18,7 @@ class PlaybackManager internal constructor(
 	val options: PlaybackManagerOptions,
 	parentJob: Job? = null,
 ) {
-	private val backendService = BackendService().also { service ->
+	internal val backendService = BackendService().also { service ->
 		service.switchBackend(backend)
 	}
 
