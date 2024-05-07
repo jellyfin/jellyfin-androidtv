@@ -24,9 +24,9 @@ fun jellyfinPlugin(
 		responseProfiles = emptyList(),
 		subtitleProfiles = emptyList(),
 		supportedMediaTypes = "",
-		// Add at least one transcoding profile so the server returns a value
-		// for "SupportsTranscoding" based on the user policy
-		// We don't actually use this profile in the client
+		// Add at least one transcoding profile for both audio an video so the server returns a
+		// value for "SupportsTranscoding" based on the user policy. We don't actually use this
+		// profile in the client
 		transcodingProfiles = listOf(
 			TranscodingProfile(
 				type = DlnaProfileType.AUDIO,
@@ -35,6 +35,15 @@ fun jellyfinPlugin(
 				container = "mp3",
 				audioCodec = "mp3",
 				videoCodec = "",
+				conditions = emptyList()
+			),
+			TranscodingProfile(
+				type = DlnaProfileType.VIDEO,
+				context = EncodingContext.STREAMING,
+				protocol = "hls",
+				container = "ts",
+				audioCodec = "aac",
+				videoCodec = "h264",
 				conditions = emptyList()
 			)
 		),

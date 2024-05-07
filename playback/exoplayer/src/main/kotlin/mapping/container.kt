@@ -23,6 +23,7 @@ val ffmpegContainerMimeTypes = mapOf(
 	"flac" to MimeTypes.AUDIO_FLAC,
 	"flv" to MimeTypes.VIDEO_FLV,
 	"matroska" to MimeTypes.APPLICATION_MATROSKA,
+	"mkv" to MimeTypes.APPLICATION_MATROSKA,
 	"mjpeg" to MimeTypes.VIDEO_MJPEG,
 	"mpeg" to MimeTypes.AUDIO_MPEG,
 	"ogg" to MimeTypes.AUDIO_OGG,
