@@ -42,7 +42,7 @@ class AudioMediaStreamResolver(
 	private fun MediaInfo.getTranscodeStream() = BasicMediaStream(
 		identifier = playSessionId,
 		conversionMethod = MediaConversionMethod.Transcode,
-		// The server doesn't provide us with the transcode information os we return mock data
+		// The server doesn't provide us with the transcode information so we return mock data
 		container = MediaStreamContainer(format = "unknown"),
 		tracks = emptyList()
 	)
