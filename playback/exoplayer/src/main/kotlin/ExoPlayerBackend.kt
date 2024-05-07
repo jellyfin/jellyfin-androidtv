@@ -2,6 +2,7 @@ package org.jellyfin.playback.exoplayer
 
 import android.app.ActivityManager
 import android.content.Context
+import android.view.SurfaceView
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
 import androidx.media3.common.C
@@ -102,6 +103,10 @@ class ExoPlayerBackend(
 	override fun supportsStream(
 		stream: MediaStream
 	): PlaySupportReport = exoPlayer.getPlaySupportReport(stream.toFormat())
+
+	override fun setSurface(surfaceView: SurfaceView?) {
+		exoPlayer.setVideoSurfaceView(surfaceView)
+	}
 
 	override fun prepareStream(stream: PlayableMediaStream) {
 		val mediaItem = MediaItem.Builder().apply {
