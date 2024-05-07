@@ -27,6 +27,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.constant.MediaType
 import org.koin.compose.koinInject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
@@ -55,7 +56,7 @@ fun DreamHost() {
 
 	DreamView(
 		content = when {
-			mediaItem != null -> DreamContent.NowPlaying(mediaItem)
+			mediaItem?.mediaType == MediaType.Audio -> DreamContent.NowPlaying(mediaItem)
 			libraryShowcase != null -> libraryShowcase!!
 			else -> DreamContent.Logo
 		},
