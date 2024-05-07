@@ -101,6 +101,8 @@ class VideoMediaStreamResolver(
 					playSessionId = mediaInfo.playSessionId,
 					tag = mediaInfo.mediaSource.eTag,
 					segmentContainer = REMUX_SEGMENT_CONTAINER,
+					videoCodec = "h264",
+					audioCodec = "aac",
 				)
 			)
 		}

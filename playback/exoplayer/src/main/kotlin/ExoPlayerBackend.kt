@@ -29,7 +29,7 @@ import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.playback.exoplayer.support.getPlaySupportReport
-import org.jellyfin.playback.exoplayer.support.toFormat
+import org.jellyfin.playback.exoplayer.support.toFormats
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
@@ -111,7 +111,7 @@ class ExoPlayerBackend(
 
 	override fun supportsStream(
 		stream: MediaStream
-	): PlaySupportReport = exoPlayer.getPlaySupportReport(stream.toFormat())
+	): PlaySupportReport = exoPlayer.getPlaySupportReport(stream.toFormats())
 
 	override fun setSurfaceView(surfaceView: PlayerSurfaceView?) {
 		exoPlayer.setVideoSurfaceView(surfaceView?.surface)

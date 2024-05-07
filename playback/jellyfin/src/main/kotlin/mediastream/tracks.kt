@@ -2,6 +2,7 @@ package org.jellyfin.playback.jellyfin.mediastream
 
 import org.jellyfin.playback.core.mediastream.MediaStreamAudioTrack
 import org.jellyfin.playback.core.mediastream.MediaStreamContainer
+import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
 import org.jellyfin.sdk.model.api.MediaStream
 import org.jellyfin.sdk.model.api.MediaStreamType
 
@@ -16,7 +17,7 @@ fun JellyfinStreamResolver.MediaInfo.getTracks() =
 
 fun MediaStream.getMediaStreamTrack() = when (type) {
 	MediaStreamType.AUDIO -> getAudioTrack(this)
-	MediaStreamType.VIDEO -> getVideooTrack(this)
+	MediaStreamType.VIDEO -> getVideoTrack(this)
 	MediaStreamType.SUBTITLE -> getSubtitleTrack(this)
 
 	// Ignore other track types
@@ -32,8 +33,9 @@ private fun getAudioTrack(stream: MediaStream) = MediaStreamAudioTrack(
 	sampleRate = stream.sampleRate ?: 0,
 )
 
-// TODO Implement Video track type
-private fun getVideooTrack(stream: MediaStream) = null
+private fun getVideoTrack(stream: MediaStream) = MediaStreamVideoTrack(
+	codec = requireNotNull(stream.codec),
+)
 
 // TODO Implement Subtitle track type
 private fun getSubtitleTrack(stream: MediaStream) = null

@@ -46,6 +46,12 @@ data class ExoPlayerPlaySupportReport(
 fun ExoPlayer.getPlaySupportReport(format: Format): ExoPlayerPlaySupportReport =
 	ExoPlayerPlaySupportReport.fromFlags(supportsFormat(format))
 
+fun ExoPlayer.getPlaySupportReport(formats: Collection<Format>): ExoPlayerPlaySupportReport = formats
+	.map { format -> supportsFormat(format) }
+	.reduce { acc, i -> acc and i }
+	.let { flags -> ExoPlayerPlaySupportReport.fromFlags(flags) }
+
+
 @OptIn(UnstableApi::class)
 fun ExoPlayer.supportsFormat(format: Format): Int {
 	var capabilities = 0
