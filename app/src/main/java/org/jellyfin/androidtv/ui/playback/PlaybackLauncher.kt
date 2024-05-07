@@ -51,7 +51,7 @@ class RewritePlaybackLauncher : PlaybackLauncher {
 		if (item == null) return false
 
 		val intent = Intent(context, PlaybackForwardingActivity::class.java)
-		intent.putExtra(PlaybackForwardingActivity.EXTRA_ITEM_ID, item.id)
+		intent.putExtra(PlaybackForwardingActivity.EXTRA_ITEM_ID, item.id.toString())
 		context.startActivity(intent)
 
 		return true
