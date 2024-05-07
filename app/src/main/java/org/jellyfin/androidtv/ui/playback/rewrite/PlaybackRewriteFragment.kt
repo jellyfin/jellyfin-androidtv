@@ -1,8 +1,11 @@
 package org.jellyfin.androidtv.ui.playback.rewrite
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.ComponentActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,7 +25,11 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.UUID
 
-class PlaybackForwardingActivity : ComponentActivity() {
+/**
+ * Temporary fragment used for testing the playback rewrite. This will eventually be replaced with a
+ * proper player user interface.
+ */
+class PlaybackRewriteFragment : Fragment() {
 	companion object {
 		const val EXTRA_ITEM_ID: String = "item_id"
 	}
@@ -39,11 +46,10 @@ class PlaybackForwardingActivity : ComponentActivity() {
 
 		if (itemId == null) {
 			Toast.makeText(
-				this,
+				requireContext(),
 				"Could not find item to play (itemId=null)",
 				Toast.LENGTH_LONG
 			).show()
-			finishAfterTransition()
 			return
 		}
 
@@ -54,7 +60,7 @@ class PlaybackForwardingActivity : ComponentActivity() {
 
 				// Log info
 				Toast.makeText(
-					this@PlaybackForwardingActivity,
+					requireContext(),
 					"Found item of type ${item.type} - ${item.name} (${item.id}",
 					Toast.LENGTH_LONG
 				).show()
@@ -72,15 +78,16 @@ class PlaybackForwardingActivity : ComponentActivity() {
 				})
 			}
 		}
+	}
 
-		// TODO: Dirty hack to display surface
-		val view = PlayerSurfaceView(this)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = PlayerSurfaceView(requireContext())
 		view.playbackManager = playbackManager
-		setContentView(view)
+		return view
 	}
 
 	private fun findItemId(): UUID? {
-		val extra = intent.getStringExtra(EXTRA_ITEM_ID)?.toUUIDOrNull()
+		val extra = requireArguments().getString(EXTRA_ITEM_ID)?.toUUIDOrNull()
 
 		var first: BaseItemDto? = null
 		var best: BaseItemDto? = null
