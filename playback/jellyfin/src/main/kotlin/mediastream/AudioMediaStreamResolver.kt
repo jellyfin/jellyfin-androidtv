@@ -11,8 +11,8 @@ import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.audioApi
 import org.jellyfin.sdk.api.client.extensions.dynamicHlsApi
-import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.DeviceProfile
+import org.jellyfin.sdk.model.constant.MediaType
 
 class AudioMediaStreamResolver(
 	val api: ApiClient,
@@ -52,7 +52,7 @@ class AudioMediaStreamResolver(
 		testStream: (stream: MediaStream) -> PlaySupportReport,
 	): PlayableMediaStream? {
 		val baseItem = queueEntry.baseItem
-		if (baseItem == null || baseItem.type != BaseItemKind.AUDIO) return null
+		if (baseItem == null || baseItem.mediaType != MediaType.Audio) return null
 
 		val mediaInfo = getPlaybackInfo(baseItem)
 
