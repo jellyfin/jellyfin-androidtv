@@ -140,8 +140,5 @@
             android:theme="@style/Theme.Jellyfin.Preferences" />
 
         <activity android:name=".ui.playback.ExternalPlayerActivity" />
-
-        <!-- Playback Rewrite - Temporary -->
-        <activity android:name=".ui.playback.rewrite.PlaybackForwardingActivity" />
     </application>
 </manifest>

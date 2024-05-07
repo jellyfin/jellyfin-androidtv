@@ -36,7 +36,7 @@ val playbackModule = module {
 		val preferences = get<UserPreferences>()
 		val useRewrite = preferences[UserPreferences.playbackRewriteVideoEnabled] && BuildConfig.DEVELOPMENT
 
-		if (useRewrite) RewritePlaybackLauncher()
+		if (useRewrite) RewritePlaybackLauncher(get())
 		else GarbagePlaybackLauncher(get())
 	}
 
