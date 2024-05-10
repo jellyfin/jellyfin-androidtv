@@ -270,7 +270,11 @@ class RewriteMediaManager(
 		playbackManager.state.unpause()
 	}
 
-	private class BaseItemQueue(
+	/**
+	 * A simple [Queue] implementation for compatibility with existing UI/playback code. It contains
+	 * a mutable BaseItemDto list that is used to retrieve items from.
+	 */
+	class BaseItemQueue(
 		private val api: ApiClient,
 	) : Queue {
 		val items = mutableListOf<BaseItemDto>()
