@@ -2,7 +2,7 @@ package org.jellyfin.playback.exoplayer
 
 import android.app.ActivityManager
 import android.content.Context
-import android.view.SurfaceView
+import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
 import androidx.media3.common.C
@@ -11,6 +11,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
+import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
@@ -18,12 +19,15 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
+import androidx.media3.ui.SubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.support.PlaySupportReport
+import org.jellyfin.playback.core.ui.PlayerSubtitleView
+import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.playback.exoplayer.support.getPlaySupportReport
 import org.jellyfin.playback.exoplayer.support.toFormat
 import timber.log.Timber
@@ -41,6 +45,7 @@ class ExoPlayerBackend(
 	}
 
 	private var currentStream: PlayableMediaStream? = null
+	private var subtitleView: SubtitleView? = null
 
 	private val exoPlayer by lazy {
 		ExoPlayer.Builder(context)
@@ -89,6 +94,10 @@ class ExoPlayerBackend(
 			listener?.onVideoSizeChange(size.width, size.height)
 		}
 
+		override fun onCues(cueGroup: CueGroup) {
+			subtitleView?.setCues(cueGroup.cues)
+		}
+
 		override fun onPlaybackStateChanged(playbackState: Int) {
 			onIsPlayingChanged(exoPlayer.isPlaying)
 		}
@@ -104,8 +113,18 @@ class ExoPlayerBackend(
 		stream: MediaStream
 	): PlaySupportReport = exoPlayer.getPlaySupportReport(stream.toFormat())
 
-	override fun setSurface(surfaceView: SurfaceView?) {
-		exoPlayer.setVideoSurfaceView(surfaceView)
+	override fun setSurfaceView(surfaceView: PlayerSurfaceView?) {
+		exoPlayer.setVideoSurfaceView(surfaceView?.surface)
+	}
+
+	override fun setSubtitleView(surfaceView: PlayerSubtitleView?) {
+		if (surfaceView != null) {
+			if (subtitleView == null) subtitleView = SubtitleView(surfaceView.context)
+			surfaceView.addView(subtitleView)
+		} else {
+			(subtitleView?.parent as? ViewGroup)?.removeView(subtitleView)
+			subtitleView = null
+		}
 	}
 
 	override fun prepareStream(stream: PlayableMediaStream) {
