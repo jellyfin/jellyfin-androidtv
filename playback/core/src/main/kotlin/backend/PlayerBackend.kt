@@ -1,10 +1,11 @@
 package org.jellyfin.playback.core.backend
 
-import android.view.SurfaceView
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.support.PlaySupportReport
+import org.jellyfin.playback.core.ui.PlayerSubtitleView
+import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import kotlin.time.Duration
 
 /**
@@ -16,7 +17,8 @@ interface PlayerBackend {
 	fun supportsStream(stream: MediaStream): PlaySupportReport
 
 	// UI
-	fun setSurface(surfaceView: SurfaceView?)
+	fun setSurfaceView(surfaceView: PlayerSurfaceView?)
+	fun setSubtitleView(surfaceView: PlayerSubtitleView?)
 
 	// Data retrieval
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.sdk.api.client.ApiClient
 import org.koin.android.ext.android.inject
@@ -74,9 +76,15 @@ class PlaybackRewriteFragment : Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = PlayerSurfaceView(requireContext())
-		view.playbackManager = playbackManager
-		return view
+		return FrameLayout(requireContext()).apply {
+			addView(PlayerSurfaceView(requireContext()).also { view ->
+				view.playbackManager = playbackManager
+			})
+
+			addView(PlayerSubtitleView(requireContext()).also { view ->
+				view.playbackManager = playbackManager
+			})
+		}
 	}
 
 	override fun onPause() {

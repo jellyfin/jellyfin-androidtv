@@ -1,9 +1,10 @@
 package org.jellyfin.playback.core.backend
 
-import android.view.SurfaceView
 import androidx.core.view.doOnDetach
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.playback.core.ui.PlayerSubtitleView
+import org.jellyfin.playback.core.ui.PlayerSurfaceView
 
 /**
  * Service keeping track of the current playback backend and its related surface view.
@@ -13,34 +14,57 @@ class BackendService {
 	val backend get() = _backend
 
 	private var listeners = mutableListOf<PlayerBackendEventListener>()
-	private var _surfaceView: SurfaceView? = null
+	private var _surfaceView: PlayerSurfaceView? = null
+	private var _subtitleView: PlayerSubtitleView? = null
 
 	fun switchBackend(backend: PlayerBackend) {
 		_backend?.stop()
 		_backend?.setListener(null)
-		_backend?.setSurface(null)
+		_backend?.setSurfaceView(null)
+		_backend?.setSubtitleView(null)
 
 		_backend = backend.apply {
-			_surfaceView?.let(::setSurface)
+			_surfaceView?.let(::setSurfaceView)
+			_subtitleView?.let(::setSubtitleView)
 			setListener(BackendEventListener())
 		}
 	}
 
-	fun attachSurfaceView(surfaceView: SurfaceView) {
+	fun attachSurfaceView(surfaceView: PlayerSurfaceView) {
 		// Remove existing surface view
 		if (_surfaceView != null) {
-			_backend?.setSurface(null)
+			_backend?.setSurfaceView(null)
 		}
 
 		// Apply new surface view
 		_surfaceView = surfaceView.apply {
-			_backend?.setSurface(surfaceView)
+			_backend?.setSurfaceView(surfaceView)
 
 			// Automatically detach
 			doOnDetach {
 				if (surfaceView == _surfaceView) {
 					_surfaceView = null
-					_backend?.setSurface(null)
+					_backend?.setSurfaceView(null)
+				}
+			}
+		}
+	}
+
+	fun attachSubtitleView(subtitleView: PlayerSubtitleView) {
+		// Remove existing surface view
+		if (_subtitleView != null) {
+			_backend?.setSubtitleView(null)
+		}
+
+		// Apply new surface view
+		_subtitleView = subtitleView.apply {
+			_backend?.setSubtitleView(subtitleView)
+
+			// Automatically detach
+			doOnDetach {
+				if (subtitleView == _subtitleView) {
+					_subtitleView = null
+					_backend?.setSubtitleView(null)
 				}
 			}
 		}
