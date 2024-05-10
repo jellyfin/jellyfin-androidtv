@@ -97,10 +97,6 @@ public class ItemLauncher {
                         if (rowItem.getBaseItem() == null)
                             return;
 
-                        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                        if (playbackLauncher.interceptPlayRequest(context, rowItem.getBaseItem()))
-                            return;
-
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
                         if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && rowItem.getBaseItem().getId().equals(mediaManager.getCurrentAudioItem().getId())) {
                             navigationRepository.navigate(Destinations.INSTANCE.getNowPlaying());
