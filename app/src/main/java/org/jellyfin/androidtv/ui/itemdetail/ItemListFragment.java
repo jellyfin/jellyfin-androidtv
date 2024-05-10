@@ -301,9 +301,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             queue.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                    if (playbackLauncher.interceptPlayRequest(requireContext(), row.getItem())) return true;
-
                     mediaManager.getValue().queueAudioItem(row.getItem());
                     return true;
                 }
@@ -460,9 +457,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
-        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-        if (playbackLauncher.interceptPlayRequest(requireContext(), items.size() > 0 ? ModelCompat.asSdk(items.get(0)) : null)) return;
-
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
         if (MediaType.Video.equals(mBaseItem.getMediaType())) {

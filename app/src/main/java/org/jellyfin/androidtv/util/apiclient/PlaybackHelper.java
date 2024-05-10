@@ -272,7 +272,6 @@ public class PlaybackHelper {
     public static void play(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
-        if (playbackLauncher.interceptPlayRequest(activity, item)) return;
 
         getItemsToPlay(item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
             @Override
@@ -343,9 +342,6 @@ public class PlaybackHelper {
     }
 
     public static void playInstantMix(Context context, org.jellyfin.sdk.model.api.BaseItemDto item) {
-        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-        if (playbackLauncher.interceptPlayRequest(context, item)) return;
-
         getInstantMixAsync(item.getId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {

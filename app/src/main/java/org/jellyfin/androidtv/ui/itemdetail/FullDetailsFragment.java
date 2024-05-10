@@ -1611,9 +1611,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                 if (!getActive()) return;
 
-                PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                if (playbackLauncher.interceptPlayRequest(requireContext(), ModelCompat.asSdk(item))) return;
-
                 if (ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
                 } else {
