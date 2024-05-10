@@ -44,11 +44,32 @@ class PlaybackRewriteFragment : Fragment() {
 				playbackManager.state.queue.setIndex(position, false)
 			}
 		}
+
+		// Pause player until the initial resume
+		playbackManager.state.pause()
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = PlayerSurfaceView(requireContext())
 		view.playbackManager = playbackManager
 		return view
+	}
+
+	override fun onPause() {
+		super.onPause()
+
+		playbackManager.state.pause()
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		playbackManager.state.unpause()
+	}
+
+	override fun onStop() {
+		super.onStop()
+
+		playbackManager.state.stop()
 	}
 }
