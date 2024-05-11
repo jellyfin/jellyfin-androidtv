@@ -544,4 +544,15 @@
     <string name="photo_albums">புகைப்பட ஆல்பங்கள்</string>
     <string name="photos">புகைப்படங்கள்</string>
     <string name="lbl_runtime">இயக்க நேரம்</string>
+    <string name="random">சீரற்ற</string>
+    <string name="pref_playback_advanced">மேம்பட்ட பின்னணி விருப்பத்தேர்வுகள்</string>
+    <string name="lbl_home">முகப்பு</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">வயது மதிப்பீட்டைக் கொண்ட உருப்படிகளை மட்டுமே காட்டுகிறது</string>
+    <string name="unreleased">இன்னும் வெளியாகவில்லை</string>
+    <string name="pref_screensaver_ageratingmax">அதிகபட்ச வயது மதிப்பீடு</string>
+    <string name="pref_screensaver_ageratingmax_zero">அனைத்து வயதினரும்</string>
+    <string name="pref_screensaver_ageratingmax_entry">%1$d வயது வரை</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">அதிகபட்சமாக முடக்கு</string>
+    <string name="pref_screensaver_ageratingrequired_title">வயது மதிப்பீடு தேவை</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">அனைத்தையும் காட்டுகிறது</string>
 </resources>
