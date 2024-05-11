@@ -8,6 +8,7 @@ import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.jellyfin.queue.baseItem
+import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.dynamicHlsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
@@ -54,7 +55,7 @@ class VideoMediaStreamResolver(
 		val baseItem = queueEntry.baseItem
 		if (baseItem == null || baseItem.mediaType != MediaType.Video) return null
 
-		val mediaInfo = getPlaybackInfo(baseItem)
+		val mediaInfo = getPlaybackInfo(baseItem, queueEntry.mediaSourceId)
 
 		// Test for direct play support
 		val directPlayStream = mediaInfo.getDirectPlayStream()

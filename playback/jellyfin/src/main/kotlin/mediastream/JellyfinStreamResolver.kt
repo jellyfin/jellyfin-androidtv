@@ -5,6 +5,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.DeviceProfile
+import org.jellyfin.sdk.model.api.MediaProtocol
 import org.jellyfin.sdk.model.api.MediaSourceInfo
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 
@@ -19,41 +20,41 @@ abstract class JellyfinStreamResolver(
 
 	protected suspend fun getPlaybackInfo(
 		item: BaseItemDto,
-		mediaSource: MediaSourceInfo? = null,
+		mediaSourceId: String? = null,
 	): MediaInfo {
 		val response by api.mediaInfoApi.getPostedPlaybackInfo(
 			itemId = item.id,
 			data = PlaybackInfoDto(
 				userId = api.userId,
 				maxStreamingBitrate = profile.maxStreamingBitrate,
-				mediaSourceId = mediaSource?.id,
-				liveStreamId = mediaSource?.liveStreamId,
+				mediaSourceId = mediaSourceId,
 				deviceProfile = profile,
 				enableDirectPlay = true,
 				enableDirectStream = true,
 				enableTranscoding = true,
 				allowVideoStreamCopy = true,
 				allowAudioStreamCopy = true,
-				autoOpenLiveStream = true,
+				autoOpenLiveStream = false,
 			)
 		)
 
 		if (response.errorCode != null) {
-			error("Failed to get media info for item ${item.id} source ${mediaSource?.id}: ${response.errorCode}")
+			error("Failed to get media info for item ${item.id} source ${mediaSourceId}: ${response.errorCode}")
 		}
 
-		val responseMediaSource = when (mediaSource) {
-			null -> response.mediaSources.firstOrNull()
-			else -> response.mediaSources.firstOrNull { it.id === mediaSource.id }
-		}
+		val mediaSource = response.mediaSources
+			// Filter out invalid streams (like strm files)
+			.filter { it.protocol == MediaProtocol.FILE && !it.isRemote }
+			// Select first media source
+			.firstOrNull { mediaSourceId == null || it.id == mediaSourceId }
 
-		requireNotNull(responseMediaSource) {
-			"Failed to get media info for item ${item.id} source ${mediaSource?.id}: media source missing in response"
+		requireNotNull(mediaSource) {
+			"Failed to get media info for item ${item.id} source ${mediaSourceId}: media source missing in response"
 		}
 
 		return MediaInfo(
 			playSessionId = response.playSessionId.orEmpty(),
-			mediaSource = responseMediaSource
+			mediaSource = mediaSource
 		)
 	}
 }
