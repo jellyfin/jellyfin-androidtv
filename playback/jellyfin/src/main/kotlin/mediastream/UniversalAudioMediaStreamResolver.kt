@@ -6,6 +6,7 @@ import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.jellyfin.queue.baseItem
+import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.universalAudioApi
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -22,7 +23,7 @@ class UniversalAudioMediaStreamResolver(
 		val baseItem = queueEntry.baseItem
 		if (baseItem == null || baseItem.type != BaseItemKind.AUDIO) return null
 
-		val mediaInfo = getPlaybackInfo(baseItem)
+		val mediaInfo = getPlaybackInfo(baseItem, queueEntry.mediaSourceId)
 
 		val url = api.universalAudioApi.getUniversalAudioStreamUrl(
 			itemId = baseItem.id,
