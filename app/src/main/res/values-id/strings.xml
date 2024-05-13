@@ -198,7 +198,7 @@
     <string name="lbl_suggested">Disarankan</string>
     <string name="lbl_by_letter">Berdasarkan abjad</string>
     <string name="lbl_views">Tampilan</string>
-    <string name="lbl_on_now">Sekarang</string>
+    <string name="lbl_on_now">Sedang tayang</string>
     <string name="lbl_next_up">Berikutnya</string>
     <string name="lbl_continue_watching">Lanjut menonton</string>
     <string name="lbl_settings">Preferensi</string>
@@ -377,4 +377,6 @@
     <string name="lbl_record_all">Akan merekam semua episode</string>
     <string name="lbl_on_any_channel">Di semua channel</string>
     <string name="because_you_watched">karena kamu menonton %1$s</string>
+    <string name="lbl_home">Beranda</string>
+    <string name="lbl_runtime">Waktu berjalan</string>
 </resources>
