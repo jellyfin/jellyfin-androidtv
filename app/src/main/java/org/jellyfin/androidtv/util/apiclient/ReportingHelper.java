@@ -16,39 +16,43 @@ import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 public class ReportingHelper {
-    public static void reportStopped(org.jellyfin.sdk.model.api.BaseItemDto item, StreamInfo streamInfo, long pos) {
+    private final Lazy<PlaybackManager> playbackManager = KoinJavaComponent.<PlaybackManager>inject(PlaybackManager.class);
+    private final Lazy<DataRefreshService> dataRefreshService = KoinJavaComponent.<DataRefreshService>inject(DataRefreshService.class);
+    private final Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(ApiClient.class);
+
+    public void reportStopped(org.jellyfin.sdk.model.api.BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
             Timber.i("ReportingHelper.reportStopped called for " + item.getId() + " at position " + pos);
             PlaybackStopInfo info = new PlaybackStopInfo();
             info.setItemId(item.getId().toString());
             info.setPositionTicks(pos);
-            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
+            playbackManager.getValue().reportPlaybackStopped(info, streamInfo, apiClient.getValue(), new EmptyResponse());
 
-            DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-            dataRefreshService.setLastPlayback(Instant.now());
+            dataRefreshService.getValue().setLastPlayback(Instant.now());
             switch (item.getType()) {
                 case MOVIE:
-                    dataRefreshService.setLastMoviePlayback(Instant.now());
+                    dataRefreshService.getValue().setLastMoviePlayback(Instant.now());
                     break;
                 case EPISODE:
-                    dataRefreshService.setLastTvPlayback(Instant.now());
+                    dataRefreshService.getValue().setLastTvPlayback(Instant.now());
                     break;
             }
         }
     }
 
-    public static void reportStart(org.jellyfin.sdk.model.api.BaseItemDto item, long pos) {
+    public void reportStart(org.jellyfin.sdk.model.api.BaseItemDto item, long pos) {
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId().toString());
         if (item.getType() != BaseItemKind.TV_CHANNEL) startInfo.setPositionTicks(pos);
-        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStart(startInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
+        playbackManager.getValue().reportPlaybackStart(startInfo, apiClient.getValue(), new EmptyResponse());
         Timber.i("Playback of %s started.", item.getName());
     }
 
-    public static void reportProgress(@Nullable PlaybackController playbackController, org.jellyfin.sdk.model.api.BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
+    public void reportProgress(@Nullable PlaybackController playbackController, org.jellyfin.sdk.model.api.BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
         if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             info.setItemId(item.getId().toString());
@@ -62,7 +66,7 @@ public class ReportingHelper {
                 info.setAudioStreamIndex(playbackController.getAudioStreamIndex());
                 info.setSubtitleStreamIndex(playbackController.getSubtitleStreamIndex());
             }
-            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackProgress(info, currentStreamInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
+            playbackManager.getValue().reportPlaybackProgress(info, currentStreamInfo, apiClient.getValue(), new EmptyResponse());
         }
     }
 }

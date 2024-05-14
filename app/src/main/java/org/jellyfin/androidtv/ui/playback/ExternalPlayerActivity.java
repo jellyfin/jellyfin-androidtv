@@ -61,6 +61,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
+    private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
 
     static final int RUNTIME_TICKS_TO_MS = 10000;
 
@@ -151,7 +152,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         Long reportPos = (long) pos * RUNTIME_TICKS_TO_MS;
 
         stopReportLoop();
-        ReportingHelper.reportStopped(item, mCurrentStreamInfo, reportPos);
+        reportingHelper.getValue().reportStopped(item, mCurrentStreamInfo, reportPos);
 
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
@@ -231,15 +232,14 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void startReportLoop() {
-        // FIXME: Don't use the getApplication method..
         PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
-        ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
+        reportingHelper.getValue().reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-                ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
+                reportingHelper.getValue().reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
                 mHandler.postDelayed(this, 15000);
             }
         };
@@ -375,7 +375,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         try {
             mLastPlayerStart = Instant.now().toEpochMilli();
-            ReportingHelper.reportStart(item, mPosition * RUNTIME_TICKS_TO_MS);
+            reportingHelper.getValue().reportStart(item, mPosition * RUNTIME_TICKS_TO_MS);
             startReportLoop();
             startActivityForResult(external, 1);
         } catch (ActivityNotFoundException e) {
