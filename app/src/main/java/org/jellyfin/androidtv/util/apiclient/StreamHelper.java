@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.util.apiclient;
 
-import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -26,38 +25,7 @@ public class StreamHelper {
         return getStreams(mediaSource, MediaStreamType.AUDIO);
     }
 
-    public static List<MediaStream> getVideoStreams(MediaSourceInfo mediaSource) {
-        return getStreams(mediaSource, MediaStreamType.VIDEO);
-    }
-
-    public static MediaStream getFirstAudioStream(BaseItemDto item) {
-        return getFirstAudioStream(item, 0);
-    }
-
-    public static MediaStream getFirstAudioStream(BaseItemDto item, int mediaSourceIndex) {
-        return getFirstStreamOfType(item, MediaStreamType.AUDIO, mediaSourceIndex);
-    }
-
-    public static MediaStream getFirstVideoStream(BaseItemDto item) {
-        return getFirstVideoStream(item, 0);
-    }
-
-    public static MediaStream getFirstVideoStream(BaseItemDto item, int mediaSourceIndex) {
-        return getFirstStreamOfType(item, MediaStreamType.VIDEO, mediaSourceIndex);
-    }
-
-    public static MediaStream getFirstStreamOfType(BaseItemDto item, MediaStreamType streamType) {
-        return getFirstStreamOfType(item, streamType, 0);
-    }
-
-    public static MediaStream getFirstStreamOfType(BaseItemDto item, MediaStreamType streamType, int mediaSourceIndex) {
-        if (item.getMediaSources() == null || mediaSourceIndex > item.getMediaSources().size() - 1) return null;
-        List<MediaStream> streams = getStreams(item.getMediaSources().get(mediaSourceIndex), streamType);
-        if (streams == null || streams.size() < 1) return null;
-        return streams.get(0);
-    }
-
-    public static List<MediaStream> getStreams(MediaSourceInfo mediaSource, MediaStreamType type) {
+    private static List<MediaStream> getStreams(MediaSourceInfo mediaSource, MediaStreamType type) {
         if (mediaSource == null) return Collections.emptyList();
 
         List<MediaStream> streams = mediaSource.getMediaStreams();
