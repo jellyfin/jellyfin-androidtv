@@ -46,13 +46,6 @@ public class ItemListView extends FrameLayout {
         mItemIds.clear();
     }
 
-    public void addItems(List<BaseItemDto> items) {
-        int i = 0;
-        for (BaseItemDto item : items) {
-            addItem(item, i++);
-        }
-    }
-
     public void addItem(BaseItemDto item, int ndx) {
         mList.addView(new ItemRowView(mContext, item, ndx, mRowSelectedListener, mRowClickedListener));
         mItemIds.add(item.getId());
