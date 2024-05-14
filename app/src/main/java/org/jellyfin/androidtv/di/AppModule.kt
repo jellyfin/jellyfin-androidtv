@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
@@ -75,7 +76,7 @@ val appModule = module {
 		get<JellyfinSdk>().createApi()
 	}
 
-	single { SocketHandler(get(), get(), get(), get(), get(), get(), get()) }
+	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get()) }
 
 	// Old apiclient
 	single {
@@ -126,6 +127,7 @@ val appModule = module {
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 
 	single { MarkdownRenderer(get()) }
+	single { ItemLauncher() }
 
-	factory { (context: Context) -> SearchFragmentDelegate(context, get()) }
+	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
 }

@@ -110,6 +110,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
 
     @Nullable
     @Override
@@ -274,7 +275,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             open.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    ItemLauncher.launch(new BaseRowItem(row.getItem()), null, 0, requireContext());
+                    itemLauncher.getValue().launch(new BaseRowItem(row.getItem()), null, 0, requireContext());
                     return true;
                 }
             });

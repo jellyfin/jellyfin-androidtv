@@ -58,6 +58,7 @@ class StartupActivity : FragmentActivity() {
 	private val sessionRepository: SessionRepository by inject()
 	private val userRepository: UserRepository by inject()
 	private val navigationRepository: NavigationRepository by inject()
+	private val itemLauncher: ItemLauncher by inject()
 
 	private lateinit var binding: ActivityMainBinding
 
@@ -144,7 +145,7 @@ class StartupActivity : FragmentActivity() {
 			// User view item is requested
 			itemId != null && itemIsUserView -> {
 				val item by api.userLibraryApi.getItem(itemId = itemId)
-				ItemLauncher.getUserViewDestination(item)
+				itemLauncher.getUserViewDestination(item)
 			}
 			// Other item is requested
 			itemId != null -> Destinations.itemDetails(itemId)

@@ -47,6 +47,7 @@ class SocketHandler(
 	private val playbackControllerContainer: PlaybackControllerContainer,
 	private val navigationRepository: NavigationRepository,
 	private val audioManager: AudioManager,
+	private val itemLauncher: ItemLauncher,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -217,7 +218,7 @@ class SocketHandler(
 			BaseItemKind.USER_VIEW,
 			BaseItemKind.COLLECTION_FOLDER -> {
 				val item by api.userLibraryApi.getItem(itemId = itemId)
-				ItemLauncher.launchUserView(item)
+				itemLauncher.launchUserView(item)
 			}
 
 			else -> navigationRepository.navigate(Destinations.itemDetails(itemId))

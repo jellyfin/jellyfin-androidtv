@@ -103,6 +103,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ApiClient> api = inject(ApiClient.class);
+    private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -464,7 +465,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) return;
 
-            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), requireContext());
         }
     }
 

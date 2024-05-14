@@ -171,6 +171,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
 
     @Nullable
     @Override
@@ -1515,7 +1516,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), requireContext());
         }
     }
 

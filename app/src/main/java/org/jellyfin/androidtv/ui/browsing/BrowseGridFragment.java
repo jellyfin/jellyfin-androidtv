@@ -123,6 +123,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<UserRepository> userRepository = inject(UserRepository.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -966,7 +967,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), requireContext());
         }
     }
 

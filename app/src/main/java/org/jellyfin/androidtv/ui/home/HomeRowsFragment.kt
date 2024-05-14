@@ -70,6 +70,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val dataRefreshService by inject<DataRefreshService>()
 	private val customMessageRepository by inject<CustomMessageRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
+	private val itemLauncher by inject<ItemLauncher>()
 
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
@@ -261,7 +262,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			row: Row?,
 		) {
 			if (item !is BaseRowItem) return
-			ItemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, requireContext())
+			itemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, requireContext())
 		}
 	}
 
