@@ -32,6 +32,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 	protected var rows = mutableListOf<BrowseRowDef>()
 
 	private val backgroundService by inject<BackgroundService>()
+	private val itemLauncher by inject<ItemLauncher>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 		// Add event listeners
 		onItemViewClickedListener = OnItemViewClickedListener { _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, row: Row ->
 			if (item is BaseRowItem) {
-				ItemLauncher.launch(
+				itemLauncher.launch(
 					item,
 					(row as ListRow).adapter as ItemRowAdapter,
 					item.index,

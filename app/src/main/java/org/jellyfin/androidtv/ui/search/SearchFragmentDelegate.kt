@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 class SearchFragmentDelegate(
 	private val context: Context,
 	private val backgroundService: BackgroundService,
+	private val itemLauncher: ItemLauncher,
 ) {
 	val rowsAdapter = MutableObjectAdapter<Row>(CustomListRowPresenter())
 
@@ -43,7 +44,7 @@ class SearchFragmentDelegate(
 		if (item !is BaseRowItem) return@OnItemViewClickedListener
 		row as ListRow
 		val adapter = row.adapter as ItemRowAdapter
-		ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, context)
+		itemLauncher.launch(item as BaseRowItem?, adapter, item.index, context)
 	}
 
 	val onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
