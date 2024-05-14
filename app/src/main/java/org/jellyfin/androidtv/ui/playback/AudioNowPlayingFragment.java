@@ -84,6 +84,7 @@ public class AudioNowPlayingFragment extends Fragment {
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
 
     private PopupMenu popupMenu;
 
@@ -376,7 +377,7 @@ public class AudioNowPlayingFragment extends Fragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), requireActivity());
+            popupMenu = keyProcessor.getValue().createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), requireActivity());
         }
     }
 

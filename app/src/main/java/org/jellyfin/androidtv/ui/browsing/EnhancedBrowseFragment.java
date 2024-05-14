@@ -104,6 +104,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ApiClient> api = inject(ApiClient.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+    private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -353,7 +354,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) return false;
-        return KeyProcessor.HandleKey(keyCode, mCurrentItem, requireActivity());
+        return keyProcessor.getValue().handleKey(keyCode, mCurrentItem, requireActivity());
     }
 
     private void refreshCurrentItem() {

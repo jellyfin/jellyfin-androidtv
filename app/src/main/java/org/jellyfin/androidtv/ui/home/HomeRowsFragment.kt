@@ -71,6 +71,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val customMessageRepository by inject<CustomMessageRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
 	private val itemLauncher by inject<ItemLauncher>()
+	private val keyProcessor by inject<KeyProcessor>()
 
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
@@ -185,7 +186,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 	override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
 		if (event?.action != KeyEvent.ACTION_UP) return false
-		return KeyProcessor.HandleKey(keyCode, currentItem, activity)
+		return keyProcessor.handleKey(keyCode, currentItem, activity)
 	}
 
 	override fun onResume() {

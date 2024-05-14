@@ -124,6 +124,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+    private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -208,7 +209,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) return false;
-        return KeyProcessor.HandleKey(keyCode, mCurrentItem, mActivity);
+        return keyProcessor.getValue().handleKey(keyCode, mCurrentItem, mActivity);
     }
 
     @Override
