@@ -17,7 +17,6 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
@@ -74,23 +73,23 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowNewIndicator()) && BaseItemExtensionsKt.isNew(ModelCompat.asSdk(program)) && (!liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) || !Utils.isTrue(program.getIsPremiere()))) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
+            addBlockText(context.getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) && Utils.isTrue(program.getIsPremiere())) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
+            addBlockText(context.getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.getIsRepeat())) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_repeat), 10, Color.GRAY, androidx.leanback.R.color.lb_default_brand_color);
+            addBlockText(context.getString(R.string.lbl_repeat), 10, Color.GRAY, androidx.leanback.R.color.lb_default_brand_color);
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10, Color.BLACK, R.drawable.block_text_bg);
+            addBlockText(program.getOfficialRating(), 10, Color.BLACK, R.drawable.block_text_bg);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowHDIndicator()) && Utils.isTrue(program.getIsHD())) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10, Color.BLACK, R.drawable.block_text_bg);
+            addBlockText("HD", 10, Color.BLACK, R.drawable.block_text_bg);
         }
 
         if (program.getSeriesTimerId() != null) {
@@ -109,6 +108,18 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
             });
         }
 
+    }
+
+    private void addBlockText(String text, int size, int textColor, int backgroundRes) {
+        TextView view = new TextView(getContext());
+        view.setTextSize(size);
+        view.setTextColor(textColor);
+        view.setText(" " + text + " ");
+        view.setBackgroundResource(backgroundRes);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        params.setMargins(0, Utils.convertDpToPixel(getContext(), -2), 0, 0);
+        view.setLayoutParams(params);
+        mInfoRow.addView(view);
     }
 
     public void setCellBackground() {
