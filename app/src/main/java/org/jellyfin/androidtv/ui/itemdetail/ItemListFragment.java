@@ -25,9 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentItemListBinding;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
@@ -49,24 +47,12 @@ import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
-import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserItemDataDto;
-import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.MediaType;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
@@ -77,6 +63,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import kotlin.Lazy;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import timber.log.Timber;
 
 public class ItemListFragment extends Fragment implements View.OnKeyListener {
@@ -95,7 +83,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private BaseItemDto mBaseItem;
     private List<BaseItemDto> mItems = new ArrayList<>();
-    private UUID mItemId;
 
     private int mBottomScrollThreshold;
 
@@ -104,7 +91,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private boolean firstTime = true;
     private Instant lastUpdated = Instant.now();
 
-    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -169,8 +155,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mItemId = Utils.uuidOrNull(getArguments().getString("ItemId"));
-        loadItem(mItemId);
+        UUID mItemId = Utils.uuidOrNull(getArguments().getString("ItemId"));
+        ItemListFragmentHelperKt.loadItem(this, mItemId);
     }
 
     @Override
@@ -217,7 +203,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mAudioEventListener.onPlaybackStateChange(mediaManager.getValue().isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, mediaManager.getValue().getCurrentAudioItem());
 
         if (!firstTime && dataRefreshService.getValue().getLastPlayback() != null && dataRefreshService.getValue().getLastPlayback().isAfter(lastUpdated)) {
-            if (MediaType.VIDEO.equals(ModelCompat.asSdk(mBaseItem).getMediaType())) {
+            if (MediaType.VIDEO.equals(mBaseItem.getMediaType())) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -242,7 +228,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private AudioEventListener mAudioEventListener = new AudioEventListener() {
         @Override
-        public void onPlaybackStateChange(@NonNull PlaybackController.PlaybackState newState, @Nullable org.jellyfin.sdk.model.api.BaseItemDto currentItem) {
+        public void onPlaybackStateChange(@NonNull PlaybackController.PlaybackState newState, @Nullable BaseItemDto currentItem) {
             Timber.i("Got playback state change event %s for item %s", newState.toString(), currentItem != null ? currentItem.getName() : "<unknown>");
 
             if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
@@ -321,134 +307,57 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         menu.show();
     }
 
-    private void loadItem(UUID id) {
-        //Special case handling
-        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(id)) {
-            BaseItemDto item = new BaseItemDto();
-            item.setId(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString());
-            item.setName(getString(R.string.lbl_favorites));
-            item.setOverview(getString(R.string.desc_automatic_fav_songs));
-            item.setMediaType(MediaType.AUDIO.getSerialName());
-            item.setBaseItemType(BaseItemType.Playlist);
-            item.setIsFolder(true);
-            setBaseItem(item);
-        } else {
-            apiClient.getValue().GetItemAsync(id.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    if (!getActive()) return;
-
-                    setBaseItem(response);
-                }
-            });
-        }
-    }
-
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
 
-        LinearLayout mainInfoRow = (LinearLayout)requireActivity().findViewById(R.id.fdMainInfoRow);
+        LinearLayout mainInfoRow = requireActivity().findViewById(R.id.fdMainInfoRow);
 
-        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(item), mainInfoRow, false);
+        InfoLayoutHelper.addInfoRow(requireContext(), item, mainInfoRow, false);
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
 
         updatePoster(mBaseItem);
 
-        //get items
-        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PLAYLIST) {
-            // Have to use different query here
-            if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mItemId)) {//Get favorited and liked songs from this area
-                StdItemQuery favSongs = new StdItemQuery(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Genres,
-                        ItemFields.ChildCount
-                });
-                favSongs.setParentId(getArguments().getString("ParentId"));
-                favSongs.setIncludeItemTypes(new String[]{"Audio"});
-                favSongs.setRecursive(true);
-                favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
-                favSongs.setSortBy(new String[]{ItemSortBy.RANDOM.getSerialName()});
-                favSongs.setLimit(150);
-                apiClient.getValue().GetItemsAsync(favSongs, itemResponse);
-            } else {
-                PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
-                playlistSongs.setId(mBaseItem.getId());
-                playlistSongs.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                playlistSongs.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Genres,
-                        ItemFields.Chapters,
-                        ItemFields.ChildCount
-                });
-                playlistSongs.setLimit(150);
-                apiClient.getValue().GetPlaylistItems(playlistSongs, itemResponse);
-            }
-        } else {
-            StdItemQuery songs = new StdItemQuery();
-            songs.setParentId(mBaseItem.getId());
-            songs.setRecursive(true);
-            songs.setFields(new ItemFields[]{
-                    ItemFields.PrimaryImageAspectRatio,
-                    ItemFields.Genres,
-                    ItemFields.ChildCount
-            });
-            songs.setIncludeItemTypes(new String[]{"Audio"});
-            songs.setSortBy(new String[] {ItemSortBy.SORT_NAME.getSerialName()});
-            songs.setLimit(200);
-            apiClient.getValue().GetItemsAsync(songs, itemResponse);
-        }
+        ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
     }
 
-    private LifecycleAwareResponse<ItemsResult> itemResponse = new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
-        @Override
-        public void onResponse(ItemsResult response) {
-            if (!getActive()) return;
-
-            mTitle.setText(mBaseItem.getName());
-            if (mBaseItem.getName().length() > 32) {
-                // scale down the title so more will fit
-                mTitle.setTextSize(32);
-            }
-            if (response.getTotalRecordCount() > 0) {
-                mItems = new ArrayList<>();
-                int i = 0;
-                for (BaseItemDto item : response.getItems()) {
-                    mItemList.addItem(ModelCompat.asSdk(item), i++);
-                    mItems.add(item);
-                }
-                if (mediaManager.getValue().isPlayingAudio()) {
-                    //update our status
-                    mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mediaManager.getValue().getCurrentAudioItem());
-                }
-
-                updateBackdrop();
-            }
+    private Function1<List<BaseItemDto>, Unit> itemResponse = (List<BaseItemDto> items) -> {
+        mTitle.setText(mBaseItem.getName());
+        if (mBaseItem.getName().length() > 32) {
+            // scale down the title so more will fit
+            mTitle.setTextSize(32);
         }
+        if (!items.isEmpty()) {
+            mItems = new ArrayList<>();
+            int i = 0;
+            for (BaseItemDto item : items) {
+                mItemList.addItem(item, i++);
+                mItems.add(item);
+            }
+            if (mediaManager.getValue().isPlayingAudio()) {
+                //update our status
+                mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mediaManager.getValue().getCurrentAudioItem());
+            }
 
-        @Override
-        public void onError(Exception exception) {
-            if (!getActive()) return;
-
-            Timber.e(exception, "Error loading");
-            Utils.showToast(requireContext(), exception.getLocalizedMessage());
+            updateBackdrop();
         }
+        return null;
     };
 
     private void updatePoster(BaseItemDto item){
-        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mItemId)) {
+        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mBaseItem.getId())) {
             mPoster.setImageResource(R.drawable.favorites);
         } else {
-            Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
-            String primaryImageUrl = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(item));
+            Double aspect = ImageUtils.getImageAspectRatio(item, false);
+            String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
             mPoster.setPadding(0, 0, 0, 0);
             mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
         }
     }
 
     private void addGenres(TextView textView) {
-        ArrayList<String> genres = mBaseItem.getGenres();
+        List<String> genres = mBaseItem.getGenres();
         if (genres != null) textView.setText(TextUtils.join(" / ", genres));
         else textView.setText(null);
     }
@@ -460,7 +369,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
-        if (MediaType.VIDEO.equals(ModelCompat.asSdk(mBaseItem).getMediaType())) {
+        if (MediaType.VIDEO.equals(mBaseItem.getMediaType())) {
             if (shuffle) {
                 Collections.shuffle(items);
             }
@@ -470,19 +379,19 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             if (item != null && item.getUserData() != null) {
                 pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
             }
-            videoQueueManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
+            videoQueueManager.getValue().setCurrentVideoQueue(items);
             videoQueueManager.getValue().setCurrentMediaPosition(ndx);
-            Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(mBaseItem).getType(), pos);
+            Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(mBaseItem.getType(), pos);
             navigationRepository.getValue().navigate(destination);
         } else {
-            mediaManager.getValue().playNow(requireContext(), JavaCompat.mapBaseItemCollection(items), ndx, shuffle);
+            mediaManager.getValue().playNow(requireContext(), items, ndx, shuffle);
         }
     }
 
     private void addButtons(int buttonSize) {
-        if (BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
+        if (BaseItemExtensionsKt.canPlay(mBaseItem)) {
             // add play button but don't show and focus yet
-            TextUnderButton play = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.isFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
@@ -500,11 +409,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             boolean hidePlayButton = false;
             TextUnderButton queueButton = null;
             // add to queue if a queue exists and mBaseItem is a MusicAlbum
-            if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ALBUM && mediaManager.getValue().hasAudioQueueItems()) {
+            if (mBaseItem.getType() == BaseItemKind.MUSIC_ALBUM && mediaManager.getValue().hasAudioQueueItems()) {
                 queueButton = TextUnderButton.create(requireContext(), R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mediaManager.getValue().addToAudioQueue(JavaCompat.mapBaseItemCollection(mItems));
+                        mediaManager.getValue().addToAudioQueue(mItems);
                     }
                 });
                 hidePlayButton = true;
@@ -522,13 +431,13 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 play.requestFocus();
             }
 
-            if (mBaseItem.getIsFolderItem()) {
+            if (mBaseItem.isFolder()) {
                 TextUnderButton shuffle = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mItems.size() > 0) {
+                        if (!mItems.isEmpty()) {
                             //use server retrieval in order to get all items
-                            PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(mBaseItem.getId()), true, requireContext());
+                            PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, requireContext());
                         } else {
                             Utils.showToast(requireContext(), R.string.msg_no_playable_items);
                         }
@@ -541,11 +450,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             }
         }
 
-        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ALBUM) {
+        if (mBaseItem.getType() == BaseItemKind.MUSIC_ALBUM) {
             TextUnderButton mix = TextUnderButton.create(requireContext(), R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    PlaybackHelper.playInstantMix(requireContext(), ModelCompat.asSdk(mBaseItem));
+                    PlaybackHelper.playInstantMix(requireContext(), mBaseItem);
                 }
             });
             mButtonRow.addView(mix);
@@ -554,36 +463,31 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
         }
 
-        if (!FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mItemId)) {
+        if (!FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mBaseItem.getId())) {
             //Favorite
             TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    UserItemDataDto data = mBaseItem.getUserData();
-                    apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
-                        @Override
-                        public void onResponse(UserItemDataDto response) {
-                            if (!getActive()) return;
-
-                            mBaseItem.setUserData(response);
-                            ((TextUnderButton)v).setActivated(response.getIsFavorite());
-                            dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
-                        }
+                    ItemListFragmentHelperKt.toggleFavorite(ItemListFragment.this, mBaseItem, (BaseItemDto updatedItem) -> {
+                        mBaseItem = updatedItem;
+                        v.setActivated(mBaseItem.getUserData().isFavorite());
+                        dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
+                        return null;
                     });
                 }
             });
-            fav.setActivated(mBaseItem.getUserData().getIsFavorite());
+            fav.setActivated(mBaseItem.getUserData().isFavorite());
             mButtonRow.addView(fav);
             fav.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) mScrollView.smoothScrollTo(0, 0);
             });
         }
 
-        if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+        if (mBaseItem.getAlbumArtists() != null && !mBaseItem.getAlbumArtists().isEmpty()) {
             TextUnderButton artist = TextUnderButton.create(requireContext(), R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mBaseItem.getAlbumArtists().get(0).getId())));
+                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(mBaseItem.getAlbumArtists().get(0).getId()));
                 }
             });
             mButtonRow.addView(artist);
@@ -597,9 +501,9 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private void updateBackdrop() {
         BaseItemDto item = mBaseItem;
 
-        if(item.getBackdropCount() == 0 && mItems != null && mItems.size() >= 1)
+        if (item.getBackdropImageTags() == null || item.getBackdropImageTags().isEmpty() && mItems != null && mItems.size() >= 1)
             item = mItems.get(new Random().nextInt(mItems.size()));
 
-        backgroundService.getValue().setBackground(ModelCompat.asSdk(item));
+        backgroundService.getValue().setBackground(item);
     }
 }
