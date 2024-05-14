@@ -38,6 +38,7 @@ import org.koin.java.KoinJavaComponent;
 import java.util.List;
 import java.util.UUID;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 public class KeyProcessor {
@@ -56,19 +57,19 @@ public class KeyProcessor {
     public static final int MENU_CLEAR_QUEUE = 12;
     public static final int MENU_TOGGLE_SHUFFLE = 13;
 
-    private static UUID mCurrentItemId;
-    private static BaseItemDto mCurrentItem;
-    private static FragmentActivity mCurrentActivity;
-    private static int mCurrentRowItemNdx;
-    private static boolean isMusic;
+    private final Lazy<MediaManager> mediaManager = KoinJavaComponent.<MediaManager>inject(MediaManager.class);
+    private final Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
+    private final Lazy<ItemMutationRepository> itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>inject(ItemMutationRepository.class);
+    private final Lazy<CustomMessageRepository> customMessageRepository = KoinJavaComponent.<CustomMessageRepository>inject(CustomMessageRepository.class);
+    private final Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(org.jellyfin.apiclient.interaction.ApiClient.class);
 
-    public static boolean HandleKey(int key, BaseRowItem rowItem, FragmentActivity activity) {
+    public boolean handleKey(int key, BaseRowItem rowItem, FragmentActivity activity) {
         if (rowItem == null) return false;
-        MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
+
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (mediaManager.isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
+                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
                     // Rewrite uses media sessions which the system automatically manipulates on key presses
                     return false;
                 }
@@ -107,8 +108,7 @@ public class KeyProcessor {
                                 createPlayMenu(rowItem.getBaseItem(), MediaType.AUDIO.equals(item.getMediaType()), activity);
                                 return true;
                             case PHOTO:
-                                NavigationRepository navigationRepository = KoinJavaComponent.get(NavigationRepository.class);
-                                navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
+                                navigationRepository.getValue().navigate(Destinations.INSTANCE.pictureViewer(
                                         rowItem.getBaseItem().getId(),
                                         true,
                                         ItemSortBy.SORT_NAME,
@@ -135,7 +135,7 @@ public class KeyProcessor {
                 }
 
                 // Rewrite uses media sessions which the system automatically manipulates on key presses
-                if (mediaManager.hasAudioQueueItems()) return false;
+                if (mediaManager.getValue().hasAudioQueueItems()) return false;
 
                 break;
             case KeyEvent.KEYCODE_MENU:
@@ -183,17 +183,17 @@ public class KeyProcessor {
         return false;
     }
 
-    public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, FragmentActivity activity) {
+    public PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, FragmentActivity activity) {
         BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
         if (rowItem instanceof AudioQueueItem) {
-            if (rowItem.getBaseItem() != KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioItem())
+            if (rowItem.getBaseItem() != mediaManager.getValue().getCurrentAudioItem())
                 menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
             menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
 
-            if (KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueue().size() > 1) {
+            if (mediaManager.getValue().getCurrentAudioQueue().size() > 1) {
                 menu.getMenu().add(0, MENU_TOGGLE_SHUFFLE, order++, R.string.lbl_shuffle_queue);
             }
 
@@ -206,11 +206,11 @@ public class KeyProcessor {
             }
 
             // don't allow removal of last item - framework will crash trying to animate an empty row
-            if (KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueue().size() > 1) {
+            if (mediaManager.getValue().getCurrentAudioQueue().size() > 1) {
                 menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
             }
 
-            if (KoinJavaComponent.<MediaManager>get(MediaManager.class).hasAudioQueueItems()) {
+            if (mediaManager.getValue().hasAudioQueueItems()) {
                 menu.getMenu().add(0, MENU_CLEAR_QUEUE, order++, R.string.lbl_clear_queue);
             }
         } else {
@@ -231,7 +231,7 @@ public class KeyProcessor {
                 }
             }
 
-            isMusic = item.getType() == BaseItemKind.MUSIC_ALBUM
+            boolean isMusic = item.getType() == BaseItemKind.MUSIC_ALBUM
                     || item.getType() == BaseItemKind.MUSIC_ARTIST
                     || item.getType() == BaseItemKind.AUDIO
                     || (item.getType() == BaseItemKind.PLAYLIST && MediaType.AUDIO.equals(item.getMediaType()));
@@ -261,19 +261,12 @@ public class KeyProcessor {
             }
         }
 
-        //Not sure I like this but I either duplicate processing with in-line events or do this and
-        // use a single event handler
-        mCurrentItem = rowItem.getBaseItem();
-        mCurrentRowItemNdx = rowItem.getIndex();
-        mCurrentItemId = item.getId();
-        mCurrentActivity = activity;
-
-        menu.setOnMenuItemClickListener(menuItemClickListener);
+        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, rowItem.getBaseItem(), rowItem.getIndex()));
         menu.show();
         return menu;
     }
 
-    private static void createPlayMenu(BaseItemDto item, boolean isMusic, FragmentActivity activity) {
+    private void createPlayMenu(BaseItemDto item, boolean isMusic, FragmentActivity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
         if (!isMusic && item.getType() != BaseItemKind.PLAYLIST) {
@@ -285,50 +278,54 @@ public class KeyProcessor {
             menu.getMenu().add(0, MENU_ADD_QUEUE, order, R.string.lbl_add_to_queue);
         }
 
-        //Not sure I like this but I either duplicate processing with in-line events or do this and
-        // use a single event handler
-        mCurrentItem = item;
-        mCurrentItemId = item.getId();
-        mCurrentActivity = activity;
-
-        menu.setOnMenuItemClickListener(menuItemClickListener);
+        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, item, -1));
         menu.show();
     }
 
-    private static PopupMenu.OnMenuItemClickListener menuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
+    private class KeyProcessorItemMenuClickListener implements PopupMenu.OnMenuItemClickListener {
+        private BaseItemDto item;
+        private FragmentActivity activity;
+        private int rowIndex;
+
+        private KeyProcessorItemMenuClickListener(FragmentActivity activity, BaseItemDto item, int rowIndex) {
+            this.item = item;
+            this.activity = activity;
+            this.rowIndex = rowIndex;
+        }
+
         @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
                 case MENU_PLAY:
-                    if (mCurrentItemId.equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
-                        PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
+                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
+                        PlaybackHelper.play(item, 0, false, activity);
                     } else {
-                        PlaybackHelper.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
+                        PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (mCurrentItemId.equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
-                        PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
+                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
+                        PlaybackHelper.play(item, 0, false, activity);
                     } else {
-                        PlaybackHelper.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
+                        PlaybackHelper.retrieveAndPlay(item.getId(), true, activity);
                     }
                     return true;
                 case MENU_ADD_QUEUE:
-                    PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
+                    PlaybackHelper.getItemsToPlay(item, false, false, new Response<List<BaseItemDto>>() {
                         @Override
                         public void onResponse(List<BaseItemDto> response) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).addToAudioQueue(response);
+                            mediaManager.getValue().addToAudioQueue(response);
                         }
 
                         @Override
                         public void onError(Exception exception) {
-                            Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
+                            Utils.showToast(activity, R.string.msg_cannot_play_time);
                         }
                     });
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
                     StdItemQuery query = new StdItemQuery();
-                    query.setParentId(mCurrentItemId.toString());
+                    query.setParentId(item.getId().toString());
                     query.setRecursive(true);
                     query.setIsVirtualUnaired(false);
                     query.setIsMissing(false);
@@ -337,53 +334,52 @@ public class KeyProcessor {
                     query.setLimit(1);
                     query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
                     query.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                    KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                    apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() == 0) {
-                                Utils.showToast(mCurrentActivity, R.string.msg_no_items);
+                                Utils.showToast(activity, R.string.msg_no_items);
                             } else {
-                                PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, mCurrentActivity);
+                                PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, activity);
                             }
                         }
 
                         @Override
                         public void onError(Exception exception) {
                             Timber.e(exception, "Error trying to play first unwatched");
-                            Utils.showToast(mCurrentActivity, R.string.msg_video_playback_error);
+                            Utils.showToast(activity, R.string.msg_video_playback_error);
                         }
                     });
                     return true;
                 case MENU_MARK_FAVORITE:
-                    toggleFavorite(mCurrentActivity, true);
+                    toggleFavorite(activity, item.getId(), true);
                     return true;
                 case MENU_UNMARK_FAVORITE:
-                    toggleFavorite(mCurrentActivity, false);
+                    toggleFavorite(activity, item.getId(), false);
                     return true;
                 case MENU_MARK_PLAYED:
-                    togglePlayed(mCurrentActivity, true);
+                    togglePlayed(activity, item.getId(), true);
                     return true;
                 case MENU_UNMARK_PLAYED:
-                    togglePlayed(mCurrentActivity, false);
+                    togglePlayed(activity, item.getId(), false);
                     return true;
                 case MENU_GOTO_NOW_PLAYING:
-                    NavigationRepository navigationRepository = KoinJavaComponent.get(NavigationRepository.class);
-                    navigationRepository.navigate(Destinations.INSTANCE.getNowPlaying());
+                    navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
                     return true;
                 case MENU_TOGGLE_SHUFFLE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).shuffleAudioQueue();
+                    mediaManager.getValue().shuffleAudioQueue();
                     return true;
                 case MENU_REMOVE_FROM_QUEUE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).removeFromAudioQueue(mCurrentRowItemNdx);
+                    mediaManager.getValue().removeFromAudioQueue(rowIndex);
                     return true;
                 case MENU_ADVANCE_QUEUE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(mCurrentRowItemNdx);
+                    mediaManager.getValue().playFrom(rowIndex);
                     return true;
                 case MENU_CLEAR_QUEUE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue();
+                    mediaManager.getValue().clearAudioQueue();
                     return true;
                 case MENU_INSTANT_MIX:
-                    PlaybackHelper.playInstantMix(mCurrentActivity, mCurrentItem);
+                    PlaybackHelper.playInstantMix(activity, item);
                     return true;
             }
 
@@ -391,26 +387,21 @@ public class KeyProcessor {
         }
     };
 
-    private static void togglePlayed(LifecycleOwner lifecycleOwner, boolean played) {
-        ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
+    private void togglePlayed(LifecycleOwner lifecycleOwner, UUID itemId, boolean played) {
 
         CoroutineUtils.runOnLifecycle(lifecycleOwner.getLifecycle(), (scope, continuation) ->
-                itemMutationRepository.setPlayed(mCurrentItem.getId(), played, continuation)
+                itemMutationRepository.getValue().setPlayed(itemId, played, continuation)
         );
 
-        CustomMessageRepository customMessageRepository = KoinJavaComponent.<CustomMessageRepository>get(CustomMessageRepository.class);
-        customMessageRepository.pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
+        customMessageRepository.getValue().pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
     }
 
-    private static void toggleFavorite(LifecycleOwner lifecycleOwner, boolean favorite) {
-        ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
-
+    private void toggleFavorite(LifecycleOwner lifecycleOwner, UUID itemId, boolean favorite) {
         CoroutineUtils.runOnLifecycle(lifecycleOwner.getLifecycle(), (scope, continuation) ->
-                itemMutationRepository.setFavorite(mCurrentItem.getId(), favorite, continuation)
+                itemMutationRepository.getValue().setFavorite(itemId, favorite, continuation)
         );
 
-        CustomMessageRepository customMessageRepository = KoinJavaComponent.<CustomMessageRepository>get(CustomMessageRepository.class);
-        customMessageRepository.pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
+        customMessageRepository.getValue().pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
     }
 }
 

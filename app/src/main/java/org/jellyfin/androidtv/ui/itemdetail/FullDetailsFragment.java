@@ -172,6 +172,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+    private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
 
     @Nullable
     @Override
@@ -320,7 +321,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (event.getAction() != KeyEvent.ACTION_UP) return false;
 
         if (mCurrentItem != null) {
-            return KeyProcessor.HandleKey(keyCode, mCurrentItem, requireActivity());
+            return keyProcessor.getValue().handleKey(keyCode, mCurrentItem, requireActivity());
         } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;

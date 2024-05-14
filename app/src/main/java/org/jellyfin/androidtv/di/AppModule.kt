@@ -36,6 +36,7 @@ import org.jellyfin.androidtv.ui.search.SearchViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
+import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
@@ -128,6 +129,7 @@ val appModule = module {
 
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }
+	single { KeyProcessor() }
 
 	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
 }
