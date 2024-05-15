@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.ui.browsing.SuggestedMoviesFragment
 import org.jellyfin.androidtv.ui.home.HomeFragment
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment
+import org.jellyfin.androidtv.ui.itemdetail.MusicFavoritesListFragment
 import org.jellyfin.androidtv.ui.livetv.GuideFiltersScreen
 import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
@@ -131,8 +132,7 @@ object Destinations {
 		"ItemId" to item.toString(),
 	)
 
-	fun itemList(item: UUID, parent: UUID) = fragmentDestination<ItemListFragment>(
-		"ItemId" to item.toString(),
+	fun musicFavorites(parent: UUID) = fragmentDestination<MusicFavoritesListFragment>(
 		"ParentId" to parent.toString(),
 	)
 
