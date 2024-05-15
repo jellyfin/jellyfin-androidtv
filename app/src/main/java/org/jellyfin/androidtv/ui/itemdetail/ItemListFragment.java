@@ -49,7 +49,6 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.MediaType;
@@ -317,7 +316,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
 
-        updatePoster(mBaseItem);
+
+        Double aspect = ImageUtils.getImageAspectRatio(item, false);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
+        mPoster.setPadding(0, 0, 0, 0);
+        mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
 
         ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
     }
@@ -344,17 +347,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
         return null;
     };
-
-    private void updatePoster(BaseItemDto item){
-        if (FakeBaseItem.INSTANCE.getFAV_SONGS().getId().equals(mBaseItem.getId())) {
-            mPoster.setImageResource(R.drawable.favorites);
-        } else {
-            Double aspect = ImageUtils.getImageAspectRatio(item, false);
-            String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
-            mPoster.setPadding(0, 0, 0, 0);
-            mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
-        }
-    }
 
     private void addGenres(TextView textView) {
         List<String> genres = mBaseItem.getGenres();
@@ -463,25 +455,23 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
         }
 
-        if (!FakeBaseItem.INSTANCE.getFAV_SONGS().getId().equals(mBaseItem.getId())) {
-            //Favorite
-            TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    ItemListFragmentHelperKt.toggleFavorite(ItemListFragment.this, mBaseItem, (BaseItemDto updatedItem) -> {
-                        mBaseItem = updatedItem;
-                        v.setActivated(mBaseItem.getUserData().isFavorite());
-                        dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
-                        return null;
-                    });
-                }
-            });
-            fav.setActivated(mBaseItem.getUserData().isFavorite());
-            mButtonRow.addView(fav);
-            fav.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) mScrollView.smoothScrollTo(0, 0);
-            });
-        }
+        //Favorite
+        TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                ItemListFragmentHelperKt.toggleFavorite(ItemListFragment.this, mBaseItem, (BaseItemDto updatedItem) -> {
+                    mBaseItem = updatedItem;
+                    v.setActivated(mBaseItem.getUserData().isFavorite());
+                    dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
+                    return null;
+                });
+            }
+        });
+        fav.setActivated(mBaseItem.getUserData().isFavorite());
+        mButtonRow.addView(fav);
+        fav.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) mScrollView.smoothScrollTo(0, 0);
+        });
 
         if (mBaseItem.getAlbumArtists() != null && !mBaseItem.getAlbumArtists().isEmpty()) {
             TextUnderButton artist = TextUnderButton.create(requireContext(), R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
