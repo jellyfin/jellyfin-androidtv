@@ -32,9 +32,9 @@ fun ItemListFragment.loadItem(itemId: UUID) {
 	val api by inject<ApiClient>()
 
 	//Special case handling
-	if (FakeBaseItem.FAV_SONGS_ID == itemId) {
+	if (FakeBaseItem.FAV_SONGS.id == itemId) {
 		val item = BaseItemDto(
-			id = FakeBaseItem.FAV_SONGS_ID,
+			id = FakeBaseItem.FAV_SONGS.id,
 			name = getString(R.string.lbl_favorites),
 			overview = getString(R.string.desc_automatic_fav_songs),
 			mediaType = MediaType.AUDIO,
@@ -58,7 +58,7 @@ fun ItemListFragment.getPlaylist(
 
 	lifecycleScope.launch {
 		val result by when {
-			item.id == FakeBaseItem.FAV_SONGS_ID -> api.itemsApi.getItems(
+			item.id == FakeBaseItem.FAV_SONGS.id -> api.itemsApi.getItems(
 				parentId = arguments?.getString("ParentId")?.toUUIDOrNull(),
 				includeItemTypes = setOf(BaseItemKind.AUDIO),
 				recursive = true,

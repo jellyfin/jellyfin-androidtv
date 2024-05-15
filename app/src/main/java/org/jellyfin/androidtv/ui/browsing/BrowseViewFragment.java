@@ -448,7 +448,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 break;
 
             default:
-                if (mFolder.getId() == FakeBaseItem.INSTANCE.getSERIES_TIMERS_ID()) {
+                if (mFolder.getId() == FakeBaseItem.INSTANCE.getSERIES_TIMERS().getId()) {
                     mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
                     rowLoader.loadRows(mRows);
                 } else {

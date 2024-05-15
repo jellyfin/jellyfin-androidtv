@@ -162,7 +162,7 @@ public class PlaybackHelper {
                 });
                 break;
             case PLAYLIST:
-                if (mainItem.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
+                if (mainItem.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString())) {
                     query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
                 } else {
                     query.setParentId(mainItem.getId().toString());

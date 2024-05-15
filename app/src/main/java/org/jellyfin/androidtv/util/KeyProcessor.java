@@ -297,14 +297,14 @@ public class KeyProcessor {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case MENU_PLAY:
-                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
+                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString())) {
                         PlaybackHelper.play(item, 0, false, activity);
                     } else {
                         PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
+                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString())) {
                         PlaybackHelper.play(item, 0, false, activity);
                     } else {
                         PlaybackHelper.retrieveAndPlay(item.getId(), true, activity);
