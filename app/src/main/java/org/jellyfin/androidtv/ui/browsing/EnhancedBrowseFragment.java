@@ -432,7 +432,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         break;
 
                     case FAVSONGS:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(FakeBaseItem.INSTANCE.getFAV_SONGS_ID(), mFolder.getId()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(FakeBaseItem.INSTANCE.getFAV_SONGS().getId(), mFolder.getId()));
                         break;
 
                     case SERIES:

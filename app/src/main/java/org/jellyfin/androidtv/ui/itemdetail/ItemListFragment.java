@@ -346,7 +346,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     };
 
     private void updatePoster(BaseItemDto item){
-        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mBaseItem.getId())) {
+        if (FakeBaseItem.INSTANCE.getFAV_SONGS().getId().equals(mBaseItem.getId())) {
             mPoster.setImageResource(R.drawable.favorites);
         } else {
             Double aspect = ImageUtils.getImageAspectRatio(item, false);
@@ -463,7 +463,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
         }
 
-        if (!FakeBaseItem.INSTANCE.getFAV_SONGS_ID().equals(mBaseItem.getId())) {
+        if (!FakeBaseItem.INSTANCE.getFAV_SONGS().getId().equals(mBaseItem.getId())) {
             //Favorite
             TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override
