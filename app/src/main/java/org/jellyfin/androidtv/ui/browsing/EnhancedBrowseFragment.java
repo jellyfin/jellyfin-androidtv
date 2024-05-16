@@ -87,8 +87,6 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected boolean showViews = true;
     protected boolean justLoaded = true;
 
-    protected BaseRowItem favSongsRowItem;
-
     protected RowsSupportFragment mRowsFragment;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
@@ -109,7 +107,6 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        favSongsRowItem = new BaseRowItem(FakeBaseItem.INSTANCE.getFAV_SONGS());
 
         mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
 
@@ -474,15 +471,12 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (item instanceof GridButton && ((GridButton) item).getId() == FAVSONGS) {
-                // Set to specialized item
-                mCurrentItem = favSongsRowItem;
-            }
-
             if (!(item instanceof BaseRowItem)) {
                 mTitle.setText(mFolder != null ? mFolder.getName() : "");
                 mInfoRow.removeAllViews();
                 mSummary.setText("");
+                mCurrentItem = null;
+                mCurrentRow = null;
                 // Fill in default background
                 backgroundService.getValue().clearBackgrounds();
                 return;

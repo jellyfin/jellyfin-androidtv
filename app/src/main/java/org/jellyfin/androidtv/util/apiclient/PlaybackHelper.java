@@ -14,7 +14,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -24,7 +23,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
@@ -162,11 +160,7 @@ public class PlaybackHelper {
                 });
                 break;
             case PLAYLIST:
-                if (mainItem.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString())) {
-                    query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
-                } else {
-                    query.setParentId(mainItem.getId().toString());
-                }
+                query.setParentId(mainItem.getId().toString());
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 if (shuffle) query.setSortBy(new String[] {ItemSortBy.RANDOM.getSerialName()});

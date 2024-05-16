@@ -44,15 +44,6 @@ fun MediaSourceInfo.getVideoStream() = mediaStreams?.firstOrNull {
 }
 
 object FakeBaseItem {
-	private val FAV_SONGS_ID = UUID.fromString("11111111-0000-0000-0000-000000000001")
-	val FAV_SONGS = BaseItemDto(
-		id = FAV_SONGS_ID,
-		type = BaseItemKind.PLAYLIST,
-		mediaType = MediaType.UNKNOWN,
-		isFolder = true,
-		displayPreferencesId = FAV_SONGS_ID.toString(),
-	)
-
 	private val SERIES_TIMERS_ID = UUID.fromString("11111111-0000-0000-0000-000000000002")
 	val SERIES_TIMERS = BaseItemDto(
 		id = SERIES_TIMERS_ID,

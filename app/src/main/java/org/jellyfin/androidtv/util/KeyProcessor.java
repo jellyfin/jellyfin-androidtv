@@ -21,7 +21,6 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.entities.SortOrder;
@@ -297,18 +296,10 @@ public class KeyProcessor {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case MENU_PLAY:
-                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString())) {
-                        PlaybackHelper.play(item, 0, false, activity);
-                    } else {
-                        PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
-                    }
+                    PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (item.getId().equals(FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString())) {
-                        PlaybackHelper.play(item, 0, false, activity);
-                    } else {
-                        PlaybackHelper.retrieveAndPlay(item.getId(), true, activity);
-                    }
+                    PlaybackHelper.retrieveAndPlay(item.getId(), true, activity);
                     return true;
                 case MENU_ADD_QUEUE:
                     PlaybackHelper.getItemsToPlay(item, false, false, new Response<List<BaseItemDto>>() {
