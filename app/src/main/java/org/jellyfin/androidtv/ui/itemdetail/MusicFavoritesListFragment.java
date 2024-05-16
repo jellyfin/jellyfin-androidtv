@@ -69,7 +69,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
 
         ViewRowDetailsBinding detailsBinding = binding.details.getBinding();
         detailsBinding.fdTitle.setText(getString(R.string.lbl_favorites));
-        detailsBinding.mainImage.setImageResource(R.drawable.favorites);;
+        detailsBinding.mainImage.setImageResource(R.drawable.favorites);
         detailsBinding.fdSummaryText.setText(getString(R.string.desc_automatic_fav_songs));
         mButtonRow = detailsBinding.fdButtonRow;
         mItemList = binding.songs;
