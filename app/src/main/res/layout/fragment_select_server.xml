@@ -20,13 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/saved_servers"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stored_servers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:ignore="NestedWeights"
             tools:itemCount="3"
             tools:listitem="@layout/view_button_server" />
 
