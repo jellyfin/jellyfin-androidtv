@@ -36,7 +36,7 @@ kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.6.3"
 libvlc = "3.5.1"
 markwon = "4.6.2"
-mockk = "1.13.10"
+mockk = "1.13.11"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
