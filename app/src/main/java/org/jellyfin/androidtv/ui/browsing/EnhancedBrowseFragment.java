@@ -53,7 +53,6 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -292,7 +291,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     protected void addAdditionalRows(MutableObjectAdapter<Row> rowAdapter) {
-        if (!showViews) return;
+        if (!showViews || itemType == null) return;
 
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), getString(R.string.lbl_views));
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
@@ -434,7 +433,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
                     case SERIES:
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySmartScreen(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSeriesRecordings());
                         break;
 
                     case SCHEDULE:

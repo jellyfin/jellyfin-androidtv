@@ -19,7 +19,6 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.util.Utils
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem
 
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,
@@ -51,7 +50,7 @@ class HomeFragmentLiveTVRow(
 			LiveTvOption.LIVE_TV_GUIDE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvGuide)
 			LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvSchedule)
 			LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvRecordings)
-			LiveTvOption.LIVE_TV_SERIES_OPTION_ID -> navigationRepository.navigate(Destinations.librarySmartScreen(FakeBaseItem.SERIES_TIMERS))
+			LiveTvOption.LIVE_TV_SERIES_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvSeriesRecordings)
 		}
 	}
 }

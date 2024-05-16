@@ -140,6 +140,7 @@ object Destinations {
 	val liveTvGuide = fragmentDestination<LiveTvGuideFragment>()
 	val liveTvSchedule = fragmentDestination<BrowseScheduleFragment>()
 	val liveTvRecordings = fragmentDestination<BrowseRecordingsFragment>()
+	val liveTvSeriesRecordings = fragmentDestination<BrowseViewFragment>(Extras.IsLiveTvSeriesRecordings to true)
 	val liveTvGuideFilterPreferences = preferenceDestination<GuideFiltersScreen>()
 	val liveTvGuideOptionPreferences = preferenceDestination<GuideOptionsScreen>()
 
