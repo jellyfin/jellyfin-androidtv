@@ -10,6 +10,7 @@ import androidx.leanback.widget.Row;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
+import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
@@ -21,7 +22,6 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -60,7 +60,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void setupQueries(final RowLoader rowLoader) {
-        CollectionType type = mFolder.getCollectionType() != null ? mFolder.getCollectionType() : CollectionType.UNKNOWN;
+        CollectionType type = mFolder != null && mFolder.getCollectionType() != null ? mFolder.getCollectionType() : CollectionType.UNKNOWN;
         switch (type) {
             case MOVIES:
                 itemType = BaseItemKind.MOVIE;
@@ -448,7 +448,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 break;
 
             default:
-                if (mFolder.getId() == FakeBaseItem.INSTANCE.getSERIES_TIMERS().getId()) {
+                boolean isRecordingsView = getArguments().getBoolean(Extras.IsLiveTvSeriesRecordings, false);
+                if (isRecordingsView) {
                     mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
                     rowLoader.loadRows(mRows);
                 } else {

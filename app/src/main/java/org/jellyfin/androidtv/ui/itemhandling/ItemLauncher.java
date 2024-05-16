@@ -17,7 +17,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
-import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.Response;
@@ -269,7 +268,7 @@ public class ItemLauncher {
                         break;
 
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySmartScreen(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSeriesRecordings());
                         break;
 
                     case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
