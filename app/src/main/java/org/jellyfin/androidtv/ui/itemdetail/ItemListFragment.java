@@ -117,12 +117,12 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         //adjust left frame
         RelativeLayout leftFrame = detailsBinding.leftFrame;
         ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
-        params.width = Utils.convertDpToPixel(requireContext(),100);
+        params.width = Utils.convertDpToPixel(requireContext(), 100);
 
 
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-        mBottomScrollThreshold = (int)(mMetrics.heightPixels *.6);
+        mBottomScrollThreshold = (int) (mMetrics.heightPixels * .6);
 
         //Item list listeners
         mItemList.setRowSelectedListener(new ItemRowView.RowSelectedListener() {
@@ -130,7 +130,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             public void onRowSelected(ItemRowView row) {
                 mCurrentRow = row;
                 //Keep selected row in center of screen
-                int[] location = new int[] {0,0};
+                int[] location = new int[]{0, 0};
                 row.getLocationOnScreen(location);
                 int y = location[1];
                 if (y > mBottomScrollThreshold) {
@@ -166,7 +166,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                    if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
+                    if (mediaManager.getValue().isPlayingAudio())
+                        mediaManager.getValue().pauseAudio();
                     else mediaManager.getValue().resumeAudio();
                     return true;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
@@ -206,7 +207,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))
+                            return;
 
                         ItemListViewHelperKt.refresh(mItemList);
                         lastUpdated = Instant.now();
@@ -246,14 +248,16 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
 
         @Override
-        public void onQueueStatusChanged(boolean hasQueue) {}
+        public void onQueueStatusChanged(boolean hasQueue) {
+        }
 
         @Override
-        public void onQueueReplaced() { }
+        public void onQueueReplaced() {
+        }
     };
 
     private void showMenu(final ItemRowView row, boolean showOpen) {
-        PopupMenu menu = new PopupMenu(requireContext(), row != null? row : requireActivity().getCurrentFocus(), Gravity.END);
+        PopupMenu menu = new PopupMenu(requireContext(), row != null ? row : requireActivity().getCurrentFocus(), Gravity.END);
         int order = 0;
         if (showOpen) {
             MenuItem open = menu.getMenu().add(0, 0, order++, R.string.lbl_open);
@@ -278,7 +282,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         play.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                play(mItems.subList(row.getIndex(), row.getIndex()+1), false);
+                play(mItems.subList(row.getIndex(), row.getIndex() + 1), false);
                 return true;
             }
         });
@@ -315,7 +319,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
-
 
         Double aspect = ImageUtils.getImageAspectRatio(item, false);
         String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
@@ -456,7 +459,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
 
         //Favorite
-        TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+        TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize, 2, getString(R.string.lbl_favorite), new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 ItemListFragmentHelperKt.toggleFavorite(ItemListFragment.this, mBaseItem, (BaseItemDto updatedItem) -> {
