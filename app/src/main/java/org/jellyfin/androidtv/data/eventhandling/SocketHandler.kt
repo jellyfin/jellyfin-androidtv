@@ -48,6 +48,7 @@ class SocketHandler(
 	private val navigationRepository: NavigationRepository,
 	private val audioManager: AudioManager,
 	private val itemLauncher: ItemLauncher,
+	private val playbackHelper: PlaybackHelper,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -163,7 +164,7 @@ class SocketHandler(
 		val itemId = message.data?.itemIds?.firstOrNull() ?: return
 
 		runCatching {
-			PlaybackHelper.retrieveAndPlay(
+			playbackHelper.retrieveAndPlay(
 				itemId,
 				false,
 				message.data?.startPositionTicks,

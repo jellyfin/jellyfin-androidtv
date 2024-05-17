@@ -14,7 +14,6 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
-import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
 import org.jellyfin.androidtv.util.popupMenu
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.androidtv.util.showIfNotEmpty
@@ -112,6 +111,7 @@ fun FullDetailsFragment.showPlayWithMenu(
 				}
 			}
 		}
-		PlaybackHelper.getItemsToPlay(baseItem, false, shuffle, itemsCallback)
+
+		playbackHelper.value.getItemsToPlay(baseItem, false, shuffle, itemsCallback)
 	}
 }.show()

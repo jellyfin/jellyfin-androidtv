@@ -36,13 +36,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 public class PlaybackHelper {
     private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
 
-    public static void getItemsToPlay(final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+    private Lazy<SessionRepository> sessionRepository = KoinJavaComponent.<SessionRepository>inject(SessionRepository.class);
+    private Lazy<UserPreferences> userPreferences = KoinJavaComponent.<UserPreferences>inject(UserPreferences.class);
+    private Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(ApiClient.class);
+    private Lazy<PlaybackLauncher> playbackLauncher = KoinJavaComponent.<PlaybackLauncher>inject(PlaybackLauncher.class);
+    private Lazy<MediaManager> mediaManager = KoinJavaComponent.<MediaManager>inject(MediaManager.class);
+    private Lazy<VideoQueueManager> videoQueueManager = KoinJavaComponent.<VideoQueueManager>inject(VideoQueueManager.class);
+    private Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
+    private Lazy<PlaybackControllerContainer> playbackControllerContainer = KoinJavaComponent.<PlaybackControllerContainer>inject(PlaybackControllerContainer.class);
+
+    public void getItemsToPlay(final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
+        UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
 
         final List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
@@ -50,7 +60,7 @@ public class PlaybackHelper {
         switch (mainItem.getType()) {
             case EPISODE:
                 items.add(mainItem);
-                if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
+                if (userPreferences.getValue().get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     //add subsequent episodes
                     if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
@@ -68,7 +78,7 @@ public class PlaybackHelper {
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ChildCount
                         });
-                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetEpisodesAsync(episodeQuery, new Response<ItemsResult>() {
+                        apiClient.getValue().GetEpisodesAsync(episodeQuery, new Response<ItemsResult>() {
                             @Override
                             public void onResponse(ItemsResult response) {
                                 if (response.getTotalRecordCount() > 0) {
@@ -124,7 +134,7 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(userId.toString());
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         for (BaseItemDto item : response.getItems()) {
@@ -152,7 +162,7 @@ public class PlaybackHelper {
                 });
                 query.setUserId(userId.toString());
                 query.setArtistIds(new String[]{mainItem.getId().toString()});
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(JavaCompat.mapBaseItemArray(response.getItems()));
@@ -175,7 +185,7 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(userId.toString());
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(JavaCompat.mapBaseItemArray(response.getItems()));
@@ -190,7 +200,7 @@ public class PlaybackHelper {
                 }
 
                 //We retrieve the channel the program is on (which should be the program's parent)
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mainItem.getParentId().toString(), userId.toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(mainItem.getParentId().toString(), userId.toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         // fill in info about the specific program for display
@@ -211,7 +221,7 @@ public class PlaybackHelper {
 
             case TV_CHANNEL:
                 // Retrieve full channel info for display
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId().toString(), userId.toString(), new Response<ChannelInfoDto>() {
+                apiClient.getValue().GetLiveTvChannelAsync(mainItem.getId().toString(), userId.toString(), new Response<ChannelInfoDto>() {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
@@ -232,9 +242,9 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).useExternalPlayer(mainItem.getType()) && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
+                if (allowIntros && !playbackLauncher.getValue().useExternalPlayer(mainItem.getType()) && userPreferences.getValue().get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
-                    KoinJavaComponent.<ApiClient>get(ApiClient.class).GetIntrosAsync(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
+                    apiClient.getValue().GetIntrosAsync(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
@@ -263,40 +273,37 @@ public class PlaybackHelper {
         }
     }
 
-    public static void play(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-        NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
-
+    private void play(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         getItemsToPlay(item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
             @Override
             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                 switch (item.getType()) {
                     case MUSIC_ALBUM:
                     case MUSIC_ARTIST:
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, 0, shuffle);
+                        mediaManager.getValue().playNow(activity, response, 0, shuffle);
                         break;
                     case PLAYLIST:
                         if (MediaType.AUDIO.equals(item.getMediaType())) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, 0, shuffle);
+                            mediaManager.getValue().playNow(activity, response, 0, shuffle);
                         } else {
                             BaseItemKind itemType = response.size() > 0 ? response.get(0).getType() : null;
-                            KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
-                            Destination destination = playbackLauncher.getPlaybackDestination(itemType, pos);
-                            navigationRepository.navigate(destination);
+                            videoQueueManager.getValue().setCurrentVideoQueue(response);
+                            Destination destination = playbackLauncher.getValue().getPlaybackDestination(itemType, pos);
+                            navigationRepository.getValue().navigate(destination);
                         }
                         break;
                     case AUDIO:
                         if (response.size() > 0) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, Arrays.asList(response.get(0)), 0, false);
+                            mediaManager.getValue().playNow(activity, Arrays.asList(response.get(0)), 0, false);
                         }
                         break;
 
                     default:
-                        KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
-                        Destination destination = playbackLauncher.getPlaybackDestination(item.getType(), pos);
+                        videoQueueManager.getValue().setCurrentVideoQueue(response);
+                        Destination destination = playbackLauncher.getValue().getPlaybackDestination(item.getType(), pos);
 
-                        PlaybackController playbackController = KoinJavaComponent.<PlaybackControllerContainer>get(PlaybackControllerContainer.class).getPlaybackController();
-                        navigationRepository.navigate(
+                        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+                        navigationRepository.getValue().navigate(
                                 destination,
                                 playbackController != null && playbackController.hasFragment()
                         );
@@ -305,22 +312,22 @@ public class PlaybackHelper {
         });
     }
 
-    public static void retrieveAndPlay(UUID id, boolean shuffle, Context activity) {
+    public void retrieveAndPlay(UUID id, boolean shuffle, Context activity) {
         retrieveAndPlay(id, shuffle, null, activity);
     }
 
-    private static int getResumePreroll() {
+    private int getResumePreroll() {
         try {
-            return Integer.parseInt(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
+            return Integer.parseInt(userPreferences.getValue().get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
         } catch (Exception e) {
             Timber.e(e, "Unable to parse resume preroll");
             return 0;
         }
     }
 
-    public static void retrieveAndPlay(UUID id, final boolean shuffle, final Long position, final Context activity) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id.toString(), userId.toString(), new Response<BaseItemDto>() {
+    public void retrieveAndPlay(UUID id, final boolean shuffle, final Long position, final Context activity) {
+        UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
+        apiClient.getValue().GetItemAsync(id.toString(), userId.toString(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll() : 0;
@@ -335,12 +342,12 @@ public class PlaybackHelper {
         });
     }
 
-    public static void playInstantMix(Context context, org.jellyfin.sdk.model.api.BaseItemDto item) {
+    public void playInstantMix(Context context, org.jellyfin.sdk.model.api.BaseItemDto item) {
         getInstantMixAsync(item.getId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(context, JavaCompat.mapBaseItemArray(response), 0, false);
+                    mediaManager.getValue().playNow(context, JavaCompat.mapBaseItemArray(response), 0, false);
                 } else {
                     Utils.showToast(context, R.string.msg_no_playable_items);
                 }
@@ -348,8 +355,8 @@ public class PlaybackHelper {
         });
     }
 
-    public static void getInstantMixAsync(UUID seedId, final Response<BaseItemDto[]> outerResponse) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+    private void getInstantMixAsync(UUID seedId, final Response<BaseItemDto[]> outerResponse) {
+        UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
         SimilarItemsQuery query = new SimilarItemsQuery();
         query.setId(seedId.toString());
         query.setUserId(userId.toString());
@@ -358,7 +365,7 @@ public class PlaybackHelper {
                 ItemFields.Genres,
                 ItemFields.ChildCount
         });
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetInstantMixFromItem(query, new Response<ItemsResult>() {
+        apiClient.getValue().GetInstantMixFromItem(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 outerResponse.onResponse(response.getItems());
@@ -371,12 +378,12 @@ public class PlaybackHelper {
         });
     }
 
-    private static void addMainItem(org.jellyfin.sdk.model.api.BaseItemDto mainItem, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
+    private void addMainItem(org.jellyfin.sdk.model.api.BaseItemDto mainItem, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
         items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
-            UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
-            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetAdditionalParts(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
+            UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
+            apiClient.getValue().GetAdditionalParts(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     for (BaseItemDto item : response.getItems()) {

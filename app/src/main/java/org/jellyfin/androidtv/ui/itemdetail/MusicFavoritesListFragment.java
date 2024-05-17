@@ -61,6 +61,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
 
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+    private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
 
     @Nullable
     @Override
@@ -261,7 +262,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    PlaybackHelper.playInstantMix(requireContext(), row.getItem());
+                    playbackHelper.getValue().playInstantMix(requireContext(), row.getItem());
                     return true;
                 }
             });

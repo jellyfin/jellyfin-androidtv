@@ -60,7 +60,8 @@ public class KeyProcessor {
     private final Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
     private final Lazy<ItemMutationRepository> itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>inject(ItemMutationRepository.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = KoinJavaComponent.<CustomMessageRepository>inject(CustomMessageRepository.class);
-    private final Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(org.jellyfin.apiclient.interaction.ApiClient.class);
+    private final Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(ApiClient.class);
+    private final Lazy<PlaybackHelper> playbackHelper = KoinJavaComponent.<PlaybackHelper>inject(PlaybackHelper.class);
 
     public boolean handleKey(int key, BaseRowItem rowItem, FragmentActivity activity) {
         if (rowItem == null) return false;
@@ -92,7 +93,7 @@ public class KeyProcessor {
                             case PROGRAM:
                             case TRAILER:
                                 // retrieve full item and play
-                                PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
+                                playbackHelper.getValue().retrieveAndPlay(item.getId(), false, activity);
                                 return true;
                             case SERIES:
                             case SEASON:
@@ -123,11 +124,11 @@ public class KeyProcessor {
                     case LiveTvChannel:
                     case LiveTvRecording:
                         // retrieve full item and play
-                        PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(rowItem.getItemId()), false, activity);
+                        playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(rowItem.getItemId()), false, activity);
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
-                        PlaybackHelper.retrieveAndPlay(rowItem.getBaseItem().getChannelId(), false, activity);
+                        playbackHelper.getValue().retrieveAndPlay(rowItem.getBaseItem().getChannelId(), false, activity);
                         return true;
                     case GridButton:
                         break;
@@ -296,13 +297,13 @@ public class KeyProcessor {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case MENU_PLAY:
-                    PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
+                    playbackHelper.getValue().retrieveAndPlay(item.getId(), false, activity);
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    PlaybackHelper.retrieveAndPlay(item.getId(), true, activity);
+                    playbackHelper.getValue().retrieveAndPlay(item.getId(), true, activity);
                     return true;
                 case MENU_ADD_QUEUE:
-                    PlaybackHelper.getItemsToPlay(item, false, false, new Response<List<BaseItemDto>>() {
+                    playbackHelper.getValue().getItemsToPlay(item, false, false, new Response<List<BaseItemDto>>() {
                         @Override
                         public void onResponse(List<BaseItemDto> response) {
                             mediaManager.getValue().addToAudioQueue(response);
@@ -331,7 +332,7 @@ public class KeyProcessor {
                             if (response.getTotalRecordCount() == 0) {
                                 Utils.showToast(activity, R.string.msg_no_items);
                             } else {
-                                PlaybackHelper.retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, activity);
+                                playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, activity);
                             }
                         }
 
@@ -370,7 +371,7 @@ public class KeyProcessor {
                     mediaManager.getValue().clearAudioQueue();
                     return true;
                 case MENU_INSTANT_MIX:
-                    PlaybackHelper.playInstantMix(activity, item);
+                    playbackHelper.getValue().playInstantMix(activity, item);
                     return true;
             }
 

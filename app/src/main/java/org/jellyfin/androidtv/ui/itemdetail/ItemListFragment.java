@@ -96,6 +96,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+    private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
 
     @Nullable
     @Override
@@ -300,7 +301,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    PlaybackHelper.playInstantMix(requireContext(), row.getItem());
+                    playbackHelper.getValue().playInstantMix(requireContext(), row.getItem());
                     return true;
                 }
             });
@@ -432,7 +433,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                     public void onClick(View v) {
                         if (!mItems.isEmpty()) {
                             //use server retrieval in order to get all items
-                            PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, requireContext());
+                            playbackHelper.getValue().retrieveAndPlay(mBaseItem.getId(), true, requireContext());
                         } else {
                             Utils.showToast(requireContext(), R.string.msg_no_playable_items);
                         }
@@ -449,7 +450,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             TextUnderButton mix = TextUnderButton.create(requireContext(), R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    PlaybackHelper.playInstantMix(requireContext(), mBaseItem);
+                    playbackHelper.getValue().playInstantMix(requireContext(), mBaseItem);
                 }
             });
             mButtonRow.addView(mix);
