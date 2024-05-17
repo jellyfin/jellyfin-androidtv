@@ -160,19 +160,20 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     BaseItemDto mBaseItem;
 
     private ArrayList<MediaSourceInfo> versions;
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
-    private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
-    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
-    Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
-    private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
-    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
-    Lazy<MediaManager> mediaManager = inject(MediaManager.class);
-    Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
-    private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
+    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
+    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    final Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
+    private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
+    private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
+    private final Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
+    final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
 
     @Nullable
     @Override
@@ -865,7 +866,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                PlaybackHelper.getItemsToPlay(baseItem, false, false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+                playbackHelper.getValue().getItemsToPlay(baseItem, false, false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
                     @Override
                     public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                         if (!getActive()) return;
@@ -1042,7 +1043,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     TextUnderButton imix = TextUnderButton.create(requireContext(), R.drawable.ic_mix, buttonSize, 0, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            PlaybackHelper.playInstantMix(requireContext(), baseItem);
+                            playbackHelper.getValue().playInstantMix(requireContext(), baseItem);
                         }
                     });
                     mDetailsOverviewRow.addAction(imix);
@@ -1608,7 +1609,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+        playbackHelper.getValue().getItemsToPlay(ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
             @Override
             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                 if (!getActive()) return;

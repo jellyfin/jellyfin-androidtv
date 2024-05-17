@@ -39,6 +39,7 @@ public class ItemLauncher {
     private final Lazy<MediaManager> mediaManager = KoinJavaComponent.<MediaManager>inject(MediaManager.class);
     private final Lazy<VideoQueueManager> videoQueueManager = KoinJavaComponent.<VideoQueueManager>inject(VideoQueueManager.class);
     private final Lazy<PlaybackLauncher> playbackLauncher = KoinJavaComponent.<PlaybackLauncher>inject(PlaybackLauncher.class);
+    private final Lazy<PlaybackHelper> playbackHelper = KoinJavaComponent.<PlaybackHelper>inject(PlaybackHelper.class);
 
     public void launchUserView(@Nullable final BaseItemDto baseItem) {
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
@@ -156,7 +157,7 @@ public class ItemLauncher {
                         case Play:
                             //Just play it directly
                             final BaseItemKind itemType = baseItem.getType();
-                            PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
+                            playbackHelper.getValue().getItemsToPlay(baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
                                 @Override
                                 public void onResponse(List<BaseItemDto> response) {
                                     videoQueueManager.getValue().setCurrentVideoQueue(response);
@@ -218,7 +219,7 @@ public class ItemLauncher {
                 ItemLauncherHelper.getItem(channel.getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        PlaybackHelper.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
+                        playbackHelper.getValue().getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 videoQueueManager.getValue().setCurrentVideoQueue(response);
