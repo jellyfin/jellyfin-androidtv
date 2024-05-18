@@ -1,5 +1,9 @@
 package org.jellyfin.androidtv.util
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
+import androidx.annotation.AnyRes
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -12,6 +16,28 @@ import java.util.UUID
 class ImageHelper(
 	private val api: ApiClient,
 ) {
+	companion object {
+		const val ASPECT_RATIO_2_3 = 2.0 / 3.0
+		const val ASPECT_RATIO_16_9 = 16.0 / 9.0
+		const val ASPECT_RATIO_7_9 = 7.0 / 9.0
+
+		const val MAX_PRIMARY_IMAGE_HEIGHT: Int = 370
+	}
+
+	fun getImageAspectRatio(item: BaseItemDto, preferParentThumb: Boolean): Double? {
+		if (preferParentThumb && (item.parentThumbItemId != null || item.seriesThumbImageTag != null)) {
+			return ASPECT_RATIO_16_9
+		}
+
+		if (item.type == BaseItemKind.EPISODE) {
+			if (item.primaryImageAspectRatio != null) return item.primaryImageAspectRatio
+			if (item.parentThumbItemId != null || item.seriesThumbImageTag != null) return ASPECT_RATIO_16_9
+		}
+
+		if (item.type == BaseItemKind.USER_VIEW && item.imageTags?.containsKey(ImageType.PRIMARY) == true) return ASPECT_RATIO_16_9
+		return item.primaryImageAspectRatio ?: ASPECT_RATIO_7_9
+	}
+
 	fun getPrimaryImageUrl(item: BaseItemPerson, maxHeight: Int? = null): String? {
 		if (item.primaryImageTag == null) return null
 
@@ -31,7 +57,7 @@ class ImageHelper(
 		return api.imageApi.getUserImageUrl(
 			userId = item.id,
 			tag = item.primaryImageTag,
-			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
+			maxHeight = MAX_PRIMARY_IMAGE_HEIGHT,
 		)
 	}
 
@@ -52,7 +78,7 @@ class ImageHelper(
 			itemId = itemId,
 			imageType = imageType,
 			tag = imageTag,
-			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
+			maxHeight = MAX_PRIMARY_IMAGE_HEIGHT,
 		)
 
 	fun getPrimaryImageUrl(
@@ -173,4 +199,21 @@ class ImageHelper(
 			)
 		}
 	}
+
+
+	/**
+	 * A utility to return a URL reference to an image resource
+	 *
+	 * @param resourceId The id of the image resource
+	 * @return The URL of the image resource
+	 */
+	fun getResourceUrl(
+		context: Context,
+		@AnyRes resourceId: Int,
+	): String = Uri.Builder()
+		.scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+		.authority(context.resources.getResourcePackageName(resourceId))
+		.appendPath(context.resources.getResourceTypeName(resourceId))
+		.appendPath(context.resources.getResourceEntryName(resourceId))
+		.toString()
 }
