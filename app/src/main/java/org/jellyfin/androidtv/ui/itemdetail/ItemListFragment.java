@@ -44,7 +44,7 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.Utils;
@@ -91,12 +91,13 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private Instant lastUpdated = Instant.now();
 
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
-    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
-    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
-    private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
-    private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
+    private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 
     @Nullable
     @Override
@@ -321,8 +322,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
 
-        Double aspect = ImageUtils.getImageAspectRatio(item, false);
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
+        Double aspect = imageHelper.getValue().getImageAspectRatio(item, false);
+        String primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(item, null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT);
         mPoster.setPadding(0, 0, 0, 0);
         mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
 

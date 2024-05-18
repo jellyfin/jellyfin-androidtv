@@ -14,9 +14,11 @@ import androidx.core.content.ContextCompat;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 public class GuideChannelHeader extends RelativeLayout {
     private AsyncImageView mChannelImage;
@@ -53,8 +55,9 @@ public class GuideChannelHeader extends RelativeLayout {
     }
 
     public void loadImage() {
+        ImageHelper imageHelper = KoinJavaComponent.<ImageHelper>get(ImageHelper.class);
         mChannelImage.load(
-                ImageUtils.getPrimaryImageUrl(mChannel),
+                imageHelper.getPrimaryImageUrl(ModelCompat.asSdk(mChannel),null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT),
                 null,
                 null,
                 0.0,

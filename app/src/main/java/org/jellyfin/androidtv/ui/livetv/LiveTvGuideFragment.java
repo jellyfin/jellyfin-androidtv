@@ -44,7 +44,7 @@ import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.util.CoroutineUtils;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -112,10 +112,11 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private Handler mHandler = new Handler();
 
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
+    private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 
     @Nullable
     @Override
@@ -805,7 +806,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
-            String url = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(mSelectedProgram));
+            String url = imageHelper.getValue().getPrimaryImageUrl(ModelCompat.asSdk(mSelectedProgram), null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT);
             mImage.load(url, null, ContextCompat.getDrawable(requireContext(), R.drawable.blank10x10), 0, 0);
         } else {
             mImage.setImageResource(R.drawable.blank10x10);

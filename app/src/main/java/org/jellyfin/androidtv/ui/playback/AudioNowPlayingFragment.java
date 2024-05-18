@@ -37,7 +37,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -81,10 +81,11 @@ public class AudioNowPlayingFragment extends Fragment {
 
     private boolean queueRowHasFocus = false;
 
-    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
-    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
-    private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
+    private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 
     private PopupMenu popupMenu;
 
@@ -295,10 +296,10 @@ public class AudioNowPlayingFragment extends Fragment {
 
     private void updatePoster() {
         // Figure image size
-        Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
+        Double aspect = imageHelper.getValue().getImageAspectRatio(mBaseItem, false);
         int posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 150) : Utils.convertDpToPixel(requireActivity(), 250);
 
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, false, null, posterHeight);
+        String primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(mBaseItem, false, null, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
     }

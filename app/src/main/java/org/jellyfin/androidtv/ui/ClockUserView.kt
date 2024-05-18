@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.ImageHelper
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -27,6 +27,7 @@ class ClockUserView @JvmOverloads constructor(
 	private val userPreferences by inject<UserPreferences>()
 	private val userRepository by inject<UserRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
+	private val imageHelper by inject<ImageHelper>()
 
 	var isVideoPlayer = false
 		set(value) {
@@ -42,7 +43,7 @@ class ClockUserView @JvmOverloads constructor(
 		val currentUser = userRepository.currentUser.value
 
 		binding.clockUserImage.load(
-			url = currentUser?.let(ImageUtils::getPrimaryImageUrl),
+			url = currentUser?.let(imageHelper::getPrimaryImageUrl),
 			placeholder = ContextCompat.getDrawable(context, R.drawable.ic_user)
 		)
 

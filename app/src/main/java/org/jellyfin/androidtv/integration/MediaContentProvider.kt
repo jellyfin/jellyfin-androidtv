@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.integration.provider.ImageProvider
-import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -41,6 +41,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 	}
 
 	private val api by inject<ApiClient>()
+	private val imageHelper by inject<ImageHelper>()
 
 	override fun onCreate(): Boolean = api.isUsable
 
@@ -106,7 +107,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
 					ImageProvider.getImageUri(api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY))
 				else
-					ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv)
+					imageHelper.getResourceUrl(context!!, R.drawable.tile_land_tv)
 
 				cursor.newRow().apply {
 					add(BaseColumns._ID, item.id)

@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackController
-import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -29,6 +29,7 @@ class NowPlayingView @JvmOverloads constructor(
 
 	private val mediaManager by inject<MediaManager>()
 	private val navigationRepository by inject<NavigationRepository>()
+	private val imageHelper by inject<ImageHelper>()
 	private var currentDuration: String = ""
 
 	init {
@@ -63,7 +64,7 @@ class NowPlayingView @JvmOverloads constructor(
 	private fun setInfo(item: org.jellyfin.sdk.model.api.BaseItemDto) {
 		val placeholder = ContextCompat.getDrawable(context, R.drawable.ic_album)
 		val blurHash = item.imageBlurHashes?.get(org.jellyfin.sdk.model.api.ImageType.PRIMARY)?.get(item.imageTags?.get(org.jellyfin.sdk.model.api.ImageType.PRIMARY))
-		binding.npIcon.load(ImageUtils.getPrimaryImageUrl(item), blurHash, placeholder, item.primaryImageAspectRatio ?: 1.0)
+		binding.npIcon.load(imageHelper.getPrimaryImageUrl(item), blurHash, placeholder, item.primaryImageAspectRatio ?: 1.0)
 
 		currentDuration = TimeUtils.formatMillis(if (item.runTimeTicks != null) item.runTimeTicks!! / 10_000 else 0)
 		binding.npDesc.text = if (item.albumArtist != null) item.albumArtist else item.name
