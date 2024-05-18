@@ -21,7 +21,7 @@ import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
-import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
@@ -208,7 +208,7 @@ class AuthenticationRepositoryImpl(
 		jellyfin.createApi(server.address).imageApi.getUserImageUrl(
 			userId = user.id,
 			tag = tag,
-			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
+			maxHeight = ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT
 		)
 	}
 }

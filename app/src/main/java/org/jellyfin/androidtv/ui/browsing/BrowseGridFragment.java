@@ -57,7 +57,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
@@ -369,10 +369,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.MUSIC.equals(folder.getCollectionType())) {
                     return cardHeight;
                 } else {
-                    return cardHeight * ImageUtils.ASPECT_RATIO_2_3;
+                    return cardHeight * ImageHelper.ASPECT_RATIO_2_3;
                 }
             case THUMB:
-                return cardHeight * ImageUtils.ASPECT_RATIO_16_9;
+                return cardHeight * ImageHelper.ASPECT_RATIO_16_9;
             case BANNER:
                 return cardHeight * CardPresenter.ASPECT_RATIO_BANNER;
             default:
@@ -390,10 +390,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.MUSIC.equals(folder.getCollectionType())) {
                     return cardWidth;
                 } else {
-                    return cardWidth / ImageUtils.ASPECT_RATIO_2_3;
+                    return cardWidth / ImageHelper.ASPECT_RATIO_2_3;
                 }
             case THUMB:
-                return cardWidth / ImageUtils.ASPECT_RATIO_16_9;
+                return cardWidth / ImageHelper.ASPECT_RATIO_16_9;
             case BANNER:
                 return cardWidth / CardPresenter.ASPECT_RATIO_BANNER;
             default:
