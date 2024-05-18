@@ -47,14 +47,20 @@ class ImageHelper(
 		)
 	}
 
-	fun getImageUrl(itemId: UUID, imageType: ImageType, imageTag: String): String = api.imageApi.getItemImageUrl(
-		itemId = itemId,
-		imageType = imageType,
-		tag = imageTag,
-		maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
-	)
+	fun getImageUrl(itemId: UUID, imageType: ImageType, imageTag: String): String =
+		api.imageApi.getItemImageUrl(
+			itemId = itemId,
+			imageType = imageType,
+			tag = imageTag,
+			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
+		)
 
-	fun getPrimaryImageUrl(item: BaseItemDto, preferParentThumb: Boolean, fillWidth: Int? = null, fillHeight: Int? = null): String {
+	fun getPrimaryImageUrl(
+		item: BaseItemDto,
+		preferParentThumb: Boolean,
+		fillWidth: Int? = null,
+		fillHeight: Int? = null
+	): String {
 		var itemId = item.id
 		var imageTag = item.imageTags?.get(ImageType.PRIMARY)
 		var imageType = ImageType.PRIMARY
@@ -96,7 +102,11 @@ class ImageHelper(
 		)
 	}
 
-	fun getLogoImageUrl(item: BaseItemDto?, maxWidth: Int? = null, useSeriesFallback: Boolean = true): String? {
+	fun getLogoImageUrl(
+		item: BaseItemDto?,
+		maxWidth: Int? = null,
+		useSeriesFallback: Boolean = true
+	): String? {
 		val logoTag = item?.imageTags?.get(ImageType.LOGO)
 		return when {
 			// No item
@@ -129,6 +139,38 @@ class ImageHelper(
 			}
 
 			else -> null
+		}
+	}
+
+	fun getThumbImageUrl(item: BaseItemDto, fillWidth: Int, fillHeight: Int): String {
+		val thumbTag = item.imageTags?.get(ImageType.THUMB)
+
+		return if (thumbTag == null) {
+			getPrimaryImageUrl(item, true, fillWidth, fillHeight)
+		} else {
+			api.imageApi.getItemImageUrl(
+				itemId = item.id,
+				tag = thumbTag,
+				imageType = ImageType.THUMB,
+				fillWidth = fillWidth,
+				fillHeight = fillHeight,
+			)
+		}
+	}
+
+	fun getBannerImageUrl(item: BaseItemDto, fillWidth: Int, fillHeight: Int): String {
+		val bannerTag = item.imageTags?.get(ImageType.BANNER)
+
+		return if (bannerTag == null) {
+			getPrimaryImageUrl(item, true, fillWidth, fillHeight)
+		} else {
+			api.imageApi.getItemImageUrl(
+				itemId = item.id,
+				tag = bannerTag,
+				imageType = ImageType.BANNER,
+				fillWidth = fillWidth,
+				fillHeight = fillHeight,
+			)
 		}
 	}
 }
