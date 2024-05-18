@@ -46,14 +46,14 @@ class SdkPlaybackHelper(
 		const val ITEM_QUERY_LIMIT = 150
 	}
 
-	// TODO: Add context to this function (please)
 	override fun getItemsToPlay(
+		context: Context,
 		mainItem: BaseItemDto,
 		allowIntros: Boolean,
 		shuffle: Boolean,
 		outerResponse: Response<List<BaseItemDto>>
 	) {
-		getScope().launch {
+		getScope(context).launch {
 			runCatching {
 				getItems(mainItem, allowIntros, shuffle)
 			}.fold(

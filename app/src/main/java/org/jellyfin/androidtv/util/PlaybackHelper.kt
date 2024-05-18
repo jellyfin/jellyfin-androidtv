@@ -7,10 +7,11 @@ import java.util.UUID
 
 interface PlaybackHelper {
 	fun getItemsToPlay(
+		context: Context,
 		mainItem: BaseItemDto,
 		allowIntros: Boolean,
 		shuffle: Boolean,
-		outerResponse: Response<List<BaseItemDto>>
+		outerResponse: Response<List<BaseItemDto>>,
 	)
 
 	fun retrieveAndPlay(id: UUID, shuffle: Boolean, position: Long?, context: Context)

@@ -867,7 +867,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                playbackHelper.getValue().getItemsToPlay(baseItem, false, false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
                     @Override
                     public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                         if (!getActive()) return;
@@ -1610,7 +1610,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        playbackHelper.getValue().getItemsToPlay(ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+        playbackHelper.getValue().getItemsToPlay(getContext(), ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
             @Override
             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                 if (!getActive()) return;
