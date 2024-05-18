@@ -112,6 +112,6 @@ fun FullDetailsFragment.showPlayWithMenu(
 			}
 		}
 
-		playbackHelper.value.getItemsToPlay(baseItem, false, shuffle, itemsCallback)
+		playbackHelper.value.getItemsToPlay(requireContext(), baseItem, false, shuffle, itemsCallback)
 	}
 }.show()

@@ -53,7 +53,7 @@ public class ApiClientPlaybackHelper implements PlaybackHelper {
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = KoinJavaComponent.<PlaybackControllerContainer>inject(PlaybackControllerContainer.class);
 
     @Override
-    public void getItemsToPlay(final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
+    public void getItemsToPlay(Context context, final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
         UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
 
         final List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<>();
@@ -276,7 +276,7 @@ public class ApiClientPlaybackHelper implements PlaybackHelper {
     }
 
     private void play(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        getItemsToPlay(item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
+        getItemsToPlay(activity, item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
             @Override
             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                 switch (item.getType()) {

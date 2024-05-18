@@ -157,7 +157,7 @@ public class ItemLauncher {
                         case Play:
                             //Just play it directly
                             final BaseItemKind itemType = baseItem.getType();
-                            playbackHelper.getValue().getItemsToPlay(baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
+                            playbackHelper.getValue().getItemsToPlay(context, baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
                                 @Override
                                 public void onResponse(List<BaseItemDto> response) {
                                     videoQueueManager.getValue().setCurrentVideoQueue(response);
@@ -219,7 +219,7 @@ public class ItemLauncher {
                 ItemLauncherHelper.getItem(channel.getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        playbackHelper.getValue().getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
+                        playbackHelper.getValue().getItemsToPlay(context, response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 videoQueueManager.getValue().setCurrentVideoQueue(response);
