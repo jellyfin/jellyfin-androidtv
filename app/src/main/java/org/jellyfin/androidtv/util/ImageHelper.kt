@@ -20,6 +20,7 @@ class ImageHelper(
 		const val ASPECT_RATIO_2_3 = 2.0 / 3.0
 		const val ASPECT_RATIO_16_9 = 16.0 / 9.0
 		const val ASPECT_RATIO_7_9 = 7.0 / 9.0
+		const val ASPECT_RATIO_BANNER = 1000.0 / 185.0
 
 		const val MAX_PRIMARY_IMAGE_HEIGHT: Int = 370
 	}

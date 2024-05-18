@@ -12,8 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
@@ -23,7 +21,6 @@ import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ImageHelper;
-import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -36,8 +33,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public class CardPresenter extends Presenter {
-    public static final double ASPECT_RATIO_BANNER = 1000.0 / 185.0;
-
     private int mStaticHeight = 150;
     private ImageType mImageType = ImageType.POSTER;
     private double aspect;
@@ -74,14 +69,12 @@ public class CardPresenter extends Presenter {
         private BaseRowItem mItem;
         private LegacyImageCardView mCardView;
         private Drawable mDefaultCardImage;
-        private final LifecycleOwner lifecycleOwner;
 
-        public ViewHolder(View view, LifecycleOwner lifecycleOwner) {
+        public ViewHolder(View view) {
             super(view);
 
             mCardView = (LegacyImageCardView) view;
             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-            this.lifecycleOwner = lifecycleOwner;
         }
 
         public int getCardWidth() {
@@ -106,11 +99,12 @@ public class CardPresenter extends Presenter {
                     boolean showWatched = true;
                     boolean showProgress = false;
                     if (imageType.equals(ImageType.BANNER)) {
-                        aspect = ASPECT_RATIO_BANNER;
+                        aspect = ImageHelper.ASPECT_RATIO_BANNER;
                     } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageHelper.ASPECT_RATIO_16_9;
                     } else {
-                        aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
+                        ImageHelper imageHelper = KoinJavaComponent.<ImageHelper>get(ImageHelper.class);
+                        aspect = Utils.getSafeValue(imageHelper.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
                     }
                     switch (itemDto.getType()) {
                         case AUDIO:
@@ -239,7 +233,7 @@ public class CardPresenter extends Presenter {
                 case LiveTvChannel:
                     org.jellyfin.sdk.model.api.BaseItemDto channel = mItem.getBaseItem();
                     // TODO: Is it even possible to have channels with banners or thumbs?
-                    double tvAspect = imageType.equals(ImageType.BANNER) ? ASPECT_RATIO_BANNER :
+                    double tvAspect = imageType.equals(ImageType.BANNER) ? ImageHelper.ASPECT_RATIO_BANNER :
                         imageType.equals(ImageType.THUMB) ? ImageHelper.ASPECT_RATIO_16_9 :
                         Utils.getSafeValue(channel.getPrimaryImageAspectRatio(), 1.0);
                     cardHeight = !m.getStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
@@ -286,7 +280,7 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvRecording:
                     BaseItemDto recording = mItem.getBaseItem();
-                    double recordingAspect = imageType.equals(ImageType.BANNER) ? ASPECT_RATIO_BANNER : (imageType.equals(ImageType.THUMB) ? ImageHelper.ASPECT_RATIO_16_9 : Utils.getSafeValue(recording.getPrimaryImageAspectRatio(), ImageHelper.ASPECT_RATIO_7_9));
+                    double recordingAspect = imageType.equals(ImageType.BANNER) ? ImageHelper.ASPECT_RATIO_BANNER : (imageType.equals(ImageType.THUMB) ? ImageHelper.ASPECT_RATIO_16_9 : Utils.getSafeValue(recording.getPrimaryImageAspectRatio(), ImageHelper.ASPECT_RATIO_7_9));
                     cardHeight = !m.getStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int) ((recordingAspect) * cardHeight);
                     if (cardWidth < 5) {
@@ -355,7 +349,7 @@ public class CardPresenter extends Presenter {
         @ColorInt int color = typedValue.data;
         cardView.setBackgroundColor(color);
 
-        return new ViewHolder(cardView, ViewTreeLifecycleOwner.get(parent));
+        return new ViewHolder(cardView);
     }
 
     @Override
@@ -399,7 +393,7 @@ public class CardPresenter extends Presenter {
         if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
             Map<String, String> blurHashMap;
             String imageTag;
-            if (aspect == ASPECT_RATIO_BANNER) {
+            if (aspect == ImageHelper.ASPECT_RATIO_BANNER) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
             } else if (aspect == ImageHelper.ASPECT_RATIO_2_3 && rowItem.getBaseItemType() == BaseItemKind.EPISODE && rowItem.getPreferSeriesPoster()) {

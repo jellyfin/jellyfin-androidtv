@@ -70,7 +70,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.CoroutineUtils;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -165,6 +165,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -1416,7 +1417,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 binding.itemTitle.setText(current.getName());
             }
             // Update the logo
-            String imageUrl = ImageUtils.getLogoImageUrl(current, 440, false);
+            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440, false);
             if (imageUrl != null) {
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);

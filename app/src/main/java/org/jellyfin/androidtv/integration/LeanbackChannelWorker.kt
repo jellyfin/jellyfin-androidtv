@@ -25,7 +25,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
-import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
@@ -68,6 +68,7 @@ class LeanbackChannelWorker(
 	private val api by inject<ApiClient>()
 	private val userPreferences by inject<UserPreferences>()
 	private val userViewsRepository by inject<UserViewsRepository>()
+	private val imageHelper by inject<ImageHelper>()
 
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher.
@@ -257,7 +258,7 @@ class LeanbackChannelWorker(
 			tag = imageTags?.get(ImageType.PRIMARY),
 		)
 
-		else -> ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv)
+		else -> imageHelper.getResourceUrl(context, R.drawable.tile_land_tv)
 	}.let(ImageProvider::getImageUri)
 
 	/**

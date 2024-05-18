@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.GridButton
-import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
@@ -33,9 +33,9 @@ import org.jellyfin.sdk.model.extensions.ticks
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import org.koin.core.component.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import org.jellyfin.apiclient.interaction.ApiClient as LegacyApiClient
 
 open class BaseRowItem protected constructor(
 	val baseRowType: BaseRowType,
@@ -51,6 +51,8 @@ open class BaseRowItem protected constructor(
 	val gridButton: GridButton? = null,
 	var preferSeriesPoster: Boolean = false,
 ) : KoinComponent {
+	val imageHelper by inject<ImageHelper>()
+
 	// Start of constructor hell
 	@JvmOverloads
 	constructor(
@@ -159,17 +161,16 @@ open class BaseRowItem protected constructor(
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
 		BaseRowType.LiveTvRecording -> {
-			val apiClient = get<LegacyApiClient>()
 			val seriesId = baseItem?.seriesId
 			val seriesPrimaryImageTag = baseItem?.seriesPrimaryImageTag
 
 			when {
 				preferSeriesPoster && seriesId != null && seriesPrimaryImageTag != null -> {
-					ImageUtils.getImageUrl(seriesId, org.jellyfin.apiclient.model.entities.ImageType.Primary, seriesPrimaryImageTag)
+					imageHelper.getImageUrl(seriesId, org.jellyfin.sdk.model.api.ImageType.PRIMARY, seriesPrimaryImageTag)
 				}
 
-				imageType == ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, fillWidth, fillHeight)
-				imageType == ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, fillWidth, fillHeight)
+				imageType == ImageType.BANNER -> imageHelper.getBannerImageUrl(requireNotNull(baseItem), fillWidth, fillHeight)
+				imageType == ImageType.THUMB -> imageHelper.getThumbImageUrl(requireNotNull(baseItem), fillWidth, fillHeight)
 				else -> getPrimaryImageUrl(context, fillHeight)
 			}
 		}
@@ -180,13 +181,13 @@ open class BaseRowItem protected constructor(
 	fun getPrimaryImageUrl(context: Context, fillHeight: Int) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> ImageUtils.getPrimaryImageUrl(baseItem!!, preferParentThumb, null, fillHeight)
+		BaseRowType.LiveTvRecording -> imageHelper.getPrimaryImageUrl(baseItem!!, preferParentThumb, null, fillHeight)
 
-		BaseRowType.Person -> ImageUtils.getPrimaryImageUrl(basePerson!!, fillHeight)
+		BaseRowType.Person -> imageHelper.getPrimaryImageUrl(basePerson!!, fillHeight)
 		BaseRowType.Chapter -> chapterInfo?.imagePath
-		BaseRowType.LiveTvChannel -> ImageUtils.getPrimaryImageUrl(baseItem!!)
-		BaseRowType.GridButton -> gridButton?.imageRes?.let { ImageUtils.getResourceUrl(context, it) }
-		BaseRowType.SeriesTimer -> ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer)
+		BaseRowType.LiveTvChannel -> imageHelper.getPrimaryImageUrl(baseItem!!)
+		BaseRowType.GridButton -> gridButton?.imageRes?.let { imageHelper.getResourceUrl(context, it) }
+		BaseRowType.SeriesTimer -> imageHelper.getResourceUrl(context, R.drawable.tile_land_series_timer)
 	}
 
 	fun getBaseItemType() = baseItem?.type

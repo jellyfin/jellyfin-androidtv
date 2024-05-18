@@ -73,7 +73,7 @@ import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
-import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.PlaybackHelper;
@@ -174,6 +174,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
     final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
+    private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 
     @Nullable
     @Override
@@ -457,14 +458,14 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             BaseItemDto item = params[0];
 
             // Figure image size
-            Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
+            Double aspect = imageHelper.getValue().getImageAspectRatio(ModelCompat.asSdk(item), false);
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 160) : Utils.convertDpToPixel(requireContext(), ModelCompat.asSdk(item).getType() == BaseItemKind.PERSON || ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
 
-            String primaryImageUrl = ImageUtils.getLogoImageUrl(ModelCompat.asSdk(mBaseItem), 600, true);
+            String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(ModelCompat.asSdk(mBaseItem), 600, true);
             if (primaryImageUrl == null) {
-                primaryImageUrl = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(mBaseItem), false, null, posterHeight);
+                primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(ModelCompat.asSdk(mBaseItem), false, null, posterHeight);
                 if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
                     mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }
