@@ -134,7 +134,6 @@ val appModule = module {
 	single { ItemLauncher() }
 	single { KeyProcessor() }
 	single { ReportingHelper() }
-//	single<PlaybackHelper> { ApiClientPlaybackHelper() }
 	single<PlaybackHelper> { SdkPlaybackHelper(get(), get(), get(), get(), get(), get(), get()) }
 
 	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
