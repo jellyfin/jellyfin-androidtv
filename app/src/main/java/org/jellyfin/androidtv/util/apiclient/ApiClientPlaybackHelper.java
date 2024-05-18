@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
+import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
@@ -39,7 +40,7 @@ import java.util.UUID;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class PlaybackHelper {
+public class ApiClientPlaybackHelper implements PlaybackHelper {
     private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
 
     private Lazy<SessionRepository> sessionRepository = KoinJavaComponent.<SessionRepository>inject(SessionRepository.class);
@@ -51,6 +52,7 @@ public class PlaybackHelper {
     private Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = KoinJavaComponent.<PlaybackControllerContainer>inject(PlaybackControllerContainer.class);
 
+    @Override
     public void getItemsToPlay(final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
         UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
 
@@ -312,6 +314,7 @@ public class PlaybackHelper {
         });
     }
 
+    @Override
     public void retrieveAndPlay(UUID id, boolean shuffle, Context activity) {
         retrieveAndPlay(id, shuffle, null, activity);
     }
@@ -325,6 +328,7 @@ public class PlaybackHelper {
         }
     }
 
+    @Override
     public void retrieveAndPlay(UUID id, final boolean shuffle, final Long position, final Context activity) {
         UUID userId = sessionRepository.getValue().getCurrentSession().getValue().getUserId();
         apiClient.getValue().GetItemAsync(id.toString(), userId.toString(), new Response<BaseItemDto>() {
@@ -342,6 +346,7 @@ public class PlaybackHelper {
         });
     }
 
+    @Override
     public void playInstantMix(Context context, org.jellyfin.sdk.model.api.BaseItemDto item) {
         getInstantMixAsync(item.getId(), new Response<BaseItemDto[]>() {
             @Override
