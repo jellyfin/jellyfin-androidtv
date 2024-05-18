@@ -39,8 +39,8 @@ import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
-import org.jellyfin.androidtv.util.apiclient.ApiClientPlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper
+import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.android
@@ -134,7 +134,8 @@ val appModule = module {
 	single { ItemLauncher() }
 	single { KeyProcessor() }
 	single { ReportingHelper() }
-	single<PlaybackHelper> { ApiClientPlaybackHelper() }
+//	single<PlaybackHelper> { ApiClientPlaybackHelper() }
+	single<PlaybackHelper> { SdkPlaybackHelper(get(), get(), get(), get(), get(), get(), get()) }
 
 	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
 }
