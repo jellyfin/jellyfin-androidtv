@@ -168,8 +168,8 @@ open class BaseRowItem protected constructor(
 					ImageUtils.getImageUrl(seriesId, org.jellyfin.apiclient.model.entities.ImageType.Primary, seriesPrimaryImageTag)
 				}
 
-				imageType == ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, fillWidth, fillHeight)
-				imageType == ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, fillWidth, fillHeight)
+				imageType == ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, fillWidth, fillHeight)
+				imageType == ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, fillWidth, fillHeight)
 				else -> getPrimaryImageUrl(context, fillHeight)
 			}
 		}
