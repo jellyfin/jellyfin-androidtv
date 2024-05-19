@@ -87,11 +87,7 @@ import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
-import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
@@ -102,9 +98,12 @@ import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
+import org.jellyfin.sdk.model.api.MediaSourceInfo;
+import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaType;
 import org.jellyfin.sdk.model.api.PersonKind;
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
@@ -113,7 +112,8 @@ import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -139,7 +139,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     private DisplayMetrics mMetrics;
 
-    protected org.jellyfin.sdk.model.api.BaseItemDto mProgramInfo;
+    protected BaseItemDto mProgramInfo;
     protected SeriesTimerInfoDto mSeriesTimerInfo;
     protected UUID mItemId;
     protected UUID mChannelId;
@@ -198,7 +198,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mChannelId = Utils.uuidOrNull(getArguments().getString("ChannelId"));
         String programJson = getArguments().getString("ProgramInfo");
         if (programJson != null) {
-            mProgramInfo =Json.Default.decodeFromString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), programJson);
+            mProgramInfo =Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), programJson);
         }
         String timerJson = getArguments().getString("SeriesTimer");
         if (timerJson != null) {
@@ -206,7 +206,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
 
         CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
-            if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
+            if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null) {
                 //update info
                 apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
                     @Override
@@ -214,7 +214,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         if (!getActive()) return;
 
                         mSeriesTimerInfo = ModelCompat.asSdk(response);
-                        mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
+                        mBaseItem = JavaCompat.copyWithOverview(mBaseItem, BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
                         mDorPresenter.getViewHolder().setSummary(mBaseItem.getOverview());
                     }
                 });
@@ -269,22 +269,22 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 // if last playback event exists, and event time is greater than last sync or within 2 seconds of current time
                 // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
-                if (lastPlaybackTime != null && (lastPlaybackTime.isAfter(mLastUpdated) || Instant.now().toEpochMilli() - lastPlaybackTime.toEpochMilli() < 2000) && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST) {
-                    org.jellyfin.sdk.model.api.BaseItemDto lastPlayedItem = dataRefreshService.getValue().getLastPlayedItem();
-                    if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
+                if (lastPlaybackTime != null && (lastPlaybackTime.isAfter(mLastUpdated) || Instant.now().toEpochMilli() - lastPlaybackTime.toEpochMilli() < 2000) && mBaseItem.getType() != BaseItemKind.MUSIC_ARTIST) {
+                    BaseItemDto lastPlayedItem = dataRefreshService.getValue().getLastPlayedItem();
+                    if (mBaseItem.getType() == BaseItemKind.EPISODE && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
                         Timber.i("Re-loading after new episode playback");
                         loadItem(lastPlayedItem.getId());
                         dataRefreshService.getValue().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
                         Timber.d("Updating info after playback");
-                        apiClient.getValue().GetItemAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                        apiClient.getValue().GetItemAsync(mBaseItem.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                             @Override
-                            public void onResponse(BaseItemDto response) {
+                            public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                 if (!getActive()) return;
 
-                                mBaseItem = response;
+                                mBaseItem = ModelCompat.asSdk(response);
                                 if (mResumeButton != null) {
-                                    boolean resumeVisible = (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
+                                    boolean resumeVisible = (mBaseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
                                     mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                     if (response.getCanResume()) {
                                         mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
@@ -324,7 +324,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         if (mCurrentItem != null) {
             return keyProcessor.getValue().handleKey(keyCode, mCurrentItem, requireActivity());
-        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
+        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(mBaseItem)) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
             play(mBaseItem, pos.intValue() , false);
@@ -344,7 +344,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 MyDetailsOverviewRowPresenter.ViewHolder viewholder = mDorPresenter.getViewHolder();
                 if (viewholder == null) return;
 
-                if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
+                if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getRunTimeTicks() != null)) {
                     viewholder.setInfoValue3(getEndTime());
                     mLoopHandler.postDelayed(this, 15000);
                 }
@@ -393,33 +393,25 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                     mProgramInfo = ModelCompat.asSdk(response.getCurrentProgram());
                     mItemId = mProgramInfo.getId();
-                    apiClient.getValue().GetItemAsync(mItemId.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                    apiClient.getValue().GetItemAsync(mItemId.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                         @Override
-                        public void onResponse(BaseItemDto response) {
+                        public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                             if (!getActive()) return;
 
-                            setBaseItem(response);
+                            setBaseItem(ModelCompat.asSdk(response));
                         }
                     });
                 }
             });
         } else if (mSeriesTimerInfo != null) {
-            // create base item from our timer
-            BaseItemDto item = new BaseItemDto();
-            item.setId(mSeriesTimerInfo.getId());
-            item.setBaseItemType(BaseItemType.Folder);
-            item.setSeriesTimerId(mSeriesTimerInfo.getId());
-            item.setName(mSeriesTimerInfo.getName());
-            item.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
-
-            setBaseItem(item);
+            setBaseItem(FullDetailsFragmentHelperKt.createFakeSeriesTimerBaseItemDto(this, mSeriesTimerInfo));
         } else {
-            apiClient.getValue().GetItemAsync(id.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+            apiClient.getValue().GetItemAsync(id.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                 @Override
-                public void onResponse(BaseItemDto response) {
+                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                     if (!getActive()) return;
 
-                    setBaseItem(response);
+                    setBaseItem(ModelCompat.asSdk(response));
                 }
 
                 @Override
@@ -458,29 +450,29 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             BaseItemDto item = params[0];
 
             // Figure image size
-            Double aspect = imageHelper.getValue().getImageAspectRatio(ModelCompat.asSdk(item), false);
-            posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 160) : Utils.convertDpToPixel(requireContext(), ModelCompat.asSdk(item).getType() == BaseItemKind.PERSON || ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
+            Double aspect = imageHelper.getValue().getImageAspectRatio(item, false);
+            posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 160) : Utils.convertDpToPixel(requireContext(), item.getType() == BaseItemKind.PERSON || item.getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
 
-            mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
+            mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
-            String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(ModelCompat.asSdk(mBaseItem), 600, true);
+            String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(mBaseItem, 600, true);
             if (primaryImageUrl == null) {
-                primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(ModelCompat.asSdk(mBaseItem), false, null, posterHeight);
+                primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(mBaseItem, false, null, posterHeight);
                 if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
                     mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }
 
             mDetailsOverviewRow.setSummary(item.getOverview());
-            switch (item.getBaseItemType()) {
-                case Person:
-                case MusicArtist:
+            switch (item.getType()) {
+                case PERSON:
+                case MUSIC_ARTIST:
                     break;
                 default:
 
-                    BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(ModelCompat.asSdk(item), PersonKind.DIRECTOR);
+                    BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(item, PersonKind.DIRECTOR);
 
                     InfoItem firstRow;
-                    if (ModelCompat.asSdk(item).getType() == BaseItemKind.SERIES) {
+                    if (item.getType() == BaseItemKind.SERIES) {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_seasons),
                                 String.format("%d", Utils.getSafeValue(item.getChildCount(), 0)));
@@ -491,7 +483,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     }
                     mDetailsOverviewRow.setInfoItem1(firstRow);
 
-                    if ((item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0) || item.getOriginalRunTimeTicks() != null) {
+                    if ((item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0) || item.getRunTimeTicks() != null) {
                         mDetailsOverviewRow.setInfoItem2(new InfoItem(getString(R.string.lbl_runs), getRunTime()));
                         ClockBehavior clockBehavior = userPreferences.getValue().get(UserPreferences.Companion.getClockBehavior());
                         if (clockBehavior == ClockBehavior.ALWAYS || clockBehavior == ClockBehavior.IN_MENUS) {
@@ -533,13 +525,17 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
-        backgroundService.getValue().setBackground(ModelCompat.asSdk(item));
+        backgroundService.getValue().setBackground(item);
         if (mBaseItem != null) {
             if (mChannelId != null) {
-                mBaseItem.setParentId(mChannelId.toString());
-                mBaseItem.setPremiereDate(TimeUtils.getDate(mProgramInfo.getStartDate()));
-                mBaseItem.setEndDate(TimeUtils.getDate(mProgramInfo.getEndDate(), ZoneId.systemDefault()));
-                mBaseItem.setRunTimeTicks(mProgramInfo.getRunTimeTicks());
+                mBaseItem = JavaCompat.copyWithParentId(mBaseItem, mChannelId);
+                mBaseItem = JavaCompat.copyWithDates(
+                        mBaseItem,
+                        mProgramInfo.getStartDate(),
+                        mProgramInfo.getEndDate(),
+                        mBaseItem.getOfficialRating(),
+                        mProgramInfo.getRunTimeTicks()
+                );
             }
             new BuildDorTask().execute(item);
         }
@@ -554,35 +550,43 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     protected void addAdditionalRows(MutableObjectAdapter<Row> adapter) {
-        Timber.d("Item type: %s", mBaseItem.getBaseItemType().toString());
-        switch (mBaseItem.getBaseItemType()) {
-            case Movie:
+        Timber.d("Item type: %s", mBaseItem.getType().toString());
+
+        if (mSeriesTimerInfo != null) {
+            TimerQuery scheduled = new TimerQuery();
+            scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
+            TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) { });
+            return;
+        }
+
+        switch (mBaseItem.getType()) {
+            case MOVIE:
 
                 //Additional Parts
                 if (mBaseItem.getPartCount() != null && mBaseItem.getPartCount() > 0) {
-                    ItemRowAdapter additionalPartsAdapter = new ItemRowAdapter(requireContext(), new AdditionalPartsQuery(mBaseItem.getId()), new CardPresenter(), adapter);
+                    ItemRowAdapter additionalPartsAdapter = new ItemRowAdapter(requireContext(), new AdditionalPartsQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter);
                     addItemRow(adapter, additionalPartsAdapter, 0, getString(R.string.lbl_additional_parts));
                 }
 
                 //Cast/Crew
-                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 130), adapter);
+                if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, castAdapter, 1, getString(R.string.lbl_cast_crew));
                 }
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
                 }
 
                 //Trailers
                 if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 1) {
-                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 4, getString(R.string.lbl_trailers));
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new TrailersQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter), 4, getString(R.string.lbl_trailers));
                 }
 
                 //Chapters
-                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
+                if (mBaseItem.getChapters() != null && !mBaseItem.getChapters().isEmpty()) {
+                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(mBaseItem, api.getValue());
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), chapters, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, chapterAdapter, 2, getString(R.string.lbl_chapters));
                 }
@@ -594,7 +598,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 similar.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                similar.setId(mBaseItem.getId());
+                similar.setId(mBaseItem.getId().toString());
                 similar.setLimit(10);
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(requireContext(), similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
@@ -602,11 +606,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 addInfoRows(adapter);
                 break;
-            case Trailer:
+            case TRAILER:
 
                 //Cast/Crew
-                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 130), adapter);
+                if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
@@ -617,14 +621,14 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 similarTrailer.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                similarTrailer.setId(mBaseItem.getId());
+                similarTrailer.setId(mBaseItem.getId().toString());
                 similarTrailer.setLimit(10);
 
                 ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(requireContext(), similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarTrailerAdapter, 4, getString(R.string.lbl_more_like_this));
                 addInfoRows(adapter);
                 break;
-            case Person:
+            case PERSON:
 
                 ItemQuery personMovies = new ItemQuery();
                 personMovies.setFields(new ItemFields[]{
@@ -632,7 +636,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 personMovies.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personMovies.setPersonIds(new String[] {mBaseItem.getId()});
+                personMovies.setPersonIds(new String[] {mBaseItem.getId().toString()});
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
                 personMovies.setSortBy(new String[] {ItemSortBy.SORT_NAME.getSerialName()});
@@ -646,7 +650,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 personSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personSeries.setPersonIds(new String[] {mBaseItem.getId()});
+                personSeries.setPersonIds(new String[] {mBaseItem.getId().toString()});
                 personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series"});
                 personSeries.setSortBy(new String[] {ItemSortBy.SORT_NAME.getSerialName()});
@@ -660,7 +664,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 personEpisodes.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personEpisodes.setPersonIds(new String[] {mBaseItem.getId()});
+                personEpisodes.setPersonIds(new String[] {mBaseItem.getId().toString()});
                 personEpisodes.setRecursive(true);
                 personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
                 personEpisodes.setSortBy(new String[] {ItemSortBy.SERIES_SORT_NAME.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
@@ -668,7 +672,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 addItemRow(adapter, personEpisodesAdapter, 2, getString(R.string.lbl_episodes));
 
                 break;
-            case MusicArtist:
+            case MUSIC_ARTIST:
 
                 ItemQuery artistAlbums = new ItemQuery();
                 artistAlbums.setFields(new ItemFields[]{
@@ -676,17 +680,17 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 artistAlbums.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                artistAlbums.setArtistIds(new String[]{mBaseItem.getId()});
+                artistAlbums.setArtistIds(new String[]{mBaseItem.getId().toString()});
                 artistAlbums.setRecursive(true);
                 artistAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
                 ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(), artistAlbums, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, artistAlbumsAdapter, 0, getString(R.string.lbl_albums));
 
                 break;
-            case Series:
+            case SERIES:
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                nextUpQuery.setSeriesId(mBaseItem.getId());
+                nextUpQuery.setSeriesId(mBaseItem.getId().toString());
                 nextUpQuery.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
@@ -695,7 +699,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 addItemRow(adapter, nextUpAdapter, 0, getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();
-                seasons.setSeriesId(mBaseItem.getId());
+                seasons.setSeriesId(mBaseItem.getId().toString());
                 seasons.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 seasons.setFields(new ItemFields[] {
                         ItemFields.PrimaryImageAspectRatio,
@@ -707,12 +711,12 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
                 }
 
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
                 upcoming.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                upcoming.setParentId(mBaseItem.getId());
+                upcoming.setParentId(mBaseItem.getId().toString());
                 upcoming.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
@@ -720,8 +724,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 ItemRowAdapter upcomingAdapter = new ItemRowAdapter(requireContext(), upcoming, new CardPresenter(), adapter);
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
-                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 130), adapter);
+                if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
 
                 }
@@ -733,16 +737,16 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 similarSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                similarSeries.setId(mBaseItem.getId());
+                similarSeries.setId(mBaseItem.getId().toString());
                 similarSeries.setLimit(20);
                 ItemRowAdapter similarAdapter = new ItemRowAdapter(requireContext(), similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
                 addItemRow(adapter, similarAdapter, 4, getString(R.string.lbl_more_like_this));
                 break;
 
-            case Episode:
+            case EPISODE:
                 if (mBaseItem.getSeasonId() != null && mBaseItem.getIndexNumber() != null) {
                     StdItemQuery nextEpisodes = new StdItemQuery();
-                    nextEpisodes.setParentId(mBaseItem.getSeasonId());
+                    nextEpisodes.setParentId(mBaseItem.getSeasonId().toString());
                     nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
                     nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
                     nextEpisodes.setLimit(20);
@@ -751,45 +755,37 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
 
                 //Guest stars
-                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
+                if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
                     List<BaseItemPerson> guests = new ArrayList<>();
-                    for (BaseItemPerson person : ModelCompat.asSdk(mBaseItem.getPeople())) {
+                    for (BaseItemPerson person : mBaseItem.getPeople()) {
                         if (person.getType() == PersonKind.GUEST_STAR) guests.add(person);
                     }
-                    if (guests.size() > 0) {
-                        ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 130), adapter);
+                    if (!guests.isEmpty()) {
+                        ItemRowAdapter castAdapter = new ItemRowAdapter(guests, requireContext(), new CardPresenter(true, 130), adapter);
                         addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_guest_stars));
                     }
                 }
 
                 //Chapters
-                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
+                if (mBaseItem.getChapters() != null && !mBaseItem.getChapters().isEmpty()) {
+                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(mBaseItem, api.getValue());
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), chapters, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
                 }
 
                 addInfoRows(adapter);
                 break;
-
-            case SeriesTimer:
-                TimerQuery scheduled = new TimerQuery();
-                scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
-                TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {});
-                break;
         }
-
-
     }
 
     private void addInfoRows(MutableObjectAdapter<Row> adapter) {
         if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
             for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
-                if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
+                if (ms.getMediaStreams() != null && !ms.getMediaStreams().isEmpty()) {
                     HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
                     ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
                     for (MediaStream stream : ms.getMediaStreams()) {
-                        infoAdapter.add(ModelCompat.asSdk(stream));
+                        infoAdapter.add(stream);
                     }
 
                     adapter.add(new ListRow(header, infoAdapter));
@@ -799,7 +795,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
     }
 
-    private void updateInfo(org.jellyfin.sdk.model.api.BaseItemDto item) {
+    private void updateInfo(BaseItemDto item) {
         if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
 
         mLastUpdated = Instant.now();
@@ -812,7 +808,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     void playTrailers() {
         // External trailer
         if (mBaseItem.getLocalTrailerCount() == null || mBaseItem.getLocalTrailerCount() < 1) {
-            Intent intent = TrailerUtils.getExternalTrailerIntent(requireContext(), ModelCompat.asSdk(mBaseItem));
+            Intent intent = TrailerUtils.getExternalTrailerIntent(requireContext(), mBaseItem);
 
             try {
                 startActivity(intent);
@@ -825,12 +821,12 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
 
         // Local trailer
-        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), mBaseItem.getId(), new LifecycleAwareResponse<BaseItemDto[]>(getLifecycle()) {
+        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), mBaseItem.getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto[]>(getLifecycle()) {
             @Override
-            public void onResponse(BaseItemDto[] response) {
+            public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto[] response) {
                 if (!getActive()) return;
 
-                play(response, 0, false);
+                play(JavaCompat.mapBaseItemArray(response), 0, false);
             }
 
             @Override
@@ -844,16 +840,16 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private String getRunTime() {
-        Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
+        Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getRunTimeTicks());
         return runtime != null && runtime > 0 ? String.format("%d%s", (int) Math.ceil((double) runtime / 600000000), getString(R.string.lbl_min)) : "";
     }
 
     private String getEndTime() {
-        if (mBaseItem != null && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.PERSON) {
-            Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
+        if (mBaseItem != null && mBaseItem.getType() != BaseItemKind.MUSIC_ARTIST && mBaseItem.getType() != BaseItemKind.PERSON) {
+            Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : Instant.now().toEpochMilli() + runtime / 10000;
-                if (mBaseItem.getCanResume()) {
+                long endTimeTicks = mBaseItem.getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? mBaseItem.getEndDate().toInstant(ZoneOffset.UTC).toEpochMilli() : Instant.now().toEpochMilli() + runtime / 10000;
+                if (JavaCompat.getCanResume(mBaseItem)) {
                     endTimeTicks = Instant.now().toEpochMilli() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
                 }
                 return android.text.format.DateFormat.getTimeFormat(requireContext()).format(new Date(endTimeTicks));
@@ -864,12 +860,12 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void addItemToQueue() {
-        org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
+        BaseItemDto baseItem = mBaseItem;
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new LifecycleAwareResponse<List<BaseItemDto>>(getLifecycle()) {
                     @Override
-                    public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+                    public void onResponse(List<BaseItemDto> response) {
                         if (!getActive()) return;
 
                         mediaManager.getValue().addToAudioQueue(response);
@@ -882,13 +878,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void toggleFavorite() {
-        UserItemDataDto data = mBaseItem.getUserData();
-        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
+        org.jellyfin.sdk.model.api.UserItemDataDto data = mBaseItem.getUserData();
+        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.isFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
             @Override
             public void onResponse(UserItemDataDto response) {
                 if (!getActive()) return;
 
-                mBaseItem.setUserData(response);
+                mBaseItem = JavaCompat.copyWithUserData(mBaseItem, ModelCompat.asSdk(response));
                 favButton.setActivated(response.getIsFavorite());
                 dataRefreshService.getValue().setLastFavoriteUpdate(Instant.now());
             }
@@ -896,7 +892,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void gotoSeries() {
-        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mBaseItem.getSeriesId())));
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(mBaseItem.getSeriesId()));
     }
 
     private void deleteItem() {
@@ -909,7 +905,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     FullDetailsFragmentHelperKt.deleteItem(
                             this,
                             api.getValue(),
-                            ModelCompat.asSdk(mBaseItem),
+                            mBaseItem,
                             dataRefreshService.getValue(),
                             navigationRepository.getValue()
                     );
@@ -927,13 +923,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     TextUnderButton trailerButton = null;
 
     private void addButtons(int buttonSize) {
-        org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
+        BaseItemDto baseItem = mBaseItem;
         String buttonLabel;
         if (baseItem.getType() == BaseItemKind.SERIES) {
             buttonLabel = getString(R.string.lbl_play_next_up);
         } else {
             long startPos = 0;
-            if (mBaseItem.getCanResume()) {
+            if (JavaCompat.getCanResume(mBaseItem)) {
                 startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
             }
             buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
@@ -945,14 +941,14 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     //play next up
                     NextUpQuery nextUpQuery = new NextUpQuery();
                     nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                    nextUpQuery.setSeriesId(mBaseItem.getId());
+                    nextUpQuery.setSeriesId(mBaseItem.getId().toString());
                     apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (!getActive()) return;
 
                             if (response.getItems().length > 0) {
-                                play(response.getItems()[0], 0 , false);
+                                play(ModelCompat.asSdk(response.getItems()[0]), 0 , false);
                             } else {
                                 Utils.showToast(requireContext(), "Unable to find next up episode");
                             }
@@ -985,7 +981,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             });
             mDetailsOverviewRow.addAction(playButton);
 
-            if (mBaseItem.getIsFolderItem()) {
+            if (mBaseItem.isFolder()) {
                 shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -997,10 +993,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         } else { //here playButton is only a play button
             if (BaseItemExtensionsKt.canPlay(baseItem)) {
                 mDetailsOverviewRow.addAction(mResumeButton);
-                boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
+                boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (JavaCompat.getCanResume(mBaseItem));
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
-                playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(ModelCompat.asSdk(mBaseItem)) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+                playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.isFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         play(mBaseItem, 0, false);
@@ -1030,7 +1026,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     mDetailsOverviewRow.addAction(queueButton);
                 }
 
-                if (mBaseItem.getIsFolderItem() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
+                if (mBaseItem.isFolder() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
                     shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1060,7 +1056,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     if (versions != null ) {
                         addVersionsMenu(v);
                     } else {
-                        versions = mBaseItem.getMediaSources();
+                        versions = new ArrayList(mBaseItem.getMediaSources());
                         addVersionsMenu(v);
                     }
                 }
@@ -1068,7 +1064,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             mDetailsOverviewRow.addAction(mVersionsButton);
         }
 
-        if (TrailerUtils.hasPlayableTrailers(requireContext(), ModelCompat.asSdk(mBaseItem))) {
+        if (TrailerUtils.hasPlayableTrailers(requireContext(), mBaseItem)) {
             trailerButton = TextUnderButton.create(requireContext(), R.drawable.ic_trailer, buttonSize, 0, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1080,7 +1076,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
 
         if (mProgramInfo != null && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
-            if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > Instant.now().toEpochMilli()) {
+            if (mBaseItem.getEndDate().isAfter(LocalDateTime.now())) {
                 //Record button
                 mRecordButton = TextUnderButton.create(requireContext(), R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
                     @Override
@@ -1098,9 +1094,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                             if (!getActive()) return;
 
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                                                 @Override
-                                                public void onResponse(BaseItemDto response) {
+                                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                                     if (!getActive()) return;
 
                                                     mProgramInfo = ModelCompat.asSdk(response);
@@ -1172,9 +1168,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                             if (!getActive()) return;
 
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                                                 @Override
-                                                public void onResponse(BaseItemDto response) {
+                                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                                     if (!getActive()) return;
 
                                                     mProgramInfo = ModelCompat.asSdk(response);
@@ -1253,9 +1249,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             }
         }
 
-        UserItemDataDto userData = mBaseItem.getUserData();
+        org.jellyfin.sdk.model.api.UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null && mProgramInfo == null) {
-            if (ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.PERSON) {
+            if (mBaseItem.getType() != BaseItemKind.MUSIC_ARTIST && mBaseItem.getType() != BaseItemKind.PERSON) {
                 mWatchedToggleButton = TextUnderButton.create(requireContext(), R.drawable.ic_watch, buttonSize, 0, getString(R.string.lbl_watched), markWatchedListener);
                 mWatchedToggleButton.setActivated(userData.getPlayed());
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
@@ -1268,11 +1264,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     toggleFavorite();
                 }
             });
-            favButton.setActivated(userData.getIsFavorite());
+            favButton.setActivated(userData.isFavorite());
             mDetailsOverviewRow.addAction(favButton);
         }
 
-        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && mBaseItem.getSeriesId() != null) {
+        if (mBaseItem.getType() == BaseItemKind.EPISODE && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
             mPrevButton = TextUnderButton.create(requireContext(), R.drawable.ic_previous_episode, buttonSize, 3, getString(R.string.lbl_previous_episode), new View.OnClickListener() {
                 @Override
@@ -1288,8 +1284,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             //now go get our prev episode id
             EpisodeQuery adjacent = new EpisodeQuery();
             adjacent.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-            adjacent.setSeriesId(mBaseItem.getSeriesId());
-            adjacent.setAdjacentTo(mBaseItem.getId());
+            adjacent.setSeriesId(mBaseItem.getSeriesId().toString());
+            adjacent.setAdjacentTo(mBaseItem.getId().toString());
             apiClient.getValue().GetEpisodesAsync(adjacent, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
                 @Override
                 public void onResponse(ItemsResult response) {
@@ -1320,7 +1316,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (userPreferences.getValue().get(UserPreferences.Companion.getMediaManagementEnabled())) {
             boolean deletableItem = false;
             UserDto currentUser = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
-            if (mBaseItem.getBaseItemType() == BaseItemType.Recording && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete())
+            if (mBaseItem.getType() == BaseItemKind.RECORDING && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete())
                 deletableItem = true;
             else if (mBaseItem.getCanDelete()) deletableItem = true;
 
@@ -1335,13 +1331,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             }
         }
 
-        if (mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
+        if (mSeriesTimerInfo != null) {
             //Settings
             mDetailsOverviewRow.addAction(TextUnderButton.create(requireContext(), R.drawable.ic_settings, buttonSize, 0, getString(R.string.lbl_series_settings), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //show recording options
-                    showRecordingOptions(mSeriesTimerInfo.getId(), ModelCompat.asSdk(mBaseItem), true);
+                    showRecordingOptions(mSeriesTimerInfo.getId(), mBaseItem, true);
                 }
             }));
 
@@ -1390,13 +1386,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         moreButton = TextUnderButton.create(requireContext(), R.drawable.ic_more, buttonSize, 0, getString(R.string.lbl_other_options), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FullDetailsFragmentHelperKt.showDetailsMenu(FullDetailsFragment.this, v, ModelCompat.asSdk(mBaseItem));
+                FullDetailsFragmentHelperKt.showDetailsMenu(FullDetailsFragment.this, v, mBaseItem);
             }
         });
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
-        if (ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.EPISODE) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
+        if (mBaseItem.getType() != BaseItemKind.EPISODE) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
     }
 
     private void addVersionsMenu(View v) {
@@ -1412,12 +1408,12 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 mDetailsOverviewRow.setSelectedMediaSourceIndex(menuItem.getItemId());
-                apiClient.getValue().GetItemAsync(versions.get(mDetailsOverviewRow.getSelectedMediaSourceIndex()).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                apiClient.getValue().GetItemAsync(versions.get(mDetailsOverviewRow.getSelectedMediaSourceIndex()).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                     @Override
-                    public void onResponse(BaseItemDto response) {
+                    public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                         if (!getActive()) return;
 
-                        mBaseItem = response;
+                        mBaseItem = ModelCompat.asSdk(response);
                         mDorPresenter.getViewHolder().setItem(mDetailsOverviewRow);
                         if (mVersionsButton != null) {
                             mVersionsButton.requestFocus();
@@ -1466,7 +1462,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     RecordPopup mRecordPopup;
-    public void showRecordingOptions(String id, final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean recordSeries) {
+    public void showRecordingOptions(String id, final BaseItemDto program, final boolean recordSeries) {
         if (mRecordPopup == null) {
             int width = Utils.convertDpToPixel(requireContext(), 600);
             Point size = new Point();
@@ -1489,9 +1485,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             if (!getActive()) return;
 
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
                                 @Override
-                                public void onResponse(BaseItemDto response) {
+                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                     setRecTimer(response.getTimerId());
                                 }
                             });
@@ -1538,8 +1534,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private View.OnClickListener markWatchedListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            final UserItemDataDto data = mBaseItem.getUserData();
-            if (mBaseItem.getIsFolderItem()) {
+            final org.jellyfin.sdk.model.api.UserItemDataDto data = mBaseItem.getUserData();
+            if (mBaseItem.isFolder()) {
                 if (data.getPlayed())
                     markUnPlayed();
                 else
@@ -1556,21 +1552,21 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     };
 
     private void markPlayed() {
-        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
+        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
             @Override
             public void onResponse(UserItemDataDto response) {
-                mBaseItem.setUserData(response);
+                mBaseItem = JavaCompat.copyWithUserData(mBaseItem, ModelCompat.asSdk(response));
                 mWatchedToggleButton.setActivated(true);
                 //adjust resume
-                if (mResumeButton != null && !mBaseItem.getCanResume())
+                if (mResumeButton != null && !JavaCompat.getCanResume(mBaseItem))
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 dataRefreshService.getValue().setLastPlayback(Instant.now());
                 switch (mBaseItem.getType()) {
-                    case "Movie":
+                    case MOVIE:
                         dataRefreshService.getValue().setLastMoviePlayback(Instant.now());
                         break;
-                    case "Episode":
+                    case EPISODE:
                         dataRefreshService.getValue().setLastTvPlayback(Instant.now());
                         break;
                 }
@@ -1581,21 +1577,21 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private void markUnPlayed() {
-        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
+        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
             @Override
             public void onResponse(UserItemDataDto response) {
-                mBaseItem.setUserData(response);
+                mBaseItem = JavaCompat.copyWithUserData(mBaseItem, ModelCompat.asSdk(response));
                 mWatchedToggleButton.setActivated(false);
                 //adjust resume
-                if (mResumeButton != null && !mBaseItem.getCanResume())
+                if (mResumeButton != null && !JavaCompat.getCanResume(mBaseItem))
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 dataRefreshService.getValue().setLastPlayback(Instant.now());
                 switch (mBaseItem.getType()) {
-                    case "Movie":
+                    case MOVIE:
                         dataRefreshService.getValue().setLastMoviePlayback(Instant.now());
                         break;
-                    case "Episode":
+                    case EPISODE:
                         dataRefreshService.getValue().setLastTvPlayback(Instant.now());
                         break;
                 }
@@ -1610,16 +1606,16 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        playbackHelper.getValue().getItemsToPlay(getContext(), ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<BaseItemDto>>(getLifecycle()) {
             @Override
-            public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+            public void onResponse(List<BaseItemDto> response) {
                 if (!getActive()) return;
 
-                if (ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST) {
+                if (item.getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
                 } else {
                     videoQueueManager.getValue().setCurrentVideoQueue(response);
-                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(item).getType(), pos);
+                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(item.getType(), pos);
                     navigationRepository.getValue().navigate(destination);
                 }
             }
@@ -1627,11 +1623,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     }
 
-    protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
-        List<BaseItemDto> itemsToPlay = Arrays.asList(items);
-        if (shuffle) Collections.shuffle(itemsToPlay);
-        videoQueueManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(itemsToPlay));
-        Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(items[0]).getType(), pos);
+    protected void play(final List<BaseItemDto> items, final int pos, final boolean shuffle) {
+        if (shuffle) Collections.shuffle(items);
+        videoQueueManager.getValue().setCurrentVideoQueue(items);
+        Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(items.get(0).getType(), pos);
         navigationRepository.getValue().navigate(destination);
     }
 }

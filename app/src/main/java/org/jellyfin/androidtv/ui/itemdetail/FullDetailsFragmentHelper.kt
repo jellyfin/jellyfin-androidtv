@@ -14,14 +14,17 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
+import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.popupMenu
-import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.androidtv.util.showIfNotEmpty
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
+import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 
 fun FullDetailsFragment.deleteItem(
@@ -98,12 +101,11 @@ fun FullDetailsFragment.showPlayWithMenu(
 	item(getString(R.string.play_with_external_app)) {
 		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.EXTERNAL
 
-		val baseItem = mBaseItem.asSdk()
 		val itemsCallback = object : LifecycleAwareResponse<List<BaseItemDto>>(lifecycle) {
 			override fun onResponse(response: List<BaseItemDto>) {
 				if (!active) return
 
-				if (baseItem.type == BaseItemKind.MUSIC_ARTIST) {
+				if (mBaseItem.type == BaseItemKind.MUSIC_ARTIST) {
 					mediaManager.value.playNow(requireContext(), response, 0, false)
 				} else {
 					videoQueueManager.value.setCurrentVideoQueue(response)
@@ -112,6 +114,15 @@ fun FullDetailsFragment.showPlayWithMenu(
 			}
 		}
 
-		playbackHelper.value.getItemsToPlay(requireContext(), baseItem, false, shuffle, itemsCallback)
+		playbackHelper.value.getItemsToPlay(requireContext(), mBaseItem, false, shuffle, itemsCallback)
 	}
 }.show()
+
+fun FullDetailsFragment.createFakeSeriesTimerBaseItemDto(timer: SeriesTimerInfoDto) = BaseItemDto(
+	id = requireNotNull(timer.id).toUUID(),
+	type = BaseItemKind.FOLDER,
+	mediaType = MediaType.UNKNOWN,
+	seriesTimerId = timer.id,
+	name = timer.name,
+	overview = timer.getSeriesOverview(requireContext()),
+)
