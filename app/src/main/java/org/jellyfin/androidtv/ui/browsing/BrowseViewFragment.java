@@ -35,7 +35,6 @@ import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
@@ -48,7 +47,6 @@ import org.koin.java.KoinJavaComponent;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -452,40 +450,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 if (isRecordingsView) {
                     mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
                     rowLoader.loadRows(mRows);
-                } else {
-                    // Fall back to rows defined by the view children
-                    final List<BrowseRowDef> rows = new ArrayList<>();
-                    final UUID userId = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId();
-
-                    ItemQuery query = new ItemQuery();
-                    query.setParentId(mFolder.getId().toString());
-                    query.setUserId(userId.toString());
-                    query.setImageTypeLimit(1);
-                    query.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-
-                    apiClient.getValue().GetItemsAsync(query, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
-                        @Override
-                        public void onResponse(ItemsResult response) {
-                            if (!getActive()) return;
-
-                            if (response.getTotalRecordCount() > 0) {
-                                for (BaseItemDto item : response.getItems()) {
-                                    ItemQuery rowQuery = new StdItemQuery();
-                                    rowQuery.setParentId(item.getId());
-                                    rowQuery.setUserId(userId.toString());
-                                    rows.add(new BrowseRowDef(item.getName(), rowQuery, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
-                                }
-                            }
-
-                            rowLoader.loadRows(rows);
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            Timber.e(exception, "Failed to get items");
-                        }
-                    });
-                    break;
                 }
         }
     }
