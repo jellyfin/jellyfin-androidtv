@@ -257,11 +257,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, BaseItemPerson[] people, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(List<BaseItemPerson> people, Context context, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
-        mPersons = people;
+        mPersons = people.toArray(new BaseItemPerson[people.size()]);
         staticHeight = true;
         queryType = QueryType.StaticPeople;
     }
