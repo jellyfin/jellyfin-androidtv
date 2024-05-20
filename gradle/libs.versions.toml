@@ -39,6 +39,7 @@ markwon = "4.6.2"
 mockk = "1.13.11"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
+tv-material = "1.0.0-beta01"
 
 [plugins]
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
@@ -83,6 +84,7 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = 
 androidx-tvprovider = { module = "androidx.tvprovider:tvprovider", version.ref = "androidx-tvprovider" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
+androidx-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tv-material" }
 
 # Dependency Injection
 koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
