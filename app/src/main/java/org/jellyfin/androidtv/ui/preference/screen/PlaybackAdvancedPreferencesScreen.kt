@@ -47,6 +47,19 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setContent(R.string.sum_tv_queuing)
 				bind(userPreferences, UserPreferences.mediaQueuingEnabled)
 			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.pref_playback_controls_delay_between_skips_title)
+				min = 100
+				max = 1_000
+				increment = 1_00
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int):
+							String = String.format("%.1fs", (value.toDouble() / 1000))
+				}
+				bind(userPreferences, UserPreferences.delayBetweenSkipActions)
+			}
 		}
 
 		category {

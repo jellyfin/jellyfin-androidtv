@@ -157,6 +157,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final int subtitlesPosition = userPreferences.get(UserPreferences.Companion.getSubtitlePosition());
     private final int subtitlesStrokeWidth = userPreferences.get(UserPreferences.Companion.getSubtitleStrokeSize());
 
+    // Player control fields
+    private final boolean useDpadForSkips = userPreferences.get(UserPreferences.Companion.getUseDpadForSkips());
+
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -620,13 +623,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     // Control fast forward and rewind if overlay hidden and not showing live TV
                     if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
-                        if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
+                        if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2 ||
+                                (useDpadForSkips && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) {
                             playbackControllerContainer.getValue().getPlaybackController().fastForward();
                             setFadingEnabled(true);
                             return true;
                         }
 
-                        if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
+                        if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2 ||
+                                (useDpadForSkips && keyCode == KeyEvent.KEYCODE_DPAD_LEFT)) {
                             playbackControllerContainer.getValue().getPlaybackController().rewind();
                             setFadingEnabled(true);
                             return true;

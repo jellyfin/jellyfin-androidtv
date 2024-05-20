@@ -119,6 +119,17 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
 
+		/* Playback - controls */
+		/**
+		 * Use DPAD left and right to skip back and forward.
+		 */
+		var useDpadForSkips = booleanPreference("pref_use_dpad_for_skips", false)
+
+		/**
+		 * Minimum permitted delay between skip actions.
+		 */
+		var delayBetweenSkipActions = intPreference("pref_delay_between_skips", 800)
+
 		/* Live TV */
 		/**
 		 * Use direct play

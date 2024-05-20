@@ -123,6 +123,15 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 		}
 
 		category {
+			setTitle(R.string.pref_playback_controls_title)
+
+			checkbox {
+				setTitle(R.string.pref_playback_controls_use_dpad_for_skips_title)
+				bind(userPreferences, UserPreferences.useDpadForSkips)
+			}
+		}
+
+		category {
 			setTitle(R.string.advanced_settings)
 
 			link {
