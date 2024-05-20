@@ -14,9 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,20 +31,22 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
+import kotlinx.coroutines.delay
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.composable.AsyncImage
+import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.blurHashPainter
-import org.jellyfin.androidtv.ui.composable.overscan
-import org.jellyfin.androidtv.ui.playback.AudioEventListener
-import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
+import org.jellyfin.androidtv.ui.composable.modifier.overscan
+import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.compose.koinInject
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun DreamContentNowPlaying(
@@ -52,18 +55,34 @@ fun DreamContentNowPlaying(
 	modifier = Modifier.fillMaxSize(),
 ) {
 	val api = koinInject<ApiClient>()
-	val mediaManager = koinInject<MediaManager>()
-	val item = content.item ?: return@Box
+	val playbackManager = koinInject<PlaybackManager>()
 
-	val primaryImageTag = item.imageTags?.get(ImageType.PRIMARY)
+	// Track playback position & duration
+	var playbackPosition by remember { mutableStateOf(Duration.ZERO) }
+	var playbackDuration by remember { mutableStateOf(Duration.ZERO) }
+	val playState by remember { playbackManager.state.playState }.collectAsState()
+
+	LaunchedEffect(playState) {
+		while (true) {
+			val positionInfo = playbackManager.state.positionInfo
+			playbackPosition = positionInfo.active
+			playbackDuration = positionInfo.duration
+
+			delay(1.seconds)
+		}
+	}
+
+	val primaryImageTag = content.item.imageTags?.get(ImageType.PRIMARY)
 	val (imageItemId, imageTag) = when {
-		primaryImageTag != null -> item.id to primaryImageTag
-		(item.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
+		primaryImageTag != null -> content.item.id to primaryImageTag
+		(content.item.albumId != null && content.item.albumPrimaryImageTag != null) -> content.item.albumId to content.item.albumPrimaryImageTag
 		else -> null to null
 	}
 
-	val imageBlurHash =
-		imageTag?.let { tag -> item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag) }
+	// Background
+	val imageBlurHash = imageTag?.let { tag ->
+		content.item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
+	}
 	if (imageBlurHash != null) {
 		Image(
 			painter = blurHashPainter(imageBlurHash, IntSize(32, 32)),
@@ -76,7 +95,23 @@ fun DreamContentNowPlaying(
 		DreamContentVignette()
 	}
 
-	// Overlay
+	// Lyrics overlay (on top of background)
+	if (content.lyrics != null) {
+		LyricsDtoBox(
+			lyricDto = content.lyrics,
+			currentTimestamp = playbackPosition,
+			duration = playbackDuration,
+			paused = playState != PlayState.PLAYING,
+			fontSize = 22.sp,
+			color = Color.White,
+			modifier = Modifier
+				.fillMaxSize()
+				.fadingEdges(vertical = 250.dp)
+				.padding(horizontal = 50.dp),
+		)
+	}
+
+	// Metadata overlay (includes title / progress)
 	Row(
 		verticalAlignment = Alignment.Bottom,
 		horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -105,7 +140,7 @@ fun DreamContentNowPlaying(
 				.padding(bottom = 10.dp)
 		) {
 			Text(
-				text = item.name.orEmpty(),
+				text = content.item.name.orEmpty(),
 				style = TextStyle(
 					color = Color.White,
 					fontSize = 26.sp,
@@ -113,7 +148,7 @@ fun DreamContentNowPlaying(
 			)
 
 			Text(
-				text = item.run {
+				text = content.item.run {
 					val artistNames = artists.orEmpty()
 					val albumArtistNames = albumArtists?.mapNotNull { it.name }.orEmpty()
 
@@ -131,22 +166,6 @@ fun DreamContentNowPlaying(
 
 			Spacer(modifier = Modifier.height(10.dp))
 
-			var progress by remember { mutableFloatStateOf(0f) }
-			DisposableEffect(Unit) {
-				val listener = object : AudioEventListener {
-					override fun onProgress(pos: Long) {
-						val duration = item.runTimeTicks?.ticks ?: Duration.ZERO
-						progress = (pos.milliseconds / duration).toFloat()
-					}
-				}
-
-				mediaManager.addAudioEventListener(listener)
-
-				onDispose {
-					mediaManager.removeAudioEventListener(listener)
-				}
-			}
-
 			Box(
 				modifier = Modifier
 					.fillMaxWidth()
@@ -156,7 +175,10 @@ fun DreamContentNowPlaying(
 						// Background
 						drawRect(Color.White, alpha = 0.2f)
 						// Foreground
-						drawRect(Color.White, size = size.copy(width = size.width * progress))
+						drawRect(
+							Color.White,
+							size = size.copy(width = size.width * (playbackPosition.inWholeMilliseconds.toFloat() / playbackDuration.inWholeMilliseconds.toFloat()))
+						)
 					}
 			)
 		}

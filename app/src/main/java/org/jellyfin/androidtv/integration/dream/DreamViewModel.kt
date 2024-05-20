@@ -8,28 +8,29 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.playback.AudioEventListener
-import org.jellyfin.androidtv.ui.playback.MediaManager
-import org.jellyfin.androidtv.ui.playback.PlaybackController
+import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.queue
+import org.jellyfin.playback.jellyfin.lyricsFlow
+import org.jellyfin.playback.jellyfin.queue.baseItemFlow
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
-import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
@@ -42,34 +43,27 @@ class DreamViewModel(
 	private val api: ApiClient,
 	private val imageLoader: ImageLoader,
 	private val context: Context,
-	private val mediaManager: MediaManager,
+	playbackManager: PlaybackManager,
 	private val userPreferences: UserPreferences,
 ) : ViewModel() {
-	private val _mediaContent = callbackFlow {
-		trySend(mediaManager.currentAudioItem)
-
-		val listener = object : AudioEventListener {
-			override fun onPlaybackStateChange(
-				newState: PlaybackController.PlaybackState,
-				currentItem: BaseItemDto?
-			) {
-				trySend(currentItem)
-			}
-
-			override fun onQueueStatusChanged(hasQueue: Boolean) {
-				trySend(mediaManager.currentAudioItem)
+	private val QueueEntry.nowPlayingFlow
+		get() = combine(baseItemFlow, lyricsFlow) { baseItem, lyrics ->
+			baseItem?.let {
+				DreamContent.NowPlaying(
+					item = baseItem,
+					lyrics = lyrics,
+				)
 			}
 		}
 
-		mediaManager.addAudioEventListener(listener)
-		awaitClose { mediaManager.removeAudioEventListener(listener) }
-	}
+	@OptIn(ExperimentalCoroutinesApi::class)
+	private val _mediaContent = playbackManager.queue.entry
+		.flatMapLatest { entry -> entry?.nowPlayingFlow ?: emptyFlow() }
 		.distinctUntilChanged()
-		.map { it?.let(DreamContent::NowPlaying) }
 		.stateIn(
 			viewModelScope,
 			SharingStarted.WhileSubscribed(),
-			DreamContent.NowPlaying(mediaManager.currentAudioItem)
+			null,
 		)
 
 	private val _libraryContent = flow {
