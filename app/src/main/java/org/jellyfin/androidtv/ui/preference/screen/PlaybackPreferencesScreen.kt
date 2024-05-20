@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.preference.constant.PlayerMenuBackgroundColor
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
@@ -119,6 +120,30 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				min = 10
 				max = 38
 				bind(userPreferences, UserPreferences.subtitlesSize)
+			}
+		}
+
+		category {
+			setTitle(R.string.pref_player_menu_settings_title)
+
+			enum<PlayerMenuBackgroundColor> {
+				setTitle(R.string.pref_player_menu_settings_background_title)
+				bind(userPreferences, UserPreferences.playerMenuBackgroundColor)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.pref_player_menu_settings_fade_out_timer_title)
+				min = 0
+				max = 6_000
+				increment = 5_00
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = when (value) {
+						0 -> getString(R.string.lbl_hidden)
+						else -> String.format("%.1fs", (value.toDouble() / 1000))
+					}
+				}
+				bind(userPreferences, UserPreferences.playerMenuFadeOutTimer)
 			}
 		}
 
