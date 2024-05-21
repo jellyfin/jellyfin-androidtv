@@ -35,7 +35,7 @@ import org.koin.core.component.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
 
-open class BaseRowItem protected constructor(
+abstract class BaseRowItem protected constructor(
 	val baseRowType: BaseRowType,
 	var index: Int = 0,
 	val staticHeight: Boolean = false,
@@ -50,62 +50,6 @@ open class BaseRowItem protected constructor(
 	var preferSeriesPoster: Boolean = false,
 ) : KoinComponent {
 	val imageHelper by inject<ImageHelper>()
-
-	// Start of constructor hell
-	@JvmOverloads
-	constructor(
-		index: Int = 0,
-		item: BaseItemDto,
-		preferParentThumb: Boolean = false,
-		staticHeight: Boolean = false,
-		selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
-		preferSeriesPoster: Boolean = false,
-	) : this(
-		baseRowType = when (item.type) {
-			BaseItemKind.TV_CHANNEL -> BaseRowType.LiveTvChannel
-			BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
-			BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording
-			else -> BaseRowType.BaseItem
-		},
-		index = index,
-		staticHeight = staticHeight,
-		preferParentThumb = preferParentThumb,
-		selectAction = selectAction,
-		baseItem = item,
-		preferSeriesPoster = preferSeriesPoster,
-	)
-
-	constructor(
-		item: SeriesTimerInfoDto,
-	) : this(
-		baseRowType = BaseRowType.SeriesTimer,
-		seriesTimerInfo = item,
-	)
-
-	constructor(
-		item: BaseItemPerson,
-	) : this(
-		baseRowType = BaseRowType.Person,
-		staticHeight = true,
-		basePerson = item,
-	)
-
-	constructor(
-		item: ChapterItemInfo,
-	) : this(
-		baseRowType = BaseRowType.Chapter,
-		staticHeight = true,
-		chapterInfo = item,
-	)
-
-	constructor(
-		item: GridButton,
-	) : this(
-		baseRowType = BaseRowType.GridButton,
-		staticHeight = true,
-		gridButton = item,
-	)
-	// End of constructor hell
 
 	fun showCardInfoOverlay() = baseRowType == BaseRowType.BaseItem && listOf(
 		BaseItemKind.FOLDER,

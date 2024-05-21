@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
-import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -142,7 +142,7 @@ class RewriteMediaManager(
 			.items
 			// Map to audio queue items
 			.mapIndexed { index, item ->
-				AudioQueueItem(index, item).apply {
+				AudioQueueBaseRowItem(index, item).apply {
 					playing = playbackManager.state.queue.entryIndex.value == index
 				}
 			}
@@ -152,7 +152,7 @@ class RewriteMediaManager(
 		// Update item row
 		currentAudioQueue.replaceAll(
 			items,
-			areItemsTheSame = { old, new -> (old as AudioQueueItem).baseItem == (new as AudioQueueItem).baseItem },
+			areItemsTheSame = { old, new -> (old as AudioQueueBaseRowItem).baseItem == (new as AudioQueueBaseRowItem).baseItem },
 			// The equals functions for BaseRowItem only compare by id
 			areContentsTheSame = { _, _ -> false },
 		)

@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
-import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
@@ -80,7 +80,7 @@ public class KeyProcessor {
                         if (!BaseItemExtensionsKt.canPlay(item)) return false;
                         switch (item.getType()) {
                             case AUDIO:
-                                if (rowItem instanceof AudioQueueItem) {
+                                if (rowItem instanceof AudioQueueBaseRowItem) {
                                     createItemMenu(rowItem, item.getUserData(), activity);
                                     return true;
                                 }
@@ -187,7 +187,7 @@ public class KeyProcessor {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
-        if (rowItem instanceof AudioQueueItem) {
+        if (rowItem instanceof AudioQueueBaseRowItem) {
             if (rowItem.getBaseItem() != mediaManager.getValue().getCurrentAudioItem())
                 menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
             menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);

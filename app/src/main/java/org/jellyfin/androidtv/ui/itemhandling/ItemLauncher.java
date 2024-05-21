@@ -99,9 +99,9 @@ public class ItemLauncher {
                             return;
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
-                        if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueItem && rowItem.getBaseItem().getId().equals(mediaManager.getValue().getCurrentAudioItem().getId())) {
+                        if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && rowItem.getBaseItem().getId().equals(mediaManager.getValue().getCurrentAudioItem().getId())) {
                             navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
-                        } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueItem && pos < mediaManager.getValue().getCurrentAudioQueueSize()) {
+                        } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && pos < mediaManager.getValue().getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
                             mediaManager.getValue().playFrom(pos);
                         } else if (adapter.getQueryType() == QueryType.Search) {
