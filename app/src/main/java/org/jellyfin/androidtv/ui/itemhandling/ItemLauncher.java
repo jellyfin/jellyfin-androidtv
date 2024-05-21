@@ -168,7 +168,7 @@ public class ItemLauncher {
                 }
                 break;
             case Person:
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(rowItem.getBasePerson().getId()));
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(rowItem.getItemId()));
 
                 break;
             case Chapter:

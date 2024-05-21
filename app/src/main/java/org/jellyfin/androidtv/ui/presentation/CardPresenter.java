@@ -19,6 +19,8 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.Utils;
@@ -135,7 +137,7 @@ public class CardPresenter extends Presenter {
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             break;
                         case EPISODE:
-                            if (m.getPreferSeriesPoster()) {
+                            if (m instanceof BaseItemDtoBaseRowItem && ((BaseItemDtoBaseRowItem) m).getPreferSeriesPoster()) {
                                 mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             } else {
@@ -360,7 +362,7 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setOverlayInfo(rowItem);
         }
         holder.mCardView.showFavIcon(rowItem.isFavorite());
-        if (rowItem.getPlaying()) {
+        if (rowItem instanceof AudioQueueBaseRowItem && ((AudioQueueBaseRowItem) rowItem).getPlaying()) {
             holder.mCardView.setPlayingIndicator(true);
         } else {
             holder.mCardView.setPlayingIndicator(false);
@@ -388,7 +390,7 @@ public class CardPresenter extends Presenter {
             if (aspect == ImageHelper.ASPECT_RATIO_BANNER) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
-            } else if (aspect == ImageHelper.ASPECT_RATIO_2_3 && rowItem.getBaseItemType() == BaseItemKind.EPISODE && rowItem.getPreferSeriesPoster()) {
+            } else if (aspect == ImageHelper.ASPECT_RATIO_2_3 && rowItem.getBaseItemType() == BaseItemKind.EPISODE && rowItem instanceof BaseItemDtoBaseRowItem && ((BaseItemDtoBaseRowItem) rowItem).getPreferSeriesPoster()) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
                 imageTag = rowItem.getBaseItem().getSeriesPrimaryImageTag();
             } else if (aspect == ImageHelper.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemKind.EPISODE || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY) || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {

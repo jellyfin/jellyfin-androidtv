@@ -29,7 +29,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	preferParentThumb: Boolean = false,
 	staticHeight: Boolean = false,
 	selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
-	preferSeriesPoster: Boolean = false,
+	val preferSeriesPoster: Boolean = false,
 ) : BaseRowItem(
 	baseRowType = when (item.type) {
 		BaseItemKind.TV_CHANNEL -> BaseRowType.LiveTvChannel
@@ -42,7 +42,6 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	preferParentThumb = preferParentThumb,
 	selectAction = selectAction,
 	baseItem = item,
-	preferSeriesPoster = preferSeriesPoster,
 ) {
 	override val showCardInfoOverlay
 		get() = when (baseItem?.type) {

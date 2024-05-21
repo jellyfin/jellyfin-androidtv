@@ -4,19 +4,18 @@ import android.content.Context
 import org.jellyfin.sdk.model.api.BaseItemPerson
 
 class BaseItemPersonBaseRowItem(
-	item: BaseItemPerson,
+	val person: BaseItemPerson,
 ) : BaseRowItem(
 	baseRowType = BaseRowType.Person,
 	staticHeight = true,
-	basePerson = item,
 ) {
 	override fun getPrimaryImageUrl(
 		context: Context,
 		fillHeight: Int,
-	) = imageHelper.getPrimaryImageUrl(basePerson!!, fillHeight)
+	) = imageHelper.getPrimaryImageUrl(person, fillHeight)
 
-	override fun getItemId() = basePerson?.id
-	override fun getFullName(context: Context) = basePerson?.name
-	override fun getName(context: Context) = basePerson?.name
-	override fun getSubText(context: Context) = basePerson?.role
+	override fun getItemId() = person.id
+	override fun getFullName(context: Context) = person.name
+	override fun getName(context: Context) = person.name
+	override fun getSubText(context: Context) = person.role
 }

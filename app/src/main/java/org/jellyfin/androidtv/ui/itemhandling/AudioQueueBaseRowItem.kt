@@ -9,4 +9,6 @@ class AudioQueueBaseRowItem(
 	index = index,
 	item = item,
 	staticHeight = true,
-)
+) {
+	var playing: Boolean = false
+}

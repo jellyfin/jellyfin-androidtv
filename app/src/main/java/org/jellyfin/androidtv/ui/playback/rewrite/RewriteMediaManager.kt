@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -106,7 +105,7 @@ class RewriteMediaManager(
 	private suspend fun watchPlaybackStateChanges() = coroutineScope {
 		playbackManager.state.playState.onEach { playState ->
 			notifyListeners {
-				val firstItem = currentAudioQueue.get(0) as? BaseRowItem
+				val firstItem = currentAudioQueue.get(0) as? AudioQueueBaseRowItem
 				firstItem?.playing = playState == PlayState.PLAYING
 
 				onPlaybackStateChange(when (playState) {

@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -26,13 +25,10 @@ abstract class BaseRowItem protected constructor(
 	val staticHeight: Boolean = false,
 	val preferParentThumb: Boolean = false,
 	val selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
-	var playing: Boolean = false,
 	var baseItem: BaseItemDto? = null,
-	val basePerson: BaseItemPerson? = null,
 	val chapterInfo: ChapterItemInfo? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
-	var preferSeriesPoster: Boolean = false,
 ) : KoinComponent {
 	val imageHelper by inject<ImageHelper>()
 
