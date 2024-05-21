@@ -29,7 +29,7 @@
     <string name="lbl_tv_series">Séries</string>
     <string name="lbl_other">Outro</string>
     <string name="lbl_play_all">Reproduzir tudo</string>
-    <string name="lbl_shuffle_all">Reproduzir Todos Aleatoriamente</string>
+    <string name="lbl_shuffle_all">Reproduzir aleatoriamente</string>
     <string name="lbl_play">Reproduzir</string>
     <string name="lbl_cancel">Cancelar</string>
     <string name="lbl_cancel_recording">Cancelar Gravação</string>
@@ -62,7 +62,7 @@
     <string name="msg_video_playback_error">"Erro de reprodução de vídeo - "</string>
     <string name="lbl_bracket_unknown">Desconhecido</string>
     <string name="lbl_trailer">"Anúncio "</string>
-    <string name="lbl_play_trailers">Reproduzir Anúncio(s)</string>
+    <string name="lbl_play_trailers">Reproduzir trailer(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
     <string name="lbl_enter_server_address">Introduza o endereço do servidor</string>
@@ -129,9 +129,9 @@
     <string name="msg_unable_load_subs">Não foi possível carregar as legendas</string>
     <string name="msg_burn_sub_warning">Legendas embutidas podem demorar alguns minutos. Por favor, aguarde…</string>
     <string name="lbl_no_recordings">Não há gravações disponíveis</string>
-    <string name="lbl_live_tv_guide">Guia TV</string>
+    <string name="lbl_live_tv_guide">Guia de TV em direto</string>
     <string name="lbl_recorded_tv">Gravações TV</string>
-    <string name="pref_live_tv_cat">TV ao Vivo</string>
+    <string name="pref_live_tv_cat">TV em direto</string>
     <string name="msg_error_live_stream">Erro de reprodução da TV ao vivo. Tentará novamente…</string>
     <string name="lbl_direct_stream_live">Stream direto da TV ao vivo</string>
     <string name="lbl_programs">Programas</string>
@@ -143,7 +143,7 @@
     <string name="lbl_episodes">Episódios</string>
     <string name="lbl_enable_cinema_mode">Ativar Modo Cinema</string>
     <string name="sum_enable_cinema_mode">Ativar introduções e pré-visualizações antes do filme</string>
-    <string name="lbl_playlists">Listas de Reprodução</string>
+    <string name="lbl_playlists">Listas de reprodução</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="lbl_add_to_queue">Adicionar à Fila</string>
     <string name="lbl_open_artist">Abrir artista</string>
@@ -151,7 +151,7 @@
     <string name="lbl_next_item">Item Seguinte</string>
     <string name="lbl_prev_item">Item Anterior</string>
     <string name="lbl_now_playing">A reproduzir</string>
-    <string name="lbl_play_from_here">Reproduzir daqui</string>
+    <string name="lbl_play_from_here">Reproduzir a partir daqui</string>
     <string name="lbl_remove_from_queue">Remover da Fila</string>
     <string name="lbl_goto_now_playing">Ir para A Reproduzir</string>
     <string name="lbl_instant_mix">Mix Instantâneo</string>
@@ -170,7 +170,7 @@
     <string name="lbl_watched">Visto</string>
     <string name="lbl_favorite">Favorito</string>
     <string name="watch_now">Ver agora</string>
-    <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes da leitura do próximo item</string>
+    <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de reproduzir o item seguinte</string>
     <string name="pref_media_player">Leitor preferido</string>
     <string name="pref_about_title">Sobre</string>
     <string name="pref_video_player_external">App externa</string>
@@ -216,7 +216,7 @@
     <string name="lbl_in_x_days">Em %d dias</string>
     <string name="lbl_show_premieres">Mostrar estreias de temporadas no ecrã inicial</string>
     <string name="lbl_open">Aberto</string>
-    <string name="lbl_play_next_up">Reproduzir Próximo</string>
+    <string name="lbl_play_next_up">Reproduzir a seguir</string>
     <string name="lbl_clear_queue">Limpar Fila</string>
     <string name="btn_got_it">Entendido</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
@@ -232,7 +232,7 @@
     <string name="pref_device_model">Modelo do dispositivo</string>
     <string name="pref_app_theme">Tema da Aplicação</string>
     <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para LibVLC</string>
-    <string name="pref_next_up_timeout_title">Duração do temporizador \"A Seguir\"</string>
+    <string name="pref_next_up_timeout_title">Duração do temporizador \"A seguir\"</string>
     <string name="pref_theme_emerald">Esmeralda Clássica</string>
     <string name="pref_theme_dark">Escuro (Padrão)</string>
     <string name="lbl_colored_backgrounds">Fundos com Código de Cores</string>
@@ -243,7 +243,7 @@
     <string name="lbl_episode_not_record">Esta série NÃO gravará</string>
     <string name="lbl_bitstream_dts">Bitstream do áudio DTS</string>
     <string name="desc_premieres">Mostrar uma lista de novos episódios piloto para as séries a que assiste</string>
-    <string name="lbl_refresh_switching">Altera Taxa de Atualização (Refresh Rate)</string>
+    <string name="lbl_refresh_switching">Altera taxa de atualização</string>
     <string name="lbl_show_backdrop">Mostrar Pano de Fundo Enquanto Navega</string>
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instales uma aplicação de terceiros para reproduzir conteúdos de vídeo.</string>
     <string name="just_one">Apenas este</string>
@@ -297,14 +297,14 @@
     <string name="user_picker_last_user_title">Utilizado mais recentemente</string>
     <string name="user_picker_disable_summary">Mostrar sempre o ecrã de autenticação</string>
     <string name="user_picker_disable_title">Desabilitar</string>
-    <string name="auto_sign_in">Autenticar automáticamente</string>
+    <string name="auto_sign_in">Início de sessão automático</string>
     <string name="lbl_use_series_thumbnails_description">Mostrar miniaturas de séries quando episódios são mostrados</string>
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de séries</string>
     <string name="lbl_hide_unwatched_count">Quando o item é visto</string>
     <string name="pref_watched_indicator">Mostrar indicadores de visto</string>
     <string name="login_help_description">O Jellyfin precisa de um servidor para se ligar. Visita a nossa documentação em docs.jellyfin.org ou faça scan ao código QR para começar com o Jellyfin.</string>
     <string name="login_help_title">Precisa de ajuda\?</string>
-    <string name="connect_manually_by_address">Introduzir email</string>
+    <string name="connect_manually_by_address">Introduzir endereço do servidor</string>
     <string name="discovered_servers_empty">Servidores não encontrados na rede local.</string>
     <string name="discovered_servers_title">Servidores encontrados</string>
     <string name="lbl_hidden">Escondido</string>
@@ -337,7 +337,7 @@
     <string name="licenses_link_description">Ver as liçensas das bibliotecas usadas pela app do Jellyfin</string>
     <string name="licenses_link">Licenças</string>
     <string name="select_version">Versão</string>
-    <string name="advanced_settings">(Avançado)</string>
+    <string name="advanced_settings">Avançadas</string>
     <string name="always_authenticate_description">Ativar esta funcionalidade desativa o login automático</string>
     <string name="always_authenticate">Pedir sempre credenciais</string>
     <string name="alphabetical">Alfabética</string>
@@ -376,7 +376,7 @@
     <string name="lbl_playback_speed">Velocidade de reprodução</string>
     <string name="lbl_shuffle_queue">Reprodução aleatória</string>
     <string name="home_section_resume_book">Continuar a ler</string>
-    <string name="pref_direct_stream_live_on">A Transcodificação está desativada</string>
+    <string name="pref_direct_stream_live_on">A transcodificação está desativada</string>
     <string name="pref_direct_stream_live_off">A transcodificação é utilizada quando necessária</string>
     <string name="pref_audio">Áudio</string>
     <string name="pref_subtitles">Legendas</string>
@@ -439,21 +439,21 @@
     <string name="image_size_xlarge">Extra grande</string>
     <string name="color_white">Branco</string>
     <string name="color_black">Preto</string>
-    <string name="color_darkgrey">Cinzento Escuro</string>
+    <string name="color_darkgrey">Cinzento escuro</string>
     <string name="color_red">Vermelho</string>
     <string name="color_green">Verde</string>
     <string name="color_blue">Azul</string>
     <string name="color_yellow">Amarelo</string>
     <string name="color_pink">Rosa</string>
     <string name="color_cyan">Azul claro</string>
-    <string name="action_login">Autenticar</string>
+    <string name="action_login">Iniciar sessão</string>
     <string name="input_username">Nome de Utilizador</string>
     <string name="login_other_options">Outras opções:</string>
-    <string name="action_use_quickconnect">Utilizar QuickConnect</string>
+    <string name="action_use_quickconnect">Utilizar Ligação Rápida</string>
     <string name="pref_refresh_rate_scale_on_tv">Escala na TV</string>
     <string name="action_connect">Ligar</string>
-    <string name="live_tv_preferences">Opções TV ao Vivo</string>
-    <string name="app_notification_uimode_invalid">Esta applicação está optimizada para TV. Recomendamos usar a aplicação móvel para outros dispositivos.</string>
+    <string name="live_tv_preferences">Opções de TV em direto</string>
+    <string name="app_notification_uimode_invalid">Esta aplicação está otimizada para televisores. Recomendamos que utilizes a nossa aplicação móvel noutros dispositivos.</string>
     <string name="server_unsupported_notification">Este servidor usa a versão %1$s de Jellyfin que não é suportada. Por favor actualize o Jellyfin %2$s para continuar a utilizar a aplicação.</string>
     <string name="pref_telemetry_category">Reportar problemas</string>
     <string name="pref_crash_reports_enabled">Relatórios de problemas serão enviados para o último servidor utilizado</string>
@@ -461,15 +461,15 @@
     <string name="server_setup_incomplete">A configuração deste servidor não foi concluída. Abra o Jellyfin num navegador web para terminar o processo antes de se autenticar.</string>
     <string name="app_notification_beta">Aplicação actualizada para %1$s
 \nObrigado por participar no programa beta do Jellyfin</string>
-    <string name="login_quickconnect_step_2">2. Abra o menu de utilizador e vá à página de QuickConnect</string>
+    <string name="login_quickconnect_step_2">2. Abrir o menu do utilizador e ir para a página Ligação Rápida</string>
     <string name="login_quickconnect_step_3">3. Introduzir o seguinte código:</string>
     <string name="pref_telemetry_description">Enviar relatório de problemas, incluir registos</string>
     <string name="pref_crash_reports">Enviar relatório de problemas para o servidor</string>
     <string name="pref_crash_reports_disabled">Relatórios de problemas não serão submetidos</string>
-    <string name="login_quickconnect_step_1">1. Abrir a aplicação Jellyfin no seu dispositivo ou navegador e autentique-se com a sua conta</string>
+    <string name="login_quickconnect_step_1">1. Abrir a aplicação Jellyfin no teu telemóvel ou navegador de internet e iniciar sessão com a tua conta</string>
     <string name="pref_crash_report_logs">Incluir registos</string>
     <string name="pref_crash_report_logs_enabled">Os registos serão incluídos nos relatórios de problemas</string>
-    <string name="crash_report_toast">OOps! Algo correu mal. Um relatório foi enviado para o ser servidor Jellyfin.</string>
+    <string name="crash_report_toast">Ops! Algo correu mal, foi enviado um relatório do problema para o teu servidor Jellyfin.</string>
     <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
     <string name="episode_name_special">especial</string>
     <string name="pref_enable_media_management">Activar gestão de media</string>
@@ -529,4 +529,8 @@
     <string name="photos">Fotos</string>
     <string name="person_birthday_and_age">Nasceu em %1$s (%2$d)</string>
     <string name="lbl_hide_watched_checkmark">Quando faltarem episódios</string>
+    <string name="channels">Canais</string>
+    <string name="ac3">DD</string>
+    <string name="clear_image_cache_content">Utilizado: %1$s</string>
+    <string name="clear_image_cache">Limpar cache de imagens</string>
 </resources>
