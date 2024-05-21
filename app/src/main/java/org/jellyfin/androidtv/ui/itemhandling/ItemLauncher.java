@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -254,7 +253,7 @@ public class ItemLauncher {
                 break;
 
             case SeriesTimer:
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesTimerDetails(UUIDSerializerKt.toUUID(rowItem.getItemId()), ModelCompat.asSdk(rowItem.getSeriesTimerInfo())));
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesTimerDetails(UUIDSerializerKt.toUUID(rowItem.getItemId()), rowItem.getSeriesTimerInfo()));
                 break;
 
 

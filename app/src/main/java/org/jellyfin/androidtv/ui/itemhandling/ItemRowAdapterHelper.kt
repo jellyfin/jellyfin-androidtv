@@ -43,7 +43,7 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 
 		setItems(
 			items = response.items.orEmpty().toTypedArray(),
-			transform = { item, i -> BaseRowItem(item, i, preferParentThumb, isStaticHeight) }
+			transform = { item, i -> BaseRowItem(i, item, preferParentThumb, isStaticHeight) }
 		)
 
 		if (response.items.isNullOrEmpty()) removeRow()

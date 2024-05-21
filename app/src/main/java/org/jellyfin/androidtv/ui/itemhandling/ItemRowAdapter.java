@@ -819,7 +819,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> {
                         if (userViewsRepository.getValue().isSupported(ModelCompat.asSdk(item).getCollectionType())) {
                             item.setDisplayPreferencesId(item.getId());
-                            return new BaseRowItem(i, item, preferParentThumb, staticHeight);
+                            return new BaseRowItem(i, ModelCompat.asSdk(item), preferParentThumb, staticHeight);
                         } else {
                             return null;
                         }
@@ -853,7 +853,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length);
 
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
                 } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
@@ -885,7 +885,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(response.getTotalRecordCount());
 
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
                 } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
@@ -909,7 +909,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(response.getTotalRecordCount());
 
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
                 } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
@@ -933,7 +933,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 if (response != null && response.length > 0) {
                     setTotalItems(response.length);
 
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response, (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight(), BaseRowItemSelectAction.ShowDetails, getPreferParentThumb()));
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response, (item, i) -> new BaseRowItem(i, ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight(), BaseRowItemSelectAction.ShowDetails, getPreferParentThumb()));
                 } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
@@ -997,12 +997,12 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                                         }
                                         if (existing == null) {
                                             Timber.d("Adding new episode 1 to premieres %s", item.getSeriesName());
-                                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, true));
+                                            adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item), preferParentThumb, true));
 
                                         } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
                                             //Replace the newer item with the earlier season
                                             Timber.d("Replacing newer episode 1 with an older season for %s", item.getSeriesName());
-                                            adapter.set(existingPos, new BaseRowItem(i++, item, preferParentThumb, false));
+                                            adapter.set(existingPos, new BaseRowItem(i++, ModelCompat.asSdk(item), preferParentThumb, false));
                                         } // otherwise, just ignore this newer season premiere since we have the older one already
 
                                     } else {
@@ -1034,7 +1034,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             public void onResponse(final ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(response.getTotalRecordCount());
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, preferParentThumb, staticHeight));
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, ModelCompat.asSdk(item), preferParentThumb, staticHeight));
 
                     //If this was for a single series, get the rest of the episodes in the season
                     if (query.getSeriesId() != null) {
@@ -1050,7 +1050,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                                     if (response.getItems() != null) {
                                         int n = response.getItems().length;
                                         for (BaseItemDto item : innerResponse.getItems()) {
-                                            adapter.add(new BaseRowItem(n++, item, preferParentThumb, false));
+                                            adapter.add(new BaseRowItem(n++, ModelCompat.asSdk(item), preferParentThumb, false));
                                         }
                                         totalItems += innerResponse.getTotalRecordCount();
                                         setItemsLoaded(itemsLoaded + n);
@@ -1096,7 +1096,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (ChannelInfoDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i, item));
+                        adapter.add(new BaseRowItem(i, ModelCompat.asSdk(item)));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
@@ -1132,7 +1132,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     int i = 0;
                     int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(item, staticHeight));
+                        adapter.add(new BaseRowItem(0, ModelCompat.asSdk(item), false, staticHeight));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
@@ -1171,7 +1171,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     int i = 0;
                     int prevItems = Math.max(adapter.size(), 0);
                     for (SeriesTimerInfoDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(item));
+                        adapter.add(new BaseRowItem(ModelCompat.asSdk(item)));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
@@ -1223,7 +1223,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     }
 
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(item, staticHeight));
+                        adapter.add(new BaseRowItem(0, ModelCompat.asSdk(item), false, staticHeight));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
@@ -1264,7 +1264,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (BaseItemDto item : response) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item), preferParentThumb, false));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
@@ -1300,7 +1300,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -1336,7 +1336,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     }
                     for (BaseItemDto item : response) {
                         item.setName(context.getString(R.string.lbl_trailer) + (i + 1));
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false, BaseRowItemSelectAction.Play));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item), preferParentThumb, false, BaseRowItemSelectAction.Play));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
@@ -1372,7 +1372,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -1408,7 +1408,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -1445,7 +1445,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     }
                     for (BaseItemDto item : response.getItems()) {
                         if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId())) {
-                            adapter.add(new BaseRowItem(i++, item));
+                            adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item)));
                         }
                     }
                     totalItems = response.getTotalRecordCount();
@@ -1482,7 +1482,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(i);
@@ -1516,7 +1516,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     int i = 0;
                     int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item));
+                        adapter.add(new BaseRowItem(i++, ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);

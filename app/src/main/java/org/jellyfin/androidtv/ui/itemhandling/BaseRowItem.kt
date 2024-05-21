@@ -18,17 +18,15 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
-import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.extensions.ticks
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.koin.core.component.KoinComponent
@@ -44,7 +42,7 @@ open class BaseRowItem protected constructor(
 	val preferParentThumb: Boolean = false,
 	val selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
 	var playing: Boolean = false,
-	var baseItem: org.jellyfin.sdk.model.api.BaseItemDto? = null,
+	var baseItem: BaseItemDto? = null,
 	val basePerson: BaseItemPerson? = null,
 	val chapterInfo: ChapterItemInfo? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
@@ -63,7 +61,8 @@ open class BaseRowItem protected constructor(
 		selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
 		preferSeriesPoster: Boolean = false,
 	) : this(
-		baseRowType = when (item.asSdk().type) {
+		baseRowType = when (item.type) {
+			BaseItemKind.TV_CHANNEL -> BaseRowType.LiveTvChannel
 			BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
 			BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording
 			else -> BaseRowType.BaseItem
@@ -72,45 +71,8 @@ open class BaseRowItem protected constructor(
 		staticHeight = staticHeight,
 		preferParentThumb = preferParentThumb,
 		selectAction = selectAction,
-		baseItem = item.asSdk(),
-		preferSeriesPoster = preferSeriesPoster,
-	)
-
-	@JvmOverloads
-	constructor(
-		item: org.jellyfin.sdk.model.api.BaseItemDto,
-		index: Int = 0,
-		preferParentThumb: Boolean = false,
-		staticHeight: Boolean = false,
-	) : this(
-		index = index,
-		preferParentThumb = preferParentThumb,
-		staticHeight = staticHeight,
-		baseRowType = when (item.type) {
-			BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
-			BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording
-			else -> BaseRowType.BaseItem
-		},
 		baseItem = item,
-	)
-
-	constructor(
-		index: Int,
-		item: ChannelInfoDto,
-	) : this(
-		index = index,
-		baseRowType = BaseRowType.LiveTvChannel,
-		baseItem = item.asSdk(),
-	)
-
-	constructor(
-		item: BaseItemDto,
-		staticHeight: Boolean,
-	) : this(
-		index = 0,
-		item = item,
-		preferParentThumb = false,
-		staticHeight = staticHeight,
+		preferSeriesPoster = preferSeriesPoster,
 	)
 
 	constructor(
@@ -279,7 +241,7 @@ open class BaseRowItem protected constructor(
 		BaseRowType.LiveTvRecording,
 		BaseRowType.LiveTvProgram -> baseItem?.overview
 
-		BaseRowType.SeriesTimer -> seriesTimerInfo?.asSdk()?.getSeriesOverview(context)
+		BaseRowType.SeriesTimer -> seriesTimerInfo?.getSeriesOverview(context)
 		else -> null
 	}.orEmpty()
 
@@ -331,7 +293,7 @@ open class BaseRowItem protected constructor(
 
 	@JvmOverloads
 	fun refresh(
-		outerResponse: LifecycleAwareResponse<org.jellyfin.sdk.model.api.BaseItemDto?>,
+		outerResponse: LifecycleAwareResponse<BaseItemDto?>,
 		scope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
 	) {
 		if (baseRowType == BaseRowType.BaseItem) {
