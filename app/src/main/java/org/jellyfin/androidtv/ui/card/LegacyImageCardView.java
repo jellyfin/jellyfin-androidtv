@@ -114,7 +114,7 @@ public class LegacyImageCardView extends BaseCardView {
     public void setOverlayInfo(BaseRowItem item) {
         if (binding.overlayText == null) return;
 
-        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
+        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.getShowCardInfoOverlay()) {
             switch (item.getBaseItemType()) {
                 case PHOTO:
                     insertCardData(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.getDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()), R.drawable.ic_camera, true);

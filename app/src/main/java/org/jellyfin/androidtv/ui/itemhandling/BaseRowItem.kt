@@ -2,39 +2,24 @@ package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.text.format.DateFormat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.ImageHelper
-import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
-import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
-import org.jellyfin.androidtv.util.sdk.getFullName
-import org.jellyfin.androidtv.util.sdk.getSubName
-import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
-import org.jellyfin.sdk.model.extensions.ticks
-import org.jellyfin.sdk.model.serializer.toUUID
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 import org.koin.core.component.inject
-import timber.log.Timber
-import java.text.SimpleDateFormat
+import java.util.UUID
 
+// TODO: Move properties to relevant classes only (e.g. baseItem should be in
+//  BaseItemDtoBaseRowItem)
 abstract class BaseRowItem protected constructor(
 	val baseRowType: BaseRowType,
 	var index: Int = 0,
@@ -51,219 +36,35 @@ abstract class BaseRowItem protected constructor(
 ) : KoinComponent {
 	val imageHelper by inject<ImageHelper>()
 
-	fun showCardInfoOverlay() = baseRowType == BaseRowType.BaseItem && listOf(
-		BaseItemKind.FOLDER,
-		BaseItemKind.PHOTO_ALBUM,
-		BaseItemKind.USER_VIEW,
-		BaseItemKind.COLLECTION_FOLDER,
-		BaseItemKind.PHOTO,
-		BaseItemKind.VIDEO,
-		BaseItemKind.PERSON,
-		BaseItemKind.PLAYLIST,
-		BaseItemKind.MUSIC_ARTIST
-	).contains(baseItem?.type)
+	open val showCardInfoOverlay: Boolean = false
+	open fun getBaseItemType(): BaseItemKind? = null
+	open fun isFavorite(): Boolean = false
+	open fun isPlayed(): Boolean = false
 
-	fun getImageUrl(context: Context, imageType: ImageType, fillWidth: Int, fillHeight: Int) = when (baseRowType) {
-		BaseRowType.BaseItem,
-		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> {
-			val seriesId = baseItem?.seriesId
-			val seriesPrimaryImageTag = baseItem?.seriesPrimaryImageTag
+	open fun getCardName(context: Context): String? = getFullName(context)
 
-			when {
-				preferSeriesPoster && seriesId != null && seriesPrimaryImageTag != null -> {
-					imageHelper.getImageUrl(seriesId, org.jellyfin.sdk.model.api.ImageType.PRIMARY, seriesPrimaryImageTag)
-				}
+	open fun getChildCountStr(): String? = null
 
-				imageType == ImageType.BANNER -> imageHelper.getBannerImageUrl(requireNotNull(baseItem), fillWidth, fillHeight)
-				imageType == ImageType.THUMB -> imageHelper.getThumbImageUrl(requireNotNull(baseItem), fillWidth, fillHeight)
-				else -> getPrimaryImageUrl(context, fillHeight)
-			}
-		}
+	open fun getImageUrl(
+		context: Context,
+		imageType: ImageType,
+		fillWidth: Int,
+		fillHeight: Int,
+	) = getPrimaryImageUrl(context, fillHeight)
 
-		else -> getPrimaryImageUrl(context, fillHeight)
-	}
-
-	fun getPrimaryImageUrl(context: Context, fillHeight: Int) = when (baseRowType) {
-		BaseRowType.BaseItem,
-		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> imageHelper.getPrimaryImageUrl(baseItem!!, preferParentThumb, null, fillHeight)
-
-		BaseRowType.Person -> imageHelper.getPrimaryImageUrl(basePerson!!, fillHeight)
-		BaseRowType.Chapter -> chapterInfo?.imagePath
-		BaseRowType.LiveTvChannel -> imageHelper.getPrimaryImageUrl(baseItem!!)
-		BaseRowType.GridButton -> gridButton?.imageRes?.let { imageHelper.getResourceUrl(context, it) }
-		BaseRowType.SeriesTimer -> imageHelper.getResourceUrl(context, R.drawable.tile_land_series_timer)
-	}
-
-	fun getBaseItemType() = baseItem?.type
-
-	fun isFavorite(): Boolean = baseItem?.userData?.isFavorite == true
-	fun isFolder(): Boolean = baseItem?.isFolder == true
-	fun isPlayed(): Boolean = baseItem?.userData?.played == true
-
-	fun getCardName(context: Context): String? = when {
-		baseItem?.type == BaseItemKind.AUDIO && baseItem!!.albumArtist != null -> baseItem!!.albumArtist
-		baseItem?.type == BaseItemKind.AUDIO && baseItem!!.album != null -> baseItem!!.album
-		else -> getFullName(context)
-	}
-
-	fun getFullName(context: Context) = when (baseRowType) {
-		BaseRowType.BaseItem,
-		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> baseItem?.getFullName(context)
-
-		BaseRowType.Person -> basePerson?.name
-		BaseRowType.Chapter -> chapterInfo?.name
-		BaseRowType.LiveTvChannel -> baseItem?.name
-		BaseRowType.GridButton -> gridButton?.text
-		BaseRowType.SeriesTimer -> seriesTimerInfo?.name
-	}
-
-	fun getName(context: Context) = when (baseRowType) {
-		BaseRowType.BaseItem,
-		BaseRowType.LiveTvRecording,
-		BaseRowType.LiveTvProgram -> when (baseItem?.type) {
-			BaseItemKind.AUDIO -> getFullName(context)
-			else -> baseItem?.name
-		}
-
-		BaseRowType.Person -> basePerson?.name
-		BaseRowType.Chapter -> chapterInfo?.name
-		BaseRowType.LiveTvChannel -> baseItem?.name
-		BaseRowType.GridButton -> gridButton?.text
-		BaseRowType.SeriesTimer -> seriesTimerInfo?.name
-	}
-
-	fun getItemId() = when (baseRowType) {
-		BaseRowType.BaseItem,
-		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvChannel,
-		BaseRowType.LiveTvRecording -> baseItem?.id.toString()
-
-		BaseRowType.Person -> basePerson?.id?.toString()
-		BaseRowType.Chapter -> chapterInfo?.itemId?.toString()
-		BaseRowType.GridButton -> null
-		BaseRowType.SeriesTimer -> seriesTimerInfo?.id
-	}
-
-	fun getSubText(context: Context) = when (baseRowType) {
-		BaseRowType.BaseItem -> baseItem?.getSubName(context)
-		BaseRowType.Person -> basePerson?.role
-		BaseRowType.Chapter -> chapterInfo?.startPositionTicks?.ticks?.inWholeMilliseconds?.let(TimeUtils::formatMillis)
-		BaseRowType.LiveTvChannel -> baseItem?.number
-		BaseRowType.LiveTvProgram -> baseItem?.episodeTitle ?: baseItem?.channelName
-		BaseRowType.LiveTvRecording -> {
-			val title = listOfNotNull(
-				baseItem?.channelName,
-				baseItem?.episodeTitle
-			).joinToString(" - ")
-
-			val timestamp = buildString {
-				append(SimpleDateFormat("d MMM").format(TimeUtils.getDate(baseItem!!.startDate)))
-				append(" ")
-				append((DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem!!.startDate))))
-				append(" - ")
-				append(DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem!!.endDate)))
-			}
-
-			"$title $timestamp"
-		}
-
-		BaseRowType.SeriesTimer -> {
-			val channelName = if (seriesTimerInfo?.recordAnyChannel == true) "All Channels"
-			else seriesTimerInfo?.channelName
-
-			listOfNotNull(channelName, seriesTimerInfo?.dayPattern).joinToString(" ")
-		}
-
-		BaseRowType.GridButton -> ""
-	}
-
-	fun getSummary(context: Context) = when (baseRowType) {
-		BaseRowType.BaseItem,
-		BaseRowType.LiveTvRecording,
-		BaseRowType.LiveTvProgram -> baseItem?.overview
-
-		BaseRowType.SeriesTimer -> seriesTimerInfo?.getSeriesOverview(context)
-		else -> null
-	}.orEmpty()
-
-	fun getChildCountStr(): String? {
-		// Playlist
-		if (baseItem?.type == BaseItemKind.PLAYLIST) {
-			val childCount = baseItem?.cumulativeRunTimeTicks?.ticks?.inWholeMilliseconds?.let {
-				TimeUtils.formatMillis(it)
-			}
-			if (childCount != null) return childCount
-		}
-
-		// Folder
-		if (isFolder() && baseItem?.type != BaseItemKind.MUSIC_ARTIST) {
-			val childCount = baseItem?.childCount
-			if (childCount != null && childCount > 0) return childCount.toString()
-		}
-
-		// Default
-		return null
-	}
-
-	fun getBadgeImage(context: Context): Drawable? {
-		return when (baseRowType) {
-			BaseRowType.BaseItem -> when {
-				baseItem?.type == BaseItemKind.MOVIE && baseItem!!.criticRating != null -> when {
-					baseItem!!.criticRating!! > 59f -> R.drawable.ic_rt_fresh
-					else -> R.drawable.ic_rt_rotten
-				}
-
-				baseItem?.type == BaseItemKind.PROGRAM && baseItem!!.timerId != null -> when {
-					baseItem!!.seriesTimerId != null -> R.drawable.ic_record_series_red
-					else -> R.drawable.ic_record_red
-				}
-
-				else -> R.drawable.blank10x10
-			}
-
-			BaseRowType.Person,
-			BaseRowType.LiveTvProgram -> when {
-				baseItem?.seriesTimerId != null -> R.drawable.ic_record_series_red
-				baseItem?.timerId != null -> R.drawable.ic_record_red
-				else -> R.drawable.blank10x10
-			}
-
-			else -> R.drawable.blank10x10
-		}.let { ContextCompat.getDrawable(context, it) }
-	}
+	open fun getPrimaryImageUrl(context: Context, fillHeight: Int): String? = null
+	open fun getFullName(context: Context): String? = null
+	open fun getName(context: Context): String? = null
+	open fun getItemId(): UUID? = null
+	open fun getSubText(context: Context): String? = null
+	open fun getSummary(context: Context): String? = null
+	open fun getBadgeImage(context: Context): Drawable? = null
 
 	@JvmOverloads
-	fun refresh(
+	open fun refresh(
 		outerResponse: LifecycleAwareResponse<BaseItemDto?>,
 		scope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
-	) {
-		if (baseRowType == BaseRowType.BaseItem) {
-			val id = getItemId()
-			val api = get<ApiClient>()
-
-			if (id.isNullOrBlank()) {
-				Timber.w("Skipping call to BaseRowItem.refresh()")
-				return
-			}
-
-			scope.launch(Dispatchers.IO) {
-				baseItem = try {
-					api.userLibraryApi.getItem(itemId = id.toUUID()).content
-				} catch (err: ApiClientException) {
-					Timber.e(err, "Failed to refresh item")
-					// TODO Only set to null when returned status is 404 (requires Jellyfin 10.9>=)
-					null
-				}
-
-				if (outerResponse.active) withContext(Dispatchers.Main) {
-					outerResponse.onResponse(baseItem)
-				}
-			}
-		}
-	}
+	) = Unit
 
 	override fun equals(other: Any?): Boolean {
 		if (other is BaseRowItem) return other.getItemId() == getItemId()

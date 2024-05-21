@@ -123,7 +123,7 @@ public class KeyProcessor {
                     case LiveTvChannel:
                     case LiveTvRecording:
                         // retrieve full item and play
-                        playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(rowItem.getItemId()), false, activity);
+                        playbackHelper.getValue().retrieveAndPlay(rowItem.getItemId(), false, activity);
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
