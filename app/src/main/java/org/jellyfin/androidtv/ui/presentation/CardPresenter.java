@@ -24,7 +24,6 @@ import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.api.LocationType;
 import org.jellyfin.sdk.model.api.UserItemDataDto;
 import org.koin.java.KoinJavaComponent;
 
@@ -151,9 +150,6 @@ public class CardPresenter extends Presenter {
                                         case VIRTUAL:
                                             mCardView.setBanner(itemDto.getPremiereDate() == null || itemDto.getPremiereDate().isAfter(LocalDateTime.now()) ? R.drawable.banner_edge_future : R.drawable.banner_edge_missing);
                                             break;
-                                        case OFFLINE:
-                                            mCardView.setBanner(R.drawable.banner_edge_offline);
-                                            break;
                                     }
                                 }
                                 showProgress = true;
@@ -200,9 +196,6 @@ public class CardPresenter extends Presenter {
                     cardWidth = (int) (aspect * cardHeight);
                     if (cardWidth < 5) {
                         cardWidth = 115;  //Guard against zero size images causing picasso to barf
-                    }
-                    if (itemDto.getLocationType() == LocationType.OFFLINE) {
-                        mCardView.setBanner(R.drawable.banner_edge_offline);
                     }
                     if (Utils.isTrue(itemDto.isPlaceHolder())) {
                         mCardView.setBanner(R.drawable.banner_edge_disc);
@@ -264,7 +257,6 @@ public class CardPresenter extends Presenter {
                         switch (program.getLocationType()) {
                             case FILE_SYSTEM:
                             case REMOTE:
-                            case OFFLINE:
                                 break;
                             case VIRTUAL:
                                 if (program.getStartDate() != null && program.getStartDate().isAfter(LocalDateTime.now())) {
