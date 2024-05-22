@@ -42,6 +42,7 @@ import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
@@ -52,7 +53,6 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -354,24 +354,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.PLAYLIST
-        ) {
-            BaseRowItem item = mCurrentItem;
-            item.refresh(new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    if (!getActive()) return;
-
-                    ItemRowAdapter adapter = (ItemRowAdapter) mCurrentRow.getAdapter();
-                    if (response == null) adapter.removeAt(adapter.indexOf(item), 1);
-					else adapter.notifyItemRangeChanged(adapter.indexOf(item), 1);
-                }
-            });
-        }
+        if (mCurrentRow == null || mCurrentItem == null) return;
+        ItemRowAdapterHelperKt.refreshItem((ItemRowAdapter) mCurrentRow.getAdapter(), api.getValue(), this, mCurrentItem);
     }
 
     private final class SpecialViewClickedListener implements OnItemViewClickedListener {

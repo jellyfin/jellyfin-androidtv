@@ -2,14 +2,10 @@ package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.CoroutineScope
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.ImageHelper
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
@@ -55,12 +51,6 @@ abstract class BaseRowItem protected constructor(
 	open fun getSubText(context: Context): String? = null
 	open fun getSummary(context: Context): String? = null
 	open fun getBadgeImage(context: Context): Drawable? = null
-
-	@JvmOverloads
-	open fun refresh(
-		outerResponse: LifecycleAwareResponse<BaseItemDto?>,
-		scope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
-	) = Unit
 
 	override fun equals(other: Any?): Boolean {
 		if (other is BaseRowItem) return other.getItemId() == getItemId()

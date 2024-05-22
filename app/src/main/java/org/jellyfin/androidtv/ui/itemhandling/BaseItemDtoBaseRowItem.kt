@@ -3,24 +3,14 @@ package org.jellyfin.androidtv.ui.itemhandling
 import android.content.Context
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.util.TimeUtils
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
-import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.extensions.ticks
-import org.koin.core.component.get
-import timber.log.Timber
 import java.text.SimpleDateFormat
 
 open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
@@ -194,30 +184,4 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			else -> null
 		}
 	}?.let { ContextCompat.getDrawable(context, it) }
-
-	override fun refresh(
-		outerResponse: LifecycleAwareResponse<BaseItemDto?>,
-		scope: CoroutineScope,
-	) {
-		val itemId = baseItem?.id
-		val api = get<ApiClient>()
-
-		if (itemId == null) {
-			Timber.w("Skipping call to BaseRowItem.refresh()")
-			return
-		}
-
-		scope.launch(Dispatchers.IO) {
-			baseItem = try {
-				api.userLibraryApi.getItem(itemId = itemId).content
-			} catch (err: ApiClientException) {
-				Timber.e(err, "Failed to refresh item")
-				null
-			}
-
-			if (outerResponse.active) withContext(Dispatchers.Main) {
-				outerResponse.onResponse(baseItem)
-			}
-		}
-	}
 }
