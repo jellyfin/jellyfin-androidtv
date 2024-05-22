@@ -17,11 +17,11 @@ import java.util.UUID
 //  BaseItemDtoBaseRowItem)
 abstract class BaseRowItem protected constructor(
 	val baseRowType: BaseRowType,
-	var index: Int = 0,
+	val index: Int = 0,
 	val staticHeight: Boolean = false,
 	val preferParentThumb: Boolean = false,
 	val selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
-	var baseItem: BaseItemDto? = null,
+	val baseItem: BaseItemDto? = null,
 	val chapterInfo: ChapterItemInfo? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
