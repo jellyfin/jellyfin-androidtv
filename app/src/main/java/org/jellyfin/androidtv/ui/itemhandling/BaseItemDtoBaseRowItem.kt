@@ -32,8 +32,14 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	val preferSeriesPoster: Boolean = false,
 ) : BaseRowItem(
 	baseRowType = when (item.type) {
-		BaseItemKind.TV_CHANNEL -> BaseRowType.LiveTvChannel
-		BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
+		BaseItemKind.CHANNEL,
+		BaseItemKind.TV_CHANNEL,
+		BaseItemKind.LIVE_TV_CHANNEL -> BaseRowType.LiveTvChannel
+
+		BaseItemKind.PROGRAM,
+		BaseItemKind.TV_PROGRAM,
+		BaseItemKind.LIVE_TV_PROGRAM -> BaseRowType.LiveTvProgram
+
 		BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording
 		else -> BaseRowType.BaseItem
 	},
