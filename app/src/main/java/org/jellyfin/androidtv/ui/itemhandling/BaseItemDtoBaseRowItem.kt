@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
@@ -63,15 +64,15 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	override fun getChildCountStr(): String? {
 		// Playlist
 		if (baseItem?.type == BaseItemKind.PLAYLIST) {
-			val childCount = baseItem?.cumulativeRunTimeTicks?.ticks?.let { duration ->
+			val childCount = baseItem.cumulativeRunTimeTicks?.ticks?.let { duration ->
 				TimeUtils.formatMillis(duration.inWholeMilliseconds)
 			}
 			if (childCount != null) return childCount
 		}
 
 		// Folder
-		if (baseItem?.isFolder == true && baseItem?.type != BaseItemKind.MUSIC_ARTIST) {
-			val childCount = baseItem?.childCount
+		if (baseItem?.isFolder == true && baseItem.type != BaseItemKind.MUSIC_ARTIST) {
+			val childCount = baseItem.childCount
 			if (childCount != null && childCount > 0) return childCount.toString()
 		}
 
@@ -80,39 +81,40 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	}
 
 	override fun getCardName(context: Context) = when {
-		baseItem?.type == BaseItemKind.AUDIO && baseItem?.albumArtist != null -> baseItem?.albumArtist
-		baseItem?.type == BaseItemKind.AUDIO && baseItem?.album != null -> baseItem?.album
+		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtist != null -> baseItem.albumArtist
+		baseItem?.type == BaseItemKind.AUDIO && baseItem.album != null -> baseItem.album
 		else -> baseItem?.getFullName(context)
 	}
 
 	override fun getFullName(context: Context) = baseItem?.getFullName(context)
 	override fun getName(context: Context) = when (baseItem?.type) {
-		BaseItemKind.AUDIO -> baseItem?.getFullName(context)
+		BaseItemKind.AUDIO -> baseItem.getFullName(context)
 		else -> baseItem?.name
 	}
 
 	override fun getSummary(context: Context) = baseItem?.overview
 
 	override fun getSubText(context: Context) = when (baseItem?.type) {
-		BaseItemKind.TV_CHANNEL -> baseItem?.number
+		BaseItemKind.TV_CHANNEL -> baseItem.number
 		BaseItemKind.TV_PROGRAM,
-		BaseItemKind.PROGRAM -> baseItem?.episodeTitle ?: baseItem?.channelName
+		BaseItemKind.PROGRAM -> baseItem.episodeTitle ?: baseItem.channelName
+
 		BaseItemKind.RECORDING -> {
 			val title = listOfNotNull(
-				baseItem?.channelName,
-				baseItem?.episodeTitle
+				baseItem.channelName,
+				baseItem.episodeTitle
 			).joinToString(" - ")
 
 			val timestamp = buildString {
-				append(SimpleDateFormat("d MMM").format(TimeUtils.getDate(baseItem!!.startDate)))
+				append(SimpleDateFormat("d MMM").format(TimeUtils.getDate(baseItem.startDate)))
 				append(" ")
 				append(
 					(DateFormat.getTimeFormat(context)
-						.format(TimeUtils.getDate(baseItem!!.startDate)))
+						.format(TimeUtils.getDate(baseItem.startDate)))
 				)
 				append(" - ")
 				append(
-					DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem!!.endDate))
+					DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem.endDate))
 				)
 			}
 
@@ -124,6 +126,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 
 	override fun getImageUrl(
 		context: Context,
+		imageHelper: ImageHelper,
 		imageType: ImageType,
 		fillWidth: Int,
 		fillHeight: Int
@@ -152,32 +155,30 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 				), fillWidth, fillHeight
 			)
 
-			else -> getPrimaryImageUrl(context, fillHeight)
+			else -> imageHelper.getPrimaryImageUrl(
+				baseItem!!,
+				preferParentThumb,
+				null,
+				fillHeight
+			)
 		}
 	}
 
-	override fun getPrimaryImageUrl(
+	override fun getBadgeImage(
 		context: Context,
-		fillHeight: Int,
-	) = imageHelper.getPrimaryImageUrl(
-		baseItem!!,
-		preferParentThumb,
-		null,
-		fillHeight
-	)
-
-	override fun getBadgeImage(context: Context) = when (baseItem?.type) {
+		imageHelper: ImageHelper,
+	) = when (baseItem?.type) {
 		BaseItemKind.LIVE_TV_PROGRAM,
 		BaseItemKind.PROGRAM -> when {
-			baseItem?.seriesTimerId != null -> R.drawable.ic_record_series_red
-			baseItem?.timerId != null -> R.drawable.ic_record_red
+			baseItem.seriesTimerId != null -> R.drawable.ic_record_series_red
+			baseItem.timerId != null -> R.drawable.ic_record_red
 
 			else -> null
 		}
 
 		else -> when {
 			baseItem?.criticRating != null -> when {
-				baseItem!!.criticRating!! > 59f -> R.drawable.ic_rt_fresh
+				baseItem.criticRating!! > 59f -> R.drawable.ic_rt_fresh
 				else -> R.drawable.ic_rt_rotten
 			}
 

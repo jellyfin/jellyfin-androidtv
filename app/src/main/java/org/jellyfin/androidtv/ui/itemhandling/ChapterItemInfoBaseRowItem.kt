@@ -1,7 +1,9 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
+import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.sdk.model.extensions.ticks
 
@@ -12,9 +14,12 @@ class ChapterItemInfoBaseRowItem(
 	staticHeight = true,
 	chapterInfo = item,
 ) {
-	override fun getPrimaryImageUrl(
+	override fun getImageUrl(
 		context: Context,
-		fillHeight: Int,
+		imageHelper: ImageHelper,
+		imageType: ImageType,
+		fillWidth: Int,
+		fillHeight: Int
 	) = chapterInfo?.imagePath
 
 	override fun getItemId() = chapterInfo?.itemId

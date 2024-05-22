@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
+import org.jellyfin.androidtv.constant.ImageType
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.sdk.model.api.BaseItemPerson
 
 class BaseItemPersonBaseRowItem(
@@ -9,9 +11,12 @@ class BaseItemPersonBaseRowItem(
 	baseRowType = BaseRowType.Person,
 	staticHeight = true,
 ) {
-	override fun getPrimaryImageUrl(
+	override fun getImageUrl(
 		context: Context,
-		fillHeight: Int,
+		imageHelper: ImageHelper,
+		imageType: ImageType,
+		fillWidth: Int,
+		fillHeight: Int
 	) = imageHelper.getPrimaryImageUrl(person, fillHeight)
 
 	override fun getItemId() = person.id

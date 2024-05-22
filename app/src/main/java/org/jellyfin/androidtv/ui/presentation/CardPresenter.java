@@ -33,16 +33,16 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import kotlin.Lazy;
+
 public class CardPresenter extends Presenter {
     private int mStaticHeight = 150;
     private ImageType mImageType = ImageType.POSTER;
     private double aspect;
-
     private boolean mShowInfo = true;
-
     private boolean isUserView = false;
-
     private boolean isUniformAspect = false;
+    private final Lazy<ImageHelper> imageHelper = KoinJavaComponent.<ImageHelper>inject(ImageHelper.class);
 
     public CardPresenter() {
         super();
@@ -104,8 +104,7 @@ public class CardPresenter extends Presenter {
                     } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageHelper.ASPECT_RATIO_16_9;
                     } else {
-                        ImageHelper imageHelper = KoinJavaComponent.<ImageHelper>get(ImageHelper.class);
-                        aspect = Utils.getSafeValue(imageHelper.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
+                        aspect = Utils.getSafeValue(imageHelper.getValue().getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
                     }
                     switch (itemDto.getType()) {
                         case AUDIO:
@@ -370,7 +369,7 @@ public class CardPresenter extends Presenter {
             if (rowItem.getBaseItem() != null && rowItem.getBaseItemType() != BaseItemKind.USER_VIEW) {
                 RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
                 if (ratingType == RatingType.RATING_TOMATOES) {
-                    Drawable badge = rowItem.getBadgeImage(holder.view.getContext());
+                    Drawable badge = rowItem.getBadgeImage(holder.view.getContext(), imageHelper.getValue());
                     holder.mCardView.setRating(null);
                     if (badge != null) {
                         holder.mCardView.setBadgeImage(badge);
@@ -410,7 +409,7 @@ public class CardPresenter extends Presenter {
         int fillHeight = Math.round(holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density);
 
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, fillWidth, fillHeight),
+                rowItem.getImageUrl(holder.mCardView.getContext(), imageHelper.getValue(), mImageType, fillWidth, fillHeight),
                 blurHash
         );
     }

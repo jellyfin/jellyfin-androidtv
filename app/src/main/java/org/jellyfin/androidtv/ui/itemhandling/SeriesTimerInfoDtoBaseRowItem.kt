@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.constant.ImageType
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -12,9 +14,12 @@ class SeriesTimerInfoDtoBaseRowItem(
 	baseRowType = BaseRowType.SeriesTimer,
 	seriesTimerInfo = item,
 ) {
-	override fun getPrimaryImageUrl(
+	override fun getImageUrl(
 		context: Context,
-		fillHeight: Int,
+		imageHelper: ImageHelper,
+		imageType: ImageType,
+		fillWidth: Int,
+		fillHeight: Int
 	) = imageHelper.getResourceUrl(
 		context,
 		R.drawable.tile_land_series_timer
@@ -28,5 +33,6 @@ class SeriesTimerInfoDtoBaseRowItem(
 		else seriesTimerInfo?.channelName,
 		seriesTimerInfo?.dayPattern
 	).joinToString(" ")
+
 	override fun getSummary(context: Context) = seriesTimerInfo?.getSeriesOverview(context)
 }
