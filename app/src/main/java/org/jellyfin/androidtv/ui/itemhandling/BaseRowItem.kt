@@ -13,7 +13,6 @@ import java.util.UUID
 
 abstract class BaseRowItem protected constructor(
 	val baseRowType: BaseRowType,
-	val index: Int = 0,
 	val staticHeight: Boolean = false,
 	val preferParentThumb: Boolean = false,
 	val selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,

@@ -446,7 +446,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) return;
 
-            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), requireContext());
         }
     }
 
@@ -481,7 +481,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             InfoLayoutHelper.addInfoRow(requireContext(), rowItem.getBaseItem(), mInfoRow, true);
 
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
-            adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
+            adapter.loadMoreItemsIfNeeded(adapter.indexOf(rowItem));
 
             backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }

@@ -6,7 +6,6 @@ class AudioQueueBaseRowItem(
 	index: Int,
 	item: BaseItemDto,
 ) : BaseItemDtoBaseRowItem(
-	index = index,
 	item = item,
 	staticHeight = true,
 ) {

@@ -15,7 +15,6 @@ import org.jellyfin.sdk.model.extensions.ticks
 import java.text.SimpleDateFormat
 
 open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
-	index: Int = 0,
 	item: BaseItemDto,
 	preferParentThumb: Boolean = false,
 	staticHeight: Boolean = false,
@@ -34,7 +33,6 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 		BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording
 		else -> BaseRowType.BaseItem
 	},
-	index = index,
 	staticHeight = staticHeight,
 	preferParentThumb = preferParentThumb,
 	selectAction = selectAction,

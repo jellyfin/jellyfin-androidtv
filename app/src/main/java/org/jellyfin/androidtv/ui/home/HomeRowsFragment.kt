@@ -251,7 +251,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			row: Row?,
 		) {
 			if (item !is BaseRowItem) return
-			itemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, requireContext())
+			itemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, requireContext())
 		}
 	}
 
@@ -270,7 +270,8 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				currentItem = item
 				currentRow = row as ListRow
 
-				(row.adapter as? ItemRowAdapter)?.loadMoreItemsIfNeeded(item.index.toLong())
+				val itemRowAdapter = row.adapter as? ItemRowAdapter
+				itemRowAdapter?.loadMoreItemsIfNeeded(itemRowAdapter.indexOf(item))
 
 				backgroundService.setBackground(item.baseItem)
 			}

@@ -203,11 +203,14 @@ class RewriteMediaManager(
 		updateAdapter()
 	}
 
-	override fun removeFromAudioQueue(ndx: Int) {
-		// Disallow removing currently playing item (legacy UI cannot keep up)
-		if (playbackManager.state.queue.entryIndex.value == ndx) return
+	override fun removeFromAudioQueue(item: BaseItemDto) {
+		val index = queue.items.indexOf(item)
+		if (index == -1) return
 
-		queue.items.removeAt(ndx)
+		// Disallow removing currently playing item (legacy UI cannot keep up)
+		if (playbackManager.state.queue.entryIndex.value == index) return
+
+		queue.items.removeAt(index)
 		updateAdapter()
 	}
 
@@ -224,8 +227,12 @@ class RewriteMediaManager(
 		navigationRepository.navigate(Destinations.nowPlaying)
 	}
 
-	override fun playFrom(ndx: Int): Boolean = runBlocking {
-		playbackManager.state.queue.setIndex(ndx) != null
+	override fun playFrom(item: BaseItemDto): Boolean {
+		val index = queue.items.indexOf(item)
+		if (index == -1) return false
+		return runBlocking {
+			playbackManager.state.queue.setIndex(index) != null
+		}
 	}
 
 	override fun shuffleAudioQueue() {

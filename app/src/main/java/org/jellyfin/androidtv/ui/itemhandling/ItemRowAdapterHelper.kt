@@ -50,7 +50,6 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 			items = response.items.orEmpty().toTypedArray(),
 			transform = { item, i ->
 				BaseItemDtoBaseRowItem(
-					i,
 					item,
 					preferParentThumb,
 					isStaticHeight
@@ -81,7 +80,6 @@ fun ItemRowAdapter.refreshItem(
 					set(
 						index = indexOf(currentBaseRowItem),
 						element = BaseItemDtoBaseRowItem(
-							index = currentBaseRowItem.index,
 							item = refreshedBaseItem,
 							preferParentThumb = currentBaseRowItem.preferParentThumb,
 							staticHeight = currentBaseRowItem.staticHeight,

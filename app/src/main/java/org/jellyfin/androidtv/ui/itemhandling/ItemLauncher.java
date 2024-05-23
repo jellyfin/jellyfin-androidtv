@@ -66,12 +66,12 @@ public class ItemLauncher {
         }
     }
 
-    public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Context context) {
+    public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, final Context context) {
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    Timber.d("Item selected: %d - %s (%s)", rowItem.getIndex(), baseItem.getName(), baseItem.getType().toString());
+                    Timber.d("Item selected: %s (%s)", baseItem.getName(), baseItem.getType().toString());
                 } catch (Exception e) {
                     //swallow it
                 }
@@ -93,16 +93,15 @@ public class ItemLauncher {
                         return;
 
                     case AUDIO:
-                        Timber.d("got pos %s", pos);
                         if (rowItem.getBaseItem() == null)
                             return;
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
                         if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && rowItem.getBaseItem().getId().equals(mediaManager.getValue().getCurrentAudioItem().getId())) {
                             navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
-                        } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && pos < mediaManager.getValue().getCurrentAudioQueueSize()) {
+                        } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && adapter.indexOf(rowItem) < mediaManager.getValue().getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
-                            mediaManager.getValue().playFrom(pos);
+                            mediaManager.getValue().playFrom(rowItem.getBaseItem());
                         } else if (adapter.getQueryType() == QueryType.Search) {
                             mediaManager.getValue().playNow(context, Arrays.asList(rowItem.getBaseItem()), 0, false);
                         } else {
@@ -113,7 +112,7 @@ public class ItemLauncher {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
-                            mediaManager.getValue().playNow(context, audioItemsAsList, pos, false);
+                            mediaManager.getValue().playNow(context, audioItemsAsList, adapter.indexOf(rowItem), false);
                         }
 
                         return;

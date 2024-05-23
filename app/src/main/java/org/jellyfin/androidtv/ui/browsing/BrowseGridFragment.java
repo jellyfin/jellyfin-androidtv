@@ -946,7 +946,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 binding.toolBar.requestFocus();
                 mAdapter.remove(mCurrentItem);
                 mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
-                updateCounter(mCurrentItem.getIndex());
+                updateCounter(mAdapter.indexOf(mCurrentItem));
             }
             return null;
         });
@@ -958,7 +958,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, requireContext());
         }
     }
 
@@ -989,7 +989,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 mHandler.postDelayed(mDelayedSetItem, VIEW_SELECT_UPDATE_DELAY);
 
                 if (!determiningPosterSize)
-                    mAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+                    mAdapter.loadMoreItemsIfNeeded(mAdapter.indexOf(mCurrentItem));
             }
         }
     }
