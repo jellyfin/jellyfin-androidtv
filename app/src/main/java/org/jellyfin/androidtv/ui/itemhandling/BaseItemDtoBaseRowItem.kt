@@ -55,11 +55,10 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 
 	override val itemId get() = baseItem?.id
 
-	override val baseItemType get() = baseItem?.type
 	override val isFavorite get() = baseItem?.userData?.isFavorite == true
 	override val isPlayed get() = baseItem?.userData?.played == true
 
-	override val childCountStr: String?
+	val childCountStr: String?
 		get() {
 			// Playlist
 			if (baseItem?.type == BaseItemKind.PLAYLIST) {

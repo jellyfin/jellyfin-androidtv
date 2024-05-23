@@ -17,6 +17,7 @@ import androidx.leanback.widget.BaseCardView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -115,7 +116,7 @@ public class LegacyImageCardView extends BaseCardView {
         if (binding.overlayText == null) return;
 
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.getShowCardInfoOverlay()) {
-            switch (item.getBaseItemType()) {
+            switch (item.getBaseItem().getType()) {
                 case PHOTO:
                     insertCardData(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.getDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()), R.drawable.ic_camera, true);
                     break;
@@ -135,7 +136,11 @@ public class LegacyImageCardView extends BaseCardView {
                     binding.overlayText.setText(item.getFullName(getContext()));
                     break;
             }
-            binding.overlayCount.setText(item.getChildCountStr());
+            if (item instanceof BaseItemDtoBaseRowItem) {
+                binding.overlayCount.setText(((BaseItemDtoBaseRowItem) item).getChildCountStr());
+            } else {
+                binding.overlayCount.setText(null);
+            }
             binding.nameOverlay.setVisibility(VISIBLE);
         }
     }

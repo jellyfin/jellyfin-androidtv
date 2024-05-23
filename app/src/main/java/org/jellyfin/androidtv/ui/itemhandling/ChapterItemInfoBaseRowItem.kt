@@ -8,11 +8,10 @@ import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.sdk.model.extensions.ticks
 
 class ChapterItemInfoBaseRowItem(
-	item: ChapterItemInfo,
+	val chapterInfo: ChapterItemInfo,
 ) : BaseRowItem(
 	baseRowType = BaseRowType.Chapter,
 	staticHeight = true,
-	chapterInfo = item,
 ) {
 	override fun getImageUrl(
 		context: Context,
@@ -20,12 +19,12 @@ class ChapterItemInfoBaseRowItem(
 		imageType: ImageType,
 		fillWidth: Int,
 		fillHeight: Int
-	) = chapterInfo?.imagePath
+	) = chapterInfo.imagePath
 
-	override val itemId get() = chapterInfo?.itemId
-	override fun getFullName(context: Context) = chapterInfo?.name
-	override fun getName(context: Context) = chapterInfo?.name
+	override val itemId get() = chapterInfo.itemId
+	override fun getFullName(context: Context) = chapterInfo.name
+	override fun getName(context: Context) = chapterInfo.name
 
 	override fun getSubText(context: Context) =
-		chapterInfo?.startPositionTicks?.ticks?.inWholeMilliseconds?.let(TimeUtils::formatMillis)
+		chapterInfo.startPositionTicks.ticks.inWholeMilliseconds.let(TimeUtils::formatMillis)
 }

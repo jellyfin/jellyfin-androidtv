@@ -9,10 +9,9 @@ import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 class SeriesTimerInfoDtoBaseRowItem(
-	item: SeriesTimerInfoDto,
+	val seriesTimerInfo: SeriesTimerInfoDto,
 ) : BaseRowItem(
 	baseRowType = BaseRowType.SeriesTimer,
-	seriesTimerInfo = item,
 ) {
 	override fun getImageUrl(
 		context: Context,
@@ -25,14 +24,14 @@ class SeriesTimerInfoDtoBaseRowItem(
 		R.drawable.tile_land_series_timer
 	)
 
-	override fun getFullName(context: Context) = seriesTimerInfo?.name
-	override fun getName(context: Context) = seriesTimerInfo?.name
-	override val itemId get() = seriesTimerInfo?.id?.toUUIDOrNull()
+	override fun getFullName(context: Context) = seriesTimerInfo.name
+	override fun getName(context: Context) = seriesTimerInfo.name
+	override val itemId get() = seriesTimerInfo.id?.toUUIDOrNull()
 	override fun getSubText(context: Context): String = listOfNotNull(
-		if (seriesTimerInfo?.recordAnyChannel == true) context.getString(R.string.all_channels)
-		else seriesTimerInfo?.channelName,
-		seriesTimerInfo?.dayPattern
+		if (seriesTimerInfo.recordAnyChannel) context.getString(R.string.all_channels)
+		else seriesTimerInfo.channelName,
+		seriesTimerInfo.dayPattern
 	).joinToString(" ")
 
-	override fun getSummary(context: Context) = seriesTimerInfo?.getSeriesOverview(context)
+	override fun getSummary(context: Context) = seriesTimerInfo.getSeriesOverview(context)
 }

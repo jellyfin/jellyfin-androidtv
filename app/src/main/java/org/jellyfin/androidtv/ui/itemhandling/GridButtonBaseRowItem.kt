@@ -6,11 +6,10 @@ import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.ImageHelper
 
 class GridButtonBaseRowItem(
-	item: GridButton,
+	val gridButton: GridButton,
 ) : BaseRowItem(
 	baseRowType = BaseRowType.GridButton,
 	staticHeight = true,
-	gridButton = item,
 ) {
 	override fun getImageUrl(
 		context: Context,
@@ -18,10 +17,8 @@ class GridButtonBaseRowItem(
 		imageType: ImageType,
 		fillWidth: Int,
 		fillHeight: Int
-	) = gridButton?.imageRes?.let {
-		imageHelper.getResourceUrl(context, it)
-	}
+	) = gridButton.imageRes?.let { imageHelper.getResourceUrl(context, it) }
 
-	override fun getFullName(context: Context) = gridButton?.text
-	override fun getName(context: Context) = gridButton?.text
+	override fun getFullName(context: Context) = gridButton.text
+	override fun getName(context: Context) = gridButton.text
 }

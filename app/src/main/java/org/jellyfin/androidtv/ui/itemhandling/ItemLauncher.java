@@ -171,7 +171,7 @@ public class ItemLauncher {
 
                 break;
             case Chapter:
-                final ChapterItemInfo chapter = rowItem.getChapterInfo();
+                final ChapterItemInfo chapter = ((ChapterItemInfoBaseRowItem) rowItem).getChapterInfo();
                 //Start playback of the item at the chapter point
                 ItemLauncherHelper.getItem(rowItem.getItemId(), new Response<BaseItemDto>() {
                     @Override
@@ -242,7 +242,7 @@ public class ItemLauncher {
                                 List<BaseItemDto> items = new ArrayList<>();
                                 items.add(response);
                                 videoQueueManager.getValue().setCurrentVideoQueue(items);
-                                Destination destination = playbackLauncher.getValue().getPlaybackDestination(rowItem.getBaseItemType(), 0);
+                                Destination destination = playbackLauncher.getValue().getPlaybackDestination(rowItem.getBaseItem().getType(), 0);
                                 navigationRepository.getValue().navigate(destination);
                             }
                         });
@@ -251,12 +251,12 @@ public class ItemLauncher {
                 break;
 
             case SeriesTimer:
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesTimerDetails(rowItem.getItemId(), rowItem.getSeriesTimerInfo()));
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesTimerDetails(rowItem.getItemId(), ((SeriesTimerInfoDtoBaseRowItem) rowItem).getSeriesTimerInfo()));
                 break;
 
 
             case GridButton:
-                switch (rowItem.getGridButton().getId()) {
+                switch (((GridButtonBaseRowItem) rowItem).getGridButton().getId()) {
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuide());
                         break;

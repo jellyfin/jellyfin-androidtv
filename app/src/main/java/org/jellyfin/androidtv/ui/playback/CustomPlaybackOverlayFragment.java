@@ -56,7 +56,7 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ChapterItemInfoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
@@ -418,15 +418,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (item instanceof BaseRowItem) {
-                BaseRowItem rowItem = (BaseRowItem) item;
-                switch (rowItem.getBaseRowType()) {
-                    case Chapter:
-                        Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
-                        playbackControllerContainer.getValue().getPlaybackController().seek(start);
-                        hidePopupPanel();
-                        break;
-                }
+            if (item instanceof ChapterItemInfoBaseRowItem) {
+                ChapterItemInfoBaseRowItem rowItem = (ChapterItemInfoBaseRowItem) item;
+                Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
+                playbackControllerContainer.getValue().getPlaybackController().seek(start);
+                hidePopupPanel();
             } else if (item instanceof ChannelInfoDto) {
                 hidePopupPanel();
                 switchChannel(UUIDSerializerKt.toUUID(((ChannelInfoDto) item).getId()));

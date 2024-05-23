@@ -3,12 +3,8 @@ package org.jellyfin.androidtv.ui.itemhandling
 import android.content.Context
 import android.graphics.drawable.Drawable
 import org.jellyfin.androidtv.constant.ImageType
-import org.jellyfin.androidtv.data.model.ChapterItemInfo
-import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.sdk.model.api.BaseItemDto
-import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import java.util.UUID
 
 abstract class BaseRowItem protected constructor(
@@ -17,14 +13,9 @@ abstract class BaseRowItem protected constructor(
 	val preferParentThumb: Boolean = false,
 	val selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
 	val baseItem: BaseItemDto? = null,
-	val chapterInfo: ChapterItemInfo? = null,
-	val seriesTimerInfo: SeriesTimerInfoDto? = null,
-	val gridButton: GridButton? = null,
 ) {
 	open val itemId: UUID? = null
-	open val baseItemType: BaseItemKind? = null
 	open val showCardInfoOverlay: Boolean = false
-	open val childCountStr: String? = null
 	open val isFavorite: Boolean = false
 	open val isPlayed: Boolean = false
 

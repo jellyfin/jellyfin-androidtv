@@ -68,7 +68,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
+                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItem().getType() != BaseItemKind.PHOTO)) {
                     // Rewrite uses media sessions which the system automatically manipulates on key presses
                     return false;
                 }
