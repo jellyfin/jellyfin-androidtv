@@ -22,7 +22,7 @@ class ChapterItemInfoBaseRowItem(
 		fillHeight: Int
 	) = chapterInfo?.imagePath
 
-	override fun getItemId() = chapterInfo?.itemId
+	override val itemId get() = chapterInfo?.itemId
 	override fun getFullName(context: Context) = chapterInfo?.name
 	override fun getName(context: Context) = chapterInfo?.name
 

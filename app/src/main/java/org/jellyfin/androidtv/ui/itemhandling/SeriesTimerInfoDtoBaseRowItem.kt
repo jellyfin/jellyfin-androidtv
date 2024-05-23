@@ -27,7 +27,7 @@ class SeriesTimerInfoDtoBaseRowItem(
 
 	override fun getFullName(context: Context) = seriesTimerInfo?.name
 	override fun getName(context: Context) = seriesTimerInfo?.name
-	override fun getItemId() = seriesTimerInfo?.id?.toUUIDOrNull()
+	override val itemId get() = seriesTimerInfo?.id?.toUUIDOrNull()
 	override fun getSubText(context: Context): String = listOfNotNull(
 		if (seriesTimerInfo?.recordAnyChannel == true) context.getString(R.string.all_channels)
 		else seriesTimerInfo?.channelName,

@@ -22,14 +22,14 @@ abstract class BaseRowItem protected constructor(
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
 ) {
+	open val itemId: UUID? = null
+	open val baseItemType: BaseItemKind? = null
 	open val showCardInfoOverlay: Boolean = false
-	open fun getBaseItemType(): BaseItemKind? = null
-	open fun isFavorite(): Boolean = false
-	open fun isPlayed(): Boolean = false
+	open val childCountStr: String? = null
+	open val isFavorite: Boolean = false
+	open val isPlayed: Boolean = false
 
 	open fun getCardName(context: Context): String? = getFullName(context)
-
-	open fun getChildCountStr(): String? = null
 
 	open fun getImageUrl(
 		context: Context,
@@ -41,13 +41,12 @@ abstract class BaseRowItem protected constructor(
 
 	open fun getFullName(context: Context): String? = null
 	open fun getName(context: Context): String? = null
-	open fun getItemId(): UUID? = null
 	open fun getSubText(context: Context): String? = null
 	open fun getSummary(context: Context): String? = null
 	open fun getBadgeImage(context: Context, imageHelper: ImageHelper): Drawable? = null
 
 	override fun equals(other: Any?): Boolean {
-		if (other is BaseRowItem) return other.getItemId() == getItemId()
+		if (other is BaseRowItem) return other.itemId == itemId
 		return super.equals(other)
 	}
 }

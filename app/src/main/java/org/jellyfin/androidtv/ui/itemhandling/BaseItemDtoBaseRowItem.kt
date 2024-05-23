@@ -55,30 +55,31 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			else -> false
 		}
 
-	override fun getItemId() = baseItem?.id
+	override val itemId get() = baseItem?.id
 
-	override fun getBaseItemType() = baseItem?.type
-	override fun isFavorite() = baseItem?.userData?.isFavorite == true
-	override fun isPlayed() = baseItem?.userData?.played == true
+	override val baseItemType get() = baseItem?.type
+	override val isFavorite get() = baseItem?.userData?.isFavorite == true
+	override val isPlayed get() = baseItem?.userData?.played == true
 
-	override fun getChildCountStr(): String? {
-		// Playlist
-		if (baseItem?.type == BaseItemKind.PLAYLIST) {
-			val childCount = baseItem.cumulativeRunTimeTicks?.ticks?.let { duration ->
-				TimeUtils.formatMillis(duration.inWholeMilliseconds)
+	override val childCountStr: String?
+		get() {
+			// Playlist
+			if (baseItem?.type == BaseItemKind.PLAYLIST) {
+				val childCount = baseItem.cumulativeRunTimeTicks?.ticks?.let { duration ->
+					TimeUtils.formatMillis(duration.inWholeMilliseconds)
+				}
+				if (childCount != null) return childCount
 			}
-			if (childCount != null) return childCount
-		}
 
-		// Folder
-		if (baseItem?.isFolder == true && baseItem.type != BaseItemKind.MUSIC_ARTIST) {
-			val childCount = baseItem.childCount
-			if (childCount != null && childCount > 0) return childCount.toString()
-		}
+			// Folder
+			if (baseItem?.isFolder == true && baseItem.type != BaseItemKind.MUSIC_ARTIST) {
+				val childCount = baseItem.childCount
+				if (childCount != null && childCount > 0) return childCount.toString()
+			}
 
-		// Default
-		return null
-	}
+			// Default
+			return null
+		}
 
 	override fun getCardName(context: Context) = when {
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtist != null -> baseItem.albumArtist

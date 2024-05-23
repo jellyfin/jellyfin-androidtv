@@ -19,7 +19,7 @@ class BaseItemPersonBaseRowItem(
 		fillHeight: Int
 	) = imageHelper.getPrimaryImageUrl(person, fillHeight)
 
-	override fun getItemId() = person.id
+	override val itemId get() = person.id
 	override fun getFullName(context: Context) = person.name
 	override fun getName(context: Context) = person.name
 	override fun getSubText(context: Context) = person.role
