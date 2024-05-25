@@ -1404,7 +1404,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), requireContext());
         }
     }
 

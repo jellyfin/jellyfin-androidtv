@@ -77,9 +77,9 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	}
 
 	fun remove(element: T): Boolean {
-		val removed = data.remove(element)
-		if (removed) notifyChanged()
-		return removed
+		val index = indexOf(element)
+		if (index == -1) return false
+		return removeAt(index, 1)
 	}
 
 	fun removeAt(index: Int, length: Int = 1): Boolean {

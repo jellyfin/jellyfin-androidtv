@@ -34,6 +34,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentAudioNowPlayingBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
@@ -388,8 +389,9 @@ public class AudioNowPlayingFragment extends Fragment {
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof BaseRowItem) {
-                //Keep counter
-                mCounter.setText(((BaseRowItem) item).getIndex() + 1 + " | " + mQueueRow.getAdapter().size());
+                // Keep counter
+                ItemRowAdapter adapter = (ItemRowAdapter) mQueueRow.getAdapter();
+                mCounter.setText((adapter.indexOf(item) + 1) + " | " + adapter.size());
             }
         }
     }

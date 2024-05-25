@@ -51,7 +51,6 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 				itemLauncher.launch(
 					item,
 					(row as ListRow).adapter as ItemRowAdapter,
-					item.index,
 					requireContext()
 				)
 			}
@@ -61,7 +60,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 				backgroundService.clearBackgrounds()
 			} else {
 				val adapter = (row as? ListRow)?.adapter
-				if (adapter is ItemRowAdapter) adapter.loadMoreItemsIfNeeded(item.index.toLong())
+				if (adapter is ItemRowAdapter) adapter.loadMoreItemsIfNeeded(adapter.indexOf(item))
 
 				backgroundService.setBackground(item.baseItem)
 			}

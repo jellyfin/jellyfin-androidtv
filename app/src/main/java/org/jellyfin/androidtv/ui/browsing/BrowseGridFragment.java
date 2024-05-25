@@ -52,6 +52,7 @@ import org.jellyfin.androidtv.ui.AlphaPickerView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
@@ -62,9 +63,9 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
@@ -125,6 +126,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
+    private final Lazy<ApiClient> api = inject(ApiClient.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -934,31 +936,20 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO_ALBUM
-                && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM) {
-            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
-            BaseRowItem item = mCurrentItem;
-            item.refresh(new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    if (!getActive()) return;
-
-                    if (response == null) mAdapter.removeAt(mAdapter.indexOf(item), 1);
-                    else mAdapter.notifyItemRangeChanged(mAdapter.indexOf(item), 1);
-
-                    //Now - if filtered make sure we still pass
-                    if (response != null && mAdapter.getFilters() != null) {
-                        if ((mAdapter.getFilters().isFavoriteOnly() && !item.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && item.isPlayed())) {
-                            // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
-                            binding.toolBar.requestFocus();
-                            mAdapter.remove(item);
-                            mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
-                            updateCounter(item.getIndex());
-                        }
-                    }
-                }
-            });
-        }
+        if (mCurrentItem == null) return;
+        Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
+        ItemRowAdapterHelperKt.refreshItem(mAdapter, api.getValue(), this, mCurrentItem, () -> {
+            //Now - if filtered make sure we still pass
+            if (mAdapter.getFilters() == null) return null;
+            if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+                // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
+                binding.toolBar.requestFocus();
+                mAdapter.remove(mCurrentItem);
+                mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
+                updateCounter(mAdapter.indexOf(mCurrentItem));
+            }
+            return null;
+        });
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -967,7 +958,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, requireContext());
         }
     }
 
@@ -998,7 +989,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 mHandler.postDelayed(mDelayedSetItem, VIEW_SELECT_UPDATE_DELAY);
 
                 if (!determiningPosterSize)
-                    mAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+                    mAdapter.loadMoreItemsIfNeeded(mAdapter.indexOf(mCurrentItem));
             }
         }
     }

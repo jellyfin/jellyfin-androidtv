@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
-import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -106,7 +105,7 @@ class RewriteMediaManager(
 	private suspend fun watchPlaybackStateChanges() = coroutineScope {
 		playbackManager.state.playState.onEach { playState ->
 			notifyListeners {
-				val firstItem = currentAudioQueue.get(0) as? BaseRowItem
+				val firstItem = currentAudioQueue.get(0) as? AudioQueueBaseRowItem
 				firstItem?.playing = playState == PlayState.PLAYING
 
 				onPlaybackStateChange(when (playState) {
@@ -142,7 +141,7 @@ class RewriteMediaManager(
 			.items
 			// Map to audio queue items
 			.mapIndexed { index, item ->
-				AudioQueueItem(index, item).apply {
+				AudioQueueBaseRowItem(item).apply {
 					playing = playbackManager.state.queue.entryIndex.value == index
 				}
 			}
@@ -152,7 +151,7 @@ class RewriteMediaManager(
 		// Update item row
 		currentAudioQueue.replaceAll(
 			items,
-			areItemsTheSame = { old, new -> (old as AudioQueueItem).baseItem == (new as AudioQueueItem).baseItem },
+			areItemsTheSame = { old, new -> (old as AudioQueueBaseRowItem).baseItem == (new as AudioQueueBaseRowItem).baseItem },
 			// The equals functions for BaseRowItem only compare by id
 			areContentsTheSame = { _, _ -> false },
 		)
@@ -204,11 +203,14 @@ class RewriteMediaManager(
 		updateAdapter()
 	}
 
-	override fun removeFromAudioQueue(ndx: Int) {
-		// Disallow removing currently playing item (legacy UI cannot keep up)
-		if (playbackManager.state.queue.entryIndex.value == ndx) return
+	override fun removeFromAudioQueue(item: BaseItemDto) {
+		val index = queue.items.indexOf(item)
+		if (index == -1) return
 
-		queue.items.removeAt(ndx)
+		// Disallow removing currently playing item (legacy UI cannot keep up)
+		if (playbackManager.state.queue.entryIndex.value == index) return
+
+		queue.items.removeAt(index)
 		updateAdapter()
 	}
 
@@ -225,8 +227,12 @@ class RewriteMediaManager(
 		navigationRepository.navigate(Destinations.nowPlaying)
 	}
 
-	override fun playFrom(ndx: Int): Boolean = runBlocking {
-		playbackManager.state.queue.setIndex(ndx) != null
+	override fun playFrom(item: BaseItemDto): Boolean {
+		val index = queue.items.indexOf(item)
+		if (index == -1) return false
+		return runBlocking {
+			playbackManager.state.queue.setIndex(index) != null
+		}
 	}
 
 	override fun shuffleAudioQueue() {

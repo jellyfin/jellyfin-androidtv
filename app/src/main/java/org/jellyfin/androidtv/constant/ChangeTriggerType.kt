@@ -6,7 +6,5 @@ enum class ChangeTriggerType {
 	TvPlayback,
 	GuideNeedsLoad,
 	MusicPlayback,
-	Always,
-	VideoQueueChange,
 	FavoriteUpdate,
 }

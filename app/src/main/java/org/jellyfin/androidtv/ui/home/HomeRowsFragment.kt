@@ -39,6 +39,7 @@ import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
+import org.jellyfin.androidtv.ui.itemhandling.refreshItem
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
@@ -46,12 +47,9 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.util.KeyProcessor
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.sockets.subscribe
-import org.jellyfin.sdk.model.api.BaseItemDto
-import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.LibraryChangedMessage
 import org.jellyfin.sdk.model.api.UserDataChangedMessage
 import org.koin.android.ext.android.inject
@@ -232,21 +230,11 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	}
 
 	private fun refreshCurrentItem() {
-		currentItem?.let { item ->
-			if (item.getBaseItemType() == BaseItemKind.USER_VIEW || item.getBaseItemType() == BaseItemKind.COLLECTION_FOLDER) return
+		val adapter = currentRow?.adapter as? ItemRowAdapter ?: return
+		val item = currentItem ?: return
 
-			Timber.d("Refresh item ${item.getFullName(requireContext())}")
-
-			item.refresh(object : LifecycleAwareResponse<BaseItemDto?>(lifecycle) {
-				override fun onResponse(response: BaseItemDto?) {
-					if (!active) return
-
-					val adapter = currentRow?.adapter as? ItemRowAdapter
-					if (response == null) adapter?.removeAt(adapter.indexOf(item), 1)
-					else adapter?.notifyItemRangeChanged(adapter.indexOf(item), 1)
-				}
-			})
-		}
+		Timber.d("Refresh item ${item.getFullName(requireContext())}")
+		adapter.refreshItem(api, this, item)
 	}
 
 	override fun onDestroy() {
@@ -263,7 +251,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			row: Row?,
 		) {
 			if (item !is BaseRowItem) return
-			itemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, requireContext())
+			itemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, requireContext())
 		}
 	}
 
@@ -282,7 +270,8 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				currentItem = item
 				currentRow = row as ListRow
 
-				(row.adapter as? ItemRowAdapter)?.loadMoreItemsIfNeeded(item.index.toLong())
+				val itemRowAdapter = row.adapter as? ItemRowAdapter
+				itemRowAdapter?.loadMoreItemsIfNeeded(itemRowAdapter.indexOf(item))
 
 				backgroundService.setBackground(item.baseItem)
 			}

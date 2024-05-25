@@ -44,7 +44,7 @@ class HomeFragmentHelper(
 			mediaTypes = includeMediaTypes,
 		)
 
-		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, false, true, arrayOf(ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, false, true, arrayOf(ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))
 	}
 
 	fun loadResumeVideo(): HomeFragmentRow {

@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
-import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
@@ -68,7 +68,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
+                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItem().getType() != BaseItemKind.PHOTO)) {
                     // Rewrite uses media sessions which the system automatically manipulates on key presses
                     return false;
                 }
@@ -80,7 +80,7 @@ public class KeyProcessor {
                         if (!BaseItemExtensionsKt.canPlay(item)) return false;
                         switch (item.getType()) {
                             case AUDIO:
-                                if (rowItem instanceof AudioQueueItem) {
+                                if (rowItem instanceof AudioQueueBaseRowItem) {
                                     createItemMenu(rowItem, item.getUserData(), activity);
                                     return true;
                                 }
@@ -123,7 +123,7 @@ public class KeyProcessor {
                     case LiveTvChannel:
                     case LiveTvRecording:
                         // retrieve full item and play
-                        playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(rowItem.getItemId()), false, activity);
+                        playbackHelper.getValue().retrieveAndPlay(rowItem.getItemId(), false, activity);
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
@@ -187,7 +187,7 @@ public class KeyProcessor {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
-        if (rowItem instanceof AudioQueueItem) {
+        if (rowItem instanceof AudioQueueBaseRowItem) {
             if (rowItem.getBaseItem() != mediaManager.getValue().getCurrentAudioItem())
                 menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
             menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
@@ -260,7 +260,7 @@ public class KeyProcessor {
             }
         }
 
-        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, rowItem.getBaseItem(), rowItem.getIndex()));
+        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, rowItem.getBaseItem()));
         menu.show();
         return menu;
     }
@@ -277,19 +277,17 @@ public class KeyProcessor {
             menu.getMenu().add(0, MENU_ADD_QUEUE, order, R.string.lbl_add_to_queue);
         }
 
-        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, item, -1));
+        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, item));
         menu.show();
     }
 
     private class KeyProcessorItemMenuClickListener implements PopupMenu.OnMenuItemClickListener {
         private BaseItemDto item;
         private FragmentActivity activity;
-        private int rowIndex;
 
-        private KeyProcessorItemMenuClickListener(FragmentActivity activity, BaseItemDto item, int rowIndex) {
+        private KeyProcessorItemMenuClickListener(FragmentActivity activity, BaseItemDto item) {
             this.item = item;
             this.activity = activity;
-            this.rowIndex = rowIndex;
         }
 
         @Override
@@ -361,10 +359,10 @@ public class KeyProcessor {
                     mediaManager.getValue().shuffleAudioQueue();
                     return true;
                 case MENU_REMOVE_FROM_QUEUE:
-                    mediaManager.getValue().removeFromAudioQueue(rowIndex);
+                    mediaManager.getValue().removeFromAudioQueue(item);
                     return true;
                 case MENU_ADVANCE_QUEUE:
-                    mediaManager.getValue().playFrom(rowIndex);
+                    mediaManager.getValue().playFrom(item);
                     return true;
                 case MENU_CLEAR_QUEUE:
                     mediaManager.getValue().clearAudioQueue();

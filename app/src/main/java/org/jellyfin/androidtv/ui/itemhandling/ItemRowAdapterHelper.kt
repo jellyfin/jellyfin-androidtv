@@ -1,10 +1,15 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import timber.log.Timber
 import kotlin.math.min
@@ -43,9 +48,54 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 
 		setItems(
 			items = response.items.orEmpty().toTypedArray(),
-			transform = { item, i -> BaseRowItem(item, i, preferParentThumb, isStaticHeight) }
+			transform = { item, i ->
+				BaseItemDtoBaseRowItem(
+					item,
+					preferParentThumb,
+					isStaticHeight
+				)
+			}
 		)
 
 		if (response.items.isNullOrEmpty()) removeRow()
+	}
+}
+
+@JvmOverloads
+fun ItemRowAdapter.refreshItem(
+	api: ApiClient,
+	lifecycleOwner: LifecycleOwner,
+	currentBaseRowItem: BaseRowItem,
+	callback: () -> Unit = {}
+) {
+	if (currentBaseRowItem !is BaseItemDtoBaseRowItem) return
+	val currentBaseItem = currentBaseRowItem.baseItem ?: return
+
+	lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+		runCatching {
+			api.userLibraryApi.getItem(itemId = currentBaseItem.id).content
+		}.fold(
+			onSuccess = { refreshedBaseItem ->
+				withContext(Dispatchers.Main) {
+					set(
+						index = indexOf(currentBaseRowItem),
+						element = BaseItemDtoBaseRowItem(
+							item = refreshedBaseItem,
+							preferParentThumb = currentBaseRowItem.preferParentThumb,
+							staticHeight = currentBaseRowItem.staticHeight,
+							selectAction = currentBaseRowItem.selectAction,
+							preferSeriesPoster = currentBaseRowItem.preferSeriesPoster
+						)
+					)
+				}
+			},
+			onFailure = { err ->
+				if (err is InvalidStatusException && err.status == 404) withContext(Dispatchers.Main) {
+					remove(currentBaseRowItem)
+				} else Timber.e(err, "Failed to refresh item")
+			}
+		)
+
+		callback()
 	}
 }

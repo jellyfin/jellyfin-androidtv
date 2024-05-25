@@ -18,12 +18,10 @@ import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -68,12 +66,12 @@ public class ItemLauncher {
         }
     }
 
-    public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Context context) {
+    public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, final Context context) {
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    Timber.d("Item selected: %d - %s (%s)", rowItem.getIndex(), baseItem.getName(), baseItem.getType().toString());
+                    Timber.d("Item selected: %s (%s)", baseItem.getName(), baseItem.getType().toString());
                 } catch (Exception e) {
                     //swallow it
                 }
@@ -95,16 +93,15 @@ public class ItemLauncher {
                         return;
 
                     case AUDIO:
-                        Timber.d("got pos %s", pos);
                         if (rowItem.getBaseItem() == null)
                             return;
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
-                        if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueItem && rowItem.getBaseItem().getId().equals(mediaManager.getValue().getCurrentAudioItem().getId())) {
+                        if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && rowItem.getBaseItem().getId().equals(mediaManager.getValue().getCurrentAudioItem().getId())) {
                             navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
-                        } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueItem && pos < mediaManager.getValue().getCurrentAudioQueueSize()) {
+                        } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && adapter.indexOf(rowItem) < mediaManager.getValue().getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
-                            mediaManager.getValue().playFrom(pos);
+                            mediaManager.getValue().playFrom(rowItem.getBaseItem());
                         } else if (adapter.getQueryType() == QueryType.Search) {
                             mediaManager.getValue().playNow(context, Arrays.asList(rowItem.getBaseItem()), 0, false);
                         } else {
@@ -115,7 +112,7 @@ public class ItemLauncher {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
-                            mediaManager.getValue().playNow(context, audioItemsAsList, pos, false);
+                            mediaManager.getValue().playNow(context, audioItemsAsList, adapter.indexOf(rowItem), false);
                         }
 
                         return;
@@ -170,13 +167,13 @@ public class ItemLauncher {
                 }
                 break;
             case Person:
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(rowItem.getBasePerson().getId()));
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(rowItem.getItemId()));
 
                 break;
             case Chapter:
-                final ChapterItemInfo chapter = rowItem.getChapterInfo();
+                final ChapterItemInfo chapter = ((ChapterItemInfoBaseRowItem) rowItem).getChapterInfo();
                 //Start playback of the item at the chapter point
-                ItemLauncherHelper.getItem(chapter.getItemId(), new Response<BaseItemDto>() {
+                ItemLauncherHelper.getItem(rowItem.getItemId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
@@ -245,7 +242,7 @@ public class ItemLauncher {
                                 List<BaseItemDto> items = new ArrayList<>();
                                 items.add(response);
                                 videoQueueManager.getValue().setCurrentVideoQueue(items);
-                                Destination destination = playbackLauncher.getValue().getPlaybackDestination(rowItem.getBaseItemType(), 0);
+                                Destination destination = playbackLauncher.getValue().getPlaybackDestination(rowItem.getBaseItem().getType(), 0);
                                 navigationRepository.getValue().navigate(destination);
                             }
                         });
@@ -254,12 +251,12 @@ public class ItemLauncher {
                 break;
 
             case SeriesTimer:
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesTimerDetails(UUIDSerializerKt.toUUID(rowItem.getItemId()), ModelCompat.asSdk(rowItem.getSeriesTimerInfo())));
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesTimerDetails(rowItem.getItemId(), ((SeriesTimerInfoDtoBaseRowItem) rowItem).getSeriesTimerInfo()));
                 break;
 
 
             case GridButton:
-                switch (rowItem.getGridButton().getId()) {
+                switch (((GridButtonBaseRowItem) rowItem).getGridButton().getId()) {
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuide());
                         break;
