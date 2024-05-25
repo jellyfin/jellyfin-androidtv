@@ -104,6 +104,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean wasSeeking = false;
     private boolean finishedInitialSeek = false;
 
+    private final int skipDelay = userPreferences.getValue().get(UserPreferences.Companion.getDelayBetweenSkipActions());
+
     private LocalDateTime mCurrentProgramEnd = null;
     private LocalDateTime mCurrentProgramStart = null;
     private long mCurrentTranscodeStartTime;
@@ -1247,7 +1249,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             Timber.d("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
-            mHandler.postDelayed(skipRunnable, 800);
+            mHandler.postDelayed(skipRunnable, skipDelay);
         }
     }
 

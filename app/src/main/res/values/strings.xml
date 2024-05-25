@@ -515,6 +515,9 @@
     <string name="pref_screensaver_ageratingrequired_title">Require age rating</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Only showing items with an age rating set</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Showing all items</string>
+    <string name="pref_playback_controls_title">Playback controls</string>
+    <string name="pref_playback_controls_use_dpad_for_skips_title">Use dpad to skip</string>
+    <string name="pref_playback_controls_delay_between_skips_title">Minimum delay between skip actions</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
