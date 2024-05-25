@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.preference.constant.PlayerMenuBackgroundColor
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
@@ -118,6 +119,18 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Default audio delay in milliseconds for libVLC
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
+
+		/* Playback - Player menu appearance related */
+		/**
+		 * Delay before player menu hides.
+		 * Stored in milliseconds
+		 */
+		var playerMenuFadeOutTimer = intPreference("pref_player_menu_fade_out_timer", 6000)
+
+		/**
+		 * Player menu background.
+		 */
+		var playerMenuBackgroundColor = enumPreference("pref_player_menu_background_color", PlayerMenuBackgroundColor.Light)
 
 		/* Live TV */
 		/**

@@ -515,6 +515,12 @@
     <string name="pref_screensaver_ageratingrequired_title">Require age rating</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Only showing items with an age rating set</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Showing all items</string>
+    <string name="pref_player_menu_settings_title">Player menu</string>
+    <string name="pref_player_menu_settings_background_title">Background color</string>
+    <string name="pref_player_menu_background_transparent">Transparent</string>
+    <string name="pref_player_menu_background_light">Light</string>
+    <string name="pref_player_menu_background_dark">Dark</string>
+    <string name="pref_player_menu_settings_fade_out_timer_title">Fade out timer</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

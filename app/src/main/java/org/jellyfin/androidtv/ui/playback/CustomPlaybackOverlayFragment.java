@@ -48,6 +48,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.PlayerMenuBackgroundColor;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -156,6 +157,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final boolean subtitlesBackgroundEnabled = userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
     private final int subtitlesPosition = userPreferences.get(UserPreferences.Companion.getSubtitlePosition());
     private final int subtitlesStrokeWidth = userPreferences.get(UserPreferences.Companion.getSubtitleStrokeSize());
+
+    // Player menu fields
+    private final int playerMenuFadeOutDelay = userPreferences.get(UserPreferences.Companion.getPlayerMenuFadeOutTimer());
+    private final PlayerMenuBackgroundColor playerMenuBackgroundColor = userPreferences.get(UserPreferences.Companion.getPlayerMenuBackgroundColor());
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
@@ -360,6 +365,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             leanbackOverlayFragment.initFromView(this);
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.setOnKeyInterceptListener(keyListener);
+            // If playerMenuFadeOutDelay is set to 0, we hide the overlay instead of instantly hiding it,
+            // as it can lead to flashing the overlay and that looks bad.
+            leanbackOverlayFragment.setShouldShowOverlay(playerMenuFadeOutDelay != 0);
+            leanbackOverlayFragment.setBackgroundType(ConvertToSystemBackgroundColor(playerMenuBackgroundColor));
         }
     }
 
@@ -719,7 +728,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void startFadeTimer() {
         mFadeEnabled = true;
         mHandler.removeCallbacks(mHideTask);
-        mHandler.postDelayed(mHideTask, 6000);
+        mHandler.postDelayed(mHideTask, playerMenuFadeOutDelay);
     }
 
     @Override
@@ -1608,6 +1617,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             binding.subtitlesText.setText(span);
             binding.subtitlesText.setVisibility(View.VISIBLE);
         });
+    }
+
+    private static int ConvertToSystemBackgroundColor(PlayerMenuBackgroundColor selectedBackgroundColor)
+    {
+        switch (selectedBackgroundColor) {
+            case Transparent:
+                return 0; //BG_Transparent in androidx.leanback.app.PlaybackSupportFragment has value 0.
+            case Dark:
+                return 1; //BG_Dark in androidx.leanback.app.PlaybackSupportFragment has value 1.
+            case Light:
+            default:
+                return 2; //BG_Light in androidx.leanback.app.PlaybackSupportFragment has value 2.
+        }
     }
 
     @Override
