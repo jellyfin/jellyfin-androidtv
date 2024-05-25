@@ -653,9 +653,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     start.set(Calendar.SECOND, 0);
                     retrieve |= TvManager.programsNeedLoad(start);
                     break;
-                case Always:
-                    retrieve = true;
-                    break;
             }
         }
 
