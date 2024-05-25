@@ -797,7 +797,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         if (mItems != null) {
             int i = 0;
             for (org.jellyfin.sdk.model.api.BaseItemDto item : mItems) {
-                add(new AudioQueueBaseRowItem(i++, item));
+                add(new AudioQueueBaseRowItem(item));
             }
             itemsLoaded = i;
 

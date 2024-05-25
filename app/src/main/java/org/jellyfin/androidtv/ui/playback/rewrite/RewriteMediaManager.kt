@@ -141,7 +141,7 @@ class RewriteMediaManager(
 			.items
 			// Map to audio queue items
 			.mapIndexed { index, item ->
-				AudioQueueBaseRowItem(index, item).apply {
+				AudioQueueBaseRowItem(item).apply {
 					playing = playbackManager.state.queue.entryIndex.value == index
 				}
 			}
