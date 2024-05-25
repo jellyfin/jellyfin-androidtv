@@ -795,11 +795,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     private void loadStaticAudioItems() {
         if (mItems != null) {
-            int i = 0;
             for (org.jellyfin.sdk.model.api.BaseItemDto item : mItems) {
                 add(new AudioQueueBaseRowItem(item));
             }
-            itemsLoaded = i;
+            itemsLoaded = mItems.size();
 
         } else {
             removeRow();
@@ -967,7 +966,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                             adapter.clear();
                         }
                         if (response.getItems() != null && response.getItems().length > 0) {
-                            int i = 0;
                             Calendar compare = Calendar.getInstance();
                             compare.add(Calendar.MONTH, -2);
                             BaseItemDto[] nextUpItems = nextUpResponse.getItems();
@@ -1010,7 +1008,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                                     }
                                 }
                             }
-                            setItemsLoaded(itemsLoaded + i);
+                            setItemsLoaded(itemsLoaded + response.getItems().length);
                         }
 
 
@@ -1259,7 +1257,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    int i = 0;
                     if (adapter.size() > 0) {
                         adapter.clear();
                     }
@@ -1267,10 +1264,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, false));
                     }
                     totalItems = response.length;
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                    }
+                    setItemsLoaded(itemsLoaded + response.length);
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1295,7 +1289,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
                     if (adapter.size() > 0) {
                         adapter.clear();
                     }
@@ -1303,8 +1296,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
+                    setItemsLoaded(itemsLoaded + response.getItems().length);
+                    if (response.getItems().length == 0) {
                         removeRow();
                     }
                 } else {
@@ -1335,7 +1328,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.clear();
                     }
                     for (BaseItemDto item : response) {
-                        item.setName(context.getString(R.string.lbl_trailer) + (i + 1));
+                        i++;
+                        item.setName(context.getString(R.string.lbl_trailer) + i);
                         adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, false, BaseRowItemSelectAction.Play, false));
                     }
                     totalItems = response.length;
@@ -1367,7 +1361,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
                     if (adapter.size() > 0) {
                         adapter.clear();
                     }
@@ -1375,8 +1368,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
+                    setItemsLoaded(itemsLoaded + response.getItems().length);
+                    if (response.getItems().length == 0) {
                         removeRow();
                     }
                 } else {
@@ -1403,7 +1396,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
                     if (adapter.size() > 0) {
                         adapter.clear();
                     }
@@ -1411,8 +1403,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
+                    setItemsLoaded(itemsLoaded + response.getItems().length);
+                    if (response.getItems().length == 0) {
                         removeRow();
                     }
                 } else {
@@ -1439,7 +1431,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
                     if (adapter.size() > 0) {
                         adapter.clear();
                     }
@@ -1449,8 +1440,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         }
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
+                    setItemsLoaded(itemsLoaded + response.getItems().length);
+                    if (response.getItems().length == 0) {
                         removeRow();
                     }
                 } else {
@@ -1513,13 +1504,12 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
                     int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
+                    setItemsLoaded(itemsLoaded + response.getItems().length);
                     if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
