@@ -11,10 +11,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.databinding.FragmentHomeBinding
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -29,6 +32,8 @@ class HomeFragment : Fragment() {
 
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
+	private val serverRepository by inject<ServerRepository>()
+	private val notificationRepository by inject<NotificationsRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
 	private val mediaManager by inject<MediaManager>()
 	private val imageHelper by inject<ImageHelper>()
@@ -63,7 +68,19 @@ class HomeFragment : Fragment() {
 						placeholder = ContextCompat.getDrawable(requireContext(), R.drawable.ic_user)
 					)
 				}
-			}.launchIn(viewLifecycleOwner.lifecycleScope)
+			}
+			.launchIn(viewLifecycleOwner.lifecycleScope)
+
+		sessionRepository.currentSession
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+			.map { session->
+				if (session == null) null
+				else serverRepository.getServer(session.serverId)
+			}
+			.onEach { server ->
+				notificationRepository.updateServerNotifications(server)
+			}
+			.launchIn(viewLifecycleOwner.lifecycleScope)
 	}
 
 	override fun onDestroyView() {

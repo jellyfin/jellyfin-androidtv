@@ -22,6 +22,7 @@ import org.jellyfin.sdk.api.client.extensions.brandingApi
 import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
+import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.BrandingOptions
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
@@ -47,6 +48,8 @@ interface ServerRepository {
 	companion object {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
 		val recommendedServerVersion = Jellyfin.apiVersion.copy(build = null)
+
+		val upcomingMinimumServerVersion = ServerVersion(10, 9, 0)
 	}
 }
 

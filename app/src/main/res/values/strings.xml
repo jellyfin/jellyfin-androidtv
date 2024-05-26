@@ -476,7 +476,7 @@
     <string name="crash_report_toast">Oops! Something went wrong, a crash report was sent to your Jellyfin server.</string>
     <string name="server_setup_incomplete">The setup of this server has not been completed. Open Jellyfin in a web browser to finish setup before signing in.</string>
     <string name="episode_name_special">special</string>
-    <string name="app_notification_beta">App updated to %1$s\nThank you for participating in the Jellyfin beta program</string>
+    <string name="app_notification_beta">App updated to %1$s\nThank you for participating in the Jellyfin beta program.</string>
     <string name="item_deleted">%1$s deleted</string>
     <string name="item_deletion_failed">Unable to delete %1$s</string>
     <string name="pref_enable_media_management">Enable media management</string>
@@ -516,6 +516,7 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Only showing items with an age rating set</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Showing all items</string>
     <string name="all_channels">All channels</string>
+    <string name="app_notification_update_soon">Update your server from %1$s to at least %2$s to continue using the app after the next update.</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
