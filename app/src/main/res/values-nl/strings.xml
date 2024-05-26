@@ -468,7 +468,7 @@
     <string name="episode_name_special">special</string>
     <string name="pref_crash_report_logs_disabled">Logboeken worden niet bijgevoegd bij crashrapporten</string>
     <string name="app_notification_beta">App bijgewerkt naar %1$s
-\nBedankt voor je deelname aan het bètaprogramma van Jellyfin</string>
+\nBedankt voor je deelname aan het bètaprogramma van Jellyfin.</string>
     <string name="crash_report_toast">Oeps! Er is iets misgegaan; er is een crashrapport naar je Jellyfin-server verzonden.</string>
     <string name="pref_crash_report_logs_enabled">Logboeken worden bijgevoegd bij crashrapporten</string>
     <string name="server_setup_incomplete">Het instellen van deze server is nog niet voltooid. Open Jellyfin eerst in een webbrowser om het instellen te voltooien.</string>
