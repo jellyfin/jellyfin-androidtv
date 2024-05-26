@@ -575,4 +575,5 @@
     <string name="pref_screensaver_ageratingmax_entry">Maksymalnie do wieku %1$d</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Wyświetlaj wszystkie elementy</string>
     <string name="pref_screensaver_ageratingmax">Maksymalna kategoria wiekowa</string>
+    <string name="all_channels">Wszystkie kanały</string>
 </resources>
