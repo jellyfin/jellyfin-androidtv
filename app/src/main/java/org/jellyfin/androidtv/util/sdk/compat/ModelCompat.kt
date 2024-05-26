@@ -187,7 +187,10 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	chapters = this.chapters?.map { it.asSdk() },
 	locationType = this.locationType?.asSdk(),
 	isoType = this.isoType?.asSdk(),
-	mediaType = MediaType.fromName(this.mediaType.lowercase().replaceFirstChar { it.uppercase() }),
+	mediaType = this.mediaType?.let {
+		MediaType.fromName(
+			it.lowercase().replaceFirstChar { it.uppercase() })
+	} ?: MediaType.UNKNOWN,
 	endDate = this.endDate?.toLocalDateTime(),
 	lockedFields = this.lockedFields?.map { it.asSdk() },
 	trailerCount = this.trailerCount,
@@ -286,7 +289,8 @@ private fun ModernDayOfWeek.Companion.from(str: String) = when (str.uppercase())
 	else -> null
 }
 
-private fun Date.toLocalDateTime(): LocalDateTime = toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+private fun Date.toLocalDateTime(): LocalDateTime =
+	toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
 
 private fun LegacyExtraType.asSdk(): ExtraType = when (this) {
 	LegacyExtraType.Clip -> ExtraType.CLIP
