@@ -545,4 +545,5 @@
     <string name="pref_screensaver_ageratingrequired_title">需要年龄分级</string>
     <string name="pref_screensaver_ageratingrequired_enabled">仅显示设置了年龄分级的项目</string>
     <string name="pref_screensaver_ageratingrequired_disabled">显示所有项目</string>
+    <string name="all_channels">所有频道</string>
 </resources>
