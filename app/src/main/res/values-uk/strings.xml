@@ -575,4 +575,5 @@
     <string name="pref_screensaver_ageratingmax_entry">До віку %1$d</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Вимкнути максимум</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показати всі елементи</string>
+    <string name="all_channels">Всі канали</string>
 </resources>
