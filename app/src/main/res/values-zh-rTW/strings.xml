@@ -471,7 +471,7 @@
         <item quantity="other">%1$s 分</item>
     </plurals>
     <string name="image_type_poster">海報</string>
-    <string name="app_notification_beta">程式已更新至 %1$s 
+    <string name="app_notification_beta">程式已更新至 %1$s
 \n感謝您參與 Jellyfin 測試計劃</string>
     <string name="desc_audio_night_mode">自動平衡音量水平</string>
     <string name="lbl_subtitle_position">字幕距底部的偏移量</string>
