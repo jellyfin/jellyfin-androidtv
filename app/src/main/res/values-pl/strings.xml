@@ -471,7 +471,7 @@
     <string name="lbl_adjust">Dopasuj</string>
     <string name="state_disabled">Wyłączone</string>
     <string name="app_notification_beta">Aplikacja zaktualizowana do wersji %1$s
-\nDziękujemy za uczestnictwo w beta testach Jellyfin</string>
+\nDziękujemy za uczestnictwo w beta testach Jellyfin.</string>
     <string name="item_deleted">Usunięto %1$s</string>
     <string name="item_deletion_failed">Nie można usunąć %1$s</string>
     <string name="pref_enable_media_management_description">Pokaż opcje zarządzania podczas przeglądania biblioteki</string>
@@ -576,4 +576,5 @@
     <string name="pref_screensaver_ageratingrequired_disabled">Wyświetlaj wszystkie elementy</string>
     <string name="pref_screensaver_ageratingmax">Maksymalna kategoria wiekowa</string>
     <string name="all_channels">Wszystkie kanały</string>
+    <string name="app_notification_update_soon">Zaktualizuj serwer z wersji %1$s do co najmniej %2$s, aby móc dalej korzystać z aplikacji po kolejnej aktualizacji.</string>
 </resources>
