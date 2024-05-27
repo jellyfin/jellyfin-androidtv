@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="loading">A Carregar…</string>
+    <string name="loading">A carregar…</string>
     <string name="video_error_unknown_error">Falha ao carregar o vídeo</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -53,7 +53,7 @@
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Termina às</string>
     <string name="lbl_directed_by">Realizado por</string>
-    <string name="lbl_last_played">"Reproduzido Anteriormente "</string>
+    <string name="lbl_last_played">"Reproduzido anteriormente "</string>
     <string name="lbl_other_options">Outras opções</string>
     <string name="lbl_people">Pessoas</string>
     <string name="lbl_videos">Vídeos</string>
@@ -61,7 +61,7 @@
     <string name="lbl_none">Nenhum</string>
     <string name="msg_video_playback_error">"Erro de reprodução de vídeo - "</string>
     <string name="lbl_bracket_unknown">Desconhecido</string>
-    <string name="lbl_trailer">"Anúncio "</string>
+    <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Reproduzir trailer(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
@@ -69,7 +69,7 @@
     <string name="lbl_valid_server_address">Por favor, introduza o endereço do servidor (IP ou domínio/nome do servidor)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascido "</string>
-    <string name="lbl_loading_elipses">A Carregar…</string>
+    <string name="lbl_loading_elipses">A carregar…</string>
     <string name="msg_playback_not_allowed">Reprodução não permitida de momento</string>
     <string name="msg_playback_restricted">O administrador restringiu a reprodução deste item de momento</string>
     <string name="msg_playback_incompatible">Não é possível reproduzir este formato de vídeo</string>
@@ -180,8 +180,8 @@
     <string name="lbl_image_type">Tipo de imagem</string>
     <string name="lbl_start_favorites">Colocar os favoritos no início</string>
     <string name="lbl_hd_programs">Programas em HD (Alta-Definição)</string>
-    <string name="lbl_live_broadcasts">Emissões em Directo</string>
-    <string name="lbl_repeat_episodes">Repetir Episódios</string>
+    <string name="lbl_live_broadcasts">Emissões em Direto</string>
+    <string name="lbl_repeat_episodes">Repetir episódios</string>
     <string name="lbl_new_episodes">Novos Episódios</string>
     <string name="lbl_audio_delay">Delay do Áudio</string>
     <string name="lbl_new_only">Somente Novidades</string>
@@ -190,7 +190,7 @@
     <string name="lbl_album_name">Nome Álbum</string>
     <string name="lbl_next_episode">Próximo episódio</string>
     <string name="lbl_previous_episode">Episódio anterior</string>
-    <string name="lbl_more_like_this">Outros Gostaram Disto</string>
+    <string name="lbl_more_like_this">Títulos semelhantes</string>
     <string name="lbl_resume_from">Reproduzir a partir de %1$s</string>
     <string name="lbl_guide_option_number">Canal Número</string>
     <string name="lbl_guide_option_played">Reproduzido em</string>
@@ -203,7 +203,7 @@
     <string name="msg_settings_updated">Opções atualizadas</string>
     <string name="lbl_series_settings">Opções de Séries</string>
     <string name="lbl_schedule">Agendado</string>
-    <string name="lbl_live">Directo</string>
+    <string name="lbl_live">Direto</string>
     <string name="lbl_new">Novo</string>
     <string name="lbl_repeat">Repetir</string>
     <string name="lbl_recent_recordings">Gravações recentes</string>
@@ -230,7 +230,7 @@
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Direção da Grelha</string>
     <string name="pref_device_model">Modelo do dispositivo</string>
-    <string name="pref_app_theme">Tema da Aplicação</string>
+    <string name="pref_app_theme">Tema da aplicação</string>
     <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para LibVLC</string>
     <string name="pref_next_up_timeout_title">Duração do temporizador \"A seguir\"</string>
     <string name="pref_theme_emerald">Esmeralda Clássica</string>
@@ -256,7 +256,7 @@
     <string name="seek_error">Impossível saltar</string>
     <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores\?</string>
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
-    <string name="lbl_load_guide_data">Carregar Programação</string>
+    <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
     <string name="episode_missing">Espisódio em Falta</string>
@@ -533,4 +533,32 @@
     <string name="ac3">DD</string>
     <string name="clear_image_cache_content">Utilizado: %1$s</string>
     <string name="clear_image_cache">Limpar cache de imagens</string>
+    <string name="app_notification_update_soon">Atualiza o teu servidor de %1$s para pelo menos %2$s para continuares a utilizar a aplicação após a próxima atualização.</string>
+    <string name="all_channels">Todos os canais</string>
+    <string name="eac3">DD+</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s filme</item>
+        <item quantity="many">%1$s filmes</item>
+        <item quantity="other">%1$s filmes</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s série</item>
+        <item quantity="many">%1$s séries</item>
+        <item quantity="other">%1$s séries</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s música</item>
+        <item quantity="many">%1$s músicas</item>
+        <item quantity="other">%1$s músicas</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s álbum</item>
+        <item quantity="many">%1$s álbuns</item>
+        <item quantity="other">%1$s álbuns</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s item</item>
+        <item quantity="many">%1$s itens</item>
+        <item quantity="other">%1$s itens</item>
+    </plurals>
 </resources>
