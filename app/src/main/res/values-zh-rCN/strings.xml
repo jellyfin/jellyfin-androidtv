@@ -459,8 +459,8 @@
     <string name="desc_audio_night_mode">自动调平音量</string>
     <string name="pref_audio_night_mode">音频夜间模式（实验性）</string>
     <string name="lbl_subtitle_fg">字幕文字颜色</string>
-    <string name="app_notification_beta">应用更新到 %1$s
-\n感谢您参与 Jellyfin 测试版计划</string>
+    <string name="app_notification_beta">应用已更新至 %1$s
+\n感谢您参与 Jellyfin 测试计划。</string>
     <string name="lbl_subtitle_stroke">字幕大小</string>
     <string name="lbl_subtitle_position">字幕距底部的偏移量</string>
     <string name="color_white">白色</string>
@@ -546,4 +546,5 @@
     <string name="pref_screensaver_ageratingrequired_enabled">仅显示设置了年龄分级的项目</string>
     <string name="pref_screensaver_ageratingrequired_disabled">显示所有项目</string>
     <string name="all_channels">所有频道</string>
+    <string name="app_notification_update_soon">将您的服务器从 %1$s 更新至至少 %2$s，以便在下次更新后继续使用该应用程序。</string>
 </resources>
