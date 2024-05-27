@@ -109,6 +109,7 @@
             android:name=".ui.startup.StartupActivity"
             android:exported="true"
             android:noHistory="true"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
