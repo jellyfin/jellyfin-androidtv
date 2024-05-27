@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.ui.browsing.composable.inforow
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
 import java.text.NumberFormat
 

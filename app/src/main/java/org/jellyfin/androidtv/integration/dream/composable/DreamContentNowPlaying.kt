@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -24,13 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.tv.material3.Text
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.blurHashPainter
@@ -63,7 +62,8 @@ fun DreamContentNowPlaying(
 		else -> null to null
 	}
 
-	val imageBlurHash = imageTag?.let { tag -> item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag) }
+	val imageBlurHash =
+		imageTag?.let { tag -> item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag) }
 	if (imageBlurHash != null) {
 		Image(
 			painter = blurHashPainter(imageBlurHash, IntSize(32, 32)),
@@ -116,7 +116,9 @@ fun DreamContentNowPlaying(
 				text = item.run {
 					if (!artists.isNullOrEmpty()) return@run artists?.joinToString(", ")
 					val albumArtistNames = albumArtists?.mapNotNull { it.name }
-					if (!albumArtistNames.isNullOrEmpty()) return@run albumArtistNames.joinToString(", ")
+					if (!albumArtistNames.isNullOrEmpty()) return@run albumArtistNames.joinToString(
+						", "
+					)
 					return@run albumArtist
 				}.orEmpty(),
 				style = TextStyle(
@@ -143,12 +145,17 @@ fun DreamContentNowPlaying(
 				}
 			}
 
-			LinearProgressIndicator(
-				progress = progress,
-				color = Color.White,
-				backgroundColor = Color.White.copy(alpha = 0.2f),
-				strokeCap = StrokeCap.Round,
-				modifier = Modifier.fillMaxWidth()
+			Box(
+				modifier = Modifier
+					.fillMaxWidth()
+					.height(4.dp)
+					.clip(RoundedCornerShape(2.dp))
+					.drawWithContent {
+						// Background
+						drawRect(Color.White, alpha = 0.2f)
+						// Foreground
+						drawRect(Color.White, size = size.copy(width = size.width * progress))
+					}
 			)
 		}
 	}
