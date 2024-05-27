@@ -183,4 +183,9 @@ class StartupActivity : FragmentActivity() {
 		replace<StartupToolbarFragment>(R.id.content_view)
 		add<SelectServerFragment>(R.id.content_view)
 	}
+
+	override fun onNewIntent(intent: Intent) {
+		super.onNewIntent(intent)
+		setIntent(intent)
+	}
 }
