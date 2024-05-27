@@ -460,7 +460,7 @@
     <string name="pref_audio_night_mode">Nočný zvukový mód (experimentálny)</string>
     <string name="color_green">Zelená</string>
     <string name="app_notification_beta">Aplikácia bola aktualizovaná na verziu %1$s
-\nĎakujeme za účasť v Jellyfin Beta programe</string>
+\nĎakujeme za účasť v Jellyfin Beta programe.</string>
     <string name="lbl_subtitle_fg">Farba textu titulkov</string>
     <string name="lbl_subtitle_stroke">Veľkosť obrysu titulkov</string>
     <string name="lbl_subtitle_position">Dolné odsadenie titulkov</string>
@@ -565,4 +565,6 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Zakázať maximum</string>
     <string name="pref_screensaver_ageratingrequired_title">Vyžadovať vekové hodnotenie</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Zobrazenie iba položiek s nastaveným vekovým hodnotením</string>
+    <string name="app_notification_update_soon">Ak chcete pokračovať v používaní aplikácie po ďalšej aktualizácii, aktualizujte svoj server z %1$s na aspoň %2$s.</string>
+    <string name="all_channels">Všetky kanály</string>
 </resources>
