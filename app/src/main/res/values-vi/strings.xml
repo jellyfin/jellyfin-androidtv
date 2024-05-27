@@ -252,7 +252,7 @@
     <string name="lbl_begin_padding">Bắt đầu đệm</string>
     <string name="seek_error">Không thể tua</string>
     <string name="pref_about_title">Thông Tin</string>
-    <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
+    <string name="lbl_colored_backgrounds">Nền được mã hóa màu</string>
     <string name="lbl_direct_stream_live">Luồng phát TV trực tiếp</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_min">" phút"</string>
@@ -453,8 +453,8 @@
     <string name="color_white">Trắng</string>
     <string name="color_black">Đen</string>
     <string name="color_darkgrey">Xám đen</string>
-    <string name="app_notification_beta">Ứng dụng được cập nhật lên %1$s
-\nCảm ơn bạn đã tham gia chương trình Jellyfin beta</string>
+    <string name="app_notification_beta">Ứng dụng đã cập nhật lên %1$s
+\nCảm ơn bạn tham gia chương trình Jellyfin beta.</string>
     <string name="lbl_subtitle_stroke">Kích thước nét phụ đề</string>
     <string name="color_red">Đỏ</string>
     <string name="color_green">Xanh lá</string>
@@ -494,4 +494,25 @@
     <string name="lbl_hide_watched_checkmark">Khi vãn còn tập</string>
     <string name="photos">Ảnh</string>
     <string name="photo_albums">Album ảnh</string>
+    <string name="random">Ngẫu nhiên</string>
+    <string name="all_channels">Tất cả các kênh</string>
+    <string name="lbl_album_artists">Album nghệ sĩ</string>
+    <string name="channels">Kênh</string>
+    <string name="pref_playback_advanced">Tùy chọn phát lại nâng cao</string>
+    <string name="app_notification_update_soon">Cập nhật máy chủ của bạn từ %1$s lên ít nhất %2$s để tiếp tục sử dụng ứng dụng sau lần cập nhật tiếp theo.</string>
+    <string name="unreleased">Chưa được phát hành</string>
+    <string name="person_birthday_and_age">Sinh %1$s (%2$d)</string>
+    <plurals name="items">
+        <item quantity="other">%1$s mục</item>
+    </plurals>
+    <string name="clear_image_cache">Xóa bộ nhớ đệm hình ảnh</string>
+    <string name="clear_image_cache_content">Đã dùng: %1$s</string>
+    <string name="lbl_home">Trang chủ</string>
+    <string name="pref_screensaver_ageratingmax">Đánh giá độ tuổi tối đa</string>
+    <string name="pref_screensaver_ageratingmax_zero">Mọi lứa tuổi</string>
+    <string name="pref_screensaver_ageratingmax_entry">Đến tuổi %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Tắt tối đa</string>
+    <string name="pref_screensaver_ageratingrequired_title">Yêu cầu đánh giá độ tuổi</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Chỉ hiển thị các mục có xếp hạng độ tuổi</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Hiển thị tất cả các mục</string>
 </resources>
