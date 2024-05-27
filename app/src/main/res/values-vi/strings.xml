@@ -515,4 +515,13 @@
     <string name="pref_screensaver_ageratingrequired_title">Yêu cầu đánh giá độ tuổi</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Chỉ hiển thị các mục có xếp hạng độ tuổi</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Hiển thị tất cả các mục</string>
+    <plurals name="movies">
+        <item quantity="other">%1$s phim</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s TV nhiều tập</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">%1$s bài hát</item>
+    </plurals>
 </resources>
