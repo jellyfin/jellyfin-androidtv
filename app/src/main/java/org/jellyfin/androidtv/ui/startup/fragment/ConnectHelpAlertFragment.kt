@@ -4,21 +4,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
+import androidx.tv.material3.Button
+import androidx.tv.material3.ButtonDefaults
+import androidx.tv.material3.Icon
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import androidx.tv.material3.MaterialTheme
@@ -38,6 +49,8 @@ class ConnectHelpAlertFragment : Fragment() {
 
     @Composable
     fun ConnectHelpAlert() {
+        val focusRequester = FocusRequester()
+
         JellyfinMaterialTheme {
             Surface(
             ) {
@@ -62,6 +75,21 @@ class ConnectHelpAlertFragment : Fragment() {
                             text = stringResource(R.string.login_help_description),
                             style = MaterialTheme.typography.bodyLarge
                         )
+                        Button(modifier = Modifier.padding(top = 24.dp).align(Alignment.Start)
+                            .focusRequester(focusRequester).focusable(), onClick = {
+                            parentFragmentManager.popBackStack()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Done,
+                                contentDescription = null,
+                                modifier = Modifier.size(ButtonDefaults.IconSize)
+                            )
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                            Text(
+                                text = stringResource(id = R.string.btn_got_it),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
                     }
                     Image(
                         painter = painterResource(R.drawable.qr_jellyfin_docs),
@@ -72,6 +100,9 @@ class ConnectHelpAlertFragment : Fragment() {
                     )
                 }
             }
+        }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
         }
     }
 }
