@@ -114,13 +114,15 @@ fun DreamContentNowPlaying(
 
 			Text(
 				text = item.run {
-					if (!artists.isNullOrEmpty()) return@run artists?.joinToString(", ")
-					val albumArtistNames = albumArtists?.mapNotNull { it.name }
-					if (!albumArtistNames.isNullOrEmpty()) return@run albumArtistNames.joinToString(
-						", "
-					)
-					return@run albumArtist
-				}.orEmpty(),
+					val artistNames = artists.orEmpty()
+					val albumArtistNames = albumArtists?.mapNotNull { it.name }.orEmpty()
+
+					when {
+						artistNames.isNotEmpty() -> artistNames
+						albumArtistNames.isNotEmpty() -> albumArtistNames
+						else -> listOfNotNull(albumArtist)
+					}.joinToString(", ")
+				},
 				style = TextStyle(
 					color = Color(0.8f, 0.8f, 0.8f),
 					fontSize = 18.sp,
