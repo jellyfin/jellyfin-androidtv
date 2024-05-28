@@ -1510,10 +1510,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 }
             }
 
-            if (isLiveTv && mCurrentProgramEnd != null && mCurrentProgramEnd.isAfter(LocalDateTime.now())) {
-                // crossed fire off an async routine to update the program info
-                updateTvProgramInfo();
-            }
             if (mFragment != null && finishedInitialSeek)
                 mFragment.updateSubtitles(mCurrentPosition - getSubtitleDelay());
         }
