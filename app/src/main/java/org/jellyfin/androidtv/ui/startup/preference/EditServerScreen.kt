@@ -11,8 +11,11 @@ import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.getValue
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import java.text.DateFormat
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.UUID
 
 class EditServerScreen : OptionsFragment() {
@@ -40,11 +43,14 @@ class EditServerScreen : OptionsFragment() {
 						title = user.name
 						icon = R.drawable.ic_user
 
-						val lastUsedDate = Instant.ofEpochMilli(user.lastUsed)
+						val lastUsedDate = LocalDateTime.ofInstant(
+							Instant.ofEpochMilli(user.lastUsed),
+							ZoneId.systemDefault()
+						)
 						content = context.getString(
 							R.string.lbl_user_last_used,
-							DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastUsedDate),
-							DateFormat.getTimeInstance(DateFormat.SHORT).format(lastUsedDate)
+							lastUsedDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+							lastUsedDate.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 						)
 
 						withFragment<EditUserScreen>(bundleOf(
