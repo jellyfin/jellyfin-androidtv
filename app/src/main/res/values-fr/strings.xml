@@ -91,7 +91,7 @@
     <string name="lbl_today">Aujourd\'hui</string>
     <string name="lbl_tomorrow">Demain</string>
     <string name="lbl_on">On</string>
-    <string name="lbl_tune_to_channel">Changer de chaîne</string>
+    <string name="lbl_tune_to_channel">Aller sur la chaîne</string>
     <string name="msg_recording_now">Enregistrement en cours</string>
     <string name="msg_will_record">Enregistrement prévu</string>
     <string name="lbl_begin_padding">Padding de début (minutes)</string>
