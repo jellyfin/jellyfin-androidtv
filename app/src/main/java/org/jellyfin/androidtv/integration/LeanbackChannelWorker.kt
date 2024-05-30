@@ -283,6 +283,7 @@ class LeanbackChannelWorker(
 				api.tvShowsApi.getNextUp(
 					imageTypeLimit = 1,
 					limit = 10,
+					enableResumable = false,
 					fields = listOf(ItemFields.DATE_CREATED),
 				).content.items.orEmpty()
 			}
