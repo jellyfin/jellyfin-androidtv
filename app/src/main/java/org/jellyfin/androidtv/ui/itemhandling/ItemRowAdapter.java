@@ -23,7 +23,6 @@ import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
 import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
@@ -62,6 +61,7 @@ import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
+import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.koin.java.KoinJavaComponent;
 
@@ -76,7 +76,7 @@ import timber.log.Timber;
 
 public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private ItemQuery mQuery;
-    private NextUpQuery mNextUpQuery;
+    private GetNextUpRequest mNextUpQuery;
     private SeasonQuery mSeasonQuery;
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
@@ -227,12 +227,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.AlbumArtists;
     }
 
-    public ItemRowAdapter(Context context, NextUpQuery query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetNextUpRequest query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mNextUpQuery = query;
-        mNextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = true;
@@ -673,7 +672,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieve(mQuery);
                 break;
             case NextUp:
-                retrieve(mNextUpQuery);
+                ItemRowAdapterHelperKt.retrieveNextUpItems(this, api.getValue(), mNextUpQuery);
                 break;
             case LatestItems:
                 retrieve(mLatestQuery);
@@ -1018,64 +1017,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
             }
 
-        });
-
-    }
-
-    private void retrieve(final NextUpQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(final ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(response.getTotalRecordCount());
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, staticHeight));
-
-                    //If this was for a single series, get the rest of the episodes in the season
-                    if (query.getSeriesId() != null) {
-                        org.jellyfin.sdk.model.api.BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem) adapter.get(0)).getBaseItem() : null;
-                        if (first != null && first.getIndexNumber() != null && first.getSeasonId() != null) {
-                            StdItemQuery rest = new StdItemQuery();
-                            rest.setUserId(query.getUserId());
-                            rest.setParentId(first.getSeasonId().toString());
-                            rest.setStartIndex(first.getIndexNumber());
-                            apiClient.getValue().GetItemsAsync(rest, new Response<ItemsResult>() {
-                                @Override
-                                public void onResponse(ItemsResult innerResponse) {
-                                    if (response.getItems() != null) {
-                                        int n = response.getItems().length;
-                                        for (BaseItemDto item : innerResponse.getItems()) {
-                                            adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, false));
-                                        }
-                                        totalItems += innerResponse.getTotalRecordCount();
-                                        setItemsLoaded(itemsLoaded + n);
-
-                                    }
-                                    notifyRetrieveFinished();
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    Timber.e(exception, "Unable to retrieve subsequent episodes in next up");
-                                    notifyRetrieveFinished();
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                    notifyRetrieveFinished();
-                }
-
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving next up items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
         });
 
     }

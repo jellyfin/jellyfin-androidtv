@@ -9,10 +9,11 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
-import org.jellyfin.apiclient.model.querying.ItemFields
-import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
+import org.jellyfin.apiclient.model.querying.ItemFields as LegacyItemFields
 import org.jellyfin.sdk.model.api.ItemFields as SdkItemFields
 
 class HomeFragmentHelper(
@@ -58,9 +59,9 @@ class HomeFragmentHelper(
 	fun loadLatestLiveTvRecordings(): HomeFragmentRow {
 		val query = RecordingQuery().apply {
 			fields = arrayOf(
-				ItemFields.Overview,
-				ItemFields.PrimaryImageAspectRatio,
-				ItemFields.ChildCount
+				LegacyItemFields.Overview,
+				LegacyItemFields.PrimaryImageAspectRatio,
+				LegacyItemFields.ChildCount
 			)
 
 			userId = userRepository.currentUser.value!!.id.toString()
@@ -72,16 +73,16 @@ class HomeFragmentHelper(
 	}
 
 	fun loadNextUp(): HomeFragmentRow {
-		val query = NextUpQuery().apply {
-			userId = userRepository.currentUser.value!!.id.toString()
-			imageTypeLimit = 1
-			limit = ITEM_LIMIT_NEXT_UP
-			fields = arrayOf(
-				ItemFields.PrimaryImageAspectRatio,
-				ItemFields.Overview,
-				ItemFields.ChildCount
+		val query = GetNextUpRequest(
+			imageTypeLimit = 1,
+			limit = ITEM_LIMIT_NEXT_UP,
+			enableResumable = false,
+			fields = setOf(
+				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+				ItemFields.OVERVIEW,
+				ItemFields.CHILD_COUNT,
 			)
-		}
+		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_next_up), query, arrayOf(ChangeTriggerType.TvPlayback)))
 	}
@@ -90,10 +91,10 @@ class HomeFragmentHelper(
 		val query = RecommendedProgramQuery().apply {
 			isAiring = true
 			fields = arrayOf(
-				ItemFields.Overview,
-				ItemFields.PrimaryImageAspectRatio,
-				ItemFields.ChannelInfo,
-				ItemFields.ChildCount
+				LegacyItemFields.Overview,
+				LegacyItemFields.PrimaryImageAspectRatio,
+				LegacyItemFields.ChannelInfo,
+				LegacyItemFields.ChildCount
 			)
 			userId = userRepository.currentUser.value!!.id.toString()
 			imageTypeLimit = 1

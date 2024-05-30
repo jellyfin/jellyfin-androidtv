@@ -12,17 +12,17 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
-import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.PersonsQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 
 public class BrowseRowDef {
     private String headerText;
     private ItemQuery query;
-    private NextUpQuery nextUpQuery;
+    private GetNextUpRequest nextUpQuery;
     private UpcomingEpisodesQuery upcomingQuery;
     private SimilarItemsQuery similarQuery;
     private LatestItemsQuery latestItemsQuery;
@@ -97,7 +97,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, NextUpQuery query) {
+    public BrowseRowDef(String header, GetNextUpRequest query) {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
@@ -110,7 +110,7 @@ public class BrowseRowDef {
         this.queryType = QueryType.SeriesTimer;
     }
 
-    public BrowseRowDef(String header, NextUpQuery query, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, GetNextUpRequest query, ChangeTriggerType[] changeTriggers) {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
@@ -221,7 +221,7 @@ public class BrowseRowDef {
         return query;
     }
 
-    public NextUpQuery getNextUpQuery() {
+    public GetNextUpRequest getNextUpQuery() {
         return nextUpQuery;
     }
 

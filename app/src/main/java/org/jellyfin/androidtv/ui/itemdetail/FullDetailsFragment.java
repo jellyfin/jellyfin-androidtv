@@ -55,6 +55,7 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.RecordingIndicatorView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.ui.browsing.BrowsingUtils;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -89,7 +90,6 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
@@ -678,14 +678,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 break;
             case SERIES:
-                NextUpQuery nextUpQuery = new NextUpQuery();
-                nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                nextUpQuery.setSeriesId(mBaseItem.getId().toString());
-                nextUpQuery.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(requireContext(), nextUpQuery, false, new CardPresenter(true, 130), adapter);
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createSeriesGetNextUpRequest(mBaseItem.getId()), false, new CardPresenter(true, 130), adapter);
                 addItemRow(adapter, nextUpAdapter, 0, getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();

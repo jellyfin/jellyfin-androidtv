@@ -8,8 +8,11 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import timber.log.Timber
+import java.util.UUID
 
 object BrowsingUtils {
 	@JvmStatic
@@ -31,4 +34,27 @@ object BrowsingUtils {
 			}
 		}
 	}
+
+	@JvmStatic
+	fun createGetNextUpRequest(parentId: UUID) = GetNextUpRequest(
+		limit = 50,
+		parentId = parentId,
+		imageTypeLimit = 1,
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.OVERVIEW,
+			ItemFields.CHILD_COUNT,
+			ItemFields.MEDIA_SOURCES,
+			ItemFields.MEDIA_STREAMS,
+		)
+	)
+
+	@JvmStatic
+	fun createSeriesGetNextUpRequest(parentId: UUID) = GetNextUpRequest(
+		seriesId = parentId,
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHILD_COUNT,
+		)
+	)
 }
