@@ -37,11 +37,11 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
-import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
 import org.jellyfin.sdk.model.api.ItemSortBy;
+import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
@@ -153,19 +153,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resumeEpisodes, 0, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Next up
-                NextUpQuery nextUpQuery = new NextUpQuery();
-                nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                nextUpQuery.setLimit(50);
-                nextUpQuery.setParentId(mFolder.getId().toString());
-                nextUpQuery.setImageTypeLimit(1);
-                nextUpQuery.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ChildCount,
-                        ItemFields.MediaSources,
-                        ItemFields.MediaStreams
-                });
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
+                GetNextUpRequest getNextUpRequest = BrowsingUtils.createGetNextUpRequest(mFolder.getId());
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_next_up), getNextUpRequest, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Premieres
                 if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getPremieresEnabled())) {
