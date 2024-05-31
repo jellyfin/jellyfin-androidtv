@@ -961,7 +961,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     if (versions != null) {
                         addVersionsMenu(v);
                     } else {
-                        versions = new ArrayList(mBaseItem.getMediaSources());
+                        versions = new ArrayList<>(mBaseItem.getMediaSources());
                         addVersionsMenu(v);
                     }
                 }
