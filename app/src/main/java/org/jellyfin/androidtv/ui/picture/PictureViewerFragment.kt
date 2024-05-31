@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentPictureViewerBinding
 import org.jellyfin.androidtv.ui.AsyncImageView
@@ -60,10 +59,10 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		lifecycleScope.launch {
 			val itemId = requireNotNull(arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull())
 			val albumSortBy = arguments?.getString(ARGUMENT_ALBUM_SORT_BY)?.let {
-				Json.Default.decodeFromString<ItemSortBy>(it)
+				ItemSortBy.fromNameOrNull(it)
 			} ?: ItemSortBy.SORT_NAME
 			val albumSortOrder = arguments?.getString(ARGUMENT_ALBUM_SORT_ORDER)?.let {
-				Json.Default.decodeFromString<SortOrder>(it)
+				SortOrder.fromNameOrNull(it)
 			} ?: SortOrder.ASCENDING
 			pictureViewerViewModel.loadItem(itemId, setOf(albumSortBy), albumSortOrder)
 
