@@ -66,7 +66,7 @@ class AuthenticationRepositoryImpl(
 	}
 
 	private fun authenticateAutomatic(server: Server, user: User): Flow<LoginState> {
-		Timber.i("Authenticating user %s", user)
+		Timber.i("Authenticating user ${user.id}")
 
 		// Automatic logic is disabled when the always authenticate preference is enabled
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
