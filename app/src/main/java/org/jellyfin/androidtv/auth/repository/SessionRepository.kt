@@ -141,11 +141,6 @@ class SessionRepositoryImpl(
 			val applied = userApiClient.applySession(session, deviceInfo)
 
 			if (applied && session != null) {
-				// Update crash reporting URL
-				val crashReportUrl = userApiClient.clientLogApi.logFileUrl()
-				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
-				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
-
 				try {
 					val user by userApiClient.userApi.getCurrentUser()
 					userRepository.updateCurrentUser(user)
@@ -154,6 +149,11 @@ class SessionRepositoryImpl(
 					destroyCurrentSession()
 					return false
 				}
+
+				// Update crash reporting URL
+				val crashReportUrl = userApiClient.clientLogApi.logFileUrl()
+				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
+				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
 			} else {
 				userRepository.updateCurrentUser(null)
 			}
