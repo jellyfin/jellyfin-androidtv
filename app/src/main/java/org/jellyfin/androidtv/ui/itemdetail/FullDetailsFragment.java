@@ -1443,6 +1443,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void play(final List<BaseItemDto> items, final int pos, final boolean shuffle) {
+        if (items.isEmpty()) return;
         if (shuffle) Collections.shuffle(items);
         videoQueueManager.getValue().setCurrentVideoQueue(items);
         Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(items.get(0).getType(), pos);
