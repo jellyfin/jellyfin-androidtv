@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,7 +33,11 @@ class UserLoginQuickConnectFragment : Fragment() {
 	private var _binding: FragmentUserLoginQuickConnectBinding? = null
 	private val binding get() = _binding!!
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
 		_binding = FragmentUserLoginQuickConnectBinding.inflate(inflater, container, false)
 		return binding.root
 	}
@@ -41,43 +47,47 @@ class UserLoginQuickConnectFragment : Fragment() {
 
 		userLoginViewModel.clearLoginState()
 
-		// Initialize & react to Quick Connect specific state
 		lifecycleScope.launch {
-			userLoginViewModel.initiateQuickconnect()
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				userLoginViewModel.initiateQuickconnect()
 
-			userLoginViewModel.quickConnectState.collect { state ->
-				when (state) {
-					is PendingQuickConnectState -> {
-						binding.quickConnectCode.text = state.code.formatCode()
-						binding.loading.isVisible = false
+				// React to Quick Connect specific state
+				userLoginViewModel.quickConnectState.onEach { state ->
+					when (state) {
+						is PendingQuickConnectState -> {
+							binding.quickConnectCode.text = state.code.formatCode()
+							binding.loading.isVisible = false
+						}
+
+						UnavailableQuickConnectState,
+						UnknownQuickConnectState,
+						ConnectedQuickConnectState -> binding.loading.isVisible = true
 					}
+				}.launchIn(this)
 
-					UnavailableQuickConnectState,
-					UnknownQuickConnectState,
-					ConnectedQuickConnectState -> binding.loading.isVisible = true
-				}
+				// React to login state
+				userLoginViewModel.loginState.onEach { state ->
+					when (state) {
+						is ServerVersionNotSupported -> binding.error.setText(
+							getString(
+								R.string.server_issue_outdated_version,
+								state.server.version,
+								ServerRepository.recommendedServerVersion.toString()
+							)
+						)
+
+						AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
+						RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
+						ServerUnavailableState,
+						is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
+						// Do nothing because the activity will respond to the new session
+						AuthenticatedState -> Unit
+						// Not initialized
+						null -> Unit
+					}
+				}.launchIn(this)
 			}
 		}
-
-		// React to login state
-		userLoginViewModel.loginState.onEach { state ->
-			when (state) {
-				is ServerVersionNotSupported -> binding.error.setText(getString(
-					R.string.server_issue_outdated_version,
-					state.server.version,
-					ServerRepository.recommendedServerVersion.toString()
-				))
-
-				AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
-				RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
-				ServerUnavailableState,
-				is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
-				// Do nothing because the activity will respond to the new session
-				AuthenticatedState -> Unit
-				// Not initialized
-				null -> Unit
-			}
-		}.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroyView() {
