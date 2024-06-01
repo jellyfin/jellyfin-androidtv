@@ -17,6 +17,6 @@ class UserRepositoryImpl : UserRepository {
 	override val currentUser = MutableStateFlow<UserDto?>(null)
 
 	override fun updateCurrentUser(user: UserDto?) {
-		if (currentUser.value !== user) currentUser.value = user
+		currentUser.value = user
 	}
 }
