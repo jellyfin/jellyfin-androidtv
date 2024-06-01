@@ -24,11 +24,14 @@ import org.jellyfin.androidtv.util.sdk.compat.copyWithUserData
 import org.jellyfin.androidtv.util.showIfNotEmpty
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFilter
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.extensions.ticks
@@ -275,11 +278,17 @@ fun FullDetailsFragment.resumePlayback() {
 
 	lifecycleScope.launch {
 		try {
-			val episodes by api.tvShowsApi.getNextUp(
-				seriesId = mBaseItem.id,
+			val episodes by api.itemsApi.getItems(
+				parentId = mBaseItem.id,
+				includeItemTypes = setOf(BaseItemKind.EPISODE),
+				recursive = true,
+				filters = setOf(ItemFilter.IS_UNPLAYED),
+				sortBy = setOf(ItemSortBy.PARENT_INDEX_NUMBER, ItemSortBy.INDEX_NUMBER, ItemSortBy.SORT_NAME),
+				limit = 1
 			)
+			val nextUpEpisode = episodes.items?.firstOrNull()
 
-			play(episodes.items, 0, false)
+			if (nextUpEpisode != null) play(nextUpEpisode, 0, false)
 		} catch (err: ApiClientException) {
 			Timber.w("Failed to get next up items")
 			Toast.makeText(
