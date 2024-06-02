@@ -12,10 +12,7 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
-import org.jellyfin.apiclient.model.querying.PersonsQuery;
-import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
-import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 
@@ -23,12 +20,8 @@ public class BrowseRowDef {
     private String headerText;
     private ItemQuery query;
     private GetNextUpRequest nextUpQuery;
-    private UpcomingEpisodesQuery upcomingQuery;
     private SimilarItemsQuery similarQuery;
     private LatestItemsQuery latestItemsQuery;
-
-    private PersonsQuery personsQuery;
-
     private LiveTvChannelQuery tvChannelQuery;
     private RecommendedProgramQuery programQuery;
     private RecordingQuery recordingQuery;
@@ -36,7 +29,6 @@ public class BrowseRowDef {
 
     private ArtistsQuery artistsQuery;
     private AlbumArtistsQuery albumArtistsQuery;
-    private SeasonQuery seasonQuery;
     private GetResumeItemsRequest resumeQuery;
     private SpecialsQuery specialsQuery;
     private QueryType queryType;
@@ -48,10 +40,7 @@ public class BrowseRowDef {
     private ChangeTriggerType[] changeTriggers;
 
     public BrowseRowDef(String header, ItemQuery query, int chunkSize) {
-        this(header, query, chunkSize, false);
-    }
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb) {
-        this(header, query, chunkSize, preferParentThumb, false);
+        this(header, query, chunkSize, false, false);
     }
 
     public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight) {
@@ -97,12 +86,6 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, GetNextUpRequest query) {
-        headerText = header;
-        this.nextUpQuery = query;
-        this.queryType = QueryType.NextUp;
-    }
-
     public BrowseRowDef(String header, SeriesTimerQuery query) {
         headerText = header;
         this.seriesTimerQuery = query;
@@ -124,12 +107,6 @@ public class BrowseRowDef {
         this.queryType = QueryType.LatestItems;
         this.staticHeight = true;
         this.changeTriggers = changeTriggers;
-    }
-
-    public BrowseRowDef(String header, SimilarItemsQuery query) {
-        headerText = header;
-        this.similarQuery = query;
-        this.queryType = QueryType.SimilarSeries;
     }
 
     public BrowseRowDef(String header, LiveTvChannelQuery query) {
@@ -156,29 +133,10 @@ public class BrowseRowDef {
         this.queryType = QueryType.LiveTvRecording;
     }
 
-    public BrowseRowDef(String header, PersonsQuery query, int chunkSize) {
-        headerText = header;
-        this.personsQuery = query;
-        this.queryType = QueryType.Persons;
-        this.chunkSize = chunkSize;
-    }
-
     public BrowseRowDef(String header, SimilarItemsQuery query, QueryType type) {
         headerText = header;
         this.similarQuery = query;
         this.queryType = type;
-    }
-
-    public BrowseRowDef(String header, SeasonQuery query) {
-        headerText = header;
-        this.seasonQuery = query;
-        this.queryType = QueryType.Season;
-    }
-
-    public BrowseRowDef(String header, UpcomingEpisodesQuery query) {
-        headerText = header;
-        this.upcomingQuery = query;
-        this.queryType = QueryType.Upcoming;
     }
 
     public BrowseRowDef(String header, ViewQuery query) {
@@ -213,10 +171,6 @@ public class BrowseRowDef {
         return headerText;
     }
 
-    public void setHeaderText(String headerText) {
-        this.headerText = headerText;
-    }
-
     public ItemQuery getQuery() {
         return query;
     }
@@ -233,12 +187,6 @@ public class BrowseRowDef {
         return queryType;
     }
 
-    public SeasonQuery getSeasonQuery() { return seasonQuery; }
-
-    public UpcomingEpisodesQuery getUpcomingQuery() {
-        return upcomingQuery;
-    }
-
     public LiveTvChannelQuery getTvChannelQuery() {
         return tvChannelQuery;
     }
@@ -250,10 +198,6 @@ public class BrowseRowDef {
     public RecordingQuery getRecordingQuery() { return recordingQuery; }
 
     public boolean getPreferParentThumb() { return preferParentThumb; }
-
-    public PersonsQuery getPersonsQuery() {
-        return personsQuery;
-    }
 
     public ArtistsQuery getArtistsQuery() { return artistsQuery; }
     public AlbumArtistsQuery getAlbumArtistsQuery() { return albumArtistsQuery; }

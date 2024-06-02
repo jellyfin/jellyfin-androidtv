@@ -9,7 +9,6 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.PresenterSelector;
 import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
@@ -31,7 +30,6 @@ import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
-import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
@@ -51,7 +49,6 @@ import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
-import org.jellyfin.apiclient.model.querying.PersonsQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
@@ -80,7 +77,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private SeasonQuery mSeasonQuery;
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
-    private PersonsQuery mPersonsQuery;
     private SpecialsQuery mSpecialsQuery;
     private AdditionalPartsQuery mAdditionalPartsQuery;
     private TrailersQuery mTrailersQuery;
@@ -125,32 +121,28 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private Context context;
 
-    public boolean isCurrentlyRetrieving() {
+    private boolean isCurrentlyRetrieving() {
         synchronized (currentlyRetrievingSemaphore) {
             return currentlyRetrieving;
         }
     }
 
-    protected void setCurrentlyRetrieving(boolean currentlyRetrieving) {
+    private void setCurrentlyRetrieving(boolean currentlyRetrieving) {
         synchronized (currentlyRetrievingSemaphore) {
             this.currentlyRetrieving = currentlyRetrieving;
         }
     }
 
-    public boolean getPreferParentThumb() {
+    protected boolean getPreferParentThumb() {
         return preferParentThumb;
     }
 
-    public boolean isStaticHeight() {
+    protected boolean isStaticHeight() {
         return staticHeight;
     }
 
     public QueryType getQueryType() {
         return queryType;
-    }
-
-    public MutableObjectAdapter<Row> getParent() {
-        return mParent;
     }
 
     public void setRow(ListRow row) {
@@ -166,21 +158,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
-        super(presenter);
-        this.context = context;
-        mParent = parent;
-        mQuery = query;
-        mQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        this.chunkSize = chunkSize;
-        this.preferParentThumb = preferParentThumb;
-        this.staticHeight = staticHeight;
-        if (chunkSize > 0) {
-            mQuery.setLimit(chunkSize);
-        }
-        this.queryType = queryType;
-    }
-
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -372,19 +349,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.Season;
     }
 
-    public ItemRowAdapter(Context context, PersonsQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
-        super(presenter);
-        this.context = context;
-        mParent = parent;
-        this.chunkSize = chunkSize;
-        mPersonsQuery = query;
-        mPersonsQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        if (chunkSize > 0) {
-            mPersonsQuery.setLimit(chunkSize);
-        }
-        queryType = QueryType.Persons;
-    }
-
     public ItemRowAdapter(Context context, ViewQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
@@ -472,15 +436,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         removeRow();
     }
 
-    public void setPosition(int pos) {
-        if (getParent() != null) {
-            Presenter presenter = getParent().getPresenter(this);
-            if (presenter instanceof PositionableListRowPresenter) {
-                ((PositionableListRowPresenter) presenter).setPosition(pos);
-            }
-        }
-    }
-
     public @Nullable String getStartLetter() {
         return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
     }
@@ -511,7 +466,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         }
     }
 
-    public void removeRow() {
+    protected void removeRow() {
         if (mParent == null) {
             // just clear us
             clear();
@@ -556,21 +511,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             return;
         }
 
-        Integer savedIdx = null;
+        Integer savedIdx;
         switch (queryType) {
-            case Persons:
-                if (mPersonsQuery == null) {
-                    return;
-                }
-                notifyRetrieveStarted();
-
-                savedIdx = mPersonsQuery.getStartIndex();
-                //set the query to go get the next chunk
-                mPersonsQuery.setStartIndex(itemsLoaded);
-                retrieve(mPersonsQuery);
-                mPersonsQuery.setStartIndex(savedIdx); // is reused so reset
-                break;
-
             case LiveTvChannel:
                 if (mTvChannelQuery == null) {
                     return;
@@ -691,9 +633,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 break;
             case SimilarMovies:
                 retrieveSimilarMovies(mSimilarQuery);
-                break;
-            case Persons:
-                retrieve(mPersonsQuery);
                 break;
             case LiveTvChannel:
                 retrieve(mTvChannelQuery);
@@ -835,7 +774,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         });
     }
 
-    public void addToParentIfResultsReceived() {
+    private void addToParentIfResultsReceived() {
         if (itemsLoaded > 0 && mParent != null) {
             mParent.add(mRow);
         }
@@ -1379,7 +1318,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + response.getItems().length);
-                    if (response.getItems().length == 0) {
+                    if (adapter.size() == 0) {
                         removeRow();
                     }
                 } else {
@@ -1393,42 +1332,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving upcoming items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieve(final PersonsQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetPeopleAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = itemsLoaded;
-                    if (i == 0 && adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(i);
-                    if (i == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving people");
                 removeRow();
                 notifyRetrieveFinished(exception);
             }
@@ -1486,7 +1389,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this.mRetrieveFinishedListener = response;
     }
 
-    protected void notifyRetrieveStarted() {
+    private void notifyRetrieveStarted() {
         setCurrentlyRetrieving(true);
     }
 }
