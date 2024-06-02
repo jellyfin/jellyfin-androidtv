@@ -517,6 +517,7 @@
     <string name="pref_screensaver_ageratingrequired_disabled">Showing all items</string>
     <string name="all_channels">All channels</string>
     <string name="app_notification_update_soon">Update your server from %1$s to at least %2$s to continue using the app after the next update.</string>
+    <string name="current_queue">Current queue</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
