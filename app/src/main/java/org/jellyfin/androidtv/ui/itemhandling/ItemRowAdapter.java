@@ -47,7 +47,6 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
@@ -58,6 +57,7 @@ import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
+import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.koin.java.KoinJavaComponent;
@@ -85,7 +85,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private RecordingQuery mTvRecordingQuery;
     private ArtistsQuery mArtistsQuery;
     private AlbumArtistsQuery mAlbumArtistsQuery;
-    private LatestItemsQuery mLatestQuery;
+    private GetLatestMediaRequest mLatestQuery;
     private SeriesTimerQuery mSeriesTimerQuery;
     private GetResumeItemsRequest resumeQuery;
     private QueryType queryType;
@@ -222,12 +222,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.SeriesTimer;
     }
 
-    public ItemRowAdapter(Context context, LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetLatestMediaRequest query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mLatestQuery = query;
-        mLatestQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
         staticHeight = true;
@@ -617,7 +616,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 ItemRowAdapterHelperKt.retrieveNextUpItems(this, api.getValue(), mNextUpQuery);
                 break;
             case LatestItems:
-                retrieve(mLatestQuery);
+                ItemRowAdapterHelperKt.retrieveLatestMedia(this, api.getValue(), mLatestQuery);
                 break;
             case Upcoming:
                 retrieve(mUpcomingQuery);
@@ -844,30 +843,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     setTotalItems(response.getTotalRecordCount());
 
                     ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
-                } else if (getItemsLoaded() == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-    }
-
-    private void retrieve(LatestItemsQuery query) {
-        apiClient.getValue().GetLatestItems(query, new Response<BaseItemDto[]>() {
-            @Override
-            public void onResponse(BaseItemDto[] response) {
-                if (response != null && response.length > 0) {
-                    setTotalItems(response.length);
-
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response, (item, i) -> new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight(), BaseRowItemSelectAction.ShowDetails, getPreferParentThumb()));
                 } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }

@@ -36,7 +36,6 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
@@ -86,18 +85,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback}));
 
                 //Latest
-                LatestItemsQuery latestMovies = new LatestItemsQuery();
-                latestMovies.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ChildCount,
-                        ItemFields.MediaSources,
-                        ItemFields.MediaStreams
-                });
-                latestMovies.setParentId(mFolder.getId().toString());
-                latestMovies.setLimit(50);
-                latestMovies.setImageTypeLimit(1);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId()), new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery(new ItemFields[]{
@@ -180,20 +168,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 }
 
                 //Latest content added
-                LatestItemsQuery latestSeries = new LatestItemsQuery();
-                latestSeries.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ChildCount,
-                        ItemFields.MediaSources,
-                        ItemFields.MediaStreams
-                });
-                latestSeries.setIncludeItemTypes(new String[]{"Episode"});
-                latestSeries.setGroupItems(true);
-                latestSeries.setParentId(mFolder.getId().toString());
-                latestSeries.setLimit(50);
-                latestSeries.setImageTypeLimit(1);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestSeries, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId(), BaseItemKind.EPISODE, true), new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -209,18 +184,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 break;
             case MUSIC:
                 //Latest
-                LatestItemsQuery latestAlbums = new LatestItemsQuery();
-                latestAlbums.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ChildCount
-                });
-                latestAlbums.setIncludeItemTypes(new String[]{"Audio"});
-                latestAlbums.setGroupItems(true);
-                latestAlbums.setImageTypeLimit(1);
-                latestAlbums.setParentId(mFolder.getId().toString());
-                latestAlbums.setLimit(50);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestAlbums, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId(), BaseItemKind.AUDIO, true), new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 //Last Played
                 StdItemQuery lastPlayed = new StdItemQuery();

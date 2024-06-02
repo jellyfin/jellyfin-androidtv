@@ -11,6 +11,7 @@ import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import timber.log.Timber
@@ -122,6 +123,33 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 		)
 	}
 }
+
+fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.userLibraryApi.getLatestMedia(query)
+
+			setItems(
+				items = response.toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						preferParentThumb,
+						isStaticHeight,
+						BaseRowItemSelectAction.ShowDetails,
+						preferParentThumb,
+					)
+				}
+			)
+
+			if (response.isEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
 
 @JvmOverloads
 fun ItemRowAdapter.refreshItem(
