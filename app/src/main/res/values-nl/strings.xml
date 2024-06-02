@@ -557,4 +557,5 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Toont alleen items met leeftijdsclassificatie</string>
     <string name="all_channels">Alle kanalen</string>
     <string name="app_notification_update_soon">Je moet je server bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
+    <string name="current_queue">Huidige wachtrij</string>
 </resources>
