@@ -14,7 +14,6 @@
     <string name="pref_media_player">Föredragen mediaspelare</string>
     <string name="pref_about_title">Om</string>
     <string name="pref_video_player_external">Extern app</string>
-    <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Min media</string>
     <string name="lbl_image_size">Bildstorlek</string>
@@ -26,7 +25,6 @@
     <string name="lbl_repeat_episodes">Återupprepa avsnitt</string>
     <string name="lbl_premieres">Premiärer</string>
     <string name="lbl_new_episodes">Nya avsnitt</string>
-    <string name="lbl_audio_delay">Ljudfördröjning</string>
     <string name="lbl_new_only">Endast nya</string>
     <string name="lbl_news">Nyheter</string>
     <string name="lbl_song_title">Låttitel</string>
@@ -230,7 +228,6 @@
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Direktsänd-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
-    <string name="pref_libvlc_audio_delay_title">Standardfördröjning av ljud för LibVLC</string>
     <string name="pref_theme_dark">Mörk (Standard)</string>
     <string name="pref_theme_emerald">Klassisk smaragd</string>
     <string name="pref_app_theme">Apptema</string>
@@ -252,7 +249,6 @@
     <string name="play_with">Spela med</string>
     <string name="play_with_external_app">Spela med extern app</string>
     <string name="play_with_exo_player">Spela med ExoPlayer</string>
-    <string name="play_with_vlc">Spela upp med LibVLC</string>
     <string name="seek_error">Går ej att söka</string>
     <string name="pref_video_player_choose">Fråga alltid</string>
     <string name="just_one">Endast denna</string>
@@ -435,7 +431,6 @@
     <string name="action_login">Logga in</string>
     <string name="lbl_shuffle_queue">Aktivera shuffle</string>
     <string name="lbl_subtitle_delay">Undertextfördröjning</string>
-    <string name="lbl_adjust">Justera</string>
     <string name="state_disabled">Inaktiverad</string>
     <string name="live_tv_preferences">Alternativ för direktsänd TV</string>
     <string name="server_setup_incomplete">Installationen av den här servern har inte slutförts. Öppna Jellyfin i en webbläsare för att slutföra installationen innan du loggar in.</string>

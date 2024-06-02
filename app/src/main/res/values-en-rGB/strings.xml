@@ -210,7 +210,6 @@
     <string name="lbl_repeat_episodes">Repeat episodes</string>
     <string name="lbl_premieres">Premieres</string>
     <string name="lbl_new_episodes">New episodes</string>
-    <string name="lbl_audio_delay">Audio delay</string>
     <string name="lbl_new_only">New only</string>
     <string name="pref_authentication_cat">Authentication</string>
     <string name="settings_title">Preferences</string>
@@ -225,10 +224,8 @@
     <string name="pref_media_player">Preferred media player</string>
     <string name="pref_about_title">About</string>
     <string name="pref_video_player_external">External app</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">My media</string>
-    <string name="pref_libvlc_audio_delay_title">Default audio delay for LibVLC</string>
     <string name="watch_now">Watch now</string>
     <string name="pref_next_up_timeout_title">Next up timer duration</string>
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
@@ -273,7 +270,6 @@
     <string name="play_with">Play with</string>
     <string name="play_with_external_app">Play with external app</string>
     <string name="play_with_exo_player">Play with ExoPlayer</string>
-    <string name="play_with_vlc">Play with libVLC</string>
     <string name="lbl_subtitle_track">Select subtitle track</string>
     <string name="lbl_audio_track">Select audio track</string>
     <string name="lbl_pause">Pause</string>
@@ -453,7 +449,6 @@
     <string name="image_size_smallest">Smallest</string>
     <string name="image_type_poster">Poster</string>
     <string name="lbl_subtitle_delay">Subtitle delay</string>
-    <string name="lbl_adjust">Adjust</string>
     <string name="lbl_quality_profile">Quality profile</string>
     <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
     <string name="pref_audio_night_mode">Audio night mode (experimental)</string>

@@ -191,7 +191,6 @@
     <string name="lbl_repeat_episodes">Repetir episodis</string>
     <string name="lbl_premieres">Estrenes</string>
     <string name="lbl_new_episodes">Nous episodis</string>
-    <string name="lbl_audio_delay">Retard d\'àudio</string>
     <string name="lbl_new_only">Només novetats</string>
     <string name="lbl_news">Noticies</string>
     <string name="lbl_tv_filter_status">per les pròximes %1$d hores</string>
@@ -228,7 +227,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="grid_direction_vertical">Vertical</string>
-    <string name="pref_video_player_vlc">LibVLC (reproductor experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="login_username_field_empty">El nom d\'usuari no pot estar buit</string>
     <string name="login_invalid_credentials">Nom d\'usuari i/o contrasenya no vàlids</string>
@@ -250,7 +248,6 @@
     <string name="play_with">Reproduir amb</string>
     <string name="play_with_external_app">Reproduir amb una aplicació externa</string>
     <string name="play_with_exo_player">Reproduir amb ExoPlayer</string>
-    <string name="play_with_vlc">Reproduir amb LibVLC</string>
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
@@ -278,7 +275,6 @@
     <string name="grid_direction">Direcció de la graella</string>
     <string name="pref_device_model">Model de dispositiu</string>
     <string name="pref_app_theme">Tema de l\'aplicació</string>
-    <string name="pref_libvlc_audio_delay_title">Retard d\'àudio per defecte per a LibVLC</string>
     <string name="watch_now">Veure ara</string>
     <string name="pref_next_up_timeout_title">Duració del següent temporitzador</string>
     <string name="pref_next_up_timeout_summary">Quant d\'espera abans de reproduir l\'element següent</string>
@@ -449,7 +445,6 @@
     <string name="image_size_smallest">Minúscul</string>
     <string name="image_type_poster">Cartell</string>
     <string name="lbl_subtitle_delay">Retard dels subtítols</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_shuffle_queue">Alternar mode aleatori</string>
     <string name="lbl_additional_parts">Parts addicionals</string>
     <string name="state_disabled">Desactivat</string>

@@ -211,21 +211,18 @@
     <string name="lbl_new_episodes">Nuevos episodios</string>
     <string name="lbl_news">Noticias</string>
     <string name="lbl_premieres">Estrenos</string>
-    <string name="lbl_audio_delay">Retraso del audio</string>
     <string name="lbl_new_only">Solo nuevo</string>
     <string name="lbl_resume_preroll">Continuar pre-cortinilla</string>
     <string name="lbl_image_type">Tipo de imagen</string>
     <string name="lbl_hd_programs">Programas HD</string>
     <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer (Reproductor externo)</string>
     <string name="lbl_my_media">Mis medios</string>
     <string name="lbl_image_size">Tamaño de la imagen</string>
     <string name="lbl_start_favorites">Colocar favoritos al inicio</string>
     <string name="lbl_colored_backgrounds">Fondos codificados con colores</string>
     <string name="lbl_live_broadcasts">Emisiones en directo</string>
-    <string name="pref_libvlc_audio_delay_title">Retardo de audio predeterminado para LibVLC</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de siguiente</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo esperar antes de reproducir el siguiente elemento</string>
@@ -268,7 +265,6 @@
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con una app externa</string>
     <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="pref_video_player_choose">Preguntar siempre</string>
     <string name="lbl_subtitle_track">Selecciona track de subtitulos</string>
     <string name="lbl_audio_track">Selecciona un track de audio</string>
@@ -441,7 +437,6 @@
     <string name="image_size_smallest">Muy pequeño</string>
     <string name="image_type_poster">Cartel</string>
     <string name="lbl_subtitle_delay">Retardo de los subtítulos</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="pref_telemetry_description">Enviar informe de fallos, incluye registros</string>
     <string name="pref_telemetry_category">Informe de fallos</string>

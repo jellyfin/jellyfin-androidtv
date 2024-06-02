@@ -216,7 +216,6 @@
     <string name="lbl_live_broadcasts">Diffusion en direct</string>
     <string name="lbl_premieres">Avant-premières</string>
     <string name="lbl_new_episodes">Nouveaux épisodes</string>
-    <string name="lbl_audio_delay">Décalage audio</string>
     <string name="lbl_news">Actualités</string>
     <string name="lbl_colored_backgrounds">Arrière-plans de couleurs</string>
     <string name="lbl_repeat_episodes">Répéter les épisodes</string>
@@ -229,8 +228,6 @@
     <string name="pref_next_up_timeout_summary">Combien de temps attendre avant de lire l\'élément suivant</string>
     <string name="pref_media_player">Lecteur multimédia préféré</string>
     <string name="pref_video_player_external">Application externe</string>
-    <string name="pref_video_player_vlc">LibVLC (expérimental)</string>
-    <string name="pref_libvlc_audio_delay_title">Délai audio par défaut de la bibliothèque LibVLC</string>
     <string name="pref_app_theme">Thème de l\'application</string>
     <string name="pref_theme_dark">Sombre (Défaut)</string>
     <string name="pref_theme_emerald">Émeraude classique</string>
@@ -268,7 +265,6 @@
     <string name="play_with">Lecture avec</string>
     <string name="play_with_external_app">Lecture avec une application externe</string>
     <string name="play_with_exo_player">Lecture avec ExoPlayer</string>
-    <string name="play_with_vlc">Lecture avec LibVLC</string>
     <string name="pref_video_player_choose">Toujours demander</string>
     <string name="lbl_subtitle_track">Choisir la piste de sous-titres</string>
     <string name="lbl_audio_track">Choisir la piste audio</string>
@@ -437,7 +433,6 @@
     <string name="action_login">Se connecter</string>
     <string name="live_tv_preferences">Options TV Live</string>
     <string name="lbl_subtitle_delay">Décalage sous-titre</string>
-    <string name="lbl_adjust">Ajuster</string>
     <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s ou supérieure pour continuer à utiliser l\'application.</string>
     <string name="app_notification_uimode_invalid">Cette application est optimisée pour un usage sur une télévision. Nous vous recommandons d\'utiliser notre application mobile sur un autre appareil.</string>
     <string name="server_setup_incomplete">La configuration de ce serveur est incomplète. Ouvrez Jellyfin dans un navigateur Web pour terminer la configuration avant de se connecter.</string>

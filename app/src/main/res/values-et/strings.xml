@@ -111,7 +111,6 @@
     <string name="lbl_series_recordings">Sarja salvestused</string>
     <string name="lbl_guide_option_number">Kanali number</string>
     <string name="lbl_subtitle_position">Subtiitrite nihe alt</string>
-    <string name="lbl_audio_delay">Heli viivitus</string>
     <string name="lbl_subtitle_delay">Subtiitrite viivitus</string>
     <string name="lbl_repeat_episodes">Korda episoodid</string>
     <string name="lbl_live_broadcasts">Otsesaated</string>
@@ -175,12 +174,10 @@
     <string name="lbl_resume_from">Jätka alates %1$s</string>
     <string name="lbl_song_title">Loo nimi</string>
     <string name="lbl_new_episodes">Uued episoodid</string>
-    <string name="lbl_adjust">Kohandamine</string>
     <string name="lbl_colored_backgrounds">Värvikoodiga taustad</string>
     <string name="pref_theme_dark">Tume (Vaikimisi)</string>
     <string name="pref_theme_emerald">Klassikaline smaragd</string>
     <string name="lbl_image_size">Pildi suurus</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimentaalne)</string>
     <string name="pref_about_title">Teave</string>
     <string name="pref_video_player_external">Väline äpp</string>
     <string name="watch_now">Vaata nüüd</string>
@@ -276,7 +273,6 @@
     <string name="lbl_premiere">Esilinastus</string>
     <string name="lbl_tv_filter_status">järgmised %1$d tundi</string>
     <string name="lbl_news">Uudised</string>
-    <string name="pref_libvlc_audio_delay_title">Heli vaikeviivitus LibVLC jaoks</string>
     <string name="pref_device_model">Seadme mudel</string>
     <string name="grid_direction">Ruudustiku suund</string>
     <string name="grid_direction_vertical">Vertikaalne</string>
@@ -385,7 +381,6 @@
     <string name="just_one">Vaid see</string>
     <string name="seek_error">Ei õnnestunud otsida</string>
     <string name="play_with_exo_player">Esita ExoPlayer-iga</string>
-    <string name="play_with_vlc">Mängi LibVLC-ga</string>
     <string name="lbl_sign_in">Palun logi sisse</string>
     <string name="play_with_external_app">Esita välise rakendusega</string>
     <string name="server_connecting">Ühenduse loomine %1$s</string>

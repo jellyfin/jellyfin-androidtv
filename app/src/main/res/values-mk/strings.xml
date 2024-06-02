@@ -112,7 +112,6 @@
     <string name="msg_settings_updated">Поставките се обновени</string>
     <string name="lbl_save">Зачувај</string>
     <string name="lbl_tv_filter_status">за следните %1$d часови</string>
-    <string name="lbl_adjust">Прилагоди</string>
     <string name="lbl_hd_programs">HD програми</string>
     <string name="pref_theme_dark">Темно (Зададено)</string>
     <string name="pref_next_up_behavior_title">Прикажи инфо за следно видео</string>
@@ -202,7 +201,6 @@
     <string name="sum_enable_cinema_mode">Пушти достапни воведи и прегледи пред почеток на филм</string>
     <string name="lbl_repeat">Повтори</string>
     <string name="lbl_album_name">Име на албум</string>
-    <string name="pref_video_player_vlc">LibVLC (експериментално)</string>
     <string name="pref_next_up_timeout_summary">Колку да се чека пред пуштање на следната ставка</string>
     <string name="player_error">Дојде до грешка со плеерот. Обидување повторно…</string>
     <string name="alphabetical">По азбучен ред</string>
@@ -243,7 +241,6 @@
     <string name="lbl_additional_parts">Додатни делови</string>
     <string name="msg_item_added">" ставка додадена"</string>
     <string name="lbl_audio_track">Избери аудио запис</string>
-    <string name="play_with_vlc">Пушти со LibVLC</string>
     <string name="login_connect_to">Поврзување со %1$s</string>
     <string name="pref_browsing">Пребарување</string>
     <string name="image_size_medium">Средно</string>
@@ -322,7 +319,6 @@
     <string name="lbl_guide_option_number">Број на канал</string>
     <string name="lbl_song_title">Име на песна</string>
     <string name="lbl_new_only">Само ново</string>
-    <string name="lbl_audio_delay">Доцнење на звук</string>
     <string name="lbl_subtitle_delay">Доцнење на превод</string>
     <string name="lbl_new_episodes">Нови епизоди</string>
     <string name="lbl_live_broadcasts">Емитувања во живо</string>
@@ -355,7 +351,6 @@
     <string name="pref_video_player_choose">Секогаш прашај</string>
     <string name="pref_video_player_external">Надворешна апликација</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_libvlc_audio_delay_title">Зададено доцнење на звук за LibVLC</string>
     <string name="grid_direction_horizontal">Хоризонтално</string>
     <string name="pref_subtitle_track_button">Копче за превод</string>
     <string name="lbl_load_guide_data">Вчитај информации од водич</string>

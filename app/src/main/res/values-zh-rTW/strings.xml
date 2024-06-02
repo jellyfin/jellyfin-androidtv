@@ -220,7 +220,6 @@
     <string name="lbl_resume_preroll">恢復前置簡介</string>
     <string name="lbl_news">新聞</string>
     <string name="lbl_new_only">只有新的</string>
-    <string name="lbl_audio_delay">音訊延遲</string>
     <string name="lbl_premieres">第一次播放</string>
     <string name="lbl_repeat_episodes">重複集數</string>
     <string name="lbl_live_broadcasts">直播</string>
@@ -229,9 +228,7 @@
     <string name="lbl_start_favorites">將我的最愛放在開頭</string>
     <string name="lbl_image_type">圖片格式</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系統播放器）</string>
-    <string name="pref_video_player_vlc">LibVLC (VLC解碼器)</string>
     <string name="pref_next_up_timeout_title">自動播放倒數計時時長</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLC的預設音訊延遲</string>
     <string name="pref_theme_emerald">經典翡翠色</string>
     <string name="lbl_show_premieres">顯示該劇集首播</string>
     <string name="pref_device_model">設備型號</string>
@@ -295,7 +292,6 @@
     <string name="play_with">使用指定的播放器</string>
     <string name="play_with_external_app">使用外部播放器</string>
     <string name="play_with_exo_player">用 ExoPlayer 播放</string>
-    <string name="play_with_vlc">用 LibVLC 播放</string>
     <string name="just_one">就是這個</string>
     <string name="turn_off">關閉此選項</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
@@ -454,7 +450,6 @@
     <string name="input_username">使用者名稱</string>
     <string name="action_login">登入</string>
     <string name="state_disabled">已禁用</string>
-    <string name="lbl_adjust">調節</string>
     <plurals name="seconds">
         <item quantity="other">%1$s 秒</item>
     </plurals>

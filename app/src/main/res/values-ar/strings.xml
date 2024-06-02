@@ -163,7 +163,6 @@
     <string name="grid_direction_horizontal">أفقي</string>
     <string name="pref_device_model">اصدار الجهاز</string>
     <string name="pref_app_theme">مظهر التطبيق</string>
-    <string name="pref_libvlc_audio_delay_title">تأخير الصوت الافتراضي لـ LibVLC</string>
     <string name="pref_next_up_behavior_title">إظهار معلومات الفيديو التالي</string>
     <string name="watch_now">شاهد الآن</string>
     <string name="pref_next_up_timeout_title">كم من الوقت لتشغيل التالي</string>
@@ -183,7 +182,6 @@
     <string name="lbl_repeat_episodes">تكرار الحلقات</string>
     <string name="lbl_premieres">العرض الأول</string>
     <string name="lbl_new_episodes">الحلقات الجديدة</string>
-    <string name="lbl_audio_delay">تأخير الصوت</string>
     <string name="lbl_new_only">الجديد فقط</string>
     <string name="lbl_news">أخبار</string>
     <string name="lbl_tv_filter_status">ل %1$d الساعات القادمة</string>
@@ -328,7 +326,6 @@
     <string name="play_with">تشغيل بواسطة</string>
     <string name="play_with_external_app">تشغيل بواسطة برنامج خارجي</string>
     <string name="play_with_exo_player">تشغيل بواسطة ExoPlayer</string>
-    <string name="play_with_vlc">تشغيل بواسطة LibVLC</string>
     <string name="just_one">لهاته المرة فقط</string>
     <string name="turn_off">تعطيل هاته الخاصية</string>
     <string name="lbl_colored_backgrounds">خلفيات ملونة</string>
@@ -347,7 +344,6 @@
     <string name="bitrate_mbit">%1$,.0f ميݠابت في الثانية</string>
     <string name="grid_direction_vertical">عمودي</string>
     <string name="grid_direction">اتجاه الشبكة</string>
-    <string name="pref_video_player_vlc">مشغل LibVLC (تجريبي)</string>
     <string name="pref_video_player_exoplayer">مشغل ExoPlayer</string>
     <string name="lbl_premiere">العرض الأول</string>
     <string name="lbl_live">مباشر</string>
@@ -443,7 +439,6 @@
     <string name="lbl_subtitle_fg">لون الترجمة</string>
     <string name="lbl_subtitle_stroke">حجم الترجمة</string>
     <string name="lbl_subtitle_position">موضع الترجمة من الأسفل</string>
-    <string name="lbl_adjust">التعديل</string>
     <string name="lbl_subtitle_delay">تأخير الترجمة</string>
     <string name="image_type_poster">‎الملصق</string>
     <string name="image_size_smallest">أصغر</string>

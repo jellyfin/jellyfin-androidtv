@@ -174,7 +174,6 @@
     <string name="pref_video_player_external">Εξωτερική εφαρμογή</string>
     <string name="pref_theme_dark">Σκοτεινό (Προεπιλογή)</string>
     <string name="lbl_my_media">Τα πολυμέσα μου</string>
-    <string name="lbl_audio_delay">Καθυστέρηση ήχου</string>
     <string name="lbl_unwatched">Δεν προβλήθηκε</string>
     <string name="lbl_song_title">Τίτλος τραγουδιού</string>
     <string name="lbl_album_name">Όνομα φακέλου</string>
@@ -215,7 +214,6 @@
     <string name="lbl_pause">Παύση</string>
     <string name="just_one">Μόνο αυτό</string>
     <string name="turn_off">Απενεργοποίησε αυτή την επιλογή</string>
-    <string name="play_with_vlc">Αναπαραγωγή με LibVLC</string>
     <string name="play_with_external_app">Αναπαραγωγή με εξωτερική εφαρμογή</string>
     <string name="play_with_exo_player">Αναπαραγωγή με ExoPlayer</string>
     <string name="login_server_unavailable">Δεν είναι δυνατή η σύνδεση με τον διακομιστή</string>
@@ -254,9 +252,7 @@
     <string name="lbl_unknown_key">\'Αγνωστο (%1s)</string>
     <string name="grid_direction_vertical">Κάθετο</string>
     <string name="pref_device_model">Μοντέλο Συσκευής</string>
-    <string name="pref_libvlc_audio_delay_title">Προεπιλεγμένη Καθυστέρηση \'Ηχου για το LibVLC</string>
     <string name="pref_next_up_behavior_title">Εμφάνιση πληροφοριών επόμενου βίντεο</string>
-    <string name="pref_video_player_vlc">LibVLC (πειραματικό)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_repeat_episodes">Επανάληψη επεισοδίων</string>
     <string name="lbl_show_backdrop">Εμφάνιση Φόντου</string>
@@ -447,7 +443,6 @@
     <string name="home_section_resume_book">Συνέχεια διαβάσματος</string>
     <string name="image_size_smallest">Μικρότερο</string>
     <string name="lbl_subtitle_delay">Καθυστέρηση υποτίτλων</string>
-    <string name="lbl_adjust">Προσαρμογή</string>
     <string name="state_disabled">Ανενεργό</string>
     <string name="lbl_additional_parts">Πρόσθετα</string>
     <string name="color_white">Λευκό</string>

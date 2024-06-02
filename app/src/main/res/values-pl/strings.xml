@@ -198,7 +198,6 @@
     <string name="grid_direction">Kierunek siatki</string>
     <string name="pref_device_model">Model urządzenia</string>
     <string name="pref_app_theme">Motyw aplikacji</string>
-    <string name="pref_libvlc_audio_delay_title">Domyślne opóźnienie dźwięku dla LibVLC</string>
     <string name="watch_now">Oglądaj teraz</string>
     <string name="pref_next_up_timeout_summary">Jak długo należy czekać przed odtworzeniem następnej pozycji</string>
     <string name="pref_media_player">Preferowany odtwarzacz multimedialny</string>
@@ -216,7 +215,6 @@
     <string name="lbl_repeat_episodes">Powtórzone odcinki</string>
     <string name="lbl_premieres">Premiery</string>
     <string name="lbl_new_episodes">Nowe odcinki</string>
-    <string name="lbl_audio_delay">Opóźnienie dźwięku</string>
     <string name="lbl_new_only">Tylko nowe</string>
     <string name="lbl_news">Wiadomości</string>
     <string name="lbl_song_title">Tytuł piosenki</string>
@@ -239,7 +237,6 @@
     <string name="bitrate_kbit">Szybkość transmisji %1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">Szybkość transmisji %1$,.0f Mbit/s</string>
     <string name="pref_next_up_timeout_title">Czas oczekiwania na następny odcinek</string>
-    <string name="pref_video_player_vlc">Odtwarzacz VLC (doświadczalny)</string>
     <string name="pref_video_player_exoplayer">Odtwarzacz ExoPlayer</string>
     <string name="lbl_resume_preroll">Wznów przed filmem</string>
     <string name="lbl_series_recordings">Nagrywanie serii</string>
@@ -271,7 +268,6 @@
     <string name="play_with">Odtwarzaj przy użyciu</string>
     <string name="play_with_external_app">Odtwarzaj w zewnętrznej aplikacji</string>
     <string name="play_with_exo_player">Odtwarzaj w ExoPlayer</string>
-    <string name="play_with_vlc">Odtwarzaj przy użyciu libVLC</string>
     <string name="pref_video_player_choose">Zawsze pytaj</string>
     <string name="lbl_subtitle_track">Wybierz napisy</string>
     <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
@@ -468,7 +464,6 @@
     <string name="pref_telemetry_category">Raportowanie błędów</string>
     <string name="pref_crash_report_logs_enabled">Logi będą dołączane do raportów o błędach</string>
     <string name="desc_audio_night_mode">Automatycznie wyrównuje poziom głośności</string>
-    <string name="lbl_adjust">Dopasuj</string>
     <string name="state_disabled">Wyłączone</string>
     <string name="app_notification_beta">Aplikacja zaktualizowana do wersji %1$s
 \nDziękujemy za uczestnictwo w beta testach Jellyfin.</string>

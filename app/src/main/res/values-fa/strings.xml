@@ -355,7 +355,6 @@
     <string name="play_with">پخش با</string>
     <string name="play_with_external_app">پخش با برنامه خارجی</string>
     <string name="play_with_exo_player">پخش با ExoPlayer</string>
-    <string name="play_with_vlc">پخش با LibVLC</string>
     <string name="just_one">فقط اینبار</string>
     <string name="turn_off">این گزینه را غیرفعال کن</string>
     <string name="audio_error">پخش صدای %1$s امکان پذیر نیست</string>
@@ -376,7 +375,6 @@
     <string name="grid_direction_horizontal">افقی</string>
     <string name="pref_device_model">مدل دستگاه</string>
     <string name="pref_app_theme">قالب برنامه</string>
-    <string name="pref_libvlc_audio_delay_title">تأخیر صوت پیش فرض برای LibVLC</string>
     <string name="pref_next_up_behavior_title">نمایش اطلاعات ویدئوی بعدی</string>
     <string name="watch_now">الان ببین</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -386,7 +384,6 @@
     <string name="pref_about_title">درباره</string>
     <string name="pref_video_player_choose">همیشه بپرس</string>
     <string name="pref_video_player_external">برنامه خارجی</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">زمرد کلاسیک</string>
     <string name="pref_theme_dark">تیره (پیش فرض)</string>
@@ -400,7 +397,6 @@
     <string name="lbl_repeat_episodes">تکرار قسمت ها</string>
     <string name="lbl_premieres">اولین پخش ها</string>
     <string name="lbl_new_episodes">قسمت های جدید</string>
-    <string name="lbl_audio_delay">تأخیر صدا</string>
     <string name="lbl_new_only">فقط جدید</string>
     <string name="lbl_news">اخبار</string>
     <string name="lbl_tv_filter_status">برای %1$d ساعت آینده</string>
@@ -442,7 +438,6 @@
     <string name="item_deletion_failed">امکان حذف %1$s وجود ندارد</string>
     <string name="pref_refresh_rate_scale_on_tv">بزرگ‌نمایی در تلویزیون</string>
     <string name="pref_refresh_rate_scale_on_device">بزرگنمایی در دستگاه</string>
-    <string name="lbl_adjust">تنظیم کردن</string>
     <string name="lbl_shuffle_queue">تصادفی</string>
     <string name="lbl_subtitle_delay">تأخیر زیرنویس</string>
     <string name="color_green">سبز</string>

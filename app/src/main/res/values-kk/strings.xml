@@ -205,7 +205,6 @@
     <string name="lbl_repeat_episodes">Telebölımderdı qaitalau</string>
     <string name="lbl_premieres">Tūsaukeserler</string>
     <string name="lbl_new_episodes">Jaña telebölımder</string>
-    <string name="lbl_audio_delay">Dybys kıdıruı</string>
     <string name="lbl_new_only">Tek qana jaña</string>
     <string name="lbl_news">Jañalar</string>
     <string name="lbl_song_title">Äuen atauy</string>
@@ -221,13 +220,11 @@
     <string name="lbl_just_this_once">Tek osy ret</string>
     <string name="lbl_select_date">Kün tañdau</string>
     <string name="pref_authentication_cat">Tüpnūsqalyq rastama</string>
-    <string name="pref_libvlc_audio_delay_title">libVLC üşın dybystyñ ädepkı kıdırısı</string>
     <string name="watch_now">Qazır köru</string>
     <string name="pref_next_up_timeout_title">Kezektı taimerınıñ ūzaqtyğy</string>
     <string name="pref_media_player">Tasyğyşderekterdıñ tañdauly oinatqyşy</string>
     <string name="pref_about_title">Qoldanba turaly</string>
     <string name="pref_video_player_external">Syrtqy qoldanba</string>
-    <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
     <string name="pref_app_theme">Qoldanba taqyryby</string>
@@ -276,7 +273,6 @@
     <string name="play_with">Mynau arqyly oinatu</string>
     <string name="play_with_external_app">Syrtqy qoldanba arqyly oinatu</string>
     <string name="play_with_exo_player">ExoPlayer arqyly oinatu</string>
-    <string name="play_with_vlc">libVLC arqyly oinatu</string>
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
     <string name="audio_error">%1$s dybysyn oinatu mümkın emes</string>
@@ -436,7 +432,6 @@
     <string name="state_disabled">Öşırılgen</string>
     <string name="action_connect">Qosylu</string>
     <string name="lbl_subtitle_delay">Subtitrler kıdırısı</string>
-    <string name="lbl_adjust">Naqtylatu</string>
     <string name="live_tv_preferences">Efirlık TD opsialary</string>
     <string name="app_notification_uimode_invalid">Būl qoldanba teledidarlar üşın oñtailandyrylğan. Basqa qūrylğylarda mobildy qoldanbamyzdy paidalanuyn ūsynamyz.</string>
     <string name="server_unsupported_notification">Būl server Jellyfin %1$s nusqasyn paidalanady, oğan qoldau körsetılmeidı. Qoldanbany paidalanudy jalğastyru üşın Jellyfin %2$s nusqasyna jañartyñyz.</string>

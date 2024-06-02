@@ -11,7 +11,6 @@
     <string name="pref_next_up_timeout_summary">Berapa lama menunggu sebelum memainkan item berikutnya</string>
     <string name="pref_about_title">Tentang</string>
     <string name="pref_video_player_external">Aplikasi eksternal</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Gelap (Default)</string>
@@ -143,7 +142,6 @@
     <string name="lbl_record_any_time">Rekam kapan saja</string>
     <string name="pref_device_model">Model perangkat</string>
     <string name="pref_app_theme">Tema aplikasi</string>
-    <string name="pref_libvlc_audio_delay_title">Penundaan Audio Default untuk libVLC</string>
     <string name="pref_subtitle_track_button">Tombol trek subtitle</string>
     <string name="msg_unable_load_subs">Tidak dapat memuat takarir</string>
     <string name="msg_subtitles_loading">Memuat takarir…</string>
@@ -236,7 +234,6 @@
     <string name="grid_direction">Arah kisi</string>
     <string name="pref_media_player">Pemutar media pilihan</string>
     <string name="lbl_premieres">Premiere</string>
-    <string name="lbl_audio_delay">Penundaan audio</string>
     <string name="lbl_new_only">Baru Saja</string>
     <string name="lbl_news">Berita</string>
     <string name="lbl_more_like_this">Lainnya seperti ini</string>
@@ -287,11 +284,9 @@
     <string name="lbl_quality_profile">Profil kualitas</string>
     <string name="lbl_subtitle_fg">Warna teks takarir</string>
     <string name="lbl_subtitle_position">Jarak takarir dari bawah</string>
-    <string name="lbl_adjust">Atur</string>
     <string name="lbl_subtitle_delay">Pelambatan takarir</string>
     <string name="turn_off">Nonaktifkan opsi ini</string>
     <string name="just_one">Hanya ini saja</string>
-    <string name="play_with_vlc">Putar dengan LibVLC</string>
     <string name="play_with_exo_player">Putar dengan ExoPlayer</string>
     <string name="play_with_external_app">Putar dengan apl eksternal</string>
     <string name="lbl_playback_control_ends">Berakhir pada %1$s</string>

@@ -174,7 +174,6 @@
     <string name="pref_media_player">Leitor preferido</string>
     <string name="pref_about_title">Sobre</string>
     <string name="pref_video_player_external">App externa</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">Reprodutor Externo (ExoPlayer)</string>
     <string name="lbl_my_media">Meu Conteúdo</string>
     <string name="lbl_image_type">Tipo de imagem</string>
@@ -183,7 +182,6 @@
     <string name="lbl_live_broadcasts">Emissões em Direto</string>
     <string name="lbl_repeat_episodes">Repetir episódios</string>
     <string name="lbl_new_episodes">Novos Episódios</string>
-    <string name="lbl_audio_delay">Delay do Áudio</string>
     <string name="lbl_new_only">Somente Novidades</string>
     <string name="lbl_news">Novidades</string>
     <string name="lbl_song_title">Título do som</string>
@@ -231,7 +229,6 @@
     <string name="grid_direction">Direção da Grelha</string>
     <string name="pref_device_model">Modelo do dispositivo</string>
     <string name="pref_app_theme">Tema da aplicação</string>
-    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para LibVLC</string>
     <string name="pref_next_up_timeout_title">Duração do temporizador \"A seguir\"</string>
     <string name="pref_theme_emerald">Esmeralda Clássica</string>
     <string name="pref_theme_dark">Escuro (Padrão)</string>
@@ -282,7 +279,6 @@
     <string name="play_with">Reproduzir com</string>
     <string name="play_with_external_app">Reproduzir com uma app externa</string>
     <string name="play_with_exo_player">Reproduzir com ExoPlayer</string>
-    <string name="play_with_vlc">Reproduzir com LibVLC</string>
     <string name="no_player">Nenhum reprodutor encontrado</string>
     <string name="pref_video_player_choose">Perguntar sempre</string>
     <string name="lbl_tv_filter_status">pelas próximas %1$d horas</string>
@@ -433,7 +429,6 @@
     <string name="action_use_password">Utilizar uma palavra passe</string>
     <string name="input_password">Palavra passe</string>
     <string name="lbl_subtitle_fg">Cor de legendas</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_subtitle_stroke">Tamanho de legendas</string>
     <string name="lbl_subtitle_position">Espaço de legendas desde o fundo</string>
     <string name="image_size_xlarge">Extra grande</string>

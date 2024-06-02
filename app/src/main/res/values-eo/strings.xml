@@ -174,7 +174,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_Reset">Restarigu</string>
     <string name="pref_about_title">Pri</string>
-    <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_news">Novaj</string>
     <string name="lbl_zoom">Zoma</string>
     <string name="lbl_stretch">Streĉa</string>
@@ -214,7 +213,6 @@
     <string name="server_connecting">Konektante al %1$s</string>
     <string name="pref_default_rating">Defaŭlta taksada tipo</string>
     <string name="lbl_playback_control_ends">Finiĝas je %1$s</string>
-    <string name="play_with_vlc">Ludi kun libVLC</string>
     <string name="play_with_exo_player">Ludi kun ExoPlayer</string>
     <string name="just_one">Nur ĉi tiu</string>
     <string name="seek_error">Nekapable serĉi</string>
@@ -270,7 +268,6 @@
     <string name="pref_theme_emerald">Klasika Smeraldo</string>
     <string name="pref_theme_dark">Malhela (Defaŭlta)</string>
     <string name="lbl_image_size">Bilda Grandeco</string>
-    <string name="lbl_audio_delay">Aŭda Prokrasto</string>
     <string name="lbl_new_only">Nova Nur</string>
     <string name="lbl_song_title">Kanta Titolo</string>
     <string name="lbl_album_name">Albumnomo</string>
@@ -332,7 +329,6 @@
     <string name="audio_error">Ne eblas ludi aŭdio %1$s</string>
     <string name="too_many_errors">Tro da eraroj. Rezigni</string>
     <string name="player_error">Ludila eraro renkontita. Reprovos…</string>
-    <string name="pref_libvlc_audio_delay_title">Defaŭlta aŭdia prokrasto por libVLC</string>
     <string name="lbl_episode_not_record">Ĉi tiu serio NE rikordos</string>
     <string name="lbl_show_premieres">Montri sezonajn premierojn</string>
     <string name="always_authenticate">Ĉiam peti identigilojn</string>
@@ -436,7 +432,6 @@
     <string name="state_disabled">Malebligita</string>
     <string name="action_connect">Konektu</string>
     <string name="lbl_subtitle_delay">Subteksta Prokrasto</string>
-    <string name="lbl_adjust">Ĝustigi</string>
     <string name="live_tv_preferences">Eteraj TV opcioj</string>
     <string name="app_notification_uimode_invalid">Ĉi tiu apo estas optimumigita por televidiloj. Ni rekomendas uzi nian poŝtelefonan apon sur aliaj aparatoj.</string>
     <string name="server_unsupported_notification">Ĉi tiu servilo uzas version %1$s de Jellyfin kiu estas nesubtenata. Ĝisdatigu al Jellyfin %2$s por daŭrigi uzi la apon.</string>

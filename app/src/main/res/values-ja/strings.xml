@@ -163,7 +163,6 @@
     <string name="lbl_hd_programs">高精細度番組</string>
     <string name="lbl_live_broadcasts">生放送</string>
     <string name="lbl_new_episodes">新しいエピソード</string>
-    <string name="lbl_audio_delay">音声遅延</string>
     <string name="lbl_new_only">新しいのみ</string>
     <string name="lbl_news">ニュース</string>
     <string name="lbl_resume_from">%1$s から再開</string>
@@ -301,7 +300,6 @@
     <string name="lbl_sign_in">サインインして下さい</string>
     <string name="play_with_external_app">外部アプリで再生</string>
     <string name="play_with_exo_player">ExoPlayerで再生</string>
-    <string name="play_with_vlc">LibVLCで再生</string>
     <string name="turn_off">このオプションをオフにする</string>
     <string name="audio_error">オーディオを再生できません %1$s</string>
     <string name="msg_no_items">再生するアイテムがありません</string>
@@ -320,10 +318,8 @@
     <string name="pref_audio_track_button">オーディオトラックボタン</string>
     <string name="grid_direction_vertical">縦方向（試験的）</string>
     <string name="grid_direction_horizontal">水平方向</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLCのオーディオ遅延</string>
     <string name="watch_now">今すぐ見る</string>
     <string name="pref_next_up_timeout_summary">次のアイテムを再生するまでどのくらい待つか</string>
-    <string name="pref_video_player_vlc">LibVLC (試験的)</string>
     <string name="pref_theme_dark">ダークモード（デフォルト）</string>
     <string name="pref_app_theme">アプリのテーマ</string>
     <string name="pref_next_up_behavior_title">次のビデオの情報を表示する</string>
@@ -442,7 +438,6 @@
     <string name="pref_screensaver_ageratingrequired_disabled">すべてのアイテムを表示</string>
     <string name="pref_audio_night_mode">オーディオナイトモード（実験的）</string>
     <string name="lbl_tv_channel_status">%2$d チャンネル中 %1$d チャンネル</string>
-    <string name="lbl_adjust">調整</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="enable_smart_view">スマートスクリーンを有効にする</string>

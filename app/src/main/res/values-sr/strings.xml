@@ -79,7 +79,6 @@
     <string name="play_with">Репродукуј са</string>
     <string name="play_with_external_app">Репродукуј са екстерном апликацијом</string>
     <string name="play_with_exo_player">Репродукуј са ExoPlayer</string>
-    <string name="play_with_vlc">Репродукуј са libVLC</string>
     <string name="just_one">Само овај</string>
     <string name="turn_off">Искључите ову опцију</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
@@ -110,7 +109,6 @@
     <string name="grid_direction">Смер мреже</string>
     <string name="pref_device_model">Модел уређаја</string>
     <string name="pref_app_theme">Тема апликације</string>
-    <string name="pref_libvlc_audio_delay_title">Подразумевано кашњење звука за libVLC</string>
     <string name="watch_now">Гледај сада</string>
     <string name="pref_next_up_timeout_title">Трајање тајмера за следеће снимање</string>
     <string name="pref_next_up_timeout_summary">Колико треба чекати пре репродукције следеће ставке</string>
@@ -118,7 +116,6 @@
     <string name="pref_about_title">О</string>
     <string name="pref_video_player_choose">Увек питај</string>
     <string name="pref_video_player_external">Спољна апликација</string>
-    <string name="pref_video_player_vlc">либВЛЦ</string>
     <string name="pref_video_player_exoplayer">Exo плејер</string>
     <string name="pref_theme_emerald">Класично смарагдно</string>
     <string name="pref_theme_dark">Тамно (подразумевано)</string>
@@ -131,7 +128,6 @@
     <string name="lbl_live_broadcasts">Емитовање уживо</string>
     <string name="lbl_repeat_episodes">Понови епизоде</string>
     <string name="lbl_premieres">Премијере</string>
-    <string name="lbl_audio_delay">Аудио кашњење</string>
     <string name="lbl_tv_channel_status">%1$d од %2$d канала</string>
     <string name="lbl_tv_filter_status">за следећих %1$d сати</string>
     <string name="lbl_new_only">Само нове</string>

@@ -169,7 +169,6 @@
     <string name="play_with">Predvajaj z</string>
     <string name="play_with_external_app">Predvajaj z zunanjo aplikacijo</string>
     <string name="play_with_exo_player">Predvajaj z ExoPlayer</string>
-    <string name="play_with_vlc">Predvajaj z LibVLC</string>
     <string name="just_one">Samo tega</string>
     <string name="turn_off">Izklopi to možnost</string>
     <string name="audio_error">Ne morem predvajati avdia %1$s</string>
@@ -196,7 +195,6 @@
     <string name="pref_about_title">Vizitka</string>
     <string name="pref_video_player_choose">Vedno vprašaj</string>
     <string name="pref_video_player_external">Zunanja aplikacija</string>
-    <string name="pref_video_player_vlc">LibVLC (poskusno)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Klasični smaragd</string>
     <string name="pref_theme_dark">Temno (Privzeto)</string>
@@ -209,7 +207,6 @@
     <string name="lbl_repeat_episodes">Ponovi epizode</string>
     <string name="lbl_premieres">Premiere</string>
     <string name="lbl_new_episodes">Nove epizode</string>
-    <string name="lbl_audio_delay">Zamik zvoka</string>
     <string name="lbl_new_only">Samo novo</string>
     <string name="lbl_news">Novice</string>
     <string name="lbl_tv_filter_status">naslednjih %1$d ur</string>
@@ -272,7 +269,6 @@
     <string name="episode_missing_message">Ta epizoda manjka v vaši knjižnici. Jo želite preskočiti in nadaljevati z naslednjo\?</string>
     <string name="no_player_message">Zdi se da ni nameščena ni nobena aplikacija za predvajanje videa. Ta možnost zahteva nameščeno aplikacijo tretje osebe za predvajanje videa.</string>
     <string name="mark_watched_message">Vsebina ni bila gledana do konca. Označim kot ogledano\?</string>
-    <string name="pref_libvlc_audio_delay_title">Privzeta zakasnitev zvoka za LibVLC</string>
     <string name="pref_next_up_behavior_title">Prikaži informacije o naslednjem videu</string>
     <string name="pref_next_up_timeout_title">Trajanje obvestila Sledi</string>
     <string name="lbl_colored_backgrounds">Barvno kodirana ozadja</string>
@@ -408,7 +404,6 @@
     <string name="player_error">Napaka predvajalnika. Poizkušam ponovno…</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Zamik podnapisov</string>
-    <string name="lbl_adjust">Prilagodi</string>
     <string name="pref_show_backdrop_description">Spremeni sliko ozadja na izbrane elemente</string>
     <string name="lbl_playback_speed">Hitrost predvajanja</string>
     <string name="lbl_fit">Normalno</string>

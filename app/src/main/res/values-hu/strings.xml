@@ -123,14 +123,12 @@
     <string name="desc_premieres">Minden egyes nézett sorozathoz a sorozatbemutatók megjelenítése</string>
     <string name="lbl_show_backdrop">Hátterek megjelenítése</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
-    <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés LibVLC-hez</string>
     <string name="watch_now">Megnézés</string>
     <string name="pref_next_up_timeout_title">A \'Következő\' időzítő időtartama</string>
     <string name="pref_next_up_timeout_summary">Ennyi időt várjon a következő elem lejátszása előtt</string>
     <string name="pref_media_player">Kedvelt médialejátszó</string>
     <string name="pref_about_title">Rólunk</string>
     <string name="pref_video_player_external">Külső alkalmazás</string>
-    <string name="pref_video_player_vlc">LibVLC (kísérleti)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
     <string name="pref_theme_dark">Sötét (Alapértelmezett)</string>
@@ -144,7 +142,6 @@
     <string name="lbl_repeat_episodes">Epizódok ismétlése</string>
     <string name="lbl_premieres">Bemutatók</string>
     <string name="lbl_new_episodes">Új epizódok</string>
-    <string name="lbl_audio_delay">Hangkésleltetés</string>
     <string name="lbl_new_only">Csak az újak</string>
     <string name="lbl_news">Újdonságok</string>
     <string name="lbl_song_title">Zeneszám címe</string>
@@ -273,7 +270,6 @@
     <string name="play_with">Lejátszani vele</string>
     <string name="play_with_external_app">Lejátszás külső alkalmazással</string>
     <string name="play_with_exo_player">Lejátszás ExoPlayer-el</string>
-    <string name="play_with_vlc">Lejátszás LibVLC-vel</string>
     <string name="just_one">Csak ezt az egyet</string>
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
@@ -435,7 +431,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Skálázás a TV-n</string>
     <string name="state_disabled">Letiltva</string>
     <string name="action_connect">Csatlakozás</string>
-    <string name="lbl_adjust">Igazítás</string>
     <string name="lbl_subtitle_delay">Felirat késleltetése</string>
     <string name="live_tv_preferences">Élő TV lehetőségek</string>
     <string name="lbl_additional_parts">További részletek</string>

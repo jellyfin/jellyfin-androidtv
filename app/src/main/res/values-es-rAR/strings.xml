@@ -81,7 +81,6 @@
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
     <string name="play_with_exo_player">Reporoducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se pudo reproducir audio %1$s</string>
@@ -112,7 +111,6 @@
     <string name="grid_direction">Dirección de la cuadrícula</string>
     <string name="pref_device_model">Modelo del dispositivo</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
-    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para LibVLC</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
@@ -120,7 +118,6 @@
     <string name="pref_about_title">Acerca de</string>
     <string name="pref_video_player_choose">Preguntar siempre</string>
     <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Esmeralda clásico</string>
     <string name="pref_theme_dark">Obscuro (Por defecto)</string>
@@ -134,7 +131,6 @@
     <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="lbl_premieres">Estrenos</string>
     <string name="lbl_new_episodes">Nuevos episodios</string>
-    <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_new_only">Solo nuevo</string>
     <string name="lbl_news">Noticias</string>
     <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
@@ -432,7 +428,6 @@
     <string name="action_use_password">Usar una contraseña</string>
     <string name="lbl_subtitle_fg">Color de los subtitulos</string>
     <string name="lbl_subtitle_position">Desplazamiento inferior de los subtitulos</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="color_black">Negro</string>
     <string name="image_type_poster">Poster</string>
     <string name="image_size_smallest">Más pequeño</string>

@@ -218,7 +218,6 @@
     <string name="pref_next_up_timeout_summary">Tempo da aspettare prima di riprodurre il contenuto successivo</string>
     <string name="pref_media_player">Media Player preferito</string>
     <string name="pref_video_player_external">App esterna</string>
-    <string name="pref_video_player_vlc">LibVLC (sperimentale)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Smeraldo</string>
     <string name="pref_theme_dark">Scuro (default)</string>
@@ -228,11 +227,9 @@
     <string name="lbl_hd_programs">Programmi in HD</string>
     <string name="lbl_repeat_episodes">Ripeti episodi</string>
     <string name="lbl_new_episodes">Nuovi episodi</string>
-    <string name="lbl_audio_delay">Ritardo audio</string>
     <string name="lbl_episode_not_record">La proiezione NON sarà registrata</string>
     <string name="lbl_colored_backgrounds">Sfondi codificati per colore</string>
     <string name="pref_about_title">Informazioni</string>
-    <string name="pref_libvlc_audio_delay_title">Ritardo audio per LibVLC</string>
     <string name="pref_next_up_timeout_title">Ritardo video successivo</string>
     <string name="grid_direction_horizontal">Orizzontale</string>
     <string name="grid_direction_vertical">Verticale</string>
@@ -250,7 +247,6 @@
     <string name="play_with">Riproduci con</string>
     <string name="play_with_external_app">Riproduci con app esterna</string>
     <string name="play_with_exo_player">Riproduci con ExoPlayer</string>
-    <string name="play_with_vlc">Riproduci con LibVLC</string>
     <string name="just_one">Solo questo</string>
     <string name="turn_off">Disattiva questa opzione</string>
     <string name="subtitle_error">Impossibile selezionare sottotitolo</string>
@@ -435,7 +431,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Ridimensionamento sulla TV</string>
     <string name="pref_refresh_rate_scale_on_device">Ridimensionamento sul dispositivo</string>
     <string name="action_connect">Connetti</string>
-    <string name="lbl_adjust">Regola</string>
     <string name="lbl_subtitle_delay">Ritardo sottotitoli</string>
     <string name="live_tv_preferences">Opzioni TV Diretta</string>
     <string name="lbl_additional_parts">Parti addizionali</string>

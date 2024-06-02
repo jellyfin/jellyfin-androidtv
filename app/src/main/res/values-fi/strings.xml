@@ -183,7 +183,6 @@
     <string name="home_section_library">Oma media</string>
     <string name="lbl_colored_backgrounds">Värikoodatut taustat</string>
     <string name="lbl_live_broadcasts">Suorat lähetykset</string>
-    <string name="lbl_audio_delay">Äänen viive</string>
     <string name="lbl_tv_channel_status">%1$d/%2$d kanavaa</string>
     <string name="lbl_resume_from">Jatka kohdasta %1$s</string>
     <string name="lbl_guest_stars">Vierailevat näyttelijät</string>
@@ -327,7 +326,6 @@
     <string name="play_with">Toista soittimella</string>
     <string name="play_with_external_app">Toista ulkoisella sovelluksella</string>
     <string name="play_with_exo_player">Toista ExoPlayer-soittimella</string>
-    <string name="play_with_vlc">Toista LibVLC-soittimella</string>
     <string name="just_one">Vain tämä kappale</string>
     <string name="turn_off">Poista valinta käytöstä</string>
     <string name="msg_no_items">Ei toistettavia kohteita</string>
@@ -354,7 +352,6 @@
     <string name="grid_direction_horizontal">Vaaka</string>
     <string name="grid_direction">Ruudukon suunta</string>
     <string name="pref_device_model">Laitteen malli</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLC-äänen oletusviive</string>
     <string name="pref_next_up_behavior_title">Näytä tietoja seuraavasta videosta</string>
     <string name="watch_now">Katso nyt</string>
     <string name="pref_next_up_timeout_title">Viive seuraavaan toistoon</string>
@@ -376,7 +373,6 @@
     <string name="audio_error">Ääntä %1$s ei voitu toistaa</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_video_player_vlc">LibVLC (kokeellinen)</string>
     <string name="lbl_resume_preroll">Toistoa jatkettaessa takaisin palattava aika</string>
     <string name="lbl_showing">Näytetään</string>
     <string name="lbl_runs">Kesto</string>
@@ -435,7 +431,6 @@
     <string name="lbl_starting_with">alkaen niillä, joiden nimi alkaa</string>
     <string name="state_disabled">Poistettu käytöstä</string>
     <string name="lbl_subtitle_delay">Tekstitysviive</string>
-    <string name="lbl_adjust">Säädä</string>
     <string name="live_tv_preferences">Television asetukset</string>
     <string name="lbl_from">kansiosta</string>
     <string name="app_notification_uimode_invalid">Sovellus on optimoitu televisioille. Muille laitteille suosittelemme mobiilisovellustamme.</string>

@@ -145,7 +145,6 @@
     <string name="lbl_instant_mix">Шуурхай холимог</string>
     <string name="login_authenticating">Гэрчлэлт…</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_status">%1$s / %2$s</string>

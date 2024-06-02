@@ -216,17 +216,14 @@
     <string name="lbl_repeat_episodes">Opakovat epizody</string>
     <string name="lbl_premieres">Premiéry</string>
     <string name="lbl_new_episodes">Nové epizody</string>
-    <string name="lbl_audio_delay">Zpoždění zvuku</string>
     <string name="lbl_new_only">Pouze nové</string>
     <string name="lbl_news">Novinky</string>
     <string name="lbl_colored_backgrounds">Barevné pozadí</string>
     <string name="lbl_live_broadcasts">Živá vysílání</string>
     <string name="pref_video_player_external">Externí aplikace</string>
-    <string name="pref_video_player_vlc">LibVLC (experimentální)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Moje média</string>
     <string name="pref_about_title">Obsah</string>
-    <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro LibVLC</string>
     <string name="watch_now">Sledovat nyní</string>
     <string name="pref_next_up_timeout_title">Doba před přehráním další položky</string>
     <string name="pref_next_up_timeout_summary">Jak dlouho počkat před přehráním další položky</string>
@@ -268,7 +265,6 @@
     <string name="play_with">Přehrát v</string>
     <string name="play_with_external_app">Přehrát v externí aplikaci</string>
     <string name="play_with_exo_player">Přehrát v ExoPlayer</string>
-    <string name="play_with_vlc">Přehrát pomocí LibVLC</string>
     <string name="pref_video_player_choose">Pokaždé zeptat</string>
     <string name="lbl_subtitle_track">Vybrat titulky</string>
     <string name="lbl_audio_track">Vybrat zvukovou stopu</string>
@@ -440,7 +436,6 @@
     <string name="image_size_xlarge">Extra velké</string>
     <string name="image_size_smallest">Nejmenší</string>
     <string name="lbl_subtitle_delay">Zpoždění titulků</string>
-    <string name="lbl_adjust">Upravit</string>
     <string name="server_setup_incomplete">Nastavení tohoto serveru ještě nebylo dokončeno. Před přihlášením spusťte Jellyfin ve webovém prohlížeči a dokončete nastavení.</string>
     <string name="crash_report_toast">Aj! Něco se nepovedlo. Protokol o pádu byl zaslán Vašemu Jellyfin serveru.</string>
     <string name="server_unsupported_notification">Tento server používá Jellyfin verzi %1$s, která již není podporována. Abyste mohli aplikaci dále používat, aktualizujte na verzi Jellyfin %2$s nebo novější.</string>

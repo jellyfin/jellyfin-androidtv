@@ -140,7 +140,6 @@
     <string name="lbl_similar_items_library">Схожі елементи у медіатеці</string>
     <string name="lbl_program_ended">Програма закінчена</string>
     <string name="lbl_cancel_series">Скасувати серіал</string>
-    <string name="pref_libvlc_audio_delay_title">Стандартна затримка звуку для LibVLC</string>
     <string name="pref_next_up_behavior_title">Відображати інформацію про наступне відео</string>
     <string name="watch_now">Дивитися</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -150,7 +149,6 @@
     <string name="pref_about_title">Про додаток</string>
     <string name="pref_video_player_choose">Завжди запитувати</string>
     <string name="pref_video_player_external">Зовнішній додаток</string>
-    <string name="pref_video_player_vlc">LibVLC (експериментально)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Класична (смарагдова)</string>
     <string name="pref_theme_dark">Темна (за замовчуванням)</string>
@@ -164,7 +162,6 @@
     <string name="lbl_repeat_episodes">Повторні епізоди</string>
     <string name="lbl_premieres">Прем’єри</string>
     <string name="lbl_new_episodes">Нові епізоди</string>
-    <string name="lbl_audio_delay">Затримка звуку</string>
     <string name="lbl_new_only">Тільки нове</string>
     <string name="lbl_news">Новини</string>
     <string name="lbl_tv_filter_status">за наступні %1$d години</string>
@@ -430,12 +427,10 @@
     <string name="play_with">Грати з</string>
     <string name="play_with_external_app">Грати з зовнішнім застосунком</string>
     <string name="play_with_exo_player">Грати з ExoPlayer</string>
-    <string name="play_with_vlc">Грати з LibVLC</string>
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкніть цю опцію</string>
     <string name="audio_error">Неможливо відтворити аудіо %1$s</string>
     <string name="lbl_subtitle_delay">Затримка субтитрів</string>
-    <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>
     <string name="state_disabled">Вимкнено</string>
     <string name="server_unsupported_notification">Цей сервер використовує Jellyfin версії %1$s, який не підтримується додатком. Будь ласка, оновіть Jellyfin до версії %2$s або новішої, щоб продовжити користуватися додатком.</string>

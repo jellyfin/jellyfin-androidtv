@@ -209,7 +209,6 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_series_recordings">Séries gravadas</string>
     <string name="loading">Carregando…</string>
-    <string name="lbl_audio_delay">Atraso do áudio</string>
     <string name="lbl_new_only">Somente novos</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
     <string name="lbl_image_type">Tipo de imagem</string>
@@ -221,14 +220,12 @@
     <string name="lbl_new_episodes">Novos episódios</string>
     <string name="lbl_news">Notícias</string>
     <string name="lbl_colored_backgrounds">Cores de fundo por código</string>
-    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para o LibVLC</string>
     <string name="watch_now">Assista agora</string>
     <string name="pref_next_up_timeout_title">Duração do \"A seguir\"</string>
     <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de iniciar o próximo item</string>
     <string name="pref_media_player">Player de mídia preferido</string>
     <string name="pref_about_title">Sobre</string>
     <string name="pref_video_player_external">Aplicação externa</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Minha mídia</string>
     <string name="pref_app_theme">Tema do aplicativo</string>
@@ -254,7 +251,6 @@
     <string name="play_with">Reproduzir com</string>
     <string name="play_with_external_app">Reproduzir com reprodutor externo</string>
     <string name="play_with_exo_player">Reproduzir com ExoPlayer</string>
-    <string name="play_with_vlc">Reproduzir com LibVLC</string>
     <string name="just_one">Apenas essa</string>
     <string name="turn_off">Desabilite essa opção</string>
     <string name="audio_error">Não foi possível reproduzir áudio %1$s</string>
@@ -435,7 +431,6 @@
     <string name="action_use_password">Usar senha</string>
     <string name="action_login">Fazer login</string>
     <string name="lbl_subtitle_delay">Atraso de legenda</string>
-    <string name="lbl_adjust">Ajuste</string>
     <string name="state_disabled">Desabilitado</string>
     <string name="image_size_xlarge">Extragrande</string>
     <string name="app_notification_uimode_invalid">Este aplicativo é otimizado para televisões. Recomendamos usar nosso aplicativo para dispositivos móveis em outros aparelhos.</string>

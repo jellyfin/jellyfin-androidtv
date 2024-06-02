@@ -93,7 +93,6 @@
     <string name="play_with">കളിക്കുക</string>
     <string name="play_with_external_app">ബാഹ്യ അപ്ലിക്കേഷൻ ഉപയോഗിച്ച് പ്ലേ ചെയ്യുക</string>
     <string name="play_with_exo_player">ExoPlayer ഉപയോഗിച്ച് കളിക്കുക</string>
-    <string name="play_with_vlc">LibVLC ഉപയോഗിച്ച് കളിക്കുക</string>
     <string name="just_one">ഇത് മാത്രം</string>
     <string name="turn_off">ഈ ഓപ്‌ഷൻ ഓഫാക്കുക</string>
     <string name="msg_no_items">കളിക്കാൻ ഇനങ്ങളൊന്നുമില്ല</string>
@@ -115,7 +114,6 @@
     <string name="grid_direction_horizontal">തിരശ്ചീന</string>
     <string name="pref_device_model">ഉപകരണ മോഡൽ</string>
     <string name="pref_app_theme">അപ്ലിക്കേഷൻ തീം</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLC- നായുള്ള സ്ഥിരസ്ഥിതി ഓഡിയോ കാലതാമസം</string>
     <string name="pref_next_up_behavior_title">അടുത്ത വീഡിയോ വിവരം കാണിക്കുക</string>
     <string name="watch_now">ഇപ്പോൾ കാണുക</string>
     <string name="pref_next_up_timeout_title">അടുത്ത അപ് ടൈമർ ദൈർഘ്യം</string>
@@ -136,7 +134,6 @@
     <string name="lbl_repeat_episodes">എപ്പിസോഡുകൾ ആവർത്തിക്കുക</string>
     <string name="lbl_premieres">പ്രീമിയറുകൾ</string>
     <string name="lbl_new_episodes">പുതിയ എപ്പിസോഡുകൾ</string>
-    <string name="lbl_audio_delay">ഓഡിയോ കാലതാമസം</string>
     <string name="lbl_new_only">പുതിയത് മാത്രം</string>
     <string name="lbl_news">വാർത്ത</string>
     <string name="lbl_song_title">പാട്ടിന്റെ പേര്</string>

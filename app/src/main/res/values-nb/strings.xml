@@ -218,11 +218,9 @@
     <string name="lbl_repeat_episodes">Gjenta episoder</string>
     <string name="lbl_premieres">Premierer</string>
     <string name="lbl_new_episodes">Nye episoder</string>
-    <string name="lbl_audio_delay">Lydforsinkelse</string>
     <string name="lbl_new_only">Kun nye</string>
     <string name="lbl_news">Nyheter</string>
     <string name="pref_video_player_external">Ekstern app</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Min media</string>
     <string name="pref_media_player">Foretrukket media-spiller</string>
@@ -230,7 +228,6 @@
     <string name="pref_next_up_timeout_title">Varighet for Neste-timer</string>
     <string name="watch_now">Se nå</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid det skal gå før neste element spilles av</string>
-    <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for LibVLC</string>
     <string name="pref_theme_emerald">Klassisk Smaragd</string>
     <string name="pref_app_theme">App-tema</string>
     <string name="pref_theme_dark">Mørk (Standard)</string>
@@ -284,7 +281,6 @@
     <string name="play_with">Spill med</string>
     <string name="play_with_external_app">Spill med ekstern app</string>
     <string name="play_with_exo_player">Spill med ExoPlayer</string>
-    <string name="play_with_vlc">Spill med LibVLC</string>
     <string name="pref_video_player_choose">Spør alltid</string>
     <string name="lbl_subtitle_track">Velg undertekst</string>
     <string name="lbl_audio_track">Velg lydspor</string>
@@ -369,7 +365,6 @@
     <string name="image_size_smallest">Minst</string>
     <string name="image_size_xlarge">Ekstra stor</string>
     <string name="alphabetical">Alfabetisk</string>
-    <string name="lbl_adjust">Tilpass</string>
     <string name="state_disabled">Deaktivert</string>
     <string name="lbl_latest_in">Nylig lagt til i %1$s</string>
     <string name="pref_screensaver">Skjermsparer</string>

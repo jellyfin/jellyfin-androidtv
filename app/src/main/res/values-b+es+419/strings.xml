@@ -118,12 +118,10 @@
     <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="lbl_premieres">Estrenos</string>
     <string name="lbl_new_episodes">Nuevos episodios</string>
-    <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_news">Noticias</string>
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
-    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para LibVLC</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
     <string name="pref_about_title">Acerca de</string>
@@ -233,7 +231,6 @@
     <string name="lbl_by_letter">Por letra</string>
     <string name="lbl_on_now">Transmitiendo ahora</string>
     <string name="lbl_next_up">A continuación</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="grid_direction_vertical">Vertical</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la cuadrícula</string>
@@ -285,7 +282,6 @@
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
     <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="pref_video_player_choose">Siempre preguntar</string>
     <string name="lbl_subtitle_track">Seleccionar pista de subtítulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
@@ -428,7 +424,6 @@
     <string name="image_size_smallest">El mas pequeño</string>
     <string name="image_type_poster">Póster</string>
     <string name="lbl_subtitle_delay">Retraso del subtitulo</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="episode_name_special">Especial</string>
     <string name="server_setup_incomplete">La configuración del servidor no ha sido completada. Abre Jellyfin en un navegador web para finalizar la configuración antes de iniciar sesión.</string>

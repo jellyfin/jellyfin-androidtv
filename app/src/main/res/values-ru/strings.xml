@@ -217,17 +217,14 @@
     <string name="lbl_repeat_episodes">Повтор эпизодов</string>
     <string name="lbl_premieres">Премьеры</string>
     <string name="lbl_new_episodes">Новые эпизоды</string>
-    <string name="lbl_audio_delay">Задержка аудио</string>
     <string name="lbl_new_only">Только новые</string>
     <string name="lbl_news">Новости</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
-    <string name="pref_video_player_vlc">LibVLC (экспериментальный)</string>
     <string name="pref_video_player_external">Внешнее приложение</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Мои медиафайлы</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
-    <string name="pref_libvlc_audio_delay_title">Задержка аудио для libVLC по умолчанию</string>
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_media_player">Предпочитаемый проигрыватель</string>
     <string name="pref_about_title">О приложении</string>
@@ -248,7 +245,6 @@
     <string name="play_with">Воспроизвести в</string>
     <string name="play_with_external_app">Воспроизвести во внешнем приложении</string>
     <string name="play_with_exo_player">Воспроизвести в ExoPlayer</string>
-    <string name="play_with_vlc">Воспроизвести с libVLC</string>
     <string name="just_one">Только этот один</string>
     <string name="turn_off">Отключить эту опцию</string>
     <string name="msg_no_items">Нет элементов для воспроизведения</string>
@@ -436,7 +432,6 @@
     <string name="state_disabled">Отключено</string>
     <string name="action_connect">Соединение</string>
     <string name="lbl_subtitle_delay">Задержка субтитров</string>
-    <string name="lbl_adjust">Подстройка</string>
     <string name="live_tv_preferences">Опции эфирного ТВ</string>
     <string name="app_notification_uimode_invalid">Это приложение оптимизировано для телевизоров. Мы рекомендуем использовать наше мобильное приложение на других устройствах.</string>
     <string name="server_unsupported_notification">Этот сервер использует версию Jellyfin %1$s, которая не поддерживается. Обновитесь до Jellyfin %2$s или более новой, чтобы продолжить использовать приложение.</string>

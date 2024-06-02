@@ -141,7 +141,6 @@
     <string name="lbl_similar_items_library">Các mục tương tự trong thư viện của bạn</string>
     <string name="lbl_premieres">Công Chiếu</string>
     <string name="lbl_new_episodes">Tập mới</string>
-    <string name="lbl_audio_delay">Độ trễ âm thanh</string>
     <string name="lbl_new_only">Chỉ thứ mới</string>
     <string name="lbl_news">Tin Tức</string>
     <string name="lbl_song_title">Tựa bài hát</string>
@@ -229,7 +228,6 @@
     <string name="grid_direction">Hướng lưới</string>
     <string name="pref_device_model">Mẫu thiết bị</string>
     <string name="pref_app_theme">Chủ đề ứng dụng</string>
-    <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho LibVLC</string>
     <string name="watch_now">Xem bây giờ</string>
     <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ tiếp theo</string>
     <string name="pref_next_up_timeout_summary">Chờ bao lâu trước khi phát mục tiếp theo</string>
@@ -258,7 +256,6 @@
     <string name="lbl_min">" phút"</string>
     <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
     <string name="lbl_tv_channel_status">%1$d trong số %2$d kênh</string>
-    <string name="play_with_vlc">Phát với LibVLC</string>
     <string name="play_with">Phát với</string>
     <string name="play_with_external_app">Phát với ứng dụng bên ngoài</string>
     <string name="play_with_exo_player">Phát với ExoPlayer</string>
@@ -429,7 +426,6 @@
     <string name="live_tv_preferences">Tùy chọn TV trực tiếp</string>
     <string name="pref_audio">Âm thanh</string>
     <string name="lbl_subtitle_delay">Độ trễ phụ đề</string>
-    <string name="lbl_adjust">Điều chỉnh</string>
     <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi tới máy chủ Jellyfin của bạn.</string>
     <string name="pref_crash_report_logs_disabled">Nhật ký sẽ không được đưa vào báo cáo sự cố</string>
     <string name="pref_crash_report_logs_enabled">Nhật ký sẽ được đưa vào báo cáo sự cố</string>
@@ -478,7 +474,6 @@
     <plurals name="episodes">
         <item quantity="other">%1$s tập</item>
     </plurals>
-    <string name="pref_video_player_vlc">LibVLC (thử nghiệm)</string>
     <string name="pref_screensaver">Bảo vệ màn hình</string>
     <string name="enable_reactive_homepage">Kích hoạt trang chủ phản ứng</string>
     <string name="not_set">Không thiết lập</string>

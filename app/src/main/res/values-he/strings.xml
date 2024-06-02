@@ -215,7 +215,6 @@
     <string name="play_with">נגן בעזרת</string>
     <string name="play_with_external_app">נגן בנגן חיצונה</string>
     <string name="play_with_exo_player">נגן בעזרת ExoPlayer</string>
-    <string name="play_with_vlc">נגן בעזרת libVLC</string>
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
@@ -244,7 +243,6 @@
     <string name="grid_direction">כיוון הטבלה</string>
     <string name="pref_device_model">מודל המכשיר</string>
     <string name="pref_app_theme">עיצוב האפליקציה</string>
-    <string name="pref_libvlc_audio_delay_title">ברירת המחדל לעיכוב שמע בשימוש LibVLC</string>
     <string name="watch_now">צפה עכשיו</string>
     <string name="pref_next_up_timeout_title">תזמון טיימר הבא בתור</string>
     <string name="pref_next_up_timeout_summary">כמה לחכות לפני הפעלת הבא בתור</string>
@@ -265,7 +263,6 @@
     <string name="lbl_repeat_episodes">חזרה על פרקים</string>
     <string name="lbl_premieres">פרימיירות</string>
     <string name="lbl_new_episodes">פרקים חדשים</string>
-    <string name="lbl_audio_delay">עיקוב שמע</string>
     <string name="lbl_new_only">רק חדשים</string>
     <string name="lbl_news">חדשות</string>
     <string name="lbl_tv_filter_status">ב %1$d שעות הקרובות</string>
@@ -281,7 +278,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="bitrate_kbit">%1$,.0f קילוביט לשניה</string>
     <string name="bitrate_mbit">‭%1$,.0f Mbit/s</string>
-    <string name="pref_video_player_vlc">libVLC (ניסיוני)</string>
     <string name="lbl_item">פריט</string>
     <string name="lbl_items">פריטים</string>
     <string name="server_connection_failed">לא ניתן להתחבר לשרת</string>
@@ -432,7 +428,6 @@
     <string name="action_login">התחבר</string>
     <string name="lbl_start_end_on_schedule">מתחיל בתזמון ומסתיים בתזמון</string>
     <string name="lbl_subtitle_delay">השהיית כתוביות</string>
-    <string name="lbl_adjust">התאם</string>
     <string name="lbl_shuffle_queue">החלף מצב ערבוב</string>
     <string name="state_disabled">מושבת</string>
     <string name="pref_telemetry_category">דיווח על קריסה</string>
