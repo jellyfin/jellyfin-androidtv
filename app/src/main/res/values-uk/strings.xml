@@ -572,4 +572,5 @@
     <string name="pref_screensaver_ageratingrequired_disabled">Показати всі елементи</string>
     <string name="all_channels">Всі канали</string>
     <string name="app_notification_update_soon">Оновіть ваш сервер з %1$s до принаймні %2$s, щоб продовжити використання програми після наступного оновлення.</string>
+    <string name="current_queue">Поточна черга</string>
 </resources>
