@@ -51,7 +51,7 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
-				transform = { item, i ->
+				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
 						preferParentThumb,
@@ -92,7 +92,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 
 				setItems(
 					items = items,
-					transform = { item, i ->
+					transform = { item, _ ->
 						BaseItemDtoBaseRowItem(
 							item,
 							preferParentThumb,
@@ -105,7 +105,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 			} else {
 				setItems(
 					items = response.items.orEmpty().toTypedArray(),
-					transform = { item, i ->
+					transform = { item, _ ->
 						BaseItemDtoBaseRowItem(
 							item,
 							preferParentThumb,

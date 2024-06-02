@@ -673,12 +673,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             case NextUp:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getNextUpQuery(), true, mCardPresenter, null);
                 break;
-            case Season:
-                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSeasonQuery(), mCardPresenter, null);
-                break;
-            case Upcoming:
-                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getUpcomingQuery(), mCardPresenter, null);
-                break;
             case Views:
                 mAdapter = new ItemRowAdapter(requireContext(), ViewQuery.INSTANCE, mCardPresenter, null);
                 break;
@@ -687,9 +681,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 break;
             case SimilarMovies:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, null);
-                break;
-            case Persons:
-                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getPersonsQuery(), chunkSize, mCardPresenter, null);
                 break;
             case LiveTvChannel:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getTvChannelQuery(), 40, mCardPresenter, null);
