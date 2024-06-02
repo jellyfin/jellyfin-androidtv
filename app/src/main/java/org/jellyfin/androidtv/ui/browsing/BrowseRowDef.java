@@ -11,8 +11,8 @@ import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
+import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 
@@ -21,7 +21,7 @@ public class BrowseRowDef {
     private ItemQuery query;
     private GetNextUpRequest nextUpQuery;
     private SimilarItemsQuery similarQuery;
-    private LatestItemsQuery latestItemsQuery;
+    private GetLatestMediaRequest latestItemsQuery;
     private LiveTvChannelQuery tvChannelQuery;
     private RecommendedProgramQuery programQuery;
     private RecordingQuery recordingQuery;
@@ -101,7 +101,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, LatestItemsQuery query, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, GetLatestMediaRequest query, ChangeTriggerType[] changeTriggers) {
         headerText = header;
         this.latestItemsQuery = query;
         this.queryType = QueryType.LatestItems;
@@ -179,7 +179,7 @@ public class BrowseRowDef {
         return nextUpQuery;
     }
 
-    public LatestItemsQuery getLatestItemsQuery() { return latestItemsQuery; }
+    public GetLatestMediaRequest getLatestItemsQuery() { return latestItemsQuery; }
 
     public SimilarItemsQuery getSimilarQuery() { return similarQuery; }
 
