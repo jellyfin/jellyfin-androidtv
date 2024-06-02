@@ -210,7 +210,7 @@ public class AudioNowPlayingFragment extends Fragment {
     }
 
     protected void addQueue() {
-        mQueueRow = new ListRow(new HeaderItem("Current Queue"), mediaManager.getValue().getCurrentAudioQueue());
+        mQueueRow = new ListRow(new HeaderItem(getString(R.string.current_queue)), mediaManager.getValue().getCurrentAudioQueue());
         mediaManager.getValue().getCurrentAudioQueue().setRow(mQueueRow);
         mRowsAdapter.add(mQueueRow);
     }
