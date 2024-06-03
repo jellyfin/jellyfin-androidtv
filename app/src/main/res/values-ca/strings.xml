@@ -456,7 +456,7 @@
     <string name="server_setup_incomplete">La configuració d\'aquest servidor no s\'ha completat. Obre Jellyfin en un navegador web per a finalitzar la configuració abans d\'iniciar la sessió.</string>
     <string name="episode_name_special">especial</string>
     <string name="app_notification_beta">Aplicació actualitzada a %1$s
-\nGràcies per participar en el programa Jellyfin beta</string>
+\nGràcies per participar en el programa Jellyfin beta.</string>
     <string name="lbl_quality_profile">Perfil de qualitat</string>
     <string name="lbl_subtitle_position">Desplaçament del subtítol des de la part inferior</string>
     <string name="color_black">Negre</string>
@@ -555,4 +555,7 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar el màxim</string>
     <string name="pref_screensaver_ageratingrequired_title">Requereix classificació d\'edat</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Mostrant tots els elements</string>
+    <string name="all_channels">Tots els canals</string>
+    <string name="app_notification_update_soon">Actualitza el teu servidor de %1$s fins a almenys %2$s per a continuar utilitzant l\'aplicació després de la pròxima actualització.</string>
+    <string name="current_queue">Cua actual</string>
 </resources>
