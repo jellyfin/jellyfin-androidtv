@@ -435,7 +435,7 @@
     <string name="pref_crash_report_logs">Günlükleri dahil et</string>
     <string name="pref_crash_report_logs_disabled">Günlükler çökme raporlarına dahil edilmeyecektir</string>
     <string name="app_notification_beta">Uygulama %1$s sürümüne güncellendi
-\nJellyfin beta programına katıldığınız için teşekkür ederiz</string>
+\nJellyfin beta programına katıldığınız için teşekkür ederiz.</string>
     <string name="pref_enable_media_management_description">Göz atarken medyayı yönetme seçeneğini göster</string>
     <string name="pref_screensaver">Ekran Koruyucu</string>
     <string name="pref_screensaver_inapp_enabled">Uygulama içi ekran koruyucuyu kullanın</string>
