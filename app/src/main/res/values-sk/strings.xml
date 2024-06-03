@@ -562,4 +562,5 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Zobrazenie iba položiek s nastaveným vekovým hodnotením</string>
     <string name="app_notification_update_soon">Ak chcete pokračovať v používaní aplikácie po ďalšej aktualizácii, aktualizujte svoj server z %1$s na aspoň %2$s.</string>
     <string name="all_channels">Všetky kanály</string>
+    <string name="current_queue">Aktuálna fronta</string>
 </resources>
