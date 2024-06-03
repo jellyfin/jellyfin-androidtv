@@ -560,4 +560,7 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar el máximo</string>
     <string name="pref_screensaver_ageratingrequired_title">Requerir clasificación por edades</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Mostrando todos los elementos</string>
+    <string name="all_channels">Todos los canales</string>
+    <string name="app_notification_update_soon">Actualiza tu servidor de %1$s a %2$s como mínimo para seguir utilizando la aplicación tras la próxima actualización.</string>
+    <string name="current_queue">Cola actual</string>
 </resources>
