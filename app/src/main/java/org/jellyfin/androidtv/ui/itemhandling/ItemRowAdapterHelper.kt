@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery
 import org.jellyfin.androidtv.data.querying.SpecialsQuery
+import org.jellyfin.androidtv.data.querying.TrailersQuery
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
@@ -266,6 +267,32 @@ fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRe
 			)
 
 			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: TrailersQuery) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.userLibraryApi.getLocalTrailers(itemId = query.itemId)
+
+			setItems(
+				items = response.toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						preferParentThumb,
+						false,
+						BaseRowItemSelectAction.Play,
+						false
+					)
+				}
+			)
+
+			if (response.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
