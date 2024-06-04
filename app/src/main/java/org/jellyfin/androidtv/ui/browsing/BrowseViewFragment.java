@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -28,9 +29,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
-import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -229,35 +228,10 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 showViews = true;
 
                 //On now
-                RecommendedProgramQuery onNow = new RecommendedProgramQuery();
-                onNow.setIsAiring(true);
-                onNow.setFields(new ItemFields[]{
-                        ItemFields.Overview,
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChannelInfo,
-                        ItemFields.ChildCount
-                });
-                onNow.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                onNow.setImageTypeLimit(1);
-                onNow.setEnableTotalRecordCount(false);
-                onNow.setLimit(150);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_on_now), onNow));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_on_now), BrowsingUtils.createLiveTVOnNowRequest()));
 
                 //Upcoming
-                RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
-                upcomingTv.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                upcomingTv.setFields(new ItemFields[]{
-                        ItemFields.Overview,
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChannelInfo,
-                        ItemFields.ChildCount
-                });
-                upcomingTv.setIsAiring(false);
-                upcomingTv.setHasAired(false);
-                upcomingTv.setImageTypeLimit(1);
-                upcomingTv.setEnableTotalRecordCount(false);
-                upcomingTv.setLimit(150);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_coming_up), upcomingTv));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_coming_up), BrowsingUtils.createLiveTVUpcomingRequest()));
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
@@ -340,15 +314,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                                     //First put all recordings in and retrieve
                                     //All Recordings
-                                    RecordingQuery recordings = new RecordingQuery();
-                                    recordings.setFields(new ItemFields[]{
-                                            ItemFields.Overview,
-                                            ItemFields.PrimaryImageAspectRatio,
-                                            ItemFields.ChildCount
-                                    });
-                                    recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                                    recordings.setEnableImages(true);
-                                    mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), recordings, 50));
+                                    mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), BrowsingUtils.createLiveTVRecordingsRequest(), 50));
                                     rowLoader.loadRows(mRows);
 
                                     //Now insert our smart rows
@@ -401,7 +367,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             default:
                 boolean isRecordingsView = getArguments().getBoolean(Extras.IsLiveTvSeriesRecordings, false);
                 if (isRecordingsView) {
-                    mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
+                    mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), GetSeriesTimersRequest.INSTANCE));
                     rowLoader.loadRows(mRows);
                 }
         }

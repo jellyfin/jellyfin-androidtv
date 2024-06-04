@@ -12,6 +12,8 @@ import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
+import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
+import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
@@ -117,5 +119,94 @@ object BrowsingUtils {
 			ItemFields.CHILD_COUNT,
 		),
 		limit = 20,
+	)
+
+	@JvmStatic
+	fun createLiveTVOnNowRequest() = GetRecommendedProgramsRequest(
+		isAiring = true,
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHANNEL_INFO,
+			ItemFields.CHILD_COUNT,
+		),
+		imageTypeLimit = 1,
+		enableTotalRecordCount = false,
+		limit = 150,
+	)
+
+	@JvmStatic
+	fun createLiveTVUpcomingRequest() = GetRecommendedProgramsRequest(
+		isAiring = false,
+		hasAired = false,
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHANNEL_INFO,
+			ItemFields.CHILD_COUNT,
+		),
+		imageTypeLimit = 1,
+		enableTotalRecordCount = false,
+		limit = 150,
+	)
+
+	@JvmStatic
+	@JvmOverloads
+	fun createLiveTVRecordingsRequest(limit: Int? = null) = GetRecordingsRequest(
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHILD_COUNT,
+		),
+		enableImages = true,
+		limit = limit,
+	)
+
+	@JvmStatic
+	fun createLiveTVMovieRecordingsRequest() = GetRecordingsRequest(
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHILD_COUNT,
+		),
+		enableImages = true,
+		limit = 60,
+		isMovie = true,
+	)
+
+	@JvmStatic
+	fun createLiveTVSeriesRecordingsRequest() = GetRecordingsRequest(
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHILD_COUNT,
+		),
+		enableImages = true,
+		limit = 60,
+		isSeries = true,
+	)
+
+	@JvmStatic
+	fun createLiveTVSportsRecordingsRequest() = GetRecordingsRequest(
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHILD_COUNT,
+		),
+		enableImages = true,
+		limit = 60,
+		isSports = true,
+	)
+
+	@JvmStatic
+	fun createLiveTVKidsRecordingsRequest() = GetRecordingsRequest(
+		fields = setOf(
+			ItemFields.OVERVIEW,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CHILD_COUNT,
+		),
+		enableImages = true,
+		limit = 60,
+		isKids = true,
 	)
 }

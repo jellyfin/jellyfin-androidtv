@@ -3,16 +3,16 @@ package org.jellyfin.androidtv.ui.browsing;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
+import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
-import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
-import org.jellyfin.apiclient.model.livetv.RecordingQuery;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
+import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest;
+import org.jellyfin.sdk.model.api.request.GetRecordingsRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest;
 
@@ -23,9 +23,9 @@ public class BrowseRowDef {
     private GetSimilarItemsRequest similarQuery;
     private GetLatestMediaRequest latestItemsQuery;
     private LiveTvChannelQuery tvChannelQuery;
-    private RecommendedProgramQuery programQuery;
-    private RecordingQuery recordingQuery;
-    private SeriesTimerQuery seriesTimerQuery;
+    private GetRecommendedProgramsRequest programQuery;
+    private GetRecordingsRequest recordingQuery;
+    private GetSeriesTimersRequest seriesTimerQuery;
 
     private ArtistsQuery artistsQuery;
     private AlbumArtistsQuery albumArtistsQuery;
@@ -86,7 +86,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, SeriesTimerQuery query) {
+    public BrowseRowDef(String header, GetSeriesTimersRequest query) {
         headerText = header;
         this.seriesTimerQuery = query;
         this.staticHeight = true;
@@ -115,18 +115,18 @@ public class BrowseRowDef {
         this.queryType = QueryType.LiveTvChannel;
     }
 
-    public BrowseRowDef(String header, RecommendedProgramQuery query) {
+    public BrowseRowDef(String header, GetRecommendedProgramsRequest query) {
         headerText = header;
         this.programQuery = query;
         this.queryType = QueryType.LiveTvProgram;
         this.changeTriggers = new ChangeTriggerType[] {ChangeTriggerType.GuideNeedsLoad};
     }
 
-    public BrowseRowDef(String header, RecordingQuery query) {
+    public BrowseRowDef(String header, GetRecordingsRequest query) {
         this(header, query, 0);
     }
 
-    public BrowseRowDef(String header, RecordingQuery query, int chunkSize) {
+    public BrowseRowDef(String header, GetRecordingsRequest query, int chunkSize) {
         headerText = header;
         this.recordingQuery = query;
         this.chunkSize = chunkSize;
@@ -191,18 +191,18 @@ public class BrowseRowDef {
         return tvChannelQuery;
     }
 
-    public RecommendedProgramQuery getProgramQuery() {
+    public GetRecommendedProgramsRequest getProgramQuery() {
         return programQuery;
     }
 
-    public RecordingQuery getRecordingQuery() { return recordingQuery; }
+    public GetRecordingsRequest getRecordingQuery() { return recordingQuery; }
 
     public boolean getPreferParentThumb() { return preferParentThumb; }
 
     public ArtistsQuery getArtistsQuery() { return artistsQuery; }
     public AlbumArtistsQuery getAlbumArtistsQuery() { return albumArtistsQuery; }
 
-    public SeriesTimerQuery getSeriesTimerQuery() { return seriesTimerQuery; }
+    public GetSeriesTimersRequest getSeriesTimerQuery() { return seriesTimerQuery; }
 
     public GetResumeItemsRequest getResumeQuery() { return resumeQuery; }
 

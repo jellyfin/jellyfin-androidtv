@@ -13,7 +13,6 @@ import androidx.leanback.widget.Row;
 import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
@@ -25,10 +24,8 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
-import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
-import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.koin.java.KoinJavaComponent;
 
@@ -55,67 +52,22 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     protected void setupQueries(final RowLoader rowLoader) {
         showViews = true;
         //Latest Recordings
-        RecordingQuery recordings = new RecordingQuery();
-        recordings.setFields(new ItemFields[]{
-                ItemFields.Overview,
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount
-        });
-        recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        recordings.setEnableImages(true);
-        recordings.setLimit(40);
-        mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), recordings, 40));
+        mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), BrowsingUtils.createLiveTVRecordingsRequest(40), 40));
 
         //Movies
-        RecordingQuery movies = new RecordingQuery();
-        movies.setFields(new ItemFields[]{
-                ItemFields.Overview,
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount
-        });
-        movies.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        movies.setEnableImages(true);
-        movies.setIsMovie(true);
-        BrowseRowDef moviesDef = new BrowseRowDef(getString(R.string.lbl_movies), movies, 60);
+        BrowseRowDef moviesDef = new BrowseRowDef(getString(R.string.lbl_movies), BrowsingUtils.createLiveTVMovieRecordingsRequest(), 60);
 
         //Shows
-        RecordingQuery shows = new RecordingQuery();
-        shows.setFields(new ItemFields[]{
-                ItemFields.Overview,
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount
-        });
-        shows.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        shows.setEnableImages(true);
-        shows.setIsSeries(true);
-        BrowseRowDef showsDef = new BrowseRowDef(getString(R.string.lbl_tv_series), shows, 60);
+        BrowseRowDef showsDef = new BrowseRowDef(getString(R.string.lbl_tv_series), BrowsingUtils.createLiveTVSeriesRecordingsRequest(), 60);
 
         mRows.add(showsDef);
         mRows.add(moviesDef);
 
         //Sports
-        RecordingQuery sports = new RecordingQuery();
-        sports.setFields(new ItemFields[]{
-                ItemFields.Overview,
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount
-        });
-        sports.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        sports.setEnableImages(true);
-        sports.setIsSports(true);
-        mRows.add(new BrowseRowDef(getString(R.string.lbl_sports), sports, 60));
+        mRows.add(new BrowseRowDef(getString(R.string.lbl_sports), BrowsingUtils.createLiveTVSportsRecordingsRequest(), 60));
 
         //Kids
-        RecordingQuery kids = new RecordingQuery();
-        kids.setFields(new ItemFields[]{
-                ItemFields.Overview,
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount
-        });
-        kids.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        kids.setEnableImages(true);
-        kids.setIsKids(true);
-        mRows.add(new BrowseRowDef(getString(R.string.lbl_kids), kids, 60));
+        mRows.add(new BrowseRowDef(getString(R.string.lbl_kids), BrowsingUtils.createLiveTVKidsRecordingsRequest(), 60));
 
         rowLoader.loadRows(mRows);
         addNext24Timers();
