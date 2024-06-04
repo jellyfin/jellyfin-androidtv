@@ -90,7 +90,6 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -681,15 +680,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 ItemRowAdapter nextUpAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createSeriesGetNextUpRequest(mBaseItem.getId()), false, new CardPresenter(true, 130), adapter);
                 addItemRow(adapter, nextUpAdapter, 0, getString(R.string.lbl_next_up));
 
-                SeasonQuery seasons = new SeasonQuery();
-                seasons.setSeriesId(mBaseItem.getId().toString());
-                seasons.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                seasons.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.DisplayPreferencesId,
-                        ItemFields.ChildCount
-                });
-                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(requireContext(), seasons, new CardPresenter(), adapter);
+                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createSeasonsRequest(mBaseItem.getId()), new CardPresenter(), adapter);
                 addItemRow(adapter, seasonsAdapter, 1, getString(R.string.lbl_seasons));
 
                 //Specials
