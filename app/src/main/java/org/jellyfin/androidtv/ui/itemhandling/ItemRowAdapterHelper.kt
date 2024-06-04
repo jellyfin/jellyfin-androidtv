@@ -434,6 +434,7 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 				)
 			)
 
+			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -469,6 +470,7 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 				)
 			)
 
+			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -504,6 +506,7 @@ fun ItemRowAdapter.retrieveArtists(
 				)
 			)
 
+			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -560,14 +563,14 @@ fun setAlbumArtistsStartLetter(
 	request: GetAlbumArtistsRequest,
 	startLetter: String?,
 ) = request.copy(
-	nameStartsWithOrGreater = startLetter,
+	nameStartsWith = startLetter,
 )
 
 fun setArtistsStartLetter(
 	request: GetArtistsRequest,
 	startLetter: String?,
 ) = request.copy(
-	nameStartsWithOrGreater = startLetter,
+	nameStartsWith = startLetter,
 )
 
 @JvmOverloads
