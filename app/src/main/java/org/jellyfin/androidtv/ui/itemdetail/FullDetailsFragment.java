@@ -568,7 +568,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Trailers
                 if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 1) {
-                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new TrailersQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter), 4, getString(R.string.lbl_trailers));
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 4, getString(R.string.lbl_trailers));
                 }
 
                 //Chapters

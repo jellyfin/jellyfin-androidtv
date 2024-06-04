@@ -655,7 +655,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 ItemRowAdapterHelperKt.retrieveAdditionalParts(this, api.getValue(), mAdditionalPartsQuery);
                 break;
             case Trailers:
-                retrieve(mTrailersQuery);
+                ItemRowAdapterHelperKt.retrieveTrailers(this, api.getValue(), mTrailersQuery);
                 break;
             case Search:
                 loadStaticItems();
@@ -1058,44 +1058,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv recordings");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieve(final TrailersQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
-            @Override
-            public void onResponse(BaseItemDto[] response) {
-                if (response.length > 0) {
-                    int i = 0;
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response) {
-                        i++;
-                        item.setName(context.getString(R.string.lbl_trailer) + i);
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, false, BaseRowItemSelectAction.Play, false));
-                    }
-                    totalItems = response.length;
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving special features");
                 removeRow();
                 notifyRetrieveFinished(exception);
             }
