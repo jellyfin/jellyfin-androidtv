@@ -566,7 +566,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
                 }
 
                 //Trailers
@@ -694,7 +694,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
+                    addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
                 }
 
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();

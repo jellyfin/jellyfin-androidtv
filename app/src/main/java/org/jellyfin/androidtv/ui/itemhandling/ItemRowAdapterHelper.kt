@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.data.querying.SpecialsQuery
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
@@ -150,6 +151,25 @@ fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequ
 	}
 }
 
+fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: SpecialsQuery) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.userLibraryApi.getSpecialFeatures(query.itemId)
+
+			setItems(
+				items = response.toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(item, preferParentThumb, false)
+				}
+			)
+
+			if (response.isEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
 
 @JvmOverloads
 fun ItemRowAdapter.refreshItem(

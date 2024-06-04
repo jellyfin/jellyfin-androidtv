@@ -655,7 +655,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 loadStaticAudioItems();
                 break;
             case Specials:
-                retrieve(mSpecialsQuery);
+                ItemRowAdapterHelperKt.retrieveSpecialFeatures(this, api.getValue(), mSpecialsQuery);
                 break;
             case AdditionalParts:
                 retrieve(mAdditionalPartsQuery);
@@ -1096,38 +1096,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv recordings");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieve(final SpecialsQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetSpecialFeaturesAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
-            @Override
-            public void onResponse(BaseItemDto[] response) {
-                if (response.length > 0) {
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, false));
-                    }
-                    totalItems = response.length;
-                    setItemsLoaded(itemsLoaded + response.length);
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving special features");
                 removeRow();
                 notifyRetrieveFinished(exception);
             }
