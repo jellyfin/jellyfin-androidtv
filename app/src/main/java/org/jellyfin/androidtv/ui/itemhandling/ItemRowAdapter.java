@@ -658,7 +658,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 ItemRowAdapterHelperKt.retrieveSpecialFeatures(this, api.getValue(), mSpecialsQuery);
                 break;
             case AdditionalParts:
-                retrieve(mAdditionalPartsQuery);
+                ItemRowAdapterHelperKt.retrieveAdditionalParts(this, api.getValue(), mAdditionalPartsQuery);
                 break;
             case Trailers:
                 retrieve(mTrailersQuery);
@@ -1101,40 +1101,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             }
         });
 
-    }
-
-    private void retrieve(final AdditionalPartsQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetAdditionalParts(query.getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + response.getItems().length);
-                    if (response.getItems().length == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving additional parts for item");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
     }
 
     private void retrieve(final TrailersQuery query) {
