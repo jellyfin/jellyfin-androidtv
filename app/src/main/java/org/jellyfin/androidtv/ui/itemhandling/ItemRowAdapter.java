@@ -14,13 +14,13 @@ import androidx.leanback.widget.Row;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
-import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
 import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
+import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
@@ -40,21 +40,18 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
-import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
-import org.jellyfin.apiclient.model.livetv.RecordingQuery;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
-import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
+import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest;
+import org.jellyfin.sdk.model.api.request.GetRecordingsRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest;
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest;
@@ -80,12 +77,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private AdditionalPartsQuery mAdditionalPartsQuery;
     private TrailersQuery mTrailersQuery;
     private LiveTvChannelQuery mTvChannelQuery;
-    private RecommendedProgramQuery mTvProgramQuery;
-    private RecordingQuery mTvRecordingQuery;
+    private GetRecommendedProgramsRequest mTvProgramQuery;
+    private GetRecordingsRequest mTvRecordingQuery;
     private ArtistsQuery mArtistsQuery;
     private AlbumArtistsQuery mAlbumArtistsQuery;
     private GetLatestMediaRequest mLatestQuery;
-    private SeriesTimerQuery mSeriesTimerQuery;
     private GetResumeItemsRequest resumeQuery;
     private QueryType queryType;
 
@@ -213,11 +209,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this.staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, SeriesTimerQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetSeriesTimersRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
-        mSeriesTimerQuery = query;
         queryType = QueryType.SeriesTimer;
     }
 
@@ -301,7 +296,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.LiveTvChannel;
     }
 
-    public ItemRowAdapter(Context context, RecommendedProgramQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetRecommendedProgramsRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -310,7 +305,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, RecordingQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetRecordingsRequest query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -631,10 +626,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieve(mTvChannelQuery);
                 break;
             case LiveTvProgram:
-                retrieve(mTvProgramQuery);
+                ItemRowAdapterHelperKt.retrieveLiveTvRecommendedPrograms(this, api.getValue(), mTvProgramQuery);
                 break;
             case LiveTvRecording:
-                retrieve(mTvRecordingQuery);
+                ItemRowAdapterHelperKt.retrieveLiveTvRecordings(this, api.getValue(), mTvRecordingQuery);
                 break;
             case StaticPeople:
                 loadPeople();
@@ -674,7 +669,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrievePremieres(mQuery);
                 break;
             case SeriesTimer:
-                retrieve(mSeriesTimerQuery);
+                boolean canManageRecordings = Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue());
+                ItemRowAdapterHelperKt.retrieveLiveTvSeriesTimers(this, api.getValue(), context, canManageRecordings);
                 break;
             case Resume:
                 ItemRowAdapterHelperKt.retrieveResumeItems(this, api.getValue(), resumeQuery);
@@ -931,138 +927,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 notifyRetrieveFinished(exception);
             }
         });
-
-    }
-
-    private void retrieve(final RecommendedProgramQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetRecommendedLiveTvProgramsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                TvManager.updateProgramsNeedsLoadTime();
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
-                    int prevItems = Math.max(adapter.size(), 0);
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), false, staticHeight));
-                        i++;
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving live tv programs");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieve(final SeriesTimerQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLiveTvSeriesTimersAsync(query, new Response<SeriesTimerInfoDtoResult>() {
-            @Override
-            public void onResponse(SeriesTimerInfoDtoResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
-                    int prevItems = Math.max(adapter.size(), 0);
-                    for (SeriesTimerInfoDto item : response.getItems()) {
-                        adapter.add(new SeriesTimerInfoDtoBaseRowItem(ModelCompat.asSdk(item)));
-                        i++;
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving live tv series timers");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-    }
-
-    private void retrieve(final RecordingQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLiveTvRecordingsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
-                    int prevItems = Math.max(adapter.size(), 0);
-                    if (adapter.chunkSize == 0) {
-                        // and recordings as first item if showing all
-                        adapter.add(new GridButtonBaseRowItem(new GridButton(LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID, context.getString(R.string.lbl_recorded_tv))));
-                        i++;
-                        if (Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
-                            // and schedule
-                            adapter.add(new GridButtonBaseRowItem(new GridButton(LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID, context.getString(R.string.lbl_schedule))));
-                            i++;
-                            // and series
-                            adapter.add(new GridButtonBaseRowItem(new GridButton(LiveTvOption.LIVE_TV_SERIES_OPTION_ID, context.getString(R.string.lbl_series))));
-                            i++;
-                        }
-                    }
-
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), false, staticHeight));
-                        i++;
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving live tv recordings");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
     }
 
     protected void notifyRetrieveFinished() {

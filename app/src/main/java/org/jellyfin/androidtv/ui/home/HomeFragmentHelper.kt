@@ -7,13 +7,12 @@ import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.querying.ViewQuery
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
-import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
-import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
+import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
+import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
-import org.jellyfin.apiclient.model.querying.ItemFields as LegacyItemFields
 import org.jellyfin.sdk.model.api.ItemFields as SdkItemFields
 
 class HomeFragmentHelper(
@@ -57,17 +56,15 @@ class HomeFragmentHelper(
 	}
 
 	fun loadLatestLiveTvRecordings(): HomeFragmentRow {
-		val query = RecordingQuery().apply {
-			fields = arrayOf(
-				LegacyItemFields.Overview,
-				LegacyItemFields.PrimaryImageAspectRatio,
-				LegacyItemFields.ChildCount
-			)
-
-			userId = userRepository.currentUser.value!!.id.toString()
-			enableImages = true
+		val query = GetRecordingsRequest(
+			fields = setOf(
+				ItemFields.OVERVIEW,
+				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+				ItemFields.CHILD_COUNT
+			),
+			enableImages = true,
 			limit = ITEM_LIMIT_RECORDINGS
-		}
+		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_recordings), query))
 	}
@@ -88,19 +85,18 @@ class HomeFragmentHelper(
 	}
 
 	fun loadOnNow(): HomeFragmentRow {
-		val query = RecommendedProgramQuery().apply {
-			isAiring = true
-			fields = arrayOf(
-				LegacyItemFields.Overview,
-				LegacyItemFields.PrimaryImageAspectRatio,
-				LegacyItemFields.ChannelInfo,
-				LegacyItemFields.ChildCount
-			)
-			userId = userRepository.currentUser.value!!.id.toString()
-			imageTypeLimit = 1
-			enableTotalRecordCount = false
+		val query = GetRecommendedProgramsRequest(
+			isAiring = true,
+			fields = setOf(
+				ItemFields.OVERVIEW,
+				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+				ItemFields.CHANNEL_INFO,
+				ItemFields.CHILD_COUNT,
+			),
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
 			limit = ITEM_LIMIT_ON_NOW
-		}
+		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
 	}

@@ -1,25 +1,33 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
+import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.constant.LiveTvOption
 import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery
 import org.jellyfin.androidtv.data.querying.SpecialsQuery
 import org.jellyfin.androidtv.data.querying.TrailersQuery
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
+import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
+import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
+import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
+import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
@@ -293,6 +301,110 @@ fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: TrailersQuery) {
 			)
 
 			if (response.isEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveLiveTvRecommendedPrograms(
+	api: ApiClient,
+	query: GetRecommendedProgramsRequest
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.liveTvApi.getRecommendedPrograms(query)
+
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						false,
+						isStaticHeight,
+					)
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveLiveTvRecordings(api: ApiClient, query: GetRecordingsRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.liveTvApi.getRecordings(query)
+
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						false,
+						isStaticHeight,
+					)
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
+	api: ApiClient,
+	context: Context,
+	canManageRecordings: Boolean
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.liveTvApi.getSeriesTimers()
+
+			setItems(
+				items = buildList {
+					add(
+						GridButton(
+							LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID,
+							context.getString(R.string.lbl_recorded_tv)
+						)
+					)
+
+					if (canManageRecordings) {
+						add(
+							GridButton(
+								LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID,
+								context.getString(R.string.lbl_schedule)
+							)
+						)
+
+						add(
+							GridButton(
+								LiveTvOption.LIVE_TV_SERIES_OPTION_ID,
+								context.getString(R.string.lbl_series)
+							)
+						)
+					}
+
+					addAll(response.items.orEmpty())
+				}.toTypedArray(),
+				transform = { item, _ ->
+					when (item) {
+						is GridButton -> GridButtonBaseRowItem(item)
+						is SeriesTimerInfoDto -> SeriesTimerInfoDtoBaseRowItem(item)
+						else -> error("Unknown type for item")
+					}
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
