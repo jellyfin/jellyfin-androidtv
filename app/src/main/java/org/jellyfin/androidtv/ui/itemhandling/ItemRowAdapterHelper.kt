@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.LiveTvOption
-import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery
-import org.jellyfin.androidtv.data.querying.SpecialsQuery
-import org.jellyfin.androidtv.data.querying.TrailersQuery
+import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest
+import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
+import org.jellyfin.androidtv.data.querying.GetTrailersRequest
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.sdk.api.client.ApiClient
@@ -168,7 +168,7 @@ fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequ
 	}
 }
 
-fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: SpecialsQuery) {
+fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: GetSpecialsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.userLibraryApi.getSpecialFeatures(query.itemId)
@@ -188,7 +188,7 @@ fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: SpecialsQuery)
 	}
 }
 
-fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: AdditionalPartsQuery) {
+fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: GetAdditionalPartsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.videosApi.getAdditionalPart(query.itemId)
@@ -282,7 +282,7 @@ fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRe
 	}
 }
 
-fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: TrailersQuery) {
+fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: GetTrailersRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.userLibraryApi.getLocalTrailers(itemId = query.itemId)

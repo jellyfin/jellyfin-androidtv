@@ -18,12 +18,12 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
 import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
+import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
-import org.jellyfin.androidtv.data.querying.SpecialsQuery;
-import org.jellyfin.androidtv.data.querying.TrailersQuery;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
+import org.jellyfin.androidtv.data.querying.GetTrailersRequest;
+import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment;
@@ -73,9 +73,9 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetSeasonsRequest mSeasonQuery;
     private GetUpcomingEpisodesRequest mUpcomingQuery;
     private GetSimilarItemsRequest mSimilarQuery;
-    private SpecialsQuery mSpecialsQuery;
-    private AdditionalPartsQuery mAdditionalPartsQuery;
-    private TrailersQuery mTrailersQuery;
+    private GetSpecialsRequest mSpecialsQuery;
+    private GetAdditionalPartsRequest mAdditionalPartsQuery;
+    private GetTrailersRequest mTrailersQuery;
     private LiveTvChannelQuery mTvChannelQuery;
     private GetRecommendedProgramsRequest mTvProgramQuery;
     private GetRecordingsRequest mTvRecordingQuery;
@@ -260,7 +260,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.StaticItems;
     }
 
-    public ItemRowAdapter(Context context, SpecialsQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetSpecialsRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -268,7 +268,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.Specials;
     }
 
-    public ItemRowAdapter(Context context, AdditionalPartsQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetAdditionalPartsRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -276,7 +276,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.AdditionalParts;
     }
 
-    public ItemRowAdapter(Context context, TrailersQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetTrailersRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -339,7 +339,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.Season;
     }
 
-    public ItemRowAdapter(Context context, ViewQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetUserViewsRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;

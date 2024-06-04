@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.browsing;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.data.querying.SpecialsQuery;
+import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.SortOrder;
@@ -62,7 +62,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
             mRows.add(new BrowseRowDef(header, byName, 100));
 
             if (mFolder.getType() == BaseItemKind.SEASON) {
-                SpecialsQuery specials = new SpecialsQuery(mFolder.getId());
+                GetSpecialsRequest specials = new GetSpecialsRequest(mFolder.getId());
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_specials), specials));
             }
 
