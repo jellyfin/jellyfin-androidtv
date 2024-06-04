@@ -48,7 +48,6 @@ import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
-import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
@@ -59,6 +58,7 @@ import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
+import org.jellyfin.sdk.model.api.request.GetSeasonsRequest;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
@@ -73,7 +73,7 @@ import timber.log.Timber;
 public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private ItemQuery mQuery;
     private GetNextUpRequest mNextUpQuery;
-    private SeasonQuery mSeasonQuery;
+    private GetSeasonsRequest mSeasonQuery;
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
     private SpecialsQuery mSpecialsQuery;
@@ -338,12 +338,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.Upcoming;
     }
 
-    public ItemRowAdapter(Context context, SeasonQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetSeasonsRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mSeasonQuery = query;
-        mSeasonQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.Season;
     }
 
@@ -621,7 +620,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieve(mUpcomingQuery);
                 break;
             case Season:
-                retrieve(mSeasonQuery);
+                ItemRowAdapterHelperKt.retrieveSeasons(this, api.getValue(), mSeasonQuery);
                 break;
             case Views:
                 ItemRowAdapterHelperKt.retrieveUserViews(this, api.getValue(), userViewsRepository.getValue());
@@ -1209,40 +1208,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving upcoming items");
                 removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieve(SeasonQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetSeasonsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int prevItems = Math.max(adapter.size(), 0);
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + response.getItems().length);
-                    if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving season items");
                 notifyRetrieveFinished(exception);
             }
         });

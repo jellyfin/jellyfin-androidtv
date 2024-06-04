@@ -12,6 +12,7 @@ import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
+import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
 import timber.log.Timber
 import java.util.UUID
 
@@ -80,5 +81,15 @@ object BrowsingUtils {
 		imageTypeLimit = 1,
 		includeItemTypes = itemType?.let(::setOf),
 		groupItems = groupItems,
+	)
+
+	@JvmStatic
+	fun createSeasonsRequest(seriesId: UUID) = GetSeasonsRequest(
+		seriesId = seriesId,
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
 	)
 }
