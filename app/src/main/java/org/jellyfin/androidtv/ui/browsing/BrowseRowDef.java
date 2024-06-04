@@ -4,8 +4,8 @@ import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
-import org.jellyfin.androidtv.data.querying.SpecialsQuery;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
+import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
@@ -30,7 +30,7 @@ public class BrowseRowDef {
     private ArtistsQuery artistsQuery;
     private AlbumArtistsQuery albumArtistsQuery;
     private GetResumeItemsRequest resumeQuery;
-    private SpecialsQuery specialsQuery;
+    private GetSpecialsRequest specialsQuery;
     private QueryType queryType;
 
     private int chunkSize = 0;
@@ -139,7 +139,7 @@ public class BrowseRowDef {
         this.queryType = type;
     }
 
-    public BrowseRowDef(String header, ViewQuery query) {
+    public BrowseRowDef(String header, GetUserViewsRequest query) {
         headerText = header;
         this.staticHeight = true;
         this.queryType = QueryType.Views;
@@ -155,7 +155,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, SpecialsQuery query) {
+    public BrowseRowDef(String header, GetSpecialsRequest query) {
         headerText = header;
         this.specialsQuery = query;
         this.queryType = QueryType.Specials;
@@ -206,7 +206,7 @@ public class BrowseRowDef {
 
     public GetResumeItemsRequest getResumeQuery() { return resumeQuery; }
 
-    public SpecialsQuery getSpecialsQuery() { return specialsQuery; }
+    public GetSpecialsRequest getSpecialsQuery() { return specialsQuery; }
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;
