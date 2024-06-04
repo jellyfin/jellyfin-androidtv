@@ -550,4 +550,7 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Yalnızca yaş derecelendirmesi ayarlanmış ögeleri göster</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Tüm ögeler gösteriliyor</string>
     <string name="lbl_home">Ana Ekran</string>
+    <string name="app_notification_update_soon">Bir sonraki güncellemeden sonra uygulamayı kullanmaya devam etmek için sunucunuzu %1$s sürümünden en az %2$s sürümüne güncelleyin.</string>
+    <string name="all_channels">Tüm kanallar</string>
+    <string name="current_queue">Geçerli kuyruk</string>
 </resources>
