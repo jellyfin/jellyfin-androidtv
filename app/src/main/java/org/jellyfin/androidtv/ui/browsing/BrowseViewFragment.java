@@ -28,7 +28,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
-import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
@@ -234,17 +233,10 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_coming_up), BrowsingUtils.createLiveTVUpcomingRequest()));
 
                 //Fav Channels
-                LiveTvChannelQuery favTv = new LiveTvChannelQuery();
-                favTv.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                favTv.setEnableFavoriteSorting(true);
-                favTv.setIsFavorite(true);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), favTv));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), BrowsingUtils.createLiveTVChannelsRequest(true)));
 
                 //Other Channels
-                LiveTvChannelQuery otherTv = new LiveTvChannelQuery();
-                otherTv.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                otherTv.setIsFavorite(false);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), otherTv));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), BrowsingUtils.createLiveTVChannelsRequest(false)));
 
                 //Latest Recordings
                 RecordingQuery recordings = new RecordingQuery();

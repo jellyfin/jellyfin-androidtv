@@ -38,17 +38,15 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
-import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
+import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest;
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest;
@@ -76,7 +74,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetSpecialsRequest mSpecialsQuery;
     private GetAdditionalPartsRequest mAdditionalPartsQuery;
     private GetTrailersRequest mTrailersQuery;
-    private LiveTvChannelQuery mTvChannelQuery;
+    private GetLiveTvChannelsRequest mTvChannelQuery;
     private GetRecommendedProgramsRequest mTvProgramQuery;
     private GetRecordingsRequest mTvRecordingQuery;
     private ArtistsQuery mArtistsQuery;
@@ -284,15 +282,12 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.Trailers;
     }
 
-    public ItemRowAdapter(Context context, LiveTvChannelQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetLiveTvChannelsRequest query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mTvChannelQuery = query;
         this.chunkSize = chunkSize;
-        if (chunkSize > 0) {
-            mTvChannelQuery.setLimit(chunkSize);
-        }
         queryType = QueryType.LiveTvChannel;
     }
 
@@ -509,11 +504,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 }
                 notifyRetrieveStarted();
 
-                savedIdx = mTvChannelQuery.getStartIndex();
-                //set the query to go get the next chunk
-                mTvChannelQuery.setStartIndex(itemsLoaded);
-                retrieve(mTvChannelQuery);
-                mTvChannelQuery.setStartIndex(savedIdx); // is reused so reset
+                ItemRowAdapterHelperKt.retrieveLiveTvChannels(this, api.getValue(), mTvChannelQuery, itemsLoaded, chunkSize);
                 break;
 
             case Artists:
@@ -623,7 +614,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 ItemRowAdapterHelperKt.retrieveSimilarItems(this, api.getValue(), mSimilarQuery);
                 break;
             case LiveTvChannel:
-                retrieve(mTvChannelQuery);
+                ItemRowAdapterHelperKt.retrieveLiveTvChannels(this, api.getValue(), mTvChannelQuery, 0, chunkSize);
                 break;
             case LiveTvProgram:
                 ItemRowAdapterHelperKt.retrieveLiveTvRecommendedPrograms(this, api.getValue(), mTvProgramQuery);
@@ -891,42 +882,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
         });
 
-    }
-
-    private void retrieve(final LiveTvChannelQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
-            @Override
-            public void onResponse(ChannelInfoDtoResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = itemsLoaded;
-                    if (i == 0 && adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (ChannelInfoDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                        i++;
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(i);
-                    if (i == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving live tv channels");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
     }
 
     protected void notifyRetrieveFinished() {

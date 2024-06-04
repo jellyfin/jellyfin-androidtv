@@ -6,10 +6,10 @@ import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
-import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
+import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest;
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest;
@@ -22,7 +22,7 @@ public class BrowseRowDef {
     private GetNextUpRequest nextUpQuery;
     private GetSimilarItemsRequest similarQuery;
     private GetLatestMediaRequest latestItemsQuery;
-    private LiveTvChannelQuery tvChannelQuery;
+    private GetLiveTvChannelsRequest tvChannelQuery;
     private GetRecommendedProgramsRequest programQuery;
     private GetRecordingsRequest recordingQuery;
     private GetSeriesTimersRequest seriesTimerQuery;
@@ -109,7 +109,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, LiveTvChannelQuery query) {
+    public BrowseRowDef(String header, GetLiveTvChannelsRequest query) {
         headerText = header;
         this.tvChannelQuery = query;
         this.queryType = QueryType.LiveTvChannel;
@@ -187,7 +187,7 @@ public class BrowseRowDef {
         return queryType;
     }
 
-    public LiveTvChannelQuery getTvChannelQuery() {
+    public GetLiveTvChannelsRequest getTvChannelQuery() {
         return tvChannelQuery;
     }
 

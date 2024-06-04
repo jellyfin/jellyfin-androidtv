@@ -11,6 +11,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
+import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
@@ -208,5 +209,10 @@ object BrowsingUtils {
 		enableImages = true,
 		limit = 60,
 		isKids = true,
+	)
+
+	@JvmStatic
+	fun createLiveTVChannelsRequest(isFavorite: Boolean) = GetLiveTvChannelsRequest(
+		isFavorite = isFavorite,
 	)
 }

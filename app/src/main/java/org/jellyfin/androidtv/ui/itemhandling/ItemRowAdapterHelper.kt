@@ -25,6 +25,7 @@ import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
+import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
@@ -401,6 +402,41 @@ fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
 						is SeriesTimerInfoDto -> SeriesTimerInfoDtoBaseRowItem(item)
 						else -> error("Unknown type for item")
 					}
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveLiveTvChannels(
+	api: ApiClient,
+	query: GetLiveTvChannelsRequest,
+	startIndex: Int,
+	batchSize: Int
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.liveTvApi.getLiveTvChannels(
+				query.copy(
+					startIndex = startIndex,
+					limit = batchSize,
+				)
+			)
+
+			totalItems = response.totalRecordCount
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						false,
+						isStaticHeight,
+					)
 				}
 			)
 
