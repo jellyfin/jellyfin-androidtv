@@ -13,6 +13,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
+import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
 import timber.log.Timber
 import java.util.UUID
 
@@ -68,7 +69,11 @@ object BrowsingUtils {
 
 	@JvmStatic
 	@JvmOverloads
-	fun createLatestMediaRequest(parentId: UUID, itemType: BaseItemKind? = null, groupItems: Boolean? = null) = GetLatestMediaRequest(
+	fun createLatestMediaRequest(
+		parentId: UUID,
+		itemType: BaseItemKind? = null,
+		groupItems: Boolean? = null
+	) = GetLatestMediaRequest(
 		fields = setOf(
 			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 			ItemFields.OVERVIEW,
@@ -89,6 +94,15 @@ object BrowsingUtils {
 		fields = setOf(
 			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
+	)
+
+	@JvmStatic
+	fun createUpcomingEpisodesRequest(parentId: UUID) = GetUpcomingEpisodesRequest(
+		parentId = parentId,
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 			ItemFields.CHILD_COUNT,
 		),
 	)

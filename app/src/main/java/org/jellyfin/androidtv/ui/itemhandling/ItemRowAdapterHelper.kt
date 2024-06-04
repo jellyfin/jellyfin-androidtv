@@ -20,6 +20,7 @@ import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
+import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
 import timber.log.Timber
 import kotlin.math.min
 
@@ -220,6 +221,24 @@ fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.tvShowsApi.getSeasons(query)
+
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEpisodesRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.tvShowsApi.getUpcomingEpisodes(query)
 
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),

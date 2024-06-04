@@ -49,7 +49,6 @@ import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
-import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -59,6 +58,7 @@ import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest;
+import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
@@ -74,7 +74,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private ItemQuery mQuery;
     private GetNextUpRequest mNextUpQuery;
     private GetSeasonsRequest mSeasonQuery;
-    private UpcomingEpisodesQuery mUpcomingQuery;
+    private GetUpcomingEpisodesRequest mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
     private SpecialsQuery mSpecialsQuery;
     private AdditionalPartsQuery mAdditionalPartsQuery;
@@ -329,12 +329,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, UpcomingEpisodesQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetUpcomingEpisodesRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mUpcomingQuery = query;
-        mUpcomingQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.Upcoming;
     }
 
@@ -617,7 +616,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 ItemRowAdapterHelperKt.retrieveLatestMedia(this, api.getValue(), mLatestQuery);
                 break;
             case Upcoming:
-                retrieve(mUpcomingQuery);
+                ItemRowAdapterHelperKt.retrieveUpcomingEpisodes(this, api.getValue(), mUpcomingQuery);
                 break;
             case Season:
                 ItemRowAdapterHelperKt.retrieveSeasons(this, api.getValue(), mSeasonQuery);
@@ -1170,43 +1169,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving similar series items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieve(final UpcomingEpisodesQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response.getItems()) {
-                        if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId())) {
-                            adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                        }
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + response.getItems().length);
-                    if (adapter.size() == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving upcoming items");
                 removeRow();
                 notifyRetrieveFinished(exception);
             }
