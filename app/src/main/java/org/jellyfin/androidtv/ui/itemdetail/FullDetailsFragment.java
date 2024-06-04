@@ -91,7 +91,6 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
-import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -688,20 +687,12 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     addItemRow(adapter, new ItemRowAdapter(requireContext(), new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
                 }
 
-                UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
-                upcoming.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                upcoming.setParentId(mBaseItem.getId().toString());
-                upcoming.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                ItemRowAdapter upcomingAdapter = new ItemRowAdapter(requireContext(), upcoming, new CardPresenter(), adapter);
+                ItemRowAdapter upcomingAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createUpcomingEpisodesRequest(mBaseItem.getId()), new CardPresenter(), adapter);
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
                     ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
-
                 }
 
                 SimilarItemsQuery similarSeries = new SimilarItemsQuery();
