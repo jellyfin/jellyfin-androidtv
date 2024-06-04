@@ -10,6 +10,8 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
@@ -214,5 +216,25 @@ object BrowsingUtils {
 	@JvmStatic
 	fun createLiveTVChannelsRequest(isFavorite: Boolean) = GetLiveTvChannelsRequest(
 		isFavorite = isFavorite,
+	)
+
+	@JvmStatic
+	fun createAlbumArtistsRequest(parentId: UUID) = GetAlbumArtistsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.ITEM_COUNTS,
+			ItemFields.CHILD_COUNT,
+		),
+		parentId = parentId,
+	)
+
+	@JvmStatic
+	fun createArtistsRequest(parentId: UUID) = GetArtistsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.ITEM_COUNTS,
+			ItemFields.CHILD_COUNT,
+		),
+		parentId = parentId,
 	)
 }

@@ -14,8 +14,10 @@ import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
 import org.jellyfin.androidtv.data.querying.GetTrailersRequest
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.GridButton
+import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment.SortOption
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
+import org.jellyfin.sdk.api.client.extensions.artistsApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
@@ -23,7 +25,11 @@ import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.ItemFilter
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
+import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
@@ -447,6 +453,122 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 		)
 	}
 }
+
+fun ItemRowAdapter.retrieveAlbumArtists(
+	api: ApiClient,
+	query: GetAlbumArtistsRequest,
+	startIndex: Int,
+	batchSize: Int
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.artistsApi.getAlbumArtists(
+				query.copy(
+					startIndex = startIndex,
+					limit = batchSize,
+				)
+			)
+
+			totalItems = response.totalRecordCount
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						preferParentThumb,
+						isStaticHeight,
+					)
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveArtists(
+	api: ApiClient,
+	query: GetArtistsRequest,
+	startIndex: Int,
+	batchSize: Int
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.artistsApi.getArtists(
+				query.copy(
+					startIndex = startIndex,
+					limit = batchSize,
+				)
+			)
+
+			totalItems = response.totalRecordCount
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						preferParentThumb,
+						isStaticHeight,
+					)
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+// Request modifiers
+
+fun setAlbumArtistsSorting(
+	request: GetAlbumArtistsRequest,
+	sortOption: SortOption,
+) = request.copy(
+	sortBy = setOf(sortOption.value, ItemSortBy.SORT_NAME),
+	sortOrder = setOf(sortOption.order)
+)
+
+fun setArtistsSorting(
+	request: GetArtistsRequest,
+	sortOption: SortOption,
+) = request.copy(
+	sortBy = setOf(sortOption.value, ItemSortBy.SORT_NAME),
+	sortOrder = setOf(sortOption.order)
+)
+
+fun setAlbumArtistsFilter(
+	request: GetAlbumArtistsRequest,
+	filters: Collection<ItemFilter>?,
+) = request.copy(
+	filters = filters,
+)
+
+fun setArtistsFilter(
+	request: GetArtistsRequest,
+	filters: Collection<ItemFilter>?,
+) = request.copy(
+	filters = filters,
+)
+
+fun setAlbumArtistsStartLetter(
+	request: GetAlbumArtistsRequest,
+	startLetter: String?,
+) = request.copy(
+	nameStartsWithOrGreater = startLetter,
+)
+
+fun setArtistsStartLetter(
+	request: GetArtistsRequest,
+	startLetter: String?,
+) = request.copy(
+	nameStartsWithOrGreater = startLetter,
+)
 
 @JvmOverloads
 fun ItemRowAdapter.refreshItem(

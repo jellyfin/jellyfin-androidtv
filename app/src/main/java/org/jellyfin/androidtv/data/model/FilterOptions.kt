@@ -6,9 +6,9 @@ class FilterOptions {
 	var isFavoriteOnly = false
 	var isUnwatchedOnly = false
 
-	val filters: Array<ItemFilter>?
+	val filters: Array<ItemFilter>
 		get() {
-			if (!isUnwatchedOnly && !isFavoriteOnly) return null
+			if (!isUnwatchedOnly && !isFavoriteOnly) return emptyArray()
 
 			return buildList {
 				if (isFavoriteOnly) add(ItemFilter.IsFavorite)
