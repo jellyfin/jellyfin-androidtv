@@ -11,16 +11,16 @@ import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
+import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest;
 
 public class BrowseRowDef {
     private String headerText;
     private ItemQuery query;
     private GetNextUpRequest nextUpQuery;
-    private SimilarItemsQuery similarQuery;
+    private GetSimilarItemsRequest similarQuery;
     private GetLatestMediaRequest latestItemsQuery;
     private LiveTvChannelQuery tvChannelQuery;
     private RecommendedProgramQuery programQuery;
@@ -133,7 +133,7 @@ public class BrowseRowDef {
         this.queryType = QueryType.LiveTvRecording;
     }
 
-    public BrowseRowDef(String header, SimilarItemsQuery query, QueryType type) {
+    public BrowseRowDef(String header, GetSimilarItemsRequest query, QueryType type) {
         headerText = header;
         this.similarQuery = query;
         this.queryType = type;
@@ -181,7 +181,7 @@ public class BrowseRowDef {
 
     public GetLatestMediaRequest getLatestItemsQuery() { return latestItemsQuery; }
 
-    public SimilarItemsQuery getSimilarQuery() { return similarQuery; }
+    public GetSimilarItemsRequest getSimilarQuery() { return similarQuery; }
 
     public QueryType getQueryType() {
         return queryType;

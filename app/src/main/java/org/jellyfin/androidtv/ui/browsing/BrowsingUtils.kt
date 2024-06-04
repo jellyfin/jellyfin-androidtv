@@ -13,6 +13,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
+import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
 import timber.log.Timber
 import java.util.UUID
@@ -105,5 +106,16 @@ object BrowsingUtils {
 			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 			ItemFields.CHILD_COUNT,
 		),
+	)
+
+	@JvmStatic
+	fun createSimilarItemsRequest(itemId: UUID) = GetSimilarItemsRequest(
+		itemId = itemId,
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
+		limit = 20,
 	)
 }
