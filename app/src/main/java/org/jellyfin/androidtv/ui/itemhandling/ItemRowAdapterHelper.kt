@@ -6,12 +6,14 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery
 import org.jellyfin.androidtv.data.querying.SpecialsQuery
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
@@ -164,6 +166,24 @@ fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: SpecialsQuery)
 			)
 
 			if (response.isEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: AdditionalPartsQuery) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.videosApi.getAdditionalPart(query.itemId)
+
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }

@@ -554,7 +554,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Additional Parts
                 if (mBaseItem.getPartCount() != null && mBaseItem.getPartCount() > 0) {
-                    ItemRowAdapter additionalPartsAdapter = new ItemRowAdapter(requireContext(), new AdditionalPartsQuery(mBaseItem.getId().toString()), new CardPresenter(), adapter);
+                    ItemRowAdapter additionalPartsAdapter = new ItemRowAdapter(requireContext(), new AdditionalPartsQuery(mBaseItem.getId()), new CardPresenter(), adapter);
                     addItemRow(adapter, additionalPartsAdapter, 0, getString(R.string.lbl_additional_parts));
                 }
 
