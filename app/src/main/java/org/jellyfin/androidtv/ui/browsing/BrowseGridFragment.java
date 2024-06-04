@@ -38,7 +38,6 @@ import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
@@ -63,7 +62,6 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -578,26 +576,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     //Special queries needed for album artists
                     String includeType = getArguments().getString(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
-                        AlbumArtistsQuery albumArtists = new AlbumArtistsQuery();
-                        albumArtists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
-                        albumArtists.setFields(new ItemFields[]{
-                                ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.ItemCounts,
-                                ItemFields.ChildCount,
-                        });
-                        albumArtists.setParentId(mParentId.toString());
-                        setRowDef(new BrowseRowDef("", albumArtists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                        setRowDef(new BrowseRowDef("", BrowsingUtils.createAlbumArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
                         return;
                     } else if ("Artist".equals(includeType)) {
-                        ArtistsQuery artists = new ArtistsQuery();
-                        artists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
-                        artists.setFields(new ItemFields[]{
-                                ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.ItemCounts,
-                                ItemFields.ChildCount
-                        });
-                        artists.setParentId(mParentId.toString());
-                        setRowDef(new BrowseRowDef("", artists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                        setRowDef(new BrowseRowDef("", BrowsingUtils.createArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
                         return;
                     }
                     query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicAlbum"});

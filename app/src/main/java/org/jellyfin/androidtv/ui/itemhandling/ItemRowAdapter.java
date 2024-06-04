@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
@@ -38,13 +37,14 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
+import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
@@ -77,8 +77,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetLiveTvChannelsRequest mTvChannelQuery;
     private GetRecommendedProgramsRequest mTvProgramQuery;
     private GetRecordingsRequest mTvRecordingQuery;
-    private ArtistsQuery mArtistsQuery;
-    private AlbumArtistsQuery mAlbumArtistsQuery;
+    private GetArtistsRequest mArtistsQuery;
+    private GetAlbumArtistsRequest mAlbumArtistsQuery;
     private GetLatestMediaRequest mLatestQuery;
     private GetResumeItemsRequest resumeQuery;
     private QueryType queryType;
@@ -169,31 +169,23 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this(context, query, chunkSize, preferParentThumb, staticHeight, presenter, parent, QueryType.Items);
     }
 
-    public ItemRowAdapter(Context context, ArtistsQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetArtistsRequest query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mArtistsQuery = query;
-        mArtistsQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         staticHeight = true;
         this.chunkSize = chunkSize;
-        if (chunkSize > 0) {
-            mArtistsQuery.setLimit(chunkSize);
-        }
         queryType = QueryType.Artists;
     }
 
-    public ItemRowAdapter(Context context, AlbumArtistsQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetAlbumArtistsRequest query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mAlbumArtistsQuery = query;
-        mAlbumArtistsQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         staticHeight = true;
         this.chunkSize = chunkSize;
-        if (chunkSize > 0) {
-            mAlbumArtistsQuery.setLimit(chunkSize);
-        }
         queryType = QueryType.AlbumArtists;
     }
 
@@ -376,12 +368,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             sortOrder = option.order;
             switch (queryType) {
                 case Artists:
-                    mArtistsQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
-                    mArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
+                    mArtistsQuery = ItemRowAdapterHelperKt.setArtistsSorting(mArtistsQuery, option);
                     break;
                 case AlbumArtists:
-                    mAlbumArtistsQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
-                    mAlbumArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
+                    mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsSorting(mAlbumArtistsQuery, option);
                     break;
                 default:
                     mQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
@@ -410,10 +400,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         mFilters = filters;
         switch (queryType) {
             case Artists:
-                mArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+                mArtistsQuery = ItemRowAdapterHelperKt.setArtistsFilter(mArtistsQuery, ModelCompat.asSdk(filters.getFilters()));
                 break;
             case AlbumArtists:
-                mAlbumArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+                mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsFilter(mAlbumArtistsQuery, ModelCompat.asSdk(filters.getFilters()));
                 break;
             default:
                 mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
@@ -429,16 +419,16 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         switch (queryType) {
             case Artists:
                 if (value != null && value.equals("#")) {
-                    mArtistsQuery.setNameStartsWithOrGreater(null);
+                    mArtistsQuery = ItemRowAdapterHelperKt.setArtistsStartLetter(mArtistsQuery, null);
                 } else {
-                    mArtistsQuery.setNameStartsWithOrGreater(value);
+                    mArtistsQuery = ItemRowAdapterHelperKt.setArtistsStartLetter(mArtistsQuery, value);
                 }
                 break;
             case AlbumArtists:
                 if (value != null && value.equals("#")) {
-                    mAlbumArtistsQuery.setNameStartsWithOrGreater(null);
+                    mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsStartLetter(mAlbumArtistsQuery, null);
                 } else {
-                    mAlbumArtistsQuery.setNameStartsWithOrGreater(value);
+                    mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsStartLetter(mAlbumArtistsQuery, value);
                 }
                 break;
             default:
@@ -513,11 +503,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 }
                 notifyRetrieveStarted();
 
-                savedIdx = mArtistsQuery.getStartIndex();
-                //set the query to go get the next chunk
-                mArtistsQuery.setStartIndex(itemsLoaded);
-                retrieve(mArtistsQuery);
-                mArtistsQuery.setStartIndex(savedIdx); // is reused so reset
+                ItemRowAdapterHelperKt.retrieveArtists(this, api.getValue(), mArtistsQuery, itemsLoaded, chunkSize);
                 break;
 
             case AlbumArtists:
@@ -526,11 +512,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 }
                 notifyRetrieveStarted();
 
-                savedIdx = mAlbumArtistsQuery.getStartIndex();
-                //set the query to go get the next chunk
-                mAlbumArtistsQuery.setStartIndex(itemsLoaded);
-                retrieve(mAlbumArtistsQuery);
-                mAlbumArtistsQuery.setStartIndex(savedIdx); // is reused so reset
+                ItemRowAdapterHelperKt.retrieveAlbumArtists(this, api.getValue(), mAlbumArtistsQuery, itemsLoaded, chunkSize);
                 break;
 
             default:
@@ -648,10 +630,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 addToParentIfResultsReceived();
                 break;
             case Artists:
-                retrieve(mArtistsQuery);
+                ItemRowAdapterHelperKt.retrieveArtists(this, api.getValue(), mArtistsQuery, 0, chunkSize);
                 break;
             case AlbumArtists:
-                retrieve(mAlbumArtistsQuery);
+                ItemRowAdapterHelperKt.retrieveAlbumArtists(this, api.getValue(), mAlbumArtistsQuery, 0, chunkSize);
                 break;
             case AudioPlaylists:
                 retrieveAudioPlaylists(mQuery);
@@ -758,54 +740,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         add(new GridButton(EnhancedBrowseFragment.FAVSONGS, context.getString(R.string.lbl_favorites), R.drawable.favorites));
         itemsLoaded = 1;
         retrieve(query);
-    }
-
-    private void retrieve(ArtistsQuery query) {
-        apiClient.getValue().GetArtistsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(response.getTotalRecordCount());
-
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
-                } else if (getItemsLoaded() == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-    }
-
-    private void retrieve(AlbumArtistsQuery query) {
-        apiClient.getValue().GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(response.getTotalRecordCount());
-
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
-                } else if (getItemsLoaded() == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
     }
 
     private void retrievePremieres(final ItemQuery query) {

@@ -2,12 +2,12 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
-import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
-import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
@@ -27,8 +27,8 @@ public class BrowseRowDef {
     private GetRecordingsRequest recordingQuery;
     private GetSeriesTimersRequest seriesTimerQuery;
 
-    private ArtistsQuery artistsQuery;
-    private AlbumArtistsQuery albumArtistsQuery;
+    private GetArtistsRequest artistsQuery;
+    private GetAlbumArtistsRequest albumArtistsQuery;
     private GetResumeItemsRequest resumeQuery;
     private GetSpecialsRequest specialsQuery;
     private QueryType queryType;
@@ -70,7 +70,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, ArtistsQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, GetArtistsRequest query, int chunkSize, ChangeTriggerType[] changeTriggers) {
         headerText = header;
         this.artistsQuery = query;
         this.chunkSize = chunkSize;
@@ -78,7 +78,7 @@ public class BrowseRowDef {
         this.changeTriggers = changeTriggers;
     }
 
-    public BrowseRowDef(String header, AlbumArtistsQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, GetAlbumArtistsRequest query, int chunkSize, ChangeTriggerType[] changeTriggers) {
         headerText = header;
         this.albumArtistsQuery = query;
         this.chunkSize = chunkSize;
@@ -199,8 +199,8 @@ public class BrowseRowDef {
 
     public boolean getPreferParentThumb() { return preferParentThumb; }
 
-    public ArtistsQuery getArtistsQuery() { return artistsQuery; }
-    public AlbumArtistsQuery getAlbumArtistsQuery() { return albumArtistsQuery; }
+    public GetArtistsRequest getArtistsQuery() { return artistsQuery; }
+    public GetAlbumArtistsRequest getAlbumArtistsQuery() { return albumArtistsQuery; }
 
     public GetSeriesTimersRequest getSeriesTimerQuery() { return seriesTimerQuery; }
 
