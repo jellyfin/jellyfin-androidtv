@@ -8,11 +8,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery
 import org.jellyfin.androidtv.data.querying.SpecialsQuery
+import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
@@ -184,6 +186,29 @@ fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: AdditionalPart
 			)
 
 			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+
+fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserViewsRepository) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.userViewsApi.getUserViews()
+
+			val filteredItems = response.items.orEmpty()
+				.filter { userViewsRepository.isSupported(it.collectionType) }
+				.map { it.copy(displayPreferencesId = it.id.toString()) }
+
+			setItems(
+				items = filteredItems.toTypedArray(),
+				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
+			)
+
+			if (filteredItems.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }

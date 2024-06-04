@@ -56,7 +56,6 @@ import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
-import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
@@ -625,7 +624,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieve(mSeasonQuery);
                 break;
             case Views:
-                retrieveViews();
+                ItemRowAdapterHelperKt.retrieveUserViews(this, api.getValue(), userViewsRepository.getValue());
                 break;
             case SimilarSeries:
                 retrieveSimilarSeries(mSimilarQuery);
@@ -739,38 +738,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         }
 
         notifyRetrieveFinished();
-    }
-
-    private void retrieveViews() {
-        final UserDto user = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
-        apiClient.getValue().GetUserViews(user.getId().toString(), new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(response.getTotalRecordCount());
-
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> {
-                        if (userViewsRepository.getValue().isSupported(ModelCompat.asSdk(item).getCollectionType())) {
-                            item.setDisplayPreferencesId(item.getId());
-                            return new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, staticHeight);
-                        } else {
-                            return null;
-                        }
-                    });
-                } else if (getItemsLoaded() == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
     }
 
     private void addToParentIfResultsReceived() {
