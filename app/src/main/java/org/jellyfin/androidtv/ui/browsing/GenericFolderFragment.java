@@ -62,7 +62,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
             mRows.add(new BrowseRowDef(header, byName, 100));
 
             if (mFolder.getType() == BaseItemKind.SEASON) {
-                SpecialsQuery specials = new SpecialsQuery(mFolder.getId().toString());
+                SpecialsQuery specials = new SpecialsQuery(mFolder.getId());
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_specials), specials));
             }
 
