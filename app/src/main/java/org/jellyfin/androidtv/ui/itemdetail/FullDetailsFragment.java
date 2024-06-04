@@ -90,7 +90,6 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -580,16 +579,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
 
                 //Similar
-                SimilarItemsQuery similar = new SimilarItemsQuery();
-                similar.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                similar.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                similar.setId(mBaseItem.getId().toString());
-                similar.setLimit(10);
-
-                ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(requireContext(), similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createSimilarItemsRequest(mBaseItem.getId()), QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarMoviesAdapter, 5, getString(R.string.lbl_more_like_this));
 
                 addInfoRows(adapter);
@@ -603,16 +593,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
 
                 //Similar
-                SimilarItemsQuery similarTrailer = new SimilarItemsQuery();
-                similarTrailer.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                similarTrailer.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                similarTrailer.setId(mBaseItem.getId().toString());
-                similarTrailer.setLimit(10);
-
-                ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(requireContext(), similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createSimilarItemsRequest(mBaseItem.getId()), QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarTrailerAdapter, 4, getString(R.string.lbl_more_like_this));
                 addInfoRows(adapter);
                 break;
@@ -695,16 +676,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
                 }
 
-                SimilarItemsQuery similarSeries = new SimilarItemsQuery();
-                similarSeries.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.DisplayPreferencesId,
-                        ItemFields.ChildCount
-                });
-                similarSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                similarSeries.setId(mBaseItem.getId().toString());
-                similarSeries.setLimit(20);
-                ItemRowAdapter similarAdapter = new ItemRowAdapter(requireContext(), similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
+                ItemRowAdapter similarAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createSimilarItemsRequest(mBaseItem.getId()), QueryType.SimilarSeries, new CardPresenter(), adapter);
                 addItemRow(adapter, similarAdapter, 4, getString(R.string.lbl_more_like_this));
                 break;
 

@@ -48,7 +48,6 @@ import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
-import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -58,6 +57,7 @@ import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest;
+import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest;
 import org.koin.java.KoinJavaComponent;
 
@@ -75,7 +75,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetNextUpRequest mNextUpQuery;
     private GetSeasonsRequest mSeasonQuery;
     private GetUpcomingEpisodesRequest mUpcomingQuery;
-    private SimilarItemsQuery mSimilarQuery;
+    private GetSimilarItemsRequest mSimilarQuery;
     private SpecialsQuery mSpecialsQuery;
     private AdditionalPartsQuery mAdditionalPartsQuery;
     private TrailersQuery mTrailersQuery;
@@ -320,12 +320,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, SimilarItemsQuery query, QueryType queryType, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetSimilarItemsRequest query, QueryType queryType, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mSimilarQuery = query;
-        mSimilarQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         this.queryType = queryType;
     }
 
@@ -625,10 +624,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 ItemRowAdapterHelperKt.retrieveUserViews(this, api.getValue(), userViewsRepository.getValue());
                 break;
             case SimilarSeries:
-                retrieveSimilarSeries(mSimilarQuery);
-                break;
             case SimilarMovies:
-                retrieveSimilarMovies(mSimilarQuery);
+                ItemRowAdapterHelperKt.retrieveSimilarItems(this, api.getValue(), mSimilarQuery);
                 break;
             case LiveTvChannel:
                 retrieve(mTvChannelQuery);
@@ -1099,76 +1096,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving special features");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieveSimilarSeries(final SimilarItemsQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetSimilarItems(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + response.getItems().length);
-                    if (response.getItems().length == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving similar series items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-
-    }
-
-    private void retrieveSimilarMovies(final SimilarItemsQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetSimilarItems(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item)));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + response.getItems().length);
-                    if (response.getItems().length == 0) {
-                        removeRow();
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving similar series items");
                 removeRow();
                 notifyRetrieveFinished(exception);
             }

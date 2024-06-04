@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
@@ -20,6 +21,7 @@ import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
+import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
 import timber.log.Timber
 import kotlin.math.min
@@ -239,6 +241,24 @@ fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEp
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.tvShowsApi.getUpcomingEpisodes(query)
+
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.libraryApi.getSimilarItems(query)
 
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
