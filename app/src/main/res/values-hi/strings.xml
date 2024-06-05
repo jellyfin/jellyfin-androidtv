@@ -58,7 +58,16 @@
     <string name="lbl_favorite">पसंदीदा</string>
     <string name="lbl_watched">देखा गया</string>
     <string name="lbl_runs">चलता है</string>
-    <string name="lbl_min">" कम से कम"</string>
-    <string name="lbl_ends">समाप्त</string>
-    <string name="lbl_directed_by">द्वारा निर्देशित</string>
+    <string name="lbl_min">" मिनट"</string>
+    <string name="lbl_ends">समाप्त होगा</string>
+    <string name="lbl_directed_by">निर्देशक</string>
+    <string name="lbl_sd">SD</string>
+    <string name="lbl_last_played">"आखरि बार देखा "</string>
+    <string name="lbl_other_options">दुसरे विकल्प</string>
+    <string name="lbl_people">लोग</string>
+    <string name="lbl_recordings">रिकोर्डिगं</string>
+    <string name="lbl_videos">विडियो</string>
+    <string name="lbl_home">घर</string>
+    <string name="lbl_runtime">रनटाइम</string>
+    <string name="because_you_watched">क्योंकी आपने %1$s देखा</string>
 </resources>
