@@ -287,7 +287,7 @@
     <string name="lbl_tomatoes">Tomater</string>
     <string name="lbl_stars">Stjerner</string>
     <string name="lbl_use_series_thumbnails">Foretræk miniaturebilleder fra serie</string>
-    <string name="lbl_hide_unwatched_count">Skjul ikke afspillede antal</string>
+    <string name="lbl_hide_unwatched_count">Når emnet er afspillet</string>
     <string name="pref_watched_indicator">Vis indikator for afspillet</string>
     <string name="login_help_description">Jellyfin kræver en server at forbinde til. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
     <string name="login_help_title">Brug for hjælp\?</string>
@@ -460,7 +460,7 @@
     <string name="color_yellow">Gul</string>
     <string name="color_pink">Lyse Rød</string>
     <string name="app_notification_beta">Appen er opdateret til %1$s
-\nTak fordi du deltager i Jellyfin beta program</string>
+\nTak fordi du deltager i Jellyfin beta programmet.</string>
     <string name="item_deleted">%1$s slettet</string>
     <string name="item_deletion_failed">Kunne ikke slette %1$s</string>
     <string name="pref_enable_media_management">Tillad medie håndtering</string>
@@ -538,4 +538,19 @@
     <string name="pref_screensaver_ageratingmax_zero">Alle aldre</string>
     <string name="pref_screensaver_ageratingmax_entry">Op til %1$d år</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Deaktiver maksimum</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">%1$s emne</item>
+        <item quantity="other">%1$s emner</item>
+    </plurals>
+    <string name="dca">DTS</string>
+    <string name="lbl_home">Hjem</string>
+    <string name="lbl_hide_watched_checkmark">Når der er episoder tilbage</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="pref_screensaver_ageratingmax">Maksimal aldersgrænse</string>
 </resources>
