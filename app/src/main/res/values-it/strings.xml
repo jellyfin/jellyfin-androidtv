@@ -467,7 +467,7 @@
     <string name="item_deletion_failed">Impossibile rimuovere %1$s</string>
     <string name="pref_enable_media_management">Abilita la gestione dei media</string>
     <string name="app_notification_beta">App aggiornata a %1$s
-\nGrazie per la partecipazione al programma Jellyfin beta</string>
+\nGrazie per la partecipazione al programma Jellyfin beta.</string>
     <string name="pref_enable_media_management_description">Mostra l\'opzione per gestire i media durante la navigazione</string>
     <string name="item_delete_confirm_message">Sei sicuro di voler eliminare questo elemento dal server\? L\'operazione non può essere annullata.</string>
     <string name="lbl_subtitle_stroke">Dimensione sottotitoli</string>
@@ -549,4 +549,13 @@
         <item quantity="other">%1$s film</item>
     </plurals>
     <string name="lbl_runtime">Runtime</string>
+    <string name="lbl_home">Home</string>
+    <string name="random">Casuale</string>
+    <string name="pref_playback_advanced">Preferenze di riproduzione avanzate</string>
+    <string name="all_channels">Tutti i canali</string>
+    <string name="current_queue">Coda corrente</string>
+    <string name="unreleased">Non ancora uscito</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostra tutti gli elementi</string>
+    <string name="pref_screensaver_ageratingmax_entry">Fino ad anni %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Disattiva massimo</string>
 </resources>
