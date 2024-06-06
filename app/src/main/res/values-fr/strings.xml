@@ -466,7 +466,7 @@
     <string name="color_pink">Rose</string>
     <string name="color_cyan">Cyan</string>
     <string name="app_notification_beta">Application mise à jour en %1$s
-\nMerci de participer au programme bêta de Jellyfin</string>
+\nMerci de participer au programme bêta de Jellyfin.</string>
     <string name="item_delete_confirm_title">Supprimer l\'élément</string>
     <string name="item_deleted">%1$s supprimé</string>
     <string name="item_deletion_failed">Impossible à supprimer %1$s</string>
@@ -561,4 +561,6 @@
     <string name="lbl_home">Accueil</string>
     <string name="pref_playback_advanced">Préférences de lecture avancées</string>
     <string name="all_channels">Toutes les chaînes</string>
+    <string name="app_notification_update_soon">Mettez à jour votre serveur de %1$s à %2$s minimum pour pouvoir continuer à utiliser l\'application après la prochaine mise à jour.</string>
+    <string name="current_queue">Liste de lecture actuelle</string>
 </resources>
