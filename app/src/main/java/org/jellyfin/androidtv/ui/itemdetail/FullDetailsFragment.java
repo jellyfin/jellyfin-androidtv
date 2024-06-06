@@ -1271,8 +1271,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         List<TextUnderButton> actionsList = new ArrayList<>();
         // added in order of priority (should match res/menu/menu_details_more.xml)
         if (queueButton != null) actionsList.add(queueButton);
-        if (shuffleButton != null) actionsList.add(shuffleButton);
         if (trailerButton != null) actionsList.add(trailerButton);
+        if (shuffleButton != null) actionsList.add(shuffleButton);
         if (favButton != null) actionsList.add(favButton);
         if (goToSeriesButton != null) actionsList.add(goToSeriesButton);
 
