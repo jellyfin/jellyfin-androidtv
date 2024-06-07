@@ -412,7 +412,14 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     public @Nullable String getStartLetter() {
-        return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
+        switch (queryType) {
+            case Artists:
+                return mArtistsQuery != null ? mArtistsQuery.getNameStartsWith() : null;
+            case AlbumArtists:
+                return mAlbumArtistsQuery != null ? mAlbumArtistsQuery.getNameStartsWith() : null;
+            default:
+                return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
+        }
     }
 
     public void setStartLetter(String value) {
@@ -737,7 +744,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private void retrieveAudioPlaylists(final ItemQuery query) {
         //Add specialized playlists first
         clear();
-        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, context.getString(R.string.lbl_favorites), R.drawable.favorites));
+        add(new GridButtonBaseRowItem(new GridButton(EnhancedBrowseFragment.FAVSONGS, context.getString(R.string.lbl_favorites), R.drawable.favorites)));
         itemsLoaded = 1;
         retrieve(query);
     }
