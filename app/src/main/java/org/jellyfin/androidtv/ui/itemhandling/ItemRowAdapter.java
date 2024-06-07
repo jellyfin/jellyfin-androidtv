@@ -9,6 +9,7 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.PresenterSelector;
 import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
@@ -151,6 +152,21 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
+        super(presenter);
+        this.context = context;
+        mParent = parent;
+        mQuery = query;
+        mQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
+        this.chunkSize = chunkSize;
+        this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
+        if (chunkSize > 0) {
+            mQuery.setLimit(chunkSize);
+        }
+        this.queryType = queryType;
+    }
+
+    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
