@@ -40,6 +40,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
@@ -223,8 +224,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter(false, 140);
         ClassPresenterSelector ps = new ClassPresenterSelector();
+        ps.addClassPresenter(GridButtonBaseRowItem.class, new GridButtonPresenter(155, 140));
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
-        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(155, 140));
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText());
@@ -264,7 +265,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getSpecialsQuery(), new CardPresenter(true, ImageType.THUMB, 150), mRowsAdapter);
                     break;
                 default:
-                    rowAdapter = new ItemRowAdapter(requireContext(), def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
+                    rowAdapter = new ItemRowAdapter(requireContext(), def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
                     break;
             }
 
@@ -352,6 +353,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final class SpecialViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (item instanceof GridButtonBaseRowItem) item = ((GridButtonBaseRowItem) item).getGridButton();
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
