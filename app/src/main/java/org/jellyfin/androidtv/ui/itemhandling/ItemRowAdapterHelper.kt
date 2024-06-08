@@ -44,7 +44,7 @@ import timber.log.Timber
 import kotlin.math.min
 
 fun <T : Any> ItemRowAdapter.setItems(
-	items: Array<T>,
+	items: Collection<T>,
 	transform: (T, Int) -> BaseRowItem?,
 ) {
 	Timber.d("Creating items from $itemsLoaded existing and ${items.size} new, adapter size is ${size()}")
@@ -77,7 +77,7 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 			val response by api.itemsApi.getResumeItems(query)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -115,7 +115,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				val items = buildList {
 					add(firstNextUp)
 					episodesResponse.items?.let { addAll(it) }
-				}.toTypedArray()
+				}
 
 				setItems(
 					items = items,
@@ -131,7 +131,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				if (items.isEmpty()) removeRow()
 			} else {
 				setItems(
-					items = response.items.orEmpty().toTypedArray(),
+					items = response.items.orEmpty(),
 					transform = { item, _ ->
 						BaseItemDtoBaseRowItem(
 							item,
@@ -156,7 +156,7 @@ fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequ
 			val response by api.userLibraryApi.getLatestMedia(query)
 
 			setItems(
-				items = response.toTypedArray(),
+				items = response,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -182,7 +182,7 @@ fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: GetSpecialsReq
 			val response by api.userLibraryApi.getSpecialFeatures(query.itemId)
 
 			setItems(
-				items = response.toTypedArray(),
+				items = response,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(item, preferParentThumb, false)
 				}
@@ -202,7 +202,7 @@ fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: GetAdditionalP
 			val response by api.videosApi.getAdditionalPart(query.itemId)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
@@ -224,7 +224,7 @@ fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserVi
 				.map { it.copy(displayPreferencesId = it.id.toString()) }
 
 			setItems(
-				items = filteredItems.toTypedArray(),
+				items = filteredItems,
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
@@ -242,7 +242,7 @@ fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 			val response by api.tvShowsApi.getSeasons(query)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
@@ -260,7 +260,7 @@ fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEp
 			val response by api.tvShowsApi.getUpcomingEpisodes(query)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
@@ -278,7 +278,7 @@ fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRe
 			val response by api.libraryApi.getSimilarItems(query)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
@@ -296,7 +296,7 @@ fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: GetTrailersRequest) {
 			val response by api.userLibraryApi.getLocalTrailers(itemId = query.itemId)
 
 			setItems(
-				items = response.toTypedArray(),
+				items = response,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -325,7 +325,7 @@ fun ItemRowAdapter.retrieveLiveTvRecommendedPrograms(
 			val response by api.liveTvApi.getRecommendedPrograms(query)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -349,7 +349,7 @@ fun ItemRowAdapter.retrieveLiveTvRecordings(api: ApiClient, query: GetRecordings
 			val response by api.liveTvApi.getRecordings(query)
 
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -402,7 +402,7 @@ fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
 					}
 
 					addAll(response.items.orEmpty())
-				}.toTypedArray(),
+				},
 				transform = { item, _ ->
 					when (item) {
 						is GridButton -> GridButtonBaseRowItem(item)
@@ -437,7 +437,7 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -472,7 +472,7 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -507,7 +507,7 @@ fun ItemRowAdapter.retrieveArtists(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -542,7 +542,7 @@ fun ItemRowAdapter.retrieveItems(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty().toTypedArray(),
+				items = response.items.orEmpty(),
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -572,7 +572,7 @@ fun ItemRowAdapter.retrievePremieres(
 				.filter { it.indexNumber == 1 }
 
 			setItems(
-				items = filteredItems.toTypedArray(),
+				items = filteredItems,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
