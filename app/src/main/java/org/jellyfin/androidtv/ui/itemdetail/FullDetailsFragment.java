@@ -44,7 +44,6 @@ import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest;
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.GetTrailersRequest;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentFullDetailsBinding;
@@ -88,12 +87,9 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
-import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
-import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaType;
@@ -598,61 +594,18 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 addInfoRows(adapter);
                 break;
             case PERSON:
-
-                ItemQuery personMovies = new ItemQuery();
-                personMovies.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                personMovies.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personMovies.setPersonIds(new String[]{mBaseItem.getId().toString()});
-                personMovies.setRecursive(true);
-                personMovies.setIncludeItemTypes(new String[]{"Movie"});
-                personMovies.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(requireContext(), personMovies, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createPersonItemsRequest(mBaseItem.getId(), BaseItemKind.MOVIE), 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personMoviesAdapter, 0, getString(R.string.lbl_movies));
 
-                ItemQuery personSeries = new ItemQuery();
-                personSeries.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.DisplayPreferencesId,
-                        ItemFields.ChildCount
-                });
-                personSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personSeries.setPersonIds(new String[]{mBaseItem.getId().toString()});
-                personSeries.setRecursive(true);
-                personSeries.setIncludeItemTypes(new String[]{"Series"});
-                personSeries.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(requireContext(), personSeries, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createPersonItemsRequest(mBaseItem.getId(), BaseItemKind.SERIES), 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, getString(R.string.lbl_tv_series));
 
-                ItemQuery personEpisodes = new ItemQuery();
-                personEpisodes.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.DisplayPreferencesId,
-                        ItemFields.ChildCount
-                });
-                personEpisodes.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personEpisodes.setPersonIds(new String[]{mBaseItem.getId().toString()});
-                personEpisodes.setRecursive(true);
-                personEpisodes.setIncludeItemTypes(new String[]{"Episode"});
-                personEpisodes.setSortBy(new String[]{ItemSortBy.SERIES_SORT_NAME.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
-                ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(requireContext(), personEpisodes, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createPersonItemsRequest(mBaseItem.getId(), BaseItemKind.EPISODE), 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personEpisodesAdapter, 2, getString(R.string.lbl_episodes));
 
                 break;
             case MUSIC_ARTIST:
-
-                ItemQuery artistAlbums = new ItemQuery();
-                artistAlbums.setFields(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                artistAlbums.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                artistAlbums.setArtistIds(new String[]{mBaseItem.getId().toString()});
-                artistAlbums.setRecursive(true);
-                artistAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
-                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(), artistAlbums, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(),  BrowsingUtils.createArtistItemsRequest(mBaseItem.getId(), BaseItemKind.MUSIC_ALBUM), 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, artistAlbumsAdapter, 0, getString(R.string.lbl_albums));
 
                 break;
@@ -682,12 +635,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
             case EPISODE:
                 if (mBaseItem.getSeasonId() != null && mBaseItem.getIndexNumber() != null) {
-                    StdItemQuery nextEpisodes = new StdItemQuery();
-                    nextEpisodes.setParentId(mBaseItem.getSeasonId().toString());
-                    nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
-                    nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
-                    nextEpisodes.setLimit(20);
-                    ItemRowAdapter nextAdapter = new ItemRowAdapter(requireContext(), nextEpisodes, 0, false, true, new CardPresenter(true, 120), adapter);
+                    // query index is zero-based but episode no is not
+                    ItemRowAdapter nextAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createNextEpisodesRequest(mBaseItem.getSeasonId(), mBaseItem.getIndexNumber()), 0, false, true, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, nextAdapter, 5, getString(R.string.lbl_next_episode));
                 }
 

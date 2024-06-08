@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -335,7 +336,7 @@ public class TvManager {
     }
 
     private static void addRow(Context context, List<BaseItemDto> timers, Presenter presenter, MutableObjectAdapter<Row> rowAdapter) {
-        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(context, timers, presenter, rowAdapter, true);
+        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(context, JavaCompat.mapBaseItemCollection(timers), presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
         ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);

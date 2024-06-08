@@ -8,10 +8,14 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.CollectionType
 import org.jellyfin.sdk.model.api.ItemFields
+import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
@@ -237,4 +241,194 @@ object BrowsingUtils {
 		),
 		parentId = parentId,
 	)
+
+	@JvmStatic
+	fun createPersonItemsRequest(personId: UUID, itemType: BaseItemKind) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
+		personIds = setOf(personId),
+		recursive = true,
+		includeItemTypes = setOf(itemType),
+		sortBy = setOf(ItemSortBy.SORT_NAME),
+	)
+
+	@JvmStatic
+	fun createArtistItemsRequest(artistId: UUID, itemType: BaseItemKind) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
+		artistIds = setOf(artistId),
+		recursive = true,
+		includeItemTypes = setOf(itemType),
+		sortBy = setOf(ItemSortBy.SORT_NAME),
+	)
+
+	@JvmStatic
+	fun createNextEpisodesRequest(seasonId: UUID, indexNumber: Int) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.OVERVIEW,
+			ItemFields.ITEM_COUNTS,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
+		parentId = seasonId,
+		includeItemTypes = setOf(BaseItemKind.EPISODE),
+		startIndex = indexNumber,
+		limit = 20,
+	)
+
+	@JvmStatic
+	fun createResumeItemsRequest(parentId: UUID, itemType: BaseItemKind) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.OVERVIEW,
+			ItemFields.ITEM_COUNTS,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+			ItemFields.MEDIA_STREAMS,
+			ItemFields.MEDIA_SOURCES,
+		),
+		includeItemTypes = setOf(itemType),
+		recursive = true,
+		parentId = parentId,
+		imageTypeLimit = 1,
+		limit = 50,
+		collapseBoxSetItems = false,
+		enableTotalRecordCount = false,
+		filters = setOf(ItemFilter.IS_RESUMABLE),
+		sortBy = setOf(ItemSortBy.DATE_PLAYED),
+		sortOrder = setOf(SortOrder.DESCENDING),
+	)
+
+	@JvmStatic
+	fun createFavoriteItemsRequest(parentId: UUID, itemType: BaseItemKind) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.OVERVIEW,
+			ItemFields.ITEM_COUNTS,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+			ItemFields.MEDIA_STREAMS,
+			ItemFields.MEDIA_SOURCES,
+		),
+		includeItemTypes = setOf(itemType),
+		recursive = true,
+		parentId = parentId,
+		imageTypeLimit = 1,
+		filters = setOf(ItemFilter.IS_FAVORITE),
+		sortBy = setOf(ItemSortBy.SORT_NAME),
+	)
+
+	@JvmStatic
+	fun createCollectionsRequest(parentId: UUID) = GetItemsRequest(
+		fields = setOf(ItemFields.CHILD_COUNT),
+		includeItemTypes = setOf(BaseItemKind.BOX_SET),
+		recursive = true,
+		imageTypeLimit = 1,
+		parentId = parentId,
+		sortBy = setOf(ItemSortBy.SORT_NAME),
+	)
+
+	@JvmStatic
+	fun createPremieresRequest(parentId: UUID) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.DATE_CREATED,
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.OVERVIEW,
+			ItemFields.CHILD_COUNT,
+		),
+		includeItemTypes = setOf(BaseItemKind.EPISODE),
+		parentId = parentId,
+		recursive = true,
+		isMissing = false,
+		imageTypeLimit = 1,
+		filters = setOf(ItemFilter.IS_UNPLAYED),
+		sortBy = setOf(ItemSortBy.DATE_CREATED),
+		sortOrder = setOf(SortOrder.DESCENDING),
+		enableTotalRecordCount = false,
+		limit = 300,
+	)
+
+	@JvmStatic
+	fun createLastPlayedRequest(parentId: UUID) = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.OVERVIEW,
+			ItemFields.ITEM_COUNTS,
+			ItemFields.DISPLAY_PREFERENCES_ID,
+			ItemFields.CHILD_COUNT,
+		),
+		includeItemTypes = setOf(BaseItemKind.AUDIO),
+		recursive = true,
+		parentId = parentId,
+		imageTypeLimit = 1,
+		filters = setOf(ItemFilter.IS_PLAYED),
+		sortBy = setOf(ItemSortBy.DATE_PLAYED),
+		sortOrder = setOf(SortOrder.DESCENDING),
+		enableTotalRecordCount = false,
+		limit = 50,
+	)
+
+	@JvmStatic
+	fun createPlaylistsRequest() = GetItemsRequest(
+		fields = setOf(
+			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+			ItemFields.CUMULATIVE_RUN_TIME_TICKS,
+			ItemFields.CHILD_COUNT,
+		),
+		includeItemTypes = setOf(BaseItemKind.PLAYLIST),
+		imageTypeLimit = 1,
+		recursive = true,
+		sortBy = setOf(ItemSortBy.DATE_CREATED),
+		sortOrder = setOf(SortOrder.DESCENDING),
+	)
+
+	@JvmStatic
+	fun createBrowseGridItemsRequest(parent: BaseItemDto): GetItemsRequest {
+		val baseRequest = GetItemsRequest(
+			fields = setOf(
+				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+				ItemFields.CHILD_COUNT,
+				ItemFields.MEDIA_SOURCES,
+				ItemFields.MEDIA_STREAMS,
+				ItemFields.DISPLAY_PREFERENCES_ID,
+			),
+			parentId = parent.id,
+		)
+
+		if (parent.type == BaseItemKind.USER_VIEW || parent.type == BaseItemKind.COLLECTION_FOLDER) {
+			return when (parent.collectionType) {
+				CollectionType.MOVIES -> baseRequest.copy(
+					includeItemTypes = setOf(BaseItemKind.MOVIE),
+					recursive = true,
+				)
+
+				CollectionType.TVSHOWS -> baseRequest.copy(
+					includeItemTypes = setOf(BaseItemKind.SERIES),
+					recursive = true,
+				)
+
+				CollectionType.BOXSETS -> baseRequest.copy(
+					includeItemTypes = setOf(BaseItemKind.BOX_SET),
+					parentId = null,
+					recursive = true,
+				)
+
+				CollectionType.MUSIC -> baseRequest.copy(
+					includeItemTypes = setOf(BaseItemKind.MUSIC_ALBUM),
+					recursive = true,
+				)
+
+				else -> baseRequest
+			}
+		}
+
+		return baseRequest
+	}
 }

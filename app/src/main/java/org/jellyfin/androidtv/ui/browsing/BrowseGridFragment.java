@@ -39,7 +39,6 @@ import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
@@ -62,7 +61,6 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -548,47 +546,22 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void setupQueries() {
-        StdItemQuery query = new StdItemQuery(new ItemFields[]{
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount,
-                ItemFields.MediaSources,
-                ItemFields.MediaStreams,
-                ItemFields.DisplayPreferencesId
-        });
-        query.setParentId(mParentId.toString());
         if (mFolder.getType() == BaseItemKind.USER_VIEW || mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
             CollectionType type = mFolder.getCollectionType() != null ? mFolder.getCollectionType() : CollectionType.UNKNOWN;
-            switch (type) {
-                case MOVIES:
-                    query.setIncludeItemTypes(new String[]{"Movie"});
-                    query.setRecursive(true);
-                    break;
-                case TVSHOWS:
-                    query.setIncludeItemTypes(new String[]{"Series"});
-                    query.setRecursive(true);
-                    break;
-                case BOXSETS:
-                    query.setIncludeItemTypes(new String[]{"BoxSet"});
-                    query.setParentId(null);
-                    query.setRecursive(true);
-                    break;
-                case MUSIC:
-                    //Special queries needed for album artists
-                    String includeType = getArguments().getString(Extras.IncludeType);
-                    if ("AlbumArtist".equals(includeType)) {
-                        setRowDef(new BrowseRowDef("", BrowsingUtils.createAlbumArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
-                        return;
-                    } else if ("Artist".equals(includeType)) {
-                        setRowDef(new BrowseRowDef("", BrowsingUtils.createArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
-                        return;
-                    }
-                    query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicAlbum"});
-                    query.setRecursive(true);
-                    break;
+            if (type == CollectionType.MUSIC) {
+                //Special queries needed for album artists
+                String includeType = getArguments().getString(Extras.IncludeType, null);
+                if ("AlbumArtist".equals(includeType)) {
+                    setRowDef(new BrowseRowDef("", BrowsingUtils.createAlbumArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                    return;
+                } else if ("Artist".equals(includeType)) {
+                    setRowDef(new BrowseRowDef("", BrowsingUtils.createArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                    return;
+                }
             }
         }
 
-        setRowDef(new BrowseRowDef("", query, CHUNK_SIZE_MINIMUM, false, true));
+        setRowDef(new BrowseRowDef("", BrowsingUtils.createBrowseGridItemsRequest(mFolder), CHUNK_SIZE_MINIMUM, false, true));
     }
 
     @Override

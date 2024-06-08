@@ -33,19 +33,14 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.jellyfin.apiclient.model.querying.NextUpQuery;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
@@ -67,7 +62,7 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class ItemRowAdapter extends MutableObjectAdapter<Object> {
-    private ItemQuery mQuery;
+    private GetItemsRequest mQuery;
     private GetNextUpRequest mNextUpQuery;
     private GetSeasonsRequest mSeasonQuery;
     private GetUpcomingEpisodesRequest mUpcomingQuery;
@@ -110,7 +105,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private boolean preferParentThumb = false;
     private boolean staticHeight = false;
 
-    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private Context context;
@@ -147,41 +141,33 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this.reRetrieveTriggers = reRetrieveTriggers;
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetItemsRequest query, int chunkSize, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
         this(context, query, chunkSize, preferParentThumb, false, presenter, parent);
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
+    public ItemRowAdapter(Context context, GetItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mQuery = query;
-        mQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
-        if (chunkSize > 0) {
-            mQuery.setLimit(chunkSize);
-        }
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
+    public ItemRowAdapter(Context context, GetItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
         mQuery = query;
-        mQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
-        if (chunkSize > 0) {
-            mQuery.setLimit(chunkSize);
-        }
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent) {
+    public ItemRowAdapter(Context context, GetItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent) {
         this(context, query, chunkSize, preferParentThumb, staticHeight, presenter, parent, QueryType.Items);
     }
 
@@ -262,7 +248,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         super(presenter);
         this.context = context;
         mParent = parent;
-        mItems = JavaCompat.mapBaseItemCollection(items);
+        mItems = items;
         queryType = QueryType.StaticItems;
     }
 
@@ -390,8 +376,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsSorting(mAlbumArtistsQuery, option);
                     break;
                 default:
-                    mQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
-                    mQuery.setSortOrder(ModelCompat.asLegacy(option.order));
+                    mQuery = ItemRowAdapterHelperKt.setItemsSorting(mQuery, option);
                     break;
             }
             if (!ItemSortBy.SORT_NAME.equals(option.value)) {
@@ -422,7 +407,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsFilter(mAlbumArtistsQuery, ModelCompat.asSdk(filters.getFilters()));
                 break;
             default:
-                mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+                mQuery = ItemRowAdapterHelperKt.setItemsFilter(mQuery, ModelCompat.asSdk(filters.getFilters()));
         }
         removeRow();
     }
@@ -434,7 +419,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             case AlbumArtists:
                 return mAlbumArtistsQuery != null ? mAlbumArtistsQuery.getNameStartsWith() : null;
             default:
-                return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
+                return mQuery != null ? mQuery.getNameStartsWith() : null;
         }
     }
 
@@ -456,9 +441,9 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 break;
             default:
                 if (value != null && value.equals("#")) {
-                    mQuery.setNameStartsWithOrGreater(null);
+                    mQuery = ItemRowAdapterHelperKt.setItemsStartLetter(mQuery, null);
                 } else {
-                    mQuery.setNameStartsWithOrGreater(value);
+                    mQuery = ItemRowAdapterHelperKt.setItemsStartLetter(mQuery, value);
                 }
                 break;
         }
@@ -509,7 +494,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             return;
         }
 
-        Integer savedIdx;
         switch (queryType) {
             case LiveTvChannel:
                 if (mTvChannelQuery == null) {
@@ -544,11 +528,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 }
                 notifyRetrieveStarted();
 
-                savedIdx = mQuery.getStartIndex();
-                //set the query to go get the next chunk
-                mQuery.setStartIndex(itemsLoaded);
-                retrieve(mQuery);
-                mQuery.setStartIndex(savedIdx); // is reused so reset
+                ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, itemsLoaded, chunkSize);
                 break;
         }
     }
@@ -597,7 +577,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         itemsLoaded = 0;
         switch (queryType) {
             case Items:
-                retrieve(mQuery);
+                ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, 0, chunkSize);
                 break;
             case NextUp:
                 ItemRowAdapterHelperKt.retrieveNextUpItems(this, api.getValue(), mNextUpQuery);
@@ -662,7 +642,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieveAudioPlaylists(mQuery);
                 break;
             case Premieres:
-                retrievePremieres(mQuery);
+                ItemRowAdapterHelperKt.retrievePremieres(this, api.getValue(), mQuery);
                 break;
             case SeriesTimer:
                 boolean canManageRecordings = Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue());
@@ -733,112 +713,12 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         }
     }
 
-    private void retrieve(final ItemQuery query) {
-        apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length);
-
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), getPreferParentThumb(), isStaticHeight()));
-                } else if (getItemsLoaded() == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-    }
-
-    private void retrieveAudioPlaylists(final ItemQuery query) {
+    private void retrieveAudioPlaylists(final GetItemsRequest query) {
         //Add specialized playlists first
         clear();
         add(new GridButtonBaseRowItem(new GridButton(EnhancedBrowseFragment.FAVSONGS, context.getString(R.string.lbl_favorites), R.drawable.favorites)));
         itemsLoaded = 1;
-        retrieve(query);
-    }
-
-    private void retrievePremieres(final ItemQuery query) {
-        final ItemRowAdapter adapter = this;
-        //First we need current Next Up to filter our list with
-        NextUpQuery nextUp = new NextUpQuery();
-        nextUp.setUserId(query.getUserId());
-        nextUp.setParentId(query.getParentId());
-        nextUp.setLimit(50);
-        apiClient.getValue().GetNextUpEpisodesAsync(nextUp, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(final ItemsResult nextUpResponse) {
-                apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
-                    @Override
-                    public void onResponse(ItemsResult response) {
-                        if (adapter.size() > 0) {
-                            adapter.clear();
-                        }
-                        if (response.getItems() != null && response.getItems().length > 0) {
-                            Calendar compare = Calendar.getInstance();
-                            compare.add(Calendar.MONTH, -2);
-                            BaseItemDto[] nextUpItems = nextUpResponse.getItems();
-                            for (BaseItemDto item : response.getItems()) {
-                                if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
-                                        && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
-                                ) {
-                                    // new unwatched episode 1 not disliked - check to be sure prev episode not already in next up
-                                    BaseItemDto nextUpItem = null;
-                                    for (BaseItemDto upItem : nextUpItems) {
-                                        if (upItem.getSeriesId().equals(item.getSeriesId())) {
-                                            nextUpItem = upItem;
-                                            break;
-                                        }
-                                    }
-
-                                    if (nextUpItem == null || nextUpItem.getId().equals(item.getId())) {
-                                        //Now - let's be sure there isn't already a premiere for this series
-                                        BaseRowItem existing = null;
-                                        int existingPos = -1;
-                                        for (int n = 0; n < adapter.size(); n++) {
-                                            if (((BaseRowItem) adapter.get(n)).getBaseItem().getSeriesId().equals(item.getSeriesId())) {
-                                                existing = (BaseRowItem) adapter.get(n);
-                                                existingPos = n;
-                                                break;
-                                            }
-                                        }
-                                        if (existing == null) {
-                                            Timber.d("Adding new episode 1 to premieres %s", item.getSeriesName());
-                                            adapter.add(new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, true));
-
-                                        } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
-                                            //Replace the newer item with the earlier season
-                                            Timber.d("Replacing newer episode 1 with an older season for %s", item.getSeriesName());
-                                            adapter.set(existingPos, new BaseItemDtoBaseRowItem(ModelCompat.asSdk(item), preferParentThumb, false));
-                                        } // otherwise, just ignore this newer season premiere since we have the older one already
-
-                                    } else {
-                                        Timber.i("Didn't add %s to premieres because different episode is in next up.", item.getSeriesName());
-                                    }
-                                }
-                            }
-                            setItemsLoaded(itemsLoaded + response.getItems().length);
-                        }
-
-
-                        if (adapter.size() == 0) {
-                            removeRow();
-                        }
-                        notifyRetrieveFinished();
-                    }
-                });
-
-            }
-
-        });
-
+        ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, 0, chunkSize);
     }
 
     protected void notifyRetrieveFinished() {
