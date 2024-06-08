@@ -49,6 +49,7 @@ public class ItemLauncher {
 
     public Destination.Fragment getUserViewDestination(@Nullable final BaseItemDto baseItem) {
         CollectionType collectionType = baseItem == null ? CollectionType.UNKNOWN : baseItem.getCollectionType();
+        if (collectionType == null) collectionType = CollectionType.UNKNOWN;
 
         switch (collectionType) {
             case MOVIES:
