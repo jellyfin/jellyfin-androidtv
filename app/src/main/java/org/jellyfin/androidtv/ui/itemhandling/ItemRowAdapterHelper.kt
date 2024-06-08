@@ -435,7 +435,6 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 				)
 			)
 
-			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -445,7 +444,7 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 						false,
 						isStaticHeight,
 					)
-				}
+				},
 			)
 
 			if (response.items.isNullOrEmpty()) removeRow()
@@ -471,7 +470,6 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 				)
 			)
 
-			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -481,7 +479,7 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 						preferParentThumb,
 						isStaticHeight,
 					)
-				}
+				},
 			)
 
 			if (response.items.isNullOrEmpty()) removeRow()
@@ -507,7 +505,6 @@ fun ItemRowAdapter.retrieveArtists(
 				)
 			)
 
-			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -517,7 +514,7 @@ fun ItemRowAdapter.retrieveArtists(
 						preferParentThumb,
 						isStaticHeight,
 					)
-				}
+				},
 			)
 
 			if (response.items.isNullOrEmpty()) removeRow()
@@ -543,7 +540,6 @@ fun ItemRowAdapter.retrieveItems(
 				)
 			)
 
-			if (startIndex == 0) clear()
 			totalItems = response.totalRecordCount
 			setItems(
 				items = response.items.orEmpty().toTypedArray(),
@@ -553,7 +549,7 @@ fun ItemRowAdapter.retrieveItems(
 						preferParentThumb,
 						isStaticHeight,
 					)
-				}
+				},
 			)
 
 			if (response.items.isNullOrEmpty()) removeRow()
@@ -573,7 +569,7 @@ fun ItemRowAdapter.retrievePremieres(
 			val response by api.itemsApi.getItems(query)
 			val filteredItems = response.items
 				.orEmpty()
-				.filter { it -> it.indexNumber == 1 }
+				.filter { it.indexNumber == 1 }
 
 			setItems(
 				items = filteredItems.toTypedArray(),
