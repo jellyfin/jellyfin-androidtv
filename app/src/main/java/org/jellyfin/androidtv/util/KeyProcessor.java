@@ -10,7 +10,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
@@ -24,6 +23,7 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -313,7 +313,7 @@ public class KeyProcessor {
                     });
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
-                    StdItemQuery query = new StdItemQuery();
+                    ItemQuery query = new ItemQuery();
                     query.setParentId(item.getId().toString());
                     query.setRecursive(true);
                     query.setIsVirtualUnaired(false);
