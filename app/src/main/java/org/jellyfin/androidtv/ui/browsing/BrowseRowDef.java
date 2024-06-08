@@ -5,9 +5,9 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
@@ -18,7 +18,7 @@ import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest;
 
 public class BrowseRowDef {
     private String headerText;
-    private ItemQuery query;
+    private GetItemsRequest query;
     private GetNextUpRequest nextUpQuery;
     private GetSimilarItemsRequest similarQuery;
     private GetLatestMediaRequest latestItemsQuery;
@@ -39,11 +39,11 @@ public class BrowseRowDef {
 
     private ChangeTriggerType[] changeTriggers;
 
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize) {
+    public BrowseRowDef(String header, GetItemsRequest query, int chunkSize) {
         this(header, query, chunkSize, false, false);
     }
 
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight) {
+    public BrowseRowDef(String header, GetItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
@@ -52,15 +52,15 @@ public class BrowseRowDef {
         this.queryType = QueryType.Items;
     }
 
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, GetItemsRequest query, int chunkSize, ChangeTriggerType[] changeTriggers) {
         this(header, query, chunkSize, false, false, changeTriggers);
     }
 
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, GetItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
         this(header,query,chunkSize,preferParentThumb,staticHeight,changeTriggers,QueryType.Items);
     }
 
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers, QueryType queryType) {
+    public BrowseRowDef(String header, GetItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers, QueryType queryType) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
@@ -171,7 +171,7 @@ public class BrowseRowDef {
         return headerText;
     }
 
-    public ItemQuery getQuery() {
+    public GetItemsRequest getQuery() {
         return query;
     }
 

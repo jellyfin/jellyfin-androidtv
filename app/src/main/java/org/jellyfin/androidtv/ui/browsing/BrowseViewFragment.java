@@ -14,7 +14,6 @@ import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -23,21 +22,19 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
-import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
-import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.koin.java.KoinJavaComponent;
 
@@ -61,59 +58,16 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 itemType = BaseItemKind.MOVIE;
 
                 //Resume
-                StdItemQuery resumeMovies = new StdItemQuery(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ItemCounts,
-                        ItemFields.DisplayPreferencesId,
-                        ItemFields.ChildCount,
-                        ItemFields.MediaStreams,
-                        ItemFields.MediaSources
-                });
-                resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
-                resumeMovies.setRecursive(true);
-                resumeMovies.setParentId(mFolder.getId().toString());
-                resumeMovies.setImageTypeLimit(1);
-                resumeMovies.setLimit(50);
-                resumeMovies.setCollapseBoxSetItems(false);
-                resumeMovies.setEnableTotalRecordCount(false);
-                resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-                resumeMovies.setSortBy(new String[]{ItemSortBy.DATE_PLAYED.getSerialName()});
-                resumeMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), BrowsingUtils.createResumeItemsRequest(mFolder.getId(), BaseItemKind.MOVIE), 0, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback}));
 
                 //Latest
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId()), new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
-                StdItemQuery favorites = new StdItemQuery(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ItemCounts,
-                        ItemFields.DisplayPreferencesId,
-                        ItemFields.ChildCount,
-                        ItemFields.MediaStreams,
-                        ItemFields.MediaSources
-                });
-                favorites.setIncludeItemTypes(new String[]{"Movie"});
-                favorites.setRecursive(true);
-                favorites.setParentId(mFolder.getId().toString());
-                favorites.setImageTypeLimit(1);
-                favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
-                favorites.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), favorites, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), BrowsingUtils.createFavoriteItemsRequest(mFolder.getId(), BaseItemKind.MOVIE), 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 //Collections
-                StdItemQuery collections = new StdItemQuery();
-                collections.setFields(new ItemFields[]{
-                        ItemFields.ChildCount
-                });
-                collections.setIncludeItemTypes(new String[]{"BoxSet"});
-                collections.setRecursive(true);
-                collections.setImageTypeLimit(1);
-                //collections.setParentId(mFolder.getId());
-                collections.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_collections), collections, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_collections), BrowsingUtils.createCollectionsRequest(mFolder.getId()), 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -121,22 +75,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 itemType = BaseItemKind.SERIES;
 
                 //Resume
-                StdItemQuery resumeEpisodes = new StdItemQuery(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.Overview,
-                        ItemFields.ChildCount,
-                        ItemFields.MediaSources,
-                        ItemFields.MediaStreams
-                });
-                resumeEpisodes.setIncludeItemTypes(new String[]{"Episode"});
-                resumeEpisodes.setLimit(50);
-                resumeEpisodes.setParentId(mFolder.getId().toString());
-                resumeEpisodes.setRecursive(true);
-                resumeEpisodes.setImageTypeLimit(1);
-                resumeEpisodes.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-                resumeEpisodes.setSortBy(new String[]{ItemSortBy.DATE_PLAYED.getSerialName()});
-                resumeEpisodes.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resumeEpisodes, 0, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), BrowsingUtils.createResumeItemsRequest(mFolder.getId(), BaseItemKind.EPISODE), 0, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Next up
                 GetNextUpRequest getNextUpRequest = BrowsingUtils.createGetNextUpRequest(mFolder.getId());
@@ -144,39 +83,14 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Premieres
                 if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getPremieresEnabled())) {
-                    StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{
-                            ItemFields.DateCreated,
-                            ItemFields.PrimaryImageAspectRatio,
-                            ItemFields.Overview,
-                            ItemFields.ChildCount
-                    });
-                    newQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                    newQuery.setIncludeItemTypes(new String[]{"Episode"});
-                    newQuery.setParentId(mFolder.getId().toString());
-                    newQuery.setRecursive(true);
-                    newQuery.setIsVirtualUnaired(false);
-                    newQuery.setIsMissing(false);
-                    newQuery.setImageTypeLimit(1);
-                    newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                    newQuery.setSortBy(new String[]{ItemSortBy.DATE_CREATED.getSerialName()});
-                    newQuery.setSortOrder(SortOrder.Descending);
-                    newQuery.setEnableTotalRecordCount(false);
-                    newQuery.setLimit(300);
-                    mRows.add(new BrowseRowDef(getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}, QueryType.Premieres));
+                    mRows.add(new BrowseRowDef(getString(R.string.lbl_new_premieres), BrowsingUtils.createPremieresRequest(mFolder.getId()), 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}, QueryType.Premieres));
                 }
 
                 //Latest content added
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId(), BaseItemKind.EPISODE, true), new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
-                StdItemQuery tvFavorites = new StdItemQuery();
-                tvFavorites.setIncludeItemTypes(new String[]{"Series"});
-                tvFavorites.setRecursive(true);
-                tvFavorites.setParentId(mFolder.getId().toString());
-                tvFavorites.setImageTypeLimit(1);
-                tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
-                tvFavorites.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), BrowsingUtils.createFavoriteItemsRequest(mFolder.getId(), BaseItemKind.SERIES), 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -185,40 +99,13 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId(), BaseItemKind.AUDIO, true), new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 //Last Played
-                StdItemQuery lastPlayed = new StdItemQuery();
-                lastPlayed.setIncludeItemTypes(new String[]{"Audio"});
-                lastPlayed.setRecursive(true);
-                lastPlayed.setParentId(mFolder.getId().toString());
-                lastPlayed.setImageTypeLimit(1);
-                lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
-                lastPlayed.setSortBy(new String[]{ItemSortBy.DATE_PLAYED.getSerialName()});
-                lastPlayed.setSortOrder(SortOrder.Descending);
-                lastPlayed.setEnableTotalRecordCount(false);
-                lastPlayed.setLimit(50);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_last_played), lastPlayed, 0, false, true, new ChangeTriggerType[]{ChangeTriggerType.MusicPlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_last_played), BrowsingUtils.createLastPlayedRequest(mFolder.getId()), 0, false, true, new ChangeTriggerType[]{ChangeTriggerType.MusicPlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
-                StdItemQuery favAlbums = new StdItemQuery();
-                favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum", "MusicArtist"});
-                favAlbums.setRecursive(true);
-                favAlbums.setParentId(mFolder.getId().toString());
-                favAlbums.setImageTypeLimit(1);
-                favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
-                favAlbums.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), BrowsingUtils.createFavoriteItemsRequest(mFolder.getId(), BaseItemKind.MUSIC_ALBUM), 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 //AudioPlaylists
-                StdItemQuery playlists = new StdItemQuery(new ItemFields[]{
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.CumulativeRunTimeTicks,
-                        ItemFields.ChildCount
-                });
-                playlists.setIncludeItemTypes(new String[]{"Playlist"});
-                playlists.setImageTypeLimit(1);
-                playlists.setRecursive(true);
-                playlists.setSortBy(new String[]{ItemSortBy.DATE_CREATED.getSerialName()});
-                playlists.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_playlists), playlists, 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}, QueryType.AudioPlaylists));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_playlists), BrowsingUtils.createPlaylistsRequest(), 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}, QueryType.AudioPlaylists));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -311,19 +198,19 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                                     //Now insert our smart rows
                                     if (weekItems.size() > 0) {
-                                        ItemRowAdapter weekAdapter = new ItemRowAdapter(requireContext(), weekItems, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter weekAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(weekItems), mCardPresenter, mRowsAdapter, true);
                                         weekAdapter.Retrieve();
                                         ListRow weekRow = new ListRow(new HeaderItem("Past Week"), weekAdapter);
                                         mRowsAdapter.add(0, weekRow);
                                     }
                                     if (nearTimers.size() > 0) {
-                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(nearTimers), mCardPresenter, mRowsAdapter, true);
                                         scheduledAdapter.Retrieve();
                                         ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                                         mRowsAdapter.add(0, scheduleRow);
                                     }
                                     if (dayItems.size() > 0) {
-                                        ItemRowAdapter dayAdapter = new ItemRowAdapter(requireContext(), dayItems, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter dayAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(dayItems), mCardPresenter, mRowsAdapter, true);
                                         dayAdapter.Retrieve();
                                         ListRow dayRow = new ListRow(new HeaderItem("Past 24 Hours"), dayAdapter);
                                         mRowsAdapter.add(0, dayRow);
@@ -333,7 +220,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                     // no recordings
                                     rowLoader.loadRows(mRows);
                                     if (nearTimers.size() > 0) {
-                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(nearTimers), mCardPresenter, mRowsAdapter, true);
                                         scheduledAdapter.Retrieve();
                                         ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                                         mRowsAdapter.add(0, scheduleRow);

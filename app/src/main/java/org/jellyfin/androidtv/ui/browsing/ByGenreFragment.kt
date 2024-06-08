@@ -1,9 +1,11 @@
 package org.jellyfin.androidtv.ui.browsing
 
-import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.genresApi
+import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.koin.android.ext.android.inject
 
 class ByGenreFragment : BrowseFolderFragment() {
@@ -20,14 +22,21 @@ class ByGenreFragment : BrowseFolderFragment() {
 		)
 
 		for (genre in genresResponse.items.orEmpty()) {
-			val itemsQuery = StdItemQuery().apply {
-				parentId = folder?.id.toString()
-				sortBy = arrayOf(ItemSortBy.SORT_NAME.serialName)
-				includeType?.let { includeItemTypes = arrayOf(it) }
-				genres = arrayOf(genre.name)
-				recursive = true
-			}
-			rows.add(BrowseRowDef(genre.name, itemsQuery, 40))
+			val itemsRequest = GetItemsRequest(
+				parentId = folder?.id,
+				sortBy = setOf(ItemSortBy.SORT_NAME),
+				includeItemTypes = includeType?.let(BaseItemKind::fromNameOrNull)?.let(::setOf),
+				genres = setOf(genre.name.orEmpty()),
+				recursive = true,
+				fields = setOf(
+					ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+					ItemFields.OVERVIEW,
+					ItemFields.ITEM_COUNTS,
+					ItemFields.DISPLAY_PREFERENCES_ID,
+					ItemFields.CHILD_COUNT,
+				),
+			)
+			rows.add(BrowseRowDef(genre.name, itemsRequest, 40))
 		}
 
 		rowLoader.loadRows(rows)

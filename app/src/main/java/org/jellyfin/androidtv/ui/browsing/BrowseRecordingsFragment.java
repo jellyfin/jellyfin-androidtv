@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -104,7 +105,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                     }
                 }
                 if (nearTimers.size() > 0) {
-                    ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
+                    ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(nearTimers), mCardPresenter, mRowsAdapter, true);
                     scheduledAdapter.Retrieve();
                     ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                     mRowsAdapter.add(0, scheduleRow);

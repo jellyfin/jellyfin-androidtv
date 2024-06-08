@@ -30,6 +30,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
@@ -527,6 +528,72 @@ fun ItemRowAdapter.retrieveArtists(
 	}
 }
 
+fun ItemRowAdapter.retrieveItems(
+	api: ApiClient,
+	query: GetItemsRequest,
+	startIndex: Int,
+	batchSize: Int
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.itemsApi.getItems(
+				query.copy(
+					startIndex = startIndex,
+					limit = batchSize,
+				)
+			)
+
+			if (startIndex == 0) clear()
+			totalItems = response.totalRecordCount
+			setItems(
+				items = response.items.orEmpty().toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						preferParentThumb,
+						isStaticHeight,
+					)
+				}
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrievePremieres(
+	api: ApiClient,
+	query: GetItemsRequest,
+) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.itemsApi.getItems(query)
+			val filteredItems = response.items
+				.orEmpty()
+				.filter { it -> it.indexNumber == 1 }
+
+			setItems(
+				items = filteredItems.toTypedArray(),
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(
+						item,
+						preferParentThumb,
+						isStaticHeight,
+					)
+				}
+			)
+
+			if (filteredItems.isEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
 // Request modifiers
 
 fun setAlbumArtistsSorting(
@@ -539,6 +606,14 @@ fun setAlbumArtistsSorting(
 
 fun setArtistsSorting(
 	request: GetArtistsRequest,
+	sortOption: SortOption,
+) = request.copy(
+	sortBy = setOf(sortOption.value, ItemSortBy.SORT_NAME),
+	sortOrder = setOf(sortOption.order)
+)
+
+fun setItemsSorting(
+	request: GetItemsRequest,
 	sortOption: SortOption,
 ) = request.copy(
 	sortBy = setOf(sortOption.value, ItemSortBy.SORT_NAME),
@@ -559,6 +634,13 @@ fun setArtistsFilter(
 	filters = filters,
 )
 
+fun setItemsFilter(
+	request: GetItemsRequest,
+	filters: Collection<ItemFilter>?,
+) = request.copy(
+	filters = filters,
+)
+
 fun setAlbumArtistsStartLetter(
 	request: GetAlbumArtistsRequest,
 	startLetter: String?,
@@ -568,6 +650,13 @@ fun setAlbumArtistsStartLetter(
 
 fun setArtistsStartLetter(
 	request: GetArtistsRequest,
+	startLetter: String?,
+) = request.copy(
+	nameStartsWith = startLetter,
+)
+
+fun setItemsStartLetter(
+	request: GetItemsRequest,
 	startLetter: String?,
 ) = request.copy(
 	nameStartsWith = startLetter,
