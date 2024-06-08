@@ -19,18 +19,12 @@ import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.entities.SortOrder;
-import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.MediaType;
 import org.jellyfin.sdk.model.api.UserItemDataDto;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -59,7 +53,6 @@ public class KeyProcessor {
     private final Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
     private final Lazy<ItemMutationRepository> itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>inject(ItemMutationRepository.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = KoinJavaComponent.<CustomMessageRepository>inject(CustomMessageRepository.class);
-    private final Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(ApiClient.class);
     private final Lazy<PlaybackHelper> playbackHelper = KoinJavaComponent.<PlaybackHelper>inject(PlaybackHelper.class);
 
     public boolean handleKey(int key, BaseRowItem rowItem, FragmentActivity activity) {
@@ -313,32 +306,7 @@ public class KeyProcessor {
                     });
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
-                    ItemQuery query = new ItemQuery();
-                    query.setParentId(item.getId().toString());
-                    query.setRecursive(true);
-                    query.setIsVirtualUnaired(false);
-                    query.setIsMissing(false);
-                    query.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                    query.setSortOrder(SortOrder.Ascending);
-                    query.setLimit(1);
-                    query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
-                    query.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                    apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
-                        @Override
-                        public void onResponse(ItemsResult response) {
-                            if (response.getTotalRecordCount() == 0) {
-                                Utils.showToast(activity, R.string.msg_no_items);
-                            } else {
-                                playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, activity);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            Timber.e(exception, "Error trying to play first unwatched");
-                            Utils.showToast(activity, R.string.msg_video_playback_error);
-                        }
-                    });
+                    KeyProcesorHelperKt.playFirstUnwatchedItem(activity, item.getId());
                     return true;
                 case MENU_MARK_FAVORITE:
                     toggleFavorite(activity, item.getId(), true);
