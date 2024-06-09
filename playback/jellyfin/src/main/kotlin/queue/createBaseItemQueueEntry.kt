@@ -1,5 +1,6 @@
 package org.jellyfin.playback.jellyfin.queue
 
+import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.QueueEntryMetadata
 import org.jellyfin.playback.core.queue.metadata
@@ -44,6 +45,7 @@ fun createBaseItemQueueEntry(api: ApiClient, baseItem: BaseItemDto): QueueEntry 
 		genre = baseItem.genres?.joinToString(", "),
 	)
 	entry.baseItem = baseItem
+	entry.normalizationGain = baseItem.normalizationGain
 	return entry
 }
 
