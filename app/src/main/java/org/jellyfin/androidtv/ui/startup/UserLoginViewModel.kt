@@ -64,6 +64,7 @@ class UserLoginViewModel(
 
 	fun clearLoginState() {
 		_loginState.value = null
+		_quickConnectState.value = UnknownQuickConnectState
 	}
 
 	/**
