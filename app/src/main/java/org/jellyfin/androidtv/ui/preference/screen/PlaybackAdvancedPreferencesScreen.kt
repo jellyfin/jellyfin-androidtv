@@ -42,7 +42,6 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 
 			checkbox {
 				setTitle(R.string.lbl_tv_queuing)
-				setContent(R.string.sum_tv_queuing)
 				bind(userPreferences, UserPreferences.mediaQueuingEnabled)
 			}
 		}

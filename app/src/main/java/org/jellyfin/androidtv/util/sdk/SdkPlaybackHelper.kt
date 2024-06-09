@@ -78,7 +78,6 @@ class SdkPlaybackHelper(
 			if (userPreferences[UserPreferences.mediaQueuingEnabled] && seriesId != null) {
 				val response by api.tvShowsApi.getEpisodes(
 					seriesId = seriesId,
-					seasonId = mainItem.seasonId,
 					startItemId = mainItem.id,
 					isMissing = false,
 					limit = ITEM_QUERY_LIMIT,
