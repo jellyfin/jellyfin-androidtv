@@ -24,6 +24,7 @@ import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
+import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.queue.QueueEntry
@@ -48,6 +49,7 @@ class ExoPlayerBackend(
 
 	private var currentStream: PlayableMediaStream? = null
 	private var subtitleView: SubtitleView? = null
+	private var audioPipeline = ExoPlayerAudioPipeline()
 
 	private val exoPlayer by lazy {
 		ExoPlayer.Builder(context)
@@ -58,24 +60,32 @@ class ExoPlayerBackend(
 			.setTrackSelector(DefaultTrackSelector(context).apply {
 				setParameters(buildUponParameters().apply {
 					setTunnelingEnabled(true)
-					setAudioOffloadPreferences(TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
-						setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
-					}.build())
+					setAudioOffloadPreferences(
+						TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
+							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+						}.build()
+					)
 				})
 			})
 			.setMediaSourceFactory(DefaultMediaSourceFactory(
 				context,
 				DefaultExtractorsFactory().apply {
-					val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
-					setTsExtractorTimestampSearchBytes(when (isLowRamDevice) {
-						true -> TS_SEARCH_BYTES_LM
-						false -> TS_SEARCH_BYTES_HM
-					})
+					val isLowRamDevice =
+						context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+					setTsExtractorTimestampSearchBytes(
+						when (isLowRamDevice) {
+							true -> TS_SEARCH_BYTES_LM
+							false -> TS_SEARCH_BYTES_HM
+						}
+					)
 				}
 			))
 			.setPauseAtEndOfMediaItems(true)
 			.build()
-			.also { player -> player.addListener(PlayerListener()) }
+			.also { player ->
+				player.addListener(PlayerListener())
+				audioPipeline.setAudioSessionId(player.audioSessionId)
+			}
 	}
 
 	inner class PlayerListener : Player.Listener {
@@ -109,6 +119,15 @@ class ExoPlayerBackend(
 				listener?.onMediaStreamEnd(requireNotNull(currentStream))
 			}
 		}
+
+		override fun onAudioSessionIdChanged(audioSessionId: Int) {
+			audioPipeline.setAudioSessionId(audioSessionId)
+		}
+
+		override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+			val queueEntry = mediaItem?.localConfiguration?.tag as? QueueEntry
+			audioPipeline.normalizationGain = queueEntry?.normalizationGain
+		}
 	}
 
 	override fun supportsStream(
@@ -132,7 +151,7 @@ class ExoPlayerBackend(
 	override fun prepareItem(item: QueueEntry) {
 		val stream = requireNotNull(item.mediaStream)
 		val mediaItem = MediaItem.Builder().apply {
-			setTag(stream)
+			setTag(item)
 			setMediaId(stream.hashCode().toString())
 			setUri(stream.url)
 		}.build()
@@ -153,7 +172,9 @@ class ExoPlayerBackend(
 
 		var streamIsPrepared = false
 		repeat(exoPlayer.mediaItemCount) { index ->
-			streamIsPrepared = streamIsPrepared || exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
+			streamIsPrepared =
+				streamIsPrepared || exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode()
+					.toString()
 		}
 
 		if (!streamIsPrepared) prepareItem(item)
