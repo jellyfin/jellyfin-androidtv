@@ -92,8 +92,7 @@
     <string name="msg_cannot_play">This item cannot be played</string>
     <string name="lbl_no_items">No items</string>
     <string name="lbl_empty">Empty</string>
-    <string name="lbl_tv_queuing">Queue all subsequent episodes</string>
-    <string name="sum_tv_queuing">Add the rest of the season to the queue when playing an episode</string>
+    <string name="lbl_tv_queuing">Play next episode automatically</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="lbl_play_first_unwatched">Play first unwatched</string>
     <string name="lbl_mark_unplayed">Mark unplayed</string>
