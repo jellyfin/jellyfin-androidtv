@@ -23,8 +23,10 @@ import androidx.media3.ui.SubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
+import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
+import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
@@ -127,7 +129,8 @@ class ExoPlayerBackend(
 		}
 	}
 
-	override fun prepareStream(stream: PlayableMediaStream) {
+	override fun prepareItem(item: QueueEntry) {
+		val stream = requireNotNull(item.mediaStream)
 		val mediaItem = MediaItem.Builder().apply {
 			setTag(stream)
 			setMediaId(stream.hashCode().toString())
@@ -142,7 +145,8 @@ class ExoPlayerBackend(
 		exoPlayer.prepare()
 	}
 
-	override fun playStream(stream: PlayableMediaStream) {
+	override fun playItem(item: QueueEntry) {
+		val stream = requireNotNull(item.mediaStream)
 		if (currentStream == stream) return
 
 		currentStream = stream
@@ -152,7 +156,7 @@ class ExoPlayerBackend(
 			streamIsPrepared = streamIsPrepared || exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
 		}
 
-		if (!streamIsPrepared) prepareStream(stream)
+		if (!streamIsPrepared) prepareItem(item)
 
 		exoPlayer.seekToNextMediaItem()
 		exoPlayer.play()

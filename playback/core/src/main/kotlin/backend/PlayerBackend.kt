@@ -1,8 +1,8 @@
 package org.jellyfin.playback.core.backend
 
 import org.jellyfin.playback.core.mediastream.MediaStream
-import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PositionInfo
+import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
@@ -27,8 +27,8 @@ interface PlayerBackend {
 
 	// Mutation
 
-	fun prepareStream(stream: PlayableMediaStream)
-	fun playStream(stream: PlayableMediaStream)
+	fun prepareItem(item: QueueEntry)
+	fun playItem(item: QueueEntry)
 
 	fun play()
 	fun pause()

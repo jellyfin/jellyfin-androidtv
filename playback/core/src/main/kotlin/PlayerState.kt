@@ -6,9 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
-import org.jellyfin.playback.core.mediastream.DefaultMediaStreamState
-import org.jellyfin.playback.core.mediastream.MediaStreamResolver
-import org.jellyfin.playback.core.mediastream.MediaStreamState
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
@@ -23,7 +20,6 @@ import kotlin.time.Duration
 
 interface PlayerState {
 	val queue: PlayerQueueState
-	val streams: MediaStreamState
 	val volume: PlayerVolumeState
 	val playState: StateFlow<PlayState>
 	val speed: StateFlow<Float>
@@ -65,11 +61,9 @@ interface PlayerState {
 class MutablePlayerState(
 	private val options: PlaybackManagerOptions,
 	scope: CoroutineScope,
-	mediaStreamResolvers: Collection<MediaStreamResolver>,
 	private val backendService: BackendService,
 ) : PlayerState {
 	override val queue: PlayerQueueState
-	override val streams: MediaStreamState
 	override val volume: PlayerVolumeState
 
 	private val _playState = MutableStateFlow(PlayState.STOPPED)
@@ -104,7 +98,6 @@ class MutablePlayerState(
 		})
 
 		queue = DefaultPlayerQueueState(this, scope, backendService)
-		streams = DefaultMediaStreamState(this, scope, mediaStreamResolvers, backendService)
 		volume = options.playerVolumeState
 	}
 

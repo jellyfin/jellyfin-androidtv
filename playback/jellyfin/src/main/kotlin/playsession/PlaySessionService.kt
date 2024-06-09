@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
+import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
@@ -29,7 +30,7 @@ class PlaySessionService(
 	private var reportedStream: PlayableMediaStream? = null
 
 	override suspend fun onInitialize() {
-		state.streams.current.onEach { stream -> onMediaStreamChange(stream) }.launchIn(coroutineScope)
+		state.queue.entry.onEach { item -> onMediaStreamChange(item?.mediaStream) }.launchIn(coroutineScope)
 
 		state.playState.onEach { playState ->
 			when (playState) {
