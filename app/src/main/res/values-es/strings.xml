@@ -69,7 +69,6 @@
     <string name="lbl_no_items">No hay ítems</string>
     <string name="lbl_empty">Vacío</string>
     <string name="lbl_tv_queuing">Poner en la cola todos los episodios siguientes</string>
-    <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_all_items">Todos los elementos</string>
     <string name="lbl_showing">Demostración</string>
     <string name="desc_debug">Proporcione información adicional para la depuración</string>

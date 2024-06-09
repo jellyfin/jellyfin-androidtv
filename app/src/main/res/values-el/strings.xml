@@ -106,7 +106,6 @@
     <string name="lbl_mark_unplayed">Δεν το έχω δει</string>
     <string name="lbl_play_first_unwatched">Παίξε πρώτα όσα δεν έχω παρακολουθήσει</string>
     <string name="lbl_search_hint">Αναζήτηση κειμένου (επιλέξτε πληκτρολόγιο)</string>
-    <string name="sum_tv_queuing">Προσθέστε το υπόλοιπο της σεζόν στην ουρά κατά την αναπαραγωγή ενός επεισοδίου</string>
     <string name="lbl_tv_queuing">Προσθήκη όλων των επόμενων επεισοδίων στην ουρά</string>
     <string name="lbl_empty">Άδειο</string>
     <string name="lbl_no_items">Κανένα αντικείμενο</string>

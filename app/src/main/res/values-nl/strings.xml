@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Geen items</string>
     <string name="lbl_empty">Leeg</string>
     <string name="lbl_tv_queuing">Alle volgende afleveringen in wachtrij plaatsen</string>
-    <string name="sum_tv_queuing">Voeg de rest van het seizoen toe aan de wachtrij als er een aflevering afgespeeld wordt</string>
     <string name="lbl_search_hint">Zoektekst (selecteer voor toetsenbord)</string>
     <string name="lbl_play_first_unwatched">Eerste ongekeken aflevering afspelen</string>
     <string name="lbl_mark_unplayed">Markeren als niet afgespeeld</string>

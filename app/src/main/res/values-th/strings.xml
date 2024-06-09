@@ -136,7 +136,6 @@
     <string name="lbl_schedule">กำหนดการ</string>
     <string name="lbl_series_settings">การตั้งค่าซีรีส์</string>
     <string name="lbl_additional_parts">ส่วนอื่น ๆ ที่เกี่ยวข้อง</string>
-    <string name="sum_tv_queuing">เพิ่มทุกตอนที่เหลือในซีซันไปยังคิว เมื่อเล่นตอนใดๆ</string>
     <string name="msg_no_playable_items">ไม่มีรายการที่เล่นได้</string>
     <string name="lbl_unwatched">ยังไม่ได้รับชม</string>
     <string name="lbl_today">วันนี้</string>

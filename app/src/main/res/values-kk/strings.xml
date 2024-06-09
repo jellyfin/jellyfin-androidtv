@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Tarmaqtar joq</string>
     <string name="lbl_empty">Bos</string>
     <string name="lbl_tv_queuing">Kelesı telebölımderdıñ bärın kezekke qoiu</string>
-    <string name="sum_tv_queuing">Telebölım oinatu kezınde mausymda qalğandardy oinatu kezegıne üsteñız</string>
     <string name="lbl_search_hint">Mätındı ızdeu (pernetaqta üşın tañdau)</string>
     <string name="lbl_play_first_unwatched">Qaralmağandardyñ bırınşısın oinatu</string>
     <string name="lbl_mark_unplayed">Oinatylmağan dep belgıleu</string>

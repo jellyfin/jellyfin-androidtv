@@ -309,7 +309,6 @@
     <string name="lbl_record_any_channel">Rikordi sur iu ajn kanalo</string>
     <string name="lbl_similar_items_library">Similaj aĵoj en via plurmediteko</string>
     <string name="lbl_search_hint">Serĉa teksto (elekti por klavaro)</string>
-    <string name="sum_tv_queuing">Aldonu la reston de la sezono al la vico dum vi ludas epizodon</string>
     <string name="lbl_tv_queuing">Vicigi ĉiujn postajn epizodojn</string>
     <string name="msg_cannot_play">Ĉi tiu aĉo ne povas esti ludita</string>
     <string name="msg_cannot_play_time">Ne povas ludi ĉi tiun aĵon ĉi tiu tempo</string>

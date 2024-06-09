@@ -23,7 +23,6 @@
     <string name="lbl_mark_unplayed">Marcar como sin reproducir</string>
     <string name="lbl_play_first_unwatched">Reproducir primero los no vistos</string>
     <string name="lbl_search_hint">Buscar texto (Seleccionar teclado)</string>
-    <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola al reproducir un episodio</string>
     <string name="lbl_tv_queuing">Poner en cola todos los próximos episodios</string>
     <string name="lbl_empty">Vacío</string>
     <string name="lbl_no_items">No hay elementos</string>

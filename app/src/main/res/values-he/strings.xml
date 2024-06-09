@@ -86,7 +86,6 @@
     <string name="lbl_mark_unplayed">סמן כלא נצפה</string>
     <string name="lbl_play_first_unwatched">נגן את הבא שלא נצפה</string>
     <string name="lbl_search_hint">חיפוש טקסט (בחר להופעת מקלדת)</string>
-    <string name="sum_tv_queuing">הכנס את שאר העונה לתור הצפייה בזמן ניגון פרק</string>
     <string name="lbl_tv_queuing">נגן להבא את כל הפרקים הבאים</string>
     <string name="lbl_empty">ריק</string>
     <string name="lbl_no_items">אין תוכן</string>

@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Aucun élément</string>
     <string name="lbl_empty">Vide</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
-    <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
     <string name="lbl_search_hint">Rechercher du texte (sélectionner pour le clavier)</string>
     <string name="lbl_play_first_unwatched">Lire le premier élément non vu</string>
     <string name="lbl_mark_unplayed">Marquer comme non vu</string>

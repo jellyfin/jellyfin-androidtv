@@ -75,7 +75,6 @@
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video</string>
     <string name="lbl_never">Nunca</string>
     <string name="lbl_empty">Vacío</string>
-    <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_now_playing_album">de %1$s</string>

@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Ingen elementer</string>
     <string name="lbl_empty">Tom</string>
     <string name="lbl_tv_queuing">Legg til alle påfølgende episoder i køen</string>
-    <string name="sum_tv_queuing">Legg resten av sesongen til i avspillingskøen når du spiller en episode</string>
     <string name="lbl_search_hint">Søk tekst (velg for tastatur)</string>
     <string name="lbl_play_first_unwatched">Spill av første som ikke er sett</string>
     <string name="lbl_mark_unplayed">Merk som usett</string>

@@ -201,7 +201,6 @@
     <string name="lbl_mark_unplayed">Marchează ca nevizionat</string>
     <string name="lbl_play_first_unwatched">Redă primul nevizionat</string>
     <string name="lbl_search_hint">Căutați text (selectați pentru tastatură)</string>
-    <string name="sum_tv_queuing">Adăugați restul sezonului la coadă când redați un episod</string>
     <string name="lbl_tv_queuing">Introduceți toate episoadele ulterioare în coadă</string>
     <string name="lbl_empty">Gol</string>
     <string name="lbl_no_items">Fără articole</string>

@@ -255,7 +255,6 @@
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir el primero no visto</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
-    <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_tv_queuing">Poner en cola todos los episodios subsiguientes</string>
     <string name="lbl_no_items">No hay elementos</string>
     <string name="msg_cannot_play">Este elemento no pude ser reproducido</string>

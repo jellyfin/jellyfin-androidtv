@@ -69,7 +69,6 @@
     <string name="lbl_no_items">Nessun elemento</string>
     <string name="lbl_empty">Vuoto</string>
     <string name="lbl_tv_queuing">Metti in Coda tutti gli episodi successivi</string>
-    <string name="sum_tv_queuing">Aggiungi il resto della stagione alla coda di riproduzione quando riproduci un episodio</string>
     <string name="lbl_albums">Album</string>
     <string name="lbl_artists">Artisti</string>
     <string name="lbl_song">Brano</string>

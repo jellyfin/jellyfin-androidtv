@@ -79,7 +79,6 @@
     <string name="lbl_no_items">Нет элементов</string>
     <string name="lbl_empty">Пусто</string>
     <string name="lbl_tv_queuing">Поставить в очередь все последующие эпизоды</string>
-    <string name="sum_tv_queuing">Добавить остаток сезона в очередь, пока воспроизводится эпизод</string>
     <string name="lbl_search_hint">Искомый текст (выбор для клавиатуры)</string>
     <string name="lbl_play_first_unwatched">Воспроизвести первое непросмотренное</string>
     <string name="lbl_mark_unplayed">Отметить как не воспроизведённое</string>

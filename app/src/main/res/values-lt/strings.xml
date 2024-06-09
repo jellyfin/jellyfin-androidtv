@@ -98,7 +98,6 @@
     <string name="state_disabled">Išjungta</string>
     <string name="lbl_valid_server_address">Irašykite serverio adresą (IP adresas / įrenginio pavadinimas)</string>
     <string name="lbl_mark_unplayed">Pažymėti kaip nepaleistą</string>
-    <string name="sum_tv_queuing">Pridėti likusias sezono dalis į eilę kai bus paleistas epizodas</string>
     <string name="lbl_mark_played">Pažymėti kaip paleistą</string>
     <string name="lbl_similar_items_library">Panašūs failai bibliotekoje</string>
     <string name="lbl_record_any_time">Įrašyti betkuriuo metu</string>

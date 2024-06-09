@@ -127,7 +127,6 @@
     <string name="lbl_mark_unplayed">Označi da nije izvedeno</string>
     <string name="lbl_play_first_unwatched">Izvedi prvo negledane</string>
     <string name="lbl_search_hint">Traži tekst (tipka izaberi za tipkovnicu)</string>
-    <string name="sum_tv_queuing">Za vrijeme reprodukcije dodaj ostatak sezone u red</string>
     <string name="lbl_tv_queuing">Stavi u red sve sljedeće epizode</string>
     <string name="lbl_empty">Prazno</string>
     <string name="lbl_no_items">Nema stavki</string>

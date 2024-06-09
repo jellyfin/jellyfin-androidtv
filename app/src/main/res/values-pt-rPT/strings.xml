@@ -79,7 +79,6 @@
     <string name="lbl_no_items">Vazio</string>
     <string name="lbl_empty">Vazio</string>
     <string name="lbl_tv_queuing">Adicionar à lista de reprodução todos os episódios subsequentes</string>
-    <string name="sum_tv_queuing">Adicionar o resto da temporada à fila de reprodução ao reproduzir um episódio</string>
     <string name="lbl_search_hint">Procurar texto (selecione para ver teclado)</string>
     <string name="lbl_play_first_unwatched">Reproduzir o primeiro não visto</string>
     <string name="lbl_mark_unplayed">Marcar como não visto</string>

@@ -165,7 +165,6 @@
     <string name="lbl_record_any_channel">아무 채널에서나 기록하기</string>
     <string name="lbl_program_ended">방송 종료됨</string>
     <string name="lbl_now_playing_track">%1$s(%2$s)</string>
-    <string name="sum_tv_queuing">에피소드를 재생할 때 남은 시즌 대기열에 추가</string>
     <string name="lbl_tv_queuing">모든 후속 에피소드 재생 목록에 추가</string>
     <string name="lbl_never">안 함</string>
     <string name="watch_now">지금 재생</string>

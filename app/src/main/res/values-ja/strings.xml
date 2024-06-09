@@ -78,7 +78,6 @@
     <string name="lbl_no_items">項目無し</string>
     <string name="lbl_empty">空</string>
     <string name="lbl_tv_queuing">後続のすべてのエピソードをキューに入れる</string>
-    <string name="sum_tv_queuing">エピソードを再生する際にシーズンの残りをキューに入れる</string>
     <string name="lbl_search_hint">検索テキスト（選択するとキーボードが表示）</string>
     <string name="lbl_play_first_unwatched">最初未視聴を再生</string>
     <string name="lbl_mark_unplayed">未再生として登録</string>

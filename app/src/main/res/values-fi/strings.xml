@@ -156,7 +156,6 @@
     <string name="video_error_unknown_error">Videon lataus epäonnistui</string>
     <string name="lbl_play_first_unwatched">Toista ensimmäinen katsomaton</string>
     <string name="lbl_search_hint">Hakuteksti</string>
-    <string name="sum_tv_queuing">Lisää kauden loput jaksot jonoon, kun toistetaan jakso</string>
     <string name="lbl_tv_queuing">Lisää kaikki seuraavat jaksot jonoon</string>
     <string name="msg_cannot_play">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_cannot_play_time">Tätä kohdetta ei voida toistaa</string>

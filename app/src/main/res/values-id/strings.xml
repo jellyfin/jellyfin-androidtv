@@ -106,7 +106,6 @@
     <string name="lbl_mark_unplayed">Tandai belum diputar</string>
     <string name="lbl_play_first_unwatched">Putar yang belum ditonton terlebih dahulu</string>
     <string name="lbl_search_hint">Teks pencarian (pilih untuk membuka papan ketik)</string>
-    <string name="sum_tv_queuing">Tambahkan sisa episode pada musim ke antrean saat memutar episode</string>
     <string name="lbl_tv_queuing">Tambahkan semua episode berikutnya ke daftar antre</string>
     <string name="lbl_empty">Kosong</string>
     <string name="lbl_no_items">Tak ada item</string>

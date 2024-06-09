@@ -88,7 +88,6 @@
     <string name="lbl_mark_unplayed">Nem lejátszottnak jelölés</string>
     <string name="lbl_play_first_unwatched">Az első még nem látott elem lejátszása</string>
     <string name="lbl_search_hint">Keresés</string>
-    <string name="sum_tv_queuing">Adja hozzá az évad hátralévő epizódjait a lejátszási listához</string>
     <string name="lbl_tv_queuing">Állítsa a lejátszási sorba az összes következő epizódot</string>
     <string name="lbl_no_items">Nincs találat</string>
     <string name="msg_cannot_play">A kiválasztott elem nem játszható le</string>

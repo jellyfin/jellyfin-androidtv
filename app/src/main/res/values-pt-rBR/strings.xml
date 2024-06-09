@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Sem itens</string>
     <string name="lbl_empty">Vazio</string>
     <string name="lbl_tv_queuing">Enfileirar todos os próximos episódios</string>
-    <string name="sum_tv_queuing">Adicionar o restante da temporada à fila ao reproduzir um episódio</string>
     <string name="lbl_search_hint">Buscar texto (selecione para teclado)</string>
     <string name="lbl_play_first_unwatched">Reproduzir não assistido primeiro</string>
     <string name="lbl_mark_unplayed">Marcar como Não Reproduzido</string>

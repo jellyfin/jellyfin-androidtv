@@ -146,7 +146,6 @@
     <string name="lbl_mark_unplayed">Markera som ej uppspelat</string>
     <string name="lbl_play_first_unwatched">Spela först osedda</string>
     <string name="lbl_search_hint">Sök text (välj för tangentbord)</string>
-    <string name="sum_tv_queuing">Lägg till resten av säsongen i kön vid uppspelning av avsnitt</string>
     <string name="lbl_tv_queuing">Köa alla efterföljande avsnitt</string>
     <string name="lbl_empty">Tomt</string>
     <string name="lbl_no_items">Inga föremål</string>

@@ -20,7 +20,6 @@
     <string name="lbl_mark_unplayed">இயக்கப்படவில்லை என குறிக்கவும்</string>
     <string name="lbl_play_first_unwatched">பார்க்காததை முதலில் இயக்கு</string>
     <string name="lbl_search_hint">உரையைத் தேடு (விசைப்பலகைக்குத் தேர்ந்தெடுக்கவும்)</string>
-    <string name="sum_tv_queuing">எபிசோட் விளையாடும்போது மீதமுள்ள பருவத்தை வரிசையில் சேர்க்கவும்</string>
     <string name="lbl_tv_queuing">அனைத்து அடுத்தடுத்த அத்தியாயங்களையும் வரிசைப்படுத்தவும்</string>
     <string name="lbl_empty">காலியாக</string>
     <string name="lbl_no_items">உருப்படிகள் இல்லை</string>

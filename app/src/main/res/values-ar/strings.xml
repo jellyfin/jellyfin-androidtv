@@ -51,7 +51,6 @@
     <string name="lbl_mark_unplayed">علمها كغير مشغلة</string>
     <string name="lbl_play_first_unwatched">شغّل أول ما لم تتم مشاهدته</string>
     <string name="lbl_search_hint">البحث بنص (اختر للوحة المفاتيح)</string>
-    <string name="sum_tv_queuing">أضف باقي الموسم إلى الدور عند تشغيل أي حلقة</string>
     <string name="lbl_tv_queuing">أضف كل الحلقات التالية إلى الدور</string>
     <string name="lbl_empty">فارغ</string>
     <string name="lbl_no_items">لا توجد عناصر</string>

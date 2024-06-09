@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Keine Einträge</string>
     <string name="lbl_empty">Leer</string>
     <string name="lbl_tv_queuing">Alle nachfolgenden Episoden in die Warteschlange einreihen</string>
-    <string name="sum_tv_queuing">Den Rest der Staffel der Warteschlange hinzufügen, wenn eine Episode abgespielt wird</string>
     <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
     <string name="lbl_play_first_unwatched">Starte ungesehende zuerst</string>
     <string name="lbl_mark_unplayed">Markiere als ungesehen</string>

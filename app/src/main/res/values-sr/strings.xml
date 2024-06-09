@@ -259,7 +259,6 @@
     <string name="lbl_mark_unplayed">Означи као непогледано</string>
     <string name="lbl_play_first_unwatched">Репродукуј прво негледано</string>
     <string name="lbl_search_hint">Претражи текст (изаберите за тастатуру)</string>
-    <string name="sum_tv_queuing">Додајте остатак сезоне у ред приликом репродукције епизоде</string>
     <string name="lbl_tv_queuing">Ставите у ред све наредне епизоде</string>
     <string name="lbl_empty">Празно</string>
     <string name="lbl_no_items">Нема ставки</string>

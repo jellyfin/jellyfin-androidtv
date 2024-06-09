@@ -106,7 +106,6 @@
     <string name="lbl_mark_unplayed">Oynatılmadı olarak işaretle</string>
     <string name="lbl_play_first_unwatched">İlk izlenmeyeni oynat</string>
     <string name="lbl_search_hint">Arama metni (klavye için seçin)</string>
-    <string name="sum_tv_queuing">Bir bölümü oynatırken sezonun geri kalanını kuyruğa ekle</string>
     <string name="lbl_tv_queuing">Tüm sonraki bölümleri kuyruğa ekle</string>
     <string name="lbl_empty">Boş</string>
     <string name="lbl_no_items">Öge yok</string>

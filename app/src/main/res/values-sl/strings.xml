@@ -136,7 +136,6 @@
     <string name="lbl_mark_unplayed">Označi kot neogledano</string>
     <string name="lbl_play_first_unwatched">Predvajaj prvo neogledano</string>
     <string name="lbl_search_hint">Išči besedilo (izberi za tipkovnico)</string>
-    <string name="sum_tv_queuing">Ko predvajate eno epizodo, dodaj preostanek sezone v čakalno vrsto</string>
     <string name="msg_set_to_record">Program nastavljen za snemanje</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="msg_item_added">" dodan element"</string>

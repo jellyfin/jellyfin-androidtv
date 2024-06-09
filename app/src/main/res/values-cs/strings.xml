@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Žádné položky</string>
     <string name="lbl_empty">prázdný</string>
     <string name="lbl_tv_queuing">Všechny následující díly do fronty</string>
-    <string name="sum_tv_queuing">Přidejte zbytek sezony do fronty přehrávání při přehrávání epizody</string>
     <string name="lbl_search_hint">Hledaný text (vyberte pro klávesnici)</string>
     <string name="lbl_play_first_unwatched">Přehrát první neshlédnuté</string>
     <string name="lbl_mark_unplayed">Označit jako nepřehrané</string>

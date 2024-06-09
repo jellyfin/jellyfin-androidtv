@@ -87,7 +87,6 @@
     <string name="msg_cannot_play">Гэты элемент не можа быць прайграны</string>
     <string name="lbl_no_items">Няма элементаў</string>
     <string name="lbl_tv_queuing">Паставіць у чаргу ўсе наступныя эпізоды</string>
-    <string name="sum_tv_queuing">Дадаць астатнюю частку сезона ў чаргу пры прайграванні эпізоду</string>
     <string name="because_you_watched">Таму што вы глядзелі %1$s</string>
     <string name="lbl_mark_unplayed">Пазначыць непрайграваным</string>
     <string name="msg_recording_now">Запісваецца зараз</string>

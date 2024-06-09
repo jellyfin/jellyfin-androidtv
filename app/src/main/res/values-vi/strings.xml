@@ -17,7 +17,6 @@
     <string name="lbl_mark_unplayed">Đánh dấu chưa phát</string>
     <string name="lbl_play_first_unwatched">Phát chưa xem đầu tiên</string>
     <string name="lbl_search_hint">Tìm kiếm văn bản (chọn cho bàn phím)</string>
-    <string name="sum_tv_queuing">Thêm phần còn lại của phần phim vào hàng đợi khi phát một tập</string>
     <string name="lbl_tv_queuing">Xếp hàng đợi tất cả các tập tiếp theo</string>
     <string name="lbl_empty">Trống</string>
     <string name="lbl_no_items">Không mục nào</string>

@@ -73,7 +73,6 @@
     <string name="lbl_mark_unplayed">Позначити як невідтворене</string>
     <string name="lbl_play_first_unwatched">Відтворити перше непереглянуте</string>
     <string name="lbl_search_hint">Знайти текст (оберіть для відображення клавіатури)</string>
-    <string name="sum_tv_queuing">Додає решту сезону до черги під час відтворення епізоду</string>
     <string name="lbl_tv_queuing">Додати до черги всі наступні епізоди</string>
     <string name="lbl_empty">Пусто</string>
     <string name="lbl_no_items">Немає елементів</string>

@@ -59,7 +59,6 @@
     <string name="lbl_mark_played">Означи како пуштено</string>
     <string name="lbl_mark_unplayed">Означи како негледано</string>
     <string name="lbl_search_hint">Пребарувај текст (одбери за приказ на тастатура)</string>
-    <string name="sum_tv_queuing">Додади го остатокот од сезоната во редот при гледање на епизода</string>
     <string name="lbl_empty">Празно</string>
     <string name="lbl_never">Никогаш</string>
     <string name="lbl_loading_elipses">Се вчитува…</string>

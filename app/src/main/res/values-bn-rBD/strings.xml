@@ -90,7 +90,6 @@
     <string name="lbl_pause">সাময়িক বিরতি</string>
     <string name="lbl_empty">খালি</string>
     <string name="msg_cannot_play">এই জিনিস চালানো যাবে না</string>
-    <string name="sum_tv_queuing">একটি এপিসোড চালানোর সময় সম্পূর্ণ সিজন সারিবদ্ধ করে যোগ করুন</string>
     <string name="lbl_latest_in">সম্প্রতি যোগ করা হয়েছে %1$s</string>
     <string name="because_you_watched">কারন আপনি দেখেছিলেন %1$s</string>
     <string name="lbl_now_playing_track">%2$s এর %1$s</string>

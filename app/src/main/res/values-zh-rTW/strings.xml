@@ -141,7 +141,6 @@
     <string name="lbl_tune_to_channel">切換頻道</string>
     <string name="lbl_load_channels">"載入頻道 "</string>
     <string name="lbl_search_hint">搜尋文字（選擇鍵盤）</string>
-    <string name="sum_tv_queuing">將本季之後的全部集數加入播放佇列中</string>
     <string name="lbl_tv_queuing">自動將之後的集數加入播放佇列</string>
     <string name="lbl_ends">結束</string>
     <string name="lbl_min">" 分鐘"</string>

@@ -159,7 +159,6 @@
     <string name="lbl_mark_unplayed">Marcar com a no reproduït</string>
     <string name="lbl_play_first_unwatched">Reproduir primer els no vistos</string>
     <string name="lbl_search_hint">Cerca text (seleccioneu per al teclat)</string>
-    <string name="sum_tv_queuing">Afegiu la resta de la temporada a la cua en reproduir un episodi</string>
     <string name="lbl_tv_queuing">Posa a la cua tots els episodis següents</string>
     <string name="lbl_empty">Buit</string>
     <string name="lbl_no_items">Sense elements</string>

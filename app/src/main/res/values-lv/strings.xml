@@ -105,7 +105,6 @@
     <string name="lbl_mark_unplayed">Atzīmēt Neskatītu</string>
     <string name="lbl_play_first_unwatched">Atskaņot Pirmo Neskatīto</string>
     <string name="lbl_search_hint">Meklēt tekstu (izvēlies priekš klaviatūras)</string>
-    <string name="sum_tv_queuing">Pievienot pārējo sezonu rindai, kad atskaņo epizodi</string>
     <string name="lbl_empty">Tukšs</string>
     <string name="lbl_no_items">Nav Vienumu</string>
     <string name="msg_cannot_play">Šo vienumu nevar atskaņot</string>

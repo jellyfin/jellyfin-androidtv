@@ -129,7 +129,6 @@
     <string name="msg_playback_restricted">Administraator on keelanud selle taasesituse hetkel</string>
     <string name="lbl_never">Mitte kunagi</string>
     <string name="lbl_tv_queuing">Lisa kõik järgnevad osad järjekorda</string>
-    <string name="sum_tv_queuing">Lisa ülejäänud hooaeg episoodi esitamisel järjekorda</string>
     <string name="lbl_unwatched">Vaatamata</string>
     <string name="lbl_tomorrow">Homme</string>
     <string name="lbl_record_any_time">Salvestage igal ajal</string>

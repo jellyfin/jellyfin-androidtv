@@ -106,7 +106,6 @@
     <string name="lbl_only_new_episodes">Само нови епизоди</string>
     <string name="lbl_tune_to_channel">Превключете към канал</string>
     <string name="msg_no_playable_items">Няма елементи за възпроизвеждане</string>
-    <string name="sum_tv_queuing">Добавете останалата част от сезона към опашката, докато се възпроизвежда епизодът</string>
     <string name="lbl_tv_queuing">Подредете всички следващи епизоди</string>
     <string name="lbl_no_items">Няма елементи</string>
     <string name="msg_cannot_play">Този елемент не може да се възпроизведе</string>

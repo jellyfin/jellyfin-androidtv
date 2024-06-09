@@ -74,7 +74,6 @@
     <string name="lbl_mark_unplayed">علامت‌گذاری پخش نشده</string>
     <string name="lbl_play_first_unwatched">پخش نخشتین تماشا نشده</string>
     <string name="lbl_search_hint">جستجوی متن (برای صفحه کلید انتخاب را بزنید)</string>
-    <string name="sum_tv_queuing">اضافه کردن باقی قسمت های فصل هنگام پخش یک قسمت</string>
     <string name="lbl_tv_queuing">اضافه کردن تمام قسمت های بعدی به صف</string>
     <string name="lbl_empty">خالی</string>
     <string name="lbl_no_items">هیچ موردی یافت نشد</string>

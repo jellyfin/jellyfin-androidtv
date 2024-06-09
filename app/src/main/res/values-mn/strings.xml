@@ -77,7 +77,6 @@
     <string name="lbl_no_items">Байхгүй байна</string>
     <string name="lbl_empty">Хоосон</string>
     <string name="lbl_tv_queuing">Дараачийн бүх ангийг дараалалд оруулах</string>
-    <string name="sum_tv_queuing">Бүлэг тоглож байхдаа улирлын үлдсэн хэсгийг дараалалд нэмж оруулаарай</string>
     <string name="lbl_search_hint">Текст хайх (гарнаас сонгох)</string>
     <string name="lbl_play_first_unwatched">Эхлээд тоглогдоогүйг тоглуул</string>
     <string name="lbl_mark_unplayed">Тоглогдоогүй гэж тэмдэглэ</string>
