@@ -33,6 +33,5 @@ interface MediaManager {
 	fun nextAudioItem(): Int
 	fun prevAudioItem(): Int
 	fun stopAudio(releasePlayer: Boolean)
-	fun pauseAudio()
-	fun resumeAudio()
+	fun togglePlayPause()
 }

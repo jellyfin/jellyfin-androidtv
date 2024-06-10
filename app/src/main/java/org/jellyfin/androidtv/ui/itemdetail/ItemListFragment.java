@@ -168,9 +168,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                    if (mediaManager.getValue().isPlayingAudio())
-                        mediaManager.getValue().pauseAudio();
-                    else mediaManager.getValue().resumeAudio();
+                    mediaManager.getValue().togglePlayPause();
                     return true;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
                 case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:

@@ -113,8 +113,7 @@ public class AudioNowPlayingFragment extends Fragment {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
-                else mediaManager.getValue().resumeAudio();
+                mediaManager.getValue().togglePlayPause();
             }
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);

@@ -268,12 +268,10 @@ class RewriteMediaManager(
 		playbackManager.state.stop()
 	}
 
-	override fun pauseAudio() {
-		playbackManager.state.pause()
-	}
-
-	override fun resumeAudio() {
-		playbackManager.state.unpause()
+	override fun togglePlayPause() {
+		val playState = playbackManager.state.playState.value
+		if (playState == PlayState.PAUSED) playbackManager.state.unpause()
+		else if (playState == PlayState.PLAYING) playbackManager.state.pause()
 	}
 
 	/**
