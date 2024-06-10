@@ -65,7 +65,7 @@
     <string name="btn_cancel">Anuluj</string>
     <string name="loading">Ładowanie…</string>
     <string name="video_error_unknown_error">Nie udało się załadować video</string>
-    <string name="lbl_tv_queuing">Dodaj do kolejki wszystkie dalsze odcinki</string>
+    <string name="lbl_tv_queuing">Odtwarzaj automatycznie następny odcinek</string>
     <string name="lbl_empty">Pusty</string>
     <string name="lbl_no_items">Brak elementów</string>
     <string name="msg_cannot_play">Dany obiekt nie może zostać odtworzony</string>
