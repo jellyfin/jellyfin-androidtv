@@ -213,7 +213,7 @@
     <string name="lbl_mark_played">Označiť ako prehrané</string>
     <string name="lbl_mark_unplayed">Označiť ako neprehrané</string>
     <string name="lbl_play_first_unwatched">Prehrať najskôr nepozreté</string>
-    <string name="lbl_tv_queuing">Všetky nasledujúce epizódy do fronty</string>
+    <string name="lbl_tv_queuing">Automatické prehrávanie nasledujúcej epizódy</string>
     <string name="msg_cannot_play">Táto položka sa nedá prehrať</string>
     <string name="msg_cannot_play_time">Túto položku nie je možne teraz prehrať</string>
     <string name="msg_playback_incompatible">Tento formát sa nedá prehrať</string>
