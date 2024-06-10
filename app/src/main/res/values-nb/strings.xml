@@ -41,7 +41,7 @@
     <string name="msg_unable_to_cancel">Kunne ikke avbryte opptak</string>
     <string name="lbl_cast_crew">Skuespillere og mannskap</string>
     <string name="lbl_chapters">Kapitler</string>
-    <string name="lbl_specials">Spesial</string>
+    <string name="lbl_specials">Utvalgte</string>
     <string name="lbl_trailers">Trailere</string>
     <string name="lbl_items">Elementer</string>
     <string name="lbl_item">Element</string>
@@ -549,4 +549,5 @@
     <string name="pref_screensaver_ageratingrequired_title">Krev aldersgrense</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Kun vis elementer med en aldersgrense</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Viser alle elementer</string>
+    <string name="all_channels">Alle kanaler</string>
 </resources>
