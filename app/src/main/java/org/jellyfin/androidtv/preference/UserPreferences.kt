@@ -7,7 +7,6 @@ import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
@@ -84,9 +83,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 		/* Playback - Video */
 		/**
-		 * Preferred video player.
+		 * Whether to use an external playback application or not.
 		 */
-		var videoPlayer = enumPreference("video_player", PreferredVideoPlayer.EXOPLAYER)
+		var useExternalPlayer = booleanPreference("external_player", false)
 
 		/**
 		 * Change refresh rate to match media when device supports it
@@ -119,11 +118,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Use direct play
 		 */
 		var liveTvDirectPlayEnabled = booleanPreference("pref_live_direct", true)
-
-		/**
-		 * Preferred video player for live TV
-		 */
-		var liveTvVideoPlayer = enumPreference("live_tv_video_player", PreferredVideoPlayer.EXOPLAYER)
 
 		/**
 		 * Shortcut used for changing the audio track

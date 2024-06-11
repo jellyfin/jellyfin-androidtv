@@ -5,7 +5,6 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -55,7 +54,6 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_enable_cinema_mode)
 				setContent(R.string.sum_enable_cinema_mode)
 				bind(userPreferences, UserPreferences.cinemaModeEnabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 
@@ -65,7 +63,6 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			enum<AudioBehavior> {
 				setTitle(R.string.lbl_audio_output)
 				bind(userPreferences, UserPreferences.audioBehaviour)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 

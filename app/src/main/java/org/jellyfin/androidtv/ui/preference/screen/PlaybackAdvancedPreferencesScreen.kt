@@ -4,7 +4,6 @@ import android.os.Build
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -49,11 +48,6 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 		category {
 			setTitle(R.string.pref_video)
 
-			enum<PreferredVideoPlayer> {
-				setTitle(R.string.pref_media_player)
-				bind(userPreferences, UserPreferences.videoPlayer)
-			}
-
 			@Suppress("MagicNumber")
 			list {
 				setTitle(R.string.pref_max_bitrate_title)
@@ -64,17 +58,16 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox{
+				setTitle(R.string.pref_external_player)
+				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
 		}
 
 		category {
 			setTitle(R.string.pref_live_tv_cat)
-
-			enum<PreferredVideoPlayer> {
-				setTitle(R.string.pref_media_player)
-				bind(userPreferences, UserPreferences.liveTvVideoPlayer)
-			}
 
 			checkbox {
 				setTitle(R.string.lbl_direct_stream_live)
@@ -97,14 +90,12 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_bitstream_ac3)
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.ac3Enabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
 			checkbox {
 				setTitle(R.string.lbl_bitstream_dts)
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.dtsEnabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 	}

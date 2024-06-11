@@ -47,10 +47,8 @@ import org.jellyfin.androidtv.data.querying.GetTrailersRequest;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentFullDetailsBinding;
-import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.RecordingIndicatorView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
@@ -151,7 +149,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
-    final Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -779,81 +776,59 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             }
         });
 
-        //playButton becomes playWith button
-        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE && (baseItem.getType() == BaseItemKind.SERIES || baseItem.getType() == BaseItemKind.MOVIE || baseItem.getType() == BaseItemKind.VIDEO || baseItem.getType() == BaseItemKind.EPISODE)) {
-            playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 3, getString(R.string.play_with), new View.OnClickListener() {
+        if (BaseItemExtensionsKt.canPlay(baseItem)) {
+            mDetailsOverviewRow.addAction(mResumeButton);
+            boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (JavaCompat.getCanResume(mBaseItem));
+            mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
+
+            playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.isFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    FullDetailsFragmentHelperKt.showPlayWithMenu(FullDetailsFragment.this, view, false);
+                public void onClick(View v) {
+                    play(mBaseItem, 0, false);
                 }
             });
+
             mDetailsOverviewRow.addAction(playButton);
 
-            if (mBaseItem.isFolder()) {
+            if (resumeButtonVisible) {
+                mResumeButton.requestFocus();
+            } else {
+                playButton.requestFocus();
+            }
+
+            boolean isMusic = baseItem.getType() == BaseItemKind.MUSIC_ALBUM
+                    || baseItem.getType() == BaseItemKind.MUSIC_ARTIST
+                    || baseItem.getType() == BaseItemKind.AUDIO
+                    || (baseItem.getType() == BaseItemKind.PLAYLIST && MediaType.AUDIO.equals(baseItem.getMediaType()));
+
+            if (isMusic) {
+                queueButton = TextUnderButton.create(requireContext(), R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addItemToQueue();
+                    }
+                });
+                mDetailsOverviewRow.addAction(queueButton);
+            }
+
+            if (mBaseItem.isFolder() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
                 shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        FullDetailsFragmentHelperKt.showPlayWithMenu(FullDetailsFragment.this, view, true);
+                    public void onClick(View v) {
+                        play(mBaseItem, 0, true);
                     }
                 });
                 mDetailsOverviewRow.addAction(shuffleButton);
             }
-        } else { //here playButton is only a play button
-            if (BaseItemExtensionsKt.canPlay(baseItem)) {
-                mDetailsOverviewRow.addAction(mResumeButton);
-                boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (JavaCompat.getCanResume(mBaseItem));
-                mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
-                playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.isFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            if (baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
+                TextUnderButton imix = TextUnderButton.create(requireContext(), R.drawable.ic_mix, buttonSize, 0, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        play(mBaseItem, 0, false);
+                        playbackHelper.getValue().playInstantMix(requireContext(), baseItem);
                     }
                 });
-
-                mDetailsOverviewRow.addAction(playButton);
-
-                if (resumeButtonVisible) {
-                    mResumeButton.requestFocus();
-                } else {
-                    playButton.requestFocus();
-                }
-
-                boolean isMusic = baseItem.getType() == BaseItemKind.MUSIC_ALBUM
-                        || baseItem.getType() == BaseItemKind.MUSIC_ARTIST
-                        || baseItem.getType() == BaseItemKind.AUDIO
-                        || (baseItem.getType() == BaseItemKind.PLAYLIST && MediaType.AUDIO.equals(baseItem.getMediaType()));
-
-                if (isMusic) {
-                    queueButton = TextUnderButton.create(requireContext(), R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            addItemToQueue();
-                        }
-                    });
-                    mDetailsOverviewRow.addAction(queueButton);
-                }
-
-                if (mBaseItem.isFolder() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                    shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            play(mBaseItem, 0, true);
-                        }
-                    });
-                    mDetailsOverviewRow.addAction(shuffleButton);
-                }
-
-                if (baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                    TextUnderButton imix = TextUnderButton.create(requireContext(), R.drawable.ic_mix, buttonSize, 0, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            playbackHelper.getValue().playInstantMix(requireContext(), baseItem);
-                        }
-                    });
-                    mDetailsOverviewRow.addAction(imix);
-                }
-
+                mDetailsOverviewRow.addAction(imix);
             }
         }
         //Video versions button
