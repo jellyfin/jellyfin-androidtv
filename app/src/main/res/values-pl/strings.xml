@@ -565,4 +565,5 @@
     <string name="all_channels">Wszystkie kanały</string>
     <string name="app_notification_update_soon">Zaktualizuj serwer z wersji %1$s do co najmniej %2$s, aby móc dalej korzystać z aplikacji po kolejnej aktualizacji.</string>
     <string name="current_queue">Bieżąca kolejka</string>
+    <string name="pref_external_player">Użyj zewnętrznego odtwarzacza</string>
 </resources>
