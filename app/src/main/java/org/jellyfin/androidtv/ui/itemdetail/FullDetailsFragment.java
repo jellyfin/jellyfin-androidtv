@@ -781,7 +781,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (JavaCompat.getCanResume(mBaseItem));
             mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
-            playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.isFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : Utils.getSafeValue(mBaseItem.isFolder(), false) ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     play(mBaseItem, 0, false);
@@ -811,7 +811,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 mDetailsOverviewRow.addAction(queueButton);
             }
 
-            if (mBaseItem.isFolder() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
+            if (Utils.getSafeValue(mBaseItem.isFolder(), false) || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
                 shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
