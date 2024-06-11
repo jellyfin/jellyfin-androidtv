@@ -11,11 +11,8 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
-import org.jellyfin.androidtv.preference.SystemPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.popupMenu
 import org.jellyfin.androidtv.util.sdk.TrailerUtils.getExternalTrailerIntent
@@ -103,41 +100,6 @@ fun FullDetailsFragment.showDetailsMenu(
 		item(getString(R.string.lbl_goto_series)) { gotoSeries() }
 	}
 }.showIfNotEmpty()
-
-fun FullDetailsFragment.showPlayWithMenu(
-	view: View,
-	shuffle: Boolean,
-) = popupMenu(requireContext(), view) {
-	item(getString(R.string.play_with_exo_player)) {
-		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.EXOPLAYER
-		play(mBaseItem, 0, shuffle)
-	}
-
-	item(getString(R.string.play_with_external_app)) {
-		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.EXTERNAL
-
-		val itemsCallback = object : LifecycleAwareResponse<List<BaseItemDto>>(lifecycle) {
-			override fun onResponse(response: List<BaseItemDto>) {
-				if (!active) return
-
-				if (mBaseItem.type == BaseItemKind.MUSIC_ARTIST) {
-					mediaManager.value.playNow(requireContext(), response, 0, false)
-				} else {
-					videoQueueManager.value.setCurrentVideoQueue(response)
-					navigationRepository.value.navigate(Destinations.externalPlayer(0))
-				}
-			}
-		}
-
-		playbackHelper.value.getItemsToPlay(
-			requireContext(),
-			mBaseItem,
-			false,
-			shuffle,
-			itemsCallback
-		)
-	}
-}.show()
 
 fun FullDetailsFragment.createFakeSeriesTimerBaseItemDto(timer: SeriesTimerInfoDto) = BaseItemDto(
 	id = requireNotNull(timer.id).toUUID(),

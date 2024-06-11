@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -550,11 +549,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 @Override
                 public void onResponse(StreamInfo internalResponse) {
                     Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-
-                    PreferredVideoPlayer preferredVideoPlayer = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer());
-
-                    Timber.i("User preferred player is: %s", preferredVideoPlayer);
-                    Timber.i("Will use internal player");
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
