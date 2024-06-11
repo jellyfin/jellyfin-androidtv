@@ -36,7 +36,6 @@ import org.jellyfin.apiclient.model.entities.MediaStream as LegacyMediaStream
 import org.jellyfin.apiclient.model.entities.MediaStreamType as LegacyMediaStreamType
 import org.jellyfin.apiclient.model.entities.MediaUrl as LegacyMediaUrl
 import org.jellyfin.apiclient.model.entities.MetadataFields as LegacyMetadataFields
-import org.jellyfin.apiclient.model.entities.SortOrder as LegacySortOrder
 import org.jellyfin.apiclient.model.entities.Video3DFormat as LegacyVideo3DFormat
 import org.jellyfin.apiclient.model.entities.VideoType as LegacyVideoType
 import org.jellyfin.apiclient.model.library.PlayAccess as LegacyPlayAccess
@@ -49,7 +48,6 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto as LegacySeriesTim
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol as LegacyMediaProtocol
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp as LegacyTransportStreamTimestamp
 import org.jellyfin.apiclient.model.providers.ExternalUrl as LegacyExternalUrl
-import org.jellyfin.apiclient.model.querying.ItemFilter as LegacyItemFilter
 import org.jellyfin.sdk.model.api.BaseItemDto as ModernBaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemPerson as ModernBaseItemPerson
 import org.jellyfin.sdk.model.api.ChannelType as ModernChannelType
@@ -60,7 +58,6 @@ import org.jellyfin.sdk.model.api.ExternalUrl as ModernExternalUrl
 import org.jellyfin.sdk.model.api.ImageOrientation as ModernImageOrientation
 import org.jellyfin.sdk.model.api.ImageType as ModernImageType
 import org.jellyfin.sdk.model.api.IsoType as ModernIsoType
-import org.jellyfin.sdk.model.api.ItemFilter as ModernItemFilter
 import org.jellyfin.sdk.model.api.KeepUntil as ModernKeepUntil
 import org.jellyfin.sdk.model.api.LocationType as ModernLocationType
 import org.jellyfin.sdk.model.api.MediaProtocol as ModernMediaProtocol
@@ -75,7 +72,6 @@ import org.jellyfin.sdk.model.api.NameIdPair as ModernNameIdPair
 import org.jellyfin.sdk.model.api.PlayAccess as ModernPlayAccess
 import org.jellyfin.sdk.model.api.ProgramAudio as ModernProgramAudio
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto as ModernSeriesTimerInfoDto
-import org.jellyfin.sdk.model.api.SortOrder as ModernSortOrder
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod as ModernSubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.TransportStreamTimestamp as ModernTransportStreamTimestamp
 import org.jellyfin.sdk.model.api.UserItemDataDto as ModernUserItemDataDto
@@ -652,22 +648,3 @@ fun LegacyChannelInfoDto.asSdk() = ModernBaseItemDto(
 	currentProgram = this.currentProgram?.asSdk(),
 	primaryImageAspectRatio = this.primaryImageAspectRatio,
 )
-
-fun LegacyItemFilter.asSdk() = when (this) {
-	LegacyItemFilter.IsFolder -> ModernItemFilter.IS_FOLDER
-	LegacyItemFilter.IsNotFolder -> ModernItemFilter.IS_NOT_FOLDER
-	LegacyItemFilter.IsUnplayed -> ModernItemFilter.IS_UNPLAYED
-	LegacyItemFilter.IsPlayed -> ModernItemFilter.IS_PLAYED
-	LegacyItemFilter.IsFavorite -> ModernItemFilter.IS_FAVORITE
-	LegacyItemFilter.IsResumable -> ModernItemFilter.IS_RESUMABLE
-	LegacyItemFilter.Likes -> ModernItemFilter.LIKES
-	LegacyItemFilter.Dislikes -> ModernItemFilter.DISLIKES
-	LegacyItemFilter.IsFavoriteOrLikes -> ModernItemFilter.IS_FAVORITE_OR_LIKES
-}
-
-fun Array<LegacyItemFilter>.asSdk() = map { it.asSdk() }
-
-fun ModernSortOrder.asLegacy(): LegacySortOrder = when (this) {
-	ModernSortOrder.ASCENDING -> LegacySortOrder.Ascending
-	ModernSortOrder.DESCENDING -> LegacySortOrder.Descending
-}

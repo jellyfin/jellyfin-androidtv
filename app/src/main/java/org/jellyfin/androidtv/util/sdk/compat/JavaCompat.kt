@@ -54,7 +54,6 @@ fun BaseItemDto.copyWithUserData(
 fun BaseItemDto.getResumePositionTicks() = userData?.playbackPositionTicks ?: 0
 
 fun Collection<LegacyBaseItemdto>.mapBaseItemCollection(): List<BaseItemDto> = map { it.asSdk() }
-fun Array<LegacyBaseItemdto>.mapBaseItemArray(): List<BaseItemDto> = map { it.asSdk() }
 
 fun MediaSourceInfo.getVideoStream() = mediaStreams?.firstOrNull {
 	it.type == org.jellyfin.sdk.model.api.MediaStreamType.VIDEO
