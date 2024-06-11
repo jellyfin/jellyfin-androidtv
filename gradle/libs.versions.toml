@@ -6,7 +6,6 @@ android-gradle = "8.4.1"
 androidx-activity = "1.9.0"
 androidx-appcompat = "1.7.0"
 androidx-cardview = "1.0.0"
-androidx-compose-compiler = "1.5.14"
 androidx-compose-foundation = "1.6.7"
 androidx-compose-ui = "1.6.7"
 androidx-constraintlayout = "2.1.4"
@@ -43,6 +42,7 @@ timber = "5.0.1"
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
 # Jellyfin
@@ -60,7 +60,6 @@ android-gradle = { module = "com.android.tools.build:gradle", version.ref = "and
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
-androidx-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "androidx-compose-compiler" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }

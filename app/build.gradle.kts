@@ -2,6 +2,7 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	alias(libs.plugins.kotlin.serialization)
+	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.aboutlibraries)
 }
 
@@ -28,10 +29,6 @@ android {
 
 	compileOptions {
 		isCoreLibraryDesugaringEnabled = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
 
 	buildTypes {
