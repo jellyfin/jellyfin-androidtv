@@ -77,7 +77,7 @@
     <string name="msg_cannot_play">Dit item kan niet afgespeeld worden</string>
     <string name="lbl_no_items">Geen items</string>
     <string name="lbl_empty">Leeg</string>
-    <string name="lbl_tv_queuing">Alle volgende afleveringen in wachtrij plaatsen</string>
+    <string name="lbl_tv_queuing">Volgende aflevering automatisch afspelen</string>
     <string name="lbl_search_hint">Zoektekst (selecteer voor toetsenbord)</string>
     <string name="lbl_play_first_unwatched">Eerste ongekeken aflevering afspelen</string>
     <string name="lbl_mark_unplayed">Markeren als niet afgespeeld</string>
@@ -545,4 +545,5 @@
     <string name="all_channels">Alle kanalen</string>
     <string name="app_notification_update_soon">Je moet je server bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
     <string name="current_queue">Huidige wachtrij</string>
+    <string name="pref_external_player">Externe speler gebruiken</string>
 </resources>
