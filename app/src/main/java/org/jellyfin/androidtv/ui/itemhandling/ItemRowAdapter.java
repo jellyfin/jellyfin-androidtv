@@ -33,7 +33,6 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
@@ -401,13 +400,13 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         mFilters = filters;
         switch (queryType) {
             case Artists:
-                mArtistsQuery = ItemRowAdapterHelperKt.setArtistsFilter(mArtistsQuery, ModelCompat.asSdk(filters.getFilters()));
+                mArtistsQuery = ItemRowAdapterHelperKt.setArtistsFilter(mArtistsQuery, filters.getFilters());
                 break;
             case AlbumArtists:
-                mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsFilter(mAlbumArtistsQuery, ModelCompat.asSdk(filters.getFilters()));
+                mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsFilter(mAlbumArtistsQuery, filters.getFilters());
                 break;
             default:
-                mQuery = ItemRowAdapterHelperKt.setItemsFilter(mQuery, ModelCompat.asSdk(filters.getFilters()));
+                mQuery = ItemRowAdapterHelperKt.setItemsFilter(mQuery, filters.getFilters());
         }
         removeRow();
     }
