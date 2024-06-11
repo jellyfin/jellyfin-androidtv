@@ -68,7 +68,7 @@
     <string name="msg_cannot_play">此项目不能播放</string>
     <string name="lbl_no_items">没有项目</string>
     <string name="lbl_empty">空项</string>
-    <string name="lbl_tv_queuing">将所有后续剧集排入队列</string>
+    <string name="lbl_tv_queuing">自动播放下一集</string>
     <string name="lbl_now_playing_album">来自 %1$s</string>
     <string name="lbl_now_playing_track">%1$s 中的 %2$s</string>
     <string name="lbl_add_favorite">添加收藏</string>
