@@ -166,10 +166,7 @@
     <string name="watch_now">شاهد الآن</string>
     <string name="pref_next_up_timeout_title">كم من الوقت لتشغيل التالي</string>
     <string name="pref_next_up_timeout_summary">كم من الوقت تنتظر قبل تشغيل العنصر التالي</string>
-    <string name="pref_media_player">مشغل الوسائط المفضل</string>
     <string name="pref_about_title">حول</string>
-    <string name="pref_video_player_choose">إسأل دائما</string>
-    <string name="pref_video_player_external">تطبيق خارجي</string>
     <string name="pref_theme_dark">الداكن (الافتراضي)</string>
     <string name="pref_theme_emerald">الزمرد الكلاسيكي</string>
     <string name="lbl_my_media">الوسائط الخاصة بي</string>
@@ -322,9 +319,6 @@
     <string name="lbl_stars">نجوم</string>
     <string name="lbl_playback_control_ends">ينتهي عند %1$s</string>
     <string name="lbl_sign_in">من فضلك، سجيل الدخول</string>
-    <string name="play_with">تشغيل بواسطة</string>
-    <string name="play_with_external_app">تشغيل بواسطة برنامج خارجي</string>
-    <string name="play_with_exo_player">تشغيل بواسطة ExoPlayer</string>
     <string name="just_one">لهاته المرة فقط</string>
     <string name="turn_off">تعطيل هاته الخاصية</string>
     <string name="lbl_colored_backgrounds">خلفيات ملونة</string>
@@ -343,7 +337,6 @@
     <string name="bitrate_mbit">%1$,.0f ميݠابت في الثانية</string>
     <string name="grid_direction_vertical">عمودي</string>
     <string name="grid_direction">اتجاه الشبكة</string>
-    <string name="pref_video_player_exoplayer">مشغل ExoPlayer</string>
     <string name="lbl_premiere">العرض الأول</string>
     <string name="lbl_live">مباشر</string>
     <string name="lbl_sports">الرياضة</string>

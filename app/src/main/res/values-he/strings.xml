@@ -211,9 +211,6 @@
     <string name="desc_premieres">מראה שורה של פיילוטים לפרקים חדשים עבור הסדרה שנצפית</string>
     <string name="lbl_playback_control_ends">מסתיים ב %1$s</string>
     <string name="lbl_sign_in">אנא התחבר</string>
-    <string name="play_with">נגן בעזרת</string>
-    <string name="play_with_external_app">נגן בנגן חיצונה</string>
-    <string name="play_with_exo_player">נגן בעזרת ExoPlayer</string>
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
@@ -245,11 +242,7 @@
     <string name="watch_now">צפה עכשיו</string>
     <string name="pref_next_up_timeout_title">תזמון טיימר הבא בתור</string>
     <string name="pref_next_up_timeout_summary">כמה לחכות לפני הפעלת הבא בתור</string>
-    <string name="pref_media_player">נגן מדיה מועדף</string>
     <string name="pref_about_title">אודות</string>
-    <string name="pref_video_player_choose">שאל תמיד</string>
-    <string name="pref_video_player_external">נגן חיצוני</string>
-    <string name="pref_video_player_exoplayer">אקסופליר</string>
     <string name="pref_theme_emerald">קלאסי</string>
     <string name="pref_theme_dark">חשוך (רגיל)</string>
     <string name="lbl_my_media">המדיה שלי</string>

@@ -3,10 +3,7 @@
     <string name="watch_now">Skatīties tagad</string>
     <string name="pref_next_up_timeout_title">Nākamais taimera ilgums</string>
     <string name="pref_next_up_timeout_summary">Cik ilgi gaidīt pirms nākamā vienuma atskaņošanas</string>
-    <string name="pref_media_player">Ieteiktais atskaņotājs</string>
     <string name="pref_about_title">Par</string>
-    <string name="pref_video_player_external">Ārēja lietotne</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mana Multvide</string>
     <string name="lbl_image_size">Attēla Lielums</string>
     <string name="lbl_image_type">Attēla Veids</string>

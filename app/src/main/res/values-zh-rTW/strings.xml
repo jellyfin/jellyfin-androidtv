@@ -107,9 +107,7 @@
     <string name="lbl_prev_item">前一個項目</string>
     <string name="lbl_next_item">下一個項目</string>
     <string name="pref_next_up_timeout_summary">播放下一項目之前的等待時間</string>
-    <string name="pref_media_player">預設播放器</string>
     <string name="pref_about_title">關於</string>
-    <string name="pref_video_player_external">外部應用程式</string>
     <string name="pref_theme_dark">暗色（預設）</string>
     <string name="lbl_my_media">我的媒體</string>
     <string name="lbl_image_size">圖片尺寸</string>
@@ -226,7 +224,6 @@
     <string name="lbl_colored_backgrounds">顏色背景編碼</string>
     <string name="lbl_start_favorites">將我的最愛放在開頭</string>
     <string name="lbl_image_type">圖片格式</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer （系統播放器）</string>
     <string name="pref_next_up_timeout_title">自動播放倒數計時時長</string>
     <string name="pref_theme_emerald">經典翡翠色</string>
     <string name="lbl_show_premieres">顯示該劇集首播</string>
@@ -288,9 +285,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">在 %1$s 結束</string>
     <string name="lbl_sign_in">請登入</string>
-    <string name="play_with">使用指定的播放器</string>
-    <string name="play_with_external_app">使用外部播放器</string>
-    <string name="play_with_exo_player">用 ExoPlayer 播放</string>
     <string name="just_one">就是這個</string>
     <string name="turn_off">關閉此選項</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
@@ -309,7 +303,6 @@
     <string name="no_player">無播放器</string>
     <string name="mark_watched_message">您似乎還沒看完這個項目。確定要標記為已觀看嗎？</string>
     <string name="mark_watched">標記為已觀看</string>
-    <string name="pref_video_player_choose">永遠詢問</string>
     <string name="lbl_tv_filter_status">接下來的 %1$d 小時</string>
     <string name="lbl_tv_channel_status">%2$d 個頻道中的第 %1$d 個</string>
     <string name="lbl_subtitle_track">選擇字幕軌</string>

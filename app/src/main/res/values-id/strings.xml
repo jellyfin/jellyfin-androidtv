@@ -10,8 +10,6 @@
     <string name="pref_next_up_timeout_title">Durasi waktu sebelum memutar berikutnya</string>
     <string name="pref_next_up_timeout_summary">Berapa lama menunggu sebelum memainkan item berikutnya</string>
     <string name="pref_about_title">Tentang</string>
-    <string name="pref_video_player_external">Aplikasi eksternal</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Gelap (Default)</string>
     <string name="lbl_my_media">Media saya</string>
@@ -231,7 +229,6 @@
     <string name="grid_direction_vertical">Vertikal</string>
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="grid_direction">Arah kisi</string>
-    <string name="pref_media_player">Pemutar media pilihan</string>
     <string name="lbl_premieres">Premiere</string>
     <string name="lbl_new_only">Baru Saja</string>
     <string name="lbl_news">Berita</string>
@@ -260,7 +257,6 @@
     <string name="mark_watched">Tandai telah ditonton</string>
     <string name="pref_next_up_behavior_title">Tampilkan info video selanjutnya</string>
     <string name="pref_next_up_timeout_disabled">Tidak terbatas</string>
-    <string name="pref_video_player_choose">Selalu tanya</string>
     <string name="lbl_tv_filter_status">untuk %1$d jam selanjutnya</string>
     <string name="lbl_tv_channel_status">%1$d dari %2$d kanal</string>
     <string name="lbl_subtitle_track">Pilih trek subtitel</string>
@@ -275,7 +271,6 @@
     <string name="state_disabled">Nonaktif</string>
     <string name="lbl_latest_in">Baru ditambahkan ke %1$s</string>
     <string name="pref_clock_display">Tampilkan jam</string>
-    <string name="play_with">Putar dengan</string>
     <string name="lbl_sign_in">Silakan masuk</string>
     <string name="server_field_empty">Alamat tidak boleh kosong</string>
     <string name="desc_audio_night_mode">Meratakan volume audio secara otomatis</string>
@@ -286,8 +281,6 @@
     <string name="lbl_subtitle_delay">Pelambatan takarir</string>
     <string name="turn_off">Nonaktifkan opsi ini</string>
     <string name="just_one">Hanya ini saja</string>
-    <string name="play_with_exo_player">Putar dengan ExoPlayer</string>
-    <string name="play_with_external_app">Putar dengan apl eksternal</string>
     <string name="lbl_playback_control_ends">Berakhir pada %1$s</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_stars">Bintang</string>

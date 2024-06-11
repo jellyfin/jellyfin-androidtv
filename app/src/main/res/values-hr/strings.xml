@@ -151,9 +151,6 @@
     <string name="lbl_stars">Zvijezde</string>
     <string name="lbl_playback_control_ends">Završava u %1$s</string>
     <string name="lbl_sign_in">Prijavi se</string>
-    <string name="play_with">Reproduciraj sa</string>
-    <string name="play_with_external_app">Reproduciraj sa vanjskom aplikacijom</string>
-    <string name="play_with_exo_player">Reproduciraj sa ExoPlayer</string>
     <string name="just_one">Samo ovu</string>
     <string name="turn_off">Ugasi ovu postavku</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>
@@ -185,10 +182,7 @@
     <string name="watch_now">Gledaj sada</string>
     <string name="pref_next_up_timeout_title">Trajanje brojača do reprodukcije iduće stavke</string>
     <string name="pref_next_up_timeout_summary">Koliko čekati prije reprodukcije iduće stavke</string>
-    <string name="pref_media_player">Preferirani media player</string>
     <string name="pref_about_title">O</string>
-    <string name="pref_video_player_choose">Uvijek pitaj</string>
-    <string name="pref_video_player_external">Vanjska aplikacija</string>
     <string name="pref_theme_emerald">Klasični Smaragd</string>
     <string name="pref_theme_dark">Tamno (Zadano)</string>
     <string name="lbl_my_media">Moji mediji</string>
@@ -356,7 +350,6 @@
     <string name="auto_sign_in">Automatska prijava</string>
     <string name="pref_show_backdrop_description">Promijeni pozadinsku sliku u označene stavke</string>
     <string name="lbl_playback_speed">Brzina reprodukcije</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_audio_night_mode">Nočni način zvuka (eksperimentalno)</string>
     <string name="desc_audio_night_mode">Izjednači glasnoću zvuka automatski</string>
     <string name="lbl_subtitle_fg">Boja podnatpisa</string>

@@ -77,7 +77,6 @@
     <string name="lbl_server">Gweinydd</string>
     <string name="watch_count_overflow">99+</string>
     <string name="grid_direction_horizontal">Llorweddol</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_premieres">Perfformiadau cyntaf</string>
     <string name="lbl_news">Newyddion</string>
     <string name="lbl_premiere">Perfformiad cyntaf</string>

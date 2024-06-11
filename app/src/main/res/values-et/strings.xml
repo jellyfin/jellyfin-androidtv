@@ -118,7 +118,6 @@
     <string name="lbl_start_favorites">Asetage lemmikud algusesse</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_unknown_key">Tundmatu (%1s)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_audio_track_button">Heliriba nupp</string>
     <string name="no_player">Mängija puudub</string>
     <string name="no_player_message">Näib, et teil pole installitud videot toetavat rakendust. See suvand eeldab, et installite videosisu esitamiseks kolmanda osapoole rakenduse.</string>
@@ -178,9 +177,7 @@
     <string name="pref_theme_emerald">Klassikaline smaragd</string>
     <string name="lbl_image_size">Pildi suurus</string>
     <string name="pref_about_title">Teave</string>
-    <string name="pref_video_player_external">Väline äpp</string>
     <string name="watch_now">Vaata nüüd</string>
-    <string name="pref_media_player">Eelistatud meedia mängija</string>
     <string name="pref_next_up_behavior_title">Kuva järgmise video teave</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="msg_live_tv_next">Lae järgmised %1$d tundi\?</string>
@@ -226,7 +223,6 @@
     <string name="lbl_at_any_time">Igal ajal</string>
     <string name="lbl_next_episode">Järgmine episood</string>
     <string name="lbl_new_only">Ainult uus</string>
-    <string name="pref_video_player_choose">Alati küsi</string>
     <string name="pref_button_remapping_description">Selle määramiseks vajutage teleri kaugjuhtimispuldil mis tahes nuppu</string>
     <string name="pref_subtitle_track_button">Subtiitriteriba nupp</string>
     <string name="episode_missing">Episood puudub</string>
@@ -379,9 +375,7 @@
     <string name="pref_home_description">Seadistage näidatud jaotised</string>
     <string name="just_one">Vaid see</string>
     <string name="seek_error">Ei õnnestunud otsida</string>
-    <string name="play_with_exo_player">Esita ExoPlayer-iga</string>
     <string name="lbl_sign_in">Palun logi sisse</string>
-    <string name="play_with_external_app">Esita välise rakendusega</string>
     <string name="server_connecting">Ühenduse loomine %1$s</string>
     <string name="lbl_tomatoes">Tomatid</string>
     <string name="login_invalid_credentials">Vale kasutajanimi ja/või parool</string>
@@ -438,7 +432,6 @@
     <string name="lbl_starting_on_schedule_ending_after">Algab ajakava järgi ja lõpeb %1$s pärast ajakava</string>
     <string name="lbl_on_any_channel">Igal kanalil</string>
     <string name="audio_error">Heli %1$s ei saa esitada</string>
-    <string name="play_with">Esita</string>
     <string name="lbl_record_only_new">Salvestab ainult uusi episoode</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="home_section_library">Minu meedia</string>

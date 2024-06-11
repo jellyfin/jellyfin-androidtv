@@ -76,9 +76,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Завршава се у %1$s</string>
     <string name="lbl_sign_in">Молимо пријавите се</string>
-    <string name="play_with">Репродукуј са</string>
-    <string name="play_with_external_app">Репродукуј са екстерном апликацијом</string>
-    <string name="play_with_exo_player">Репродукуј са ExoPlayer</string>
     <string name="just_one">Само овај</string>
     <string name="turn_off">Искључите ову опцију</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
@@ -112,11 +109,7 @@
     <string name="watch_now">Гледај сада</string>
     <string name="pref_next_up_timeout_title">Трајање тајмера за следеће снимање</string>
     <string name="pref_next_up_timeout_summary">Колико треба чекати пре репродукције следеће ставке</string>
-    <string name="pref_media_player">Пожељни медијски плејер</string>
     <string name="pref_about_title">О</string>
-    <string name="pref_video_player_choose">Увек питај</string>
-    <string name="pref_video_player_external">Спољна апликација</string>
-    <string name="pref_video_player_exoplayer">Exo плејер</string>
     <string name="pref_theme_emerald">Класично смарагдно</string>
     <string name="pref_theme_dark">Тамно (подразумевано)</string>
     <string name="lbl_my_media">Моји медији</string>

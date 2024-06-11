@@ -144,11 +144,7 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_next_up_timeout_title">Тривалість відображення інформації</string>
     <string name="pref_next_up_timeout_summary">Як довго чекати, перш ніж відтворити наступний елемент</string>
-    <string name="pref_media_player">Бажаний медіаплеєр</string>
     <string name="pref_about_title">Про додаток</string>
-    <string name="pref_video_player_choose">Завжди запитувати</string>
-    <string name="pref_video_player_external">Зовнішній додаток</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Класична (смарагдова)</string>
     <string name="pref_theme_dark">Темна (за замовчуванням)</string>
     <string name="lbl_my_media">Мої медіафайли</string>
@@ -423,9 +419,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Завершиться о %1$s</string>
     <string name="lbl_sign_in">Будь ласка, увійдіть</string>
-    <string name="play_with">Грати з</string>
-    <string name="play_with_external_app">Грати з зовнішнім застосунком</string>
-    <string name="play_with_exo_player">Грати з ExoPlayer</string>
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкніть цю опцію</string>
     <string name="audio_error">Неможливо відтворити аудіо %1$s</string>

@@ -219,14 +219,11 @@
     <string name="lbl_news">Novinky</string>
     <string name="lbl_colored_backgrounds">Barevné pozadí</string>
     <string name="lbl_live_broadcasts">Živá vysílání</string>
-    <string name="pref_video_player_external">Externí aplikace</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Moje média</string>
     <string name="pref_about_title">Obsah</string>
     <string name="watch_now">Sledovat nyní</string>
     <string name="pref_next_up_timeout_title">Doba před přehráním další položky</string>
     <string name="pref_next_up_timeout_summary">Jak dlouho počkat před přehráním další položky</string>
-    <string name="pref_media_player">Preferovaný přehrávač médií</string>
     <string name="pref_app_theme">Motiv aplikace</string>
     <string name="pref_theme_dark">Tmavý (Výchozí)</string>
     <string name="pref_theme_emerald">Tradiční smaragd</string>
@@ -261,10 +258,6 @@
     <string name="mark_watched">Označit jako zhlédnuté</string>
     <string name="lbl_tv_filter_status">po dalších %1$d hodin</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanálů</string>
-    <string name="play_with">Přehrát v</string>
-    <string name="play_with_external_app">Přehrát v externí aplikaci</string>
-    <string name="play_with_exo_player">Přehrát v ExoPlayer</string>
-    <string name="pref_video_player_choose">Pokaždé zeptat</string>
     <string name="lbl_subtitle_track">Vybrat titulky</string>
     <string name="lbl_audio_track">Vybrat zvukovou stopu</string>
     <string name="lbl_pause">Pozastavit</string>

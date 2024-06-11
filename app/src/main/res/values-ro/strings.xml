@@ -219,10 +219,7 @@
     <string name="lbl_no">Nu</string>
     <string name="lbl_play_trailers">Rulează Trailer(e)</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_video_player_external">Aplicație externă</string>
-    <string name="pref_video_player_exoplayer">Exo Player</string>
     <string name="lbl_my_media">Fișierele mele media</string>
-    <string name="pref_media_player">Media Player preferat</string>
     <string name="pref_about_title">Despre</string>
     <string name="watch_now">Vizionează acum</string>
     <string name="pref_next_up_timeout_title">Durata mesajului: Urmează</string>
@@ -256,7 +253,6 @@
     <string name="no_player">Fără aplicație de redare</string>
     <string name="mark_watched_message">Elementul nu pare să fi redat atât timp cât are durata. Marcați ca urmărit\?</string>
     <string name="mark_watched">Marcați ca văzut</string>
-    <string name="pref_video_player_choose">Întreabă mereu</string>
     <string name="lbl_tv_filter_status">pentru următoarele %1$d ore</string>
     <string name="lbl_tv_channel_status">%1$d din %2$d canale</string>
     <string name="lbl_subtitle_track">Selectează pista subtitrare</string>
@@ -266,9 +262,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Se termină la %1$s</string>
     <string name="lbl_sign_in">Vă rugăm, autentificați-vă</string>
-    <string name="play_with">Redă cu</string>
-    <string name="play_with_external_app">Rulează cu o aplicație externă</string>
-    <string name="play_with_exo_player">Ruleaza cu ExoPlayer</string>
     <string name="just_one">Doar pe aceasta</string>
     <string name="turn_off">Dezactivați această opțiune</string>
     <string name="login_username_field_empty">Numele de utilizator nu poate fi vid</string>

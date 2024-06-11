@@ -168,9 +168,7 @@
     <string name="watch_now">Δείτε τώρα</string>
     <string name="pref_next_up_timeout_title">Χρόνος πριν την έναρξη αναπαραγωγής του επομένου</string>
     <string name="pref_next_up_timeout_summary">Χρόνος αναμονής πριν την αναπαραγωγή του επόμενου στοιχείου</string>
-    <string name="pref_media_player">Προτιμώμενη εφαρμογή αναπαραγωγής</string>
     <string name="pref_about_title">Περί</string>
-    <string name="pref_video_player_external">Εξωτερική εφαρμογή</string>
     <string name="pref_theme_dark">Σκοτεινό (Προεπιλογή)</string>
     <string name="lbl_my_media">Τα πολυμέσα μου</string>
     <string name="lbl_unwatched">Δεν προβλήθηκε</string>
@@ -213,8 +211,6 @@
     <string name="lbl_pause">Παύση</string>
     <string name="just_one">Μόνο αυτό</string>
     <string name="turn_off">Απενεργοποίησε αυτή την επιλογή</string>
-    <string name="play_with_external_app">Αναπαραγωγή με εξωτερική εφαρμογή</string>
-    <string name="play_with_exo_player">Αναπαραγωγή με ExoPlayer</string>
     <string name="login_server_unavailable">Δεν είναι δυνατή η σύνδεση με τον διακομιστή</string>
     <string name="login_authenticating">Έλεγχος ταυτότητας…</string>
     <string name="server_field_empty">Η διεύθυνση δε μπορεί να είναι κενή</string>
@@ -228,8 +224,6 @@
     <string name="lbl_tomatoes">Ντομάτες</string>
     <string name="lbl_stars">Αστέρια</string>
     <string name="lbl_sign_in">Παρακαλώ συνδεθείτε</string>
-    <string name="play_with">Αναπαραγωγή με</string>
-    <string name="pref_video_player_choose">Να ερωτούμαι πάντα</string>
     <string name="pref_theme_emerald">Κλασσικό σμαραγδί</string>
     <string name="lbl_image_size">Μέγεθος εικόνας</string>
     <string name="lbl_image_type">Τύπος εικόνας</string>
@@ -252,7 +246,6 @@
     <string name="grid_direction_vertical">Κάθετο</string>
     <string name="pref_device_model">Μοντέλο Συσκευής</string>
     <string name="pref_next_up_behavior_title">Εμφάνιση πληροφοριών επόμενου βίντεο</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_repeat_episodes">Επανάληψη επεισοδίων</string>
     <string name="lbl_show_backdrop">Εμφάνιση Φόντου</string>
     <string name="lbl_community_rating">Βαθμολογία κοινού</string>

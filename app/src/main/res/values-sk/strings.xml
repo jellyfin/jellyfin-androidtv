@@ -219,10 +219,7 @@
     <string name="msg_playback_incompatible">Tento formát sa nedá prehrať</string>
     <string name="lbl_last_played">"Naposledy prehrané "</string>
     <string name="lbl_watched">Pozreté</string>
-    <string name="pref_video_player_external">Externá aplikácia</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Moje médiá</string>
-    <string name="pref_media_player">Preferovaný mediálny prehrávač</string>
     <string name="pref_about_title">Obsah</string>
     <string name="pref_next_up_timeout_title">Časový limit pre nasledujúcu položku</string>
     <string name="watch_now">Pozerať teraz</string>
@@ -248,9 +245,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Končí o %1$s</string>
     <string name="lbl_sign_in">Prosím, prihláste sa</string>
-    <string name="play_with">Prehrať s</string>
-    <string name="play_with_external_app">Prehrať pomocou externej aplikácie</string>
-    <string name="play_with_exo_player">Prehrať pomocou ExoPlayer</string>
     <string name="just_one">Len túto jednu</string>
     <string name="turn_off">Vypnúť túto možnosť</string>
     <string name="audio_error">Nie je možné spustiť zvuk %1$s</string>
@@ -266,7 +260,6 @@
     <string name="episode_missing_message">Táto epizóda chýba vo vašej knižnici. Chcete ju preskočiť a pokračovať nasledujúcou epizódou\?</string>
     <string name="episode_missing">Chýbajúca epizóda</string>
     <string name="no_player_message">Zdá sa, že nemáte nainštalovaný požadovaný prehrávač videa. Táto možnosť vyžaduje inštaláciu aplikácie tretej strany pre prehrávanie video obsahu.</string>
-    <string name="pref_video_player_choose">Vždy sa opýtať</string>
     <string name="lbl_tv_filter_status">ďalších %1$d hodín</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanálov</string>
     <string name="lbl_subtitle_track">Vybrať titulky</string>

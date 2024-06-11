@@ -29,7 +29,6 @@
     <string name="lbl_remove">Forigu</string>
     <string name="lbl_server">Servilo</string>
     <string name="grid_direction_horizontal">Horizontala</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_premieres">Premieroj</string>
     <string name="lbl_premiere">Premiero</string>
     <string name="lbl_save">Savu</string>
@@ -110,7 +109,6 @@
     <string name="lbl_remove_server">Forigi servilon</string>
     <string name="bitrate_kbit">%1$,.0f Kibit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mibit/s</string>
-    <string name="pref_video_player_external">Eksterna apo</string>
     <string name="lbl_my_media">Miaj Plurmedioj</string>
     <string name="lbl_image_type">Bilda Tipo</string>
     <string name="lbl_hd_programs">HD-programoj</string>
@@ -213,13 +211,11 @@
     <string name="server_connecting">Konektante al %1$s</string>
     <string name="pref_default_rating">Defaŭlta taksada tipo</string>
     <string name="lbl_playback_control_ends">Finiĝas je %1$s</string>
-    <string name="play_with_exo_player">Ludi kun ExoPlayer</string>
     <string name="just_one">Nur ĉi tiu</string>
     <string name="seek_error">Nekapable serĉi</string>
     <string name="lbl_load_guide_data">Ŝarĝi Gvidilajn Datenojn</string>
     <string name="pref_subtitle_track_button">Butono de subteksttrako</string>
     <string name="pref_audio_track_button">Butono de aŭdtrako</string>
-    <string name="pref_media_player">Preferata plurmedia ludilo</string>
     <string name="lbl_resume_from">Daŭrigi de %1$s</string>
     <string name="lbl_at_any_time">En Ajna Tempo</string>
     <string name="msg_record_entire_series">Ĉu rikordi tutan serion\?</string>
@@ -254,7 +250,6 @@
     <string name="pref_clock_display_playback">Dum ludado</string>
     <string name="pref_clock_display_browsing">Dum foliumado</string>
     <string name="pref_clock_display">Montri horloĝon</string>
-    <string name="play_with">Ludi per</string>
     <string name="episode_missing">Epizodo Mankanta</string>
     <string name="no_player">Neniu Ludilo</string>
     <string name="mark_watched">Marki Spektita</string>
@@ -264,7 +259,6 @@
     <string name="pref_device_model">Aparata modelo</string>
     <string name="pref_app_theme">Apa Temo</string>
     <string name="watch_now">Spekti nun</string>
-    <string name="pref_video_player_choose">Ĉiam demandi</string>
     <string name="pref_theme_emerald">Klasika Smeraldo</string>
     <string name="pref_theme_dark">Malhela (Defaŭlta)</string>
     <string name="lbl_image_size">Bilda Grandeco</string>
@@ -335,7 +329,6 @@
     <string name="pref_developer_link_description">Altnivelaj kaj eksperimentaj funkcioj</string>
     <string name="login_username_field_empty">Uzantnomo ne povas esti malplena</string>
     <string name="login_invalid_credentials">Nevalida uzantnomo kaj/aŭ pasvorto</string>
-    <string name="play_with_external_app">Ludi per ekstera apo</string>
     <string name="turn_off">Malŝalti ĉi tiun opcion</string>
     <string name="msg_no_items">Neniuj aĵoj por ludi</string>
     <string name="subtitle_error">Ne eblas elekti subtekston</string>

@@ -209,10 +209,7 @@
     <string name="lbl_new_episodes">Nye afsnit</string>
     <string name="lbl_new_only">Kun nye</string>
     <string name="lbl_news">Nyheder</string>
-    <string name="pref_media_player">Foretrukne medie afspiller</string>
     <string name="pref_about_title">Om</string>
-    <string name="pref_video_player_external">Ekstern app</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mine medier</string>
     <string name="lbl_image_size">Billede størrelse</string>
     <string name="lbl_image_type">Billed type</string>
@@ -244,9 +241,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Slutter %1$s</string>
     <string name="lbl_sign_in">Log venligst ind</string>
-    <string name="play_with">Afspil med</string>
-    <string name="play_with_external_app">Afspil med ekstern app</string>
-    <string name="play_with_exo_player">Afspil med ExoPlayer</string>
     <string name="just_one">Kun denne ene</string>
     <string name="turn_off">Slå denne indstilling fra</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
@@ -265,7 +259,6 @@
     <string name="mark_watched_message">Filen varede ikke lige så land tid som dens varighed. Marker som afspillet\?</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="pref_video_player_choose">Spørg altid</string>
     <string name="lbl_tv_filter_status">for de næste %1$d timer</string>
     <string name="lbl_tv_channel_status">%1$d af %2$d kanaler</string>
     <string name="lbl_subtitle_track">Vælg undertekst spor</string>

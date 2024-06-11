@@ -78,9 +78,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
-    <string name="play_with">Reproducir con</string>
-    <string name="play_with_external_app">Reproducir con aplicación externa</string>
-    <string name="play_with_exo_player">Reporoducir con ExoPlayer</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se pudo reproducir audio %1$s</string>
@@ -114,11 +111,7 @@
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
-    <string name="pref_media_player">Reproductor multimedia preferido</string>
     <string name="pref_about_title">Acerca de</string>
-    <string name="pref_video_player_choose">Preguntar siempre</string>
-    <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Esmeralda clásico</string>
     <string name="pref_theme_dark">Obscuro (Por defecto)</string>
     <string name="lbl_my_media">Mi contenido</string>

@@ -219,12 +219,9 @@
     <string name="lbl_live_broadcasts">Live uitzendingen</string>
     <string name="lbl_premieres">Premières</string>
     <string name="lbl_show_indicators">Indicators tonen voor</string>
-    <string name="pref_video_player_external">Externe app</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mijn media</string>
     <string name="watch_now">Nu kijken</string>
     <string name="pref_next_up_timeout_summary">Hoe lang te wachten voordat het volgende item wordt afgespeeld</string>
-    <string name="pref_media_player">Voorkeurs-mediaspeler</string>
     <string name="pref_about_title">Over</string>
     <string name="pref_app_theme">App-thema</string>
     <string name="pref_next_up_timeout_title">Tijdsduur timer \'volgende item\'</string>
@@ -242,13 +239,9 @@
     <string name="pref_subtitle_track_button">Knop ondertitelspoor</string>
     <string name="pref_audio_track_button">Knop audiospoor</string>
     <string name="mark_watched">Als gekeken markeren</string>
-    <string name="pref_video_player_choose">Altijd vragen</string>
     <string name="lbl_tv_filter_status">voor de volgende %1$d uur</string>
     <string name="lbl_tv_channel_status">%1$d van %2$d kanalen</string>
     <string name="player_error">Afspeelfout. Opnieuw proberen…</string>
-    <string name="play_with">Afspelen met</string>
-    <string name="play_with_external_app">Afspelen met externe app</string>
-    <string name="play_with_exo_player">Afspelen met ExoPlayer</string>
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie uit</string>
     <string name="audio_error">Audio %1$s afspelen mislukt</string>

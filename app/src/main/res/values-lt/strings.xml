@@ -171,7 +171,6 @@
     <string name="lbl_song_title">Dainos pavadinimas</string>
     <string name="lbl_news">Naujienos</string>
     <string name="lbl_new_only">Tik naujienos</string>
-    <string name="pref_video_player_choose">Visada klausti</string>
     <string name="pref_about_title">Apie</string>
     <string name="lbl_add_to_queue">Pridėti į eilę</string>
     <string name="lbl_zoom">Priartinti</string>
@@ -191,7 +190,6 @@
     <string name="pref_show_backdrop_description">Pakeiti dabar pasirinktų failų užsklandos paveikslelį</string>
     <string name="lbl_tv_channel_status">%1$d iš %2$d kanalų</string>
     <string name="lbl_tv_filter_status">kitom %1$d valandom</string>
-    <string name="pref_media_player">Norimas garso leistuvas</string>
     <string name="lbl_subtitle_delay">Subtitrų vėlinimas</string>
     <string name="lbl_hd_programs">HD programos</string>
     <string name="watch_now">Žiūrėti dabar</string>
@@ -219,7 +217,6 @@
     <string name="lbl_premieres">Premjeros</string>
     <string name="lbl_image_type">Paveikslėlio tipas</string>
     <string name="pref_theme_dark">Tamsus (numatytas)</string>
-    <string name="pref_video_player_external">Išorinė aplikacija</string>
     <string name="pref_theme_emerald">Klasikinis emeraldas</string>
     <string name="lbl_unknown_key">Nežinomas (%1s)</string>
     <string name="pref_button_remapping_description">Paspauskite betkurį mygtuką ant TV pultelio, kad priskirti jį</string>
@@ -253,7 +250,6 @@
     <string name="lbl_begin_padding">Pradžios tarpas</string>
     <string name="episode_name_special">Epizodai iš už kadrų</string>
     <string name="lbl_sports">Sportas</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer grotuvas</string>
     <string name="lbl_playback_control_ends">Baigsis %1$s</string>
     <string name="lbl_hidden">Paslėpta</string>
     <string name="grid_direction">Tinklelio kryptis</string>
@@ -321,7 +317,6 @@
     <string name="app_notification_uimode_invalid">Ši programa yra optimizuota televizoriams. Rekomenduojame naudoti mūsų mobiliąją programėlę kituose įrenginiuose.</string>
     <string name="color_cyan">žalsvai mėlyna</string>
     <string name="pref_crash_report_logs_disabled">Žurnalai nebus įtraukti į gedimų ataskaitas</string>
-    <string name="play_with">Paleisti per</string>
     <string name="lbl_remove_user_content">Pašalinti vartotoją</string>
     <string name="lbl_user_server">%1$s ant %2$s</string>
     <string name="image_size_small">Mažas</string>
@@ -362,7 +357,6 @@
     <string name="msg_live_tv_next">Krauti kitas %1$d valandas\?</string>
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
-    <string name="play_with_exo_player">Paleisti per ExoPlayer</string>
     <string name="lbl_stars">Žvaigždės</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_clock_display">Rodyti laiką</string>
@@ -437,7 +431,6 @@
     <string name="lbl_program_ended">Programa pasibaigė</string>
     <string name="lbl_instant_mix">Spontaniškas sumaišymas</string>
     <string name="msg_no_items">Nėra failų kuriuos galima būtų paleisti</string>
-    <string name="play_with_external_app">Paleisti su išorine programėle</string>
     <string name="lbl_remove_server">Pašalinti serverį</string>
     <string name="lbl_manage_servers">Valdyti serverius</string>
     <string name="lbl_user_last_used">Paskutinį kartą naudota su %1$s nuo %2$s</string>

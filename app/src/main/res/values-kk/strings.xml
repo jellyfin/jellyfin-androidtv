@@ -221,16 +221,12 @@
     <string name="pref_authentication_cat">Tüpnūsqalyq rastama</string>
     <string name="watch_now">Qazır köru</string>
     <string name="pref_next_up_timeout_title">Kezektı taimerınıñ ūzaqtyğy</string>
-    <string name="pref_media_player">Tasyğyşderekterdıñ tañdauly oinatqyşy</string>
     <string name="pref_about_title">Qoldanba turaly</string>
-    <string name="pref_video_player_external">Syrtqy qoldanba</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
     <string name="pref_app_theme">Qoldanba taqyryby</string>
     <string name="pref_theme_emerald">Klasikalyq kök-jasyl</string>
     <string name="pref_theme_dark">Küngırt (ädepkı)</string>
     <string name="lbl_pause">Üzu</string>
-    <string name="pref_video_player_choose">Äldeqaşan sūrau</string>
     <string name="lbl_tv_filter_status">kelesı %1$d sağat üşın</string>
     <string name="lbl_tv_channel_status">%1$d %2$d arnadan</string>
     <string name="seek_error">Izdeu mümkın emes</string>
@@ -269,9 +265,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Soñy %1$s kezınde</string>
     <string name="lbl_sign_in">Kırıñız</string>
-    <string name="play_with">Mynau arqyly oinatu</string>
-    <string name="play_with_external_app">Syrtqy qoldanba arqyly oinatu</string>
-    <string name="play_with_exo_player">ExoPlayer arqyly oinatu</string>
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
     <string name="audio_error">%1$s dybysyn oinatu mümkın emes</string>

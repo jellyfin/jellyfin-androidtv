@@ -165,9 +165,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Konec ob %1$s</string>
     <string name="lbl_sign_in">Prosimo vpišite se</string>
-    <string name="play_with">Predvajaj z</string>
-    <string name="play_with_external_app">Predvajaj z zunanjo aplikacijo</string>
-    <string name="play_with_exo_player">Predvajaj z ExoPlayer</string>
     <string name="just_one">Samo tega</string>
     <string name="turn_off">Izklopi to možnost</string>
     <string name="audio_error">Ne morem predvajati avdia %1$s</string>
@@ -190,11 +187,7 @@
     <string name="pref_device_model">Model naprave</string>
     <string name="pref_app_theme">Tema aplikacije</string>
     <string name="watch_now">Glej zdaj</string>
-    <string name="pref_media_player">Prednostni predvajalnik predstavnosti</string>
     <string name="pref_about_title">Vizitka</string>
-    <string name="pref_video_player_choose">Vedno vprašaj</string>
-    <string name="pref_video_player_external">Zunanja aplikacija</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Klasični smaragd</string>
     <string name="pref_theme_dark">Temno (Privzeto)</string>
     <string name="lbl_my_media">Moja predstavnost</string>

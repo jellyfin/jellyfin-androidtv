@@ -170,10 +170,7 @@
     <string name="watch_now">지금 재생</string>
     <string name="pref_next_up_timeout_title">다음 편 재생 타이머</string>
     <string name="pref_next_up_timeout_summary">다음 편을 재생할 때 까지 기다리는 시간</string>
-    <string name="pref_media_player">선호하는 플레이어</string>
     <string name="pref_about_title">정보</string>
-    <string name="pref_video_player_external">외부 앱</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">클래식 에메랄드</string>
     <string name="pref_theme_dark">다크 (기본값)</string>
     <string name="lbl_my_media">내 미디어</string>
@@ -183,8 +180,6 @@
     <string name="lbl_by_letter">글자 순</string>
     <string name="lbl_views">시청</string>
     <string name="audio_error">오디오 %1$s 재생할 수 없음</string>
-    <string name="play_with_external_app">외부 플레이어 앱으로 재생</string>
-    <string name="play_with_exo_player">ExoPlayer로 재생</string>
     <string name="turn_off">옵션 끄기</string>
     <string name="msg_no_items">재생할 항목이 비어 있음</string>
     <string name="subtitle_error">자막을 선택할 수 없습니다</string>
@@ -202,7 +197,6 @@
     <string name="grid_direction">격자 방향</string>
     <string name="pref_device_model">디바이스 모델</string>
     <string name="pref_app_theme">앱 테마</string>
-    <string name="pref_video_player_choose">항상 묻기</string>
     <string name="lbl_news">신규</string>
     <string name="lbl_tv_filter_status">다음 %1$d 시간 동안</string>
     <string name="lbl_tv_channel_status">%2$d 개 채널 중 %1$d 개</string>
@@ -219,7 +213,6 @@
     <string name="lbl_add_to_queue">대기열에 추가</string>
     <string name="lbl_critic_rating">평론가 평점</string>
     <string name="pref_audio_compat">스테레오로 다운믹스</string>
-    <string name="play_with">함께 재생</string>
     <string name="lbl_end_padding">패딩 종료</string>
     <string name="lbl_begin_padding">패딩 시작</string>
     <string name="too_many_errors">오류가 너무 많이 발생했습니다. 중단합니다</string>

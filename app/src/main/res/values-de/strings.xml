@@ -219,11 +219,8 @@
     <string name="lbl_new_only">Nur Neues</string>
     <string name="lbl_news">Neuigkeiten</string>
     <string name="lbl_repeat_episodes">Folgen wiederholen</string>
-    <string name="pref_video_player_external">Externe App</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
-    <string name="pref_media_player">Bevorzugter Mediaplayer</string>
     <string name="watch_now">Jetzt anschauen</string>
     <string name="pref_next_up_timeout_title">Dauer des Timers für die automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor der nächste Eintrag abgespielt wird</string>
@@ -261,10 +258,6 @@
     <string name="mark_watched">Als gesehen markieren</string>
     <string name="lbl_tv_filter_status">für die nächsten %1$d Stunden</string>
     <string name="lbl_tv_channel_status">%1$d von %2$d Kanälen</string>
-    <string name="play_with">Abspielen mit</string>
-    <string name="play_with_external_app">Mit externer App abspielen</string>
-    <string name="play_with_exo_player">Mit ExoPlayer abspielen</string>
-    <string name="pref_video_player_choose">Immer fragen</string>
     <string name="lbl_subtitle_track">Untertitelspur auswählen</string>
     <string name="lbl_audio_track">Audiospur auswählen</string>
     <string name="lbl_pause">Pause</string>

@@ -226,7 +226,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="grid_direction_vertical">Vertical</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="login_username_field_empty">El nom d\'usuari no pot estar buit</string>
     <string name="login_invalid_credentials">Nom d\'usuari i/o contrasenya no vàlids</string>
     <string name="login_server_unavailable">No es pot connectar al servidor</string>
@@ -244,9 +243,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Acaba a %1$s</string>
     <string name="lbl_sign_in">Inicieu la sessió</string>
-    <string name="play_with">Reproduir amb</string>
-    <string name="play_with_external_app">Reproduir amb una aplicació externa</string>
-    <string name="play_with_exo_player">Reproduir amb ExoPlayer</string>
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
@@ -277,10 +273,7 @@
     <string name="watch_now">Veure ara</string>
     <string name="pref_next_up_timeout_title">Duració del següent temporitzador</string>
     <string name="pref_next_up_timeout_summary">Quant d\'espera abans de reproduir l\'element següent</string>
-    <string name="pref_media_player">Reproductor preferit</string>
     <string name="pref_about_title">Sobre</string>
-    <string name="pref_video_player_choose">Preguntar sempre</string>
-    <string name="pref_video_player_external">App externa</string>
     <string name="pref_theme_emerald">Esmeralda clàssica</string>
     <string name="pref_theme_dark">Fosc (Per defecte)</string>
     <string name="lbl_my_media">El meu contingut multimèdia</string>
