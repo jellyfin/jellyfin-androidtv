@@ -139,7 +139,7 @@ class SdkPlaybackHelper(
 					ItemFields.GENRES,
 					ItemFields.CHILD_COUNT
 				),
-				artistIds = listOf(mainItem.id)
+				albumIds = listOf(mainItem.id)
 			)
 
 			response.items.orEmpty()
