@@ -9,7 +9,6 @@ include(":app")
 include(":playback:core")
 include(":playback:exoplayer")
 include(":playback:jellyfin")
-include(":playback:ui")
 include(":preference")
 
 pluginManagement {
