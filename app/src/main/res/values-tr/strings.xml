@@ -106,7 +106,7 @@
     <string name="lbl_mark_unplayed">Oynatılmadı olarak işaretle</string>
     <string name="lbl_play_first_unwatched">İlk izlenmeyeni oynat</string>
     <string name="lbl_search_hint">Arama metni (klavye için seçin)</string>
-    <string name="lbl_tv_queuing">Tüm sonraki bölümleri kuyruğa ekle</string>
+    <string name="lbl_tv_queuing">Sonraki bölümü otomatik olarak oynat</string>
     <string name="lbl_empty">Boş</string>
     <string name="lbl_no_items">Öge yok</string>
     <string name="msg_cannot_play">Bu öğe oynatılamaz</string>
@@ -545,4 +545,5 @@
     <string name="app_notification_update_soon">Bir sonraki güncellemeden sonra uygulamayı kullanmaya devam etmek için sunucunuzu %1$s sürümünden en az %2$s sürümüne güncelleyin.</string>
     <string name="all_channels">Tüm kanallar</string>
     <string name="current_queue">Geçerli kuyruk</string>
+    <string name="pref_external_player">Harici oynatıcı kullan</string>
 </resources>
