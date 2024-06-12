@@ -535,4 +535,5 @@
     <string name="all_channels">所有频道</string>
     <string name="app_notification_update_soon">将您的服务器从 %1$s 更新至至少 %2$s，以便在下次更新后继续使用该应用程序。</string>
     <string name="current_queue">当前队列</string>
+    <string name="pref_external_player">使用外部播放器</string>
 </resources>
