@@ -1,4 +1,4 @@
-package org.jellyfin.playback.core.mediasession
+package org.jellyfin.playback.exoplayer.session
 
 import android.app.PendingIntent
 import androidx.annotation.DrawableRes
