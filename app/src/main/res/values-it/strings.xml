@@ -68,7 +68,7 @@
     <string name="msg_cannot_play">Questo elemento non può essere riprodotto</string>
     <string name="lbl_no_items">Nessun elemento</string>
     <string name="lbl_empty">Vuoto</string>
-    <string name="lbl_tv_queuing">Metti in Coda tutti gli episodi successivi</string>
+    <string name="lbl_tv_queuing">Riproduci il prossimo episodio automaticamente</string>
     <string name="lbl_albums">Album</string>
     <string name="lbl_artists">Artisti</string>
     <string name="lbl_song">Brano</string>
@@ -550,4 +550,6 @@
     <string name="pref_screensaver_ageratingrequired_disabled">Mostra tutti gli elementi</string>
     <string name="pref_screensaver_ageratingmax_entry">Fino ad anni %1$d</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Disattiva massimo</string>
+    <string name="pref_external_player">Utilizza un player esterno</string>
+    <string name="app_notification_update_soon">Aggiorna il server dalla versione %1$s ad almeno la %2$s per continuare ad utilizzare l\'app.</string>
 </resources>
