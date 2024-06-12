@@ -51,7 +51,7 @@
     <string name="lbl_mark_unplayed">علمها كغير مشغلة</string>
     <string name="lbl_play_first_unwatched">شغّل أول ما لم تتم مشاهدته</string>
     <string name="lbl_search_hint">البحث بنص (اختر للوحة المفاتيح)</string>
-    <string name="lbl_tv_queuing">أضف كل الحلقات التالية إلى الدور</string>
+    <string name="lbl_tv_queuing">تشغيل الحلقة التالية تلقائيًا</string>
     <string name="lbl_empty">فارغ</string>
     <string name="lbl_no_items">لا توجد عناصر</string>
     <string name="msg_cannot_play">لا يمكن تشغيل هذا العنصر</string>
@@ -77,7 +77,7 @@
     <string name="lbl_directed_by">إخراج</string>
     <string name="lbl_ends">ينتهي في</string>
     <string name="lbl_min">" دقيقة"</string>
-    <string name="lbl_runs">مدة العرض</string>
+    <string name="lbl_runs">مرات العرض</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">شُوهد</string>
     <string name="lbl_favorite">المفضلة</string>
@@ -121,7 +121,7 @@
     <string name="lbl_next_up">الحلقة التالية</string>
     <string name="lbl_continue_watching">استئناف المشاهدة</string>
     <string name="lbl_settings">الإعدادات</string>
-    <string name="chapters">الأجزاء</string>
+    <string name="chapters">الفصول</string>
     <string name="settings_title">الإعدادات</string>
     <string name="pref_max_bitrate_title">أقصى معدل بت التدفق</string>
     <string name="pref_playback">التشغيل</string>
@@ -452,8 +452,8 @@
     <string name="pref_crash_report_logs_enabled">سترسل المستندات في تقارير الأخطاء</string>
     <string name="crash_report_toast">ويحي! حدث خطأ ما، لقد أرسل تقرير عن الخطأ إلى خادمك.</string>
     <string name="server_setup_incomplete">لم تكتمل إعدادات هذا الخادم؛ افتح Jellyfin في المتصفح لإنهاءها.</string>
-    <string name="app_notification_beta">حُدث التطبيق إلى إصدار: %1$s
-\nجزيل الشكر على مشاركتك في الإصدار التجريبي لـ Jellyfin</string>
+    <string name="app_notification_beta">تم تحديث التطبيق إلى إصدار: %1$s
+\nشكرًا جزيلًا على مشاركتك في الإصدار التجريبي لـJellyfin</string>
     <string name="input_password">كلمة المرور</string>
     <string name="input_username">اسم المستخدم</string>
     <string name="episode_name_special">خاص</string>
@@ -519,4 +519,31 @@
     <string name="channels">القنوات</string>
     <string name="photo_albums">ألبومات الصور</string>
     <string name="photos">الصور</string>
+    <string name="all_channels">جميع القنوات</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">يتم عرض جميع العناصر</string>
+    <string name="lbl_runtime">مدة العرض</string>
+    <string name="app_notification_update_soon">حدّث الخادم من %1$s إلى %2$s على الأقل لتستمر بإستخدام التطبيق بعد التحديث القادم.</string>
+    <string name="pref_external_player">إستخدم مشغّل خارجي</string>
+    <string name="unreleased">لم يعرض بعد</string>
+    <string name="lbl_home">الرئيسية</string>
+    <string name="indicator_subtitles">تعليقات توضيحية</string>
+    <string name="dolby_vision">دولبي فيجن</string>
+    <string name="dolby_atmos">دولبي أتموس</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="person_birthday_and_age">تاريخ الميلاد %1$s (%2$d سنة)</string>
+    <string name="current_queue">قائمة الانتظار الحالية</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="random">عشوائي</string>
+    <string name="pref_playback_advanced">إعدادات التشغيل المتقدمة</string>
+    <string name="clear_image_cache_content">المستخدم: %1$s</string>
+    <string name="clear_image_cache">إخلاء ذاكرة الصور المؤقتة</string>
+    <string name="pref_screensaver_ageratingmax">التصنيف العمري</string>
+    <string name="pref_screensaver_ageratingmax_zero">جميع الأعمار</string>
+    <string name="pref_screensaver_ageratingmax_entry">إلى عمر %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">إلغاء حدّ التصنيف العمري</string>
+    <string name="pref_screensaver_ageratingrequired_title">يتطلب تصنيف عمري</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">يتم عرض العناصر ذات تصنيف عمري فقط</string>
 </resources>
