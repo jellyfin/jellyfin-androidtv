@@ -1,7 +1,6 @@
 plugins {
 	id("com.android.library")
 	kotlin("android")
-	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -29,15 +28,9 @@ android {
 dependencies {
 	// Kotlin
 	implementation(libs.kotlinx.coroutines)
-	implementation(libs.kotlinx.coroutines.guava)
-	implementation(libs.kotlinx.serialization.json)
 
 	// Android(x)
 	implementation(libs.androidx.core)
-	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.constraintlayout)
-	implementation(libs.bundles.androidx.lifecycle)
-	implementation(libs.androidx.media3.session)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)

@@ -32,14 +32,18 @@ dependencies {
 	// AndroidX
 	implementation(libs.androidx.core)
 
-	// ExoPlayer
+	// media3
 	implementation(libs.androidx.media3.exoplayer)
 	implementation(libs.androidx.media3.exoplayer.hls)
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
 	implementation(libs.androidx.media3.ui)
+	implementation(libs.androidx.media3.session)
 
 	// Logging
 	implementation(libs.timber)
+
+	// Compatibility (desugaring)
+	coreLibraryDesugaring(libs.android.desugar)
 
 	// Testing
 	testImplementation(libs.kotest.runner.junit5)

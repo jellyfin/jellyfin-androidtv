@@ -16,10 +16,9 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
-import org.jellyfin.playback.core.mediasession.MediaSessionOptions
-import org.jellyfin.playback.core.mediasession.mediaSessionPlugin
 import org.jellyfin.playback.core.playbackManager
 import org.jellyfin.playback.exoplayer.exoPlayerPlugin
+import org.jellyfin.playback.exoplayer.session.MediaSessionOptions
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
@@ -44,13 +43,10 @@ val playbackModule = module {
 }
 
 fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
-	install(exoPlayerPlugin(get()))
-	install(jellyfinPlugin(get()))
-
 	val activityIntent = Intent(get(), MainActivity::class.java)
 	val pendingIntent = PendingIntent.getActivity(get(), 0, activityIntent, PendingIntent.FLAG_IMMUTABLE)
 
-	val notificationChannelId = "mediasession"
+	val notificationChannelId = "session"
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 		val channel = NotificationChannel(
 			notificationChannelId,
@@ -60,12 +56,13 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 		NotificationManagerCompat.from(get()).createNotificationChannel(channel)
 	}
 
-	install(mediaSessionPlugin(get(), MediaSessionOptions(
+	val mediaSessionOptions = MediaSessionOptions(
 		channelId = notificationChannelId,
 		notificationId = 1,
 		iconSmall = R.drawable.app_icon_foreground,
-		openIntent = pendingIntent,
-	)))
+		openIntent = pendingIntent,)
+	install(exoPlayerPlugin(get(), mediaSessionOptions))
+	install(jellyfinPlugin(get()))
 
 	// Options
 	val userSettingPreferences = get<UserSettingPreferences>()

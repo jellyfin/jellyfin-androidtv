@@ -41,7 +41,6 @@ internal class MediaStreamState(
 				}
 			}
 		}.launchIn(coroutineScope + Dispatchers.Main)
-
 		// TODO Register some kind of event when $current item is at -30 seconds to setNext()
 	}
 
