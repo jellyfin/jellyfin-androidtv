@@ -193,7 +193,7 @@
     <string name="lbl_remove_favorite">Quitar de favoritos</string>
     <string name="lbl_mark_played">Marcar como reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir el primero no visto</string>
-    <string name="lbl_tv_queuing">Poner en cola todos los episodios subsiguientes</string>
+    <string name="lbl_tv_queuing">Reproducir automáticamente el siguiente episodio</string>
     <string name="lbl_no_items">No hay elementos</string>
     <string name="msg_cannot_play">Este elemento no pude ser reproducido</string>
     <string name="msg_cannot_play_time">No se puede reproducir este elemento en este momento</string>
@@ -545,4 +545,15 @@
         <item quantity="many"/>
         <item quantity="other">%1$s canciones</item>
     </plurals>
+    <string name="pref_screensaver_ageratingrequired_title">Requerir clasificación por edad</string>
+    <string name="pref_external_player">Usar reproductor externo</string>
+    <string name="current_queue">Lista actual</string>
+    <string name="app_notification_update_soon">Actualiza tu servidor %1$s a al menos la versión %2$s para continuar usando la aplicación después de la siguiente actualización.</string>
+    <string name="all_channels">Todos los canales</string>
+    <string name="pref_screensaver_ageratingmax_entry">Hasta %1$d</string>
+    <string name="pref_screensaver_ageratingmax_zero">Todas las edades</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar máximo</string>
+    <string name="pref_screensaver_ageratingmax">Clasificación por edad máxima</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrar todos los elementos</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Solo mostrar contenido con clasificación por edad</string>
 </resources>
