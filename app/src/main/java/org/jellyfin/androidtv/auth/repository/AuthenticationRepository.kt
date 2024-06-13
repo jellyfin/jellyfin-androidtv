@@ -72,10 +72,10 @@ class AuthenticationRepositoryImpl(
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
 
 		val authStoreUser = authenticationStore.getUser(server.id, user.id)
-		// Try login with access token
-		return if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
 		// Try login without password
-		else if (!user.requirePassword) authenticateCredential(server, user.name, "")
+		return if (!user.requirePassword) authenticateCredential(server, user.name, "")
+		// Try login with access token
+		else if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
 		// Require login
 		else flowOf(RequireSignInState)
 	}
