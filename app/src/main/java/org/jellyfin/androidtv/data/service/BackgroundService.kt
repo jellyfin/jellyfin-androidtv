@@ -49,10 +49,8 @@ class BackgroundService(
 	private var _currentIndex = 0
 	private var _currentBackground = MutableStateFlow<ImageBitmap?>(null)
 	private var _enabled = MutableStateFlow(true)
-	private var _blur = MutableStateFlow(false)
 	val currentBackground get() = _currentBackground.asStateFlow()
 	val enabled get() = _enabled.asStateFlow()
-	val blur get() = _blur.asStateFlow()
 
 	// Helper function for [setBackground]
 	private fun List<String>?.getUrls(itemId: UUID?): List<String> {
@@ -111,7 +109,6 @@ class BackgroundService(
 
 		// Re-enable backgrounds if disabled
 		_enabled.value = true
-		_blur.value = userPreferences[UserPreferences.blurBackdropEnabled]
 
 
 		// Cancel current loading job
