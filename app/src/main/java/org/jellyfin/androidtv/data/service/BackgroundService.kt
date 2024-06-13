@@ -110,7 +110,6 @@ class BackgroundService(
 		// Re-enable backgrounds if disabled
 		_enabled.value = true
 
-
 		// Cancel current loading job
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
