@@ -1163,11 +1163,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         PopupMenu menu = new PopupMenu(requireContext(), v, Gravity.END);
 
         for (int i = 0; i < versions.size(); i++) {
-            MenuItem item = menu.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
-            item.setChecked(i == mDetailsOverviewRow.getSelectedMediaSourceIndex());
+            menu.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
         }
 
-        menu.getMenu().setGroupCheckable(0, true, false);
+        menu.getMenu().setGroupCheckable(0, true, true);
+        menu.getMenu().getItem(mDetailsOverviewRow.getSelectedMediaSourceIndex()).setChecked(true);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
