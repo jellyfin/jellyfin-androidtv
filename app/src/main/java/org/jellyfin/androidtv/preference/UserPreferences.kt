@@ -38,6 +38,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable background images while browsing
 		 */
 		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
+		
 		/**
 		 * Show premieres on home screen
 		 */
