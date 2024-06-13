@@ -68,7 +68,7 @@
     <string name="msg_cannot_play">Este ítem no pude reproducirse</string>
     <string name="lbl_no_items">No hay ítems</string>
     <string name="lbl_empty">Vacío</string>
-    <string name="lbl_tv_queuing">Poner en la cola todos los episodios siguientes</string>
+    <string name="lbl_tv_queuing">Reproducir siguiente episodio automáticamente</string>
     <string name="lbl_all_items">Todos los elementos</string>
     <string name="lbl_showing">Demostración</string>
     <string name="desc_debug">Proporcione información adicional para la depuración</string>
@@ -445,7 +445,7 @@
     <string name="lbl_quality_profile">Perfil de calidad</string>
     <string name="desc_audio_night_mode">Nivela el volumen de audio automáticamente</string>
     <string name="pref_audio_night_mode">Modo nocturno de audio (experimental)</string>
-    <string name="app_notification_beta">Applicación actualizada a %1$s
+    <string name="app_notification_beta">Aplicación actualizada a %1$s
 \nGracias por participar en el programa beta de Jellyfin</string>
     <string name="color_white">Blanco</string>
     <string name="color_black">Negro</string>
@@ -555,4 +555,5 @@
     <string name="all_channels">Todos los canales</string>
     <string name="app_notification_update_soon">Actualiza tu servidor de %1$s a %2$s como mínimo para seguir utilizando la aplicación tras la próxima actualización.</string>
     <string name="current_queue">Cola actual</string>
+    <string name="pref_external_player">Usar reproductor externo</string>
 </resources>
