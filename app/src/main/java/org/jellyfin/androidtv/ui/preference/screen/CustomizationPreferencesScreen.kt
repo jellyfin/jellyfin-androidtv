@@ -49,6 +49,11 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.lbl_blur_backdrop)
+				bind(userPreferences, UserPreferences.blurBackdropEnabled)
+			}
+
+			checkbox {
 				setTitle(R.string.lbl_use_series_thumbnails)
 				setContent(R.string.lbl_use_series_thumbnails_description)
 				bind(userPreferences, UserPreferences.seriesThumbnailsEnabled)
