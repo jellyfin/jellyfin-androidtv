@@ -58,7 +58,7 @@
     <string name="lbl_by_letter">โดยตัวอักษร</string>
     <string name="lbl_views">การดู</string>
     <string name="lbl_next_up">ถัดไป</string>
-    <string name="lbl_continue_watching">ดูต่อ</string>
+    <string name="lbl_continue_watching">รับชมต่อ</string>
     <string name="lbl_settings">การตั้งค่า</string>
     <string name="pref_authentication_cat">การตรวจสอบสิทธิ์</string>
     <string name="settings_title">การตั้งค่า</string>
@@ -207,4 +207,5 @@
     <string name="msg_record_entire_series">บันทึกทั้งซีรีส์ \?</string>
     <string name="lbl_latest_in">เพิ่งถูกเพิ่มใน %1$s</string>
     <string name="because_you_watched">เนื่องจากคุณรับชม %1$s</string>
+    <string name="lbl_home">หน้าหลัก</string>
 </resources>
