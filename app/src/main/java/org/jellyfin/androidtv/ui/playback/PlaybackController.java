@@ -45,6 +45,7 @@ import org.jellyfin.sdk.model.api.LocationType;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
@@ -179,11 +180,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
             return mCurrentStreamInfo.getMediaSource();
         } else {
-            List<org.jellyfin.sdk.model.api.MediaSourceInfo> mediaSources = getCurrentlyPlayingItem().getMediaSources();
+            org.jellyfin.sdk.model.api.BaseItemDto item = getCurrentlyPlayingItem();
+            List<org.jellyfin.sdk.model.api.MediaSourceInfo> mediaSources = item.getMediaSources();
 
             if (mediaSources == null || mediaSources.isEmpty()) {
                 return null;
             } else {
+                // Prefer the media source with the same id as the item
+                for (MediaSourceInfo mediaSource : mediaSources) {
+                    if (UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()).equals(item.getId())) {
+                        return mediaSource;
+                    }
+                }
+                // Or fallback to the first media source if none match
                 return mediaSources.get(0);
             }
         }
@@ -514,7 +523,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setEnableDirectStream(false);
         internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
         internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
-        internalOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
+        internalOptions.setMediaSourceId(getCurrentMediaSource().getId());
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 mFragment.getContext(),
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
