@@ -50,6 +50,7 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 
 			checkbox {
 				setTitle(R.string.lbl_blur_backdrop)
+				setContent(R.string.pref_show_blur_backdrop_description)
 				bind(userPreferences, UserPreferences.blurBackdropEnabled)
 			}
 

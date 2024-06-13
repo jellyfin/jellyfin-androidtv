@@ -78,7 +78,6 @@ class BackgroundService(
 		// Check if item is set and backgrounds are enabled
 		if (baseItem == null || !userPreferences[UserPreferences.backdropEnabled])
 			return clearBackgrounds()
-		_blur.value = userPreferences[UserPreferences.blurBackdropEnabled]
 
 		// Get all backdrop urls
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
@@ -95,7 +94,6 @@ class BackgroundService(
 		// Check if item is set and backgrounds are enabled
 		if (!userPreferences[UserPreferences.backdropEnabled])
 			return clearBackgrounds()
-		_blur.value = userPreferences[UserPreferences.blurBackdropEnabled]
 
 		// Check if splashscreen is enabled in (cached) branding options
 		if (!server.splashscreenEnabled)
