@@ -54,8 +54,8 @@ private fun AppThemeBackground() {
 	} else {
 		Box(
 			modifier = Modifier
-					.fillMaxSize()
-					.background(Color.Black)
+				.fillMaxSize()
+				.background(Color.Black)
 		)
 	}
 }
@@ -66,6 +66,7 @@ fun AppBackground() {
 	val currentBackground by backgroundService.currentBackground.collectAsState()
 	val blurBackground by backgroundService.blurBackground.collectAsState()
 	val enabled by backgroundService.enabled.collectAsState()
+	
 	if (enabled) {
 		AnimatedContent(
 			targetState = currentBackground,
@@ -77,14 +78,14 @@ fun AppBackground() {
 		) { background ->
 			if (background != null) {
 				Image(
-						bitmap = background,
-						contentDescription = null,
-						alignment = Alignment.Center,
-						contentScale = ContentScale.Crop,
-						colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
-						modifier = Modifier.fillMaxSize().then(
-								if (blurBackground) Modifier.blur(10.dp) else Modifier
-						)
+					bitmap = background,
+					contentDescription = null,
+					alignment = Alignment.Center,
+					contentScale = ContentScale.Crop,
+					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
+					modifier = Modifier.fillMaxSize().then(
+						if (blurBackground) Modifier.blur(10.dp) else Modifier
+					)
 				)
 			} else {
 				AppThemeBackground()
