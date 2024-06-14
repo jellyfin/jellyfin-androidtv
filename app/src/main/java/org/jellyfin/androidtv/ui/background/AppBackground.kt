@@ -64,6 +64,7 @@ private fun AppThemeBackground() {
 fun AppBackground() {
 	val backgroundService = koinInject<BackgroundService>()
 	val currentBackground by backgroundService.currentBackground.collectAsState()
+	val blurBackground by backgroundService.blurBackground.collectAsState()
 	val enabled by backgroundService.enabled.collectAsState()
 	if (enabled) {
 		AnimatedContent(
@@ -81,9 +82,8 @@ fun AppBackground() {
 						alignment = Alignment.Center,
 						contentScale = ContentScale.Crop,
 						colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
-						modifier = Modifier.fillMaxSize().blur(
-								radiusX = 10.dp,
-								radiusY = 10.dp
+						modifier = Modifier.fillMaxSize().then(
+								if (blurBackground) Modifier.blur(10.dp) else Modifier
 						)
 				)
 			} else {
