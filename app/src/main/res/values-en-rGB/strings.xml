@@ -76,7 +76,7 @@
     <string name="lbl_mark_played">Mark played</string>
     <string name="lbl_play_first_unwatched">Play first unwatched</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
-    <string name="lbl_tv_queuing">Queue all subsequent episodes</string>
+    <string name="lbl_tv_queuing">Play next episode automatically</string>
     <string name="lbl_empty">Empty</string>
     <string name="lbl_no_items">No items</string>
     <string name="msg_cannot_play">This item cannot be played</string>
@@ -459,7 +459,7 @@
     <string name="color_pink">Pink</string>
     <string name="color_cyan">Cyan</string>
     <string name="app_notification_beta">App updated to %1$s
-\nThank you for participating in the Jellyfin beta program</string>
+\nThank you for participating in the Jellyfin beta program.</string>
     <string name="item_deleted">%1$s deleted</string>
     <string name="item_deletion_failed">Unable to delete %1$s</string>
     <string name="pref_enable_media_management_description">Show option to manage media while browsing</string>
@@ -542,4 +542,8 @@
     <string name="pref_screensaver_ageratingrequired_title">Require age rating</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Only showing items with an age rating set</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Showing all items</string>
+    <string name="all_channels">All channels</string>
+    <string name="pref_external_player">Use external player</string>
+    <string name="current_queue">Current queue</string>
+    <string name="app_notification_update_soon">Update your server from %1$s to at least %2$s to continue using the app after the next update.</string>
 </resources>
