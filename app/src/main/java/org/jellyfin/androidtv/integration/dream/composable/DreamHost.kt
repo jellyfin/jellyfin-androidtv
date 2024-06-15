@@ -118,7 +118,7 @@ private suspend fun getRandomLibraryShowcase(
 			imageLoader.execute(
 				request = ImageRequest.Builder(context).data(logoUrl).build()
 			).drawable?.toBitmap()
-		} ?: return null
+		}
 
 		return DreamContent.LibraryShowcase(item, backdrop, logo)
 	} catch (err: ApiClientException) {

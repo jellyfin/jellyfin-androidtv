@@ -49,10 +49,21 @@ fun DreamContentLibraryShowcase(
 			.align(Alignment.BottomStart)
 			.overscan(),
 	) {
-		Image(
-			bitmap = content.logo.asImageBitmap(),
-			contentDescription = null,
-			modifier = Modifier.height(75.dp)
-		)
+		if (content.logo != null) {
+			Image(
+				bitmap = content.logo.asImageBitmap(),
+				contentDescription = null,
+				modifier = Modifier
+					.height(75.dp)
+			)
+		} else {
+			Text(
+				text = content.item.name.orEmpty(),
+				style = TextStyle(
+					color = Color.White,
+					fontSize = 32.sp
+				),
+			)
+		}
 	}
 }
