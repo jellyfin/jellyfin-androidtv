@@ -107,7 +107,20 @@ private suspend fun getRandomLibraryShowcase(
 			).drawable?.toBitmap()
 		} ?: return null
 
-		return DreamContent.LibraryShowcase(item, backdrop)
+		val logoUrl = api.imageApi.getItemImageUrl(
+			itemId = item.id,
+			imageType = ImageType.LOGO,
+			tag = tag,
+			format = ImageFormat.WEBP,
+		)
+
+		val logo = withContext(Dispatchers.IO) {
+			imageLoader.execute(
+				request = ImageRequest.Builder(context).data(logoUrl).build()
+			).drawable?.toBitmap()
+		} ?: return null
+
+		return DreamContent.LibraryShowcase(item, backdrop, logo)
 	} catch (err: ApiClientException) {
 		Timber.e(err)
 		return null
