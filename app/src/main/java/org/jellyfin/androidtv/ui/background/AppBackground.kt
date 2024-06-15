@@ -83,9 +83,9 @@ fun AppBackground() {
 					alignment = Alignment.Center,
 					contentScale = ContentScale.Crop,
 					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
-					modifier = Modifier.fillMaxSize().then(
-						if (blurBackground) Modifier.blur(10.dp) else Modifier
-					)
+					modifier = Modifier
+						.fillMaxSize()
+						.then(if (blurBackground) Modifier.blur(10.dp) else Modifier)
 				)
 			} else {
 				AppThemeBackground()
