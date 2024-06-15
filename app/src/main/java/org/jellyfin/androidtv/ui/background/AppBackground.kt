@@ -66,7 +66,7 @@ fun AppBackground() {
 	val currentBackground by backgroundService.currentBackground.collectAsState()
 	val blurBackground by backgroundService.blurBackground.collectAsState()
 	val enabled by backgroundService.enabled.collectAsState()
-	
+
 	if (enabled) {
 		AnimatedContent(
 			targetState = currentBackground,
