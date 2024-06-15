@@ -31,6 +31,8 @@ import org.jellyfin.sdk.model.api.MediaType
 import org.koin.compose.koinInject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 
 @Composable
 fun DreamHost() {
@@ -101,12 +103,6 @@ private suspend fun getRandomLibraryShowcase(
 			format = ImageFormat.WEBP,
 		)
 
-		val backdrop = withContext(Dispatchers.IO) {
-			imageLoader.execute(
-				request = ImageRequest.Builder(context).data(backdropUrl).build()
-			).drawable?.toBitmap()
-		} ?: return null
-
 		val logoUrl = api.imageApi.getItemImageUrl(
 			itemId = item.id,
 			imageType = ImageType.LOGO,
@@ -114,10 +110,24 @@ private suspend fun getRandomLibraryShowcase(
 			format = ImageFormat.WEBP,
 		)
 
-		val logo = withContext(Dispatchers.IO) {
-			imageLoader.execute(
-				request = ImageRequest.Builder(context).data(logoUrl).build()
-			).drawable?.toBitmap()
+		val (logo, backdrop) = withContext(Dispatchers.IO) {
+			val logoDeferred = async {
+				imageLoader.execute(
+					request = ImageRequest.Builder(context).data(logoUrl).build()
+				).drawable?.toBitmap()
+			}
+
+			val backdropDeferred = async {
+				imageLoader.execute(
+					request = ImageRequest.Builder(context).data(backdropUrl).build()
+				).drawable?.toBitmap()
+			}
+
+			awaitAll(logoDeferred, backdropDeferred)
+		}
+
+		if (backdrop == null) {
+			return null
 		}
 
 		return DreamContent.LibraryShowcase(item, backdrop, logo)
