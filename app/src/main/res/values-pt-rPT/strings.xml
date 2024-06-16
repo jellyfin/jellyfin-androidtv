@@ -171,7 +171,7 @@
     <string name="watch_now">Ver agora</string>
     <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de reproduzir o item seguinte</string>
     <string name="pref_about_title">Sobre</string>
-    <string name="lbl_my_media">A minha média</string>
+    <string name="lbl_my_media">A minha media</string>
     <string name="lbl_image_type">Tipo de imagem</string>
     <string name="lbl_start_favorites">Colocar os favoritos no início</string>
     <string name="lbl_hd_programs">Programas em HD (Alta-Definição)</string>
