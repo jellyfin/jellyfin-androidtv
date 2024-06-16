@@ -48,8 +48,10 @@ class BackgroundService(
 	private var _backgrounds = emptyList<ImageBitmap>()
 	private var _currentIndex = 0
 	private var _currentBackground = MutableStateFlow<ImageBitmap?>(null)
+	private var _blurBackground = MutableStateFlow(false)
 	private var _enabled = MutableStateFlow(true)
 	val currentBackground get() = _currentBackground.asStateFlow()
+	val blurBackground get() = _blurBackground.asStateFlow()
 	val enabled get() = _enabled.asStateFlow()
 
 	// Helper function for [setBackground]
@@ -77,6 +79,9 @@ class BackgroundService(
 		if (baseItem == null || !userPreferences[UserPreferences.backdropEnabled])
 			return clearBackgrounds()
 
+		// Enable blur for backdrops
+		_blurBackground.value = true
+
 		// Get all backdrop urls
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
 		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
@@ -96,6 +101,9 @@ class BackgroundService(
 		// Check if splashscreen is enabled in (cached) branding options
 		if (!server.splashscreenEnabled)
 			return clearBackgrounds()
+
+		// Disable blur on splashscreen
+		_blurBackground.value = false
 
 		// Manually grab the backdrop URL
 		val api = jellyfin.createApi(baseUrl = server.address)

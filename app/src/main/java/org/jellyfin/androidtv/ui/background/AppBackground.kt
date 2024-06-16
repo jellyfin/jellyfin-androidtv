@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
@@ -62,6 +64,7 @@ private fun AppThemeBackground() {
 fun AppBackground() {
 	val backgroundService = koinInject<BackgroundService>()
 	val currentBackground by backgroundService.currentBackground.collectAsState()
+	val blurBackground by backgroundService.blurBackground.collectAsState()
 	val enabled by backgroundService.enabled.collectAsState()
 
 	if (enabled) {
@@ -80,7 +83,9 @@ fun AppBackground() {
 					alignment = Alignment.Center,
 					contentScale = ContentScale.Crop,
 					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
-					modifier = Modifier.fillMaxSize()
+					modifier = Modifier
+						.fillMaxSize()
+						.then(if (blurBackground) Modifier.blur(10.dp) else Modifier)
 				)
 			} else {
 				AppThemeBackground()
