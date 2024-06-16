@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.takeWhile
 import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticateMethod
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
@@ -68,16 +69,20 @@ class AuthenticationRepositoryImpl(
 	private fun authenticateAutomatic(server: Server, user: User): Flow<LoginState> {
 		Timber.i("Authenticating user ${user.id}")
 
-		// Automatic logic is disabled when the always authenticate preference is enabled
-		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
+		if (user.requirePassword) {
+			// Automatic logic is disabled when the always authenticate preference is enabled
+			if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate])
+				return flowOf(RequireSignInState)
 
-		val authStoreUser = authenticationStore.getUser(server.id, user.id)
-		// Try login with access token
-		return if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
-		// Try login without password
-		else if (!user.requirePassword) authenticateCredential(server, user.name, "")
-		// Require login
-		else flowOf(RequireSignInState)
+			// Try login with access token
+			val authStoreUser = authenticationStore.getUser(server.id, user.id)
+			return if (authStoreUser?.accessToken != null)
+				authenticateToken(server, user.withToken(authStoreUser.accessToken))
+			// Require login
+			else flowOf(RequireSignInState)
+		} else {
+			return authenticateNoPassword(server, user)
+		}
 	}
 
 	private fun authenticateCredential(server: Server, username: String, password: String) = flow {
@@ -160,7 +165,7 @@ class AuthenticationRepositoryImpl(
 		}
 	}
 
-	private suspend fun authenticateFinish(server: Server, userInfo: UserDto, accessToken: String) {
+	private fun authenticateFinish(server: Server, userInfo: UserDto, accessToken: String) {
 		val currentUser = authenticationStore.getUser(server.id, userInfo.id)
 
 		val updatedUser = currentUser?.copy(
@@ -176,6 +181,22 @@ class AuthenticationRepositoryImpl(
 			accessToken = accessToken,
 		)
 		authenticationStore.putUser(server.id, userInfo.id, updatedUser)
+	}
+
+	private fun authenticateNoPassword(server: Server, user: User) = flow {
+		val authStoreUser = authenticationStore.getUser(server.id, user.id)
+		if (authStoreUser?.accessToken != null) {
+			authenticateToken(server, user.withToken(authStoreUser.accessToken))
+				.takeWhile {it !is RequireSignInState}.collect { emit(it) }
+		}
+		// Token login wasn't successful > Fallback to empty password login
+		authenticateCredential(server, user.name, "").collect { state ->
+			when (state) {
+				// Login without password wasn't successful > Prompt for password
+				is ApiClientErrorLoginState -> emit(RequireSignInState)
+				else -> emit(state)
+			}
+		}
 	}
 
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
