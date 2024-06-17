@@ -523,4 +523,43 @@
     <string name="clear_image_cache_content">בשימוש: %1$s</string>
     <string name="lbl_runtime">זמן אמת</string>
     <string name="indicator_subtitles">CC</string>
+    <string name="all_channels">כל הערוצים</string>
+    <string name="current_queue">תור נוכחי</string>
+    <string name="pref_screensaver_ageratingmax_zero">כל הגילאים</string>
+    <string name="pref_screensaver_ageratingmax_entry">עד גיל %1$d</string>
+    <plurals name="songs">
+        <item quantity="one">שיר %1$s</item>
+        <item quantity="two">%1$s שירים</item>
+        <item quantity="other">%1$s שירים</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">סדרה %1$s</item>
+        <item quantity="two">%1$s סדרות</item>
+        <item quantity="other">%1$s סדרות</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">אלבום %1$s</item>
+        <item quantity="two">%1$s אלבומים</item>
+        <item quantity="other">%1$s אלבומים</item>
+    </plurals>
+    <string name="continue_listening">המשך האזנה</string>
+    <string name="random">אקראי</string>
+    <string name="pref_screensaver_ageratingrequired_title">דרוש הגבלת גיל</string>
+    <plurals name="items">
+        <item quantity="one">פריט %1$s</item>
+        <item quantity="two">%1$s פריטים</item>
+        <item quantity="other">%1$s פריטים</item>
+    </plurals>
+    <string name="app_notification_update_soon">יש לעדכן את השרת מגרסה %1$s לגרסה %2$s לפחות בכדי להמשיך להשתמש באפליקציה אחרי העדכון הבא.</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">השבתת מקסימום</string>
+    <string name="pref_playback_advanced">מאפייני פלייבק מתקדמים</string>
+    <plurals name="movies">
+        <item quantity="one">סרט %1$s</item>
+        <item quantity="two">%1$s סרטים</item>
+        <item quantity="other">%1$s סרטים</item>
+    </plurals>
+    <string name="unreleased">טרם יצא</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">מציג פריטים שיש להם הגבלת גיל</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
+    <string name="pref_screensaver_ageratingmax">דירוג גיל מקסימלי</string>
 </resources>
