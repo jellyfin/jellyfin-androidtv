@@ -546,4 +546,5 @@
     <string name="app_notification_update_soon">Je moet je server bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
     <string name="current_queue">Huidige wachtrij</string>
     <string name="pref_external_player">Externe speler gebruiken</string>
+    <string name="continue_listening">Verderluisteren</string>
 </resources>
