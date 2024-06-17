@@ -15,6 +15,7 @@
     <string name="lbl_settings">Preferences</string>
     <string name="lbl_home">Home</string>
     <string name="lbl_continue_watching">Continue watching</string>
+    <string name="continue_listening">Continue listening</string>
     <string name="lbl_next_up">Next up</string>
     <string name="lbl_on_now">On now</string>
     <string name="lbl_views">Views</string>
