@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
@@ -30,7 +31,6 @@ class HomeFragmentHelper(
 
 	fun loadResume(title: String, includeMediaTypes: Collection<MediaType>): HomeFragmentRow {
 		val query = GetResumeItemsRequest(
-			userId = userRepository.currentUser.value!!.id,
 			limit = ITEM_LIMIT_RESUME,
 			fields = listOf(
 				SdkItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
@@ -42,6 +42,7 @@ class HomeFragmentHelper(
 			imageTypeLimit = 1,
 			enableTotalRecordCount = false,
 			mediaTypes = includeMediaTypes,
+			excludeItemTypes = setOf(BaseItemKind.AUDIO_BOOK),
 		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, false, true, arrayOf(ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))
@@ -52,7 +53,7 @@ class HomeFragmentHelper(
 	}
 
 	fun loadResumeAudio(): HomeFragmentRow {
-		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.AUDIO))
+		return loadResume(context.getString(R.string.continue_listening), listOf(MediaType.AUDIO))
 	}
 
 	fun loadLatestLiveTvRecordings(): HomeFragmentRow {
