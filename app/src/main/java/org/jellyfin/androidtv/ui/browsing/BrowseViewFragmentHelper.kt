@@ -15,14 +15,13 @@ import org.jellyfin.sdk.model.api.TimerInfoDtoQueryResult
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 
-fun BrowseViewFragment.getLiveTvRecordingsAndTimers(
+fun EnhancedBrowseFragment.getLiveTvRecordingsAndTimers(
 	callback: (recordings: BaseItemDtoQueryResult, timers: TimerInfoDtoQueryResult) -> Unit,
 	errorCallback: (exception: Throwable) -> Unit,
 ) {
 	val api by inject<ApiClient>()
 
 	lifecycleScope.launch {
-
 		runCatching {
 			val recordings by api.liveTvApi.getRecordings(
 				fields = setOf(
@@ -39,6 +38,22 @@ fun BrowseViewFragment.getLiveTvRecordingsAndTimers(
 			recordings to timers
 		}.fold(
 			onSuccess = { (recordings, timers) -> callback(recordings, timers) },
+			onFailure = { exception -> errorCallback(exception) }
+		)
+	}
+}
+
+fun EnhancedBrowseFragment.getLiveTvTimers(
+	callback: (timers: TimerInfoDtoQueryResult) -> Unit,
+	errorCallback: (exception: Throwable) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			 api.liveTvApi.getTimers().content
+		}.fold(
+			onSuccess = { timers -> callback(timers) },
 			onFailure = { exception -> errorCallback(exception) }
 		)
 	}
