@@ -93,20 +93,22 @@ private suspend fun getRandomLibraryShowcase(
 
 		Timber.i("Loading random library showcase item ${item.id}")
 
-		val tag = item.backdropImageTags!!.randomOrNull()
+		val backdropTag = item.backdropImageTags!!.randomOrNull()
 			?: item.imageTags?.get(ImageType.BACKDROP)
+
+		val logoTag = item.imageTags?.get(ImageType.LOGO)
 
 		val backdropUrl = api.imageApi.getItemImageUrl(
 			itemId = item.id,
 			imageType = ImageType.BACKDROP,
-			tag = tag,
+			tag = backdropTag,
 			format = ImageFormat.WEBP,
 		)
 
 		val logoUrl = api.imageApi.getItemImageUrl(
 			itemId = item.id,
 			imageType = ImageType.LOGO,
-			tag = tag,
+			tag = logoTag,
 			format = ImageFormat.WEBP,
 		)
 
