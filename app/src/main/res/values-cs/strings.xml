@@ -448,7 +448,7 @@
     <string name="lbl_subtitle_fg">Barva textu titulků</string>
     <string name="color_cyan">Tyrkysová barva</string>
     <string name="app_notification_beta">Aplikace aktualizovaná na verzi %1$s
-\nDěkujeme za Vaši účast v beta programu Jellyfin</string>
+\nDěkujeme za Vaši účast v beta programu Jellyfin.</string>
     <string name="lbl_subtitle_stroke">Velikost zabraného místa titulky</string>
     <string name="lbl_subtitle_position">Odsazení titulků od spodního okraje</string>
     <string name="color_white">Bílá barva</string>
@@ -555,4 +555,6 @@
     <string name="current_queue">Aktuální fronta k přehrání</string>
     <string name="all_channels">Všechny kanály</string>
     <string name="app_notification_update_soon">Aktualizujte svůj server z verze %1$s na alespoň %2$s, aby bylo možné aplikaci používat i po příští aktualizaci.</string>
+    <string name="pref_external_player">Použít externí přehrávač</string>
+    <string name="continue_listening">Pokračovat v poslouchání</string>
 </resources>
