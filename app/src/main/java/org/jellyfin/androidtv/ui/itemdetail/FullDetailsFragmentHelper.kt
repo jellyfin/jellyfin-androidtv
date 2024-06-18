@@ -23,6 +23,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
+import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -240,7 +241,11 @@ fun FullDetailsFragment.resumePlayback() {
 				includeItemTypes = setOf(BaseItemKind.EPISODE),
 				recursive = true,
 				filters = setOf(ItemFilter.IS_UNPLAYED),
-				sortBy = setOf(ItemSortBy.PARENT_INDEX_NUMBER, ItemSortBy.INDEX_NUMBER, ItemSortBy.SORT_NAME),
+				sortBy = setOf(
+					ItemSortBy.PARENT_INDEX_NUMBER,
+					ItemSortBy.INDEX_NUMBER,
+					ItemSortBy.SORT_NAME
+				),
 				limit = 1
 			)
 			val nextUpEpisode = episodes.items?.firstOrNull()
@@ -253,6 +258,96 @@ fun FullDetailsFragment.resumePlayback() {
 				getString(R.string.msg_video_playback_error),
 				Toast.LENGTH_LONG
 			).show()
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvSeriesTimer(
+	id: String,
+	callback: (timer: SeriesTimerInfoDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getSeriesTimer(id).content
+		}.onSuccess { timer ->
+			callback(timer)
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvProgram(
+	id: UUID,
+	callback: (program: BaseItemDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getProgram(id.toString()).content
+		}.onSuccess { program ->
+			callback(program)
+		}
+	}
+}
+
+fun FullDetailsFragment.createLiveTvSeriesTimer(
+	seriesTimer: SeriesTimerInfoDto,
+	callback: () -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.createSeriesTimer(seriesTimer)
+		}.onSuccess {
+			callback()
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvDefaultTimer(
+	id: UUID,
+	callback: (seriesTimer: SeriesTimerInfoDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getDefaultTimer(id.toString()).content
+		}.onSuccess { seriesTimer ->
+			callback(seriesTimer)
+		}
+	}
+}
+
+fun FullDetailsFragment.cancelLiveTvSeriesTimer(
+	timerId: String,
+	callback: () -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.cancelTimer(timerId)
+		}.onSuccess {
+			callback()
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvChannel(
+	id: UUID,
+	callback: (channel: BaseItemDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getChannel(id).content
+		}.onSuccess { channel ->
+			callback(channel)
 		}
 	}
 }
