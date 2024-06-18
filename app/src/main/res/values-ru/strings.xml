@@ -508,4 +508,6 @@
     <string name="channels">Каналы</string>
     <string name="photo_albums">Фотоальбомы</string>
     <string name="photos">Фото</string>
+    <string name="all_channels">Все каналы</string>
+    <string name="lbl_home">Главная</string>
 </resources>
