@@ -430,7 +430,7 @@ public class LiveProgramDetailPopup {
         apiClient.getValue().GetLiveTvSeriesTimerAsync(mProgram.getSeriesTimerId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                mRecordPopup.setContent(mActivity, ModelCompat.asSdk(mProgram), response, mSelectedProgramView, recordSeries);
+                mRecordPopup.setContent(mActivity, ModelCompat.asSdk(mProgram), ModelCompat.asSdk(response), mSelectedProgramView, recordSeries);
                 mRecordPopup.show();
             }
         });

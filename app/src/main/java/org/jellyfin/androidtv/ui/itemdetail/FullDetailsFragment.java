@@ -1126,8 +1126,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
         FullDetailsFragmentHelperKt.getLiveTvSeriesTimer(this, id, response -> {
             if (recordSeries || Utils.isTrue(program.isSports())) {
-                // TODO: Migrate RecordPopup
-                // mRecordPopup.setContent(requireContext(), program, response, FullDetailsFragment.this, recordSeries);
+                mRecordPopup.setContent(requireContext(), program, response, FullDetailsFragment.this, recordSeries);
                 mRecordPopup.show();
             } else {
                 //just record with defaults
