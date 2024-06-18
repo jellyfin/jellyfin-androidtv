@@ -523,7 +523,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setEnableDirectStream(false);
         internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
         internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
-        internalOptions.setMediaSourceId(getCurrentMediaSource().getId());
+        if (!isLiveTv) {
+            internalOptions.setMediaSourceId(getCurrentMediaSource().getId());
+        }
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 mFragment.getContext(),
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
