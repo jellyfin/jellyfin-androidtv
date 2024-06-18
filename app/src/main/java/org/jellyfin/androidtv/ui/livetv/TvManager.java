@@ -240,9 +240,9 @@ public class TvManager {
 
     }
 
-    public static void setTimelineRow(Activity activity, LinearLayout timelineRow, BaseItemDto program) {
+    public static void setTimelineRow(Activity activity, LinearLayout timelineRow, org.jellyfin.sdk.model.api.BaseItemDto program) {
         timelineRow.removeAllViews();
-        Date local = TimeUtils.convertToLocalDate(program.getStartDate());
+        Date local = TimeUtils.getDate(program.getStartDate());
         TextView on = new TextView(activity);
         on.setText(activity.getResources().getString(R.string.lbl_on));
         timelineRow.addView(on);
