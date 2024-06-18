@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import static org.koin.java.KoinJavaComponent.inject;
-
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -19,36 +17,20 @@ import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
-import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
-import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.LocationType;
-import org.jellyfin.apiclient.model.livetv.RecordingQuery;
-import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
-import org.jellyfin.apiclient.model.livetv.TimerQuery;
-import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
+import org.jellyfin.sdk.model.api.TimerInfoDto;
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest;
 import org.koin.java.KoinJavaComponent;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import kotlin.Lazy;
-import timber.log.Timber;
-
 public class BrowseViewFragment extends EnhancedBrowseFragment {
     private boolean isLiveTvLibrary;
-
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     protected void setupQueries(final RowLoader rowLoader) {
@@ -126,119 +108,75 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), BrowsingUtils.createLiveTVChannelsRequest(false)));
 
                 //Latest Recordings
-                RecordingQuery recordings = new RecordingQuery();
-                recordings.setFields(new ItemFields[]{
-                        ItemFields.Overview,
-                        ItemFields.PrimaryImageAspectRatio,
-                        ItemFields.ChildCount
-                });
-                recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                recordings.setEnableImages(true);
-                recordings.setLimit(40);
+                BrowseViewFragmentHelperKt.getLiveTvRecordingsAndTimers(this, (recordings, timers) -> {
+                    List<BaseItemDto> nearTimers = new ArrayList<>();
+                    LocalDateTime next24 = LocalDateTime.now().plusDays(1);
+                    //Get scheduled items for next 24 hours
+                    for (TimerInfoDto timer : timers.getItems()) {
+                        if (timer.getStartDate().isBefore(next24)) {
+                            nearTimers.add(BrowseViewFragmentHelperKt.getTimerProgramInfo(timer));
+                        }
+                    }
 
-                //Do a straight query and then split the returned items into logical groups
-                apiClient.getValue().GetLiveTvRecordingsAsync(recordings, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
-                    @Override
-                    public void onResponse(ItemsResult response) {
-                        if (!getActive()) return;
+                    if (recordings.getTotalRecordCount() > 0) {
+                        List<BaseItemDto> dayItems = new ArrayList<>();
+                        List<BaseItemDto> weekItems = new ArrayList<>();
 
-                        final ItemsResult recordingsResponse = response;
-                        final long ticks24 = 1000 * 60 * 60 * 24;
-
-                        // Also get scheduled recordings for next 24 hours
-                        final TimerQuery scheduled = new TimerQuery();
-                        apiClient.getValue().GetLiveTvTimersAsync(scheduled, new LifecycleAwareResponse<TimerInfoDtoResult>(getLifecycle()) {
-                            @Override
-                            public void onResponse(TimerInfoDtoResult response) {
-                                if (!getActive()) return;
-
-                                List<BaseItemDto> nearTimers = new ArrayList<>();
-                                long next24 = Instant.now().toEpochMilli() + ticks24;
-                                //Get scheduled items for next 24 hours
-                                for (TimerInfoDto timer : response.getItems()) {
-                                    if (TimeUtils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
-                                        BaseItemDto programInfo = timer.getProgramInfo();
-                                        if (programInfo == null) {
-                                            programInfo = new BaseItemDto();
-                                            programInfo.setId(timer.getId());
-                                            programInfo.setChannelName(timer.getChannelName());
-                                            programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
-                                            Timber.w("No program info for timer %s.  Creating one...", programInfo.getName());
-                                            programInfo.setBaseItemType(BaseItemType.Program);
-                                            programInfo.setTimerId(timer.getId());
-                                            programInfo.setSeriesTimerId(timer.getSeriesTimerId());
-                                            programInfo.setStartDate(timer.getStartDate());
-                                            programInfo.setEndDate(timer.getEndDate());
-                                        }
-                                        programInfo.setLocationType(LocationType.Virtual);
-                                        nearTimers.add(programInfo);
-                                    }
-                                }
-
-                                if (recordingsResponse.getTotalRecordCount() > 0) {
-                                    List<BaseItemDto> dayItems = new ArrayList<>();
-                                    List<BaseItemDto> weekItems = new ArrayList<>();
-
-                                    long past24 = Instant.now().toEpochMilli() - ticks24;
-                                    long pastWeek = Instant.now().toEpochMilli() - (ticks24 * 7);
-                                    for (BaseItemDto item : recordingsResponse.getItems()) {
-                                        if (item.getDateCreated() != null) {
-                                            if (TimeUtils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {
-                                                dayItems.add(item);
-                                            } else if (TimeUtils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
-                                                weekItems.add(item);
-                                            }
-                                        }
-                                    }
-
-                                    //First put all recordings in and retrieve
-                                    //All Recordings
-                                    mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), BrowsingUtils.createLiveTVRecordingsRequest(), 50));
-                                    rowLoader.loadRows(mRows);
-
-                                    //Now insert our smart rows
-                                    if (weekItems.size() > 0) {
-                                        ItemRowAdapter weekAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(weekItems), mCardPresenter, mRowsAdapter, true);
-                                        weekAdapter.Retrieve();
-                                        ListRow weekRow = new ListRow(new HeaderItem("Past Week"), weekAdapter);
-                                        mRowsAdapter.add(0, weekRow);
-                                    }
-                                    if (nearTimers.size() > 0) {
-                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(nearTimers), mCardPresenter, mRowsAdapter, true);
-                                        scheduledAdapter.Retrieve();
-                                        ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
-                                        mRowsAdapter.add(0, scheduleRow);
-                                    }
-                                    if (dayItems.size() > 0) {
-                                        ItemRowAdapter dayAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(dayItems), mCardPresenter, mRowsAdapter, true);
-                                        dayAdapter.Retrieve();
-                                        ListRow dayRow = new ListRow(new HeaderItem("Past 24 Hours"), dayAdapter);
-                                        mRowsAdapter.add(0, dayRow);
-                                    }
-
-                                } else {
-                                    // no recordings
-                                    rowLoader.loadRows(mRows);
-                                    if (nearTimers.size() > 0) {
-                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), JavaCompat.mapBaseItemCollection(nearTimers), mCardPresenter, mRowsAdapter, true);
-                                        scheduledAdapter.Retrieve();
-                                        ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
-                                        mRowsAdapter.add(0, scheduleRow);
-                                    } else {
-                                        mTitle.setText(R.string.lbl_no_recordings);
-
-                                    }
+                        LocalDateTime past24 = LocalDateTime.now().minusDays(1);
+                        LocalDateTime pastWeek = LocalDateTime.now().minusWeeks(1);
+                        for (BaseItemDto item : recordings.getItems()) {
+                            if (item.getDateCreated() != null) {
+                                if (item.getDateCreated().isAfter(past24)) {
+                                    dayItems.add(item);
+                                } else if (item.getDateCreated().isAfter(pastWeek)) {
+                                    weekItems.add(item);
                                 }
                             }
-                        });
+                        }
+
+                        //First put all recordings in and retrieve
+                        //All Recordings
+                        mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), BrowsingUtils.createLiveTVRecordingsRequest(), 50));
+                        rowLoader.loadRows(mRows);
+
+                        //Now insert our smart rows
+                        if (!weekItems.isEmpty()) {
+                            ItemRowAdapter weekAdapter = new ItemRowAdapter(requireContext(), weekItems, mCardPresenter, mRowsAdapter, true);
+                            weekAdapter.Retrieve();
+                            ListRow weekRow = new ListRow(new HeaderItem(getString(R.string.past_week)), weekAdapter);
+                            mRowsAdapter.add(0, weekRow);
+                        }
+                        if (!nearTimers.isEmpty()) {
+                            ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
+                            scheduledAdapter.Retrieve();
+                            ListRow scheduleRow = new ListRow(new HeaderItem(getString(R.string.scheduled_in_next_24_hours)), scheduledAdapter);
+                            mRowsAdapter.add(0, scheduleRow);
+                        }
+                        if (!dayItems.isEmpty()) {
+                            ItemRowAdapter dayAdapter = new ItemRowAdapter(requireContext(), dayItems, mCardPresenter, mRowsAdapter, true);
+                            dayAdapter.Retrieve();
+                            ListRow dayRow = new ListRow(new HeaderItem(getString(R.string.past_24_hours)), dayAdapter);
+                            mRowsAdapter.add(0, dayRow);
+                        }
+
+                    } else {
+                        // no recordings
+                        rowLoader.loadRows(mRows);
+                        if (!nearTimers.isEmpty()) {
+                            ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
+                            scheduledAdapter.Retrieve();
+                            ListRow scheduleRow = new ListRow(new HeaderItem(getString(R.string.scheduled_in_next_24_hours)), scheduledAdapter);
+                            mRowsAdapter.add(0, scheduleRow);
+                        } else {
+                            mTitle.setText(R.string.lbl_no_recordings);
+
+                        }
                     }
 
-                    @Override
-                    public void onError(Exception exception) {
-                        if (!getActive()) return;
-
-                        Utils.showToast(getContext(), exception.getLocalizedMessage());
-                    }
+                    return null;
+                }, exception -> {
+                    Utils.showToast(getContext(), exception.getLocalizedMessage());
+                    return null;
                 });
 
                 break;
