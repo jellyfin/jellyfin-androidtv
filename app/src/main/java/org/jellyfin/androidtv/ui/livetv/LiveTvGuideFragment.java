@@ -470,7 +470,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             });
         }
 
-        mDetailPopup.setContent(mSelectedProgram, ((ProgramGridCell)mSelectedProgramView));
+        mDetailPopup.setContent(ModelCompat.asSdk(mSelectedProgram), ((ProgramGridCell)mSelectedProgramView));
         mDetailPopup.show(mImage, mTitle.getLeft(), mTitle.getTop() - 10);
     }
 

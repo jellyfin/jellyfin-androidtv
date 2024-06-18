@@ -1172,7 +1172,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
                 }
             });
-        mDetailPopup.setContent(mSelectedProgram, (ProgramGridCell) mSelectedProgramView);
+        mDetailPopup.setContent(ModelCompat.asSdk(mSelectedProgram), (ProgramGridCell) mSelectedProgramView);
         mDetailPopup.show(tvGuideBinding.guideTitle, 0, tvGuideBinding.guideTitle.getTop() - 10);
 
     }
