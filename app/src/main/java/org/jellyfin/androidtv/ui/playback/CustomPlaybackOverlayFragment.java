@@ -78,6 +78,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -1455,7 +1456,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (!getActive()) return;
 
                 ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
-                channelAdapter.addAll(0, TvManager.getAllChannels());
+                channelAdapter.addAll(0, JavaCompat.mapChannelInfoCollection(TvManager.getAllChannels()));
                 if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
                 mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.channels)), channelAdapter);
                 mPopupRowAdapter.add(mChapterRow);
