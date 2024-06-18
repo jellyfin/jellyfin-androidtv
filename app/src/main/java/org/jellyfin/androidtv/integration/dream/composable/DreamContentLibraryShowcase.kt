@@ -52,7 +52,7 @@ fun DreamContentLibraryShowcase(
 		if (content.logo != null) {
 			Image(
 				bitmap = content.logo.asImageBitmap(),
-				contentDescription = content.item.name.orEmpty(),
+				contentDescription = content.item.name,
 				modifier = Modifier
 					.height(75.dp)
 			)
