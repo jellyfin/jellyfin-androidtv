@@ -556,4 +556,5 @@
     <string name="dts_hd">DTS:HD</string>
     <string name="dca">DTS</string>
     <string name="dts_x">DTS:X</string>
+    <string name="continue_listening">Continuar a ouvir</string>
 </resources>
