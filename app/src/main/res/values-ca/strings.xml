@@ -159,7 +159,7 @@
     <string name="lbl_mark_unplayed">Marcar com a no reproduït</string>
     <string name="lbl_play_first_unwatched">Reproduir primer els no vistos</string>
     <string name="lbl_search_hint">Cerca text (seleccioneu per al teclat)</string>
-    <string name="lbl_tv_queuing">Posa a la cua tots els episodis següents</string>
+    <string name="lbl_tv_queuing">Reproduir automàticament el següent episodi</string>
     <string name="lbl_empty">Buit</string>
     <string name="lbl_no_items">Sense elements</string>
     <string name="msg_cannot_play">Aquest element no es pot reproduir</string>
@@ -550,4 +550,6 @@
     <string name="all_channels">Tots els canals</string>
     <string name="app_notification_update_soon">Actualitza el teu servidor de %1$s fins a almenys %2$s per a continuar utilitzant l\'aplicació després de la pròxima actualització.</string>
     <string name="current_queue">Cua actual</string>
+    <string name="continue_listening">Seguir escoltant</string>
+    <string name="pref_external_player">Utilitzar un reproductor extern</string>
 </resources>
