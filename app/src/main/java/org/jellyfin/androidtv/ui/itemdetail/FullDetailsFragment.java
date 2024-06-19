@@ -80,7 +80,6 @@ import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -519,10 +518,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         Timber.d("Item type: %s", mBaseItem.getType().toString());
 
         if (mSeriesTimerInfo != null) {
-            TimerQuery scheduled = new TimerQuery();
-            scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
-            TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {
-            });
+            TvManager.getScheduleRowsAsync(this, mSeriesTimerInfo.getId(), new CardPresenter(true), adapter);
             return;
         }
 

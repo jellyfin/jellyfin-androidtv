@@ -25,8 +25,6 @@ import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
 
@@ -257,14 +255,14 @@ public class LiveProgramDetailPopup {
     }
 
     public android.widget.ImageButton createFavoriteButton() {
-        ChannelInfoDto channel = TvManager.getChannel(TvManager.getAllChannelsIndex(mProgram.getChannelId()));
-        boolean isFav = channel.getUserData() != null && channel.getUserData().getIsFavorite();
+        BaseItemDto channel = TvManager.getChannel(TvManager.getAllChannelsIndex(mProgram.getChannelId()));
+        boolean isFav = channel.getUserData() != null && channel.getUserData().isFavorite();
 
         android.widget.ImageButton fave = addImgButton(mDButtonRow, isFav ? R.drawable.ic_heart_red : R.drawable.ic_heart);
         fave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LiveProgramDetailPopupHelperKt.toggleFavorite(LiveProgramDetailPopup.this, ModelCompat.asSdk(channel), channel -> {
+                LiveProgramDetailPopupHelperKt.toggleFavorite(LiveProgramDetailPopup.this, channel, channel -> {
                     fave.setImageDrawable(ContextCompat.getDrawable(mActivity, channel.getUserData().isFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
                     mTvGuide.refreshFavorite(channel.getId());
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);

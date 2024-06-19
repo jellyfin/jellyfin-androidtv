@@ -28,7 +28,6 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
-import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
@@ -52,10 +51,7 @@ import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -552,12 +548,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     break;
                 case FavoriteUpdate:
                     retrieve |= dataRefreshService.getLastFavoriteUpdate() != null && lastFullRetrieve.isBefore(dataRefreshService.getLastFavoriteUpdate());
-                    break;
-                case GuideNeedsLoad:
-                    Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
-                    start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-                    start.set(Calendar.SECOND, 0);
-                    retrieve |= TvManager.programsNeedLoad(start);
                     break;
             }
         }
