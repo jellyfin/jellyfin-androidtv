@@ -510,4 +510,21 @@
     <string name="photos">Фото</string>
     <string name="all_channels">Все каналы</string>
     <string name="lbl_home">Главная</string>
+    <string name="pref_playback_advanced">Дополнительные параметры воспроизведения</string>
+    <string name="current_queue">Текущая очередь</string>
+    <string name="pref_external_player">Используйте внешний проигрыватель</string>
+    <string name="continue_listening">Продолжить прослушивание</string>
+    <string name="random">Случайный</string>
+    <string name="app_notification_update_soon">Обновите свой сервер с %1$s по крайней мере до %2$s, чтобы продолжить работу с приложением после следующего обновления.</string>
+    <string name="unreleased">Еще не выпущено</string>
+    <string name="person_birthday_and_age">Родился %1$s (%2$d)</string>
+    <string name="clear_image_cache_content">Используется: %1$s</string>
+    <string name="lbl_hide_watched_checkmark">Когда остаются эпизоды</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Отключить максимум</string>
+    <string name="pref_screensaver_ageratingmax">Максимальный возрастной рейтинг</string>
+    <string name="pref_screensaver_ageratingmax_zero">Все возрасты</string>
+    <string name="pref_screensaver_ageratingmax_entry">До %1$d лет</string>
+    <string name="pref_screensaver_ageratingrequired_title">Требуется возрастной рейтинг</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Показывать только товары с установленным возрастным рейтингом</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Показать все товары</string>
 </resources>
