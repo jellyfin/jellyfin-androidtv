@@ -546,4 +546,5 @@
     <string name="pref_external_player">Use external player</string>
     <string name="current_queue">Current queue</string>
     <string name="app_notification_update_soon">Update your server from %1$s to at least %2$s to continue using the app after the next update.</string>
+    <string name="continue_listening">Continue listening</string>
 </resources>
