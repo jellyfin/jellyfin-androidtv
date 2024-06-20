@@ -547,4 +547,7 @@
     <string name="current_queue">Huidige wachtrij</string>
     <string name="pref_external_player">Externe speler gebruiken</string>
     <string name="continue_listening">Verderluisteren</string>
+    <string name="past_24_hours">Afgelopen 24 uur</string>
+    <string name="past_week">Afgelopen week</string>
+    <string name="scheduled_in_next_24_hours">Komende 24 uur ingepland</string>
 </resources>
