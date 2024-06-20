@@ -31,6 +31,8 @@ import org.jellyfin.sdk.model.api.MediaType
 import org.koin.compose.koinInject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 
 @Composable
 fun DreamHost() {
@@ -91,23 +93,46 @@ private suspend fun getRandomLibraryShowcase(
 
 		Timber.i("Loading random library showcase item ${item.id}")
 
-		val tag = item.backdropImageTags!!.randomOrNull()
+		val backdropTag = item.backdropImageTags!!.randomOrNull()
 			?: item.imageTags?.get(ImageType.BACKDROP)
+
+		val logoTag = item.imageTags?.get(ImageType.LOGO)
 
 		val backdropUrl = api.imageApi.getItemImageUrl(
 			itemId = item.id,
 			imageType = ImageType.BACKDROP,
-			tag = tag,
+			tag = backdropTag,
 			format = ImageFormat.WEBP,
 		)
 
-		val backdrop = withContext(Dispatchers.IO) {
-			imageLoader.execute(
-				request = ImageRequest.Builder(context).data(backdropUrl).build()
-			).drawable?.toBitmap()
-		} ?: return null
+		val logoUrl = api.imageApi.getItemImageUrl(
+			itemId = item.id,
+			imageType = ImageType.LOGO,
+			tag = logoTag,
+			format = ImageFormat.WEBP,
+		)
 
-		return DreamContent.LibraryShowcase(item, backdrop)
+		val (logo, backdrop) = withContext(Dispatchers.IO) {
+			val logoDeferred = async {
+				imageLoader.execute(
+					request = ImageRequest.Builder(context).data(logoUrl).build()
+				).drawable?.toBitmap()
+			}
+
+			val backdropDeferred = async {
+				imageLoader.execute(
+					request = ImageRequest.Builder(context).data(backdropUrl).build()
+				).drawable?.toBitmap()
+			}
+
+			awaitAll(logoDeferred, backdropDeferred)
+		}
+
+		if (backdrop == null) {
+			return null
+		}
+
+		return DreamContent.LibraryShowcase(item, backdrop, logo)
 	} catch (err: ApiClientException) {
 		Timber.e(err)
 		return null
