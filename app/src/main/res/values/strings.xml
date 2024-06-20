@@ -94,6 +94,10 @@
     <string name="lbl_no_items">No items</string>
     <string name="lbl_empty">Empty</string>
     <string name="lbl_tv_queuing">Play next episode automatically</string>
+    <string name="lbl_remember_audio">Set audio tracked based on previous item</string>
+    <string name="desc_remember_audio">Try to set the audio track to the closest match to the last video</string>
+    <string name="lbl_remember_subtitle">Set subtitle tracked based on previous item</string>
+    <string name="desc_remember_subtitle">Try to set the subtitle track to the closest match to the last video</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="lbl_play_first_unwatched">Play first unwatched</string>
     <string name="lbl_mark_unplayed">Mark unplayed</string>

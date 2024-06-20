@@ -49,6 +49,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -81,6 +82,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Boolean spinnerOff = false;
 
     private VideoOptions mCurrentOptions;
+    private VideoOptions mPrevOptions;
     private int mDefaultSubIndex = -1;
     private int mDefaultAudioIndex = -1;
     private boolean burningSubs = false;
@@ -107,6 +109,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
+    private Boolean rememberPreviousAudioTrack = false;
+    private Boolean rememberPreviousSubtitleTrack = false;
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         this(items, fragment, 0);
@@ -115,13 +119,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex) {
         mItems = items;
         mCurrentIndex = 0;
+        mPrevOptions = new VideoOptions();
         if (items != null && startIndex > 0 && startIndex < items.size()) {
             mCurrentIndex = startIndex;
         }
         mFragment = fragment;
         mHandler = new Handler();
 
-
+        rememberPreviousAudioTrack = userPreferences.getValue().get(UserPreferences.Companion.getRememberAudio());
+        rememberPreviousSubtitleTrack = userPreferences.getValue().get(UserPreferences.Companion.getRememberSubtitle());
         refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
             getDisplayModes();
@@ -700,6 +706,49 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return null;
     }
 
+    private Integer bestGuessTrackFromPrevious(String trackType, StreamInfo info) {
+        if (info == null)
+            return null;
+
+        Integer prevTrackIndex = Objects.equals(trackType, "audio") ? mPrevOptions.getAudioStreamIndex() : mPrevOptions.getSubtitleStreamIndex();
+        List<MediaSourceInfo> prevMediaSources = mPrevOptions.getMediaSources();
+        if (prevTrackIndex != null && prevMediaSources != null) {
+            List<MediaStream> prevMediaStreams = prevMediaSources.get(0).getMediaStreams();
+            if (prevMediaStreams != null) {
+                MediaStream prevTrackStream = prevMediaStreams.get(prevTrackIndex);
+                if (prevTrackStream != null) {
+                    List<MediaStream> infoMediaStreams = info.getMediaSource().getMediaStreams();
+                    if (infoMediaStreams != null) {
+                        MediaStream infoAudioStream = infoMediaStreams.get(prevTrackIndex);
+                        if (infoAudioStream != null && Objects.equals(prevTrackStream.getDisplayTitle(), infoAudioStream.getDisplayTitle()))
+                            return prevTrackIndex;
+
+                        Integer indexOfPrevTrackStreamInInfo = findIndexByDisplayNameAndLang(infoMediaStreams, prevTrackStream.getDisplayTitle(), prevTrackStream.getLanguage());
+                        if (indexOfPrevTrackStreamInInfo != null)
+                            return indexOfPrevTrackStreamInInfo;
+                    }
+                }
+            }
+        }
+        return info.getMediaSource().getDefaultAudioStreamIndex();
+    }
+
+    // Method to find index of object in array by display name
+    private Integer findIndexByDisplayNameAndLang(List<MediaStream> mediaStreams, String displayTitle, String lang) {
+        int fallBackIndex = -1;
+        for (int i = 0; i < mediaStreams.size(); i++) {
+            String currentDisplayTitle = mediaStreams.get(i).getDisplayTitle();
+            String currentLang = mediaStreams.get(i).getLanguage();
+            if (currentDisplayTitle != null && currentLang != null && currentDisplayTitle.equals(displayTitle) && currentLang.equals(lang)) {
+                return i; // Return index if display name matches
+            } else if (currentLang != null && currentLang.equals(lang)) {
+                fallBackIndex = i; // Fallback will be track that matches language
+            }
+        }
+
+        return fallBackIndex; // Return index if only language matches
+    }
+
     private void setDefaultAudioIndex(StreamInfo info) {
         if (mDefaultAudioIndex != -1)
             return;
@@ -719,12 +768,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
 
         int currAudioIndex = getAudioStreamIndex();
-        Timber.d("trying to switch audio stream from %s to %s", currAudioIndex, index);
-        if (currAudioIndex == index) {
-            Timber.d("skipping setting audio stream, already set to requested index %s", index);
-            if (mCurrentOptions.getAudioStreamIndex() == null || mCurrentOptions.getAudioStreamIndex() != index) {
-                Timber.d("setting mCurrentOptions audio stream index from %s to %s", mCurrentOptions.getAudioStreamIndex(), index);
-                mCurrentOptions.setAudioStreamIndex(index);
+        Integer currOptionsAudioIndex = mCurrentOptions.getAudioStreamIndex();
+        Integer prevOptionsAudioIndex = mPrevOptions.getAudioStreamIndex();
+        int audioIndexToUse = rememberPreviousAudioTrack && prevOptionsAudioIndex != null ? prevOptionsAudioIndex : index;
+        Timber.d("trying to switch audio stream from %s to %s", currAudioIndex, audioIndexToUse);
+        if (currAudioIndex == audioIndexToUse || (prevOptionsAudioIndex != null && prevOptionsAudioIndex == audioIndexToUse)) {
+            Timber.d("skipping setting audio stream, already set to requested index %s", audioIndexToUse);
+            if ((currOptionsAudioIndex == null || currOptionsAudioIndex != audioIndexToUse) || (prevOptionsAudioIndex == null || prevOptionsAudioIndex != audioIndexToUse)) {
+                Timber.d("setting mCurrentOptions audio stream index from %s to %s", currOptionsAudioIndex, audioIndexToUse);
+                mCurrentOptions.setAudioStreamIndex(audioIndexToUse);
             }
             return;
         }
@@ -734,11 +786,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         if (!isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams())) {
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-            mCurrentOptions.setAudioStreamIndex(index);
+            mCurrentOptions.setAudioStreamIndex(audioIndexToUse);
         } else {
             startSpinner();
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-            mCurrentOptions.setAudioStreamIndex(index);
+            mCurrentOptions.setAudioStreamIndex(audioIndexToUse);
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
@@ -944,6 +996,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mCurrentIndex < mItems.size() - 1) {
             stop();
             resetPlayerErrors();
+            mPrevOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
+            mPrevOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
+            mPrevOptions.setMediaSources(mCurrentOptions.getMediaSources());
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
@@ -1219,8 +1274,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         } else {
             // select or disable subtitles
             Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
-            if (mDefaultSubIndex >= 0 && currentSubtitleIndex != null && currentSubtitleIndex == mDefaultSubIndex) {
-                Timber.i("subtitle stream %s is already selected", mDefaultSubIndex);
+            Integer previousSubtitleIndex = mPrevOptions.getSubtitleStreamIndex();
+            if (rememberPreviousSubtitleTrack && previousSubtitleIndex != null) {
+                Timber.i("Enabling sub stream from previous: %d", previousSubtitleIndex);
+                switchSubtitleStream(previousSubtitleIndex);
+            }
+            else if ((mDefaultSubIndex >= 0 && currentSubtitleIndex != null && currentSubtitleIndex == mDefaultSubIndex)) {
+                Timber.i("subtitle stream %s is already selected", currentSubtitleIndex);
             } else {
                 if (mDefaultSubIndex < 0)
                     Timber.i("Turning off subs");
@@ -1230,12 +1290,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
 
             // select an audio track
+            Integer currentAudioIndex = mCurrentOptions.getAudioStreamIndex();
+            Integer previousAudioIndex = mPrevOptions.getAudioStreamIndex();
             int eligibleAudioTrack = mDefaultAudioIndex;
 
             // if track switching is done without rebuilding the stream, mCurrentOptions is updated
             // otherwise, use the server default
-            if (mCurrentOptions.getAudioStreamIndex() != null) {
-                eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
+            if (rememberPreviousAudioTrack && previousAudioIndex != null)
+                eligibleAudioTrack = previousAudioIndex;
+            else if (currentAudioIndex != null) {
+                eligibleAudioTrack = currentAudioIndex;
             } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
                 eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
             }

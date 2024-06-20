@@ -61,6 +61,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var mediaQueuingEnabled = booleanPreference("pref_enable_tv_queuing", true)
 
 		/**
+		 * Set audio track to match previous video
+		 */
+		var rememberAudio = booleanPreference("pref_remember_audio", true)
+
+		/**
+		 * Set subtitle track to match previous video
+		 */
+		var rememberSubtitle = booleanPreference("pref_remember_subtitle", true)
+
+		/**
 		 * Enable the next up screen or not
 		 */
 		var nextUpBehavior = enumPreference("next_up_behavior", NextUpBehavior.EXTENDED)

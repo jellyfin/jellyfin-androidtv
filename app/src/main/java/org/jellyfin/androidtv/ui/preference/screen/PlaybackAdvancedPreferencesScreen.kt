@@ -43,6 +43,18 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_tv_queuing)
 				bind(userPreferences, UserPreferences.mediaQueuingEnabled)
 			}
+
+			checkbox {
+				setTitle(R.string.lbl_remember_audio)
+				setContent(R.string.desc_remember_audio)
+				bind(userPreferences, UserPreferences.rememberAudio)
+			}
+
+			checkbox {
+				setTitle(R.string.lbl_remember_subtitle)
+				setContent(R.string.desc_remember_subtitle)
+				bind(userPreferences, UserPreferences.rememberSubtitle)
+			}
 		}
 
 		category {
