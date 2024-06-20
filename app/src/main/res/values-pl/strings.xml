@@ -567,4 +567,7 @@
     <string name="current_queue">Bieżąca kolejka</string>
     <string name="pref_external_player">Użyj zewnętrznego odtwarzacza</string>
     <string name="continue_listening">Kontynuuj odtwarzanie</string>
+    <string name="past_week">Ostatni tydzień</string>
+    <string name="scheduled_in_next_24_hours">Zaplanowane w ciągu najbliższych 24 godzin</string>
+    <string name="past_24_hours">Ostatnie 24 godziny</string>
 </resources>
