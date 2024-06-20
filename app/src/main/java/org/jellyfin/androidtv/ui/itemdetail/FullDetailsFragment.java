@@ -76,15 +76,10 @@ import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -146,7 +141,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     BaseItemDto mBaseItem;
 
     private ArrayList<MediaSourceInfo> versions;
-    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
@@ -193,15 +187,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
             if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null) {
                 //update info
-                apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
-                    @Override
-                    public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
-                        if (!getActive()) return;
-
-                        mSeriesTimerInfo = ModelCompat.asSdk(response);
-                        mBaseItem = JavaCompat.copyWithOverview(mBaseItem, BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
-                        mDorPresenter.getViewHolder().setSummary(mBaseItem.getOverview());
-                    }
+                FullDetailsFragmentHelperKt.getLiveTvSeriesTimer(this, mSeriesTimerInfo.getId(), seriesTimerInfoDto -> {
+                    mSeriesTimerInfo = seriesTimerInfoDto;
+                    mBaseItem = JavaCompat.copyWithOverview(mBaseItem, BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
+                    mDorPresenter.getViewHolder().setSummary(mBaseItem.getOverview());
+                    return null;
                 });
 
                 mRowsAdapter.clear();
@@ -370,23 +360,19 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private void loadItem(UUID id) {
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
-            apiClient.getValue().GetLiveTvChannelAsync(mChannelId.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<ChannelInfoDto>(getLifecycle()) {
-                @Override
-                public void onResponse(ChannelInfoDto response) {
-                    if (!getActive()) return;
-
-                    mProgramInfo = ModelCompat.asSdk(response.getCurrentProgram());
-                    mItemId = mProgramInfo.getId();
-                    FullDetailsFragmentHelperKt.getItem(FullDetailsFragment.this, mItemId, item -> {
-                        if (item != null) {
-                            setBaseItem(item);
-                        } else {
-                            // Failed to load item
-                            navigationRepository.getValue().goBack();
-                        }
-                        return null;
-                    });
-                }
+            FullDetailsFragmentHelperKt.getLiveTvChannel(this, mChannelId, channel -> {
+                mProgramInfo = channel.getCurrentProgram();
+                mItemId = mProgramInfo.getId();
+                FullDetailsFragmentHelperKt.getItem(FullDetailsFragment.this, mItemId, item -> {
+                    if (item != null) {
+                        setBaseItem(item);
+                    } else {
+                        // Failed to load item
+                        navigationRepository.getValue().goBack();
+                    }
+                    return null;
+                });
+                return null;
             });
         } else if (mSeriesTimerInfo != null) {
             setBaseItem(FullDetailsFragmentHelperKt.createFakeSeriesTimerBaseItemDto(this, mSeriesTimerInfo));
@@ -532,10 +518,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         Timber.d("Item type: %s", mBaseItem.getType().toString());
 
         if (mSeriesTimerInfo != null) {
-            TimerQuery scheduled = new TimerQuery();
-            scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
-            TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {
-            });
+            TvManager.getScheduleRowsAsync(this, mSeriesTimerInfo.getId(), new CardPresenter(true), adapter);
             return;
         }
 
@@ -866,68 +849,26 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
                             //Create one-off recording with defaults
-                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
-                                @Override
-                                public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
-                                    if (!getActive()) return;
-
-                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
-                                        @Override
-                                        public void onResponse() {
-                                            if (!getActive()) return;
-
-                                            // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
-                                                @Override
-                                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
-                                                    if (!getActive()) return;
-
-                                                    mProgramInfo = ModelCompat.asSdk(response);
-                                                    setRecSeriesTimer(response.getSeriesTimerId());
-                                                    setRecTimer(response.getTimerId());
-                                                    Utils.showToast(requireContext(), R.string.msg_set_to_record);
-
-                                                }
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onError(Exception ex) {
-                                            if (!getActive()) return;
-
-                                            Timber.e(ex, "Error creating recording");
-                                            Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                                        }
+                            FullDetailsFragmentHelperKt.getLiveTvDefaultTimer(FullDetailsFragment.this, mProgramInfo.getId(), seriesTimer -> {
+                                FullDetailsFragmentHelperKt.createLiveTvSeriesTimer(FullDetailsFragment.this, seriesTimer, () -> {
+                                    FullDetailsFragmentHelperKt.getLiveTvProgram(FullDetailsFragment.this, mProgramInfo.getId(), program -> {
+                                        mProgramInfo = program;
+                                        setRecSeriesTimer(program.getSeriesTimerId());
+                                        setRecTimer(program.getTimerId());
+                                        Utils.showToast(requireContext(), R.string.msg_set_to_record);
+                                        return null;
                                     });
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    if (!getActive()) return;
-
-                                    Timber.e(exception, "Error creating recording");
-                                    Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                                }
+                                    return null;
+                                });
+                                return null;
                             });
                         } else {
-                            apiClient.getValue().CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
-                                @Override
-                                public void onResponse() {
-                                    if (!getActive()) return;
-
-                                    setRecTimer(null);
-                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
-                                    Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
-                                }
-
-                                @Override
-                                public void onError(Exception ex) {
-                                    if (!getActive()) return;
-
-                                    Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
-                                }
+                            FullDetailsFragmentHelperKt.cancelLiveTvSeriesTimer(FullDetailsFragment.this, mProgramInfo.getTimerId(), () -> {
+                                setRecTimer(null);
+                                dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
+                                Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
+                                return null;
                             });
-
                         }
                     }
                 });
@@ -942,47 +883,19 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
                             //Create series recording with default options
-                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
-                                @Override
-                                public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
-                                    apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
-                                        @Override
-                                        public void onResponse() {
-                                            if (!getActive()) return;
-
-                                            // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
-                                                @Override
-                                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
-                                                    if (!getActive()) return;
-
-                                                    mProgramInfo = ModelCompat.asSdk(response);
-                                                    setRecSeriesTimer(response.getSeriesTimerId());
-                                                    setRecTimer(response.getTimerId());
-                                                    Utils.showToast(requireContext(), R.string.msg_set_to_record);
-                                                }
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onError(Exception ex) {
-                                            if (!getActive()) return;
-
-                                            Timber.e(ex, "Error creating recording");
-                                            Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                                        }
+                            FullDetailsFragmentHelperKt.getLiveTvDefaultTimer(FullDetailsFragment.this, mProgramInfo.getId(), seriesTimer -> {
+                                FullDetailsFragmentHelperKt.createLiveTvSeriesTimer(FullDetailsFragment.this, seriesTimer, () -> {
+                                    FullDetailsFragmentHelperKt.getLiveTvProgram(FullDetailsFragment.this, mProgramInfo.getId(), program -> {
+                                        mProgramInfo = program;
+                                        setRecSeriesTimer(program.getSeriesTimerId());
+                                        setRecTimer(program.getTimerId());
+                                        Utils.showToast(requireContext(), R.string.msg_set_to_record);
+                                        return null;
                                     });
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    if (!getActive()) return;
-
-                                    Timber.e(exception, "Error creating recording");
-                                    Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                                }
+                                    return null;
+                                });
+                                return null;
                             });
-
                         } else {
                             new AlertDialog.Builder(requireContext())
                                     .setTitle(getString(R.string.lbl_cancel_series))
@@ -991,27 +904,15 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                     .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            apiClient.getValue().CancelLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
-                                                @Override
-                                                public void onResponse() {
-                                                    if (!getActive()) return;
-
-                                                    setRecSeriesTimer(null);
-                                                    setRecTimer(null);
-                                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
-                                                    Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
-                                                }
-
-                                                @Override
-                                                public void onError(Exception ex) {
-                                                    if (!getActive()) return;
-
-                                                    Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
-                                                }
+                                            FullDetailsFragmentHelperKt.cancelLiveTvSeriesTimer(FullDetailsFragment.this, mProgramInfo.getSeriesTimerId(), () -> {
+                                                setRecSeriesTimer(null);
+                                                setRecTimer(null);
+                                                dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
+                                                Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
+                                                return null;
                                             });
                                         }
                                     }).show();
-
                         }
                     }
                 });
@@ -1113,26 +1014,15 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             .setMessage(getString(R.string.msg_cancel_entire_series))
                             .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
-                                        @Override
-                                        public void onResponse() {
-                                            if (!getActive()) return;
-
-                                            Utils.showToast(requireContext(), mSeriesTimerInfo.getName() + " Canceled");
-                                            dataRefreshService.getValue().setLastDeletedItemId(UUIDSerializerKt.toUUID(mSeriesTimerInfo.getId()));
-                                            if (navigationRepository.getValue().getCanGoBack()) {
-                                                navigationRepository.getValue().goBack();
-                                            } else {
-                                                navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
-                                            }
+                                    FullDetailsFragmentHelperKt.cancelLiveTvSeriesTimer(FullDetailsFragment.this, mSeriesTimerInfo.getId(), () -> {
+                                        Utils.showToast(requireContext(), getString(R.string.msg_recording_cancelled));
+                                        dataRefreshService.getValue().setLastDeletedItemId(UUIDSerializerKt.toUUID(mSeriesTimerInfo.getId()));
+                                        if (navigationRepository.getValue().getCanGoBack()) {
+                                            navigationRepository.getValue().goBack();
+                                        } else {
+                                            navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
                                         }
-
-                                        @Override
-                                        public void onError(Exception ex) {
-                                            if (!getActive()) return;
-
-                                            Utils.showToast(requireContext(), ex.getLocalizedMessage());
-                                        }
+                                        return null;
                                     });
                                 }
                             })
@@ -1230,41 +1120,25 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(requireActivity(), getLifecycle(), mRowsFragment.getView(), (size.x / 2) - (width / 2), mRowsFragment.getView().getTop() + 40, width);
         }
-        apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
-            @Override
-            public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
-                if (!getActive()) return;
+        FullDetailsFragmentHelperKt.getLiveTvSeriesTimer(this, id, response -> {
+            if (recordSeries || Utils.isTrue(program.isSports())) {
+                mRecordPopup.setContent(requireContext(), program, response, FullDetailsFragment.this, recordSeries);
+                mRecordPopup.show();
+            } else {
+                //just record with defaults
+                FullDetailsFragmentHelperKt.createLiveTvSeriesTimer(this, response, () -> {
+                    Utils.showToast(requireContext(), R.string.msg_set_to_record);
 
-                if (recordSeries || Utils.isTrue(program.isSports())) {
-                    mRecordPopup.setContent(requireContext(), program, response, FullDetailsFragment.this, recordSeries);
-                    mRecordPopup.show();
-                } else {
-                    //just record with defaults
-                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
-                        @Override
-                        public void onResponse() {
-                            if (!getActive()) return;
-
-                            // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.dto.BaseItemDto>(getLifecycle()) {
-                                @Override
-                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
-                                    setRecTimer(response.getTimerId());
-                                }
-                            });
-                            Utils.showToast(requireContext(), R.string.msg_set_to_record);
-                        }
-
-                        @Override
-                        public void onError(Exception ex) {
-                            if (!getActive()) return;
-
-                            Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                        }
+                    // we have to re-retrieve the program to get the timer id
+                    FullDetailsFragmentHelperKt.getLiveTvProgram(this, mProgramInfo.getId(), programInfo -> {
+                        setRecTimer(programInfo.getTimerId());
+                        return null;
                     });
 
-                }
+                    return null;
+                });
             }
+            return null;
         });
     }
 

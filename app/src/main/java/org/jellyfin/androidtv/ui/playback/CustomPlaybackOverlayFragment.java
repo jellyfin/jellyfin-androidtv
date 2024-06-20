@@ -40,9 +40,7 @@ import androidx.leanback.widget.RowPresenter;
 import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
@@ -60,6 +58,7 @@ import org.jellyfin.androidtv.ui.itemhandling.ChapterItemInfoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragmentHelperKt;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -76,26 +75,18 @@ import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserItemDataDto;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ChapterInfo;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -115,8 +106,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private static final int PAGE_SIZE = 75;
     private static final int GUIDE_HOURS = 9;
 
-    private BaseItemDto mSelectedProgram;
-    private RelativeLayout mSelectedProgramView;
+    BaseItemDto mSelectedProgram;
+    RelativeLayout mSelectedProgramView;
     private boolean mGuideVisible = false;
     private Calendar mCurrentGuideStart;
     private Calendar mCurrentGuideEnd;
@@ -124,10 +115,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
-    private List<ChannelInfoDto> mAllChannels;
+    private List<BaseItemDto> mAllChannels;
     private UUID mFirstFocusChannelId;
 
-    private List<org.jellyfin.sdk.model.api.BaseItemDto> mItemsToPlay;
+    private List<BaseItemDto> mItemsToPlay;
 
     private Animation fadeOut;
     private Animation slideUp;
@@ -157,7 +148,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final int subtitlesPosition = userPreferences.get(UserPreferences.Companion.getSubtitlePosition());
     private final int subtitlesStrokeWidth = userPreferences.get(UserPreferences.Companion.getSubtitleStrokeSize());
 
-    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
@@ -423,9 +413,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
                 playbackControllerContainer.getValue().getPlaybackController().seek(start);
                 hidePopupPanel();
-            } else if (item instanceof ChannelInfoDto) {
+            } else if (item instanceof BaseItemDto) {
                 hidePopupPanel();
-                switchChannel(UUIDSerializerKt.toUUID(((ChannelInfoDto) item).getId()));
+                switchChannel(((BaseItemDto) item).getId());
             }
         }
     };
@@ -456,7 +446,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (mSelectedProgramView instanceof ProgramGridCell)
                     showProgramOptions();
                 else if (mSelectedProgramView instanceof GuideChannelHeader)
-                    toggleFavorite();
+                    CustomPlaybackOverlayFragmentHelperKt.toggleFavorite(this);
                 return true;
             }
         } else if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -470,14 +460,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
                     if (mGuideVisible && mSelectedProgramView instanceof ProgramGridCell && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
-                        Date curUTC = TimeUtils.convertToUtcDate(new Date());
-                        if (mSelectedProgram.getStartDate().before(curUTC))
-                            switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
+                        if (mSelectedProgram.getStartDate().isBefore(LocalDateTime.now()))
+                            switchChannel(mSelectedProgram.getChannelId());
                         else
                             showProgramOptions();
                         return true;
                     } else if (mSelectedProgramView instanceof GuideChannelHeader) {
-                        switchChannel(UUIDSerializerKt.toUUID(((GuideChannelHeader) mSelectedProgramView).getChannel().getId()), false);
+                        switchChannel(((GuideChannelHeader) mSelectedProgramView).getChannel().getId(), false);
                         return true;
                     }
                 }
@@ -510,24 +499,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             GuideChannelHeader gch = (GuideChannelHeader) tvGuideBinding.channels.getChildAt(i);
             if (gch.getChannel().getId().equals(channelId.toString()))
                 gch.refreshFavorite();
-        }
-    }
-
-    private void toggleFavorite() {
-        GuideChannelHeader header = (GuideChannelHeader) mSelectedProgramView;
-        UserItemDataDto data = header.getChannel().getUserData();
-        if (data != null) {
-            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
-                @Override
-                public void onResponse(UserItemDataDto response) {
-                    if (!getActive()) return;
-
-                    header.getChannel().setUserData(response);
-                    header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
-                    DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                    dataRefreshService.setLastFavoriteUpdate(Instant.now());
-                }
-            });
         }
     }
 
@@ -584,7 +555,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
                             (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                         // tune to the current channel
-                        switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
+                        switchChannel(mSelectedProgram.getChannelId());
                         return true;
                     } else {
                         return true;
@@ -690,25 +661,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             playbackControllerContainer.getValue().getPlaybackController().stop();
             if (hideGuide)
                 hideGuide();
-            apiClient.getValue().GetItemAsync(id.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    if (!getActive()) return;
 
-                    List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>();
-                    items.add(ModelCompat.asSdk(response));
-                    playbackControllerContainer.getValue().getPlaybackController().setItems(items);
-                    playbackControllerContainer.getValue().getPlaybackController().play(0);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    if (!getActive()) return;
-
-                    Utils.showToast(requireContext(), R.string.msg_video_playback_error);
-                    closePlayer();
-                }
-            });
+            CustomPlaybackOverlayFragmentHelperKt.playChannel(this, id);
         }
     }
 
@@ -825,25 +779,22 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void loadGuide() {
         tvGuideBinding.spinner.setVisibility(View.VISIBLE);
         fillTimeLine(GUIDE_HOURS);
-        TvManager.loadAllChannels(new LifecycleAwareResponse<Integer>(getLifecycle()) {
-            @Override
-            public void onResponse(Integer ndx) {
-                if (!getActive()) return;
-
-                if (ndx >= PAGE_SIZE) {
-                    // last channel is not in first page so grab a set where it will be in the middle
-                    ndx = ndx - (PAGE_SIZE / 2);
-                } else {
-                    ndx = 0; // just start at beginning
-                }
-
-                mAllChannels = TvManager.getAllChannels();
-                if (mAllChannels.size() > 0) {
-                    displayChannels(ndx, PAGE_SIZE);
-                } else {
-                    tvGuideBinding.spinner.setVisibility(View.GONE);
-                }
+        TvManager.loadAllChannels(this, ndx -> {
+            if (ndx >= PAGE_SIZE) {
+                // last channel is not in first page so grab a set where it will be in the middle
+                ndx = ndx - (PAGE_SIZE / 2);
+            } else {
+                ndx = 0; // just start at beginning
             }
+
+            mAllChannels = TvManager.getAllChannels();
+            if (!mAllChannels.isEmpty()) {
+                displayChannels(ndx, PAGE_SIZE);
+            } else {
+                tvGuideBinding.spinner.setVisibility(View.GONE);
+            }
+
+            return null;
         });
     }
 
@@ -861,7 +812,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.channelsStatus.setText("");
         tvGuideBinding.filterStatus.setText("");
         final CustomPlaybackOverlayFragment self = this;
-        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyLifecycleAwareResponse(getLifecycle()) {
+        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyLifecycleAwareResponse(getLifecycle()) {
             @Override
             public void onResponse() {
                 if (!getActive()) return;
@@ -919,9 +870,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             LinearLayout prevRow = null;
             for (int i = start; i <= end; i++) {
                 if (isCancelled()) return null;
-                final ChannelInfoDto channel = TvManager.getChannel(i);
+                final BaseItemDto channel = TvManager.getChannel(i);
                 List<BaseItemDto> programs = TvManager.getProgramsForChannel(channel.getId());
-                final LinearLayout row = getProgramRow(programs, UUIDSerializerKt.toUUID(channel.getId()));
+                final LinearLayout row = getProgramRow(programs, channel.getId());
                 if (first) {
                     first = false;
                     firstRow = row;
@@ -980,7 +931,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private int currentCellId = 0;
 
-    private GuideChannelHeader getChannelHeader(Context context, ChannelInfoDto channel) {
+    private GuideChannelHeader getChannelHeader(Context context, BaseItemDto channel) {
         return new GuideChannelHeader(context, this, channel);
     }
 
@@ -995,13 +946,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             int slot = 0;
 
             do {
-                BaseItemDto empty = new BaseItemDto();
-                empty.setId(UUID.randomUUID().toString());
-                empty.setBaseItemType(BaseItemType.Folder);
-                empty.setName(getString(R.string.no_program_data));
-                empty.setChannelId(channelId.toString());
-                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30 * slot) * 60000))));
-                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30 * (slot + 1)) * 60000))));
+                BaseItemDto empty = LiveTvGuideFragmentHelperKt.createNoProgramDataBaseItem(
+                        getContext(),
+                        channelId,
+                        Instant.ofEpochMilli(mCurrentLocalGuideStart).atOffset(ZoneOffset.UTC).toLocalDateTime().plusMinutes(30l * slot),
+                        Instant.ofEpochMilli(mCurrentLocalGuideStart).atOffset(ZoneOffset.UTC).toLocalDateTime().plusMinutes(30l * (slot + 1))
+                );
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(30 * guideRowWidthPerMinPx, guideRowHeightPx));
@@ -1018,27 +968,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         long prevEnd = getCurrentLocalStartDate();
         for (BaseItemDto item : programs) {
-            long start = item.getStartDate() != null ? TimeUtils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
+            long start = item.getStartDate() != null ? TimeUtils.getDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
             if (start > getCurrentLocalEndDate()) continue;
             if (start < prevEnd) continue;
 
             if (start > prevEnd) {
-                // fill empty time slot
-                BaseItemDto empty = new BaseItemDto();
-                empty.setId(UUID.randomUUID().toString());
-                empty.setBaseItemType(BaseItemType.Folder);
-                empty.setName(getString(R.string.no_program_data));
-                empty.setChannelId(channelId.toString());
-                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
-                Long duration = (start - prevEnd);
-                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
+                BaseItemDto empty = LiveTvGuideFragmentHelperKt.createNoProgramDataBaseItem(
+                        getContext(),
+                        channelId,
+                        Instant.ofEpochMilli(prevEnd).atOffset(ZoneOffset.UTC).toLocalDateTime(),
+                        Instant.ofEpochMilli(prevEnd + start - prevEnd).atOffset(ZoneOffset.UTC).toLocalDateTime()
+                );
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) ((start - prevEnd) / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 programRow.addView(cell);
             }
-            long end = item.getEndDate() != null ? TimeUtils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
+            long end = item.getEndDate() != null ? TimeUtils.getDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
@@ -1090,40 +1037,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         @Override
         public void run() {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
-
-            if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        if (!getActive()) return;
-
-                        mSelectedProgram = response;
-                        detailUpdateInternal();
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        if (!getActive()) return;
-
-                        Timber.e(exception, "Unable to get program details");
-                        detailUpdateInternal();
-                    }
-                });
-            } else {
-                detailUpdateInternal();
-            }
+            CustomPlaybackOverlayFragmentHelperKt.refreshSelectedProgram(CustomPlaybackOverlayFragment.this);
         }
     };
 
-    private void detailUpdateInternal() {
+    void detailUpdateInternal() {
         tvGuideBinding.guideTitle.setText(mSelectedProgram.getName());
         tvGuideBinding.summary.setText(mSelectedProgram.getOverview());
         //info row
-        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(mSelectedProgram), tvGuideBinding.guideInfoRow, false);
+        InfoLayoutHelper.addInfoRow(requireContext(), mSelectedProgram, tvGuideBinding.guideInfoRow, false);
         if (mSelectedProgram.getId() != null) {
-            tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.getDate(mSelectedProgram.getStartDate())));
         }
-
     }
 
     public void setSelectedProgram(RelativeLayout programView) {
@@ -1138,10 +1063,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     LinearLayout programRow = (LinearLayout) tvGuideBinding.programRows.getChildAt(i);
                     if (programRow == null)
                         return;
-                    Date utcTime = TimeUtils.convertToUtcDate(new Date());
                     for (int ii = 0; ii < programRow.getChildCount(); ii++) {
                         ProgramGridCell prog = (ProgramGridCell) programRow.getChildAt(ii);
-                        if (prog.getProgram() != null && prog.getProgram().getStartDate().before(utcTime) && prog.getProgram().getEndDate().after(utcTime)) {
+                        if (prog.getProgram() != null && prog.getProgram().getStartDate().isBefore(LocalDateTime.now()) && prog.getProgram().getEndDate().isAfter(LocalDateTime.now())) {
                             mSelectedProgram = prog.getProgram();
                             if (mSelectedProgram != null) {
                                 mHandler.removeCallbacks(detailUpdateTask);
@@ -1169,7 +1093,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 public void onResponse() {
                     if (!getActive()) return;
 
-                    switchChannel(UUIDSerializerKt.toUUID(mSelectedProgram.getChannelId()));
+                    switchChannel(mSelectedProgram.getChannelId());
                 }
             });
         mDetailPopup.setContent(mSelectedProgram, (ProgramGridCell) mSelectedProgramView);
@@ -1233,7 +1157,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }, 500);
     }
 
-    private int getCurrentChapterIndex(org.jellyfin.sdk.model.api.BaseItemDto item, long pos) {
+    private int getCurrentChapterIndex(BaseItemDto item, long pos) {
         int ndx = 0;
         Timber.d("*** looking for chapter at pos: %d", pos);
         if (item.getChapters() != null) {
@@ -1246,8 +1170,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         return ndx - 1;
     }
 
-    public void toggleRecording(org.jellyfin.sdk.model.api.BaseItemDto item) {
-        final org.jellyfin.sdk.model.api.BaseItemDto program = item.getCurrentProgram();
+    public void toggleRecording(BaseItemDto item) {
+        final BaseItemDto program = item.getCurrentProgram();
 
         if (program != null) {
             if (program.getTimerId() != null) {
@@ -1271,105 +1195,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     new AlertDialog.Builder(requireContext())
                             .setTitle(R.string.lbl_record_series)
                             .setMessage(R.string.msg_record_entire_series)
-                            .setPositiveButton(R.string.lbl_record_series, (dialog, which) -> recordProgram(program, true))
-                            .setNegativeButton(R.string.lbl_just_this_once, (dialog, which) -> recordProgram(program, false))
+                            .setPositiveButton(R.string.lbl_record_series, (dialog, which) -> CustomPlaybackOverlayFragmentHelperKt.recordProgram(this, program, true))
+                            .setNegativeButton(R.string.lbl_just_this_once, (dialog, which) -> CustomPlaybackOverlayFragmentHelperKt.recordProgram(this, program, false))
                             .show();
                 } else {
-                    recordProgram(program, false);
+                    CustomPlaybackOverlayFragmentHelperKt.recordProgram(this, program, false);
                 }
             }
         }
     }
 
-    private void cancelRecording(org.jellyfin.sdk.model.api.BaseItemDto program, boolean series) {
+    private void cancelRecording(BaseItemDto program, boolean series) {
         if (program != null) {
             if (series) {
-                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
-                    @Override
-                    public void onResponse() {
-                        if (!getActive()) return;
-
-                        Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
-                        playbackControllerContainer.getValue().getPlaybackController().updateTvProgramInfo();
-                        TvManager.forceReload();
-                    }
-
-                    @Override
-                    public void onError(Exception ex) {
-                        if (!getActive()) return;
-
-                        Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
-                    }
-                });
+                CustomPlaybackOverlayFragmentHelperKt.cancelSeriesTimer(this, program.getSeriesTimerId());
             } else {
-                apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
-                    @Override
-                    public void onResponse() {
-                        if (!getActive()) return;
-
-                        Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
-                        playbackControllerContainer.getValue().getPlaybackController().updateTvProgramInfo();
-                        TvManager.forceReload();
-                    }
-
-                    @Override
-                    public void onError(Exception ex) {
-                        if (!getActive()) return;
-
-                        Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
-                    }
-                });
+                CustomPlaybackOverlayFragmentHelperKt.cancelTimer(this, program.getTimerId());
             }
-        }
-    }
-
-    private void recordProgram(final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean series) {
-        if (program != null) {
-            apiClient.getValue().GetDefaultLiveTvTimerInfo(new LifecycleAwareResponse<SeriesTimerInfoDto>(getLifecycle()) {
-                @Override
-                public void onResponse(SeriesTimerInfoDto response) {
-                    if (!getActive()) return;
-
-                    response.setProgramId(program.getId().toString());
-                    if (series) {
-                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
-                            @Override
-                            public void onResponse() {
-                                if (!getActive()) return;
-
-                                Utils.showToast(requireContext(), R.string.msg_set_to_record);
-                                playbackControllerContainer.getValue().getPlaybackController().updateTvProgramInfo();
-                                TvManager.forceReload();
-                            }
-
-                            @Override
-                            public void onError(Exception ex) {
-                                if (!getActive()) return;
-
-                                Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                            }
-                        });
-                    } else {
-                        apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
-                            @Override
-                            public void onResponse() {
-                                if (!getActive()) return;
-
-                                Utils.showToast(requireContext(), R.string.msg_set_to_record);
-                                playbackControllerContainer.getValue().getPlaybackController().updateTvProgramInfo();
-                                TvManager.forceReload();
-                            }
-
-                            @Override
-                            public void onError(Exception ex) {
-                                if (!getActive()) return;
-
-                                Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
-                            }
-                        });
-                    }
-                }
-            });
         }
     }
 
@@ -1396,7 +1238,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void updateDisplay() {
-        org.jellyfin.sdk.model.api.BaseItemDto current = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
+        BaseItemDto current = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
         if (current != null && getContext() != null) {
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.onFullyInitialized();
@@ -1433,7 +1275,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private void prepareChapterAdapter() {
-        org.jellyfin.sdk.model.api.BaseItemDto item = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
+        BaseItemDto item = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
         List<ChapterInfo> chapters = item.getChapters();
 
         if (chapters != null && !chapters.isEmpty()) {
@@ -1449,17 +1291,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void prepareChannelAdapter() {
         // create quick channel change row
-        TvManager.loadAllChannels(new LifecycleAwareResponse<Integer>(getLifecycle()) {
-            @Override
-            public void onResponse(Integer response) {
-                if (!getActive()) return;
-
-                ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
-                channelAdapter.addAll(0, TvManager.getAllChannels());
-                if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-                mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.channels)), channelAdapter);
-                mPopupRowAdapter.add(mChapterRow);
-            }
+        TvManager.loadAllChannels(this, response -> {
+            ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
+            channelAdapter.addAll(0, TvManager.getAllChannels());
+            if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
+            mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.channels)), channelAdapter);
+            mPopupRowAdapter.add(mChapterRow);
+            return null;
         });
     }
 

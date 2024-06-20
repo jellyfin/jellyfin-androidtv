@@ -20,8 +20,7 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.util.Date;
 
@@ -59,28 +58,28 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         setCellBackground();
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            Date localStart = TimeUtils.convertToLocalDate(program.getStartDate());
+            Date localStart = TimeUtils.getDate(program.getStartDate());
             if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) {
                 mProgramName.setText("<< "+mProgramName.getText());
                 TextView time = new TextView(context);
                 time.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
                 time.setTextSize(12);
-                time.setText(android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.convertToLocalDate(program.getStartDate())));
+                time.setText(android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.getDate(program.getStartDate())));
                 mInfoRow.addView(time);
             }
         }
 
         LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
 
-        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowNewIndicator()) && BaseItemExtensionsKt.isNew(ModelCompat.asSdk(program)) && (!liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) || !Utils.isTrue(program.getIsPremiere()))) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowNewIndicator()) && BaseItemExtensionsKt.isNew(program) && (!liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) || !Utils.isTrue(program.isPremiere()))) {
             addBlockText(context.getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
-        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) && Utils.isTrue(program.getIsPremiere())) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) && Utils.isTrue(program.isPremiere())) {
             addBlockText(context.getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
-        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.getIsRepeat())) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.isRepeat())) {
             addBlockText(context.getString(R.string.lbl_repeat), 10, Color.GRAY, androidx.leanback.R.color.lb_default_brand_color);
         }
 
@@ -88,7 +87,7 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
             addBlockText(program.getOfficialRating(), 10, Color.BLACK, R.drawable.block_text_bg);
         }
 
-        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowHDIndicator()) && Utils.isTrue(program.getIsHD())) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowHDIndicator()) && Utils.isTrue(program.isHd())) {
             addBlockText("HD", 10, Color.BLACK, R.drawable.block_text_bg);
         }
 
@@ -126,13 +125,13 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getColorCodeGuide())) {
-            if (Utils.isTrue(mProgram.getIsMovie())) {
+            if (Utils.isTrue(mProgram.isMovie())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
-            } else if (Utils.isTrue(mProgram.getIsNews())) {
+            } else if (Utils.isTrue(mProgram.isNews())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
-            } else if (Utils.isTrue(mProgram.getIsSports())) {
+            } else if (Utils.isTrue(mProgram.isSports())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
-            } else if (Utils.isTrue(mProgram.getIsKids())) {
+            } else if (Utils.isTrue(mProgram.isKids())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
             }
 
@@ -161,11 +160,11 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
     public boolean isFirst() { return isFirst; }
 
     public void setRecTimer(String id) {
-        mProgram.setTimerId(id);
+        mProgram = ProgramGridCellHelperKt.copyWithTimerId(mProgram, id);
         mRecIndicator.setImageResource(id != null ? (mProgram.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_red) : mProgram.getSeriesTimerId() != null ? R.drawable.ic_record_series : R.drawable.blank10x10);
     }
     public void setRecSeriesTimer(String id) {
-        mProgram.setSeriesTimerId(id);
+        mProgram = ProgramGridCellHelperKt.copyWithSeriesTimerId(mProgram, id);
         mRecIndicator.setImageResource(id != null ? R.drawable.ic_record_series_red : R.drawable.blank10x10);
     }
 }

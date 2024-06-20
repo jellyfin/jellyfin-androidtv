@@ -23,19 +23,14 @@ import android.widget.TextView;
 import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
-import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.sdk.model.api.BaseItemDto;
-import org.koin.java.KoinJavaComponent;
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
+import org.jellyfin.sdk.model.api.TimerInfoDto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +50,7 @@ public class RecordPopup {
     boolean mRecordSeries;
 
     Activity mActivity;
-    private final Lifecycle lifecycle;
+    final Lifecycle lifecycle;
     TextView mDTitle;
     LinearLayout mDTimeline;
     View mSeriesOptions;
@@ -71,7 +66,6 @@ public class RecordPopup {
     ArrayList<String> mPaddingDisplayOptions;
     ArrayList<Integer> mPaddingValues = new ArrayList<>(Arrays.asList(0,60,300,900,1800,3600,5400,7200,10800));
 
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
     public RecordPopup(Activity activity, Lifecycle lifecycle, View anchorView, int left, int top, int width) {
@@ -100,14 +94,14 @@ public class RecordPopup {
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-        mDTitle = (TextView)layout.findViewById(R.id.title);
+        mDTitle = layout.findViewById(R.id.title);
 
-        mPrePadding = (Spinner) layout.findViewById(R.id.prePadding);
+        mPrePadding = layout.findViewById(R.id.prePadding);
         mPrePadding.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
         mPrePadding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mCurrentOptions.setPrePaddingSeconds(mPaddingValues.get(position));
+                mCurrentOptions = RecordPopupHelperKt.copyWithPrePaddingSeconds(mCurrentOptions, mPaddingValues.get(position));
             }
 
             @Override
@@ -120,7 +114,7 @@ public class RecordPopup {
         mPostPadding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mCurrentOptions.setPostPaddingSeconds(mPaddingValues.get(position));
+                mCurrentOptions = RecordPopupHelperKt.copyWithPostPaddingSeconds(mCurrentOptions, mPaddingValues.get(position));
             }
 
             @Override
@@ -129,68 +123,39 @@ public class RecordPopup {
             }
         });
 
-        mOnlyNew = (CheckBox) layout.findViewById(R.id.onlyNew);
-        mAnyChannel = (CheckBox) layout.findViewById(R.id.anyChannel);
-        mAnyTime = (CheckBox) layout.findViewById(R.id.anyTime);
+        mOnlyNew = layout.findViewById(R.id.onlyNew);
+        mAnyChannel = layout.findViewById(R.id.anyChannel);
+        mAnyTime = layout.findViewById(R.id.anyTime);
 
         mSeriesOptions = layout.findViewById(R.id.seriesOptions);
 
-        mOkButton = (Button) layout.findViewById(R.id.okButton);
+        mOkButton = layout.findViewById(R.id.okButton);
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mRecordSeries) {
-                    mCurrentOptions.setRecordNewOnly(mOnlyNew.isChecked());
-                    mCurrentOptions.setRecordAnyChannel(mAnyChannel.isChecked());
-                    mCurrentOptions.setRecordAnyTime(mAnyTime.isChecked());
+                    mCurrentOptions = RecordPopupHelperKt.copyWithFilters(mCurrentOptions, mOnlyNew.isChecked(), mAnyChannel.isChecked(), mAnyTime.isChecked());
 
-                    apiClient.getValue().UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyLifecycleAwareResponse(lifecycle) {
-                        @Override
-                        public void onResponse() {
-                            mPopup.dismiss();
-                            customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
-                            Utils.showToast(mActivity, R.string.msg_settings_updated);
-                        }
-
-                        @Override
-                        public void onError(Exception ex) {
-                            Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
-                        }
-
+                    RecordPopupHelperKt.updateSeriesTimer(RecordPopup.this, mCurrentOptions, () -> {
+                        mPopup.dismiss();
+                        customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
+                        Utils.showToast(mActivity, R.string.msg_settings_updated);
+                        return null;
                     });
-
                 } else {
-                    TimerInfoDto updated = new TimerInfoDto();
-                    updated.setProgramId(mProgramId.toString());
-                    updated.setPrePaddingSeconds(mCurrentOptions.getPrePaddingSeconds());
-                    updated.setPostPaddingSeconds(mCurrentOptions.getPostPaddingSeconds());
-                    updated.setIsPrePaddingRequired(mCurrentOptions.getIsPrePaddingRequired());
-                    updated.setIsPostPaddingRequired(mCurrentOptions.getIsPostPaddingRequired());
+                    TimerInfoDto updated = RecordPopupHelperKt.createProgramTimerInfo(mProgramId, mCurrentOptions);
 
-                    apiClient.getValue().UpdateLiveTvTimerAsync(updated, new EmptyLifecycleAwareResponse(lifecycle) {
-                        @Override
-                        public void onResponse() {
-                            if (!getActive()) return;
-
-                            mPopup.dismiss();
-                            customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
-                            // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId.toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
-                                @Override
-                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
-                                    mSelectedView.setRecTimer(response.getTimerId());
-                                    mSelectedView.setRecSeriesTimer(response.getSeriesTimerId());
-                                }
-                            });
-                            Utils.showToast(mActivity, R.string.msg_set_to_record);
-                        }
-
-                        @Override
-                        public void onError(Exception ex) {
-                            if (!getActive()) return;
-
-                            Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
-                        }
+                    RecordPopupHelperKt.updateTimer(RecordPopup.this, updated, () -> {
+                        mPopup.dismiss();
+                        customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
+                        // we have to re-retrieve the program to get the timer id
+                        RecordPopupHelperKt.getLiveTvProgram(RecordPopup.this, mProgramId, program -> {
+                            mSelectedView.setRecTimer(program.getTimerId());
+                            mSelectedView.setRecSeriesTimer(program.getSeriesTimerId());
+                            return null;
+                        });
+                        Utils.showToast(mActivity, R.string.msg_set_to_record);
+                        return null;
                     });
                 }
             }

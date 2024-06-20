@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -31,15 +30,13 @@ import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.sdk.ModelUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.LocationType;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
@@ -70,7 +67,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
 
-    List<org.jellyfin.sdk.model.api.BaseItemDto> mItems;
+    List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     int mCurrentIndex;
     private long mCurrentPosition = 0;
@@ -111,11 +108,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
-    public PlaybackController(List<org.jellyfin.sdk.model.api.BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
+    public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         this(items, fragment, 0);
     }
 
-    public PlaybackController(List<org.jellyfin.sdk.model.api.BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex) {
+    public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex) {
         mItems = items;
         mCurrentIndex = 0;
         if (items != null && startIndex > 0 && startIndex < items.size()) {
@@ -146,7 +143,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
     }
 
-    public void setItems(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
+    public void setItems(List<BaseItemDto> items) {
         mItems = items;
         mCurrentIndex = 0;
     }
@@ -168,7 +165,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
-    public org.jellyfin.sdk.model.api.BaseItemDto getCurrentlyPlayingItem() {
+    public BaseItemDto getCurrentlyPlayingItem() {
         return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
     }
 
@@ -180,7 +177,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
             return mCurrentStreamInfo.getMediaSource();
         } else {
-            org.jellyfin.sdk.model.api.BaseItemDto item = getCurrentlyPlayingItem();
+            BaseItemDto item = getCurrentlyPlayingItem();
             List<org.jellyfin.sdk.model.api.MediaSourceInfo> mediaSources = item.getMediaSources();
 
             if (mediaSources == null || mediaSources.isEmpty()) {
@@ -236,7 +233,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return mItems != null && mCurrentIndex < mItems.size() - 1;
     }
 
-    public org.jellyfin.sdk.model.api.BaseItemDto getNextItem() {
+    public BaseItemDto getNextItem() {
         return hasNextItem() ? mItems.get(mCurrentIndex + 1) : null;
     }
 
@@ -445,7 +442,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 mFragment.setFadingEnabled(false);
 
-                org.jellyfin.sdk.model.api.BaseItemDto item = getCurrentlyPlayingItem();
+                BaseItemDto item = getCurrentlyPlayingItem();
 
                 if (item == null) {
                     Timber.d("item is null - aborting play");
@@ -514,7 +511,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     @NonNull
-    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, org.jellyfin.sdk.model.api.BaseItemDto item, int maxBitrate) {
+    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item, int maxBitrate) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
@@ -535,7 +532,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return internalOptions;
     }
 
-    private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final Long position, final VideoOptions internalOptions) {
+    private void playInternal(final BaseItemDto item, final Long position, final VideoOptions internalOptions) {
         if (isLiveTv) {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
@@ -598,7 +595,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mFragment != null) mFragment.closePlayer();
     }
 
-    private void startItem(org.jellyfin.sdk.model.api.BaseItemDto item, long position, StreamInfo response) {
+    private void startItem(BaseItemDto item, long position, StreamInfo response) {
         if (!hasInitializedVideoManager() || !hasFragment()) {
             Timber.d("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
             return;
@@ -1070,29 +1067,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public void updateTvProgramInfo() {
         // Get the current program info when playing a live TV channel
-        final org.jellyfin.sdk.model.api.BaseItemDto channel = getCurrentlyPlayingItem();
+        final BaseItemDto channel = getCurrentlyPlayingItem();
         if (channel.getType() == BaseItemKind.TV_CHANNEL) {
-            apiClient.getValue().GetLiveTvChannelAsync(channel.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
-                @Override
-                public void onResponse(ChannelInfoDto response) {
-                    BaseItemDto legacyProgram = response.getCurrentProgram();
-                    if (legacyProgram != null) {
-                        org.jellyfin.sdk.model.api.BaseItemDto program = ModelCompat.asSdk(legacyProgram);
-                        // TODO Do we need these setters?
-//                        channel.setName(program.getName() + liveTvChannelName);
-//                        channel.setPremiereDate(program.getStartDate());
-//                        channel.setEndDate(program.getEndDate());
-//                        channel.setOfficialRating(program.getOfficialRating());
-//                        channel.setOverview(program.getOverview());
-//                        channel.setRunTimeTicks(program.getRunTimeTicks());
-//                        channel.setCurrentProgram(program);
-                        mCurrentProgramEnd = program.getEndDate();
-                        mCurrentProgramStart = program.getPremiereDate();
-                        if (mFragment != null) mFragment.updateDisplay();
-                    }
+            PlaybackControllerHelperKt.getLiveTvChannel(this, channel.getId(), updatedChannel -> {
+                BaseItemDto program = updatedChannel.getCurrentProgram();
+                if (program != null) {
+                    mCurrentProgramEnd = program.getEndDate();
+                    mCurrentProgramStart = program.getPremiereDate();
+                    if (mFragment != null) mFragment.updateDisplay();
                 }
+                return null;
             });
-
         }
     }
 
@@ -1135,7 +1120,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                org.jellyfin.sdk.model.api.BaseItemDto currentItem = getCurrentlyPlayingItem();
+                BaseItemDto currentItem = getCurrentlyPlayingItem();
                 if (currentItem == null) {
                     // Loop was called while nothing was playing!
                     stopReportLoop();
@@ -1188,8 +1173,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         stop();
         resetPlayerErrors();
 
-        org.jellyfin.sdk.model.api.BaseItemDto nextItem = getNextItem();
-        org.jellyfin.sdk.model.api.BaseItemDto curItem = getCurrentlyPlayingItem();
+        BaseItemDto nextItem = getNextItem();
+        BaseItemDto curItem = getCurrentlyPlayingItem();
         if (nextItem == null || curItem == null) {
             endPlayback(true);
             return;
