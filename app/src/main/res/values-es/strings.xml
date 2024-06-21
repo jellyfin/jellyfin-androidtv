@@ -556,4 +556,6 @@
     <string name="app_notification_update_soon">Actualiza tu servidor de %1$s a %2$s como mínimo para seguir utilizando la aplicación tras la próxima actualización.</string>
     <string name="current_queue">Cola actual</string>
     <string name="pref_external_player">Usar reproductor externo</string>
+    <string name="past_week">Semana pasada</string>
+    <string name="continue_listening">Continuar escuchando</string>
 </resources>
