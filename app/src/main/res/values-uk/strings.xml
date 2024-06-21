@@ -566,4 +566,8 @@
     <string name="app_notification_update_soon">Оновіть ваш сервер з %1$s до принаймні %2$s, щоб продовжити використання програми після наступного оновлення.</string>
     <string name="current_queue">Поточна черга</string>
     <string name="pref_external_player">Використовувати зовнішній плеєр</string>
+    <string name="scheduled_in_next_24_hours">Заплановано на наступні 24 години</string>
+    <string name="past_24_hours">Останні 24 години</string>
+    <string name="past_week">Минулий тиждень</string>
+    <string name="continue_listening">Продовжити слухати</string>
 </resources>
