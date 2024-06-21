@@ -25,7 +25,6 @@ fun UserDto.toPublicUser(): PublicUser? {
 		name = name ?: return null,
 		serverId = serverId?.toUUIDOrNull() ?: return null,
 		accessToken = null,
-		requirePassword = hasPassword,
 		imageTag = primaryImageTag
 	)
 }

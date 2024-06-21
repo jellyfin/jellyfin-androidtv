@@ -74,8 +74,6 @@ class AuthenticationRepositoryImpl(
 		val authStoreUser = authenticationStore.getUser(server.id, user.id)
 		// Try login with access token
 		return if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
-		// Try login without password
-		else if (!user.requirePassword) authenticateCredential(server, user.name, "")
 		// Require login
 		else flowOf(RequireSignInState)
 	}
@@ -124,7 +122,6 @@ class AuthenticationRepositoryImpl(
 			serverId = server.id,
 			name = userInfo.name!!,
 			accessToken = result.accessToken,
-			requirePassword = userInfo.hasPassword,
 			imageTag = userInfo.primaryImageTag,
 			lastUsed = Instant.now().toEpochMilli(),
 		)
@@ -166,12 +163,10 @@ class AuthenticationRepositoryImpl(
 		val updatedUser = currentUser?.copy(
 			name = userInfo.name!!,
 			lastUsed = Instant.now().toEpochMilli(),
-			requirePassword = userInfo.hasPassword,
 			imageTag = userInfo.primaryImageTag,
 			accessToken = accessToken,
 		) ?: AuthenticationStoreUser(
 			name = userInfo.name!!,
-			requirePassword = userInfo.hasPassword,
 			imageTag = userInfo.primaryImageTag,
 			accessToken = accessToken,
 		)
