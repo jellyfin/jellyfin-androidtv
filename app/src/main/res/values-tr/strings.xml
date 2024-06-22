@@ -547,4 +547,7 @@
     <string name="current_queue">Geçerli kuyruk</string>
     <string name="pref_external_player">Harici oynatıcı kullan</string>
     <string name="continue_listening">Dinlemeye devam et</string>
+    <string name="past_week">Geçen hafta</string>
+    <string name="scheduled_in_next_24_hours">Önümüzdeki 24 saat için planlandı</string>
+    <string name="past_24_hours">Son 24 saat</string>
 </resources>
