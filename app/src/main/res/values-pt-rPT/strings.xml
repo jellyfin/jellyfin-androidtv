@@ -557,4 +557,7 @@
     <string name="dca">DTS</string>
     <string name="dts_x">DTS:X</string>
     <string name="continue_listening">Continuar a ouvir</string>
+    <string name="past_week">Semana passada</string>
+    <string name="scheduled_in_next_24_hours">Agendado nas próximas 24 horas</string>
+    <string name="past_24_hours">Últimas 24 horas</string>
 </resources>
