@@ -536,4 +536,8 @@
     <string name="app_notification_update_soon">将您的服务器从 %1$s 更新至至少 %2$s，以便在下次更新后继续使用该应用程序。</string>
     <string name="current_queue">当前队列</string>
     <string name="pref_external_player">使用外部播放器</string>
+    <string name="past_week">上周</string>
+    <string name="scheduled_in_next_24_hours">预计在接下来的 24 小时内</string>
+    <string name="past_24_hours">过去 24 小时</string>
+    <string name="continue_listening">继续收听</string>
 </resources>
