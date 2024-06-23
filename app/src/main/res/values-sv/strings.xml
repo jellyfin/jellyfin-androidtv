@@ -48,7 +48,7 @@
     <string name="lbl_live">Direktsänt</string>
     <string name="lbl_new">Ny</string>
     <string name="lbl_repeat">Upprepa</string>
-    <string name="lbl_recent_recordings">Nyliga inspelningar</string>
+    <string name="lbl_recent_recordings">Senaste inspelningar</string>
     <string name="lbl_kids">Barn</string>
     <string name="lbl_sports">Sport</string>
     <string name="no_program_data">Ingen programdata tillgänglig</string>
@@ -143,14 +143,14 @@
     <string name="lbl_mark_unplayed">Markera som ej uppspelat</string>
     <string name="lbl_play_first_unwatched">Spela först osedda</string>
     <string name="lbl_search_hint">Sök text (välj för tangentbord)</string>
-    <string name="lbl_tv_queuing">Köa alla efterföljande avsnitt</string>
+    <string name="lbl_tv_queuing">Spela nästa avsnitt automatiskt</string>
     <string name="lbl_empty">Tomt</string>
     <string name="lbl_no_items">Inga föremål</string>
     <string name="msg_cannot_play">Detta föremålet kan ej spelas upp</string>
     <string name="msg_cannot_play_time">Det går inte att spela upp detta för närvarande</string>
     <string name="lbl_never">Aldrig</string>
     <string name="msg_playback_incompatible">Det går inte att spela detta videoformat</string>
-    <string name="msg_playback_restricted">Administratorn har begränsat uppspelningen av detta föremål för tillfället</string>
+    <string name="msg_playback_restricted">Administratören har begränsat uppspelningen av detta föremål för tillfället</string>
     <string name="msg_playback_not_allowed">Uppspelning är ej tillåtet just nu</string>
     <string name="lbl_loading_elipses">Laddar…</string>
     <string name="lbl_born">"Född "</string>
@@ -458,7 +458,7 @@
     <string name="color_pink">Rosa</string>
     <string name="color_cyan">Ljusblå</string>
     <string name="app_notification_beta">Appen uppdaterades till %1$s
-\nTack för att du deltar i Jellyfins uttestningsprogram</string>
+\nTack för att du deltar i Jellyfins beta program.</string>
     <string name="lbl_album_artists">Albumartist</string>
     <string name="pref_screensaver">Skärmsläckare</string>
     <plurals name="hours">
@@ -542,4 +542,12 @@
     </plurals>
     <string name="pref_screensaver_ageratingrequired_enabled">Visa bara de titlar som har åldersbegränsning</string>
     <string name="pref_playback_advanced">Avancerade uppspelningsinställningar</string>
+    <string name="past_week">Förra veckan</string>
+    <string name="scheduled_in_next_24_hours">Schemalagd för de senaste 24 timmarna</string>
+    <string name="past_24_hours">Senaste 24 timmarna</string>
+    <string name="all_channels">Alla kanaler</string>
+    <string name="pref_external_player">Använd extern spelare</string>
+    <string name="app_notification_update_soon">Uppdatera din server från %1$s till minst %2$s för att kunna fortsätta använda appen efter nästa uppdatering.</string>
+    <string name="continue_listening">Fortsätt lyssna</string>
+    <string name="current_queue">Aktuell kö</string>
 </resources>
