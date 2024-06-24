@@ -556,4 +556,8 @@
     <string name="all_channels">Všetky kanály</string>
     <string name="current_queue">Aktuálna fronta</string>
     <string name="pref_external_player">Použiť externý prehrávač</string>
+    <string name="past_week">Minulý týždeň</string>
+    <string name="scheduled_in_next_24_hours">Naplánované v nasledujúcich 24 hodinách</string>
+    <string name="past_24_hours">Posledných 24 hodín</string>
+    <string name="continue_listening">Pokračovať v počúvaní</string>
 </resources>
