@@ -546,4 +546,8 @@
     <string name="app_notification_update_soon">Aktualisiere deinen Server von %1$s auf mindestens %2$s, um die Anwendung nach dem nächsten Update weiter nutzen zu können.</string>
     <string name="all_channels">Alle Kanäle</string>
     <string name="pref_external_player">Externen Player verwenden</string>
+    <string name="past_week">Letzte Woche</string>
+    <string name="scheduled_in_next_24_hours">Geplant in den nächsten 24 Stunden</string>
+    <string name="past_24_hours">Letzte 24 Stunden</string>
+    <string name="continue_listening">Weiterhören</string>
 </resources>
