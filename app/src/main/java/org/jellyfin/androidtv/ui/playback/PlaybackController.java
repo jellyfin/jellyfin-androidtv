@@ -935,6 +935,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         finishedInitialSeek = false;
         wasSeeking = false;
         burningSubs = false;
+        mCurrentStreamInfo = null;
     }
 
     public void next() {
