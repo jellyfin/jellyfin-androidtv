@@ -298,12 +298,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private Map<Integer, SortOption> sortOptions;
 
     private SortOption getSortOption(ItemSortBy value) {
-        for (Integer key : sortOptions.keySet()) {
-            SortOption option = sortOptions.get(key);
-            if (Objects.requireNonNull(option).value.equals(value)) return option;
+        for (SortOption sortOption : sortOptions.values()) {
+            if (sortOption.value.equals(value)) return sortOption;
         }
 
-        return new SortOption("Unknown", ItemSortBy.SORT_NAME, SortOrder.ASCENDING);
+        return new SortOption(getString(R.string.lbl_bracket_unknown), ItemSortBy.SORT_NAME, SortOrder.ASCENDING);
     }
 
     public void setStatusText(String folderName) {
@@ -572,7 +571,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         ImageType imageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
         GridDirection gridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
 
-
         if (mImageType != imageType || mPosterSizeSetting != posterSizeSetting || mGridDirection != gridDirection || mDirty) {
             determiningPosterSize = true;
 
@@ -708,11 +706,13 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private ImageButton mLetterButton;
 
     private void updateDisplayPrefs() {
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
-        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
-        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
-        CoroutineUtils.runOnLifecycle(getLifecycle(), (coroutineScope, continuation) -> libraryPreferences.commit(continuation));
+        CoroutineUtils.runOnLifecycle(getLifecycle(), (coroutineScope, continuation) -> {
+            libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
+            libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
+            libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
+            libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
+            return libraryPreferences.commit(continuation);
+        });
     }
 
     private void addTools() {
@@ -728,12 +728,9 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             public void onClick(View v) {
                 //Create sort menu
                 PopupMenu sortMenu = new PopupMenu(getActivity(), binding.toolBar, Gravity.END);
-                for (Integer key : sortOptions.keySet()) {
-                    SortOption option = sortOptions.get(key);
-                    if (option == null) option = sortOptions.get(0);
-                    MenuItem item = sortMenu.getMenu().add(0, key, key, Objects.requireNonNull(option).name);
-                    if (option.value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())))
-                        item.setChecked(true);
+                for (Map.Entry<Integer, SortOption> entry : sortOptions.entrySet()) {
+                    MenuItem item = sortMenu.getMenu().add(0, entry.getKey(), entry.getKey(), entry.getValue().name);
+                    item.setChecked(entry.getValue().value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
                 }
                 sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
