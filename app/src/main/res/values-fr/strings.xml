@@ -555,4 +555,9 @@
     <string name="all_channels">Toutes les chaînes</string>
     <string name="app_notification_update_soon">Mettez à jour votre serveur de %1$s à %2$s minimum pour pouvoir continuer à utiliser l\'application après la prochaine mise à jour.</string>
     <string name="current_queue">Liste de lecture actuelle</string>
+    <string name="past_week">Semaine dernière</string>
+    <string name="scheduled_in_next_24_hours">Programmé dans les prochaines 24 heures</string>
+    <string name="past_24_hours">Dernières 24 heures</string>
+    <string name="continue_listening">Poursuivre l\'écoute</string>
+    <string name="pref_external_player">Utiliser un lecteur externe</string>
 </resources>
