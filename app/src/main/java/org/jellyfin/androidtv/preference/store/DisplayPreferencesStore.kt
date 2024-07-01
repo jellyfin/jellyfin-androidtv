@@ -119,8 +119,8 @@ abstract class DisplayPreferencesStore(
 	override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
 		setString(
 			preference.key, when (value) {
-				is PreferenceEnum -> value.serializedName ?: value.toString()
-				else -> value.toString()
+				is PreferenceEnum -> value.serializedName ?: value.name
+				else -> value.name
 			}
 		)
 
