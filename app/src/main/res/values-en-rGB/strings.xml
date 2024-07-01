@@ -547,4 +547,7 @@
     <string name="current_queue">Current queue</string>
     <string name="app_notification_update_soon">Update your server from %1$s to at least %2$s to continue using the app after the next update.</string>
     <string name="continue_listening">Continue listening</string>
+    <string name="past_week">Past week</string>
+    <string name="scheduled_in_next_24_hours">Scheduled in next 24 hours</string>
+    <string name="past_24_hours">Past 24 hours</string>
 </resources>
