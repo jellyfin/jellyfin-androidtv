@@ -458,8 +458,8 @@
     <string name="pref_enable_media_management">Habilitar administración de medios</string>
     <string name="pref_screensaver">Salva-pantallas</string>
     <string name="pref_screensaver_inapp_enabled_description">Mostrar el salva-pantallas de Jellyfin mientras la aplicación está abierta</string>
-    <string name="app_notification_beta">Aplicación actualizada a %1$s
-\nGracias por participar en el programa beta de Jellyfin</string>
+    <string name="app_notification_beta">Aplicación actualizar a %1$s
+\nGracias por participar en el programa beta de Jellyfin.</string>
     <string name="pref_screensaver_inapp_enabled">Usar salva-pantallas integrado</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar el salva-pantallas despues</string>
     <string name="enable_reactive_homepage">Habilitar página de inicio reactiva</string>
@@ -527,7 +527,7 @@
     <string name="clear_image_cache_content">Usado: %1$s</string>
     <plurals name="items">
         <item quantity="one">%1$s elemento</item>
-        <item quantity="many"/>
+        <item quantity="many">%1$s elementos</item>
         <item quantity="other">%1$s elementos</item>
     </plurals>
     <plurals name="movies">
@@ -556,4 +556,8 @@
     <string name="pref_screensaver_ageratingmax">Clasificación por edad máxima</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Mostrar todos los elementos</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Solo mostrar contenido con clasificación por edad</string>
+    <string name="past_week">La semana pasada</string>
+    <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
+    <string name="past_24_hours">Últimas 24 horas</string>
+    <string name="continue_listening">Continuar escuchando</string>
 </resources>
