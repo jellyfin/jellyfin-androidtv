@@ -151,7 +151,7 @@ class RewriteMediaManager(
 		// Update item row
 		currentAudioQueue.replaceAll(
 			items,
-			areItemsTheSame = { old, new -> (old as AudioQueueBaseRowItem).baseItem == (new as AudioQueueBaseRowItem).baseItem },
+			areItemsTheSame = { old, new -> (old as? AudioQueueBaseRowItem)?.baseItem == (new as? AudioQueueBaseRowItem)?.baseItem },
 			// The equals functions for BaseRowItem only compare by id
 			areContentsTheSame = { _, _ -> false },
 		)
