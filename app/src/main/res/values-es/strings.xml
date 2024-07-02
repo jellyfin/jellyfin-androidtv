@@ -558,4 +558,6 @@
     <string name="pref_external_player">Usar reproductor externo</string>
     <string name="past_week">Semana pasada</string>
     <string name="continue_listening">Continuar escuchando</string>
+    <string name="scheduled_in_next_24_hours">Programado en las próximas 24 horas</string>
+    <string name="past_24_hours">Últimas 24 horas</string>
 </resources>
