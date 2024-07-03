@@ -665,7 +665,7 @@ fun ItemRowAdapter.refreshItem(
 	currentBaseRowItem: BaseRowItem,
 	callback: () -> Unit = {}
 ) {
-	if (currentBaseRowItem !is BaseItemDtoBaseRowItem) return
+	if (currentBaseRowItem !is BaseItemDtoBaseRowItem || currentBaseRowItem is AudioQueueBaseRowItem) return
 	val currentBaseItem = currentBaseRowItem.baseItem ?: return
 
 	lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
