@@ -215,7 +215,7 @@ class RewriteMediaManager(
 	}
 
 	override val isPlayingAudio: Boolean
-		get() = playbackManager.state.playState.value != PlayState.STOPPED
+		get() = playbackManager.state.playState.value == PlayState.PLAYING
 
 	override fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean) {
 		val filteredItems = items.drop(position)
