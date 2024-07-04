@@ -88,7 +88,7 @@
     <string name="lbl_mark_unplayed">Nem lejátszottnak jelölés</string>
     <string name="lbl_play_first_unwatched">Az első még nem látott elem lejátszása</string>
     <string name="lbl_search_hint">Keresés</string>
-    <string name="lbl_tv_queuing">Állítsa a lejátszási sorba az összes következő epizódot</string>
+    <string name="lbl_tv_queuing">Következő epizód automatikus lejátszása</string>
     <string name="lbl_no_items">Nincs találat</string>
     <string name="msg_cannot_play">A kiválasztott elem nem játszható le</string>
     <string name="msg_cannot_play_time">A kiválasztott médiaelem nem olvasható</string>
@@ -542,4 +542,7 @@
     <string name="pref_screensaver_ageratingrequired_title">Korhatár megkövetelése</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Csak a beállított korhatárnak megfelelő elemeket mutassa</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Minden elem mutatása</string>
+    <string name="past_week">Előző hét</string>
+    <string name="all_channels">Minden csatorna</string>
+    <string name="continue_listening">Hallgatás folytatása</string>
 </resources>
