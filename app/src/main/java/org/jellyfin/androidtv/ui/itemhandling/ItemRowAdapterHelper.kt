@@ -674,8 +674,12 @@ fun ItemRowAdapter.refreshItem(
 		}.fold(
 			onSuccess = { refreshedBaseItem ->
 				withContext(Dispatchers.Main) {
+					val index = indexOf(currentBaseRowItem)
+					// Item could be removed while API was loading, check if the index is valid first
+					if (index == -1) return@withContext
+
 					set(
-						index = indexOf(currentBaseRowItem),
+						index = index,
 						element = BaseItemDtoBaseRowItem(
 							item = refreshedBaseItem,
 							preferParentThumb = currentBaseRowItem.preferParentThumb,
