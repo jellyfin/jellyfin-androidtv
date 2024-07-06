@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -115,12 +114,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mSummary = detailsBinding.fdSummaryText;
         mItemList = binding.songs;
         mScrollView = binding.scrollView;
-
-        //adjust left frame
-        RelativeLayout leftFrame = detailsBinding.leftFrame;
-        ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
-        params.width = Utils.convertDpToPixel(requireContext(), 100);
-
 
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
