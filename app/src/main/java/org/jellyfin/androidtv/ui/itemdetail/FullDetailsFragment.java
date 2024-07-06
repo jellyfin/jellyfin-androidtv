@@ -423,8 +423,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(mBaseItem, 600, true);
             if (primaryImageUrl == null) {
                 primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(mBaseItem, false, null, posterHeight);
-                if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
-                    mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }
 
             mDetailsOverviewRow.setSummary(item.getOverview());

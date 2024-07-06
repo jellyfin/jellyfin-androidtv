@@ -1,15 +1,12 @@
 package org.jellyfin.androidtv.ui.presentation
 
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.leanback.widget.RowPresenter
 import org.jellyfin.androidtv.ui.DetailRowView
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow
 import org.jellyfin.androidtv.util.InfoLayoutHelper
 import org.jellyfin.androidtv.util.MarkdownRenderer
-import org.jellyfin.androidtv.util.dp
 import org.jellyfin.sdk.model.api.BaseItemKind
 
 class MyDetailsOverviewRowPresenter(
@@ -38,24 +35,11 @@ class MyDetailsOverviewRowPresenter(
 
 			binding.mainImage.load(row.imageDrawable, null, null, 1.0, 0)
 
-			if (row.progress > 0 && row.imageDrawable != null) {
-				binding.fdProgress.progress = row.progress
-				binding.fdProgress.isVisible = true
-			}
-
 			setSummary(row.summary)
 
 			if (row.item.type == BaseItemKind.PERSON) {
-				binding.fdSummaryText.updateLayoutParams<RelativeLayout.LayoutParams> {
-					topMargin = 10
-					height = 185.dp(view.context)
-				}
-
 				binding.fdSummaryText.maxLines = 9
 				binding.fdGenreRow.isVisible = false
-				binding.leftFrame.updateLayoutParams<RelativeLayout.LayoutParams> {
-					width = 100.dp(view.context)
-				}
 			}
 
 			binding.fdButtonRow.removeAllViews()
@@ -69,11 +53,6 @@ class MyDetailsOverviewRowPresenter(
 
 		fun setTitle(title: String?) {
 			binding.fdTitle.text = title
-			if (binding.fdTitle.text.length > 28) {
-				binding.fdTitle.updateLayoutParams<RelativeLayout.LayoutParams> {
-					topMargin = 55.dp(view.context)
-				}
-			}
 		}
 
 		fun setSummary(summary: String?) {
