@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui
 
 import androidx.lifecycle.coroutineScope
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.util.getActivity
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -36,7 +37,7 @@ fun RecordPopup.updateSeriesTimer(
 	seriesTimer: SeriesTimerInfoDto,
 	callback: () -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -53,7 +54,7 @@ fun RecordPopup.updateTimer(
 	timer: TimerInfoDto,
 	callback: () -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -81,7 +82,7 @@ fun RecordPopup.getLiveTvProgram(
 	id: UUID,
 	callback: (program: BaseItemDto) -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
