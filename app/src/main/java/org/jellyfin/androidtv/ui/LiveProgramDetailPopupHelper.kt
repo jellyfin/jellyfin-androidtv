@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui
 import androidx.lifecycle.coroutineScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
+import org.jellyfin.androidtv.util.getActivity
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -27,7 +28,7 @@ fun LiveProgramDetailPopup.cancelTimer(
 	timerId: String,
 	callback: () -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -42,7 +43,7 @@ fun LiveProgramDetailPopup.cancelSeriesTimer(
 	seriesTimerId: String,
 	callback: () -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -83,7 +84,7 @@ fun LiveProgramDetailPopup.recordProgram(
 	programId: UUID,
 	callback: (program: BaseItemDto) -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -101,7 +102,7 @@ fun LiveProgramDetailPopup.recordSeries(
 	programId: UUID,
 	callback: (program: BaseItemDto) -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -118,7 +119,7 @@ fun LiveProgramDetailPopup.getSeriesTimer(
 	seriesTimerId: String,
 	callback: (seriesTimer: SeriesTimerInfoDto) -> Unit,
 ) {
-	val api by mActivity.inject<ApiClient>()
+	val api by mContext.getActivity()!!.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -133,7 +134,7 @@ fun LiveProgramDetailPopup.toggleFavorite(
 	item: BaseItemDto,
 	callback: (item: BaseItemDto) -> Unit,
 ) {
-	val itemMutationRepository by mActivity.inject<ItemMutationRepository>()
+	val itemMutationRepository by mContext.getActivity()!!.inject<ItemMutationRepository>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {

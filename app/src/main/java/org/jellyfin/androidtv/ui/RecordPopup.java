@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -49,7 +48,7 @@ public class RecordPopup {
     int mPosTop;
     boolean mRecordSeries;
 
-    Activity mActivity;
+    Context mContext;
     final Lifecycle lifecycle;
     TextView mDTitle;
     LinearLayout mDTimeline;
@@ -68,28 +67,27 @@ public class RecordPopup {
 
     private Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
-    public RecordPopup(Activity activity, Lifecycle lifecycle, View anchorView, int left, int top, int width) {
-        mActivity = activity;
+    public RecordPopup(Context context, Lifecycle lifecycle, View anchorView, int left, int top, int width) {
+        mContext = context;
         this.lifecycle = lifecycle;
         mAnchorView = anchorView;
         mPosLeft = left;
         mPosTop = top;
 
         mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(
-                mActivity.getString(R.string.lbl_on_schedule),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 1),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 5),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 15),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 30),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 60),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 90),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.hours, 2),
-                ContextExtensionsKt.getQuantityString(activity, R.plurals.hours, 3)
+                context.getString(R.string.lbl_on_schedule),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, 1),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, 5),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, 15),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, 30),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, 60),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, 90),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.hours, 2),
+                ContextExtensionsKt.getQuantityString(context, R.plurals.hours, 3)
         ));
 
-        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.new_program_record_popup, null);
-        int popupHeight = Utils.convertDpToPixel(activity, 330);
+        View layout = LayoutInflater.from(context).inflate(R.layout.new_program_record_popup, null);
+        int popupHeight = Utils.convertDpToPixel(context, 330);
         mPopup = new PopupWindow(layout, width, popupHeight);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
@@ -97,7 +95,7 @@ public class RecordPopup {
         mDTitle = layout.findViewById(R.id.title);
 
         mPrePadding = layout.findViewById(R.id.prePadding);
-        mPrePadding.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
+        mPrePadding.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
         mPrePadding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -110,7 +108,7 @@ public class RecordPopup {
             }
         });
         mPostPadding = (Spinner) layout.findViewById(R.id.postPadding);
-        mPostPadding.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
+        mPostPadding.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
         mPostPadding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -139,7 +137,7 @@ public class RecordPopup {
                     RecordPopupHelperKt.updateSeriesTimer(RecordPopup.this, mCurrentOptions, () -> {
                         mPopup.dismiss();
                         customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
-                        Utils.showToast(mActivity, R.string.msg_settings_updated);
+                        Utils.showToast(mContext, R.string.msg_settings_updated);
                         return null;
                     });
                 } else {
@@ -154,7 +152,7 @@ public class RecordPopup {
                             mSelectedView.setRecSeriesTimer(program.getSeriesTimerId());
                             return null;
                         });
-                        Utils.showToast(mActivity, R.string.msg_set_to_record);
+                        Utils.showToast(mContext, R.string.msg_set_to_record);
                         return null;
                     });
                 }
@@ -230,16 +228,16 @@ public class RecordPopup {
         if (program.getStartDate() == null) return;
 
         Date local = TimeUtils.getDate(program.getStartDate());
-        TextView on = new TextView(mActivity);
-        on.setText(mActivity.getString(R.string.lbl_on));
+        TextView on = new TextView(mContext);
+        on.setText(mContext.getString(R.string.lbl_on));
         timelineRow.addView(on);
-        TextView channel = new TextView(mActivity);
+        TextView channel = new TextView(mContext);
         channel.setText(program.getChannelName());
         channel.setTypeface(null, Typeface.BOLD);
-        channel.setTextColor(mActivity.getResources().getColor(android.R.color.holo_blue_light));
+        channel.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
-        TextView datetime = new TextView(mActivity);
-        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        TextView datetime = new TextView(mContext);
+        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mContext).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }

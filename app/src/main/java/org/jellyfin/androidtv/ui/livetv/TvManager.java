@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.livetv;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.format.DateUtils;
@@ -186,19 +185,19 @@ public class TvManager {
         return !mProgramsDict.containsKey(channelId) ? new ArrayList<BaseItemDto>() : mProgramsDict.get(channelId);
     }
 
-    public static void setTimelineRow(Activity activity, LinearLayout timelineRow, BaseItemDto program) {
+    public static void setTimelineRow(Context context, LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
         Date local = TimeUtils.getDate(program.getStartDate());
-        TextView on = new TextView(activity);
-        on.setText(activity.getResources().getString(R.string.lbl_on));
+        TextView on = new TextView(context);
+        on.setText(context.getResources().getString(R.string.lbl_on));
         timelineRow.addView(on);
-        TextView channel = new TextView(activity);
+        TextView channel = new TextView(context);
         channel.setText(program.getChannelName());
         channel.setTypeface(null, Typeface.BOLD);
-        channel.setTextColor(activity.getResources().getColor(android.R.color.holo_blue_light));
+        channel.setTextColor(context.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
-        TextView datetime = new TextView(activity);
-        datetime.setText(TimeUtils.getFriendlyDate(activity, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        TextView datetime = new TextView(context);
+        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(context).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
     }
 

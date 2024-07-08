@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,7 +34,7 @@ public class LiveProgramDetailPopup {
     private PopupWindow mPopup;
     private BaseItemDto mProgram;
     private ProgramGridCell mSelectedProgramView;
-    final Activity mActivity;
+    final Context mContext;
     final Lifecycle lifecycle;
     private LiveTvGuide mTvGuide;
     private TextView mDTitle;
@@ -54,14 +53,13 @@ public class LiveProgramDetailPopup {
     private int mPosLeft;
     private int mPosTop;
 
-    public LiveProgramDetailPopup(Activity activity, Lifecycle lifecycle, LiveTvGuide tvGuide, int width, EmptyLifecycleAwareResponse tuneAction) {
-        mActivity = activity;
+    public LiveProgramDetailPopup(Context context, Lifecycle lifecycle, LiveTvGuide tvGuide, int width, EmptyLifecycleAwareResponse tuneAction) {
+        mContext = context;
         this.lifecycle = lifecycle;
         mTvGuide = tvGuide;
         mTuneAction = tuneAction;
-        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.program_detail_popup, null);
-        int popupHeight = Utils.convertDpToPixel(activity, 400);
+        View layout = LayoutInflater.from(context).inflate(R.layout.program_detail_popup, null);
+        int popupHeight = Utils.convertDpToPixel(context, 400);
         mPopup = new PopupWindow(layout, width, popupHeight);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
@@ -94,10 +92,10 @@ public class LiveProgramDetailPopup {
         }
 
         // build timeline info
-        TvManager.setTimelineRow(mActivity, mDTimeline, mProgram);
+        TvManager.setTimelineRow(mContext, mDTimeline, mProgram);
 
         //info row
-        InfoLayoutHelper.addInfoRow(mActivity, mProgram, mDInfoRow, false);
+        InfoLayoutHelper.addInfoRow(mContext, mProgram, mDInfoRow, false);
 
         //buttons
         mFirstButton = null;
@@ -110,8 +108,8 @@ public class LiveProgramDetailPopup {
             if (Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
                 if (mProgram.getTimerId() != null) {
                     // cancel button
-                    Button cancel = new Button(mActivity);
-                    cancel.setText(mActivity.getResources().getString(R.string.lbl_cancel_recording));
+                    Button cancel = new Button(mContext);
+                    cancel.setText(mContext.getResources().getString(R.string.lbl_cancel_recording));
                     cancel.setTextColor(Color.WHITE);
                     cancel.setBackgroundResource(R.drawable.jellyfin_button);
                     cancel.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +119,7 @@ public class LiveProgramDetailPopup {
                                 selectedGridView.setRecTimer(null);
                                 mProgram = LiveProgramDetailPopupHelperKt.copyWithTimerId(mProgram, null);
                                 dismiss();
-                                Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                Utils.showToast(mContext, R.string.msg_recording_cancelled);
                                 return null;
                             });
                         }
@@ -129,11 +127,11 @@ public class LiveProgramDetailPopup {
                     mDButtonRow.addView(cancel);
                     if (mFirstButton == null) mFirstButton = cancel;
                     // recording info
-                    mDRecordInfo.setText(mProgram.getStartDate().isBefore(LocalDateTime.now()) ? mActivity.getResources().getString(R.string.msg_recording_now) : mActivity.getResources().getString(R.string.msg_will_record));
+                    mDRecordInfo.setText(mProgram.getStartDate().isBefore(LocalDateTime.now()) ? mContext.getResources().getString(R.string.msg_recording_now) : mContext.getResources().getString(R.string.msg_will_record));
                 } else {
                     // record button
-                    Button rec = new Button(mActivity);
-                    rec.setText(mActivity.getResources().getString(R.string.lbl_record));
+                    Button rec = new Button(mContext);
+                    rec.setText(mContext.getResources().getString(R.string.lbl_record));
                     rec.setTextColor(Color.WHITE);
                     rec.setBackgroundResource(R.drawable.jellyfin_button);
                     rec.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +143,7 @@ public class LiveProgramDetailPopup {
                                 mSelectedProgramView.setRecTimer(program.getTimerId());
                                 if (mSeriesSettingsButton != null)
                                     mSeriesSettingsButton.setVisibility(View.VISIBLE);
-                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                Utils.showToast(mContext, R.string.msg_set_to_record);
                                 dismiss();
                                 return null;
                             });
@@ -153,21 +151,21 @@ public class LiveProgramDetailPopup {
                     });
                     mDButtonRow.addView(rec);
                     if (mFirstButton == null) mFirstButton = rec;
-                    mDRecordInfo.setText(mProgram.getSeriesTimerId() == null ? "" : mActivity.getString(R.string.lbl_episode_not_record));
+                    mDRecordInfo.setText(mProgram.getSeriesTimerId() == null ? "" : mContext.getString(R.string.lbl_episode_not_record));
                 }
                 if (Utils.isTrue(mProgram.isSeries())) {
                     if (mProgram.getSeriesTimerId() != null) {
                         // cancel series button
-                        Button cancel = new Button(mActivity);
-                        cancel.setText(mActivity.getResources().getString(R.string.lbl_cancel_series));
+                        Button cancel = new Button(mContext);
+                        cancel.setText(mContext.getResources().getString(R.string.lbl_cancel_series));
                         cancel.setTextColor(Color.WHITE);
                         cancel.setBackgroundResource(R.drawable.jellyfin_button);
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                new AlertDialog.Builder(mActivity)
-                                        .setTitle(mActivity.getResources().getString(R.string.lbl_cancel_series))
-                                        .setMessage(mActivity.getResources().getString(R.string.msg_cancel_entire_series))
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle(mContext.getResources().getString(R.string.lbl_cancel_series))
+                                        .setMessage(mContext.getResources().getString(R.string.msg_cancel_entire_series))
                                         .setNegativeButton(R.string.lbl_no, null)
                                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                                             @Override
@@ -177,7 +175,7 @@ public class LiveProgramDetailPopup {
                                                     mProgram = LiveProgramDetailPopupHelperKt.copyWithSeriesTimerId(mProgram, null);
                                                     mSeriesSettingsButton.setVisibility(View.GONE);
                                                     dismiss();
-                                                    Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                                    Utils.showToast(mContext, R.string.msg_recording_cancelled);
                                                     return null;
                                                 });
                                             }
@@ -187,8 +185,8 @@ public class LiveProgramDetailPopup {
                         mDButtonRow.addView(cancel);
                     } else {
                         // record series button
-                        Button rec = new Button(mActivity);
-                        rec.setText(mActivity.getResources().getString(R.string.lbl_record_series));
+                        Button rec = new Button(mContext);
+                        rec.setText(mContext.getResources().getString(R.string.lbl_record_series));
                         rec.setTextColor(Color.WHITE);
                         rec.setBackgroundResource(R.drawable.jellyfin_button);
                         rec.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +198,7 @@ public class LiveProgramDetailPopup {
                                     mSelectedProgramView.setRecTimer(program.getTimerId());
                                     if (mSeriesSettingsButton != null)
                                         mSeriesSettingsButton.setVisibility(View.VISIBLE);
-                                    Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                    Utils.showToast(mContext, R.string.msg_set_to_record);
                                     dismiss();
                                     return null;
                                 });
@@ -210,8 +208,8 @@ public class LiveProgramDetailPopup {
                     }
 
                     // manage series button
-                    mSeriesSettingsButton = new Button(mActivity);
-                    mSeriesSettingsButton.setText(mActivity.getResources().getString(R.string.lbl_series_settings));
+                    mSeriesSettingsButton = new Button(mContext);
+                    mSeriesSettingsButton.setText(mContext.getResources().getString(R.string.lbl_series_settings));
                     mSeriesSettingsButton.setTextColor(Color.WHITE);
                     mSeriesSettingsButton.setBackgroundResource(R.drawable.jellyfin_button);
                     mSeriesSettingsButton.setVisibility(mProgram.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
@@ -235,7 +233,7 @@ public class LiveProgramDetailPopup {
             createFavoriteButton();
         } else {
             // program has already ended
-            mDRecordInfo.setText(mActivity.getResources().getString(R.string.lbl_program_ended));
+            mDRecordInfo.setText(mContext.getResources().getString(R.string.lbl_program_ended));
             mFirstButton = createTuneButton();
         }
         mDSimilarRow.setVisibility(View.GONE);
@@ -263,7 +261,7 @@ public class LiveProgramDetailPopup {
             @Override
             public void onClick(View v) {
                 LiveProgramDetailPopupHelperKt.toggleFavorite(LiveProgramDetailPopup.this, channel, channel -> {
-                    fave.setImageDrawable(ContextCompat.getDrawable(mActivity, channel.getUserData().isFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
+                    fave.setImageDrawable(ContextCompat.getDrawable(mContext, channel.getUserData().isFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
                     mTvGuide.refreshFavorite(channel.getId());
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                     dataRefreshService.setLastFavoriteUpdate(Instant.now());
@@ -276,16 +274,16 @@ public class LiveProgramDetailPopup {
     }
 
     private android.widget.ImageButton addImgButton(LinearLayout layout, int imgResource) {
-        android.widget.ImageButton btn = new android.widget.ImageButton(mActivity);
-        btn.setImageDrawable(ContextCompat.getDrawable(mActivity, imgResource));
+        android.widget.ImageButton btn = new android.widget.ImageButton(mContext);
+        btn.setImageDrawable(ContextCompat.getDrawable(mContext, imgResource));
         btn.setBackgroundResource(R.drawable.jellyfin_button);
         layout.addView(btn);
         return btn;
     }
 
     private Button addButton(LinearLayout layout, int stringResource) {
-        Button btn = new Button(mActivity);
-        btn.setText(mActivity.getResources().getString(stringResource));
+        Button btn = new Button(mContext);
+        btn.setText(mContext.getResources().getString(stringResource));
         btn.setTextColor(Color.WHITE);
         btn.setBackgroundResource(R.drawable.jellyfin_button);
         layout.addView(btn);
@@ -310,10 +308,10 @@ public class LiveProgramDetailPopup {
 
     public void showRecordingOptions(final boolean recordSeries) {
         if (mRecordPopup == null)
-            mRecordPopup = new RecordPopup(mActivity, lifecycle, mAnchor, mPosLeft, mPosTop, mPopup.getWidth());
+            mRecordPopup = new RecordPopup(mContext, lifecycle, mAnchor, mPosLeft, mPosTop, mPopup.getWidth());
 
         LiveProgramDetailPopupHelperKt.getSeriesTimer(this, mProgram.getSeriesTimerId(), seriesTimer -> {
-            mRecordPopup.setContent(mActivity, mProgram, seriesTimer, mSelectedProgramView, recordSeries);
+            mRecordPopup.setContent(mContext, mProgram, seriesTimer, mSelectedProgramView, recordSeries);
             mRecordPopup.show();
             return null;
         });
