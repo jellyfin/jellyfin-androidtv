@@ -15,13 +15,14 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -53,14 +54,15 @@ public class LiveProgramDetailPopup {
     private int mPosLeft;
     private int mPosTop;
 
-    public LiveProgramDetailPopup(Context context, Lifecycle lifecycle, LiveTvGuide tvGuide, int width, EmptyLifecycleAwareResponse tuneAction) {
+    public LiveProgramDetailPopup(Context context, LifecycleOwner lifecycleOwner, LiveTvGuide tvGuide, int width, EmptyLifecycleAwareResponse tuneAction) {
         mContext = context;
-        this.lifecycle = lifecycle;
+        lifecycle = lifecycleOwner.getLifecycle();
         mTvGuide = tvGuide;
         mTuneAction = tuneAction;
         View layout = LayoutInflater.from(context).inflate(R.layout.program_detail_popup, null);
         int popupHeight = Utils.convertDpToPixel(context, 400);
         mPopup = new PopupWindow(layout, width, popupHeight);
+        ViewTreeLifecycleOwner.set(mPopup.getContentView(), lifecycleOwner);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
@@ -95,7 +97,8 @@ public class LiveProgramDetailPopup {
         TvManager.setTimelineRow(mContext, mDTimeline, mProgram);
 
         //info row
-        InfoLayoutHelper.addInfoRow(mContext, mProgram, mDInfoRow, false);
+        // TODO: Requires LifecycleOwner for compose
+        // InfoLayoutHelper.addInfoRow(mContext, mProgram, mDInfoRow, false);
 
         //buttons
         mFirstButton = null;
