@@ -1088,7 +1088,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null)
-            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), getLifecycle(), this, Utils.convertDpToPixel(requireContext(), 600), new EmptyLifecycleAwareResponse(getLifecycle()) {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, Utils.convertDpToPixel(requireContext(), 600), new EmptyLifecycleAwareResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
                     if (!getActive()) return;
