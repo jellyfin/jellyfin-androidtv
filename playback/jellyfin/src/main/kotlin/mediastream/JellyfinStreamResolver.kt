@@ -1,5 +1,6 @@
 package org.jellyfin.playback.jellyfin.mediastream
 
+import io.ktor.http.URLBuilder
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
@@ -55,5 +56,11 @@ abstract class JellyfinStreamResolver(
 			playSessionId = response.playSessionId.orEmpty(),
 			mediaSource = mediaSource
 		)
+	}
+
+	protected fun String.appendAccessToken() = let {
+		URLBuilder(it)
+			.apply { parameters.append("ApiKey", api.accessToken.orEmpty()) }
+			.buildString()
 	}
 }
