@@ -102,7 +102,7 @@ class AudioMediaStreamResolver(
 					playSessionId = mediaInfo.playSessionId,
 					tag = mediaInfo.mediaSource.eTag,
 					segmentContainer = REMUX_SEGMENT_CONTAINER,
-				)
+				).appendAccessToken()
 			)
 		}
 
