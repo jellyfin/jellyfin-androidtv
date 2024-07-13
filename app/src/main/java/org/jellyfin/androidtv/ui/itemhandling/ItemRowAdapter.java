@@ -485,7 +485,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     private void retrieveNext() {
-        if (fullyLoaded || isCurrentlyRetrieving()) {
+        if (fullyLoaded || isCurrentlyRetrieving() || chunkSize == 0) {
             return;
         }
 
@@ -566,7 +566,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         itemsLoaded = 0;
         switch (queryType) {
             case Items:
-                ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, 0, chunkSize);
+                if (mQuery.getStartIndex() != null && mQuery.getLimit() != null) {
+                    ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, mQuery.getStartIndex(), mQuery.getLimit());
+                } else {
+                    ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, 0, chunkSize);
+                }
                 break;
             case NextUp:
                 ItemRowAdapterHelperKt.retrieveNextUpItems(this, api.getValue(), mNextUpQuery);
