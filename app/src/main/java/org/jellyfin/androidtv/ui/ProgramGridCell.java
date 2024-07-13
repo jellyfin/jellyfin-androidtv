@@ -160,10 +160,12 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
     public boolean isFirst() { return isFirst; }
 
     public void setRecTimer(String id) {
+        if (mProgram == null) return;
         mProgram = ProgramGridCellHelperKt.copyWithTimerId(mProgram, id);
         mRecIndicator.setImageResource(id != null ? (mProgram.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_red) : mProgram.getSeriesTimerId() != null ? R.drawable.ic_record_series : R.drawable.blank10x10);
     }
     public void setRecSeriesTimer(String id) {
+        if (mProgram == null) return;
         mProgram = ProgramGridCellHelperKt.copyWithSeriesTimerId(mProgram, id);
         mRecIndicator.setImageResource(id != null ? R.drawable.ic_record_series_red : R.drawable.blank10x10);
     }
