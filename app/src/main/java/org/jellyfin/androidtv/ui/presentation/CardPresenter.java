@@ -242,18 +242,6 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvProgram:
                     org.jellyfin.sdk.model.api.BaseItemDto program = mItem.getBaseItem();
-                    Double programAspect = program.getPrimaryImageAspectRatio();
-                    if (Utils.isTrue(program.isMovie())) {
-                        // The server reports the incorrect image aspect ratio for movies, so we are overriding it here
-                        programAspect = ImageHelper.ASPECT_RATIO_2_3;
-                    } else if (programAspect == null) {
-                        programAspect = ImageHelper.ASPECT_RATIO_16_9;
-                    }
-                    cardHeight = !m.getStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
-                    cardWidth = (int) ((programAspect) * cardHeight);
-                    if (cardWidth < 5) {
-                        cardWidth = 115;  //Guard against zero size images causing picasso to barf
-                    }
                     if (program.getLocationType() != null) {
                         switch (program.getLocationType()) {
                             case FILE_SYSTEM:
@@ -266,7 +254,7 @@ public class CardPresenter extends Presenter {
                                 break;
                         }
                     }
-                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mCardView.setMainImageDimensions(192, 129, ImageView.ScaleType.CENTER_INSIDE);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
                     //Always show info for programs
                     mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
