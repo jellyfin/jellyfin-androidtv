@@ -190,7 +190,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         // React to deletion
         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-        if (mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getBaseItem().getId().equals(dataRefreshService.getLastDeletedItemId())) {
+        if (mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(dataRefreshService.getLastDeletedItemId())) {
             ((ItemRowAdapter) mCurrentRow.getAdapter()).remove(mCurrentItem);
             dataRefreshService.setLastDeletedItemId(null);
         }
