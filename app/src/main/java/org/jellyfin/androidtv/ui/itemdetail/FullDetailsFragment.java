@@ -978,9 +978,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (userPreferences.getValue().get(UserPreferences.Companion.getMediaManagementEnabled())) {
             boolean deletableItem = false;
             UserDto currentUser = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
-            if (mBaseItem.getType() == BaseItemKind.RECORDING && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete())
-                deletableItem = true;
-            else if (mBaseItem.getCanDelete()) deletableItem = true;
+            if (mBaseItem.getType() == BaseItemKind.RECORDING && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete() != null)
+                deletableItem = mBaseItem.getCanDelete();
+            else if (mBaseItem.getCanDelete() != null) deletableItem = mBaseItem.getCanDelete();
 
             if (deletableItem) {
                 deleteButton = TextUnderButton.create(requireContext(), R.drawable.ic_delete, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
