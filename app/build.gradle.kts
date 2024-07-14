@@ -142,7 +142,6 @@ dependencies {
 	implementation(libs.bundles.markwon)
 
 	// Image utility
-	implementation(libs.blurhash)
 	implementation(libs.bundles.coil)
 
 	// Crash Reporting

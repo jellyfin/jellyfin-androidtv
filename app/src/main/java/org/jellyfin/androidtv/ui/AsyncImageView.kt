@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.vanniktech.blurhash.BlurHash
+import com.wolt.blurhashkt.BlurHashDecoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -65,7 +65,7 @@ class AsyncImageView @JvmOverloads constructor(
 
 			// Only show blurhash if an image is going to be loaded from the network
 			if (url != null && blurHash != null) withContext(Dispatchers.IO) {
-				val blurHashBitmap = BlurHash.decode(
+				val blurHashBitmap = BlurHashDecoder.decode(
 					blurHash,
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,
 					if (aspectRatio >= 1) blurHashResolution else round(blurHashResolution / aspectRatio).toInt(),
