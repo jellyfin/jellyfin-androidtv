@@ -487,6 +487,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     public void setBaseItem(BaseItemDto item) {
+        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+
         mBaseItem = item;
         backgroundService.getValue().setBackground(item);
         if (mBaseItem != null) {
