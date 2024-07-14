@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.viewinterop.AndroidView
-import com.vanniktech.blurhash.BlurHash
+import com.wolt.blurhashkt.BlurHashDecoder
 import org.jellyfin.androidtv.ui.AsyncImageView
 
 private data class AsyncImageState(
@@ -64,7 +64,7 @@ fun blurHashPainter(
 	size: IntSize,
 	punch: Float = 1f,
 ): Painter = remember(blurHash, size, punch) {
-	val bitmap = BlurHash.decode(
+	val bitmap = BlurHashDecoder.decode(
 		blurHash = blurHash,
 		width = size.width,
 		height = size.height,

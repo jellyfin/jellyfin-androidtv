@@ -7,7 +7,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
-import com.vanniktech.blurhash.BlurHash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -55,12 +54,6 @@ class JellyfinApplication : Application() {
 
 		// Update WebSockets
 		launch { socketListener.updateSession() }
-	}
-
-	override fun onLowMemory() {
-		super.onLowMemory()
-
-		BlurHash.clearCache()
 	}
 
 	override fun attachBaseContext(base: Context?) {
