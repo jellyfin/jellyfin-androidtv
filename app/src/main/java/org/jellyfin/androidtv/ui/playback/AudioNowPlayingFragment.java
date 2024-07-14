@@ -349,8 +349,12 @@ public class AudioNowPlayingFragment extends Fragment {
         if (item != null) {
             mArtistName.setText(getArtistName(item));
             mSongTitle.setText(item.getName());
-            mAlbumTitle.setText(getResources().getString(R.string.lbl_now_playing_album, item.getAlbum()));
-            mCurrentNdx.setText(getResources().getString(R.string.lbl_now_playing_track, mediaManager.getValue().getCurrentAudioQueueDisplayPosition(), mediaManager.getValue().getCurrentAudioQueueDisplaySize()));
+            if (item.getAlbum() != null) {
+                mAlbumTitle.setText(getString(R.string.lbl_now_playing_album, item.getAlbum()));
+            } else {
+                mAlbumTitle.setText(null);
+            }
+            mCurrentNdx.setText(getString(R.string.lbl_now_playing_track, mediaManager.getValue().getCurrentAudioQueueDisplayPosition(), mediaManager.getValue().getCurrentAudioQueueDisplaySize()));
             mCurrentDuration = ((Long) ((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
