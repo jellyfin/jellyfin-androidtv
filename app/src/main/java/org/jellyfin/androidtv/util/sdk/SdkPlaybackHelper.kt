@@ -212,14 +212,19 @@ class SdkPlaybackHelper(
 			}
 		}
 
-		else -> if (allowIntros && !playbackLauncher.useExternalPlayer(mainItem.type) && userPreferences[UserPreferences.cinemaModeEnabled]) {
-			val response by api.userLibraryApi.getIntros(mainItem.id)
-			buildList {
-				addAll(response.items.orEmpty())
-				addAll(getParts(mainItem))
+		else -> {
+			val parts = getParts(mainItem)
+			val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
+
+			if (addIntros) {
+				val intros = runCatching {
+					api.userLibraryApi.getIntros(mainItem.id).content.items
+				}.getOrNull().orEmpty()
+
+				intros + parts
+			} else {
+				parts
 			}
-		} else {
-			getParts(mainItem)
 		}
 	}
 
