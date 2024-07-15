@@ -12,11 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.wolt.blurhashkt.BlurHashDecoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.util.BlurHashDecoder
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.math.round
