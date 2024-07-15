@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.viewinterop.AndroidView
-import com.wolt.blurhashkt.BlurHashDecoder
 import org.jellyfin.androidtv.ui.AsyncImageView
+import org.jellyfin.androidtv.util.BlurHashDecoder
 
 private data class AsyncImageState(
 	val url: String?,
