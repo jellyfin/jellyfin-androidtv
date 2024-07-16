@@ -13,6 +13,8 @@ import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
@@ -35,12 +37,12 @@ import org.jellyfin.playback.exoplayer.support.getPlaySupportReport
 import org.jellyfin.playback.exoplayer.support.toFormats
 import timber.log.Timber
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(UnstableApi::class)
 class ExoPlayerBackend(
 	private val context: Context,
+	private val exoPlayerOptions: ExoPlayerOptions,
 ) : BasePlayerBackend() {
 	companion object {
 		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
@@ -68,7 +70,20 @@ class ExoPlayerBackend(
 				})
 			})
 			.setMediaSourceFactory(DefaultMediaSourceFactory(
-				context,
+				DefaultDataSource.Factory(
+					context,
+					DefaultHttpDataSource.Factory().apply {
+						exoPlayerOptions.httpConnectTimeout
+							?.inWholeMilliseconds
+							?.toInt()
+							?.let(::setConnectTimeoutMs)
+
+						exoPlayerOptions.httpReadTimeout
+							?.inWholeMilliseconds
+							?.toInt()
+							?.let(::setReadTimeoutMs)
+					}
+				),
 				DefaultExtractorsFactory().apply {
 					val isLowRamDevice =
 						context.getSystemService<ActivityManager>()?.isLowRamDevice == true
@@ -215,6 +230,6 @@ class ExoPlayerBackend(
 	override fun getPositionInfo(): PositionInfo = PositionInfo(
 		active = exoPlayer.currentPosition.milliseconds,
 		buffer = exoPlayer.bufferedPosition.milliseconds,
-		duration = if (exoPlayer.duration == C.TIME_UNSET) ZERO else exoPlayer.duration.milliseconds,
+		duration = if (exoPlayer.duration == C.TIME_UNSET) Duration.ZERO else exoPlayer.duration.milliseconds,
 	)
 }
