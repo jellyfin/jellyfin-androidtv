@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.QueryStringDictionary;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
 import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.mediainfo.LiveStreamRequest;
@@ -90,17 +89,11 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
 
         streamInfo = new StreamInfo();
         streamInfo.setItemId(options.getItemId());
-        if (isVideo) {
-            streamInfo.setMediaType(DlnaProfileType.Video);
-        } else {
-            streamInfo.setMediaType(DlnaProfileType.Audio);
-        }
         streamInfo.setMediaSource(ModelCompat.asSdk(mediaSourceInfo));
         streamInfo.setRunTimeTicks(mediaSourceInfo.getRunTimeTicks());
 
         streamInfo.setContext(options.getContext());
         streamInfo.setItemId(options.getItemId());
-        streamInfo.setDeviceId(deviceInfo.getId());
         streamInfo.setDeviceProfile(options.getProfile());
         streamInfo.setPlaySessionId(playbackInfo.getPlaySessionId());
         streamInfo.setStartPositionTicks(startPositionTicks);
