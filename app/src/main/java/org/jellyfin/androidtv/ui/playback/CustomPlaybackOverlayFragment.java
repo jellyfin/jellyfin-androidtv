@@ -86,7 +86,6 @@ import org.koin.java.KoinJavaComponent;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -109,8 +108,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     BaseItemDto mSelectedProgram;
     RelativeLayout mSelectedProgramView;
     private boolean mGuideVisible = false;
-    private Calendar mCurrentGuideStart;
-    private Calendar mCurrentGuideEnd;
+    private LocalDateTime mCurrentGuideStart;
+    private LocalDateTime mCurrentGuideEnd;
     private long mCurrentLocalGuideStart;
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
@@ -756,12 +755,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         playbackControllerContainer.getValue().getPlaybackController().mVideoManager.contractVideo(Utils.convertDpToPixel(requireContext(), 300));
         tvGuideBinding.getRoot().setVisibility(View.VISIBLE);
         mGuideVisible = true;
-        Calendar now = Calendar.getInstance();
+        LocalDateTime now = LocalDateTime.now();
         boolean needLoad = mCurrentGuideStart == null;
         if (!needLoad) {
-            Calendar needLoadTime = (Calendar) mCurrentGuideStart.clone();
-            needLoadTime.add(Calendar.MINUTE, 30);
-            needLoad = now.after(needLoadTime);
+            LocalDateTime needLoadTime = mCurrentGuideStart.plusMinutes(30);
+            needLoad = now.isAfter(needLoadTime);
             if (mSelectedProgramView != null)
                 mSelectedProgramView.requestFocus();
         }
@@ -1007,27 +1005,29 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private void fillTimeLine(int hours) {
-        mCurrentGuideStart = Calendar.getInstance();
-        mCurrentGuideStart.set(Calendar.MINUTE, mCurrentGuideStart.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-        mCurrentGuideStart.set(Calendar.SECOND, 0);
-        mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
-        mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
+        mCurrentGuideStart = LocalDateTime.now();
+        mCurrentGuideStart = mCurrentGuideStart
+                .withMinute(mCurrentGuideStart.getMinute() >= 30 ? 30 : 0)
+                .withSecond(0)
+                .withNano(0);
+        mCurrentLocalGuideStart = mCurrentGuideStart.toInstant(ZoneOffset.UTC).toEpochMilli();
 
-        tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart.getTime()));
-        Calendar current = (Calendar) mCurrentGuideStart.clone();
-        mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
+        tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.getDate(mCurrentGuideStart)));
+        mCurrentGuideEnd = mCurrentGuideStart
+                .plusHours(hours);
         int oneHour = 60 * Utils.convertDpToPixel(requireContext(), 7);
         int halfHour = 30 * Utils.convertDpToPixel(requireContext(), 7);
-        int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
-        mCurrentGuideEnd.add(Calendar.HOUR, hours);
-        mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
+        int interval = mCurrentGuideStart.getMinute() >= 30 ? 30 : 60;
+        mCurrentLocalGuideEnd = mCurrentGuideEnd.toInstant(ZoneOffset.UTC).toEpochMilli();
         tvGuideBinding.timeline.removeAllViews();
-        while (current.before(mCurrentGuideEnd)) {
+
+        LocalDateTime current = mCurrentGuideStart;
+        while (current.isBefore(mCurrentGuideEnd)) {
             TextView time = new TextView(requireContext());
-            time.setText(android.text.format.DateFormat.getTimeFormat(requireContext()).format(current.getTime()));
+            time.setText(android.text.format.DateFormat.getTimeFormat(requireContext()).format(TimeUtils.getDate(current)));
             time.setWidth(interval == 30 ? halfHour : oneHour);
             tvGuideBinding.timeline.addView(time);
-            current.add(Calendar.MINUTE, interval);
+            current = current.plusMinutes(interval);
             //after first one, we always go on hours
             interval = 60;
         }

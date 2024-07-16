@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtils {
@@ -59,36 +57,6 @@ public class TimeUtils {
         } else {
             return ContextExtensionsKt.getQuantityString(context, R.plurals.hours, seconds / SECS_PER_HR);
         }
-    }
-
-    public static Date convertToLocalDate(Date utcDate) {
-        TimeZone timeZone = Calendar.getInstance().getTimeZone();
-        Date convertedDate = new Date(utcDate.getTime() + timeZone.getRawOffset());
-
-        if (timeZone.inDaylightTime(convertedDate)) {
-            Date dstDate = new Date(convertedDate.getTime() + timeZone.getDSTSavings());
-
-            if (timeZone.inDaylightTime(dstDate)) {
-                return dstDate;
-            }
-        }
-
-        return convertedDate;
-    }
-
-    public static Date convertToUtcDate(Date localDate) {
-        TimeZone timeZone = Calendar.getInstance().getTimeZone();
-        Date convertedDate = new Date(localDate.getTime() - timeZone.getRawOffset());
-
-        if (timeZone.inDaylightTime(localDate)) {
-            Date dstDate = new Date(convertedDate.getTime() - timeZone.getDSTSavings());
-
-            if (timeZone.inDaylightTime(dstDate)) {
-                return dstDate;
-            }
-        }
-
-        return convertedDate;
     }
 
     public static String getFriendlyDate(Context context, Date date) {

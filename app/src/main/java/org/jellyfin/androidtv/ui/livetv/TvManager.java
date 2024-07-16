@@ -27,13 +27,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -120,25 +118,19 @@ public class TvManager {
         return ndx;
     }
 
-    public static void getProgramsAsync(Fragment fragment, int startNdx, int endNdx, final Calendar start, Calendar endTime, final EmptyLifecycleAwareResponse outerResponse) {
-        start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-        start.set(Calendar.SECOND, 1);
-        LocalDateTime startDateTime = LocalDateTime.ofInstant(start.toInstant(), start.getTimeZone().toZoneId());
+    public static void getProgramsAsync(Fragment fragment, int startNdx, int endNdx, final LocalDateTime startTime, LocalDateTime endTime, final EmptyLifecycleAwareResponse outerResponse) {
+        LocalDateTime startTimeRounded = startTime.withMinute(startTime.getMinute() >= 30 ? 30 : 0).withSecond(0).withNano(0);
+        LocalDateTime endTimeRounded = endTime.minusSeconds(1);
 
-        if (forceReload || needLoadTime == null || startDateTime.isAfter(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
+        if (forceReload || needLoadTime == null || startTimeRounded.isAfter(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
             forceReload = false;
 
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
-            Calendar end = (Calendar) endTime.clone();
-            end.setTimeZone(TimeZone.getTimeZone("Z"));
-            end.add(Calendar.SECOND, -1);
 
-            LocalDateTime endDateTime = LocalDateTime.ofInstant(end.toInstant(), end.getTimeZone().toZoneId());
-
-            TvManagerHelperKt.getPrograms(fragment, Arrays.copyOfRange(channelIds, startNdx, endNdx), startDateTime, endDateTime, programs -> {
+            TvManagerHelperKt.getPrograms(fragment, Arrays.copyOfRange(channelIds, startNdx, endNdx), startTimeRounded, endTimeRounded, programs -> {
                 if (programs != null) {
                     Timber.d("*** About to build dictionary");
-                    buildProgramsDict(programs, startDateTime);
+                    buildProgramsDict(programs, startTimeRounded);
                     Timber.d("*** Programs retrieval finished");
 
                     if (outerResponse.getActive()) outerResponse.onResponse();

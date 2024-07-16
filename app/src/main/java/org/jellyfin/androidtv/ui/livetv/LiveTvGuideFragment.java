@@ -54,7 +54,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -92,8 +91,8 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private boolean focusAtEnd;
     private GuideFilters mFilters = new GuideFilters();
 
-    private Calendar mCurrentGuideStart;
-    private Calendar mCurrentGuideEnd;
+    private LocalDateTime mCurrentGuideStart;
+    private LocalDateTime mCurrentGuideEnd;
     private long mCurrentLocalGuideStart = Instant.now().toEpochMilli();
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
@@ -702,28 +701,29 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     }
 
     private void fillTimeLine(long start, int hours) {
-        mCurrentGuideStart = Calendar.getInstance();
-        mCurrentGuideStart.setTime(new Date(start));
-        mCurrentGuideStart.set(Calendar.MINUTE, mCurrentGuideStart.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-        mCurrentGuideStart.set(Calendar.SECOND, 0);
-        mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
-        mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
+        mCurrentGuideStart = LocalDateTime.ofInstant(Instant.ofEpochMilli(start), ZoneOffset.UTC);
+        mCurrentGuideStart = mCurrentGuideStart
+                .withMinute(mCurrentGuideStart.getMinute() >= 30 ? 30 : 0)
+                .withSecond(0)
+                .withNano(0);
+        mCurrentLocalGuideStart = mCurrentGuideStart.toInstant(ZoneOffset.UTC).toEpochMilli();
 
-        mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart.getTime()));
-        Calendar current = (Calendar) mCurrentGuideStart.clone();
-        mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.getDate(mCurrentGuideStart)));
+        mCurrentGuideEnd = mCurrentGuideStart
+                .plusHours(hours);
         int oneHour = 60 * guideRowWidthPerMinPx;
         int halfHour = 30 * guideRowWidthPerMinPx;
-        int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
-        mCurrentGuideEnd.add(Calendar.HOUR, hours);
-        mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
+        int interval = mCurrentGuideStart.getMinute() >= 30 ? 30 : 60;
+        mCurrentLocalGuideEnd = mCurrentGuideEnd.toInstant(ZoneOffset.UTC).toEpochMilli();
         mTimeline.removeAllViews();
-        while (current.before(mCurrentGuideEnd)) {
+
+        LocalDateTime current = mCurrentGuideStart;
+        while (current.isBefore(mCurrentGuideEnd)) {
             TextView time = new TextView(requireContext());
-            time.setText(android.text.format.DateFormat.getTimeFormat(requireContext()).format(current.getTime()));
+            time.setText(android.text.format.DateFormat.getTimeFormat(requireContext()).format(TimeUtils.getDate(current)));
             time.setWidth(interval == 30 ? halfHour : oneHour);
             mTimeline.addView(time);
-            current.add(Calendar.MINUTE, interval);
+            current = current.plusMinutes(interval);
             //after first one, we always go on hours
             interval = 60;
         }
