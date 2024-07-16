@@ -17,9 +17,11 @@ import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.playback.core.playbackManager
+import org.jellyfin.playback.exoplayer.ExoPlayerOptions
 import org.jellyfin.playback.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.exoplayer.session.MediaSessionOptions
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
+import org.jellyfin.sdk.api.client.ApiClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -60,8 +62,14 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 		channelId = notificationChannelId,
 		notificationId = 1,
 		iconSmall = R.drawable.app_icon_foreground,
-		openIntent = pendingIntent,)
-	install(exoPlayerPlugin(get(), mediaSessionOptions))
+		openIntent = pendingIntent,
+	)
+	val api = get<ApiClient>()
+	val exoPlayerOptions = ExoPlayerOptions(
+		httpConnectTimeout = api.httpClientOptions.connectTimeout,
+		httpReadTimeout = api.httpClientOptions.requestTimeout
+	)
+	install(exoPlayerPlugin(get(), mediaSessionOptions, exoPlayerOptions))
 	install(jellyfinPlugin(get()))
 
 	// Options

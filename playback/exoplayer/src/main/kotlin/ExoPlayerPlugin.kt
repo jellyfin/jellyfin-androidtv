@@ -8,7 +8,8 @@ import org.jellyfin.playback.exoplayer.session.MediaSessionService
 fun exoPlayerPlugin(
 	androidContext: Context,
 	mediaSessionOptions: MediaSessionOptions,
+	exoPlayerOptions: ExoPlayerOptions = ExoPlayerOptions(),
 ) = playbackPlugin {
-	provide(ExoPlayerBackend(androidContext))
+	provide(ExoPlayerBackend(androidContext, exoPlayerOptions))
 	provide(MediaSessionService(androidContext, mediaSessionOptions))
 }
