@@ -393,4 +393,27 @@
     <string name="lbl_song">Песня</string>
     <string name="lbl_remove_from_queue">Выдаліць з чаргі</string>
     <string name="lbl_select_date">Выбар даты</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s тэлесерыял</item>
+        <item quantity="few">%1$s тэлесерыяла</item>
+        <item quantity="many">%1$s тэлесерыялаў</item>
+        <item quantity="other">%1$s тэлесерыялаў</item>
+    </plurals>
+    <string name="lbl_season_number">Сезон %1$d</string>
+    <string name="lbl_episode_number">Эпізод %1$d</string>
+    <string name="lbl_episode_range">Эпізоды %1$d–%2$d</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s песня</item>
+        <item quantity="few">%1$s песні</item>
+        <item quantity="many">%1$s песень</item>
+        <item quantity="other">%1$s песень</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s фільм</item>
+        <item quantity="few">%1$s фільма</item>
+        <item quantity="many">%1$s фільмаў</item>
+        <item quantity="other">%1$s фільмаў</item>
+    </plurals>
+    <string name="lbl_next_up_extended">З мініяцюрай</string>
+    <string name="lbl_next_up_minimal">Без мініяцюры</string>
 </resources>
