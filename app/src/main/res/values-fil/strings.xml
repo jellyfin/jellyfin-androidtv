@@ -15,23 +15,4 @@
     <string name="loading">Maghintay…</string>
     <string name="lbl_other_channels">Ibang channels</string>
     <string name="lbl_collections">Mga Koleksyon</string>
-    <string name="lbl_display_preferences"></string>
-    <string name="lbl__continuing"></string>
-    <string name="lbl_filters"></string>
-    <string name="lbl_live_tv_guide"></string>
-    <string name="lbl_community_rating"></string>
-    <string name="lbl_direct_stream_live"></string>
-    <string name="home_section_livetv"></string>
-    <string name="lbl_from"></string>
-    <string name="lbl_name"></string>
-    <string name="lbl_date_added"></string>
-    <string name="lbl_sorted_by"></string>
-    <string name="lbl_rating"></string>
-    <string name="lbl_premier_date"></string>
-    <string name="lbl_critic_rating"></string>
-    <string name="lbl_starting_with"></string>
-    <string name="lbl_ended"></string>
-    <string name="pref_live_tv_cat"></string>
-    <string name="msg_error_live_stream"></string>
-    <string name="live_tv_preferences"></string>
 </resources>
