@@ -218,18 +218,6 @@ object ProfileHelper {
 			container = containers.joinToString(",")
 		}
 
-	fun maxAudioChannelsCodecProfile(channels: Int) = CodecProfile()
-		.apply {
-			type = CodecType.VideoAudio
-			conditions = arrayOf(
-				ProfileCondition(
-					ProfileConditionType.LessThanEqual,
-					ProfileConditionValue.AudioChannels,
-					channels.toString()
-				)
-			)
-		}
-
 	internal fun subtitleProfile(
 		format: String,
 		method: SubtitleDeliveryMethod

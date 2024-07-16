@@ -11,7 +11,6 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecPro
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditions
-import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.CodecProfile
@@ -207,9 +206,6 @@ class ExoPlayerProfile(
 					conditions = max1080pProfileConditions
 				})
 			}
-			// Audio channel profile
-			if (!Utils.downMixAudio(context)) add(maxAudioChannelsCodecProfile(channels = 8))
-			else add(maxAudioChannelsCodecProfile(channels = 2))
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(

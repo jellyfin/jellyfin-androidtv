@@ -518,7 +518,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setMaxBitrate(maxBitrate);
         if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
             internalOptions.setEnableDirectStream(false);
-        internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
+        internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : 8); //have to downmix at server
         internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
         if (!isLiveTv && currentMediaSource != null) {
