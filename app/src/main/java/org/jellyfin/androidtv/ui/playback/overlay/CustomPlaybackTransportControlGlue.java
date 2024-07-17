@@ -4,7 +4,6 @@ import static java.lang.Math.round;
 
 import android.content.Context;
 import android.os.Handler;
-import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +44,10 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.SelectQualityAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.koin.java.KoinJavaComponent;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
@@ -306,8 +306,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         long msLeft = getPlayerAdapter().getDuration() - getPlayerAdapter().getCurrentPosition();
         long realTimeLeft = round(msLeft / playbackController.getPlaybackSpeed());
 
-        Instant endTime = Instant.now().plus(realTimeLeft, ChronoUnit.MILLIS);
-        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(endTime.toEpochMilli())));
+        LocalDateTime endTime = LocalDateTime.now().plus(realTimeLeft, ChronoUnit.MILLIS);
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateTimeExtensionsKt.getTimeFormatter(getContext()).format(endTime)));
     }
 
     private void notifyActionChanged(Action action) {

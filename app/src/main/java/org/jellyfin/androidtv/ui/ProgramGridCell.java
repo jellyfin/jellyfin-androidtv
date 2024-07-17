@@ -17,12 +17,12 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
-import org.jellyfin.androidtv.util.TimeUtils;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class ProgramGridCell extends RelativeLayout implements RecordingIndicatorView {
 
@@ -58,13 +58,13 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         setCellBackground();
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            Date localStart = TimeUtils.getDate(program.getStartDate());
-            if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) {
+            LocalDateTime localStart = program.getStartDate();
+            if (localStart.plusMinutes(1).isBefore(activity.getCurrentLocalStartDate())) {
                 mProgramName.setText("<< "+mProgramName.getText());
                 TextView time = new TextView(context);
                 time.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
                 time.setTextSize(12);
-                time.setText(android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.getDate(program.getStartDate())));
+                time.setText(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(program.getStartDate()));
                 mInfoRow.addView(time);
             }
         }

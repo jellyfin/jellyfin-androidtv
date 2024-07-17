@@ -8,14 +8,15 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class FriendlyDateButton extends FrameLayout {
-    private long dateVal;
+    private LocalDateTime dateVal;
 
-    public FriendlyDateButton(Context context, long thisDate, OnClickListener listener) {
+    public FriendlyDateButton(Context context, LocalDateTime thisDate, OnClickListener listener) {
         super(context);
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -25,14 +26,13 @@ public class FriendlyDateButton extends FrameLayout {
         setOnClickListener(listener);
 
         dateVal = thisDate;
-        Date date = new Date(thisDate);
 
-        ((TextView)v.findViewById(R.id.friendlyName)).setText(TimeUtils.getFriendlyDate(context, date, true));
-        ((TextView)v.findViewById(R.id.date)).setText(android.text.format.DateFormat.getDateFormat(context).format(date));
+        ((TextView)v.findViewById(R.id.friendlyName)).setText(TimeUtils.getFriendlyDate(context, thisDate, true));
+        ((TextView)v.findViewById(R.id.date)).setText(DateTimeExtensionsKt.getDateFormatter(context).format(thisDate));
 
     }
 
-    public long getDate() { return dateVal; }
+    public LocalDateTime getDate() { return dateVal; }
 
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {

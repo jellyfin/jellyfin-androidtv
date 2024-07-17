@@ -17,18 +17,20 @@ import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +181,7 @@ public class TvManager {
 
     public static void setTimelineRow(Context context, LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
-        Date local = TimeUtils.getDate(program.getStartDate());
+        LocalDateTime local = program.getStartDate();
         TextView on = new TextView(context);
         on.setText(context.getResources().getString(R.string.lbl_on));
         timelineRow.addView(on);
@@ -189,7 +191,14 @@ public class TvManager {
         channel.setTextColor(context.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(context);
-        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(context).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(new StringBuilder()
+                .append(TimeUtils.getFriendlyDate(context, local))
+                .append(" @ ")
+                .append(DateTimeExtensionsKt.getTimeFormatter(context).format(local))
+                .append(" (")
+                .append(DateUtils.getRelativeTimeSpanString(local.toInstant(ZoneOffset.UTC).toEpochMilli(), Instant.now().toEpochMilli(), 0))
+                .append(")")
+        );
         timelineRow.addView(datetime);
     }
 
@@ -232,7 +241,7 @@ public class TvManager {
     private static void addRow(Context context, List<BaseItemDto> timers, Presenter presenter, MutableObjectAdapter<Row> rowAdapter) {
         ItemRowAdapter scheduledAdapter = new ItemRowAdapter(context, timers, presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
-        ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, TimeUtils.getDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
+        ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, timers.get(0).getStartDate(), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);
     }
 }

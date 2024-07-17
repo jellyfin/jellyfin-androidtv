@@ -25,15 +25,18 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.util.ContextExtensionsKt;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
 import org.jellyfin.sdk.model.api.TimerInfoDto;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.UUID;
 
 import kotlin.Lazy;
@@ -227,7 +230,7 @@ public class RecordPopup {
         timelineRow.removeAllViews();
         if (program.getStartDate() == null) return;
 
-        Date local = TimeUtils.getDate(program.getStartDate());
+        LocalDateTime local = program.getStartDate();
         TextView on = new TextView(mContext);
         on.setText(mContext.getString(R.string.lbl_on));
         timelineRow.addView(on);
@@ -237,7 +240,14 @@ public class RecordPopup {
         channel.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(mContext);
-        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mContext).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(new StringBuilder()
+                .append(TimeUtils.getFriendlyDate(context, local))
+                .append(" @ ")
+                .append(DateTimeExtensionsKt.getTimeFormatter(mContext).format(local))
+                .append(" (")
+                .append(DateUtils.getRelativeTimeSpanString(local.toInstant(ZoneOffset.UTC).toEpochMilli(), Instant.now().toEpochMilli(), 0))
+                .append(")")
+        );
         timelineRow.addView(datetime);
 
     }
