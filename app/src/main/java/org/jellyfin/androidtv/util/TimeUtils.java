@@ -2,15 +2,11 @@ package org.jellyfin.androidtv.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtils {
@@ -59,12 +55,11 @@ public class TimeUtils {
         }
     }
 
-    public static String getFriendlyDate(Context context, Date date) {
+    public static String getFriendlyDate(Context context, LocalDateTime date) {
         return getFriendlyDate(context, date, false);
     }
 
-    public static String getFriendlyDate(Context context, Date date, boolean relative) {
-        LocalDateTime dateTime = getLocalDateTime(date);
+    public static String getFriendlyDate(Context context, LocalDateTime dateTime, boolean relative) {
         LocalDateTime now = LocalDateTime.now();
 
         if (dateTime.getYear() == now.getYear()) {
@@ -75,28 +70,13 @@ public class TimeUtils {
                 return context.getString(R.string.lbl_tomorrow);
             }
             if (dateTime.getDayOfYear() < now.getDayOfYear() + 7 && dateTime.getDayOfYear() > now.getDayOfYear()) {
-                return dateTime.format(DateTimeFormatter.ofPattern("EE", ContextExtensionsKt.getLocale(context)));
+                return dateTime.format(DateTimeFormatter.ofPattern("EE", DateTimeExtensionsKt.getLocale(context)));
             }
             if (relative) {
                 return context.getString(R.string.lbl_in_x_days, dateTime.getDayOfYear() - now.getDayOfYear());
             }
         }
 
-        return DateFormat.getDateFormat(context).format(date);
-    }
-
-    public static Date getDate(LocalDateTime date) {
-        return getDate(date, ZoneOffset.UTC);
-    }
-
-    public static Date getDate(LocalDateTime date, ZoneId zone) {
-        if (date == null) return null;
-
-        return Date.from(date.atZone(zone).toInstant());
-    }
-    public static LocalDateTime getLocalDateTime(Date date) {
-        if (date == null) return null;
-
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        return DateTimeExtensionsKt.getDateFormatter(context).format(dateTime);
     }
 }

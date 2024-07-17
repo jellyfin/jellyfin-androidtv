@@ -69,6 +69,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.CoroutineUtils;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -83,7 +84,6 @@ import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ChapterInfo;
 import org.koin.java.KoinJavaComponent;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -110,8 +110,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mGuideVisible = false;
     private LocalDateTime mCurrentGuideStart;
     private LocalDateTime mCurrentGuideEnd;
-    private long mCurrentLocalGuideStart;
-    private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
     private List<BaseItemDto> mAllChannels;
@@ -639,12 +637,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     };
 
-    public long getCurrentLocalStartDate() {
-        return mCurrentLocalGuideStart;
+    public LocalDateTime getCurrentLocalStartDate() {
+        return mCurrentGuideStart;
     }
 
-    public long getCurrentLocalEndDate() {
-        return mCurrentLocalGuideEnd;
+    public LocalDateTime getCurrentLocalEndDate() {
+        return mCurrentGuideEnd;
     }
 
     public void switchChannel(UUID id) {
@@ -940,15 +938,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         LinearLayout programRow = new LinearLayout(requireContext());
         if (programs.size() == 0) {
 
-            int minutes = ((Long) ((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
+            int minutes = ((Long) ((mCurrentGuideEnd.toInstant(ZoneOffset.UTC).toEpochMilli() - mCurrentGuideStart.toInstant(ZoneOffset.UTC).toEpochMilli()) / 60000)).intValue();
             int slot = 0;
 
             do {
                 BaseItemDto empty = LiveTvGuideFragmentHelperKt.createNoProgramDataBaseItem(
                         getContext(),
                         channelId,
-                        Instant.ofEpochMilli(mCurrentLocalGuideStart).atOffset(ZoneOffset.UTC).toLocalDateTime().plusMinutes(30l * slot),
-                        Instant.ofEpochMilli(mCurrentLocalGuideStart).atOffset(ZoneOffset.UTC).toLocalDateTime().plusMinutes(30l * (slot + 1))
+                        mCurrentGuideStart.plusMinutes(30l * slot),
+                        mCurrentGuideEnd.plusMinutes(30l * (slot + 1))
                 );
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
@@ -964,29 +962,29 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return programRow;
         }
 
-        long prevEnd = getCurrentLocalStartDate();
+        LocalDateTime prevEnd = getCurrentLocalStartDate();
         for (BaseItemDto item : programs) {
-            long start = item.getStartDate() != null ? TimeUtils.getDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
-            if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
-            if (start > getCurrentLocalEndDate()) continue;
-            if (start < prevEnd) continue;
+            LocalDateTime start = item.getStartDate() != null ? item.getStartDate() : getCurrentLocalStartDate();
+            if (start.isBefore(getCurrentLocalStartDate())) start = getCurrentLocalStartDate();
+            if (start.isAfter(getCurrentLocalEndDate())) continue;
+            if (start.isBefore(prevEnd)) continue;
 
-            if (start > prevEnd) {
+            if (start.isAfter(prevEnd)) {
                 BaseItemDto empty = LiveTvGuideFragmentHelperKt.createNoProgramDataBaseItem(
                         getContext(),
                         channelId,
-                        Instant.ofEpochMilli(prevEnd).atOffset(ZoneOffset.UTC).toLocalDateTime(),
-                        Instant.ofEpochMilli(prevEnd + start - prevEnd).atOffset(ZoneOffset.UTC).toLocalDateTime()
+                        prevEnd,
+                        start
                 );
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) ((start - prevEnd) / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) ((start.toInstant(ZoneOffset.UTC).toEpochMilli() - prevEnd.toInstant(ZoneOffset.UTC).toEpochMilli()) / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 programRow.addView(cell);
             }
-            long end = item.getEndDate() != null ? TimeUtils.getDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
-            if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
+            LocalDateTime end = item.getEndDate() != null ? item.getEndDate() : getCurrentLocalEndDate();
+            if (end.isAfter(getCurrentLocalEndDate())) end = getCurrentLocalEndDate();
             prevEnd = end;
-            Long duration = (end - start) / 60000;
+            Long duration = (end.toInstant(ZoneOffset.UTC).toEpochMilli() - start.toInstant(ZoneOffset.UTC).toEpochMilli()) / 60000;
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(requireContext(), this, item, false);
                 program.setId(currentCellId++);
@@ -1010,21 +1008,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 .withMinute(mCurrentGuideStart.getMinute() >= 30 ? 30 : 0)
                 .withSecond(0)
                 .withNano(0);
-        mCurrentLocalGuideStart = mCurrentGuideStart.toInstant(ZoneOffset.UTC).toEpochMilli();
 
-        tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.getDate(mCurrentGuideStart)));
+        tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart));
         mCurrentGuideEnd = mCurrentGuideStart
                 .plusHours(hours);
         int oneHour = 60 * Utils.convertDpToPixel(requireContext(), 7);
         int halfHour = 30 * Utils.convertDpToPixel(requireContext(), 7);
         int interval = mCurrentGuideStart.getMinute() >= 30 ? 30 : 60;
-        mCurrentLocalGuideEnd = mCurrentGuideEnd.toInstant(ZoneOffset.UTC).toEpochMilli();
         tvGuideBinding.timeline.removeAllViews();
 
         LocalDateTime current = mCurrentGuideStart;
         while (current.isBefore(mCurrentGuideEnd)) {
             TextView time = new TextView(requireContext());
-            time.setText(android.text.format.DateFormat.getTimeFormat(requireContext()).format(TimeUtils.getDate(current)));
+            time.setText(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(current));
             time.setWidth(interval == 30 ? halfHour : oneHour);
             tvGuideBinding.timeline.addView(time);
             current = current.plusMinutes(interval);
@@ -1047,7 +1043,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         //info row
         InfoLayoutHelper.addInfoRow(requireContext(), mSelectedProgram, tvGuideBinding.guideInfoRow, false);
         if (mSelectedProgram.getId() != null) {
-            tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.getDate(mSelectedProgram.getStartDate())));
+            tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mSelectedProgram.getStartDate()));
         }
     }
 

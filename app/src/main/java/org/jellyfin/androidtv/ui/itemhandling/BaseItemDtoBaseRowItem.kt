@@ -1,18 +1,19 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
-import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.getTimeFormatter
+import org.jellyfin.androidtv.util.locale
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.extensions.ticks
-import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	item: BaseItemDto,
@@ -104,16 +105,11 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			).joinToString(" - ")
 
 			val timestamp = buildString {
-				append(SimpleDateFormat("d MMM").format(TimeUtils.getDate(baseItem.startDate)))
+				append(DateTimeFormatter.ofPattern("d MMM", context.locale).format(baseItem.startDate))
 				append(" ")
-				append(
-					(DateFormat.getTimeFormat(context)
-						.format(TimeUtils.getDate(baseItem.startDate)))
-				)
+				append(context.getTimeFormatter().format(baseItem.startDate))
 				append(" - ")
-				append(
-					DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem.endDate))
-				)
+				append(context.getTimeFormatter().format(baseItem.endDate))
 			}
 
 			"$title $timestamp"

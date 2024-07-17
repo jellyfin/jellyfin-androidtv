@@ -1,13 +1,12 @@
 package org.jellyfin.androidtv.ui.card;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ViewCardChannelBinding;
-import org.jellyfin.androidtv.util.TimeUtils;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.time.Duration;
@@ -37,8 +36,11 @@ public class ChannelCardView extends FrameLayout {
     private void updateDisplay(BaseItemDto program) {
         binding.program.setText(program.getName());
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            binding.time.setText(DateFormat.getTimeFormat(getContext()).format(TimeUtils.getDate(program.getStartDate()))
-                    + "-" + DateFormat.getTimeFormat(getContext()).format(TimeUtils.getDate(program.getEndDate())));
+            binding.time.setText(new StringBuilder()
+                    .append(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(program.getStartDate()))
+                    .append("-")
+                    .append(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(program.getEndDate()))
+            );
 
             if (program.getStartDate().isAfter(LocalDateTime.now()) && program.getEndDate().isBefore(LocalDateTime.now())) {
                 Duration duration = Duration.between(program.getStartDate(), program.getEndDate());

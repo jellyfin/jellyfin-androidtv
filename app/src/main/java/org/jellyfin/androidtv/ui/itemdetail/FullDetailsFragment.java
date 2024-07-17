@@ -69,6 +69,7 @@ import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
@@ -94,11 +95,9 @@ import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -680,11 +679,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (mBaseItem != null && mBaseItem.getType() != BaseItemKind.MUSIC_ARTIST && mBaseItem.getType() != BaseItemKind.PERSON) {
             Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = mBaseItem.getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? mBaseItem.getEndDate().toInstant(ZoneOffset.UTC).toEpochMilli() : Instant.now().toEpochMilli() + runtime / 10000;
+                LocalDateTime endTime = mBaseItem.getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? mBaseItem.getEndDate() : LocalDateTime.now().plusNanos(runtime * 100);
                 if (JavaCompat.getCanResume(mBaseItem)) {
-                    endTimeTicks = Instant.now().toEpochMilli() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
+                    endTime = LocalDateTime.now().plusNanos((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) * 100);
                 }
-                return android.text.format.DateFormat.getTimeFormat(requireContext()).format(new Date(endTimeTicks));
+                return DateTimeExtensionsKt.getTimeFormatter(getContext()).format(endTime);
             }
 
         }
