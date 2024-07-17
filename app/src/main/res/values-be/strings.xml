@@ -137,7 +137,7 @@
     <string name="lbl_record_any_time">Запіс у любы час</string>
     <string name="msg_items_added">" элементаў дададзена"</string>
     <string name="login_authenticating">Аўтэнтыфікацыя…</string>
-    <string name="server_connection_failed_candidates">Немагчыма злучыцца з серверам, паспрабаваў наступныя адрасы: %1$s</string>
+    <string name="server_connection_failed_candidates">Немагчыма падлучыцца да сервера, паспрабаваў наступныя адрасы: %1$s</string>
     <string name="login_invalid_credentials">Няправільнае імя карыстальніка і/або пароль</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">На %1$s</string>
@@ -162,7 +162,7 @@
     <string name="pref_show_backdrop_description">Змяніць фонавы малюнак для выбраных элементаў</string>
     <string name="lbl_next_episode">Наступны эпізод</string>
     <string name="enable_smart_view">Уключыць разумны экран</string>
-    <string name="login_server_unavailable">Немагчыма падключыцца да сервера</string>
+    <string name="login_server_unavailable">Немагчыма падлучыцца да сервера</string>
     <string name="lbl_sign_out">Выйсці</string>
     <plurals name="albums">
         <item quantity="one">%1$s альбом</item>
@@ -176,7 +176,7 @@
     <string name="lbl_end_padding">Канчатковая адбіўка</string>
     <string name="lbl_similar_items_library">Падобныя элементы ў вашай бібліятэцы</string>
     <string name="lbl_play_next_up">Прайграць наступнае</string>
-    <string name="lbl_audio_track">Выбраць аўдыё дарожку</string>
+    <string name="lbl_audio_track">Выбраць аўдыёдарожку</string>
     <string name="btn_got_it">Зразумела</string>
     <string name="lbl_new_premieres">Новыя прэм\'еры</string>
     <string name="lbl_next_item">Наступны элемент</string>
@@ -215,8 +215,8 @@
     <string name="watch_count_overflow">99+</string>
     <string name="pref_default_rating">Тып рэйтынгу па змаўчанні</string>
     <string name="pref_clock_display_playback">Падчас прайгравання</string>
-    <string name="server_connecting">Падключэнне да %1$s</string>
-    <string name="server_connection_failed">Немагчыма падключыцца да сервера</string>
+    <string name="server_connecting">Падлучэнне да %1$s</string>
+    <string name="server_connection_failed">Немагчыма падлучыцца да сервера</string>
     <string name="lbl_remove_users">Гэта таксама выдаліць усе звязаныя ўліковыя запісы</string>
     <string name="lbl_remove_user_content">Выдаліць уліковы запіс</string>
     <string name="lbl_user_last_used">Апошні раз выкарыстоўваўся %1$s у %2$s</string>
@@ -264,7 +264,7 @@
     <string name="image_type_thumbnail">Мініяцюра</string>
     <string name="image_type_banner">Банер</string>
     <string name="connect_manually_by_address">Увядзіце адрас сервера</string>
-    <string name="welcome_content">Падключыцеся да сервера, каб пачаць працу.</string>
+    <string name="welcome_content">Падлучыцеся да сервера, каб пачаць працу.</string>
     <string name="press_to_close">Націсніце, каб закрыць</string>
     <string name="home_section_livetv">Тэлеканалы</string>
     <string name="pref_crash_reports_enabled">Справаздачы аб збоях будуць адпраўлены на ваш апошні выкарыстаны сервер</string>
@@ -334,7 +334,7 @@
     <string name="lbl_unknown_key">Невядома (%1s)</string>
     <string name="pref_subtitle_track_button">Кнопка дарожкі субтытраў</string>
     <string name="mark_watched">Пазначыць як прагледжанае</string>
-    <string name="pref_audio_track_button">Кнопка гукавой дарожкі</string>
+    <string name="pref_audio_track_button">Кнопка аўдыёдарожкі</string>
     <string name="mark_watched_message">Элемент прайграваўся не так доўга, як яго працягласць. Пазначыць як прагледжанае?</string>
     <string name="no_player">Няма прайгравальніка</string>
     <string name="msg_live_tv_next">Загрузіць наступныя %1$d гадзіны?</string>
@@ -465,7 +465,7 @@
     <string name="msg_settings_updated">Налады абноўлены</string>
     <string name="lbl_colored_backgrounds">Каляровыя фоны</string>
     <string name="app_notification_update_soon">Абнавіце свой сервер з %1$s як мінімум да %2$s, каб працягваць выкарыстоўваць праграму пасля наступнага абнаўлення.</string>
-    <string name="login_connect_to">Падключэнне да %1$s</string>
+    <string name="login_connect_to">Падлучэнне да %1$s</string>
     <string name="pref_video">Відэа</string>
     <string name="home_section_none">Няма</string>
     <string name="color_black">Чорны</string>
@@ -491,7 +491,7 @@
     <string name="pref_subtitles_background_title">Уключыць фон</string>
     <string name="home_section_i">Галоўны раздзел %1$d</string>
     <string name="color_green">Зялёны</string>
-    <string name="server_issue_unable_to_connect">Немагчыма падключыцца</string>
+    <string name="server_issue_unable_to_connect">Немагчыма падлучыцца</string>
     <string name="pref_subtitles_background_summary">Паказаць чорны фон за субтытрамі</string>
     <string name="server_issue_invalid_product">Сервернае праграмнае забеспячэнне несумяшчальна</string>
     <string name="server_issue_missing_version">Немагчыма вызначыць версію сервера</string>
@@ -507,7 +507,7 @@
     <string name="login_quickconnect_step_1">1. Адкрыйце праграму Jellyfin на тэлефоне або ў вэб-браўзеры і ўвайдзіце ў свой уліковы запіс</string>
     <string name="lbl_refresh_switching">Пераключэнне частоты абнаўлення</string>
     <string name="pref_refresh_rate_scale_on_tv">Масштабаванне на тэлевізары</string>
-    <string name="action_connect">Падключыцца</string>
+    <string name="action_connect">Падлучыцца</string>
     <string name="pref_screensaver_inapp_enabled">Выкарыстаць убудаваную застаўку</string>
     <string name="pref_screensaver_inapp_timeout">Запусціць застаўку пасля</string>
     <string name="lbl_subtitle_fg">Колер тэксту субтытраў</string>
@@ -542,4 +542,32 @@
     <string name="item_delete_confirm_message">Вы ўпэўнены, што хочаце выдаліць гэты элемент з сервера? Гэта дзеянне нельга адмяніць.</string>
     <string name="lbl_show_premieres">Паказваць прэм\'еры сезона</string>
     <string name="lbl_sports">Спорт</string>
+    <string name="indicator_subtitles">CC</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s дарожка</item>
+        <item quantity="few">%1$s дарожкі</item>
+        <item quantity="many">%1$s дарожак</item>
+        <item quantity="other">%1$s дарожак</item>
+    </plurals>
+    <string name="not_set">Не ўстаноўлена</string>
+    <string name="lbl_album_artists">Выканаўцы альбома</string>
+    <string name="disable_ui_mode_warning">Адключыць папярэджанне аб тыпе прылады</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="unreleased">Яшчэ не выпушчана</string>
+    <string name="enable_reactive_homepage">Уключыць рэактыўную галоўную старонку</string>
+    <string name="person_birthday_and_age">Нарадзіўся %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="pref_playback_advanced">Пашыраныя налады прайгравання</string>
+    <string name="all_channels">Усе каналы</string>
+    <string name="lbl_resume_preroll">Перайдзіце назад, перш чым працягнуць прагляд</string>
+    <string name="pref_app_theme">Тэма прыкладання</string>
+    <string name="pref_screensaver_ageratingmax">Максімальны ўзроставы рэйтынг</string>
+    <string name="pref_screensaver_ageratingmax_zero">Усе ўзросты</string>
+    <string name="pref_screensaver_ageratingmax_entry">Узрост да %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Адключыць максімум</string>
+    <string name="pref_screensaver_ageratingrequired_title">Патрабуецца ўзроставы рэйтынг</string>
+    <string name="pref_screensaver_inapp_enabled_description">Паказаць застаўку Jellyfin, калі праграма адкрыта</string>
 </resources>
