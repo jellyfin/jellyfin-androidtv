@@ -661,7 +661,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private void updateInfo(BaseItemDto item) {
-        if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
+        if (buttonTypeList.contains(item.getType())) {
+            mDetailsOverviewRow.clearActions();
+            addButtons(BUTTON_SIZE);
+        }
 
         mLastUpdated = Instant.now();
     }

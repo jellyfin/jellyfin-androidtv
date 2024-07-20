@@ -19,5 +19,6 @@ class MyDetailsOverviewRow @JvmOverloads constructor(
 	val actions get() = _actions.toList()
 	val visibleActions get() = _actions.count { it.isVisible }
 
+	fun clearActions() = _actions.clear()
 	fun addAction(button: TextUnderButton) = _actions.add(button)
 }
