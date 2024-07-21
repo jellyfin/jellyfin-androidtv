@@ -1,4 +1,4 @@
-package org.jellyfin.playback.exoplayer.session
+package org.jellyfin.playback.media3.session
 
 import android.content.Context
 import android.os.Looper
