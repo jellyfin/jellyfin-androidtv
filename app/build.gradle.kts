@@ -93,8 +93,8 @@ dependencies {
 	// Jellyfin
 	implementation(projects.playback.core)
 	implementation(projects.playback.jellyfin)
-	implementation(projects.playback.media3Exoplayer)
-	implementation(projects.playback.media3Session)
+	implementation(projects.playback.media3.exoplayer)
+	implementation(projects.playback.media3.session)
 	implementation(projects.preference)
 	implementation(libs.jellyfin.apiclient)
 	implementation(libs.jellyfin.sdk) {
