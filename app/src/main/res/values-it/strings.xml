@@ -552,4 +552,12 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Disattiva massimo</string>
     <string name="pref_external_player">Utilizza un player esterno</string>
     <string name="app_notification_update_soon">Aggiorna il server dalla versione %1$s ad almeno la %2$s per continuare ad utilizzare l\'app.</string>
+    <string name="past_24_hours">Scorse 24 ore</string>
+    <string name="past_week">Settimana scorsa</string>
+    <string name="scheduled_in_next_24_hours">Programmato nelle prossime 24 ore</string>
+    <string name="continue_listening">Proseguire con l\'ascolto</string>
+    <string name="pref_screensaver_ageratingmax">Classificazione per età massima</string>
+    <string name="pref_screensaver_ageratingmax_zero">Qualsiasi età</string>
+    <string name="pref_screensaver_ageratingrequired_title">Richiede la classificazione per età</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Mostra solo gli elementii con classificazione per età</string>
 </resources>
