@@ -1,4 +1,4 @@
-package org.jellyfin.playback.exoplayer
+package org.jellyfin.playback.media3.exoplayer
 
 import android.app.ActivityManager
 import android.content.Context
@@ -33,8 +33,8 @@ import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
-import org.jellyfin.playback.exoplayer.support.getPlaySupportReport
-import org.jellyfin.playback.exoplayer.support.toFormats
+import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
+import org.jellyfin.playback.media3.exoplayer.support.toFormats
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds

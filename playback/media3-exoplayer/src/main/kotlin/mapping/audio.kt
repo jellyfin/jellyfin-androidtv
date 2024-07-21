@@ -1,4 +1,4 @@
-package org.jellyfin.playback.exoplayer.mapping
+package org.jellyfin.playback.media3.exoplayer.mapping
 
 import androidx.annotation.OptIn
 import androidx.media3.common.MimeTypes

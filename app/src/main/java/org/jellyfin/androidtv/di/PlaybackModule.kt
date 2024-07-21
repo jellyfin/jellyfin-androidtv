@@ -17,9 +17,9 @@ import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.playback.core.playbackManager
-import org.jellyfin.playback.exoplayer.ExoPlayerOptions
-import org.jellyfin.playback.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
+import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
+import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.media3.session.MediaSessionOptions
 import org.jellyfin.playback.media3.session.media3SessionPlugin
 import org.jellyfin.sdk.api.client.ApiClient

@@ -1,4 +1,4 @@
-package org.jellyfin.playback.exoplayer
+package org.jellyfin.playback.media3.exoplayer
 
 import kotlin.time.Duration
 
