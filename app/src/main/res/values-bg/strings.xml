@@ -106,7 +106,7 @@
     <string name="lbl_only_new_episodes">Само нови епизоди</string>
     <string name="lbl_tune_to_channel">Превключете към канал</string>
     <string name="msg_no_playable_items">Няма елементи за възпроизвеждане</string>
-    <string name="lbl_tv_queuing">Подредете всички следващи епизоди</string>
+    <string name="lbl_tv_queuing">Пусни следващ епизод автоматично</string>
     <string name="lbl_no_items">Няма елементи</string>
     <string name="msg_cannot_play">Този елемент не може да се възпроизведе</string>
     <string name="msg_cannot_play_time">Понастоящем не може да се възпроизведе този елемент</string>
@@ -159,8 +159,17 @@
     <string name="lbl_add_to_queue">Добави към опашката</string>
     <string name="lbl_next_item">Следващ</string>
     <string name="lbl_direct_stream_live">Директно гледане на телевизия на живо</string>
-    <string name="lbl_playlists">Плейлист</string>
+    <string name="lbl_playlists">Плейлисти</string>
     <string name="lbl_open_album">Отвори албум</string>
     <string name="lbl_latest_in">Последно добавени в %1$s</string>
     <string name="because_you_watched">Защото гледахте %1$s</string>
+    <string name="lbl_now_playing">В момента се възпроизвежда</string>
+    <string name="lbl_remove_from_queue">Премахни от опашката</string>
+    <string name="lbl_play_from_here">Стартирай от тук</string>
+    <string name="lbl_delete">Изтрий</string>
+    <string name="lbl_playback_speed">Скорост на възпроизвеждане</string>
+    <string name="lbl_new_premieres">Нови премиери</string>
+    <string name="lbl_zoom">Мащабиране</string>
+    <string name="lbl_auto_crop">Автоматично изрязване</string>
+    <string name="lbl_audio_track">Изберете звуков канал</string>
 </resources>
