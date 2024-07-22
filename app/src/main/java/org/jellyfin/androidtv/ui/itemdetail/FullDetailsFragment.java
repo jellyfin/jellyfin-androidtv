@@ -640,6 +640,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 addInfoRows(adapter);
                 break;
+
+            default:
+                addInfoRows(adapter);
         }
     }
 
