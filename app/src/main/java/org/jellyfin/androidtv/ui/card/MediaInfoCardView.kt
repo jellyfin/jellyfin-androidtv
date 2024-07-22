@@ -36,6 +36,12 @@ class MediaInfoCardView @JvmOverloads constructor(
 				mediaStream.realFrameRate?.let { addRow("Framerate", it.toString()) }
 			}
 
+			if (mediaStream.type == MediaStreamType.AUDIO) {
+				mediaStream.channels?.let { addRow("Channels", it.toString()) }
+				mediaStream.sampleRate?.let { addRow("Sample rate", it.toString()) }
+				mediaStream.bitDepth?.let { addRow("Bit depth", it.toString()) }
+			}
+
 			mediaStream.bitRate?.let { addRow("Bitrate", NumberFormat.getInstance().format((it / 1024).toLong()) + " kbps") }
 			if (mediaStream.isDefault) addRow("Default")
 			if (mediaStream.isForced) addRow("Forced")
