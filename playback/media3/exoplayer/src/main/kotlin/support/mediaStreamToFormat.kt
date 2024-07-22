@@ -1,4 +1,4 @@
-package org.jellyfin.playback.exoplayer.support
+package org.jellyfin.playback.media3.exoplayer.support
 
 import androidx.annotation.OptIn
 import androidx.media3.common.C
@@ -8,9 +8,9 @@ import androidx.media3.common.util.UnstableApi
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.MediaStreamAudioTrack
 import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
-import org.jellyfin.playback.exoplayer.mapping.getFfmpegAudioMimeType
-import org.jellyfin.playback.exoplayer.mapping.getFfmpegContainerMimeType
-import org.jellyfin.playback.exoplayer.mapping.getFfmpegVideoMimeType
+import org.jellyfin.playback.media3.exoplayer.mapping.getFfmpegAudioMimeType
+import org.jellyfin.playback.media3.exoplayer.mapping.getFfmpegContainerMimeType
+import org.jellyfin.playback.media3.exoplayer.mapping.getFfmpegVideoMimeType
 
 @OptIn(UnstableApi::class)
 private val PCM_CODECS = mapOf(

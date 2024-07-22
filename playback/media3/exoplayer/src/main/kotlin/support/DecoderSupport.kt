@@ -1,4 +1,4 @@
-package org.jellyfin.playback.exoplayer.support
+package org.jellyfin.playback.media3.exoplayer.support
 
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi

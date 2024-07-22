@@ -7,8 +7,9 @@ include(":app")
 
 // Modules
 include(":playback:core")
-include(":playback:exoplayer")
 include(":playback:jellyfin")
+include(":playback:media3:exoplayer")
+include(":playback:media3:session")
 include(":preference")
 
 pluginManagement {

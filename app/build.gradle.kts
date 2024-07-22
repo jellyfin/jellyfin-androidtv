@@ -92,8 +92,9 @@ val versionTxt by tasks.registering {
 dependencies {
 	// Jellyfin
 	implementation(projects.playback.core)
-	implementation(projects.playback.exoplayer)
 	implementation(projects.playback.jellyfin)
+	implementation(projects.playback.media3.exoplayer)
+	implementation(projects.playback.media3.session)
 	implementation(projects.preference)
 	implementation(libs.jellyfin.apiclient)
 	implementation(libs.jellyfin.sdk) {

@@ -3,7 +3,7 @@
 
     <application>
         <service
-            android:name="org.jellyfin.playback.exoplayer.session.AndroidMediaService"
+            android:name="org.jellyfin.playback.media3.session.AndroidMediaService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback"
             tools:ignore="ExportedService">
