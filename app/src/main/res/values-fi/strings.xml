@@ -411,7 +411,7 @@
     <string name="action_connect">Yhdistä</string>
     <string name="login_quickconnect_step_3">3. Syötä seuraava koodi:</string>
     <string name="login_quickconnect_step_2">2. Avaa käyttäjävalikko ja sieltä Pikayhteys-sivu</string>
-    <string name="login_quickconnect_step_1">1. Avaa Jellydin-sovellus tai -verkkosivu ja kirjaudu tililläsi</string>
+    <string name="login_quickconnect_step_1">1. Avaa Jellyfin-sovellus tai -verkkosivu ja kirjaudu tililläsi</string>
     <string name="login_other_options">Muut vaihtoehdot:</string>
     <string name="login_connect_to">Yhdistetään palvelimeen %1$s</string>
     <string name="input_password">Salasana</string>
