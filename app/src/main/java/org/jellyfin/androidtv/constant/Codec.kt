@@ -48,6 +48,7 @@ object Codec {
 		const val PCM_ALAW = "pcm_alaw"
 		const val PCM_MULAW = "pcm_mulaw"
 		const val PCM_S16LE = "pcm_s16le"
+		const val PCM_S20LE = "pcm_s20le"
 		const val PCM_S24LE = "pcm_s24le"
 		const val TRUEHD = "truehd"
 		const val VORBIS = "vorbis"
