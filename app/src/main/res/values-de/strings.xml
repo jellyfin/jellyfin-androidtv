@@ -167,7 +167,6 @@
     <string name="lbl_refresh_switching">Umschaltung der Bildwiederholfrequenz</string>
     <string name="lbl_show_premieres">Staffel-Premieren zeigen</string>
     <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die du siehst</string>
-    <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_song_title">Liedtitel</string>
     <string name="lbl_album_name">Albumname</string>

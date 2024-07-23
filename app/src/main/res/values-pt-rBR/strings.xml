@@ -167,7 +167,6 @@
     <string name="lbl_refresh_switching">Alteração da taxa de atualização</string>
     <string name="lbl_show_premieres">Mostrar estreias da temporada</string>
     <string name="desc_premieres">Exibir uma fila de novos episódios pilotos para as séries que você está assistindo</string>
-    <string name="lbl_bitstream_dts">Bitstream do áudio DTS</string>
     <string name="lbl_song_title">Título da música</string>
     <string name="lbl_album_name">Nome do álbum</string>
     <string name="lbl_next_episode">Próximo episódio</string>

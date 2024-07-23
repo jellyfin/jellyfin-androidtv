@@ -174,7 +174,6 @@
     <string name="pref_about_title">Apie</string>
     <string name="lbl_add_to_queue">Pridėti į eilę</string>
     <string name="lbl_zoom">Priartinti</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS garsas</string>
     <string name="lbl_schedule">Planai</string>
     <string name="lbl_open">Atidaryti</string>
     <string name="pref_next_up_timeout_summary">Kiek laukti prieš paleidžiant sekantį failą</string>

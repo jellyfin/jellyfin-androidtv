@@ -245,7 +245,6 @@
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
     <string name="lbl_show_indicators">Prikaži indikatorje za</string>
     <string name="no_program_data">Podatki o programu niso na voljo</string>
-    <string name="lbl_bitstream_dts">Bitni pretok DTS zvoka</string>
     <string name="desc_premieres">Prikaži vrstico pilotov novih sezon za serije ki jih gledaš</string>
     <string name="lbl_show_premieres">Prikaži premiere sezon</string>
     <string name="lbl_play_next_up">Predvajaj naslednje</string>

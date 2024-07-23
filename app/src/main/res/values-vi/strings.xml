@@ -239,7 +239,6 @@
     <string name="lbl_hd_programs">Chương trình HD</string>
     <string name="lbl_live_broadcasts">Phát sóng trực tiếp</string>
     <string name="lbl_repeat_episodes">Lặp lại các tập</string>
-    <string name="lbl_bitstream_dts">Âm thanh DTS bitstream</string>
     <string name="pref_audio_direct">Trực tiếp</string>
     <string name="lbl_resume_preroll">Bắt đầu lại phần đầu</string>
     <string name="pref_audio_compat">Downmix thành âm thanh nổi</string>

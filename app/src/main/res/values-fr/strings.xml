@@ -160,7 +160,6 @@
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
     <string name="desc_premieres">Afficher une ligne pour les nouveaux pilotes d’épisode pour toutes les séries regardées</string>
     <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
-    <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
     <string name="lbl_new_premieres">Nouvelles saisons</string>
     <string name="lbl_open">Ouvrir</string>

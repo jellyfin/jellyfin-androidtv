@@ -340,7 +340,6 @@
     <string name="lbl_premiere">العرض الأول</string>
     <string name="lbl_live">مباشر</string>
     <string name="lbl_sports">الرياضة</string>
-    <string name="lbl_bitstream_dts">صوت Bitstream DTS</string>
     <string name="lbl_albums">ألبومات</string>
     <string name="msg_error_live_stream">خطأ في بث البث التلفزيوني المباشر. سأعيد المحاولة …</string>
     <string name="pref_live_tv_cat">بث تلفزيوني مباشر</string>

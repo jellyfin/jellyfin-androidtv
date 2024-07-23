@@ -24,7 +24,6 @@
     <string name="lbl_guide_option_number">Nomor saluran</string>
     <string name="lbl_guide_option_played">Terakhir diputar</string>
     <string name="lbl_show_indicators">Tampilkan indikator untuk</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
     <string name="lbl_goto_series">Lihat serial</string>
     <string name="lbl_audio_output">Keluaran audio</string>
     <string name="pref_audio_compat">Downmix ke stereo</string>

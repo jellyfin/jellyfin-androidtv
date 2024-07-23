@@ -136,7 +136,6 @@
     <string name="msg_settings_updated">Preferencias actualizadas</string>
     <string name="lbl_live">En vivo</string>
     <string name="msg_record_entire_series">¿Grabar serie completa\?</string>
-    <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="lbl_refresh_switching">Cambio de la tasa de refresco</string>

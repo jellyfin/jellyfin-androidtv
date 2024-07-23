@@ -81,7 +81,6 @@
     <string name="lbl_watched">Гледано</string>
     <string name="lbl_pause">Паузирај</string>
     <string name="pref_audio_direct">Директно</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS звук</string>
     <string name="lbl_sports">Спорт</string>
     <string name="lbl_live">Во живо</string>
     <string name="lbl_premiere">Премиера</string>

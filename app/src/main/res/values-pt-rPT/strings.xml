@@ -234,7 +234,6 @@
     <string name="lbl_show_indicators">Mostrar indicadores para</string>
     <string name="lbl_premiere">Estreia</string>
     <string name="lbl_episode_not_record">Esta série NÃO gravará</string>
-    <string name="lbl_bitstream_dts">Bitstream do áudio DTS</string>
     <string name="desc_premieres">Mostrar uma lista de novos episódios piloto para as séries a que assiste</string>
     <string name="lbl_refresh_switching">Altera taxa de atualização</string>
     <string name="lbl_show_backdrop">Mostrar Pano de Fundo Enquanto Navega</string>

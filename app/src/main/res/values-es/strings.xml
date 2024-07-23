@@ -204,7 +204,6 @@
     <string name="lbl_ended">FINALIZADO</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_from">desde</string>
-    <string name="lbl_bitstream_dts">Audio bitstream DTS</string>
     <string name="lbl_refresh_switching">Cambio de frecuencia de actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_episodes">Nuevos episodios</string>

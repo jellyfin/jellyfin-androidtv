@@ -161,7 +161,6 @@
     <string name="lbl_just_this_once">Len tentokrát</string>
     <string name="lbl_select_date">Vybrať dátum</string>
     <string name="lbl_in_x_days">Za %d dní</string>
-    <string name="lbl_bitstream_dts">Bitstreamovať DTS zvuk</string>
     <string name="desc_premieres">Zobraziť riadok nových pilotných epizód pre každý seriál, ktorý pozeráte</string>
     <string name="lbl_show_premieres">Zobraziť premiéry sérií seriálov</string>
     <string name="lbl_refresh_switching">Prepínanie obnovovacej frekvencie</string>

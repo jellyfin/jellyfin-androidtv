@@ -160,7 +160,6 @@
     <string name="lbl_just_this_once">Solo esta vez</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="lbl_in_x_days">En %d días</string>
-    <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="lbl_refresh_switching">Cambio de tasa de refresco</string>

@@ -169,7 +169,6 @@
     <string name="lbl_just_this_once">Csak most az egyszer</string>
     <string name="lbl_select_date">Dátum kiválasztása</string>
     <string name="lbl_in_x_days">%d nap múlva</string>
-    <string name="lbl_bitstream_dts">DTS Audio bitfolyam</string>
     <string name="lbl_show_premieres">A show évadjainak premierjei</string>
     <string name="lbl_refresh_switching">Frissítési ráta módosítása</string>
     <string name="lbl_open">Megnyitás</string>

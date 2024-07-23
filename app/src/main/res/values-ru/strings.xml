@@ -168,7 +168,6 @@
     <string name="lbl_refresh_switching">Переключение частоты обновления</string>
     <string name="lbl_show_premieres">Показывать премьеры сезона</string>
     <string name="desc_premieres">Показывать ряд пилотных эпизодов для любого просматривемого сериала</string>
-    <string name="lbl_bitstream_dts">Транслировать DTS аудио</string>
     <string name="lbl_favorite">Избранное</string>
     <string name="lbl_song_title">Название композиции</string>
     <string name="lbl_album_name">Название альбома</string>

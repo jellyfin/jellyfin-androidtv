@@ -164,7 +164,6 @@
     <string name="pref_authentication_cat">Authenticatie</string>
     <string name="loading">Laden…</string>
     <string name="lbl_in_x_days">Over %d dagen</string>
-    <string name="lbl_bitstream_dts">DTS-audio bitstreamen</string>
     <string name="desc_premieres">Toon een rij nieuwe pilotafleveringen voor elke serie die je kijkt</string>
     <string name="lbl_show_premieres">Seizoenspremières tonen</string>
     <string name="lbl_refresh_switching">Beeldverversingsfrequentie wisselen</string>

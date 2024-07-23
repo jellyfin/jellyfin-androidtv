@@ -154,7 +154,6 @@
     <string name="lbl_just_this_once">Tylko ten jeden raz</string>
     <string name="lbl_select_date">Wybierz datę</string>
     <string name="lbl_in_x_days">Za %d dni</string>
-    <string name="lbl_bitstream_dts">Strumień danych audio DTS</string>
     <string name="desc_premieres">Pokaż rząd nowych pilotów odcinków dowolnego oglądanego serialu</string>
     <string name="lbl_show_premieres">Pokaż premiery sezonu</string>
     <string name="lbl_refresh_switching">Przełączanie częstotliwości odświeżania</string>

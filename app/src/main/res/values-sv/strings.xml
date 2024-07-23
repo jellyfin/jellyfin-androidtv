@@ -56,7 +56,6 @@
     <string name="lbl_just_this_once">Enbart den här gången</string>
     <string name="lbl_select_date">Välj datum</string>
     <string name="lbl_in_x_days">Om %d dagar</string>
-    <string name="lbl_bitstream_dts">Bitströmma DTS-ljud</string>
     <string name="desc_premieres">Visa en rad med nya avsnitt för serier du tittar på</string>
     <string name="lbl_show_premieres">Visa säsongspremiärer</string>
     <string name="lbl_refresh_switching">Uppdateringsfrekvensväxling</string>

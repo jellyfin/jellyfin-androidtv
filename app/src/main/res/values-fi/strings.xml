@@ -190,7 +190,6 @@
     <string name="lbl_recent_recordings">Uusimmat tallenteet</string>
     <string name="lbl_repeat">Toista</string>
     <string name="lbl_in_x_days">%d päivän kuluttua</string>
-    <string name="lbl_bitstream_dts">Välitä DTS-ääni vahvistimelle</string>
     <string name="desc_premieres">Näytä rivi kaikkien katsomiesi sarjojen uusista pilottijaksoista</string>
     <string name="lbl_show_premieres">Sarjojen kausien ensimmäiset jaksot</string>
     <string name="lbl_refresh_switching">Virkistystaajuuden vaihto</string>

@@ -195,7 +195,6 @@
     <string name="lbl_just_this_once">فقط این بار</string>
     <string name="lbl_select_date">انتخاب تاریخ</string>
     <string name="lbl_in_x_days">در %d روز</string>
-    <string name="lbl_bitstream_dts">صدای جریان بیت DTS</string>
     <string name="desc_premieres">نمایش یک ردیف از قسمت های آزمایشی برای تمام سریال هایی که تماشا میکنید</string>
     <string name="lbl_show_premieres">نمایش اولین نمایش فصل</string>
     <string name="lbl_next_episode">قسمت بعدی</string>

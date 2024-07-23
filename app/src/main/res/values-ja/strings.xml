@@ -174,7 +174,6 @@
     <string name="lbl_show_premieres">ブラウザでシーズンプレミアを表示</string>
     <string name="lbl_repeat_episodes">エピソードをリピート</string>
     <string name="lbl_premieres">プレミア</string>
-    <string name="lbl_bitstream_dts">ビットストリームDTSオーディオ</string>
     <string name="lbl_in_x_days">%d 日で</string>
     <string name="lbl_refresh_switching">リフレッシュレート切り替え中</string>
     <string name="lbl_bitstream_ac3">ビットストリームドルビーデジタル・オーディオ</string>

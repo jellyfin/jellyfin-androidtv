@@ -207,7 +207,6 @@
     <string name="lbl_just_this_once">רק הפעם</string>
     <string name="lbl_select_date">בחר תאריך</string>
     <string name="lbl_in_x_days">בעוד %d ימים</string>
-    <string name="lbl_bitstream_dts">שמע דיגיטאלי ב DTS</string>
     <string name="desc_premieres">מראה שורה של פיילוטים לפרקים חדשים עבור הסדרה שנצפית</string>
     <string name="lbl_playback_control_ends">מסתיים ב %1$s</string>
     <string name="lbl_sign_in">אנא התחבר</string>

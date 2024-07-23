@@ -188,7 +188,6 @@
     <string name="lbl_just_this_once">Bare denne gangen</string>
     <string name="lbl_select_date">Velg dato</string>
     <string name="lbl_in_x_days">Om %d dager</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS-lyd</string>
     <string name="desc_premieres">Vis en rad med nye pilotepisoder for alle serier du ser på</string>
     <string name="lbl_show_premieres">Vis sesongpremierer</string>
     <string name="lbl_refresh_switching">Bytte av oppdateringfrekvens</string>

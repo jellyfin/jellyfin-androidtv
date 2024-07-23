@@ -151,7 +151,6 @@
     <string name="msg_item_added">" položka přidána"</string>
     <string name="lbl_instant_mix">Rychlý mix</string>
     <string name="lbl_in_x_days">Za %d dní</string>
-    <string name="lbl_bitstream_dts">Zvuk DTS jako bitový tok</string>
     <string name="desc_premieres">Zobrazit řadu nových úvodních epizod pro každý seriál, který sledujete</string>
     <string name="lbl_show_premieres">Zobrazit premiéry sezóny</string>
     <string name="lbl_refresh_switching">Přepínání obnovovacích frekvencí</string>

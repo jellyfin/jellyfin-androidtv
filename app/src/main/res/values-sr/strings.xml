@@ -158,7 +158,6 @@
     <string name="lbl_just_this_once">Само овај пут</string>
     <string name="lbl_select_date">Изаберите датум</string>
     <string name="lbl_in_x_days">За %d дана</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS звук</string>
     <string name="desc_premieres">Покажите ред нових пилота епизода за било коју серију коју гледате</string>
     <string name="lbl_show_premieres">Прикажите премијере сезоне током прегледа</string>
     <string name="lbl_refresh_switching">Пребацивање брзине освежавања</string>

@@ -221,7 +221,6 @@
     <string name="msg_record_entire_series">Ĉu rikordi tutan serion\?</string>
     <string name="lbl_just_this_once">Nur ĉi foje</string>
     <string name="lbl_in_x_days">Je %d tagoj</string>
-    <string name="lbl_bitstream_dts">Bitfluo de DTS-aŭdio</string>
     <string name="lbl_refresh_switching">Ŝanĝi oftecon de aktualigoj</string>
     <string name="lbl_play_next_up">Ludi Sekvan Plue</string>
     <string name="desc_bitstream_ac3">Bezonas kapablan aparataron</string>

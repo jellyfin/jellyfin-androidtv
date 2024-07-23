@@ -231,7 +231,6 @@
     <string name="lbl_just_this_once">Samo ovaj put</string>
     <string name="lbl_select_date">Odaberi datum</string>
     <string name="lbl_in_x_days">Za %d dana</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS zvuk</string>
     <string name="desc_premieres">Prikaži red novih pilot epizoda serija koje gledate</string>
     <string name="lbl_show_premieres">Prikaži premijere sezone</string>
     <string name="lbl_show_backdrop">Prikaži pozadine</string>

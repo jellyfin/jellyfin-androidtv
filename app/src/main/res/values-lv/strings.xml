@@ -209,7 +209,6 @@
     <string name="msg_set_to_record">Programma uzstādīta ierakstīšanai</string>
     <string name="lbl_play">Atskaņot</string>
     <string name="lbl_other_channels">Citi Kanāli</string>
-    <string name="lbl_bitstream_dts">Bit-straumēt DTS Audio</string>
     <string name="lbl_instant_mix">Tiešā Jaukšana</string>
     <string name="lbl_upcoming">Gaidāmā</string>
     <string name="lbl_cast_crew">Lomas/Apkalpe</string>

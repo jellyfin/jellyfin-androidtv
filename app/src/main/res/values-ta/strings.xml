@@ -180,7 +180,6 @@
     <string name="lbl_just_this_once">ஒரு முறை</string>
     <string name="lbl_select_date">தேதி தேர்ந்தெடு</string>
     <string name="lbl_in_x_days">%d நாட்களில்</string>
-    <string name="lbl_bitstream_dts">பிட்ஸ்ட்ரீம் DTS ஆடியோ</string>
     <string name="desc_premieres">நீங்கள் பார்க்கும் எந்தத் தொடருக்கும் புதிய எபிசோட் விமானிகளின் வரிசையைக் காட்டு</string>
     <string name="lbl_show_premieres">சீசன் பிரீமியர்களைக் காட்டு</string>
     <string name="lbl_refresh_switching">வீத மாற்றத்தை புதுப்பிக்கவும்</string>

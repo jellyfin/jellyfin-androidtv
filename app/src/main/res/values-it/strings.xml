@@ -185,7 +185,6 @@
     <string name="lbl_just_this_once">Solo questa volta</string>
     <string name="lbl_select_date">Seleziona data</string>
     <string name="lbl_in_x_days">Tra %d giorni</string>
-    <string name="lbl_bitstream_dts">Bitstream Audio DTS</string>
     <string name="desc_premieres">Mostra una fila di nuovi episodi per ogni serie che stai guardando</string>
     <string name="lbl_on_schedule">In programmazione</string>
     <string name="lbl_at_any_time">In qualsiasi momento</string>

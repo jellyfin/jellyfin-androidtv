@@ -171,7 +171,6 @@
     <string name="lbl_just_this_once">Només una vegada</string>
     <string name="lbl_select_date">Seleccionar data</string>
     <string name="lbl_in_x_days">En %d dies</string>
-    <string name="lbl_bitstream_dts">Transmissió directa de àudio DTS</string>
     <string name="desc_premieres">Mostra una fila de pilots d’episodis nous per a qualsevol sèrie que mires</string>
     <string name="lbl_show_premieres">Mostra les estrenes de la temporada de programes</string>
     <string name="lbl_refresh_switching">Canviar velocitat d’actualització</string>

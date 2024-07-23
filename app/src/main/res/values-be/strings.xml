@@ -246,7 +246,6 @@
     <string name="lbl_playlists">Плэйлісты</string>
     <string name="lbl_add_to_queue">Дадаць у чаргу</string>
     <string name="lbl_open_artist">Адкрыць выканаўцу</string>
-    <string name="lbl_bitstream_dts">Гук Bitstream DTS</string>
     <string name="lbl_starting_with">пачынаючы з тых, чыё імя пачынаецца з</string>
     <string name="msg_subtitles_loading">Загрузка субтытраў…</string>
     <string name="lbl_no_recordings">Няма даступных запісаў</string>

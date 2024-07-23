@@ -168,7 +168,6 @@
     <string name="lbl_new_premieres">Nye premierer</string>
     <string name="lbl_select_date">Vælg dato</string>
     <string name="lbl_in_x_days">Om %d dage</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS lyd</string>
     <string name="desc_premieres">Vis en række af nye afsnit for enhver serie, du ser</string>
     <string name="lbl_show_premieres">Vis sæson premiere</string>
     <string name="lbl_refresh_switching">Automatisk opdateringsfrekvens</string>

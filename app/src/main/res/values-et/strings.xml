@@ -57,7 +57,6 @@
     <string name="desc_audio_night_mode">Tasandab helitugevust automaatselt</string>
     <string name="lbl_quality_profile">Kvaliteedi profiil</string>
     <string name="lbl_show_backdrop">Kuva taustadekoratsioonid</string>
-    <string name="lbl_bitstream_dts">DTS heli bitivoog</string>
     <string name="lbl_new">Uus</string>
     <string name="lbl_episode_not_record">Seda saadet EI salvestata</string>
     <string name="lbl_save">Salvesta</string>

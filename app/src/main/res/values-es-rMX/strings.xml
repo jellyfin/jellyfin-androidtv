@@ -167,7 +167,6 @@
     <string name="lbl_refresh_switching">Cambio de la tasa de actualización</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
-    <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
     <string name="lbl_save">Guardar</string>
     <string name="lbl_new">Nuevo</string>
     <string name="lbl_repeat">Repetir</string>

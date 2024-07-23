@@ -13,7 +13,6 @@
     <string name="lbl_just_this_once">Sadece bu kez</string>
     <string name="lbl_select_date">Tarih seç</string>
     <string name="lbl_in_x_days">%d günde</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS ses</string>
     <string name="desc_premieres">İzlediğiniz herhangi bir seri için, bir sıra yeni bölüm pilot bölümleri göster</string>
     <string name="lbl_show_premieres">Sezon prömiyerlerini göster</string>
     <string name="lbl_refresh_switching">Yenileme hızı değiştirme</string>

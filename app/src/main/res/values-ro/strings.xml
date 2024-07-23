@@ -134,7 +134,6 @@
     <string name="lbl_just_this_once">Doar de data aceasta</string>
     <string name="lbl_select_date">Selectați data</string>
     <string name="lbl_in_x_days">În %d zile</string>
-    <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="desc_premieres">Afișează un rând de episoade pilot noi pentru orice serie vizionată</string>
     <string name="lbl_show_premieres">Arată premierele de sezon</string>
     <string name="lbl_refresh_switching">Schimbă rata de refresh</string>

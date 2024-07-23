@@ -90,7 +90,6 @@
     <string name="lbl_at_any_time">At any time</string>
     <string name="lbl_select_date">Select date</string>
     <string name="lbl_in_x_days">In %d days</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
     <string name="desc_premieres">Show a row of new episode pilots for any programme you watch</string>
     <string name="lbl_show_premieres">Show season premieres</string>
     <string name="lbl_refresh_switching">Refresh rate switching</string>
