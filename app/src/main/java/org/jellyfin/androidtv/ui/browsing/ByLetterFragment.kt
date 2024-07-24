@@ -18,7 +18,7 @@ class ByLetterFragment : BrowseFolderFragment() {
 			parentId = folder?.id,
 			sortBy = setOf(ItemSortBy.SORT_NAME),
 			includeItemTypes = includeType?.let(BaseItemKind::fromNameOrNull)?.let(::setOf),
-			nameStartsWith = letters.substring(0, 1),
+			nameLessThan = letters.substring(0, 1),
 			recursive = true,
 			fields = setOf(
 				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
