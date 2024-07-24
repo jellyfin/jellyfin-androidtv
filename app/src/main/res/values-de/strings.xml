@@ -446,7 +446,7 @@
     <string name="pref_audio_night_mode">Audio-Nachtmodus (experimentell)</string>
     <string name="lbl_subtitle_fg">Untertitelschriftfarbe</string>
     <string name="app_notification_beta">App auf %1$s aktualisiert
-\nVielen Dank für die Teilnahme am Jellyfin-Beta-Programm</string>
+\nVielen Dank für die Teilnahme am Jellyfin-Beta-Programm.</string>
     <string name="lbl_subtitle_stroke">Untertitelstrichstärke</string>
     <string name="lbl_subtitle_position">Untertitelabstand von unten</string>
     <string name="color_white">Weiß</string>
