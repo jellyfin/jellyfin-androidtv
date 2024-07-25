@@ -95,7 +95,7 @@ class ServerRepositoryImpl(
 
 		val goodRecommendations = mutableListOf<RecommendedServerInfo>()
 		val badRecommendations = mutableListOf<RecommendedServerInfo>()
-		val greatRecommendaton = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
+		val greatRecommendation = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
 			when (recommendedServer.score) {
 				RecommendedServerInfoScore.GREAT -> true
 				RecommendedServerInfoScore.GOOD -> {
@@ -111,7 +111,7 @@ class ServerRepositoryImpl(
 
 		Timber.d(buildString {
 			append("Recommendations: ")
-			if (greatRecommendaton == null) append(0)
+			if (greatRecommendation == null) append(0)
 			else append(1)
 			append(" great, ")
 			append(goodRecommendations.size)
@@ -120,7 +120,7 @@ class ServerRepositoryImpl(
 			append(" bad")
 		})
 
-		val chosenRecommendation = greatRecommendaton ?: goodRecommendations.firstOrNull()
+		val chosenRecommendation = greatRecommendation ?: goodRecommendations.firstOrNull()
 		if (chosenRecommendation != null && chosenRecommendation.systemInfo.isSuccess) {
 			// Get system info
 			val systemInfo = chosenRecommendation.systemInfo.getOrThrow()

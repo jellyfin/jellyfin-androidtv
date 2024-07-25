@@ -30,7 +30,7 @@ interface PlayerState {
 	/**
 	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
 	 * property is not reactive to avoid performance penalties. Manually read the values every
-	 * second for UI or read when neccesary.
+	 * second for UI or read when necessary.
 	 */
 	val positionInfo: PositionInfo
 

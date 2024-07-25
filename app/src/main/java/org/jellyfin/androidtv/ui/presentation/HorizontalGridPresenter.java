@@ -203,7 +203,7 @@ public class HorizontalGridPresenter extends Presenter {
         vh.mItemBridgeAdapter.setAdapterListener(new ItemBridgeAdapter.AdapterListener() {
             @Override
             public void onBind(final ItemBridgeAdapter.ViewHolder itemViewHolder) {
-                // Only when having an OnItemClickListner, we attach the OnClickListener.
+                // Only when having an OnItemClickListener, we attach the OnClickListener.
                 if (getOnItemViewClickedListener() != null) {
                     final View itemView = itemViewHolder.getViewHolder().view;
                     itemView.setOnClickListener(new View.OnClickListener() {

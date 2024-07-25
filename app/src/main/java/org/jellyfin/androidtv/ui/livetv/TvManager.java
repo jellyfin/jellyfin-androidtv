@@ -204,7 +204,7 @@ public class TvManager {
     }
 
     // this makes focus movements more predictable for the grid view
-    public static void setFocusParms(LinearLayout currentRow, LinearLayout otherRow, boolean up) {
+    public static void setFocusParams(LinearLayout currentRow, LinearLayout otherRow, boolean up) {
         for (int currentRowNdx = 0; currentRowNdx < currentRow.getChildCount(); currentRowNdx++) {
             ProgramGridCell cell = (ProgramGridCell) currentRow.getChildAt(currentRowNdx);
             ProgramGridCell otherCell = getOtherCell(otherRow, cell);

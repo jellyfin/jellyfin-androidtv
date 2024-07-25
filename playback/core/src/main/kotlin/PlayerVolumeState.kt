@@ -25,7 +25,7 @@ interface PlayerVolumeState {
 	 * Whether the volume and mute state can be changed or not.
 	 * Changing the volume/mute state will do nothing when false.
 	 */
-	val modifyable: Boolean
+	val modifiable: Boolean
 
 	/**
 	 * Mute the device.
@@ -38,12 +38,12 @@ interface PlayerVolumeState {
 	fun unmute()
 
 	/**
-	 * Increase the device volume by the device prefered amount.
+	 * Increase the device volume by the device preferred amount.
 	 */
 	fun increaseVolume()
 
 	/**
-	 * Decrease the device volume by the device prefered amount.
+	 * Decrease the device volume by the device preferred amount.
 	 */
 	fun decreaseVolume()
 
@@ -60,7 +60,7 @@ interface PlayerVolumeState {
 class NoOpPlayerVolumeState : PlayerVolumeState {
 	override val muted = false
 	override val volume = 1f
-	override val modifyable = false
+	override val modifiable = false
 
 	override fun mute() = Unit
 	override fun unmute() = Unit
@@ -81,11 +81,11 @@ class AndroidPlayerVolumeState(
 	override val volume: Float
 		get() = audioManager.getStreamVolume(stream).toFloat() / audioManager.getStreamMaxVolume(stream)
 
-	override val modifyable: Boolean
+	override val modifiable: Boolean
 		get() = !audioManager.isVolumeFixed
 
 	override fun mute() {
-		if (!modifyable) return
+		if (!modifiable) return
 		audioManager.adjustStreamVolume(
 			stream,
 			AudioManager.ADJUST_MUTE,
@@ -94,7 +94,7 @@ class AndroidPlayerVolumeState(
 	}
 
 	override fun unmute() {
-		if (!modifyable) return
+		if (!modifiable) return
 		audioManager.adjustStreamVolume(
 			stream,
 			AudioManager.ADJUST_UNMUTE,
@@ -103,7 +103,7 @@ class AndroidPlayerVolumeState(
 	}
 
 	override fun increaseVolume() {
-		if (!modifyable) return
+		if (!modifiable) return
 		audioManager.adjustStreamVolume(
 			stream,
 			AudioManager.ADJUST_RAISE,
@@ -112,7 +112,7 @@ class AndroidPlayerVolumeState(
 	}
 
 	override fun decreaseVolume() {
-		if (!modifyable) return
+		if (!modifiable) return
 		audioManager.adjustStreamVolume(
 			stream,
 			AudioManager.ADJUST_LOWER,
@@ -122,7 +122,7 @@ class AndroidPlayerVolumeState(
 
 	override fun setVolume(@FloatRange(0.0, 1.0) volume: Float) {
 		require(volume in 0f..1f)
-		if (!modifyable) return
+		if (!modifiable) return
 		val maxVolume = audioManager.getStreamMaxVolume(stream)
 		val index = (volume * maxVolume).roundToInt()
 		Timber.d("volume=$volume, maxVolume=$maxVolume, index=$index")

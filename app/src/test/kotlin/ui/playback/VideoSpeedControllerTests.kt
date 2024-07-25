@@ -111,7 +111,7 @@ class VideoSpeedControllerTests : FunSpec({
 		speedController.currentSpeed shouldBe VideoSpeedController.SpeedSteps.SPEED_1_00
 	}
 
-	test("VideoSpeedController.currentSpeed alwats sets the requested speed when LiveTV is off") {
+	test("VideoSpeedController.currentSpeed always sets the requested speed when LiveTV is off") {
 		val mockController = mockk<PlaybackController>(relaxed = true) {
 			every { isLiveTv } returns false
 		}

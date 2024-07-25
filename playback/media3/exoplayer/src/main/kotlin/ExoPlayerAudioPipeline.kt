@@ -15,7 +15,7 @@ class ExoPlayerAudioPipeline {
 	fun setAudioSessionId(audioSessionId: Int) {
 		Timber.d("Audio session id changed to $audioSessionId")
 
-		// Re-creare loudness enhancer for normalization gain
+		// Re-create loudness enhancer for normalization gain
 		loudnessEnhancer?.release()
 		loudnessEnhancer = runCatching { LoudnessEnhancer(audioSessionId) }
 			.onFailure { Timber.w(it, "Failed to create LoudnessEnhancer") }

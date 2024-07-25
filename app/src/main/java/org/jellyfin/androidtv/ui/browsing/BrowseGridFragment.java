@@ -473,11 +473,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
         if (numRows > 0) {
             double paddingPct = cardScaling / numRows;
-            double spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numRows - 1);
+            double spacingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numRows - 1);
 
-            double wastedSpacePct = paddingPct + spaceingPct;
-            double useableCardSpace = mGridHeight / (1.0 + wastedSpacePct); // decrease size
-            double cardHeight = useableCardSpace / numRows;
+            double wastedSpacePct = paddingPct + spacingPct;
+            double usableCardSpace = mGridHeight / (1.0 + wastedSpacePct); // decrease size
+            double cardHeight = usableCardSpace / numRows;
 
             // fix any rounding errors and make pixel perfect
             cardHeightInt = (int) Math.round(cardHeight);
@@ -501,14 +501,14 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             mCardsScreenStride = numRows;
         } else if (numCols > 0) {
             double paddingPct = cardScaling / numCols;
-            double spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numCols - 1);
+            double spacingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numCols - 1);
             if (mImageType == ImageType.BANNER) {
-                spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_HORIZONTAL_BANNER_PCT) * (numCols - 1);
+                spacingPct = ((paddingPct / 2.0) * CARD_SPACING_HORIZONTAL_BANNER_PCT) * (numCols - 1);
             }
 
-            double wastedSpacePct = paddingPct + spaceingPct;
-            double useableCardSpace = mGridWidth / (1.0 + wastedSpacePct); // decrease size
-            double cardWidth = useableCardSpace / numCols;
+            double wastedSpacePct = paddingPct + spacingPct;
+            double usableCardSpace = mGridWidth / (1.0 + wastedSpacePct); // decrease size
+            double cardWidth = usableCardSpace / numCols;
 
             // fix any rounding errors and make pixel perfect
             cardHeightInt = (int) Math.round(getCardHeightBy(cardWidth, mImageType, mFolder));

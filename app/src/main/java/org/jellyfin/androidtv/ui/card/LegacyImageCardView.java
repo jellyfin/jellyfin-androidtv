@@ -158,7 +158,7 @@ public class LegacyImageCardView extends BaseCardView {
         }
     }
 
-    public CharSequence gettitle() {
+    public CharSequence getTitle() {
         if (binding.title == null) {
             return null;
         }
@@ -212,7 +212,7 @@ public class LegacyImageCardView extends BaseCardView {
     }
 
     private void setTextMaxLines() {
-        if (TextUtils.isEmpty(gettitle())) {
+        if (TextUtils.isEmpty(getTitle())) {
             binding.contentText.setMaxLines(2);
         } else {
             binding.contentText.setMaxLines(1);

@@ -52,7 +52,7 @@ class HomeFragmentLatestRow(
 	}
 
 	companion object {
-		// Collections exclused from latest row based on app support and common sense
+		// Collections excluded from latest row based on app support and common sense
 		private val EXCLUDED_COLLECTION_TYPES = arrayOf(
 			CollectionType.PLAYLISTS,
 			CollectionType.LIVETV,
@@ -60,7 +60,7 @@ class HomeFragmentLatestRow(
 			CollectionType.BOOKS,
 		)
 
-		// Maximum ammount of items loaded for a row
+		// Maximum amount of items loaded for a row
 		private const val ITEM_LIMIT = 50
 	}
 }

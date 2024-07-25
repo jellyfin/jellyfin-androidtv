@@ -673,7 +673,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onResume() {
         super.onResume();
 
-        // Close player when resuming without a valid playback contoller
+        // Close player when resuming without a valid playback controller
         if (!playbackControllerContainer.getValue().getPlaybackController().hasFragment()) {
             if (navigationRepository.getValue().getCanGoBack()) {
                 navigationRepository.getValue().goBack();
@@ -883,8 +883,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 // set focus parameters if we are not on first row
                 // this makes focus movements more predictable for the grid view
                 if (prevRow != null) {
-                    TvManager.setFocusParms(row, prevRow, true);
-                    TvManager.setFocusParms(prevRow, row, false);
+                    TvManager.setFocusParams(row, prevRow, true);
+                    TvManager.setFocusParams(prevRow, row, false);
                 }
                 prevRow = row;
 

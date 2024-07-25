@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.auth.model
 sealed class QuickConnectState
 
 /**
- * State unknown untill first poll completed.
+ * State unknown until first poll completed.
  */
 data object UnknownQuickConnectState : QuickConnectState()
 
