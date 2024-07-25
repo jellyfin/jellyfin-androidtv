@@ -8,11 +8,11 @@ plugins {
 
 android {
 	namespace = "org.jellyfin.androidtv"
-	compileSdk = 34
+	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
-		minSdk = 21
-		targetSdk = 33
+		minSdk = libs.versions.android.minSdk.get().toInt()
+		targetSdk = libs.versions.android.targetSdk.get().toInt()
 
 		// Release version
 		applicationId = namespace
