@@ -70,7 +70,7 @@ class StartupViewModel(
 	fun getUserImage(server: Server, user: User): String? =
 		authenticationRepository.getUserImageUrl(server, user)
 
-	fun loadDiscoveryservers() {
+	fun loadDiscoveryServers() {
 		// Only run one discovery process at a time
 		if (discoveryMutex.isLocked) return
 

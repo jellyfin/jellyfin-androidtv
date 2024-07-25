@@ -538,8 +538,8 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 // set focus parameters if we are not on first row
                 // this makes focus movements more predictable for the grid view
                 if (prevRow != null) {
-                    TvManager.setFocusParms(row, prevRow, true);
-                    TvManager.setFocusParms(prevRow, row, false);
+                    TvManager.setFocusParams(row, prevRow, true);
+                    TvManager.setFocusParams(prevRow, row, false);
                 }
                 prevRow = row;
 

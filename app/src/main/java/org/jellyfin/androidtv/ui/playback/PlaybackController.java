@@ -305,7 +305,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             if (mode.getPhysicalWidth() < 1280 || mode.getPhysicalHeight() < 720)  // Skip non-HD
                 continue;
 
-            if (mode.getPhysicalWidth() < videoStream.getWidth() || mode.getPhysicalHeight() < videoStream.getHeight())  // Disallow reso downgrade
+            if (mode.getPhysicalWidth() < videoStream.getWidth() || mode.getPhysicalHeight() < videoStream.getHeight())  // Disallow resolution downgrade
                 continue;
 
             int rate = Math.round(mode.getRefreshRate() * 100);

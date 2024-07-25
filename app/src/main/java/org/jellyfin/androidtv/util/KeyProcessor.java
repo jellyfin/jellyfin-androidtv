@@ -306,7 +306,7 @@ public class KeyProcessor {
                     });
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
-                    KeyProcesorHelperKt.playFirstUnwatchedItem(activity, item.getId());
+                    KeyProcessorHelperKt.playFirstUnwatchedItem(activity, item.getId());
                     return true;
                 case MENU_MARK_FAVORITE:
                     toggleFavorite(activity, item.getId(), true);

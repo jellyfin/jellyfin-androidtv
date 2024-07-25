@@ -201,7 +201,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		actionHideTimer = lifecycleScope.launch {
 			delay(AUTO_HIDE_ACTIONS_DURATION)
 
-			// Only auto-hide when there is an active presenation
+			// Only auto-hide when there is an active presentation
 			if (pictureViewerViewModel.presentationActive.value) hideActions()
 		}
 	}

@@ -46,7 +46,7 @@ class ScreensaverViewModel(
 		// Cancel pending timer (if any)
 		timer?.cancel()
 
-		// Hide when interacted with allowed cancelation or when disabled
+		// Hide when interacted with allowed cancellation or when disabled
 		if (_visible.value && (canCancel || !inAppEnabled || activityPaused)) {
 			_visible.value = false
 		}

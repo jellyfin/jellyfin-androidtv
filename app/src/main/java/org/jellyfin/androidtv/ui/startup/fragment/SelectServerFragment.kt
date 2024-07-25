@@ -214,7 +214,7 @@ class SelectServerFragment : Fragment() {
 		super.onResume()
 
 		startupViewModel.reloadStoredServers()
-		startupViewModel.loadDiscoveryservers()
+		startupViewModel.loadDiscoveryServers()
 	}
 
 	class ServerAdapter(
