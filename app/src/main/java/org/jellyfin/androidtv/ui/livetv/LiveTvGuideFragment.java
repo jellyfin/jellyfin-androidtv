@@ -747,6 +747,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mSelectedProgram.getStartDate()));
         String url = imageHelper.getValue().getPrimaryImageUrl(mSelectedProgram, null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT);
         mImage.load(url, null, ContextCompat.getDrawable(requireContext(), R.drawable.blank10x10), 0, 0);
+
+        if (mDetailPopup != null && mDetailPopup.isShowing() && mSelectedProgramView != null) {
+            mDetailPopup.setContent(mSelectedProgram, ((ProgramGridCell) mSelectedProgramView));
+        }
     }
 
     public void setSelectedProgram(RelativeLayout programView) {
