@@ -1045,6 +1045,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (mSelectedProgram.getId() != null) {
             tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mSelectedProgram.getStartDate()));
         }
+
+        if (mDetailPopup != null && mDetailPopup.isShowing() && mSelectedProgramView != null) {
+            mDetailPopup.setContent(mSelectedProgram, ((ProgramGridCell) mSelectedProgramView));
+        }
     }
 
     public void setSelectedProgram(RelativeLayout programView) {
