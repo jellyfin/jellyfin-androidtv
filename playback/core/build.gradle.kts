@@ -5,10 +5,10 @@ plugins {
 
 android {
 	namespace = "org.jellyfin.playback.core"
-	compileSdk = 34
+	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
-		minSdk = 21
+		minSdk = libs.versions.android.minSdk.get().toInt()
 	}
 
 	compileOptions {
