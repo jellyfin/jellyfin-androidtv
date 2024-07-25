@@ -140,7 +140,7 @@ public class LiveProgramDetailPopup {
                     rec.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            LiveProgramDetailPopupHelperKt.recordSeries(LiveProgramDetailPopup.this, mProgram.getId(), program -> {
+                            LiveProgramDetailPopupHelperKt.recordProgram(LiveProgramDetailPopup.this, mProgram.getId(), program -> {
                                 mProgram = program;
                                 mSelectedProgramView.setRecSeriesTimer(program.getSeriesTimerId());
                                 mSelectedProgramView.setRecTimer(program.getTimerId());
@@ -195,7 +195,7 @@ public class LiveProgramDetailPopup {
                         rec.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                LiveProgramDetailPopupHelperKt.recordProgram(LiveProgramDetailPopup.this, mProgram.getId(), program -> {
+                                LiveProgramDetailPopupHelperKt.recordSeries(LiveProgramDetailPopup.this, mProgram.getId(), program -> {
                                     mProgram = program;
                                     mSelectedProgramView.setRecSeriesTimer(program.getSeriesTimerId());
                                     mSelectedProgramView.setRecTimer(program.getTimerId());
