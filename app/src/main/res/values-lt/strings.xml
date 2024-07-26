@@ -157,7 +157,7 @@
     <string name="pref_device_model">Įrenginio modelis</string>
     <string name="lbl_premiere">Premjera</string>
     <string name="grid_direction_vertical">Vertikaliai</string>
-    <string name="lbl_playback_speed">Atkurimo greitis</string>
+    <string name="lbl_playback_speed">Atkūrimo greitis</string>
     <string name="mark_watched">Pažymėti kaip žiūrėtą</string>
     <string name="lbl_quality_profile">Kokybės profilis</string>
     <string name="pref_next_up_behavior_title">Rodyti sekančio video informaciją</string>
@@ -197,7 +197,7 @@
     <string name="lbl_auto_crop">Automatiškai apkirpti</string>
     <string name="lbl_stretch">Ištempti</string>
     <string name="lbl_new_episodes">Nauji epizodai</string>
-    <string name="lbl_now_playing">Dabar rodoma</string>
+    <string name="lbl_now_playing">Dabar leidžiama</string>
     <string name="lbl_play_from_here">Paleisti nuo čia</string>
     <string name="lbl_remove_from_queue">Pašalinti iš eilės</string>
     <string name="msg_item_added">" failas pridėtas"</string>
@@ -223,7 +223,7 @@
     <string name="grid_direction_horizontal">Horizontaliai</string>
     <string name="lbl_my_media">pagal media failus</string>
     <string name="lbl_episode_not_record">Šis įrašas NEBUS įrašytas</string>
-    <string name="lbl_subtitle_track">Pasirinkti subtitrus</string>
+    <string name="lbl_subtitle_track">Pasirinkti subtitrų kalbą</string>
     <string name="lbl_open_artist">Atidaryti atlikėją</string>
     <string name="lbl_fit">Normalus</string>
     <string name="lbl_audio_track">Pasirinkti garso takelį</string>
@@ -425,7 +425,7 @@
     <string name="always_authenticate">Visada prašyti prisijungimo informacijos</string>
     <string name="license_author">Autorius</string>
     <string name="lbl_tune_to_channel">Nustatyti kanalą</string>
-    <string name="lbl_tv_queuing">Į eilę į visus tolesnius epizodus</string>
+    <string name="lbl_tv_queuing">Automatiškai paleisti visus tolesnius epizodus</string>
     <string name="lbl_show_backdrop">Rodyti fonus</string>
     <string name="lbl_program_ended">Programa pasibaigė</string>
     <string name="lbl_instant_mix">Spontaniškas sumaišymas</string>
@@ -457,4 +457,8 @@
     <string name="pref_libraries_description">Keisti kaip bibliotekos yra rodomos</string>
     <string name="pref_browsing">Naršymas</string>
     <string name="lbl_latest_in">Nesenai pridėta prie %1$s</string>
+    <string name="continue_listening">Tęsti klausimą</string>
+    <string name="lbl_home">Pagrindinis</string>
+    <string name="lbl_runtime">Žiūrėjimo laikas</string>
+    <string name="because_you_watched">Dėl to kad žiurejote %1$s</string>
 </resources>
