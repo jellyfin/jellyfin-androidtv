@@ -64,6 +64,12 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_external_player)
 				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
+
+			checkbox {
+				setTitle(R.string.pref_disable_hls)
+				setContent(R.string.desc_disable_hls)
+				bind(userPreferences, UserPreferences.disableHLS)
+			}
 		}
 
 		category {

@@ -30,6 +30,7 @@ class ExoPlayerProfile(
 	context: Context,
 	disableVideoDirectPlay: Boolean = false,
 	isAC3Enabled: Boolean = false,
+	disableHLS: Boolean = false,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -72,21 +73,39 @@ class ExoPlayerProfile(
 		maxStaticBitrate = 10_000_0000 // 10 mbps
 
 		transcodingProfiles = arrayOf(
-			// TS video profile
-			TranscodingProfile().apply {
-				type = DlnaProfileType.Video
-				this.context = EncodingContext.Streaming
-				container = Codec.Container.TS
-				videoCodec = buildList {
-					if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
-					add(Codec.Video.H264)
-				}.joinToString(",")
-				audioCodec = when {
-					Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
-					else -> allSupportedAudioCodecsWithoutFFmpegExperimental
-				}.joinToString(",")
-				protocol = "hls"
-				copyTimestamps = false
+			if (disableHLS) {
+				// MKV video profile
+				TranscodingProfile().apply {
+					type = DlnaProfileType.Video
+					this.context = EncodingContext.Streaming
+					container = Codec.Container.MKV
+					videoCodec = buildList {
+						if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.MKV)) add(Codec.Video.HEVC)
+						add(Codec.Video.H264)
+					}.joinToString(",")
+					audioCodec = when {
+						Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
+						else -> allSupportedAudioCodecsWithoutFFmpegExperimental
+					}.joinToString(",")
+					copyTimestamps = true
+				}
+			} else {
+				// TS video profile
+				TranscodingProfile().apply {
+					type = DlnaProfileType.Video
+					this.context = EncodingContext.Streaming
+					container = Codec.Container.TS
+					videoCodec = buildList {
+						if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
+						add(Codec.Video.H264)
+					}.joinToString(",")
+					audioCodec = when {
+						Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
+						else -> allSupportedAudioCodecsWithoutFFmpegExperimental
+					}.joinToString(",")
+					protocol = "hls"
+					copyTimestamps = false
+				}
 			},
 			// MP3 audio profile
 			TranscodingProfile().apply {

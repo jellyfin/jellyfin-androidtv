@@ -92,6 +92,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
+		/**
+		 * Disable HLS to fix subtitle sync issues
+		 */
+		var disableHLS = booleanPreference("disable_hls", false)
+
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.
