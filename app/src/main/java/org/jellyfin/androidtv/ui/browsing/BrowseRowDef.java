@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest;
 import org.jellyfin.sdk.model.api.request.GetItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
@@ -31,6 +32,7 @@ public class BrowseRowDef {
     private GetAlbumArtistsRequest albumArtistsQuery;
     private GetResumeItemsRequest resumeQuery;
     private GetSpecialsRequest specialsQuery;
+    private GetEpisodesRequest episodesQuery;
     private QueryType queryType;
 
     private int chunkSize = 0;
@@ -160,6 +162,12 @@ public class BrowseRowDef {
         this.queryType = QueryType.Specials;
     }
 
+    public BrowseRowDef(String header, GetEpisodesRequest episodesRequest) {
+        headerText = header;
+        this.episodesQuery = episodesRequest;
+        this.queryType = QueryType.Episodes;
+    }
+
     public int getChunkSize() {
         return chunkSize;
     }
@@ -206,6 +214,8 @@ public class BrowseRowDef {
     public GetResumeItemsRequest getResumeQuery() { return resumeQuery; }
 
     public GetSpecialsRequest getSpecialsQuery() { return specialsQuery; }
+
+    public GetEpisodesRequest getEpisodesQuery() { return episodesQuery; }
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;

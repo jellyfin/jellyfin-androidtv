@@ -25,11 +25,13 @@ import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
@@ -106,8 +108,9 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				// If we have exactly 1 episode returned, the series is currently partially watched
 				// we want to query the server for all episodes in the same season starting from
 				// this one to create a list of all unwatched episodes
-				val episodesResponse by api.itemsApi.getItems(
-					parentId = firstNextUp.seasonId,
+				val episodesResponse by api.tvShowsApi.getEpisodes(
+					seriesId = query.seriesId!!,
+					seasonId = firstNextUp.seasonId,
 					startIndex = firstNextUp.indexNumber,
 				)
 
@@ -240,6 +243,40 @@ fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.tvShowsApi.getSeasons(query)
+
+			val items = ArrayList<BaseItemDto>()
+
+			// We have to iterate over the seasons, and use the `userLibraryApi.getItem` API.
+			// Using the original result list, or trying to batch them together using
+			// `itemsApi.getItems` results in (potentially) incorrect childCount value,
+			// as the server ignores the `DisplayMissingEpisodes` user setting in those cases.
+			response.items.orEmpty().forEach {
+				api.itemsApi.getItems()
+				val item by api.userLibraryApi.getItem(
+					itemId = it.id,
+				)
+				if (item.childCount != null && item.childCount!! > 0) {
+					items.add(item)
+				}
+			}
+
+			setItems(
+				items,
+				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
+			)
+
+			if (response.items.isNullOrEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveEpisodes(api: ApiClient, query: GetEpisodesRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response by api.tvShowsApi.getEpisodes(query)
 
 			setItems(
 				items = response.items.orEmpty(),
