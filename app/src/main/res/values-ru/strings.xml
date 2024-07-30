@@ -78,7 +78,7 @@
     <string name="msg_cannot_play">Этот элемент невозможно воспроизвести</string>
     <string name="lbl_no_items">Нет элементов</string>
     <string name="lbl_empty">Пусто</string>
-    <string name="lbl_tv_queuing">Поставить в очередь все последующие эпизоды</string>
+    <string name="lbl_tv_queuing">Автоматическии включить следующий эпизод</string>
     <string name="lbl_search_hint">Искомый текст (выбор для клавиатуры)</string>
     <string name="lbl_play_first_unwatched">Воспроизвести первое непросмотренное</string>
     <string name="lbl_mark_unplayed">Отметить как не воспроизведённое</string>
@@ -304,7 +304,7 @@
     <string name="image_type_thumbnail">Бегунок</string>
     <string name="lbl_use_series_thumbnails_description">Использовать бегунки сериалов при отображении эпизодов</string>
     <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
-    <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
+    <string name="lbl_hide_unwatched_count">Когда объект просматривается</string>
     <string name="pref_watched_indicator">Индикаторы просмотра</string>
     <string name="user_picker_last_user_summary">Использовать последнюю активную учётную запись</string>
     <string name="user_picker_last_user_title">Наиболее часто используемые</string>
@@ -447,7 +447,7 @@
     <string name="lbl_subtitle_stroke">Цвет обводки субтитров</string>
     <string name="color_yellow">Жёлтый</string>
     <string name="app_notification_beta">Приложение обновлено до версии %1$s
-\nСпасибо вам за участие в бета-тестировании Jellyfin</string>
+\nСпасибо вам за участие в бета-тестировании Jellyfin.</string>
     <string name="lbl_subtitle_fg">Цвет текста субтитров</string>
     <string name="lbl_subtitle_position">Отступ субтитров от низа</string>
     <string name="color_white">Белый</string>
@@ -526,4 +526,5 @@
     <string name="pref_screensaver_ageratingrequired_title">Требуется возрастной рейтинг</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Показывать только товары с установленным возрастным рейтингом</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показать все товары</string>
+    <string name="lbl_runtime">Среда выполнения</string>
 </resources>
