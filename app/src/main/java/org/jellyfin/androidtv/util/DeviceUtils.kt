@@ -26,6 +26,9 @@ object DeviceUtils {
 	// Nvidia Shield TV Model
 	private const val SHIELD_TV_MODEL = "SHIELD Android TV"
 
+	// Google Chromecast HD Model
+	private const val GOOGLE_CHROMECAST_HD_MODEL = "Chromecast HD"
+
 	@JvmStatic
 	val isFireTv: Boolean = Build.MODEL.startsWith(FIRE_TV_PREFIX)
 
@@ -46,6 +49,9 @@ object DeviceUtils {
 	val isShieldTv: Boolean = Build.MODEL == SHIELD_TV_MODEL
 
 	@JvmStatic
+	val isChromecastHD: Boolean = Build.MODEL == GOOGLE_CHROMECAST_HD_MODEL
+
+	@JvmStatic
 	// These devices only support a max video resolution of 1080p
 	fun has4kVideoSupport(): Boolean = Build.MODEL !in listOf(
 		FIRE_STICK_MODEL_GEN_1,
@@ -53,6 +59,7 @@ object DeviceUtils {
 		FIRE_STICK_MODEL_GEN_3,
 		FIRE_STICK_LITE_MODEL,
 		FIRE_TV_MODEL_GEN_1,
-		FIRE_TV_MODEL_GEN_2
+		FIRE_TV_MODEL_GEN_2,
+		GOOGLE_CHROMECAST_HD_MODEL
 	)
 }
