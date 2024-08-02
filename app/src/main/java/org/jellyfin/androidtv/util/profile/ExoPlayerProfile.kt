@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
 import android.content.Context
-import android.os.Build
-import android.util.Log
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
