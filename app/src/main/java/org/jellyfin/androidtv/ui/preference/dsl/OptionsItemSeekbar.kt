@@ -32,6 +32,7 @@ class OptionsItemSeekbar(
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title
+			it.summary = content
 			it.min = min
 			it.max = max
 			it.seekBarIncrement = increment
