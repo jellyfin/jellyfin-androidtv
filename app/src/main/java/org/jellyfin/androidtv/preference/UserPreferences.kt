@@ -195,6 +195,40 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether items shown in the screensaver are required to have an age rating set.
 		 */
 		var screensaverAgeRatingRequired = booleanPreference("screensaver_agerating_required", true)
+
+		/**
+		 * Enable reactive homepage
+		 */
+		var homeReactive = booleanPreference("home_reactive", false)
+
+		/**
+		 * Minimum duration of media that the player will attempt to ensure is buffered at all times.
+		 *
+		 * Default value in androidx-media3 v1.4.0 is 50 seconds.
+		 */
+		var minBufferMs = intPreference("min_buffer_ms", 50_000)
+
+		/**
+		 * Maximum duration of media that the player will attempt to buffer
+		 *
+		 * Default value in androidx-media3 v1.4.0 is 50 seconds.
+		 */
+		var maxBufferMs = intPreference("max_buffer_ms", 50_000)
+
+		/**
+		 * Duration of media that must be buffered for playback to start or resume following a user action such as a seek.
+		 *
+		 * Default value in androidx-media3 v1.4.0 is 2.5 seconds.
+		 */
+		var bufferForPlaybackMs = intPreference("buffer_for_playback_ms", 2_500)
+
+		/**
+		 * duration of media that must be buffered for playback to resume after a rebuffer
+		 * (a rebuffer is defined to be caused by buffer depletion rather than a user action).
+		 *
+		 * Default value in androidx-media3 v1.4.0 is 5 seconds.
+		 */
+		var bufferForPlaybackAfterRebufferMs = intPreference("buffer_for_playback_after_rebuffer_ms", 5_000)
 	}
 
 	init {

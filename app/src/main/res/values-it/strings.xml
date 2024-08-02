@@ -564,3 +564,13 @@
     <string name="pref_subtitles_size_large">Grande</string>
     <string name="pref_subtitles_size_very_large">Molto grande</string>
 </resources>
+    <string name="pref_buffering_section_title">Buffering</string>
+    <string name="pref_buffering_min_buffer_ms_label">Secondi minimi di buffer</string>
+    <string name="pref_buffering_min_buffer_ms_description">Durata minima di contenuto che il player cercherà di mantenere nel buffer.</string>
+    <string name="pref_buffering_max_buffer_ms_label">Secondi massimi di buffer</string>
+    <string name="pref_buffering_max_buffer_ms_description">Durata massima di contenuto che il player può bufferizzare.</string>
+    <string name="pref_buffering_buffer_for_playback_ms_label">Buffer per la riproduzione</string>
+    <string name="pref_buffering_buffer_for_playback_ms_description">Durata di contenuto che dev\'essere stata bufferizzata per poter iniziare o riprendere la riproduzione a seguito di un\'azione dell\'utente (ad esempio un seek).</string>
+    <string name="pref_buffering_buffer_for_playback_after_rebuffer_ms_label">Buffer per la riproduzione dopo un rebuffer</string>
+    <string name="pref_buffering_buffer_for_playback_after_rebuffer_ms_description">Durata di contenuto che dev\'essere stata bufferizzata per poter riprendere la riproduzione a seguito di un\'interruzione per esaurimento del buffer.</string>
+</resources>

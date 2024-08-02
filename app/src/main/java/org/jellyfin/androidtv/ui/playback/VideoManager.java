@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -29,6 +31,7 @@ import androidx.media3.common.Tracks;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
@@ -47,6 +50,7 @@ import org.koin.java.KoinJavaComponent;
 import java.util.List;
 import java.util.Optional;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -72,6 +76,8 @@ public class VideoManager {
     private boolean nightModeEnabled;
 
     public boolean isContracted = false;
+
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
@@ -194,7 +200,28 @@ public class VideoManager {
         extractorsFactory.setConstantBitrateSeekingEnabled(true);
         extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
 
+        configureExoPlayerLoadControl(exoPlayerBuilder);
+
         return exoPlayerBuilder;
+    }
+
+    private void configureExoPlayerLoadControl(ExoPlayer.Builder exoPlayerBuilder)
+    {
+        int minBufferMs = userPreferences.getValue().get(UserPreferences.Companion.getMinBufferMs());
+        int maxBufferMs = userPreferences.getValue().get(UserPreferences.Companion.getMaxBufferMs());
+        int bufferForPlaybackMs = userPreferences.getValue().get(UserPreferences.Companion.getBufferForPlaybackMs());
+        int bufferForPlaybackAfterRebufferMs = userPreferences.getValue().get(UserPreferences.Companion.getBufferForPlaybackAfterRebufferMs());
+
+        Timber.d("ExoPlayer buffering configuration: minBufferMs = %d, maxBufferMs = %d, bufferForPlaybackMs = %d, bufferForPlaybackAfterRebufferMs = %d", minBufferMs, maxBufferMs, bufferForPlaybackMs, bufferForPlaybackAfterRebufferMs);
+
+        exoPlayerBuilder.setLoadControl(new DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                minBufferMs,
+                maxBufferMs,
+                bufferForPlaybackMs,
+                bufferForPlaybackAfterRebufferMs
+            ).build()
+        );
     }
 
     public boolean isInitialized() {

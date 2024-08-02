@@ -514,6 +514,15 @@
     <string name="past_week">Past week</string>
     <string name="scheduled_in_next_24_hours">Scheduled in next 24 hours</string>
     <string name="past_24_hours">Past 24 hours</string>
+    <string name="pref_buffering_section_title">Buffering</string>
+    <string name="pref_buffering_min_buffer_ms_label">Min buffer seconds</string>
+    <string name="pref_buffering_min_buffer_ms_description">Minimum duration of media that the player will attempt to ensure is buffered at all times.</string>
+    <string name="pref_buffering_max_buffer_ms_label">Max buffer seconds</string>
+    <string name="pref_buffering_max_buffer_ms_description">Maximum duration of media that the player will attempt to buffer.</string>
+    <string name="pref_buffering_buffer_for_playback_ms_label">Buffer for playback</string>
+    <string name="pref_buffering_buffer_for_playback_ms_description">Duration of media that must be buffered for playback to start or resume following a user action such as a seek.</string>
+    <string name="pref_buffering_buffer_for_playback_after_rebuffer_ms_label">Buffer for playback after rebuffer</string>
+    <string name="pref_buffering_buffer_for_playback_after_rebuffer_ms_description">Duration of media that must be buffered for playback to resume following buffer depletion.</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
