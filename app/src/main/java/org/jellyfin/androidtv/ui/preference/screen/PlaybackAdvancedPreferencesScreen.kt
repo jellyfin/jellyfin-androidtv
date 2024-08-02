@@ -5,11 +5,13 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.android.ext.android.inject
 
@@ -90,6 +92,70 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_bitstream_ac3)
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.ac3Enabled)
+			}
+		}
+
+		category {
+			setTitle(R.string.pref_buffering_section_title)
+
+			seekbar {
+				setTitle(R.string.pref_buffering_min_buffer_ms_label)
+				setContent(R.string.pref_buffering_min_buffer_ms_description)
+
+				min = 0
+				max = userPreferences[UserPreferences.maxBufferMs]
+				increment = 1_000
+
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value / 1000}s"
+				}
+
+				bind(userPreferences, UserPreferences.minBufferMs)
+			}
+
+			seekbar {
+				setTitle(R.string.pref_buffering_max_buffer_ms_label)
+				setContent(R.string.pref_buffering_max_buffer_ms_description)
+
+				min = userPreferences[UserPreferences.minBufferMs]
+				max = 300_000
+				increment = 1_000
+
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value / 1000}s"
+				}
+
+				bind(userPreferences, UserPreferences.maxBufferMs)
+			}
+
+			seekbar {
+				setTitle(R.string.pref_buffering_buffer_for_playback_ms_label)
+				setContent(R.string.pref_buffering_buffer_for_playback_ms_description)
+
+				min = 0
+				max = userPreferences[UserPreferences.minBufferMs]
+				increment = 500
+
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value.toDouble() / 1000}s"
+				}
+
+				bind(userPreferences, UserPreferences.bufferForPlaybackMs)
+			}
+
+			seekbar {
+				setTitle(R.string.pref_buffering_buffer_for_playback_after_rebuffer_ms_label)
+				setContent(R.string.pref_buffering_buffer_for_playback_after_rebuffer_ms_description)
+
+				min = 0
+				max = userPreferences[UserPreferences.minBufferMs]
+				increment = 1_000
+
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value / 1000}s"
+				}
+
+				bind(userPreferences, UserPreferences.bufferForPlaybackAfterRebufferMs)
 			}
 		}
 	}
