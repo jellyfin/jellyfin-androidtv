@@ -76,4 +76,6 @@
     <string name="lbl_bracket_unknown">अज्ञात</string>
     <string name="lbl_trailer">"ट्रेलर "</string>
     <string name="lbl_play_trailers">ट्रेलर चलाएं</string>
+    <string name="lbl_yes">हा</string>
+    <string name="lbl_no">नहीं</string>
 </resources>
