@@ -18,6 +18,7 @@ abstract class PreferenceStore<ME, MV> {
 		when (preference.defaultValue) {
 			is Int -> getInt(preference.key, preference.defaultValue)
 			is Long -> getLong(preference.key, preference.defaultValue)
+			is Float -> getFloat(preference.key, preference.defaultValue)
 			is Boolean -> getBool(preference.key, preference.defaultValue)
 			is String -> getString(preference.key, preference.defaultValue)
 			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
@@ -31,6 +32,7 @@ abstract class PreferenceStore<ME, MV> {
 		when (value) {
 			is Int -> setInt(preference.key, value)
 			is Long -> setLong(preference.key, value)
+			is Float -> setFloat(preference.key, value)
 			is Boolean -> setBool(preference.key, value)
 			is String -> setString(preference.key, value)
 			is Enum<*> -> setEnum(preference, value)
@@ -52,11 +54,13 @@ abstract class PreferenceStore<ME, MV> {
 	// it in the abstract common functionality (where it is used)
 	protected abstract fun getInt(key: String, defaultValue: Int): Int
 	protected abstract fun getLong(key: String, defaultValue: Long): Long
+	protected abstract fun getFloat(key: String, defaultValue: Float): Float
 	protected abstract fun getBool(key: String, defaultValue: Boolean): Boolean
 	protected abstract fun getString(key: String, defaultValue: String): String
 
 	protected abstract fun setInt(key: String, value: Int)
 	protected abstract fun setLong(key: String, value: Long)
+	protected abstract fun setFloat(key: String, value: Float)
 	protected abstract fun setBool(key: String, value: Boolean)
 	protected abstract fun setString(key: String, value: String)
 

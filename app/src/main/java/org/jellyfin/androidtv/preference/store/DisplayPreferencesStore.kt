@@ -82,6 +82,9 @@ abstract class DisplayPreferencesStore(
 	override fun getLong(key: String, defaultValue: Long) =
 		cachedPreferences[key]?.toLongOrNull() ?: defaultValue
 
+ 	override fun getFloat(key: String, defaultValue: Float) =
+		cachedPreferences[key]?.toFloatOrNull() ?: defaultValue
+
 	override fun getBool(key: String, defaultValue: Boolean) =
 		cachedPreferences[key]?.toBooleanStrictOrNull() ?: defaultValue
 
@@ -93,6 +96,10 @@ abstract class DisplayPreferencesStore(
 	}
 
 	override fun setLong(key: String, value: Long) {
+		cachedPreferences[key] = value.toString()
+	}
+
+	override fun setFloat(key: String, value: Float) {
 		cachedPreferences[key] = value.toString()
 	}
 
