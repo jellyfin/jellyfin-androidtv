@@ -80,4 +80,5 @@
     <string name="lbl_no">नहीं</string>
     <string name="lbl_enter_server_address">सर्वर का पता दर्ज करें</string>
     <string name="lbl_valid_server_address">सर्वर का पता दर्ज करे (आई.पी. या डोमेन/मशीन नाम)</string>
+    <string name="lbl_ok">ठीक है</string>
 </resources>
