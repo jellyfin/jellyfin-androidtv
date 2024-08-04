@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
+import org.jellyfin.preference.floatPreference
 import org.jellyfin.preference.intPreference
 import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
@@ -156,29 +157,24 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var seriesThumbnailsEnabled = booleanPreference("pref_enable_series_thumbnails", true)
 
 		/**
-		 * Enable subtitles background
+		 * Subtitles foreground color
 		 */
-		var subtitlesBackgroundEnabled = booleanPreference("subtitles_background_enabled", true)
-
-		/**
-		 * Subtitles font size
-		 */
-		var subtitlesSize = intPreference("subtitles_size", 28)
-
-		/**
-		 * Subtitles stroke size
-		 */
-		var subtitleStrokeSize = intPreference("subtitles_stroke_size", 0)
-
-		/**
-		 * Subtitles position
-		 */
-		var subtitlePosition = intPreference("subtitles_position", 40)
+		var subtitlesBackgroundColor = longPreference("subtitles_background_color", 0x00FFFFFF)
 
 		/**
 		 * Subtitles foreground color
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
+
+		/**
+		 * Subtitles stroke color
+		 */
+		var subtitleTextStrokeColor = longPreference("subtitles_text_stroke_color", 0xFF000000)
+
+		/**
+		 * Subtitles font size
+		 */
+		var subtitlesTextSize = floatPreference("subtitles_text_size", 1f)
 
 		/**
 		 * Show screensaver in app
@@ -215,6 +211,17 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 			migration(toVersion = 7) {
 				// Enable playback rewrite for music
 				putBoolean("playback_new_audio", true)
+			}
+
+			// v0.17.z to v0.18.0
+			migration(toVersion = 8) {
+				// Set subtitle background color to black if it was enabled in a previous version
+				val subtitlesBackgroundEnabled = it.getBoolean("subtitles_background_enabled", true)
+				putLong("subtitles_background_color", if (subtitlesBackgroundEnabled) 0XFF000000L else 0X00FFFFFFL)
+
+				// Set subtitle text stroke color to black if it was enabled in a previous version
+				val subtitleStrokeSize = it.getInt("subtitles_stroke_size", 0)
+				putLong("subtitles_text_stroke_color", if (subtitleStrokeSize > 0) 0XFF000000L else 0X00FFFFFFL)
 			}
 		}
 	}

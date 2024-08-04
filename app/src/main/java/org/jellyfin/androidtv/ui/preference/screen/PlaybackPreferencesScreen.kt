@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.colorList
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.koin.android.ext.android.inject
@@ -69,53 +70,73 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 		category {
 			setTitle(R.string.pref_subtitles)
 
-			checkbox {
-				setTitle(R.string.pref_subtitles_background_title)
-				setContent(R.string.pref_subtitles_background_summary)
-				bind(userPreferences, UserPreferences.subtitlesBackgroundEnabled)
-			}
-
 			@Suppress("MagicNumber")
 			colorList {
-				setTitle(R.string.lbl_subtitle_fg)
+				setTitle(R.string.lbl_subtitle_text_color)
 				entries = mapOf(
-					0xFFFFFFFF to context.getString(R.string.color_white),
-					0XFF000000 to context.getString(R.string.color_black),
-					0xFF7F7F7F to context.getString(R.string.color_darkgrey),
-					0xFFC80000 to context.getString(R.string.color_red),
-					0xFF00C800 to context.getString(R.string.color_green),
-					0xFF0000C8 to context.getString(R.string.color_blue),
-					0xFFEEDC00 to context.getString(R.string.color_yellow),
-					0xFFD60080 to context.getString(R.string.color_pink),
-					0xFF009FDA to context.getString(R.string.color_cyan),
+					0xFFFFFFFFL to context.getString(R.string.color_white),
+					0XFF000000L to context.getString(R.string.color_black),
+					0xFF7F7F7FL to context.getString(R.string.color_darkgrey),
+					0xFFC80000L to context.getString(R.string.color_red),
+					0xFF00C800L to context.getString(R.string.color_green),
+					0xFF0000C8L to context.getString(R.string.color_blue),
+					0xFFEEDC00L to context.getString(R.string.color_yellow),
+					0xFFD60080L to context.getString(R.string.color_pink),
+					0xFF009FDAL to context.getString(R.string.color_cyan),
 				)
 				bind(userPreferences, UserPreferences.subtitlesTextColor)
 			}
 
-			@Suppress("MagicNumber")
-			seekbar {
-				setTitle(R.string.lbl_subtitle_stroke)
-				min = 0
-				max = 24
-				increment = 2
-				bind(userPreferences, UserPreferences.subtitleStrokeSize)
+			colorList {
+				setTitle(R.string.lbl_subtitle_background_color)
+				entries = mapOf(
+					0x00FFFFFFL to context.getString(R.string.lbl_none),
+					0xFFFFFFFFL to context.getString(R.string.color_white),
+					0XFF000000L to context.getString(R.string.color_black),
+					0xFF7F7F7FL to context.getString(R.string.color_darkgrey),
+					0xFFC80000L to context.getString(R.string.color_red),
+					0xFF00C800L to context.getString(R.string.color_green),
+					0xFF0000C8L to context.getString(R.string.color_blue),
+					0xFFEEDC00L to context.getString(R.string.color_yellow),
+					0xFFD60080L to context.getString(R.string.color_pink),
+					0xFF009FDAL to context.getString(R.string.color_cyan),
+				)
+				bind(userPreferences, UserPreferences.subtitlesBackgroundColor)
+			}
+
+			colorList {
+				setTitle(R.string.lbl_subtitle_text_stroke_color)
+				entries = mapOf(
+					0x00FFFFFFL to context.getString(R.string.lbl_none),
+					0xFFFFFFFFL to context.getString(R.string.color_white),
+					0XFF000000L to context.getString(R.string.color_black),
+					0xFF7F7F7FL to context.getString(R.string.color_darkgrey),
+					0xFFC80000L to context.getString(R.string.color_red),
+					0xFF00C800L to context.getString(R.string.color_green),
+					0xFF0000C8L to context.getString(R.string.color_blue),
+					0xFFEEDC00L to context.getString(R.string.color_yellow),
+					0xFFD60080L to context.getString(R.string.color_pink),
+					0xFF009FDAL to context.getString(R.string.color_cyan),
+				)
+				bind(userPreferences, UserPreferences.subtitleTextStrokeColor)
 			}
 
 			@Suppress("MagicNumber")
-			seekbar {
-				setTitle(R.string.lbl_subtitle_position)
-				min = 0
-				max = 300
-				increment = 10
-				bind(userPreferences, UserPreferences.subtitlePosition)
-			}
-
-			@Suppress("MagicNumber")
-			seekbar {
+			list {
 				setTitle(R.string.pref_subtitles_size)
-				min = 10
-				max = 38
-				bind(userPreferences, UserPreferences.subtitlesSize)
+				entries = mapOf(
+					0.25f to context.getString(R.string.pref_subtitles_size_very_small),
+					0.5f to context.getString(R.string.pref_subtitles_size_small),
+					1.0f to context.getString(R.string.pref_subtitles_size_normal),
+					1.5f to context.getString(R.string.pref_subtitles_size_large),
+					2.0f to context.getString(R.string.pref_subtitles_size_very_large),
+				).mapKeys { it.key.toString() }
+
+				bind {
+					get { userPreferences[UserPreferences.subtitlesTextSize].toString() }
+					set { value -> userPreferences[UserPreferences.subtitlesTextSize] = value.toFloat() }
+					default { UserPreferences.subtitlesTextSize.defaultValue.toString() }
+				}
 			}
 		}
 

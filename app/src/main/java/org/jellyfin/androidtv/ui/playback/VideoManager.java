@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.playback;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
 import android.media.audiofx.Equalizer;
@@ -35,6 +36,7 @@ import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.extractor.DefaultExtractorsFactory;
 import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
+import androidx.media3.ui.CaptionStyleCompat;
 import androidx.media3.ui.PlayerView;
 
 import org.jellyfin.androidtv.R;
@@ -74,7 +76,8 @@ public class VideoManager {
     public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
         _helper = helper;
-        nightModeEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getAudioNightMode());
+        UserPreferences userPreferences = KoinJavaComponent.<UserPreferences>get(UserPreferences.class);
+        nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
 
@@ -83,6 +86,17 @@ public class VideoManager {
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
+        int strokeColor = userPreferences.get(UserPreferences.Companion.getSubtitleTextStrokeColor()).intValue();
+        CaptionStyleCompat subtitleStyle = new CaptionStyleCompat(
+                userPreferences.get(UserPreferences.Companion.getSubtitlesTextColor()).intValue(),
+                userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundColor()).intValue(),
+                Color.TRANSPARENT,
+                Color.alpha(strokeColor) == 0 ? CaptionStyleCompat.EDGE_TYPE_NONE : CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                strokeColor,
+                null
+        );
+        mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f *  userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
+        mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
