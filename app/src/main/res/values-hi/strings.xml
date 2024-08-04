@@ -136,4 +136,5 @@
     <string name="lbl_from">से</string>
     <string name="lbl_name">नाम</string>
     <string name="lbl_rating">रेटिंग</string>
+    <string name="lbl_display_preferences">पसंदगी दिखाए</string>
 </resources>
