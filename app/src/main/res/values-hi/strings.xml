@@ -139,4 +139,5 @@
     <string name="lbl_display_preferences">पसंदगी दिखाए</string>
     <string name="lbl__continuing">जारी है</string>
     <string name="lbl_ended">समाप्त हो चुका है</string>
+    <string name="lbl_filters">लाइव टीवी फ़िल्टर</string>
 </resources>
