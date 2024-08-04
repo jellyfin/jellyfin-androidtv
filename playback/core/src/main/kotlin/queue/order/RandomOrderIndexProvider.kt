@@ -1,6 +1,5 @@
 package org.jellyfin.playback.core.queue.order
 
-import org.jellyfin.playback.core.queue.Queue
 import kotlin.random.Random
 
 internal class RandomOrderIndexProvider : OrderIndexProvider {
@@ -10,14 +9,14 @@ internal class RandomOrderIndexProvider : OrderIndexProvider {
 
 	override fun provideIndices(
 		amount: Int,
-		queue: Queue,
+		size: Int,
 		playedIndices: Collection<Int>,
 		currentIndex: Int,
 	) = List(amount) { i ->
 		if (i <= nextIndices.lastIndex) {
 			nextIndices[i]
 		} else {
-			val index = Random.nextInt(queue.size)
+			val index = Random.nextInt(size)
 			nextIndices.add(index)
 			index
 		}

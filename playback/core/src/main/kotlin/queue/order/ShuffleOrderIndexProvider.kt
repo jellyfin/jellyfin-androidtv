@@ -1,6 +1,5 @@
 package org.jellyfin.playback.core.queue.order
 
-import org.jellyfin.playback.core.queue.Queue
 import kotlin.math.min
 
 internal class ShuffleOrderIndexProvider : OrderIndexProvider {
@@ -10,15 +9,15 @@ internal class ShuffleOrderIndexProvider : OrderIndexProvider {
 
 	override fun provideIndices(
 		amount: Int,
-		queue: Queue,
+		size: Int,
 		playedIndices: Collection<Int>,
 		currentIndex: Int,
 	): Collection<Int> {
-		val remainingItemsSize = queue.size - playedIndices.size
+		val remainingItemsSize = size - playedIndices.size
 		return if (remainingItemsSize <= 0) {
 			emptyList()
 		} else {
-			val remainingIndices = (0..queue.size).filterNot {
+			val remainingIndices = (0..size).filterNot {
 				it in playedIndices || it in nextIndices
 			}
 

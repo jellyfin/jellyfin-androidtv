@@ -10,6 +10,7 @@ import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
+import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
@@ -58,14 +59,14 @@ class PlaySessionService(
 	private suspend fun getQueue(): List<QueueItem> {
 		// The queues are lazy loaded so we only load a small amount of items to set as queue on the
 		// backend.
-		return state.queue
+		return manager.queue
 			.peekNext(15)
 			.mapNotNull { it.baseItem }
 			.map { QueueItem(id = it.id, playlistItemId = it.playlistItemId) }
 	}
 
 	private suspend fun sendStreamStart() {
-		val entry = state.queue.entry.value ?: return
+		val entry = manager.queue.entry.value ?: return
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
@@ -93,7 +94,7 @@ class PlaySessionService(
 	}
 
 	private suspend fun sendStreamUpdate() {
-		val entry = state.queue.entry.value ?: return
+		val entry = manager.queue.entry.value ?: return
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
@@ -121,7 +122,7 @@ class PlaySessionService(
 	}
 
 	private suspend fun sendStreamStop() {
-		val entry = state.queue.entry.value ?: return
+		val entry = manager.queue.entry.value ?: return
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 

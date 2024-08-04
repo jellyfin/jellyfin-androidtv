@@ -1,13 +1,10 @@
 package org.jellyfin.playback.core
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackend
-import org.jellyfin.playback.core.mediastream.MediaStreamResolver
-import org.jellyfin.playback.core.mediastream.MediaStreamState
 import org.jellyfin.playback.core.plugin.PlayerService
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -15,7 +12,6 @@ import kotlin.reflect.KClass
 class PlaybackManager internal constructor(
 	val backend: PlayerBackend,
 	private val services: MutableList<PlayerService>,
-	mediaStreamResolvers: List<MediaStreamResolver>,
 	val options: PlaybackManagerOptions,
 	parentJob: Job? = null,
 ) {
@@ -26,15 +22,12 @@ class PlaybackManager internal constructor(
 	private val job = SupervisorJob(parentJob)
 	val state: PlayerState = MutablePlayerState(
 		options = options,
-		scope = CoroutineScope(Job(job)),
 		backendService = backendService,
+		queue = getService()
 	)
 
 	init {
 		services.forEach { it.initialize(this, state, Job(job)) }
-
-		// FIXME: This should be more integrated in the future
-		MediaStreamState(state, CoroutineScope(job), mediaStreamResolvers, backendService)
 	}
 
 	fun addService(service: PlayerService) {
