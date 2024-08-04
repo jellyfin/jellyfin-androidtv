@@ -85,4 +85,5 @@
     <string name="msg_playback_not_allowed">इस समय प्लेबैक की अनुमति नहीं है</string>
     <string name="lbl_loading_elipses">लोड हो रहा है…</string>
     <string name="msg_playback_restricted">व्यवस्थापक ने इस समय इस आइटम का प्लेबैक प्रतिबंधित कर दिया है</string>
+    <string name="msg_playback_incompatible">यह वीडियो फौर्मेट नहीं चलाया जा सकता</string>
 </resources>
