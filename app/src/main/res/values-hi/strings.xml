@@ -90,4 +90,5 @@
     <string name="msg_cannot_play_time">इस समय यह आइटम नहीं चलायी जा सकती</string>
     <string name="msg_cannot_play">यह आइटम नहीं चलाया जा सकता</string>
     <string name="lbl_no_items">कोई आइटम नहीं</string>
+    <string name="lbl_empty">खाली</string>
 </resources>
