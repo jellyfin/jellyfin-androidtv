@@ -88,4 +88,5 @@
     <string name="msg_playback_incompatible">यह वीडियो फौर्मेट नहीं चलाया जा सकता</string>
     <string name="lbl_never">कभी नहीं</string>
     <string name="msg_cannot_play_time">इस समय यह आइटम नहीं चलायी जा सकती</string>
+    <string name="msg_cannot_play">यह आइटम नहीं चलाया जा सकता</string>
 </resources>
