@@ -53,6 +53,8 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 	// Album actions
 
 	fun showNext() {
+		if (album.isEmpty()) return
+
 		albumIndex++
 		if (albumIndex == album.size) albumIndex = 0
 
@@ -61,6 +63,8 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 	}
 
 	fun showPrevious() {
+		if (album.isEmpty()) return
+
 		albumIndex--
 		if (albumIndex == -1) albumIndex = album.size - 1
 
