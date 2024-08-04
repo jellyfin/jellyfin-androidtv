@@ -27,7 +27,7 @@ object DeviceUtils {
 	private const val SHIELD_TV_MODEL = "SHIELD Android TV"
 
 	// Google Chromecast HD Model
-	private const val GOOGLE_CHROMECAST_HD_MODEL = "Chromecast HD" // Reports to support 4K - Cannot downscale in device in realtime
+	private const val GOOGLE_CHROMECAST_HD_MODEL = "Chromecast HD"
 
 	@JvmStatic
 	val isFireTv: Boolean = Build.MODEL.startsWith(FIRE_TV_PREFIX)
