@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
+import org.jellyfin.androidtv.util.stripHtml
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.exception.TimeoutException
@@ -363,7 +364,7 @@ class LeanbackChannelWorker(
 			.setEpisodeTitle(if (item.type == BaseItemKind.EPISODE) item.name else null)
 			.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
 			.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
-			.setDescription(item.overview)
+			.setDescription(item.overview?.stripHtml())
 			.setReleaseDate(
 				if (item.premiereDate != null) DateTimeFormatter.ISO_DATE.format(item.premiereDate)
 				else null
