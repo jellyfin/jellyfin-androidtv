@@ -11,6 +11,11 @@ import org.jellyfin.androidtv.R
 fun String.toHtmlSpanned(): Spanned = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
 
 /**
+ * Remove HTML tags from string and return the plain representation.
+ */
+fun String.stripHtml(): String = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
+
+/**
  * Utility to get the string for the "Load channels" button in the Live TV guide.
  */
 fun getLoadChannelsLabel(context: Context, startNumber: String? = null, endNumber: String? = null) = buildString {
