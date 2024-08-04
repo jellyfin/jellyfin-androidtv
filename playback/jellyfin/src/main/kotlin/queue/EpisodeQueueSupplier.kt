@@ -1,7 +1,7 @@
 package org.jellyfin.playback.jellyfin.queue
 
-import org.jellyfin.playback.core.queue.PagedQueue
 import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.supplier.PagedQueueSupplier
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -10,10 +10,10 @@ import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
 
-class EpisodeQueue(
+class EpisodeQueueSupplier(
 	private val episode: BaseItemDto,
 	private val api: ApiClient,
-) : PagedQueue() {
+) : PagedQueueSupplier() {
 	init {
 		require(episode.type == BaseItemKind.EPISODE)
 	}

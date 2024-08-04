@@ -252,7 +252,7 @@ public class AudioNowPlayingFragment extends Fragment {
 
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
-            Timber.d("Queue status changed");
+            Timber.d("Queue status changed (hasQueue=%s)", hasQueue);
             if (hasQueue) {
                 loadItem();
                 if (mediaManager.getValue().isAudioPlayerInitialized()) {

@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.sdk.api.client.ApiClient
@@ -43,17 +44,18 @@ class PlaybackRewriteFragment : Fragment() {
 		super.onCreate(savedInstanceState)
 
 		// Create a queue from the items added to the legacy video queue
-		val queue = RewriteMediaManager.BaseItemQueue(api)
-		queue.items.addAll(videoQueueManager.getCurrentVideoQueue())
-		Timber.i("Created a queue with ${queue.items.size} items")
-		playbackManager.state.queue.replaceQueue(queue)
+		val queueSupplier = RewriteMediaManager.BaseItemQueueSupplier(api)
+		queueSupplier.items.addAll(videoQueueManager.getCurrentVideoQueue())
+		Timber.i("Created a queue with ${queueSupplier.items.size} items")
+		playbackManager.queue.clear()
+		playbackManager.queue.addSupplier(queueSupplier)
 
 		// Set position
 		val position = arguments?.getInt(EXTRA_POSITION) ?: 0
 		if (position != 0) {
 			lifecycleScope.launch {
 				Timber.i("Skipping to queue item $position")
-				playbackManager.state.queue.setIndex(position, false)
+				playbackManager.queue.setIndex(position, false)
 			}
 		}
 

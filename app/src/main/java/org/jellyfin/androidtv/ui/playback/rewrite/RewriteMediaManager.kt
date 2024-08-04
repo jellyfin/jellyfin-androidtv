@@ -23,8 +23,9 @@ import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
-import org.jellyfin.playback.core.queue.Queue
 import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.queue
+import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
@@ -39,7 +40,7 @@ class RewriteMediaManager(
 	private val navigationRepository: NavigationRepository,
 	private val playbackManager: PlaybackManager,
 ) : MediaManager {
-	private val queue = BaseItemQueue(api)
+	private val queueSupplier = BaseItemQueueSupplier(api)
 
 	override fun hasAudioQueueItems(): Boolean = currentAudioQueue.size() > 0 && currentAudioItem != null
 
@@ -47,7 +48,7 @@ class RewriteMediaManager(
 		get() = currentAudioQueue.size()
 
 	override val currentAudioQueuePosition: Int
-		get() = if ((playbackManager.state.queue.entryIndex.value) >= 0) 0 else -1
+		get() = if ((playbackManager.queue.entryIndex.value) >= 0) 0 else -1
 
 	override val currentAudioPosition: Long
 		get() = playbackManager.state.positionInfo.active.inWholeMilliseconds
@@ -56,11 +57,10 @@ class RewriteMediaManager(
 		get() = (currentAudioQueuePosition + 1).toString()
 
 	override val currentAudioQueueDisplaySize: String
-		get() = ((playbackManager.state.queue.current.value as? BaseItemQueue)?.items?.size
-			?: currentAudioQueue.size()).toString()
+		get() = playbackManager.queue.estimatedSize.toString()
 
 	override val currentAudioItem: BaseItemDto?
-		get() = playbackManager.state.queue.entry.value?.baseItem
+		get() = playbackManager.queue.entry.value?.baseItem
 			?.takeIf { it.mediaType == MediaType.AUDIO }
 
 	override fun toggleRepeat(): Boolean {
@@ -108,12 +108,14 @@ class RewriteMediaManager(
 				val firstItem = currentAudioQueue.get(0) as? AudioQueueBaseRowItem
 				firstItem?.playing = playState == PlayState.PLAYING
 
-				onPlaybackStateChange(when (playState) {
-					PlayState.STOPPED -> PlaybackController.PlaybackState.IDLE
-					PlayState.PLAYING -> PlaybackController.PlaybackState.PLAYING
-					PlayState.PAUSED -> PlaybackController.PlaybackState.PAUSED
-					PlayState.ERROR -> PlaybackController.PlaybackState.ERROR
-				}, currentAudioItem)
+				onPlaybackStateChange(
+					when (playState) {
+						PlayState.STOPPED -> PlaybackController.PlaybackState.IDLE
+						PlayState.PLAYING -> PlaybackController.PlaybackState.PLAYING
+						PlayState.PAUSED -> PlaybackController.PlaybackState.PAUSED
+						PlayState.ERROR -> PlaybackController.PlaybackState.ERROR
+					}, currentAudioItem
+				)
 			}
 		}.launchIn(this)
 
@@ -126,27 +128,27 @@ class RewriteMediaManager(
 			}
 		}
 
-		playbackManager.state.queue.current.onEach {
+		playbackManager.queue.entry.onEach { entry ->
 			notifyListeners {
-				onQueueStatusChanged(hasAudioQueueItems())
+				onQueueStatusChanged(entry != null)
 			}
 		}.launchIn(this)
 
-		playbackManager.state.queue.entry.onEach { updateAdapter() }.launchIn(this)
+		playbackManager.queue.entry.onEach { updateAdapter() }.launchIn(this)
 	}
 
 	private fun updateAdapter() {
 		// Get all items as BaseRowItem
-		val items = queue
+		val items = queueSupplier
 			.items
 			// Map to audio queue items
 			.mapIndexed { index, item ->
 				AudioQueueBaseRowItem(item).apply {
-					playing = playbackManager.state.queue.entryIndex.value == index
+					playing = playbackManager.queue.entryIndex.value == index
 				}
 			}
 			// Remove items before currently playing item
-			.drop(max(0, playbackManager.state.queue.entryIndex.value))
+			.drop(max(0, playbackManager.queue.entryIndex.value))
 
 		// Update item row
 		currentAudioQueue.replaceAll(
@@ -186,31 +188,30 @@ class RewriteMediaManager(
 		if (items.isEmpty()) return
 
 		val addIndex = when (playbackManager.state.playState.value) {
-			PlayState.PLAYING -> playbackManager.state.queue.entryIndex.value + 1
+			PlayState.PLAYING -> playbackManager.queue.entryIndex.value + 1
 			else -> 0
 		}
 
-		queue.items.addAll(addIndex, items)
+		queueSupplier.items.addAll(addIndex, items)
 
-		if (
-			playbackManager.state.queue.current.value != queue ||
-			playbackManager.state.playState.value != PlayState.PLAYING
-		) {
+		if (playbackManager.state.playState.value != PlayState.PLAYING) {
 			playbackManager.state.setPlaybackOrder(if (isShuffleMode) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
-			playbackManager.state.play(queue)
+			playbackManager.queue.clear()
+			playbackManager.queue.addSupplier(queueSupplier)
+			playbackManager.state.play()
 		}
 
 		updateAdapter()
 	}
 
 	override fun removeFromAudioQueue(item: BaseItemDto) {
-		val index = queue.items.indexOf(item)
+		val index = queueSupplier.items.indexOf(item)
 		if (index == -1) return
 
 		// Disallow removing currently playing item (legacy UI cannot keep up)
-		if (playbackManager.state.queue.entryIndex.value == index) return
+		if (playbackManager.queue.entryIndex.value == index) return
 
-		queue.items.removeAt(index)
+		queueSupplier.items.removeAt(index)
 		updateAdapter()
 	}
 
@@ -219,19 +220,21 @@ class RewriteMediaManager(
 
 	override fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean) {
 		val filteredItems = items.drop(position)
-		queue.items.clear()
-		queue.items.addAll(filteredItems)
+		queueSupplier.items.clear()
+		queueSupplier.items.addAll(filteredItems)
 		playbackManager.state.setPlaybackOrder(if (shuffle) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
-		playbackManager.state.play(queue)
+		playbackManager.queue.clear()
+		playbackManager.queue.addSupplier(queueSupplier)
+		playbackManager.state.play()
 
 		navigationRepository.navigate(Destinations.nowPlaying)
 	}
 
 	override fun playFrom(item: BaseItemDto): Boolean {
-		val index = queue.items.indexOf(item)
+		val index = queueSupplier.items.indexOf(item)
 		if (index == -1) return false
 		return runBlocking {
-			playbackManager.state.queue.setIndex(index) != null
+			playbackManager.queue.setIndex(index) != null
 		}
 	}
 
@@ -245,23 +248,23 @@ class RewriteMediaManager(
 	}
 
 	override fun hasNextAudioItem(): Boolean = runBlocking {
-		playbackManager.state.queue.peekNext() != null
+		playbackManager.queue.peekNext() != null
 	}
 
-	override fun hasPrevAudioItem(): Boolean = playbackManager.state.queue.entryIndex.value > 0
+	override fun hasPrevAudioItem(): Boolean = playbackManager.queue.entryIndex.value > 0
 
 	override fun nextAudioItem(): Int {
-		runBlocking { playbackManager.state.queue.next() }
+		runBlocking { playbackManager.queue.next() }
 		notifyListeners { onQueueStatusChanged(hasAudioQueueItems()) }
 
-		return playbackManager.state.queue.entryIndex.value
+		return playbackManager.queue.entryIndex.value
 	}
 
 	override fun prevAudioItem(): Int {
-		runBlocking { playbackManager.state.queue.previous() }
+		runBlocking { playbackManager.queue.previous() }
 		notifyListeners { onQueueStatusChanged(hasAudioQueueItems()) }
 
-		return playbackManager.state.queue.entryIndex.value
+		return playbackManager.queue.entryIndex.value
 	}
 
 	override fun stopAudio(releasePlayer: Boolean) {
@@ -275,12 +278,12 @@ class RewriteMediaManager(
 	}
 
 	/**
-	 * A simple [Queue] implementation for compatibility with existing UI/playback code. It contains
+	 * A simple [QueueSupplier] implementation for compatibility with existing UI/playback code. It contains
 	 * a mutable BaseItemDto list that is used to retrieve items from.
 	 */
-	class BaseItemQueue(
+	class BaseItemQueueSupplier(
 		private val api: ApiClient,
-	) : Queue {
+	) : QueueSupplier {
 		val items = mutableListOf<BaseItemDto>()
 
 		override val size: Int

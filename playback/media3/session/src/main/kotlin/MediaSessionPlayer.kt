@@ -23,6 +23,7 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.queue.metadata
+import org.jellyfin.playback.core.queue.queue
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -36,7 +37,7 @@ internal class MediaSessionPlayer(
 ) : SimpleBasePlayer(looper) {
 	init {
 		// Invalidate mediasession state when certain player state changes
-		state.queue.entry.invalidateStateOnEach(scope)
+		manager.queue.entry.invalidateStateOnEach(scope)
 		state.playState.invalidateStateOnEach(scope)
 		state.videoSize.invalidateStateOnEach(scope)
 		state.speed.invalidateStateOnEach(scope)
@@ -57,10 +58,10 @@ internal class MediaSessionPlayer(
 			add(COMMAND_STOP)
 			add(COMMAND_SEEK_TO_DEFAULT_POSITION)
 			add(COMMAND_SEEK_IN_CURRENT_MEDIA_ITEM)
-			val allowPrevious = state.queue.entryIndex.value > 0
+			val allowPrevious = manager.queue.entryIndex.value > 0
 			addIf(COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM, allowPrevious)
 			addIf(COMMAND_SEEK_TO_PREVIOUS, allowPrevious)
-			val allowNext = state.queue.entryIndex.value < (state.queue.current.value.size - 1)
+			val allowNext = manager.queue.entryIndex.value < (manager.queue.estimatedSize - 1)
 			addIf(COMMAND_SEEK_TO_NEXT_MEDIA_ITEM, allowNext)
 			addIf(COMMAND_SEEK_TO_NEXT, allowNext)
 			// add(COMMAND_SEEK_TO_MEDIA_ITEM)
@@ -88,11 +89,11 @@ internal class MediaSessionPlayer(
 		}.build())
 
 		runBlocking {
-			val current = state.queue.entry.value
+			val current = manager.queue.entry.value
 
 			if (current != null) {
-				val previous = state.queue.peekPrevious()
-				val next = state.queue.peekNext()
+				val previous = manager.queue.peekPrevious()
+				val next = manager.queue.peekNext()
 
 				val playlist = listOfNotNull(previous, current, next)
 					.distinctBy { it.metadata.mediaId }
@@ -162,10 +163,10 @@ internal class MediaSessionPlayer(
 		@Suppress("SwitchIntDef")
 		when (seekCommand) {
 			COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM,
-			COMMAND_SEEK_TO_PREVIOUS -> state.queue.previous()
+			COMMAND_SEEK_TO_PREVIOUS -> manager.queue.previous()
 
 			COMMAND_SEEK_TO_NEXT_MEDIA_ITEM,
-			COMMAND_SEEK_TO_NEXT -> state.queue.next()
+			COMMAND_SEEK_TO_NEXT -> manager.queue.next()
 		}
 
 		// Seeking

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.plugin.PlayerService
+import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.sockets.subscribe
 import org.jellyfin.sdk.api.sockets.subscribeGeneralCommand
@@ -28,8 +29,8 @@ class PlaySessionSocketService(
 					PlaystateCommand.STOP -> state.stop()
 					PlaystateCommand.PAUSE -> state.pause()
 					PlaystateCommand.UNPAUSE -> state.unpause()
-					PlaystateCommand.NEXT_TRACK -> state.queue.next()
-					PlaystateCommand.PREVIOUS_TRACK -> state.queue.previous()
+					PlaystateCommand.NEXT_TRACK -> manager.queue.next()
+					PlaystateCommand.PREVIOUS_TRACK -> manager.queue.previous()
 					PlaystateCommand.SEEK -> {
 						val to = message.data?.seekPositionTicks?.ticks ?: Duration.ZERO
 						state.seek(to)

@@ -1,6 +1,8 @@
-package org.jellyfin.playback.core.queue
+package org.jellyfin.playback.core.queue.supplier
 
-abstract class SequenceQueue : Queue {
+import org.jellyfin.playback.core.queue.QueueEntry
+
+abstract class SequenceQueueSupplier : QueueSupplier {
 	companion object {
 		const val MAX_SIZE = 100
 	}

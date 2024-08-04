@@ -1,12 +1,18 @@
-package org.jellyfin.playback.core.queue
+package org.jellyfin.playback.core.queue.supplier
 
-abstract class PagedQueue(
+import org.jellyfin.playback.core.queue.QueueEntry
+
+abstract class PagedQueueSupplier(
 	private val pageSize: Int = 10,
-) : Queue {
+) : QueueSupplier {
+	companion object {
+		const val MAX_SIZE = 100
+	}
+
 	private val buffer: MutableList<QueueEntry> = mutableListOf()
 
 	override suspend fun getItem(index: Int): QueueEntry? {
-		require(index in 0 until SequenceQueue.MAX_SIZE)
+		require(index in 0 until MAX_SIZE)
 
 		var page: Collection<QueueEntry>
 		var pageOffset = buffer.size

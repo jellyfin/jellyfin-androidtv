@@ -1,26 +1,22 @@
 package org.jellyfin.playback.core.mediastream
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
-import org.jellyfin.playback.core.PlayerState
-import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackend
+import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.queue
 import timber.log.Timber
 
-internal class MediaStreamState(
-	state: PlayerState,
-	coroutineScope: CoroutineScope,
+internal class MediaStreamService(
 	private val mediaStreamResolvers: Collection<MediaStreamResolver>,
-	private val backendService: BackendService,
-) {
-	init {
-		state.queue.entry.onEach { entry ->
+) : PlayerService() {
+	override suspend fun onInitialize() {
+		manager.queue.entry.onEach { entry ->
 			Timber.d("Queue entry changed to $entry")
-			val backend = requireNotNull(backendService.backend)
+			val backend = requireNotNull(manager.backend)
 
 			if (entry == null) {
 				backend.setCurrent(null)
@@ -33,8 +29,8 @@ internal class MediaStreamState(
 					Timber.e("Unable to resolve stream for entry $entry")
 
 					// TODO: Somehow notify the user that we skipped an unplayable entry
-					if (state.queue.peekNext() != null) {
-						state.queue.next(usePlaybackOrder = true, useRepeatMode = false)
+					if (manager.queue.peekNext() != null) {
+						manager.queue.next(usePlaybackOrder = true, useRepeatMode = false)
 					} else {
 						backend.setCurrent(null)
 					}
