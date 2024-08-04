@@ -222,9 +222,14 @@
     <string name="lbl_guide_option_played">Last played</string>
     <string name="lbl_guide_option_number">Channel number</string>
     <string name="lbl_resume_preroll">Resume pre-roll</string>
-    <string name="lbl_subtitle_fg">Subtitle text color</string>
-    <string name="lbl_subtitle_stroke">Subtitle stroke size</string>
-    <string name="lbl_subtitle_position">Subtitle offset from bottom</string>
+    <string name="lbl_subtitle_text_color">Subtitle text color</string>
+    <string name="lbl_subtitle_background_color">Subtitle background color</string>
+    <string name="lbl_subtitle_text_stroke_color">Subtitle stroke color</string>
+    <string name="pref_subtitles_size_very_small">Very small</string>
+    <string name="pref_subtitles_size_small">Small</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Large</string>
+    <string name="pref_subtitles_size_very_large">Very large</string>
     <string name="lbl_resume_from">Resume from %1$s</string>
     <string name="lbl_more_like_this">More like this</string>
     <string name="lbl_previous_episode">Previous episode</string>
