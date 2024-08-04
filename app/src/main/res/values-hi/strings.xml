@@ -71,4 +71,5 @@
     <string name="lbl_runtime">रनटाइम</string>
     <string name="because_you_watched">क्योंकी आपने %1$s देखा</string>
     <string name="continue_listening">सुनना जारी रखें</string>
+    <string name="lbl_none">कोई नहीं</string>
 </resources>
