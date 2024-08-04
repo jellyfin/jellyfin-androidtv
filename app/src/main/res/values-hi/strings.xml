@@ -74,4 +74,5 @@
     <string name="lbl_none">कोई नहीं</string>
     <string name="msg_video_playback_error">"वीडियो प्लेबैक त्रुटि - "</string>
     <string name="lbl_bracket_unknown">अज्ञात</string>
+    <string name="lbl_trailer">"ट्रेलर "</string>
 </resources>
