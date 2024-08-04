@@ -137,4 +137,6 @@
     <string name="lbl_name">नाम</string>
     <string name="lbl_rating">रेटिंग</string>
     <string name="lbl_display_preferences">पसंदगी दिखाए</string>
+    <string name="lbl__continuing">जारी है</string>
+    <string name="lbl_ended">समाप्त हो चुका है</string>
 </resources>
