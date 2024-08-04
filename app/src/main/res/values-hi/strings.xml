@@ -82,4 +82,6 @@
     <string name="lbl_valid_server_address">सर्वर का पता दर्ज करे (आई.पी. या डोमेन/मशीन नाम)</string>
     <string name="lbl_ok">ठीक है</string>
     <string name="lbl_born">"जन्म "</string>
+    <string name="msg_playback_not_allowed">इस समय प्लेबैक की अनुमति नहीं है</string>
+    <string name="lbl_loading_elipses">लोड हो रहा है…</string>
 </resources>
