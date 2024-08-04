@@ -20,6 +20,7 @@ class PreferenceStoreTests : FunSpec({
 	test("Reading and writing primitives works correctly") {
 		verifySimpleType(1, intPreference("key", 0))
 		verifySimpleType(1L, longPreference("key", 0L))
+		verifySimpleType(1f, floatPreference("key", 0f))
 		verifySimpleType(true, booleanPreference("key", false))
 		verifySimpleType("string", stringPreference("key", ""))
 	}
@@ -38,6 +39,7 @@ private class TestStub : PreferenceStore<Unit, Unit>() {
 	var key: String? = null
 	private var int: Int? = null
 	private var long: Long? = null
+	private var float: Float? = null
 	private var bool: Boolean? = null
 	private var string: String? = null
 	private var enum: Enum<*>? = null
@@ -47,7 +49,8 @@ private class TestStub : PreferenceStore<Unit, Unit>() {
 		(this.enum ?: preference.defaultValue) as T
 
 	override fun getInt(key: String, defaultValue: Int): Int = int ?: 0
-	override fun getLong(key: String, defaultValue: Long): Long = long ?: 0
+	override fun getLong(key: String, defaultValue: Long): Long = long ?: 0L
+	override fun getFloat(key: String, defaultValue: Float): Float = float ?: 0f
 	override fun getBool(key: String, defaultValue: Boolean): Boolean = bool ?: false
 	override fun getString(key: String, defaultValue: String) = string ?: ""
 
@@ -66,6 +69,11 @@ private class TestStub : PreferenceStore<Unit, Unit>() {
 		long = value
 	}
 
+	override fun setFloat(key: String, value: Float) {
+		this.key = key
+		float = value
+	}
+
 	override fun setBool(key: String, value: Boolean) {
 		this.key = key
 		bool = value
@@ -75,7 +83,6 @@ private class TestStub : PreferenceStore<Unit, Unit>() {
 		this.key = key
 		string = value
 	}
-
 
 	override fun <T : Any> delete(preference: Preference<T>) {
 		throw NotImplementedError("Not required for tests")
