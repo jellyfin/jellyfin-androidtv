@@ -26,6 +26,9 @@ object DeviceUtils {
 	// Nvidia Shield TV Model
 	private const val SHIELD_TV_MODEL = "SHIELD Android TV"
 
+	// Google Chromecast HD Model
+	private const val GOOGLE_CHROMECAST_HD_MODEL = "Chromecast HD"
+
 	@JvmStatic
 	val isFireTv: Boolean = Build.MODEL.startsWith(FIRE_TV_PREFIX)
 
@@ -53,6 +56,7 @@ object DeviceUtils {
 		FIRE_STICK_MODEL_GEN_3,
 		FIRE_STICK_LITE_MODEL,
 		FIRE_TV_MODEL_GEN_1,
-		FIRE_TV_MODEL_GEN_2
+		FIRE_TV_MODEL_GEN_2,
+		GOOGLE_CHROMECAST_HD_MODEL
 	)
 }
