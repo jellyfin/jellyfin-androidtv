@@ -575,7 +575,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         // up or down should close panel
                         if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                             hidePopupPanel();
-                            if (playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) hide(); //also close this if live tv
+                            if (playbackControllerContainer.getValue().getPlaybackController().isLiveTv())
+                                hide(); //also close this if live tv
                             return true;
                         } else {
                             return false;
@@ -674,7 +675,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         super.onResume();
 
         // Close player when resuming without a valid playback contoller
-        if (!playbackControllerContainer.getValue().getPlaybackController().hasFragment()) {
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        if (playbackController == null || !playbackController.hasFragment()) {
             if (navigationRepository.getValue().getCanGoBack()) {
                 navigationRepository.getValue().goBack();
             } else {
