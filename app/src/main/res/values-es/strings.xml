@@ -450,9 +450,6 @@
     <string name="color_black">Negro</string>
     <string name="color_darkgrey">Gris oscuro</string>
     <string name="color_cyan">Cian</string>
-    <string name="lbl_subtitle_fg">Color de subtítulos</string>
-    <string name="lbl_subtitle_stroke">Grosor de subrayado de subtítulo</string>
-    <string name="lbl_subtitle_position">Desplazamiento de subtítulo desde abajo</string>
     <string name="color_red">Rojo</string>
     <string name="color_green">Verde</string>
     <string name="color_blue">Azul</string>

@@ -444,9 +444,6 @@
     <string name="lbl_quality_profile">Perfil de calidad</string>
     <string name="desc_audio_night_mode">Baja el volumen del audio automáticamente</string>
     <string name="pref_audio_night_mode">Audio en modo nocturno (experimental)</string>
-    <string name="lbl_subtitle_fg">Color de subtítulos</string>
-    <string name="lbl_subtitle_stroke">Ancho de borde de subtítulos</string>
-    <string name="lbl_subtitle_position">Desplazamiento de subtítulos desde abajo</string>
     <string name="lbl_latest_in">Recientes en %1$s</string>
     <plurals name="episodes">
         <item quantity="one">%1$s episodio</item>

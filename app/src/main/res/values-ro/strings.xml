@@ -448,8 +448,6 @@
     <string name="server_setup_incomplete">Configurarea serverului nu a fost finalizată. Deschide Jellyfin într-un browser web pentru a finaliza configurarea înainte de a te conecta.</string>
     <string name="item_deleted">%1$s a fost șters</string>
     <string name="episode_name_special">special</string>
-    <string name="lbl_subtitle_fg">Culoarea subtitrărilor</string>
-    <string name="lbl_subtitle_position">Decalarea subtitrării de jos</string>
     <string name="image_size_smallest">Cel mai mic</string>
     <string name="action_login">Conectare</string>
     <string name="pref_enable_media_management_description">Arată opțiunile pentru a administra media în timp ce navigați</string>
@@ -494,7 +492,6 @@
         <item quantity="other">%1$s de minute</item>
     </plurals>
     <string name="desc_audio_night_mode">Egalează automat volumul audio</string>
-    <string name="lbl_subtitle_stroke">Dimensiunea liniilor de subtitrare</string>
     <string name="not_set">Nu este setat</string>
     <string name="lbl_album_artists">Album artisti</string>
     <string name="disable_ui_mode_warning">Dezactivare avertizare tip dispozitiv</string>

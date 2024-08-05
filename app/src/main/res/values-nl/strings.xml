@@ -430,7 +430,6 @@
     <string name="image_type_poster">Poster</string>
     <string name="pref_audio_night_mode">Audio-nachtmodus (experimenteel)</string>
     <string name="lbl_additional_parts">Extra onderdelen</string>
-    <string name="lbl_subtitle_position">Positie ondertiteling van onder</string>
     <string name="color_darkgrey">Donkergrijs</string>
     <string name="app_notification_uimode_invalid">Deze app is geoptimaliseerd voor televisies. Op andere apparaten adviseren we onze mobiele app te gebruiken.</string>
     <string name="server_unsupported_notification">Deze server gebruikt versie %1$s van Jellyfin, die niet wordt ondersteund. We adviseren bij te werken naar Jellyfin %2$s of nieuwer om de app te blijven gebruiken.</string>
@@ -439,8 +438,6 @@
     <string name="lbl_quality_profile">Kwaliteitsprofiel</string>
     <string name="pref_crash_reports">Crashrapport naar server verzenden</string>
     <string name="pref_crash_reports_enabled">Crashrapporten worden naar je laatst verbonden server verstuurd</string>
-    <string name="lbl_subtitle_fg">Tekstkleur ondertiteling</string>
-    <string name="lbl_subtitle_stroke">Lettergrootte ondertiteling</string>
     <string name="color_white">Wit</string>
     <string name="color_black">Zwart</string>
     <string name="color_red">Rood</string>

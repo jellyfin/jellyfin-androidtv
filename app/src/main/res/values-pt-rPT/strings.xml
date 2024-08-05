@@ -419,9 +419,6 @@
     <string name="home_section_latest_media">Últimos itens</string>
     <string name="action_use_password">Utilizar uma palavra passe</string>
     <string name="input_password">Palavra passe</string>
-    <string name="lbl_subtitle_fg">Cor de legendas</string>
-    <string name="lbl_subtitle_stroke">Tamanho de legendas</string>
-    <string name="lbl_subtitle_position">Espaço de legendas desde o fundo</string>
     <string name="image_size_xlarge">Extra grande</string>
     <string name="color_white">Branco</string>
     <string name="color_black">Preto</string>

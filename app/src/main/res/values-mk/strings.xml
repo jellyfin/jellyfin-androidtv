@@ -268,8 +268,6 @@
     <string name="pref_refresh_rate_scale_on_device">Прилагоди слика на уред</string>
     <string name="lbl_refresh_switching">Префрлување на брзината на освежување</string>
     <string name="action_connect">Поврзи се</string>
-    <string name="lbl_subtitle_stroke">Големина на превод</string>
-    <string name="lbl_subtitle_fg">Боја на превод</string>
     <string name="license_repository">Репозиториум</string>
     <string name="color_black">Црна</string>
     <string name="server_issue_outdated_version">Серверот користи неподдржана верзија %1$s. Ве молиме ажурирајте ја на %2$s или понова</string>
@@ -449,7 +447,6 @@
     <string name="lbl_series_settings">Поставки за серија</string>
     <string name="desc_premieres">Покажи ред на нови пилот епизоди за било која серија која се гледа</string>
     <string name="lbl_on_schedule">На време</string>
-    <string name="lbl_subtitle_position">Далечина на превод од доле</string>
     <string name="lbl_previous_episode">Претходна епизода</string>
     <string name="lbl_sort_by">Сортирај по</string>
     <string name="lbl_resume_from">Продолжи од %1$s</string>

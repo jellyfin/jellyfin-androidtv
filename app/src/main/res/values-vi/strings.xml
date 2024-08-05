@@ -437,20 +437,17 @@
     <string name="lbl_quality_profile">Hồ sơ chất lượng</string>
     <string name="desc_audio_night_mode">Tự động điều chỉnh âm lượng âm thanh</string>
     <string name="pref_audio_night_mode">Chế độ âm thanh ban đêm (thử nghiệm)</string>
-    <string name="lbl_subtitle_fg">Màu văn bản phụ đề</string>
     <string name="color_white">Trắng</string>
     <string name="color_black">Đen</string>
     <string name="color_darkgrey">Xám đen</string>
     <string name="app_notification_beta">Ứng dụng đã cập nhật lên %1$s
 \nCảm ơn bạn tham gia chương trình Jellyfin beta.</string>
-    <string name="lbl_subtitle_stroke">Kích thước nét phụ đề</string>
     <string name="color_red">Đỏ</string>
     <string name="color_green">Xanh lá</string>
     <string name="color_blue">Xanh lam</string>
     <string name="color_yellow">Vàng</string>
     <string name="color_pink">Hồng</string>
     <string name="color_cyan">Lục lam</string>
-    <string name="lbl_subtitle_position">Độ lệch phụ đề từ dưới lên</string>
     <string name="item_deletion_failed">Không thể xóa %1$s</string>
     <string name="pref_enable_media_management">Bật quản lý phương tiện</string>
     <string name="pref_enable_media_management_description">Hiển thị tùy chọn để quản lý phương tiện trong khi duyệt</string>

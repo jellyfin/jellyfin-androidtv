@@ -440,7 +440,6 @@
     <string name="color_black">Μαύρο</string>
     <string name="color_darkgrey">Σκούρο γκρι</string>
     <string name="color_yellow">Κίτρινο</string>
-    <string name="lbl_subtitle_fg">Χρώμα κειμένου υποτίτλων</string>
     <string name="color_red">Κόκκινο</string>
     <string name="color_green">Πράσινο</string>
     <string name="color_blue">Μπλε</string>
@@ -449,8 +448,6 @@
     <string name="pref_customization_description">Θέμα, αρχική, επαναχαρτογράφηση</string>
     <string name="pref_audio_night_mode">Νυχτερινή λειτουργία ήχου (πειραματική)</string>
     <string name="desc_audio_night_mode">Αυτόματη μείωση της έντασης του ήχου</string>
-    <string name="lbl_subtitle_stroke">Μέγεθος περιγράμματος υποτίτλων</string>
-    <string name="lbl_subtitle_position">Απόσταση υποτίτλων από το κάτω μέρος</string>
     <string name="action_connect">Σύνδεση</string>
     <string name="pref_home_description">Διαμόρφωση ενοτήτων που εμφανίζονται</string>
     <string name="lbl_user_last_used">Χρησιμοποιήθηκε τελευταία την %1$s στις %2$s</string>

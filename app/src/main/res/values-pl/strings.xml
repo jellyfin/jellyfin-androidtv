@@ -429,9 +429,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Skala na telewizorze</string>
     <string name="pref_crash_report_logs">Dołącz logi</string>
     <string name="lbl_subtitle_delay">Opóźnienie napisów</string>
-    <string name="lbl_subtitle_fg">Kolor napisów</string>
-    <string name="lbl_subtitle_stroke">Rozmiar napisów</string>
-    <string name="lbl_subtitle_position">Odległość napisów od dołu</string>
     <string name="image_size_smallest">Najmniejszy</string>
     <string name="color_white">Biały</string>
     <string name="color_black">Czarny</string>

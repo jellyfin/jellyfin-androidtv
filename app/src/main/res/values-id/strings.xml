@@ -275,8 +275,6 @@
     <string name="desc_audio_night_mode">Meratakan volume audio secara otomatis</string>
     <string name="lbl_playback_speed">Kecepatan pemutaran</string>
     <string name="lbl_quality_profile">Profil kualitas</string>
-    <string name="lbl_subtitle_fg">Warna teks takarir</string>
-    <string name="lbl_subtitle_position">Jarak takarir dari bawah</string>
     <string name="lbl_subtitle_delay">Pelambatan takarir</string>
     <string name="turn_off">Nonaktifkan opsi ini</string>
     <string name="just_one">Hanya ini saja</string>
@@ -326,7 +324,6 @@
     <string name="welcome_content">Koneksikan ke server anda untuk memulai.</string>
     <string name="saved_servers">Server yang tersimpan</string>
     <string name="lbl_episode_number">E%1$d</string>
-    <string name="lbl_subtitle_stroke">Ketebalan garis anak judul</string>
     <string name="lbl_manage_servers">Atur server</string>
     <string name="login_server_unavailable">Gagal untuk terhubung ke server</string>
     <string name="lbl_remove_users">Ini juga akan menghapus semua akun terkait</string>

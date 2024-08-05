@@ -427,9 +427,6 @@
     <string name="lbl_shuffle_queue">تبديل عشوائي</string>
     <string name="desc_audio_night_mode">تعيين مستوى الصوت تلقائيا</string>
     <string name="lbl_quality_profile">ملف تعريف الجودة</string>
-    <string name="lbl_subtitle_fg">لون الترجمة</string>
-    <string name="lbl_subtitle_stroke">حجم الترجمة</string>
-    <string name="lbl_subtitle_position">موضع الترجمة من الأسفل</string>
     <string name="lbl_subtitle_delay">تأخير الترجمة</string>
     <string name="image_type_poster">‎الملصق</string>
     <string name="image_size_smallest">أصغر</string>

@@ -374,8 +374,6 @@
     <string name="lbl_stretch">Esnet</string>
     <string name="lbl_auto_crop">Otomatik kırp</string>
     <string name="lbl_community_rating">Topluluk puanı</string>
-    <string name="lbl_subtitle_fg">Altyazı metin rengi</string>
-    <string name="lbl_subtitle_stroke">Altyazı kontur boyutu</string>
     <string name="lbl_subtitle_delay">Altyazı gecikmesi</string>
     <string name="server_connection_failed_candidates">Sunucuya bağlanılamıyor, şu adresler denendi: %1$s</string>
     <string name="image_type_poster">Poster</string>
@@ -481,7 +479,6 @@
         <item quantity="one">%1$s saniye</item>
         <item quantity="other">%1$s saniye</item>
     </plurals>
-    <string name="lbl_subtitle_position">Altyazının aşağıdan uzaklığı</string>
     <string name="pref_telemetry_description">Çökme raporlarını gönderin, günlükleri ekleyin</string>
     <string name="pref_crash_reports_enabled">Çökme raporları son kullandığınız sunucuya gönderilecektir</string>
     <string name="item_deleted">%1$s silindi</string>

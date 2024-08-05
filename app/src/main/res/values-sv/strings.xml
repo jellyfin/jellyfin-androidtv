@@ -444,9 +444,6 @@
     <string name="lbl_quality_profile">Kvalitetsprofil</string>
     <string name="desc_audio_night_mode">Jämnar ut ljudnivån automatiskt</string>
     <string name="pref_audio_night_mode">Automatiskt nattläge (experimentellt)</string>
-    <string name="lbl_subtitle_fg">Undertextfärg</string>
-    <string name="lbl_subtitle_stroke">Undertextbredd</string>
-    <string name="lbl_subtitle_position">Undertextposition från botten</string>
     <string name="color_white">Vit</string>
     <string name="color_black">Svart</string>
     <string name="color_darkgrey">Mörkgrå</string>

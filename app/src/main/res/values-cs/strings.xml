@@ -444,12 +444,9 @@
     <string name="pref_audio_night_mode">Noční režim zvuku (experimentální)</string>
     <string name="desc_audio_night_mode">Automatické vyrovnání hladiny zvuku</string>
     <string name="lbl_quality_profile">Profil kvality</string>
-    <string name="lbl_subtitle_fg">Barva textu titulků</string>
     <string name="color_cyan">Tyrkysová barva</string>
     <string name="app_notification_beta">Aplikace aktualizovaná na verzi %1$s
 \nDěkujeme za Vaši účast v beta programu Jellyfin.</string>
-    <string name="lbl_subtitle_stroke">Velikost zabraného místa titulky</string>
-    <string name="lbl_subtitle_position">Odsazení titulků od spodního okraje</string>
     <string name="color_white">Bílá barva</string>
     <string name="color_black">Černá barva</string>
     <string name="color_darkgrey">Tmavě šedivá barva</string>

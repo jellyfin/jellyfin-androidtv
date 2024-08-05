@@ -445,9 +445,6 @@
     <string name="pref_audio_night_mode">Audio night mode (experimental)</string>
     <string name="lbl_additional_parts">Additional parts</string>
     <string name="state_disabled">Disabled</string>
-    <string name="lbl_subtitle_position">Subtitle offset from bottom</string>
-    <string name="lbl_subtitle_fg">Subtitle text colour</string>
-    <string name="lbl_subtitle_stroke">Subtitle stroke size</string>
     <string name="color_white">White</string>
     <string name="color_black">Black</string>
     <string name="color_darkgrey">Dark grey</string>

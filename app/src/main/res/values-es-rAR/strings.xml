@@ -417,8 +417,6 @@
     <string name="input_password">Contraseña</string>
     <string name="action_use_quickconnect">Usar conexión rápida “Quick Connect”</string>
     <string name="action_use_password">Usar una contraseña</string>
-    <string name="lbl_subtitle_fg">Color de los subtitulos</string>
-    <string name="lbl_subtitle_position">Desplazamiento inferior de los subtitulos</string>
     <string name="color_black">Negro</string>
     <string name="image_type_poster">Poster</string>
     <string name="image_size_smallest">Más pequeño</string>
@@ -474,7 +472,6 @@
     <string name="pref_crash_report_logs">Incluir registros</string>
     <string name="pref_crash_report_logs_disabled">Los registros no se incluirán en los informes de fallos</string>
     <string name="login_quickconnect_step_3">3. Ingresá el siguiente código:</string>
-    <string name="lbl_subtitle_stroke">Tamaño de trazo del subtítulo</string>
     <string name="pref_refresh_rate_scale_on_device">Escala en el dispositivo</string>
     <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
     <string name="server_setup_incomplete">El servidor no se ha configurado aún. Abrí Jellyfin en un navegador web para terminar la configuración antes de iniciar sesión.</string>

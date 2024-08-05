@@ -450,7 +450,6 @@
     <string name="lbl_on_schedule">Па раскладзе</string>
     <string name="lbl_guide_option_number">Нумар канала</string>
     <string name="lbl_show_indicators">Паказваць індыкатары для</string>
-    <string name="lbl_subtitle_position">Зрушэнне субтытраў ад нізу</string>
     <string name="lbl_previous_episode">Папярэдні эпізод</string>
     <string name="lbl_subtitle_delay">Затрымка субтытраў</string>
     <string name="msg_record_entire_series">Запісаць усю серыю?</string>
@@ -509,8 +508,6 @@
     <string name="action_connect">Падлучыцца</string>
     <string name="pref_screensaver_inapp_enabled">Выкарыстаць убудаваную застаўку</string>
     <string name="pref_screensaver_inapp_timeout">Запусціць застаўку пасля</string>
-    <string name="lbl_subtitle_fg">Колер тэксту субтытраў</string>
-    <string name="lbl_subtitle_stroke">Памер абводкі субтытраў</string>
     <string name="lbl_new_episodes">Новыя эпізоды</string>
     <string name="lbl_premieres">Прэм\'еры</string>
     <string name="lbl_hide_unwatched_count">Калі элемент перагледжаны</string>

@@ -62,7 +62,6 @@
     <string name="lbl_save">Salvesta</string>
     <string name="lbl_sort_by">Järjesta</string>
     <string name="lbl_resume_preroll">Jätka reklaamiga</string>
-    <string name="lbl_subtitle_stroke">Subtiitrite joone suurus</string>
     <string name="lbl_premieres">Esilinastused</string>
     <string name="grid_direction_horizontal">Horisontaalne</string>
     <string name="lbl_upcoming">Tulemas</string>
@@ -109,7 +108,6 @@
     <string name="lbl_series_settings">Saate eelistused</string>
     <string name="lbl_series_recordings">Sarja salvestused</string>
     <string name="lbl_guide_option_number">Kanali number</string>
-    <string name="lbl_subtitle_position">Subtiitrite nihe alt</string>
     <string name="lbl_subtitle_delay">Subtiitrite viivitus</string>
     <string name="lbl_repeat_episodes">Korda episoodid</string>
     <string name="lbl_live_broadcasts">Otsesaated</string>
@@ -164,7 +162,6 @@
     <string name="msg_settings_updated">Eelistused uuendatud</string>
     <string name="lbl_tv_channel_status">%1$d / %2$d kanalist</string>
     <string name="episode_missing_message">See episood puudub teie kogust. Kas soovite selle vahele jätta ja jätkata järgmisega\?</string>
-    <string name="lbl_subtitle_fg">Subtiitrite teksti värv</string>
     <string name="pref_next_up_timeout_summary">Kui kaua oodata enne järgmise üksuse esitamist</string>
     <string name="pref_app_theme">Rakenduse teema</string>
     <string name="lbl_Reset">Lähtesta</string>

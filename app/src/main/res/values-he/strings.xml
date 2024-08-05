@@ -447,9 +447,6 @@
     <string name="app_notification_beta">היישום עודכן לגרסה %1$s
 \nתודה על השתתפותך בתוכנית הבטא של Jellyfin.</string>
     <string name="color_black">שחור</string>
-    <string name="lbl_subtitle_fg">צבע הכתוביות</string>
-    <string name="lbl_subtitle_stroke">גודל הכתוביות</string>
-    <string name="lbl_subtitle_position">מרווח הכתוביות מהתחתית</string>
     <string name="color_white">לבן</string>
     <string name="color_red">אדום</string>
     <string name="color_green">ירוק</string>

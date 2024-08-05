@@ -439,9 +439,6 @@
     <string name="pref_audio_night_mode">Modo noturno para áudio (experimental)</string>
     <string name="desc_audio_night_mode">Normalizar volume de áudio automaticamente</string>
     <string name="lbl_additional_parts">Partes adicionais</string>
-    <string name="lbl_subtitle_fg">Cor do texto da legenda</string>
-    <string name="lbl_subtitle_stroke">Espessura da linha da legenda</string>
-    <string name="lbl_subtitle_position">Deslocamento inferior da legenda</string>
     <string name="color_white">Branco</string>
     <string name="color_black">Preto</string>
     <string name="color_darkgrey">Cinza escuro</string>

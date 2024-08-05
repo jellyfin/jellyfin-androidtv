@@ -408,7 +408,6 @@
     <string name="lbl_auto_crop">自動裁切</string>
     <string name="lbl_shuffle_queue">切換至隨機播放</string>
     <string name="lbl_community_rating">社群評價</string>
-    <string name="lbl_subtitle_stroke">字幕大小</string>
     <string name="login_quickconnect_step_2">2. 開啟用戶選項, 然後按快速連接Quick Connect</string>
     <string name="login_quickconnect_step_1">1. 開啟Jellyfin流動應用程式或用瀏覽器開啟Jellyfin網頁, 並登入你的帳戶</string>
     <string name="app_notification_uimode_invalid">此應用程式已針對電視進行了優化. 我們建議在其他設備上使用我們的流動應用程式.</string>
@@ -420,7 +419,6 @@
     <string name="pref_crash_reports_disabled">不傳送崩潰報告</string>
     <string name="pref_crash_report_logs_enabled">崩潰報告包括附有日誌記錄</string>
     <string name="action_connect">連接</string>
-    <string name="lbl_subtitle_fg">字幕文字顏色</string>
     <string name="image_size_smallest">最小</string>
     <string name="image_size_xlarge">加大</string>
     <string name="color_darkgrey">暗灰色</string>
@@ -460,7 +458,6 @@
     <string name="app_notification_beta">程式已更新至 %1$s
 \n感謝您參與 Jellyfin 測試計劃</string>
     <string name="desc_audio_night_mode">自動平衡音量水平</string>
-    <string name="lbl_subtitle_position">字幕距底部的偏移量</string>
     <string name="login_connect_to">正在連接伺服器 %1$s</string>
     <string name="login_other_options">其他選項:</string>
     <string name="pref_refresh_rate_scale_on_tv">在電視上縮放</string>

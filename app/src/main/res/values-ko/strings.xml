@@ -355,8 +355,6 @@
         <item quantity="other">%1$s 앨범</item>
     </plurals>
     <string name="pref_next_up_behavior_title">다음 비디오 정보 보기</string>
-    <string name="lbl_subtitle_fg">자막 텍스트 색상</string>
-    <string name="lbl_subtitle_stroke">자막 굵기</string>
     <string name="color_pink">분홍색</string>
     <string name="pref_accounts">계정</string>
     <string name="pref_default_rating">기본 평점 종류</string>
@@ -479,7 +477,6 @@
     <string name="action_use_password">비밀번호 사용</string>
     <string name="lbl_runtime">상영 시간</string>
     <string name="lbl_auto_crop">자동 잘라내기</string>
-    <string name="lbl_subtitle_position">자막 높이</string>
     <string name="lbl_playback_speed">재생 속도</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_clock_display_browsing">둘러보는 중에</string>

@@ -375,7 +375,6 @@
     <string name="random">ランダム</string>
     <string name="msg_playback_not_allowed">現在再生は許可されていません</string>
     <string name="msg_playback_restricted">管理者は現在このアイテムの再生を制限しています</string>
-    <string name="lbl_subtitle_fg">字幕テキストの色</string>
     <string name="msg_live_tv_next">次の %1$d 時間を読み込みますか？</string>
     <string name="pref_playback_advanced">高度な再生設定</string>
     <string name="server_issue_outdated_version">サーバーはサポートされていないバージョン %1$s を使用しています。%2$s 以降に更新してください</string>

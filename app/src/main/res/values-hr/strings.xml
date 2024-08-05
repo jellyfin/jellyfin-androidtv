@@ -351,7 +351,6 @@
     <string name="lbl_playback_speed">Brzina reprodukcije</string>
     <string name="pref_audio_night_mode">Nočni način zvuka (eksperimentalno)</string>
     <string name="desc_audio_night_mode">Izjednači glasnoću zvuka automatski</string>
-    <string name="lbl_subtitle_fg">Boja podnatpisa</string>
     <string name="select_version">Verzija</string>
     <string name="licenses_link_description">Provjeri license biblioteka korištenih od strane Jellyfin aplikacije</string>
     <string name="license_description">Opis</string>
@@ -429,8 +428,6 @@
     <string name="pref_crash_reports">Pošalji prijavu na server</string>
     <string name="pref_crash_report_logs_enabled">Zapisi će biti uključeni u prijavi greške</string>
     <string name="login_quickconnect_step_3">3. Unesite sljedeći kod:</string>
-    <string name="lbl_subtitle_stroke">Veličina obruba podnatpisa</string>
-    <string name="lbl_subtitle_position">Razmak podnatpisa od dna</string>
     <string name="server_connection_failed_candidates">Nije moguće spojiti se na server, probano sa sljedećim adresama: %1$s</string>
     <string name="color_blue">Plavo</string>
     <string name="pref_login">Prijavi se</string>

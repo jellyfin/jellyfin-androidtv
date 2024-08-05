@@ -456,9 +456,6 @@
     <string name="color_yellow">Жовтий</string>
     <string name="app_notification_beta">Додаток оновлено до %1$s
 \nДякуємо за участь у бета-програмі Jellyfin.</string>
-    <string name="lbl_subtitle_fg">Колір тексту субтитрів</string>
-    <string name="lbl_subtitle_stroke">Розмір обведення субтитрів</string>
-    <string name="lbl_subtitle_position">Зміщення субтитрів від низу</string>
     <string name="color_darkgrey">Темно-сірий</string>
     <string name="color_black">Чорний</string>
     <string name="color_green">Зелений</string>

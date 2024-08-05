@@ -444,9 +444,6 @@
     <string name="lbl_quality_profile">Laatuprofiili</string>
     <string name="desc_audio_night_mode">Tasoittaa äänenvoimakkuuden eroja automaattisesti</string>
     <string name="pref_audio_night_mode">Äänen yötila (kokeellinen)</string>
-    <string name="lbl_subtitle_fg">Tekstitysten tekstin väri</string>
-    <string name="lbl_subtitle_stroke">Tekstitysten viivan koko</string>
-    <string name="lbl_subtitle_position">Tekstitysten sijainti alhaalta</string>
     <string name="color_white">Valkoinen</string>
     <string name="color_black">Musta</string>
     <string name="color_darkgrey">Tummanharmaa</string>

@@ -444,7 +444,6 @@
     <string name="episode_name_special">speciale</string>
     <string name="lbl_quality_profile">Profilo qualità</string>
     <string name="desc_audio_night_mode">Livella automaticamente il volume audio</string>
-    <string name="lbl_subtitle_fg">Colore sottotitoli</string>
     <string name="color_white">Bianco</string>
     <string name="color_black">Nero</string>
     <string name="color_darkgrey">Grigio scuro</string>
@@ -461,9 +460,7 @@
 \nGrazie per la partecipazione al programma Jellyfin beta.</string>
     <string name="pref_enable_media_management_description">Mostra l\'opzione per gestire i media durante la navigazione</string>
     <string name="item_delete_confirm_message">Sei sicuro di voler eliminare questo elemento dal server\? L\'operazione non può essere annullata.</string>
-    <string name="lbl_subtitle_stroke">Dimensione sottotitoli</string>
     <string name="item_delete_confirm_title">Elimina elemento</string>
-    <string name="lbl_subtitle_position">Distanza sottotitoli dal fondo</string>
     <plurals name="hours">
         <item quantity="one">%1$s ora</item>
         <item quantity="many">%1$s ore</item>

@@ -348,9 +348,7 @@
     <string name="lbl_playback_speed">Avspillingshastighet</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="lbl_subtitle_fg">Undertekst farge</string>
     <string name="always_authenticate_description">Ved å skru på denne funksjonen vil du også skru av automatisk pålogging</string>
-    <string name="lbl_subtitle_position">Forskyvning av undertekster fra bunnen</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_connection_failed_candidates">Kan ikke koble til server. Forsøkte følgende adresse: %1$s</string>
     <string name="image_size_smallest">Minst</string>
@@ -478,7 +476,6 @@
     <string name="episode_name_special">spesiell</string>
     <string name="because_you_watched">Fordi du så %1$s</string>
     <string name="lbl_community_rating">Samfunnsvurdering</string>
-    <string name="lbl_subtitle_stroke">Undertekststrekstørrelse</string>
     <string name="lbl_start_end_on_schedule">Starter etter planen og slutter etter planen</string>
     <string name="pref_browsing">Søking</string>
     <string name="pref_refresh_rate_scale_on_tv">Skala på TV</string>

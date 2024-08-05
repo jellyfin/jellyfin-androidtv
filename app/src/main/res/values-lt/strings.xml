@@ -178,7 +178,6 @@
     <string name="lbl_open">Atidaryti</string>
     <string name="pref_next_up_timeout_summary">Kiek laukti prieš paleidžiant sekantį failą</string>
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
-    <string name="lbl_subtitle_fg">Subtitrų teksto spalva</string>
     <string name="lbl_image_size">Paveikslėlio dydis</string>
     <string name="msg_record_entire_series">Įrašyti visas serijas\?</string>
     <string name="lbl_kids">Vaikų</string>
@@ -296,8 +295,6 @@
     <string name="add_user">Pridėti vartotoją</string>
     <string name="pref_login">Prisijungti</string>
     <string name="discovered_servers_title">Surasti serveriai</string>
-    <string name="lbl_subtitle_stroke">Subtitrų brūkšnio dydis</string>
-    <string name="lbl_subtitle_position">Subtitrų poslinkis nuo apačios</string>
     <string name="who_is_watching">Kas žiūri\?</string>
     <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi laiku</string>
     <string name="lbl_record_only_new">Įrašys tik naujus epizodus</string>

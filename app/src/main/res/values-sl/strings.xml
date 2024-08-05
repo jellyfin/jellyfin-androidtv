@@ -468,8 +468,6 @@
         <item quantity="few">%1$s sledi</item>
         <item quantity="other">%1$s sledi</item>
     </plurals>
-    <string name="lbl_subtitle_fg">Barva podnapisov</string>
-    <string name="lbl_subtitle_stroke">Velikost podnapisov</string>
     <string name="color_white">Bela</string>
     <string name="color_yellow">Rumena</string>
     <string name="color_pink">Roza</string>
@@ -483,7 +481,6 @@
     <string name="color_red">Rdeča</string>
     <string name="color_green">Zelena</string>
     <string name="item_deletion_failed">Ni mogoče izbrisati %1$s</string>
-    <string name="lbl_subtitle_position">Odmik podnapisov od dna</string>
     <string name="color_blue">Modra</string>
     <string name="app_notification_beta">Aplikacija je posodobljena na %1$s
 \nHvala za sodelovanje v programu Jellyfin beta</string>

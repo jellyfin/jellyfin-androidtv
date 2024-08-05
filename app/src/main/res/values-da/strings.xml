@@ -444,8 +444,6 @@
     <string name="lbl_shuffle_queue">Slå blanding til/fra</string>
     <string name="pref_audio_night_mode">Nattemodus for lyd (eksperimentel)</string>
     <string name="lbl_additional_parts">Yderligere dele</string>
-    <string name="lbl_subtitle_stroke">Undertekst skrift tykkelse</string>
-    <string name="lbl_subtitle_position">Undertekst forskydning fra bunden</string>
     <string name="color_white">Hvid</string>
     <string name="color_red">Rød</string>
     <string name="color_yellow">Gul</string>
@@ -458,7 +456,6 @@
     <string name="pref_enable_media_management_description">Vis mulighed for at håndtere medie imens der browses</string>
     <string name="item_delete_confirm_title">Slet element</string>
     <string name="item_delete_confirm_message">Er du sikker på du vil slette dette element fra serveren\? Denne handling kan ikke fortrydes.</string>
-    <string name="lbl_subtitle_fg">Undertekst farve</string>
     <string name="color_darkgrey">Mørke grå</string>
     <string name="color_blue">Blå</string>
     <string name="color_black">Sort</string>

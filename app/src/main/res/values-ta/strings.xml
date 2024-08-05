@@ -429,7 +429,6 @@
     <string name="crash_report_toast">அச்சச்சோ! ஏதோ தவறாகிவிட்டது, உங்கள் Jellyfin சர்வருக்கு செயலிழப்பு அறிக்கை அனுப்பப்பட்டது.</string>
     <string name="pref_audio_night_mode">ஆடியோ இரவு முறை (சோதனை)</string>
     <string name="desc_audio_night_mode">ஆடியோ ஒலியளவை தானாகவே சமன் செய்</string>
-    <string name="lbl_subtitle_fg">வசன வரி நிறம்</string>
     <string name="color_black">கருப்பு</string>
     <string name="color_red">சிவப்பு</string>
     <string name="color_yellow">மஞ்சள்</string>
@@ -450,8 +449,6 @@
     <string name="pref_crash_report_logs_enabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படும்</string>
     <string name="live_tv_preferences">Live TV விருப்பங்கள்</string>
     <string name="lbl_subtitle_delay">வசன தாமதம்</string>
-    <string name="lbl_subtitle_stroke">வசன வரி அளவு</string>
-    <string name="lbl_subtitle_position">வசன வரி தொடக்க அளவு கீழிருந்து</string>
     <string name="pref_crash_report_logs">பதிவுகளை உள்ளடக்கு</string>
     <string name="pref_crash_report_logs_disabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படாது</string>
     <string name="lbl_latest_in">%1$s சமீபத்தில் சேர்க்கப்பட்டது</string>

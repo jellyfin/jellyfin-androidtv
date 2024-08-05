@@ -447,9 +447,6 @@
     <string name="color_green">Zelená</string>
     <string name="app_notification_beta">Aplikácia bola aktualizovaná na verziu %1$s
 \nĎakujeme za účasť v Jellyfin Beta programe.</string>
-    <string name="lbl_subtitle_fg">Farba textu titulkov</string>
-    <string name="lbl_subtitle_stroke">Veľkosť obrysu titulkov</string>
-    <string name="lbl_subtitle_position">Dolné odsadenie titulkov</string>
     <string name="color_white">Biela</string>
     <string name="color_black">Čierna</string>
     <string name="color_darkgrey">Tmavošedá</string>

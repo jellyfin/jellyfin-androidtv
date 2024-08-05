@@ -444,9 +444,6 @@
     <string name="lbl_quality_profile">Minőségi profil</string>
     <string name="desc_audio_night_mode">Automatikusan kiegyenlíti a hangerőt</string>
     <string name="pref_audio_night_mode">Éjszakai Audio Mód (kísérleti)</string>
-    <string name="lbl_subtitle_fg">Felirat szövegének színe</string>
-    <string name="lbl_subtitle_stroke">Felirat körvonalmérete</string>
-    <string name="lbl_subtitle_position">A felirat eltolása alulról</string>
     <string name="color_white">Fehér</string>
     <string name="color_black">Fekete</string>
     <string name="color_darkgrey">Sötétszürke</string>

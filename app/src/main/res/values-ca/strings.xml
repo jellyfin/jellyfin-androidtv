@@ -441,15 +441,12 @@
     <string name="state_disabled">Desactivat</string>
     <string name="pref_audio_night_mode">Mode de so nocturn (experimental)</string>
     <string name="desc_audio_night_mode">Anivella automàticament el volum de l\'àudio</string>
-    <string name="lbl_subtitle_fg">Color del text del subtítol</string>
-    <string name="lbl_subtitle_stroke">Mida del traç del subtítol</string>
     <string name="color_white">Blanc</string>
     <string name="server_setup_incomplete">La configuració d\'aquest servidor no s\'ha completat. Obre Jellyfin en un navegador web per a finalitzar la configuració abans d\'iniciar la sessió.</string>
     <string name="episode_name_special">especial</string>
     <string name="app_notification_beta">Aplicació actualitzada a %1$s
 \nGràcies per participar en el programa Jellyfin beta.</string>
     <string name="lbl_quality_profile">Perfil de qualitat</string>
-    <string name="lbl_subtitle_position">Desplaçament del subtítol des de la part inferior</string>
     <string name="color_black">Negre</string>
     <string name="color_darkgrey">Gris fosc</string>
     <string name="color_red">Vermell</string>

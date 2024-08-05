@@ -439,9 +439,6 @@
     <string name="item_delete_confirm_title">حذف مورد</string>
     <string name="image_type_poster">پوستر</string>
     <string name="image_size_smallest">کوچک‌ترین</string>
-    <string name="lbl_subtitle_fg">رنگ متن زیرنویس</string>
-    <string name="lbl_subtitle_stroke">اندازه ضخامت زیرنویس</string>
-    <string name="lbl_subtitle_position">فاصله زیرنویس از پایین</string>
     <string name="server_setup_incomplete">راه‌اندازی این سرور تمام نشده. Jellyfin را در مرورگر باز کنید و پیش از ورود راه‌اندازی را کامل کنید.</string>
     <string name="login_connect_to">در حال اتصال به %1$s</string>
     <string name="login_other_options">سایر گزینه‌ها:</string>
