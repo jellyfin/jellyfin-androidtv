@@ -1,16 +1,11 @@
 package org.jellyfin.androidtv.util
 
 import android.content.Context
-import android.media.AudioManager
 import android.widget.Toast
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.UserPreferences.Companion.audioBehaviour
-import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-import timber.log.Timber
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -96,17 +91,6 @@ object Utils : KoinComponent {
 		val themeColor = styledAttributes.getColor(0, 0)
 		styledAttributes.recycle()
 		return themeColor
-	}
-
-	@JvmStatic
-	fun downMixAudio(context: Context): Boolean {
-		val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-		if (am.isBluetoothA2dpOn) {
-			Timber.i("Downmixing audio due to wired headset")
-			return true
-		}
-
-		return get<UserPreferences>()[audioBehaviour] === AudioBehavior.DOWNMIX_TO_STEREO
 	}
 
 	@JvmStatic
