@@ -129,8 +129,9 @@ class RewriteMediaManager(
 		}
 
 		playbackManager.queue.entry.onEach { entry ->
+			val baseItem = entry?.baseItem
 			notifyListeners {
-				onQueueStatusChanged(entry != null)
+				onQueueStatusChanged(baseItem?.mediaType == MediaType.AUDIO)
 			}
 		}.launchIn(this)
 
