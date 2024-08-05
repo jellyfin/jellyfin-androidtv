@@ -49,9 +49,6 @@ object DeviceUtils {
 	val isShieldTv: Boolean = Build.MODEL == SHIELD_TV_MODEL
 
 	@JvmStatic
-	val isChromecastHD: Boolean = Build.MODEL == GOOGLE_CHROMECAST_HD_MODEL
-
-	@JvmStatic
 	// These devices only support a max video resolution of 1080p
 	fun has4kVideoSupport(): Boolean = Build.MODEL !in listOf(
 		FIRE_STICK_MODEL_GEN_1,
