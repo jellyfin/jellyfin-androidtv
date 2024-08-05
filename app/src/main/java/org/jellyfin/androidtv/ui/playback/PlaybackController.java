@@ -20,9 +20,11 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
+import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -518,16 +520,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setMaxBitrate(maxBitrate);
         if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
             internalOptions.setEnableDirectStream(false);
-        internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
         internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
         if (!isLiveTv && currentMediaSource != null) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
         DeviceProfile internalProfile = new ExoPlayerProfile(
-                mFragment.getContext(),
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
+                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
+                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO,
+                !DeviceUtils.has4kVideoSupport()
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
