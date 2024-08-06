@@ -556,4 +556,11 @@
     <string name="past_24_hours">Dernières 24 heures</string>
     <string name="continue_listening">Poursuivre l\'écoute</string>
     <string name="pref_external_player">Utiliser un lecteur externe</string>
+    <string name="lbl_subtitle_background_color">Couleur d\'arrière-plan des sous-titres</string>
+    <string name="pref_subtitles_size_very_small">Très petit</string>
+    <string name="pref_subtitles_size_small">Petit</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_very_large">Très gros</string>
+    <string name="lbl_subtitle_text_color">Couleur des sous-titres</string>
+    <string name="pref_subtitles_size_large">Gros</string>
 </resources>
