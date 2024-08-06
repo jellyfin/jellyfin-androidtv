@@ -10,7 +10,6 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
-import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 
 class SelectQualityAction(
@@ -39,8 +38,11 @@ class SelectQualityAction(
 			}
 
 			menu.setGroupCheckable(0, true, true)
-			menu.getItem(qualityProfiles.keys.indexOf(qualityController.currentQuality))?.let { item ->
-				item.isChecked = true
+			val currentQualityIndex = qualityProfiles.keys.indexOf(qualityController.currentQuality)
+			if (currentQualityIndex != -1) {
+				menu.getItem(currentQualityIndex)?.let { item ->
+					item.isChecked = true
+				}
 			}
 
 			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
