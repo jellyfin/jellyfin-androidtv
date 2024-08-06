@@ -546,4 +546,12 @@
     <string name="scheduled_in_next_24_hours">Geplant in den nächsten 24 Stunden</string>
     <string name="past_24_hours">Letzte 24 Stunden</string>
     <string name="continue_listening">Weiterhören</string>
+    <string name="lbl_subtitle_text_color">Farbe des Untertiteltextes</string>
+    <string name="lbl_subtitle_background_color">Hintergrundfarbe des Untertitels</string>
+    <string name="lbl_subtitle_text_stroke_color">Farbe des Untertitelstrichs</string>
+    <string name="pref_subtitles_size_very_small">Sehr klein</string>
+    <string name="pref_subtitles_size_small">Klein</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Groß</string>
+    <string name="pref_subtitles_size_very_large">Sehr groß</string>
 </resources>
