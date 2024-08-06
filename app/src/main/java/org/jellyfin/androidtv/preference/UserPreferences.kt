@@ -96,7 +96,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Preferred behavior for audio streaming.
 		 */
-		var audioBehaviour = enumPreference("audio_behavior", AudioBehavior.DOWNMIX_TO_STEREO)
+		var audioBehaviour = enumPreference("audio_behavior", AudioBehavior.DIRECT_STREAM)
 
 		/**
 		 * Preferred behavior for audio streaming.
