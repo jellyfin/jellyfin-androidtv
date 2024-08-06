@@ -566,4 +566,12 @@
     <string name="past_week">Ostatni tydzień</string>
     <string name="scheduled_in_next_24_hours">Zaplanowane w ciągu najbliższych 24 godzin</string>
     <string name="past_24_hours">Ostatnie 24 godziny</string>
+    <string name="lbl_subtitle_text_color">Kolor tekstu napisów</string>
+    <string name="lbl_subtitle_background_color">Kolor tła napisów</string>
+    <string name="lbl_subtitle_text_stroke_color">Kolor obrysu napisów</string>
+    <string name="pref_subtitles_size_very_small">Bardzo małe</string>
+    <string name="pref_subtitles_size_small">Małe</string>
+    <string name="pref_subtitles_size_normal">Normalne</string>
+    <string name="pref_subtitles_size_large">Duże</string>
+    <string name="pref_subtitles_size_very_large">Bardzo duże</string>
 </resources>
