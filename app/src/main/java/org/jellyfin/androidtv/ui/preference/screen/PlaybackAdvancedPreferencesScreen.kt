@@ -98,6 +98,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 		category {
 			setTitle(R.string.pref_buffering_section_title)
 
+			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.pref_buffering_min_buffer_ms_label)
 				setContent(R.string.pref_buffering_min_buffer_ms_description)
@@ -113,6 +114,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.minBufferMs)
 			}
 
+			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.pref_buffering_max_buffer_ms_label)
 				setContent(R.string.pref_buffering_max_buffer_ms_description)
@@ -128,6 +130,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.maxBufferMs)
 			}
 
+			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.pref_buffering_buffer_for_playback_ms_label)
 				setContent(R.string.pref_buffering_buffer_for_playback_ms_description)
@@ -143,6 +146,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.bufferForPlaybackMs)
 			}
 
+			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.pref_buffering_buffer_for_playback_after_rebuffer_ms_label)
 				setContent(R.string.pref_buffering_buffer_for_playback_after_rebuffer_ms_description)
