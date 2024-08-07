@@ -524,4 +524,6 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Показывать только товары с установленным возрастным рейтингом</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показать все товары</string>
     <string name="lbl_runtime">Среда выполнения</string>
+    <string name="lbl_subtitle_background_color">Цвет фона субтитров</string>
+    <string name="lbl_subtitle_text_color">Цвет текста субтитров</string>
 </resources>
