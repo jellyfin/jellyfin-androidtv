@@ -59,6 +59,7 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.sdk.api.client.ApiClient;
@@ -123,6 +124,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
     private final Lazy<ApiClient> api = inject(ApiClient.class);
+    private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -699,6 +701,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mAdapter.Retrieve();
     }
 
+    private ImageButton mShuffleButton;
     private ImageButton mSortButton;
     private ImageButton mSettingsButton;
     private ImageButton mUnwatchedButton;
@@ -718,6 +721,23 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private void addTools() {
         //Add tools
         int size = Utils.convertDpToPixel(requireContext(), 26);
+
+        if (mFolder.getCollectionType() == CollectionType.MUSICVIDEOS)
+        {
+            mShuffleButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+            mShuffleButton.setImageResource(R.drawable.ic_shuffle);
+            mShuffleButton.setMaxHeight(size);
+            mShuffleButton.setAdjustViewBounds(true);
+            mShuffleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playbackHelper.getValue().retrieveAndPlay(mFolder.getId(), true, requireContext());
+                }
+            });
+            mShuffleButton.setContentDescription(getString(R.string.lbl_shuffle_all));
+
+            binding.toolBar.addView(mShuffleButton);
+        }
 
         mSortButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mSortButton.setImageResource(R.drawable.ic_sort);
