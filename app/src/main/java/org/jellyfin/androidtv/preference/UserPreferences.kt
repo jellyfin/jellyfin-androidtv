@@ -73,6 +73,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var nextUpTimeout = intPreference("next_up_timeout", 1000 * 7)
 
 		/**
+		 * Duration how far to rewind/forward item
+		 * Stored in milliseconds
+		 */
+		var seekTime = intPreference("seek_time", 1000 * 15)
+
+		/**
 		 * Duration in seconds to subtract from resume time
 		 */
 		var resumeSubtractDuration = stringPreference("pref_resume_preroll", "0")
