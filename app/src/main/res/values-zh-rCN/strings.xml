@@ -536,4 +536,12 @@
     <string name="scheduled_in_next_24_hours">预计在接下来的 24 小时内</string>
     <string name="past_24_hours">过去 24 小时</string>
     <string name="continue_listening">继续收听</string>
+    <string name="lbl_subtitle_text_color">字幕文字颜色</string>
+    <string name="lbl_subtitle_background_color">字幕背景颜色</string>
+    <string name="lbl_subtitle_text_stroke_color">字幕描边颜色</string>
+    <string name="pref_subtitles_size_very_small">很小</string>
+    <string name="pref_subtitles_size_small">小</string>
+    <string name="pref_subtitles_size_normal">正常</string>
+    <string name="pref_subtitles_size_large">大</string>
+    <string name="pref_subtitles_size_very_large">很大</string>
 </resources>
