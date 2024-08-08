@@ -68,7 +68,7 @@
     <string name="lbl_views">بازدید</string>
     <string name="lbl_now_playing_album">از %1$s</string>
     <string name="lbl_now_playing_track">%1$s از %2$s</string>
-    <string name="lbl_add_favorite">اضافه کردن به مورد علاقه</string>
+    <string name="lbl_add_favorite">افزودن به علاقه مندی‌ها</string>
     <string name="lbl_remove_favorite">حذف از مورد علاقه</string>
     <string name="lbl_mark_played">علامت‌گذاری پخش شده</string>
     <string name="lbl_mark_unplayed">علامت‌گذاری پخش نشده</string>
@@ -106,7 +106,7 @@
     <string name="lbl_similar_items_library">موارد مشابه در کتابخانه شما</string>
     <string name="lbl_program_ended">برنامه به پایان رسید</string>
     <string name="msg_will_record">ضبط خواهد شد</string>
-    <string name="msg_recording_now">الآن در حال ضبط</string>
+    <string name="msg_recording_now">در حال ضبط</string>
     <string name="lbl_on">روشن</string>
     <string name="lbl_tomorrow">فردا</string>
     <string name="lbl_today">امروز</string>
@@ -143,7 +143,7 @@
     <string name="msg_burn_sub_warning">چسباندن زیرنویس میتوانید تا چند دقیقه به طول بیانجامد. لطفاً صبور باشید…</string>
     <string name="msg_unable_load_subs">نمایش زیرنویس امکان پذیر نیست</string>
     <string name="msg_subtitles_loading">درحال بارگذاری زیرنویس ها…</string>
-    <string name="lbl_filters">فیلتر ها</string>
+    <string name="lbl_filters">فیلتر های پخش زنده</string>
     <string name="lbl_ended">پایان</string>
     <string name="lbl__continuing">ادامه دارد</string>
     <string name="lbl_display_preferences">تنظیمات صفحه نمایش</string>
@@ -454,4 +454,8 @@
     <string name="lbl_latest_in">به تازگی در %1$s افزوده‌شده</string>
     <string name="episode_name_special">ویژه</string>
     <string name="because_you_watched">چون شما %1$s را دیدید</string>
+    <string name="continue_listening">ادامه پخش</string>
+    <string name="lbl_additional_parts">قسمت‌های اضافی</string>
+    <string name="lbl_home">خانه</string>
+    <string name="lbl_runtime">زمان اجرا</string>
 </resources>
