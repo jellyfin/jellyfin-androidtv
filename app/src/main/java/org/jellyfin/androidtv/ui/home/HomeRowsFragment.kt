@@ -166,15 +166,13 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 		lifecycleScope.launch {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				if (userPreferences[UserPreferences.homeReactive]) {
-					api.webSocket.subscribe<UserDataChangedMessage>()
-						.onEach { refreshRows(force = true, delayed = false) }
-						.launchIn(this)
+				api.webSocket.subscribe<UserDataChangedMessage>()
+					.onEach { refreshRows(force = true, delayed = false) }
+					.launchIn(this)
 
-					api.webSocket.subscribe<LibraryChangedMessage>()
-						.onEach { refreshRows(force = true, delayed = false) }
-						.launchIn(this)
-				}
+				api.webSocket.subscribe<LibraryChangedMessage>()
+					.onEach { refreshRows(force = true, delayed = false) }
+					.launchIn(this)
 			}
 		}
 

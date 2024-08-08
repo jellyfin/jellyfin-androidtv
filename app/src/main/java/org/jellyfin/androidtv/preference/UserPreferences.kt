@@ -195,11 +195,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether items shown in the screensaver are required to have an age rating set.
 		 */
 		var screensaverAgeRatingRequired = booleanPreference("screensaver_agerating_required", true)
-
-		/**
-		 * Enable reactive homepage
-		 */
-		var homeReactive = booleanPreference("home_reactive", false)
 	}
 
 	init {
