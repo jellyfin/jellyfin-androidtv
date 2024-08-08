@@ -212,6 +212,18 @@ class SdkPlaybackHelper(
 			}
 		}
 
+		BaseItemKind.COLLECTION_FOLDER -> {
+			val response by api.itemsApi.getItems(
+				parentId = mainItem.id,
+				isMissing = false,
+				sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else null,
+				recursive = true,
+				limit = ITEM_QUERY_LIMIT
+			)
+
+			response.items.orEmpty()
+		}
+
 		else -> {
 			val parts = getParts(mainItem)
 			val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
