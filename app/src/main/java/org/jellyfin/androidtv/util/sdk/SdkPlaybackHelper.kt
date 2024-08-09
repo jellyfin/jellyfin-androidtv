@@ -217,9 +217,10 @@ class SdkPlaybackHelper(
 			val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
 
 			if (addIntros) {
-				val intros = runCatching {
-					api.userLibraryApi.getIntros(mainItem.id).content.items
-				}.getOrNull().orEmpty()
+				val intros = runCatching { api.userLibraryApi.getIntros(mainItem.id).content.items }.getOrNull()
+					.orEmpty()
+					// Force the type to be trailer as the legacy playback UI uses it to determine if it should show the next up screen
+					.map { it.copy(type = BaseItemKind.TRAILER) }
 
 				intros + parts
 			} else {
