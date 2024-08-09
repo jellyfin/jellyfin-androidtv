@@ -21,7 +21,7 @@ class MyDetailsOverviewRowPresenter(
 		fun setItem(row: MyDetailsOverviewRow) {
 			setTitle(row.item.name)
 
-			InfoLayoutHelper.addInfoRow(view.context, row.item, binding.fdMainInfoRow, false)
+			InfoLayoutHelper.addInfoRow(view.context, row.item, row.item.mediaSources?.getOrNull(row.selectedMediaSourceIndex), binding.fdMainInfoRow, false)
 			binding.fdGenreRow.text = row.item.genres?.joinToString(" / ")
 
 			binding.infoTitle1.text = row.infoItem1?.label
