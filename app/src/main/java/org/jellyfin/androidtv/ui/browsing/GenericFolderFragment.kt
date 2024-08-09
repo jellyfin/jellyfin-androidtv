@@ -7,6 +7,7 @@ import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 
 class GenericFolderFragment : EnhancedBrowseFragment() {
@@ -60,20 +61,28 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 			mRows.add(BrowseRowDef(getString(R.string.lbl_latest), latest, 0))
 		}
 
-		val byName = GetItemsRequest(
+		when (mFolder.type) {
+			BaseItemKind.SEASON -> {
+				val episodes = GetEpisodesRequest(
 			fields = itemFields,
-			parentId = mFolder.id,
+					seriesId = mFolder.seriesId!!,
+					seasonId = mFolder.id,
 		)
-		val header = when (mFolder.type) {
-			BaseItemKind.SEASON -> mFolder.name
-			else -> getString(R.string.lbl_by_name)
-		}
 
-		mRows.add(BrowseRowDef(header, byName, 100))
+				mRows.add(BrowseRowDef(mFolder.name, episodes))
 
-		if (mFolder.type == BaseItemKind.SEASON) {
 			val specials = GetSpecialsRequest(mFolder.id)
 			mRows.add(BrowseRowDef(getString(R.string.lbl_specials), specials))
+		}
+
+			else -> {
+				val byName = GetItemsRequest(
+					fields = itemFields,
+					parentId = mFolder.id,
+				)
+
+				mRows.add(BrowseRowDef(getString(R.string.lbl_by_name), byName, 100))
+			}
 		}
 
 		rowLoader.loadRows(mRows)

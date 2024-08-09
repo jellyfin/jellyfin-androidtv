@@ -264,6 +264,9 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 case Specials:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getSpecialsQuery(), new CardPresenter(true, ImageType.THUMB, 150), mRowsAdapter);
                     break;
+                case Episodes:
+                    rowAdapter = new ItemRowAdapter(requireContext(), def.getEpisodesQuery(), mCardPresenter, mRowsAdapter);
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
                     break;

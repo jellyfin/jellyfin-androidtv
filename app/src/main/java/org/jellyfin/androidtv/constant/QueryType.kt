@@ -26,4 +26,5 @@ enum class QueryType {
 	SeriesTimer,
 	Premieres,
 	Resume,
+	Episodes,
 }

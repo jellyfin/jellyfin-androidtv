@@ -38,6 +38,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest;
 import org.jellyfin.sdk.model.api.request.GetItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
@@ -72,6 +73,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetAlbumArtistsRequest mAlbumArtistsQuery;
     private GetLatestMediaRequest mLatestQuery;
     private GetResumeItemsRequest resumeQuery;
+    private GetEpisodesRequest episodesQuery;
     private QueryType queryType;
 
     private ItemSortBy mSortBy;
@@ -340,6 +342,14 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.queryType = QueryType.Resume;
+    }
+
+    public ItemRowAdapter(Context context, GetEpisodesRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+        super(presenter);
+        this.context = context;
+        mParent = parent;
+        episodesQuery = query;
+        this.queryType = QueryType.Episodes;
     }
 
     public void setItemsLoaded(int itemsLoaded) {
@@ -644,6 +654,9 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             case Resume:
                 ItemRowAdapterHelperKt.retrieveResumeItems(this, api.getValue(), resumeQuery);
             break;
+            case Episodes:
+                ItemRowAdapterHelperKt.retrieveEpisodes(this, api.getValue(), episodesQuery);
+                break;
         }
     }
 
