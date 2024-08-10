@@ -63,13 +63,17 @@ object ProfileHelper {
 		}
 	}
 
+	val supportsHevc by lazy {
+		MediaTest.supportsHevc()
+	}
+
 	val deviceHevcCodecProfile by lazy {
 		CodecProfile().apply {
 			type = CodecType.Video
 			codec = Codec.Video.HEVC
 
 			conditions = when {
-				!MediaTest.supportsHevc() -> {
+				!supportsHevc -> {
 					// The following condition is a method to exclude all HEVC
 					Timber.i("*** Does NOT support HEVC")
 					arrayOf(
