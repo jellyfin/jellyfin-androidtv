@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditio
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.supportsHevc
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
@@ -76,7 +77,7 @@ class ExoPlayerProfile(
 				this.context = EncodingContext.Streaming
 				container = Codec.Container.TS
 				videoCodec = buildList {
-					if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
+					if (supportsHevc) add(Codec.Video.HEVC)
 					add(Codec.Video.H264)
 				}.joinToString(",")
 				audioCodec = when (downMixAudio) {
