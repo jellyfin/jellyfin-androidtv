@@ -111,7 +111,7 @@ object ProfileHelper {
 
 	val deviceHevcLevelCodecProfiles by lazy {
 		buildList {
-			if (MediaTest.supportsHevc()) {
+			if (supportsHevc) {
 				add(CodecProfile().apply {
 					type = CodecType.Video
 					codec = Codec.Video.HEVC
