@@ -139,8 +139,8 @@ fun InfoRowSeasonEpisode(item: BaseItemDto) {
 
 private fun List<MediaStream>.getDefault(type: MediaStreamType, defaultIndex: Int? = null): MediaStream? {
 	if (defaultIndex != null) {
-		val byIndex = get(defaultIndex)
-		if (byIndex.type == type) return byIndex
+		val byIndex = getOrNull(defaultIndex)
+		if (byIndex?.type == type) return byIndex
 	}
 
 	return firstOrNull { it.type == type }
