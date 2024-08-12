@@ -181,7 +181,7 @@
     <string name="lbl_item">Objekt</string>
     <string name="lbl_items">Objekt</string>
     <string name="lbl_trailers">Trailrar</string>
-    <string name="lbl_specials">Specialsäsong</string>
+    <string name="lbl_specials">Extramaterial</string>
     <string name="lbl_chapters">Kapitel</string>
     <string name="lbl_cast_crew">Medverkande &amp; Personal</string>
     <string name="msg_unable_to_cancel">Kan inte avbryta inspelning</string>
@@ -546,4 +546,12 @@
     <string name="app_notification_update_soon">Uppdatera din server från %1$s till minst %2$s för att kunna fortsätta använda appen efter nästa uppdatering.</string>
     <string name="continue_listening">Fortsätt lyssna</string>
     <string name="current_queue">Aktuell kö</string>
+    <string name="lbl_subtitle_text_color">Textfärg för undertexter</string>
+    <string name="lbl_subtitle_background_color">Bakgrundsfärg för undertexter</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Stor</string>
+    <string name="pref_subtitles_size_very_large">Mycket stor</string>
+    <string name="lbl_subtitle_text_stroke_color">Färg för undertextens kantlinje</string>
+    <string name="pref_subtitles_size_small">Liten</string>
+    <string name="pref_subtitles_size_very_small">Mycket liten</string>
 </resources>
