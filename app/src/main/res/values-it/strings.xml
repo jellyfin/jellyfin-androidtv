@@ -556,4 +556,11 @@
     <string name="pref_screensaver_ageratingmax_zero">Qualsiasi età</string>
     <string name="pref_screensaver_ageratingrequired_title">Richiede la classificazione per età</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Mostra solo gli elementii con classificazione per età</string>
+    <string name="lbl_subtitle_text_color">Colore testo sottotitolo</string>
+    <string name="lbl_subtitle_background_color">Colore sfondo sottotitolo</string>
+    <string name="pref_subtitles_size_very_small">Molto piccolo</string>
+    <string name="pref_subtitles_size_small">Piccolo</string>
+    <string name="pref_subtitles_size_normal">Normale</string>
+    <string name="pref_subtitles_size_large">Grande</string>
+    <string name="pref_subtitles_size_very_large">Molto grande</string>
 </resources>
