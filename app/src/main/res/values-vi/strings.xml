@@ -249,7 +249,6 @@
     <string name="lbl_colored_backgrounds">Nền được mã hóa màu</string>
     <string name="lbl_direct_stream_live">Luồng phát TV trực tiếp</string>
     <string name="lbl_album">Album</string>
-    <string name="lbl_min">" phút"</string>
     <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
     <string name="lbl_tv_channel_status">%1$d trong số %2$d kênh</string>
     <string name="lbl_subtitle_track">Chọn bản phụ đề</string>

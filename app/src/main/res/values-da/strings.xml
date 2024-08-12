@@ -49,7 +49,6 @@
     <string name="lbl_upcoming">Kommende</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Spilletid</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Slutter</string>
     <string name="lbl_directed_by">Instrueret af</string>
     <string name="lbl_last_played">"Sidst afspillet "</string>

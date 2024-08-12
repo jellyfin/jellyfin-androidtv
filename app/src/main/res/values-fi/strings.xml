@@ -69,7 +69,6 @@
     <string name="lbl_other_options">Muut asetukset</string>
     <string name="lbl_last_played">"Viimeksi toistettu "</string>
     <string name="lbl_ends">Päättyy</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_favorite">Suosikki</string>
     <string name="lbl_upcoming">Tulossa</string>

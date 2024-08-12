@@ -43,7 +43,6 @@
     <string name="lbl_upcoming">即将上映</string>
     <string name="lbl_sd">标清</string>
     <string name="lbl_runs">时长</string>
-    <string name="lbl_min">" 分钟"</string>
     <string name="lbl_ends">结束</string>
     <string name="lbl_directed_by">导演</string>
     <string name="lbl_last_played">"上次播放 "</string>

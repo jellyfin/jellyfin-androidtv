@@ -43,7 +43,6 @@
     <string name="lbl_upcoming">Por Estrenar</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duración</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Termina</string>
     <string name="lbl_directed_by">Dirigido Por</string>
     <string name="lbl_last_played">"Ultimos vistos "</string>

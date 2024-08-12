@@ -677,8 +677,18 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private String getRunTime() {
-        Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getRunTimeTicks());
-        return runtime != null && runtime > 0 ? String.format("%d%s", (int) Math.ceil((double) runtime / 600000000), getString(R.string.lbl_min)) : "";
+        Long runtime_ticks = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getRunTimeTicks());
+        if (runtime_ticks != null && runtime_ticks > 0) {
+            long runtime_minutes = runtime_ticks / 600000000;
+            if (runtime_minutes >= 60) {
+                long runtime_hours_only = runtime_minutes / 60;
+                long runtime_minutes_only = runtime_minutes - 60 * runtime_hours_only;
+                return runtime_hours_only + getString(R.string.lbl_hours_shorthands) + " " + runtime_minutes_only +
+                        getString(R.string.lbl_minutes_shorthand);
+            }
+            return runtime_minutes + getString(R.string.lbl_minutes_shorthand);
+        } else
+            return "";
     }
 
     private String getEndTime() {

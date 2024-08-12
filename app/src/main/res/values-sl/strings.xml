@@ -29,7 +29,6 @@
     <string name="lbl_last_played">"Zadnje predvajano "</string>
     <string name="lbl_directed_by">Režija</string>
     <string name="lbl_ends">Konec</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_runs">Teče</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Ogledano</string>

@@ -223,7 +223,6 @@
     <string name="lbl_people">Orang</string>
     <string name="lbl_directed_by">Disutradarai oleh</string>
     <string name="lbl_ends">Berakhir</string>
-    <string name="lbl_min">" mnt"</string>
     <string name="lbl_runs">Jalankan</string>
     <string name="grid_direction_vertical">Vertikal</string>
     <string name="grid_direction_horizontal">Horisontal</string>

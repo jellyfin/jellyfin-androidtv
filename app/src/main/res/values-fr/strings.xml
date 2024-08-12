@@ -49,7 +49,6 @@
     <string name="lbl_upcoming">À venir</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Durée</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Fin</string>
     <string name="lbl_directed_by">Réalisé par</string>
     <string name="lbl_last_played">"Dernière lecture "</string>

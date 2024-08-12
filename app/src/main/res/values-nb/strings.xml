@@ -49,7 +49,6 @@
     <string name="lbl_upcoming">Kommer</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Pågår</string>
-    <string name="lbl_min">" minutter"</string>
     <string name="lbl_ends">Slutter</string>
     <string name="lbl_directed_by">Regissert av</string>
     <string name="lbl_last_played">"Sist avspilt "</string>

@@ -133,7 +133,6 @@
     <string name="lbl_last_played">"En son oynatılan "</string>
     <string name="lbl_directed_by">Yönetmen</string>
     <string name="lbl_ends">Bitiş Zamanı</string>
-    <string name="lbl_min">" dk"</string>
     <string name="lbl_runs">Süre</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">İzlendi</string>

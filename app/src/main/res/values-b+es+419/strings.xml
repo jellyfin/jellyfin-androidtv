@@ -63,7 +63,6 @@
     <string name="lbl_watched">Visto</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duración</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Termina</string>
     <string name="lbl_other_options">Otras opciones</string>
     <string name="lbl_recordings">Grabaciones</string>

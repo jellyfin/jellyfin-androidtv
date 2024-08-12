@@ -50,7 +50,6 @@
     <string name="lbl_upcoming">Ожидаемое</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Длится</string>
-    <string name="lbl_min">" мин"</string>
     <string name="lbl_ends">Конец</string>
     <string name="lbl_directed_by">Режиссёр</string>
     <string name="lbl_last_played">"Последнее воспроизведение "</string>

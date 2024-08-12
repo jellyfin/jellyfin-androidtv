@@ -4,7 +4,6 @@
     <string name="lbl_last_played">"Последње гледано "</string>
     <string name="lbl_directed_by">Режија</string>
     <string name="lbl_ends">завршава се у</string>
-    <string name="lbl_min">" мин"</string>
     <string name="lbl_runs">У току</string>
     <string name="lbl_watched">Гледано</string>
     <string name="lbl_favorite">Омиљено</string>
