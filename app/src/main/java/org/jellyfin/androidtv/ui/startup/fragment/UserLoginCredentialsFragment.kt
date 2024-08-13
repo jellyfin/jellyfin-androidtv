@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.startup.fragment
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class UserLoginCredentialsFragment : Fragment() {
 	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
 	private var _binding: FragmentUserLoginCredentialsBinding? = null
 	private val binding get() = _binding!!
+	private var isPasswordVisible: Boolean = false
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -56,6 +58,10 @@ class UserLoginCredentialsFragment : Fragment() {
 					else -> false
 				}
 			}
+		}
+
+		with (binding.togglePasswordVisibilityButton) {
+			setOnClickListener { togglePasswordVisibility() }
 		}
 
 		with(binding.confirm) {
@@ -116,5 +122,18 @@ class UserLoginCredentialsFragment : Fragment() {
 
 			else -> binding.error.setText(R.string.login_username_field_empty)
 		}
+	}
+
+	private fun togglePasswordVisibility() {
+		isPasswordVisible = !isPasswordVisible
+		if (isPasswordVisible) {
+			binding.password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+			binding.togglePasswordVisibilityButton.setImageResource(R.drawable.ic_visibility)
+		} else {
+			binding.password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+			binding.togglePasswordVisibilityButton.setImageResource(R.drawable.ic_visibility_off)
+		}
+
+		binding.password.setSelection(binding.password.text.length)
 	}
 }
