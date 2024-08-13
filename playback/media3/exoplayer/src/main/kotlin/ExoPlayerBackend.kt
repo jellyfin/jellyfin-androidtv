@@ -84,14 +84,15 @@ class ExoPlayerBackend(
 					}
 				),
 				DefaultExtractorsFactory().apply {
-					val isLowRamDevice =
-						context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+					val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
 					setTsExtractorTimestampSearchBytes(
 						when (isLowRamDevice) {
 							true -> TS_SEARCH_BYTES_LM
 							false -> TS_SEARCH_BYTES_HM
 						}
 					)
+					setConstantBitrateSeekingEnabled(true)
+					setConstantBitrateSeekingAlwaysEnabled(true)
 				}
 			))
 			.setPauseAtEndOfMediaItems(true)
