@@ -185,6 +185,8 @@ public class VideoManager {
         httpDataSourceFactory.setReadTimeoutMs(30 * 1000);
         DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, httpDataSourceFactory);
         exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+        extractorsFactory.setConstantBitrateSeekingEnabled(true);
+        extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
 
         return exoPlayerBuilder;
     }
