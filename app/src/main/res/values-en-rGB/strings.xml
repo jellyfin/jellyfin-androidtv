@@ -546,4 +546,12 @@
     <string name="past_week">Past week</string>
     <string name="scheduled_in_next_24_hours">Scheduled in next 24 hours</string>
     <string name="past_24_hours">Past 24 hours</string>
+    <string name="lbl_subtitle_text_color">Subtitle text colour</string>
+    <string name="lbl_subtitle_background_color">Subtitle background colour</string>
+    <string name="lbl_subtitle_text_stroke_color">Subtitle stroke colour</string>
+    <string name="pref_subtitles_size_very_small">Very small</string>
+    <string name="pref_subtitles_size_small">Small</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Large</string>
+    <string name="pref_subtitles_size_very_large">Very large</string>
 </resources>
