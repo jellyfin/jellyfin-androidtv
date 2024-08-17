@@ -50,7 +50,7 @@
     <string name="lbl_seasons">シーズン</string>
     <string name="lbl_upcoming">近日公開</string>
     <string name="lbl_favorite">お気に入り</string>
-    <string name="lbl_watched">既に見る</string>
+    <string name="lbl_watched">視聴済み</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_min">" 分"</string>
     <string name="lbl_directed_by">監督</string>
@@ -203,7 +203,7 @@
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングを開始</string>
     <string name="msg_burn_sub_warning">字幕の生成に数分必要です。しばらくお待ちください…</string>
-    <string name="lbl_more_like_this">このように</string>
+    <string name="lbl_more_like_this">これに似たもの</string>
     <string name="lbl_resume_preroll">プレロールを再開する</string>
     <string name="lbl_show_backdrop">背景を表示</string>
     <string name="lbl_subtitle_track">字幕トラックを選択</string>
