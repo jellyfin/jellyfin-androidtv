@@ -89,7 +89,7 @@ fun ItemListFragment.toggleFavorite(item: BaseItemDto, callback: (item: BaseItem
 	lifecycleScope.launch {
 		val userData = itemMutationRepository.setFavorite(
 			item = item.id,
-			favorite = item.userData?.isFavorite ?: true
+			favorite = !(item.userData?.isFavorite ?: false)
 		)
 		callback(item.copy(userData = userData))
 	}
