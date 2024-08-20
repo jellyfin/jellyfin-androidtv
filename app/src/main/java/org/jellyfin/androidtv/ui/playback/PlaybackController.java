@@ -101,7 +101,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mCurrentTranscodeStartTime;
     private boolean isLiveTv = false;
     private boolean directStreamLiveTv;
-    private boolean exoErrorEncountered;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
 
@@ -247,8 +246,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void playerErrorEncountered() {
-        exoErrorEncountered = true;
-
         // reset the retry count if it's been more than 30s since previous error
         if (playbackRetries > 0 && Instant.now().toEpochMilli() - lastPlaybackError > 30000) {
             Timber.d("playback stabilized - retry count reset to 0 from %s", playbackRetries);
@@ -516,8 +513,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
         internalOptions.setMaxBitrate(maxBitrate);
-        if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
-            internalOptions.setEnableDirectStream(false);
+        if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectStream(false);
+        if (playbackRetries > 1) internalOptions.setEnableDirectPlay(false);
         internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
         if (!isLiveTv && currentMediaSource != null) {
@@ -876,7 +873,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void resetPlayerErrors() {
-        exoErrorEncountered = false;
+        playbackRetries = 0;
     }
 
     private void clearPlaybackSessionOptions() {
