@@ -55,7 +55,9 @@ class SdkPlaybackHelper(
 	) {
 		getScope(context).launch {
 			runCatching {
-				getItems(mainItem, allowIntros, shuffle)
+				val items = getItems(mainItem, allowIntros, shuffle)
+				if (items.isEmpty() && !mainItem.mediaSources.isNullOrEmpty()) listOf(mainItem)
+				else items
 			}.fold(
 				onSuccess = { items -> outerResponse.onResponse(items) },
 				onFailure = { exception ->

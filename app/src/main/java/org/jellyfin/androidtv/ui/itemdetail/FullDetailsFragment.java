@@ -1186,6 +1186,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 if (!getActive()) return;
+                if (response.isEmpty()) {
+                    Timber.e("No items to play - ignoring play request.");
+                    return;
+                }
 
                 if (item.getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
@@ -1196,7 +1200,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             }
         });
-
     }
 
     void play(final List<BaseItemDto> items, final int pos, final boolean shuffle) {
