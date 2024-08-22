@@ -62,7 +62,8 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	val api = get<ApiClient>()
 	val exoPlayerOptions = ExoPlayerOptions(
 		httpConnectTimeout = api.httpClientOptions.connectTimeout,
-		httpReadTimeout = api.httpClientOptions.requestTimeout
+		httpReadTimeout = api.httpClientOptions.requestTimeout,
+		preferFfmpeg = get<UserPreferences>()[UserPreferences.preferExoPlayerFfmpeg]
 	)
 	install(exoPlayerPlugin(get(), exoPlayerOptions))
 
