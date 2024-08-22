@@ -73,10 +73,11 @@ public class VideoManager {
 
     public boolean isContracted = false;
 
+    private final UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
+
     public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
         _helper = helper;
-        UserPreferences userPreferences = KoinJavaComponent.<UserPreferences>get(UserPreferences.class);
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
@@ -160,6 +161,14 @@ public class VideoManager {
         mPlaybackControllerNotifiable = notifier;
     }
 
+    private int determineExoPlayerExtensionRendererMode() {
+        if (userPreferences.get(UserPreferences.Companion.getPreferExoPlayerFfmpeg())) {
+            return DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER;
+        }
+
+        return DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
+    }
+
     /**
      * Configures Exoplayer for video playback. Initially we try with core decoders, but allow
      * ExoPlayer to silently fallback to software renderers.
@@ -171,7 +180,7 @@ public class VideoManager {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
         DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
         defaultRendererFactory.setEnableDecoderFallback(true);
-        defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+        defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
         exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
 
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);

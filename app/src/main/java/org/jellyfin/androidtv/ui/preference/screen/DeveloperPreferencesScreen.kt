@@ -50,6 +50,13 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 				}
 			}
 
+			checkbox {
+				setTitle(R.string.pref_prefer_extension_renderers_label)
+				setContent(R.string.pref_prefer_extension_renderers_description)
+
+				bind(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
+			}
+
 			@OptIn(ExperimentalCoilApi::class)
 			action {
 				setTitle(R.string.clear_image_cache)

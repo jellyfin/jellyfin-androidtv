@@ -93,6 +93,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
+		/**
+		 * Whether ExoPlayer should prefer FFmpeg renderers to core ones.
+		 */
+		var preferExoPlayerFfmpeg = booleanPreference("exoplayer_prefer_ffmpeg", defaultValue = false)
+
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.
