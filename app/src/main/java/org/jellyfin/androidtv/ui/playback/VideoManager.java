@@ -33,6 +33,7 @@ import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
+import androidx.media3.exoplayer.util.EventLogger;
 import androidx.media3.extractor.DefaultExtractorsFactory;
 import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
@@ -81,6 +82,10 @@ public class VideoManager {
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
+
+        if (userPreferences.get(UserPreferences.Companion.getDebuggingEnabled())) {
+            mExoPlayer.addAnalyticsListener(new EventLogger());
+        }
 
         // Volume normalisation (audio night mode).
         if (nightModeEnabled) enableAudioNightMode(mExoPlayer.getAudioSessionId());

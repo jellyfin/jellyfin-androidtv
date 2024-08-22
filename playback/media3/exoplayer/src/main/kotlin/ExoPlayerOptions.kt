@@ -6,4 +6,5 @@ data class ExoPlayerOptions(
 	val httpConnectTimeout: Duration? = null,
 	val httpReadTimeout: Duration? = null,
 	val preferFfmpeg: Boolean = false,
+	val enableDebugLogging: Boolean = false,
 )

@@ -19,6 +19,7 @@ import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
@@ -100,6 +101,10 @@ class ExoPlayerBackend(
 			.also { player ->
 				player.addListener(PlayerListener())
 				audioPipeline.setAudioSessionId(player.audioSessionId)
+
+				if (exoPlayerOptions.enableDebugLogging) {
+					player.addAnalyticsListener(EventLogger())
+				}
 			}
 	}
 
