@@ -56,6 +56,19 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setContent(R.string.sum_enable_cinema_mode)
 				bind(userPreferences, UserPreferences.cinemaModeEnabled)
 			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.pref_seek_time_title)
+				setContent(R.string.pref_seek_time_summary)
+				min = 1_000
+				max = 60_000
+				increment = 1_000
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int) = "${value / 1000}s"
+				}
+				bind(userPreferences, UserPreferences.seekTime)
+			}
 		}
 
 		category {
