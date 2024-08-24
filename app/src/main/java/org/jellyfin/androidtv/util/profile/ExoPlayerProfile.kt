@@ -3,10 +3,10 @@ package org.jellyfin.androidtv.util.profile
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCLevelCodecProfiles
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecProfiles
-import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
-import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditions
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
@@ -154,15 +154,8 @@ class ExoPlayerProfile(
 
 		codecProfiles = buildList {
 			// H264 profile
-			add(CodecProfile().apply {
-				type = CodecType.Video
-				codec = Codec.Video.H264
-				conditions = buildList {
-					add(h264VideoProfileCondition)
-					add(h264VideoLevelProfileCondition)
-					if (disable4KVideo) addAll(max1080pProfileConditions)
-				}.toTypedArray()
-			})
+			add(deviceAVCCodecProfile)
+			addAll(deviceAVCLevelCodecProfiles)
 			// H264 ref frames profile
 			add(CodecProfile().apply {
 				type = CodecType.Video

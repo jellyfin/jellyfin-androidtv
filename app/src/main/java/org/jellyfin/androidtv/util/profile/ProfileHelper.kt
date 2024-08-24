@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.Codec
-import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
@@ -14,11 +13,6 @@ import org.jellyfin.apiclient.model.dlna.SubtitleProfile
 import timber.log.Timber
 
 object ProfileHelper {
-	// H264 codec levels https://en.wikipedia.org/wiki/Advanced_Video_Coding#Levels
-	private const val H264_LEVEL_4_1 = "41"
-	private const val H264_LEVEL_5_1 = "51"
-	private const val H264_LEVEL_5_2 = "52"
-
 	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
 
 	val deviceAV1CodecProfile by lazy {
@@ -63,6 +57,107 @@ object ProfileHelper {
 		}
 	}
 
+	val supportsAVC by lazy {
+		MediaTest.supportsAVC()
+	}
+
+	val supportsAVCHigh10 by lazy {
+		MediaTest.supportsAVCHigh10()
+	}
+
+	val deviceAVCCodecProfile by lazy {
+		CodecProfile().apply {
+			type = CodecType.Video
+			codec = Codec.Video.H264
+
+			conditions = when {
+				!supportsAVC -> {
+					// If AVC is not supported, exclude all AVC profiles
+					Timber.i("*** Does NOT support AVC")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.Equals,
+							ProfileConditionValue.VideoProfile,
+							"none"
+						)
+					)
+				}
+				else -> {
+					// If AVC is supported, include all relevant profiles
+					Timber.i("*** Supports AVC")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.EqualsAny,
+							ProfileConditionValue.VideoProfile,
+							listOfNotNull(
+								"High",
+								"Main",
+								"Baseline",
+								"Constrained Baseline",
+								if (supportsAVCHigh10) "High 10" else null
+							).joinToString("|")
+						)
+					)
+				}
+			}
+		}
+	}
+
+	val deviceAVCLevelCodecProfiles by lazy {
+		buildList {
+			if (supportsAVC) {
+				add(CodecProfile().apply {
+					type = CodecType.Video
+					codec = Codec.Video.H264
+
+					applyConditions = arrayOf(
+						ProfileCondition(
+							ProfileConditionType.EqualsAny,
+							ProfileConditionValue.VideoProfile,
+							listOfNotNull(
+								"High",
+								"Main",
+								"Baseline",
+								"Constrained Baseline"
+							).joinToString("|")
+						)
+					)
+
+					conditions = arrayOf(
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.VideoLevel,
+							MediaTest.getAVCMainLevel()
+						)
+					)
+				})
+
+				if (supportsAVCHigh10) {
+					add(CodecProfile().apply {
+						type = CodecType.Video
+						codec = Codec.Video.H264
+
+						applyConditions = arrayOf(
+							ProfileCondition(
+								ProfileConditionType.Equals,
+								ProfileConditionValue.VideoProfile,
+								"High 10"
+							)
+						)
+
+						conditions = arrayOf(
+							ProfileCondition(
+								ProfileConditionType.LessThanEqual,
+								ProfileConditionValue.VideoLevel,
+								MediaTest.getAVCHigh10Level()
+							)
+						)
+					})
+				}
+			}
+		}
+	}
+	
 	val supportsHevc by lazy {
 		MediaTest.supportsHevc()
 	}
@@ -157,35 +252,6 @@ object ProfileHelper {
 				}
 			}
 		}
-	}
-
-	val h264VideoLevelProfileCondition by lazy {
-		ProfileCondition(
-			ProfileConditionType.LessThanEqual,
-			ProfileConditionValue.VideoLevel,
-			when {
-				// https://developer.amazon.com/docs/fire-tv/device-specifications.html
-				DeviceUtils.isFireTvStick4k -> H264_LEVEL_5_2
-				DeviceUtils.isFireTv4k -> H264_LEVEL_5_2
-				DeviceUtils.isFireTv -> H264_LEVEL_4_1
-				DeviceUtils.isShieldTv -> H264_LEVEL_5_2
-				else -> H264_LEVEL_5_1
-			}
-		)
-	}
-
-	val h264VideoProfileCondition by lazy {
-		ProfileCondition(
-			ProfileConditionType.EqualsAny,
-			ProfileConditionValue.VideoProfile,
-			listOfNotNull(
-				"high",
-				"main",
-				"baseline",
-				"constrained baseline",
-				if (MediaTest.supportsAVCHigh10()) "high 10" else null
-			).joinToString("|")
-		)
 	}
 
 	val max1080pProfileConditions by lazy {
