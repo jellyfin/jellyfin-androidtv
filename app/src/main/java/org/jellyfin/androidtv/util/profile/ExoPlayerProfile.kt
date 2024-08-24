@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
@@ -11,6 +12,7 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecPr
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxResolutionCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.supportsDts
 import org.jellyfin.androidtv.util.profile.ProfileHelper.supportsHevc
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -27,7 +29,9 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 class ExoPlayerProfile(
 	disableVideoDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	downMixAudio: Boolean,
+	context: Context,
+	preferFfmpeg: Boolean,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -46,7 +50,7 @@ class ExoPlayerProfile(
 		if (isAC3Enabled) add(Codec.Audio.AC3)
 		if (isAC3Enabled) add(Codec.Audio.EAC3)
 		add(Codec.Audio.DCA)
-		add(Codec.Audio.DTS)
+		if (supportsDts(context, preferFfmpeg)) add(Codec.Audio.DTS)
 		add(Codec.Audio.MLP)
 		add(Codec.Audio.TRUEHD)
 		add(Codec.Audio.PCM_ALAW)
