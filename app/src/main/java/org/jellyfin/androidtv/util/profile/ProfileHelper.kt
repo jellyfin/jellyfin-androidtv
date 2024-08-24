@@ -1,6 +1,10 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
+import android.media.AudioFormat
+import android.media.AudioManager
 import android.media.MediaFormat
+import android.os.Build
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -165,6 +169,17 @@ object ProfileHelper {
 
 	val supportsHevcMain10 by lazy {
 		MediaTest.supportsHevcMain10()
+	}
+
+	fun supportsDts(context: Context, preferFfmpeg: Boolean): Boolean {
+		if (preferFfmpeg || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			return true
+		}
+
+		val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+		val outputDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+
+		return outputDevices.any { it.encodings.contains(AudioFormat.ENCODING_DTS) }
 	}
 
 	val deviceHevcCodecProfile by lazy {
