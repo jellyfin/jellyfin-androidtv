@@ -9,6 +9,27 @@ import timber.log.Timber
 class MediaCodecCapabilitiesTest {
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
 
+	// AVC levels as reported by ffprobe are multiplied by 10, e.g. level 4.1 is 41. Level 1b is set to 9
+	private val avcLevelStrings = listOf(
+		CodecProfileLevel.AVCLevel1b to "9",
+		CodecProfileLevel.AVCLevel1 to "10",
+		CodecProfileLevel.AVCLevel11 to "11",
+		CodecProfileLevel.AVCLevel12 to "12",
+		CodecProfileLevel.AVCLevel13 to "13",
+		CodecProfileLevel.AVCLevel2 to "20",
+		CodecProfileLevel.AVCLevel21 to "21",
+		CodecProfileLevel.AVCLevel22 to "22",
+		CodecProfileLevel.AVCLevel3 to "30",
+		CodecProfileLevel.AVCLevel31 to "31",
+		CodecProfileLevel.AVCLevel32 to "32",
+		CodecProfileLevel.AVCLevel4 to "40",
+		CodecProfileLevel.AVCLevel41 to "41",
+		CodecProfileLevel.AVCLevel42 to "42",
+		CodecProfileLevel.AVCLevel5 to "50",
+		CodecProfileLevel.AVCLevel51 to "51",
+		CodecProfileLevel.AVCLevel52 to "52",
+	)
+
 	// HEVC levels as reported by ffprobe are multiplied by 30, e.g. level 4.1 is 123
 	private val hevcLevelStrings = listOf(
 		CodecProfileLevel.HEVCMainTierLevel1 to "30",
@@ -36,6 +57,30 @@ class MediaCodecCapabilitiesTest {
 			CodecProfileLevel.AV1Level5
 		)
 
+	fun supportsAVC(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AVC)
+
+	fun supportsAVCHigh10(): Boolean = hasDecoder(
+		MediaFormat.MIMETYPE_VIDEO_AVC,
+		CodecProfileLevel.AVCProfileHigh10,
+		CodecProfileLevel.AVCLevel4
+	)
+
+	fun getAVCMainLevel(): String = getAVCLevelString(
+		CodecProfileLevel.AVCProfileMain
+	)
+
+	fun getAVCHigh10Level(): String = getAVCLevelString(
+		CodecProfileLevel.AVCProfileHigh10
+	)
+
+	private fun getAVCLevelString(profile: Int): String {
+		val level = getDecoderLevel(MediaFormat.MIMETYPE_VIDEO_AVC, profile)
+
+		return avcLevelStrings.asReversed().find { item: Pair<Int, String> ->
+			level >= item.first
+		}?.second ?: "0"
+	}
+
 	fun supportsHevc(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_HEVC)
 
 	fun supportsHevcMain10(): Boolean = hasDecoder(
@@ -50,12 +95,6 @@ class MediaCodecCapabilitiesTest {
 
 	fun getHevcMain10Level(): String = getHevcLevelString(
 		CodecProfileLevel.HEVCProfileMain10
-	)
-
-	fun supportsAVCHigh10(): Boolean = hasDecoder(
-		MediaFormat.MIMETYPE_VIDEO_AVC,
-		CodecProfileLevel.AVCProfileHigh10,
-		CodecProfileLevel.AVCLevel4
 	)
 
 	private fun getHevcLevelString(profile: Int): String {
