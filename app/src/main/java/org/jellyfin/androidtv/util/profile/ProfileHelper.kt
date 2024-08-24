@@ -18,7 +18,7 @@ import org.jellyfin.apiclient.model.dlna.SubtitleProfile
 import timber.log.Timber
 
 object ProfileHelper {
-	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
+	private val mediaTest by lazy { MediaCodecCapabilitiesTest() }
 
 	val deviceAV1CodecProfile by lazy {
 		CodecProfile().apply {
@@ -26,7 +26,7 @@ object ProfileHelper {
 			codec = Codec.Video.AV1
 
 			conditions = when {
-				!MediaTest.supportsAV1() -> {
+				!mediaTest.supportsAV1() -> {
 					// The following condition is a method to exclude all AV1
 					Timber.i("*** Does NOT support AV1")
 					arrayOf(
@@ -37,7 +37,7 @@ object ProfileHelper {
 						)
 					)
 				}
-				!MediaTest.supportsAV1Main10() -> {
+				!mediaTest.supportsAV1Main10() -> {
 					Timber.i("*** Does NOT support AV1 10 bit")
 					arrayOf(
 						ProfileCondition(
@@ -63,11 +63,11 @@ object ProfileHelper {
 	}
 
 	val supportsAVC by lazy {
-		MediaTest.supportsAVC()
+		mediaTest.supportsAVC()
 	}
 
 	val supportsAVCHigh10 by lazy {
-		MediaTest.supportsAVCHigh10()
+		mediaTest.supportsAVCHigh10()
 	}
 
 	val deviceAVCCodecProfile by lazy {
@@ -132,7 +132,7 @@ object ProfileHelper {
 						ProfileCondition(
 							ProfileConditionType.LessThanEqual,
 							ProfileConditionValue.VideoLevel,
-							MediaTest.getAVCMainLevel()
+							mediaTest.getAVCMainLevel()
 						)
 					)
 				})
@@ -154,7 +154,7 @@ object ProfileHelper {
 							ProfileCondition(
 								ProfileConditionType.LessThanEqual,
 								ProfileConditionValue.VideoLevel,
-								MediaTest.getAVCHigh10Level()
+								mediaTest.getAVCHigh10Level()
 							)
 						)
 					})
@@ -164,11 +164,11 @@ object ProfileHelper {
 	}
 
 	val supportsHevc by lazy {
-		MediaTest.supportsHevc()
+		mediaTest.supportsHevc()
 	}
 
 	val supportsHevcMain10 by lazy {
-		MediaTest.supportsHevcMain10()
+		mediaTest.supportsHevcMain10()
 	}
 
 	fun supportsDts(context: Context, preferFfmpeg: Boolean): Boolean {
@@ -236,7 +236,7 @@ object ProfileHelper {
 						ProfileCondition(
 							ProfileConditionType.LessThanEqual,
 							ProfileConditionValue.VideoLevel,
-							MediaTest.getHevcMainLevel()
+							mediaTest.getHevcMainLevel()
 						)
 					)
 				})
@@ -258,7 +258,7 @@ object ProfileHelper {
 							ProfileCondition(
 								ProfileConditionType.LessThanEqual,
 								ProfileConditionValue.VideoLevel,
-								MediaTest.getHevcMain10Level()
+								mediaTest.getHevcMain10Level()
 							)
 						)
 					})
@@ -268,7 +268,7 @@ object ProfileHelper {
 	}
 
 	val maxResolutionCodecProfile by lazy {
-		val maxResolution = MediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
+		val maxResolution = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
 
 		CodecProfile().apply {
 			type = CodecType.Video
