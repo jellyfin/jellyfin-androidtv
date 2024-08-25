@@ -38,7 +38,7 @@ object ProfileHelper {
 						ProfileCondition(
 							ProfileConditionType.NotEquals,
 							ProfileConditionValue.VideoProfile,
-							"Main 10"
+							"main 10"
 						)
 					)
 				}
@@ -90,11 +90,11 @@ object ProfileHelper {
 							ProfileConditionType.EqualsAny,
 							ProfileConditionValue.VideoProfile,
 							listOfNotNull(
-								"High",
-								"Main",
-								"Baseline",
-								"Constrained Baseline",
-								if (supportsAVCHigh10) "High 10" else null
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline",
+								if (supportsAVCHigh10) "high 10" else null
 							).joinToString("|")
 						)
 					)
@@ -115,10 +115,10 @@ object ProfileHelper {
 							ProfileConditionType.EqualsAny,
 							ProfileConditionValue.VideoProfile,
 							listOfNotNull(
-								"High",
-								"Main",
-								"Baseline",
-								"Constrained Baseline"
+								"high",
+								"main",
+								"baseline",
+								"constrained baseline"
 							).joinToString("|")
 						)
 					)
@@ -141,7 +141,7 @@ object ProfileHelper {
 							ProfileCondition(
 								ProfileConditionType.Equals,
 								ProfileConditionValue.VideoProfile,
-								"High 10"
+								"high 10"
 							)
 						)
 
@@ -191,8 +191,8 @@ object ProfileHelper {
 							ProfileConditionType.EqualsAny,
 							ProfileConditionValue.VideoProfile,
 							listOfNotNull(
-								"Main",
-								if (supportsHevcMain10) "Main 10" else null
+								"main",
+								if (supportsHevcMain10) "main 10" else null
 							).joinToString("|")
 						)
 					)
@@ -212,7 +212,7 @@ object ProfileHelper {
 						ProfileCondition(
 							ProfileConditionType.Equals,
 							ProfileConditionValue.VideoProfile,
-							"Main"
+							"main"
 						)
 					)
 
@@ -234,7 +234,7 @@ object ProfileHelper {
 							ProfileCondition(
 								ProfileConditionType.Equals,
 								ProfileConditionValue.VideoProfile,
-								"Main 10"
+								"main 10"
 							)
 						)
 
