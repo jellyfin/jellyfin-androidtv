@@ -157,9 +157,13 @@ object ProfileHelper {
 			}
 		}
 	}
-	
+
 	val supportsHevc by lazy {
 		MediaTest.supportsHevc()
+	}
+
+	val supportsHevcMain10 by lazy {
+		MediaTest.supportsHevcMain10()
 	}
 
 	val deviceHevcCodecProfile by lazy {
@@ -179,24 +183,17 @@ object ProfileHelper {
 						)
 					)
 				}
-				!MediaTest.supportsHevcMain10() -> {
-					Timber.i("*** Does NOT support HEVC 10 bit")
-					arrayOf(
-						ProfileCondition(
-							ProfileConditionType.NotEquals,
-							ProfileConditionValue.VideoProfile,
-							"Main 10"
-						)
-					)
-				}
 				else -> {
-					// supports all HEVC
+					// If HEVC is supported, include all relevant profiles
 					Timber.i("*** Supports HEVC 10 bit")
 					arrayOf(
 						ProfileCondition(
-							ProfileConditionType.NotEquals,
+							ProfileConditionType.EqualsAny,
 							ProfileConditionValue.VideoProfile,
-							"none"
+							listOfNotNull(
+								"Main",
+								if (supportsHevcMain10) "Main 10" else null
+							).joinToString("|")
 						)
 					)
 				}
@@ -228,7 +225,7 @@ object ProfileHelper {
 					)
 				})
 
-				if (MediaTest.supportsHevcMain10()) {
+				if (supportsHevcMain10) {
 					add(CodecProfile().apply {
 						type = CodecType.Video
 						codec = Codec.Video.HEVC
