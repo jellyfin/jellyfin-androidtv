@@ -525,6 +525,7 @@
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
+    <string name="audio_hdmi_arc">HDMI ARC</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

@@ -514,7 +514,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
+                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO,
+                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.HDMI_ARC_OUTPUT
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
