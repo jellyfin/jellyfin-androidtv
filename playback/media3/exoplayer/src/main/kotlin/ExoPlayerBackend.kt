@@ -58,7 +58,12 @@ class ExoPlayerBackend(
 		ExoPlayer.Builder(context)
 			.setRenderersFactory(DefaultRenderersFactory(context).apply {
 				setEnableDecoderFallback(true)
-				setExtensionRendererMode(if (exoPlayerOptions.preferFfmpeg) DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER else DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+				setExtensionRendererMode(
+					when (exoPlayerOptions.preferFfmpeg) {
+						true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+						false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
+					}
+				)
 			})
 			.setTrackSelector(DefaultTrackSelector(context).apply {
 				setParameters(buildUponParameters().apply {

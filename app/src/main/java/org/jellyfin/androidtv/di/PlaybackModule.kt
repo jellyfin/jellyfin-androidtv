@@ -48,7 +48,6 @@ val playbackModule = module {
 fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	val activityIntent = Intent(get(), MainActivity::class.java)
 	val pendingIntent = PendingIntent.getActivity(get(), 0, activityIntent, PendingIntent.FLAG_IMMUTABLE)
-	val userPreferences = get<UserPreferences>()
 
 	val notificationChannelId = "session"
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -60,12 +59,13 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 		NotificationManagerCompat.from(get()).createNotificationChannel(channel)
 	}
 
+	val userPreferences = get<UserPreferences>()
 	val api = get<ApiClient>()
 	val exoPlayerOptions = ExoPlayerOptions(
 		httpConnectTimeout = api.httpClientOptions.connectTimeout,
 		httpReadTimeout = api.httpClientOptions.requestTimeout,
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
-		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled]
+		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 	)
 	install(exoPlayerPlugin(get(), exoPlayerOptions))
 

@@ -51,8 +51,8 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
-				setTitle(R.string.pref_prefer_extension_renderers_label)
-				setContent(R.string.pref_prefer_extension_renderers_description)
+				setTitle(R.string.prefer_exoplayer_ffmpeg)
+				setContent(R.string.prefer_exoplayer_ffmpeg_content)
 
 				bind(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
 			}
