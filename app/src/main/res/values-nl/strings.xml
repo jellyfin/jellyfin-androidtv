@@ -554,4 +554,6 @@
     <string name="pref_subtitles_size_very_large">Zeer groot</string>
     <string name="lbl_subtitle_background_color">Achtergrondkleur ondertiteling</string>
     <string name="pref_subtitles_size_very_small">Zeer klein</string>
+    <string name="prefer_exoplayer_ffmpeg">FFmpeg verkiezen voor afspelen geluid</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Gebruik FFmpeg om geluid te decoderen, zelfs als er platformcodecs beschikbaar zijn.</string>
 </resources>
