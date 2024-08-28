@@ -574,4 +574,6 @@
     <string name="pref_subtitles_size_small">Маленькі</string>
     <string name="pref_subtitles_size_normal">Нормальні</string>
     <string name="pref_subtitles_size_large">Великі</string>
+    <string name="prefer_exoplayer_ffmpeg">Надавати перевагу FFmpeg для відтворення аудіо</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Використовувати FFmpeg для декодування аудіо, навіть якщо доступні кодеки платформи.</string>
 </resources>
