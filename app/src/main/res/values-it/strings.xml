@@ -563,4 +563,6 @@
     <string name="pref_subtitles_size_normal">Normale</string>
     <string name="pref_subtitles_size_large">Grande</string>
     <string name="pref_subtitles_size_very_large">Molto grande</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferisci FFmpeg per la riproduzione audio</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg per la decodifica audia anche se il dispositivo fornisce il codec nativamente.</string>
 </resources>
