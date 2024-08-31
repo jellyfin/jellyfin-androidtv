@@ -233,9 +233,9 @@
     <string name="pref_button_remapping_description">按电视遥控器上的任何按钮进行分配</string>
     <string name="pref_subtitle_track_button">字幕选择按键</string>
     <string name="pref_audio_track_button">音轨按键</string>
-    <string name="lbl_unknown_key">未知(%1s)</string>
-    <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
-    <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
+    <string name="lbl_unknown_key">未知 (%1s)</string>
+    <string name="bitrate_kbit">%1$,.0f Kb/秒</string>
+    <string name="bitrate_mbit">%1$,.0f Mb/秒</string>
     <string name="no_player_message">你似乎没有安装可播放视频的应用。此选项需要您安装第三方应用来播放视频内容。</string>
     <string name="no_player">无播放器</string>
     <string name="mark_watched">标记为已观看</string>
@@ -387,6 +387,7 @@
     <string name="server_connection_failed_candidates">无法连接到服务器，尝试了以下地址：%1$s</string>
     <string name="lbl_playback_speed">播放速度</string>
     <string name="pref_audio">音频</string>
+    <string name="pref_audio_chinese">优先选择国语配音</string>
     <string name="pref_subtitles">字幕</string>
     <string name="pref_video">视频</string>
     <string name="pref_direct_stream_live_on">转码已禁用</string>
@@ -538,6 +539,19 @@
     <string name="lbl_subtitle_text_color">字幕文字颜色</string>
     <string name="lbl_subtitle_background_color">字幕背景颜色</string>
     <string name="lbl_subtitle_text_stroke_color">字幕描边颜色</string>
+
+    <string name="double_click_back_exit_title">再次按返回退出</string>
+    <string name="btn_retry">重试</string>
+    <string name="msg_normal_error">错误</string>
+    <string name="player_change_core_title">更换播放器内核</string>
+<!--    <string name="player_change_speed_title">更换播放器内核</string>-->
+    <string name="playback_info_title">播放信息</string>
+    <string name="streaming_info_title">流媒体信息</string>
+    <string name="original_info_title">原始媒体信息</string>
+    <string name="binge_watching_opening">片头</string>
+    <string name="binge_watching_ending">片尾</string>
+    <string name="auto_skip_tip">即将播放  %s, %s秒后自动进入, 按返回键取消 …</string>
+    <string name="quick_skip">立即跳转</string>
     <string name="prefer_exoplayer_ffmpeg_content">使用 FFmpeg 解码音频，即使平台编解码器可用。</string>
     <string name="prefer_exoplayer_ffmpeg">首选 FFmpeg 进行音频播放</string>
     <string name="video_start_delay">视频启动延迟</string>
@@ -556,4 +570,45 @@
     <string name="skip_forward_length">向前跳过长度</string>
     <string name="runtime_minutes">%1$d分钟</string>
     <string name="runtime_hours_minutes">%1$d小时 %2$d分钟</string>
+
+    <string name="label_playback_info">播放信息</string>
+    <string name="label_audio_info">音频信息</string>
+    <string name="label_video_info">视频信息</string>
+    <string name="label_track_gain">音轨增益</string>
+    <string name="label_transcoding_info">转码信息</string>
+    <string name="label_directStreaming_info">直接串流信息</string>
+    <string name="label_remuxing_info">转封装信息</string>
+    <string name="label_original_media_info">媒体源信息</string>
+    <string name="label_sync_play_info">同步播放信息</string>
+
+    <string name="media_info_anamorphic">畸形</string>
+    <string name="media_info_aspect_ratio">长宽比</string>
+    <string name="media_info_bit_depth">位深度</string>
+    <string name="media_info_bitrate">比特率</string>
+    <string name="media_info_channels">声道</string>
+    <string name="media_info_codec">编码</string>
+    <string name="media_info_codec_tag">编码标签</string>
+    <string name="media_info_color_space">色彩空间</string>
+    <string name="media_info_color_transfer">色彩转换</string>
+    <string name="media_info_color_primaries">色彩初选</string>
+    <string name="media_info_container">容器</string>
+    <string name="media_info_default">默认</string>
+    <string name="media_info_external">外部</string>
+    <string name="media_info_forced">强制</string>
+    <string name="media_info_framerate">帧率</string>
+    <string name="media_info_interlaced">隔行扫描</string>
+    <string name="media_info_language">语言</string>
+    <string name="media_info_layout">布局</string>
+    <string name="media_info_level">等级</string>
+    <string name="media_info_path">路径</string>
+    <string name="media_info_pixel_format">像素格式</string>
+    <string name="media_info_profile">配置</string>
+    <string name="media_info_ref_frames">参考帧</string>
+    <string name="media_info_resolution">分辨率</string>
+    <string name="media_info_rotation">旋转</string>
+    <string name="media_info_sampleRate">采样率</string>
+    <string name="media_info_size">大小</string>
+    <string name="media_info_timestamp">时间戳</string>
+    <string name="media_info_title">标题</string>
+    <string name="media_info_video_range_type">动态范围类型</string>
 </resources>

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +40,9 @@ import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.customer.autoskip.AutoSkipTipLinearLayout;
+import org.jellyfin.androidtv.customer.common.CustomerCommonUtils;
+import org.jellyfin.androidtv.customer.jellyfin.DanmuPlaybackController;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
@@ -86,7 +90,7 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
-    protected VlcPlayerInterfaceBinding binding;
+    public VlcPlayerInterfaceBinding binding;
     private OverlayTvGuideBinding tvGuideBinding;
 
     private RowsSupportFragment mPopupRowsFragment;
@@ -126,6 +130,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean navigating = false;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
+    private FrameLayout playbackViewExtraSetting;
+    private AutoSkipTipLinearLayout autoSkipTipLinearLayout;
+    private FrameLayout danmuSettingInfo;
+    private FrameLayout playbackVideoInfoLayout;
 
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -159,7 +167,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         int mediaPosition = videoQueueManager.getValue().getCurrentMediaPosition();
 
-        playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this, mediaPosition));
+        playbackControllerContainer.getValue().setPlaybackController(new DanmuPlaybackController(mItemsToPlay, this, mediaPosition));
 
         // setup fade task
         mHideTask = () -> {
@@ -176,6 +184,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = VlcPlayerInterfaceBinding.inflate(inflater, container, false);
         binding.textClock.setVideoPlayer(true);
+
+        playbackViewExtraSetting = binding.playbackViewExtraSetting;
+        autoSkipTipLinearLayout = binding.bottomTipInfo.findViewById(R.id.auto_skip_info);
+        danmuSettingInfo = binding.danmuSettingInfo;
+        playbackVideoInfoLayout = binding.playbackVideoInfoLayout;
 
         // inject the RowsSupportFragment in the popup container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
@@ -402,8 +415,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     };
 
+    /**
+     * 记录最后点击返回按钮的时间
+     */
+    private long lastClickBackTime;
+    private long currentClickBackTime;
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_UP && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
+            lastClickBackTime = currentClickBackTime;
+            currentClickBackTime = System.currentTimeMillis();
+        }
+
         if (event.isLongPress()) {
             if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (mSelectedProgramView instanceof ProgramGridCell)
@@ -419,6 +442,27 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
             if (keyListener.onKey(v, keyCode, event)) return true;
+            // 底部提示信息
+            if (autoSkipTipLinearLayout != null) {
+                if (autoSkipTipLinearLayout.onKeyUp(keyCode, event)) {
+                    return true;
+                }
+            }
+
+            // 视频信息页面
+            if (hideSettingView(playbackVideoInfoLayout, keyCode, true)) {
+                return true;
+            }
+
+            // 设置页面
+            if (hideSettingView(playbackViewExtraSetting, keyCode, false)) {
+                return true;
+            }
+
+            // 弹幕设置页面
+            if (hideSettingView(danmuSettingInfo, keyCode, false)) {
+                return true;
+            }
 
             if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
@@ -454,6 +498,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             }
         }
 
+        return false;
+    }
+
+    protected boolean hideSettingView(View settingView, int keyCode, boolean fastClose) {
+        if (settingView != null) {
+            if (View.VISIBLE == settingView.getVisibility()) {
+                boolean isDoubleClick = System.currentTimeMillis() - lastClickBackTime < 3000L;
+                boolean needClose = fastClose || isDoubleClick;
+                if (needClose && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
+                    currentClickBackTime = 0L;
+                    settingView.setVisibility(View.GONE);
+                }
+                return true;
+            }
+        }
         return false;
     }
 
@@ -509,6 +568,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     } else if (mGuideVisible) {
                         hideGuide();
                         return true;
+                    } else if (!mIsVisible) {
+                        // 双击退出
+                        if (System.currentTimeMillis() - lastClickBackTime > 3000L) {
+                            CustomerCommonUtils.show(requireContext(), requireContext().getString(R.string.double_click_back_exit_title));
+                            return true;
+                        }
                     }
                 }
 

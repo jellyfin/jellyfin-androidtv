@@ -29,7 +29,7 @@ import kotlin.time.Duration.Companion.minutes
  *
  * @param context Context to get the SharedPreferences from
  */
-class UserPreferences(context: Context) : SharedPreferenceStore(
+open class UserPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
@@ -92,6 +92,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var useExternalPlayer = booleanPreference("external_player", false)
 
+		/* Playback - Video */
+		/**
+		 * Whether to use an gsy playback application or not.
+		 */
+		var useGsyPlayer = booleanPreference("gsy_player", false)
+
 		/**
 		 * Change refresh rate to match media when device supports it
 		 */
@@ -107,6 +113,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Preferred behavior for audio streaming.
 		 */
 		var audioBehaviour = enumPreference("audio_behavior", AudioBehavior.DIRECT_STREAM)
+
+		/**
+		 * 优先选择国语配音
+		 */
+		var chineseAudioBehaviour = booleanPreference("chinese_audio_behavior", true)
 
 		/**
 		 * Preferred behavior for audio streaming.

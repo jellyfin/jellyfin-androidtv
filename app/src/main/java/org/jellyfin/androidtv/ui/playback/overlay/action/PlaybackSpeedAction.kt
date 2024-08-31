@@ -4,7 +4,9 @@ import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
-import org.jellyfin.androidtv.R
+import androidx.core.util.Consumer
+import androidx.leanback.widget.Action
+import org.jellyfin.androidtv.customer.CustomerUserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoSpeedController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
@@ -14,14 +16,19 @@ import java.util.Locale
 class PlaybackSpeedAction(
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
-	playbackController: PlaybackController
+	playbackController: PlaybackController,
+	private val buttonRefresher: Consumer<Action?>,
+	customerUserPreferences: CustomerUserPreferences,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private val speedController = VideoSpeedController(playbackController)
 	private val speeds = VideoSpeedController.SpeedSteps.entries.toTypedArray()
 	private var popup: PopupMenu? = null
+	private val customerUserPreferences = customerUserPreferences
 
 	init {
-		initializeWithIcon(R.drawable.ic_playback_speed)
+		val currentSpeed = speedController.getEnumBySpeed(customerUserPreferences.videoSpeed)
+		speedController.currentSpeed = currentSpeed
+		initializeWithIcon(speedController.currentSpeed.icon)
 	}
 
 	override fun handleClickAction(
@@ -40,7 +47,11 @@ class PlaybackSpeedAction(
 		}
 
 		popup?.setOnMenuItemClickListener { menuItem ->
-			speedController.currentSpeed = speeds[menuItem.itemId]
+			val speedSteps = speeds[menuItem.itemId]
+			speedController.currentSpeed = speedSteps
+			customerUserPreferences.videoSpeed = speedSteps.speed
+			initializeWithIcon(speedController.currentSpeed.icon)
+			buttonRefresher.accept(this)
 			true
 		}
 

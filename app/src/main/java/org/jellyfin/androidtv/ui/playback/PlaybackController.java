@@ -13,6 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.customer.CustomerUserPreferences;
+import org.jellyfin.androidtv.customer.autoskip.AutoSkipComponent;
+import org.jellyfin.androidtv.customer.behavior.BestStreamSelector;
+import org.jellyfin.androidtv.customer.behavior.ChineseBestAudioSelector;
+import org.jellyfin.androidtv.danmu.model.AutoSkipModel;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
@@ -62,17 +67,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
+    private AutoSkipComponent autoSkipComponent;
+    private CustomerUserPreferences customerUserPreferences;
 
     List<BaseItemDto> mItems;
-    VideoManager mVideoManager;
+    protected VideoManager mVideoManager;
     int mCurrentIndex;
     protected long mCurrentPosition = 0;
-    private PlaybackState mPlaybackState = PlaybackState.IDLE;
+    protected PlaybackState mPlaybackState = PlaybackState.IDLE;
 
     private StreamInfo mCurrentStreamInfo;
 
     @Nullable
-    private CustomPlaybackOverlayFragment mFragment;
+    protected CustomPlaybackOverlayFragment mFragment;
     private Boolean spinnerOff = false;
 
     protected VideoOptions mCurrentOptions;
@@ -81,7 +88,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private float mRequestedPlaybackSpeed = -1.0f;
 
     private Runnable mReportLoop;
-    private Handler mHandler;
+    protected Handler mHandler;
 
     private long mStartPosition = 0;
 
@@ -101,6 +108,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
+    private CustomPlaybackOverlayFragment fragment;
+    private BestStreamSelector chineseAudioSelector;
+
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         this(items, fragment, 0);
     }
@@ -114,11 +124,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = fragment;
         mHandler = new Handler();
 
-
         refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
             getDisplayModes();
 
+        customerUserPreferences = KoinJavaComponent.get(CustomerUserPreferences.class);
+        if (userPreferences.getValue().get(UserPreferences.Companion.getChineseAudioBehaviour())) {
+            chineseAudioSelector = new ChineseBestAudioSelector();
+        }
+
+        this.fragment = fragment;
     }
 
     public boolean hasFragment() {
@@ -135,6 +150,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getPlayerZoomMode()));
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
+
+        autoSkipComponent = new AutoSkipComponent(this::seek, () -> {
+            BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
+            if (currentlyPlayingItem == null) {
+                return null;
+            }
+            return currentlyPlayingItem.getEpisodeTitle();
+        }, fragment.getContext(), fragment.binding.bottomTipInfo);
     }
 
     public void setItems(List<BaseItemDto> items) {
@@ -349,7 +372,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     // central place to update mCurrentPosition
-    private void refreshCurrentPosition() {
+    protected void refreshCurrentPosition() {
         long newPos = -1;
 
         if (isLiveTv && mCurrentProgramStart != null) {
@@ -588,6 +611,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
+        AutoSkipModel autoSkipModel = customerUserPreferences.getAutoSkipModel(item);
+        setAutoSkip(autoSkipModel);
+        if (position <= 0) {
+            if (autoSkipModel != null && autoSkipModel.getTsTime() <= 0 && autoSkipModel.getTeTime() > 0) {
+                position = autoSkipModel.getTeTime() * 1000L;
+            }
+        } else {
+            autoSkipComponent.setTouSkipped(true);
+        }
         mStartPosition = position;
         mCurrentStreamInfo = response;
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
@@ -627,6 +659,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.setMediaStreamInfo(api.getValue(), response);
         }
 
+        long realPosition = position;
         PlaybackControllerHelperKt.applyMediaSegments(this, item, () -> {
             // Set video start delay
             long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
@@ -636,11 +669,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     public void run() {
                         if (mVideoManager != null) {
                             mVideoManager.start();
+                            doStartItem(item, realPosition, response);
                         }
                     }
                 }, videoStartDelay);
             } else {
                 mVideoManager.start();
+                doStartItem(item, realPosition, response);
             }
 
             dataRefreshService.getValue().setLastPlayedItem(item);
@@ -648,6 +683,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             return null;
         });
+    }
+
+    protected void doStartItem(BaseItemDto item, long position, StreamInfo response) {
+
     }
 
     public void startSpinner() {
@@ -697,10 +736,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mDefaultAudioIndex != -1)
             return;
 
+        Integer localBestGuess = null;
         Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
         Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
+        if (chineseAudioSelector != null) {
+            localBestGuess = chineseAudioSelector.getBestMatchStream(info.getSelectableAudioStreams());
+        }
 
-        if (remoteDefault != null)
+        if (localBestGuess != null) {
+            mDefaultAudioIndex = localBestGuess;
+        } else if (remoteDefault != null)
             mDefaultAudioIndex = remoteDefault;
         else if (bestGuess != null)
             mDefaultAudioIndex = bestGuess;
@@ -820,6 +865,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         wasSeeking = false;
         burningSubs = false;
         mCurrentStreamInfo = null;
+
+        setAutoSkip(null);
     }
 
     public void next() {
@@ -1143,8 +1190,21 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
                 eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
             }
+
+            // 修改
+            if (chineseAudioSelector != null) {
+                Integer localBestGuess = chineseAudioSelector.getBestMatchStream(getCurrentStreamInfo().getSelectableAudioStreams());
+                if (localBestGuess != null) {
+                    eligibleAudioTrack = localBestGuess;
+                }
+            }
+
             switchAudioStream(eligibleAudioTrack);
         }
+    }
+
+    public int getmDefaultAudioIndex() {
+        return mDefaultAudioIndex;
     }
 
     @Override
@@ -1183,6 +1243,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     stopSpinner();
                 }
             }
+            autoSkipComponent.autoSkip(mCurrentPosition);
         }
         if (mFragment != null)
             mFragment.setCurrentTime(mCurrentPosition);
@@ -1227,6 +1288,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
+    }
+
+    public void setAutoSkip(AutoSkipModel autoSkip) {
+        autoSkipComponent.setAutoSkipModel(autoSkip);
     }
 
     /**

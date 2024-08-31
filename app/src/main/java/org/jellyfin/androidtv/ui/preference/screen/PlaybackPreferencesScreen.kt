@@ -88,6 +88,11 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_audio_output)
 				bind(userPreferences, UserPreferences.audioBehaviour)
 			}
+
+			checkbox {
+				setTitle(R.string.pref_audio_chinese)
+				bind(userPreferences, UserPreferences.chineseAudioBehaviour)
+			}
 		}
 
 		category {

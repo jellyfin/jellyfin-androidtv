@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -54,6 +55,13 @@ class MainActivity : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 
 		if (!validateAuthentication()) return
+
+//
+//		val tips =
+//			"""appbao: ${applicationContext.getString(R.string.app_id)}
+//			  路径: ${applicationContext.getString(R.string.aliplayer_crt)}"""
+//		Toast.makeText(applicationContext, tips, Toast.LENGTH_LONG)
+//			.show()
 
 		screensaverViewModel.keepScreenOn.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
 			.onEach { keepScreenOn ->
