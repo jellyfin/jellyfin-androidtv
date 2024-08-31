@@ -165,4 +165,31 @@ class MediaCodecCapabilitiesTest {
 
 		return false
 	}
+
+	fun supports4KResolution(): Boolean {
+		for (info in mediaCodecList.codecInfos) {
+			if (info.isEncoder) continue
+
+			try {
+				val capabilities = info.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_AVC)
+				val videoCapabilities = capabilities.videoCapabilities
+
+				if (videoCapabilities != null) {
+					// Get the supported width and height ranges
+					val maxWidth = videoCapabilities.supportedWidths?.upper ?: 0
+					val maxHeight = videoCapabilities.supportedHeights?.upper ?: 0
+
+					// Check for 4K resolution support
+					if (maxWidth >= 3840 && maxHeight >= 2160) {
+						Timber.i("4K resolution is supported by codec %s", info.name)
+						return true
+					}
+				}
+			} catch (e: IllegalArgumentException) {
+				Timber.d(e, "Codec %s does not support video capabilities", info.name)
+			}
+		}
+
+		return false
+	}
 }
