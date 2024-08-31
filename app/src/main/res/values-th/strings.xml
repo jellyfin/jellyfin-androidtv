@@ -208,4 +208,14 @@
     <string name="lbl_latest_in">เพิ่งถูกเพิ่มใน %1$s</string>
     <string name="because_you_watched">เนื่องจากคุณรับชม %1$s</string>
     <string name="lbl_home">หน้าหลัก</string>
+    <string name="continue_listening">รับฟังต่อ</string>
+    <string name="color_red">แดง</string>
+    <string name="color_white">ขาว</string>
+    <string name="color_black">ดำ</string>
+    <string name="color_darkgrey">เทาเข้ม</string>
+    <string name="color_green">เขียว</string>
+    <string name="color_blue">น้ำเงิน</string>
+    <string name="color_pink">ชมพู</string>
+    <string name="color_cyan">ฟ้า</string>
+    <string name="color_yellow">เหลือง</string>
 </resources>
