@@ -27,7 +27,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
-import org.jellyfin.androidtv.databinding.ActivityMainBinding
+import org.jellyfin.androidtv.databinding.ActivityStartupBinding
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -62,7 +62,7 @@ class StartupActivity : FragmentActivity() {
 	private val navigationRepository: NavigationRepository by inject()
 	private val itemLauncher: ItemLauncher by inject()
 
-	private lateinit var binding: ActivityMainBinding
+	private lateinit var binding: ActivityStartupBinding
 
 	private val networkPermissionsRequester = registerForActivityResult(
 		ActivityResultContracts.RequestMultiplePermissions()
@@ -83,7 +83,7 @@ class StartupActivity : FragmentActivity() {
 
 		super.onCreate(savedInstanceState)
 
-		binding = ActivityMainBinding.inflate(layoutInflater)
+		binding = ActivityStartupBinding.inflate(layoutInflater)
 		binding.background.setContent { AppBackground() }
 		binding.screensaver.isVisible = false
 		setContentView(binding.root)
@@ -156,7 +156,7 @@ class StartupActivity : FragmentActivity() {
 			else -> null
 		}
 
-		navigationRepository.reset(destination)
+		navigationRepository.reset(destination, true)
 
 		val intent = Intent(this, MainActivity::class.java)
 		// Clear navigation history
