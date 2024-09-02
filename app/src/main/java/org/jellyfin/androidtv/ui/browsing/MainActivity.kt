@@ -9,15 +9,12 @@ import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ActivityMainBinding
@@ -34,15 +31,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : FragmentActivity() {
-	companion object {
-		private const val FRAGMENT_TAG_CONTENT = "content"
-	}
-
 	private val navigationRepository by inject<NavigationRepository>()
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
-	private var inTransaction = false
 
 	private lateinit var binding: ActivityMainBinding
 
@@ -66,13 +58,7 @@ class MainActivity : FragmentActivity() {
 			}.launchIn(lifecycleScope)
 
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
-
-		supportFragmentManager.addOnBackStackChangedListener {
-			if (!inTransaction && supportFragmentManager.backStackEntryCount == 0)
-				navigationRepository.reset()
-		}
-
-		if (savedInstanceState == null && navigationRepository.canGoBack) navigationRepository.reset()
+		if (savedInstanceState == null && navigationRepository.canGoBack) navigationRepository.reset(clearHistory = true)
 
 		navigationRepository.currentAction
 			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
@@ -124,48 +110,23 @@ class MainActivity : FragmentActivity() {
 		}
 	}
 
-	private fun handleNavigationAction(action: NavigationAction) = when (action) {
-		is NavigationAction.NavigateFragment -> {
-			if (action.clear) {
-				// Clear the current back stack
-				val firstBackStackEntry = supportFragmentManager.getBackStackEntryAt(0)
-				supportFragmentManager.popBackStack(firstBackStackEntry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-			} else if (action.replace) {
-				// Prevent back stack changed listener from resetting when popping to
-				// the initial destination
-				inTransaction = true
-				supportFragmentManager.popBackStack()
-				inTransaction = false
-			}
+	private fun handleNavigationAction(action: NavigationAction) {
+		when (action) {
+			// DestinationFragmentView actions
+			is NavigationAction.NavigateFragment -> binding.contentView.navigate(action)
+			NavigationAction.GoBack -> binding.contentView.goBack()
 
-			supportFragmentManager.commit {
+			// Others
+			is NavigationAction.NavigateActivity -> {
 				val destination = action.destination
-				val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
-				val isSameFragment = currentFragment != null &&
-					destination.fragment.isInstance(currentFragment) &&
-					currentFragment.arguments == destination.arguments
-
-				if (!isSameFragment) {
-					setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-
-					replace(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
-				}
-
-				if (action.addToBackStack) addToBackStack(null)
+				val intent = Intent(this@MainActivity, destination.activity.java)
+				intent.putExtras(destination.extras)
+				startActivity(intent)
+				action.onOpened()
 			}
+
+			NavigationAction.Nothing -> Unit
 		}
-
-		is NavigationAction.NavigateActivity -> {
-			val destination = action.destination
-			val intent = Intent(this@MainActivity, destination.activity.java)
-			intent.putExtras(destination.extras)
-			startActivity(intent)
-			action.onOpened()
-		}
-
-		NavigationAction.GoBack -> supportFragmentManager.popBackStack()
-
-		NavigationAction.Nothing -> Unit
 	}
 
 	// Forward key events to fragments
