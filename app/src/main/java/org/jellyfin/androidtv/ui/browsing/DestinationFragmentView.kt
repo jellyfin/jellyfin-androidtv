@@ -98,12 +98,19 @@ class DestinationFragmentView @JvmOverloads constructor(
 		// Require at least 2 items (current & previous) to go back
 		if (history.size < 2) return false
 
+		// Create the base transaction so we can mutate everything at once
+		val transaction = fragmentManager.beginTransaction()
+
 		// Remove current entry
-		history.pop()
+		val currentEntry = history.pop()
+
+		// Make sure to remove the associated fragment
+		val currentFragment = currentEntry.fragment
+		if (currentFragment != null) transaction.remove(currentFragment)
 
 		// Read & set previous entry
 		val entry = history.last()
-		activateHistoryEntry(entry)
+		activateHistoryEntry(entry, transaction)
 
 		return true
 	}
@@ -119,7 +126,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 	@SuppressLint("CommitTransaction")
 	private fun activateHistoryEntry(
 		entry: HistoryEntry,
-		transaction: FragmentTransaction = fragmentManager.beginTransaction(),
+		transaction: FragmentTransaction,
 	) {
 		var fragment = entry.fragment
 
@@ -178,7 +185,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 		if (savedHistory != null) {
 			history.clear()
 			history.addAll(savedHistory)
-			if (history.isNotEmpty()) activateHistoryEntry(history.last())
+			if (history.isNotEmpty()) activateHistoryEntry(history.last(), fragmentManager.beginTransaction())
 		}
 	}
 }
