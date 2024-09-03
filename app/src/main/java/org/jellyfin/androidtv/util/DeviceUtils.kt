@@ -29,6 +29,11 @@ object DeviceUtils {
 	// Google Chromecast HD Model
 	private const val GOOGLE_CHROMECAST_HD_MODEL = "Chromecast HD"
 
+	// Xiaomi TV Stick
+	private const val MI_TV_STICK_MODEL_1 = "MDZ-24-AA"
+	private const val MI_TV_STICK_MODEL_2 = "MDZ-24-AB"
+	private const val MI_TV_STICK_MODEL_3 = "MiTV-AESP0"
+
 	@JvmStatic
 	val isFireTv: Boolean = Build.MODEL.startsWith(FIRE_TV_PREFIX)
 
@@ -57,6 +62,9 @@ object DeviceUtils {
 		FIRE_STICK_LITE_MODEL,
 		FIRE_TV_MODEL_GEN_1,
 		FIRE_TV_MODEL_GEN_2,
-		GOOGLE_CHROMECAST_HD_MODEL
+		GOOGLE_CHROMECAST_HD_MODEL,
+		MI_TV_STICK_MODEL_1,
+		MI_TV_STICK_MODEL_2,
+		MI_TV_STICK_MODEL_3
 	)
 }
