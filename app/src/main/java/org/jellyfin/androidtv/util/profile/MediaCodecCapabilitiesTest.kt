@@ -166,7 +166,10 @@ class MediaCodecCapabilitiesTest {
 		return false
 	}
 
-	fun supports4KResolution(): Boolean {
+	fun getMaxResolution(): Pair<Int, Int> {
+		var maxWidth = 0
+		var maxHeight = 0
+
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
 
@@ -175,21 +178,17 @@ class MediaCodecCapabilitiesTest {
 				val videoCapabilities = capabilities.videoCapabilities
 
 				if (videoCapabilities != null) {
-					// Get the supported width and height ranges
-					val maxWidth = videoCapabilities.supportedWidths?.upper ?: 0
-					val maxHeight = videoCapabilities.supportedHeights?.upper ?: 0
+					val supportedWidth = videoCapabilities.supportedWidths?.upper ?: 0
+					val supportedHeight = videoCapabilities.supportedHeights?.upper ?: 0
 
-					// Check for 4K resolution support
-					if (maxWidth >= 3840 && maxHeight >= 2160) {
-						Timber.i("4K resolution is supported by codec %s", info.name)
-						return true
-					}
+					maxWidth = maxOf(maxWidth, supportedWidth)
+					maxHeight = maxOf(maxHeight, supportedHeight)
 				}
 			} catch (e: IllegalArgumentException) {
 				Timber.d(e, "Codec %s does not support video capabilities", info.name)
 			}
 		}
 
-		return false
+		return Pair(maxWidth, maxHeight)
 	}
 }

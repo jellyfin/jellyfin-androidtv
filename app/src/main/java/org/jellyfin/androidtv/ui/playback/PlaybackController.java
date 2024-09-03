@@ -29,7 +29,6 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
-import org.jellyfin.androidtv.util.profile.MediaCodecCapabilitiesTest;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -509,7 +508,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @NonNull
     private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item, int maxBitrate) {
-        MediaCodecCapabilitiesTest mediaCodecCapabilitiesTest = new MediaCodecCapabilitiesTest();
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
@@ -524,8 +522,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO,
-                !mediaCodecCapabilitiesTest.supports4KResolution()
+                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;

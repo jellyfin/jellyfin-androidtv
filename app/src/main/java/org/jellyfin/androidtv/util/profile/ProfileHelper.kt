@@ -15,6 +15,34 @@ import timber.log.Timber
 object ProfileHelper {
 	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
 
+	private val supports4K by lazy {
+		val (maxWidth, maxHeight) = MediaTest.getMaxResolution()
+		maxWidth >= 3840 && maxHeight >= 2160
+	}
+
+	val max1080pCodecProfile by lazy {
+		CodecProfile().apply {
+			type = CodecType.Video
+			conditions = if (supports4K) {
+				// No restriction if 4K is supported
+				arrayOf()
+			} else {
+				arrayOf(
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.Width,
+						"1920"
+					),
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.Height,
+						"1080"
+					)
+				)
+			}
+		}
+	}
+
 	val deviceAV1CodecProfile by lazy {
 		CodecProfile().apply {
 			type = CodecType.Video
@@ -249,21 +277,6 @@ object ProfileHelper {
 				}
 			}
 		}
-	}
-
-	val max1080pProfileConditions by lazy {
-		arrayOf(
-			ProfileCondition(
-				ProfileConditionType.LessThanEqual,
-				ProfileConditionValue.Width,
-				"1920"
-			),
-			ProfileCondition(
-				ProfileConditionType.LessThanEqual,
-				ProfileConditionValue.Height,
-				"1080"
-			)
-		)
 	}
 
 	val photoDirectPlayProfile by lazy {
