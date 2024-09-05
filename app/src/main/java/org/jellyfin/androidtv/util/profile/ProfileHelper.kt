@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.media.MediaFormat
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -15,18 +16,29 @@ import timber.log.Timber
 object ProfileHelper {
 	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
 
-	private val supports4K by lazy {
-		val (maxWidth, maxHeight) = MediaTest.getMaxResolution()
-		maxWidth >= 3840 && maxHeight >= 2160
+	private val resolution by lazy {
+		MediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
 	}
 
 	val max1080pCodecProfile by lazy {
 		CodecProfile().apply {
 			type = CodecType.Video
-			conditions = if (supports4K) {
-				// No restriction if 4K is supported
-				arrayOf()
+			conditions = if (resolution.width >= 3840 && resolution.height >= 2160) {
+				// Allow resolutions up to 4K
+				arrayOf(
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.Width,
+						"3840"
+					),
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.Height,
+						"2160"
+					)
+				)
 			} else {
+				// Restrict resolution to 1080p if resolution is less than 4K
 				arrayOf(
 					ProfileCondition(
 						ProfileConditionType.LessThanEqual,

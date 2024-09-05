@@ -4,6 +4,7 @@ import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
 import android.os.Build
+import android.util.Size
 import timber.log.Timber
 
 class MediaCodecCapabilitiesTest {
@@ -166,7 +167,7 @@ class MediaCodecCapabilitiesTest {
 		return false
 	}
 
-	fun getMaxResolution(): Pair<Int, Int> {
+	fun getMaxResolution(mime: String): Size {
 		var maxWidth = 0
 		var maxHeight = 0
 
@@ -174,21 +175,20 @@ class MediaCodecCapabilitiesTest {
 			if (info.isEncoder) continue
 
 			try {
-				val capabilities = info.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_AVC)
-				val videoCapabilities = capabilities.videoCapabilities
+				val capabilities = info.getCapabilitiesForType(mime)
+				val videoCapabilities = capabilities.videoCapabilities ?: continue
+				val supportedWidth = videoCapabilities.supportedWidths?.upper ?: continue
+				val supportedHeight = videoCapabilities.supportedHeights?.upper ?: continue
 
-				if (videoCapabilities != null) {
-					val supportedWidth = videoCapabilities.supportedWidths?.upper ?: 0
-					val supportedHeight = videoCapabilities.supportedHeights?.upper ?: 0
+				maxWidth = maxOf(maxWidth, supportedWidth)
+				maxHeight = maxOf(maxHeight, supportedHeight)
 
-					maxWidth = maxOf(maxWidth, supportedWidth)
-					maxHeight = maxOf(maxHeight, supportedHeight)
-				}
 			} catch (e: IllegalArgumentException) {
 				Timber.d(e, "Codec %s does not support video capabilities", info.name)
 			}
 		}
 
-		return Pair(maxWidth, maxHeight)
+		return Size(maxWidth, maxHeight)
 	}
+
 }
