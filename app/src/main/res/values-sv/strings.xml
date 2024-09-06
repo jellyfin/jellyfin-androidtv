@@ -11,11 +11,7 @@
     <string name="watch_now">Kolla nu</string>
     <string name="pref_next_up_timeout_title">Kommer härnäst-timerlängd</string>
     <string name="pref_next_up_timeout_summary">Hur länge att vänta innan nästa föremål börjar att spelas</string>
-    <string name="pref_media_player">Föredragen mediaspelare</string>
     <string name="pref_about_title">Om</string>
-    <string name="pref_video_player_external">Extern app</string>
-    <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Min media</string>
     <string name="lbl_image_size">Bildstorlek</string>
     <string name="lbl_image_type">Bildtyp</string>
@@ -26,7 +22,6 @@
     <string name="lbl_repeat_episodes">Återupprepa avsnitt</string>
     <string name="lbl_premieres">Premiärer</string>
     <string name="lbl_new_episodes">Nya avsnitt</string>
-    <string name="lbl_audio_delay">Ljudfördröjning</string>
     <string name="lbl_new_only">Endast nya</string>
     <string name="lbl_news">Nyheter</string>
     <string name="lbl_song_title">Låttitel</string>
@@ -53,7 +48,7 @@
     <string name="lbl_live">Direktsänt</string>
     <string name="lbl_new">Ny</string>
     <string name="lbl_repeat">Upprepa</string>
-    <string name="lbl_recent_recordings">Nyliga inspelningar</string>
+    <string name="lbl_recent_recordings">Senaste inspelningar</string>
     <string name="lbl_kids">Barn</string>
     <string name="lbl_sports">Sport</string>
     <string name="no_program_data">Ingen programdata tillgänglig</string>
@@ -61,7 +56,6 @@
     <string name="lbl_just_this_once">Enbart den här gången</string>
     <string name="lbl_select_date">Välj datum</string>
     <string name="lbl_in_x_days">Om %d dagar</string>
-    <string name="lbl_bitstream_dts">Bitströmma DTS-ljud</string>
     <string name="desc_premieres">Visa en rad med nya avsnitt för serier du tittar på</string>
     <string name="lbl_show_premieres">Visa säsongspremiärer</string>
     <string name="lbl_refresh_switching">Uppdateringsfrekvensväxling</string>
@@ -148,15 +142,14 @@
     <string name="lbl_mark_unplayed">Markera som ej uppspelat</string>
     <string name="lbl_play_first_unwatched">Spela först osedda</string>
     <string name="lbl_search_hint">Sök text (välj för tangentbord)</string>
-    <string name="sum_tv_queuing">Lägg till resten av säsongen i kön vid uppspelning av avsnitt</string>
-    <string name="lbl_tv_queuing">Köa alla efterföljande avsnitt</string>
+    <string name="lbl_tv_queuing">Spela nästa avsnitt automatiskt</string>
     <string name="lbl_empty">Tomt</string>
     <string name="lbl_no_items">Inga föremål</string>
     <string name="msg_cannot_play">Detta föremålet kan ej spelas upp</string>
     <string name="msg_cannot_play_time">Det går inte att spela upp detta för närvarande</string>
     <string name="lbl_never">Aldrig</string>
     <string name="msg_playback_incompatible">Det går inte att spela detta videoformat</string>
-    <string name="msg_playback_restricted">Administratorn har begränsat uppspelningen av detta föremål för tillfället</string>
+    <string name="msg_playback_restricted">Administratören har begränsat uppspelningen av detta föremål för tillfället</string>
     <string name="msg_playback_not_allowed">Uppspelning är ej tillåtet just nu</string>
     <string name="lbl_loading_elipses">Laddar…</string>
     <string name="lbl_born">"Född "</string>
@@ -188,7 +181,7 @@
     <string name="lbl_item">Objekt</string>
     <string name="lbl_items">Objekt</string>
     <string name="lbl_trailers">Trailrar</string>
-    <string name="lbl_specials">Specialsäsong</string>
+    <string name="lbl_specials">Extramaterial</string>
     <string name="lbl_chapters">Kapitel</string>
     <string name="lbl_cast_crew">Medverkande &amp; Personal</string>
     <string name="msg_unable_to_cancel">Kan inte avbryta inspelning</string>
@@ -230,7 +223,6 @@
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Direktsänd-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
-    <string name="pref_libvlc_audio_delay_title">Standardfördröjning av ljud för LibVLC</string>
     <string name="pref_theme_dark">Mörk (Standard)</string>
     <string name="pref_theme_emerald">Klassisk smaragd</string>
     <string name="pref_app_theme">Apptema</string>
@@ -249,12 +241,7 @@
     <string name="lbl_tv_channel_status">%1$d av %2$d kanaler</string>
     <string name="msg_no_items">Inga föremål att spela</string>
     <string name="subtitle_error">Går ej att välja undertext</string>
-    <string name="play_with">Spela med</string>
-    <string name="play_with_external_app">Spela med extern app</string>
-    <string name="play_with_exo_player">Spela med ExoPlayer</string>
-    <string name="play_with_vlc">Spela upp med LibVLC</string>
     <string name="seek_error">Går ej att söka</string>
-    <string name="pref_video_player_choose">Fråga alltid</string>
     <string name="just_one">Endast denna</string>
     <string name="turn_off">Avaktivera denna inställning</string>
     <string name="audio_error">Kunde inte spela ljud %1$s</string>
@@ -435,7 +422,6 @@
     <string name="action_login">Logga in</string>
     <string name="lbl_shuffle_queue">Aktivera shuffle</string>
     <string name="lbl_subtitle_delay">Undertextfördröjning</string>
-    <string name="lbl_adjust">Justera</string>
     <string name="state_disabled">Inaktiverad</string>
     <string name="live_tv_preferences">Alternativ för direktsänd TV</string>
     <string name="server_setup_incomplete">Installationen av den här servern har inte slutförts. Öppna Jellyfin i en webbläsare för att slutföra installationen innan du loggar in.</string>
@@ -458,9 +444,6 @@
     <string name="lbl_quality_profile">Kvalitetsprofil</string>
     <string name="desc_audio_night_mode">Jämnar ut ljudnivån automatiskt</string>
     <string name="pref_audio_night_mode">Automatiskt nattläge (experimentellt)</string>
-    <string name="lbl_subtitle_fg">Undertextfärg</string>
-    <string name="lbl_subtitle_stroke">Undertextbredd</string>
-    <string name="lbl_subtitle_position">Undertextposition från botten</string>
     <string name="color_white">Vit</string>
     <string name="color_black">Svart</string>
     <string name="color_darkgrey">Mörkgrå</string>
@@ -471,7 +454,7 @@
     <string name="color_pink">Rosa</string>
     <string name="color_cyan">Ljusblå</string>
     <string name="app_notification_beta">Appen uppdaterades till %1$s
-\nTack för att du deltar i Jellyfins uttestningsprogram</string>
+\nTack för att du deltar i Jellyfins beta program.</string>
     <string name="lbl_album_artists">Albumartist</string>
     <string name="pref_screensaver">Skärmsläckare</string>
     <plurals name="hours">
@@ -555,4 +538,20 @@
     </plurals>
     <string name="pref_screensaver_ageratingrequired_enabled">Visa bara de titlar som har åldersbegränsning</string>
     <string name="pref_playback_advanced">Avancerade uppspelningsinställningar</string>
+    <string name="past_week">Förra veckan</string>
+    <string name="scheduled_in_next_24_hours">Schemalagd för de senaste 24 timmarna</string>
+    <string name="past_24_hours">Senaste 24 timmarna</string>
+    <string name="all_channels">Alla kanaler</string>
+    <string name="pref_external_player">Använd extern spelare</string>
+    <string name="app_notification_update_soon">Uppdatera din server från %1$s till minst %2$s för att kunna fortsätta använda appen efter nästa uppdatering.</string>
+    <string name="continue_listening">Fortsätt lyssna</string>
+    <string name="current_queue">Aktuell kö</string>
+    <string name="lbl_subtitle_text_color">Textfärg för undertexter</string>
+    <string name="lbl_subtitle_background_color">Bakgrundsfärg för undertexter</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Stor</string>
+    <string name="pref_subtitles_size_very_large">Mycket stor</string>
+    <string name="lbl_subtitle_text_stroke_color">Färg för undertextens kantlinje</string>
+    <string name="pref_subtitles_size_small">Liten</string>
+    <string name="pref_subtitles_size_very_small">Mycket liten</string>
 </resources>

@@ -73,8 +73,7 @@
     <string name="lbl_mark_unplayed">Позначити як невідтворене</string>
     <string name="lbl_play_first_unwatched">Відтворити перше непереглянуте</string>
     <string name="lbl_search_hint">Знайти текст (оберіть для відображення клавіатури)</string>
-    <string name="sum_tv_queuing">Додає решту сезону до черги під час відтворення епізоду</string>
-    <string name="lbl_tv_queuing">Додати до черги всі наступні епізоди</string>
+    <string name="lbl_tv_queuing">Автоматично відтворювати наступний епізод</string>
     <string name="lbl_empty">Пусто</string>
     <string name="lbl_no_items">Немає елементів</string>
     <string name="msg_cannot_play">Цей елемент неможливо відтворити</string>
@@ -140,18 +139,12 @@
     <string name="lbl_similar_items_library">Схожі елементи у медіатеці</string>
     <string name="lbl_program_ended">Програма закінчена</string>
     <string name="lbl_cancel_series">Скасувати серіал</string>
-    <string name="pref_libvlc_audio_delay_title">Стандартна затримка звуку для LibVLC</string>
     <string name="pref_next_up_behavior_title">Відображати інформацію про наступне відео</string>
     <string name="watch_now">Дивитися</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_next_up_timeout_title">Тривалість відображення інформації</string>
     <string name="pref_next_up_timeout_summary">Як довго чекати, перш ніж відтворити наступний елемент</string>
-    <string name="pref_media_player">Бажаний медіаплеєр</string>
     <string name="pref_about_title">Про додаток</string>
-    <string name="pref_video_player_choose">Завжди запитувати</string>
-    <string name="pref_video_player_external">Зовнішній додаток</string>
-    <string name="pref_video_player_vlc">LibVLC (експериментально)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Класична (смарагдова)</string>
     <string name="pref_theme_dark">Темна (за замовчуванням)</string>
     <string name="lbl_my_media">Мої медіафайли</string>
@@ -164,7 +157,6 @@
     <string name="lbl_repeat_episodes">Повторні епізоди</string>
     <string name="lbl_premieres">Прем’єри</string>
     <string name="lbl_new_episodes">Нові епізоди</string>
-    <string name="lbl_audio_delay">Затримка звуку</string>
     <string name="lbl_new_only">Тільки нове</string>
     <string name="lbl_news">Новини</string>
     <string name="lbl_tv_filter_status">за наступні %1$d години</string>
@@ -173,7 +165,6 @@
     <string name="lbl_live">Наживо</string>
     <string name="lbl_sports">Спорт</string>
     <string name="lbl_bitstream_ac3">Звук Bitstream Dolby Digital</string>
-    <string name="lbl_bitstream_dts">Звук Bitstream DTS</string>
     <string name="lbl_refresh_switching">Перемикання частоти оновлення</string>
     <string name="pref_show_backdrop_description">Змінює зображення тла щоразу, коли обирається інший елемент медіатеки</string>
     <string name="lbl_show_backdrop">Відображати задники</string>
@@ -427,15 +418,10 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Завершиться о %1$s</string>
     <string name="lbl_sign_in">Будь ласка, увійдіть</string>
-    <string name="play_with">Грати з</string>
-    <string name="play_with_external_app">Грати з зовнішнім застосунком</string>
-    <string name="play_with_exo_player">Грати з ExoPlayer</string>
-    <string name="play_with_vlc">Грати з LibVLC</string>
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкніть цю опцію</string>
     <string name="audio_error">Неможливо відтворити аудіо %1$s</string>
     <string name="lbl_subtitle_delay">Затримка субтитрів</string>
-    <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>
     <string name="state_disabled">Вимкнено</string>
     <string name="server_unsupported_notification">Цей сервер використовує Jellyfin версії %1$s, який не підтримується додатком. Будь ласка, оновіть Jellyfin до версії %2$s або новішої, щоб продовжити користуватися додатком.</string>
@@ -469,10 +455,7 @@
     <string name="color_white">Білий</string>
     <string name="color_yellow">Жовтий</string>
     <string name="app_notification_beta">Додаток оновлено до %1$s
-\nДякуємо за участь у бета-програмі Jellyfin</string>
-    <string name="lbl_subtitle_fg">Колір тексту субтитрів</string>
-    <string name="lbl_subtitle_stroke">Розмір обведення субтитрів</string>
-    <string name="lbl_subtitle_position">Зміщення субтитрів від низу</string>
+\nДякуємо за участь у бета-програмі Jellyfin.</string>
     <string name="color_darkgrey">Темно-сірий</string>
     <string name="color_black">Чорний</string>
     <string name="color_green">Зелений</string>
@@ -575,4 +558,22 @@
     <string name="pref_screensaver_ageratingmax_entry">До віку %1$d</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Вимкнути максимум</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показати всі елементи</string>
+    <string name="all_channels">Всі канали</string>
+    <string name="app_notification_update_soon">Оновіть ваш сервер з %1$s до принаймні %2$s, щоб продовжити використання програми після наступного оновлення.</string>
+    <string name="current_queue">Поточна черга</string>
+    <string name="pref_external_player">Використовувати зовнішній плеєр</string>
+    <string name="scheduled_in_next_24_hours">Заплановано на наступні 24 години</string>
+    <string name="past_24_hours">Останні 24 години</string>
+    <string name="past_week">Минулий тиждень</string>
+    <string name="continue_listening">Продовжити слухати</string>
+    <string name="lbl_subtitle_background_color">Колір фону субтитрів</string>
+    <string name="lbl_subtitle_text_color">Колір тексту субтитрів</string>
+    <string name="pref_subtitles_size_very_small">Дуже маленькі</string>
+    <string name="pref_subtitles_size_very_large">Дуже великі</string>
+    <string name="lbl_subtitle_text_stroke_color">Колір обведення субтитрів</string>
+    <string name="pref_subtitles_size_small">Маленькі</string>
+    <string name="pref_subtitles_size_normal">Нормальні</string>
+    <string name="pref_subtitles_size_large">Великі</string>
+    <string name="prefer_exoplayer_ffmpeg">Надавати перевагу FFmpeg для відтворення аудіо</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Використовувати FFmpeg для декодування аудіо, навіть якщо доступні кодеки платформи.</string>
 </resources>

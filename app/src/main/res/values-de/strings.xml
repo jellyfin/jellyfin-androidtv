@@ -77,8 +77,7 @@
     <string name="msg_cannot_play">Dieser Eintrag kann nicht abgespielt werden</string>
     <string name="lbl_no_items">Keine Einträge</string>
     <string name="lbl_empty">Leer</string>
-    <string name="lbl_tv_queuing">Alle nachfolgenden Episoden in die Warteschlange einreihen</string>
-    <string name="sum_tv_queuing">Den Rest der Staffel der Warteschlange hinzufügen, wenn eine Episode abgespielt wird</string>
+    <string name="lbl_tv_queuing">Nächste Episode automatisch abspielen</string>
     <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
     <string name="lbl_play_first_unwatched">Starte ungesehende zuerst</string>
     <string name="lbl_mark_unplayed">Markiere als ungesehen</string>
@@ -168,7 +167,6 @@
     <string name="lbl_refresh_switching">Umschaltung der Bildwiederholfrequenz</string>
     <string name="lbl_show_premieres">Staffel-Premieren zeigen</string>
     <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die du siehst</string>
-    <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_song_title">Liedtitel</string>
     <string name="lbl_album_name">Albumname</string>
@@ -217,18 +215,12 @@
     <string name="lbl_hd_programs">HD-Programme</string>
     <string name="lbl_live_broadcasts">Live-Übertragungen</string>
     <string name="lbl_new_episodes">Neue Episoden</string>
-    <string name="lbl_audio_delay">Audioverzögerung</string>
     <string name="lbl_new_only">Nur Neues</string>
     <string name="lbl_news">Neuigkeiten</string>
     <string name="lbl_repeat_episodes">Folgen wiederholen</string>
-    <string name="pref_video_player_external">Externe App</string>
-    <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
-    <string name="pref_media_player">Bevorzugter Mediaplayer</string>
     <string name="watch_now">Jetzt anschauen</string>
-    <string name="pref_libvlc_audio_delay_title">Standardaudioverzögerung für LibVLC</string>
     <string name="pref_next_up_timeout_title">Dauer des Timers für die automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor der nächste Eintrag abgespielt wird</string>
     <string name="pref_app_theme">App-Thema</string>
@@ -265,11 +257,6 @@
     <string name="mark_watched">Als gesehen markieren</string>
     <string name="lbl_tv_filter_status">für die nächsten %1$d Stunden</string>
     <string name="lbl_tv_channel_status">%1$d von %2$d Kanälen</string>
-    <string name="play_with">Abspielen mit</string>
-    <string name="play_with_external_app">Mit externer App abspielen</string>
-    <string name="play_with_exo_player">Mit ExoPlayer abspielen</string>
-    <string name="play_with_vlc">Mit LibVLC abspielen</string>
-    <string name="pref_video_player_choose">Immer fragen</string>
     <string name="lbl_subtitle_track">Untertitelspur auswählen</string>
     <string name="lbl_audio_track">Audiospur auswählen</string>
     <string name="lbl_pause">Pause</string>
@@ -436,7 +423,6 @@
     <string name="action_login">Anmelden</string>
     <string name="state_disabled">Deaktiviert</string>
     <string name="lbl_subtitle_delay">Untertitelverzögerung</string>
-    <string name="lbl_adjust">Anpassen</string>
     <string name="live_tv_preferences">Fernseh-Optionen</string>
     <string name="pref_telemetry_category">Absturzbericht</string>
     <string name="server_unsupported_notification">Dieser Server verwendet Jellyfin in der Version %1$s, die nicht unterstützt wird. Bitte aktualisiere auf Jellyfin %2$s oder eine neuere Version, um die App weiter nutzen zu können.</string>
@@ -458,11 +444,8 @@
     <string name="lbl_quality_profile">Qualitätsprofil</string>
     <string name="desc_audio_night_mode">Passt die Audiolautstärke automatisch an</string>
     <string name="pref_audio_night_mode">Audio-Nachtmodus (experimentell)</string>
-    <string name="lbl_subtitle_fg">Untertitelschriftfarbe</string>
     <string name="app_notification_beta">App auf %1$s aktualisiert
-\nVielen Dank für die Teilnahme am Jellyfin-Beta-Programm</string>
-    <string name="lbl_subtitle_stroke">Untertitelstrichstärke</string>
-    <string name="lbl_subtitle_position">Untertitelabstand von unten</string>
+\nVielen Dank für die Teilnahme am Jellyfin-Beta-Programm.</string>
     <string name="color_white">Weiß</string>
     <string name="color_black">Schwarz</string>
     <string name="color_darkgrey">Dunkelgrau</string>
@@ -551,8 +534,26 @@
     <string name="lbl_home">Startseite</string>
     <string name="pref_playback_advanced">Erweiterte Wiedergabeeinstellungen</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Maximum deaktivieren</string>
-    <string name="pref_screensaver_ageratingrequired_title">Altersemfreigabe erforderlich</string>
+    <string name="pref_screensaver_ageratingrequired_title">Altersfreigabe erforderlich</string>
     <string name="pref_screensaver_ageratingmax_zero">Jedes Alter</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Zeige alle Elemente</string>
     <string name="pref_screensaver_ageratingmax_entry">Bis zu Alter %1$d</string>
+    <string name="current_queue">aktuelle Warteschlange</string>
+    <string name="app_notification_update_soon">Aktualisiere deinen Server von %1$s auf mindestens %2$s, um die Anwendung nach dem nächsten Update weiter nutzen zu können.</string>
+    <string name="all_channels">Alle Kanäle</string>
+    <string name="pref_external_player">Externen Player verwenden</string>
+    <string name="past_week">Letzte Woche</string>
+    <string name="scheduled_in_next_24_hours">Geplant in den nächsten 24 Stunden</string>
+    <string name="past_24_hours">Letzte 24 Stunden</string>
+    <string name="continue_listening">Weiterhören</string>
+    <string name="lbl_subtitle_text_color">Farbe des Untertiteltextes</string>
+    <string name="lbl_subtitle_background_color">Hintergrundfarbe des Untertitels</string>
+    <string name="lbl_subtitle_text_stroke_color">Farbe des Untertitelstrichs</string>
+    <string name="pref_subtitles_size_very_small">Sehr klein</string>
+    <string name="pref_subtitles_size_small">Klein</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Groß</string>
+    <string name="pref_subtitles_size_very_large">Sehr groß</string>
+    <string name="prefer_exoplayer_ffmpeg">Bevorzuge FFmpeg für Audio Wiedergabe</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Nutze FFmpeg um Audio zu dekodieren, auch wenn System Codecs vorhanden sind.</string>
 </resources>

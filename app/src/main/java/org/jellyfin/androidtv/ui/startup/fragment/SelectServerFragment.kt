@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
@@ -26,6 +27,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Text
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -167,15 +170,16 @@ class SelectServerFragment : Fragment() {
 				for (notification in notifications) {
 					if (!notification.public) continue
 
-					Card(
+					Box(
 						modifier = Modifier
-							.fillMaxWidth(),
-						backgroundColor = colorResource(id = R.color.lb_basic_card_info_bg_color),
-						contentColor = colorResource(id = R.color.white),
+							.fillMaxWidth()
+							.clip(MaterialTheme.shapes.medium)
+							.background(colorResource(id = R.color.lb_basic_card_info_bg_color)),
 					) {
 						Text(
 							text = notification.message,
-							modifier = Modifier.padding(10.dp)
+							modifier = Modifier.padding(10.dp),
+							color = colorResource(id = R.color.white)
 						)
 					}
 				}
@@ -210,7 +214,7 @@ class SelectServerFragment : Fragment() {
 		super.onResume()
 
 		startupViewModel.reloadStoredServers()
-		startupViewModel.loadDiscoveryservers()
+		startupViewModel.loadDiscoveryServers()
 	}
 
 	class ServerAdapter(

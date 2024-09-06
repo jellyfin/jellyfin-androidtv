@@ -10,9 +10,6 @@
     <string name="pref_next_up_timeout_title">Durasi waktu sebelum memutar berikutnya</string>
     <string name="pref_next_up_timeout_summary">Berapa lama menunggu sebelum memainkan item berikutnya</string>
     <string name="pref_about_title">Tentang</string>
-    <string name="pref_video_player_external">Aplikasi eksternal</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimental)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Gelap (Default)</string>
     <string name="lbl_my_media">Media saya</string>
@@ -27,7 +24,6 @@
     <string name="lbl_guide_option_number">Nomor saluran</string>
     <string name="lbl_guide_option_played">Terakhir diputar</string>
     <string name="lbl_show_indicators">Tampilkan indikator untuk</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
     <string name="lbl_goto_series">Lihat serial</string>
     <string name="lbl_audio_output">Keluaran audio</string>
     <string name="pref_audio_compat">Downmix ke stereo</string>
@@ -107,7 +103,6 @@
     <string name="lbl_mark_unplayed">Tandai belum diputar</string>
     <string name="lbl_play_first_unwatched">Putar yang belum ditonton terlebih dahulu</string>
     <string name="lbl_search_hint">Teks pencarian (pilih untuk membuka papan ketik)</string>
-    <string name="sum_tv_queuing">Tambahkan sisa episode pada musim ke antrean saat memutar episode</string>
     <string name="lbl_tv_queuing">Tambahkan semua episode berikutnya ke daftar antre</string>
     <string name="lbl_empty">Kosong</string>
     <string name="lbl_no_items">Tak ada item</string>
@@ -143,7 +138,6 @@
     <string name="lbl_record_any_time">Rekam kapan saja</string>
     <string name="pref_device_model">Model perangkat</string>
     <string name="pref_app_theme">Tema aplikasi</string>
-    <string name="pref_libvlc_audio_delay_title">Penundaan Audio Default untuk libVLC</string>
     <string name="pref_subtitle_track_button">Tombol trek subtitle</string>
     <string name="msg_unable_load_subs">Tidak dapat memuat takarir</string>
     <string name="msg_subtitles_loading">Memuat takarir…</string>
@@ -234,9 +228,7 @@
     <string name="grid_direction_vertical">Vertikal</string>
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="grid_direction">Arah kisi</string>
-    <string name="pref_media_player">Pemutar media pilihan</string>
     <string name="lbl_premieres">Premiere</string>
-    <string name="lbl_audio_delay">Penundaan audio</string>
     <string name="lbl_new_only">Baru Saja</string>
     <string name="lbl_news">Berita</string>
     <string name="lbl_more_like_this">Lainnya seperti ini</string>
@@ -264,7 +256,6 @@
     <string name="mark_watched">Tandai telah ditonton</string>
     <string name="pref_next_up_behavior_title">Tampilkan info video selanjutnya</string>
     <string name="pref_next_up_timeout_disabled">Tidak terbatas</string>
-    <string name="pref_video_player_choose">Selalu tanya</string>
     <string name="lbl_tv_filter_status">untuk %1$d jam selanjutnya</string>
     <string name="lbl_tv_channel_status">%1$d dari %2$d kanal</string>
     <string name="lbl_subtitle_track">Pilih trek subtitel</string>
@@ -279,21 +270,14 @@
     <string name="state_disabled">Nonaktif</string>
     <string name="lbl_latest_in">Baru ditambahkan ke %1$s</string>
     <string name="pref_clock_display">Tampilkan jam</string>
-    <string name="play_with">Putar dengan</string>
     <string name="lbl_sign_in">Silakan masuk</string>
     <string name="server_field_empty">Alamat tidak boleh kosong</string>
     <string name="desc_audio_night_mode">Meratakan volume audio secara otomatis</string>
     <string name="lbl_playback_speed">Kecepatan pemutaran</string>
     <string name="lbl_quality_profile">Profil kualitas</string>
-    <string name="lbl_subtitle_fg">Warna teks takarir</string>
-    <string name="lbl_subtitle_position">Jarak takarir dari bawah</string>
-    <string name="lbl_adjust">Atur</string>
     <string name="lbl_subtitle_delay">Pelambatan takarir</string>
     <string name="turn_off">Nonaktifkan opsi ini</string>
     <string name="just_one">Hanya ini saja</string>
-    <string name="play_with_vlc">Putar dengan LibVLC</string>
-    <string name="play_with_exo_player">Putar dengan ExoPlayer</string>
-    <string name="play_with_external_app">Putar dengan apl eksternal</string>
     <string name="lbl_playback_control_ends">Berakhir pada %1$s</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_stars">Bintang</string>
@@ -340,7 +324,6 @@
     <string name="welcome_content">Koneksikan ke server anda untuk memulai.</string>
     <string name="saved_servers">Server yang tersimpan</string>
     <string name="lbl_episode_number">E%1$d</string>
-    <string name="lbl_subtitle_stroke">Ketebalan garis anak judul</string>
     <string name="lbl_manage_servers">Atur server</string>
     <string name="login_server_unavailable">Gagal untuk terhubung ke server</string>
     <string name="lbl_remove_users">Ini juga akan menghapus semua akun terkait</string>

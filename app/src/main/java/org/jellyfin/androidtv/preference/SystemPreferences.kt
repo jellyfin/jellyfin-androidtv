@@ -1,9 +1,7 @@
 package org.jellyfin.androidtv.preference
 
 import android.content.Context
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.preference.booleanPreference
-import org.jellyfin.preference.enumPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
 
@@ -60,11 +58,6 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		val liveTvGuideFilterSports = booleanPreference("guide_filter_sports", false)
 
 		// Other persistent variables
-		/**
-		 * Chosen player for play with button. Changes every time user chooses a player with "play with" button.
-		 */
-		var chosenPlayer = enumPreference("chosen_player", PreferredVideoPlayer.VLC)
-
 		/**
 		 * The version name for the latest dismissed beta notification or empty if none.
 		 */

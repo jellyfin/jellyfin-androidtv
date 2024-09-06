@@ -44,7 +44,7 @@ class SearchFragmentDelegate(
 		if (item !is BaseRowItem) return@OnItemViewClickedListener
 		row as ListRow
 		val adapter = row.adapter as ItemRowAdapter
-		itemLauncher.launch(item as BaseRowItem?, adapter, item.index, context)
+		itemLauncher.launch(item as BaseRowItem?, adapter, context)
 	}
 
 	val onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->

@@ -64,6 +64,7 @@ class UserLoginViewModel(
 
 	fun clearLoginState() {
 		_loginState.value = null
+		_quickConnectState.value = UnknownQuickConnectState
 	}
 
 	/**
@@ -76,8 +77,10 @@ class UserLoginViewModel(
 		val server = server.value ?: return
 		_quickConnectState.emit(UnknownQuickConnectState)
 		quickConnectSecret = null
-		quickConnectApi.baseUrl = server.address
-		quickConnectApi.deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID())
+		quickConnectApi.update(
+			baseUrl = server.address,
+			deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID()),
+		)
 
 		try {
 			val response by quickConnectApi.quickConnectApi.initiateQuickConnect()

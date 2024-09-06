@@ -65,7 +65,7 @@
     <string name="btn_cancel">Anuluj</string>
     <string name="loading">Ładowanie…</string>
     <string name="video_error_unknown_error">Nie udało się załadować video</string>
-    <string name="lbl_tv_queuing">Dodaj do kolejki wszystkie dalsze odcinki</string>
+    <string name="lbl_tv_queuing">Odtwarzaj automatycznie następny odcinek</string>
     <string name="lbl_empty">Pusty</string>
     <string name="lbl_no_items">Brak elementów</string>
     <string name="msg_cannot_play">Dany obiekt nie może zostać odtworzony</string>
@@ -89,7 +89,6 @@
     <string name="lbl_mark_unplayed">Oznacz jako nieodtworzone</string>
     <string name="lbl_play_first_unwatched">Odtwórz pierwszy nieobejrzany</string>
     <string name="lbl_search_hint">Wyszukaj (wybierz, aby wyświetlić klawiaturę)</string>
-    <string name="sum_tv_queuing">Dodaj resztę sezonu do kolejki gdy odtwarzasz odcinek</string>
     <string name="lbl_cancel_series">Anuluj serię</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_playlists">Playlisty</string>
@@ -155,7 +154,6 @@
     <string name="lbl_just_this_once">Tylko ten jeden raz</string>
     <string name="lbl_select_date">Wybierz datę</string>
     <string name="lbl_in_x_days">Za %d dni</string>
-    <string name="lbl_bitstream_dts">Strumień danych audio DTS</string>
     <string name="desc_premieres">Pokaż rząd nowych pilotów odcinków dowolnego oglądanego serialu</string>
     <string name="lbl_show_premieres">Pokaż premiery sezonu</string>
     <string name="lbl_refresh_switching">Przełączanie częstotliwości odświeżania</string>
@@ -198,12 +196,9 @@
     <string name="grid_direction">Kierunek siatki</string>
     <string name="pref_device_model">Model urządzenia</string>
     <string name="pref_app_theme">Motyw aplikacji</string>
-    <string name="pref_libvlc_audio_delay_title">Domyślne opóźnienie dźwięku dla LibVLC</string>
     <string name="watch_now">Oglądaj teraz</string>
     <string name="pref_next_up_timeout_summary">Jak długo należy czekać przed odtworzeniem następnej pozycji</string>
-    <string name="pref_media_player">Preferowany odtwarzacz multimedialny</string>
     <string name="pref_about_title">O</string>
-    <string name="pref_video_player_external">Zewnętrzna aplikacja</string>
     <string name="pref_theme_emerald">Klasyczny szmaragd</string>
     <string name="pref_theme_dark">Ciemny (Domyślny)</string>
     <string name="lbl_my_media">Moje media</string>
@@ -216,7 +211,6 @@
     <string name="lbl_repeat_episodes">Powtórzone odcinki</string>
     <string name="lbl_premieres">Premiery</string>
     <string name="lbl_new_episodes">Nowe odcinki</string>
-    <string name="lbl_audio_delay">Opóźnienie dźwięku</string>
     <string name="lbl_new_only">Tylko nowe</string>
     <string name="lbl_news">Wiadomości</string>
     <string name="lbl_song_title">Tytuł piosenki</string>
@@ -239,8 +233,6 @@
     <string name="bitrate_kbit">Szybkość transmisji %1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">Szybkość transmisji %1$,.0f Mbit/s</string>
     <string name="pref_next_up_timeout_title">Czas oczekiwania na następny odcinek</string>
-    <string name="pref_video_player_vlc">Odtwarzacz VLC (doświadczalny)</string>
-    <string name="pref_video_player_exoplayer">Odtwarzacz ExoPlayer</string>
     <string name="lbl_resume_preroll">Wznów przed filmem</string>
     <string name="lbl_series_recordings">Nagrywanie serii</string>
     <string name="lbl_episode_not_record">Ten serial NIE będzie nagrany</string>
@@ -268,11 +260,6 @@
     <string name="lbl_pause">Zatrzymaj</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_sign_in">Zaloguj się</string>
-    <string name="play_with">Odtwarzaj przy użyciu</string>
-    <string name="play_with_external_app">Odtwarzaj w zewnętrznej aplikacji</string>
-    <string name="play_with_exo_player">Odtwarzaj w ExoPlayer</string>
-    <string name="play_with_vlc">Odtwarzaj przy użyciu libVLC</string>
-    <string name="pref_video_player_choose">Zawsze pytaj</string>
     <string name="lbl_subtitle_track">Wybierz napisy</string>
     <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
     <string name="login_username_field_empty">Nazwa użytkownika nie może być pusta</string>
@@ -442,9 +429,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Skala na telewizorze</string>
     <string name="pref_crash_report_logs">Dołącz logi</string>
     <string name="lbl_subtitle_delay">Opóźnienie napisów</string>
-    <string name="lbl_subtitle_fg">Kolor napisów</string>
-    <string name="lbl_subtitle_stroke">Rozmiar napisów</string>
-    <string name="lbl_subtitle_position">Odległość napisów od dołu</string>
     <string name="image_size_smallest">Najmniejszy</string>
     <string name="color_white">Biały</string>
     <string name="color_black">Czarny</string>
@@ -468,10 +452,9 @@
     <string name="pref_telemetry_category">Raportowanie błędów</string>
     <string name="pref_crash_report_logs_enabled">Logi będą dołączane do raportów o błędach</string>
     <string name="desc_audio_night_mode">Automatycznie wyrównuje poziom głośności</string>
-    <string name="lbl_adjust">Dopasuj</string>
     <string name="state_disabled">Wyłączone</string>
     <string name="app_notification_beta">Aplikacja zaktualizowana do wersji %1$s
-\nDziękujemy za uczestnictwo w beta testach Jellyfin</string>
+\nDziękujemy za uczestnictwo w beta testach Jellyfin.</string>
     <string name="item_deleted">Usunięto %1$s</string>
     <string name="item_deletion_failed">Nie można usunąć %1$s</string>
     <string name="pref_enable_media_management_description">Pokaż opcje zarządzania podczas przeglądania biblioteki</string>
@@ -575,4 +558,22 @@
     <string name="pref_screensaver_ageratingmax_entry">Maksymalnie do wieku %1$d</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Wyświetlaj wszystkie elementy</string>
     <string name="pref_screensaver_ageratingmax">Maksymalna kategoria wiekowa</string>
+    <string name="all_channels">Wszystkie kanały</string>
+    <string name="app_notification_update_soon">Zaktualizuj serwer z wersji %1$s do co najmniej %2$s, aby móc dalej korzystać z aplikacji po kolejnej aktualizacji.</string>
+    <string name="current_queue">Bieżąca kolejka</string>
+    <string name="pref_external_player">Użyj zewnętrznego odtwarzacza</string>
+    <string name="continue_listening">Kontynuuj odtwarzanie</string>
+    <string name="past_week">Ostatni tydzień</string>
+    <string name="scheduled_in_next_24_hours">Zaplanowane w ciągu najbliższych 24 godzin</string>
+    <string name="past_24_hours">Ostatnie 24 godziny</string>
+    <string name="lbl_subtitle_text_color">Kolor tekstu napisów</string>
+    <string name="lbl_subtitle_background_color">Kolor tła napisów</string>
+    <string name="lbl_subtitle_text_stroke_color">Kolor obrysu napisów</string>
+    <string name="pref_subtitles_size_very_small">Bardzo małe</string>
+    <string name="pref_subtitles_size_small">Małe</string>
+    <string name="pref_subtitles_size_normal">Normalne</string>
+    <string name="pref_subtitles_size_large">Duże</string>
+    <string name="pref_subtitles_size_very_large">Bardzo duże</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Użyj FFmpeg do dekodowania dźwięku, nawet jeśli kodeki platformy są dostępne.</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferuj FFmpeg do odtwarzania dźwięku</string>
 </resources>

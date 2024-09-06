@@ -4,15 +4,12 @@ import android.os.Build
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
-import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
-import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.android.ext.android.inject
 
@@ -44,18 +41,12 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 
 			checkbox {
 				setTitle(R.string.lbl_tv_queuing)
-				setContent(R.string.sum_tv_queuing)
 				bind(userPreferences, UserPreferences.mediaQueuingEnabled)
 			}
 		}
 
 		category {
 			setTitle(R.string.pref_video)
-
-			enum<PreferredVideoPlayer> {
-				setTitle(R.string.pref_media_player)
-				bind(userPreferences, UserPreferences.videoPlayer)
-			}
 
 			@Suppress("MagicNumber")
 			list {
@@ -67,17 +58,16 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox{
+				setTitle(R.string.pref_external_player)
+				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
 		}
 
 		category {
 			setTitle(R.string.pref_live_tv_cat)
-
-			enum<PreferredVideoPlayer> {
-				setTitle(R.string.pref_media_player)
-				bind(userPreferences, UserPreferences.liveTvVideoPlayer)
-			}
 
 			checkbox {
 				setTitle(R.string.lbl_direct_stream_live)
@@ -100,25 +90,6 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_bitstream_ac3)
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.ac3Enabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
-			}
-
-			checkbox {
-				setTitle(R.string.lbl_bitstream_dts)
-				setContent(R.string.desc_bitstream_ac3)
-				bind(userPreferences, UserPreferences.dtsEnabled)
-				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
-			}
-
-			@Suppress("MagicNumber")
-			seekbar {
-				setTitle(R.string.pref_libvlc_audio_delay_title)
-				min = -5_000
-				max = 5_000
-				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-					override fun display(value: Int) = "${value}ms"
-				}
-				bind(userPreferences, UserPreferences.libVLCAudioDelay)
 			}
 		}
 	}

@@ -58,7 +58,7 @@
     <string name="lbl_by_letter">โดยตัวอักษร</string>
     <string name="lbl_views">การดู</string>
     <string name="lbl_next_up">ถัดไป</string>
-    <string name="lbl_continue_watching">ดูต่อ</string>
+    <string name="lbl_continue_watching">รับชมต่อ</string>
     <string name="lbl_settings">การตั้งค่า</string>
     <string name="pref_authentication_cat">การตรวจสอบสิทธิ์</string>
     <string name="settings_title">การตั้งค่า</string>
@@ -136,7 +136,6 @@
     <string name="lbl_schedule">กำหนดการ</string>
     <string name="lbl_series_settings">การตั้งค่าซีรีส์</string>
     <string name="lbl_additional_parts">ส่วนอื่น ๆ ที่เกี่ยวข้อง</string>
-    <string name="sum_tv_queuing">เพิ่มทุกตอนที่เหลือในซีซันไปยังคิว เมื่อเล่นตอนใดๆ</string>
     <string name="msg_no_playable_items">ไม่มีรายการที่เล่นได้</string>
     <string name="lbl_unwatched">ยังไม่ได้รับชม</string>
     <string name="lbl_today">วันนี้</string>
@@ -208,4 +207,15 @@
     <string name="msg_record_entire_series">บันทึกทั้งซีรีส์ \?</string>
     <string name="lbl_latest_in">เพิ่งถูกเพิ่มใน %1$s</string>
     <string name="because_you_watched">เนื่องจากคุณรับชม %1$s</string>
+    <string name="lbl_home">หน้าหลัก</string>
+    <string name="continue_listening">รับฟังต่อ</string>
+    <string name="color_red">แดง</string>
+    <string name="color_white">ขาว</string>
+    <string name="color_black">ดำ</string>
+    <string name="color_darkgrey">เทาเข้ม</string>
+    <string name="color_green">เขียว</string>
+    <string name="color_blue">น้ำเงิน</string>
+    <string name="color_pink">ชมพู</string>
+    <string name="color_cyan">ฟ้า</string>
+    <string name="color_yellow">เหลือง</string>
 </resources>

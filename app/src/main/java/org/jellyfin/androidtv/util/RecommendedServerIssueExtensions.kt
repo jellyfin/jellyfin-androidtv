@@ -3,10 +3,6 @@ package org.jellyfin.androidtv.util
 import android.content.Context
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.ServerRepository
-import org.jellyfin.sdk.api.client.exception.ssl.BadPeerSSLKeyException
-import org.jellyfin.sdk.api.client.exception.ssl.HandshakeCertificateException
-import org.jellyfin.sdk.api.client.exception.ssl.InvalidSSLProtocolImplementationException
-import org.jellyfin.sdk.api.client.exception.ssl.PeerNotAuthenticatedException
 import org.jellyfin.sdk.discovery.RecommendedServerIssue
 
 /**
@@ -14,15 +10,7 @@ import org.jellyfin.sdk.discovery.RecommendedServerIssue
  */
 fun RecommendedServerIssue.getFriendlyMessage(context: Context): String = when (this) {
 	// Connection issues
-	is RecommendedServerIssue.SecureConnectionFailed -> when (sslException) {
-		// TODO: We're reusing the "SSL Handshake" error for now pending upcoming SDK changes
-		is BadPeerSSLKeyException -> context.getString(R.string.server_issue_ssl_handshake)
-		is HandshakeCertificateException -> context.getString(R.string.server_issue_ssl_handshake)
-		is InvalidSSLProtocolImplementationException -> context.getString(R.string.server_issue_ssl_handshake)
-		is PeerNotAuthenticatedException -> context.getString(R.string.server_issue_ssl_handshake)
-		else -> context.getString(R.string.server_issue_unable_to_connect)
-	}
-
+	is RecommendedServerIssue.SecureConnectionFailed -> context.getString(R.string.server_issue_unable_to_connect)
 	is RecommendedServerIssue.SlowResponse -> context.getString(R.string.server_issue_timeout)
 	is RecommendedServerIssue.ServerUnreachable -> context.getString(R.string.server_issue_unable_to_connect)
 

@@ -4,7 +4,6 @@ import static java.lang.Math.round;
 
 import android.content.Context;
 import android.os.Handler;
-import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +41,13 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RewindAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectQualityAction;
-import org.jellyfin.androidtv.ui.playback.overlay.action.SettingAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.koin.java.KoinJavaComponent;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
@@ -62,7 +61,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
     private SelectQualityAction selectQualityAction;
-    private SettingAction settingAction;
     private PlaybackSpeedAction playbackSpeedAction;
     private ZoomAction zoomAction;
     private ChapterAction chapterAction;
@@ -191,8 +189,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
-        settingAction = new SettingAction(context, this);
-        settingAction.setLabels(new String[]{context.getString(R.string.lbl_adjust)});
         selectQualityAction = new SelectQualityAction(context, this, KoinJavaComponent.get(UserPreferences.class));
         selectQualityAction.setLabels(new String[]{context.getString(R.string.lbl_quality_profile)});
         playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
@@ -279,12 +275,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             secondaryActionsAdapter.add(selectQualityAction);
         }
 
-
-        if (!playerAdapter.isNativeMode()) {
-            secondaryActionsAdapter.add(settingAction);
-        } else {
-            secondaryActionsAdapter.add(zoomAction);
-        }
+        secondaryActionsAdapter.add(zoomAction);
     }
 
     @Override
@@ -315,8 +306,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         long msLeft = getPlayerAdapter().getDuration() - getPlayerAdapter().getCurrentPosition();
         long realTimeLeft = round(msLeft / playbackController.getPlaybackSpeed());
 
-        Instant endTime = Instant.now().plus(realTimeLeft, ChronoUnit.MILLIS);
-        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(endTime.toEpochMilli())));
+        LocalDateTime endTime = LocalDateTime.now().plus(realTimeLeft, ChronoUnit.MILLIS);
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateTimeExtensionsKt.getTimeFormatter(getContext()).format(endTime)));
     }
 
     private void notifyActionChanged(Action action) {

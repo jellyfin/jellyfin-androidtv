@@ -104,7 +104,7 @@ class VideoMediaStreamResolver(
 					segmentContainer = REMUX_SEGMENT_CONTAINER,
 					videoCodec = "h264",
 					audioCodec = "aac",
-				)
+				).appendAccessToken()
 			)
 		}
 

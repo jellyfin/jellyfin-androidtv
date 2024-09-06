@@ -13,6 +13,7 @@
  - [sparky3387](https://github.com/sparky3387)
  - [mohd-akram](https://github.com/mohd-akram)
  - [3l0w](https://github.com/3l0w)
+ - [MajMongoose](https://github.com/majmongoose)
 
 # Emby Contributors
 

@@ -11,9 +11,9 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
-import org.jellyfin.apiclient.model.querying.ItemFields
-import org.jellyfin.apiclient.model.querying.LatestItemsQuery
 import org.jellyfin.sdk.model.api.CollectionType
+import org.jellyfin.sdk.model.api.ItemFields
+import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 
 class HomeFragmentLatestRow(
 	private val userRepository: UserRepository,
@@ -30,21 +30,21 @@ class HomeFragmentLatestRow(
 			.filterNot { item -> item.collectionType in EXCLUDED_COLLECTION_TYPES || item.id in latestItemsExcludes }
 			.map { item ->
 				// Create query and add it to a new row
-				val query = LatestItemsQuery().apply {
-					fields = arrayOf(
-						ItemFields.PrimaryImageAspectRatio,
-						ItemFields.Overview,
-						ItemFields.ChildCount,
-						ItemFields.SeriesPrimaryImage,
-					)
-					imageTypeLimit = 1
-					parentId = item.id.toString()
-					groupItems = true
-					limit = ITEM_LIMIT
-				}
+				val request = GetLatestMediaRequest(
+					fields = setOf(
+						ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+						ItemFields.OVERVIEW,
+						ItemFields.CHILD_COUNT,
+						ItemFields.SERIES_PRIMARY_IMAGE,
+					),
+					imageTypeLimit = 1,
+					parentId = item.id,
+					groupItems = true,
+					limit = ITEM_LIMIT,
+				)
 
 				val title = context.getString(R.string.lbl_latest_in, item.name)
-				HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, arrayOf(ChangeTriggerType.LibraryUpdated)))
+				HomeFragmentBrowseRowDefRow(BrowseRowDef(title, request, arrayOf(ChangeTriggerType.LibraryUpdated)))
 			}.forEach { row ->
 				// Add row to adapter
 				row.addToRowsAdapter(context, cardPresenter, rowsAdapter)
@@ -52,7 +52,7 @@ class HomeFragmentLatestRow(
 	}
 
 	companion object {
-		// Collections exclused from latest row based on app support and common sense
+		// Collections excluded from latest row based on app support and common sense
 		private val EXCLUDED_COLLECTION_TYPES = arrayOf(
 			CollectionType.PLAYLISTS,
 			CollectionType.LIVETV,
@@ -60,7 +60,7 @@ class HomeFragmentLatestRow(
 			CollectionType.BOOKS,
 		)
 
-		// Maximum ammount of items loaded for a row
+		// Maximum amount of items loaded for a row
 		private const val ITEM_LIMIT = 50
 	}
 }

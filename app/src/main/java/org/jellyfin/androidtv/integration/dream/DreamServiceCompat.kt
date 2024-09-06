@@ -7,13 +7,16 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 
-abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner {
+abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner, ViewModelStoreOwner {
 	@Suppress("LeakingThis")
 	private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -23,6 +26,7 @@ abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner {
 	}
 
 	override val lifecycle: Lifecycle get() = lifecycleRegistry
+	override val viewModelStore = ViewModelStore()
 	override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
 
 	@CallSuper
@@ -52,6 +56,7 @@ abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner {
 
 		// Inject dependencies normally added by appcompat activities
 		view.setViewTreeLifecycleOwner(this)
+		view.setViewTreeViewModelStoreOwner(this)
 		view.setViewTreeSavedStateRegistryOwner(this)
 
 		// Set content composable

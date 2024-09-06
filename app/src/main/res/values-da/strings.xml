@@ -76,7 +76,6 @@
     <string name="lbl_no_items">Ingen filer</string>
     <string name="lbl_empty">Tom</string>
     <string name="lbl_tv_queuing">Sæt alle efterfølgende afsnit i kø</string>
-    <string name="sum_tv_queuing">Tilføj resten af sæsonen til køen, når et afsnit afspilles</string>
     <string name="lbl_search_hint">Søg i tekst (vælg tastatur)</string>
     <string name="lbl_play_first_unwatched">Afspil første ikke afspillede</string>
     <string name="lbl_mark_unplayed">Marker som ikke afspillet</string>
@@ -169,7 +168,6 @@
     <string name="lbl_new_premieres">Nye premierer</string>
     <string name="lbl_select_date">Vælg dato</string>
     <string name="lbl_in_x_days">Om %d dage</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS lyd</string>
     <string name="desc_premieres">Vis en række af nye afsnit for enhver serie, du ser</string>
     <string name="lbl_show_premieres">Vis sæson premiere</string>
     <string name="lbl_refresh_switching">Automatisk opdateringsfrekvens</string>
@@ -210,11 +208,7 @@
     <string name="lbl_new_episodes">Nye afsnit</string>
     <string name="lbl_new_only">Kun nye</string>
     <string name="lbl_news">Nyheder</string>
-    <string name="pref_media_player">Foretrukne medie afspiller</string>
     <string name="pref_about_title">Om</string>
-    <string name="pref_video_player_external">Ekstern app</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimentel)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mine medier</string>
     <string name="lbl_image_size">Billede størrelse</string>
     <string name="lbl_image_type">Billed type</string>
@@ -228,12 +222,10 @@
     <string name="lbl_resume_preroll">Genoptag Forfilm</string>
     <string name="pref_next_up_timeout_title">Næste timer varighed</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid du skal vente inden afspilning af næste fil</string>
-    <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for LibVLC</string>
     <string name="pref_app_theme">App tema</string>
     <string name="watch_now">Se nu</string>
     <string name="pref_theme_dark">Mørkt (Standard)</string>
     <string name="pref_theme_emerald">Klassisk smaragd</string>
-    <string name="lbl_audio_delay">Lydforsinkelse</string>
     <string name="lbl_Reset">Nulstil</string>
     <string name="pref_button_remapping_description">Tryk på én knap på fjernbetjeningen for at tildele den</string>
     <string name="pref_subtitle_track_button">Undertekst spor knap</string>
@@ -248,10 +240,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Slutter %1$s</string>
     <string name="lbl_sign_in">Log venligst ind</string>
-    <string name="play_with">Afspil med</string>
-    <string name="play_with_external_app">Afspil med ekstern app</string>
-    <string name="play_with_exo_player">Afspil med ExoPlayer</string>
-    <string name="play_with_vlc">Afspil med LibVLC</string>
     <string name="just_one">Kun denne ene</string>
     <string name="turn_off">Slå denne indstilling fra</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
@@ -270,7 +258,6 @@
     <string name="mark_watched_message">Filen varede ikke lige så land tid som dens varighed. Marker som afspillet\?</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="pref_video_player_choose">Spørg altid</string>
     <string name="lbl_tv_filter_status">for de næste %1$d timer</string>
     <string name="lbl_tv_channel_status">%1$d af %2$d kanaler</string>
     <string name="lbl_subtitle_track">Vælg undertekst spor</string>
@@ -291,7 +278,7 @@
     <string name="lbl_tomatoes">Tomater</string>
     <string name="lbl_stars">Stjerner</string>
     <string name="lbl_use_series_thumbnails">Foretræk miniaturebilleder fra serie</string>
-    <string name="lbl_hide_unwatched_count">Skjul ikke afspillede antal</string>
+    <string name="lbl_hide_unwatched_count">Når emnet er afspillet</string>
     <string name="pref_watched_indicator">Vis indikator for afspillet</string>
     <string name="login_help_description">Jellyfin kræver en server at forbinde til. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
     <string name="login_help_title">Brug for hjælp\?</string>
@@ -351,7 +338,6 @@
     <string name="pref_next_up_behavior_title">Vis næste video info</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Undertekst forsinkelse</string>
-    <string name="lbl_adjust">Tilpas</string>
     <string name="pref_show_backdrop_description">Skift baggrundsbilledet til den valgte fil</string>
     <string name="lbl_playback_speed">Afspilningshastighed</string>
     <string name="lbl_fit">Normal</string>
@@ -458,21 +444,18 @@
     <string name="lbl_shuffle_queue">Slå blanding til/fra</string>
     <string name="pref_audio_night_mode">Nattemodus for lyd (eksperimentel)</string>
     <string name="lbl_additional_parts">Yderligere dele</string>
-    <string name="lbl_subtitle_stroke">Undertekst skrift tykkelse</string>
-    <string name="lbl_subtitle_position">Undertekst forskydning fra bunden</string>
     <string name="color_white">Hvid</string>
     <string name="color_red">Rød</string>
     <string name="color_yellow">Gul</string>
     <string name="color_pink">Lyse Rød</string>
     <string name="app_notification_beta">Appen er opdateret til %1$s
-\nTak fordi du deltager i Jellyfin beta program</string>
+\nTak fordi du deltager i Jellyfin beta programmet.</string>
     <string name="item_deleted">%1$s slettet</string>
     <string name="item_deletion_failed">Kunne ikke slette %1$s</string>
     <string name="pref_enable_media_management">Tillad medie håndtering</string>
     <string name="pref_enable_media_management_description">Vis mulighed for at håndtere medie imens der browses</string>
     <string name="item_delete_confirm_title">Slet element</string>
     <string name="item_delete_confirm_message">Er du sikker på du vil slette dette element fra serveren\? Denne handling kan ikke fortrydes.</string>
-    <string name="lbl_subtitle_fg">Undertekst farve</string>
     <string name="color_darkgrey">Mørke grå</string>
     <string name="color_blue">Blå</string>
     <string name="color_black">Sort</string>
@@ -511,4 +494,51 @@
     <string name="photo_albums">Fotoalbummer</string>
     <string name="photos">Fotos</string>
     <string name="channels">Kanaler</string>
+    <string name="random">Tilfældig</string>
+    <string name="pref_playback_advanced">Avancerede afspilningsindstillinger</string>
+    <string name="app_notification_update_soon">Opdater din server fra %1$s til mindst %2$s for at fortsætte med at bruge appen efter den næste opdatering.</string>
+    <string name="unreleased">Endnu ikke udgivet</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s sang</item>
+        <item quantity="other">%1$s sange</item>
+    </plurals>
+    <string name="lbl_runtime">Spilletid</string>
+    <string name="person_birthday_and_age">Født %1$s (%2$d)</string>
+    <string name="pref_screensaver_ageratingrequired_title">Kræv aldersgrænse</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Viser kun emner med en aldersgrænse sat</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Viser alle emner</string>
+    <string name="all_channels">Alle kanaler</string>
+    <string name="current_queue">Aktuel kø</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV-serie</item>
+        <item quantity="other">%1$s TV-serier</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="other"/>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="clear_image_cache_content">Brugt: %1$s</string>
+    <string name="clear_image_cache">Ryd billedcache</string>
+    <string name="pref_screensaver_ageratingmax_zero">Alle aldre</string>
+    <string name="pref_screensaver_ageratingmax_entry">Op til %1$d år</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Deaktiver maksimum</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <plurals name="items">
+        <item quantity="one">%1$s emne</item>
+        <item quantity="other">%1$s emner</item>
+    </plurals>
+    <string name="dca">DTS</string>
+    <string name="lbl_home">Hjem</string>
+    <string name="lbl_hide_watched_checkmark">Når der er episoder tilbage</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="pref_screensaver_ageratingmax">Maksimal aldersgrænse</string>
 </resources>

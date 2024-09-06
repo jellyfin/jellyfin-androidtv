@@ -9,15 +9,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.tv.material3.ProvideTextStyle
 
 /**
  * A single item in the [BaseItemInfoRow].
@@ -46,6 +47,7 @@ fun InfoRowItem(
 		value = TextStyle(
 			color = foregroundColor,
 			fontSize = if (backgroundColor.alpha > 0f) 12.sp else 16.sp,
+			fontWeight = if (backgroundColor.alpha > 0f) FontWeight.W600 else FontWeight.W500,
 		)
 	) {
 		Row(

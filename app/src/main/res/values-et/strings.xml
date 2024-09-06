@@ -41,7 +41,7 @@
     <string name="lbl_record_series">Salvesta seeria</string>
     <string name="lbl_cast_crew">Näitlejad ja meeskond</string>
     <string name="lbl_views">Vaatamised</string>
-    <string name="msg_unable_to_cancel">Pole võimalik tühistada salvestamist</string>
+    <string name="msg_unable_to_cancel">Pole võimalik salvestamist tühistada</string>
     <string name="lbl_chapters">Peatükid</string>
     <string name="msg_set_to_record">Programm on seatud salvestama</string>
     <string name="msg_recording_cancelled">Salvestus tühistatud</string>
@@ -57,13 +57,11 @@
     <string name="desc_audio_night_mode">Tasandab helitugevust automaatselt</string>
     <string name="lbl_quality_profile">Kvaliteedi profiil</string>
     <string name="lbl_show_backdrop">Kuva taustadekoratsioonid</string>
-    <string name="lbl_bitstream_dts">DTS heli bitivoog</string>
     <string name="lbl_new">Uus</string>
     <string name="lbl_episode_not_record">Seda saadet EI salvestata</string>
     <string name="lbl_save">Salvesta</string>
     <string name="lbl_sort_by">Järjesta</string>
     <string name="lbl_resume_preroll">Jätka reklaamiga</string>
-    <string name="lbl_subtitle_stroke">Subtiitrite joone suurus</string>
     <string name="lbl_premieres">Esilinastused</string>
     <string name="grid_direction_horizontal">Horisontaalne</string>
     <string name="lbl_upcoming">Tulemas</string>
@@ -110,8 +108,6 @@
     <string name="lbl_series_settings">Saate eelistused</string>
     <string name="lbl_series_recordings">Sarja salvestused</string>
     <string name="lbl_guide_option_number">Kanali number</string>
-    <string name="lbl_subtitle_position">Subtiitrite nihe alt</string>
-    <string name="lbl_audio_delay">Heli viivitus</string>
     <string name="lbl_subtitle_delay">Subtiitrite viivitus</string>
     <string name="lbl_repeat_episodes">Korda episoodid</string>
     <string name="lbl_live_broadcasts">Otsesaated</string>
@@ -119,7 +115,6 @@
     <string name="lbl_start_favorites">Asetage lemmikud algusesse</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_unknown_key">Tundmatu (%1s)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_audio_track_button">Heliriba nupp</string>
     <string name="no_player">Mängija puudub</string>
     <string name="no_player_message">Näib, et teil pole installitud videot toetavat rakendust. See suvand eeldab, et installite videosisu esitamiseks kolmanda osapoole rakenduse.</string>
@@ -129,8 +124,7 @@
     <string name="lbl_kids">Lapsed</string>
     <string name="msg_playback_restricted">Administraator on keelanud selle taasesituse hetkel</string>
     <string name="lbl_never">Mitte kunagi</string>
-    <string name="lbl_tv_queuing">Lisa kõik järgnevad osad järjekorda</string>
-    <string name="sum_tv_queuing">Lisa ülejäänud hooaeg episoodi esitamisel järjekorda</string>
+    <string name="lbl_tv_queuing">Mängi järgmine osa automaatselt</string>
     <string name="lbl_unwatched">Vaatamata</string>
     <string name="lbl_tomorrow">Homme</string>
     <string name="lbl_record_any_time">Salvestage igal ajal</string>
@@ -168,23 +162,18 @@
     <string name="msg_settings_updated">Eelistused uuendatud</string>
     <string name="lbl_tv_channel_status">%1$d / %2$d kanalist</string>
     <string name="episode_missing_message">See episood puudub teie kogust. Kas soovite selle vahele jätta ja jätkata järgmisega\?</string>
-    <string name="lbl_subtitle_fg">Subtiitrite teksti värv</string>
     <string name="pref_next_up_timeout_summary">Kui kaua oodata enne järgmise üksuse esitamist</string>
     <string name="pref_app_theme">Rakenduse teema</string>
     <string name="lbl_Reset">Lähtesta</string>
     <string name="lbl_resume_from">Jätka alates %1$s</string>
     <string name="lbl_song_title">Loo nimi</string>
     <string name="lbl_new_episodes">Uued episoodid</string>
-    <string name="lbl_adjust">Kohandamine</string>
     <string name="lbl_colored_backgrounds">Värvikoodiga taustad</string>
     <string name="pref_theme_dark">Tume (Vaikimisi)</string>
     <string name="pref_theme_emerald">Klassikaline smaragd</string>
     <string name="lbl_image_size">Pildi suurus</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimentaalne)</string>
     <string name="pref_about_title">Teave</string>
-    <string name="pref_video_player_external">Väline äpp</string>
     <string name="watch_now">Vaata nüüd</string>
-    <string name="pref_media_player">Eelistatud meedia mängija</string>
     <string name="pref_next_up_behavior_title">Kuva järgmise video teave</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="msg_live_tv_next">Lae järgmised %1$d tundi\?</string>
@@ -230,7 +219,6 @@
     <string name="lbl_at_any_time">Igal ajal</string>
     <string name="lbl_next_episode">Järgmine episood</string>
     <string name="lbl_new_only">Ainult uus</string>
-    <string name="pref_video_player_choose">Alati küsi</string>
     <string name="pref_button_remapping_description">Selle määramiseks vajutage teleri kaugjuhtimispuldil mis tahes nuppu</string>
     <string name="pref_subtitle_track_button">Subtiitriteriba nupp</string>
     <string name="episode_missing">Episood puudub</string>
@@ -276,7 +264,6 @@
     <string name="lbl_premiere">Esilinastus</string>
     <string name="lbl_tv_filter_status">järgmised %1$d tundi</string>
     <string name="lbl_news">Uudised</string>
-    <string name="pref_libvlc_audio_delay_title">Heli vaikeviivitus LibVLC jaoks</string>
     <string name="pref_device_model">Seadme mudel</string>
     <string name="grid_direction">Ruudustiku suund</string>
     <string name="grid_direction_vertical">Vertikaalne</string>
@@ -384,10 +371,7 @@
     <string name="pref_home_description">Seadistage näidatud jaotised</string>
     <string name="just_one">Vaid see</string>
     <string name="seek_error">Ei õnnestunud otsida</string>
-    <string name="play_with_exo_player">Esita ExoPlayer-iga</string>
-    <string name="play_with_vlc">Mängi LibVLC-ga</string>
     <string name="lbl_sign_in">Palun logi sisse</string>
-    <string name="play_with_external_app">Esita välise rakendusega</string>
     <string name="server_connecting">Ühenduse loomine %1$s</string>
     <string name="lbl_tomatoes">Tomatid</string>
     <string name="login_invalid_credentials">Vale kasutajanimi ja/või parool</string>
@@ -444,7 +428,6 @@
     <string name="lbl_starting_on_schedule_ending_after">Algab ajakava järgi ja lõpeb %1$s pärast ajakava</string>
     <string name="lbl_on_any_channel">Igal kanalil</string>
     <string name="audio_error">Heli %1$s ei saa esitada</string>
-    <string name="play_with">Esita</string>
     <string name="lbl_record_only_new">Salvestab ainult uusi episoode</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="home_section_library">Minu meedia</string>
@@ -478,7 +461,7 @@
     <string name="input_password">Parool</string>
     <string name="pref_telemetry_description">Saatke krahhiaruandeid, kaasake logisid</string>
     <string name="app_notification_beta">Rakendus värskendati versioonile %1$s
-\nTäname, et osalesite Jellyfini beetaprogrammis</string>
+\nTäname, et osalesite Jellyfini beetaprogrammis.</string>
     <string name="select_version">Versioon</string>
     <string name="alphabetical">Tähestikuline</string>
     <string name="always_authenticate_description">Selle funktsiooni lubamine keelab automaatse sisselogimise</string>
@@ -513,4 +496,62 @@
     </plurals>
     <string name="pref_screensaver_inapp_enabled">Kasutage rakendusesisest ekraanisäästjat</string>
     <string name="lbl_runtime">Kestus</string>
+    <string name="lbl_home">Kodu</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="app_notification_update_soon">Uuenda oma serverid %1$s pealt vähemalt %2$s peale, et jätkata rakenduse kasutamist peale järgmist uuendust.</string>
+    <plurals name="items">
+        <item quantity="one">%1$s asi</item>
+        <item quantity="other">%1$s asja</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s laul</item>
+        <item quantity="other">%1$s laulu</item>
+    </plurals>
+    <string name="lbl_subtitle_text_color">Subtiitrite teksti värv</string>
+    <string name="lbl_subtitle_background_color">Subtiitrite tausta värv</string>
+    <string name="lbl_subtitle_text_stroke_color">Subtiitrite piirjoone värv</string>
+    <string name="pref_subtitles_size_very_small">Väga väike</string>
+    <string name="pref_subtitles_size_small">Väike</string>
+    <string name="pref_subtitles_size_normal">Normaalne</string>
+    <string name="pref_subtitles_size_large">Suur</string>
+    <string name="pref_subtitles_size_very_large">Väga suur</string>
+    <string name="indicator_subtitles">CC Subtiitrid</string>
+    <string name="clear_image_cache">Puhasta pildi vahemälu</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Keela maksimaalne</string>
+    <string name="all_channels">Kõik kanalid</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="other">%1$s filmid</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="other">%1$s albumid</item>
+    </plurals>
+    <string name="continue_listening">Jätka kuulamist</string>
+    <string name="pref_external_player">Kasuta välist mängijat</string>
+    <string name="current_queue">Praegune järjekord</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="unreleased">Pole veel välja antud</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="clear_image_cache_content">Kasutatud: %1$s</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Kuvatakse ainult vanusepiiranguga üksused</string>
+    <string name="past_week">Eelmine nädal</string>
+    <string name="scheduled_in_next_24_hours">Plaanitud järgmise 24 tunni jooksul</string>
+    <string name="past_24_hours">Viimased 24 tundi</string>
+    <string name="pref_screensaver_ageratingrequired_title">Nõua vanusepiirangut</string>
+    <string name="person_birthday_and_age">Sündinud %1$s (%2$d)</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="random">Juhuslik</string>
+    <string name="pref_playback_advanced">Täpsemad taasesituse eelistused</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Kuvatakse kõik üksused</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s Telesari</item>
+        <item quantity="other">%1$s Telesarjad</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax_zero">Kõik vanused</string>
+    <string name="pref_screensaver_ageratingmax">Maksimaalne vanusepiirang</string>
+    <string name="pref_screensaver_ageratingmax_entry">Kuni vanusele %1$d</string>
 </resources>

@@ -100,7 +100,6 @@
     <string name="lbl_repeat_episodes">Repetă episoadele</string>
     <string name="lbl_premieres">Premiere</string>
     <string name="lbl_new_episodes">Episoade noi</string>
-    <string name="lbl_audio_delay">Decalaj audio</string>
     <string name="lbl_new_only">Doar recente</string>
     <string name="lbl_news">Știri</string>
     <string name="lbl_song_title">Titlul melodiei</string>
@@ -135,7 +134,6 @@
     <string name="lbl_just_this_once">Doar de data aceasta</string>
     <string name="lbl_select_date">Selectați data</string>
     <string name="lbl_in_x_days">În %d zile</string>
-    <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="desc_premieres">Afișează un rând de episoade pilot noi pentru orice serie vizionată</string>
     <string name="lbl_show_premieres">Arată premierele de sezon</string>
     <string name="lbl_refresh_switching">Schimbă rata de refresh</string>
@@ -202,7 +200,6 @@
     <string name="lbl_mark_unplayed">Marchează ca nevizionat</string>
     <string name="lbl_play_first_unwatched">Redă primul nevizionat</string>
     <string name="lbl_search_hint">Căutați text (selectați pentru tastatură)</string>
-    <string name="sum_tv_queuing">Adăugați restul sezonului la coadă când redați un episod</string>
     <string name="lbl_tv_queuing">Introduceți toate episoadele ulterioare în coadă</string>
     <string name="lbl_empty">Gol</string>
     <string name="lbl_no_items">Fără articole</string>
@@ -221,13 +218,8 @@
     <string name="lbl_no">Nu</string>
     <string name="lbl_play_trailers">Rulează Trailer(e)</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_video_player_external">Aplicație externă</string>
-    <string name="pref_video_player_vlc">LibVLC (nivel experimental)</string>
-    <string name="pref_video_player_exoplayer">Exo Player</string>
     <string name="lbl_my_media">Fișierele mele media</string>
-    <string name="pref_media_player">Media Player preferat</string>
     <string name="pref_about_title">Despre</string>
-    <string name="pref_libvlc_audio_delay_title">Întârziere audio implicită pentru LibVLC</string>
     <string name="watch_now">Vizionează acum</string>
     <string name="pref_next_up_timeout_title">Durata mesajului: Urmează</string>
     <string name="pref_next_up_timeout_summary">Cât timp să aștepți înainte de a reda următorul articol</string>
@@ -260,7 +252,6 @@
     <string name="no_player">Fără aplicație de redare</string>
     <string name="mark_watched_message">Elementul nu pare să fi redat atât timp cât are durata. Marcați ca urmărit\?</string>
     <string name="mark_watched">Marcați ca văzut</string>
-    <string name="pref_video_player_choose">Întreabă mereu</string>
     <string name="lbl_tv_filter_status">pentru următoarele %1$d ore</string>
     <string name="lbl_tv_channel_status">%1$d din %2$d canale</string>
     <string name="lbl_subtitle_track">Selectează pista subtitrare</string>
@@ -270,10 +261,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Se termină la %1$s</string>
     <string name="lbl_sign_in">Vă rugăm, autentificați-vă</string>
-    <string name="play_with">Redă cu</string>
-    <string name="play_with_external_app">Rulează cu o aplicație externă</string>
-    <string name="play_with_exo_player">Ruleaza cu ExoPlayer</string>
-    <string name="play_with_vlc">Rulează cu LibVLC</string>
     <string name="just_one">Doar pe aceasta</string>
     <string name="turn_off">Dezactivați această opțiune</string>
     <string name="login_username_field_empty">Numele de utilizator nu poate fi vid</string>
@@ -461,8 +448,6 @@
     <string name="server_setup_incomplete">Configurarea serverului nu a fost finalizată. Deschide Jellyfin într-un browser web pentru a finaliza configurarea înainte de a te conecta.</string>
     <string name="item_deleted">%1$s a fost șters</string>
     <string name="episode_name_special">special</string>
-    <string name="lbl_subtitle_fg">Culoarea subtitrărilor</string>
-    <string name="lbl_subtitle_position">Decalarea subtitrării de jos</string>
     <string name="image_size_smallest">Cel mai mic</string>
     <string name="action_login">Conectare</string>
     <string name="pref_enable_media_management_description">Arată opțiunile pentru a administra media în timp ce navigați</string>
@@ -499,7 +484,6 @@
     </plurals>
     <string name="image_size_xlarge">Extra-Mare</string>
     <string name="lbl_subtitle_delay">Întârzierea subtitrării</string>
-    <string name="lbl_adjust">Reglează</string>
     <string name="home_section_resume_book">Continuați să citiți</string>
     <string name="pref_screensaver_inapp_enabled">Folosește screensaver-ul din aplicație</string>
     <plurals name="minutes">
@@ -508,7 +492,6 @@
         <item quantity="other">%1$s de minute</item>
     </plurals>
     <string name="desc_audio_night_mode">Egalează automat volumul audio</string>
-    <string name="lbl_subtitle_stroke">Dimensiunea liniilor de subtitrare</string>
     <string name="not_set">Nu este setat</string>
     <string name="lbl_album_artists">Album artisti</string>
     <string name="disable_ui_mode_warning">Dezactivare avertizare tip dispozitiv</string>

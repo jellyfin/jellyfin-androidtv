@@ -22,6 +22,7 @@ import org.jellyfin.sdk.api.client.extensions.brandingApi
 import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
+import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.BrandingOptions
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
@@ -47,6 +48,8 @@ interface ServerRepository {
 	companion object {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
 		val recommendedServerVersion = Jellyfin.apiVersion.copy(build = null)
+
+		val upcomingMinimumServerVersion = ServerVersion(10, 9, 0)
 	}
 }
 
@@ -92,7 +95,7 @@ class ServerRepositoryImpl(
 
 		val goodRecommendations = mutableListOf<RecommendedServerInfo>()
 		val badRecommendations = mutableListOf<RecommendedServerInfo>()
-		val greatRecommendaton = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
+		val greatRecommendation = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
 			when (recommendedServer.score) {
 				RecommendedServerInfoScore.GREAT -> true
 				RecommendedServerInfoScore.GOOD -> {
@@ -108,7 +111,7 @@ class ServerRepositoryImpl(
 
 		Timber.d(buildString {
 			append("Recommendations: ")
-			if (greatRecommendaton == null) append(0)
+			if (greatRecommendation == null) append(0)
 			else append(1)
 			append(" great, ")
 			append(goodRecommendations.size)
@@ -117,7 +120,7 @@ class ServerRepositoryImpl(
 			append(" bad")
 		})
 
-		val chosenRecommendation = greatRecommendaton ?: goodRecommendations.firstOrNull()
+		val chosenRecommendation = greatRecommendation ?: goodRecommendations.firstOrNull()
 		if (chosenRecommendation != null && chosenRecommendation.systemInfo.isSuccess) {
 			// Get system info
 			val systemInfo = chosenRecommendation.systemInfo.getOrThrow()

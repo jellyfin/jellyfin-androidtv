@@ -16,23 +16,22 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
 
 public class GuideChannelHeader extends RelativeLayout {
     private AsyncImageView mChannelImage;
     private ImageView mFavImage;
-    private ChannelInfoDto mChannel;
+    private BaseItemDto mChannel;
     private Context mContext;
     private LiveTvGuide mTvGuide;
 
-    public GuideChannelHeader(Context context, LiveTvGuide tvGuide, ChannelInfoDto channel) {
+    public GuideChannelHeader(Context context, LiveTvGuide tvGuide, BaseItemDto channel) {
         super(context);
         initComponent(context, tvGuide, channel);
     }
 
-    private void initComponent(Context context, LiveTvGuide tvGuide, ChannelInfoDto channel) {
+    private void initComponent(Context context, LiveTvGuide tvGuide, BaseItemDto channel) {
         mContext = context;
         mChannel = channel;
         mTvGuide = tvGuide;
@@ -50,14 +49,14 @@ public class GuideChannelHeader extends RelativeLayout {
         mChannelImage = findViewById(R.id.channelImage);
         mFavImage = findViewById(R.id.favImage);
 
-        if (mChannel.getUserData() != null && mChannel.getUserData().getIsFavorite())
+        if (mChannel.getUserData() != null && mChannel.getUserData().isFavorite())
             mFavImage.setVisibility(View.VISIBLE);
     }
 
     public void loadImage() {
         ImageHelper imageHelper = KoinJavaComponent.<ImageHelper>get(ImageHelper.class);
         mChannelImage.load(
-                imageHelper.getPrimaryImageUrl(ModelCompat.asSdk(mChannel),null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT),
+                imageHelper.getPrimaryImageUrl(mChannel,null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT),
                 null,
                 null,
                 0.0,
@@ -65,10 +64,11 @@ public class GuideChannelHeader extends RelativeLayout {
         );
     }
 
-    public ChannelInfoDto getChannel() { return mChannel; }
+    public BaseItemDto getChannel() { return mChannel; }
+    public void setChannel(BaseItemDto channel) { mChannel = channel; }
 
     public void refreshFavorite() {
-        if (mChannel.getUserData() != null && mChannel.getUserData().getIsFavorite())
+        if (mChannel.getUserData() != null && mChannel.getUserData().isFavorite())
             mFavImage.setVisibility(View.VISIBLE);
         else
             mFavImage.setVisibility(View.GONE);
@@ -86,5 +86,4 @@ public class GuideChannelHeader extends RelativeLayout {
             setBackground(ContextCompat.getDrawable(mContext, R.drawable.light_border));
         }
     }
-
 }

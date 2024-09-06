@@ -10,27 +10,21 @@ import androidx.lifecycle.LifecycleOwner;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
-import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.entities.SortOrder;
-import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.MediaType;
 import org.jellyfin.sdk.model.api.UserItemDataDto;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -59,7 +53,6 @@ public class KeyProcessor {
     private final Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
     private final Lazy<ItemMutationRepository> itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>inject(ItemMutationRepository.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = KoinJavaComponent.<CustomMessageRepository>inject(CustomMessageRepository.class);
-    private final Lazy<ApiClient> apiClient = KoinJavaComponent.<ApiClient>inject(ApiClient.class);
     private final Lazy<PlaybackHelper> playbackHelper = KoinJavaComponent.<PlaybackHelper>inject(PlaybackHelper.class);
 
     public boolean handleKey(int key, BaseRowItem rowItem, FragmentActivity activity) {
@@ -68,7 +61,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
+                if (mediaManager.getValue().isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItem().getType() != BaseItemKind.PHOTO)) {
                     // Rewrite uses media sessions which the system automatically manipulates on key presses
                     return false;
                 }
@@ -80,7 +73,7 @@ public class KeyProcessor {
                         if (!BaseItemExtensionsKt.canPlay(item)) return false;
                         switch (item.getType()) {
                             case AUDIO:
-                                if (rowItem instanceof AudioQueueItem) {
+                                if (rowItem instanceof AudioQueueBaseRowItem) {
                                     createItemMenu(rowItem, item.getUserData(), activity);
                                     return true;
                                 }
@@ -123,7 +116,7 @@ public class KeyProcessor {
                     case LiveTvChannel:
                     case LiveTvRecording:
                         // retrieve full item and play
-                        playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(rowItem.getItemId()), false, activity);
+                        playbackHelper.getValue().retrieveAndPlay(rowItem.getItemId(), false, activity);
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
@@ -187,7 +180,7 @@ public class KeyProcessor {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
-        if (rowItem instanceof AudioQueueItem) {
+        if (rowItem instanceof AudioQueueBaseRowItem) {
             if (rowItem.getBaseItem() != mediaManager.getValue().getCurrentAudioItem())
                 menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
             menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
@@ -260,7 +253,7 @@ public class KeyProcessor {
             }
         }
 
-        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, rowItem.getBaseItem(), rowItem.getIndex()));
+        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, rowItem.getBaseItem()));
         menu.show();
         return menu;
     }
@@ -277,19 +270,17 @@ public class KeyProcessor {
             menu.getMenu().add(0, MENU_ADD_QUEUE, order, R.string.lbl_add_to_queue);
         }
 
-        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, item, -1));
+        menu.setOnMenuItemClickListener(new KeyProcessorItemMenuClickListener(activity, item));
         menu.show();
     }
 
     private class KeyProcessorItemMenuClickListener implements PopupMenu.OnMenuItemClickListener {
         private BaseItemDto item;
         private FragmentActivity activity;
-        private int rowIndex;
 
-        private KeyProcessorItemMenuClickListener(FragmentActivity activity, BaseItemDto item, int rowIndex) {
+        private KeyProcessorItemMenuClickListener(FragmentActivity activity, BaseItemDto item) {
             this.item = item;
             this.activity = activity;
-            this.rowIndex = rowIndex;
         }
 
         @Override
@@ -315,32 +306,7 @@ public class KeyProcessor {
                     });
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
-                    StdItemQuery query = new StdItemQuery();
-                    query.setParentId(item.getId().toString());
-                    query.setRecursive(true);
-                    query.setIsVirtualUnaired(false);
-                    query.setIsMissing(false);
-                    query.setSortBy(new String[]{ItemSortBy.SORT_NAME.getSerialName()});
-                    query.setSortOrder(SortOrder.Ascending);
-                    query.setLimit(1);
-                    query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
-                    query.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                    apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
-                        @Override
-                        public void onResponse(ItemsResult response) {
-                            if (response.getTotalRecordCount() == 0) {
-                                Utils.showToast(activity, R.string.msg_no_items);
-                            } else {
-                                playbackHelper.getValue().retrieveAndPlay(UUIDSerializerKt.toUUID(response.getItems()[0].getId()), false, activity);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            Timber.e(exception, "Error trying to play first unwatched");
-                            Utils.showToast(activity, R.string.msg_video_playback_error);
-                        }
-                    });
+                    KeyProcessorHelperKt.playFirstUnwatchedItem(activity, item.getId());
                     return true;
                 case MENU_MARK_FAVORITE:
                     toggleFavorite(activity, item.getId(), true);
@@ -361,10 +327,10 @@ public class KeyProcessor {
                     mediaManager.getValue().shuffleAudioQueue();
                     return true;
                 case MENU_REMOVE_FROM_QUEUE:
-                    mediaManager.getValue().removeFromAudioQueue(rowIndex);
+                    mediaManager.getValue().removeFromAudioQueue(item);
                     return true;
                 case MENU_ADVANCE_QUEUE:
-                    mediaManager.getValue().playFrom(rowIndex);
+                    mediaManager.getValue().playFrom(item);
                     return true;
                 case MENU_CLEAR_QUEUE:
                     mediaManager.getValue().clearAudioQueue();

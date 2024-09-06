@@ -78,10 +78,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
-    <string name="play_with">Reproducir con</string>
-    <string name="play_with_external_app">Reproducir con aplicación externa</string>
-    <string name="play_with_exo_player">Reporoducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se pudo reproducir audio %1$s</string>
@@ -112,16 +108,10 @@
     <string name="grid_direction">Dirección de la cuadrícula</string>
     <string name="pref_device_model">Modelo del dispositivo</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
-    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para LibVLC</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
-    <string name="pref_media_player">Reproductor multimedia preferido</string>
     <string name="pref_about_title">Acerca de</string>
-    <string name="pref_video_player_choose">Preguntar siempre</string>
-    <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Esmeralda clásico</string>
     <string name="pref_theme_dark">Obscuro (Por defecto)</string>
     <string name="lbl_my_media">Mi contenido</string>
@@ -134,7 +124,6 @@
     <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="lbl_premieres">Estrenos</string>
     <string name="lbl_new_episodes">Nuevos episodios</string>
-    <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_new_only">Solo nuevo</string>
     <string name="lbl_news">Noticias</string>
     <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
@@ -171,7 +160,6 @@
     <string name="lbl_just_this_once">Solo esta vez</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="lbl_in_x_days">En %d días</string>
-    <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="lbl_refresh_switching">Cambio de tasa de refresco</string>
@@ -259,7 +247,6 @@
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir el primero no visto</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
-    <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_tv_queuing">Poner en cola todos los episodios subsiguientes</string>
     <string name="lbl_no_items">No hay elementos</string>
     <string name="msg_cannot_play">Este elemento no pude ser reproducido</string>
@@ -430,9 +417,6 @@
     <string name="input_password">Contraseña</string>
     <string name="action_use_quickconnect">Usar conexión rápida “Quick Connect”</string>
     <string name="action_use_password">Usar una contraseña</string>
-    <string name="lbl_subtitle_fg">Color de los subtitulos</string>
-    <string name="lbl_subtitle_position">Desplazamiento inferior de los subtitulos</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="color_black">Negro</string>
     <string name="image_type_poster">Poster</string>
     <string name="image_size_smallest">Más pequeño</string>
@@ -488,7 +472,6 @@
     <string name="pref_crash_report_logs">Incluir registros</string>
     <string name="pref_crash_report_logs_disabled">Los registros no se incluirán en los informes de fallos</string>
     <string name="login_quickconnect_step_3">3. Ingresá el siguiente código:</string>
-    <string name="lbl_subtitle_stroke">Tamaño de trazo del subtítulo</string>
     <string name="pref_refresh_rate_scale_on_device">Escala en el dispositivo</string>
     <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
     <string name="server_setup_incomplete">El servidor no se ha configurado aún. Abrí Jellyfin en un navegador web para terminar la configuración antes de iniciar sesión.</string>

@@ -51,8 +51,7 @@
     <string name="lbl_mark_unplayed">علمها كغير مشغلة</string>
     <string name="lbl_play_first_unwatched">شغّل أول ما لم تتم مشاهدته</string>
     <string name="lbl_search_hint">البحث بنص (اختر للوحة المفاتيح)</string>
-    <string name="sum_tv_queuing">أضف باقي الموسم إلى الدور عند تشغيل أي حلقة</string>
-    <string name="lbl_tv_queuing">أضف كل الحلقات التالية إلى الدور</string>
+    <string name="lbl_tv_queuing">تشغيل الحلقة التالية تلقائيًا</string>
     <string name="lbl_empty">فارغ</string>
     <string name="lbl_no_items">لا توجد عناصر</string>
     <string name="msg_cannot_play">لا يمكن تشغيل هذا العنصر</string>
@@ -78,7 +77,7 @@
     <string name="lbl_directed_by">إخراج</string>
     <string name="lbl_ends">ينتهي في</string>
     <string name="lbl_min">" دقيقة"</string>
-    <string name="lbl_runs">مدة العرض</string>
+    <string name="lbl_runs">مرات العرض</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">شُوهد</string>
     <string name="lbl_favorite">المفضلة</string>
@@ -122,7 +121,7 @@
     <string name="lbl_next_up">الحلقة التالية</string>
     <string name="lbl_continue_watching">استئناف المشاهدة</string>
     <string name="lbl_settings">الإعدادات</string>
-    <string name="chapters">الأجزاء</string>
+    <string name="chapters">الفصول</string>
     <string name="settings_title">الإعدادات</string>
     <string name="pref_max_bitrate_title">أقصى معدل بت التدفق</string>
     <string name="pref_playback">التشغيل</string>
@@ -163,15 +162,11 @@
     <string name="grid_direction_horizontal">أفقي</string>
     <string name="pref_device_model">اصدار الجهاز</string>
     <string name="pref_app_theme">مظهر التطبيق</string>
-    <string name="pref_libvlc_audio_delay_title">تأخير الصوت الافتراضي لـ LibVLC</string>
     <string name="pref_next_up_behavior_title">إظهار معلومات الفيديو التالي</string>
     <string name="watch_now">شاهد الآن</string>
     <string name="pref_next_up_timeout_title">كم من الوقت لتشغيل التالي</string>
     <string name="pref_next_up_timeout_summary">كم من الوقت تنتظر قبل تشغيل العنصر التالي</string>
-    <string name="pref_media_player">مشغل الوسائط المفضل</string>
     <string name="pref_about_title">حول</string>
-    <string name="pref_video_player_choose">إسأل دائما</string>
-    <string name="pref_video_player_external">تطبيق خارجي</string>
     <string name="pref_theme_dark">الداكن (الافتراضي)</string>
     <string name="pref_theme_emerald">الزمرد الكلاسيكي</string>
     <string name="lbl_my_media">الوسائط الخاصة بي</string>
@@ -183,7 +178,6 @@
     <string name="lbl_repeat_episodes">تكرار الحلقات</string>
     <string name="lbl_premieres">العرض الأول</string>
     <string name="lbl_new_episodes">الحلقات الجديدة</string>
-    <string name="lbl_audio_delay">تأخير الصوت</string>
     <string name="lbl_new_only">الجديد فقط</string>
     <string name="lbl_news">أخبار</string>
     <string name="lbl_tv_filter_status">ل %1$d الساعات القادمة</string>
@@ -325,10 +319,6 @@
     <string name="lbl_stars">نجوم</string>
     <string name="lbl_playback_control_ends">ينتهي عند %1$s</string>
     <string name="lbl_sign_in">من فضلك، سجيل الدخول</string>
-    <string name="play_with">تشغيل بواسطة</string>
-    <string name="play_with_external_app">تشغيل بواسطة برنامج خارجي</string>
-    <string name="play_with_exo_player">تشغيل بواسطة ExoPlayer</string>
-    <string name="play_with_vlc">تشغيل بواسطة LibVLC</string>
     <string name="just_one">لهاته المرة فقط</string>
     <string name="turn_off">تعطيل هاته الخاصية</string>
     <string name="lbl_colored_backgrounds">خلفيات ملونة</string>
@@ -347,12 +337,9 @@
     <string name="bitrate_mbit">%1$,.0f ميݠابت في الثانية</string>
     <string name="grid_direction_vertical">عمودي</string>
     <string name="grid_direction">اتجاه الشبكة</string>
-    <string name="pref_video_player_vlc">مشغل LibVLC (تجريبي)</string>
-    <string name="pref_video_player_exoplayer">مشغل ExoPlayer</string>
     <string name="lbl_premiere">العرض الأول</string>
     <string name="lbl_live">مباشر</string>
     <string name="lbl_sports">الرياضة</string>
-    <string name="lbl_bitstream_dts">صوت Bitstream DTS</string>
     <string name="lbl_albums">ألبومات</string>
     <string name="msg_error_live_stream">خطأ في بث البث التلفزيوني المباشر. سأعيد المحاولة …</string>
     <string name="pref_live_tv_cat">بث تلفزيوني مباشر</string>
@@ -440,10 +427,6 @@
     <string name="lbl_shuffle_queue">تبديل عشوائي</string>
     <string name="desc_audio_night_mode">تعيين مستوى الصوت تلقائيا</string>
     <string name="lbl_quality_profile">ملف تعريف الجودة</string>
-    <string name="lbl_subtitle_fg">لون الترجمة</string>
-    <string name="lbl_subtitle_stroke">حجم الترجمة</string>
-    <string name="lbl_subtitle_position">موضع الترجمة من الأسفل</string>
-    <string name="lbl_adjust">التعديل</string>
     <string name="lbl_subtitle_delay">تأخير الترجمة</string>
     <string name="image_type_poster">‎الملصق</string>
     <string name="image_size_smallest">أصغر</string>
@@ -465,8 +448,8 @@
     <string name="pref_crash_report_logs_enabled">سترسل المستندات في تقارير الأخطاء</string>
     <string name="crash_report_toast">ويحي! حدث خطأ ما، لقد أرسل تقرير عن الخطأ إلى خادمك.</string>
     <string name="server_setup_incomplete">لم تكتمل إعدادات هذا الخادم؛ افتح Jellyfin في المتصفح لإنهاءها.</string>
-    <string name="app_notification_beta">حُدث التطبيق إلى إصدار: %1$s
-\nجزيل الشكر على مشاركتك في الإصدار التجريبي لـ Jellyfin</string>
+    <string name="app_notification_beta">تم تحديث التطبيق إلى إصدار: %1$s
+\nشكرًا جزيلًا على مشاركتك في الإصدار التجريبي لـJellyfin</string>
     <string name="input_password">كلمة المرور</string>
     <string name="input_username">اسم المستخدم</string>
     <string name="episode_name_special">خاص</string>
@@ -532,4 +515,31 @@
     <string name="channels">القنوات</string>
     <string name="photo_albums">ألبومات الصور</string>
     <string name="photos">الصور</string>
+    <string name="all_channels">جميع القنوات</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">يتم عرض جميع العناصر</string>
+    <string name="lbl_runtime">مدة العرض</string>
+    <string name="app_notification_update_soon">حدّث الخادم من %1$s إلى %2$s على الأقل لتستمر بإستخدام التطبيق بعد التحديث القادم.</string>
+    <string name="pref_external_player">إستخدم مشغّل خارجي</string>
+    <string name="unreleased">لم يعرض بعد</string>
+    <string name="lbl_home">الرئيسية</string>
+    <string name="indicator_subtitles">تعليقات توضيحية</string>
+    <string name="dolby_vision">دولبي فيجن</string>
+    <string name="dolby_atmos">دولبي أتموس</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="person_birthday_and_age">تاريخ الميلاد %1$s (%2$d سنة)</string>
+    <string name="current_queue">قائمة الانتظار الحالية</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="random">عشوائي</string>
+    <string name="pref_playback_advanced">إعدادات التشغيل المتقدمة</string>
+    <string name="clear_image_cache_content">المستخدم: %1$s</string>
+    <string name="clear_image_cache">إخلاء ذاكرة الصور المؤقتة</string>
+    <string name="pref_screensaver_ageratingmax">التصنيف العمري</string>
+    <string name="pref_screensaver_ageratingmax_zero">جميع الأعمار</string>
+    <string name="pref_screensaver_ageratingmax_entry">إلى عمر %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">إلغاء حدّ التصنيف العمري</string>
+    <string name="pref_screensaver_ageratingrequired_title">يتطلب تصنيف عمري</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">يتم عرض العناصر ذات تصنيف عمري فقط</string>
 </resources>

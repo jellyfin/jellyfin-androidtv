@@ -60,19 +60,12 @@ interface NavigationRepository {
 }
 
 class NavigationRepositoryImpl(
-	private val initialDestination: Destination.Fragment,
+	private val defaultDestination: Destination.Fragment,
 ) : NavigationRepository {
 	private val fragmentHistory = Stack<Destination.Fragment>()
 
 	private val _currentAction = MutableSharedFlow<NavigationAction>(1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 	override val currentAction = _currentAction.asSharedFlow()
-
-	init {
-		// Never add the initial destination to the history to prevent an empty screen when the user
-		// uses the "back" button to close the app
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false, false, false))
-		Timber.d("Navigating to $initialDestination (via init)")
-	}
 
 	override fun navigate(destination: Destination, replace: Boolean) {
 		Timber.d("Navigating to $destination (via navigate function)")
@@ -83,11 +76,11 @@ class NavigationRepositoryImpl(
 				_currentAction.tryEmit(NavigationAction.Nothing)
 			}
 		}
-		_currentAction.tryEmit(action)
 		if (destination is Destination.Fragment) {
 			if (replace && fragmentHistory.isNotEmpty()) fragmentHistory[fragmentHistory.lastIndex] = destination
 			else fragmentHistory.push(destination)
 		}
+		_currentAction.tryEmit(action)
 	}
 
 	override val canGoBack: Boolean get() = fragmentHistory.isNotEmpty()
@@ -103,8 +96,8 @@ class NavigationRepositoryImpl(
 
 	override fun reset(destination: Destination.Fragment?, clearHistory: Boolean) {
 		fragmentHistory.clear()
-		val actualDestination = destination ?: initialDestination
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false, false, clearHistory))
+		val actualDestination = destination ?: defaultDestination
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, true, false, clearHistory))
 		Timber.d("Navigating to $actualDestination (via reset, clearHistory=$clearHistory)")
 	}
 }

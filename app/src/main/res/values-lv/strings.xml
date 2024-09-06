@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pref_libvlc_audio_delay_title">Noklusējuma audio aizkave priekš libVLC</string>
     <string name="watch_now">Skatīties tagad</string>
     <string name="pref_next_up_timeout_title">Nākamais taimera ilgums</string>
     <string name="pref_next_up_timeout_summary">Cik ilgi gaidīt pirms nākamā vienuma atskaņošanas</string>
-    <string name="pref_media_player">Ieteiktais atskaņotājs</string>
     <string name="pref_about_title">Par</string>
-    <string name="pref_video_player_external">Ārēja lietotne</string>
-    <string name="pref_video_player_vlc">libVLC</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Mana Multvide</string>
     <string name="lbl_image_size">Attēla Lielums</string>
     <string name="lbl_image_type">Attēla Veids</string>
@@ -107,7 +102,6 @@
     <string name="lbl_mark_unplayed">Atzīmēt Neskatītu</string>
     <string name="lbl_play_first_unwatched">Atskaņot Pirmo Neskatīto</string>
     <string name="lbl_search_hint">Meklēt tekstu (izvēlies priekš klaviatūras)</string>
-    <string name="sum_tv_queuing">Pievienot pārējo sezonu rindai, kad atskaņo epizodi</string>
     <string name="lbl_empty">Tukšs</string>
     <string name="lbl_no_items">Nav Vienumu</string>
     <string name="msg_cannot_play">Šo vienumu nevar atskaņot</string>
@@ -191,7 +185,6 @@
     <string name="lbl_tv_queuing">Ierindot visas Nākamās Epizodes</string>
     <string name="lbl_tune_to_channel">Pāriet uz Kanālu</string>
     <string name="lbl_start_favorites">Novietot Favorītus Sākumā</string>
-    <string name="lbl_audio_delay">Audio Aizkave</string>
     <string name="lbl_on_schedule">Pēc Grafika</string>
     <string name="lbl_episode_not_record">Šī pārraide NETIKS ierakstīta</string>
     <string name="lbl_schedule">Grafiks</string>
@@ -216,7 +209,6 @@
     <string name="msg_set_to_record">Programma uzstādīta ierakstīšanai</string>
     <string name="lbl_play">Atskaņot</string>
     <string name="lbl_other_channels">Citi Kanāli</string>
-    <string name="lbl_bitstream_dts">Bit-straumēt DTS Audio</string>
     <string name="lbl_instant_mix">Tiešā Jaukšana</string>
     <string name="lbl_upcoming">Gaidāmā</string>
     <string name="lbl_cast_crew">Lomas/Apkalpe</string>

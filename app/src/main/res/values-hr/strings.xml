@@ -127,7 +127,6 @@
     <string name="lbl_mark_unplayed">Označi da nije izvedeno</string>
     <string name="lbl_play_first_unwatched">Izvedi prvo negledane</string>
     <string name="lbl_search_hint">Traži tekst (tipka izaberi za tipkovnicu)</string>
-    <string name="sum_tv_queuing">Za vrijeme reprodukcije dodaj ostatak sezone u red</string>
     <string name="lbl_tv_queuing">Stavi u red sve sljedeće epizode</string>
     <string name="lbl_empty">Prazno</string>
     <string name="lbl_no_items">Nema stavki</string>
@@ -152,10 +151,6 @@
     <string name="lbl_stars">Zvijezde</string>
     <string name="lbl_playback_control_ends">Završava u %1$s</string>
     <string name="lbl_sign_in">Prijavi se</string>
-    <string name="play_with">Reproduciraj sa</string>
-    <string name="play_with_external_app">Reproduciraj sa vanjskom aplikacijom</string>
-    <string name="play_with_exo_player">Reproduciraj sa ExoPlayer</string>
-    <string name="play_with_vlc">Reproduciraj sa LibVLC</string>
     <string name="just_one">Samo ovu</string>
     <string name="turn_off">Ugasi ovu postavku</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>
@@ -184,14 +179,10 @@
     <string name="grid_direction">Detekcija mreže</string>
     <string name="pref_device_model">Model uređaja</string>
     <string name="pref_app_theme">Tema aplikacije</string>
-    <string name="pref_libvlc_audio_delay_title">Zadano kašnjenje zvuka za LibVLC</string>
     <string name="watch_now">Gledaj sada</string>
     <string name="pref_next_up_timeout_title">Trajanje brojača do reprodukcije iduće stavke</string>
     <string name="pref_next_up_timeout_summary">Koliko čekati prije reprodukcije iduće stavke</string>
-    <string name="pref_media_player">Preferirani media player</string>
     <string name="pref_about_title">O</string>
-    <string name="pref_video_player_choose">Uvijek pitaj</string>
-    <string name="pref_video_player_external">Vanjska aplikacija</string>
     <string name="pref_theme_emerald">Klasični Smaragd</string>
     <string name="pref_theme_dark">Tamno (Zadano)</string>
     <string name="lbl_my_media">Moji mediji</string>
@@ -204,7 +195,6 @@
     <string name="lbl_repeat_episodes">Reprize</string>
     <string name="lbl_premieres">Premijere</string>
     <string name="lbl_new_episodes">Nove epizode</string>
-    <string name="lbl_audio_delay">Kašnjenje zvuka</string>
     <string name="lbl_new_only">Samo novo</string>
     <string name="lbl_news">Vijesti</string>
     <string name="lbl_tv_filter_status">za idućih %1$d sati</string>
@@ -241,7 +231,6 @@
     <string name="lbl_just_this_once">Samo ovaj put</string>
     <string name="lbl_select_date">Odaberi datum</string>
     <string name="lbl_in_x_days">Za %d dana</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS zvuk</string>
     <string name="desc_premieres">Prikaži red novih pilot epizoda serija koje gledate</string>
     <string name="lbl_show_premieres">Prikaži premijere sezone</string>
     <string name="lbl_show_backdrop">Prikaži pozadine</string>
@@ -360,11 +349,8 @@
     <string name="auto_sign_in">Automatska prijava</string>
     <string name="pref_show_backdrop_description">Promijeni pozadinsku sliku u označene stavke</string>
     <string name="lbl_playback_speed">Brzina reprodukcije</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_audio_night_mode">Nočni način zvuka (eksperimentalno)</string>
     <string name="desc_audio_night_mode">Izjednači glasnoću zvuka automatski</string>
-    <string name="lbl_subtitle_fg">Boja podnatpisa</string>
-    <string name="lbl_adjust">Prilagodi</string>
     <string name="select_version">Verzija</string>
     <string name="licenses_link_description">Provjeri license biblioteka korištenih od strane Jellyfin aplikacije</string>
     <string name="license_description">Opis</string>
@@ -420,7 +406,6 @@
     <string name="live_tv_preferences">Live TV mogućnosti</string>
     <string name="home_sections">Dijelovi početne stranice</string>
     <string name="pref_subtitles_background_title">Omogući pozadinu</string>
-    <string name="pref_video_player_vlc">Lib VLC</string>
     <string name="image_type_thumbnail">Sličica</string>
     <string name="lbl_additional_parts">Dodatni dijelovi</string>
     <string name="home_section_livetv">Live-TV</string>
@@ -443,8 +428,6 @@
     <string name="pref_crash_reports">Pošalji prijavu na server</string>
     <string name="pref_crash_report_logs_enabled">Zapisi će biti uključeni u prijavi greške</string>
     <string name="login_quickconnect_step_3">3. Unesite sljedeći kod:</string>
-    <string name="lbl_subtitle_stroke">Veličina obruba podnatpisa</string>
-    <string name="lbl_subtitle_position">Razmak podnatpisa od dna</string>
     <string name="server_connection_failed_candidates">Nije moguće spojiti se na server, probano sa sljedećim adresama: %1$s</string>
     <string name="color_blue">Plavo</string>
     <string name="pref_login">Prijavi se</string>

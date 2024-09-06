@@ -77,8 +77,7 @@
     <string name="msg_cannot_play">Tuto položku nelze přehrávat</string>
     <string name="lbl_no_items">Žádné položky</string>
     <string name="lbl_empty">prázdný</string>
-    <string name="lbl_tv_queuing">Všechny následující díly do fronty</string>
-    <string name="sum_tv_queuing">Přidejte zbytek sezony do fronty přehrávání při přehrávání epizody</string>
+    <string name="lbl_tv_queuing">Přehrát následující epizody automaticky</string>
     <string name="lbl_search_hint">Hledaný text (vyberte pro klávesnici)</string>
     <string name="lbl_play_first_unwatched">Přehrát první neshlédnuté</string>
     <string name="lbl_mark_unplayed">Označit jako nepřehrané</string>
@@ -129,7 +128,7 @@
     <string name="lbl_no_recordings">Žádné nahrávky</string>
     <string name="lbl_live_tv_guide">Programový průvodce</string>
     <string name="lbl_recorded_tv">Nahrané pořady</string>
-    <string name="pref_live_tv_cat">Živý přenos</string>
+    <string name="pref_live_tv_cat">TV vysílání</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>
     <string name="lbl_artists">Úmělci</string>
@@ -152,7 +151,6 @@
     <string name="msg_item_added">" položka přidána"</string>
     <string name="lbl_instant_mix">Rychlý mix</string>
     <string name="lbl_in_x_days">Za %d dní</string>
-    <string name="lbl_bitstream_dts">Zvuk DTS jako bitový tok</string>
     <string name="desc_premieres">Zobrazit řadu nových úvodních epizod pro každý seriál, který sledujete</string>
     <string name="lbl_show_premieres">Zobrazit premiéry sezóny</string>
     <string name="lbl_refresh_switching">Přepínání obnovovacích frekvencí</string>
@@ -216,21 +214,15 @@
     <string name="lbl_repeat_episodes">Opakovat epizody</string>
     <string name="lbl_premieres">Premiéry</string>
     <string name="lbl_new_episodes">Nové epizody</string>
-    <string name="lbl_audio_delay">Zpoždění zvuku</string>
     <string name="lbl_new_only">Pouze nové</string>
     <string name="lbl_news">Novinky</string>
     <string name="lbl_colored_backgrounds">Barevné pozadí</string>
     <string name="lbl_live_broadcasts">Živá vysílání</string>
-    <string name="pref_video_player_external">Externí aplikace</string>
-    <string name="pref_video_player_vlc">LibVLC (experimentální)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Moje média</string>
     <string name="pref_about_title">Obsah</string>
-    <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro LibVLC</string>
     <string name="watch_now">Sledovat nyní</string>
     <string name="pref_next_up_timeout_title">Doba před přehráním další položky</string>
     <string name="pref_next_up_timeout_summary">Jak dlouho počkat před přehráním další položky</string>
-    <string name="pref_media_player">Preferovaný přehrávač médií</string>
     <string name="pref_app_theme">Motiv aplikace</string>
     <string name="pref_theme_dark">Tmavý (Výchozí)</string>
     <string name="pref_theme_emerald">Tradiční smaragd</string>
@@ -265,11 +257,6 @@
     <string name="mark_watched">Označit jako zhlédnuté</string>
     <string name="lbl_tv_filter_status">po dalších %1$d hodin</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanálů</string>
-    <string name="play_with">Přehrát v</string>
-    <string name="play_with_external_app">Přehrát v externí aplikaci</string>
-    <string name="play_with_exo_player">Přehrát v ExoPlayer</string>
-    <string name="play_with_vlc">Přehrát pomocí LibVLC</string>
-    <string name="pref_video_player_choose">Pokaždé zeptat</string>
     <string name="lbl_subtitle_track">Vybrat titulky</string>
     <string name="lbl_audio_track">Vybrat zvukovou stopu</string>
     <string name="lbl_pause">Pozastavit</string>
@@ -440,7 +427,6 @@
     <string name="image_size_xlarge">Extra velké</string>
     <string name="image_size_smallest">Nejmenší</string>
     <string name="lbl_subtitle_delay">Zpoždění titulků</string>
-    <string name="lbl_adjust">Upravit</string>
     <string name="server_setup_incomplete">Nastavení tohoto serveru ještě nebylo dokončeno. Před přihlášením spusťte Jellyfin ve webovém prohlížeči a dokončete nastavení.</string>
     <string name="crash_report_toast">Aj! Něco se nepovedlo. Protokol o pádu byl zaslán Vašemu Jellyfin serveru.</string>
     <string name="server_unsupported_notification">Tento server používá Jellyfin verzi %1$s, která již není podporována. Abyste mohli aplikaci dále používat, aktualizujte na verzi Jellyfin %2$s nebo novější.</string>
@@ -458,12 +444,9 @@
     <string name="pref_audio_night_mode">Noční režim zvuku (experimentální)</string>
     <string name="desc_audio_night_mode">Automatické vyrovnání hladiny zvuku</string>
     <string name="lbl_quality_profile">Profil kvality</string>
-    <string name="lbl_subtitle_fg">Barva textu titulků</string>
     <string name="color_cyan">Tyrkysová barva</string>
     <string name="app_notification_beta">Aplikace aktualizovaná na verzi %1$s
-\nDěkujeme za Vaši účast v beta programu Jellyfin</string>
-    <string name="lbl_subtitle_stroke">Velikost zabraného místa titulky</string>
-    <string name="lbl_subtitle_position">Odsazení titulků od spodního okraje</string>
+\nDěkujeme za Vaši účast v beta programu Jellyfin.</string>
     <string name="color_white">Bílá barva</string>
     <string name="color_black">Černá barva</string>
     <string name="color_darkgrey">Tmavě šedivá barva</string>
@@ -565,4 +548,12 @@
     <string name="pref_screensaver_ageratingrequired_title">Vyžaduje hodnocení věku</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Zobrazit pouze položky, které mají nastaveno hodnocení věku</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Zobrazení všech položek</string>
+    <string name="current_queue">Aktuální fronta k přehrání</string>
+    <string name="all_channels">Všechny kanály</string>
+    <string name="app_notification_update_soon">Aktualizujte svůj server z verze %1$s na alespoň %2$s, aby bylo možné aplikaci používat i po příští aktualizaci.</string>
+    <string name="pref_external_player">Použít externí přehrávač</string>
+    <string name="continue_listening">Pokračovat v poslouchání</string>
+    <string name="past_week">Minulý týden</string>
+    <string name="scheduled_in_next_24_hours">Naplánováno v dalších 24 hodinách</string>
+    <string name="past_24_hours">Posledních 24 hodin</string>
 </resources>

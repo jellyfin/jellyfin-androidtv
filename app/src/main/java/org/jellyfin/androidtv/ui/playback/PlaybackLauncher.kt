@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.playback
 
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.navigation.Destination
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -21,11 +20,9 @@ class GarbagePlaybackLauncher(
 		BaseItemKind.SERIES,
 		BaseItemKind.SEASON,
 		BaseItemKind.RECORDING,
-		-> userPreferences[UserPreferences.videoPlayer] === PreferredVideoPlayer.EXTERNAL
-
 		BaseItemKind.TV_CHANNEL,
 		BaseItemKind.PROGRAM,
-		-> userPreferences[UserPreferences.liveTvVideoPlayer] === PreferredVideoPlayer.EXTERNAL
+		-> userPreferences[UserPreferences.useExternalPlayer]
 
 		else -> false
 	}

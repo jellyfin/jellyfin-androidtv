@@ -17,9 +17,10 @@ import androidx.leanback.widget.BaseCardView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ContextExtensionsKt;
-import org.jellyfin.androidtv.util.TimeUtils;
+import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.text.NumberFormat;
@@ -83,10 +84,15 @@ public class LegacyImageCardView extends BaseCardView {
     }
 
     public void setMainImageDimensions(int width, int height) {
+        setMainImageDimensions(width, height, ImageView.ScaleType.CENTER_CROP);
+    }
+
+    public void setMainImageDimensions(int width, int height, ImageView.ScaleType scaleType) {
         ViewGroup.LayoutParams lp = binding.mainImage.getLayoutParams();
         lp.width = Math.round(width * getResources().getDisplayMetrics().density);
         lp.height = Math.round(height * getResources().getDisplayMetrics().density);
         binding.mainImage.setLayoutParams(lp);
+        binding.mainImage.setScaleType(scaleType);
         if (mBanner != null) mBanner.setX(lp.width - BANNER_SIZE);
         ViewGroup.LayoutParams lp2 = binding.resumeProgress.getLayoutParams();
         lp2.width = lp.width;
@@ -114,10 +120,10 @@ public class LegacyImageCardView extends BaseCardView {
     public void setOverlayInfo(BaseRowItem item) {
         if (binding.overlayText == null) return;
 
-        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
-            switch (item.getBaseItemType()) {
+        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.getShowCardInfoOverlay()) {
+            switch (item.getBaseItem().getType()) {
                 case PHOTO:
-                    insertCardData(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.getDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()), R.drawable.ic_camera, true);
+                    insertCardData(item.getBaseItem().getPremiereDate() != null ? DateTimeExtensionsKt.getDateFormatter(getContext()).format(item.getBaseItem().getPremiereDate()) : item.getFullName(getContext()), R.drawable.ic_camera, true);
                     break;
                 case PHOTO_ALBUM:
                     insertCardData(item.getFullName(getContext()), R.drawable.ic_photos, true);
@@ -135,7 +141,11 @@ public class LegacyImageCardView extends BaseCardView {
                     binding.overlayText.setText(item.getFullName(getContext()));
                     break;
             }
-            binding.overlayCount.setText(item.getChildCountStr());
+            if (item instanceof BaseItemDtoBaseRowItem) {
+                binding.overlayCount.setText(((BaseItemDtoBaseRowItem) item).getChildCountStr());
+            } else {
+                binding.overlayCount.setText(null);
+            }
             binding.nameOverlay.setVisibility(VISIBLE);
         }
     }
@@ -148,7 +158,7 @@ public class LegacyImageCardView extends BaseCardView {
         }
     }
 
-    public CharSequence gettitle() {
+    public CharSequence getTitle() {
         if (binding.title == null) {
             return null;
         }
@@ -202,7 +212,7 @@ public class LegacyImageCardView extends BaseCardView {
     }
 
     private void setTextMaxLines() {
-        if (TextUtils.isEmpty(gettitle())) {
+        if (TextUtils.isEmpty(getTitle())) {
             binding.contentText.setMaxLines(2);
         } else {
             binding.contentText.setMaxLines(1);

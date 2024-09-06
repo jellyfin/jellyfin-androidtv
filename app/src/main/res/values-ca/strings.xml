@@ -159,8 +159,7 @@
     <string name="lbl_mark_unplayed">Marcar com a no reproduït</string>
     <string name="lbl_play_first_unwatched">Reproduir primer els no vistos</string>
     <string name="lbl_search_hint">Cerca text (seleccioneu per al teclat)</string>
-    <string name="sum_tv_queuing">Afegiu la resta de la temporada a la cua en reproduir un episodi</string>
-    <string name="lbl_tv_queuing">Posa a la cua tots els episodis següents</string>
+    <string name="lbl_tv_queuing">Reproduir automàticament el següent episodi</string>
     <string name="lbl_empty">Buit</string>
     <string name="lbl_no_items">Sense elements</string>
     <string name="msg_cannot_play">Aquest element no es pot reproduir</string>
@@ -172,7 +171,6 @@
     <string name="lbl_just_this_once">Només una vegada</string>
     <string name="lbl_select_date">Seleccionar data</string>
     <string name="lbl_in_x_days">En %d dies</string>
-    <string name="lbl_bitstream_dts">Transmissió directa de àudio DTS</string>
     <string name="desc_premieres">Mostra una fila de pilots d’episodis nous per a qualsevol sèrie que mires</string>
     <string name="lbl_show_premieres">Mostra les estrenes de la temporada de programes</string>
     <string name="lbl_refresh_switching">Canviar velocitat d’actualització</string>
@@ -191,7 +189,6 @@
     <string name="lbl_repeat_episodes">Repetir episodis</string>
     <string name="lbl_premieres">Estrenes</string>
     <string name="lbl_new_episodes">Nous episodis</string>
-    <string name="lbl_audio_delay">Retard d\'àudio</string>
     <string name="lbl_new_only">Només novetats</string>
     <string name="lbl_news">Noticies</string>
     <string name="lbl_tv_filter_status">per les pròximes %1$d hores</string>
@@ -228,8 +225,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="grid_direction_vertical">Vertical</string>
-    <string name="pref_video_player_vlc">LibVLC (reproductor experimental)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="login_username_field_empty">El nom d\'usuari no pot estar buit</string>
     <string name="login_invalid_credentials">Nom d\'usuari i/o contrasenya no vàlids</string>
     <string name="login_server_unavailable">No es pot connectar al servidor</string>
@@ -247,10 +242,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Acaba a %1$s</string>
     <string name="lbl_sign_in">Inicieu la sessió</string>
-    <string name="play_with">Reproduir amb</string>
-    <string name="play_with_external_app">Reproduir amb una aplicació externa</string>
-    <string name="play_with_exo_player">Reproduir amb ExoPlayer</string>
-    <string name="play_with_vlc">Reproduir amb LibVLC</string>
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
@@ -278,14 +269,10 @@
     <string name="grid_direction">Direcció de la graella</string>
     <string name="pref_device_model">Model de dispositiu</string>
     <string name="pref_app_theme">Tema de l\'aplicació</string>
-    <string name="pref_libvlc_audio_delay_title">Retard d\'àudio per defecte per a LibVLC</string>
     <string name="watch_now">Veure ara</string>
     <string name="pref_next_up_timeout_title">Duració del següent temporitzador</string>
     <string name="pref_next_up_timeout_summary">Quant d\'espera abans de reproduir l\'element següent</string>
-    <string name="pref_media_player">Reproductor preferit</string>
     <string name="pref_about_title">Sobre</string>
-    <string name="pref_video_player_choose">Preguntar sempre</string>
-    <string name="pref_video_player_external">App externa</string>
     <string name="pref_theme_emerald">Esmeralda clàssica</string>
     <string name="pref_theme_dark">Fosc (Per defecte)</string>
     <string name="lbl_my_media">El meu contingut multimèdia</string>
@@ -449,21 +436,17 @@
     <string name="image_size_smallest">Minúscul</string>
     <string name="image_type_poster">Cartell</string>
     <string name="lbl_subtitle_delay">Retard dels subtítols</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_shuffle_queue">Alternar mode aleatori</string>
     <string name="lbl_additional_parts">Parts addicionals</string>
     <string name="state_disabled">Desactivat</string>
     <string name="pref_audio_night_mode">Mode de so nocturn (experimental)</string>
     <string name="desc_audio_night_mode">Anivella automàticament el volum de l\'àudio</string>
-    <string name="lbl_subtitle_fg">Color del text del subtítol</string>
-    <string name="lbl_subtitle_stroke">Mida del traç del subtítol</string>
     <string name="color_white">Blanc</string>
     <string name="server_setup_incomplete">La configuració d\'aquest servidor no s\'ha completat. Obre Jellyfin en un navegador web per a finalitzar la configuració abans d\'iniciar la sessió.</string>
     <string name="episode_name_special">especial</string>
     <string name="app_notification_beta">Aplicació actualitzada a %1$s
-\nGràcies per participar en el programa Jellyfin beta</string>
+\nGràcies per participar en el programa Jellyfin beta.</string>
     <string name="lbl_quality_profile">Perfil de qualitat</string>
-    <string name="lbl_subtitle_position">Desplaçament del subtítol des de la part inferior</string>
     <string name="color_black">Negre</string>
     <string name="color_darkgrey">Gris fosc</string>
     <string name="color_red">Vermell</string>
@@ -474,6 +457,7 @@
     <string name="color_cyan">Blau clar</string>
     <plurals name="tracks">
         <item quantity="one">%1$s pista</item>
+        <item quantity="many">%1$s pistes</item>
         <item quantity="other">%1$s pistes</item>
     </plurals>
     <string name="not_set">No definit</string>
@@ -483,19 +467,23 @@
     <string name="lbl_album_artists">Artistes de l\'àlbum</string>
     <plurals name="seconds">
         <item quantity="one">%1$s segon</item>
+        <item quantity="many">%1$s segons</item>
         <item quantity="other">%1$s segons</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">%1$s hora</item>
+        <item quantity="many">%1$s hores</item>
         <item quantity="other">%1$s hores</item>
     </plurals>
     <plurals name="episodes">
         <item quantity="one">%1$s episodi</item>
+        <item quantity="many">%1$s episodis</item>
         <item quantity="other">%1$s episodis</item>
     </plurals>
     <string name="lbl_latest_in">Recentment afegit a %1$s</string>
     <plurals name="minutes">
         <item quantity="one">%1$s minut</item>
+        <item quantity="many">%1$s minuts</item>
         <item quantity="other">%1$s minuts</item>
     </plurals>
     <string name="item_deleted">%1$s eliminat</string>
@@ -517,24 +505,24 @@
     <plurals name="items">
         <item quantity="one">%1$s element</item>
         <item quantity="many">%1$s elements</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s elements</item>
     </plurals>
     <plurals name="movies">
         <item quantity="one">%1$s pel·lícula</item>
         <item quantity="many">%1$s pel·lícules</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s pel·lícules</item>
     </plurals>
     <string name="dts_x">DTS:X</string>
     <plurals name="tv_series">
         <item quantity="one">%1$s sèrie de televisió</item>
         <item quantity="many">%1$s sèries de televisió</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s sèries de televisió</item>
     </plurals>
     <string name="person_birthday_and_age">Data de naixement %1$s (%2$d)</string>
     <plurals name="albums">
         <item quantity="one">%1$s àlbum</item>
         <item quantity="many">%1$s àlbums</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s àlbums</item>
     </plurals>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dts_hd">DTS:HD</string>
@@ -547,7 +535,7 @@
     <plurals name="songs">
         <item quantity="one">%1$s cançó</item>
         <item quantity="many">%1$s cançons</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s cançons</item>
     </plurals>
     <string name="random">Aleatori</string>
     <string name="unreleased">Encara no s\'ha publicat</string>
@@ -560,4 +548,20 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar el màxim</string>
     <string name="pref_screensaver_ageratingrequired_title">Requereix classificació d\'edat</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Mostrant tots els elements</string>
+    <string name="all_channels">Tots els canals</string>
+    <string name="app_notification_update_soon">Actualitza el teu servidor de %1$s fins a almenys %2$s per a continuar utilitzant l\'aplicació després de la pròxima actualització.</string>
+    <string name="current_queue">Cua actual</string>
+    <string name="continue_listening">Seguir escoltant</string>
+    <string name="pref_external_player">Utilitzar un reproductor extern</string>
+    <string name="past_week">Darrera setmana</string>
+    <string name="scheduled_in_next_24_hours">Programat per d\'aquí a 24 hores</string>
+    <string name="past_24_hours">Darreres 24 hores</string>
+    <string name="lbl_subtitle_text_color">Color de text dels subtítols</string>
+    <string name="lbl_subtitle_background_color">Color de fons dels subtítols</string>
+    <string name="lbl_subtitle_text_stroke_color">Color de traç dels subtítols</string>
+    <string name="pref_subtitles_size_very_small">Molt petit</string>
+    <string name="pref_subtitles_size_small">Petit</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Gran</string>
+    <string name="pref_subtitles_size_very_large">Molt gran</string>
 </resources>

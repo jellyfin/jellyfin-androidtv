@@ -17,8 +17,7 @@
     <string name="lbl_mark_unplayed">Đánh dấu chưa phát</string>
     <string name="lbl_play_first_unwatched">Phát chưa xem đầu tiên</string>
     <string name="lbl_search_hint">Tìm kiếm văn bản (chọn cho bàn phím)</string>
-    <string name="sum_tv_queuing">Thêm phần còn lại của phần phim vào hàng đợi khi phát một tập</string>
-    <string name="lbl_tv_queuing">Xếp hàng đợi tất cả các tập tiếp theo</string>
+    <string name="lbl_tv_queuing">Tự động phát tập tiếp theo</string>
     <string name="lbl_empty">Trống</string>
     <string name="lbl_no_items">Không mục nào</string>
     <string name="msg_cannot_play">Mục này không thể phát được</string>
@@ -141,7 +140,6 @@
     <string name="lbl_similar_items_library">Các mục tương tự trong thư viện của bạn</string>
     <string name="lbl_premieres">Công Chiếu</string>
     <string name="lbl_new_episodes">Tập mới</string>
-    <string name="lbl_audio_delay">Độ trễ âm thanh</string>
     <string name="lbl_new_only">Chỉ thứ mới</string>
     <string name="lbl_news">Tin Tức</string>
     <string name="lbl_song_title">Tựa bài hát</string>
@@ -229,12 +227,9 @@
     <string name="grid_direction">Hướng lưới</string>
     <string name="pref_device_model">Mẫu thiết bị</string>
     <string name="pref_app_theme">Chủ đề ứng dụng</string>
-    <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho LibVLC</string>
     <string name="watch_now">Xem bây giờ</string>
     <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ tiếp theo</string>
     <string name="pref_next_up_timeout_summary">Chờ bao lâu trước khi phát mục tiếp theo</string>
-    <string name="pref_media_player">Trình phát phương tiện ưu tiên</string>
-    <string name="pref_video_player_external">Ứng dụng bên ngoài</string>
     <string name="pref_theme_emerald">Ngọc lục bảo cổ điển</string>
     <string name="pref_theme_dark">Tối (Mặc định)</string>
     <string name="lbl_my_media">Phương tiện của tôi</string>
@@ -244,7 +239,6 @@
     <string name="lbl_hd_programs">Chương trình HD</string>
     <string name="lbl_live_broadcasts">Phát sóng trực tiếp</string>
     <string name="lbl_repeat_episodes">Lặp lại các tập</string>
-    <string name="lbl_bitstream_dts">Âm thanh DTS bitstream</string>
     <string name="pref_audio_direct">Trực tiếp</string>
     <string name="lbl_resume_preroll">Bắt đầu lại phần đầu</string>
     <string name="pref_audio_compat">Downmix thành âm thanh nổi</string>
@@ -252,17 +246,12 @@
     <string name="lbl_begin_padding">Bắt đầu đệm</string>
     <string name="seek_error">Không thể tua</string>
     <string name="pref_about_title">Thông Tin</string>
-    <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
+    <string name="lbl_colored_backgrounds">Nền được mã hóa màu</string>
     <string name="lbl_direct_stream_live">Luồng phát TV trực tiếp</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_min">" phút"</string>
     <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
     <string name="lbl_tv_channel_status">%1$d trong số %2$d kênh</string>
-    <string name="play_with_vlc">Phát với LibVLC</string>
-    <string name="play_with">Phát với</string>
-    <string name="play_with_external_app">Phát với ứng dụng bên ngoài</string>
-    <string name="play_with_exo_player">Phát với ExoPlayer</string>
-    <string name="pref_video_player_choose">Luôn luôn hỏi</string>
     <string name="lbl_subtitle_track">Chọn bản phụ đề</string>
     <string name="lbl_audio_track">Chọn bản âm thanh</string>
     <string name="lbl_pause">Tạm dừng</string>
@@ -429,7 +418,6 @@
     <string name="live_tv_preferences">Tùy chọn TV trực tiếp</string>
     <string name="pref_audio">Âm thanh</string>
     <string name="lbl_subtitle_delay">Độ trễ phụ đề</string>
-    <string name="lbl_adjust">Điều chỉnh</string>
     <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi tới máy chủ Jellyfin của bạn.</string>
     <string name="pref_crash_report_logs_disabled">Nhật ký sẽ không được đưa vào báo cáo sự cố</string>
     <string name="pref_crash_report_logs_enabled">Nhật ký sẽ được đưa vào báo cáo sự cố</string>
@@ -449,20 +437,17 @@
     <string name="lbl_quality_profile">Hồ sơ chất lượng</string>
     <string name="desc_audio_night_mode">Tự động điều chỉnh âm lượng âm thanh</string>
     <string name="pref_audio_night_mode">Chế độ âm thanh ban đêm (thử nghiệm)</string>
-    <string name="lbl_subtitle_fg">Màu văn bản phụ đề</string>
     <string name="color_white">Trắng</string>
     <string name="color_black">Đen</string>
     <string name="color_darkgrey">Xám đen</string>
-    <string name="app_notification_beta">Ứng dụng được cập nhật lên %1$s
-\nCảm ơn bạn đã tham gia chương trình Jellyfin beta</string>
-    <string name="lbl_subtitle_stroke">Kích thước nét phụ đề</string>
+    <string name="app_notification_beta">Ứng dụng đã cập nhật lên %1$s
+\nCảm ơn bạn tham gia chương trình Jellyfin beta.</string>
     <string name="color_red">Đỏ</string>
     <string name="color_green">Xanh lá</string>
     <string name="color_blue">Xanh lam</string>
     <string name="color_yellow">Vàng</string>
     <string name="color_pink">Hồng</string>
     <string name="color_cyan">Lục lam</string>
-    <string name="lbl_subtitle_position">Độ lệch phụ đề từ dưới lên</string>
     <string name="item_deletion_failed">Không thể xóa %1$s</string>
     <string name="pref_enable_media_management">Bật quản lý phương tiện</string>
     <string name="pref_enable_media_management_description">Hiển thị tùy chọn để quản lý phương tiện trong khi duyệt</string>
@@ -478,7 +463,6 @@
     <plurals name="episodes">
         <item quantity="other">%1$s tập</item>
     </plurals>
-    <string name="pref_video_player_vlc">LibVLC (thử nghiệm)</string>
     <string name="pref_screensaver">Bảo vệ màn hình</string>
     <string name="enable_reactive_homepage">Kích hoạt trang chủ phản ứng</string>
     <string name="not_set">Không thiết lập</string>
@@ -494,4 +478,48 @@
     <string name="lbl_hide_watched_checkmark">Khi vãn còn tập</string>
     <string name="photos">Ảnh</string>
     <string name="photo_albums">Album ảnh</string>
+    <string name="random">Ngẫu nhiên</string>
+    <string name="all_channels">Tất cả các kênh</string>
+    <string name="lbl_album_artists">Album nghệ sĩ</string>
+    <string name="channels">Kênh</string>
+    <string name="pref_playback_advanced">Tùy chọn phát lại nâng cao</string>
+    <string name="app_notification_update_soon">Cập nhật máy chủ của bạn từ %1$s lên ít nhất %2$s để tiếp tục sử dụng ứng dụng sau lần cập nhật tiếp theo.</string>
+    <string name="unreleased">Chưa được phát hành</string>
+    <string name="person_birthday_and_age">Sinh %1$s (%2$d)</string>
+    <plurals name="items">
+        <item quantity="other">%1$s mục</item>
+    </plurals>
+    <string name="clear_image_cache">Xóa bộ nhớ đệm hình ảnh</string>
+    <string name="clear_image_cache_content">Đã dùng: %1$s</string>
+    <string name="lbl_home">Trang chủ</string>
+    <string name="pref_screensaver_ageratingmax">Đánh giá độ tuổi tối đa</string>
+    <string name="pref_screensaver_ageratingmax_zero">Mọi lứa tuổi</string>
+    <string name="pref_screensaver_ageratingmax_entry">Đến tuổi %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Tắt tối đa</string>
+    <string name="pref_screensaver_ageratingrequired_title">Yêu cầu đánh giá độ tuổi</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Chỉ hiển thị các mục có xếp hạng độ tuổi</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Hiển thị tất cả các mục</string>
+    <plurals name="movies">
+        <item quantity="other">%1$s phim</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s TV nhiều tập</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">%1$s bài hát</item>
+    </plurals>
+    <string name="past_24_hours">24 giờ qua</string>
+    <string name="lbl_subtitle_background_color">Màu nền phụ đề</string>
+    <string name="lbl_subtitle_text_stroke_color">Màu nét phụ đề</string>
+    <string name="pref_subtitles_size_very_small">Rất nhỏ</string>
+    <string name="pref_subtitles_size_normal">Bình thường</string>
+    <string name="pref_subtitles_size_large">Lớn</string>
+    <string name="pref_subtitles_size_very_large">Rất lớn</string>
+    <string name="pref_external_player">Sử dụng trình phát bên ngoài</string>
+    <string name="lbl_subtitle_text_color">Màu chữ phụ đề</string>
+    <string name="scheduled_in_next_24_hours">Dự kiến trong 24 giờ tới</string>
+    <string name="pref_subtitles_size_small">Nhỏ</string>
+    <string name="past_week">Tuần qua</string>
+    <string name="continue_listening">Tiếp tục nghe</string>
+    <string name="current_queue">Hàng đợi hiện tại</string>
 </resources>

@@ -77,7 +77,6 @@
     <string name="lbl_no_items">Байхгүй байна</string>
     <string name="lbl_empty">Хоосон</string>
     <string name="lbl_tv_queuing">Дараачийн бүх ангийг дараалалд оруулах</string>
-    <string name="sum_tv_queuing">Бүлэг тоглож байхдаа улирлын үлдсэн хэсгийг дараалалд нэмж оруулаарай</string>
     <string name="lbl_search_hint">Текст хайх (гарнаас сонгох)</string>
     <string name="lbl_play_first_unwatched">Эхлээд тоглогдоогүйг тоглуул</string>
     <string name="lbl_mark_unplayed">Тоглогдоогүй гэж тэмдэглэ</string>
@@ -145,8 +144,6 @@
     <string name="lbl_instant_mix">Шуурхай холимог</string>
     <string name="login_authenticating">Гэрчлэлт…</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_video_player_vlc">libVLC</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_status">%1$s / %2$s</string>
 </resources>

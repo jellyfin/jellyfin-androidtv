@@ -46,6 +46,9 @@ abstract class SharedPreferenceStore(
 	override fun getLong(key: String, defaultValue: Long) =
 		sharedPreferences.getLong(key, defaultValue)
 
+	override fun getFloat(key: String, defaultValue: Float) =
+		sharedPreferences.getFloat(key, defaultValue)
+
 	override fun getBool(key: String, defaultValue: Boolean) =
 		sharedPreferences.getBoolean(key, defaultValue)
 
@@ -54,6 +57,7 @@ abstract class SharedPreferenceStore(
 
 	override fun setInt(key: String, value: Int) = transaction { putInt(key, value) }
 	override fun setLong(key: String, value: Long) = transaction { putLong(key, value) }
+	override fun setFloat(key: String, value: Float) = transaction { putFloat(key, value) }
 	override fun setBool(key: String, value: Boolean) =
 		transaction { putBoolean(key, value) }
 
@@ -70,8 +74,8 @@ abstract class SharedPreferenceStore(
 
 	override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
 		setString(preference.key, when (value) {
-				is PreferenceEnum -> value.serializedName ?: value.toString()
-				else -> value.toString()
+				is PreferenceEnum -> value.serializedName ?: value.name
+				else -> value.name
 			})
 
 	// Additional mutations

@@ -1,15 +1,14 @@
 plugins {
 	id("com.android.library")
 	kotlin("android")
-	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
 	namespace = "org.jellyfin.playback.core"
-	compileSdk = 34
+	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
-		minSdk = 21
+		minSdk = libs.versions.android.minSdk.get().toInt()
 	}
 
 	compileOptions {
@@ -29,15 +28,9 @@ android {
 dependencies {
 	// Kotlin
 	implementation(libs.kotlinx.coroutines)
-	implementation(libs.kotlinx.coroutines.guava)
-	implementation(libs.kotlinx.serialization.json)
 
 	// Android(x)
 	implementation(libs.androidx.core)
-	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.constraintlayout)
-	implementation(libs.bundles.androidx.lifecycle)
-	implementation(libs.androidx.media3.session)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)

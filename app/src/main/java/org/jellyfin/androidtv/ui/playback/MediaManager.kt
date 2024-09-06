@@ -23,16 +23,15 @@ interface MediaManager {
 	fun queueAudioItem(item: BaseItemDto)
 	fun clearAudioQueue()
 	fun addToAudioQueue(items: List<BaseItemDto>)
-	fun removeFromAudioQueue(ndx: Int)
+	fun removeFromAudioQueue(item: BaseItemDto)
 	val isPlayingAudio: Boolean
 	fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean)
-	fun playFrom(ndx: Int): Boolean
+	fun playFrom(item: BaseItemDto): Boolean
 	fun shuffleAudioQueue()
 	fun hasNextAudioItem(): Boolean
 	fun hasPrevAudioItem(): Boolean
 	fun nextAudioItem(): Int
 	fun prevAudioItem(): Int
 	fun stopAudio(releasePlayer: Boolean)
-	fun pauseAudio()
-	fun resumeAudio()
+	fun togglePlayPause()
 }

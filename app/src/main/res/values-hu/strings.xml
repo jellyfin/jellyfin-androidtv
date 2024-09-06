@@ -88,8 +88,7 @@
     <string name="lbl_mark_unplayed">Nem lejátszottnak jelölés</string>
     <string name="lbl_play_first_unwatched">Az első még nem látott elem lejátszása</string>
     <string name="lbl_search_hint">Keresés</string>
-    <string name="sum_tv_queuing">Adja hozzá az évad hátralévő epizódjait a lejátszási listához</string>
-    <string name="lbl_tv_queuing">Állítsa a lejátszási sorba az összes következő epizódot</string>
+    <string name="lbl_tv_queuing">Következő epizód automatikus lejátszása</string>
     <string name="lbl_no_items">Nincs találat</string>
     <string name="msg_cannot_play">A kiválasztott elem nem játszható le</string>
     <string name="msg_cannot_play_time">A kiválasztott médiaelem nem olvasható</string>
@@ -123,15 +122,10 @@
     <string name="desc_premieres">Minden egyes nézett sorozathoz a sorozatbemutatók megjelenítése</string>
     <string name="lbl_show_backdrop">Hátterek megjelenítése</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
-    <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés LibVLC-hez</string>
     <string name="watch_now">Megnézés</string>
     <string name="pref_next_up_timeout_title">A \'Következő\' időzítő időtartama</string>
     <string name="pref_next_up_timeout_summary">Ennyi időt várjon a következő elem lejátszása előtt</string>
-    <string name="pref_media_player">Kedvelt médialejátszó</string>
     <string name="pref_about_title">Rólunk</string>
-    <string name="pref_video_player_external">Külső alkalmazás</string>
-    <string name="pref_video_player_vlc">LibVLC (kísérleti)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
     <string name="pref_theme_dark">Sötét (Alapértelmezett)</string>
     <string name="lbl_my_media">Én médiám</string>
@@ -144,7 +138,6 @@
     <string name="lbl_repeat_episodes">Epizódok ismétlése</string>
     <string name="lbl_premieres">Bemutatók</string>
     <string name="lbl_new_episodes">Új epizódok</string>
-    <string name="lbl_audio_delay">Hangkésleltetés</string>
     <string name="lbl_new_only">Csak az újak</string>
     <string name="lbl_news">Újdonságok</string>
     <string name="lbl_song_title">Zeneszám címe</string>
@@ -176,7 +169,6 @@
     <string name="lbl_just_this_once">Csak most az egyszer</string>
     <string name="lbl_select_date">Dátum kiválasztása</string>
     <string name="lbl_in_x_days">%d nap múlva</string>
-    <string name="lbl_bitstream_dts">DTS Audio bitfolyam</string>
     <string name="lbl_show_premieres">A show évadjainak premierjei</string>
     <string name="lbl_refresh_switching">Frissítési ráta módosítása</string>
     <string name="lbl_open">Megnyitás</string>
@@ -248,7 +240,6 @@
     <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
     <string name="no_player">Nincs elérhető lejátszó</string>
     <string name="mark_watched">Nézettnek jelöl</string>
-    <string name="pref_video_player_choose">Mindig rákérdez</string>
     <string name="lbl_tv_filter_status">az elkövetkezendő %1$d órá(k)ban</string>
     <string name="lbl_tv_channel_status">%1$d a %2$d csatornából</string>
     <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
@@ -270,10 +261,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">%1$s -kor lesz vége</string>
     <string name="lbl_sign_in">Kérlek Jelentkezz Be</string>
-    <string name="play_with">Lejátszani vele</string>
-    <string name="play_with_external_app">Lejátszás külső alkalmazással</string>
-    <string name="play_with_exo_player">Lejátszás ExoPlayer-el</string>
-    <string name="play_with_vlc">Lejátszás LibVLC-vel</string>
     <string name="just_one">Csak ezt az egyet</string>
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
@@ -435,7 +422,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Skálázás a TV-n</string>
     <string name="state_disabled">Letiltva</string>
     <string name="action_connect">Csatlakozás</string>
-    <string name="lbl_adjust">Igazítás</string>
     <string name="lbl_subtitle_delay">Felirat késleltetése</string>
     <string name="live_tv_preferences">Élő TV lehetőségek</string>
     <string name="lbl_additional_parts">További részletek</string>
@@ -458,9 +444,6 @@
     <string name="lbl_quality_profile">Minőségi profil</string>
     <string name="desc_audio_night_mode">Automatikusan kiegyenlíti a hangerőt</string>
     <string name="pref_audio_night_mode">Éjszakai Audio Mód (kísérleti)</string>
-    <string name="lbl_subtitle_fg">Felirat szövegének színe</string>
-    <string name="lbl_subtitle_stroke">Felirat körvonalmérete</string>
-    <string name="lbl_subtitle_position">A felirat eltolása alulról</string>
     <string name="color_white">Fehér</string>
     <string name="color_black">Fekete</string>
     <string name="color_darkgrey">Sötétszürke</string>
@@ -471,7 +454,7 @@
     <string name="color_pink">Rózsaszín</string>
     <string name="color_cyan">Cián</string>
     <string name="app_notification_beta">Az alkalmazás frissítve a következőre: %1$s
-\nKöszönjük, hogy részt vett a Jellyfin béta programban</string>
+\nKöszönjük, hogy részt vettél a Jellyfin béta programban.</string>
     <string name="item_deleted">%1$s törölve</string>
     <string name="item_delete_confirm_title">Elem törlése</string>
     <string name="item_deletion_failed">Nem sikerült törölni %1$s-t</string>
@@ -555,4 +538,12 @@
     <string name="pref_screensaver_ageratingrequired_title">Korhatár megkövetelése</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Csak a beállított korhatárnak megfelelő elemeket mutassa</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Minden elem mutatása</string>
+    <string name="past_week">Előző hét</string>
+    <string name="all_channels">Minden csatorna</string>
+    <string name="continue_listening">Hallgatás folytatása</string>
+    <string name="scheduled_in_next_24_hours">A következő 24 órában</string>
+    <string name="past_24_hours">Az elmúlt 24 órában</string>
+    <string name="app_notification_update_soon">Frissítsd a szervert %1$s verzióról legalább a %2$s verzióra, hogy tudd tovább használni az applikációt a következő frissítés után is.</string>
+    <string name="pref_external_player">Külső lejátszó használata</string>
+    <string name="current_queue">Lejátszási sor</string>
 </resources>

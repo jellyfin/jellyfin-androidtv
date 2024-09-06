@@ -38,9 +38,7 @@ import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
@@ -52,6 +50,7 @@ import org.jellyfin.androidtv.ui.AlphaPickerView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
@@ -62,9 +61,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
-import org.jellyfin.apiclient.model.querying.ArtistsQuery;
-import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.CollectionType;
@@ -125,6 +122,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
+    private final Lazy<ApiClient> api = inject(ApiClient.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -300,12 +298,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private Map<Integer, SortOption> sortOptions;
 
     private SortOption getSortOption(ItemSortBy value) {
-        for (Integer key : sortOptions.keySet()) {
-            SortOption option = sortOptions.get(key);
-            if (Objects.requireNonNull(option).value.equals(value)) return option;
+        for (SortOption sortOption : sortOptions.values()) {
+            if (sortOption.value.equals(value)) return sortOption;
         }
 
-        return new SortOption("Unknown", ItemSortBy.SORT_NAME, SortOrder.ASCENDING);
+        return new SortOption(getString(R.string.lbl_bracket_unknown), ItemSortBy.SORT_NAME, SortOrder.ASCENDING);
     }
 
     public void setStatusText(String folderName) {
@@ -476,11 +473,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
         if (numRows > 0) {
             double paddingPct = cardScaling / numRows;
-            double spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numRows - 1);
+            double spacingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numRows - 1);
 
-            double wastedSpacePct = paddingPct + spaceingPct;
-            double useableCardSpace = mGridHeight / (1.0 + wastedSpacePct); // decrease size
-            double cardHeight = useableCardSpace / numRows;
+            double wastedSpacePct = paddingPct + spacingPct;
+            double usableCardSpace = mGridHeight / (1.0 + wastedSpacePct); // decrease size
+            double cardHeight = usableCardSpace / numRows;
 
             // fix any rounding errors and make pixel perfect
             cardHeightInt = (int) Math.round(cardHeight);
@@ -504,14 +501,14 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             mCardsScreenStride = numRows;
         } else if (numCols > 0) {
             double paddingPct = cardScaling / numCols;
-            double spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numCols - 1);
+            double spacingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numCols - 1);
             if (mImageType == ImageType.BANNER) {
-                spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_HORIZONTAL_BANNER_PCT) * (numCols - 1);
+                spacingPct = ((paddingPct / 2.0) * CARD_SPACING_HORIZONTAL_BANNER_PCT) * (numCols - 1);
             }
 
-            double wastedSpacePct = paddingPct + spaceingPct;
-            double useableCardSpace = mGridWidth / (1.0 + wastedSpacePct); // decrease size
-            double cardWidth = useableCardSpace / numCols;
+            double wastedSpacePct = paddingPct + spacingPct;
+            double usableCardSpace = mGridWidth / (1.0 + wastedSpacePct); // decrease size
+            double cardWidth = usableCardSpace / numCols;
 
             // fix any rounding errors and make pixel perfect
             cardHeightInt = (int) Math.round(getCardHeightBy(cardWidth, mImageType, mFolder));
@@ -548,63 +545,22 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void setupQueries() {
-        StdItemQuery query = new StdItemQuery(new ItemFields[]{
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount,
-                ItemFields.MediaSources,
-                ItemFields.MediaStreams,
-                ItemFields.DisplayPreferencesId
-        });
-        query.setParentId(mParentId.toString());
         if (mFolder.getType() == BaseItemKind.USER_VIEW || mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
             CollectionType type = mFolder.getCollectionType() != null ? mFolder.getCollectionType() : CollectionType.UNKNOWN;
-            switch (type) {
-                case MOVIES:
-                    query.setIncludeItemTypes(new String[]{"Movie"});
-                    query.setRecursive(true);
-                    break;
-                case TVSHOWS:
-                    query.setIncludeItemTypes(new String[]{"Series"});
-                    query.setRecursive(true);
-                    break;
-                case BOXSETS:
-                    query.setIncludeItemTypes(new String[]{"BoxSet"});
-                    query.setParentId(null);
-                    query.setRecursive(true);
-                    break;
-                case MUSIC:
-                    //Special queries needed for album artists
-                    String includeType = getArguments().getString(Extras.IncludeType);
-                    if ("AlbumArtist".equals(includeType)) {
-                        AlbumArtistsQuery albumArtists = new AlbumArtistsQuery();
-                        albumArtists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
-                        albumArtists.setFields(new ItemFields[]{
-                                ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.ItemCounts,
-                                ItemFields.ChildCount,
-                        });
-                        albumArtists.setParentId(mParentId.toString());
-                        setRowDef(new BrowseRowDef("", albumArtists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
-                        return;
-                    } else if ("Artist".equals(includeType)) {
-                        ArtistsQuery artists = new ArtistsQuery();
-                        artists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
-                        artists.setFields(new ItemFields[]{
-                                ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.ItemCounts,
-                                ItemFields.ChildCount
-                        });
-                        artists.setParentId(mParentId.toString());
-                        setRowDef(new BrowseRowDef("", artists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
-                        return;
-                    }
-                    query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicAlbum"});
-                    query.setRecursive(true);
-                    break;
+            if (type == CollectionType.MUSIC) {
+                //Special queries needed for album artists
+                String includeType = getArguments().getString(Extras.IncludeType, null);
+                if ("AlbumArtist".equals(includeType)) {
+                    setRowDef(new BrowseRowDef("", BrowsingUtils.createAlbumArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                    return;
+                } else if ("Artist".equals(includeType)) {
+                    setRowDef(new BrowseRowDef("", BrowsingUtils.createArtistsRequest(mParentId), CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                    return;
+                }
             }
         }
 
-        setRowDef(new BrowseRowDef("", query, CHUNK_SIZE_MINIMUM, false, true));
+        setRowDef(new BrowseRowDef("", BrowsingUtils.createBrowseGridItemsRequest(mFolder), CHUNK_SIZE_MINIMUM, false, true));
     }
 
     @Override
@@ -614,7 +570,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         PosterSize posterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
         ImageType imageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
         GridDirection gridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
-
 
         if (mImageType != imageType || mPosterSizeSetting != posterSizeSetting || mGridDirection != gridDirection || mDirty) {
             determiningPosterSize = true;
@@ -671,23 +626,14 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             case NextUp:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getNextUpQuery(), true, mCardPresenter, null);
                 break;
-            case Season:
-                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSeasonQuery(), mCardPresenter, null);
-                break;
-            case Upcoming:
-                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getUpcomingQuery(), mCardPresenter, null);
-                break;
             case Views:
-                mAdapter = new ItemRowAdapter(requireContext(), ViewQuery.INSTANCE, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), GetUserViewsRequest.INSTANCE, mCardPresenter, null);
                 break;
             case SimilarSeries:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, null);
                 break;
             case SimilarMovies:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, null);
-                break;
-            case Persons:
-                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getPersonsQuery(), chunkSize, mCardPresenter, null);
                 break;
             case LiveTvChannel:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getTvChannelQuery(), 40, mCardPresenter, null);
@@ -760,11 +706,13 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private ImageButton mLetterButton;
 
     private void updateDisplayPrefs() {
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
-        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
-        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
-        CoroutineUtils.runOnLifecycle(getLifecycle(), (coroutineScope, continuation) -> libraryPreferences.commit(continuation));
+        CoroutineUtils.runOnLifecycle(getLifecycle(), (coroutineScope, continuation) -> {
+            libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
+            libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
+            libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
+            libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
+            return libraryPreferences.commit(continuation);
+        });
     }
 
     private void addTools() {
@@ -780,12 +728,9 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             public void onClick(View v) {
                 //Create sort menu
                 PopupMenu sortMenu = new PopupMenu(getActivity(), binding.toolBar, Gravity.END);
-                for (Integer key : sortOptions.keySet()) {
-                    SortOption option = sortOptions.get(key);
-                    if (option == null) option = sortOptions.get(0);
-                    MenuItem item = sortMenu.getMenu().add(0, key, key, Objects.requireNonNull(option).name);
-                    if (option.value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())))
-                        item.setChecked(true);
+                for (Map.Entry<Integer, SortOption> entry : sortOptions.entrySet()) {
+                    MenuItem item = sortMenu.getMenu().add(0, entry.getKey(), entry.getKey(), entry.getValue().name);
+                    item.setChecked(entry.getValue().value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
                 }
                 sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -934,31 +879,20 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO_ALBUM
-                && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM) {
-            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
-            BaseRowItem item = mCurrentItem;
-            item.refresh(new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    if (!getActive()) return;
-
-                    if (response == null) mAdapter.removeAt(mAdapter.indexOf(item), 1);
-                    else mAdapter.notifyItemRangeChanged(mAdapter.indexOf(item), 1);
-
-                    //Now - if filtered make sure we still pass
-                    if (response != null && mAdapter.getFilters() != null) {
-                        if ((mAdapter.getFilters().isFavoriteOnly() && !item.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && item.isPlayed())) {
-                            // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
-                            binding.toolBar.requestFocus();
-                            mAdapter.remove(item);
-                            mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
-                            updateCounter(item.getIndex());
-                        }
-                    }
-                }
-            });
-        }
+        if (mCurrentItem == null) return;
+        Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
+        ItemRowAdapterHelperKt.refreshItem(mAdapter, api.getValue(), this, mCurrentItem, () -> {
+            //Now - if filtered make sure we still pass
+            if (mAdapter.getFilters() == null) return null;
+            if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+                // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
+                binding.toolBar.requestFocus();
+                mAdapter.remove(mCurrentItem);
+                mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
+                updateCounter(mAdapter.indexOf(mCurrentItem));
+            }
+            return null;
+        });
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -967,7 +901,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, requireContext());
         }
     }
 
@@ -998,7 +932,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 mHandler.postDelayed(mDelayedSetItem, VIEW_SELECT_UPDATE_DELAY);
 
                 if (!determiningPosterSize)
-                    mAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+                    mAdapter.loadMoreItemsIfNeeded(mAdapter.indexOf(mCurrentItem));
             }
         }
     }

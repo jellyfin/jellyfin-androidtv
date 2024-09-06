@@ -15,9 +15,11 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
@@ -25,7 +27,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
-import org.jellyfin.androidtv.databinding.ActivityMainBinding
+import org.jellyfin.androidtv.databinding.ActivityStartupBinding
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -60,7 +62,7 @@ class StartupActivity : FragmentActivity() {
 	private val navigationRepository: NavigationRepository by inject()
 	private val itemLauncher: ItemLauncher by inject()
 
-	private lateinit var binding: ActivityMainBinding
+	private lateinit var binding: ActivityStartupBinding
 
 	private val networkPermissionsRequester = registerForActivityResult(
 		ActivityResultContracts.RequestMultiplePermissions()
@@ -81,7 +83,7 @@ class StartupActivity : FragmentActivity() {
 
 		super.onCreate(savedInstanceState)
 
-		binding = ActivityMainBinding.inflate(layoutInflater)
+		binding = ActivityStartupBinding.inflate(layoutInflater)
 		binding.background.setContent { AppBackground() }
 		binding.screensaver.isVisible = false
 		setContentView(binding.root)
@@ -101,8 +103,9 @@ class StartupActivity : FragmentActivity() {
 	private fun onPermissionsGranted() = sessionRepository.state
 		.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
 		.filter { it == SessionRepositoryState.READY }
-		.onEach {
-			val session = sessionRepository.currentSession.value
+		.map { sessionRepository.currentSession.value }
+		.distinctUntilChanged()
+		.onEach { session ->
 			if (session != null) {
 				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
@@ -153,7 +156,7 @@ class StartupActivity : FragmentActivity() {
 			else -> null
 		}
 
-		navigationRepository.reset(destination)
+		navigationRepository.reset(destination, true)
 
 		val intent = Intent(this, MainActivity::class.java)
 		// Clear navigation history
@@ -183,5 +186,10 @@ class StartupActivity : FragmentActivity() {
 	private fun showServerSelection() = supportFragmentManager.commit {
 		replace<StartupToolbarFragment>(R.id.content_view)
 		add<SelectServerFragment>(R.id.content_view)
+	}
+
+	override fun onNewIntent(intent: Intent) {
+		super.onNewIntent(intent)
+		setIntent(intent)
 	}
 }

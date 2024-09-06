@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListUpdateCallback
 
 /**
  * A leanback ObjectAdapter using a Kotlin list as backend. Implements Iterable to allow collection
- * operations. And uses generics for strong typing. Uses a MutableList as internal stucture.
+ * operations. And uses generics for strong typing. Uses a MutableList as internal structure.
  */
 open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	private val data = mutableListOf<T>()
@@ -77,9 +77,9 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	}
 
 	fun remove(element: T): Boolean {
-		val removed = data.remove(element)
-		if (removed) notifyChanged()
-		return removed
+		val index = indexOf(element)
+		if (index == -1) return false
+		return removeAt(index, 1)
 	}
 
 	fun removeAt(index: Int, length: Int = 1): Boolean {

@@ -55,7 +55,9 @@ class SdkPlaybackHelper(
 	) {
 		getScope(context).launch {
 			runCatching {
-				getItems(mainItem, allowIntros, shuffle)
+				val items = getItems(mainItem, allowIntros, shuffle)
+				if (items.isEmpty() && !mainItem.mediaSources.isNullOrEmpty()) listOf(mainItem)
+				else items
 			}.fold(
 				onSuccess = { items -> outerResponse.onResponse(items) },
 				onFailure = { exception ->
@@ -78,7 +80,6 @@ class SdkPlaybackHelper(
 			if (userPreferences[UserPreferences.mediaQueuingEnabled] && seriesId != null) {
 				val response by api.tvShowsApi.getEpisodes(
 					seriesId = seriesId,
-					seasonId = mainItem.seasonId,
 					startItemId = mainItem.id,
 					isMissing = false,
 					limit = ITEM_QUERY_LIMIT,
@@ -140,7 +141,7 @@ class SdkPlaybackHelper(
 					ItemFields.GENRES,
 					ItemFields.CHILD_COUNT
 				),
-				artistIds = listOf(mainItem.id)
+				albumIds = listOf(mainItem.id)
 			)
 
 			response.items.orEmpty()
@@ -213,14 +214,20 @@ class SdkPlaybackHelper(
 			}
 		}
 
-		else -> if (allowIntros && !playbackLauncher.useExternalPlayer(mainItem.type) && userPreferences[UserPreferences.cinemaModeEnabled]) {
-			val response by api.userLibraryApi.getIntros(mainItem.id)
-			buildList {
-				addAll(response.items.orEmpty())
-				addAll(getParts(mainItem))
+		else -> {
+			val parts = getParts(mainItem)
+			val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
+
+			if (addIntros) {
+				val intros = runCatching { api.userLibraryApi.getIntros(mainItem.id).content.items }.getOrNull()
+					.orEmpty()
+					// Force the type to be trailer as the legacy playback UI uses it to determine if it should show the next up screen
+					.map { it.copy(type = BaseItemKind.TRAILER) }
+
+				intros + parts
+			} else {
+				parts
 			}
-		} else {
-			getParts(mainItem)
 		}
 	}
 

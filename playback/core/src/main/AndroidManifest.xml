@@ -1,13 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <application>
-        <service
-            android:name="org.jellyfin.playback.core.mediasession.AndroidMediaService"
-            android:exported="true"
-            android:foregroundServiceType="mediaPlayback">
-            <intent-filter>
-                <action android:name="androidx.media3.session.MediaSessionService" />
-            </intent-filter>
-        </service>
-    </application>
-</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />

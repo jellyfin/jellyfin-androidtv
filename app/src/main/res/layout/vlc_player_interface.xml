@@ -19,11 +19,6 @@
             tools:ignore="true">
 
             <SurfaceView
-                android:id="@+id/player_surface"
-                android:layout_width="1dp"
-                android:layout_height="1dp" />
-
-            <SurfaceView
                 android:id="@+id/subtitles_surface"
                 android:layout_width="1dp"
                 android:layout_height="1dp" />
@@ -34,7 +29,6 @@
             android:id="@+id/exoPlayerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             app:use_controller="false" />
 
         <androidx.fragment.app.FragmentContainerView
@@ -43,20 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
-
-        <org.jellyfin.androidtv.ui.shared.StrokeTextView
-            android:id="@+id/subtitles_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginHorizontal="120dp"
-            android:layout_marginBottom="48dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textDirection="ltr"
-            app:strokeWidth="5.0"
-            tools:text="Subtitles" />
 
     </FrameLayout>
 

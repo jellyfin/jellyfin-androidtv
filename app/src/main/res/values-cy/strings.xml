@@ -4,14 +4,14 @@
     <string name="lbl_play_all">Chwarae Pob Un</string>
     <string name="lbl_tv_series">Cyfres Rhaglen Deledu</string>
     <string name="lbl_other_channels">Sianeli eraill</string>
-    <string name="lbl_favorite_channels">Hoff Sianeli</string>
-    <string name="lbl_coming_up">Ar y Gweill</string>
-    <string name="lbl_by_name">Yn ôl Enw</string>
+    <string name="lbl_favorite_channels">Hoff sianeli</string>
+    <string name="lbl_coming_up">Yn Dod i Fyny</string>
+    <string name="lbl_by_name">Yn ôl enw</string>
     <string name="msg_not_implemented">" heb ei weithredu"</string>
-    <string name="lbl_by_letter">Fesul Llythyren</string>
+    <string name="lbl_by_letter">Fesul llythyren</string>
     <string name="lbl_on_now">Ar yr Awyr</string>
-    <string name="lbl_next_up">Nesaf i Fyny</string>
-    <string name="lbl_continue_watching">Parhewch i Wylio</string>
+    <string name="lbl_next_up">Nesaf i fyny</string>
+    <string name="lbl_continue_watching">Parhewch i wylio</string>
     <string name="license_license">Trwydded</string>
     <string name="license_author">Awdur</string>
     <string name="license_repository">Ystorfa</string>
@@ -55,7 +55,7 @@
     <string name="lbl_cast_crew">Cast/Criw</string>
     <string name="lbl_suggested">Awgrymwyd</string>
     <string name="lbl_views">Gweddau</string>
-    <string name="chapters">Golygfeydd</string>
+    <string name="chapters">Pennodau</string>
     <string name="pref_authentication_cat">Dilysu</string>
     <string name="loading">Yn llwytho…</string>
     <string name="searchable_settings_description">Cyfryngau</string>
@@ -77,8 +77,6 @@
     <string name="lbl_server">Gweinydd</string>
     <string name="watch_count_overflow">99+</string>
     <string name="grid_direction_horizontal">Llorweddol</string>
-    <string name="pref_video_player_vlc">libVLC</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_premieres">Perfformiadau cyntaf</string>
     <string name="lbl_news">Newyddion</string>
     <string name="lbl_premiere">Perfformiad cyntaf</string>
@@ -126,9 +124,9 @@
     <string name="lbl_movies">Ffilmiau</string>
     <string name="lbl_collections">Casgliadau</string>
     <string name="lbl_favorites">Ffefrynnau</string>
-    <string name="lbl_latest">Diweddaraf</string>
+    <string name="lbl_latest">Ychwanegwyd yn ddiweddar</string>
     <string name="lbl_search">Chwilio</string>
-    <string name="lbl_genres">Genres</string>
+    <string name="lbl_genres">Genreau</string>
     <string name="lbl_settings">Gosodiadau</string>
     <string name="settings_title">Gosodiadau</string>
     <string name="pref_playback">Chwarae</string>
@@ -144,4 +142,13 @@
     <string name="pref_direct_stream_live_off">Defnyddir trawsgodio pan fod angen</string>
     <string name="pref_direct_stream_live_on">Trawsgodio wedi\'i ddiffodd</string>
     <string name="home_section_resume_book">Parhau i ddarllen</string>
+    <string name="video_error_unknown_error">Methwyd llwytho\'r fideo</string>
+    <string name="pref_max_bitrate_title">Cyfradd didau ffrydio uchaf</string>
+    <string name="lbl_cancel_series">Canslo cyfres</string>
+    <string name="msg_recording_cancelled">Recordiad wedi\'i ganslo</string>
+    <string name="lbl_home">Cartref</string>
+    <string name="lbl_record_series">Recordio cyfres</string>
+    <string name="state_disabled">Wedi\'i analluogi</string>
+    <string name="lbl_cancel_recording">Canslo recordio</string>
+    <string name="because_you_watched">Oherwydd i chi wylio %1$s</string>
 </resources>

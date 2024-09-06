@@ -13,7 +13,6 @@
     <string name="lbl_just_this_once">Sadece bu kez</string>
     <string name="lbl_select_date">Tarih seç</string>
     <string name="lbl_in_x_days">%d günde</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS ses</string>
     <string name="desc_premieres">İzlediğiniz herhangi bir seri için, bir sıra yeni bölüm pilot bölümleri göster</string>
     <string name="lbl_show_premieres">Sezon prömiyerlerini göster</string>
     <string name="lbl_refresh_switching">Yenileme hızı değiştirme</string>
@@ -106,8 +105,7 @@
     <string name="lbl_mark_unplayed">Oynatılmadı olarak işaretle</string>
     <string name="lbl_play_first_unwatched">İlk izlenmeyeni oynat</string>
     <string name="lbl_search_hint">Arama metni (klavye için seçin)</string>
-    <string name="sum_tv_queuing">Bir bölümü oynatırken sezonun geri kalanını kuyruğa ekle</string>
-    <string name="lbl_tv_queuing">Tüm sonraki bölümleri kuyruğa ekle</string>
+    <string name="lbl_tv_queuing">Sonraki bölümü otomatik olarak oynat</string>
     <string name="lbl_empty">Boş</string>
     <string name="lbl_no_items">Öge yok</string>
     <string name="msg_cannot_play">Bu öğe oynatılamaz</string>
@@ -193,18 +191,12 @@
     <string name="loading">Yükleniyor…</string>
     <string name="video_error_unknown_error">Video yüklenemedi</string>
     <string name="lbl_series_settings">Dizi tercihleri</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_video_player_vlc">LibVLC (deneysel)</string>
     <string name="lbl_from">,</string>
     <string name="lbl_playback_control_ends">Bitiş zamanı %1$s</string>
     <string name="lbl_sign_in">Lütfen oturum açın</string>
-    <string name="play_with">Şununla oynat</string>
-    <string name="play_with_external_app">Harici bir uygulama ile oynat</string>
-    <string name="play_with_exo_player">ExoPlayer ile oynat</string>
-    <string name="play_with_vlc">LibVLC ile oynat</string>
     <string name="just_one">Sadece bu</string>
     <string name="turn_off">Bu seçeneği kapat</string>
     <string name="audio_error">Ses oynatılamıyor %1$s</string>
@@ -233,14 +225,10 @@
     <string name="grid_direction">Tablo yönü</string>
     <string name="pref_device_model">Cihaz modeli</string>
     <string name="pref_app_theme">Uygulama teması</string>
-    <string name="pref_libvlc_audio_delay_title">libVLC için varsayılan ses gecikmesi</string>
     <string name="watch_now">Şimdi izle</string>
     <string name="pref_next_up_timeout_title">Sıradaki öge için zamanlayıcı süresi</string>
     <string name="pref_next_up_timeout_summary">Bir sonraki ögeyi çalmadan önce bekleme süresi</string>
-    <string name="pref_media_player">Tercih edilen medya oynatıcısı</string>
     <string name="pref_about_title">Hakkında</string>
-    <string name="pref_video_player_choose">Her zaman sor</string>
-    <string name="pref_video_player_external">Harici uygulama</string>
     <string name="pref_theme_emerald">Klasik zümrüt</string>
     <string name="pref_theme_dark">Karanlık (Varsayılan)</string>
     <string name="lbl_my_media">Benim medyam</string>
@@ -253,7 +241,6 @@
     <string name="lbl_repeat_episodes">Tekrarlanan bölümler</string>
     <string name="lbl_premieres">Prömierler</string>
     <string name="lbl_new_episodes">Yeni bölümler</string>
-    <string name="lbl_audio_delay">Ses gecikmesi</string>
     <string name="lbl_new_only">Sadece yeni</string>
     <string name="lbl_news">Yeniler</string>
     <string name="lbl_tv_filter_status">sonraki %1$d saat için</string>
@@ -269,7 +256,7 @@
     <string name="lbl_guide_option_played">Son oynatılan</string>
     <string name="lbl_show_indicators">Göstergeleri göster</string>
     <string name="lbl_sort_by">Şuna göre sırala</string>
-    <string name="lbl_premiere">Prömier</string>
+    <string name="lbl_premiere">İlk Gösterim</string>
     <string name="lbl_guest_stars">Konuk oyuncular</string>
     <string name="lbl_on_schedule">Zamanında</string>
     <string name="lbl_at_any_time">Herhangi bir zamanda</string>
@@ -387,9 +374,6 @@
     <string name="lbl_stretch">Esnet</string>
     <string name="lbl_auto_crop">Otomatik kırp</string>
     <string name="lbl_community_rating">Topluluk puanı</string>
-    <string name="lbl_subtitle_fg">Altyazı metin rengi</string>
-    <string name="lbl_subtitle_stroke">Altyazı kontur boyutu</string>
-    <string name="lbl_adjust">Ayarla</string>
     <string name="lbl_subtitle_delay">Altyazı gecikmesi</string>
     <string name="server_connection_failed_candidates">Sunucuya bağlanılamıyor, şu adresler denendi: %1$s</string>
     <string name="image_type_poster">Poster</string>
@@ -440,7 +424,7 @@
     <string name="pref_crash_report_logs">Günlükleri dahil et</string>
     <string name="pref_crash_report_logs_disabled">Günlükler çökme raporlarına dahil edilmeyecektir</string>
     <string name="app_notification_beta">Uygulama %1$s sürümüne güncellendi
-\nJellyfin beta programına katıldığınız için teşekkür ederiz</string>
+\nJellyfin beta programına katıldığınız için teşekkür ederiz.</string>
     <string name="pref_enable_media_management_description">Göz atarken medyayı yönetme seçeneğini göster</string>
     <string name="pref_screensaver">Ekran Koruyucu</string>
     <string name="pref_screensaver_inapp_enabled">Uygulama içi ekran koruyucuyu kullanın</string>
@@ -495,7 +479,6 @@
         <item quantity="one">%1$s saniye</item>
         <item quantity="other">%1$s saniye</item>
     </plurals>
-    <string name="lbl_subtitle_position">Altyazının aşağıdan uzaklığı</string>
     <string name="pref_telemetry_description">Çökme raporlarını gönderin, günlükleri ekleyin</string>
     <string name="pref_crash_reports_enabled">Çökme raporları son kullandığınız sunucuya gönderilecektir</string>
     <string name="item_deleted">%1$s silindi</string>
@@ -555,4 +538,20 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Yalnızca yaş derecelendirmesi ayarlanmış ögeleri göster</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Tüm ögeler gösteriliyor</string>
     <string name="lbl_home">Ana Ekran</string>
+    <string name="app_notification_update_soon">Bir sonraki güncellemeden sonra uygulamayı kullanmaya devam etmek için sunucunuzu %1$s sürümünden en az %2$s sürümüne güncelleyin.</string>
+    <string name="all_channels">Tüm kanallar</string>
+    <string name="current_queue">Geçerli kuyruk</string>
+    <string name="pref_external_player">Harici oynatıcı kullan</string>
+    <string name="continue_listening">Dinlemeye devam et</string>
+    <string name="past_week">Geçen hafta</string>
+    <string name="scheduled_in_next_24_hours">Önümüzdeki 24 saat için planlandı</string>
+    <string name="past_24_hours">Son 24 saat</string>
+    <string name="lbl_subtitle_background_color">Altyazı arka plan rengi</string>
+    <string name="lbl_subtitle_text_stroke_color">Altyazı kontur rengi</string>
+    <string name="pref_subtitles_size_small">Küçük</string>
+    <string name="pref_subtitles_size_large">Büyük</string>
+    <string name="pref_subtitles_size_very_large">Çok büyük</string>
+    <string name="lbl_subtitle_text_color">Altyazı metin rengi</string>
+    <string name="pref_subtitles_size_very_small">Çok küçük</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
 </resources>

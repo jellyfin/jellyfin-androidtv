@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,7 @@ import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
@@ -75,11 +74,6 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
         mButtonRow = detailsBinding.fdButtonRow;
         mItemList = binding.songs;
         mScrollView = binding.scrollView;
-
-        //adjust left frame
-        RelativeLayout leftFrame = detailsBinding.leftFrame;
-        ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
-        params.width = Utils.convertDpToPixel(requireContext(), 100);
 
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -142,9 +136,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
             switch (keyCode) {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                    if (mediaManager.getValue().isPlayingAudio())
-                        mediaManager.getValue().pauseAudio();
-                    else mediaManager.getValue().resumeAudio();
+                    mediaManager.getValue().togglePlayPause();
                     return true;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
                 case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
@@ -226,7 +218,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
             open.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    itemLauncher.getValue().launch(new BaseRowItem(row.getItem()), null, 0, requireContext());
+                    itemLauncher.getValue().launch(new BaseItemDtoBaseRowItem(row.getItem()), null, requireContext());
                     return true;
                 }
             });

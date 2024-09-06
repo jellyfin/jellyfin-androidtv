@@ -50,7 +50,7 @@
     <string name="lbl_seasons">シーズン</string>
     <string name="lbl_upcoming">近日公開</string>
     <string name="lbl_favorite">お気に入り</string>
-    <string name="lbl_watched">既に見る</string>
+    <string name="lbl_watched">視聴済み</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_min">" 分"</string>
     <string name="lbl_directed_by">監督</string>
@@ -78,7 +78,6 @@
     <string name="lbl_no_items">項目無し</string>
     <string name="lbl_empty">空</string>
     <string name="lbl_tv_queuing">後続のすべてのエピソードをキューに入れる</string>
-    <string name="sum_tv_queuing">エピソードを再生する際にシーズンの残りをキューに入れる</string>
     <string name="lbl_search_hint">検索テキスト（選択するとキーボードが表示）</string>
     <string name="lbl_play_first_unwatched">最初未視聴を再生</string>
     <string name="lbl_mark_unplayed">未再生として登録</string>
@@ -163,7 +162,6 @@
     <string name="lbl_hd_programs">高精細度番組</string>
     <string name="lbl_live_broadcasts">生放送</string>
     <string name="lbl_new_episodes">新しいエピソード</string>
-    <string name="lbl_audio_delay">音声遅延</string>
     <string name="lbl_new_only">新しいのみ</string>
     <string name="lbl_news">ニュース</string>
     <string name="lbl_resume_from">%1$s から再開</string>
@@ -176,7 +174,6 @@
     <string name="lbl_show_premieres">ブラウザでシーズンプレミアを表示</string>
     <string name="lbl_repeat_episodes">エピソードをリピート</string>
     <string name="lbl_premieres">プレミア</string>
-    <string name="lbl_bitstream_dts">ビットストリームDTSオーディオ</string>
     <string name="lbl_in_x_days">%d 日で</string>
     <string name="lbl_refresh_switching">リフレッシュレート切り替え中</string>
     <string name="lbl_bitstream_ac3">ビットストリームドルビーデジタル・オーディオ</string>
@@ -206,7 +203,7 @@
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングを開始</string>
     <string name="msg_burn_sub_warning">字幕の生成に数分必要です。しばらくお待ちください…</string>
-    <string name="lbl_more_like_this">このように</string>
+    <string name="lbl_more_like_this">これに似たもの</string>
     <string name="lbl_resume_preroll">プレロールを再開する</string>
     <string name="lbl_show_backdrop">背景を表示</string>
     <string name="lbl_subtitle_track">字幕トラックを選択</string>
@@ -299,9 +296,6 @@
     <string name="lbl_stars">スター</string>
     <string name="lbl_playback_control_ends">%1$sに終了</string>
     <string name="lbl_sign_in">サインインして下さい</string>
-    <string name="play_with_external_app">外部アプリで再生</string>
-    <string name="play_with_exo_player">ExoPlayerで再生</string>
-    <string name="play_with_vlc">LibVLCで再生</string>
     <string name="turn_off">このオプションをオフにする</string>
     <string name="audio_error">オーディオを再生できません %1$s</string>
     <string name="msg_no_items">再生するアイテムがありません</string>
@@ -320,15 +314,11 @@
     <string name="pref_audio_track_button">オーディオトラックボタン</string>
     <string name="grid_direction_vertical">縦方向（試験的）</string>
     <string name="grid_direction_horizontal">水平方向</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLCのオーディオ遅延</string>
     <string name="watch_now">今すぐ見る</string>
     <string name="pref_next_up_timeout_summary">次のアイテムを再生するまでどのくらい待つか</string>
-    <string name="pref_video_player_vlc">LibVLC (試験的)</string>
     <string name="pref_theme_dark">ダークモード（デフォルト）</string>
     <string name="pref_app_theme">アプリのテーマ</string>
     <string name="pref_next_up_behavior_title">次のビデオの情報を表示する</string>
-    <string name="pref_video_player_choose">常に確認する</string>
-    <string name="pref_video_player_external">外部アプリ</string>
     <string name="lbl_my_media">私のメディア</string>
     <string name="lbl_fit">通常</string>
     <string name="sum_enable_cinema_mode">サーバーによって有効にされていると、ムービーの再生前にイントロとプレビューを再生します</string>
@@ -338,7 +328,6 @@
     <string name="pref_direct_stream_live_on">トランスコーディングは無効です</string>
     <string name="watch_count_overflow">99+</string>
     <string name="mark_watched_message">最後まで再生されていませんが、視聴済みにしますか？</string>
-    <string name="pref_media_player">お気に入りのメディアプレーヤ</string>
     <string name="pref_show_backdrop_description">背景画像を選択中のアイテムに変更する</string>
     <string name="lbl_playback_speed">再生速度</string>
     <string name="lbl_stretch">ストレッチ</string>
@@ -350,7 +339,6 @@
     <string name="lbl_unknown_key">不明(%1s)</string>
     <string name="license_repository">リポジトリ</string>
     <string name="input_password">パスワード</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_tomatoes">RottenTomatoes.com</string>
     <string name="color_red">赤</string>
     <string name="color_green">緑</string>
@@ -387,7 +375,6 @@
     <string name="random">ランダム</string>
     <string name="msg_playback_not_allowed">現在再生は許可されていません</string>
     <string name="msg_playback_restricted">管理者は現在このアイテムの再生を制限しています</string>
-    <string name="lbl_subtitle_fg">字幕テキストの色</string>
     <string name="msg_live_tv_next">次の %1$d 時間を読み込みますか？</string>
     <string name="pref_playback_advanced">高度な再生設定</string>
     <string name="server_issue_outdated_version">サーバーはサポートされていないバージョン %1$s を使用しています。%2$s 以降に更新してください</string>
@@ -442,7 +429,6 @@
     <string name="pref_screensaver_ageratingrequired_disabled">すべてのアイテムを表示</string>
     <string name="pref_audio_night_mode">オーディオナイトモード（実験的）</string>
     <string name="lbl_tv_channel_status">%2$d チャンネル中 %1$d チャンネル</string>
-    <string name="lbl_adjust">調整</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="enable_smart_view">スマートスクリーンを有効にする</string>

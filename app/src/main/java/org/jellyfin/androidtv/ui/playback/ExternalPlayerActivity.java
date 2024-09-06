@@ -217,8 +217,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 .setNegativeButton(R.string.turn_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        userPreferences.getValue().reset(UserPreferences.Companion.getVideoPlayer());
-                        userPreferences.getValue().reset(UserPreferences.Companion.getLiveTvVideoPlayer());
+                        userPreferences.getValue().reset(UserPreferences.Companion.getUseExternalPlayer());
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {

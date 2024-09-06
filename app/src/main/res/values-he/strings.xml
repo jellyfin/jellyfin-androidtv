@@ -86,8 +86,7 @@
     <string name="lbl_mark_unplayed">סמן כלא נצפה</string>
     <string name="lbl_play_first_unwatched">נגן את הבא שלא נצפה</string>
     <string name="lbl_search_hint">חיפוש טקסט (בחר להופעת מקלדת)</string>
-    <string name="sum_tv_queuing">הכנס את שאר העונה לתור הצפייה בזמן ניגון פרק</string>
-    <string name="lbl_tv_queuing">נגן להבא את כל הפרקים הבאים</string>
+    <string name="lbl_tv_queuing">נגן את הפרק הבא אוטומטית</string>
     <string name="lbl_empty">ריק</string>
     <string name="lbl_no_items">אין תוכן</string>
     <string name="msg_cannot_play">לא ניתן לנגן את הסרט</string>
@@ -208,14 +207,9 @@
     <string name="lbl_just_this_once">רק הפעם</string>
     <string name="lbl_select_date">בחר תאריך</string>
     <string name="lbl_in_x_days">בעוד %d ימים</string>
-    <string name="lbl_bitstream_dts">שמע דיגיטאלי ב DTS</string>
     <string name="desc_premieres">מראה שורה של פיילוטים לפרקים חדשים עבור הסדרה שנצפית</string>
     <string name="lbl_playback_control_ends">מסתיים ב %1$s</string>
     <string name="lbl_sign_in">אנא התחבר</string>
-    <string name="play_with">נגן בעזרת</string>
-    <string name="play_with_external_app">נגן בנגן חיצונה</string>
-    <string name="play_with_exo_player">נגן בעזרת ExoPlayer</string>
-    <string name="play_with_vlc">נגן בעזרת libVLC</string>
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
@@ -244,15 +238,10 @@
     <string name="grid_direction">כיוון הטבלה</string>
     <string name="pref_device_model">מודל המכשיר</string>
     <string name="pref_app_theme">עיצוב האפליקציה</string>
-    <string name="pref_libvlc_audio_delay_title">ברירת המחדל לעיכוב שמע בשימוש LibVLC</string>
     <string name="watch_now">צפה עכשיו</string>
     <string name="pref_next_up_timeout_title">תזמון טיימר הבא בתור</string>
     <string name="pref_next_up_timeout_summary">כמה לחכות לפני הפעלת הבא בתור</string>
-    <string name="pref_media_player">נגן מדיה מועדף</string>
     <string name="pref_about_title">אודות</string>
-    <string name="pref_video_player_choose">שאל תמיד</string>
-    <string name="pref_video_player_external">נגן חיצוני</string>
-    <string name="pref_video_player_exoplayer">אקסופליר</string>
     <string name="pref_theme_emerald">קלאסי</string>
     <string name="pref_theme_dark">חשוך (רגיל)</string>
     <string name="lbl_my_media">המדיה שלי</string>
@@ -265,7 +254,6 @@
     <string name="lbl_repeat_episodes">חזרה על פרקים</string>
     <string name="lbl_premieres">פרימיירות</string>
     <string name="lbl_new_episodes">פרקים חדשים</string>
-    <string name="lbl_audio_delay">עיקוב שמע</string>
     <string name="lbl_new_only">רק חדשים</string>
     <string name="lbl_news">חדשות</string>
     <string name="lbl_tv_filter_status">ב %1$d שעות הקרובות</string>
@@ -281,7 +269,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="bitrate_kbit">%1$,.0f קילוביט לשניה</string>
     <string name="bitrate_mbit">‭%1$,.0f Mbit/s</string>
-    <string name="pref_video_player_vlc">libVLC (ניסיוני)</string>
     <string name="lbl_item">פריט</string>
     <string name="lbl_items">פריטים</string>
     <string name="server_connection_failed">לא ניתן להתחבר לשרת</string>
@@ -432,7 +419,6 @@
     <string name="action_login">התחבר</string>
     <string name="lbl_start_end_on_schedule">מתחיל בתזמון ומסתיים בתזמון</string>
     <string name="lbl_subtitle_delay">השהיית כתוביות</string>
-    <string name="lbl_adjust">התאם</string>
     <string name="lbl_shuffle_queue">החלף מצב ערבוב</string>
     <string name="state_disabled">מושבת</string>
     <string name="pref_telemetry_category">דיווח על קריסה</string>
@@ -458,12 +444,9 @@
     <string name="server_setup_incomplete">ההגדרה של שרת זה לא הושלמה. פתח את Jellyfin בדפדפן אינטרנט כדי לסיים את ההגדרה לפני הכניסה.</string>
     <string name="episode_name_special">מיוחד</string>
     <string name="crash_report_toast">אופס! משהו השתבש, דוח קריסה נשלח לשרת Jellyfin שלך.</string>
-    <string name="app_notification_beta">היישום עודכן ל־%1$s
-\nתודה על השתתפותך בתוכנית הבטא של Jellyfin</string>
+    <string name="app_notification_beta">היישום עודכן לגרסה %1$s
+\nתודה על השתתפותך בתוכנית הבטא של Jellyfin.</string>
     <string name="color_black">שחור</string>
-    <string name="lbl_subtitle_fg">צבע הכתוביות</string>
-    <string name="lbl_subtitle_stroke">גודל הכתוביות</string>
-    <string name="lbl_subtitle_position">מרווח הכתוביות מהתחתית</string>
     <string name="color_white">לבן</string>
     <string name="color_red">אדום</string>
     <string name="color_green">ירוק</string>
@@ -522,4 +505,57 @@
     <string name="photos">תמונות</string>
     <string name="photo_albums">אלבומי תמונות</string>
     <string name="lbl_hide_watched_checkmark">כאשר ישנם פרקים נותרים</string>
+    <string name="pref_external_player">השתמש בנגן חיצוני</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="person_birthday_and_age">תאריך לידה %1$s (%2$d)</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="lbl_home">בית</string>
+    <string name="clear_image_cache">ניקוי מטמון תמונות</string>
+    <string name="clear_image_cache_content">בשימוש: %1$s</string>
+    <string name="lbl_runtime">זמן אמת</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="all_channels">כל הערוצים</string>
+    <string name="current_queue">תור נוכחי</string>
+    <string name="pref_screensaver_ageratingmax_zero">כל הגילאים</string>
+    <string name="pref_screensaver_ageratingmax_entry">עד גיל %1$d</string>
+    <plurals name="songs">
+        <item quantity="one">שיר %1$s</item>
+        <item quantity="two">%1$s שירים</item>
+        <item quantity="other">%1$s שירים</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">סדרה %1$s</item>
+        <item quantity="two">%1$s סדרות</item>
+        <item quantity="other">%1$s סדרות</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">אלבום %1$s</item>
+        <item quantity="two">%1$s אלבומים</item>
+        <item quantity="other">%1$s אלבומים</item>
+    </plurals>
+    <string name="continue_listening">המשך האזנה</string>
+    <string name="random">אקראי</string>
+    <string name="pref_screensaver_ageratingrequired_title">דרוש הגבלת גיל</string>
+    <plurals name="items">
+        <item quantity="one">פריט %1$s</item>
+        <item quantity="two">%1$s פריטים</item>
+        <item quantity="other">%1$s פריטים</item>
+    </plurals>
+    <string name="app_notification_update_soon">יש לעדכן את השרת מגרסה %1$s לגרסה %2$s לפחות בכדי להמשיך להשתמש באפליקציה אחרי העדכון הבא.</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">השבתת מקסימום</string>
+    <string name="pref_playback_advanced">מאפייני פלייבק מתקדמים</string>
+    <plurals name="movies">
+        <item quantity="one">סרט %1$s</item>
+        <item quantity="two">%1$s סרטים</item>
+        <item quantity="other">%1$s סרטים</item>
+    </plurals>
+    <string name="unreleased">טרם יצא</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">מציג פריטים שיש להם הגבלת גיל</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
+    <string name="pref_screensaver_ageratingmax">דירוג גיל מקסימלי</string>
 </resources>

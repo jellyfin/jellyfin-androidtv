@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
 class TimeUtilsTests : FunSpec({
-	test("TimeUtils.secondstoMillis() works correctly") {
+	test("TimeUtils.secondsToMillis() works correctly") {
 		TimeUtils.secondsToMillis(0.0) shouldBe 0
 		TimeUtils.secondsToMillis(1.0) shouldBe 1000
 		TimeUtils.secondsToMillis(1.25) shouldBe 1250

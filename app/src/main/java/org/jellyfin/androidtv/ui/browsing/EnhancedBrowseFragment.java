@@ -34,14 +34,16 @@ import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
@@ -52,7 +54,6 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -189,7 +190,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         // React to deletion
         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-        if (mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getBaseItem().getId().equals(dataRefreshService.getLastDeletedItemId())) {
+        if (mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(dataRefreshService.getLastDeletedItemId())) {
             ((ItemRowAdapter) mCurrentRow.getAdapter()).remove(mCurrentItem);
             dataRefreshService.setLastDeletedItemId(null);
         }
@@ -223,8 +224,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter(false, 140);
         ClassPresenterSelector ps = new ClassPresenterSelector();
+        ps.addClassPresenter(GridButtonBaseRowItem.class, new GridButtonPresenter(155, 140));
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
-        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(155, 140));
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText());
@@ -236,23 +237,14 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 case LatestItems:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getLatestItemsQuery(), true, mCardPresenter, mRowsAdapter);
                     break;
-                case Season:
-                    rowAdapter = new ItemRowAdapter(requireContext(), def.getSeasonQuery(), mCardPresenter, mRowsAdapter);
-                    break;
-                case Upcoming:
-                    rowAdapter = new ItemRowAdapter(requireContext(), def.getUpcomingQuery(), mCardPresenter, mRowsAdapter);
-                    break;
                 case Views:
-                    rowAdapter = new ItemRowAdapter(requireContext(), ViewQuery.INSTANCE, mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(requireContext(), GetUserViewsRequest.INSTANCE, mCardPresenter, mRowsAdapter);
                     break;
                 case SimilarSeries:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, mRowsAdapter);
                     break;
                 case SimilarMovies:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, mRowsAdapter);
-                    break;
-                case Persons:
-                    rowAdapter = new ItemRowAdapter(requireContext(), def.getPersonsQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
                 case LiveTvChannel:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getTvChannelQuery(), 40, mCardPresenter, mRowsAdapter);
@@ -354,29 +346,14 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM &&
-                mCurrentItem.getBaseItemType() != BaseItemKind.PLAYLIST
-        ) {
-            BaseRowItem item = mCurrentItem;
-            item.refresh(new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    if (!getActive()) return;
-
-                    ItemRowAdapter adapter = (ItemRowAdapter) mCurrentRow.getAdapter();
-                    if (response == null) adapter.removeAt(adapter.indexOf(item), 1);
-					else adapter.notifyItemRangeChanged(adapter.indexOf(item), 1);
-                }
-            });
-        }
+        if (mCurrentRow == null || mCurrentItem == null) return;
+        ItemRowAdapterHelperKt.refreshItem((ItemRowAdapter) mCurrentRow.getAdapter(), api.getValue(), this, mCurrentItem);
     }
 
     private final class SpecialViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (item instanceof GridButtonBaseRowItem) item = ((GridButtonBaseRowItem) item).getGridButton();
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
@@ -462,7 +439,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) return;
 
-            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), requireContext());
+            itemLauncher.getValue().launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), requireContext());
         }
     }
 
@@ -497,7 +474,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             InfoLayoutHelper.addInfoRow(requireContext(), rowItem.getBaseItem(), mInfoRow, true);
 
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
-            adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
+            adapter.loadMoreItemsIfNeeded(adapter.indexOf(rowItem));
 
             backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }

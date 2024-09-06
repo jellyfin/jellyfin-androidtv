@@ -4,5 +4,6 @@ local.properties
 
 /.idea
 .gradle
+.kotlin/
 build/
 captures/

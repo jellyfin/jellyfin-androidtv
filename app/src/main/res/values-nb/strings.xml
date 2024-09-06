@@ -41,7 +41,7 @@
     <string name="msg_unable_to_cancel">Kunne ikke avbryte opptak</string>
     <string name="lbl_cast_crew">Skuespillere og mannskap</string>
     <string name="lbl_chapters">Kapitler</string>
-    <string name="lbl_specials">Spesial</string>
+    <string name="lbl_specials">Utvalgte</string>
     <string name="lbl_trailers">Trailere</string>
     <string name="lbl_items">Elementer</string>
     <string name="lbl_item">Element</string>
@@ -78,7 +78,6 @@
     <string name="lbl_no_items">Ingen elementer</string>
     <string name="lbl_empty">Tom</string>
     <string name="lbl_tv_queuing">Legg til alle påfølgende episoder i køen</string>
-    <string name="sum_tv_queuing">Legg resten av sesongen til i avspillingskøen når du spiller en episode</string>
     <string name="lbl_search_hint">Søk tekst (velg for tastatur)</string>
     <string name="lbl_play_first_unwatched">Spill av første som ikke er sett</string>
     <string name="lbl_mark_unplayed">Merk som usett</string>
@@ -189,7 +188,6 @@
     <string name="lbl_just_this_once">Bare denne gangen</string>
     <string name="lbl_select_date">Velg dato</string>
     <string name="lbl_in_x_days">Om %d dager</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS-lyd</string>
     <string name="desc_premieres">Vis en rad med nye pilotepisoder for alle serier du ser på</string>
     <string name="lbl_show_premieres">Vis sesongpremierer</string>
     <string name="lbl_refresh_switching">Bytte av oppdateringfrekvens</string>
@@ -218,19 +216,13 @@
     <string name="lbl_repeat_episodes">Gjenta episoder</string>
     <string name="lbl_premieres">Premierer</string>
     <string name="lbl_new_episodes">Nye episoder</string>
-    <string name="lbl_audio_delay">Lydforsinkelse</string>
     <string name="lbl_new_only">Kun nye</string>
     <string name="lbl_news">Nyheter</string>
-    <string name="pref_video_player_external">Ekstern app</string>
-    <string name="pref_video_player_vlc">LibVLC (eksperimentell)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_my_media">Min media</string>
-    <string name="pref_media_player">Foretrukket media-spiller</string>
     <string name="pref_about_title">Om</string>
     <string name="pref_next_up_timeout_title">Varighet for Neste-timer</string>
     <string name="watch_now">Se nå</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid det skal gå før neste element spilles av</string>
-    <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for LibVLC</string>
     <string name="pref_theme_emerald">Klassisk Smaragd</string>
     <string name="pref_app_theme">App-tema</string>
     <string name="pref_theme_dark">Mørk (Standard)</string>
@@ -281,11 +273,6 @@
     <string name="lbl_stars">Stjerner</string>
     <string name="lbl_playback_control_ends">Slutter ved %1$s</string>
     <string name="lbl_sign_in">Vennligst logg inn</string>
-    <string name="play_with">Spill med</string>
-    <string name="play_with_external_app">Spill med ekstern app</string>
-    <string name="play_with_exo_player">Spill med ExoPlayer</string>
-    <string name="play_with_vlc">Spill med LibVLC</string>
-    <string name="pref_video_player_choose">Spør alltid</string>
     <string name="lbl_subtitle_track">Velg undertekst</string>
     <string name="lbl_audio_track">Velg lydspor</string>
     <string name="lbl_pause">Pause</string>
@@ -361,15 +348,12 @@
     <string name="lbl_playback_speed">Avspillingshastighet</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="lbl_subtitle_fg">Undertekst farge</string>
     <string name="always_authenticate_description">Ved å skru på denne funksjonen vil du også skru av automatisk pålogging</string>
-    <string name="lbl_subtitle_position">Forskyvning av undertekster fra bunnen</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_connection_failed_candidates">Kan ikke koble til server. Forsøkte følgende adresse: %1$s</string>
     <string name="image_size_smallest">Minst</string>
     <string name="image_size_xlarge">Ekstra stor</string>
     <string name="alphabetical">Alfabetisk</string>
-    <string name="lbl_adjust">Tilpass</string>
     <string name="state_disabled">Deaktivert</string>
     <string name="lbl_latest_in">Nylig lagt til i %1$s</string>
     <string name="pref_screensaver">Skjermsparer</string>
@@ -492,7 +476,6 @@
     <string name="episode_name_special">spesiell</string>
     <string name="because_you_watched">Fordi du så %1$s</string>
     <string name="lbl_community_rating">Samfunnsvurdering</string>
-    <string name="lbl_subtitle_stroke">Undertekststrekstørrelse</string>
     <string name="lbl_start_end_on_schedule">Starter etter planen og slutter etter planen</string>
     <string name="pref_browsing">Søking</string>
     <string name="pref_refresh_rate_scale_on_tv">Skala på TV</string>
@@ -555,4 +538,5 @@
     <string name="pref_screensaver_ageratingrequired_title">Krev aldersgrense</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Kun vis elementer med en aldersgrense</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Viser alle elementer</string>
+    <string name="all_channels">Alle kanaler</string>
 </resources>

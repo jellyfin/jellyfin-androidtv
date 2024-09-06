@@ -1,29 +1,20 @@
 package org.jellyfin.playback.core
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
-import org.jellyfin.playback.core.mediastream.DefaultMediaStreamState
-import org.jellyfin.playback.core.mediastream.MediaStreamResolver
-import org.jellyfin.playback.core.mediastream.MediaStreamState
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.model.VideoSize
-import org.jellyfin.playback.core.queue.DefaultPlayerQueueState
-import org.jellyfin.playback.core.queue.EmptyQueue
-import org.jellyfin.playback.core.queue.PlayerQueueState
-import org.jellyfin.playback.core.queue.Queue
+import org.jellyfin.playback.core.queue.QueueService
 import kotlin.time.Duration
 
 interface PlayerState {
-	val queue: PlayerQueueState
-	val streams: MediaStreamState
 	val volume: PlayerVolumeState
 	val playState: StateFlow<PlayState>
 	val speed: StateFlow<Float>
@@ -34,12 +25,12 @@ interface PlayerState {
 	/**
 	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
 	 * property is not reactive to avoid performance penalties. Manually read the values every
-	 * second for UI or read when neccesary.
+	 * second for UI or read when necessary.
 	 */
 	val positionInfo: PositionInfo
 
 	// Queue management
-	fun play(playQueue: Queue)
+	fun play()
 	fun stop()
 
 	// Pausing
@@ -64,12 +55,9 @@ interface PlayerState {
 
 class MutablePlayerState(
 	private val options: PlaybackManagerOptions,
-	scope: CoroutineScope,
-	mediaStreamResolvers: Collection<MediaStreamResolver>,
 	private val backendService: BackendService,
+	private val queue: QueueService?,
 ) : PlayerState {
-	override val queue: PlayerQueueState
-	override val streams: MediaStreamState
 	override val volume: PlayerVolumeState
 
 	private val _playState = MutableStateFlow(PlayState.STOPPED)
@@ -103,13 +91,10 @@ class MutablePlayerState(
 			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) = Unit
 		})
 
-		queue = DefaultPlayerQueueState(this, scope, backendService)
-		streams = DefaultMediaStreamState(this, scope, mediaStreamResolvers, backendService)
 		volume = options.playerVolumeState
 	}
 
-	override fun play(playQueue: Queue) {
-		queue.replaceQueue(playQueue)
+	override fun play() {
 		backendService.backend?.play()
 	}
 
@@ -124,7 +109,7 @@ class MutablePlayerState(
 
 	override fun stop() {
 		backendService.backend?.stop()
-		queue.replaceQueue(EmptyQueue)
+		queue?.clear()
 	}
 
 	override fun seek(to: Duration) {

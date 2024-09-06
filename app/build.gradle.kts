@@ -2,16 +2,17 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	alias(libs.plugins.kotlin.serialization)
+	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.aboutlibraries)
 }
 
 android {
 	namespace = "org.jellyfin.androidtv"
-	compileSdk = 34
+	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
-		minSdk = 21
-		targetSdk = 33
+		minSdk = libs.versions.android.minSdk.get().toInt()
+		targetSdk = libs.versions.android.targetSdk.get().toInt()
 
 		// Release version
 		applicationId = namespace
@@ -28,10 +29,6 @@ android {
 
 	compileOptions {
 		isCoreLibraryDesugaringEnabled = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
 
 	buildTypes {
@@ -95,9 +92,9 @@ val versionTxt by tasks.registering {
 dependencies {
 	// Jellyfin
 	implementation(projects.playback.core)
-	implementation(projects.playback.exoplayer)
 	implementation(projects.playback.jellyfin)
-	implementation(projects.playback.ui)
+	implementation(projects.playback.media3.exoplayer)
+	implementation(projects.playback.media3.session)
 	implementation(projects.preference)
 	implementation(libs.jellyfin.apiclient)
 	implementation(libs.jellyfin.sdk) {
@@ -142,13 +139,11 @@ dependencies {
 	implementation(libs.androidx.media3.exoplayer.hls)
 	implementation(libs.androidx.media3.ui)
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
-	implementation(libs.libvlc)
 
 	// Markdown
 	implementation(libs.bundles.markwon)
 
 	// Image utility
-	implementation(libs.blurhash)
 	implementation(libs.bundles.coil)
 
 	// Crash Reporting

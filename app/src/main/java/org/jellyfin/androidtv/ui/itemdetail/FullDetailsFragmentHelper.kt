@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.itemdetail
 
+import android.content.ActivityNotFoundException
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -9,20 +10,36 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
-import org.jellyfin.androidtv.preference.SystemPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
+import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
+import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.popupMenu
-import org.jellyfin.androidtv.util.sdk.compat.asSdk
+import org.jellyfin.androidtv.util.sdk.TrailerUtils.getExternalTrailerIntent
+import org.jellyfin.androidtv.util.sdk.compat.canResume
+import org.jellyfin.androidtv.util.sdk.compat.copyWithUserData
 import org.jellyfin.androidtv.util.showIfNotEmpty
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
+import org.jellyfin.sdk.api.client.extensions.liveTvApi
+import org.jellyfin.sdk.api.client.extensions.tvShowsApi
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFilter
+import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
+import org.jellyfin.sdk.model.extensions.ticks
+import org.jellyfin.sdk.model.serializer.toUUID
+import org.koin.android.ext.android.inject
 import timber.log.Timber
+import java.time.Instant
+import java.util.UUID
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 fun FullDetailsFragment.deleteItem(
 	api: ApiClient,
@@ -38,7 +55,11 @@ fun FullDetailsFragment.deleteItem(
 		}
 	} catch (error: ApiClientException) {
 		Timber.e(error, "Failed to delete item ${item.name} (id=${item.id})")
-		Toast.makeText(context, getString(R.string.item_deletion_failed, item.name), Toast.LENGTH_LONG).show()
+		Toast.makeText(
+			context,
+			getString(R.string.item_deletion_failed, item.name),
+			Toast.LENGTH_LONG
+		).show()
 		return@launch
 	}
 
@@ -81,37 +102,252 @@ fun FullDetailsFragment.showDetailsMenu(
 	}
 }.showIfNotEmpty()
 
-fun FullDetailsFragment.showPlayWithMenu(
-	view: View,
-	shuffle: Boolean,
-) = popupMenu(requireContext(), view) {
-	item(getString(R.string.play_with_exo_player)) {
-		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.EXOPLAYER
-		play(mBaseItem, 0, shuffle)
+fun FullDetailsFragment.createFakeSeriesTimerBaseItemDto(timer: SeriesTimerInfoDto) = BaseItemDto(
+	id = requireNotNull(timer.id).toUUID(),
+	type = BaseItemKind.FOLDER,
+	mediaType = MediaType.UNKNOWN,
+	seriesTimerId = timer.id,
+	name = timer.name,
+	overview = timer.getSeriesOverview(requireContext()),
+)
+
+fun FullDetailsFragment.toggleFavorite() {
+	val itemMutationRepository by inject<ItemMutationRepository>()
+	val dataRefreshService by inject<DataRefreshService>()
+
+	lifecycleScope.launch {
+		val userData = itemMutationRepository.setFavorite(
+			item = mBaseItem.id,
+			favorite = !(mBaseItem.userData?.isFavorite ?: false)
+		)
+		mBaseItem = mBaseItem.copyWithUserData(userData)
+		favButton.isActivated = userData.isFavorite
+		dataRefreshService.lastFavoriteUpdate = Instant.now()
 	}
+}
 
-	item(getString(R.string.play_with_vlc)) {
-		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.VLC
-		play(mBaseItem, 0, shuffle)
-	}
+fun FullDetailsFragment.togglePlayed() {
+	val itemMutationRepository by inject<ItemMutationRepository>()
+	val dataRefreshService by inject<DataRefreshService>()
 
-	item(getString(R.string.play_with_external_app)) {
-		systemPreferences.value[SystemPreferences.chosenPlayer] = PreferredVideoPlayer.EXTERNAL
+	lifecycleScope.launch {
+		val userData = itemMutationRepository.setPlayed(
+			item = mBaseItem.id,
+			played = !(mBaseItem.userData?.played ?: false)
+		)
+		mBaseItem = mBaseItem.copyWithUserData(userData)
+		mWatchedToggleButton.isActivated = userData.played
 
-		val baseItem = mBaseItem.asSdk()
-		val itemsCallback = object : LifecycleAwareResponse<List<BaseItemDto>>(lifecycle) {
-			override fun onResponse(response: List<BaseItemDto>) {
-				if (!active) return
-
-				if (baseItem.type == BaseItemKind.MUSIC_ARTIST) {
-					mediaManager.value.playNow(requireContext(), response, 0, false)
-				} else {
-					videoQueueManager.value.setCurrentVideoQueue(response)
-					navigationRepository.value.navigate(Destinations.externalPlayer(0))
-				}
-			}
+		// Adjust resume
+		mResumeButton?.apply {
+			isVisible = mBaseItem.canResume
 		}
 
-		playbackHelper.value.getItemsToPlay(requireContext(), baseItem, false, shuffle, itemsCallback)
+		// Force lists to re-fetch
+		dataRefreshService.lastPlayback = Instant.now()
+		when (mBaseItem.type) {
+			BaseItemKind.MOVIE -> dataRefreshService.lastMoviePlayback = Instant.now()
+			BaseItemKind.EPISODE -> dataRefreshService.lastTvPlayback = Instant.now()
+			else -> Unit
+		}
+
+		showMoreButtonIfNeeded()
 	}
-}.show()
+}
+
+fun FullDetailsFragment.playTrailers() {
+	val localTrailerCount = mBaseItem.localTrailerCount ?: 0
+
+	// External trailer
+	if (localTrailerCount < 1) try {
+		val intent = getExternalTrailerIntent(requireContext(), mBaseItem)
+		if (intent != null) startActivity(intent)
+	} catch (exception: ActivityNotFoundException) {
+		Timber.w(exception, "Unable to open external trailer")
+		Toast.makeText(
+			requireContext(),
+			getString(R.string.no_player_message),
+			Toast.LENGTH_LONG
+		).show()
+	} else lifecycleScope.launch {
+		val api by inject<ApiClient>()
+
+		try {
+			val trailers by api.userLibraryApi.getLocalTrailers(mBaseItem.id)
+			play(trailers, 0, false)
+		} catch (exception: ApiClientException) {
+			Timber.e(exception, "Error retrieving trailers for playback")
+			Toast.makeText(
+				requireContext(),
+				getString(R.string.msg_video_playback_error),
+				Toast.LENGTH_LONG
+			).show()
+		}
+	}
+}
+
+fun FullDetailsFragment.getItem(id: UUID, callback: (item: BaseItemDto?) -> Unit) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		val response = try {
+			api.userLibraryApi.getItem(id)
+		} catch (err: ApiClientException) {
+			Timber.w(err, "Failed to get item $id")
+			null
+		}
+
+		callback(response?.content)
+	}
+}
+
+fun FullDetailsFragment.populatePreviousButton() {
+	if (mBaseItem.type != BaseItemKind.EPISODE) return
+
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		val siblings by api.tvShowsApi.getEpisodes(
+			seriesId = requireNotNull(mBaseItem.seriesId),
+			adjacentTo = mBaseItem.id,
+		)
+
+		val previousItem = siblings.items
+			?.filterNot { it.id == mBaseItem.id }
+			?.firstOrNull()
+			?.id
+
+		mPrevItemId = previousItem
+		mPrevButton.isVisible = previousItem != null
+
+		showMoreButtonIfNeeded()
+	}
+}
+
+fun FullDetailsFragment.resumePlayback() {
+	if (mBaseItem.type != BaseItemKind.SERIES) {
+		val pos = (mBaseItem.userData?.playbackPositionTicks?.ticks
+			?: Duration.ZERO) - resumePreroll.milliseconds
+		play(mBaseItem, pos.inWholeMilliseconds.toInt(), false)
+		return
+	}
+
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		try {
+			val episodes by api.itemsApi.getItems(
+				parentId = mBaseItem.id,
+				includeItemTypes = setOf(BaseItemKind.EPISODE),
+				recursive = true,
+				filters = setOf(ItemFilter.IS_UNPLAYED),
+				sortBy = setOf(
+					ItemSortBy.PARENT_INDEX_NUMBER,
+					ItemSortBy.INDEX_NUMBER,
+					ItemSortBy.SORT_NAME
+				),
+				limit = 1
+			)
+			val nextUpEpisode = episodes.items?.firstOrNull()
+
+			if (nextUpEpisode != null) play(nextUpEpisode, 0, false)
+		} catch (err: ApiClientException) {
+			Timber.w("Failed to get next up items")
+			Toast.makeText(
+				requireContext(),
+				getString(R.string.msg_video_playback_error),
+				Toast.LENGTH_LONG
+			).show()
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvSeriesTimer(
+	id: String,
+	callback: (timer: SeriesTimerInfoDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getSeriesTimer(id).content
+		}.onSuccess { timer ->
+			callback(timer)
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvProgram(
+	id: UUID,
+	callback: (program: BaseItemDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getProgram(id.toString()).content
+		}.onSuccess { program ->
+			callback(program)
+		}
+	}
+}
+
+fun FullDetailsFragment.createLiveTvSeriesTimer(
+	seriesTimer: SeriesTimerInfoDto,
+	callback: () -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.createSeriesTimer(seriesTimer)
+		}.onSuccess {
+			callback()
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvDefaultTimer(
+	id: UUID,
+	callback: (seriesTimer: SeriesTimerInfoDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getDefaultTimer(id.toString()).content
+		}.onSuccess { seriesTimer ->
+			callback(seriesTimer)
+		}
+	}
+}
+
+fun FullDetailsFragment.cancelLiveTvSeriesTimer(
+	timerId: String,
+	callback: () -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.cancelTimer(timerId)
+		}.onSuccess {
+			callback()
+		}
+	}
+}
+
+fun FullDetailsFragment.getLiveTvChannel(
+	id: UUID,
+	callback: (channel: BaseItemDto) -> Unit,
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		runCatching {
+			api.liveTvApi.getChannel(id).content
+		}.onSuccess { channel ->
+			callback(channel)
+		}
+	}
+}

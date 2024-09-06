@@ -1,11 +1,11 @@
 package org.jellyfin.androidtv.util.sdk
 
 import android.content.Context
-import android.text.format.DateFormat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.getQuantityString
+import org.jellyfin.androidtv.util.getTimeFormatter
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -13,7 +13,6 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.LocationType
 import org.jellyfin.sdk.model.api.PersonKind
-import org.jellyfin.sdk.model.api.PlayAccess
 import java.time.LocalDateTime
 
 fun BaseItemDto.getSeasonEpisodeName(context: Context): String {
@@ -67,14 +66,13 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 
 	// If the start time is on a different day, add the date
 	if (startDate?.dayOfYear != LocalDateTime.now().dayOfYear)
-		append(TimeUtils.getFriendlyDate(context, TimeUtils.getDate(startDate)), " ")
+		append(TimeUtils.getFriendlyDate(context, startDate), " ")
 
 	// Add the start and end time
-	val dateFormat = DateFormat.getTimeFormat(context)
 	append(context.getString(
 		R.string.lbl_time_range,
-		dateFormat.format(TimeUtils.getDate(startDate)),
-		dateFormat.format(TimeUtils.getDate(endDate))
+		context.getTimeFormatter().format(startDate),
+		context.getTimeFormatter().format(endDate),
 	))
 }
 
@@ -111,7 +109,7 @@ fun BaseItemDto.getSubName(context: Context): String? = when (type) {
 			context.getString(
 				R.string.lbl_name_date,
 				name,
-				TimeUtils.getFriendlyDate(context, TimeUtils.getDate(premiereDate))
+				TimeUtils.getFriendlyDate(context, premiereDate)
 			)
 		else -> name
 	}

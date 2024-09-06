@@ -108,6 +108,7 @@
         <activity
             android:name=".ui.startup.StartupActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing">
@@ -131,6 +132,7 @@
         <!-- Main application -->
         <activity
             android:name=".ui.browsing.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing" />
 

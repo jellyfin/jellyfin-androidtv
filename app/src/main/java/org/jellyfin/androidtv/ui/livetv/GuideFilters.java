@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import kotlin.Lazy;
 
@@ -38,12 +38,12 @@ public class GuideFilters {
     public boolean passesFilter(BaseItemDto program) {
         if (!any()) return true;
 
-        if (movies && Utils.isTrue(program.getIsMovie())) return !premiere || Utils.isTrue(program.getIsPremiere());
-        if (news && Utils.isTrue(program.getIsNews())) return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive()) || !Utils.isTrue(program.getIsRepeat());
-        if (series && Utils.isTrue(program.getIsSeries())) return !premiere || Utils.isTrue(program.getIsPremiere()) || !Utils.isTrue(program.getIsRepeat());
-        if (kids && Utils.isTrue(program.getIsKids())) return !premiere || Utils.isTrue(program.getIsPremiere());
-        if (sports && Utils.isTrue(program.getIsSports())) return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive());
-        if (!movies && !news && !series && !kids && !sports) return (premiere && (Utils.isTrue(program.getIsPremiere()) || (Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsRepeat())) || (Utils.isTrue(program.getIsSports()) && Utils.isTrue(program.getIsLive()))));
+        if (movies && Utils.isTrue(program.isMovie())) return !premiere || Utils.isTrue(program.isPremiere());
+        if (news && Utils.isTrue(program.isNews())) return !premiere || Utils.isTrue(program.isPremiere()) || Utils.isTrue(program.isLive()) || !Utils.isTrue(program.isRepeat());
+        if (series && Utils.isTrue(program.isSeries())) return !premiere || Utils.isTrue(program.isPremiere()) || !Utils.isTrue(program.isRepeat());
+        if (kids && Utils.isTrue(program.isKids())) return !premiere || Utils.isTrue(program.isPremiere());
+        if (sports && Utils.isTrue(program.isSports())) return !premiere || Utils.isTrue(program.isPremiere()) || Utils.isTrue(program.isLive());
+        if (!movies && !news && !series && !kids && !sports) return (premiere && (Utils.isTrue(program.isPremiere()) || (Utils.isTrue(program.isSeries()) && !Utils.isTrue(program.isRepeat())) || (Utils.isTrue(program.isSports()) && Utils.isTrue(program.isLive()))));
 
         return false;
 
@@ -76,7 +76,7 @@ public class GuideFilters {
         return filterString;
     }
 
-    private String getSeparator(String original) {return (original.length()) > 0 ? ", " : "";}
+    private String getSeparator(String original) {return !original.isEmpty() ? ", " : "";}
 
     public boolean isMovies() {
         return movies;

@@ -88,7 +88,9 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     @Override
     public void onPause() {
         super.onPause();
-        playerAdapter.getMasterOverlayFragment().onPause();
+        if (playerAdapter != null) {
+            playerAdapter.getMasterOverlayFragment().onPause();
+        }
     }
 
     public CustomPlaybackTransportControlGlue getPlayerGlue() {

@@ -1,7 +1,6 @@
 package org.jellyfin.playback.core.queue.order
 
-import org.jellyfin.playback.core.queue.PlayerQueueState
-import org.jellyfin.playback.core.queue.Queue
+import org.jellyfin.playback.core.queue.QueueService
 
 internal interface OrderIndexProvider {
 	/**
@@ -13,15 +12,15 @@ internal interface OrderIndexProvider {
 	 * Collect the next [amount] of indices to play.
 	 *
 	 * @param amount The maximum amount of indices to retrieve. May be less if there are none left.
-	 * @param queue The queue to generate indices for.
+	 * @param size The size of the queue to generate indices for.
 	 * @param playedIndices The previously played indices, this may include the [currentIndex].
-	 * @param currentIndex The currently playing index or [PlayerQueueState.INDEX_NONE].
+	 * @param currentIndex The currently playing index or [QueueService.INDEX_NONE].
 	 *
 	 * @return A collection no more than [amount] items of indices to play next.
 	 */
 	fun provideIndices(
 		amount: Int,
-		queue: Queue,
+		size: Int,
 		playedIndices: Collection<Int>,
 		currentIndex: Int,
 	): Collection<Int>

@@ -35,7 +35,6 @@ class ServerUserRepositoryImpl(
 				serverId = server.id,
 				name = userInfo.name,
 				accessToken = authInfo?.accessToken,
-				requirePassword = userInfo.requirePassword,
 				imageTag = userInfo.imageTag,
 				lastUsed = userInfo.lastUsed,
 			)

@@ -8,7 +8,7 @@ class CustomSeekProvider(
 	private val videoPlayerAdapter: VideoPlayerAdapter,
 ) : PlaybackSeekDataProvider() {
 	companion object {
-		private const val SEEK_LENGTH = 30000L
+		private const val SEEK_LENGTH = 10000L
 	}
 
 	override fun getSeekPositions(): LongArray {

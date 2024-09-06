@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -27,7 +29,11 @@ class UserLoginCredentialsFragment : Fragment() {
 	private var _binding: FragmentUserLoginCredentialsBinding? = null
 	private val binding get() = _binding!!
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
 		_binding = FragmentUserLoginCredentialsBinding.inflate(inflater, container, false)
 
 		with(binding.username) {
@@ -67,24 +73,30 @@ class UserLoginCredentialsFragment : Fragment() {
 		else binding.password.requestFocus()
 
 		// React to login state
-		userLoginViewModel.loginState.onEach { state ->
-			when (state) {
-				is ServerVersionNotSupported -> binding.error.setText(getString(
-					R.string.server_issue_outdated_version,
-					state.server.version,
-					ServerRepository.recommendedServerVersion.toString()
-				))
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				userLoginViewModel.loginState.onEach { state ->
+					when (state) {
+						is ServerVersionNotSupported -> binding.error.setText(
+							getString(
+								R.string.server_issue_outdated_version,
+								state.server.version,
+								ServerRepository.recommendedServerVersion.toString()
+							)
+						)
 
-				AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
-				RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
-				ServerUnavailableState,
-				is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
-				// Do nothing because the activity will respond to the new session
-				AuthenticatedState -> Unit
-				// Not initialized
-				null -> Unit
+						AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
+						RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
+						ServerUnavailableState,
+						is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
+						// Do nothing because the activity will respond to the new session
+						AuthenticatedState -> Unit
+						// Not initialized
+						null -> Unit
+					}
+				}.launchIn(this)
 			}
-		}.launchIn(lifecycleScope)
+		}
 	}
 
 	override fun onDestroyView() {

@@ -89,7 +89,6 @@
     <string name="lbl_no_items">تۈر يوق</string>
     <string name="lbl_empty">قۇرۇق تۈر</string>
     <string name="lbl_tv_queuing">پۈتۈن قىسىمنى سەپكە كىرگۈزۈش</string>
-    <string name="sum_tv_queuing">مۇشۇ بۆلۈمدىكى قالغان مەزمۇنلارنى قويۇش سېپىگە كىرگۈزۈش</string>
     <string name="lbl_search_hint">خەتچە ئىزدەش(كونۇپكا تاختىسى تاللاش)</string>
     <string name="lbl_mark_unplayed">قويۇلمىدى</string>
     <string name="lbl_add_favorite">ياقتۇرغانلىرىمغا قوشۇش</string>

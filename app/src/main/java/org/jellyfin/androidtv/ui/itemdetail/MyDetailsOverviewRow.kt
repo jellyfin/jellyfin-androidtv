@@ -10,7 +10,6 @@ class MyDetailsOverviewRow @JvmOverloads constructor(
 	val item: BaseItemDto,
 	var imageDrawable: String? = null,
 	var summary: String? = null,
-	var progress: Int = 0,
 	var infoItem1: InfoItem? = null,
 	var infoItem2: InfoItem? = null,
 	var infoItem3: InfoItem? = null,
@@ -20,5 +19,6 @@ class MyDetailsOverviewRow @JvmOverloads constructor(
 	val actions get() = _actions.toList()
 	val visibleActions get() = _actions.count { it.isVisible }
 
+	fun clearActions() = _actions.clear()
 	fun addAction(button: TextUnderButton) = _actions.add(button)
 }

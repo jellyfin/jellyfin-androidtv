@@ -20,7 +20,6 @@
     <string name="lbl_mark_unplayed">இயக்கப்படவில்லை என குறிக்கவும்</string>
     <string name="lbl_play_first_unwatched">பார்க்காததை முதலில் இயக்கு</string>
     <string name="lbl_search_hint">உரையைத் தேடு (விசைப்பலகைக்குத் தேர்ந்தெடுக்கவும்)</string>
-    <string name="sum_tv_queuing">எபிசோட் விளையாடும்போது மீதமுள்ள பருவத்தை வரிசையில் சேர்க்கவும்</string>
     <string name="lbl_tv_queuing">அனைத்து அடுத்தடுத்த அத்தியாயங்களையும் வரிசைப்படுத்தவும்</string>
     <string name="lbl_empty">காலியாக</string>
     <string name="lbl_no_items">உருப்படிகள் இல்லை</string>
@@ -131,15 +130,10 @@
     <string name="grid_direction">கட்டம் திசை</string>
     <string name="pref_device_model">சாதன மாதிரி</string>
     <string name="pref_app_theme">பயன்பாட்டு தீம்</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLC க்கான இயல்புநிலை ஆடியோ தாமதம்</string>
     <string name="watch_now">இப்பொழுது பார்</string>
     <string name="pref_next_up_timeout_title">அடுத்த டைமர் கால அளவு</string>
     <string name="pref_next_up_timeout_summary">அடுத்த உருப்படியை இயக்குவதற்கு முன்பு எவ்வளவு நேரம் காத்திருக்க வேண்டும்</string>
-    <string name="pref_media_player">விருப்பமான மீடியா பிளேயர்</string>
     <string name="pref_about_title">பற்றி</string>
-    <string name="pref_video_player_external">வெளிப்புற பயன்பாடு</string>
-    <string name="pref_video_player_vlc">LibVLC (சோதனை முறை)</string>
-    <string name="pref_video_player_exoplayer">எக்ஸோ பிளேயர்</string>
     <string name="pref_theme_emerald">கிளாசிக் எமரால்டு</string>
     <string name="pref_theme_dark">இருண்ட (இயல்புநிலை)</string>
     <string name="lbl_my_media">எனது மீடியா</string>
@@ -152,7 +146,6 @@
     <string name="lbl_repeat_episodes">அத்தியாயங்களை மீண்டும் இயக்கவும்</string>
     <string name="lbl_premieres">பிரீமியர்ஸ்</string>
     <string name="lbl_new_episodes">புதிய அத்தியாயங்கள்</string>
-    <string name="lbl_audio_delay">ஆடியோ தாமதம்</string>
     <string name="lbl_new_only">புதியது மட்டும்</string>
     <string name="lbl_news">செய்தி</string>
     <string name="lbl_song_title">பாடல் தலைப்பு</string>
@@ -187,7 +180,6 @@
     <string name="lbl_just_this_once">ஒரு முறை</string>
     <string name="lbl_select_date">தேதி தேர்ந்தெடு</string>
     <string name="lbl_in_x_days">%d நாட்களில்</string>
-    <string name="lbl_bitstream_dts">பிட்ஸ்ட்ரீம் DTS ஆடியோ</string>
     <string name="desc_premieres">நீங்கள் பார்க்கும் எந்தத் தொடருக்கும் புதிய எபிசோட் விமானிகளின் வரிசையைக் காட்டு</string>
     <string name="lbl_show_premieres">சீசன் பிரீமியர்களைக் காட்டு</string>
     <string name="lbl_refresh_switching">வீத மாற்றத்தை புதுப்பிக்கவும்</string>
@@ -265,11 +257,6 @@
     <string name="msg_will_record">பதிவு செய்யப்படும்</string>
     <string name="lbl_tv_filter_status">அடுத்த %1$d மணிநேரங்களுக்கு</string>
     <string name="lbl_tv_channel_status">%2$d சேனல்களில் %1$d</string>
-    <string name="play_with">செயல்பட</string>
-    <string name="play_with_external_app">வெளிப்புற பயன்பாட்டுடன் செயல்பட</string>
-    <string name="play_with_exo_player">ExoPlayer உடன் செயல்பட</string>
-    <string name="play_with_vlc">LibVLC உடன் செயல்பட</string>
-    <string name="pref_video_player_choose">எப்போதும் கேள்</string>
     <string name="lbl_subtitle_track">வசனத் தடத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="lbl_audio_track">ஆடியோ டிராக்கைத் தேர்ந்தெடுக்கவும்</string>
     <string name="lbl_pause">இடைநிறுத்தம்</string>
@@ -442,7 +429,6 @@
     <string name="crash_report_toast">அச்சச்சோ! ஏதோ தவறாகிவிட்டது, உங்கள் Jellyfin சர்வருக்கு செயலிழப்பு அறிக்கை அனுப்பப்பட்டது.</string>
     <string name="pref_audio_night_mode">ஆடியோ இரவு முறை (சோதனை)</string>
     <string name="desc_audio_night_mode">ஆடியோ ஒலியளவை தானாகவே சமன் செய்</string>
-    <string name="lbl_subtitle_fg">வசன வரி நிறம்</string>
     <string name="color_black">கருப்பு</string>
     <string name="color_red">சிவப்பு</string>
     <string name="color_yellow">மஞ்சள்</string>
@@ -459,13 +445,10 @@
     <string name="pref_crash_reports_enabled">செயலிழப்பு அறிக்கைகள் நீங்கள் கடைசியாகப் பயன்படுத்திய சேவையகத்திற்கு அனுப்பப்படும்</string>
     <string name="pref_crash_reports_disabled">செயலிழப்பு அறிக்கைகள் சமர்ப்பிக்கப்படாது</string>
     <string name="lbl_additional_parts">கூடுதல் பாகங்கள்</string>
-    <string name="lbl_adjust">சரிசெய்</string>
     <string name="color_cyan">நீல- பச்சை</string>
     <string name="pref_crash_report_logs_enabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படும்</string>
     <string name="live_tv_preferences">Live TV விருப்பங்கள்</string>
     <string name="lbl_subtitle_delay">வசன தாமதம்</string>
-    <string name="lbl_subtitle_stroke">வசன வரி அளவு</string>
-    <string name="lbl_subtitle_position">வசன வரி தொடக்க அளவு கீழிருந்து</string>
     <string name="pref_crash_report_logs">பதிவுகளை உள்ளடக்கு</string>
     <string name="pref_crash_report_logs_disabled">செயலிழப்பு அறிக்கைகளில் பதிவுகள் சேர்க்கப்படாது</string>
     <string name="lbl_latest_in">%1$s சமீபத்தில் சேர்க்கப்பட்டது</string>

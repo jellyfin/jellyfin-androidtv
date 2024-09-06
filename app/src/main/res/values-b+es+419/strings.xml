@@ -75,7 +75,6 @@
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video</string>
     <string name="lbl_never">Nunca</string>
     <string name="lbl_empty">Vacío</string>
-    <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_now_playing_album">de %1$s</string>
@@ -105,8 +104,6 @@
     <string name="lbl_schedule">Programar</string>
     <string name="lbl_recent_recordings">Grabaciones recientes</string>
     <string name="watch_now">Ver ahora</string>
-    <string name="pref_media_player">Reproductor multimedia preferido</string>
-    <string name="pref_video_player_external">Aplicación externa</string>
     <string name="pref_theme_dark">Oscuro (Por defecto)</string>
     <string name="lbl_image_size">Tamaño de imagen</string>
     <string name="lbl_image_type">Tipo de imagen</string>
@@ -118,16 +115,13 @@
     <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="lbl_premieres">Estrenos</string>
     <string name="lbl_new_episodes">Nuevos episodios</string>
-    <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_news">Noticias</string>
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
-    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para LibVLC</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
     <string name="pref_about_title">Acerca de</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Esmeralda clásico</string>
     <string name="lbl_my_media">Mis medios</string>
     <string name="lbl_start_favorites">Colocar los favoritos al principio</string>
@@ -142,7 +136,6 @@
     <string name="msg_settings_updated">Preferencias actualizadas</string>
     <string name="lbl_live">En vivo</string>
     <string name="msg_record_entire_series">¿Grabar serie completa\?</string>
-    <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="lbl_refresh_switching">Cambio de la tasa de refresco</string>
@@ -199,7 +192,7 @@
     <string name="lbl_remove_favorite">Quitar de favoritos</string>
     <string name="lbl_mark_played">Marcar como reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir el primero no visto</string>
-    <string name="lbl_tv_queuing">Poner en cola todos los episodios subsiguientes</string>
+    <string name="lbl_tv_queuing">Reproducir automáticamente el siguiente episodio</string>
     <string name="lbl_no_items">No hay elementos</string>
     <string name="msg_cannot_play">Este elemento no pude ser reproducido</string>
     <string name="msg_cannot_play_time">No se puede reproducir este elemento en este momento</string>
@@ -233,7 +226,6 @@
     <string name="lbl_by_letter">Por letra</string>
     <string name="lbl_on_now">Transmitiendo ahora</string>
     <string name="lbl_next_up">A continuación</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="grid_direction_vertical">Vertical</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la cuadrícula</string>
@@ -282,11 +274,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina %1$shs</string>
     <string name="lbl_sign_in">Por favor inicie sesión</string>
-    <string name="play_with">Reproducir con</string>
-    <string name="play_with_external_app">Reproducir con aplicación externa</string>
-    <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con LibVLC</string>
-    <string name="pref_video_player_choose">Siempre preguntar</string>
     <string name="lbl_subtitle_track">Seleccionar pista de subtítulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
     <string name="lbl_pause">Pausa</string>
@@ -428,7 +415,6 @@
     <string name="image_size_smallest">El mas pequeño</string>
     <string name="image_type_poster">Póster</string>
     <string name="lbl_subtitle_delay">Retraso del subtitulo</string>
-    <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="episode_name_special">Especial</string>
     <string name="server_setup_incomplete">La configuración del servidor no ha sido completada. Abre Jellyfin en un navegador web para finalizar la configuración antes de iniciar sesión.</string>
@@ -458,9 +444,6 @@
     <string name="lbl_quality_profile">Perfil de calidad</string>
     <string name="desc_audio_night_mode">Baja el volumen del audio automáticamente</string>
     <string name="pref_audio_night_mode">Audio en modo nocturno (experimental)</string>
-    <string name="lbl_subtitle_fg">Color de subtítulos</string>
-    <string name="lbl_subtitle_stroke">Ancho de borde de subtítulos</string>
-    <string name="lbl_subtitle_position">Desplazamiento de subtítulos desde abajo</string>
     <string name="lbl_latest_in">Recientes en %1$s</string>
     <plurals name="episodes">
         <item quantity="one">%1$s episodio</item>
@@ -471,8 +454,8 @@
     <string name="pref_enable_media_management">Habilitar administración de medios</string>
     <string name="pref_screensaver">Salva-pantallas</string>
     <string name="pref_screensaver_inapp_enabled_description">Mostrar el salva-pantallas de Jellyfin mientras la aplicación está abierta</string>
-    <string name="app_notification_beta">Aplicación actualizada a %1$s
-\nGracias por participar en el programa beta de Jellyfin</string>
+    <string name="app_notification_beta">Aplicación actualizar a %1$s
+\nGracias por participar en el programa beta de Jellyfin.</string>
     <string name="pref_screensaver_inapp_enabled">Usar salva-pantallas integrado</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar el salva-pantallas despues</string>
     <string name="enable_reactive_homepage">Habilitar página de inicio reactiva</string>
@@ -521,7 +504,7 @@
     <string name="ac3">Dolby Digital</string>
     <plurals name="albums">
         <item quantity="one">%1$s álbum</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">%1$s álbumes</item>
     </plurals>
     <string name="person_birthday_and_age">Nació el %1$s (%2$d)</string>
@@ -540,7 +523,7 @@
     <string name="clear_image_cache_content">Usado: %1$s</string>
     <plurals name="items">
         <item quantity="one">%1$s elemento</item>
-        <item quantity="many"></item>
+        <item quantity="many">%1$s elementos</item>
         <item quantity="other">%1$s elementos</item>
     </plurals>
     <plurals name="movies">
@@ -555,7 +538,22 @@
     </plurals>
     <plurals name="songs">
         <item quantity="one">%1$s canción</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">%1$s canciones</item>
     </plurals>
+    <string name="pref_screensaver_ageratingrequired_title">Requerir clasificación por edad</string>
+    <string name="pref_external_player">Usar reproductor externo</string>
+    <string name="current_queue">Lista actual</string>
+    <string name="app_notification_update_soon">Actualiza tu servidor %1$s a al menos la versión %2$s para continuar usando la aplicación después de la siguiente actualización.</string>
+    <string name="all_channels">Todos los canales</string>
+    <string name="pref_screensaver_ageratingmax_entry">Hasta %1$d</string>
+    <string name="pref_screensaver_ageratingmax_zero">Todas las edades</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar máximo</string>
+    <string name="pref_screensaver_ageratingmax">Clasificación por edad máxima</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrar todos los elementos</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Solo mostrar contenido con clasificación por edad</string>
+    <string name="past_week">La semana pasada</string>
+    <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
+    <string name="past_24_hours">Últimas 24 horas</string>
+    <string name="continue_listening">Continuar escuchando</string>
 </resources>

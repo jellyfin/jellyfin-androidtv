@@ -165,18 +165,12 @@
     <string name="lbl_record_any_channel">아무 채널에서나 기록하기</string>
     <string name="lbl_program_ended">방송 종료됨</string>
     <string name="lbl_now_playing_track">%1$s(%2$s)</string>
-    <string name="sum_tv_queuing">에피소드를 재생할 때 남은 시즌 대기열에 추가</string>
     <string name="lbl_tv_queuing">모든 후속 에피소드 재생 목록에 추가</string>
     <string name="lbl_never">안 함</string>
-    <string name="pref_libvlc_audio_delay_title">LibVLC 기본 오디오 지연</string>
     <string name="watch_now">지금 재생</string>
     <string name="pref_next_up_timeout_title">다음 편 재생 타이머</string>
     <string name="pref_next_up_timeout_summary">다음 편을 재생할 때 까지 기다리는 시간</string>
-    <string name="pref_media_player">선호하는 플레이어</string>
     <string name="pref_about_title">정보</string>
-    <string name="pref_video_player_external">외부 앱</string>
-    <string name="pref_video_player_vlc">LibVLC (실험적)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">클래식 에메랄드</string>
     <string name="pref_theme_dark">다크 (기본값)</string>
     <string name="lbl_my_media">내 미디어</string>
@@ -186,9 +180,6 @@
     <string name="lbl_by_letter">글자 순</string>
     <string name="lbl_views">시청</string>
     <string name="audio_error">오디오 %1$s 재생할 수 없음</string>
-    <string name="play_with_external_app">외부 플레이어 앱으로 재생</string>
-    <string name="play_with_exo_player">ExoPlayer로 재생</string>
-    <string name="play_with_vlc">LibVLC로 재생</string>
     <string name="turn_off">옵션 끄기</string>
     <string name="msg_no_items">재생할 항목이 비어 있음</string>
     <string name="subtitle_error">자막을 선택할 수 없습니다</string>
@@ -206,12 +197,10 @@
     <string name="grid_direction">격자 방향</string>
     <string name="pref_device_model">디바이스 모델</string>
     <string name="pref_app_theme">앱 테마</string>
-    <string name="pref_video_player_choose">항상 묻기</string>
     <string name="lbl_news">신규</string>
     <string name="lbl_tv_filter_status">다음 %1$d 시간 동안</string>
     <string name="lbl_tv_channel_status">%2$d 개 채널 중 %1$d 개</string>
     <string name="lbl_in_x_days">%d 일 후</string>
-    <string name="lbl_bitstream_dts">비트스트림 DTS 오디오</string>
     <string name="desc_premieres">시청하는 시리즈의 새로운 에피소드 파일럿 행을 표시</string>
     <string name="lbl_show_backdrop">배경 표시</string>
     <string name="lbl_clear_queue">대기열 비우기</string>
@@ -223,7 +212,6 @@
     <string name="lbl_add_to_queue">대기열에 추가</string>
     <string name="lbl_critic_rating">평론가 평점</string>
     <string name="pref_audio_compat">스테레오로 다운믹스</string>
-    <string name="play_with">함께 재생</string>
     <string name="lbl_end_padding">패딩 종료</string>
     <string name="lbl_begin_padding">패딩 시작</string>
     <string name="too_many_errors">오류가 너무 많이 발생했습니다. 중단합니다</string>
@@ -243,7 +231,6 @@
     <string name="lbl_repeat_episodes">에피소드 반복</string>
     <string name="lbl_premieres">시사회</string>
     <string name="lbl_new_episodes">새 에피소드</string>
-    <string name="lbl_audio_delay">오디오 지연</string>
     <string name="lbl_new_only">최신 콘텐츠</string>
     <string name="lbl_on">(에)</string>
     <string name="just_one">이번 한번만</string>
@@ -368,8 +355,6 @@
         <item quantity="other">%1$s 앨범</item>
     </plurals>
     <string name="pref_next_up_behavior_title">다음 비디오 정보 보기</string>
-    <string name="lbl_subtitle_fg">자막 텍스트 색상</string>
-    <string name="lbl_subtitle_stroke">자막 굵기</string>
     <string name="color_pink">분홍색</string>
     <string name="pref_accounts">계정</string>
     <string name="pref_default_rating">기본 평점 종류</string>
@@ -414,7 +399,6 @@
     <string name="lbl_shuffle_queue">무작위 재생 토글</string>
     <string name="lbl_record_all">모든 에피소드 녹화</string>
     <string name="lbl_on_any_channel">아무 채널에서나</string>
-    <string name="lbl_adjust">조정</string>
     <string name="image_size_large">큼</string>
     <string name="pref_developer_link">개발자 옵션</string>
     <string name="pref_playback_description">비디오, 자막, 실시간 TV, 다음</string>
@@ -493,7 +477,6 @@
     <string name="action_use_password">비밀번호 사용</string>
     <string name="lbl_runtime">상영 시간</string>
     <string name="lbl_auto_crop">자동 잘라내기</string>
-    <string name="lbl_subtitle_position">자막 높이</string>
     <string name="lbl_playback_speed">재생 속도</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_clock_display_browsing">둘러보는 중에</string>

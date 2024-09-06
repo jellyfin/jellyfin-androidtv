@@ -16,11 +16,13 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
-import org.jellyfin.playback.core.mediasession.MediaSessionOptions
-import org.jellyfin.playback.core.mediasession.mediaSessionPlugin
 import org.jellyfin.playback.core.playbackManager
-import org.jellyfin.playback.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
+import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
+import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
+import org.jellyfin.playback.media3.session.MediaSessionOptions
+import org.jellyfin.playback.media3.session.media3SessionPlugin
+import org.jellyfin.sdk.api.client.ApiClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -44,13 +46,10 @@ val playbackModule = module {
 }
 
 fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
-	install(exoPlayerPlugin(get()))
-	install(jellyfinPlugin(get()))
-
 	val activityIntent = Intent(get(), MainActivity::class.java)
 	val pendingIntent = PendingIntent.getActivity(get(), 0, activityIntent, PendingIntent.FLAG_IMMUTABLE)
 
-	val notificationChannelId = "mediasession"
+	val notificationChannelId = "session"
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 		val channel = NotificationChannel(
 			notificationChannelId,
@@ -60,12 +59,25 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 		NotificationManagerCompat.from(get()).createNotificationChannel(channel)
 	}
 
-	install(mediaSessionPlugin(get(), MediaSessionOptions(
+	val userPreferences = get<UserPreferences>()
+	val api = get<ApiClient>()
+	val exoPlayerOptions = ExoPlayerOptions(
+		httpConnectTimeout = api.httpClientOptions.connectTimeout,
+		httpReadTimeout = api.httpClientOptions.requestTimeout,
+		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
+		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
+	)
+	install(exoPlayerPlugin(get(), exoPlayerOptions))
+
+	val mediaSessionOptions = MediaSessionOptions(
 		channelId = notificationChannelId,
 		notificationId = 1,
 		iconSmall = R.drawable.app_icon_foreground,
 		openIntent = pendingIntent,
-	)))
+	)
+	install(media3SessionPlugin(get(), mediaSessionOptions))
+
+	install(jellyfinPlugin(get()))
 
 	// Options
 	val userSettingPreferences = get<UserSettingPreferences>()

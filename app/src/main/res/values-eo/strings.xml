@@ -29,7 +29,6 @@
     <string name="lbl_remove">Forigu</string>
     <string name="lbl_server">Servilo</string>
     <string name="grid_direction_horizontal">Horizontala</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_premieres">Premieroj</string>
     <string name="lbl_premiere">Premiero</string>
     <string name="lbl_save">Savu</string>
@@ -110,7 +109,6 @@
     <string name="lbl_remove_server">Forigi servilon</string>
     <string name="bitrate_kbit">%1$,.0f Kibit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mibit/s</string>
-    <string name="pref_video_player_external">Eksterna apo</string>
     <string name="lbl_my_media">Miaj Plurmedioj</string>
     <string name="lbl_image_type">Bilda Tipo</string>
     <string name="lbl_hd_programs">HD-programoj</string>
@@ -174,7 +172,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_Reset">Restarigu</string>
     <string name="pref_about_title">Pri</string>
-    <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_news">Novaj</string>
     <string name="lbl_zoom">Zoma</string>
     <string name="lbl_stretch">Streĉa</string>
@@ -214,20 +211,16 @@
     <string name="server_connecting">Konektante al %1$s</string>
     <string name="pref_default_rating">Defaŭlta taksada tipo</string>
     <string name="lbl_playback_control_ends">Finiĝas je %1$s</string>
-    <string name="play_with_vlc">Ludi kun libVLC</string>
-    <string name="play_with_exo_player">Ludi kun ExoPlayer</string>
     <string name="just_one">Nur ĉi tiu</string>
     <string name="seek_error">Nekapable serĉi</string>
     <string name="lbl_load_guide_data">Ŝarĝi Gvidilajn Datenojn</string>
     <string name="pref_subtitle_track_button">Butono de subteksttrako</string>
     <string name="pref_audio_track_button">Butono de aŭdtrako</string>
-    <string name="pref_media_player">Preferata plurmedia ludilo</string>
     <string name="lbl_resume_from">Daŭrigi de %1$s</string>
     <string name="lbl_at_any_time">En Ajna Tempo</string>
     <string name="msg_record_entire_series">Ĉu rikordi tutan serion\?</string>
     <string name="lbl_just_this_once">Nur ĉi foje</string>
     <string name="lbl_in_x_days">Je %d tagoj</string>
-    <string name="lbl_bitstream_dts">Bitfluo de DTS-aŭdio</string>
     <string name="lbl_refresh_switching">Ŝanĝi oftecon de aktualigoj</string>
     <string name="lbl_play_next_up">Ludi Sekvan Plue</string>
     <string name="desc_bitstream_ac3">Bezonas kapablan aparataron</string>
@@ -256,7 +249,6 @@
     <string name="pref_clock_display_playback">Dum ludado</string>
     <string name="pref_clock_display_browsing">Dum foliumado</string>
     <string name="pref_clock_display">Montri horloĝon</string>
-    <string name="play_with">Ludi per</string>
     <string name="episode_missing">Epizodo Mankanta</string>
     <string name="no_player">Neniu Ludilo</string>
     <string name="mark_watched">Marki Spektita</string>
@@ -266,11 +258,9 @@
     <string name="pref_device_model">Aparata modelo</string>
     <string name="pref_app_theme">Apa Temo</string>
     <string name="watch_now">Spekti nun</string>
-    <string name="pref_video_player_choose">Ĉiam demandi</string>
     <string name="pref_theme_emerald">Klasika Smeraldo</string>
     <string name="pref_theme_dark">Malhela (Defaŭlta)</string>
     <string name="lbl_image_size">Bilda Grandeco</string>
-    <string name="lbl_audio_delay">Aŭda Prokrasto</string>
     <string name="lbl_new_only">Nova Nur</string>
     <string name="lbl_song_title">Kanta Titolo</string>
     <string name="lbl_album_name">Albumnomo</string>
@@ -312,7 +302,6 @@
     <string name="lbl_record_any_channel">Rikordi sur iu ajn kanalo</string>
     <string name="lbl_similar_items_library">Similaj aĵoj en via plurmediteko</string>
     <string name="lbl_search_hint">Serĉa teksto (elekti por klavaro)</string>
-    <string name="sum_tv_queuing">Aldonu la reston de la sezono al la vico dum vi ludas epizodon</string>
     <string name="lbl_tv_queuing">Vicigi ĉiujn postajn epizodojn</string>
     <string name="msg_cannot_play">Ĉi tiu aĉo ne povas esti ludita</string>
     <string name="msg_cannot_play_time">Ne povas ludi ĉi tiun aĵon ĉi tiu tempo</string>
@@ -332,7 +321,6 @@
     <string name="audio_error">Ne eblas ludi aŭdio %1$s</string>
     <string name="too_many_errors">Tro da eraroj. Rezigni</string>
     <string name="player_error">Ludila eraro renkontita. Reprovos…</string>
-    <string name="pref_libvlc_audio_delay_title">Defaŭlta aŭdia prokrasto por libVLC</string>
     <string name="lbl_episode_not_record">Ĉi tiu serio NE rikordos</string>
     <string name="lbl_show_premieres">Montri sezonajn premierojn</string>
     <string name="always_authenticate">Ĉiam peti identigilojn</string>
@@ -340,7 +328,6 @@
     <string name="pref_developer_link_description">Altnivelaj kaj eksperimentaj funkcioj</string>
     <string name="login_username_field_empty">Uzantnomo ne povas esti malplena</string>
     <string name="login_invalid_credentials">Nevalida uzantnomo kaj/aŭ pasvorto</string>
-    <string name="play_with_external_app">Ludi per ekstera apo</string>
     <string name="turn_off">Malŝalti ĉi tiun opcion</string>
     <string name="msg_no_items">Neniuj aĵoj por ludi</string>
     <string name="subtitle_error">Ne eblas elekti subtekston</string>
@@ -436,7 +423,6 @@
     <string name="state_disabled">Malebligita</string>
     <string name="action_connect">Konektu</string>
     <string name="lbl_subtitle_delay">Subteksta Prokrasto</string>
-    <string name="lbl_adjust">Ĝustigi</string>
     <string name="live_tv_preferences">Eteraj TV opcioj</string>
     <string name="app_notification_uimode_invalid">Ĉi tiu apo estas optimumigita por televidiloj. Ni rekomendas uzi nian poŝtelefonan apon sur aliaj aparatoj.</string>
     <string name="server_unsupported_notification">Ĉi tiu servilo uzas version %1$s de Jellyfin kiu estas nesubtenata. Ĝisdatigu al Jellyfin %2$s por daŭrigi uzi la apon.</string>

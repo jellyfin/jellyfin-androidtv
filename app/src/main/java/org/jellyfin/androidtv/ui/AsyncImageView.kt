@@ -12,11 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.vanniktech.blurhash.BlurHash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.util.BlurHashDecoder
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.math.round
@@ -65,7 +65,7 @@ class AsyncImageView @JvmOverloads constructor(
 
 			// Only show blurhash if an image is going to be loaded from the network
 			if (url != null && blurHash != null) withContext(Dispatchers.IO) {
-				val blurHashBitmap = BlurHash.decode(
+				val blurHashBitmap = BlurHashDecoder.decode(
 					blurHash,
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,
 					if (aspectRatio >= 1) blurHashResolution else round(blurHashResolution / aspectRatio).toInt(),

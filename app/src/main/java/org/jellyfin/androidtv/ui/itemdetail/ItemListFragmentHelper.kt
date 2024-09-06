@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.itemdetail
 
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.sdk.api.client.ApiClient
@@ -29,7 +30,7 @@ fun ItemListFragment.loadItem(itemId: UUID) {
 
 	lifecycleScope.launch {
 		val item by api.userLibraryApi.getItem(itemId)
-		setBaseItem(item)
+		if (isActive) setBaseItem(item)
 	}
 }
 
@@ -88,7 +89,7 @@ fun ItemListFragment.toggleFavorite(item: BaseItemDto, callback: (item: BaseItem
 	lifecycleScope.launch {
 		val userData = itemMutationRepository.setFavorite(
 			item = item.id,
-			favorite = item.userData?.isFavorite ?: true
+			favorite = !(item.userData?.isFavorite ?: false)
 		)
 		callback(item.copy(userData = userData))
 	}

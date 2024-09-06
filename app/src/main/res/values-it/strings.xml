@@ -68,8 +68,7 @@
     <string name="msg_cannot_play">Questo elemento non può essere riprodotto</string>
     <string name="lbl_no_items">Nessun elemento</string>
     <string name="lbl_empty">Vuoto</string>
-    <string name="lbl_tv_queuing">Metti in Coda tutti gli episodi successivi</string>
-    <string name="sum_tv_queuing">Aggiungi il resto della stagione alla coda di riproduzione quando riproduci un episodio</string>
+    <string name="lbl_tv_queuing">Riproduci il prossimo episodio automaticamente</string>
     <string name="lbl_albums">Album</string>
     <string name="lbl_artists">Artisti</string>
     <string name="lbl_song">Brano</string>
@@ -186,7 +185,6 @@
     <string name="lbl_just_this_once">Solo questa volta</string>
     <string name="lbl_select_date">Seleziona data</string>
     <string name="lbl_in_x_days">Tra %d giorni</string>
-    <string name="lbl_bitstream_dts">Bitstream Audio DTS</string>
     <string name="desc_premieres">Mostra una fila di nuovi episodi per ogni serie che stai guardando</string>
     <string name="lbl_on_schedule">In programmazione</string>
     <string name="lbl_at_any_time">In qualsiasi momento</string>
@@ -216,10 +214,6 @@
     <string name="pref_app_theme">Tema</string>
     <string name="watch_now">Guarda ora</string>
     <string name="pref_next_up_timeout_summary">Tempo da aspettare prima di riprodurre il contenuto successivo</string>
-    <string name="pref_media_player">Media Player preferito</string>
-    <string name="pref_video_player_external">App esterna</string>
-    <string name="pref_video_player_vlc">LibVLC (sperimentale)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Smeraldo</string>
     <string name="pref_theme_dark">Scuro (default)</string>
     <string name="lbl_my_media">I miei media</string>
@@ -228,11 +222,9 @@
     <string name="lbl_hd_programs">Programmi in HD</string>
     <string name="lbl_repeat_episodes">Ripeti episodi</string>
     <string name="lbl_new_episodes">Nuovi episodi</string>
-    <string name="lbl_audio_delay">Ritardo audio</string>
     <string name="lbl_episode_not_record">La proiezione NON sarà registrata</string>
     <string name="lbl_colored_backgrounds">Sfondi codificati per colore</string>
     <string name="pref_about_title">Informazioni</string>
-    <string name="pref_libvlc_audio_delay_title">Ritardo audio per LibVLC</string>
     <string name="pref_next_up_timeout_title">Ritardo video successivo</string>
     <string name="grid_direction_horizontal">Orizzontale</string>
     <string name="grid_direction_vertical">Verticale</string>
@@ -247,14 +239,9 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="audio_error">Impossibile riprodurre audio %1$s</string>
     <string name="mark_watched">Segna come visto</string>
-    <string name="play_with">Riproduci con</string>
-    <string name="play_with_external_app">Riproduci con app esterna</string>
-    <string name="play_with_exo_player">Riproduci con ExoPlayer</string>
-    <string name="play_with_vlc">Riproduci con LibVLC</string>
     <string name="just_one">Solo questo</string>
     <string name="turn_off">Disattiva questa opzione</string>
     <string name="subtitle_error">Impossibile selezionare sottotitolo</string>
-    <string name="pref_video_player_choose">Chiedi sempre</string>
     <string name="lbl_tv_filter_status">per le prossime %1$d ore</string>
     <string name="lbl_tv_channel_status">%1$d di %2$d canali</string>
     <string name="msg_no_items">Nessun contenuto da riprodurre</string>
@@ -435,7 +422,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Ridimensionamento sulla TV</string>
     <string name="pref_refresh_rate_scale_on_device">Ridimensionamento sul dispositivo</string>
     <string name="action_connect">Connetti</string>
-    <string name="lbl_adjust">Regola</string>
     <string name="lbl_subtitle_delay">Ritardo sottotitoli</string>
     <string name="live_tv_preferences">Opzioni TV Diretta</string>
     <string name="lbl_additional_parts">Parti addizionali</string>
@@ -458,7 +444,6 @@
     <string name="episode_name_special">speciale</string>
     <string name="lbl_quality_profile">Profilo qualità</string>
     <string name="desc_audio_night_mode">Livella automaticamente il volume audio</string>
-    <string name="lbl_subtitle_fg">Colore sottotitoli</string>
     <string name="color_white">Bianco</string>
     <string name="color_black">Nero</string>
     <string name="color_darkgrey">Grigio scuro</string>
@@ -472,12 +457,10 @@
     <string name="item_deletion_failed">Impossibile rimuovere %1$s</string>
     <string name="pref_enable_media_management">Abilita la gestione dei media</string>
     <string name="app_notification_beta">App aggiornata a %1$s
-\nGrazie per la partecipazione al programma Jellyfin beta</string>
+\nGrazie per la partecipazione al programma Jellyfin beta.</string>
     <string name="pref_enable_media_management_description">Mostra l\'opzione per gestire i media durante la navigazione</string>
     <string name="item_delete_confirm_message">Sei sicuro di voler eliminare questo elemento dal server\? L\'operazione non può essere annullata.</string>
-    <string name="lbl_subtitle_stroke">Dimensione sottotitoli</string>
     <string name="item_delete_confirm_title">Elimina elemento</string>
-    <string name="lbl_subtitle_position">Distanza sottotitoli dal fondo</string>
     <plurals name="hours">
         <item quantity="one">%1$s ora</item>
         <item quantity="many">%1$s ore</item>
@@ -554,4 +537,32 @@
         <item quantity="other">%1$s film</item>
     </plurals>
     <string name="lbl_runtime">Runtime</string>
+    <string name="lbl_home">Home</string>
+    <string name="random">Casuale</string>
+    <string name="pref_playback_advanced">Preferenze di riproduzione avanzate</string>
+    <string name="all_channels">Tutti i canali</string>
+    <string name="current_queue">Coda corrente</string>
+    <string name="unreleased">Non ancora uscito</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostra tutti gli elementi</string>
+    <string name="pref_screensaver_ageratingmax_entry">Fino ad anni %1$d</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Disattiva massimo</string>
+    <string name="pref_external_player">Utilizza un player esterno</string>
+    <string name="app_notification_update_soon">Aggiorna il server dalla versione %1$s ad almeno la %2$s per continuare ad utilizzare l\'app.</string>
+    <string name="past_24_hours">Scorse 24 ore</string>
+    <string name="past_week">Settimana scorsa</string>
+    <string name="scheduled_in_next_24_hours">Programmato nelle prossime 24 ore</string>
+    <string name="continue_listening">Proseguire con l\'ascolto</string>
+    <string name="pref_screensaver_ageratingmax">Classificazione per età massima</string>
+    <string name="pref_screensaver_ageratingmax_zero">Qualsiasi età</string>
+    <string name="pref_screensaver_ageratingrequired_title">Richiede la classificazione per età</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Mostra solo gli elementii con classificazione per età</string>
+    <string name="lbl_subtitle_text_color">Colore testo sottotitolo</string>
+    <string name="lbl_subtitle_background_color">Colore sfondo sottotitolo</string>
+    <string name="pref_subtitles_size_very_small">Molto piccolo</string>
+    <string name="pref_subtitles_size_small">Piccolo</string>
+    <string name="pref_subtitles_size_normal">Normale</string>
+    <string name="pref_subtitles_size_large">Grande</string>
+    <string name="pref_subtitles_size_very_large">Molto grande</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferisci FFmpeg per la riproduzione audio</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg per la decodifica audia anche se il dispositivo fornisce il codec nativamente.</string>
 </resources>

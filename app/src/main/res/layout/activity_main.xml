@@ -13,11 +13,10 @@
         android:descendantFocusability="blocksDescendants"
         android:focusable="false" />
 
-    <LinearLayout
+    <org.jellyfin.androidtv.ui.browsing.DestinationFragmentView
         android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:layout_height="match_parent" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/screensaver"

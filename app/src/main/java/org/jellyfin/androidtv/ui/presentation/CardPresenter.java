@@ -19,12 +19,13 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.api.LocationType;
 import org.jellyfin.sdk.model.api.UserItemDataDto;
 import org.koin.java.KoinJavaComponent;
 
@@ -32,16 +33,16 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import kotlin.Lazy;
+
 public class CardPresenter extends Presenter {
     private int mStaticHeight = 150;
     private ImageType mImageType = ImageType.POSTER;
     private double aspect;
-
     private boolean mShowInfo = true;
-
     private boolean isUserView = false;
-
     private boolean isUniformAspect = false;
+    private final Lazy<ImageHelper> imageHelper = KoinJavaComponent.<ImageHelper>inject(ImageHelper.class);
 
     public CardPresenter() {
         super();
@@ -103,8 +104,7 @@ public class CardPresenter extends Presenter {
                     } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageHelper.ASPECT_RATIO_16_9;
                     } else {
-                        ImageHelper imageHelper = KoinJavaComponent.<ImageHelper>get(ImageHelper.class);
-                        aspect = Utils.getSafeValue(imageHelper.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
+                        aspect = Utils.getSafeValue(imageHelper.getValue().getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
                     }
                     switch (itemDto.getType()) {
                         case AUDIO:
@@ -136,7 +136,7 @@ public class CardPresenter extends Presenter {
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             break;
                         case EPISODE:
-                            if (m.getPreferSeriesPoster()) {
+                            if (m instanceof BaseItemDtoBaseRowItem && ((BaseItemDtoBaseRowItem) m).getPreferSeriesPoster()) {
                                 mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             } else {
@@ -150,9 +150,6 @@ public class CardPresenter extends Presenter {
                                             break;
                                         case VIRTUAL:
                                             mCardView.setBanner(itemDto.getPremiereDate() == null || itemDto.getPremiereDate().isAfter(LocalDateTime.now()) ? R.drawable.banner_edge_future : R.drawable.banner_edge_missing);
-                                            break;
-                                        case OFFLINE:
-                                            mCardView.setBanner(R.drawable.banner_edge_offline);
                                             break;
                                     }
                                 }
@@ -201,9 +198,6 @@ public class CardPresenter extends Presenter {
                     if (cardWidth < 5) {
                         cardWidth = 115;  //Guard against zero size images causing picasso to barf
                     }
-                    if (itemDto.getLocationType() == LocationType.OFFLINE) {
-                        mCardView.setBanner(R.drawable.banner_edge_offline);
-                    }
                     if (Utils.isTrue(itemDto.isPlaceHolder())) {
                         mCardView.setBanner(R.drawable.banner_edge_disc);
                     }
@@ -248,23 +242,10 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvProgram:
                     org.jellyfin.sdk.model.api.BaseItemDto program = mItem.getBaseItem();
-                    Double programAspect = program.getPrimaryImageAspectRatio();
-                    if (Utils.isTrue(program.isMovie())) {
-                        // The server reports the incorrect image aspect ratio for movies, so we are overriding it here
-                        programAspect = ImageHelper.ASPECT_RATIO_2_3;
-                    } else if (programAspect == null) {
-                        programAspect = ImageHelper.ASPECT_RATIO_16_9;
-                    }
-                    cardHeight = !m.getStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
-                    cardWidth = (int) ((programAspect) * cardHeight);
-                    if (cardWidth < 5) {
-                        cardWidth = 115;  //Guard against zero size images causing picasso to barf
-                    }
                     if (program.getLocationType() != null) {
                         switch (program.getLocationType()) {
                             case FILE_SYSTEM:
                             case REMOTE:
-                            case OFFLINE:
                                 break;
                             case VIRTUAL:
                                 if (program.getStartDate() != null && program.getStartDate().isAfter(LocalDateTime.now())) {
@@ -273,7 +254,7 @@ public class CardPresenter extends Presenter {
                                 break;
                         }
                     }
-                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mCardView.setMainImageDimensions(192, 129, ImageView.ScaleType.CENTER_INSIDE);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
                     //Always show info for programs
                     mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
@@ -368,15 +349,15 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setOverlayInfo(rowItem);
         }
         holder.mCardView.showFavIcon(rowItem.isFavorite());
-        if (rowItem.getPlaying()) {
+        if (rowItem instanceof AudioQueueBaseRowItem && ((AudioQueueBaseRowItem) rowItem).getPlaying()) {
             holder.mCardView.setPlayingIndicator(true);
         } else {
             holder.mCardView.setPlayingIndicator(false);
 
-            if (rowItem.getBaseItem() != null && rowItem.getBaseItemType() != BaseItemKind.USER_VIEW) {
+            if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getType() != BaseItemKind.USER_VIEW) {
                 RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
                 if (ratingType == RatingType.RATING_TOMATOES) {
-                    Drawable badge = rowItem.getBadgeImage(holder.view.getContext());
+                    Drawable badge = rowItem.getBadgeImage(holder.view.getContext(), imageHelper.getValue());
                     holder.mCardView.setRating(null);
                     if (badge != null) {
                         holder.mCardView.setBadgeImage(badge);
@@ -396,10 +377,10 @@ public class CardPresenter extends Presenter {
             if (aspect == ImageHelper.ASPECT_RATIO_BANNER) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
-            } else if (aspect == ImageHelper.ASPECT_RATIO_2_3 && rowItem.getBaseItemType() == BaseItemKind.EPISODE && rowItem.getPreferSeriesPoster()) {
+            } else if (aspect == ImageHelper.ASPECT_RATIO_2_3 && rowItem.getBaseItem().getType() == BaseItemKind.EPISODE && rowItem instanceof BaseItemDtoBaseRowItem && ((BaseItemDtoBaseRowItem) rowItem).getPreferSeriesPoster()) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
                 imageTag = rowItem.getBaseItem().getSeriesPrimaryImageTag();
-            } else if (aspect == ImageHelper.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemKind.EPISODE || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY) || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
+            } else if (aspect == ImageHelper.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItem().getType() != BaseItemKind.EPISODE || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY) || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
                 imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY)) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
             } else {
@@ -416,7 +397,7 @@ public class CardPresenter extends Presenter {
         int fillHeight = Math.round(holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density);
 
         holder.updateCardViewImage(
-                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, fillWidth, fillHeight),
+                rowItem.getImageUrl(holder.mCardView.getContext(), imageHelper.getValue(), mImageType, fillWidth, fillHeight),
                 blurHash
         );
     }

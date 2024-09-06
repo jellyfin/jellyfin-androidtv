@@ -34,6 +34,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentAudioNowPlayingBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
@@ -112,8 +113,7 @@ public class AudioNowPlayingFragment extends Fragment {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
-                else mediaManager.getValue().resumeAudio();
+                mediaManager.getValue().togglePlayPause();
             }
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -144,7 +144,7 @@ public class AudioNowPlayingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mediaManager.getValue().toggleRepeat();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                updateButtons();
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -155,7 +155,7 @@ public class AudioNowPlayingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mediaManager.getValue().shuffleAudioQueue();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                updateButtons();
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -175,7 +175,7 @@ public class AudioNowPlayingFragment extends Fragment {
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+                if (mBaseItem.getAlbumArtists() != null && !mBaseItem.getAlbumArtists().isEmpty()) {
                     navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(mBaseItem.getAlbumArtists().get(0).getId()));
                 }
             }
@@ -209,7 +209,7 @@ public class AudioNowPlayingFragment extends Fragment {
     }
 
     protected void addQueue() {
-        mQueueRow = new ListRow(new HeaderItem("Current Queue"), mediaManager.getValue().getCurrentAudioQueue());
+        mQueueRow = new ListRow(new HeaderItem(getString(R.string.current_queue)), mediaManager.getValue().getCurrentAudioQueue());
         mediaManager.getValue().getCurrentAudioQueue().setRow(mQueueRow);
         mRowsAdapter.add(mQueueRow);
     }
@@ -217,10 +217,10 @@ public class AudioNowPlayingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadItem();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
-        updateButtons(mediaManager.getValue().isPlayingAudio());
+        loadItem();
+        updateButtons();
 
         // load the item duration and set the position to 0 since it won't be set elsewhere until playback is initialized
         if (!mediaManager.getValue().isAudioPlayerInitialized())
@@ -238,13 +238,8 @@ public class AudioNowPlayingFragment extends Fragment {
         @Override
         public void onPlaybackStateChange(@NonNull PlaybackController.PlaybackState newState, @Nullable org.jellyfin.sdk.model.api.BaseItemDto currentItem) {
             Timber.d("**** Got playstate change: %s", newState.toString());
-            if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
-                // new item started
-                loadItem();
-                updateButtons(true);
-            } else {
-                updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
-            }
+            if (currentItem != mBaseItem) loadItem();
+            updateButtons();
         }
 
         @Override
@@ -257,11 +252,11 @@ public class AudioNowPlayingFragment extends Fragment {
 
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
-            Timber.d("Queue status changed");
+            Timber.d("Queue status changed (hasQueue=%s)", hasQueue);
             if (hasQueue) {
                 loadItem();
                 if (mediaManager.getValue().isAudioPlayerInitialized()) {
-                    updateButtons(mediaManager.getValue().isPlayingAudio());
+                    updateButtons();
                 }
             } else {
                 if (navigationRepository.getValue().getCanGoBack()) navigationRepository.getValue().goBack();
@@ -313,8 +308,9 @@ public class AudioNowPlayingFragment extends Fragment {
         }
     }
 
-    private void updateButtons(final boolean playing) {
+    private void updateButtons() {
         Timber.d("Updating buttons");
+        boolean playing = mediaManager.getValue().isPlayingAudio();
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -334,14 +330,14 @@ public class AudioNowPlayingFragment extends Fragment {
                 mShuffleButton.setActivated(mediaManager.getValue().isShuffleMode());
                 if (mBaseItem != null) {
                     mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
-                    mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
+                    mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && !mBaseItem.getAlbumArtists().isEmpty());
                 }
             }
         });
     }
 
     private String getArtistName(org.jellyfin.sdk.model.api.BaseItemDto item) {
-        String artistName = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : item.getAlbumArtist();
+        String artistName = item.getArtists() != null && !item.getArtists().isEmpty() ? item.getArtists().get(0) : item.getAlbumArtist();
         return artistName != null ? artistName : "";
     }
 
@@ -349,8 +345,12 @@ public class AudioNowPlayingFragment extends Fragment {
         if (item != null) {
             mArtistName.setText(getArtistName(item));
             mSongTitle.setText(item.getName());
-            mAlbumTitle.setText(getResources().getString(R.string.lbl_now_playing_album, item.getAlbum()));
-            mCurrentNdx.setText(getResources().getString(R.string.lbl_now_playing_track, mediaManager.getValue().getCurrentAudioQueueDisplayPosition(), mediaManager.getValue().getCurrentAudioQueueDisplaySize()));
+            if (item.getAlbum() != null) {
+                mAlbumTitle.setText(getString(R.string.lbl_now_playing_album, item.getAlbum()));
+            } else {
+                mAlbumTitle.setText(null);
+            }
+            mCurrentNdx.setText(getString(R.string.lbl_now_playing_track, mediaManager.getValue().getCurrentAudioQueueDisplayPosition(), mediaManager.getValue().getCurrentAudioQueueDisplaySize()));
             mCurrentDuration = ((Long) ((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
@@ -361,7 +361,7 @@ public class AudioNowPlayingFragment extends Fragment {
 
     public void setCurrentTime(long time) {
         // Round the current time as otherwise the time played and time remaining will not be in sync
-        time = Math.round(time / 1000) * 1000;
+        time = Math.round(time / 1000L) * 1000L;
         mCurrentProgress.setProgress(((Long) time).intValue());
         mCurrentPos.setText(TimeUtils.formatMillis(time));
         mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
@@ -388,8 +388,9 @@ public class AudioNowPlayingFragment extends Fragment {
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof BaseRowItem) {
-                //Keep counter
-                mCounter.setText(((BaseRowItem) item).getIndex() + 1 + " | " + mQueueRow.getAdapter().size());
+                // Keep counter
+                ItemRowAdapter adapter = (ItemRowAdapter) mQueueRow.getAdapter();
+                mCounter.setText((adapter.indexOf(item) + 1) + " | " + adapter.size());
             }
         }
     }

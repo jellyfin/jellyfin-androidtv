@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,8 +20,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.leanback.widget.Presenter
+import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.GridButton
+import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem
 
 class GridButtonPresenter @JvmOverloads constructor(
 	private val width: Int = 110,
@@ -80,7 +81,12 @@ class GridButtonPresenter @JvmOverloads constructor(
 		ViewHolder(ComposeView(parent.context))
 
 	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder?, item: Any?) {
-		if (viewHolder is ViewHolder && item is GridButton) viewHolder.bind(item)
+		if (viewHolder !is ViewHolder) return
+
+		when (item) {
+			is GridButtonBaseRowItem -> viewHolder.bind(item.gridButton)
+			is GridButton -> viewHolder.bind(item)
+		}
 	}
 
 	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder?) = Unit

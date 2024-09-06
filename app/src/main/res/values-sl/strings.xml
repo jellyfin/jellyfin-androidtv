@@ -136,7 +136,6 @@
     <string name="lbl_mark_unplayed">Označi kot neogledano</string>
     <string name="lbl_play_first_unwatched">Predvajaj prvo neogledano</string>
     <string name="lbl_search_hint">Išči besedilo (izberi za tipkovnico)</string>
-    <string name="sum_tv_queuing">Ko predvajate eno epizodo, dodaj preostanek sezone v čakalno vrsto</string>
     <string name="msg_set_to_record">Program nastavljen za snemanje</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="msg_item_added">" dodan element"</string>
@@ -166,10 +165,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Konec ob %1$s</string>
     <string name="lbl_sign_in">Prosimo vpišite se</string>
-    <string name="play_with">Predvajaj z</string>
-    <string name="play_with_external_app">Predvajaj z zunanjo aplikacijo</string>
-    <string name="play_with_exo_player">Predvajaj z ExoPlayer</string>
-    <string name="play_with_vlc">Predvajaj z LibVLC</string>
     <string name="just_one">Samo tega</string>
     <string name="turn_off">Izklopi to možnost</string>
     <string name="audio_error">Ne morem predvajati avdia %1$s</string>
@@ -192,12 +187,7 @@
     <string name="pref_device_model">Model naprave</string>
     <string name="pref_app_theme">Tema aplikacije</string>
     <string name="watch_now">Glej zdaj</string>
-    <string name="pref_media_player">Prednostni predvajalnik predstavnosti</string>
     <string name="pref_about_title">Vizitka</string>
-    <string name="pref_video_player_choose">Vedno vprašaj</string>
-    <string name="pref_video_player_external">Zunanja aplikacija</string>
-    <string name="pref_video_player_vlc">LibVLC (poskusno)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_theme_emerald">Klasični smaragd</string>
     <string name="pref_theme_dark">Temno (Privzeto)</string>
     <string name="lbl_my_media">Moja predstavnost</string>
@@ -209,7 +199,6 @@
     <string name="lbl_repeat_episodes">Ponovi epizode</string>
     <string name="lbl_premieres">Premiere</string>
     <string name="lbl_new_episodes">Nove epizode</string>
-    <string name="lbl_audio_delay">Zamik zvoka</string>
     <string name="lbl_new_only">Samo novo</string>
     <string name="lbl_news">Novice</string>
     <string name="lbl_tv_filter_status">naslednjih %1$d ur</string>
@@ -256,7 +245,6 @@
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
     <string name="lbl_show_indicators">Prikaži indikatorje za</string>
     <string name="no_program_data">Podatki o programu niso na voljo</string>
-    <string name="lbl_bitstream_dts">Bitni pretok DTS zvoka</string>
     <string name="desc_premieres">Prikaži vrstico pilotov novih sezon za serije ki jih gledaš</string>
     <string name="lbl_show_premieres">Prikaži premiere sezon</string>
     <string name="lbl_play_next_up">Predvajaj naslednje</string>
@@ -272,7 +260,6 @@
     <string name="episode_missing_message">Ta epizoda manjka v vaši knjižnici. Jo želite preskočiti in nadaljevati z naslednjo\?</string>
     <string name="no_player_message">Zdi se da ni nameščena ni nobena aplikacija za predvajanje videa. Ta možnost zahteva nameščeno aplikacijo tretje osebe za predvajanje videa.</string>
     <string name="mark_watched_message">Vsebina ni bila gledana do konca. Označim kot ogledano\?</string>
-    <string name="pref_libvlc_audio_delay_title">Privzeta zakasnitev zvoka za LibVLC</string>
     <string name="pref_next_up_behavior_title">Prikaži informacije o naslednjem videu</string>
     <string name="pref_next_up_timeout_title">Trajanje obvestila Sledi</string>
     <string name="lbl_colored_backgrounds">Barvno kodirana ozadja</string>
@@ -408,7 +395,6 @@
     <string name="player_error">Napaka predvajalnika. Poizkušam ponovno…</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Zamik podnapisov</string>
-    <string name="lbl_adjust">Prilagodi</string>
     <string name="pref_show_backdrop_description">Spremeni sliko ozadja na izbrane elemente</string>
     <string name="lbl_playback_speed">Hitrost predvajanja</string>
     <string name="lbl_fit">Normalno</string>
@@ -482,8 +468,6 @@
         <item quantity="few">%1$s sledi</item>
         <item quantity="other">%1$s sledi</item>
     </plurals>
-    <string name="lbl_subtitle_fg">Barva podnapisov</string>
-    <string name="lbl_subtitle_stroke">Velikost podnapisov</string>
     <string name="color_white">Bela</string>
     <string name="color_yellow">Rumena</string>
     <string name="color_pink">Roza</string>
@@ -497,7 +481,6 @@
     <string name="color_red">Rdeča</string>
     <string name="color_green">Zelena</string>
     <string name="item_deletion_failed">Ni mogoče izbrisati %1$s</string>
-    <string name="lbl_subtitle_position">Odmik podnapisov od dna</string>
     <string name="color_blue">Modra</string>
     <string name="app_notification_beta">Aplikacija je posodobljena na %1$s
 \nHvala za sodelovanje v programu Jellyfin beta</string>

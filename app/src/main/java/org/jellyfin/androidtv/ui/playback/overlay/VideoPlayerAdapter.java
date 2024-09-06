@@ -85,10 +85,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     void updateCurrentPosition() {
         getCallback().onCurrentPositionChanged(this);
-
-        // only exoplayer supports reporting buffered position
-        if (isNativeMode())
-            getCallback().onBufferedPositionChanged(this);
+        getCallback().onBufferedPositionChanged(this);
     }
 
     void updatePlayState() {
@@ -113,10 +110,6 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     boolean hasPreviousItem() {
         return playbackController.hasPreviousItem();
-    }
-
-    boolean isNativeMode() {
-        return playbackController.isNativeMode();
     }
 
     boolean canSeek() {
@@ -169,10 +162,6 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     org.jellyfin.sdk.model.api.BaseItemDto getCurrentlyPlayingItem() {
         return playbackController.getCurrentlyPlayingItem();
-    }
-
-    public double getPlaybackSpeed() {
-        return playbackController.getPlaybackSpeed();
     }
 
     boolean hasChapters() {

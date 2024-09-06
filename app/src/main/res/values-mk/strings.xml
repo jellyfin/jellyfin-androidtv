@@ -59,7 +59,6 @@
     <string name="lbl_mark_played">Означи како пуштено</string>
     <string name="lbl_mark_unplayed">Означи како негледано</string>
     <string name="lbl_search_hint">Пребарувај текст (одбери за приказ на тастатура)</string>
-    <string name="sum_tv_queuing">Додади го остатокот од сезоната во редот при гледање на епизода</string>
     <string name="lbl_empty">Празно</string>
     <string name="lbl_never">Никогаш</string>
     <string name="lbl_loading_elipses">Се вчитува…</string>
@@ -82,11 +81,9 @@
     <string name="lbl_watched">Гледано</string>
     <string name="lbl_pause">Паузирај</string>
     <string name="pref_audio_direct">Директно</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS звук</string>
     <string name="lbl_sports">Спорт</string>
     <string name="lbl_live">Во живо</string>
     <string name="lbl_premiere">Премиера</string>
-    <string name="pref_video_player_exoplayer">Ехо плеер</string>
     <string name="grid_direction">Насока на приказ</string>
     <string name="lbl_album_artists">Изведувачи на албум</string>
     <string name="bitrate_mbit">%1$,.0f Мбит/с</string>
@@ -112,7 +109,6 @@
     <string name="msg_settings_updated">Поставките се обновени</string>
     <string name="lbl_save">Зачувај</string>
     <string name="lbl_tv_filter_status">за следните %1$d часови</string>
-    <string name="lbl_adjust">Прилагоди</string>
     <string name="lbl_hd_programs">HD програми</string>
     <string name="pref_theme_dark">Темно (Зададено)</string>
     <string name="pref_next_up_behavior_title">Прикажи инфо за следно видео</string>
@@ -202,7 +198,6 @@
     <string name="sum_enable_cinema_mode">Пушти достапни воведи и прегледи пред почеток на филм</string>
     <string name="lbl_repeat">Повтори</string>
     <string name="lbl_album_name">Име на албум</string>
-    <string name="pref_video_player_vlc">LibVLC (експериментално)</string>
     <string name="pref_next_up_timeout_summary">Колку да се чека пред пуштање на следната ставка</string>
     <string name="player_error">Дојде до грешка со плеерот. Обидување повторно…</string>
     <string name="alphabetical">По азбучен ред</string>
@@ -243,7 +238,6 @@
     <string name="lbl_additional_parts">Додатни делови</string>
     <string name="msg_item_added">" ставка додадена"</string>
     <string name="lbl_audio_track">Избери аудио запис</string>
-    <string name="play_with_vlc">Пушти со LibVLC</string>
     <string name="login_connect_to">Поврзување со %1$s</string>
     <string name="pref_browsing">Пребарување</string>
     <string name="image_size_medium">Средно</string>
@@ -274,8 +268,6 @@
     <string name="pref_refresh_rate_scale_on_device">Прилагоди слика на уред</string>
     <string name="lbl_refresh_switching">Префрлување на брзината на освежување</string>
     <string name="action_connect">Поврзи се</string>
-    <string name="lbl_subtitle_stroke">Големина на превод</string>
-    <string name="lbl_subtitle_fg">Боја на превод</string>
     <string name="license_repository">Репозиториум</string>
     <string name="color_black">Црна</string>
     <string name="server_issue_outdated_version">Серверот користи неподдржана верзија %1$s. Ве молиме ажурирајте ја на %2$s или понова</string>
@@ -322,7 +314,6 @@
     <string name="lbl_guide_option_number">Број на канал</string>
     <string name="lbl_song_title">Име на песна</string>
     <string name="lbl_new_only">Само ново</string>
-    <string name="lbl_audio_delay">Доцнење на звук</string>
     <string name="lbl_subtitle_delay">Доцнење на превод</string>
     <string name="lbl_new_episodes">Нови епизоди</string>
     <string name="lbl_live_broadcasts">Емитувања во живо</string>
@@ -352,10 +343,7 @@
     <string name="action_login">Најави се</string>
     <string name="lbl_more_like_this">Повеќе како ова</string>
     <string name="lbl_next_episode">Следна епизода</string>
-    <string name="pref_video_player_choose">Секогаш прашај</string>
-    <string name="pref_video_player_external">Надворешна апликација</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_libvlc_audio_delay_title">Зададено доцнење на звук за LibVLC</string>
     <string name="grid_direction_horizontal">Хоризонтално</string>
     <string name="pref_subtitle_track_button">Копче за превод</string>
     <string name="lbl_load_guide_data">Вчитај информации од водич</string>
@@ -441,7 +429,6 @@
     <string name="lbl_episodes">Епизоди</string>
     <string name="state_disabled">Оневозможено</string>
     <string name="msg_live_tv_prev">Да се вчитаат претходните %1$d часови\?</string>
-    <string name="play_with">Пушти со</string>
     <string name="just_one">Само ова</string>
     <string name="searchable_hint">Пребарај го Jellyfin</string>
     <string name="searchable_settings_description">Содржина</string>
@@ -460,7 +447,6 @@
     <string name="lbl_series_settings">Поставки за серија</string>
     <string name="desc_premieres">Покажи ред на нови пилот епизоди за било која серија која се гледа</string>
     <string name="lbl_on_schedule">На време</string>
-    <string name="lbl_subtitle_position">Далечина на превод од доле</string>
     <string name="lbl_previous_episode">Претходна епизода</string>
     <string name="lbl_sort_by">Сортирај по</string>
     <string name="lbl_resume_from">Продолжи од %1$s</string>
@@ -470,12 +456,9 @@
     <string name="lbl_image_type">Тип на слика</string>
     <string name="pref_theme_emerald">Класичен смарагд</string>
     <string name="pref_about_title">За</string>
-    <string name="pref_media_player">Посакуван медиски плеер</string>
     <string name="pref_next_up_timeout_title">Следно времетраење на тајмерот</string>
     <string name="no_player_message">Изгледа немате инсталирано апликација за видео. Оваа опција бара да инсталирате независна апликација за пуштање на видео содржини.</string>
     <string name="mark_watched">Означи како гледано</string>
-    <string name="play_with_exo_player">Пушти со ExoPlayer</string>
-    <string name="play_with_external_app">Пушти со надворешна апликација</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_stars">Sвезди</string>
     <string name="server_connection_failed">Неуспешно поврзување со серверот</string>
