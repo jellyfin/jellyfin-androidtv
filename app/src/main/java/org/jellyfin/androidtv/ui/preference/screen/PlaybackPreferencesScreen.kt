@@ -138,6 +138,22 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					default { UserPreferences.subtitlesTextSize.defaultValue.toString() }
 				}
 			}
+
+			@Suppress("MagicNumber")
+			list {
+				setTitle("Subtitle offset")
+				entries = mapOf(
+					0.7f to "0.7",
+					0.8f to "0.8",
+					0.9f to "0.9"
+				).mapKeys { it.key.toString() }
+
+				bind {
+					get { userPreferences[UserPreferences.subtitlesOffset].toString() }
+					set { value -> userPreferences[UserPreferences.subtitlesOffset] = value.toFloat() }
+					default { UserPreferences.subtitlesOffset.defaultValue.toString() }
+				}
+			}
 		}
 
 		category {
