@@ -142,18 +142,16 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.lbl_subtitle_position)
-				min = 0   // Represents 0.00
-				max = 100 // Represents 1.00
-				increment = 5 // Represents increments of 0.05
+				min = -10 
+				max = 100
+				increment = 1
 
-				// Bind the user preferences for subtitle position offset (storing as floats).
 				bind {
 					get { (userPreferences[UserPreferences.subtitlesOffset] * 100).toInt() } // Convert float to int for seekbar
 					set { value -> userPreferences[UserPreferences.subtitlesOffset] = value / 100f } // Convert int back to float
 					default { (UserPreferences.subtitlesOffset.defaultValue * 100).toInt() } // Handle the default value
 				}
 			}
-
 		}
 
 		category {
