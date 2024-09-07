@@ -16,45 +16,6 @@ import timber.log.Timber
 object ProfileHelper {
 	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
 
-	private val resolution by lazy {
-		MediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
-	}
-
-	val max1080pCodecProfile by lazy {
-		CodecProfile().apply {
-			type = CodecType.Video
-			conditions = if (resolution.width >= 3840 && resolution.height >= 2160) {
-				// Allow resolutions up to 4K
-				arrayOf(
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.Width,
-						"3840"
-					),
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.Height,
-						"2160"
-					)
-				)
-			} else {
-				// Restrict resolution to 1080p if resolution is less than 4K
-				arrayOf(
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.Width,
-						"1920"
-					),
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.Height,
-						"1080"
-					)
-				)
-			}
-		}
-	}
-
 	val deviceAV1CodecProfile by lazy {
 		CodecProfile().apply {
 			type = CodecType.Video
@@ -288,6 +249,26 @@ object ProfileHelper {
 					})
 				}
 			}
+		}
+	}
+
+	val maxResolutionCodecProfile by lazy {
+		val maxResolution = MediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
+
+		CodecProfile().apply {
+			type = CodecType.Video
+			conditions = arrayOf(
+				ProfileCondition(
+					ProfileConditionType.LessThanEqual,
+					ProfileConditionValue.Width,
+					maxResolution.width.toString()
+				),
+				ProfileCondition(
+					ProfileConditionType.LessThanEqual,
+					ProfileConditionValue.Height,
+					maxResolution.height.toString()
+				)
+			)
 		}
 	}
 

@@ -7,7 +7,7 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCLevelCodecProfiles
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecProfiles
-import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.maxResolutionCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
@@ -199,7 +199,7 @@ class ExoPlayerProfile(
 			// AV1 profile
 			add(deviceAV1CodecProfile)
 			// Limit video resolution support for older devices
-			add(max1080pCodecProfile)
+			add(maxResolutionCodecProfile)
 			// Audio channel profile
 			add(maxAudioChannelsCodecProfile(channels = if (downMixAudio) 2 else 8))
 		}.toTypedArray()
