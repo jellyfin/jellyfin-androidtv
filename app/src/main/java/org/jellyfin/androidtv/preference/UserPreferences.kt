@@ -184,7 +184,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Subtitles offset
 		 */
-		var subtitlesOffset = floatPreference("subtitles_offset", 1f)
+		var subtitlesOffset = floatPreference("subtitles_offset", 0f)
 
 		/**
 		 * Show screensaver in app
