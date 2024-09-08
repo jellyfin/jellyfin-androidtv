@@ -27,7 +27,9 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 class ExoPlayerProfile(
 	disableVideoDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	downMixAudio: Boolean,
+	userAVCLevel: String? = "auto",
+	userHEVCLevel: String? = "auto"
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -154,8 +156,22 @@ class ExoPlayerProfile(
 
 		codecProfiles = buildList {
 			// H264 profile
-			add(deviceAVCCodecProfile)
-			addAll(deviceAVCLevelCodecProfiles)
+			if (userAVCLevel == "auto") {
+				add(deviceAVCCodecProfile)
+				addAll(deviceAVCLevelCodecProfiles)
+			} else {
+				add(CodecProfile().apply {
+					type = CodecType.Video
+					codec = Codec.Video.H264
+					conditions = arrayOf(
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.VideoLevel,
+							userAVCLevel
+						)
+					)
+				})
+			}
 			// H264 ref frames profile
 			add(CodecProfile().apply {
 				type = CodecType.Video
@@ -195,8 +211,23 @@ class ExoPlayerProfile(
 				)
 			})
 			// HEVC profiles
-			add(deviceHevcCodecProfile)
-			addAll(deviceHevcLevelCodecProfiles)
+			if (userHEVCLevel == "auto") {
+				add(deviceHevcCodecProfile)
+				addAll(deviceHevcLevelCodecProfiles)
+			} else {
+				add(CodecProfile().apply {
+					type = CodecType.Video
+					codec = Codec.Video.HEVC
+					conditions = arrayOf(
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.VideoLevel,
+							userHEVCLevel
+						)
+					)
+				})
+			}
+
 			// AV1 profile
 			add(deviceAV1CodecProfile)
 			// Limit video resolution support for older devices
