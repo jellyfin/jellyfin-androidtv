@@ -194,6 +194,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				icon = R.drawable.ic_more
 				withFragment<PlaybackAdvancedPreferencesScreen>()
 			}
+
+			link {
+				setTitle(R.string.codec_advanced)
+				icon = R.drawable.ic_more
+				withFragment<PlaybackAdvancedCodecPreferencesScreen>()
+			}
 		}
 	}
 }
