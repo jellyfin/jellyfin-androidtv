@@ -24,7 +24,6 @@ import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -523,8 +522,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO,
-                !DeviceUtils.has4kVideoSupport()
+                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;

@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.media.MediaFormat
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -251,19 +252,24 @@ object ProfileHelper {
 		}
 	}
 
-	val max1080pProfileConditions by lazy {
-		arrayOf(
-			ProfileCondition(
-				ProfileConditionType.LessThanEqual,
-				ProfileConditionValue.Width,
-				"1920"
-			),
-			ProfileCondition(
-				ProfileConditionType.LessThanEqual,
-				ProfileConditionValue.Height,
-				"1080"
+	val maxResolutionCodecProfile by lazy {
+		val maxResolution = MediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
+
+		CodecProfile().apply {
+			type = CodecType.Video
+			conditions = arrayOf(
+				ProfileCondition(
+					ProfileConditionType.LessThanEqual,
+					ProfileConditionValue.Width,
+					maxResolution.width.toString()
+				),
+				ProfileCondition(
+					ProfileConditionType.LessThanEqual,
+					ProfileConditionValue.Height,
+					maxResolution.height.toString()
+				)
 			)
-		)
+		}
 	}
 
 	val photoDirectPlayProfile by lazy {
