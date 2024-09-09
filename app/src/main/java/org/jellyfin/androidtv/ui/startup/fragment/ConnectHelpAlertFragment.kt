@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.composable.overscan
@@ -50,7 +52,12 @@ class ConnectHelpAlertFragment : Fragment() {
 	fun ConnectHelpAlert() {
 		val focusRequester = FocusRequester()
 
-		Surface {
+		Surface(
+			colors = SurfaceDefaults.colors(
+				containerColor = colorResource(R.color.not_quite_black),
+				contentColor = colorResource(R.color.white)
+			)
+		) {
 			Row(
 				modifier = Modifier
 					.fillMaxWidth()
@@ -72,11 +79,20 @@ class ConnectHelpAlertFragment : Fragment() {
 						text = stringResource(R.string.login_help_description),
 						style = MaterialTheme.typography.bodyLarge
 					)
-					Button(modifier = Modifier
-						.padding(top = 24.dp)
-						.align(Alignment.Start)
-						.focusRequester(focusRequester).focusable(),
-						onClick = { parentFragmentManager.popBackStack() }
+					Button(
+						modifier = Modifier
+							.padding(top = 24.dp)
+							.align(Alignment.Start)
+							.focusRequester(focusRequester).focusable(),
+						onClick = { parentFragmentManager.popBackStack() },
+						colors = ButtonDefaults.colors(
+							containerColor = colorResource(R.color.button_default_normal_background),
+							contentColor = colorResource(R.color.button_default_normal_text),
+							focusedContainerColor = colorResource(R.color.button_default_highlight_background),
+							focusedContentColor = colorResource(R.color.button_default_highlight_text),
+							disabledContainerColor = colorResource(R.color.button_default_disabled_background),
+							disabledContentColor = colorResource(R.color.button_default_disabled_text)
+						)
 					) {
 						Icon(
 							imageVector = Icons.Default.Done,
