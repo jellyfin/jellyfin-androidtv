@@ -554,4 +554,6 @@
     <string name="lbl_subtitle_text_color">Altyazı metin rengi</string>
     <string name="pref_subtitles_size_very_small">Çok küçük</string>
     <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="prefer_exoplayer_ffmpeg">Ses çalma için FFmpeg\'i tercih et</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Platform codec bileşenleri mevcut olsa bile ses kodunu çözmek için FFmpeg kullan.</string>
 </resources>
