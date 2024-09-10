@@ -7,8 +7,8 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCLevelCodecProfiles
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcLevelCodecProfiles
-import org.jellyfin.androidtv.util.profile.ProfileHelper.maxResolutionCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.maxResolutionCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.supportsHevc
@@ -85,6 +85,7 @@ class ExoPlayerProfile(
 				}.joinToString(",")
 				protocol = "hls"
 				copyTimestamps = false
+				enableSubtitlesInManifest = true
 			},
 			// MP3 audio profile
 			TranscodingProfile().apply {
@@ -204,18 +205,30 @@ class ExoPlayerProfile(
 			add(maxAudioChannelsCodecProfile(channels = if (downMixAudio) 2 else 8))
 		}.toTypedArray()
 
-		subtitleProfiles = arrayOf(
-			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.DVBSUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed)
-		)
+		subtitleProfiles = buildList {
+			// Rendering supported
+			arrayOf(
+				Codec.Subtitle.SRT,
+				Codec.Subtitle.SUBRIP,
+				Codec.Subtitle.PGS,
+				Codec.Subtitle.PGSSUB,
+				Codec.Subtitle.DVBSUB,
+				Codec.Subtitle.VTT,
+				Codec.Subtitle.SUB,
+				Codec.Subtitle.IDX,
+			).forEach { codec ->
+				add(subtitleProfile(codec, SubtitleDeliveryMethod.Embed))
+				add(subtitleProfile(codec, SubtitleDeliveryMethod.Hls))
+			}
+
+			// Require baking
+			arrayOf(
+				Codec.Subtitle.ASS,
+				Codec.Subtitle.SSA,
+				Codec.Subtitle.DVDSUB,
+			).forEach { codec ->
+				add(subtitleProfile(codec, SubtitleDeliveryMethod.Encode))
+			}
+		}.toTypedArray()
 	}
 }
