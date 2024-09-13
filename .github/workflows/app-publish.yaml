@@ -19,7 +19,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4.0.1
+        uses: gradle/actions/setup-gradle@d156388eb19639ec20ade50009f3d199ce1e2808 # v4.1.0
       - name: Set JELLYFIN_VERSION
         run: echo "JELLYFIN_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
       - name: Assemble release files
