@@ -444,7 +444,7 @@
     <string name="pref_enable_media_management">Activează managementul de conținut</string>
     <string name="crash_report_toast">Oops! Ceva nu a mers cum trebuie, un raport crash a fost trimis către serverul tău Jellyfin.</string>
     <string name="app_notification_beta">Aplicație actualizată la %1$s
-\nMulțumim pentru participarea în programul Jellyfin beta</string>
+\nMulțumim pentru participarea în programul Jellyfin beta.</string>
     <string name="server_setup_incomplete">Configurarea serverului nu a fost finalizată. Deschide Jellyfin într-un browser web pentru a finaliza configurarea înainte de a te conecta.</string>
     <string name="item_deleted">%1$s a fost șters</string>
     <string name="episode_name_special">special</string>
