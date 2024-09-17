@@ -292,14 +292,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return null;
         });
 
-        requireActivity().getOnBackPressedDispatcher().addCallback(backPressedCallback);
-
         int startPos = getArguments().getInt("Position", 0);
 
         // start playing
         playbackControllerContainer.getValue().getPlaybackController().play(startPos);
         leanbackOverlayFragment.updatePlayState();
 
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
     }
 
     private void prepareOverlayFragment() {
@@ -379,7 +384,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     };
 
     private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
-
         @Override
         public void handleOnBackPressed() {
             if (mPopupPanelVisible) {
@@ -675,10 +679,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
-        if (backPressedCallback != null) {
-            backPressedCallback.remove();
-            backPressedCallback = null;
-        }
 
         // end playback from here if this fragment belongs to the current session.
         // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
