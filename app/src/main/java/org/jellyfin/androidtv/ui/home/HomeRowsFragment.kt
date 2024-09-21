@@ -94,7 +94,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			}
 
 			// Start out with default sections
-			val homesections = userSettingPreferences.homesections
+			val homesections = userSettingPreferences.activeHomesections
 			var includeLiveTvRows = false
 
 			// Check for live TV support
