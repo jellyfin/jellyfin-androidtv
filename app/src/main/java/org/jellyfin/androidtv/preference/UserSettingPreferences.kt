@@ -24,10 +24,26 @@ class UserSettingPreferences(
 		val homesection4 = enumPreference("homesection4", HomeSectionType.LIVE_TV)
 		val homesection5 = enumPreference("homesection5", HomeSectionType.NEXT_UP)
 		val homesection6 = enumPreference("homesection6", HomeSectionType.LATEST_MEDIA)
+		val homesection7 = enumPreference("homesection7", HomeSectionType.NONE)
+		val homesection8 = enumPreference("homesection8", HomeSectionType.NONE)
+		val homesection9 = enumPreference("homesection9", HomeSectionType.NONE)
 	}
 
-	val homesections
-		get() = listOf(homesection0, homesection1, homesection2, homesection3, homesection4, homesection5, homesection6)
+	val homesections = listOf(
+		homesection0,
+		homesection1,
+		homesection2,
+		homesection3,
+		homesection4,
+		homesection5,
+		homesection6,
+		homesection7,
+		homesection8,
+		homesection9,
+	)
+
+	val activeHomesections
+		get() = homesections
 			.map(::get)
 			.filterNot { it == HomeSectionType.NONE }
 }

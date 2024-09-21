@@ -21,15 +21,7 @@ class HomePreferencesScreen : OptionsFragment() {
 		category {
 			setTitle(R.string.home_sections)
 
-			arrayOf(
-				UserSettingPreferences.homesection0,
-				UserSettingPreferences.homesection1,
-				UserSettingPreferences.homesection2,
-				UserSettingPreferences.homesection3,
-				UserSettingPreferences.homesection4,
-				UserSettingPreferences.homesection5,
-				UserSettingPreferences.homesection6,
-			).forEachIndexed { index, section ->
+			userSettingPreferences.homesections.forEachIndexed { index, section ->
 				enum<HomeSectionType> {
 					title = getString(R.string.home_section_i, index + 1)
 					bind(userSettingPreferences, section)
