@@ -4,7 +4,6 @@ import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
-import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetItemsRequest;
@@ -136,12 +135,6 @@ public class BrowseRowDef {
         headerText = header;
         this.similarQuery = query;
         this.queryType = type;
-    }
-
-    public BrowseRowDef(String header, GetUserViewsRequest query) {
-        headerText = header;
-        this.staticHeight = true;
-        this.queryType = QueryType.Views;
     }
 
     public BrowseRowDef(String header, GetResumeItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
