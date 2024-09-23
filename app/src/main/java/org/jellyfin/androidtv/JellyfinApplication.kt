@@ -61,4 +61,8 @@ class JellyfinApplication : Application() {
 
 		TelemetryService.init(this)
 	}
+	/**
+	 * androidx.work causes a startup crash when it returns true
+	 */
+	override fun isDeviceProtectedStorage() = false
 }
