@@ -104,7 +104,7 @@ public class CardPresenter extends Presenter {
                     } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageHelper.ASPECT_RATIO_16_9;
                     } else {
-                        aspect = Utils.getSafeValue(imageHelper.getValue().getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageHelper.ASPECT_RATIO_7_9);
+                        aspect = imageHelper.getValue().getImageAspectRatio(itemDto, m.getPreferParentThumb());
                     }
                     switch (itemDto.getType()) {
                         case AUDIO:
@@ -183,8 +183,6 @@ public class CardPresenter extends Presenter {
                         case MOVIE:
                         case VIDEO:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.POSTER))
-                                aspect = ImageHelper.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:

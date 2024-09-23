@@ -25,18 +25,19 @@ class ImageHelper(
 		const val MAX_PRIMARY_IMAGE_HEIGHT: Int = 370
 	}
 
-	fun getImageAspectRatio(item: BaseItemDto, preferParentThumb: Boolean): Double? {
+	fun getImageAspectRatio(item: BaseItemDto, preferParentThumb: Boolean): Double {
 		if (preferParentThumb && (item.parentThumbItemId != null || item.seriesThumbImageTag != null)) {
 			return ASPECT_RATIO_16_9
 		}
 
+		val primaryAspectRatio = item.primaryImageAspectRatio;
 		if (item.type == BaseItemKind.EPISODE) {
-			if (item.primaryImageAspectRatio != null) return item.primaryImageAspectRatio
+			if (primaryAspectRatio != null) return primaryAspectRatio
 			if (item.parentThumbItemId != null || item.seriesThumbImageTag != null) return ASPECT_RATIO_16_9
 		}
 
 		if (item.type == BaseItemKind.USER_VIEW && item.imageTags?.containsKey(ImageType.PRIMARY) == true) return ASPECT_RATIO_16_9
-		return item.primaryImageAspectRatio ?: ASPECT_RATIO_7_9
+		return primaryAspectRatio ?: ASPECT_RATIO_7_9
 	}
 
 	fun getPrimaryImageUrl(item: BaseItemPerson, maxHeight: Int? = null): String? {
