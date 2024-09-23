@@ -21,4 +21,13 @@
     <string name="lbl_by_letter">ಅಕ್ಷರದ ಮೂಲಕ</string>
     <string name="lbl_on_now">ಈಗ</string>
     <string name="lbl_suggested">ಸಲಹೆ</string>
+    <string name="lbl_favorites">ಮೆಚಿಡು</string>
+    <string name="lbl_coming_up">ಮುಂದೆ ಬರಲಿದೆ</string>
+    <string name="msg_not_implemented">" ಅನುಷ್ಠಾನಗೊಂಡಿಲ್ಲ"</string>
+    <string name="lbl_latest">ಇತ್ತೀಚೆಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
+    <string name="lbl_movies">ಚಲನಚಿತ್ರಗಳು</string>
+    <string name="lbl_collections">ಸಂಗ್ರಹ</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_latest_in">%1$s ನಲ್ಲಿ ಇತ್ತೀಚೆಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
+    <string name="lbl_by_name">ಹೆಸರಿನಿಂದ</string>
 </resources>
