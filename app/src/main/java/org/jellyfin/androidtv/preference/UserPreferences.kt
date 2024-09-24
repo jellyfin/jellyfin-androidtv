@@ -200,6 +200,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether items shown in the screensaver are required to have an age rating set.
 		 */
 		var screensaverAgeRatingRequired = booleanPreference("screensaver_agerating_required", true)
+
+		/**
+		 * Preferred behavior for zoom mode.
+		 */
+
+		var zoomMode = intPreference("zoom_mode", 0)
 	}
 
 	init {
