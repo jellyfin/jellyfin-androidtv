@@ -200,6 +200,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether items shown in the screensaver are required to have an age rating set.
 		 */
 		var screensaverAgeRatingRequired = booleanPreference("screensaver_agerating_required", true)
+
+		/**
+		 * Timeout for the playback UI before it fades out.
+		 */
+
+		var playbackUiFadeTime = intPreference("playback_ui_fade_time", 6)
 	}
 
 	init {
