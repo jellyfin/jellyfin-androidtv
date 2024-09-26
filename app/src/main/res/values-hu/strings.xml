@@ -2,7 +2,7 @@
 <resources>
     <string name="pref_authentication_cat">Azonosítás</string>
     <string name="settings_title">Beállítások</string>
-    <string name="pref_max_bitrate_title">Maximális sztreamelési bitráta</string>
+    <string name="pref_max_bitrate_title">Maximális streamelési bitráta</string>
     <string name="pref_playback">Lejátszás</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Mégsem</string>
@@ -34,7 +34,7 @@
     <string name="lbl_trailers">Előzetesek</string>
     <string name="lbl_specials">Különkiadások</string>
     <string name="lbl_chapters">Fejezetek</string>
-    <string name="lbl_cast_crew">Szereplők és Stáb</string>
+    <string name="lbl_cast_crew">Szereplők és stáb</string>
     <string name="msg_unable_to_cancel">Felvétel törlése sikertelen</string>
     <string name="lbl_shuffle_all">Összes keverése</string>
     <string name="lbl_by_name">Név alapján</string>
@@ -69,7 +69,7 @@
     <string name="lbl_tv_series">Sorozatok</string>
     <string name="lbl_movies">Filmek</string>
     <string name="lbl_collections">Gyűjtemények</string>
-    <string name="lbl_other_channels">Egyéb Csatornák</string>
+    <string name="lbl_other_channels">Egyéb csatornák</string>
     <string name="lbl_favorite_channels">Kedvenc csatornák</string>
     <string name="lbl_coming_up">A következőekben</string>
     <string name="lbl_favorites">Kedvencek</string>
@@ -96,7 +96,7 @@
     <string name="lbl_runs">Időtartam</string>
     <string name="msg_set_to_record">Felvételre megjelölt műsor</string>
     <string name="lbl_audio_output">Hangkimenet</string>
-    <string name="pref_audio_compat">Lekeverés Sztereóvá</string>
+    <string name="pref_audio_compat">Lekeverés sztereóvá</string>
     <string name="pref_audio_direct">Direkt</string>
     <string name="msg_cancel_entire_series">Biztos vagy benne, hogy az EGÉSZ SOROZATOT törölni szeretnéd\?</string>
     <string name="lbl_repeat_options">Ismétlési beállítások</string>
@@ -127,7 +127,7 @@
     <string name="pref_next_up_timeout_summary">Ennyi időt várjon a következő elem lejátszása előtt</string>
     <string name="pref_about_title">Rólunk</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
-    <string name="pref_theme_dark">Sötét (Alapértelmezett)</string>
+    <string name="pref_theme_dark">Sötét (alapértelmezett)</string>
     <string name="lbl_my_media">Én médiám</string>
     <string name="lbl_image_size">Képméret</string>
     <string name="lbl_image_type">Képtípus</string>
@@ -210,7 +210,7 @@
     <string name="msg_burn_sub_warning">Feliratok beégetése. Ez eltarthat pár másodpercig…</string>
     <string name="msg_unable_load_subs">Feliratok betöltése sikertelen</string>
     <string name="msg_subtitles_loading">Feliratok betöltése…</string>
-    <string name="lbl_filters">TV Csatorna Szűrők</string>
+    <string name="lbl_filters">TV csatorna szűrők</string>
     <string name="lbl_ended">VÉGET ÉRT</string>
     <string name="lbl__continuing">ÚJ RÉSZEK VÁRHATÓAK</string>
     <string name="lbl_display_preferences">Megjelenítési beállítások</string>
@@ -240,7 +240,7 @@
     <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
     <string name="no_player">Nincs elérhető lejátszó</string>
     <string name="mark_watched">Nézettnek jelöl</string>
-    <string name="lbl_tv_filter_status">az elkövetkezendő %1$d órá(k)ban</string>
+    <string name="lbl_tv_filter_status">a következő %1$d órában</string>
     <string name="lbl_tv_channel_status">%1$d a %2$d csatornából</string>
     <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
     <string name="lbl_audio_track">Hangsáv kiválasztása</string>
@@ -260,7 +260,7 @@
     <string name="mark_watched_message">Úgy tűnik hogy nem lett teljes hosszában lejátszva. Megjelöljük megtekintettként\?</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">%1$s -kor lesz vége</string>
-    <string name="lbl_sign_in">Kérlek Jelentkezz Be</string>
+    <string name="lbl_sign_in">Kérlek jelentkezz be</string>
     <string name="just_one">Csak ezt az egyet</string>
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
@@ -427,7 +427,7 @@
     <string name="lbl_additional_parts">További részletek</string>
     <string name="server_unsupported_notification">Ez a szerver a Jellyfin %1$s verzióját használja, amely nem támogatott. Az alkalmazás használatának folytatásához frissíts a Jellyfin %2$s verziójára vagy újabbra.</string>
     <string name="app_notification_uimode_invalid">Ez az alkalmazás televízióra van optimalizálva. Javasoljuk, hogy más eszközön mobilalkalmazásunkat használd.</string>
-    <string name="image_size_xlarge">Extra-Nagy</string>
+    <string name="image_size_xlarge">Extra-nagy</string>
     <string name="image_size_smallest">Legkisebb</string>
     <string name="image_type_poster">Poszter</string>
     <string name="crash_report_toast">Hoppá! Hiba történt, hibajelentés elküldve a Jellyfin szerverre.</string>
@@ -443,7 +443,7 @@
     <string name="episode_name_special">speciális</string>
     <string name="lbl_quality_profile">Minőségi profil</string>
     <string name="desc_audio_night_mode">Automatikusan kiegyenlíti a hangerőt</string>
-    <string name="pref_audio_night_mode">Éjszakai Audio Mód (kísérleti)</string>
+    <string name="pref_audio_night_mode">Éjszakai audio mód (kísérleti)</string>
     <string name="color_white">Fehér</string>
     <string name="color_black">Fekete</string>
     <string name="color_darkgrey">Sötétszürke</string>
@@ -476,7 +476,7 @@
         <item quantity="one">%1$s másodperc</item>
         <item quantity="other">%1$s másodpercek</item>
     </plurals>
-    <string name="lbl_latest_in">Hozááadva %1$s</string>
+    <string name="lbl_latest_in">Hozzáadva %1$s</string>
     <string name="pref_screensaver_inapp_enabled_description">Jellyfin képernyővédő használata, amíg az alkalmazás nyitva van</string>
     <string name="lbl_album_artists">Album szerzői</string>
     <plurals name="episodes">
@@ -546,4 +546,14 @@
     <string name="app_notification_update_soon">Frissítsd a szervert %1$s verzióról legalább a %2$s verzióra, hogy tudd tovább használni az applikációt a következő frissítés után is.</string>
     <string name="pref_external_player">Külső lejátszó használata</string>
     <string name="current_queue">Lejátszási sor</string>
+    <string name="prefer_exoplayer_ffmpeg">FFmpeg hanglejátszás előnyben részesítése</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Használja az FFmpeg-et a hang dekódolásához, még akkor is, ha elérhetőek a platform kodekek.</string>
+    <string name="lbl_subtitle_text_color">Felirat szövegének színe</string>
+    <string name="lbl_subtitle_background_color">Felirat háttérszíne</string>
+    <string name="lbl_subtitle_text_stroke_color">Felirat körvonal színe</string>
+    <string name="pref_subtitles_size_very_small">Nagyon kicsi</string>
+    <string name="pref_subtitles_size_small">Kicsi</string>
+    <string name="pref_subtitles_size_normal">Normál</string>
+    <string name="pref_subtitles_size_large">Nagy</string>
+    <string name="pref_subtitles_size_very_large">Nagyon nagy</string>
 </resources>
