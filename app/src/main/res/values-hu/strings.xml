@@ -476,7 +476,7 @@
         <item quantity="one">%1$s másodperc</item>
         <item quantity="other">%1$s másodpercek</item>
     </plurals>
-    <string name="lbl_latest_in">Hozááadva %1$s</string>
+    <string name="lbl_latest_in">Hozzáadva %1$s</string>
     <string name="pref_screensaver_inapp_enabled_description">Jellyfin képernyővédő használata, amíg az alkalmazás nyitva van</string>
     <string name="lbl_album_artists">Album szerzői</string>
     <plurals name="episodes">
