@@ -77,7 +77,7 @@
     <string name="msg_cannot_play">Dette elementet kunne ikke bli avspilt</string>
     <string name="lbl_no_items">Ingen elementer</string>
     <string name="lbl_empty">Tom</string>
-    <string name="lbl_tv_queuing">Legg til alle påfølgende episoder i køen</string>
+    <string name="lbl_tv_queuing">Spill av neste episode automatisk</string>
     <string name="lbl_search_hint">Søk tekst (velg for tastatur)</string>
     <string name="lbl_play_first_unwatched">Spill av første som ikke er sett</string>
     <string name="lbl_mark_unplayed">Merk som usett</string>
@@ -407,7 +407,7 @@
     <string name="app_notification_uimode_invalid">Denne appen er optimalisert for TV-er. Vi anbefaler å bruke mobilappen vår på andre enheter.</string>
     <string name="server_unsupported_notification">Denne serveren bruker Jellyfin versjon %1$s, som ikke støttes. Oppdater til Jellyfin %2$s eller nyere for å fortsette å bruke appen.</string>
     <string name="app_notification_beta">App oppdatert til %1$s
-\nTakk for at du deltar i Jellyfin beta-programmet</string>
+\nTakk for at du deltar i Jellyfin beta-programmet.</string>
     <string name="pref_screensaver_inapp_enabled">Bruk skjermsparer i appen</string>
     <string name="enable_reactive_homepage">Aktiver reaktiv hjemmeside</string>
     <string name="pref_screensaver_inapp_enabled_description">Vis Jellyfin-skjermspareren mens appen er åpen</string>
@@ -539,4 +539,21 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Kun vis elementer med en aldersgrense</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Viser alle elementer</string>
     <string name="all_channels">Alle kanaler</string>
+    <string name="lbl_subtitle_background_color">Bakgrunnsfarge for undertekst</string>
+    <string name="app_notification_update_soon">Oppdater tjeneren fra %1$s til minst %2$s for å fortsette å bruke appen etter neste oppdatering.</string>
+    <string name="prefer_exoplayer_ffmpeg">Foretrekk FFmpeg for lydavspilling</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Bruk FFmpeg for å dekode lyd, selv om plattformkodeker er tilgjengelige.</string>
+    <string name="lbl_subtitle_text_stroke_color">Strekfarge for undertekst</string>
+    <string name="lbl_subtitle_text_color">Farge for undertekst</string>
+    <string name="pref_subtitles_size_very_small">Veldig liten</string>
+    <string name="pref_subtitles_size_small">Liten</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Stor</string>
+    <string name="pref_subtitles_size_very_large">Veldig stor</string>
+    <string name="current_queue">Aktuell kø</string>
+    <string name="past_week">Forrige uke</string>
+    <string name="pref_external_player">Bruk ekstern avspiller</string>
+    <string name="continue_listening">Fortsett å lytte</string>
+    <string name="past_24_hours">Siste 24 timene</string>
+    <string name="scheduled_in_next_24_hours">Planlagt i løpet av de neste 24 timene</string>
 </resources>
