@@ -646,7 +646,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 if (mVideoManager != null)
                     mVideoManager.start();
             }
-        }, 750);
+        },  userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay()));
 
         dataRefreshService.getValue().setLastPlayedItem(item);
         reportingHelper.getValue().reportStart(item, mbPos);
