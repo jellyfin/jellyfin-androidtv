@@ -61,7 +61,7 @@ class MainActivity : FragmentActivity() {
 		if (savedInstanceState == null && navigationRepository.canGoBack) navigationRepository.reset(clearHistory = true)
 
 		navigationRepository.currentAction
-			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
 			.onEach { action ->
 				handleNavigationAction(action)
 				backPressedCallback.isEnabled = navigationRepository.canGoBack
