@@ -125,7 +125,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             if (data.hasExtra(API_MX_RESULT_POSITION)) {
                 pos = data.getIntExtra(API_MX_RESULT_POSITION, 0);
             } else if (data.hasExtra(API_VLC_RESULT_POSITION)) {
-                pos = data.getIntExtra(API_VLC_RESULT_POSITION, 0);
+                pos = (int) data.getLongExtra(API_VLC_RESULT_POSITION, 0);
             } else if (data.hasExtra(API_VIMU_RESULT_POSITION)) {
                 pos = data.getIntExtra(API_VIMU_RESULT_POSITION, 0);
             }
