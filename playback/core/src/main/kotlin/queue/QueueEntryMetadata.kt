@@ -1,6 +1,7 @@
 package org.jellyfin.playback.core.queue
 
 import org.jellyfin.playback.core.element.ElementKey
+import org.jellyfin.playback.core.element.elementFlow
 import org.jellyfin.playback.core.element.requiredElement
 import java.time.LocalDate
 import kotlin.time.Duration
@@ -42,3 +43,9 @@ private val metadataKey = ElementKey<QueueEntryMetadata>("QueueEntryMetadata")
  * Get or set the [QueueEntryMetadata] for this [QueueEntry]. Defaults to [QueueEntryMetadata.Empty].
  */
 var QueueEntry.metadata by requiredElement(metadataKey) { QueueEntryMetadata.Empty }
+
+/**
+ * Get the flow of [metadata].
+ * @see metadata
+ */
+val QueueEntry.metadataFlow by elementFlow(metadataKey)
