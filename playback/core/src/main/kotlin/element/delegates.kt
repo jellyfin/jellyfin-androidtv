@@ -1,5 +1,7 @@
 package org.jellyfin.playback.core.element
 
+import kotlinx.coroutines.flow.Flow
+import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -38,3 +40,10 @@ fun <T : Any> requiredElement(
 		thisRef.put(key, value)
 	}
 }
+
+/**
+ * Delegate for the flow of an element.
+ */
+fun <T : Any> elementFlow(
+	key: ElementKey<T>,
+) = ReadOnlyProperty<ElementsContainer, Flow<T?>> { thisRef, _ -> thisRef.getFlow(key) }
