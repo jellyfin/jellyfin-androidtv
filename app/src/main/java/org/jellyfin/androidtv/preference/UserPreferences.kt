@@ -204,7 +204,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Delay when starting video playback after loading the video player.
 		 */
-		var videoStartDelay = longPreference("video_start_delay", 750)
+		var videoStartDelay = longPreference("video_start_delay", 0)
 	}
 
 	init {

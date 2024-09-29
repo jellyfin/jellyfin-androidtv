@@ -64,7 +64,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 
 			@Suppress("MagicNumber")
 			seekbar {
-				setTitle(R.string.lbl_video_start_delay)
+				setTitle(R.string.video_start_delay)
 				min = 0
 				max = 5_000
 				increment = 250
