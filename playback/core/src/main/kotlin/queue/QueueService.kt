@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.backend.PlayerBackendEventListener
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
+import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
@@ -44,6 +47,17 @@ class QueueService internal constructor() : PlayerService(), Queue {
 				PlaybackOrder.SHUFFLE -> ShuffleOrderIndexProvider()
 			}
 		}.launchIn(coroutineScope)
+
+		// Automatically advance when current stream ends
+		manager.backendService.addListener(object : PlayerBackendEventListener {
+			override fun onPlayStateChange(state: PlayState) = Unit
+			override fun onVideoSizeChange(width: Int, height: Int) = Unit
+			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
+				coroutineScope.launch {
+					next(usePlaybackOrder = true, useRepeatMode = true)
+				}
+			}
+		})
 	}
 
 	// Entry management
