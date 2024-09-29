@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
+import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -1262,11 +1263,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return mPlaybackState == PlaybackState.PAUSED;
     }
 
-    public int getZoomMode() {
-        return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : 0;
+    public ZoomMode getZoomMode() {
+        return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : ZoomMode.ZOOM_FIT;
     }
 
-    public void setZoom(int mode) {
+    public void setZoom(ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
     }

@@ -42,6 +42,7 @@ import androidx.media3.ui.PlayerView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.koin.java.KoinJavaComponent;
 
@@ -52,12 +53,7 @@ import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
 public class VideoManager {
-    public final static int ZOOM_FIT = 0;
-    public final static int ZOOM_AUTO_CROP = 1;
-    public final static int ZOOM_STRETCH = 2;
-
-    private int mZoomMode = ZOOM_FIT;
-
+    private ZoomMode mZoomMode;
     private Activity mActivity;
     private Equalizer mEqualizer;
     private DynamicsProcessing mDynamicsProcessing;
@@ -215,20 +211,20 @@ public class VideoManager {
         return mExoPlayer != null;
     }
 
-    public int getZoomMode() {
+    public ZoomMode getZoomMode() {
         return mZoomMode;
     }
 
-    public void setZoom(int mode) {
+    public void setZoom(ZoomMode mode) {
         mZoomMode = mode;
         switch (mode) {
             case ZOOM_FIT:
                 mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
                 break;
-            case ZOOM_AUTO_CROP:
+            case AUTO_CROP:
                 mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
                 break;
-            case ZOOM_STRETCH:
+            case STRETCH:
                 mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
                 break;
         }

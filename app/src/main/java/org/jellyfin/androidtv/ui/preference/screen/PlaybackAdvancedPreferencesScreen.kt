@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
@@ -65,19 +66,9 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
 
-			@Suppress("MagicNumber")
-			list {
+			enum<ZoomMode> {
 				setTitle(R.string.lbl_zoom)
-				entries = mapOf(
-					0 to context.getString(R.string.lbl_fit),
-					1 to context.getString(R.string.lbl_auto_crop),
-					2 to context.getString(R.string.lbl_stretch),
-				).mapKeys { it.key.toString() }
-				bind {
-					get { userPreferences[UserPreferences.zoomMode].toString() }
-					set { value -> userPreferences[UserPreferences.zoomMode] = value.toInt() }
-					default { UserPreferences.zoomMode.defaultValue.toString() }
-				}
+				bind(userPreferences, UserPreferences.zoomMode)
 			}
 		}
 
