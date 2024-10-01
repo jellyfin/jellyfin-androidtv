@@ -40,7 +40,7 @@ fun loadLiveTvChannels(fragment: Fragment, callback: (channels: Collection<BaseI
 				enableFavoriteSorting = liveTvPreferences[LiveTvPreferences.favsAtTop],
 				sortBy = if (sortDatePlayed) setOf(ItemSortBy.DATE_PLAYED) else setOf(ItemSortBy.SORT_NAME),
 				sortOrder = if (sortDatePlayed) SortOrder.DESCENDING else SortOrder.ASCENDING,
-			).content.items.orEmpty()
+			).content.items
 		}.fold(
 			onSuccess = { channels -> callback(channels) },
 			onFailure = { callback(null) },
@@ -84,7 +84,7 @@ fun getScheduleRows(
 		runCatching {
 			api.liveTvApi.getTimers(
 				seriesTimerId = seriesTimerId,
-			).content.items.orEmpty()
+			).content.items
 		}.fold(
 			onSuccess = { timers ->
 				val groupedTimers = timers

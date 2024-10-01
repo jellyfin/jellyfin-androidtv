@@ -21,7 +21,6 @@ class UserViewsRepositoryImpl(
 	override val views = flow {
 		val views by api.userViewsApi.getUserViews()
 		val filteredViews = views.items
-			.orEmpty()
 			.filter { isSupported(it.collectionType) }
 		emit(filteredViews)
 	}
