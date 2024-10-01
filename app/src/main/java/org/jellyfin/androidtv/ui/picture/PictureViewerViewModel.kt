@@ -39,7 +39,7 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 			sortBy = sortBy,
 			sortOrder = listOf(sortOrder),
 		)
-		album = albumResponse.items.orEmpty()
+		album = albumResponse.items
 		albumIndex = album.indexOfFirst { it.id == id }
 
 		// In some rare cases the album of the image might be empty when the

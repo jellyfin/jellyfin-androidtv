@@ -221,7 +221,6 @@ class LeanbackChannelWorker(
 
 		// Add new items
 		return response.items
-			.orEmpty()
 			.filter { userViewsRepository.isSupported(it.collectionType) }
 	}
 
@@ -277,7 +276,7 @@ class LeanbackChannelWorker(
 					mediaTypes = listOf(MediaType.VIDEO),
 					includeItemTypes = listOf(BaseItemKind.EPISODE, BaseItemKind.MOVIE),
 					excludeActiveSessions = true,
-				).content.items.orEmpty()
+				).content.items
 			}
 
 			val nextUp = async {
@@ -286,7 +285,7 @@ class LeanbackChannelWorker(
 					limit = 10,
 					enableResumable = false,
 					fields = listOf(ItemFields.DATE_CREATED),
-				).content.items.orEmpty()
+				).content.items
 			}
 
 			// Concat

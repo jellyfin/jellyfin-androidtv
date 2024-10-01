@@ -105,7 +105,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 					isAiring = true,
 					limit = 1,
 				)
-				includeLiveTvRows = !recommendedPrograms.items.isNullOrEmpty()
+				includeLiveTvRows = recommendedPrograms.items.isNotEmpty()
 			}
 
 			// Make sure the rows are empty

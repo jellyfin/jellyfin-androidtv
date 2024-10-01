@@ -94,7 +94,7 @@ class SdkPlaybackHelper(
 					)
 				)
 
-				response.items.orEmpty()
+				response.items
 			} else {
 				listOf(mainItem)
 			}
@@ -123,7 +123,7 @@ class SdkPlaybackHelper(
 				)
 			)
 
-			response.items.orEmpty()
+			response.items
 		}
 
 		BaseItemKind.MUSIC_ALBUM -> {
@@ -144,7 +144,7 @@ class SdkPlaybackHelper(
 				albumIds = listOf(mainItem.id)
 			)
 
-			response.items.orEmpty()
+			response.items
 		}
 
 		BaseItemKind.MUSIC_ARTIST -> {
@@ -162,7 +162,7 @@ class SdkPlaybackHelper(
 				artistIds = listOf(mainItem.id)
 			)
 
-			response.items.orEmpty()
+			response.items
 		}
 
 		BaseItemKind.PLAYLIST -> {
@@ -182,7 +182,7 @@ class SdkPlaybackHelper(
 				)
 			)
 
-			response.items.orEmpty()
+			response.items
 		}
 
 		BaseItemKind.PROGRAM -> {
@@ -237,7 +237,7 @@ class SdkPlaybackHelper(
 		val partCount = item.partCount
 		if (partCount != null && partCount > 1) {
 			val response by api.videosApi.getAdditionalPart(item.id)
-			addAll(response.items.orEmpty())
+			addAll(response.items)
 		}
 	}
 
@@ -284,7 +284,7 @@ class SdkPlaybackHelper(
 			)
 
 			val items = response.items
-			if (!items.isNullOrEmpty()) {
+			if (items.isNotEmpty()) {
 				mediaManager.playNow(context, items, 0, false)
 			} else {
 				Toast.makeText(context, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()
