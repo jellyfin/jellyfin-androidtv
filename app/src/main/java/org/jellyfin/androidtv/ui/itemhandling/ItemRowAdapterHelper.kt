@@ -567,12 +567,9 @@ fun ItemRowAdapter.retrievePremieres(
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.itemsApi.getItems(query)
-			val filteredItems = response.items
-				.orEmpty()
-				.filter { it.indexNumber == 1 }
 
 			setItems(
-				items = filteredItems,
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -582,7 +579,7 @@ fun ItemRowAdapter.retrievePremieres(
 				}
 			)
 
-			if (filteredItems.isEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }

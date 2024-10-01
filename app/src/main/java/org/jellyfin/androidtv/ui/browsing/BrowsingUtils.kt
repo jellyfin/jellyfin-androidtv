@@ -345,6 +345,7 @@ object BrowsingUtils {
 		),
 		includeItemTypes = setOf(BaseItemKind.EPISODE),
 		parentId = parentId,
+		indexNumber = 1,
 		recursive = true,
 		isMissing = false,
 		imageTypeLimit = 1,
