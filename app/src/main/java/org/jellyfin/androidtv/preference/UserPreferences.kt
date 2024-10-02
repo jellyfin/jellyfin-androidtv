@@ -203,10 +203,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var screensaverAgeRatingRequired = booleanPreference("screensaver_agerating_required", true)
 
 		/**
-		 * Preferred behavior for zoom mode.
+		 * Preferred behavior for player aspect ratio (zoom mode).
 		 */
 
-		var zoomMode = enumPreference("zoom_mode", ZoomMode.ZOOM_FIT)
+		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.ZOOM_FIT)
 	}
 
 	init {

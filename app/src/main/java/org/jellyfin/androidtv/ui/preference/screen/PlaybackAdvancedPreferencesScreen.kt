@@ -67,8 +67,8 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			}
 
 			enum<ZoomMode> {
-				setTitle(R.string.lbl_zoom)
-				bind(userPreferences, UserPreferences.zoomMode)
+				setTitle(R.string.pref_aspect_ratio)
+				bind(userPreferences, UserPreferences.playerZoomMode)
 			}
 		}
 

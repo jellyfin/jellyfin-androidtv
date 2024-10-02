@@ -138,7 +138,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void init(@NonNull VideoManager mgr, @NonNull CustomPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
         mVideoManager.subscribe(this);
-        mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getZoomMode()));
+        mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getPlayerZoomMode()));
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
     }
