@@ -639,7 +639,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
 
             dataRefreshService.getValue().setLastPlayedItem(item);
-            reportingHelper.getValue().reportStart(item, mbPos);
+            reportingHelper.getValue().reportStart(mFragment, item, mbPos);
 
             return null;
         });
@@ -775,7 +775,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
             Long mbPos = mCurrentPosition * 10000;
-            reportingHelper.getValue().reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            reportingHelper.getValue().reportStopped(mFragment, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
             clearPlaybackSessionOptions();
         }
     }
@@ -986,7 +986,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startReportLoop() {
         stopReportLoop();
-        reportingHelper.getValue().reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, false);
+        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -994,7 +994,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     refreshCurrentPosition();
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
 
-                    reportingHelper.getValue().reportProgress(PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
+                    reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
                     mHandler.postDelayed(this, PROGRESS_REPORTING_INTERVAL);
@@ -1006,7 +1006,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startPauseReportLoop() {
         stopReportLoop();
-        reportingHelper.getValue().reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
+        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1027,7 +1027,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
 
-                reportingHelper.getValue().reportProgress(PlaybackController.this, currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
+                reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
                 mHandler.postDelayed(this, PROGRESS_REPORTING_PAUSE_INTERVAL);
             }
         };
