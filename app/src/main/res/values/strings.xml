@@ -516,6 +516,11 @@
     <string name="past_24_hours">Past 24 hours</string>
     <string name="prefer_exoplayer_ffmpeg">Prefer FFmpeg for audio playback</string>
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
+    <string name="codec_advanced">Advanced codec preferences</string>
+    <string name="codec">Codec</string>
+    <string name="user_avc_level">H.264 Level</string>
+    <string name="user_hevc_level">H.265 Level</string>
+    <string name="level_warning">Video\n\nSwitching from \'Auto\' could lead to playback issues</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
