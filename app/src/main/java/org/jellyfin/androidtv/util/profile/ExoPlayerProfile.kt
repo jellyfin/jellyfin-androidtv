@@ -27,10 +27,18 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 class ExoPlayerProfile(
 	disableVideoDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	downMixAudio: Boolean,
+	enableARCAudio: Boolean
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
+		Codec.Audio.MP3,
+		Codec.Audio.MP2
+	)
+
+	private val downmixARCSupportedAudioCodecs = arrayOf(
+		// Bypass isAC3Enabled check for HDMI ARC mode
+		Codec.Audio.AC3,
 		Codec.Audio.MP3,
 		Codec.Audio.MP2
 	)
@@ -41,14 +49,18 @@ class ExoPlayerProfile(
 	 */
 	private val allSupportedAudioCodecs = buildList {
 		addAll(downmixSupportedAudioCodecs)
+		if ((isAC3Enabled) || (enableARCAudio)) {
+			add(Codec.Audio.AC3)
+			add(Codec.Audio.EAC3)
+		}
+		if (!enableARCAudio) {
+			add(Codec.Audio.MLP)
+			add(Codec.Audio.TRUEHD)
+		}
 		add(Codec.Audio.AAC_LATM)
 		add(Codec.Audio.ALAC)
-		if (isAC3Enabled) add(Codec.Audio.AC3)
-		if (isAC3Enabled) add(Codec.Audio.EAC3)
 		add(Codec.Audio.DCA)
 		add(Codec.Audio.DTS)
-		add(Codec.Audio.MLP)
-		add(Codec.Audio.TRUEHD)
 		add(Codec.Audio.PCM_ALAW)
 		add(Codec.Audio.PCM_MULAW)
 		add(Codec.Audio.PCM_S16LE)
@@ -69,6 +81,18 @@ class ExoPlayerProfile(
 		maxStreamingBitrate = 20_000_000 // 20 mbps
 		maxStaticBitrate = 10_000_0000 // 10 mbps
 
+		// Determine audio codecs for profiles
+		val audioCodecForTranscodingProfile = when {
+			downMixAudio -> downmixSupportedAudioCodecs
+			enableARCAudio -> downmixARCSupportedAudioCodecs
+			else -> allSupportedAudioCodecsWithoutFFmpegExperimental
+		}.joinToString(",")
+
+		val audioCodecForDirectPlayProfile = when {
+			downMixAudio -> downmixSupportedAudioCodecs
+			else -> allSupportedAudioCodecsWithoutFFmpegExperimental
+		}.joinToString(",")
+
 		transcodingProfiles = arrayOf(
 			// TS video profile
 			TranscodingProfile().apply {
@@ -79,10 +103,7 @@ class ExoPlayerProfile(
 					if (supportsHevc) add(Codec.Video.HEVC)
 					add(Codec.Video.H264)
 				}.joinToString(",")
-				audioCodec = when (downMixAudio) {
-					true -> downmixSupportedAudioCodecs
-					false -> allSupportedAudioCodecsWithoutFFmpegExperimental
-				}.joinToString(",")
+				audioCodec = audioCodecForTranscodingProfile
 				protocol = "hls"
 				copyTimestamps = false
 				enableSubtitlesInManifest = true
@@ -128,10 +149,7 @@ class ExoPlayerProfile(
 						Codec.Video.AV1
 					).joinToString(",")
 
-					audioCodec = when (downMixAudio) {
-						true -> downmixSupportedAudioCodecs
-						false -> allSupportedAudioCodecs
-					}.joinToString(",")
+					audioCodec = audioCodecForDirectPlayProfile
 				})
 			}
 			// Audio direct play
@@ -203,6 +221,32 @@ class ExoPlayerProfile(
 			add(maxResolutionCodecProfile)
 			// Audio channel profile
 			add(maxAudioChannelsCodecProfile(channels = if (downMixAudio) 2 else 8))
+			// Add maximum audio channel profiles for ARC if enableARCAudio is true
+			if (enableARCAudio) {
+				add(CodecProfile().apply {
+					type = CodecType.VideoAudio
+					codec = arrayOf(
+						Codec.Audio.AAC,
+						Codec.Audio.AAC_LATM,
+						Codec.Audio.ALAC,
+						Codec.Audio.PCM_ALAW,
+						Codec.Audio.PCM_MULAW,
+						Codec.Audio.PCM_S16LE,
+						Codec.Audio.PCM_S20LE,
+						Codec.Audio.PCM_S24LE,
+						Codec.Audio.OPUS,
+						Codec.Audio.FLAC,
+						Codec.Audio.VORBIS
+					).joinToString(",")
+					conditions = arrayOf(
+						ProfileCondition(
+							ProfileConditionType.LessThanEqual,
+							ProfileConditionValue.AudioChannels,
+							"2"
+						)
+					)
+				})
+			}
 		}.toTypedArray()
 
 		subtitleProfiles = buildList {
