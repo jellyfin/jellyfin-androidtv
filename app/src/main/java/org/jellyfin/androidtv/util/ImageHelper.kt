@@ -111,14 +111,12 @@ class ImageHelper(
 		} else if (item.type == BaseItemKind.PROGRAM && item.imageTags?.containsKey(ImageType.THUMB) == true) {
 			imageTag = item.imageTags!![ImageType.THUMB]
 			imageType = ImageType.THUMB
-		} else if (item.type == BaseItemKind.AUDIO && imageTag == null) {
-			if (item.albumId != null && item.albumPrimaryImageTag != null) {
-				itemId = item.albumId!!
-				imageTag = item.albumPrimaryImageTag
-			} else if (!item.albumArtists.isNullOrEmpty()) {
-				itemId = item.albumArtists!!.first().id
-				imageTag = null
-			}
+		} else if (item.albumId != null && item.albumPrimaryImageTag != null) {
+			itemId = item.albumId!!
+			imageTag = item.albumPrimaryImageTag
+		} else if (item.type == BaseItemKind.AUDIO && imageTag == null && !item.albumArtists.isNullOrEmpty()) {
+			itemId = item.albumArtists!!.first().id
+			imageTag = null
 		}
 
 		return api.imageApi.getItemImageUrl(
