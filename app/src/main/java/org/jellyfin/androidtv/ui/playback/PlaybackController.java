@@ -639,9 +639,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.setVideoPath(response.getMediaUrl());
         }
 
-        //set video start delay
+        // Set video start delay
         long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
-        if (videoStartDelay != 0) {
+        if (videoStartDelay > 0) {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
