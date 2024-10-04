@@ -200,6 +200,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether items shown in the screensaver are required to have an age rating set.
 		 */
 		var screensaverAgeRatingRequired = booleanPreference("screensaver_agerating_required", true)
+
+		/**
+		 * Delay when starting video playback after loading the video player.
+		 */
+		var videoStartDelay = longPreference("video_start_delay", 0)
 	}
 
 	init {

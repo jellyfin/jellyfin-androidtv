@@ -5,11 +5,13 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.android.ext.android.inject
 
@@ -58,6 +60,22 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.video_start_delay)
+				min = 0
+				max = 5_000
+				increment = 250
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value.toDouble() / 1000}s"
+				}
+				bind {
+					get { userPreferences[UserPreferences.videoStartDelay].toInt() }
+					set { value -> userPreferences[UserPreferences.videoStartDelay] = value.toLong() }
+					default { UserPreferences.videoStartDelay.defaultValue.toInt() }
+				}
 			}
 
 			checkbox{

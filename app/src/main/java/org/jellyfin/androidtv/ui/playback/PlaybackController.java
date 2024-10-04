@@ -639,14 +639,20 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.setVideoPath(response.getMediaUrl());
         }
 
-        //wait a beat before attempting to start so the player surface is fully initialized and video is ready
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mVideoManager != null)
-                    mVideoManager.start();
-            }
-        }, 750);
+        // Set video start delay
+        long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
+        if (videoStartDelay > 0) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mVideoManager != null) {
+                        mVideoManager.start();
+                    }
+                }
+            }, videoStartDelay);
+        } else {
+            mVideoManager.start();
+        }
 
         dataRefreshService.getValue().setLastPlayedItem(item);
         reportingHelper.getValue().reportStart(item, mbPos);
