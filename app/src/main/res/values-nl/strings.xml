@@ -556,4 +556,5 @@
     <string name="pref_subtitles_size_very_small">Zeer klein</string>
     <string name="prefer_exoplayer_ffmpeg">FFmpeg verkiezen voor afspelen geluid</string>
     <string name="prefer_exoplayer_ffmpeg_content">Gebruik FFmpeg om geluid te decoderen, zelfs als er platformcodecs beschikbaar zijn.</string>
+    <string name="video_start_delay">Startvertraging video</string>
 </resources>
