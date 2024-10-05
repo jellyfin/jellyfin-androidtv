@@ -205,6 +205,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Delay when starting video playback after loading the video player.
 		 */
 		var videoStartDelay = longPreference("video_start_delay", 0)
+
+		/**
+		 * The actions to take for each media segment type. Managed by the [MediaSegmentRepository].
+		 */
+		var mediaSegmentActions = stringPreference("media_segment_actions", "")
 	}
 
 	init {
