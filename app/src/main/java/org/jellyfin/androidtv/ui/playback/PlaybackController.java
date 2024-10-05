@@ -639,23 +639,27 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.setVideoPath(response.getMediaUrl());
         }
 
-        // Set video start delay
-        long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
-        if (videoStartDelay > 0) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mVideoManager != null) {
-                        mVideoManager.start();
+        PlaybackControllerHelperKt.applyMediaSegments(this, item, () -> {
+            // Set video start delay
+            long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
+            if (videoStartDelay > 0) {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mVideoManager != null) {
+                            mVideoManager.start();
+                        }
                     }
-                }
-            }, videoStartDelay);
-        } else {
-            mVideoManager.start();
-        }
+                }, videoStartDelay);
+            } else {
+                mVideoManager.start();
+            }
 
-        dataRefreshService.getValue().setLastPlayedItem(item);
-        reportingHelper.getValue().reportStart(item, mbPos);
+            dataRefreshService.getValue().setLastPlayedItem(item);
+            reportingHelper.getValue().reportStart(item, mbPos);
+
+            return null;
+        });
     }
 
     public void startSpinner() {
