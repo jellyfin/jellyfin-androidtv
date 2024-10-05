@@ -64,7 +64,7 @@ public class VideoManager {
     private Limiter mLimiter;
     private PlaybackControllerNotifiable mPlaybackControllerNotifiable;
     private PlaybackOverlayFragmentHelper _helper;
-    private ExoPlayer mExoPlayer;
+    public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private Handler mHandler = new Handler();
 
