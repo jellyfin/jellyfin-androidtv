@@ -566,4 +566,5 @@
     <string name="pref_subtitles_size_normal">Normálne</string>
     <string name="pref_subtitles_size_large">Veľké</string>
     <string name="pref_subtitles_size_very_large">Veľmi veľké</string>
+    <string name="video_start_delay">Oneskorenie začiatku videa</string>
 </resources>
