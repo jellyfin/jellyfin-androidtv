@@ -556,4 +556,5 @@
     <string name="pref_subtitles_size_very_large">Very large</string>
     <string name="prefer_exoplayer_ffmpeg">Prefer FFmpeg for audio playback</string>
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
+    <string name="video_start_delay">Video start delay</string>
 </resources>
