@@ -524,4 +524,5 @@
     <string name="current_queue">Hàng đợi hiện tại</string>
     <string name="prefer_exoplayer_ffmpeg_content">Sử dụng FFmpeg để giải mã âm thanh, ngay cả khi có sẵn codec nền tảng.</string>
     <string name="prefer_exoplayer_ffmpeg">Ưu tiên FFmpeg phát âm thanh</string>
+    <string name="video_start_delay">Độ trễ bắt đầu video</string>
 </resources>
