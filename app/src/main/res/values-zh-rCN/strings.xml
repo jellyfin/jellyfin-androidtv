@@ -234,7 +234,7 @@
     <string name="pref_button_remapping_description">按电视遥控器上的任何按钮进行分配</string>
     <string name="pref_subtitle_track_button">字幕选择按键</string>
     <string name="pref_audio_track_button">音轨按键</string>
-    <string name="lbl_unknown_key">未知 (%1s)</string>
+    <string name="lbl_unknown_key">未知(%1s)</string>
     <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
     <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
     <string name="no_player_message">你似乎没有安装可播放视频的应用。此选项需要您安装第三方应用来播放视频内容。</string>
@@ -546,4 +546,5 @@
     <string name="pref_subtitles_size_very_large">很大</string>
     <string name="prefer_exoplayer_ffmpeg_content">使用 FFmpeg 解码音频，即使平台编解码器可用。</string>
     <string name="prefer_exoplayer_ffmpeg">首选 FFmpeg 进行音频播放</string>
+    <string name="video_start_delay">视频启动延迟</string>
 </resources>

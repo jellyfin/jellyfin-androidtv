@@ -576,4 +576,14 @@
     <string name="pref_subtitles_size_very_large">Bardzo duże</string>
     <string name="prefer_exoplayer_ffmpeg_content">Użyj FFmpeg do dekodowania dźwięku, nawet jeśli kodeki platformy są dostępne.</string>
     <string name="prefer_exoplayer_ffmpeg">Preferuj FFmpeg do odtwarzania dźwięku</string>
+    <string name="video_start_delay">Opóźnienie rozpoczęcia wideo</string>
+    <string name="pref_mediasegment_actions">Działania segmentu mediów</string>
+    <string name="segment_type_recap">Podsumowania</string>
+    <string name="segment_action_nothing">Nie rób nic</string>
+    <string name="segment_action_skip">Pomiń</string>
+    <string name="segment_type_commercial">Reklamy</string>
+    <string name="segment_type_intro">Wstępy</string>
+    <string name="segment_type_unknown">Nieznane segmenty</string>
+    <string name="segment_type_outro">Zakończenia</string>
+    <string name="segment_type_preview">Zapowiedzi</string>
 </resources>

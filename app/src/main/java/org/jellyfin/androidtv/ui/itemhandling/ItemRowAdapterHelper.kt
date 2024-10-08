@@ -77,7 +77,7 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 			val response by api.itemsApi.getResumeItems(query)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -87,7 +87,7 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 				}
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -101,8 +101,8 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 			val response by api.tvShowsApi.getNextUp(query)
 
 			// Some special flavor for series, used in FullDetailsFragment
-			val firstNextUp = response.items?.firstOrNull()
-			if (query.seriesId != null && response.items?.size == 1 && firstNextUp?.seasonId != null && firstNextUp.indexNumber != null) {
+			val firstNextUp = response.items.firstOrNull()
+			if (query.seriesId != null && response.items.size == 1 && firstNextUp?.seasonId != null && firstNextUp.indexNumber != null) {
 				// If we have exactly 1 episode returned, the series is currently partially watched
 				// we want to query the server for all episodes in the same season starting from
 				// this one to create a list of all unwatched episodes
@@ -114,7 +114,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				// Combine the next up episode with the additionally retrieved episodes
 				val items = buildList {
 					add(firstNextUp)
-					episodesResponse.items?.let { addAll(it) }
+					addAll(episodesResponse.items)
 				}
 
 				setItems(
@@ -131,7 +131,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				if (items.isEmpty()) removeRow()
 			} else {
 				setItems(
-					items = response.items.orEmpty(),
+					items = response.items,
 					transform = { item, _ ->
 						BaseItemDtoBaseRowItem(
 							item,
@@ -141,7 +141,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 					}
 				)
 
-				if (response.items.isNullOrEmpty()) removeRow()
+				if (response.items.isEmpty()) removeRow()
 			}
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
@@ -202,11 +202,11 @@ fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: GetAdditionalP
 			val response by api.videosApi.getAdditionalPart(query.itemId)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -219,7 +219,7 @@ fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserVi
 		runCatching {
 			val response by api.userViewsApi.getUserViews()
 
-			val filteredItems = response.items.orEmpty()
+			val filteredItems = response.items
 				.filter { userViewsRepository.isSupported(it.collectionType) }
 				.map { it.copy(displayPreferencesId = it.id.toString()) }
 
@@ -242,11 +242,11 @@ fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 			val response by api.tvShowsApi.getSeasons(query)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -260,11 +260,11 @@ fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEp
 			val response by api.tvShowsApi.getUpcomingEpisodes(query)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -278,11 +278,11 @@ fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRe
 			val response by api.libraryApi.getSimilarItems(query)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ -> BaseItemDtoBaseRowItem(item) }
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -325,7 +325,7 @@ fun ItemRowAdapter.retrieveLiveTvRecommendedPrograms(
 			val response by api.liveTvApi.getRecommendedPrograms(query)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -335,7 +335,7 @@ fun ItemRowAdapter.retrieveLiveTvRecommendedPrograms(
 				}
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -349,7 +349,7 @@ fun ItemRowAdapter.retrieveLiveTvRecordings(api: ApiClient, query: GetRecordings
 			val response by api.liveTvApi.getRecordings(query)
 
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -359,7 +359,7 @@ fun ItemRowAdapter.retrieveLiveTvRecordings(api: ApiClient, query: GetRecordings
 				}
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -401,7 +401,7 @@ fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
 						)
 					}
 
-					addAll(response.items.orEmpty())
+					addAll(response.items)
 				},
 				transform = { item, _ ->
 					when (item) {
@@ -412,7 +412,7 @@ fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
 				}
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -437,7 +437,7 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -447,7 +447,7 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 				},
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -472,7 +472,7 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -482,7 +482,7 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 				},
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -507,7 +507,7 @@ fun ItemRowAdapter.retrieveArtists(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -517,7 +517,7 @@ fun ItemRowAdapter.retrieveArtists(
 				},
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -542,7 +542,7 @@ fun ItemRowAdapter.retrieveItems(
 
 			totalItems = response.totalRecordCount
 			setItems(
-				items = response.items.orEmpty(),
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -552,7 +552,7 @@ fun ItemRowAdapter.retrieveItems(
 				},
 			)
 
-			if (response.items.isNullOrEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
@@ -567,12 +567,9 @@ fun ItemRowAdapter.retrievePremieres(
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response by api.itemsApi.getItems(query)
-			val filteredItems = response.items
-				.orEmpty()
-				.filter { it.indexNumber == 1 }
 
 			setItems(
-				items = filteredItems,
+				items = response.items,
 				transform = { item, _ ->
 					BaseItemDtoBaseRowItem(
 						item,
@@ -582,7 +579,7 @@ fun ItemRowAdapter.retrievePremieres(
 				}
 			)
 
-			if (filteredItems.isEmpty()) removeRow()
+			if (response.items.isEmpty()) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }

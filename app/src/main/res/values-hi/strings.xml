@@ -299,4 +299,6 @@
     <string name="pref_default_rating">डिफॉल्ट रेटिंग प्रकार</string>
     <string name="pref_clock_display">घड़ी दिखाएं</string>
     <string name="lbl_always">हमेशा</string>
+    <string name="server_connection_failed">सर्वर से कनेक्ट करने में असमर्थ</string>
+    <string name="server_connection_failed_candidates">सर्वर से कनेक्ट करने में असमर्थ, यह पते प्रयास किए गए: %1$s</string>
 </resources>

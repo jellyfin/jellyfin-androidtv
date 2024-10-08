@@ -53,7 +53,7 @@ class SearchRepositoryImpl(
 
 		val result by apiClient.itemsApi.getItems(request)
 
-		Result.success(result.items.orEmpty())
+		Result.success(result.items)
 	} catch (e: ApiClientException) {
 		Timber.e("Failed to search for items", e)
 		Result.failure(e)

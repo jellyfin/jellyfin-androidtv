@@ -51,7 +51,7 @@ fun MusicFavoritesListFragment.getFavoritePlaylist(
 			fields = itemFields,
 		)
 
-		callback(result.items.orEmpty())
+		callback(result.items)
 	}
 }
 
@@ -79,7 +79,7 @@ fun ItemListFragment.getPlaylist(
 			)
 		}
 
-		callback(result.items.orEmpty())
+		callback(result.items)
 	}
 }
 

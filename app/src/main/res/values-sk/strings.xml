@@ -566,4 +566,14 @@
     <string name="pref_subtitles_size_normal">Normálne</string>
     <string name="pref_subtitles_size_large">Veľké</string>
     <string name="pref_subtitles_size_very_large">Veľmi veľké</string>
+    <string name="video_start_delay">Oneskorenie začiatku videa</string>
+    <string name="segment_action_nothing">Nič nerobiť</string>
+    <string name="segment_action_skip">Preskočiť</string>
+    <string name="segment_type_commercial">Reklamy</string>
+    <string name="segment_type_intro">Úvody</string>
+    <string name="segment_type_outro">Záverečné titulky</string>
+    <string name="segment_type_preview">Ukážky</string>
+    <string name="segment_type_recap">Rekapitulácie</string>
+    <string name="segment_type_unknown">Neznáme segmenty</string>
+    <string name="pref_mediasegment_actions">Akcie mediálnych segmentov</string>
 </resources>

@@ -556,4 +556,14 @@
     <string name="pref_subtitles_size_very_small">Zeer klein</string>
     <string name="prefer_exoplayer_ffmpeg">FFmpeg verkiezen voor afspelen geluid</string>
     <string name="prefer_exoplayer_ffmpeg_content">Gebruik FFmpeg om geluid te decoderen, zelfs als er platformcodecs beschikbaar zijn.</string>
+    <string name="video_start_delay">Startvertraging video</string>
+    <string name="segment_action_skip">Overslaan</string>
+    <string name="segment_type_commercial">Reclame</string>
+    <string name="segment_type_outro">Outro\'s</string>
+    <string name="segment_type_preview">Voorvertoningen</string>
+    <string name="segment_type_recap">Terugblikken</string>
+    <string name="segment_type_unknown">Onbekende segmenten</string>
+    <string name="segment_action_nothing">Niets doen</string>
+    <string name="segment_type_intro">Intro\'s</string>
+    <string name="pref_mediasegment_actions">Acties voor mediasegmenten</string>
 </resources>
