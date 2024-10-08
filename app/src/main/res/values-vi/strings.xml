@@ -525,4 +525,13 @@
     <string name="prefer_exoplayer_ffmpeg_content">Sử dụng FFmpeg để giải mã âm thanh, ngay cả khi có sẵn codec nền tảng.</string>
     <string name="prefer_exoplayer_ffmpeg">Ưu tiên FFmpeg phát âm thanh</string>
     <string name="video_start_delay">Độ trễ bắt đầu video</string>
+    <string name="segment_type_commercial">Thương mại</string>
+    <string name="pref_mediasegment_actions">Hành động phân mảnh phương tiện</string>
+    <string name="segment_action_nothing">Không làm gì</string>
+    <string name="segment_action_skip">Bỏ qua</string>
+    <string name="segment_type_intro">Giới thiệu</string>
+    <string name="segment_type_outro">Đoạn kết</string>
+    <string name="segment_type_preview">Xem thử</string>
+    <string name="segment_type_recap">Tóm tắt</string>
+    <string name="segment_type_unknown">Phân mảnh không xác định</string>
 </resources>
