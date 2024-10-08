@@ -211,12 +211,11 @@ public class VideoManager {
         return mExoPlayer != null;
     }
 
-    public ZoomMode getZoomMode() {
+    public @NonNull ZoomMode getZoomMode() {
         return mZoomMode;
     }
 
-    public void setZoom(ZoomMode mode) {
-        mZoomMode = mode;
+    public void setZoom(@NonNull ZoomMode mode) {
         switch (mode) {
             case ZOOM_FIT:
                 mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);

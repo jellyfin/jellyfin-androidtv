@@ -1273,7 +1273,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return mPlaybackState == PlaybackState.PAUSED;
     }
 
-    public ZoomMode getZoomMode() {
+    public @NonNull ZoomMode getZoomMode() {
         return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : ZoomMode.ZOOM_FIT;
     }
 
