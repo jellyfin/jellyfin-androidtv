@@ -1277,7 +1277,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : ZoomMode.ZOOM_FIT;
     }
 
-    public void setZoom(ZoomMode mode) {
+    public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
     }
