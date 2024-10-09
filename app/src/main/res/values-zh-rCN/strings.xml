@@ -547,4 +547,13 @@
     <string name="prefer_exoplayer_ffmpeg_content">使用 FFmpeg 解码音频，即使平台编解码器可用。</string>
     <string name="prefer_exoplayer_ffmpeg">首选 FFmpeg 进行音频播放</string>
     <string name="video_start_delay">视频启动延迟</string>
+    <string name="pref_mediasegment_actions">媒体片段动作</string>
+    <string name="segment_type_outro">其它</string>
+    <string name="segment_action_nothing">无动作</string>
+    <string name="segment_action_skip">跳过</string>
+    <string name="segment_type_commercial">广告</string>
+    <string name="segment_type_intro">介绍</string>
+    <string name="segment_type_preview">预览</string>
+    <string name="segment_type_recap">回顾</string>
+    <string name="segment_type_unknown">未知片段</string>
 </resources>
