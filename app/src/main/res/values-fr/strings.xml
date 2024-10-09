@@ -564,4 +564,6 @@
     <string name="lbl_subtitle_text_color">Couleur des sous-titres</string>
     <string name="pref_subtitles_size_large">Gros</string>
     <string name="lbl_subtitle_text_stroke_color">Couleur du contour des sous-titres</string>
+    <string name="video_start_delay">Délais de démarrage de la vidéo</string>
+    <string name="prefer_exoplayer_ffmpeg">Préférer FFmpeg pour la lecture audio</string>
 </resources>
