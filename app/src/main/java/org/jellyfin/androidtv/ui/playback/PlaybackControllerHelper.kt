@@ -7,11 +7,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
+import org.jellyfin.androidtv.util.sdk.end
+import org.jellyfin.androidtv.util.sdk.start
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaSegmentDto
-import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.android.ext.android.inject
 import java.util.UUID
 
@@ -62,11 +63,11 @@ private fun PlaybackController.addSkipAction(mediaSegment: MediaSegmentDto) {
 			// the seek function in the PlaybackController checks this and optionally starts a transcode
 			// at the requested position
 			fragment.lifecycleScope.launch(Dispatchers.Main) {
-				seek(mediaSegment.endTicks.ticks.inWholeMilliseconds)
+				seek(mediaSegment.end.inWholeMilliseconds)
 			}
 		}
 		// Segments at position 0 will never be hit by ExoPlayer so we need to add a minimum value
-		.setPosition(mediaSegment.startTicks.ticks.inWholeMilliseconds.coerceAtLeast(1))
+		.setPosition(mediaSegment.start.inWholeMilliseconds.coerceAtLeast(1))
 		.setPayload(mediaSegment)
 		.setDeleteAfterDelivery(false)
 		.send()
