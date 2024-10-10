@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -81,6 +82,11 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			checkbox{
 				setTitle(R.string.pref_external_player)
 				bind(userPreferences, UserPreferences.useExternalPlayer)
+			}
+
+			enum<ZoomMode> {
+				setTitle(R.string.pref_aspect_ratio)
+				bind(userPreferences, UserPreferences.playerZoomMode)
 			}
 		}
 
