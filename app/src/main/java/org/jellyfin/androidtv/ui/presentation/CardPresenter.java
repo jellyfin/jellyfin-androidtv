@@ -184,6 +184,8 @@ public class CardPresenter extends Presenter {
                         case VIDEO:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
                             showProgress = true;
+                            if (imageType.equals(ImageType.POSTER))
+                                aspect = ImageHelper.ASPECT_RATIO_2_3;
                             break;
                         default:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
