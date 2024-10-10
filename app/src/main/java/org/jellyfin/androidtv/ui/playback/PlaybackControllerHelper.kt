@@ -47,6 +47,7 @@ fun PlaybackController.applyMediaSegments(
 
 			when (action) {
 				MediaSegmentAction.SKIP -> addSkipAction(mediaSegment)
+				MediaSegmentAction.ASK_TO_SKIP -> addAskToSkipAction(mediaSegment)
 				MediaSegmentAction.NOTHING -> Unit
 			}
 		}
@@ -58,7 +59,7 @@ fun PlaybackController.applyMediaSegments(
 @OptIn(UnstableApi::class)
 private fun PlaybackController.addSkipAction(mediaSegment: MediaSegmentDto) {
 	mVideoManager.mExoPlayer
-		.createMessage { messageType: Int, payload: Any? ->
+		.createMessage { _, _ ->
 			// We can't seek directly on the ExoPlayer instance as not all media is seekable
 			// the seek function in the PlaybackController checks this and optionally starts a transcode
 			// at the requested position
@@ -68,7 +69,18 @@ private fun PlaybackController.addSkipAction(mediaSegment: MediaSegmentDto) {
 		}
 		// Segments at position 0 will never be hit by ExoPlayer so we need to add a minimum value
 		.setPosition(mediaSegment.start.inWholeMilliseconds.coerceAtLeast(1))
-		.setPayload(mediaSegment)
+		.setDeleteAfterDelivery(false)
+		.send()
+}
+
+@OptIn(UnstableApi::class)
+private fun PlaybackController.addAskToSkipAction(mediaSegment: MediaSegmentDto) {
+	mVideoManager.mExoPlayer
+		.createMessage { _, _ ->
+			fragment?.askToSkip(mediaSegment.end)
+		}
+		// Segments at position 0 will never be hit by ExoPlayer so we need to add a minimum value
+		.setPosition(mediaSegment.start.inWholeMilliseconds.coerceAtLeast(1))
 		.setDeleteAfterDelivery(false)
 		.send()
 }

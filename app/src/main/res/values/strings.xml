@@ -518,6 +518,7 @@
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
     <string name="video_start_delay">Video start delay</string>
     <string name="pref_mediasegment_actions">Media segment actions</string>
+    <string name="segment_action_ask_to_skip">Ask to skip</string>
     <string name="segment_action_nothing">Do nothing</string>
     <string name="segment_action_skip">Skip</string>
     <string name="segment_type_commercial">Commercials</string>
