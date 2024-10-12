@@ -587,4 +587,5 @@
     <string name="segment_type_outro">Zakończenia</string>
     <string name="segment_type_preview">Zapowiedzi</string>
     <string name="segment_action_ask_to_skip">Pytaj o pominięcie</string>
+    <string name="default_video_zoom">Domyślny tryb powiększenia</string>
 </resources>
