@@ -556,4 +556,14 @@
     <string name="continue_listening">Fortsett å lytte</string>
     <string name="past_24_hours">Siste 24 timene</string>
     <string name="scheduled_in_next_24_hours">Planlagt i løpet av de neste 24 timene</string>
+    <string name="video_start_delay">Forsinkelse for videostart</string>
+    <string name="pref_mediasegment_actions">Mediesegmenthandlinger</string>
+    <string name="segment_action_nothing">Gjør ingenting</string>
+    <string name="segment_action_skip">Hopp over</string>
+    <string name="segment_type_commercial">Reklamer</string>
+    <string name="segment_type_intro">Introer</string>
+    <string name="segment_type_outro">Rulletekster</string>
+    <string name="segment_type_preview">Forhåndsvisninger</string>
+    <string name="segment_type_recap">Oppsummering</string>
+    <string name="segment_type_unknown">Ukjente segmenter</string>
 </resources>

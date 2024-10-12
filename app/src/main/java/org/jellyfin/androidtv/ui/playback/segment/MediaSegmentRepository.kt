@@ -1,11 +1,13 @@
 package org.jellyfin.androidtv.ui.playback.segment
 
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.sdk.duration
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.mediaSegmentsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaSegmentDto
 import org.jellyfin.sdk.model.api.MediaSegmentType
+import kotlin.time.Duration.Companion.seconds
 
 interface MediaSegmentRepository {
 	companion object {
@@ -19,6 +21,21 @@ interface MediaSegmentRepository {
 			MediaSegmentType.RECAP,
 			MediaSegmentType.COMMERCIAL,
 		)
+
+		/**
+		 * The minimum duration for a media segment to allow the [MediaSegmentAction.SKIP] action.
+		 */
+		val SkipMinDuration = 1.seconds
+
+		/**
+		 * The minimum duration for a media segment to allow the [MediaSegmentAction.ASK_TO_SKIP] action.
+		 */
+		val AskToSkipMinDuration = 3.seconds
+
+		/**
+		 * The duration to wait before automatically hiding the "ask to skip" UI.
+		 */
+		val AskToSkipAutoHideDuration = 8.seconds
 	}
 
 	fun getDefaultSegmentTypeAction(type: MediaSegmentType): MediaSegmentAction
@@ -74,7 +91,12 @@ class MediaSegmentRepositoryImpl(
 	}
 
 	override fun getMediaSegmentAction(segment: MediaSegmentDto): MediaSegmentAction {
-		return getDefaultSegmentTypeAction(segment.type)
+		val action = getDefaultSegmentTypeAction(segment.type)
+		// Skip the skip action if timespan is too short
+		if (action == MediaSegmentAction.SKIP && segment.duration < MediaSegmentRepository.SkipMinDuration) return MediaSegmentAction.NOTHING
+		// Skip the ask to skip action if timespan is too short
+		if (action == MediaSegmentAction.ASK_TO_SKIP && segment.duration < MediaSegmentRepository.AskToSkipMinDuration) return MediaSegmentAction.NOTHING
+		return action
 	}
 
 	override suspend fun getSegmentsForItem(item: BaseItemDto): List<MediaSegmentDto> = runCatching {
