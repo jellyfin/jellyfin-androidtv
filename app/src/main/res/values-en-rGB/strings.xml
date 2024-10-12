@@ -566,4 +566,6 @@
     <string name="segment_type_preview">Previews</string>
     <string name="segment_type_recap">Recaps</string>
     <string name="segment_type_unknown">Unknown segments</string>
+    <string name="default_video_zoom">Default zoom mode</string>
+    <string name="segment_action_ask_to_skip">Ask to skip</string>
 </resources>
