@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
+import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
 import org.jellyfin.preference.floatPreference
@@ -210,6 +211,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * The actions to take for each media segment type. Managed by the [MediaSegmentRepository].
 		 */
 		var mediaSegmentActions = stringPreference("media_segment_actions", "")
+
+		/**
+		 * Preferred behavior for player aspect ratio (zoom mode).
+		 */
+		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.FIT)
 	}
 
 	init {
