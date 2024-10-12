@@ -586,4 +586,5 @@
     <string name="segment_type_unknown">Nieznane segmenty</string>
     <string name="segment_type_outro">Zakończenia</string>
     <string name="segment_type_preview">Zapowiedzi</string>
+    <string name="segment_action_ask_to_skip">Pytaj o pominięcie</string>
 </resources>
