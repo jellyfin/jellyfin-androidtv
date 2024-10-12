@@ -516,7 +516,7 @@
     <string name="past_24_hours">Past 24 hours</string>
     <string name="prefer_exoplayer_ffmpeg">Prefer FFmpeg for audio playback</string>
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
-    <string name="pref_aspect_ratio">Aspect ratio</string>
+    <string name="default_video_zoom">Default video zoom</string>
     <string name="video_start_delay">Video start delay</string>
     <string name="pref_mediasegment_actions">Media segment actions</string>
     <string name="segment_action_ask_to_skip">Ask to skip</string>

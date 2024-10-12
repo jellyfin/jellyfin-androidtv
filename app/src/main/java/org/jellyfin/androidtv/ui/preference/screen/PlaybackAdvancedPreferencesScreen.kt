@@ -85,7 +85,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			}
 
 			enum<ZoomMode> {
-				setTitle(R.string.pref_aspect_ratio)
+				setTitle(R.string.default_video_zoom)
 				bind(userPreferences, UserPreferences.playerZoomMode)
 			}
 		}
