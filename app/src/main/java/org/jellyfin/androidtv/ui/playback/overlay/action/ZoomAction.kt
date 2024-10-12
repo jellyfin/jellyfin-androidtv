@@ -9,7 +9,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 import org.jellyfin.androidtv.util.popupMenu
-import org.jellyfin.androidtv.util.showIfNotEmpty
 
 class ZoomAction(
 	context: Context,
@@ -28,9 +27,9 @@ class ZoomAction(
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		val popup = popupMenu(context, view, Gravity.END) {
 			item(context.getString(R.string.lbl_fit)) {
-				playbackController.setZoom(ZoomMode.ZOOM_FIT)
+				playbackController.setZoom(ZoomMode.FIT)
 			}.apply {
-				isChecked = playbackController.zoomMode == ZoomMode.ZOOM_FIT
+				isChecked = playbackController.zoomMode == ZoomMode.FIT
 			}
 
 			item(context.getString(R.string.lbl_auto_crop)) {
@@ -47,6 +46,6 @@ class ZoomAction(
 		}
 		popup.menu.setGroupCheckable(0, true, true)
 		popup.setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
-		popup.showIfNotEmpty()
+		popup.show()
 	}
 }

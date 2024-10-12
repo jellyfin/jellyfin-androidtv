@@ -216,8 +216,9 @@ public class VideoManager {
     }
 
     public void setZoom(@NonNull ZoomMode mode) {
+        mZoomMode = mode;
         switch (mode) {
-            case ZOOM_FIT:
+            case FIT:
                 mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
                 break;
             case AUTO_CROP:

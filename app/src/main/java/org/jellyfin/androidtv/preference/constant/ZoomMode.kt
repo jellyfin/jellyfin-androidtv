@@ -7,9 +7,9 @@ enum class ZoomMode(
 	override val nameRes: Int,
 ) : PreferenceEnum {
 	/**
-	 * Sets the zoom mode to Normal (Fit).
+	 * Sets the zoom mode to normal (fit).
 	 */
-	ZOOM_FIT(R.string.lbl_fit),
+	FIT(R.string.lbl_fit),
 
 	/**
 	 * Sets the zoom mode to auto crop.

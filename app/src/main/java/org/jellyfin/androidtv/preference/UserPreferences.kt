@@ -215,8 +215,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Preferred behavior for player aspect ratio (zoom mode).
 		 */
-
-		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.ZOOM_FIT)
+		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.FIT)
 	}
 
 	init {
