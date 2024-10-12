@@ -567,4 +567,5 @@
     <string name="segment_type_intro">Intro\'s</string>
     <string name="pref_mediasegment_actions">Acties voor mediasegmenten</string>
     <string name="segment_action_ask_to_skip">Vragen om over te slaan</string>
+    <string name="default_video_zoom">Standaard zoommodus</string>
 </resources>
