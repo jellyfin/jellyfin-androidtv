@@ -123,6 +123,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mFadeEnabled = false;
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
+    private boolean navigating = false;
 
     private LeanbackOverlayFragment leanbackOverlayFragment;
 
@@ -484,9 +485,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     // Hide with seek
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        playbackControllerContainer.getValue().getPlaybackController().seek(binding.skipOverlay.getTargetPositionMs());
+                        playbackControllerContainer.getValue().getPlaybackController().seek(binding.skipOverlay.getTargetPositionMs(), true);
                         leanbackOverlayFragment.setShouldShowOverlay(false);
-                        binding.skipOverlay.setTargetPositionMs(null);
+                        if (binding != null) binding.skipOverlay.setTargetPositionMs(null);
                         return true;
                     }
                 }
@@ -658,11 +659,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // Close player when resuming without a valid playback controller
         PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
         if (playbackController == null || !playbackController.hasFragment()) {
-            if (navigationRepository.getValue().getCanGoBack()) {
-                navigationRepository.getValue().goBack();
-            } else {
-                navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
-            }
+            closePlayer();
 
             return;
         }
@@ -1291,6 +1288,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void closePlayer() {
+        if (navigating) return;
+        navigating = true;
+
         if (navigationRepository.getValue().getCanGoBack()) {
             navigationRepository.getValue().goBack();
         } else {
@@ -1299,6 +1299,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void showNextUp(@NonNull UUID id) {
+        if (navigating) return;
+        navigating = true;
+
         navigationRepository.getValue().navigate(Destinations.INSTANCE.nextUp(id), true);
     }
 

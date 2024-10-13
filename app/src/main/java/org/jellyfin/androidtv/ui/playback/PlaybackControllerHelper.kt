@@ -64,7 +64,7 @@ private fun PlaybackController.addSkipAction(mediaSegment: MediaSegmentDto) {
 			// the seek function in the PlaybackController checks this and optionally starts a transcode
 			// at the requested position
 			fragment.lifecycleScope.launch(Dispatchers.Main) {
-				seek(mediaSegment.end.inWholeMilliseconds)
+				seek(mediaSegment.end.inWholeMilliseconds, true)
 			}
 		}
 		// Segments at position 0 will never be hit by ExoPlayer so we need to add a minimum value
