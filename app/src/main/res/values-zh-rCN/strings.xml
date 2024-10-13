@@ -556,4 +556,6 @@
     <string name="segment_type_preview">预览</string>
     <string name="segment_type_recap">回顾</string>
     <string name="segment_type_unknown">未知片段</string>
+    <string name="segment_action_ask_to_skip">请求跳过</string>
+    <string name="default_video_zoom">默认缩放模式</string>
 </resources>
