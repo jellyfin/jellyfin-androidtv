@@ -933,7 +933,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void seek(long pos) {
-        pos = Utils.getSafeSeekPosition(pos, getDuration());
+        seek(pos, false);
+    }
+
+    public void seek(long pos, boolean skipToNext) {
+        if (pos <= 0) pos = 0;
 
         Timber.d("Trying to seek from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo == null ? "unknown" : mCurrentStreamInfo.getContainer());
@@ -951,6 +955,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
         wasSeeking = true;
+
+        // Stop playback when the requested seek position is at the end of the video
+        if (skipToNext && pos >= (getDuration() - 100)) {
+            itemComplete();
+            return;
+        }
+
+        if (pos >= getDuration()) pos = getDuration();
 
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
