@@ -557,4 +557,15 @@
     <string name="pref_subtitles_size_large">Nagy</string>
     <string name="pref_subtitles_size_very_large">Nagyon nagy</string>
     <string name="video_start_delay">Videó indítás késleltetése</string>
+    <string name="default_video_zoom">Alapértelmezett nagyítási mód</string>
+    <string name="segment_type_preview">Előnézetek</string>
+    <string name="segment_type_recap">Összefoglalók</string>
+    <string name="segment_action_nothing">Ne csinálj semmit</string>
+    <string name="segment_action_skip">Átugrás</string>
+    <string name="pref_mediasegment_actions">Média szegmens műveletek</string>
+    <string name="segment_action_ask_to_skip">Kérés az átugrásra</string>
+    <string name="segment_type_commercial">Reklámok</string>
+    <string name="segment_type_outro">Befejezések</string>
+    <string name="segment_type_intro">Bevezetések</string>
+    <string name="segment_type_unknown">Ismeretlen szegmensek</string>
 </resources>
