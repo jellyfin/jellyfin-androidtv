@@ -564,6 +564,13 @@
     <string name="lbl_subtitle_text_color">Couleur des sous-titres</string>
     <string name="pref_subtitles_size_large">Gros</string>
     <string name="lbl_subtitle_text_stroke_color">Couleur du contour des sous-titres</string>
-    <string name="video_start_delay">Délais de démarrage de la vidéo</string>
+    <string name="video_start_delay">Délai de démarrage de la vidéo</string>
     <string name="prefer_exoplayer_ffmpeg">Préférer FFmpeg pour la lecture audio</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Utilisez FFmpeg pour décoder l\'audio, même si des codecs de plate-forme sont disponibles.</string>
+    <string name="default_video_zoom">Mode zoom par défaut</string>
+    <string name="segment_action_ask_to_skip">Demander de sauter</string>
+    <string name="pref_mediasegment_actions">Actions du segment des médias</string>
+    <string name="segment_action_nothing">Ne rien faire</string>
+    <string name="segment_action_skip">Sauter</string>
+    <string name="segment_type_commercial">Publicités</string>
 </resources>
