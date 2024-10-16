@@ -581,4 +581,6 @@
     <string name="past_24_hours">24 שעות אחרונות</string>
     <string name="pref_mediasegment_actions">פעולות על מקטע המדיה</string>
     <string name="segment_action_skip">דילוג</string>
+    <string name="default_video_zoom">מצב הגדלה ברירת מחדל</string>
+    <string name="segment_action_ask_to_skip">בקש לדלג</string>
 </resources>
