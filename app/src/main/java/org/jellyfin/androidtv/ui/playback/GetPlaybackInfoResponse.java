@@ -26,9 +26,8 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
     private AudioOptions options;
     private Response<StreamInfo> response;
     private boolean isVideo;
-    private Long startPositionTicks;
 
-    public GetPlaybackInfoResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, ApiClient apiClient, AudioOptions options, Response<StreamInfo> response, boolean isVideo, Long startPositionTicks) {
+    public GetPlaybackInfoResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, ApiClient apiClient, AudioOptions options, Response<StreamInfo> response, boolean isVideo) {
         super(response);
         this.playbackManager = playbackManager;
         this.deviceInfo = deviceInfo;
@@ -36,7 +35,6 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
         this.options = options;
         this.response = response;
         this.isVideo = isVideo;
-        this.startPositionTicks = startPositionTicks;
     }
 
     @Override
@@ -96,7 +94,6 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
         streamInfo.setItemId(options.getItemId());
         streamInfo.setDeviceProfile(options.getProfile());
         streamInfo.setPlaySessionId(playbackInfo.getPlaySessionId());
-        streamInfo.setStartPositionTicks(startPositionTicks);
 
         if (options.getEnableDirectPlay() && mediaSourceInfo.getSupportsDirectPlay()){
             if (canDirectPlay(mediaSourceInfo)) {

@@ -58,15 +58,12 @@ public class PlaybackManager {
             request.setAudioStreamIndex(audioIdx);
         }
         Integer subIdx = options.getSubtitleStreamIndex();
-        if (subIdx != null) {
-            request.setSubtitleStreamIndex(subIdx);
-        }
+        if (subIdx != null) request.setSubtitleStreamIndex(subIdx);
 
         request.setAllowVideoStreamCopy(true);
         request.setAllowAudioStreamCopy(true);
 
-        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, true, startPositionTicks));
-
+        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, true));
     }
 
     public void changeVideoStream(final StreamInfo currentStreamInfo, DeviceInfo deviceInfo, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
