@@ -122,6 +122,29 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				depends { userPreferences[UserPreferences.screensaverInAppEnabled] }
 			}
 
+			@Suppress("MagicNumber")
+			list {
+				setTitle(R.string.pref_screensaver_inapp_time)
+
+				entries = mapOf(
+					5.seconds to context.getQuantityString(R.plurals.seconds, 5),
+					10.seconds to context.getQuantityString(R.plurals.seconds, 10),
+					15.seconds to context.getQuantityString(R.plurals.seconds, 15),
+					30.seconds to context.getQuantityString(R.plurals.seconds, 30),
+					1.minutes to context.getQuantityString(R.plurals.minutes, 1),
+					2.5.minutes to context.getQuantityString(R.plurals.minutes, 2.5),
+					5.minutes to context.getQuantityString(R.plurals.minutes, 5),
+				).mapKeys { it.key.inWholeMilliseconds.toString() }
+
+				bind {
+					get { userPreferences[UserPreferences.screensaverInAppTime].toString() }
+					set { value -> userPreferences[UserPreferences.screensaverInAppTime] = value.toLong() }
+					default { UserPreferences.screensaverInAppTime.defaultValue.toString() }
+				}
+
+				depends { userPreferences[UserPreferences.screensaverInAppEnabled] }
+			}
+
 			checkbox {
 				setTitle(R.string.pref_screensaver_ageratingrequired_title)
 				setContent(
