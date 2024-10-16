@@ -8,8 +8,9 @@ import android.widget.Toast
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
-import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
+import org.jellyfin.androidtv.ui.playback.setSubtitleIndex
+import org.jellyfin.sdk.model.api.MediaStreamType
 import timber.log.Timber
 
 class ClosedCaptionsAction(
@@ -35,7 +36,9 @@ class ClosedCaptionsAction(
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
-				for (sub in playbackController.subtitleStreams) {
+				for (sub in playbackController.currentMediaSource.mediaStreams.orEmpty()) {
+					if (sub.type != MediaStreamType.SUBTITLE) continue
+
 					add(0, sub.index, sub.index, sub.displayTitle).apply {
 						isChecked = sub.index == playbackController.subtitleStreamIndex
 					}
@@ -49,7 +52,7 @@ class ClosedCaptionsAction(
 			}
 			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { item ->
-				playbackController.switchSubtitleStream(item.itemId)
+				playbackController.setSubtitleIndex(item.itemId)
 				true
 			}
 		}.show()
