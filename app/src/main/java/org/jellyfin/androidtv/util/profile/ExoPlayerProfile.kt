@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
 import org.jellyfin.androidtv.constant.Codec
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAVCCodecProfile
@@ -11,6 +14,7 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecPr
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxResolutionCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.supportsDts
 import org.jellyfin.androidtv.util.profile.ProfileHelper.supportsHevc
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -26,8 +30,8 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
 class ExoPlayerProfile(
 	disableVideoDirectPlay: Boolean,
-	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	context: Context,
+	userPreferences: UserPreferences,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -43,10 +47,10 @@ class ExoPlayerProfile(
 		addAll(downmixSupportedAudioCodecs)
 		add(Codec.Audio.AAC_LATM)
 		add(Codec.Audio.ALAC)
-		if (isAC3Enabled) add(Codec.Audio.AC3)
-		if (isAC3Enabled) add(Codec.Audio.EAC3)
+		if (userPreferences[UserPreferences.ac3Enabled]) add(Codec.Audio.AC3)
+		if (userPreferences[UserPreferences.ac3Enabled]) add(Codec.Audio.EAC3)
 		add(Codec.Audio.DCA)
-		add(Codec.Audio.DTS)
+		if (supportsDts(context, userPreferences[UserPreferences.preferExoPlayerFfmpeg])) add(Codec.Audio.DTS)
 		add(Codec.Audio.MLP)
 		add(Codec.Audio.TRUEHD)
 		add(Codec.Audio.PCM_ALAW)
@@ -79,9 +83,9 @@ class ExoPlayerProfile(
 					if (supportsHevc) add(Codec.Video.HEVC)
 					add(Codec.Video.H264)
 				}.joinToString(",")
-				audioCodec = when (downMixAudio) {
-					true -> downmixSupportedAudioCodecs
-					false -> allSupportedAudioCodecsWithoutFFmpegExperimental
+				audioCodec = when (userPreferences[UserPreferences.audioBehaviour]) {
+					AudioBehavior.DOWNMIX_TO_STEREO -> downmixSupportedAudioCodecs
+					AudioBehavior.DIRECT_STREAM -> allSupportedAudioCodecsWithoutFFmpegExperimental
 				}.joinToString(",")
 				protocol = "hls"
 				copyTimestamps = false
@@ -128,9 +132,9 @@ class ExoPlayerProfile(
 						Codec.Video.AV1
 					).joinToString(",")
 
-					audioCodec = when (downMixAudio) {
-						true -> downmixSupportedAudioCodecs
-						false -> allSupportedAudioCodecs
+					audioCodec = when (userPreferences[UserPreferences.audioBehaviour]) {
+						AudioBehavior.DOWNMIX_TO_STEREO -> downmixSupportedAudioCodecs
+						AudioBehavior.DIRECT_STREAM -> allSupportedAudioCodecs
 					}.joinToString(",")
 				})
 			}
@@ -202,7 +206,11 @@ class ExoPlayerProfile(
 			// Limit video resolution support for older devices
 			add(maxResolutionCodecProfile)
 			// Audio channel profile
-			add(maxAudioChannelsCodecProfile(channels = if (downMixAudio) 2 else 8))
+			@Suppress("MagicNumber")
+			add(maxAudioChannelsCodecProfile(when (userPreferences[UserPreferences.audioBehaviour]) {
+				AudioBehavior.DIRECT_STREAM -> 8
+				AudioBehavior.DOWNMIX_TO_STEREO -> 2
+			}))
 		}.toTypedArray()
 
 		subtitleProfiles = buildList {
