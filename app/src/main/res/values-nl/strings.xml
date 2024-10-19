@@ -238,7 +238,7 @@
     <string name="pref_subtitle_track_button">Knop ondertitelspoor</string>
     <string name="pref_audio_track_button">Knop audiospoor</string>
     <string name="mark_watched">Als gekeken markeren</string>
-    <string name="lbl_tv_filter_status">voor de volgende %1$d uur</string>
+    <string name="lbl_tv_filter_status">voor de komende %1$d uur</string>
     <string name="lbl_tv_channel_status">%1$d van %2$d kanalen</string>
     <string name="player_error">Afspeelfout. Opnieuw proberen…</string>
     <string name="just_one">Enkel deze</string>
@@ -539,7 +539,7 @@
     <string name="pref_screensaver_ageratingrequired_title">Leeftijdsclassificatie vereisen</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Toont alleen items met leeftijdsclassificatie</string>
     <string name="all_channels">Alle kanalen</string>
-    <string name="app_notification_update_soon">Je moet je server bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
+    <string name="app_notification_update_soon">Je zult je server moeten bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
     <string name="current_queue">Huidige wachtrij</string>
     <string name="pref_external_player">Externe speler gebruiken</string>
     <string name="continue_listening">Verderluisteren</string>
