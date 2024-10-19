@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
 
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
+import org.koin.java.KoinJavaComponent;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -18,6 +20,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     private VideoPlayerAdapter playerAdapter;
     private boolean shouldShowOverlay = true;
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
+    private final Integer skipForwardLength = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class).get(UserSettingPreferences.Companion.getSkipForwardLength());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         playerGlue.invalidatePlaybackControls();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
-        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter) : null);
+        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter, skipForwardLength) : null);
         recordingStateChanged();
         playerAdapter.updateDuration();
     }

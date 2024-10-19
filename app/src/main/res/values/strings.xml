@@ -528,6 +528,7 @@
     <string name="segment_type_preview">Previews</string>
     <string name="segment_type_recap">Recaps</string>
     <string name="segment_type_unknown">Unknown segments</string>
+    <string name="skip_forward_length">Skip forward length</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
