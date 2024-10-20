@@ -5,8 +5,8 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 
 @OptIn(UnstableApi::class)
-fun getFfmpegSubtitleMimeType(codec: String): String {
-	return ffmpegSubtitleMimeTypes[codec]
+fun getFfmpegSubtitleMimeType(codec: String): String = codec.lowercase().let { codec ->
+	ffmpegSubtitleMimeTypes[codec]
 		?: MimeTypes.getTextMediaMimeType(codec)
 		?: codec
 }

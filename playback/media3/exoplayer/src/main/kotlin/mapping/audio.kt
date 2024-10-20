@@ -5,8 +5,8 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 
 @OptIn(UnstableApi::class)
-fun getFfmpegAudioMimeType(codec: String): String {
-	return ffmpegAudioMimeTypes[codec]
+fun getFfmpegAudioMimeType(codec: String) = codec.lowercase().let { codec ->
+	ffmpegAudioMimeTypes[codec]
 		?: MimeTypes.getAudioMediaMimeType(codec)
 		?: codec
 }
