@@ -1098,8 +1098,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             if (!burningSubs) {
                 // Make sure the requested subtitles are enabled when external/embedded
                 Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
-
-                if (currentSubtitleIndex != null && currentSubtitleIndex != -1) {
+                if (currentSubtitleIndex != null) {
                     PlaybackControllerHelperKt.setSubtitleIndex(this, currentSubtitleIndex, true);
                 }
             }
