@@ -75,6 +75,7 @@ class DreamViewModel(
 	private val _libraryContent = flow {
 		// Load first library item after 2 seconds
 		// to force the logo at the start of the screensaver
+		val inAppTime = userPreferences[UserPreferences.screensaverInAppTime].milliseconds
 		emit(null)
 		delay(2.seconds)
 
@@ -82,7 +83,7 @@ class DreamViewModel(
 			val next = getRandomLibraryShowcase()
 			if (next != null) {
 				emit(next)
-				delay(30.seconds)
+				delay(inAppTime)
 			} else {
 				delay(3.seconds)
 			}
