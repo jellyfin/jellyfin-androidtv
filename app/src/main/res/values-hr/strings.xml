@@ -355,7 +355,7 @@
     <string name="licenses_link_description">Provjeri license biblioteka korištenih od strane Jellyfin aplikacije</string>
     <string name="license_description">Opis</string>
     <string name="license_author">Autor</string>
-    <string name="home_section_latest_media">Posljednja medija</string>
+    <string name="home_section_latest_media">Nedavno dodani mediji</string>
     <string name="home_section_library">Moja medija</string>
     <string name="home_section_library_small">Moja medija (malo)</string>
     <string name="home_section_resume_audio">Nastavi slušati</string>
@@ -433,7 +433,7 @@
     <string name="pref_login">Prijavi se</string>
     <string name="pref_login_description">Serveri, računi i automatska prijava</string>
     <string name="home_section_resume_book">Nastavi čitati</string>
-    <string name="server_unsupported_notification">Ovaj server koristi Jellyfin verziju %1$s koja nije podržana. Molimo ažurirajte verziju Jellyfin-a na %2$s kako bi nastavili koristiti ovu aplikaciju.</string>
+    <string name="server_unsupported_notification">Server koristi Jellyfin verziju %1$s koja nije podržana. Molimo ažurirajte verziju servera na %2$s kako bi nastavili koristiti ovu aplikaciju.</string>
     <string name="pref_crash_reports_enabled">Prijave o greški biti će poslane na vaš zadnje korišteni server</string>
     <string name="pref_crash_reports_disabled">Prijava o greški neće biti podnesena</string>
     <string name="lbl_subtitle_delay">Kašnjenje podnatpisa</string>
@@ -455,7 +455,7 @@
     <string name="server_issue_missing_version">Nije moguće odrediti server verziju</string>
     <string name="pref_libraries">Biblioteke</string>
     <string name="state_disabled">Neomogućeno</string>
-    <string name="action_use_quickconnect">Upotrijebi QuickConnect</string>
+    <string name="action_use_quickconnect">Koristi QuickConnect</string>
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Podnatpisi</string>
     <string name="pref_audio">Audio</string>
