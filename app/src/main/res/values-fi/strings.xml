@@ -127,7 +127,7 @@
     <string name="lbl_name">Nimi</string>
     <string name="lbl_all_items">Kaikki kohteet</string>
     <string name="lbl_audio_output">Äänilähtö</string>
-    <string name="lbl_more_like_this">Lisää saman kaltaisia</string>
+    <string name="lbl_more_like_this">Lisää samankaltaisia</string>
     <string name="lbl_previous_episode">Edellinen jakso</string>
     <string name="lbl_song_title">Kappaleen nimi</string>
     <string name="lbl_album_name">Albumin nimi</string>
@@ -429,7 +429,7 @@
     <string name="image_size_smallest">Pienin</string>
     <string name="image_type_poster">Juliste</string>
     <string name="lbl_additional_parts">Muut osat</string>
-    <string name="crash_report_toast">Ups! Jotain meni pieleen ja Jellyfin-palvelimellesi lähetettiin kaatumisilmoitus.</string>
+    <string name="crash_report_toast">Ups! Jotain meni pieleen, ja Jellyfin-palvelimellesi lähetettiin kaatumisilmoitus.</string>
     <string name="pref_crash_report_logs_disabled">Lokitietoja ei sisällytetä kaatumisilmoituksiin</string>
     <string name="pref_crash_report_logs_enabled">Lokitiedot sisällytetään kaatumisilmoituksiin</string>
     <string name="pref_crash_report_logs">Sisällytä lokitiedot</string>
@@ -454,7 +454,7 @@
     <string name="color_pink">Pinkki</string>
     <string name="color_cyan">Syaani</string>
     <string name="app_notification_beta">Sovellus päivitettiin versioon %1$s
-\nKiitos osallistumisesta Jellyfinin betatestaukseen</string>
+\nKiitos osallistumisesta Jellyfinin betatestaukseen.</string>
     <string name="item_deleted">%1$s postettiin</string>
     <string name="item_deletion_failed">Kohdetta %1$s ei voitu poistaa</string>
     <string name="pref_enable_media_management">Ota median hallinta käyttöön</string>
@@ -494,4 +494,19 @@
     <string name="channels">Kanavat</string>
     <string name="photos">Valokuvat</string>
     <string name="photo_albums">Valokuva-albumit</string>
+    <string name="lbl_subtitle_text_color">Tekstityksen väri</string>
+    <string name="lbl_subtitle_background_color">Tekstityksen taustan väri</string>
+    <string name="pref_subtitles_size_very_large">Erittäin suuri</string>
+    <string name="lbl_home">Koti</string>
+    <string name="continue_listening">Jatka kuuntelua</string>
+    <string name="clear_image_cache">Tyhjennä kuvavälimuisti</string>
+    <string name="app_notification_update_soon">Päivitä palvelimesi versiosta %1$s vähintään versioon %2$s jatkaaksesi äpin käyttöä seuraavan päivityksen jälkeen.</string>
+    <string name="pref_playback_advanced">Toiston lisäasetukset</string>
+    <string name="lbl_subtitle_text_stroke_color">Tekstityksen reunan väri</string>
+    <string name="pref_subtitles_size_very_small">Erittäin pieni</string>
+    <string name="pref_subtitles_size_small">Pieni</string>
+    <string name="pref_subtitles_size_normal">Normaali</string>
+    <string name="pref_subtitles_size_large">Suuri</string>
+    <string name="unreleased">Ei vielä julkaistu</string>
+    <string name="random">Satunnainen</string>
 </resources>
