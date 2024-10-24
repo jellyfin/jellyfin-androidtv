@@ -86,6 +86,7 @@ class ExoPlayerProfile(
 				protocol = "hls"
 				copyTimestamps = false
 				enableSubtitlesInManifest = true
+				maxAudioChannels = "6"
 			},
 			// MP3 audio profile
 			TranscodingProfile().apply {
