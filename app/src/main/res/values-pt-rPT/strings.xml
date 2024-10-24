@@ -548,7 +548,7 @@
     <string name="pref_external_player">Usar reprodutor externo</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dolby_atmos">Dolby Atmos</string>
-    <string name="indicator_subtitles">Legendas</string>
+    <string name="indicator_subtitles">CC</string>
     <string name="dts_hd">DTS:HD</string>
     <string name="dca">DTS</string>
     <string name="dts_x">DTS:X</string>
