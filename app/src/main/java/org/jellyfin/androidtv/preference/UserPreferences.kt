@@ -193,6 +193,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var screensaverInAppTimeout = longPreference("screensaver_inapp_timeout", 5.minutes.inWholeMilliseconds)
 
 		/**
+		 * Time for showing the screensaver images in app, depends on [screensaverInAppEnabled].
+		 */
+		var screensaverInAppTime = longPreference("screensaver_inapp_time", 30.seconds.inWholeMilliseconds)
+
+		/**
 		 * Age rating used to filter items in the screensaver. Use -1 to disable (omits parameter from requests).
 		 */
 		var screensaverAgeRatingMax = intPreference("screensaver_agerating_max", 13)
