@@ -573,7 +573,7 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Ukloni najvišu dobnu ocjenu</string>
     <string name="scheduled_in_next_24_hours">Na rasporedu slijedeća 24 sata</string>
     <string name="pref_screensaver_ageratingrequired_title">Iziskuj dobnu ocjenu</string>
-    <string name="random">Nasumično</string>
+    <string name="random">Nasumice</string>
     <string name="pref_screensaver_ageratingmax_zero">Sve dobne skupine</string>
     <string name="pref_screensaver_ageratingmax_entry">Do dobi %1$d</string>
     <string name="pref_screensaver_ageratingmax">Najviša dobna skupina</string>
