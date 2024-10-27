@@ -15,18 +15,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.playback.core.PlaybackManager
-import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.queue
-import org.jellyfin.playback.jellyfin.lyricsFlow
-import org.jellyfin.playback.jellyfin.queue.baseItemFlow
+import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -46,25 +43,14 @@ class DreamViewModel(
 	playbackManager: PlaybackManager,
 	private val userPreferences: UserPreferences,
 ) : ViewModel() {
-	private val QueueEntry.nowPlayingFlow
-		get() = combine(baseItemFlow, lyricsFlow) { baseItem, lyrics ->
-			baseItem?.let {
-				DreamContent.NowPlaying(
-					item = baseItem,
-					lyrics = lyrics,
-				)
-			}
-		}
-
 	@OptIn(ExperimentalCoroutinesApi::class)
 	private val _mediaContent = playbackManager.queue.entry
-		.flatMapLatest { entry -> entry?.nowPlayingFlow ?: emptyFlow() }
-		.distinctUntilChanged()
-		.stateIn(
-			viewModelScope,
-			SharingStarted.WhileSubscribed(),
-			null,
-		)
+		.map { entry ->
+			entry?.baseItem?.let { baseItem ->
+				DreamContent.NowPlaying(entry, baseItem)
+			}
+		}
+		.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
 	private val _libraryContent = flow {
 		// Load first library item after 2 seconds
@@ -108,7 +94,7 @@ class DreamViewModel(
 				hasParentalRating = if (requireParentalRating) true else null,
 			)
 
-			val item = response.items?.firstOrNull { item ->
+			val item = response.items.firstOrNull { item ->
 				!item.backdropImageTags.isNullOrEmpty()
 			} ?: return null
 

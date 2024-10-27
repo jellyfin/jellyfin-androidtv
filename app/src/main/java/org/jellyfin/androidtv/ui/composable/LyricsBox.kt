@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.composable
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -164,32 +163,12 @@ fun LyricsBox(
 	color: Color = LocalTextStyle.current.color,
 ) = Box(modifier) {
 	var totalHeight by remember { mutableFloatStateOf(0f) }
-	val activeLineOffsetAnimation = remember { Animatable(0f) }
-
-	LaunchedEffect(paused, duration, totalHeight) {
-		if (duration == Duration.ZERO) {
-			activeLineOffsetAnimation.snapTo(0f)
-		} else {
-			val progress = (currentTimestamp.inWholeMilliseconds.toFloat() / duration.inWholeMilliseconds.toFloat()).coerceIn(0f, 1f)
-
-			activeLineOffsetAnimation.snapTo(-(progress * totalHeight))
-		}
-
-		if (!paused) {
-			activeLineOffsetAnimation.animateTo(
-				targetValue = -totalHeight,
-				animationSpec = tween(
-					durationMillis = (duration - currentTimestamp).inWholeMilliseconds.toInt(),
-					easing = LinearEasing,
-				)
-			)
-		}
-	}
+	val progress = rememberPlayerProgress(!paused, currentTimestamp, duration)
 
 	LyricsBoxContent(
 		items = lines,
 		modifier = Modifier.graphicsLayer {
-			translationY = activeLineOffsetAnimation.value
+			translationY = -(progress * totalHeight)
 		},
 		onMeasured = { measurements -> totalHeight = measurements.size.height }
 	) { line, index ->
