@@ -14,12 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,22 +27,22 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
-import kotlinx.coroutines.delay
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.blurHashPainter
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
+import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.playback.jellyfin.lyrics
+import org.jellyfin.playback.jellyfin.lyricsFlow
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.compose.koinInject
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun DreamContentNowPlaying(
@@ -56,21 +52,8 @@ fun DreamContentNowPlaying(
 ) {
 	val api = koinInject<ApiClient>()
 	val playbackManager = koinInject<PlaybackManager>()
-
-	// Track playback position & duration
-	var playbackPosition by remember { mutableStateOf(Duration.ZERO) }
-	var playbackDuration by remember { mutableStateOf(Duration.ZERO) }
-	val playState by remember { playbackManager.state.playState }.collectAsState()
-
-	LaunchedEffect(playState) {
-		while (true) {
-			val positionInfo = playbackManager.state.positionInfo
-			playbackPosition = positionInfo.active
-			playbackDuration = positionInfo.duration
-
-			delay(1.seconds)
-		}
-	}
+	val lyrics = content.entry.run { lyricsFlow.collectAsState(lyrics) }.value
+	val progress = rememberPlayerProgress(playbackManager)
 
 	val primaryImageTag = content.item.imageTags?.get(ImageType.PRIMARY)
 	val (imageItemId, imageTag) = when {
@@ -96,11 +79,12 @@ fun DreamContentNowPlaying(
 	}
 
 	// Lyrics overlay (on top of background)
-	if (content.lyrics != null) {
+	if (lyrics != null) {
+		val playState by playbackManager.state.playState.collectAsState()
 		LyricsDtoBox(
-			lyricDto = content.lyrics,
-			currentTimestamp = playbackPosition,
-			duration = playbackDuration,
+			lyricDto = lyrics,
+			currentTimestamp = playbackManager.state.positionInfo.active,
+			duration = playbackManager.state.positionInfo.duration,
 			paused = playState != PlayState.PLAYING,
 			fontSize = 22.sp,
 			color = Color.White,
@@ -177,7 +161,7 @@ fun DreamContentNowPlaying(
 						// Foreground
 						drawRect(
 							Color.White,
-							size = size.copy(width = size.width * (playbackPosition.inWholeMilliseconds.toFloat() / playbackDuration.inWholeMilliseconds.toFloat()))
+							size = size.copy(width = progress * size.width)
 						)
 					}
 			)
