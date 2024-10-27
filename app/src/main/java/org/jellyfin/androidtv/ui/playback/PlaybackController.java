@@ -32,6 +32,7 @@ import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -583,11 +584,20 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         mStartPosition = position;
-
         mCurrentStreamInfo = response;
-
-        // set media source Id in case we need to switch to transcoding
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
+
+        if (response.getMediaUrl() == null) {
+            // If baking subtitles doesn't work (e.g. no permissions to transcode), disable them
+            if (response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.Encode && (response.getMediaSource().getDefaultSubtitleStreamIndex() == null || response.getMediaSource().getDefaultSubtitleStreamIndex() != -1)) {
+                burningSubs = false;
+                stop();
+                play(position, -1);
+            } else {
+                handlePlaybackInfoError(null);
+            }
+            return;
+        }
 
         // get subtitle info
         mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : null);
