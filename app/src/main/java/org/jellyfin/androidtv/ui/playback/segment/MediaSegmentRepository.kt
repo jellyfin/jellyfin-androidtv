@@ -45,6 +45,10 @@ interface MediaSegmentRepository {
 	fun getMediaSegmentAction(segment: MediaSegmentDto): MediaSegmentAction
 }
 
+fun Map<MediaSegmentType, MediaSegmentAction>.toMediaSegmentActionsString() =
+	map { "${it.key.serialName}=${it.value.name}" }
+		.joinToString(",")
+
 class MediaSegmentRepositoryImpl(
 	private val userPreferences: UserPreferences,
 	private val api: ApiClient,
@@ -70,9 +74,7 @@ class MediaSegmentRepositoryImpl(
 	}
 
 	private fun saveMediaTypeActions() {
-		userPreferences[UserPreferences.mediaSegmentActions] = mediaTypeActions
-			.map { "${it.key.serialName}=${it.value.name}" }
-			.joinToString(",")
+		userPreferences[UserPreferences.mediaSegmentActions] = mediaTypeActions.toMediaSegmentActionsString()
 	}
 
 	override fun getDefaultSegmentTypeAction(type: MediaSegmentType): MediaSegmentAction {
