@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.QueryStringDictionary;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.mediainfo.LiveStreamRequest;
 import org.jellyfin.apiclient.model.mediainfo.LiveStreamResponse;
@@ -164,14 +163,6 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
             streamInfo.setPlayMethod(PlayMethod.Transcode);
             streamInfo.setContainer(mediaSourceInfo.getTranscodingContainer());
             streamInfo.setMediaUrl(apiClient.GetApiUrl(mediaSourceInfo.getTranscodingUrl()));
-        }
-
-        // A null url will crash the app, make sure to call onError instead
-        if (streamInfo.getMediaUrl() == null) {
-            PlaybackException exception = new PlaybackException();
-            exception.setErrorCode(PlaybackErrorCode.NoCompatibleStream);
-            response.onError(exception);
-            return;
         }
 
         playbackManager.SendResponse(response, streamInfo);
