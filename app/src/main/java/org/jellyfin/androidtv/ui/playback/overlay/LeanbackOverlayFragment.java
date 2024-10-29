@@ -45,7 +45,14 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void showControlsOverlay(boolean runAnimation) {
         if (shouldShowOverlay) {
             super.showControlsOverlay(runAnimation);
+            playerAdapter.getMasterOverlayFragment().show();
         }
+    }
+
+    @Override
+    public void hideControlsOverlay(boolean runAnimation) {
+        super.hideControlsOverlay(runAnimation);
+        playerAdapter.getMasterOverlayFragment().hide();
     }
 
     public void updateCurrentPosition() {
