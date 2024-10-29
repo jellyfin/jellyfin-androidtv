@@ -709,7 +709,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     }
                 });
             } else {
-                mediaManager.getValue().addToAudioQueue(Arrays.asList(baseItem));
+                mediaManager.getValue().queueAudioItem(baseItem);
             }
         }
     }

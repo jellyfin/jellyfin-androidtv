@@ -188,12 +188,7 @@ class RewriteMediaManager(
 	override fun addToAudioQueue(items: List<BaseItemDto>) {
 		if (items.isEmpty()) return
 
-		val addIndex = when (playbackManager.state.playState.value) {
-			PlayState.PLAYING -> playbackManager.queue.entryIndex.value + 1
-			else -> 0
-		}
-
-		queueSupplier.items.addAll(addIndex, items)
+		queueSupplier.items.addAll(items)
 
 		if (playbackManager.state.playState.value != PlayState.PLAYING) {
 			playbackManager.state.setPlaybackOrder(if (isShuffleMode) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
