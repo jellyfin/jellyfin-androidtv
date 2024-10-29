@@ -176,11 +176,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         mItemsToPlay = videoQueueManager.getValue().getCurrentVideoQueue();
-        if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(requireContext(), getString(R.string.msg_no_playable_items));
-            closePlayer();
-            return;
-        }
+        if (mItemsToPlay == null || mItemsToPlay.isEmpty()) return;
 
         int mediaPosition = videoQueueManager.getValue().getCurrentMediaPosition();
 
@@ -241,6 +237,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (mItemsToPlay == null || mItemsToPlay.isEmpty()) {
+            Utils.showToast(requireContext(), getString(R.string.msg_no_playable_items));
+            closePlayer();
+            return;
+        }
+
         if (playbackControllerContainer.getValue().getPlaybackController() != null) {
             playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager((requireActivity()), view, helper), this);
         }
@@ -258,7 +260,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
+        if (mItemsToPlay == null || mItemsToPlay.isEmpty()) return;
 
         prepareOverlayFragment();
 
@@ -702,6 +704,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public void onPause() {
         super.onPause();
+        if (mItemsToPlay == null || mItemsToPlay.isEmpty()) return;
 
         setPlayPauseActionState(0);
 
