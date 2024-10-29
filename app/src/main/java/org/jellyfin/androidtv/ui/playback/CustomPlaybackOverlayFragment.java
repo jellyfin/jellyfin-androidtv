@@ -121,11 +121,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private AudioManager mAudioManager;
 
     private boolean mFadeEnabled = false;
-    private boolean mIsVisible = true;
+    private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
 
-    private LeanbackOverlayFragment leanbackOverlayFragment;
+    protected LeanbackOverlayFragment leanbackOverlayFragment;
 
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -294,6 +294,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // start playing
         playbackControllerContainer.getValue().getPlaybackController().play(startPos);
         leanbackOverlayFragment.updatePlayState();
+
+        // Set initial skip overlay state
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
     }
 
     @Override
@@ -1209,7 +1212,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void setFadingEnabled(boolean value) {
         mFadeEnabled = value;
-//        if (!mIsVisible) requireActivity().runOnUiThread(this::show);
         if (mFadeEnabled) {
             startFadeTimer();
         } else {

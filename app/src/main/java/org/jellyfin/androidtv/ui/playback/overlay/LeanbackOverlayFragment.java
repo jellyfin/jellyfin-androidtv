@@ -3,7 +3,10 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.leanback.app.PlaybackSupportFragment;
 
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
@@ -34,6 +37,13 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerAdapter = new VideoPlayerAdapter(playbackController, this);
         playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController);
         playerGlue.setHost(new CustomPlaybackFragmentGlueHost(this));
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        super.hideControlsOverlay(false);
     }
 
     public void initFromView(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
