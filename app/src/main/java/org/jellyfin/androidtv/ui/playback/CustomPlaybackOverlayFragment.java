@@ -121,7 +121,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private AudioManager mAudioManager;
 
     private boolean mFadeEnabled = false;
-    private boolean mIsVisible = false;
+    private boolean mIsVisible = true;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
 
@@ -168,7 +168,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // setup fade task
         mHideTask = () -> {
             if (mIsVisible) {
-                hide();
                 leanbackOverlayFragment.hideOverlay();
             }
         };
@@ -203,9 +202,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.getRoot().setVisibility(View.GONE);
 
         binding.getRoot().setOnTouchListener((v, event) -> {
-            //if we're not visible, show us
-            if (!mIsVisible) show();
-
             //and then manage our fade timer
             if (mFadeEnabled) startFadeTimer();
 
@@ -298,7 +294,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // start playing
         playbackControllerContainer.getValue().getPlaybackController().play(startPos);
         leanbackOverlayFragment.updatePlayState();
-
     }
 
     @Override
@@ -600,9 +595,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             playbackControllerContainer.getValue().getPlaybackController().playPause();
                             return true;
                         }
-
-                        //if we're not visible, show us
-                        show();
                     }
 
                     //and then manage our fade timer
@@ -704,12 +696,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void show() {
+        // Already showing!
+        if (mIsVisible) return;
+
         binding.topPanel.startAnimation(slideDown);
         mIsVisible = true;
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
     }
 
     public void hide() {
+        // Can't hide what's already hidden
+        if (!mIsVisible) return;
+
         mIsVisible = false;
         binding.topPanel.startAnimation(fadeOut);
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
@@ -1211,7 +1209,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void setFadingEnabled(boolean value) {
         mFadeEnabled = value;
-        if (!mIsVisible) requireActivity().runOnUiThread(this::show);
+//        if (!mIsVisible) requireActivity().runOnUiThread(this::show);
         if (mFadeEnabled) {
             startFadeTimer();
         } else {
