@@ -36,7 +36,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.composable.overscan
+import org.jellyfin.androidtv.ui.composable.modifier.overscan
 
 @Composable
 private fun ConnectHelpAlert(

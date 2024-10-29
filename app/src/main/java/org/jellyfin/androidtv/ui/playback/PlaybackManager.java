@@ -4,15 +4,10 @@ import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoRequest;
-import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
-import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
-import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 import org.jellyfin.sdk.model.DeviceInfo;
-import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 
 import java.util.ArrayList;
@@ -58,48 +53,17 @@ public class PlaybackManager {
             request.setAudioStreamIndex(audioIdx);
         }
         Integer subIdx = options.getSubtitleStreamIndex();
-        if (subIdx != null) {
-            request.setSubtitleStreamIndex(subIdx);
-        }
+        if (subIdx != null) request.setSubtitleStreamIndex(subIdx);
 
         request.setAllowVideoStreamCopy(true);
         request.setAllowAudioStreamCopy(true);
 
-        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, true, startPositionTicks));
-
+        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, true));
     }
 
     public void changeVideoStream(final StreamInfo currentStreamInfo, DeviceInfo deviceInfo, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
         String playSessionId = currentStreamInfo.getPlaySessionId();
 
         apiClient.StopTranscodingProcesses(api.getDeviceInfo().getId(), playSessionId, new StopTranscodingResponse(this, deviceInfo, options, startPositionTicks, apiClient, response));
-    }
-
-    public void reportPlaybackStart(PlaybackStartInfo info, ApiClient apiClient, EmptyResponse response) {
-        apiClient.ReportPlaybackStartAsync(info, response);
-    }
-
-    public void reportPlaybackProgress(PlaybackProgressInfo info, final StreamInfo streamInfo, ApiClient apiClient, EmptyResponse response) {
-        MediaSourceInfo mediaSource = streamInfo.getMediaSource();
-
-        if (mediaSource != null) {
-            info.setLiveStreamId(mediaSource.getLiveStreamId());
-        }
-
-        info.setPlaySessionId(streamInfo.getPlaySessionId());
-
-        apiClient.ReportPlaybackProgressAsync(info, response);
-    }
-
-    public void reportPlaybackStopped(PlaybackStopInfo info, final StreamInfo streamInfo, final ApiClient apiClient, final EmptyResponse response) {
-        MediaSourceInfo mediaSource = streamInfo.getMediaSource();
-
-        if (mediaSource != null) {
-            info.setLiveStreamId(mediaSource.getLiveStreamId());
-        }
-
-        info.setPlaySessionId(streamInfo.getPlaySessionId());
-
-        apiClient.ReportPlaybackStoppedAsync(info, response);
     }
 }

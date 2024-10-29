@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,21 +38,26 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.composable.AsyncImage
-import org.jellyfin.androidtv.ui.composable.rememberMediaItem
+import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
+import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.jellyfin.queue.baseItem
+import org.jellyfin.playback.jellyfin.queue.baseItemFlow
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.compose.koinInject
 
 @Composable
 fun NowPlayingComposable() {
-	val mediaManager = koinInject<MediaManager>()
+	val playbackManager = koinInject<PlaybackManager>()
 	val navigationRepository = koinInject<NavigationRepository>()
 	val imageHelper = koinInject<ImageHelper>()
 
-	val (item, progress) = rememberMediaItem(mediaManager)
+	val entry by rememberQueueEntry(playbackManager)
+	val item = entry?.run { baseItemFlow.collectAsState(baseItem) }?.value
+	val progress = rememberPlayerProgress(playbackManager)
 
 	AnimatedVisibility(
 		visible = item != null,
@@ -81,7 +88,7 @@ fun NowPlayingComposable() {
 						// Background
 						drawRect(Color.White, alpha = 0.4f)
 						// Foreground
-						drawRect(Color.White, size = size.copy(width = size.width * progress))
+						drawRect(Color.White, size = size.copy(width = progress * size.width))
 					}
 			)
 
