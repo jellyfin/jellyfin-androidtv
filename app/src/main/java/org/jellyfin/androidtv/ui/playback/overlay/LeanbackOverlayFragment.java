@@ -20,7 +20,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     private VideoPlayerAdapter playerAdapter;
     private boolean shouldShowOverlay = true;
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
-    private final Integer skipForwardLength = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class).get(UserSettingPreferences.Companion.getSkipForwardLength());
+    private final Lazy<UserSettingPreferences> userSettingPreferences = inject(UserSettingPreferences.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         playerGlue.invalidatePlaybackControls();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
+
+        Integer skipForwardLength = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength());
         playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter, skipForwardLength) : null);
+
         recordingStateChanged();
         playerAdapter.updateDuration();
     }
