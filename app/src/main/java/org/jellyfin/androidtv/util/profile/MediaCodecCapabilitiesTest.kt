@@ -11,41 +11,41 @@ class MediaCodecCapabilitiesTest {
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
 
 	// AVC levels as reported by ffprobe are multiplied by 10, e.g. level 4.1 is 41. Level 1b is set to 9
-	private val avcLevelStrings = listOf(
-		CodecProfileLevel.AVCLevel1b to "9",
-		CodecProfileLevel.AVCLevel1 to "10",
-		CodecProfileLevel.AVCLevel11 to "11",
-		CodecProfileLevel.AVCLevel12 to "12",
-		CodecProfileLevel.AVCLevel13 to "13",
-		CodecProfileLevel.AVCLevel2 to "20",
-		CodecProfileLevel.AVCLevel21 to "21",
-		CodecProfileLevel.AVCLevel22 to "22",
-		CodecProfileLevel.AVCLevel3 to "30",
-		CodecProfileLevel.AVCLevel31 to "31",
-		CodecProfileLevel.AVCLevel32 to "32",
-		CodecProfileLevel.AVCLevel4 to "40",
-		CodecProfileLevel.AVCLevel41 to "41",
-		CodecProfileLevel.AVCLevel42 to "42",
-		CodecProfileLevel.AVCLevel5 to "50",
-		CodecProfileLevel.AVCLevel51 to "51",
-		CodecProfileLevel.AVCLevel52 to "52",
+	private val avcLevels = listOf(
+		CodecProfileLevel.AVCLevel1b to 9,
+		CodecProfileLevel.AVCLevel1 to 10,
+		CodecProfileLevel.AVCLevel11 to 11,
+		CodecProfileLevel.AVCLevel12 to 12,
+		CodecProfileLevel.AVCLevel13 to 13,
+		CodecProfileLevel.AVCLevel2 to 20,
+		CodecProfileLevel.AVCLevel21 to 21,
+		CodecProfileLevel.AVCLevel22 to 22,
+		CodecProfileLevel.AVCLevel3 to 30,
+		CodecProfileLevel.AVCLevel31 to 31,
+		CodecProfileLevel.AVCLevel32 to 32,
+		CodecProfileLevel.AVCLevel4 to 40,
+		CodecProfileLevel.AVCLevel41 to 41,
+		CodecProfileLevel.AVCLevel42 to 42,
+		CodecProfileLevel.AVCLevel5 to 50,
+		CodecProfileLevel.AVCLevel51 to 51,
+		CodecProfileLevel.AVCLevel52 to 52,
 	)
 
 	// HEVC levels as reported by ffprobe are multiplied by 30, e.g. level 4.1 is 123
-	private val hevcLevelStrings = listOf(
-		CodecProfileLevel.HEVCMainTierLevel1 to "30",
-		CodecProfileLevel.HEVCMainTierLevel2 to "60",
-		CodecProfileLevel.HEVCMainTierLevel21 to "63",
-		CodecProfileLevel.HEVCMainTierLevel3 to "90",
-		CodecProfileLevel.HEVCMainTierLevel31 to "93",
-		CodecProfileLevel.HEVCMainTierLevel4 to "120",
-		CodecProfileLevel.HEVCMainTierLevel41 to "123",
-		CodecProfileLevel.HEVCMainTierLevel5 to "150",
-		CodecProfileLevel.HEVCMainTierLevel51 to "153",
-		CodecProfileLevel.HEVCMainTierLevel52 to "156",
-		CodecProfileLevel.HEVCMainTierLevel6 to "180",
-		CodecProfileLevel.HEVCMainTierLevel61 to "183",
-		CodecProfileLevel.HEVCMainTierLevel62 to "186",
+	private val hevcLevels = listOf(
+		CodecProfileLevel.HEVCMainTierLevel1 to 30,
+		CodecProfileLevel.HEVCMainTierLevel2 to 60,
+		CodecProfileLevel.HEVCMainTierLevel21 to 63,
+		CodecProfileLevel.HEVCMainTierLevel3 to 90,
+		CodecProfileLevel.HEVCMainTierLevel31 to 93,
+		CodecProfileLevel.HEVCMainTierLevel4 to 120,
+		CodecProfileLevel.HEVCMainTierLevel41 to 123,
+		CodecProfileLevel.HEVCMainTierLevel5 to 150,
+		CodecProfileLevel.HEVCMainTierLevel51 to 153,
+		CodecProfileLevel.HEVCMainTierLevel52 to 156,
+		CodecProfileLevel.HEVCMainTierLevel6 to 180,
+		CodecProfileLevel.HEVCMainTierLevel61 to 183,
+		CodecProfileLevel.HEVCMainTierLevel62 to 186,
 	)
 
 	fun supportsAV1(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
@@ -66,20 +66,20 @@ class MediaCodecCapabilitiesTest {
 		CodecProfileLevel.AVCLevel4
 	)
 
-	fun getAVCMainLevel(): String = getAVCLevelString(
+	fun getAVCMainLevel(): Int = getAVCLevel(
 		CodecProfileLevel.AVCProfileMain
 	)
 
-	fun getAVCHigh10Level(): String = getAVCLevelString(
+	fun getAVCHigh10Level(): Int = getAVCLevel(
 		CodecProfileLevel.AVCProfileHigh10
 	)
 
-	private fun getAVCLevelString(profile: Int): String {
+	private fun getAVCLevel(profile: Int): Int {
 		val level = getDecoderLevel(MediaFormat.MIMETYPE_VIDEO_AVC, profile)
 
-		return avcLevelStrings.asReversed().find { item: Pair<Int, String> ->
+		return avcLevels.asReversed().find { item ->
 			level >= item.first
-		}?.second ?: "0"
+		}?.second ?: 0
 	}
 
 	fun supportsHevc(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_HEVC)
@@ -90,20 +90,20 @@ class MediaCodecCapabilitiesTest {
 		CodecProfileLevel.HEVCMainTierLevel4
 	)
 
-	fun getHevcMainLevel(): String = getHevcLevelString(
+	fun getHevcMainLevel(): Int = getHevcLevel(
 		CodecProfileLevel.HEVCProfileMain
 	)
 
-	fun getHevcMain10Level(): String = getHevcLevelString(
+	fun getHevcMain10Level(): Int = getHevcLevel(
 		CodecProfileLevel.HEVCProfileMain10
 	)
 
-	private fun getHevcLevelString(profile: Int): String {
+	private fun getHevcLevel(profile: Int): Int {
 		val level = getDecoderLevel(MediaFormat.MIMETYPE_VIDEO_HEVC, profile)
 
-		return hevcLevelStrings.asReversed().find { item: Pair<Int, String> ->
+		return hevcLevels.asReversed().find { item ->
 			level >= item.first
-		}?.second ?: "0"
+		}?.second ?: 0
 	}
 
 	private fun getDecoderLevel(mime: String, profile: Int): Int {

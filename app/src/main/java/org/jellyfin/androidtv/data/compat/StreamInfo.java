@@ -1,18 +1,12 @@
 package org.jellyfin.androidtv.data.compat;
 
-import org.jellyfin.apiclient.model.dlna.DeviceProfile;
-import org.jellyfin.apiclient.model.dlna.EncodingContext;
-import org.jellyfin.apiclient.model.dlna.SubtitleProfile;
-import org.jellyfin.apiclient.model.dlna.TranscodeSeekInfo;
-import org.jellyfin.apiclient.model.session.PlayMethod;
-import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
+import org.jellyfin.sdk.model.api.PlayMethod;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class StreamInfo {
@@ -36,7 +30,7 @@ public class StreamInfo {
         MediaUrl = value;
     }
 
-    private PlayMethod playMethod = PlayMethod.DirectPlay;
+    private PlayMethod playMethod = PlayMethod.DIRECT_PLAY;
 
     public final PlayMethod getPlayMethod() {
         return playMethod;
@@ -44,16 +38,6 @@ public class StreamInfo {
 
     public final void setPlayMethod(PlayMethod value) {
         playMethod = value;
-    }
-
-    private EncodingContext Context = EncodingContext.values()[0];
-
-    public final EncodingContext getContext() {
-        return Context;
-    }
-
-    public final void setContext(EncodingContext value) {
-        Context = value;
     }
 
     private String Container;
@@ -66,16 +50,6 @@ public class StreamInfo {
         Container = value;
     }
 
-    private DeviceProfile DeviceProfile;
-
-    public final DeviceProfile getDeviceProfile() {
-        return DeviceProfile;
-    }
-
-    public final void setDeviceProfile(DeviceProfile value) {
-        DeviceProfile = value;
-    }
-
     private Long RunTimeTicks = null;
 
     public final Long getRunTimeTicks() {
@@ -84,12 +58,6 @@ public class StreamInfo {
 
     public final void setRunTimeTicks(Long value) {
         RunTimeTicks = value;
-    }
-
-    private TranscodeSeekInfo TranscodeSeekInfo = getTranscodeSeekInfo().values()[0];
-
-    public final TranscodeSeekInfo getTranscodeSeekInfo() {
-        return TranscodeSeekInfo;
     }
 
     private MediaSourceInfo MediaSource;
@@ -120,36 +88,6 @@ public class StreamInfo {
 
     public final String getMediaSourceId() {
         return getMediaSource() == null ? null : getMediaSource().getId();
-    }
-
-    public final ArrayList<SubtitleStreamInfo> getSubtitleProfiles(ApiClient api) {
-        ArrayList<SubtitleStreamInfo> list = new ArrayList<SubtitleStreamInfo>();
-
-        if (getMediaSource() == null) return list;
-
-        for (org.jellyfin.sdk.model.api.MediaStream stream : getMediaSource().getMediaStreams()) {
-            if (stream.getType() == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE) {
-                SubtitleStreamInfo info = getSubtitleStreamInfo(api, stream, getDeviceProfile().getSubtitleProfiles());
-                list.add(info);
-            }
-        }
-
-        return list;
-    }
-
-    private SubtitleStreamInfo getSubtitleStreamInfo(ApiClient api, org.jellyfin.sdk.model.api.MediaStream stream, SubtitleProfile[] subtitleProfiles) {
-        SubtitleProfile subtitleProfile = StreamBuilder.getSubtitleProfile(stream, subtitleProfiles, getPlayMethod());
-        SubtitleStreamInfo info = new SubtitleStreamInfo();
-        String tempVar2 = stream.getLanguage();
-        info.setName((tempVar2 != null) ? tempVar2 : "Unknown");
-        info.setFormat(subtitleProfile.getFormat());
-        info.setIndex(stream.getIndex());
-        info.setDeliveryMethod(subtitleProfile.getMethod());
-        info.setDisplayTitle(stream.getDisplayTitle());
-        if (stream.getDeliveryUrl() != null) {
-            info.setUrl(api.createUrl(stream.getDeliveryUrl(), new HashMap<>(), new HashMap<>(), true));
-        }
-        return info;
     }
 
     public final ArrayList<MediaStream> getSelectableAudioStreams() {

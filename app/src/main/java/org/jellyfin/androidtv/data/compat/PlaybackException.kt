@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.data.compat
 
-import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode
+import org.jellyfin.sdk.model.api.PlaybackErrorCode
 
 class PlaybackException : RuntimeException() {
-	var errorCode = PlaybackErrorCode.NotAllowed
+	var errorCode = PlaybackErrorCode.NOT_ALLOWED
 }

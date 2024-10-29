@@ -2,11 +2,11 @@ package org.jellyfin.androidtv.util.apiclient
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.ui.playback.PlaybackController
-import org.jellyfin.apiclient.model.session.PlayMethod
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -38,11 +38,7 @@ class ReportingHelper(
 			isPaused = paused,
 			liveStreamId = streamInfo.mediaSource?.liveStreamId,
 			playSessionId = streamInfo.playSessionId,
-			playMethod = when (requireNotNull(streamInfo.playMethod)) {
-				PlayMethod.Transcode -> org.jellyfin.sdk.model.api.PlayMethod.TRANSCODE
-				PlayMethod.DirectStream -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_STREAM
-				PlayMethod.DirectPlay -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_PLAY
-			},
+			playMethod = streamInfo.playMethod,
 			audioStreamIndex = playbackController?.audioStreamIndex,
 			subtitleStreamIndex = playbackController?.subtitleStreamIndex,
 			isMuted = false,
@@ -51,7 +47,7 @@ class ReportingHelper(
 			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
-		lifecycleOwner.lifecycleScope.launch {
+		lifecycleOwner.lifecycleScope.launch(NonCancellable) {
 			Timber.i("Reporting ${item.name} playback started at $position")
 			runCatching {
 				api.playStateApi.reportPlaybackStart(info)
@@ -74,11 +70,7 @@ class ReportingHelper(
 			isPaused = paused,
 			liveStreamId = streamInfo.mediaSource?.liveStreamId,
 			playSessionId = streamInfo.playSessionId,
-			playMethod = when (requireNotNull(streamInfo.playMethod)) {
-				PlayMethod.Transcode -> org.jellyfin.sdk.model.api.PlayMethod.TRANSCODE
-				PlayMethod.DirectStream -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_STREAM
-				PlayMethod.DirectPlay -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_PLAY
-			},
+			playMethod = streamInfo.playMethod,
 			audioStreamIndex = playbackController?.audioStreamIndex,
 			subtitleStreamIndex = playbackController?.subtitleStreamIndex,
 			isMuted = false,
@@ -87,7 +79,7 @@ class ReportingHelper(
 			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
-		lifecycleOwner.lifecycleScope.launch {
+		lifecycleOwner.lifecycleScope.launch(NonCancellable) {
 			Timber.d("Reporting ${item.name} playback progress at $position")
 			runCatching {
 				api.playStateApi.reportPlaybackProgress(info)
@@ -105,7 +97,7 @@ class ReportingHelper(
 			failed = false,
 		)
 
-		lifecycleOwner.lifecycleScope.launch {
+		lifecycleOwner.lifecycleScope.launch(NonCancellable) {
 			Timber.i("Reporting ${item.name} playback stopped at $position")
 			runCatching {
 				api.playStateApi.reportPlaybackStopped(info)
