@@ -542,6 +542,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
+                    if (internalOptions.getSubtitleStreamIndex() == null) burningSubs = internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.Encode;
                     startItem(item, position, internalResponse);
                 }
 
