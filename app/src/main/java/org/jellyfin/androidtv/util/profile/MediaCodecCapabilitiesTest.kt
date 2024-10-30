@@ -119,8 +119,8 @@ class MediaCodecCapabilitiesTest {
 						maxLevel = maxOf(maxLevel, profileLevel.level)
 					}
 				}
-			} catch (e: IllegalArgumentException) {
-				Timber.d(e, "Decoder %s does not support %s", info.name, mime)
+			} catch (_: IllegalArgumentException) {
+				// Decoder not supported - ignore
 			}
 		}
 
@@ -146,8 +146,8 @@ class MediaCodecCapabilitiesTest {
 
 					if (profileLevel.level >= level) return true
 				}
-			} catch (e: IllegalArgumentException) {
-				Timber.w(e)
+			} catch (_: IllegalArgumentException) {
+				// Decoder not supported - ignore
 			}
 		}
 
@@ -183,8 +183,8 @@ class MediaCodecCapabilitiesTest {
 				maxWidth = maxOf(maxWidth, supportedWidth)
 				maxHeight = maxOf(maxHeight, supportedHeight)
 
-			} catch (e: IllegalArgumentException) {
-				Timber.d(e, "Codec %s does not support video capabilities", info.name)
+			} catch (_: IllegalArgumentException) {
+				// Decoder not supported - ignore
 			}
 		}
 
