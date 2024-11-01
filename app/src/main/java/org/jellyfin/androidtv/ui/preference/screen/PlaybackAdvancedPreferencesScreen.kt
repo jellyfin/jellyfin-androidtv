@@ -51,7 +51,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			seekbar {
 				setTitle(R.string.lbl_playback_ui_fade_time)
 				min = 100
-				max = 1000
+				max = 1_000
 				increment = 50
 				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
 					override fun display(value: Int): String = "${value.toDouble() / 100 }s"
