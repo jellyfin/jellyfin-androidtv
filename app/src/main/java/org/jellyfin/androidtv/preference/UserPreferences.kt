@@ -230,7 +230,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Timeout for the playback UI before it fades out.
 		 */
 
-		var playbackUiFadeTime = intPreference("playback_ui_fade_time", 6)
+		var playbackUiFadeTime = intPreference("playback_ui_fade_time", 6000)
 	}
 
 	init {

@@ -50,13 +50,18 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.lbl_playback_ui_fade_time)
-				min = 1
-				max = 10
-				increment = 1
+				min = 100
+				max = 1000
+				increment = 50
 				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-					override fun display(value: Int): String = "${value}s"
+					override fun display(value: Int): String = "${value.toDouble() / 100 }s"
 				}
 				bind(userPreferences, UserPreferences.playbackUiFadeTime)
+				bind {
+					get { userPreferences[UserPreferences.playbackUiFadeTime] / 10 }
+					set { value -> userPreferences[UserPreferences.playbackUiFadeTime] = value * 10 }
+					default { UserPreferences.playbackUiFadeTime.defaultValue / 10 }
+				}
 			}
 		}
 

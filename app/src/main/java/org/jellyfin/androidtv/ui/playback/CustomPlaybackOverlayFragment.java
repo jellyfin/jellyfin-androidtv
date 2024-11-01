@@ -646,7 +646,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void startFadeTimer() {
         mFadeEnabled = true;
         mHandler.removeCallbacks(mHideTask);
-        mHandler.postDelayed(mHideTask, userPreferences.getValue().get(UserPreferences.Companion.getPlaybackUiFadeTime()) * 1000 );
+        mHandler.postDelayed(mHideTask, userPreferences.getValue().get(UserPreferences.Companion.getPlaybackUiFadeTime()));
     }
 
     @Override
