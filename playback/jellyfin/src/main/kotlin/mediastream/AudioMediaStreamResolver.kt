@@ -21,7 +21,8 @@ class AudioMediaStreamResolver(
 ) : JellyfinStreamResolver(api, profile) {
 	companion object {
 		private val REMUX_CONTAINERS = arrayOf("mp3", "ogg", "mkv")
-		private const val REMUX_SEGMENT_CONTAINER = "mp3"
+		private const val TRANSCODE_SEGMENT_CONTAINER = "mp4"
+		private const val TRANSCODE_CODEC = "aac"
 	}
 
 	private fun MediaInfo.getDirectPlayStream() = BasicMediaStream(
@@ -101,7 +102,8 @@ class AudioMediaStreamResolver(
 					mediaSourceId = requireNotNull(mediaInfo.mediaSource.id),
 					playSessionId = mediaInfo.playSessionId,
 					tag = mediaInfo.mediaSource.eTag,
-					segmentContainer = REMUX_SEGMENT_CONTAINER,
+					segmentContainer = TRANSCODE_SEGMENT_CONTAINER,
+					audioCodec = TRANSCODE_CODEC,
 				).appendAccessToken()
 			)
 		}
