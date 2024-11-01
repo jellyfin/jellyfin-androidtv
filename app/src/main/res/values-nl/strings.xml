@@ -139,7 +139,7 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Afleveringen</string>
     <string name="lbl_enable_cinema_mode">Bioscoopmodus</string>
-    <string name="sum_enable_cinema_mode">Speel intro\'s en previews voordat een film begint</string>
+    <string name="sum_enable_cinema_mode">Speel beschikbare intro\'s en voorvertoningen voordat een film begint</string>
     <string name="lbl_playlists">Afspeellijsten</string>
     <string name="msg_items_added">" items toegevoegd"</string>
     <string name="lbl_add_to_queue">Toevoegen aan wachtrij</string>
@@ -560,7 +560,7 @@
     <string name="segment_action_skip">Overslaan</string>
     <string name="segment_type_commercial">Reclame</string>
     <string name="segment_type_outro">Outro\'s</string>
-    <string name="segment_type_preview">Voorvertoningen</string>
+    <string name="segment_type_preview">Vooruitblikken</string>
     <string name="segment_type_recap">Terugblikken</string>
     <string name="segment_type_unknown">Onbekende segmenten</string>
     <string name="segment_action_nothing">Niets doen</string>
