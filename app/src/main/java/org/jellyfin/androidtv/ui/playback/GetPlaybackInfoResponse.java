@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.QueryStringDictionary;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.mediainfo.LiveStreamRequest;
 import org.jellyfin.apiclient.model.mediainfo.LiveStreamResponse;
@@ -26,9 +25,8 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
     private AudioOptions options;
     private Response<StreamInfo> response;
     private boolean isVideo;
-    private Long startPositionTicks;
 
-    public GetPlaybackInfoResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, ApiClient apiClient, AudioOptions options, Response<StreamInfo> response, boolean isVideo, Long startPositionTicks) {
+    public GetPlaybackInfoResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, ApiClient apiClient, AudioOptions options, Response<StreamInfo> response, boolean isVideo) {
         super(response);
         this.playbackManager = playbackManager;
         this.deviceInfo = deviceInfo;
@@ -36,7 +34,6 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
         this.options = options;
         this.response = response;
         this.isVideo = isVideo;
-        this.startPositionTicks = startPositionTicks;
     }
 
     @Override
@@ -96,7 +93,6 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
         streamInfo.setItemId(options.getItemId());
         streamInfo.setDeviceProfile(options.getProfile());
         streamInfo.setPlaySessionId(playbackInfo.getPlaySessionId());
-        streamInfo.setStartPositionTicks(startPositionTicks);
 
         if (options.getEnableDirectPlay() && mediaSourceInfo.getSupportsDirectPlay()){
             if (canDirectPlay(mediaSourceInfo)) {
@@ -167,14 +163,6 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
             streamInfo.setPlayMethod(PlayMethod.Transcode);
             streamInfo.setContainer(mediaSourceInfo.getTranscodingContainer());
             streamInfo.setMediaUrl(apiClient.GetApiUrl(mediaSourceInfo.getTranscodingUrl()));
-        }
-
-        // A null url will crash the app, make sure to call onError instead
-        if (streamInfo.getMediaUrl() == null) {
-            PlaybackException exception = new PlaybackException();
-            exception.setErrorCode(PlaybackErrorCode.NoCompatibleStream);
-            response.onError(exception);
-            return;
         }
 
         playbackManager.SendResponse(response, streamInfo);

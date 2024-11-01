@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.composable.ZoomBox
-import org.jellyfin.androidtv.ui.composable.overscan
+import org.jellyfin.androidtv.ui.composable.modifier.overscan
 
 @Composable
 fun DreamContentLibraryShowcase(

@@ -110,7 +110,7 @@
     <string name="lbl_end_padding">Završi sa ispunjavanjem</string>
     <string name="lbl_program_ended">Program je završio</string>
     <string name="lbl_begin_padding">Započni sa ispunjavanjem</string>
-    <string name="msg_will_record">Bit će snimljeno</string>
+    <string name="msg_will_record">Biti će snimljeno</string>
     <string name="msg_recording_now">Snima se</string>
     <string name="lbl_tune_to_channel">Uključi kanal</string>
     <string name="lbl_on">Na</string>
@@ -253,7 +253,7 @@
     <string name="lbl_play_from_here">Reproduciraj odavde</string>
     <string name="lbl_now_playing">Reproducira se</string>
     <string name="lbl_prev_item">Prethodna stavka</string>
-    <string name="lbl_next_item">Sljedeća stavka</string>
+    <string name="lbl_next_item">Slijedeća stavka</string>
     <string name="lbl_open_album">Otvori album</string>
     <string name="lbl_open_artist">Otvori izvođača</string>
     <string name="lbl_add_to_queue">Dodaj u red</string>
@@ -315,7 +315,7 @@
     <string name="enable_playback_module_description">Ovo je eksperimentalna značajka. Ne pružamo podršku.</string>
     <string name="lbl_fit">Normalno</string>
     <string name="lbl_stretch">Rastegni</string>
-    <string name="lbl_auto_crop">Automatsko obrezivanje</string>
+    <string name="lbl_auto_crop">Automatsko obrubljivanje</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">Na %1$s</string>
@@ -355,7 +355,7 @@
     <string name="licenses_link_description">Provjeri license biblioteka korištenih od strane Jellyfin aplikacije</string>
     <string name="license_description">Opis</string>
     <string name="license_author">Autor</string>
-    <string name="home_section_latest_media">Posljednja medija</string>
+    <string name="home_section_latest_media">Nedavno dodani mediji</string>
     <string name="home_section_library">Moja medija</string>
     <string name="home_section_library_small">Moja medija (malo)</string>
     <string name="home_section_resume_audio">Nastavi slušati</string>
@@ -393,9 +393,9 @@
     <string name="crash_report_toast">Oops! Nešto je pošlo po zlu, prijava o grešci poslana je na vaš Jellyfin server.</string>
     <string name="server_setup_incomplete">Postavljanje ovoga servera nije završena. Otvorite Jellyfin u web pregledniku kako bi završili postavljanje prije prijave.</string>
     <string name="app_notification_beta">Aplikacija ažurirana na %1$s
-\nHvala vam za sudjelovanje u Jellyfin beta programu</string>
+\nHvala vam za sudjelovanje u Jellyfin beta programu.</string>
     <string name="item_deleted">%1$s obrisano</string>
-    <string name="lbl_shuffle_queue">Aktiviraj miješanje</string>
+    <string name="lbl_shuffle_queue">Nasumično</string>
     <string name="item_deletion_failed">Nije moguće obrisati %1$s</string>
     <string name="pref_enable_media_management_description">Prikaži mogućnost upravljanja medijom tokom pretraživanja</string>
     <string name="item_delete_confirm_title">Izbriši stavku</string>
@@ -433,7 +433,7 @@
     <string name="pref_login">Prijavi se</string>
     <string name="pref_login_description">Serveri, računi i automatska prijava</string>
     <string name="home_section_resume_book">Nastavi čitati</string>
-    <string name="server_unsupported_notification">Ovaj server koristi Jellyfin verziju %1$s koja nije podržana. Molimo ažurirajte verziju Jellyfin-a na %2$s kako bi nastavili koristiti ovu aplikaciju.</string>
+    <string name="server_unsupported_notification">Server koristi Jellyfin verziju %1$s koja nije podržana. Molimo ažurirajte verziju servera na %2$s kako bi nastavili koristiti ovu aplikaciju.</string>
     <string name="pref_crash_reports_enabled">Prijave o greški biti će poslane na vaš zadnje korišteni server</string>
     <string name="pref_crash_reports_disabled">Prijava o greški neće biti podnesena</string>
     <string name="lbl_subtitle_delay">Kašnjenje podnatpisa</string>
@@ -455,7 +455,7 @@
     <string name="server_issue_missing_version">Nije moguće odrediti server verziju</string>
     <string name="pref_libraries">Biblioteke</string>
     <string name="state_disabled">Neomogućeno</string>
-    <string name="action_use_quickconnect">Upotrijebi QuickConnect</string>
+    <string name="action_use_quickconnect">Koristi QuickConnect</string>
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Podnatpisi</string>
     <string name="pref_audio">Audio</string>
@@ -475,7 +475,7 @@
     <string name="lbl_hide_watched_checkmark">Kad postoje preostale epizode</string>
     <plurals name="seconds">
         <item quantity="one">%1$s sekunda</item>
-        <item quantity="few">%1$s seknude</item>
+        <item quantity="few">%1$s sekunde</item>
         <item quantity="other">%1$s sekundi</item>
     </plurals>
     <string name="channels">Kanali</string>
@@ -532,4 +532,50 @@
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
+    <string name="prefer_exoplayer_ffmpeg">Daj prednost FFMpeg-u za audio</string>
+    <string name="continue_listening">Nastavi slušati</string>
+    <string name="lbl_home">Početna</string>
+    <string name="all_channels">Svi kanali</string>
+    <string name="default_video_zoom">Uobičajeno povećanje</string>
+    <string name="segment_action_nothing">Zanemari</string>
+    <string name="segment_action_skip">Preskoči</string>
+    <string name="segment_type_outro">Odjave</string>
+    <string name="segment_type_preview">Najave</string>
+    <string name="segment_type_unknown">Nepoznati segmenti</string>
+    <string name="segment_type_commercial">Reklame</string>
+    <string name="segment_type_recap">Sažeci</string>
+    <string name="past_24_hours">Prošla 24 sata</string>
+    <string name="segment_type_intro">Uvodi</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s zapis</item>
+        <item quantity="few">%1$s zapisa</item>
+        <item quantity="other">%1$s zapisi</item>
+    </plurals>
+    <string name="pref_subtitles_size_large">Veći</string>
+    <string name="video_start_delay">Odgoda početka videa</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Prikaži samo stavke sa postavljenom dobnom skupinom</string>
+    <string name="segment_action_ask_to_skip">Pitaj za preskok</string>
+    <string name="pref_mediasegment_actions">Akcije dijelova medija</string>
+    <string name="app_notification_update_soon">Nadogradi server sa %1$s na barem %2$s kako bi nastavio koristiti aplikaciju nakon nadogradnje.</string>
+    <string name="pref_subtitles_size_small">Manji</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Daj prednost FFMpeg-u za audio iako Codec postoji na uređaju.</string>
+    <string name="pref_external_player">Koristi vanjski video reproduktor</string>
+    <string name="current_queue">Trenutni niz</string>
+    <string name="lbl_subtitle_text_color">Boja podnaslova</string>
+    <string name="lbl_subtitle_background_color">Boja pozadine podnaslova</string>
+    <string name="pref_subtitles_size_very_small">Najmanji</string>
+    <string name="lbl_subtitle_text_stroke_color">Boja ruba podnaslova</string>
+    <string name="pref_subtitles_size_normal">Normalni</string>
+    <string name="pref_subtitles_size_very_large">Najveći</string>
+    <string name="past_week">Prošli tjedan</string>
+    <string name="pref_playback_advanced">Napredne postavke reprodukcije</string>
+    <string name="unreleased">Neobjavljeno</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Ukloni najvišu dobnu ocjenu</string>
+    <string name="scheduled_in_next_24_hours">Na rasporedu slijedeća 24 sata</string>
+    <string name="pref_screensaver_ageratingrequired_title">Iziskuj dobnu ocjenu</string>
+    <string name="random">Nasumice</string>
+    <string name="pref_screensaver_ageratingmax_zero">Sve dobne skupine</string>
+    <string name="pref_screensaver_ageratingmax_entry">Do dobi %1$d</string>
+    <string name="pref_screensaver_ageratingmax">Najviša dobna skupina</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Prikaži sve sadržaje</string>
 </resources>

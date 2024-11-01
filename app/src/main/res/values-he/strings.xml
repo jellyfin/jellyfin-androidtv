@@ -305,7 +305,7 @@
     <string name="enable_smart_view_description">\"מסך חכם\" מראה פריטים רלוונטים לך במקום טבלה</string>
     <string name="enable_smart_view">הפעל \"מסך חכם\"</string>
     <string name="lbl_sign_out">התנתק</string>
-    <string name="lbl_remove">מחק</string>
+    <string name="lbl_remove">הסרה</string>
     <string name="lbl_server">שרת</string>
     <string name="lbl_user_server">%1$s ב%2$s</string>
     <string name="lbl_user_last_used">היה בשימוש פעם אחרונה ב-%1$s בשעה %2$s</string>
@@ -424,7 +424,7 @@
     <string name="pref_telemetry_category">דיווח על קריסה</string>
     <string name="pref_crash_report_logs">כלול יומנים</string>
     <string name="pref_crash_report_logs_disabled">יומנים לא ייכללו בדוחות קריסה</string>
-    <string name="image_size_xlarge">גדול מאוד</string>
+    <string name="image_size_xlarge">גדול במיוחד</string>
     <string name="lbl_additional_parts">חלקים נוספים</string>
     <string name="pref_audio_night_mode">מצב לילה אודיו (ניסיוני)</string>
     <string name="desc_audio_night_mode">משפר את עוצמת השמע באופן אוטומטי</string>
@@ -558,4 +558,29 @@
     <string name="pref_screensaver_ageratingrequired_enabled">מציג פריטים שיש להם הגבלת גיל</string>
     <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
     <string name="pref_screensaver_ageratingmax">דירוג גיל מקסימלי</string>
+    <string name="pref_subtitles_size_large">גדול</string>
+    <string name="prefer_exoplayer_ffmpeg">העדף FFmpeg לניגון שמע</string>
+    <string name="lbl_subtitle_background_color">צבע רקע הכתוביות</string>
+    <string name="lbl_subtitle_text_stroke_color">צבע קו הכתוביות</string>
+    <string name="lbl_subtitle_text_color">צבע הכתוביות</string>
+    <string name="pref_subtitles_size_very_small">קטן מאוד</string>
+    <string name="pref_subtitles_size_small">קטן</string>
+    <string name="pref_subtitles_size_normal">רגיל</string>
+    <string name="pref_subtitles_size_very_large">גדול מאוד</string>
+    <string name="prefer_exoplayer_ffmpeg_content">השתמש ב-FFmpeg לפיענוח שמע, גם אם נמצאים מקודדים של הפלטפורמה.</string>
+    <string name="video_start_delay">עיכוב בתחילת הוידיאו</string>
+    <string name="segment_action_nothing">לא לעשות כלום</string>
+    <string name="segment_type_outro">סיומות</string>
+    <string name="segment_type_commercial">פרסומות</string>
+    <string name="segment_type_intro">קדימונים</string>
+    <string name="segment_type_preview">תצוגות מקדימות</string>
+    <string name="segment_type_recap">סיכומי הפרקים הקודמים</string>
+    <string name="segment_type_unknown">מקטע לא מוכר</string>
+    <string name="past_week">בשבוע האחרון</string>
+    <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הבאות</string>
+    <string name="past_24_hours">24 שעות אחרונות</string>
+    <string name="pref_mediasegment_actions">פעולות על מקטע המדיה</string>
+    <string name="segment_action_skip">דילוג</string>
+    <string name="default_video_zoom">מצב הגדלה ברירת מחדל</string>
+    <string name="segment_action_ask_to_skip">בקש לדלג</string>
 </resources>

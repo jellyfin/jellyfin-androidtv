@@ -31,7 +31,7 @@ class SuggestedMoviesFragment : EnhancedBrowseFragment() {
 				recursive = true,
 			)
 
-			for (item in response.items.orEmpty()) {
+			for (item in response.items) {
 				val similar = GetSimilarItemsRequest(
 					itemId = item.id,
 					fields = setOf(

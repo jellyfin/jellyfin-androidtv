@@ -42,4 +42,6 @@ fun jellyfinPlugin(
 	val playSessionService = PlaySessionService(api)
 	provide(playSessionService)
 	provide(PlaySessionSocketService(api, playSessionService))
+
+	provide(LyricsPlayerService(api))
 }

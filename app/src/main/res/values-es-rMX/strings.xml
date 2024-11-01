@@ -186,7 +186,7 @@
     <string name="lbl_sort_by">Ordenar por</string>
     <string name="lbl_premiere">Estreno</string>
     <string name="lbl_guest_stars">Estrellas invitadas</string>
-    <string name="lbl_on_schedule">En el horario previsto</string>
+    <string name="lbl_on_schedule">En el horario programado</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
     <string name="lbl_series_recordings">Grabaciones de series</string>
     <string name="msg_settings_updated">Preferencias actualizadas</string>
@@ -261,7 +261,7 @@
     <string name="lbl_audio_track">Seleccione pista de audio</string>
     <string name="lbl_pause">Pausa</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina %1$shs</string>
+    <string name="lbl_playback_control_ends">Termina %1$s</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatura</string>
@@ -566,4 +566,16 @@
         <item quantity="other">%1$s horas</item>
     </plurals>
     <string name="because_you_watched">Porque viste%1$s</string>
+    <string name="video_start_delay">Retraso en el inicio del video</string>
+    <string name="pref_mediasegment_actions">Acciones de segmentos de medios</string>
+    <string name="segment_action_nothing">No hacer nada</string>
+    <string name="segment_action_skip">Saltar</string>
+    <string name="segment_type_commercial">Publicidad</string>
+    <string name="segment_type_intro">Intros</string>
+    <string name="segment_type_outro">Créditos</string>
+    <string name="segment_type_preview">Adelantos</string>
+    <string name="segment_type_recap">Resumen</string>
+    <string name="segment_type_unknown">Segmentos desconocidos</string>
+    <string name="default_video_zoom">Modo de ampliación predeterminado</string>
+    <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
 </resources>

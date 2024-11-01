@@ -21,7 +21,7 @@ class ByGenreFragment : BrowseFolderFragment() {
 			sortBy = setOf(ItemSortBy.SORT_NAME),
 		)
 
-		for (genre in genresResponse.items.orEmpty()) {
+		for (genre in genresResponse.items) {
 			val itemsRequest = GetItemsRequest(
 				parentId = folder?.id,
 				sortBy = setOf(ItemSortBy.SORT_NAME),

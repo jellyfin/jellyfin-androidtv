@@ -556,4 +556,16 @@
     <string name="pref_subtitles_size_normal">Normal</string>
     <string name="prefer_exoplayer_ffmpeg">Ses çalma için FFmpeg\'i tercih et</string>
     <string name="prefer_exoplayer_ffmpeg_content">Platform codec bileşenleri mevcut olsa bile ses kodunu çözmek için FFmpeg kullan.</string>
+    <string name="segment_action_ask_to_skip">Atlamak için sor</string>
+    <string name="default_video_zoom">Varsayılan yakınlaştırma modu</string>
+    <string name="video_start_delay">Video başlatma gecikmesi</string>
+    <string name="segment_type_preview">Önizlemeler</string>
+    <string name="segment_type_recap">Özetler</string>
+    <string name="segment_type_unknown">Bilinmeyen segmentler</string>
+    <string name="segment_action_nothing">Hiçbir şey yapma</string>
+    <string name="segment_action_skip">Atla</string>
+    <string name="pref_mediasegment_actions">Medya segmenti eylemleri</string>
+    <string name="segment_type_commercial">Reklamlar</string>
+    <string name="segment_type_intro">İntrolar</string>
+    <string name="segment_type_outro">Kapanış jeneriği</string>
 </resources>

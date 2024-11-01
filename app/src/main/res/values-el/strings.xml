@@ -106,7 +106,7 @@
     <string name="lbl_mark_unplayed">Δεν το έχω δει</string>
     <string name="lbl_play_first_unwatched">Παίξε πρώτα όσα δεν έχω παρακολουθήσει</string>
     <string name="lbl_search_hint">Αναζήτηση κειμένου (επιλέξτε πληκτρολόγιο)</string>
-    <string name="lbl_tv_queuing">Προσθήκη όλων των επόμενων επεισοδίων στην ουρά</string>
+    <string name="lbl_tv_queuing">Αναπαραγωγή του επόμενου επεισοδίου αυτόματα</string>
     <string name="lbl_empty">Άδειο</string>
     <string name="lbl_no_items">Κανένα αντικείμενο</string>
     <string name="msg_cannot_play">Δεν είναι δυνατή η αναπαραγωγή αυτού του αντικειμένου</string>
@@ -248,7 +248,7 @@
     <string name="lbl_repeat_episodes">Επανάληψη επεισοδίων</string>
     <string name="lbl_show_backdrop">Εμφάνιση Φόντου</string>
     <string name="lbl_community_rating">Βαθμολογία κοινού</string>
-    <string name="lbl_hide_unwatched_count">Απόκρυψη μετρητή μη προσβληθέντων</string>
+    <string name="lbl_hide_unwatched_count">Όταν το μέσο έχει ήδη προβληθεί</string>
     <string name="lbl_user_server">%1$s από %2$s</string>
     <string name="msg_no_items">Δεν υπάρχουν αντικείμενα για αναπαραγωγή</string>
     <string name="too_many_errors">Πάρα πολλά σφάλματα. Εγκατάλειψη</string>
@@ -453,7 +453,7 @@
     <string name="lbl_user_last_used">Χρησιμοποιήθηκε τελευταία την %1$s στις %2$s</string>
     <string name="lbl_begin_padding">Περιθώριο έναρξης</string>
     <string name="app_notification_beta">Η εφαρμογή ενημερώθηκε στη(ν) %1$s
-\nΣας ευχαριστούμε για τη συμμετοχή σας στο πρόγραμμα Jellyfin beta</string>
+\nΣας ευχαριστούμε για τη συμμετοχή σας στο πρόγραμμα Jellyfin beta.</string>
     <string name="lbl_end_padding">Περιθώριο τέλους</string>
     <plurals name="minutes">
         <item quantity="one">%1$s λεπτό</item>
@@ -494,4 +494,24 @@
     <string name="channels">Κανάλια</string>
     <string name="photo_albums">Άλμπουμ φωτογραφιών</string>
     <string name="photos">Φωτογραφίες</string>
+    <string name="random">Τυχαίο</string>
+    <string name="lbl_subtitle_text_color">Χρώμα κειμένου υποτίτλων</string>
+    <string name="continue_listening">Συνέχισε την ακρόαση</string>
+    <string name="lbl_subtitle_background_color">Χρώμα φόντου υποτίτλων</string>
+    <string name="lbl_subtitle_text_stroke_color">Χρώμα περιγράμματος υποτίτλων</string>
+    <string name="pref_external_player">Χρήση εξωτερικού προγράμματος αναπαραγωγής</string>
+    <string name="pref_playback_advanced">Προχωρημένες ρυθμίσεις αναπαραγωγής</string>
+    <string name="pref_subtitles_size_very_small">Πολύ μικροί</string>
+    <string name="pref_subtitles_size_small">Μικροί</string>
+    <string name="pref_subtitles_size_normal">Κανονικοί</string>
+    <string name="pref_subtitles_size_large">Μεγάλοι</string>
+    <string name="pref_subtitles_size_very_large">Πολύ μεγάλοι</string>
+    <string name="unreleased">Δεν έχει κυκλοφορήσει ακόμα</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="lbl_hide_watched_checkmark">Όταν υπάρχουν επεισόδια που δεν έχουν προβληθεί</string>
+    <string name="person_birthday_and_age">Έτος γέννησης %1$s (%2$d)</string>
+    <string name="lbl_home">Αρχική</string>
+    <string name="lbl_runtime">Διάρκεια</string>
+    <string name="clear_image_cache_content">Χρησιμοποιούνται: %1$s</string>
+    <string name="clear_image_cache">Εκκαθάριση προσωρινής μνήμης εικόνων</string>
 </resources>

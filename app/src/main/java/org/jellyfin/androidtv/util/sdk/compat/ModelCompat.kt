@@ -77,6 +77,7 @@ fun LegacyMediaSourceInfo.asSdk(): ModernMediaSourceInfo = ModernMediaSourceInfo
 	analyzeDurationMs = null, // this.analyzeDurationMs
 	defaultAudioStreamIndex = this.defaultAudioStreamIndex,
 	defaultSubtitleStreamIndex = this.defaultSubtitleStreamIndex,
+	hasSegments = false,
 )
 
 fun LegacyMediaProtocol.asSdk(): ModernMediaProtocol = when (this) {

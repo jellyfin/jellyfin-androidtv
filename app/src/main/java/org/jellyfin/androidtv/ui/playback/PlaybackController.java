@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
-import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -23,11 +22,11 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
+import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
-import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -69,20 +68,18 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     int mCurrentIndex;
-    private long mCurrentPosition = 0;
+    protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
     private StreamInfo mCurrentStreamInfo;
-    private List<SubtitleStreamInfo> mSubtitleStreams;
 
     @Nullable
     private CustomPlaybackOverlayFragment mFragment;
     private Boolean spinnerOff = false;
 
-    private VideoOptions mCurrentOptions;
-    private int mDefaultSubIndex = -1;
+    protected VideoOptions mCurrentOptions;
     private int mDefaultAudioIndex = -1;
-    private boolean burningSubs = false;
+    protected boolean burningSubs = false;
     private float mRequestedPlaybackSpeed = -1.0f;
 
     private Runnable mReportLoop;
@@ -137,6 +134,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void init(@NonNull VideoManager mgr, @NonNull CustomPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
         mVideoManager.subscribe(this);
+        mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getPlayerZoomMode()));
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
     }
@@ -207,18 +205,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public int getSubtitleStreamIndex() {
         return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1;
-    }
-
-    public List<SubtitleStreamInfo> getSubtitleStreams() {
-        return mSubtitleStreams;
-    }
-
-    public SubtitleStreamInfo getSubtitleStreamInfo(int index) {
-        for (SubtitleStreamInfo info : mSubtitleStreams) {
-            if (info.getIndex() == index) return info;
-        }
-
-        return null;
     }
 
     public boolean isTranscoding() {
@@ -399,7 +385,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         play(position, null);
     }
 
-    private void play(long position, @Nullable Integer forcedSubtitleIndex) {
+    protected void play(long position, @Nullable Integer forcedSubtitleIndex) {
         Timber.i("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
 
         if (mFragment == null) {
@@ -556,6 +542,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
+                    if (internalOptions.getSubtitleStreamIndex() == null) burningSubs = internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.Encode;
                     startItem(item, position, internalResponse);
                 }
 
@@ -598,29 +585,26 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         mStartPosition = position;
-
         mCurrentStreamInfo = response;
-
-        // set media source Id in case we need to switch to transcoding
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
 
+        if (response.getMediaUrl() == null) {
+            // If baking subtitles doesn't work (e.g. no permissions to transcode), disable them
+            if (response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.Encode && (response.getMediaSource().getDefaultSubtitleStreamIndex() == null || response.getMediaSource().getDefaultSubtitleStreamIndex() != -1)) {
+                burningSubs = false;
+                stop();
+                play(position, -1);
+            } else {
+                handlePlaybackInfoError(null);
+            }
+            return;
+        }
+
         // get subtitle info
-        mSubtitleStreams = response.getSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
-        mDefaultSubIndex = response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
+        mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : null);
         setDefaultAudioIndex(response);
         Timber.d("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
-        Timber.d("default sub index set to %s remote default %s", mDefaultSubIndex, response.getMediaSource().getDefaultSubtitleStreamIndex());
-
-        // if burning in, set the subtitle index and the burningSubs flag so that onPrepared and switchSubtitleStream will know that we already have subtitles enabled
-        burningSubs = false;
-        if (mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode && getSubtitleStreamInfo(mDefaultSubIndex) != null &&
-                getSubtitleStreamInfo(mDefaultSubIndex).getDeliveryMethod() == SubtitleDeliveryMethod.Encode) {
-            mCurrentOptions.setSubtitleStreamIndex(mDefaultSubIndex);
-            Timber.d("stream started with burnt in subs");
-            burningSubs = true;
-        } else {
-            mCurrentOptions.setSubtitleStreamIndex(null);
-        }
+        Timber.d("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
 
         Long mbPos = position * 10000;
 
@@ -636,20 +620,30 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mFragment != null) mFragment.updateDisplay();
 
         if (mVideoManager != null) {
-            mVideoManager.setVideoPath(response.getMediaUrl());
+            mVideoManager.setMediaStreamInfo(api.getValue(), response);
         }
 
-        //wait a beat before attempting to start so the player surface is fully initialized and video is ready
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mVideoManager != null)
-                    mVideoManager.start();
+        PlaybackControllerHelperKt.applyMediaSegments(this, item, () -> {
+            // Set video start delay
+            long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
+            if (videoStartDelay > 0) {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mVideoManager != null) {
+                            mVideoManager.start();
+                        }
+                    }
+                }, videoStartDelay);
+            } else {
+                mVideoManager.start();
             }
-        }, 750);
 
-        dataRefreshService.getValue().setLastPlayedItem(item);
-        reportingHelper.getValue().reportStart(item, mbPos);
+            dataRefreshService.getValue().setLastPlayedItem(item);
+            reportingHelper.getValue().reportStart(mFragment, item, mbPos);
+
+            return null;
+        });
     }
 
     public void startSpinner() {
@@ -740,67 +734,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
-
-    public void switchSubtitleStream(int index) {
-        if (!hasInitializedVideoManager())
-            return;
-        // get current timestamp first
-        refreshCurrentPosition();
-        Timber.d("Setting subtitle index to: %d", index);
-
-        // clear the default in case there's an error loading the subtitles
-        mDefaultSubIndex = -1;
-
-        // handle setting subtitles as disabled
-        // restart playback if turning off burnt-in subtitles
-        if (index < 0) {
-            mCurrentOptions.setSubtitleStreamIndex(-1);
-            if (burningSubs) {
-                stop();
-                play(mCurrentPosition, -1);
-            }
-            return;
-        }
-
-        org.jellyfin.sdk.model.api.MediaStream stream = StreamHelper.getMediaStream(getCurrentMediaSource(), index);
-        if (stream == null) {
-            if (mFragment != null)
-                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.subtitle_error));
-            return;
-        }
-        SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
-        if (streamInfo == null) {
-            if (mFragment != null)
-                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-            return;
-        }
-
-        // handle switching on or between burnt-in subtitles, or switching to non-burnt subtitles
-        // if switching from burnt-in subtitles to another type, playback still needs to be restarted
-        if (burningSubs || streamInfo.getDeliveryMethod() == SubtitleDeliveryMethod.Encode) {
-            stop();
-            if (mFragment != null && streamInfo.getDeliveryMethod() == SubtitleDeliveryMethod.Encode)
-                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_burn_sub_warning));
-            play(mCurrentPosition, index);
-            return;
-        }
-
-        // when burnt-in subtitles are selected, mCurrentOptions SubtitleStreamIndex is set in startItem() as soon as playback starts
-        // otherwise mCurrentOptions SubtitleStreamIndex is kept null until now so we knew subtitles needed to be enabled but weren't already
-
-        if (streamInfo.getDeliveryMethod() == SubtitleDeliveryMethod.Embed) {
-            if (!mVideoManager.setExoPlayerTrack(index, MediaStreamType.SUBTITLE, getCurrentlyPlayingItem().getMediaStreams())) {
-                    // error selecting internal subs
-                    if (mFragment != null)
-                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-                } else {
-                    mCurrentOptions.setSubtitleStreamIndex(index);
-                    mDefaultSubIndex = index;
-
-            }
-        }
-    }
-
     public void pause() {
         Timber.d("pause called at %s", mCurrentPosition);
         // if playback is paused and the seekbar is scrubbed, it will call pause even if already paused
@@ -843,7 +776,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
             Long mbPos = mCurrentPosition * 10000;
-            reportingHelper.getValue().reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            reportingHelper.getValue().reportStopped(mFragment, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
             clearPlaybackSessionOptions();
         }
     }
@@ -875,7 +808,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void clearPlaybackSessionOptions() {
-        mDefaultSubIndex = -1;
         mDefaultAudioIndex = -1;
         mSeekPosition = -1;
         finishedInitialSeek = false;
@@ -921,7 +853,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void seek(long pos) {
-        pos = Utils.getSafeSeekPosition(pos, getDuration());
+        seek(pos, false);
+    }
+
+    public void seek(long pos, boolean skipToNext) {
+        if (pos <= 0) pos = 0;
 
         Timber.d("Trying to seek from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo == null ? "unknown" : mCurrentStreamInfo.getContainer());
@@ -940,6 +876,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
         wasSeeking = true;
 
+        // Stop playback when the requested seek position is at the end of the video
+        if (skipToNext && pos >= (getDuration() - 100)) {
+            itemComplete();
+            return;
+        }
+
+        if (pos >= getDuration()) pos = getDuration();
+
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
 
@@ -956,7 +900,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
                     if (mVideoManager != null) {
-                        mVideoManager.setVideoPath(response.getMediaUrl());
+                        mVideoManager.setMediaStreamInfo(api.getValue(), response);
                         mVideoManager.start();
                     }
                 }
@@ -1043,7 +987,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startReportLoop() {
         stopReportLoop();
-        reportingHelper.getValue().reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, false);
+        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1051,7 +995,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     refreshCurrentPosition();
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
 
-                    reportingHelper.getValue().reportProgress(PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
+                    reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
                     mHandler.postDelayed(this, PROGRESS_REPORTING_INTERVAL);
@@ -1063,7 +1007,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startPauseReportLoop() {
         stopReportLoop();
-        reportingHelper.getValue().reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
+        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1084,7 +1028,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
 
-                reportingHelper.getValue().reportProgress(PlaybackController.this, currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
+                reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
                 mHandler.postDelayed(this, PROGRESS_REPORTING_PAUSE_INTERVAL);
             }
         };
@@ -1150,7 +1094,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @Override
     public void onPrepared() {
         if (mPlaybackState == PlaybackState.BUFFERING) {
-            if (mFragment != null) mFragment.setFadingEnabled(true);
+            if (mFragment != null) mFragment.leanbackOverlayFragment.setShouldShowOverlay(false);
 
             mPlaybackState = PlaybackState.PLAYING;
             mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? Instant.now().toEpochMilli() : 0;
@@ -1162,16 +1106,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mPlaybackState == PlaybackState.PAUSED) {
             mPlaybackState = PlaybackState.PLAYING;
         } else {
-            // select or disable subtitles
-            Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
-            if (mDefaultSubIndex >= 0 && currentSubtitleIndex != null && currentSubtitleIndex == mDefaultSubIndex) {
-                Timber.i("subtitle stream %s is already selected", mDefaultSubIndex);
-            } else {
-                if (mDefaultSubIndex < 0)
-                    Timber.i("Turning off subs");
-                else
-                    Timber.i("Enabling default sub stream: %d", mDefaultSubIndex);
-                switchSubtitleStream(mDefaultSubIndex);
+            if (!burningSubs) {
+                // Make sure the requested subtitles are enabled when external/embedded
+                Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
+                if (currentSubtitleIndex == null) currentSubtitleIndex = -1;
+                PlaybackControllerHelperKt.setSubtitleIndex(this, currentSubtitleIndex, true);
             }
 
             // select an audio track
@@ -1261,11 +1200,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return mPlaybackState == PlaybackState.PAUSED;
     }
 
-    public int getZoomMode() {
-        return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : 0;
+    public @NonNull ZoomMode getZoomMode() {
+        return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : ZoomMode.FIT;
     }
 
-    public void setZoom(int mode) {
+    public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
     }

@@ -272,7 +272,7 @@
     <string name="lbl_tomatoes">Tomates</string>
     <string name="lbl_stars">Estrellas</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina %1$shs</string>
+    <string name="lbl_playback_control_ends">Termina %1$s</string>
     <string name="lbl_sign_in">Por favor inicie sesión</string>
     <string name="lbl_subtitle_track">Seleccionar pista de subtítulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
@@ -556,4 +556,26 @@
     <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
     <string name="past_24_hours">Últimas 24 horas</string>
     <string name="continue_listening">Continuar escuchando</string>
+    <string name="lbl_subtitle_text_color">Color del texto de los subtítulos</string>
+    <string name="lbl_subtitle_background_color">Color del fondo de los subtítulos</string>
+    <string name="pref_subtitles_size_small">Pequeño</string>
+    <string name="pref_subtitles_size_normal">Normal</string>
+    <string name="pref_subtitles_size_large">Grande</string>
+    <string name="pref_subtitles_size_very_large">Muy grande</string>
+    <string name="video_start_delay">Retraso en el inicio del video</string>
+    <string name="segment_action_nothing">No hacer nada</string>
+    <string name="segment_action_skip">Saltar</string>
+    <string name="segment_type_intro">Intros</string>
+    <string name="segment_type_outro">Créditos</string>
+    <string name="segment_type_preview">Adelantos</string>
+    <string name="segment_type_recap">Resumen</string>
+    <string name="segment_type_unknown">Segmentos desconocidos</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg para decodificar el audio, incluso si los códecs de la plataforma están disponibles.</string>
+    <string name="lbl_subtitle_text_stroke_color">Color de contorno de los subtítulos</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para reproducir audio</string>
+    <string name="pref_mediasegment_actions">Acciones de segmentos de medios</string>
+    <string name="pref_subtitles_size_very_small">Muy pequeño</string>
+    <string name="segment_type_commercial">Publicidad</string>
+    <string name="default_video_zoom">Modo de ampliación predeterminado</string>
+    <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
 </resources>

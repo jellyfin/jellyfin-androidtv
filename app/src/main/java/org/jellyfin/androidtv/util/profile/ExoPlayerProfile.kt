@@ -214,11 +214,11 @@ class ExoPlayerProfile(
 				Codec.Subtitle.PGSSUB,
 				Codec.Subtitle.DVBSUB,
 				Codec.Subtitle.VTT,
-				Codec.Subtitle.SUB,
 				Codec.Subtitle.IDX,
 			).forEach { codec ->
 				add(subtitleProfile(codec, SubtitleDeliveryMethod.Embed))
 				add(subtitleProfile(codec, SubtitleDeliveryMethod.Hls))
+				add(subtitleProfile(codec, SubtitleDeliveryMethod.External))
 			}
 
 			// Require baking

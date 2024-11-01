@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -72,6 +73,27 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.video_start_delay)
+				min = 0
+				max = 5_000
+				increment = 250
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value.toDouble() / 1000}s"
+				}
+				bind {
+					get { userPreferences[UserPreferences.videoStartDelay].toInt() }
+					set { value -> userPreferences[UserPreferences.videoStartDelay] = value.toLong() }
+					default { UserPreferences.videoStartDelay.defaultValue.toInt() }
+				}
+			}
+
+			enum<ZoomMode> {
+				setTitle(R.string.default_video_zoom)
+				bind(userPreferences, UserPreferences.playerZoomMode)
 			}
 
 			checkbox{

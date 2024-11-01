@@ -434,10 +434,10 @@
     <string name="pref_crash_reports_disabled">Les rapports de plantage ne seront pas envoyés</string>
     <string name="pref_crash_reports_enabled">Les rapports de plantage seront envoyés à votre dernier serveur utilisé</string>
     <string name="pref_crash_reports">Envoyer les rapports de plantage au serveur</string>
-    <string name="pref_telemetry_description">Envoyer les rapports de plantage, inclure les journaux</string>
+    <string name="pref_telemetry_description">Envoyer les rapports de plantage, inclus les journaux</string>
     <string name="pref_telemetry_category">Rapport de plantage</string>
     <string name="image_size_xlarge">Très grand</string>
-    <string name="image_size_smallest">Très petit</string>
+    <string name="image_size_smallest">Très petite</string>
     <string name="lbl_additional_parts">Parties additionnelles</string>
     <string name="image_type_poster">Affiche</string>
     <string name="episode_name_special">special</string>
@@ -564,4 +564,18 @@
     <string name="lbl_subtitle_text_color">Couleur des sous-titres</string>
     <string name="pref_subtitles_size_large">Gros</string>
     <string name="lbl_subtitle_text_stroke_color">Couleur du contour des sous-titres</string>
+    <string name="video_start_delay">Délai de démarrage de la vidéo</string>
+    <string name="prefer_exoplayer_ffmpeg">Préférer FFmpeg pour la lecture audio</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Utilisez FFmpeg pour décoder l\'audio, même si des codecs de plate-forme sont disponibles.</string>
+    <string name="default_video_zoom">Mode zoom par défaut</string>
+    <string name="segment_action_ask_to_skip">Demander de sauter</string>
+    <string name="pref_mediasegment_actions">Actions du segment des médias</string>
+    <string name="segment_action_nothing">Ne rien faire</string>
+    <string name="segment_action_skip">Sauter</string>
+    <string name="segment_type_commercial">Publicités</string>
+    <string name="segment_type_outro">Génériques de fin</string>
+    <string name="segment_type_intro">Génériques de début</string>
+    <string name="segment_type_preview">Aperçus</string>
+    <string name="segment_type_recap">Récapitulatifs</string>
+    <string name="segment_type_unknown">Segments inconnus</string>
 </resources>

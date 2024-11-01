@@ -19,6 +19,7 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.time.Instant
 import java.util.UUID
+import kotlin.time.Duration
 
 fun CustomPlaybackOverlayFragment.toggleFavorite() {
 	val header = mSelectedProgramView as? GuideChannelHeader
@@ -173,4 +174,8 @@ fun CustomPlaybackOverlayFragment.recordProgram(program: BaseItemDto, isSeries: 
 			}
 		)
 	}
+}
+
+fun CustomPlaybackOverlayFragment.askToSkip(position: Duration) {
+	binding.skipOverlay.targetPosition = position
 }

@@ -4,9 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <org.jellyfin.androidtv.ui.ClockUserView
+        android:id="@+id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="40sp" />
 
     <TextView
         android:id="@+id/artistTitle"
@@ -209,6 +214,16 @@
                 android:layout_marginEnd="60dp"
                 android:background="@drawable/shape_card" />
 
+            <androidx.compose.ui.platform.ComposeView
+                android:id="@+id/lyrics"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="60dp"
+                android:background="@drawable/shape_card"
+                android:descendantFocusability="blocksDescendants"
+                android:focusable="false" />
+
             <FrameLayout
                 android:id="@+id/rowsFragment"
                 android:layout_width="match_parent"
@@ -233,14 +248,4 @@
         </RelativeLayout>
 
     </ScrollView>
-
-    <org.jellyfin.androidtv.ui.ClockUserView
-        android:id="@+id/clock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20sp"
-        android:layout_marginEnd="40sp" />
-
 </RelativeLayout>

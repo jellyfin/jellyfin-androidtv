@@ -125,7 +125,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             if (data.hasExtra(API_MX_RESULT_POSITION)) {
                 pos = data.getIntExtra(API_MX_RESULT_POSITION, 0);
             } else if (data.hasExtra(API_VLC_RESULT_POSITION)) {
-                pos = data.getIntExtra(API_VLC_RESULT_POSITION, 0);
+                pos = (int) data.getLongExtra(API_VLC_RESULT_POSITION, 0);
             } else if (data.hasExtra(API_VIMU_RESULT_POSITION)) {
                 pos = data.getIntExtra(API_VIMU_RESULT_POSITION, 0);
             }
@@ -152,7 +152,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         Long reportPos = (long) pos * RUNTIME_TICKS_TO_MS;
 
         stopReportLoop();
-        reportingHelper.getValue().reportStopped(item, mCurrentStreamInfo, reportPos);
+        reportingHelper.getValue().reportStopped(this, item, mCurrentStreamInfo, reportPos);
 
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
@@ -232,13 +232,13 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     private void startReportLoop() {
         PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
-        reportingHelper.getValue().reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
+        reportingHelper.getValue().reportProgress(this, playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, 0, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-                reportingHelper.getValue().reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
+                reportingHelper.getValue().reportProgress(ExternalPlayerActivity.this, playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
                 mHandler.postDelayed(this, 15000);
             }
         };
@@ -374,7 +374,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         try {
             mLastPlayerStart = Instant.now().toEpochMilli();
-            reportingHelper.getValue().reportStart(item, mPosition * RUNTIME_TICKS_TO_MS);
+            reportingHelper.getValue().reportStart(this, item, mPosition * RUNTIME_TICKS_TO_MS);
             startReportLoop();
             startActivityForResult(external, 1);
         } catch (ActivityNotFoundException e) {

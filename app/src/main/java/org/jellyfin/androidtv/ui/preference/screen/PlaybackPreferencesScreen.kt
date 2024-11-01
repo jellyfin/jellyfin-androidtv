@@ -5,6 +5,8 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
+import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -14,10 +16,12 @@ import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
+import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
 
 class PlaybackPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
+	private val mediaSegmentRepository: MediaSegmentRepository by inject()
 
 	override val screen by optionsScreen {
 		setTitle(R.string.pref_playback)
@@ -136,6 +140,29 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					get { userPreferences[UserPreferences.subtitlesTextSize].toString() }
 					set { value -> userPreferences[UserPreferences.subtitlesTextSize] = value.toFloat() }
 					default { UserPreferences.subtitlesTextSize.defaultValue.toString() }
+				}
+			}
+		}
+
+		category {
+			setTitle(R.string.pref_mediasegment_actions)
+
+			for (segmentType in MediaSegmentRepository.SupportedTypes) {
+				enum<MediaSegmentAction> {
+					when (segmentType) {
+						MediaSegmentType.UNKNOWN -> R.string.segment_type_unknown
+						MediaSegmentType.COMMERCIAL -> R.string.segment_type_commercial
+						MediaSegmentType.PREVIEW -> R.string.segment_type_preview
+						MediaSegmentType.RECAP -> R.string.segment_type_recap
+						MediaSegmentType.OUTRO -> R.string.segment_type_outro
+						MediaSegmentType.INTRO -> R.string.segment_type_intro
+					}.let(::setTitle)
+
+					bind {
+						get { mediaSegmentRepository.getDefaultSegmentTypeAction(segmentType) }
+						set { value -> mediaSegmentRepository.setDefaultSegmentTypeAction(segmentType, value) }
+						default { MediaSegmentAction.NOTHING }
+					}
 				}
 			}
 		}

@@ -548,7 +548,7 @@
     <string name="pref_external_player">Usar reprodutor externo</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dolby_atmos">Dolby Atmos</string>
-    <string name="indicator_subtitles">Legendas</string>
+    <string name="indicator_subtitles">CC</string>
     <string name="dts_hd">DTS:HD</string>
     <string name="dca">DTS</string>
     <string name="dts_x">DTS:X</string>
@@ -566,4 +566,16 @@
     <string name="pref_subtitles_size_normal">Normal</string>
     <string name="pref_subtitles_size_large">Grande</string>
     <string name="pref_subtitles_size_very_large">Muito grande</string>
+    <string name="default_video_zoom">Modo de zoom por omissão</string>
+    <string name="video_start_delay">Atraso de início do vídeo</string>
+    <string name="segment_action_ask_to_skip">Perguntar para saltar</string>
+    <string name="segment_type_commercial">Publicidade</string>
+    <string name="segment_type_recap">Recapitulações</string>
+    <string name="segment_type_unknown">Segmentos desconhecidos</string>
+    <string name="segment_action_nothing">Não fazer nada</string>
+    <string name="pref_mediasegment_actions">Ações de segmentos de média</string>
+    <string name="segment_action_skip">Saltar</string>
+    <string name="segment_type_intro">Genéricos</string>
+    <string name="segment_type_preview">Pré-visualizações</string>
+    <string name="segment_type_outro">Créditos</string>
 </resources>

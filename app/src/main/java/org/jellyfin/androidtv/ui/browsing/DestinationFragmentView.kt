@@ -166,7 +166,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 		// Save state
 		return bundleOf(
 			BUNDLE_SUPER to super.onSaveInstanceState(),
-			BUNDLE_HISTORY to history.toTypedArray()
+			BUNDLE_HISTORY to history.toList(),
 		)
 	}
 
@@ -177,11 +177,10 @@ class DestinationFragmentView @JvmOverloads constructor(
 		// Call parent
 		@Suppress("DEPRECATION")
 		val parent = state.getParcelable<Parcelable>(BUNDLE_SUPER)
-		if (parent != null) super.onRestoreInstanceState(parent)
+		super.onRestoreInstanceState(parent)
 
 		// Restore history
-		@Suppress("UNCHECKED_CAST")
-		val savedHistory = BundleCompat.getParcelableArray(state, BUNDLE_HISTORY, HistoryEntry::class.java) as Array<HistoryEntry>?
+		val savedHistory = BundleCompat.getParcelableArrayList(state, BUNDLE_HISTORY, HistoryEntry::class.java)
 		if (savedHistory != null) {
 			history.clear()
 			history.addAll(savedHistory)

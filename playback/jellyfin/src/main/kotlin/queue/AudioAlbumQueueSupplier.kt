@@ -35,6 +35,6 @@ class AudioAlbumQueueSupplier(
 			enableTotalRecordCount = true,
 		)
 		this.size = result.totalRecordCount
-		return result.items.orEmpty().map { createBaseItemQueueEntry(api, it) }
+		return result.items.map { createBaseItemQueueEntry(api, it) }
 	}
 }

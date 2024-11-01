@@ -65,7 +65,7 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="20dp"
         android:clickable="false"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <org.jellyfin.androidtv.ui.AsyncImageView
             android:id="@+id/item_logo"
@@ -115,4 +115,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <org.jellyfin.androidtv.ui.playback.overlay.SkipOverlayView
+        android:id="@+id/skip_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

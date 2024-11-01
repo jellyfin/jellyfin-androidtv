@@ -543,7 +543,7 @@
     <string name="continue_listening">Hallgatás folytatása</string>
     <string name="scheduled_in_next_24_hours">A következő 24 órában</string>
     <string name="past_24_hours">Az elmúlt 24 órában</string>
-    <string name="app_notification_update_soon">Frissítsd a szervert %1$s verzióról legalább a %2$s verzióra, hogy tudd tovább használni az applikációt a következő frissítés után is.</string>
+    <string name="app_notification_update_soon">Frissítsd a szervert %1$s verzióról legalább %2$s verzióra, hogy tudd tovább használni az applikációt a következő frissítés után is.</string>
     <string name="pref_external_player">Külső lejátszó használata</string>
     <string name="current_queue">Lejátszási sor</string>
     <string name="prefer_exoplayer_ffmpeg">FFmpeg hanglejátszás előnyben részesítése</string>
@@ -556,4 +556,16 @@
     <string name="pref_subtitles_size_normal">Normál</string>
     <string name="pref_subtitles_size_large">Nagy</string>
     <string name="pref_subtitles_size_very_large">Nagyon nagy</string>
+    <string name="video_start_delay">Videó indítás késleltetése</string>
+    <string name="default_video_zoom">Alapértelmezett nagyítási mód</string>
+    <string name="segment_type_preview">Előnézetek</string>
+    <string name="segment_type_recap">Összefoglalók</string>
+    <string name="segment_action_nothing">Ne csinálj semmit</string>
+    <string name="segment_action_skip">Átugrás</string>
+    <string name="pref_mediasegment_actions">Média szegmens műveletek</string>
+    <string name="segment_action_ask_to_skip">Kérés az átugrásra</string>
+    <string name="segment_type_commercial">Reklámok</string>
+    <string name="segment_type_outro">Befejezések</string>
+    <string name="segment_type_intro">Bevezetések</string>
+    <string name="segment_type_unknown">Ismeretlen szegmensek</string>
 </resources>

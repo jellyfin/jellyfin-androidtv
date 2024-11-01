@@ -30,6 +30,8 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.picture.PictureViewerViewModel
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
+import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
+import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepositoryImpl
 import org.jellyfin.androidtv.ui.search.SearchFragmentDelegate
 import org.jellyfin.androidtv.ui.search.SearchRepository
 import org.jellyfin.androidtv.ui.search.SearchRepositoryImpl
@@ -52,7 +54,7 @@ import org.jellyfin.sdk.model.ClientInfo
 import org.jellyfin.sdk.model.DeviceInfo
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.jellyfin.apiclient.Jellyfin as JellyfinApiClient
@@ -120,6 +122,7 @@ val appModule = module {
 	single<CustomMessageRepository> { CustomMessageRepositoryImpl() }
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
+	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }
@@ -135,7 +138,7 @@ val appModule = module {
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }
 	single { KeyProcessor() }
-	single { ReportingHelper() }
+	single { ReportingHelper(get(), get()) }
 	single<PlaybackHelper> { SdkPlaybackHelper(get(), get(), get(), get(), get(), get(), get()) }
 
 	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
