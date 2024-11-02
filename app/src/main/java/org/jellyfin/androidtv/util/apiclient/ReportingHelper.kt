@@ -23,16 +23,32 @@ class ReportingHelper(
 	private val dataRefreshService: DataRefreshService,
 	private val api: ApiClient,
 ) {
-	fun reportStart(lifecycleOwner: LifecycleOwner, item: BaseItemDto, position: Long) {
+	fun reportStart(
+		lifecycleOwner: LifecycleOwner,
+		playbackController: PlaybackController,
+		item: BaseItemDto,
+		streamInfo: StreamInfo,
+		position: Long,
+		paused: Boolean
+	) {
 		val info = PlaybackStartInfo(
 			itemId = item.id,
 			positionTicks = position,
-			canSeek = false,
-			isPaused = false,
+			canSeek = (streamInfo.runTimeTicks ?: 0) > 0,
+			isPaused = paused,
+			liveStreamId = streamInfo.mediaSource?.liveStreamId,
+			playSessionId = streamInfo.playSessionId,
+			playMethod = when (requireNotNull(streamInfo.playMethod)) {
+				PlayMethod.Transcode -> org.jellyfin.sdk.model.api.PlayMethod.TRANSCODE
+				PlayMethod.DirectStream -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_STREAM
+				PlayMethod.DirectPlay -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_PLAY
+			},
+			audioStreamIndex = playbackController.audioStreamIndex,
+			subtitleStreamIndex = playbackController.subtitleStreamIndex,
 			isMuted = false,
-			playMethod = org.jellyfin.sdk.model.api.PlayMethod.DIRECT_PLAY,
 			repeatMode = RepeatMode.REPEAT_NONE,
 			playbackOrder = PlaybackOrder.DEFAULT,
+			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
 		lifecycleOwner.lifecycleScope.launch {

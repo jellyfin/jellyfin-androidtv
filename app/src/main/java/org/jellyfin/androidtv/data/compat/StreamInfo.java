@@ -34,14 +34,14 @@ public class StreamInfo {
         MediaUrl = value;
     }
 
-    private PlayMethod PlayMethod = getPlayMethod().values()[0];
+    private PlayMethod playMethod = PlayMethod.DirectPlay;
 
     public final PlayMethod getPlayMethod() {
-        return PlayMethod;
+        return playMethod;
     }
 
     public final void setPlayMethod(PlayMethod value) {
-        PlayMethod = value;
+        playMethod = value;
     }
 
     private EncodingContext Context = EncodingContext.values()[0];

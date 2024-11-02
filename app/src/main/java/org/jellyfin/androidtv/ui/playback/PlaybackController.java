@@ -640,7 +640,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
 
             dataRefreshService.getValue().setLastPlayedItem(item);
-            reportingHelper.getValue().reportStart(mFragment, item, mbPos);
+            reportingHelper.getValue().reportStart(mFragment, PlaybackController.this, item, response, mbPos, false);
 
             return null;
         });
