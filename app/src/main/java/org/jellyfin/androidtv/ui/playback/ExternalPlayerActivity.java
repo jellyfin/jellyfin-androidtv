@@ -374,7 +374,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         try {
             mLastPlayerStart = Instant.now().toEpochMilli();
-            reportingHelper.getValue().reportStart(this, item, mPosition * RUNTIME_TICKS_TO_MS);
+            reportingHelper.getValue().reportStart(this, playbackControllerContainer.getValue().getPlaybackController(), item, mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
             startReportLoop();
             startActivityForResult(external, 1);
         } catch (ActivityNotFoundException e) {
