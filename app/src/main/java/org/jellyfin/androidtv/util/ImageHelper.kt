@@ -115,6 +115,9 @@ class ImageHelper(
 			if (item.albumId != null && item.albumPrimaryImageTag != null) {
 				itemId = item.albumId!!
 				imageTag = item.albumPrimaryImageTag
+			} else if (!item.artistItems.isNullOrEmpty()) {
+				itemId = item.artistItems!!.first().id
+				imageTag = null
 			} else if (!item.albumArtists.isNullOrEmpty()) {
 				itemId = item.albumArtists!!.first().id
 				imageTag = null
