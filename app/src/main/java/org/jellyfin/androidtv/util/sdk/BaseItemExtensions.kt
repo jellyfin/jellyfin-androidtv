@@ -21,6 +21,7 @@ fun BaseItemDto.getSeasonEpisodeName(context: Context): String {
 			&& parentIndexNumber != null
 			&& parentIndexNumber != 0 ->
 			context.getString(R.string.lbl_season_number, parentIndexNumber)
+
 		else -> null
 	}
 
@@ -69,11 +70,13 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 		append(TimeUtils.getFriendlyDate(context, startDate), " ")
 
 	// Add the start and end time
-	append(context.getString(
-		R.string.lbl_time_range,
-		context.getTimeFormatter().format(startDate),
-		context.getTimeFormatter().format(endDate),
-	))
+	append(
+		context.getString(
+			R.string.lbl_time_range,
+			context.getTimeFormatter().format(startDate),
+			context.getTimeFormatter().format(endDate),
+		)
+	)
 }
 
 fun BaseItemDto.getFirstPerson(searchedType: PersonKind) = people?.firstOrNull { it.type == searchedType }
@@ -97,9 +100,11 @@ fun BaseItemDto.getFullName(context: Context): String? = when (type) {
 	}.filterNot { it.isNullOrBlank() }.joinToString(" ")
 	// we actually want the artist name if available
 	BaseItemKind.AUDIO,
-	BaseItemKind.MUSIC_ALBUM -> listOfNotNull(albumArtist, name)
-		.filter { it.isNotEmpty() }
-		.joinToString(" - ")
+	BaseItemKind.MUSIC_ALBUM -> listOfNotNull(
+		artists?.joinToString(", ") ?: albumArtists?.joinToString(", ") ?: albumArtist,
+		name
+	).filter { it.isNotEmpty() }.joinToString(" - ")
+
 	else -> name
 }
 
@@ -111,16 +116,20 @@ fun BaseItemDto.getSubName(context: Context): String? = when (type) {
 				name,
 				TimeUtils.getFriendlyDate(context, premiereDate)
 			)
+
 		else -> name
 	}
+
 	BaseItemKind.SEASON -> when {
 		childCount != null && childCount!! > 0 -> context.getQuantityString(R.plurals.episodes, childCount!!)
 		else -> ""
 	}
+
 	BaseItemKind.MUSIC_ALBUM -> when {
 		childCount != null && childCount!! > 0 -> context.getQuantityString(R.plurals.tracks, childCount!!)
 		else -> ""
 	}
+
 	BaseItemKind.AUDIO -> name
 	else -> officialRating
 }
@@ -137,6 +146,7 @@ fun BaseItemDto.buildChapterItems(api: ApiClient): List<ChapterItemInfo> = chapt
 				tag = dto.imageTag,
 				imageIndex = i,
 			)
+
 			else -> null
 		},
 	)
