@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.sdk.model.api.ChapterInfo;
+import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -162,6 +163,10 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     org.jellyfin.sdk.model.api.BaseItemDto getCurrentlyPlayingItem() {
         return playbackController.getCurrentlyPlayingItem();
+    }
+
+    MediaSourceInfo getCurrentMediaSource() {
+        return playbackController.getCurrentMediaSource();
     }
 
     boolean hasChapters() {

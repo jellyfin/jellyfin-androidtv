@@ -9,10 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.leanback.app.PlaybackSupportFragment;
 
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
+import org.jellyfin.sdk.api.client.ApiClient;
 
+import coil.ImageLoader;
 import kotlin.Lazy;
 import timber.log.Timber;
 
@@ -21,6 +24,9 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     private VideoPlayerAdapter playerAdapter;
     private boolean shouldShowOverlay = true;
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
+    private Lazy<ImageLoader> imageLoader = inject(ImageLoader.class);
+    private Lazy<ApiClient> api = inject(ApiClient.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +99,8 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         playerGlue.invalidatePlaybackControls();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
-        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter) : null);
+        boolean enableTrickPlay = userPreferences.getValue().get(UserPreferences.Companion.getTrickPlayEnabled());
+        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter, imageLoader.getValue(), api.getValue(), requireContext(), enableTrickPlay) : null);
         recordingStateChanged();
         playerAdapter.updateDuration();
     }

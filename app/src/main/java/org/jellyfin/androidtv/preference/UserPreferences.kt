@@ -225,6 +225,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Preferred behavior for player aspect ratio (zoom mode).
 		 */
 		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.FIT)
+
+		/**
+		 * Enable TrickPlay in legacy player user interface while seeking.
+		 */
+		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
 	}
 
 	init {
