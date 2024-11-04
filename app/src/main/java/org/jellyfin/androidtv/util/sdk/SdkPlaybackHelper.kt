@@ -91,6 +91,7 @@ class SdkPlaybackHelper(
 						ItemFields.OVERVIEW,
 						ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 						ItemFields.CHILD_COUNT,
+						ItemFields.TRICKPLAY,
 					)
 				)
 
@@ -119,7 +120,8 @@ class SdkPlaybackHelper(
 					ItemFields.PATH,
 					ItemFields.OVERVIEW,
 					ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-					ItemFields.CHILD_COUNT
+					ItemFields.CHILD_COUNT,
+					ItemFields.TRICKPLAY,
 				)
 			)
 
