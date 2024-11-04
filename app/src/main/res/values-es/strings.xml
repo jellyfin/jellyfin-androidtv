@@ -576,4 +576,6 @@
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para reproducir audio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg para decodificar el audio, incluso si los códecs de la plataforma están disponibles.</string>
     <string name="segment_type_outro">Créditos</string>
+    <string name="default_video_zoom">Modo de ampliación por defecto</string>
+    <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
 </resources>

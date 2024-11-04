@@ -79,6 +79,8 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 		}
 
 	override fun getCardName(context: Context) = when {
+		baseItem?.type == BaseItemKind.AUDIO && baseItem.artists != null -> baseItem.artists?.joinToString(", ")
+		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtists != null -> baseItem.albumArtists?.joinToString(", ")
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtist != null -> baseItem.albumArtist
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.album != null -> baseItem.album
 		else -> baseItem?.getFullName(context)

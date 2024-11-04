@@ -57,7 +57,7 @@ private fun LyricsLine(
 	)
 
 	val scale by animateFloatAsState(
-		targetValue = if (active) 1.5f else 1f,
+		targetValue = if (active) 1.1f else 1f,
 		animationSpec = tween(),
 		label = "LyricsLineScale",
 	)

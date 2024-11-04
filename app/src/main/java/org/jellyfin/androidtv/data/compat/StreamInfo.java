@@ -2,13 +2,13 @@ package org.jellyfin.androidtv.data.compat;
 
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.EncodingContext;
-import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dlna.SubtitleProfile;
 import org.jellyfin.apiclient.model.dlna.TranscodeSeekInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
+import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -34,14 +34,14 @@ public class StreamInfo {
         MediaUrl = value;
     }
 
-    private PlayMethod PlayMethod = getPlayMethod().values()[0];
+    private PlayMethod playMethod = PlayMethod.DirectPlay;
 
     public final PlayMethod getPlayMethod() {
-        return PlayMethod;
+        return playMethod;
     }
 
     public final void setPlayMethod(PlayMethod value) {
-        PlayMethod = value;
+        playMethod = value;
     }
 
     private EncodingContext Context = EncodingContext.values()[0];
@@ -100,10 +100,10 @@ public class StreamInfo {
         MediaSource = value;
     }
 
-    private SubtitleDeliveryMethod SubtitleDeliveryMethod = getSubtitleDeliveryMethod().values()[0];
-
-    public final SubtitleDeliveryMethod getSubtitleDeliveryMethod() {
-        return SubtitleDeliveryMethod;
+    public final org.jellyfin.sdk.model.api.SubtitleDeliveryMethod getSubtitleDeliveryMethod() {
+        Integer subtitleStreamIndex = MediaSource.getDefaultSubtitleStreamIndex();
+        if (subtitleStreamIndex == null || subtitleStreamIndex == -1) return SubtitleDeliveryMethod.DROP;
+        return MediaSource.getMediaStreams().get(subtitleStreamIndex).getDeliveryMethod();
     }
 
     private String PlaySessionId;

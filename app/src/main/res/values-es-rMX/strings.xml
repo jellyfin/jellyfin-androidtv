@@ -261,7 +261,7 @@
     <string name="lbl_audio_track">Seleccione pista de audio</string>
     <string name="lbl_pause">Pausa</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina %1$shs</string>
+    <string name="lbl_playback_control_ends">Termina %1$s</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatura</string>
@@ -576,4 +576,6 @@
     <string name="segment_type_preview">Adelantos</string>
     <string name="segment_type_recap">Resumen</string>
     <string name="segment_type_unknown">Segmentos desconocidos</string>
+    <string name="default_video_zoom">Modo de ampliación predeterminado</string>
+    <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
 </resources>
