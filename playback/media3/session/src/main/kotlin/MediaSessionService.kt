@@ -11,10 +11,12 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaStyleNotificationHelper
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.guava.await
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.metadata
 import org.jellyfin.playback.core.queue.queue
+import timber.log.Timber
 
 class MediaSessionService(
 	private val androidContext: Context,
@@ -45,7 +47,7 @@ class MediaSessionService(
 	}
 
 	@OptIn(UnstableApi::class)
-	private fun updateNotification(session: MediaSession, item: QueueEntry) {
+	private suspend fun updateNotification(session: MediaSession, item: QueueEntry) {
 		val notification = NotificationCompat.Builder(androidContext, options.channelId).apply {
 			// Set metadata
 			setContentTitle(item.metadata.title)
@@ -65,7 +67,12 @@ class MediaSessionService(
 			// Add branding & art
 			setSmallIcon(options.iconSmall)
 			item.metadata.artworkUri?.toUri()?.let { artworkUri ->
-				setLargeIcon(session.bitmapLoader.loadBitmap(artworkUri).get())
+				runCatching {
+					session.bitmapLoader.loadBitmap(artworkUri).await()
+				}.fold(
+					onSuccess = ::setLargeIcon,
+					onFailure = { error -> Timber.w(error, "Failed to retrieve artwork") },
+				)
 			}
 		}.build()
 
