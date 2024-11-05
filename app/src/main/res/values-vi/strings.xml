@@ -511,14 +511,9 @@
     <string name="past_24_hours">24 giờ qua</string>
     <string name="lbl_subtitle_background_color">Màu nền phụ đề</string>
     <string name="lbl_subtitle_text_stroke_color">Màu nét phụ đề</string>
-    <string name="pref_subtitles_size_very_small">Rất nhỏ</string>
-    <string name="pref_subtitles_size_normal">Bình thường</string>
-    <string name="pref_subtitles_size_large">Lớn</string>
-    <string name="pref_subtitles_size_very_large">Rất lớn</string>
     <string name="pref_external_player">Sử dụng trình phát bên ngoài</string>
     <string name="lbl_subtitle_text_color">Màu chữ phụ đề</string>
     <string name="scheduled_in_next_24_hours">Dự kiến trong 24 giờ tới</string>
-    <string name="pref_subtitles_size_small">Nhỏ</string>
     <string name="past_week">Tuần qua</string>
     <string name="continue_listening">Tiếp tục nghe</string>
     <string name="current_queue">Hàng đợi hiện tại</string>

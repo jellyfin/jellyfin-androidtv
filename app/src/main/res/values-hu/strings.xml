@@ -551,11 +551,6 @@
     <string name="lbl_subtitle_text_color">Felirat szövegének színe</string>
     <string name="lbl_subtitle_background_color">Felirat háttérszíne</string>
     <string name="lbl_subtitle_text_stroke_color">Felirat körvonal színe</string>
-    <string name="pref_subtitles_size_very_small">Nagyon kicsi</string>
-    <string name="pref_subtitles_size_small">Kicsi</string>
-    <string name="pref_subtitles_size_normal">Normál</string>
-    <string name="pref_subtitles_size_large">Nagy</string>
-    <string name="pref_subtitles_size_very_large">Nagyon nagy</string>
     <string name="video_start_delay">Videó indítás késleltetése</string>
     <string name="default_video_zoom">Alapértelmezett nagyítási mód</string>
     <string name="segment_type_preview">Előnézetek</string>

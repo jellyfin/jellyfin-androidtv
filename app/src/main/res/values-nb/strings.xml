@@ -545,11 +545,6 @@
     <string name="prefer_exoplayer_ffmpeg_content">Bruk FFmpeg for å dekode lyd, selv om plattformkodeker er tilgjengelige.</string>
     <string name="lbl_subtitle_text_stroke_color">Strekfarge for undertekst</string>
     <string name="lbl_subtitle_text_color">Farge for undertekst</string>
-    <string name="pref_subtitles_size_very_small">Veldig liten</string>
-    <string name="pref_subtitles_size_small">Liten</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_large">Stor</string>
-    <string name="pref_subtitles_size_very_large">Veldig stor</string>
     <string name="current_queue">Aktuell kø</string>
     <string name="past_week">Forrige uke</string>
     <string name="pref_external_player">Bruk ekstern avspiller</string>

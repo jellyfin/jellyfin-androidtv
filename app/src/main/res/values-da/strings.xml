@@ -544,13 +544,8 @@
     <string name="prefer_exoplayer_ffmpeg_content">Brug FFmpeg til at afkode lyd, selvom at platformens kodeks er tilgængelige.</string>
     <string name="segment_type_commercial">Reklamer</string>
     <string name="lbl_subtitle_text_color">Farve på undertekster</string>
-    <string name="pref_subtitles_size_very_small">Meget lille</string>
-    <string name="pref_subtitles_size_small">Lille</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_very_large">Meget stor</string>
     <string name="past_24_hours">Sidste 24 timer</string>
     <string name="continue_listening">Lyt videre</string>
-    <string name="pref_subtitles_size_large">Stor</string>
     <string name="default_video_zoom">Standard zoomtilstand</string>
     <string name="segment_action_ask_to_skip">Spørg for spolning</string>
     <string name="pref_external_player">Brug ekstern afspiller</string>

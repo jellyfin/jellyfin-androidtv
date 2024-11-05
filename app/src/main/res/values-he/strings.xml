@@ -558,15 +558,10 @@
     <string name="pref_screensaver_ageratingrequired_enabled">מציג פריטים שיש להם הגבלת גיל</string>
     <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
     <string name="pref_screensaver_ageratingmax">דירוג גיל מקסימלי</string>
-    <string name="pref_subtitles_size_large">גדול</string>
     <string name="prefer_exoplayer_ffmpeg">העדף FFmpeg לניגון שמע</string>
     <string name="lbl_subtitle_background_color">צבע רקע הכתוביות</string>
     <string name="lbl_subtitle_text_stroke_color">צבע קו הכתוביות</string>
     <string name="lbl_subtitle_text_color">צבע הכתוביות</string>
-    <string name="pref_subtitles_size_very_small">קטן מאוד</string>
-    <string name="pref_subtitles_size_small">קטן</string>
-    <string name="pref_subtitles_size_normal">רגיל</string>
-    <string name="pref_subtitles_size_very_large">גדול מאוד</string>
     <string name="prefer_exoplayer_ffmpeg_content">השתמש ב-FFmpeg לפיענוח שמע, גם אם נמצאים מקודדים של הפלטפורמה.</string>
     <string name="video_start_delay">עיכוב בתחילת הוידיאו</string>
     <string name="segment_action_nothing">לא לעשות כלום</string>

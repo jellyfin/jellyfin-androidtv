@@ -450,11 +450,6 @@
     <string name="continue_listening">Continuar escuchando</string>
     <string name="lbl_subtitle_text_color">Color del texto de los subtítulos</string>
     <string name="lbl_subtitle_text_stroke_color">Color de contorno de los subtítulos</string>
-    <string name="pref_subtitles_size_very_small">Muy pequeño</string>
-    <string name="pref_subtitles_size_small">Pequeño</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_large">Grande</string>
-    <string name="pref_subtitles_size_very_large">Muy grande</string>
     <string name="pref_external_player">Usar reproductor externo</string>
     <string name="lbl_hide_watched_checkmark">Cuando hayan episodios sin ver</string>
     <string name="color_white">Blanco</string>

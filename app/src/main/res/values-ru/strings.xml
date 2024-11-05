@@ -526,7 +526,6 @@
     <string name="lbl_runtime">Среда выполнения</string>
     <string name="lbl_subtitle_background_color">Цвет фона субтитров</string>
     <string name="lbl_subtitle_text_color">Цвет текста субтитров</string>
-    <string name="pref_subtitles_size_very_small">Очень маленький</string>
     <string name="default_video_zoom">Режим масштабирования по умолчанию</string>
     <plurals name="movies">
         <item quantity="one">%1$s фильм</item>
@@ -569,10 +568,6 @@
     <string name="segment_type_outro">Аутро</string>
     <string name="segment_type_preview">Предпросмотр</string>
     <string name="lbl_subtitle_text_stroke_color">Цвет штриха субтитров</string>
-    <string name="pref_subtitles_size_small">Маленький</string>
-    <string name="pref_subtitles_size_normal">Обычный</string>
-    <string name="pref_subtitles_size_large">Большой</string>
-    <string name="pref_subtitles_size_very_large">Очень большой</string>
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>

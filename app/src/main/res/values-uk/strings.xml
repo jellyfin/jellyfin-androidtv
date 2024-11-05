@@ -568,12 +568,7 @@
     <string name="continue_listening">Продовжити слухати</string>
     <string name="lbl_subtitle_background_color">Колір фону субтитрів</string>
     <string name="lbl_subtitle_text_color">Колір тексту субтитрів</string>
-    <string name="pref_subtitles_size_very_small">Дуже маленькі</string>
-    <string name="pref_subtitles_size_very_large">Дуже великі</string>
     <string name="lbl_subtitle_text_stroke_color">Колір обведення субтитрів</string>
-    <string name="pref_subtitles_size_small">Маленькі</string>
-    <string name="pref_subtitles_size_normal">Нормальні</string>
-    <string name="pref_subtitles_size_large">Великі</string>
     <string name="prefer_exoplayer_ffmpeg">Надавати перевагу FFmpeg для відтворення аудіо</string>
     <string name="prefer_exoplayer_ffmpeg_content">Використовувати FFmpeg для декодування аудіо, навіть якщо доступні кодеки платформи.</string>
     <string name="video_start_delay">Затримка запуску відео</string>
