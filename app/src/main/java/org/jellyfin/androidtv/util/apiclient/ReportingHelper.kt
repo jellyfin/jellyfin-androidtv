@@ -53,7 +53,9 @@ class ReportingHelper(
 
 		lifecycleOwner.lifecycleScope.launch {
 			Timber.i("Reporting ${item.name} playback started at $position")
-			api.playStateApi.reportPlaybackStart(info)
+			runCatching {
+				api.playStateApi.reportPlaybackStart(info)
+			}.onFailure { error -> Timber.e(error, "Failed to report started playback!") }
 		}
 	}
 
@@ -87,7 +89,9 @@ class ReportingHelper(
 
 		lifecycleOwner.lifecycleScope.launch {
 			Timber.d("Reporting ${item.name} playback progress at $position")
-			api.playStateApi.reportPlaybackProgress(info)
+			runCatching {
+				api.playStateApi.reportPlaybackProgress(info)
+			}.onFailure { error -> Timber.w(error, "Failed to report playback progress") }
 		}
 	}
 
@@ -103,7 +107,9 @@ class ReportingHelper(
 
 		lifecycleOwner.lifecycleScope.launch {
 			Timber.i("Reporting ${item.name} playback stopped at $position")
-			api.playStateApi.reportPlaybackStopped(info)
+			runCatching {
+				api.playStateApi.reportPlaybackStopped(info)
+			}.onFailure { error -> Timber.e(error, "Failed to report stopped playback!") }
 		}
 
 		// Update dataRefreshService
