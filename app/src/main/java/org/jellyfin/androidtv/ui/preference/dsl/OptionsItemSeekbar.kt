@@ -9,7 +9,6 @@ import java.util.UUID
 class OptionsItemSeekbar(
 	private val context: Context
 ) : OptionsItemMutable<Int>() {
-
 	var content: String? = null
 	var min: Int = 0
 	var max: Int = 100

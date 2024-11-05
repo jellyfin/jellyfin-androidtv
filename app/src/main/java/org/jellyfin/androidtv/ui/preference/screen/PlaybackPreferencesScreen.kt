@@ -13,11 +13,11 @@ import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.colorList
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
-import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
+import kotlin.math.roundToInt
 
 class PlaybackPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
@@ -126,20 +126,20 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			}
 
 			@Suppress("MagicNumber")
-			list {
+			// Stored in floats (1f = 100%) but seekbar preference works with integers only
+			seekbar {
 				setTitle(R.string.pref_subtitles_size)
-				entries = mapOf(
-					0.25f to context.getString(R.string.pref_subtitles_size_very_small),
-					0.5f to context.getString(R.string.pref_subtitles_size_small),
-					1.0f to context.getString(R.string.pref_subtitles_size_normal),
-					1.5f to context.getString(R.string.pref_subtitles_size_large),
-					2.0f to context.getString(R.string.pref_subtitles_size_very_large),
-				).mapKeys { it.key.toString() }
+				min = 25 // 0.25f
+				max = 250 // 2.5f
+				increment = 25 // 0.25f
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "$value%"
+				}
 
 				bind {
-					get { userPreferences[UserPreferences.subtitlesTextSize].toString() }
-					set { value -> userPreferences[UserPreferences.subtitlesTextSize] = value.toFloat() }
-					default { UserPreferences.subtitlesTextSize.defaultValue.toString() }
+					get { (userPreferences[UserPreferences.subtitlesTextSize] * 100f).roundToInt() }
+					set { value -> userPreferences[UserPreferences.subtitlesTextSize] = value / 100f }
+					default { (UserPreferences.subtitlesTextSize.defaultValue * 100f).roundToInt() }
 				}
 			}
 		}
