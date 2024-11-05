@@ -2,22 +2,20 @@ package org.jellyfin.androidtv.ui.home
 
 import android.content.Context
 import androidx.leanback.widget.Row
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
-import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.CollectionType
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 
 class HomeFragmentLatestRow(
 	private val userRepository: UserRepository,
-	private val userViewsRepository: UserViewsRepository,
+	private val userViews: Collection<BaseItemDto>,
 ) : HomeFragmentRow {
 	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: MutableObjectAdapter<Row>) {
 		// Get configuration (to find excluded items)
@@ -25,8 +23,7 @@ class HomeFragmentLatestRow(
 
 		// Create a list of views to include
 		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty()
-		val views = runBlocking { userViewsRepository.views.first() }
-		views
+		userViews
 			.filterNot { item -> item.collectionType in EXCLUDED_COLLECTION_TYPES || item.id in latestItemsExcludes }
 			.map { item ->
 				// Create query and add it to a new row

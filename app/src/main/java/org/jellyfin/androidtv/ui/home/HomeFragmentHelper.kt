@@ -4,8 +4,8 @@ import android.content.Context
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
-import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
@@ -18,10 +18,9 @@ import org.jellyfin.sdk.model.api.ItemFields as SdkItemFields
 class HomeFragmentHelper(
 	private val context: Context,
 	private val userRepository: UserRepository,
-	private val userViewsRepository: UserViewsRepository,
 ) {
-	fun loadRecentlyAdded(): HomeFragmentRow {
-		return HomeFragmentLatestRow(userRepository, userViewsRepository)
+	fun loadRecentlyAdded(userViews: Collection<BaseItemDto>): HomeFragmentRow {
+		return HomeFragmentLatestRow(userRepository, userViews)
 	}
 
 	fun loadResume(title: String, includeMediaTypes: Collection<MediaType>): HomeFragmentRow {
