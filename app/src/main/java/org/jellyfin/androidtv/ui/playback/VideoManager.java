@@ -415,7 +415,11 @@ public class VideoManager {
                         if (trackFormat.id != null) {
                             int id;
                             try {
-                                id = Integer.parseInt(trackFormat.id);
+                                if (trackFormat.id.contains(":")) {
+                                    id = Integer.parseInt(trackFormat.id.split(":")[1]);
+                                } else {
+                                    id = Integer.parseInt(trackFormat.id);
+                                }
                             } catch (NumberFormatException e) {
                                 Timber.d("failed to parse track ID [%s]", trackFormat.id);
                                 break;
@@ -483,7 +487,11 @@ public class VideoManager {
 
                 int id;
                 try {
-                    id = Integer.parseInt(trackFormat.id);
+                    if (trackFormat.id.contains(":")) {
+                        id = Integer.parseInt(trackFormat.id.split(":")[1]);
+                    } else {
+                        id = Integer.parseInt(trackFormat.id);
+                    }
                     if (id != exoTrackID)
                         continue;
                 } catch (NumberFormatException e) {
