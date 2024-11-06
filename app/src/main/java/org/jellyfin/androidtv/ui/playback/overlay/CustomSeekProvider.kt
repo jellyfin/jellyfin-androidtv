@@ -23,6 +23,9 @@ class CustomSeekProvider(
 	private val trickPlayEnabled: Boolean,
 	private val forwardTime: Int
 ) : PlaybackSeekDataProvider() {
+	companion object {
+		private const val SEEK_LENGTH = 10000L
+	}
 	private val imageRequests = mutableMapOf<Int, Disposable>()
 
 	override fun getSeekPositions(): LongArray {
