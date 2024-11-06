@@ -153,7 +153,6 @@
     <string name="lbl_show_indicators">इंडिकेटर दिखाएं</string>
     <string name="lbl_guide_option_number">चैनल नंबर</string>
     <string name="lbl_premiere">प्रीमियर</string>
-    <string name="pref_subtitles_size_very_large">बहुत बड़ा</string>
     <string name="lbl_resume_from">%1$s से शुरू करें</string>
     <string name="lbl_more_like_this">इसके जैसे</string>
     <string name="lbl_new_only">सिर्फ नए</string>
@@ -188,10 +187,6 @@
     <string name="lbl_subtitle_text_color">सबटाइटल का रंग</string>
     <string name="lbl_subtitle_background_color">सबटाइटल के बैकग्राउंड का रंग</string>
     <string name="lbl_subtitle_text_stroke_color">टाइटल के स्ट्रोक का रंग</string>
-    <string name="pref_subtitles_size_very_small">बहुत छोटा</string>
-    <string name="pref_subtitles_size_small">छोटा</string>
-    <string name="pref_subtitles_size_normal">सामान्य</string>
-    <string name="pref_subtitles_size_large">बड़ा</string>
     <string name="pref_next_up_behavior_title">अगले वीडियो की जानकारी दिखाएं</string>
     <string name="pref_app_theme">ऐप थीम</string>
     <string name="pref_device_model">डिवाइस मॉडल</string>

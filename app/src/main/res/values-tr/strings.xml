@@ -548,12 +548,7 @@
     <string name="past_24_hours">Son 24 saat</string>
     <string name="lbl_subtitle_background_color">Altyazı arka plan rengi</string>
     <string name="lbl_subtitle_text_stroke_color">Altyazı kontur rengi</string>
-    <string name="pref_subtitles_size_small">Küçük</string>
-    <string name="pref_subtitles_size_large">Büyük</string>
-    <string name="pref_subtitles_size_very_large">Çok büyük</string>
     <string name="lbl_subtitle_text_color">Altyazı metin rengi</string>
-    <string name="pref_subtitles_size_very_small">Çok küçük</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
     <string name="prefer_exoplayer_ffmpeg">Ses çalma için FFmpeg\'i tercih et</string>
     <string name="prefer_exoplayer_ffmpeg_content">Platform codec bileşenleri mevcut olsa bile ses kodunu çözmek için FFmpeg kullan.</string>
     <string name="segment_action_ask_to_skip">Atlamak için sor</string>

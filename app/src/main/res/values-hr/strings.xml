@@ -551,22 +551,17 @@
         <item quantity="few">%1$s zapisa</item>
         <item quantity="other">%1$s zapisi</item>
     </plurals>
-    <string name="pref_subtitles_size_large">Veći</string>
     <string name="video_start_delay">Odgoda početka videa</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Prikaži samo stavke sa postavljenom dobnom skupinom</string>
     <string name="segment_action_ask_to_skip">Pitaj za preskok</string>
     <string name="pref_mediasegment_actions">Akcije dijelova medija</string>
     <string name="app_notification_update_soon">Nadogradi server sa %1$s na barem %2$s kako bi nastavio koristiti aplikaciju nakon nadogradnje.</string>
-    <string name="pref_subtitles_size_small">Manji</string>
     <string name="prefer_exoplayer_ffmpeg_content">Daj prednost FFMpeg-u za audio iako Codec postoji na uređaju.</string>
     <string name="pref_external_player">Koristi vanjski video reproduktor</string>
     <string name="current_queue">Trenutni niz</string>
     <string name="lbl_subtitle_text_color">Boja podnaslova</string>
     <string name="lbl_subtitle_background_color">Boja pozadine podnaslova</string>
-    <string name="pref_subtitles_size_very_small">Najmanji</string>
     <string name="lbl_subtitle_text_stroke_color">Boja ruba podnaslova</string>
-    <string name="pref_subtitles_size_normal">Normalni</string>
-    <string name="pref_subtitles_size_very_large">Najveći</string>
     <string name="past_week">Prošli tjedan</string>
     <string name="pref_playback_advanced">Napredne postavke reprodukcije</string>
     <string name="unreleased">Neobjavljeno</string>

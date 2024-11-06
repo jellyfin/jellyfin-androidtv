@@ -561,11 +561,6 @@
     <string name="lbl_subtitle_text_color">Cor das legendas</string>
     <string name="lbl_subtitle_background_color">Cor do fundo das legendas</string>
     <string name="lbl_subtitle_text_stroke_color">Cor do contorno do texto das legendas</string>
-    <string name="pref_subtitles_size_very_small">Muito pequeno</string>
-    <string name="pref_subtitles_size_small">Pequeno</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_large">Grande</string>
-    <string name="pref_subtitles_size_very_large">Muito grande</string>
     <string name="default_video_zoom">Modo de zoom por omissão</string>
     <string name="video_start_delay">Atraso de início do vídeo</string>
     <string name="segment_action_ask_to_skip">Perguntar para saltar</string>

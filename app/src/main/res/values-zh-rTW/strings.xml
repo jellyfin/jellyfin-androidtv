@@ -509,11 +509,6 @@
     <string name="lbl_subtitle_text_color">字幕文字顏色</string>
     <string name="lbl_subtitle_background_color">字幕背景顏色</string>
     <string name="lbl_subtitle_text_stroke_color">字幕邊框顏色</string>
-    <string name="pref_subtitles_size_very_small">很小</string>
-    <string name="pref_subtitles_size_small">小</string>
-    <string name="pref_subtitles_size_normal">正常</string>
-    <string name="pref_subtitles_size_large">大</string>
-    <string name="pref_subtitles_size_very_large">很大</string>
     <string name="past_week">過去一週</string>
     <string name="scheduled_in_next_24_hours">預計未來 24 小時內</string>
     <string name="past_24_hours">過去 24 小時</string>

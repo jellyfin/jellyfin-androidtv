@@ -496,17 +496,12 @@
     <string name="photo_albums">Valokuva-albumit</string>
     <string name="lbl_subtitle_text_color">Tekstityksen väri</string>
     <string name="lbl_subtitle_background_color">Tekstityksen taustan väri</string>
-    <string name="pref_subtitles_size_very_large">Erittäin suuri</string>
     <string name="lbl_home">Koti</string>
     <string name="continue_listening">Jatka kuuntelua</string>
     <string name="clear_image_cache">Tyhjennä kuvavälimuisti</string>
     <string name="app_notification_update_soon">Päivitä palvelimesi versiosta %1$s vähintään versioon %2$s jatkaaksesi äpin käyttöä seuraavan päivityksen jälkeen.</string>
     <string name="pref_playback_advanced">Toiston lisäasetukset</string>
     <string name="lbl_subtitle_text_stroke_color">Tekstityksen reunan väri</string>
-    <string name="pref_subtitles_size_very_small">Erittäin pieni</string>
-    <string name="pref_subtitles_size_small">Pieni</string>
-    <string name="pref_subtitles_size_normal">Normaali</string>
-    <string name="pref_subtitles_size_large">Suuri</string>
     <string name="unreleased">Ei vielä julkaistu</string>
     <string name="random">Satunnainen</string>
 </resources>

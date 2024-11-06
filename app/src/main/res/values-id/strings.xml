@@ -365,16 +365,11 @@
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="continue_listening">Lanjut mendengar</string>
     <string name="lbl_subtitle_background_color">Warna Latar Subtitle</string>
-    <string name="pref_subtitles_size_normal">Sedang</string>
     <string name="licenses_link_description">Lihat lisensi perpustakaan yang digunakan oleh aplikasi Jellyfin</string>
     <string name="pref_subtitles_background_summary">Tampilkan latar belakang hitam di belakang subtitle</string>
     <string name="home_section_library">Media saya</string>
     <string name="lbl_subtitle_text_color">Warna Teks Subtitle</string>
     <string name="lbl_subtitle_text_stroke_color">Warna Goresan Subtitle</string>
-    <string name="pref_subtitles_size_very_small">Sangat Kecil</string>
-    <string name="pref_subtitles_size_small">Kecil</string>
-    <string name="pref_subtitles_size_large">Besar</string>
-    <string name="pref_subtitles_size_very_large">sangat Besar</string>
     <string name="color_white">Putih</string>
     <string name="home_prefs">Beranda</string>
     <string name="pref_external_player">Gunakan Pemain Video Eksternal</string>

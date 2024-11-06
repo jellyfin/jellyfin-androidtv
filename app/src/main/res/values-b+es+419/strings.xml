@@ -558,10 +558,6 @@
     <string name="continue_listening">Continuar escuchando</string>
     <string name="lbl_subtitle_text_color">Color del texto de los subtítulos</string>
     <string name="lbl_subtitle_background_color">Color del fondo de los subtítulos</string>
-    <string name="pref_subtitles_size_small">Pequeño</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_large">Grande</string>
-    <string name="pref_subtitles_size_very_large">Muy grande</string>
     <string name="video_start_delay">Retraso en el inicio del video</string>
     <string name="segment_action_nothing">No hacer nada</string>
     <string name="segment_action_skip">Saltar</string>
@@ -574,7 +570,6 @@
     <string name="lbl_subtitle_text_stroke_color">Color de contorno de los subtítulos</string>
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para reproducir audio</string>
     <string name="pref_mediasegment_actions">Acciones de segmentos de medios</string>
-    <string name="pref_subtitles_size_very_small">Muy pequeño</string>
     <string name="segment_type_commercial">Publicidad</string>
     <string name="default_video_zoom">Modo de ampliación predeterminado</string>
     <string name="segment_action_ask_to_skip">Preguntar para saltar</string>

@@ -559,11 +559,6 @@
     <string name="lbl_subtitle_text_color">Color de text dels subtítols</string>
     <string name="lbl_subtitle_background_color">Color de fons dels subtítols</string>
     <string name="lbl_subtitle_text_stroke_color">Color de traç dels subtítols</string>
-    <string name="pref_subtitles_size_very_small">Molt petit</string>
-    <string name="pref_subtitles_size_small">Petit</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_large">Gran</string>
-    <string name="pref_subtitles_size_very_large">Molt gran</string>
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg per reproducció d\'àudio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Utilitzar FFmpeg per a descodificar l\'àudio, encara que els còdecs de plataforma estiguin disponibles.</string>
 </resources>

@@ -395,12 +395,7 @@
     </plurals>
     <string name="lbl_subtitle_text_color">Боја титла</string>
     <string name="lbl_subtitle_background_color">Боја позадине титла</string>
-    <string name="pref_subtitles_size_very_small">Веома мало</string>
-    <string name="pref_subtitles_size_small">Мало</string>
-    <string name="pref_subtitles_size_normal">Нормално</string>
-    <string name="pref_subtitles_size_large">Велико</string>
     <string name="lbl_subtitle_text_stroke_color">Боја ивице титла</string>
-    <string name="pref_subtitles_size_very_large">Веома велико</string>
     <string name="image_type_poster">Постер</string>
     <string name="image_size_smallest">Најмање</string>
     <string name="pref_external_player">Користи екстерни плејер</string>

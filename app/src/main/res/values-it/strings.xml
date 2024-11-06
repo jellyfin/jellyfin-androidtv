@@ -558,11 +558,6 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Mostra solo gli elementii con classificazione per età</string>
     <string name="lbl_subtitle_text_color">Colore testo sottotitolo</string>
     <string name="lbl_subtitle_background_color">Colore sfondo sottotitolo</string>
-    <string name="pref_subtitles_size_very_small">Molto piccolo</string>
-    <string name="pref_subtitles_size_small">Piccolo</string>
-    <string name="pref_subtitles_size_normal">Normale</string>
-    <string name="pref_subtitles_size_large">Grande</string>
-    <string name="pref_subtitles_size_very_large">Molto grande</string>
     <string name="prefer_exoplayer_ffmpeg">Preferisci FFmpeg per la riproduzione audio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg per la decodifica audia anche se il dispositivo fornisce il codec nativamente.</string>
 </resources>

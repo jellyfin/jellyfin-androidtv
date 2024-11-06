@@ -501,11 +501,6 @@
     <string name="lbl_subtitle_text_stroke_color">Χρώμα περιγράμματος υποτίτλων</string>
     <string name="pref_external_player">Χρήση εξωτερικού προγράμματος αναπαραγωγής</string>
     <string name="pref_playback_advanced">Προχωρημένες ρυθμίσεις αναπαραγωγής</string>
-    <string name="pref_subtitles_size_very_small">Πολύ μικροί</string>
-    <string name="pref_subtitles_size_small">Μικροί</string>
-    <string name="pref_subtitles_size_normal">Κανονικοί</string>
-    <string name="pref_subtitles_size_large">Μεγάλοι</string>
-    <string name="pref_subtitles_size_very_large">Πολύ μεγάλοι</string>
     <string name="unreleased">Δεν έχει κυκλοφορήσει ακόμα</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="lbl_hide_watched_checkmark">Όταν υπάρχουν επεισόδια που δεν έχουν προβληθεί</string>

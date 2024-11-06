@@ -569,11 +569,6 @@
     <string name="lbl_subtitle_text_color">Kolor tekstu napisów</string>
     <string name="lbl_subtitle_background_color">Kolor tła napisów</string>
     <string name="lbl_subtitle_text_stroke_color">Kolor obrysu napisów</string>
-    <string name="pref_subtitles_size_very_small">Bardzo małe</string>
-    <string name="pref_subtitles_size_small">Małe</string>
-    <string name="pref_subtitles_size_normal">Normalne</string>
-    <string name="pref_subtitles_size_large">Duże</string>
-    <string name="pref_subtitles_size_very_large">Bardzo duże</string>
     <string name="prefer_exoplayer_ffmpeg_content">Użyj FFmpeg do dekodowania dźwięku, nawet jeśli kodeki platformy są dostępne.</string>
     <string name="prefer_exoplayer_ffmpeg">Preferuj FFmpeg do odtwarzania dźwięku</string>
     <string name="video_start_delay">Opóźnienie rozpoczęcia wideo</string>
@@ -588,4 +583,5 @@
     <string name="segment_type_preview">Zapowiedzi</string>
     <string name="segment_action_ask_to_skip">Pytaj o pominięcie</string>
     <string name="default_video_zoom">Domyślny tryb powiększenia</string>
+    <string name="preference_enable_trickplay">Włącz trickplay w odtwarzaczu wideo</string>
 </resources>

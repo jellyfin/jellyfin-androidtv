@@ -549,11 +549,6 @@
     <string name="lbl_subtitle_text_color">Farbe des Untertiteltextes</string>
     <string name="lbl_subtitle_background_color">Hintergrundfarbe des Untertitels</string>
     <string name="lbl_subtitle_text_stroke_color">Farbe des Untertitelstrichs</string>
-    <string name="pref_subtitles_size_very_small">Sehr klein</string>
-    <string name="pref_subtitles_size_small">Klein</string>
-    <string name="pref_subtitles_size_normal">Normal</string>
-    <string name="pref_subtitles_size_large">Groß</string>
-    <string name="pref_subtitles_size_very_large">Sehr groß</string>
     <string name="prefer_exoplayer_ffmpeg">Bevorzuge FFmpeg für Audio Wiedergabe</string>
     <string name="prefer_exoplayer_ffmpeg_content">Nutze FFmpeg um Audio zu dekodieren, auch wenn System Codecs vorhanden sind.</string>
     <string name="video_start_delay">Video-Startverzögerung</string>

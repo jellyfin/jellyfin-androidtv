@@ -886,6 +886,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         // Stop playback when the requested seek position is at the end of the video
         if (skipToNext && pos >= (getDuration() - 100)) {
+            // Since we've skipped ahead, set the current position so the PlaybackStopInfo will report the correct end time
+            mCurrentPosition = getDuration();
             itemComplete();
             return;
         }
