@@ -23,9 +23,6 @@ class CustomSeekProvider(
 	private val trickPlayEnabled: Boolean,
 	private val forwardTime: Int
 ) : PlaybackSeekDataProvider() {
-	companion object {
-		private const val SEEK_LENGTH = 10000L
-	}
 	private val imageRequests = mutableMapOf<Int, Disposable>()
 
 	override fun getSeekPositions(): LongArray {
@@ -51,7 +48,7 @@ class CustomSeekProvider(
 		val trickPlayInfo = trickPlayResolutions?.values?.firstOrNull()
 		if (trickPlayInfo == null) return
 
-		val currentTimeMs = (index * SEEK_LENGTH).coerceIn(0, videoPlayerAdapter.duration)
+		val currentTimeMs = (index * forwardTime.toLong()).coerceIn(0, videoPlayerAdapter.duration)
 		val currentTile = currentTimeMs.floorDiv(trickPlayInfo.interval).toInt()
 
 		val tileSize = trickPlayInfo.tileWidth * trickPlayInfo.tileHeight

@@ -104,10 +104,9 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
 
         Integer skipForwardLength = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength());
-        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter, skipForwardLength) : null);
 
         boolean enableTrickPlay = userPreferences.getValue().get(UserPreferences.Companion.getTrickPlayEnabled());
-        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter, imageLoader.getValue(), api.getValue(), requireContext(), enableTrickPlay) : null);
+        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter, imageLoader.getValue(), api.getValue(), requireContext(), enableTrickPlay, skipForwardLength) : null);
         recordingStateChanged();
         playerAdapter.updateDuration();
     }
