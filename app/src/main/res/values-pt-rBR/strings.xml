@@ -77,7 +77,7 @@
     <string name="msg_cannot_play">Este item não pode ser reproduzido</string>
     <string name="lbl_no_items">Sem itens</string>
     <string name="lbl_empty">Vazio</string>
-    <string name="lbl_tv_queuing">Enfileirar todos os próximos episódios</string>
+    <string name="lbl_tv_queuing">Reproduzir próximo episódio automaticamente</string>
     <string name="lbl_search_hint">Buscar texto (selecione para teclado)</string>
     <string name="lbl_play_first_unwatched">Reproduzir não assistido primeiro</string>
     <string name="lbl_mark_unplayed">Marcar como Não Reproduzido</string>
@@ -454,7 +454,7 @@
     <string name="server_setup_incomplete">A configuração desse servidor não foi concluída. Abra o Jellyfin em um navegador para concluir a configuração antes de fazer login.</string>
     <string name="episode_name_special">especial</string>
     <string name="app_notification_beta">Aplicativo atualizado para %1$s
-\nObrigado por participar do programa beta do Jellyfin</string>
+\nObrigado por participar do programa beta do Jellyfin.</string>
     <string name="item_deleted">%1$s deletado</string>
     <string name="pref_enable_media_management">Ativar o gerenciamento de mídia</string>
     <string name="item_delete_confirm_title">Deletar item</string>
@@ -548,4 +548,16 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Desabilitar máximo</string>
     <string name="pref_screensaver_ageratingrequired_title">Requerer classificação etária</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Exibindo todos os itens</string>
+    <string name="app_notification_update_soon">Atualize o servidor de %1$s a pelo menos %2$s para continuar usando o aplicativo após a próxima atualização.</string>
+    <string name="scheduled_in_next_24_hours">Marcado nas próximas 24 horas</string>
+    <string name="past_24_hours">Últimas 24 horas</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para reprodução de áudio</string>
+    <string name="video_start_delay">Atraso de início de vídeo</string>
+    <string name="default_video_zoom">Modo de zoom padrão</string>
+    <string name="lbl_subtitle_text_color">Cor do texto da legenda</string>
+    <string name="lbl_subtitle_background_color">Cor do fundo da legenda</string>
+    <string name="lbl_subtitle_text_stroke_color">Cor da borda da legenda</string>
+    <string name="continue_listening">Continuar reproduzindo</string>
+    <string name="all_channels">Todos os canais</string>
+    <string name="past_week">Ultima semana</string>
 </resources>
