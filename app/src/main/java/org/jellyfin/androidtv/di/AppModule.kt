@@ -2,10 +2,12 @@ package org.jellyfin.androidtv.di
 
 import android.content.Context
 import android.os.Build
-import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.decode.SvgDecoder
+import coil3.ImageLoader
+import coil3.gif.AnimatedImageDecoder
+import coil3.gif.GifDecoder
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
+import coil3.serviceLoaderEnabled
+import coil3.svg.SvgDecoder
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -103,8 +105,10 @@ val appModule = module {
 	// Coil (images)
 	single {
 		ImageLoader.Builder(androidContext()).apply {
+			serviceLoaderEnabled(false)
 			components {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(ImageDecoderDecoder.Factory())
+				add(OkHttpNetworkFetcherFactory())
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(AnimatedImageDecoder.Factory())
 				else add(GifDecoder.Factory())
 				add(SvgDecoder.Factory())
 			}

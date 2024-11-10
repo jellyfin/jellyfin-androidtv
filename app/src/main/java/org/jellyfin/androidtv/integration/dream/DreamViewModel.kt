@@ -2,11 +2,11 @@ package org.jellyfin.androidtv.integration.dream
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil.ImageLoader
-import coil.request.ImageRequest
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -123,13 +123,13 @@ class DreamViewModel(
 				val logoDeferred = async {
 					imageLoader.execute(
 						request = ImageRequest.Builder(context).data(logoUrl).build()
-					).drawable?.toBitmap()
+					).image?.toBitmap()
 				}
 
 				val backdropDeferred = async {
 					imageLoader.execute(
 						request = ImageRequest.Builder(context).data(backdropUrl).build()
-					).drawable?.toBitmap()
+					).image?.toBitmap()
 				}
 
 				awaitAll(logoDeferred, backdropDeferred)

@@ -1,8 +1,8 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
 import android.text.format.Formatter
-import coil.ImageLoader
-import coil.annotation.ExperimentalCoilApi
+import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.SystemPreferences
