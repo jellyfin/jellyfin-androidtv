@@ -560,4 +560,6 @@
     <string name="continue_listening">Continuar reproduzindo</string>
     <string name="all_channels">Todos os canais</string>
     <string name="past_week">Ultima semana</string>
+    <string name="pref_external_player">Usar reprodutor externo</string>
+    <string name="current_queue">Fila atual</string>
 </resources>
