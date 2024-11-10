@@ -888,6 +888,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (skipToNext && pos >= (getDuration() - 100)) {
             // Since we've skipped ahead, set the current position so the PlaybackStopInfo will report the correct end time
             mCurrentPosition = getDuration();
+            // Make sure we also set the seek position so it won't get overwritten in refreshCurrentPosition()
+            mSeekPosition = mCurrentPosition;
             itemComplete();
             return;
         }
