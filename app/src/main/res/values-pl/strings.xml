@@ -584,4 +584,5 @@
     <string name="segment_action_ask_to_skip">Pytaj o pominięcie</string>
     <string name="default_video_zoom">Domyślny tryb powiększenia</string>
     <string name="preference_enable_trickplay">Włącz trickplay w odtwarzaczu wideo</string>
+    <string name="skip_forward_length">Długość pomijania do przodu</string>
 </resources>
