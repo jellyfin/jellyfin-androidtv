@@ -3,9 +3,9 @@ package org.jellyfin.androidtv.data.service
 import android.content.Context
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.core.graphics.drawable.toBitmap
-import coil.ImageLoader
-import coil.request.ImageRequest
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -124,7 +124,7 @@ class BackgroundService(
 			_backgrounds = backdropUrls.mapNotNull { url ->
 				imageLoader.execute(
 					request = ImageRequest.Builder(context).data(url).build()
-				).drawable?.toBitmap()?.asImageBitmap()
+				).image?.toBitmap()?.asImageBitmap()
 			}
 
 			// Go to first background

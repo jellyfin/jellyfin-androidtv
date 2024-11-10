@@ -1,12 +1,15 @@
 package org.jellyfin.androidtv.ui.playback.overlay
 
 import android.content.Context
-import androidx.core.graphics.drawable.toBitmap
 import androidx.leanback.widget.PlaybackSeekDataProvider
-import coil.ImageLoader
-import coil.request.Disposable
-import coil.request.ImageRequest
-import coil.size.Size
+import coil3.ImageLoader
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
+import coil3.request.Disposable
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.size.Size
+import coil3.toBitmap
 import org.jellyfin.androidtv.util.coil.SubsetTransformation
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.trickplayApi
@@ -70,22 +73,24 @@ class CustomSeekProvider(
 		imageRequests[index] = imageLoader.enqueue(ImageRequest.Builder(context).apply {
 			data(url)
 			size(Size.ORIGINAL)
-			addHeader(
-				"Authorization",
-				AuthorizationHeaderBuilder.buildHeader(
-					api.clientInfo.name,
-					api.clientInfo.version,
-					api.deviceInfo.id,
-					api.deviceInfo.name,
-					api.accessToken
+			httpHeaders(NetworkHeaders.Builder().apply {
+				set(
+					key = "Authorization",
+					value = AuthorizationHeaderBuilder.buildHeader(
+						api.clientInfo.name,
+						api.clientInfo.version,
+						api.deviceInfo.id,
+						api.deviceInfo.name,
+						api.accessToken
+					)
 				)
-			)
+			}.build())
 
 			transformations(SubsetTransformation(offsetX, offsetY, trickPlayInfo.width, trickPlayInfo.height))
 
 			target(
-				onSuccess = { result ->
-					val bitmap = result.current.toBitmap()
+				onSuccess = { image ->
+					val bitmap = image.toBitmap()
 					callback.onThumbnailLoaded(bitmap, index)
 				}
 			)

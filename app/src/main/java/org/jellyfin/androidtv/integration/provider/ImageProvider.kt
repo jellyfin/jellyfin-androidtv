@@ -9,8 +9,9 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import coil.ImageLoader
-import coil.request.ImageRequest
+import coil3.ImageLoader
+import coil3.asDrawable
+import coil3.request.ImageRequest
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.koin.android.ext.android.inject
@@ -37,8 +38,8 @@ class ImageProvider : ContentProvider() {
 			data(src)
 			error(R.drawable.placeholder_icon)
 			target(
-				onSuccess = { drawable -> writeDrawable(drawable, outputStream) },
-				onError = { drawable -> writeDrawable(requireNotNull(drawable), outputStream) }
+				onSuccess = { image -> writeDrawable(image.asDrawable(context!!.resources), outputStream) },
+				onError = { image -> writeDrawable(requireNotNull(image?.asDrawable(context!!.resources)), outputStream) }
 			)
 		}.build())
 

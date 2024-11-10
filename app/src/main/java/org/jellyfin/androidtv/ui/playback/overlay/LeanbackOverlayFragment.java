@@ -16,7 +16,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
 import org.jellyfin.sdk.api.client.ApiClient;
 
-import coil.ImageLoader;
+import coil3.ImageLoader;
 import kotlin.Lazy;
 import timber.log.Timber;
 

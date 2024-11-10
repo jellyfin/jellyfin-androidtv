@@ -9,9 +9,13 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
+import coil3.ImageLoader
+import coil3.asImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.request.target
+import coil3.request.transformations
+import coil3.transform.CircleCropTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -88,9 +92,9 @@ class AsyncImageView @JvmOverloads constructor(
 
 					target(this@AsyncImageView)
 					data(url)
-					placeholder(placeholderOrBlurHash)
+					placeholder(placeholderOrBlurHash?.asImage())
 					if (circleCrop) transformations(CircleCropTransformation())
-					error(placeholder)
+					error(placeholder?.asImage())
 				}.build())
 			}
 		}
