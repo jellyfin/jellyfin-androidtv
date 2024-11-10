@@ -102,7 +102,10 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 						group.length == 1 && group.getTrackFormat(0).id?.endsWith(":JF_EXTERNAL:$index") == true
 					}
 				} else {
-					mVideoManager.mExoPlayer.currentTracks.groups.getOrNull(stream.index)
+					// Filter out external subtitle streams before attempting to find the ExoPlayer track group
+					mVideoManager.mExoPlayer.currentTracks.groups.filterNot { group ->
+						group.length == 1 && group.getTrackFormat(0).id.orEmpty().contains(":JF_EXTERNAL:")
+					}.getOrNull(stream.index)
 				}?.mediaTrackGroup
 
 				if (group == null) {
