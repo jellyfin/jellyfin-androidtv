@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.preference.screen
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
@@ -15,13 +16,18 @@ import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
+import org.jellyfin.preference.store.PreferenceStore
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
 
 class PlaybackPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
+	private val userSettingPreferences: UserSettingPreferences by inject()
 	private val mediaSegmentRepository: MediaSegmentRepository by inject()
+
+	override val stores: Array<PreferenceStore<*, *>>
+		get() = arrayOf(userSettingPreferences)
 
 	override val screen by optionsScreen {
 		setTitle(R.string.pref_playback)
@@ -59,6 +65,19 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_enable_cinema_mode)
 				setContent(R.string.sum_enable_cinema_mode)
 				bind(userPreferences, UserPreferences.cinemaModeEnabled)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.skip_forward_length)
+				setContent(R.string.skip_forward_length)
+				min = 5_000
+				max = 30_000
+				increment = 5_000
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int) = "${value / 1000}s"
+				}
+				bind(userSettingPreferences, UserSettingPreferences.skipForwardLength)
 			}
 		}
 

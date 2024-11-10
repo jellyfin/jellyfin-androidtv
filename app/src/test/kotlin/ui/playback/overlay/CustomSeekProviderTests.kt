@@ -11,7 +11,7 @@ class CustomSeekProviderTests : FunSpec({
 			every { canSeek() } returns true
 			every { duration } returns 30000L
 		}
-		val customSeekProvider = CustomSeekProvider(videoPlayerAdapter, mockk(), mockk(), mockk(), false)
+		val customSeekProvider = CustomSeekProvider(videoPlayerAdapter, mockk(), mockk(), mockk(), false, 10_000)
 
 		customSeekProvider.seekPositions shouldBe arrayOf(0L, 10000L, 20000L, 30000L)
 	}
@@ -21,7 +21,7 @@ class CustomSeekProviderTests : FunSpec({
 			every { canSeek() } returns true
 			every { duration } returns 45000L
 		}
-		val customSeekProvider = CustomSeekProvider(videoPlayerAdapter, mockk(), mockk(), mockk(), false)
+		val customSeekProvider = CustomSeekProvider(videoPlayerAdapter, mockk(), mockk(), mockk(), false, 10_000)
 
 		customSeekProvider.seekPositions shouldBe arrayOf(0L, 10000, 20000, 30000, 40000, 45000)
 	}
@@ -30,7 +30,7 @@ class CustomSeekProviderTests : FunSpec({
 		val videoPlayerAdapter = mockk<VideoPlayerAdapter> {
 			every { canSeek() } returns false
 		}
-		val customSeekProvider = CustomSeekProvider(videoPlayerAdapter, mockk(), mockk(), mockk(), false)
+		val customSeekProvider = CustomSeekProvider(videoPlayerAdapter, mockk(), mockk(), mockk(), false, 10_000)
 
 		customSeekProvider.seekPositions.size shouldBe 0
 	}

@@ -523,6 +523,7 @@
     <string name="segment_type_preview">Previews</string>
     <string name="segment_type_recap">Recaps</string>
     <string name="segment_type_unknown">Unknown segments</string>
+    <string name="skip_forward_length">Skip forward length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
