@@ -1,0 +1,3 @@
+Android TV용 Jellyfin을 사용해주셔서 감사합니다! 최신 Jellyfin 서버의 사용을 권장합니다.
+
+자세한 내용은 jellyfin.org 공식 블로그 또는 GitHub의 전체 변경 기록을 참고하세요.
