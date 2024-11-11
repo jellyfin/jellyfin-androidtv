@@ -117,7 +117,7 @@
     <string name="lbl_name">Nome</string>
     <string name="lbl_date_added">Últimos adicionados</string>
     <string name="lbl_premier_date">Data de estreia</string>
-    <string name="lbl_critic_rating">Avaliação dos críticos</string>
+    <string name="lbl_critic_rating">Classificação dos críticos</string>
     <string name="lbl_rating">Classificação</string>
     <string name="lbl_starting_with">começar por aqueles cujo nome começa por</string>
     <string name="lbl_display_preferences">Preferências de visualização</string>
@@ -154,14 +154,14 @@
     <string name="lbl_remove_from_queue">Remover da fila</string>
     <string name="lbl_goto_now_playing">Ir para a reproduzir</string>
     <string name="lbl_instant_mix">Mistura instantânea</string>
-    <string name="lbl_delete">Remover</string>
+    <string name="lbl_delete">Eliminar</string>
     <string name="msg_item_added">" item adicionado"</string>
     <string name="desc_automatic_fav_songs">Lista automática de músicas favoritas</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
     <string name="lbl_zoom">Aumentar</string>
-    <string name="desc_bitstream_ac3">Necessita material adequado</string>
+    <string name="desc_bitstream_ac3">Precisas de hardware compatível</string>
     <string name="lbl_bitstream_ac3">Fluxo Dolby Digital audio</string>
     <string name="lbl_new_premieres">Novas estreias</string>
     <string name="lbl_now_playing_album">desde %1$s</string>
@@ -265,7 +265,7 @@
     <string name="pref_clock_display_browsing">Durante a navegação</string>
     <string name="lbl_always">Sempre</string>
     <string name="pref_clock_display">Mostrar relógio</string>
-    <string name="pref_default_rating">Tipo padrão de avaliação</string>
+    <string name="pref_default_rating">Tipo de classificação predefinida</string>
     <string name="lbl_tomatoes">Tomates</string>
     <string name="lbl_stars">Estrelas</string>
     <string name="watch_count_overflow">99+</string>
@@ -289,7 +289,7 @@
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de séries</string>
     <string name="lbl_hide_unwatched_count">Quando o item é visto</string>
     <string name="pref_watched_indicator">Mostrar indicadores de visto</string>
-    <string name="login_help_description">O Jellyfin precisa de um servidor para se ligar. Visita a nossa documentação em docs.jellyfin.org ou faça scan ao código QR para começar com o Jellyfin.</string>
+    <string name="login_help_description">O Jellyfin precisa de um servidor para se ligar. Visita a nossa documentação em docs.jellyfin.org ou lê o código QR para começares a usar o Jellyfin.</string>
     <string name="login_help_title">Precisa de ajuda\?</string>
     <string name="connect_manually_by_address">Introduzir endereço do servidor</string>
     <string name="discovered_servers_empty">Servidores não encontrados na rede local.</string>
@@ -359,7 +359,7 @@
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Esticar</string>
     <string name="lbl_auto_crop">Recorte automático</string>
-    <string name="lbl_community_rating">Avaliação da comunidade</string>
+    <string name="lbl_community_rating">Classificação da comunidade</string>
     <string name="lbl_playback_speed">Velocidade de reprodução</string>
     <string name="lbl_shuffle_queue">Reprodução aleatória</string>
     <string name="home_section_resume_book">Continuar a ler</string>
@@ -456,11 +456,11 @@
     <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
     <string name="episode_name_special">especial</string>
     <string name="pref_enable_media_management">Ativar a gestão de multimédia</string>
-    <string name="item_delete_confirm_title">Apagar item</string>
-    <string name="item_deleted">%1$s apagado</string>
-    <string name="item_deletion_failed">Não foi possível apagar %1$s</string>
+    <string name="item_delete_confirm_title">Eliminar item</string>
+    <string name="item_deleted">%1$s eliminado</string>
+    <string name="item_deletion_failed">Não foi possível eliminar %1$s</string>
     <string name="pref_enable_media_management_description">Mostrar opção para gerir media enquanto navega</string>
-    <string name="item_delete_confirm_message">Tem a certeza que pretende apagar este ítem do servidor? Esta ação é irreversível.</string>
+    <string name="item_delete_confirm_message">Tens a certeza de que queres eliminar este item do servidor? Esta ação não pode ser anulada.</string>
     <plurals name="tracks">
         <item quantity="one">faixa</item>
         <item quantity="many">faixas</item>
@@ -574,4 +574,5 @@
     <string name="segment_type_preview">Pré-visualizações</string>
     <string name="segment_type_outro">Créditos</string>
     <string name="preference_enable_trickplay">Ativar trickplay no leitor de vídeo</string>
+    <string name="skip_forward_length">Avançar reprodução (segundos)</string>
 </resources>
