@@ -532,4 +532,5 @@
     <string name="default_video_zoom">Chế độ thu phóng mặc định</string>
     <string name="segment_action_ask_to_skip">Yêu cầu bỏ qua</string>
     <string name="preference_enable_trickplay">Bật ảnh xem thử trong trình phát video</string>
+    <string name="skip_forward_length">Bỏ qua chiều dài phía trước</string>
 </resources>
