@@ -563,4 +563,6 @@
     <string name="segment_action_nothing">Gør intet</string>
     <string name="pref_mediasegment_actions">Mediesegmenthandlinger</string>
     <string name="segment_type_unknown">Ukendte segmenter</string>
+    <string name="skip_forward_length">Længde der spoles frem med</string>
+    <string name="preference_enable_trickplay">Slå trickplay til i videoafspiller</string>
 </resources>
