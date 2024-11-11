@@ -12,6 +12,7 @@ import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.asDrawable
 import coil3.request.ImageRequest
+import coil3.request.error
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.koin.android.ext.android.inject
