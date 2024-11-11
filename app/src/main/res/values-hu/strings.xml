@@ -563,4 +563,6 @@
     <string name="segment_type_outro">Befejezések</string>
     <string name="segment_type_intro">Bevezetések</string>
     <string name="segment_type_unknown">Ismeretlen szegmensek</string>
+    <string name="preference_enable_trickplay">Trickplay engedélyezése a videolejátszóban</string>
+    <string name="skip_forward_length">Előreugrás hossza</string>
 </resources>
