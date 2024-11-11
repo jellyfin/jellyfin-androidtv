@@ -579,4 +579,5 @@
     <string name="default_video_zoom">מצב הגדלה ברירת מחדל</string>
     <string name="segment_action_ask_to_skip">בקש לדלג</string>
     <string name="preference_enable_trickplay">הפעלת טריקפליי בנגן הוידיאו</string>
+    <string name="skip_forward_length">גודל דילוג קדימה</string>
 </resources>
