@@ -36,16 +36,17 @@ class ClosedCaptionsAction(
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
+				var order = 0
+				add(0, -1, order++, context.getString(R.string.lbl_none)).apply {
+					isChecked = playbackController.subtitleStreamIndex == -1
+				}
+
 				for (sub in playbackController.currentMediaSource.mediaStreams.orEmpty()) {
 					if (sub.type != MediaStreamType.SUBTITLE) continue
 
-					add(0, sub.index, sub.index, sub.displayTitle).apply {
+					add(0, sub.index, order++, sub.displayTitle).apply {
 						isChecked = sub.index == playbackController.subtitleStreamIndex
 					}
-				}
-
-				add(0, -1, 0, context.getString(R.string.lbl_none)).apply {
-					isChecked = playbackController.subtitleStreamIndex == -1
 				}
 
 				setGroupCheckable(0, true, false)
