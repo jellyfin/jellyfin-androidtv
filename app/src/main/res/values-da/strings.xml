@@ -519,7 +519,7 @@
     </plurals>
     <plurals name="albums">
         <item quantity="one">%1$s album</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s albummer</item>
     </plurals>
     <string name="clear_image_cache_content">Brugt: %1$s</string>
     <string name="clear_image_cache">Ryd billedcache</string>
