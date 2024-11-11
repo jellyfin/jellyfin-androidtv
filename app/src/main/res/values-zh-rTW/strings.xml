@@ -19,7 +19,7 @@
     <string name="settings_title">設定</string>
     <string name="btn_cancel">取消</string>
     <string name="pref_max_bitrate_title">最大串流位元率</string>
-    <string name="pref_playback">重播</string>
+    <string name="pref_playback">播放設定</string>
     <string name="loading">讀取中…</string>
     <string name="video_error_unknown_error">載入影片失敗</string>
     <string name="lbl_movies">電影</string>
@@ -36,7 +36,7 @@
     <string name="lbl_on_now">正在觀看</string>
     <string name="lbl_next_up">接下來</string>
     <string name="lbl_repeat_options">重複的選項</string>
-    <string name="msg_playback_incompatible">無法播放這該影片格式</string>
+    <string name="msg_playback_incompatible">無法播放此影片格式</string>
     <string name="lbl_ok">確定</string>
     <string name="lbl_recordings">錄音</string>
     <string name="lbl_videos">影片</string>
@@ -90,7 +90,7 @@
     <string name="msg_cannot_play">此項目無法播放</string>
     <string name="msg_cannot_play_time">現在無法播放此項目</string>
     <string name="msg_playback_restricted">目前管理員不允許播放此項目</string>
-    <string name="msg_playback_not_allowed">此時無法重播</string>
+    <string name="msg_playback_not_allowed">前無法播放</string>
     <string name="lbl_born">"生日 "</string>
     <string name="lbl_sports">體育</string>
     <string name="lbl_select_date">選擇日期</string>
@@ -295,7 +295,7 @@
     <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？</string>
     <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？</string>
     <string name="lbl_load_guide_data">載入指南資料</string>
-    <string name="episode_missing_message_2">您的收藏庫中沒有這一集。即將停止播放。</string>
+    <string name="episode_missing_message_2">您的媒體庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
     <string name="episode_missing">缺少集數</string>
     <string name="no_player_message">您似乎沒有可以播放影片的程式。這個選項需要您安裝第三方程式來播放影片。</string>
@@ -496,7 +496,7 @@
     <string name="clear_image_cache">清除圖片緩存</string>
     <string name="photo_albums">相冊</string>
     <string name="photos">照片</string>
-    <string name="pref_playback_advanced">高級回放偏好</string>
+    <string name="pref_playback_advanced">進階播放設定</string>
     <string name="pref_screensaver_ageratingmax">最大年齡分級</string>
     <string name="pref_screensaver_ageratingmax_zero">所有年齡段</string>
     <string name="pref_screensaver_ageratingmax_unlimited">停用最大值</string>
@@ -532,4 +532,27 @@
     <string name="pref_mediasegment_actions">媒體片段動作</string>
     <string name="segment_action_nothing">無動作</string>
     <string name="segment_action_skip">直接跳過</string>
+    <string name="preference_enable_trickplay">影片播放器中啟用特技播放功能</string>
+    <string name="segment_type_commercial">廣告</string>
+    <string name="segment_type_intro">片頭</string>
+    <string name="segment_type_preview">預告</string>
+    <string name="segment_type_outro">片尾</string>
+    <string name="segment_type_recap">前情提要</string>
+    <string name="segment_type_unknown">未知片段</string>
+    <plurals name="albums">
+        <item quantity="other">%1$s張專輯</item>
+    </plurals>
+    <string name="skip_forward_length">快轉長度</string>
+    <plurals name="songs">
+        <item quantity="other">%1$s首歌曲</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="other">%1$s 部電影</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="other">%1$s項目</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s 部電視劇</item>
+    </plurals>
 </resources>
