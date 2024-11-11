@@ -554,4 +554,5 @@
     <string name="segment_action_ask_to_skip">请求跳过</string>
     <string name="default_video_zoom">默认缩放模式</string>
     <string name="preference_enable_trickplay">在视频播放器中启用特技播放</string>
+    <string name="skip_forward_length">向前跳过长度</string>
 </resources>
