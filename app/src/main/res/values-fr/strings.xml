@@ -574,4 +574,5 @@
     <string name="segment_type_recap">Récapitulatifs</string>
     <string name="segment_type_unknown">Segments inconnus</string>
     <string name="preference_enable_trickplay">Activer trickplay dans le lecteur vidéo</string>
+    <string name="skip_forward_length">Longueur de l\'avance rapide</string>
 </resources>
