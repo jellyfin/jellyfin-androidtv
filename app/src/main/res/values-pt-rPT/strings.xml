@@ -65,7 +65,7 @@
     <string name="lbl_play_trailers">Reproduzir trailer(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
-    <string name="lbl_enter_server_address">Introduza o endereço do servidor</string>
+    <string name="lbl_enter_server_address">Introduz o endereço do servidor</string>
     <string name="lbl_valid_server_address">Por favor, introduza o endereço do servidor (IP ou domínio/nome do servidor)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascido "</string>
@@ -140,9 +140,9 @@
     <string name="lbl_songs">Músicas</string>
     <string name="lbl_album">Álbum</string>
     <string name="lbl_episodes">Episódios</string>
-    <string name="lbl_enable_cinema_mode">Ativar Modo Cinema</string>
+    <string name="lbl_enable_cinema_mode">Modo Cinema</string>
     <string name="sum_enable_cinema_mode">Ativar introduções e pré-visualizações antes do filme</string>
-    <string name="lbl_playlists">Listas de reprodução</string>
+    <string name="lbl_playlists">Playlists</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="lbl_add_to_queue">Adicionar à fila</string>
     <string name="lbl_open_artist">Abrir artista</string>
@@ -237,14 +237,14 @@
     <string name="desc_premieres">Mostrar uma lista de novos episódios piloto para as séries a que assiste</string>
     <string name="lbl_refresh_switching">Altera taxa de atualização</string>
     <string name="lbl_show_backdrop">Mostrar Pano de Fundo Enquanto Navega</string>
-    <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instales uma aplicação de terceiros para reproduzir conteúdos de vídeo.</string>
+    <string name="no_player_message">Não parece que tenhas uma aplicação compatível com vídeo instalada. Esta opção necessita que instales uma aplicação de terceiros para reproduzir conteúdos de vídeo.</string>
     <string name="just_one">Apenas este</string>
     <string name="turn_off">Desative esta opção</string>
     <string name="audio_error">Impossível reproduzir áudio %1$s</string>
     <string name="msg_no_items">Sem itens para reproduzir</string>
     <string name="subtitle_error">Impossível selecionar legendas</string>
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
-    <string name="player_error">Erro no reprodutor. A retentar…</string>
+    <string name="player_error">Ocorreu um erro no leitor. A tentar novamente…</string>
     <string name="seek_error">Impossível saltar</string>
     <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores\?</string>
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
@@ -271,7 +271,7 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina às %1$s</string>
     <string name="lbl_sign_in">Por Favor autentique-se</string>
-    <string name="no_player">Nenhum reprodutor encontrado</string>
+    <string name="no_player">Nenhum leitor encontrado</string>
     <string name="lbl_tv_filter_status">pelas próximas %1$d horas</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canais</string>
     <string name="lbl_subtitle_track">Selecionar faixa de legendas</string>
@@ -302,8 +302,8 @@
     <string name="image_size_small">Pequeno</string>
     <string name="image_type_banner">Faixa</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="enable_smart_view_description">Ecrã inteligente mostra artigos relevantes em vez de tabela</string>
-    <string name="enable_smart_view">Ligar ecrã inteligente</string>
+    <string name="enable_smart_view_description">O ecrã inteligente mostra itens relevantes em vez de uma grelha</string>
+    <string name="enable_smart_view">Ativar ecrã inteligente</string>
     <string name="lbl_sign_out">Sair</string>
     <string name="lbl_remove">Remover</string>
     <string name="lbl_server">Servidor</string>
@@ -455,7 +455,7 @@
     <string name="crash_report_toast">Ops! Algo correu mal, foi enviado um relatório do problema para o teu servidor Jellyfin.</string>
     <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
     <string name="episode_name_special">especial</string>
-    <string name="pref_enable_media_management">Activar gestão de media</string>
+    <string name="pref_enable_media_management">Ativar a gestão de multimédia</string>
     <string name="item_delete_confirm_title">Apagar item</string>
     <string name="item_deleted">%1$s apagado</string>
     <string name="item_deletion_failed">Não foi possível apagar %1$s</string>
@@ -469,7 +469,7 @@
     <string name="disable_ui_mode_warning">Desativar aviso de tipo de dispositivo</string>
     <string name="enable_reactive_homepage">Ativar pagina inicial reativa</string>
     <string name="pref_screensaver">Papel de parede</string>
-    <string name="pref_screensaver_inapp_enabled">Usar papel de parede da aplicação</string>
+    <string name="pref_screensaver_inapp_enabled">Utilizar proteção de ecrã da aplicação</string>
     <string name="pref_screensaver_inapp_enabled_description">Ver o papel de parede do Jellyfin enquanto a aplicação estiver aberta</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar o papel de parede depois de</string>
     <string name="not_set">Não definido</string>
@@ -545,7 +545,7 @@
         <item quantity="other">%1$s itens</item>
     </plurals>
     <string name="current_queue">Fila atual</string>
-    <string name="pref_external_player">Usar reprodutor externo</string>
+    <string name="pref_external_player">Utilizar leitor externo</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="indicator_subtitles">CC</string>
@@ -561,16 +561,17 @@
     <string name="lbl_subtitle_text_color">Cor das legendas</string>
     <string name="lbl_subtitle_background_color">Cor do fundo das legendas</string>
     <string name="lbl_subtitle_text_stroke_color">Cor do contorno do texto das legendas</string>
-    <string name="default_video_zoom">Modo de zoom por omissão</string>
+    <string name="default_video_zoom">Modo de zoom predefinido</string>
     <string name="video_start_delay">Atraso de início do vídeo</string>
     <string name="segment_action_ask_to_skip">Perguntar para saltar</string>
     <string name="segment_type_commercial">Publicidade</string>
     <string name="segment_type_recap">Recapitulações</string>
     <string name="segment_type_unknown">Segmentos desconhecidos</string>
     <string name="segment_action_nothing">Não fazer nada</string>
-    <string name="pref_mediasegment_actions">Ações de segmentos de média</string>
+    <string name="pref_mediasegment_actions">Ações de segmentos de multimédias</string>
     <string name="segment_action_skip">Saltar</string>
-    <string name="segment_type_intro">Genéricos</string>
+    <string name="segment_type_intro">Introduções</string>
     <string name="segment_type_preview">Pré-visualizações</string>
     <string name="segment_type_outro">Créditos</string>
+    <string name="preference_enable_trickplay">Ativar trickplay no leitor de vídeo</string>
 </resources>
