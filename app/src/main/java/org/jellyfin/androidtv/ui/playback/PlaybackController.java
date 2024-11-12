@@ -1108,7 +1108,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @Override
     public void onPrepared() {
         if (mPlaybackState == PlaybackState.BUFFERING) {
-            if (mFragment != null) mFragment.leanbackOverlayFragment.setShouldShowOverlay(false);
+            if (mFragment != null) {
+                mFragment.setFadingEnabled(true);
+                mFragment.leanbackOverlayFragment.setShouldShowOverlay(false);
+            }
 
             mPlaybackState = PlaybackState.PLAYING;
             mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? Instant.now().toEpochMilli() : 0;
