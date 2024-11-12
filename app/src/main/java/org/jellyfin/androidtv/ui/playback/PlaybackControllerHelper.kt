@@ -74,7 +74,8 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 		mCurrentOptions.subtitleStreamIndex = index
 		play(mCurrentPosition, index)
 	} else {
-		val stream = currentMediaSource.mediaStreams?.first { it.type == MediaStreamType.SUBTITLE && it.index == index }
+		val mediaSource = currentMediaSource
+		val stream = mediaSource.mediaStreams?.first { it.type == MediaStreamType.SUBTITLE && it.index == index }
 		if (stream == null) {
 			Timber.w("Failed to find correct media stream")
 			return setSubtitleIndex(-1)
@@ -102,7 +103,22 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 						group.length == 1 && group.getTrackFormat(0).id?.endsWith(":JF_EXTERNAL:$index") == true
 					}
 				} else {
-					mVideoManager.mExoPlayer.currentTracks.groups.getOrNull(stream.index)
+					// The server does not send a reliable index in all cases, so calculate it manually
+					val localIndex = mediaSource.mediaStreams.orEmpty()
+						.filter { it.type == MediaStreamType.SUBTITLE }
+						.filter { it.deliveryMethod == SubtitleDeliveryMethod.EMBED || it.deliveryMethod == SubtitleDeliveryMethod.HLS }
+						.indexOf(stream)
+						.takeIf { index -> index != -1 }
+
+					if (localIndex == null) {
+						Timber.w("Failed to find local subtitle index")
+						return setSubtitleIndex(-1)
+					}
+
+					mVideoManager.mExoPlayer.currentTracks.groups
+						.filter { it.type == C.TRACK_TYPE_TEXT }
+						.filterNot { it.length == 1 && it.getTrackFormat(0).id?.endsWith(":JF_EXTERNAL:$index") == true }
+						.getOrNull(localIndex)
 				}?.mediaTrackGroup
 
 				if (group == null) {
