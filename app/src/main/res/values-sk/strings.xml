@@ -573,4 +573,6 @@
     <string name="pref_mediasegment_actions">Akcie mediálnych segmentov</string>
     <string name="segment_action_ask_to_skip">Opýtať sa na preskočenie</string>
     <string name="default_video_zoom">Predvolený režim priblíženia</string>
+    <string name="preference_enable_trickplay">Povoliť trickplay vo video prehrávači</string>
+    <string name="skip_forward_length">Dĺžka skoku dopredu</string>
 </resources>
