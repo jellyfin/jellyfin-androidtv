@@ -556,4 +556,19 @@
     <string name="past_week">Minulý týden</string>
     <string name="scheduled_in_next_24_hours">Naplánováno v dalších 24 hodinách</string>
     <string name="past_24_hours">Posledních 24 hodin</string>
+    <string name="default_video_zoom">Původní zoom</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferovat FFmpeg pro přehrávání audia</string>
+    <string name="segment_type_outro">Závěry</string>
+    <string name="segment_action_nothing">Nic nedělej</string>
+    <string name="segment_action_skip">Přeskočit</string>
+    <string name="segment_type_commercial">Reklamy</string>
+    <string name="segment_type_intro">Úvody</string>
+    <string name="skip_forward_length">Přeskočit dopředu</string>
+    <string name="segment_type_recap">Rekapitulace</string>
+    <string name="segment_type_preview">Ukázky</string>
+    <string name="preference_enable_trickplay">Povolit trickplay v přehrávači</string>
+    <string name="video_start_delay">Zpoždění začátku videa</string>
+    <string name="lbl_subtitle_text_color">Barva titulků</string>
+    <string name="lbl_subtitle_background_color">Barva pozadí titulků</string>
+    <string name="segment_type_unknown">Neznámé segmenty</string>
 </resources>
