@@ -210,7 +210,6 @@ class ExoPlayerProfile(
 			arrayOf(
 				Codec.Subtitle.SRT,
 				Codec.Subtitle.SUBRIP,
-				Codec.Subtitle.PGS,
 				Codec.Subtitle.PGSSUB,
 				Codec.Subtitle.DVBSUB,
 				Codec.Subtitle.VTT,
@@ -219,6 +218,14 @@ class ExoPlayerProfile(
 				add(subtitleProfile(codec, SubtitleDeliveryMethod.Embed))
 				add(subtitleProfile(codec, SubtitleDeliveryMethod.Hls))
 				add(subtitleProfile(codec, SubtitleDeliveryMethod.External))
+			}
+
+			// Rendering supported, but needs to be embedded
+			arrayOf(
+				Codec.Subtitle.PGS,
+			).forEach { codec ->
+				add(subtitleProfile(codec, SubtitleDeliveryMethod.Embed))
+				add(subtitleProfile(codec, SubtitleDeliveryMethod.Hls))
 			}
 
 			// Require baking
