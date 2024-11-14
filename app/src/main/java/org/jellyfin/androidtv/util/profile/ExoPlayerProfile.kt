@@ -21,7 +21,6 @@ import org.jellyfin.apiclient.model.dlna.EncodingContext
 import org.jellyfin.apiclient.model.dlna.ProfileCondition
 import org.jellyfin.apiclient.model.dlna.ProfileConditionType
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
-import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
 class ExoPlayerProfile(
@@ -206,36 +205,27 @@ class ExoPlayerProfile(
 		}.toTypedArray()
 
 		subtitleProfiles = buildList {
-			// Rendering supported
-			arrayOf(
-				Codec.Subtitle.SRT,
-				Codec.Subtitle.SUBRIP,
-				Codec.Subtitle.DVBSUB,
-				Codec.Subtitle.VTT,
-				Codec.Subtitle.IDX,
-			).forEach { codec ->
-				add(subtitleProfile(codec, SubtitleDeliveryMethod.Embed))
-				add(subtitleProfile(codec, SubtitleDeliveryMethod.Hls))
-				add(subtitleProfile(codec, SubtitleDeliveryMethod.External))
-			}
+			// Jellyfin server only supports WebVTT subtitles in HLS, other text subtitles will be converted to WebVTT
+			// which we do not want so only allow delivery over HLS for WebVTT subtitles
+			subtitleProfile(Codec.Subtitle.VTT, embedded = true, hls = true, external = true)
+			subtitleProfile(Codec.Subtitle.WEBVTT, embedded = true, hls = true, external = true)
 
-			// Rendering supported, but needs to be embedded
-			arrayOf(
-				Codec.Subtitle.PGS,
-				Codec.Subtitle.PGSSUB,
-			).forEach { codec ->
-				add(subtitleProfile(codec, SubtitleDeliveryMethod.Embed))
-				add(subtitleProfile(codec, SubtitleDeliveryMethod.Hls))
-			}
+			subtitleProfile(Codec.Subtitle.SRT, embedded = true, external = true)
+			subtitleProfile(Codec.Subtitle.SUBRIP, embedded = true, external = true)
+			subtitleProfile(Codec.Subtitle.TTML, embedded = true, external = true)
 
-			// Require baking
-			arrayOf(
-				Codec.Subtitle.ASS,
-				Codec.Subtitle.SSA,
-				Codec.Subtitle.DVDSUB,
-			).forEach { codec ->
-				add(subtitleProfile(codec, SubtitleDeliveryMethod.Encode))
-			}
+			// Not all subtitles can be loaded standalone by the player
+			subtitleProfile(Codec.Subtitle.DVBSUB, embedded = true, encode = true)
+			subtitleProfile(Codec.Subtitle.IDX, embedded = true, encode = true)
+			subtitleProfile(Codec.Subtitle.PGS, embedded = true, encode = true)
+			subtitleProfile(Codec.Subtitle.PGSSUB, embedded = true, encode = true)
+
+			// ASS/SSA renderer only supports a small subset of the specification so encoding is required for correct rendering
+			subtitleProfile(Codec.Subtitle.ASS, encode = true)
+			subtitleProfile(Codec.Subtitle.SSA, encode = true)
+
+			// Unsupported formats that need encoding
+			subtitleProfile(Codec.Subtitle.DVDSUB, encode = true)
 		}.toTypedArray()
 	}
 }

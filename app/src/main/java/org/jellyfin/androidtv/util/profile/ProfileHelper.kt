@@ -33,6 +33,7 @@ object ProfileHelper {
 						)
 					)
 				}
+
 				!MediaTest.supportsAV1Main10() -> {
 					Timber.i("*** Does NOT support AV1 10 bit")
 					arrayOf(
@@ -43,6 +44,7 @@ object ProfileHelper {
 						)
 					)
 				}
+
 				else -> {
 					// supports all AV1
 					Timber.i("*** Supports AV1 10 bit")
@@ -83,6 +85,7 @@ object ProfileHelper {
 						)
 					)
 				}
+
 				else -> {
 					// If AVC is supported, include all relevant profiles
 					Timber.i("*** Supports AVC")
@@ -184,6 +187,7 @@ object ProfileHelper {
 						)
 					)
 				}
+
 				else -> {
 					// If HEVC is supported, include all relevant profiles
 					Timber.i("*** Supports HEVC 10 bit")
@@ -309,5 +313,18 @@ object ProfileHelper {
 	) = SubtitleProfile().apply {
 		this.format = format
 		this.method = method
+	}
+
+	internal fun MutableList<SubtitleProfile>.subtitleProfile(
+		format: String,
+		embedded: Boolean = false,
+		external: Boolean = false,
+		hls: Boolean = false,
+		encode: Boolean = false,
+	) {
+		if (embedded) add(subtitleProfile(format, SubtitleDeliveryMethod.Embed))
+		if (external) add(subtitleProfile(format, SubtitleDeliveryMethod.External))
+		if (hls) add(subtitleProfile(format, SubtitleDeliveryMethod.Hls))
+		if (encode) add(subtitleProfile(format, SubtitleDeliveryMethod.Encode))
 	}
 }
