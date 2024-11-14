@@ -73,7 +73,7 @@
     <string name="lbl_showing">Demostración</string>
     <string name="desc_debug">Proporcione información adicional para la depuración</string>
     <string name="lbl_enable_debug">Opciones de depuración</string>
-    <string name="lbl_goto_series">Ir a series</string>
+    <string name="lbl_goto_series">Ir a la serie</string>
     <string name="lbl_audio_output">Salida de audio</string>
     <string name="pref_audio_compat">Remezclar a estéreo</string>
     <string name="pref_audio_direct">Directo</string>
