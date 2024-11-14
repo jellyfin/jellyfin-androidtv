@@ -206,6 +206,13 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <FrameLayout
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="60dp"
+                android:background="@drawable/audio_now_playing_album_background" />
+
             <org.jellyfin.androidtv.ui.AsyncImageView
                 android:id="@+id/poster"
                 android:layout_width="250dp"
