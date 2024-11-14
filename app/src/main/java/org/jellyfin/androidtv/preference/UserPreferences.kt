@@ -114,6 +114,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var audioNightMode = enumPreference("audio_night_mode", false)
 
 		/**
+		 * Enable DTS
+		 */
+		var dtsEnabled = booleanPreference("pref_bitstream_dts", false)
+
+		/**
 		 * Enable AC3
 		 */
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)

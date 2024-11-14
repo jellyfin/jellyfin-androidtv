@@ -27,7 +27,8 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 class ExoPlayerProfile(
 	disableVideoDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	isDtsEnabled: Boolean,
+	downMixAudio: Boolean,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -46,7 +47,7 @@ class ExoPlayerProfile(
 		if (isAC3Enabled) add(Codec.Audio.AC3)
 		if (isAC3Enabled) add(Codec.Audio.EAC3)
 		add(Codec.Audio.DCA)
-		add(Codec.Audio.DTS)
+		if (isDtsEnabled) add(Codec.Audio.DTS)
 		add(Codec.Audio.MLP)
 		add(Codec.Audio.TRUEHD)
 		add(Codec.Audio.PCM_ALAW)

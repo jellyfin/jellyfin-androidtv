@@ -115,6 +115,12 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.ac3Enabled)
 			}
+
+			checkbox {
+				setTitle(R.string.lbl_bitstream_dts)
+				setContent(R.string.desc_bitstream_dts)
+				bind(userPreferences, UserPreferences.dtsEnabled)
+			}
 		}
 	}
 }
