@@ -573,4 +573,6 @@
     <string name="segment_type_outro">Créditos</string>
     <string name="default_video_zoom">Modo de ampliación por defecto</string>
     <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
+    <string name="preference_enable_trickplay">Habilitar previsualizaciones en el reproductor</string>
+    <string name="skip_forward_length">Longitud de salto hacia adelante</string>
 </resources>
