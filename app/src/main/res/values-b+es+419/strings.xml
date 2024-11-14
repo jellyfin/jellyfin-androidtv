@@ -174,7 +174,7 @@
     <string name="lbl_date_added">Fecha de adición</string>
     <string name="lbl_all_items">Todos los elementos</string>
     <string name="desc_debug">Proporcionar información adicional para la depuración</string>
-    <string name="lbl_goto_series">Ir a series</string>
+    <string name="lbl_goto_series">Ir a la serie</string>
     <string name="lbl_audio_output">Salida de audio</string>
     <string name="pref_audio_compat">Re-mezclar a estéreo</string>
     <string name="msg_cancel_entire_series">¿Estás seguro de querer cancelar esta SERIE COMPLETA\?</string>
@@ -573,4 +573,6 @@
     <string name="segment_type_commercial">Publicidad</string>
     <string name="default_video_zoom">Modo de ampliación predeterminado</string>
     <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
+    <string name="preference_enable_trickplay">Habilitar previsualizaciones en el reproductor</string>
+    <string name="skip_forward_length">Duración del salto hacia adelante</string>
 </resources>
