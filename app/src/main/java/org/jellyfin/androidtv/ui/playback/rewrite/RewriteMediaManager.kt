@@ -54,7 +54,7 @@ class RewriteMediaManager(
 		get() = playbackManager.state.positionInfo.active.inWholeMilliseconds
 
 	override val currentAudioQueueDisplayPosition: String
-		get() = (currentAudioQueuePosition + 1).toString()
+		get() = (playbackManager.queue.entryIndex.value + 1).toString()
 
 	override val currentAudioQueueDisplaySize: String
 		get() = playbackManager.queue.estimatedSize.toString()
