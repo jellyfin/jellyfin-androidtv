@@ -54,7 +54,8 @@ class QueueService internal constructor() : PlayerService(), Queue {
 			override fun onVideoSizeChange(width: Int, height: Int) = Unit
 			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
 				coroutineScope.launch {
-					next(usePlaybackOrder = true, useRepeatMode = true)
+					val nextItem = next(usePlaybackOrder = true, useRepeatMode = true)
+					if (nextItem == null && _entryIndex.value != Queue.INDEX_NONE) setIndex(Queue.INDEX_NONE, true)
 				}
 			}
 		})
@@ -91,7 +92,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 		}
 
 		// Return item or null if not found
-		return if (index < fetchedItems.size) fetchedItems[index]
+		return if (index >= 0 && index < fetchedItems.size) fetchedItems[index]
 		else null
 	}
 
@@ -144,7 +145,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	}
 
 	override suspend fun setIndex(index: Int, saveHistory: Boolean): QueueEntry? {
-		if (index < 0) return null
+		if (index < 0 && index != Queue.INDEX_NONE) return null
 
 		// Save previous index
 		if (saveHistory && _entryIndex.value != Queue.INDEX_NONE) {
