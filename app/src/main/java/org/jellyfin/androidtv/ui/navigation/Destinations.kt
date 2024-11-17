@@ -156,7 +156,7 @@ object Destinations {
 		)
 
 	fun externalPlayer(position: Int?) = activityDestination<ExternalPlayerActivity>(
-		"Position" to (position ?: 0)
+		ExternalPlayerActivity.EXTRA_POSITION to (position ?: 0)
 	)
 
 	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(
