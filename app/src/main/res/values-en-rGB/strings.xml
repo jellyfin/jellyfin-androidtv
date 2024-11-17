@@ -563,4 +563,5 @@
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="default_video_zoom">Default zoom mode</string>
     <string name="segment_action_ask_to_skip">Ask to skip</string>
+    <string name="skip_forward_length">Skip forward length</string>
 </resources>
