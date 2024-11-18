@@ -549,4 +549,20 @@
     <string name="lbl_subtitle_text_color">Textfärg för undertexter</string>
     <string name="lbl_subtitle_background_color">Bakgrundsfärg för undertexter</string>
     <string name="lbl_subtitle_text_stroke_color">Färg för undertextens kantlinje</string>
+    <string name="prefer_exoplayer_ffmpeg">Föredra FFmpeg för ljuduppspelning</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Använd FFmpeg för att avkoda ljud, även om det finns tillgängliga plattformscodecs.</string>
+    <string name="segment_type_outro">Outros</string>
+    <string name="preference_enable_trickplay">Aktivera trickplay i videospelaren</string>
+    <string name="default_video_zoom">Standard zoomläge</string>
+    <string name="video_start_delay">Fördröjning av videostart</string>
+    <string name="segment_type_preview">Förhandsvisningar</string>
+    <string name="segment_type_recap">Sammanfattningar</string>
+    <string name="segment_type_unknown">Okända segment</string>
+    <string name="segment_action_ask_to_skip">Fråga om att hoppa över</string>
+    <string name="segment_type_intro">Intros</string>
+    <string name="skip_forward_length">Hoppa framåt i längd</string>
+    <string name="pref_mediasegment_actions">Åtgärder inom mediesegmentet</string>
+    <string name="segment_action_nothing">Gör inget</string>
+    <string name="segment_action_skip">Hoppa över</string>
+    <string name="segment_type_commercial">Reklamfilmer</string>
 </resources>
