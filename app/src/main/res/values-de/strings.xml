@@ -563,4 +563,6 @@
     <string name="segment_type_outro">Outros</string>
     <string name="segment_type_recap">Rückblicke</string>
     <string name="segment_type_unknown">Unbekannte Segmente</string>
+    <string name="preference_enable_trickplay">Trickspiel im Videoplayer aktivieren</string>
+    <string name="skip_forward_length">Länge vorwärts überspringen</string>
 </resources>
