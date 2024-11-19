@@ -19,7 +19,7 @@
     <string name="lbl_colored_backgrounds">Latar belakang berwarna</string>
     <string name="lbl_hd_programs">Program HD</string>
     <string name="lbl_live_broadcasts">Siaran langsung</string>
-    <string name="lbl_repeat_episodes">Ulangi Episode</string>
+    <string name="lbl_repeat_episodes">Ulangi episode</string>
     <string name="lbl_new_episodes">Episode baru</string>
     <string name="lbl_guide_option_number">Nomor saluran</string>
     <string name="lbl_guide_option_played">Terakhir diputar</string>
@@ -203,7 +203,7 @@
     <string name="pref_playback">Pemutaran</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Batal</string>
-    <string name="lbl_refresh_switching">Pergantian Taraf Penyegaran</string>
+    <string name="lbl_refresh_switching">Pergantian taraf penyegaran</string>
     <string name="lbl_play_next_up">Putar berikutnya</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">Premier baru</string>
@@ -229,7 +229,7 @@
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="grid_direction">Arah kisi</string>
     <string name="lbl_premieres">Premiere</string>
-    <string name="lbl_new_only">Baru Saja</string>
+    <string name="lbl_new_only">Baru saja</string>
     <string name="lbl_news">Berita</string>
     <string name="lbl_more_like_this">Lainnya seperti ini</string>
     <string name="lbl_resume_preroll">Lanjutkan Pre_roll</string>
@@ -262,7 +262,7 @@
     <string name="lbl_audio_track">Pilih trek audio</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Perpanjang</string>
-    <string name="lbl_auto_crop">Potong Otomatis</string>
+    <string name="lbl_auto_crop">Potong otomatis</string>
     <string name="lbl_community_rating">Penilaian dari Komunitas</string>
     <string name="lbl_shuffle_queue">Acak</string>
     <string name="pref_audio_night_mode">Mode malam audio (eksperimental)</string>
@@ -403,4 +403,129 @@
     <string name="advanced_settings">Canggih</string>
     <string name="select_version">Versi</string>
     <string name="licenses_link">Lisensi</string>
+    <string name="sort_accounts_by">Urutkan akun secara</string>
+    <string name="crash_report_toast">Ups! Ada yang salah, laporan kerusakan telah dikirim ke server Jellyfin mu.</string>
+    <string name="pref_enable_media_management_description">Tampilkan opsi untuk mengatur media ketika menelusuri</string>
+    <string name="past_week">Minggu lalu</string>
+    <string name="scheduled_in_next_24_hours">Dijadwalkan dalam 24 jam kedepan</string>
+    <string name="prefer_exoplayer_ffmpeg">Utamakan FFmpeg untuk pemutaran audio</string>
+    <string name="segment_type_preview">Pratinjau</string>
+    <plurals name="albums">
+        <item quantity="other">%1$s album</item>
+    </plurals>
+    <string name="segment_action_ask_to_skip">Ajukan untuk dilewati</string>
+    <string name="segment_type_commercial">Komersil</string>
+    <string name="segment_type_recap">Rekap</string>
+    <plurals name="episodes">
+        <item quantity="other">%1$s episode</item>
+    </plurals>
+    <string name="channels">Saluran</string>
+    <string name="photos">Foto</string>
+    <string name="pref_customization">Kustomisasi</string>
+    <string name="live_tv_preferences">Opsi Live TV</string>
+    <string name="current_queue">Antrian Saat Ini</string>
+    <plurals name="minutes">
+        <item quantity="other">%1$s menit</item>
+    </plurals>
+    <string name="color_pink">Merah Muda</string>
+    <string name="pref_enable_media_management">Aktifkan manajemen media</string>
+    <string name="action_use_password">Gunakan sandi</string>
+    <string name="color_red">Merah</string>
+    <string name="server_issue_unsupported_version">Server menggunakan versi %1$s yang tidak didukung</string>
+    <string name="pref_direct_stream_live_on">Transkode dinonaktifkan</string>
+    <string name="unreleased">Belum dirilis</string>
+    <string name="server_issue_unable_to_connect">Gagal menghubungkan</string>
+    <string name="server_issue_missing_version">Tidak dapat mengetahui versi server</string>
+    <string name="action_login">Masuk</string>
+    <string name="input_username">Nama Pengguna</string>
+    <string name="login_other_options">Opsi lain:</string>
+    <string name="pref_screensaver_inapp_enabled">Gunakan screensaver bawaan</string>
+    <string name="dca">DTS</string>
+    <string name="random">Acak</string>
+    <string name="all_channels">Semua saluran</string>
+    <string name="video_start_delay">Penundaan mula video</string>
+    <string name="segment_action_skip">Lewati</string>
+    <string name="color_blue">Biru</string>
+    <string name="server_issue_ssl_handshake">SSL handshake gagal</string>
+    <string name="pref_telemetry_description">Kirim laporan kerusakan, termasuk log</string>
+    <string name="server_setup_incomplete">Pengaturan server belum selesai. Buka Jellyfin di peramban web untuk menyelesaikan sebelum masuk.</string>
+    <string name="photo_albums">Album Foto</string>
+    <string name="person_birthday_and_age">Lahir %1$s (%2$d)</string>
+    <string name="pref_login">Masuk</string>
+    <string name="pref_libraries">Pustaka</string>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s Serial TV</item>
+    </plurals>
+    <string name="pref_customization_description">tema, beranda, remapping</string>
+    <string name="pref_subtitles">Takarir</string>
+    <string name="pref_crash_reports">Kirim laporan kerusakan ke server</string>
+    <string name="skip_forward_length">Panjang lompat maju</string>
+    <plurals name="songs">
+        <item quantity="other">%1$s lagu</item>
+    </plurals>
+    <string name="segment_action_nothing">Diam saja</string>
+    <string name="color_green">Hijau</string>
+    <string name="pref_crash_reports_disabled">Laporan kerusakan tidak akan dikirim</string>
+    <string name="pref_screensaver_inapp_timeout">Mulai screensaver setelah</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="past_24_hours">24 jam lalu</string>
+    <plurals name="hours">
+        <item quantity="other">%1$s jam</item>
+    </plurals>
+    <string name="app_notification_update_soon">Perbarui server dari %1$s menuju setidaknya %2$s untuk melanjutkan penggunaan.</string>
+    <string name="pref_browsing">Menelusuri</string>
+    <string name="server_issue_invalid_product">Perangkat lunak server tidak cocok</string>
+    <string name="action_use_quickconnect">Gunakan Koneksi Cepat</string>
+    <string name="clear_image_cache">Hapus cache gambar</string>
+    <string name="clear_image_cache_content">Terpakai: %1$s</string>
+    <string name="color_cyan">Biru Muda</string>
+    <string name="pref_subtitles_size">Ukuran teks</string>
+    <string name="color_yellow">Kuning</string>
+    <string name="pref_accounts">Akun</string>
+    <string name="pref_behavior">Perilaku</string>
+    <string name="pref_theme">Tema</string>
+    <string name="pref_direct_stream_live_off">Transkode akan dipakai ketika dibutuhkan</string>
+    <string name="home_section_resume_book">Lanjutkan Membaca</string>
+    <string name="app_notification_beta">Aplikasi diperbarui ke %1$s
+\nTerima kasih telah bergabung ke dalam program Jellyfin beta.</string>
+    <string name="item_delete_confirm_message">Yakin ingin menghapus item ini dari server? Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="item_delete_confirm_title">Hapus Item</string>
+    <string name="enable_reactive_homepage">Aktifkan beranda reaktif</string>
+    <string name="lbl_album_artists">Album Artis</string>
+    <string name="pref_screensaver_inapp_enabled_description">Tampilkan screensaver Jellyfin ketika aplikasi dibuka</string>
+    <string name="not_set">Belum Diatur</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Nonaktifkan maksimum</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Menunjukkan seluruh item</string>
+    <plurals name="seconds">
+        <item quantity="other">%1$s detik</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="other">%1$s item</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="other">%1$s film</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax_zero">Semua Umur</string>
+    <string name="server_issue_outdated_version">Server memakai versi %1$s yang tidak lagi didukung. Mohon perbarui ke %2$s atau lebih baru</string>
+    <string name="pref_video">Video</string>
+    <string name="input_password">Sandi</string>
+    <string name="pref_refresh_rate_scale_on_tv">Sesuaikan ukuran dengan TV</string>
+    <string name="pref_refresh_rate_scale_on_device">Sesuaikan ukuran dengan Perangkat</string>
+    <string name="server_unsupported_notification">Server ini menggunakan Jellyfin versi %1$s yang tidak didukung. Mohon perbarui Jellyfin ke %2$s atau lebih baru untuk melanjutkan penggunaan.</string>
+    <string name="pref_telemetry_category">Laporan kerusakan</string>
+    <string name="item_deleted">%1$s telah dihapus</string>
+    <string name="pref_screensaver">Screen saver</string>
+    <string name="login_quickconnect_step_3">3. Masukkan kode berikut:</string>
+    <string name="login_connect_to">Menghubungkan ke %1$s</string>
+    <string name="pref_libraries_description">Ubah bagaimana pustaka ditampilkan</string>
+    <string name="pref_login_description">Server, akun, masuk otomatis</string>
+    <string name="pref_playback_description">video, takarir, live tv, selanjutnya</string>
+    <string name="pref_audio">Audio</string>
+    <string name="login_quickconnect_step_1">1. Buka aplikasi Jellyfin dengan perangkat genggam atau peramban web, lalu masuk dengan akun anda</string>
+    <string name="login_quickconnect_step_2">2. Buka menu pengguna dan masuk ke dalam halaman Koneksi Cepat</string>
+    <string name="action_connect">Hubungkan</string>
+    <string name="app_notification_uimode_invalid">Aplikasi ini dioptimasi untuk televisi. Disarankan menggunakan aplikasi mobile untuk perangkat lain.</string>
+    <string name="pref_crash_reports_enabled">Laporan kerusakan akan dikirim ke server yang terakhir digunakan</string>
+    <string name="item_deletion_failed">Tidak bisa menghapus %1$s</string>
+    <string name="episode_name_special">Spesial</string>
 </resources>
