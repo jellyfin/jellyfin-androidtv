@@ -537,7 +537,7 @@
     <string name="pref_screensaver_ageratingrequired_title">Altersfreigabe erforderlich</string>
     <string name="pref_screensaver_ageratingmax_zero">Jedes Alter</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Zeige alle Elemente</string>
-    <string name="pref_screensaver_ageratingmax_entry">Bis zu Alter %1$d</string>
+    <string name="pref_screensaver_ageratingmax_entry">Bis %1$d Jahre</string>
     <string name="current_queue">aktuelle Warteschlange</string>
     <string name="app_notification_update_soon">Aktualisiere deinen Server von %1$s auf mindestens %2$s, um die Anwendung nach dem nächsten Update weiter nutzen zu können.</string>
     <string name="all_channels">Alle Kanäle</string>
