@@ -28,6 +28,7 @@ import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
@@ -241,6 +242,12 @@ fun FullDetailsFragment.resumePlayback() {
 				includeItemTypes = setOf(BaseItemKind.EPISODE),
 				recursive = true,
 				filters = setOf(ItemFilter.IS_UNPLAYED),
+				fields = setOf(
+					ItemFields.MEDIA_SOURCES,
+					ItemFields.MEDIA_STREAMS,
+					ItemFields.CHAPTERS,
+					ItemFields.TRICKPLAY,
+				),
 				sortBy = setOf(
 					ItemSortBy.PARENT_INDEX_NUMBER,
 					ItemSortBy.INDEX_NUMBER,
