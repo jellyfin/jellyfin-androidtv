@@ -33,7 +33,7 @@
     <string name="video_error_unknown_error">Nepavyko paleisti vaizdo įrašo</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="msg_unable_to_cancel">Nepavyko atšaukti įrašymo</string>
-    <string name="msg_recording_cancelled">Įrašymas Atšauktas</string>
+    <string name="msg_recording_cancelled">Įrašymas atšauktas</string>
     <string name="msg_unable_to_create_recording">Nepavyko sukurti įrašo</string>
     <string name="msg_set_to_record">Programa nustatyta įrašymui</string>
     <string name="lbl_record">Įrašyti</string>
@@ -456,6 +456,6 @@
     <string name="lbl_latest_in">Nesenai pridėta prie %1$s</string>
     <string name="continue_listening">Tęsti klausimą</string>
     <string name="lbl_home">Pagrindinis</string>
-    <string name="lbl_runtime">Žiūrėjimo laikas</string>
-    <string name="because_you_watched">Dėl to kad žiurejote %1$s</string>
+    <string name="lbl_runtime">Trukmė</string>
+    <string name="because_you_watched">Nes žiūrėjote %1$s</string>
 </resources>
