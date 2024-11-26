@@ -182,7 +182,7 @@
     <string name="msg_record_entire_series">Įrašyti visas serijas\?</string>
     <string name="lbl_kids">Vaikų</string>
     <string name="lbl_repeat">Kartoti</string>
-    <string name="lbl_at_any_time">Betkuriuo metu</string>
+    <string name="lbl_at_any_time">Bet kuriuo metu</string>
     <string name="lbl_show_indicators">Rodyti indikatorius</string>
     <string name="lbl_open_album">Atidaryti albumą</string>
     <string name="pref_show_backdrop_description">Pakeiti dabar pasirinktų failų užsklandos paveikslelį</string>
@@ -203,7 +203,7 @@
     <string name="desc_audio_night_mode">Sulygina garso takelius automatiškai</string>
     <string name="lbl_show_premieres">Rodyti sezonų premjeras</string>
     <string name="lbl_in_x_days">Po %d dienų</string>
-    <string name="lbl_select_date">Psairinkite datą</string>
+    <string name="lbl_select_date">Pasirinkite datą</string>
     <string name="lbl_recent_recordings">Naujausi įrašai</string>
     <string name="lbl_series_settings">Serijų nustatymai</string>
     <string name="msg_settings_updated">Nustatymai atnaujinti</string>
@@ -458,4 +458,7 @@
     <string name="lbl_home">Pagrindinis</string>
     <string name="lbl_runtime">Trukmė</string>
     <string name="because_you_watched">Nes žiūrėjote %1$s</string>
+    <string name="lbl_subtitle_text_color">Subtitrų teksto spalva</string>
+    <string name="lbl_subtitle_background_color">Subtitrų fono spalva</string>
+    <string name="lbl_subtitle_text_stroke_color">Subtitrų apvadėlio spalva</string>
 </resources>
