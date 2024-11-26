@@ -526,12 +526,12 @@
     <string name="dts_hd">DTS:HD</string>
     <string name="all_channels">所有頻道</string>
     <string name="lbl_runtime">運行時</string>
-    <string name="segment_action_ask_to_skip">請求跳過</string>
+    <string name="segment_action_ask_to_skip">詢問是否跳過</string>
     <string name="video_start_delay">影片啟動延遲</string>
     <string name="default_video_zoom">預設縮放模式</string>
     <string name="pref_mediasegment_actions">媒體片段動作</string>
     <string name="segment_action_nothing">無動作</string>
-    <string name="segment_action_skip">直接跳過</string>
+    <string name="segment_action_skip">跳過</string>
     <string name="preference_enable_trickplay">影片播放器中啟用特技播放功能</string>
     <string name="segment_type_commercial">廣告</string>
     <string name="segment_type_intro">片頭</string>
