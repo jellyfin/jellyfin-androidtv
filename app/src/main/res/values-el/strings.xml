@@ -509,4 +509,25 @@
     <string name="lbl_runtime">Διάρκεια</string>
     <string name="clear_image_cache_content">Χρησιμοποιούνται: %1$s</string>
     <string name="clear_image_cache">Εκκαθάριση προσωρινής μνήμης εικόνων</string>
+    <string name="eac3">DD+</string>
+    <string name="all_channels">Ολα τα κανάλια</string>
+    <string name="ac3">DD</string>
+    <string name="past_24_hours">Τελευταίες 24 ώρες</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="pref_screensaver_ageratingmax">Μέγιστη ηλικία καταλληλότητας</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Εμφάνιση μόνο αντικειμένων με καθορισμένη ηλικία καταλληλότητας</string>
+    <string name="pref_screensaver_ageratingrequired_title">Απαιτείται ηλικία καταλληλότητας</string>
+    <string name="app_notification_update_soon">Ενημερώστε τον διακομιστή σας από %1$s σε τουλάχιστον %2$s για να συνεχίσετε να χρησιμοποιείτε την εφαρμογή μετά την επόμενη ενημέρωση.</string>
+    <string name="current_queue">Τρέχουσα ουρά</string>
+    <string name="prefer_exoplayer_ffmpeg">Προτίμηση FFmpeg για αναπαραγωγή ήχου</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dca">DTS</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Απενεργοποίηση μέγιστου ορίου</string>
+    <string name="pref_screensaver_ageratingmax_entry">Μέχρι την ηλικία των %1$d ετών</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Εμφάνιση όλων των αντικειμένων</string>
+    <string name="past_week">Τελευταία εβδομάδα</string>
+    <string name="scheduled_in_next_24_hours">Προγραμματισμένο για τις επόμενες 24 ώρες</string>
+    <string name="pref_screensaver_ageratingmax_zero">Ολες οι ηλικίες</string>
 </resources>
