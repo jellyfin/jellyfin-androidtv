@@ -493,7 +493,7 @@
         <item quantity="many">%1$s pistes</item>
         <item quantity="other">%1$s piste(s)</item>
     </plurals>
-    <string name="lbl_album_artists">Artistes de l\'album</string>
+    <string name="lbl_album_artists">Artistes d\'albums</string>
     <string name="disable_ui_mode_warning">Désactiver l\'avertissement du type d\'appareil</string>
     <string name="because_you_watched">Parce que vous avez regardé %1$s</string>
     <string name="photo_albums">Albums photo</string>
