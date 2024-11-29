@@ -504,4 +504,27 @@
     <string name="lbl_subtitle_text_stroke_color">Tekstityksen reunan väri</string>
     <string name="unreleased">Ei vielä julkaistu</string>
     <string name="random">Satunnainen</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Näytä vain nimikkeet joille on määritetty ikäraja</string>
+    <string name="default_video_zoom">Oletuszoomaus</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Käytä äänen purkamiseen FFmpeg, vaikka muitakin koodekkeja olisi saatavilla.</string>
+    <string name="person_birthday_and_age">Syntynyt %1$s (%2$d)</string>
+    <string name="all_channels">Kaikki kanavat</string>
+    <string name="prefer_exoplayer_ffmpeg">Suosi äänen toistamiseen FFmpeg</string>
+    <string name="video_start_delay">Toiston aloituksen viive</string>
+    <string name="lbl_hide_watched_checkmark">Kun jaksoja on jäljellä</string>
+    <string name="pref_external_player">Käytä ulkoista soitinta</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Poista yläraja käytöstä</string>
+    <string name="pref_screensaver_ageratingrequired_title">Vaadi ikäraja</string>
+    <string name="past_24_hours">Edelliset 24 tuntia</string>
+    <string name="scheduled_in_next_24_hours">Ajastukset seuraavalta 24 tunnilta</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="lbl_runtime">Toistoaika</string>
+    <string name="indicator_subtitles">Tekstitys</string>
+    <string name="clear_image_cache_content">Käytetty: %1$s</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Näytetään kaikki nimikkeet</string>
+    <string name="current_queue">Nykyinen jono</string>
+    <string name="pref_screensaver_ageratingmax_zero">Kaikki iät</string>
+    <string name="pref_screensaver_ageratingmax_entry">Enintään %1$d vuotta</string>
+    <string name="pref_screensaver_ageratingmax">Korkein ikäraja</string>
 </resources>
