@@ -315,7 +315,7 @@
     <string name="no_network_permissions">Jellyfin benötigt zum Funktionieren Netzwerkberechtigungen</string>
     <string name="pref_theme_muted_purple">Gedämpftes Violett</string>
     <string name="press_to_close">Zum Schließen klicken</string>
-    <string name="add_user">Konto erstellen</string>
+    <string name="add_user">Konto hinzufügen</string>
     <string name="who_is_watching">Wer schaut gerade\?</string>
     <string name="no_user_warning">Wir konnten keine Konten finden!
 \nFüge ein neues Konto hinzu, indem du auf die Schaltfläche \"Konto hinzufügen\" drückst.</string>
@@ -563,6 +563,6 @@
     <string name="segment_type_outro">Outros</string>
     <string name="segment_type_recap">Rückblicke</string>
     <string name="segment_type_unknown">Unbekannte Segmente</string>
-    <string name="preference_enable_trickplay">Trickspiel im Videoplayer aktivieren</string>
-    <string name="skip_forward_length">Länge vorwärts überspringen</string>
+    <string name="preference_enable_trickplay">Trickplay im Videoplayer aktivieren</string>
+    <string name="skip_forward_length">Sprungweite vorwärts</string>
 </resources>
