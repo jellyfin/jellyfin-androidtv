@@ -147,14 +147,14 @@
     <string name="lbl_status">%1$s/%2$s</string>
     <string name="lbl_suggested">Ehdotukset</string>
     <string name="lbl_by_letter">Aakkosellisesti</string>
-    <string name="lbl_views">Näyttökerrat</string>
+    <string name="lbl_views">Näkymät</string>
     <string name="lbl_on_now">Lähetetään nyt</string>
     <string name="pref_authentication_cat">Todennus</string>
     <string name="pref_max_bitrate_title">Suoratoiston enimmäisbittinopeus</string>
     <string name="video_error_unknown_error">Videon lataus epäonnistui</string>
     <string name="lbl_play_first_unwatched">Toista ensimmäinen katsomaton</string>
     <string name="lbl_search_hint">Hakuteksti</string>
-    <string name="lbl_tv_queuing">Lisää kaikki seuraavat jaksot jonoon</string>
+    <string name="lbl_tv_queuing">Toista seuraava jakso automaattisesti</string>
     <string name="msg_cannot_play">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_cannot_play_time">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_playback_incompatible">Tätä videomuotoa ei voida toistaa</string>
@@ -250,7 +250,7 @@
     <string name="server_issue_outdated_version">Palvelimen versio on %1$s, jota ei tueta. Päivitä vähintään versioon %2$s</string>
     <string name="server_issue_missing_version">Palvelimen versiota ei tunnistettu</string>
     <string name="server_issue_invalid_product">Palvelinohjelmisto ei ole yhteensopiva</string>
-    <string name="server_issue_unable_to_connect">Ei saatu yhteyttä</string>
+    <string name="server_issue_unable_to_connect">Yhdistäminen epäonnistui</string>
     <string name="pref_subtitles_size">Tekstin koko</string>
     <string name="pref_subtitles_background_summary">Näytä tekstitysten tausta</string>
     <string name="searchable_hint">Etsi Jellyfinistä</string>
@@ -267,7 +267,7 @@
     <string name="license_artifact">Artifakteja</string>
     <string name="license_version">Versio</string>
     <string name="select_version">Versio</string>
-    <string name="always_authenticate">Kysy tunnistetietoja aina</string>
+    <string name="always_authenticate">Kysy aina kirjautumistietoja</string>
     <string name="lbl_record_only_new">Vain uudet jaksot tallennetaan</string>
     <string name="lbl_next_up_extended">Thumbnail-kuvalla</string>
     <string name="lbl_season_number">K%1$d</string>
@@ -291,7 +291,7 @@
     <string name="image_size_medium">Keskikokoinen</string>
     <string name="image_size_small">Pieni</string>
     <string name="enable_smart_view">Käytä älynäyttöä</string>
-    <string name="enable_smart_view_description">Älynäyttö näyttää ruudukun sijaan olennaisia kohteita</string>
+    <string name="enable_smart_view_description">Älynäyttö näyttää ruudukon sijaan olennaisia kohteita</string>
     <string name="lbl_sign_out">Kirjaudu ulos</string>
     <string name="lbl_remove">Poista</string>
     <string name="lbl_server">Palvelin</string>
@@ -358,7 +358,7 @@
     <string name="lbl_starting_on_schedule_ending_after">Aloitetaan ohjelmiston mukaisesti ja lopetetaan %1$s viiveellä</string>
     <string name="lbl_starting_early_ending_after">Aloitetaan %1$s etuajassa ja lopetetaan %2$s viiveellä</string>
     <string name="lbl_episode_range">J%1$d–%2$d</string>
-    <string name="image_type_banner">Banner</string>
+    <string name="image_type_banner">Banneri</string>
     <string name="lbl_user_server">%1$s palvelimella \'%2$s\'</string>
     <string name="watch_count_overflow">99+</string>
     <string name="audio_error">Ääntä %1$s ei voitu toistaa</string>
@@ -376,7 +376,7 @@
     <string name="licenses_link_description">Tutki Jellyfin-sovelluksen hyödyntämien kirjastojen lisenssejä</string>
     <string name="licenses_link">Lisenssit</string>
     <string name="advanced_settings">Lisäasetukset</string>
-    <string name="always_authenticate_description">\t</string>
+    <string name="always_authenticate_description">Tämän valitseminen poistaa automaattisen sisäänkirjautumisen käytöstä</string>
     <string name="alphabetical">Aakkosellinen</string>
     <string name="last_use">Viimeksi käytetty</string>
     <string name="enable_playback_module_description">Kokeellinen ominaisuus, jolle ei tarjota tukea.</string>
@@ -438,7 +438,7 @@
     <string name="pref_crash_reports">Lähetä palvelimelle kaatumisilmoituksia</string>
     <string name="pref_telemetry_category">Kaatumisilmoitukset</string>
     <string name="pref_telemetry_description">Lähetä kaatumisilmoituksia ja sisällytä lokitiedot</string>
-    <string name="server_unsupported_notification">jellyfin-palvelimen versio on %1$s, jota ei tueta. Jatka sovelluksen käyttöä päivittämällä Jellyfin vähintään versioon %2$s.</string>
+    <string name="server_unsupported_notification">Palvelin käyttää Jellyfin versiota %1$s jota ei tueta. Jatka käyttöä päivittämällä Jellyfin vähintään versioon %2$s.</string>
     <string name="server_setup_incomplete">Tämän palvelimen määritys on kesken. Ennen kirjautumista, avaa Jellyfin verkkoselaimessa ja viimeistele määritys.</string>
     <string name="episode_name_special">erikoisjakso</string>
     <string name="lbl_quality_profile">Laatuprofiili</string>
@@ -455,12 +455,12 @@
     <string name="color_cyan">Syaani</string>
     <string name="app_notification_beta">Sovellus päivitettiin versioon %1$s
 \nKiitos osallistumisesta Jellyfinin betatestaukseen.</string>
-    <string name="item_deleted">%1$s postettiin</string>
+    <string name="item_deleted">%1$s poistettiin</string>
     <string name="item_deletion_failed">Kohdetta %1$s ei voitu poistaa</string>
     <string name="pref_enable_media_management">Ota median hallinta käyttöön</string>
     <string name="pref_enable_media_management_description">Näytä selattaessa median hallintavalinta</string>
     <string name="item_delete_confirm_title">Poista kohde</string>
-    <string name="item_delete_confirm_message">Haluatko varmasti poistaa kohteen palvelimelta\? Toimintoa ei ole mahdollista perua.</string>
+    <string name="item_delete_confirm_message">Haluatko varmasti poistaa kohteen palvelimelta? Toimintoa ei voi perua.</string>
     <string name="pref_screensaver">Näytönsäästäjä</string>
     <string name="pref_screensaver_inapp_enabled">Käytä sisäänrakennettua näytönsäästäjää</string>
     <plurals name="minutes">
@@ -499,7 +499,7 @@
     <string name="lbl_home">Koti</string>
     <string name="continue_listening">Jatka kuuntelua</string>
     <string name="clear_image_cache">Tyhjennä kuvavälimuisti</string>
-    <string name="app_notification_update_soon">Päivitä palvelimesi versiosta %1$s vähintään versioon %2$s jatkaaksesi äpin käyttöä seuraavan päivityksen jälkeen.</string>
+    <string name="app_notification_update_soon">Päivitä palvelin versiosta %1$s vähintään versioon %2$s jatkaaksesi äpin käyttöä seuraavan päivityksen jälkeen.</string>
     <string name="pref_playback_advanced">Toiston lisäasetukset</string>
     <string name="lbl_subtitle_text_stroke_color">Tekstityksen reunan väri</string>
     <string name="unreleased">Ei vielä julkaistu</string>
@@ -527,4 +527,38 @@
     <string name="pref_screensaver_ageratingmax_zero">Kaikki iät</string>
     <string name="pref_screensaver_ageratingmax_entry">Enintään %1$d vuotta</string>
     <string name="pref_screensaver_ageratingmax">Korkein ikäraja</string>
+    <string name="segment_action_ask_to_skip">Kysy ohitetaanko</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="segment_type_commercial">Mainokset</string>
+    <string name="segment_type_intro">Introt</string>
+    <string name="segment_type_outro">Lopputekstit</string>
+    <string name="segment_type_preview">Esikatselut</string>
+    <string name="segment_type_recap">Kertaukset</string>
+    <string name="segment_type_unknown">Tuntemattomat osiot</string>
+    <string name="preference_enable_trickplay">Ota trickplay käyttöön</string>
+    <plurals name="items">
+        <item quantity="one">%1$s kohde</item>
+        <item quantity="other">%1$s kohdetta</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s albumi</item>
+        <item quantity="other">%1$s albumia</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s elokuva</item>
+        <item quantity="other">%1$s elokuvaa</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s kappale</item>
+        <item quantity="other">%1$s kappaletta</item>
+    </plurals>
+    <string name="past_week">Mennyt viikko</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="skip_forward_length">Eteenpäin hyppäyksen pituus</string>
+    <string name="segment_action_nothing">Älä tee mitään</string>
+    <string name="segment_action_skip">Ohita</string>
+    <string name="pref_mediasegment_actions">Toimintatapa osioissa</string>
+    <string name="dca">DTS</string>
+    <string name="eac3">DD+</string>
+    <string name="ac3">DD</string>
 </resources>
