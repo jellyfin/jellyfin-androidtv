@@ -166,7 +166,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 		// Save state
 		return bundleOf(
 			BUNDLE_SUPER to super.onSaveInstanceState(),
-			BUNDLE_HISTORY to history.toList(),
+			BUNDLE_HISTORY to ArrayList(history),
 		)
 	}
 
