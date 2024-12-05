@@ -25,7 +25,7 @@ class ReportingHelper(
 ) {
 	fun reportStart(
 		lifecycleOwner: LifecycleOwner,
-		playbackController: PlaybackController,
+		playbackController: PlaybackController?,
 		item: BaseItemDto,
 		streamInfo: StreamInfo,
 		position: Long,
@@ -43,8 +43,8 @@ class ReportingHelper(
 				PlayMethod.DirectStream -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_STREAM
 				PlayMethod.DirectPlay -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_PLAY
 			},
-			audioStreamIndex = playbackController.audioStreamIndex,
-			subtitleStreamIndex = playbackController.subtitleStreamIndex,
+			audioStreamIndex = playbackController?.audioStreamIndex,
+			subtitleStreamIndex = playbackController?.subtitleStreamIndex,
 			isMuted = false,
 			repeatMode = RepeatMode.REPEAT_NONE,
 			playbackOrder = PlaybackOrder.DEFAULT,
@@ -61,7 +61,7 @@ class ReportingHelper(
 
 	fun reportProgress(
 		lifecycleOwner: LifecycleOwner,
-		playbackController: PlaybackController,
+		playbackController: PlaybackController?,
 		item: BaseItemDto,
 		streamInfo: StreamInfo,
 		position: Long,
@@ -79,8 +79,8 @@ class ReportingHelper(
 				PlayMethod.DirectStream -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_STREAM
 				PlayMethod.DirectPlay -> org.jellyfin.sdk.model.api.PlayMethod.DIRECT_PLAY
 			},
-			audioStreamIndex = playbackController.audioStreamIndex,
-			subtitleStreamIndex = playbackController.subtitleStreamIndex,
+			audioStreamIndex = playbackController?.audioStreamIndex,
+			subtitleStreamIndex = playbackController?.subtitleStreamIndex,
 			isMuted = false,
 			repeatMode = RepeatMode.REPEAT_NONE,
 			playbackOrder = PlaybackOrder.DEFAULT,
