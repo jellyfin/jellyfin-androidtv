@@ -111,6 +111,8 @@ class MainActivity : FragmentActivity() {
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) {
+		screensaverViewModel.notifyInteraction(true)
+
 		when (action) {
 			// DestinationFragmentView actions
 			is NavigationAction.NavigateFragment -> binding.contentView.navigate(action)
