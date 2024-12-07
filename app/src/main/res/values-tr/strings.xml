@@ -563,4 +563,6 @@
     <string name="segment_type_commercial">Reklamlar</string>
     <string name="segment_type_intro">İntrolar</string>
     <string name="segment_type_outro">Kapanış jeneriği</string>
+    <string name="preference_enable_trickplay">Video oynatıcıda trickplay özelliğini etkinleştir</string>
+    <string name="skip_forward_length">İleri atlama uzunluğu</string>
 </resources>
