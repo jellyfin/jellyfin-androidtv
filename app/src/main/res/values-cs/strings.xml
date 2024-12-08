@@ -121,14 +121,14 @@
     <string name="lbl_display_preferences">Předvolby zobrazení</string>
     <string name="lbl__continuing">POKRAČUJÍCÍ</string>
     <string name="lbl_ended">UKONČENO</string>
-    <string name="lbl_filters">Filtry živé TV</string>
+    <string name="lbl_filters">Filtry živého vysílání</string>
     <string name="msg_subtitles_loading">Načítání titulků…</string>
     <string name="msg_unable_load_subs">Nelze načíst titulky</string>
     <string name="msg_burn_sub_warning">Vypalování titulků do obrazu. Může to chvíli trvat…</string>
     <string name="lbl_no_recordings">Žádné nahrávky</string>
     <string name="lbl_live_tv_guide">Programový průvodce</string>
     <string name="lbl_recorded_tv">Nahrané pořady</string>
-    <string name="pref_live_tv_cat">TV vysílání</string>
+    <string name="pref_live_tv_cat">Živé vysílání</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>
     <string name="lbl_artists">Úmělci</string>
@@ -166,8 +166,8 @@
     <string name="desc_automatic_fav_songs">Automatický seznam oblíbených skladeb</string>
     <string name="lbl_goto_now_playing">Přejít na právě přehrávané</string>
     <string name="sum_enable_cinema_mode">Přehrát dostupné úvodníky a ukázky před spuštěním filmu</string>
-    <string name="lbl_direct_stream_live">Přímý televizní přenos</string>
-    <string name="msg_error_live_stream">Chyba při přenosu televizního vysílání. Opakování pokusu…</string>
+    <string name="lbl_direct_stream_live">Přímý přenos živého vysílání</string>
+    <string name="msg_error_live_stream">Chyba při přenosu živého vysílání. Opakování pokusu…</string>
     <string name="lbl_now_playing_album">z %1$s</string>
     <string name="lbl_now_playing_track">%1$s z %2$s</string>
     <string name="lbl_watched">Zhlédnuto</string>
@@ -362,7 +362,7 @@
     <string name="licenses_link">Licence</string>
     <string name="home_section_i">Sekce Domů %1$d</string>
     <string name="home_section_none">Nic</string>
-    <string name="home_section_livetv">Živý přenos</string>
+    <string name="home_section_livetv">Živé vysílání</string>
     <string name="home_section_next_up">Další na řadě</string>
     <string name="home_section_active_recordings">Aktivní nahrávky</string>
     <string name="home_section_resume_audio">Pokračovat v poslechu</string>
@@ -392,7 +392,7 @@
     <string name="pref_audio">Zvuk</string>
     <string name="pref_subtitles">Titulky</string>
     <string name="pref_video">Video</string>
-    <string name="pref_playback_description">Video, titulky, TV, další díly</string>
+    <string name="pref_playback_description">Video, titulky, živé vysílání, další na řadě</string>
     <string name="pref_customization_description">Motiv, domovská stránka, změna mapování</string>
     <string name="pref_login_description">Servery, účty, automatické přihlášení</string>
     <string name="pref_login">Přihlášení</string>
@@ -431,7 +431,7 @@
     <string name="crash_report_toast">Jejda! Něco se pokazilo, na váš server Jellyfin bylo odesláno hlášení o pádu.</string>
     <string name="server_unsupported_notification">Tento server používá verzi Jellyfin %1$s, která není podporována. Abyste mohli aplikaci dále používat, aktualizujte na verzi Jellyfin %2$s nebo novější.</string>
     <string name="app_notification_uimode_invalid">Tato aplikace je optimalizovaná pro televizory. Na jiných zařízeních doporučujeme používat naši mobilní aplikaci.</string>
-    <string name="live_tv_preferences">Možnosti živé TV</string>
+    <string name="live_tv_preferences">Možnosti živého vysílání</string>
     <string name="login_quickconnect_step_3">3. Zadejte následující kód:</string>
     <string name="login_quickconnect_step_2">2. Otevřete uživatelskou nabídku a přejděte na stránku s Rychlým připojením</string>
     <string name="login_quickconnect_step_1">1. Otevřete aplikaci Jellyfin ve svém telefonu nebo webovém prohlížeči a přihlaste se svým účtem</string>
