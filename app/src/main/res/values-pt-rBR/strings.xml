@@ -562,4 +562,14 @@
     <string name="past_week">Ultima semana</string>
     <string name="pref_external_player">Usar reprodutor externo</string>
     <string name="current_queue">Fila atual</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Usar o FFmpeg para decodificar áudio, mesmo se codecs nativos estiverem disponíveis.</string>
+    <string name="segment_type_preview">Pré-visualizações</string>
+    <string name="segment_type_unknown">Segmentos desconhecidos</string>
+    <string name="segment_type_recap">Recapitulações</string>
+    <string name="segment_action_ask_to_skip">Pedir para pular</string>
+    <string name="skip_forward_length">Quantidade de tempo do avançar</string>
+    <string name="segment_action_nothing">Fazer nada</string>
+    <string name="segment_action_skip">Pular</string>
+    <string name="segment_type_commercial">Comerciais</string>
+    <string name="segment_type_intro">Intros</string>
 </resources>
