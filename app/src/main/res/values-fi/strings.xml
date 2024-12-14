@@ -394,7 +394,7 @@
     <string name="user_picker_disable_summary">Näytä kirjautumisruutu aina</string>
     <string name="user_picker_disable_title">Poista käytöstä</string>
     <string name="lbl_use_series_thumbnails_description">Käytä sarjojen thumbnail-kuvia näytettäesä jaksoja</string>
-    <string name="lbl_hide_unwatched_count">Piilota katsomattomien määrä</string>
+    <string name="lbl_hide_unwatched_count">Kun nimike on katsottu</string>
     <string name="login_help_description">Jellyfin tarvitsee palvelimen, johon yhdistää. Lue lisää Jellyfinin käytön aloituksesta osoitteesta docs.jellyfin.org tai lue QR-koodi.</string>
     <string name="login_help_title">Tarvitsetko apua\?</string>
     <string name="connect_manually_by_address">Syötä palvelimen osoite</string>
@@ -561,4 +561,8 @@
     <string name="dca">DTS</string>
     <string name="eac3">DD+</string>
     <string name="ac3">DD</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s Sarja</item>
+        <item quantity="other">%1$s Sarjat</item>
+    </plurals>
 </resources>
