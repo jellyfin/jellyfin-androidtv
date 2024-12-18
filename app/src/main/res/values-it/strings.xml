@@ -560,4 +560,19 @@
     <string name="lbl_subtitle_background_color">Colore sfondo sottotitolo</string>
     <string name="prefer_exoplayer_ffmpeg">Preferisci FFmpeg per la riproduzione audio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg per la decodifica audia anche se il dispositivo fornisce il codec nativamente.</string>
+    <string name="default_video_zoom">Modalità di zoom predefinita</string>
+    <string name="video_start_delay">Ritardo riproduzione video</string>
+    <string name="segment_action_ask_to_skip">Chiedi per saltare</string>
+    <string name="segment_type_commercial">Pubblicità</string>
+    <string name="segment_type_recap">Riepiloghi</string>
+    <string name="preference_enable_trickplay">Abilita trickplay nel lettore video</string>
+    <string name="lbl_subtitle_text_stroke_color">Colore cornice dei sottotitoli</string>
+    <string name="segment_type_intro">Introduzioni</string>
+    <string name="segment_type_unknown">Segmenti sconosciuti</string>
+    <string name="skip_forward_length">Dimensione salta avanti</string>
+    <string name="pref_mediasegment_actions">Azioni segmento file multimediale</string>
+    <string name="segment_action_nothing">Non fare nulla</string>
+    <string name="segment_action_skip">Salta</string>
+    <string name="segment_type_outro">Conclusioni</string>
+    <string name="segment_type_preview">Anteprime</string>
 </resources>

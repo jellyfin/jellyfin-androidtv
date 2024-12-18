@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_authentication_cat">Avtentikacija</string>
-    <string name="lbl_tv_queuing">Čakalna vrsta vseh naslednjih epizod</string>
+    <string name="lbl_tv_queuing">Samodejno predvajanj naslednjo epizodo</string>
     <string name="lbl_empty">Prazno</string>
     <string name="lbl_no_items">Ni vsebin</string>
     <string name="msg_cannot_play">Te vsebine ni mogoče predvajati</string>
@@ -483,7 +483,7 @@
     <string name="item_deletion_failed">Ni mogoče izbrisati %1$s</string>
     <string name="color_blue">Modra</string>
     <string name="app_notification_beta">Aplikacija je posodobljena na %1$s
-\nHvala za sodelovanje v programu Jellyfin beta</string>
+\nHvala za sodelovanje v programu Jellyfin beta.</string>
     <string name="item_delete_confirm_message">Ali ste prepričani, da želite izbrisati ta element iz strežnika\? Tega dejanja ni mogoče razveljaviti.</string>
     <plurals name="minutes">
         <item quantity="one">%1$s minuta</item>
@@ -505,4 +505,38 @@
     <string name="photos">Slike</string>
     <string name="photo_albums">Foto albumi</string>
     <string name="channels">Kanali</string>
+    <string name="segment_type_commercial">Oglasi</string>
+    <string name="segment_type_intro">Uvodi</string>
+    <string name="lbl_subtitle_background_color">Barva ozadja podnapisov</string>
+    <string name="lbl_subtitle_text_stroke_color">Barva obrobe podnapisov</string>
+    <string name="continue_listening">Nadaljuj s poslušanjem</string>
+    <string name="lbl_subtitle_text_color">Barva podnapisov</string>
+    <plurals name="items">
+        <item quantity="one">%1$s element</item>
+        <item quantity="two">%1$s elementa</item>
+        <item quantity="few">%1$s elementi</item>
+        <item quantity="other">%1$s elementov</item>
+    </plurals>
+    <string name="pref_external_player">Uporabi zunanju predvajalnik</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="current_queue">Trenutna čakalna vrsta</string>
+    <string name="random">Naključno</string>
+    <string name="segment_action_skip">Preskoči</string>
+    <string name="segment_type_unknown">Neznani odseki</string>
+    <string name="past_week">Pretekli teden</string>
+    <string name="segment_type_preview">Predogledi</string>
+    <string name="segment_type_recap">Povzetki</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="lbl_home">Domov</string>
+    <string name="pref_screensaver_ageratingmax">Najvišja starostna ocena</string>
+    <string name="clear_image_cache">Izbriši predpomnilnik slik</string>
+    <string name="clear_image_cache_content">Uporabljen:%1$s</string>
+    <string name="unreleased">Ni še izdano</string>
+    <string name="pref_playback_advanced">Napredne nastavitve predvajanja</string>
+    <string name="pref_screensaver_ageratingmax_entry">Do leta %1$d</string>
+    <string name="pref_screensaver_ageratingmax_zero">Vsa leta</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Prikaz vseh elementov</string>
+    <string name="all_channels">Vsi kanali</string>
+    <string name="app_notification_update_soon">Posodobite strežnik z %1$s na vsaj %2$s, če želite aplikacijo uporabljati tudi po naslednji posodobitvi.</string>
 </resources>
