@@ -48,7 +48,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 import java.time.Instant
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.time.Duration
 
@@ -400,16 +400,56 @@ class LeanbackChannelWorker(
 	 * or other types of media. Uses the [nextUpItems] parameter to store items returned by a
 	 * NextUpQuery().
 	 */
+	@SuppressLint("RestrictedApi")
 	private fun updateWatchNext(nextUpItems: List<BaseItemDto>) {
-		// Delete current items
-		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
+		deletePrograms(nextUpItems)
 
-		// Add new items
+		// Get current watch next state
+		val currentWatchNextPrograms = getCurrentWatchNext()
+
+		// Create all programs in nextUpItems but not in watch next
+		val programsToAdd = nextUpItems
+			.filter { next -> currentWatchNextPrograms.none{ it.internalProviderId == next.id.toString() }}
 		context.contentResolver.bulkInsert(
 			WatchNextPrograms.CONTENT_URI,
-			nextUpItems.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }
-				.toTypedArray()
-		)
+			programsToAdd.map{item -> getBaseItemAsWatchNextProgram(item).toContentValues() }
+				.toTypedArray())
+	}
+
+	/**
+	 * Delete stale programs from the watch next row. Items that don't need to be touched are
+	 * kept as is, so they keep their ordering in the watch next row.
+	 */
+	@SuppressLint("RestrictedApi")
+	private fun deletePrograms(nextUpItems: List<BaseItemDto>) {
+		// Retrieve current watch next row
+		val currentWatchNextPrograms = getCurrentWatchNext()
+
+		// Find all stale programs to delete
+		val deletedByUser = currentWatchNextPrograms.filter { !it.isBrowsable }
+		val noLongerInWatchNext = currentWatchNextPrograms.filter { (nextUpItems).none { next -> it.internalProviderId == next.id.toString() } }
+		val continueWatching = currentWatchNextPrograms.filter { it.watchNextType == WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE}
+
+		// Delete the programs
+		(deletedByUser + noLongerInWatchNext + continueWatching)
+			.forEach { context.contentResolver.delete(TvContractCompat.buildWatchNextProgramUri(it.id), null, null) }
+	}
+
+	/**
+	 * Retrieves the current watch next row state.
+	 */
+	@SuppressLint("RestrictedApi")
+	private fun getCurrentWatchNext(): MutableList<WatchNextProgram> {
+		val currentWatchNextPrograms: MutableList<WatchNextProgram> = mutableListOf()
+		context.contentResolver.query(WatchNextPrograms.CONTENT_URI, WatchNextProgram.PROJECTION, null, null, null)
+			.use { cursor ->
+				if (cursor != null && cursor.moveToFirst()) {
+					do {
+						currentWatchNextPrograms.add(WatchNextProgram.fromCursor(cursor))
+					} while (cursor.moveToNext())
+				}
+			}
+		return currentWatchNextPrograms
 	}
 
 	/**
@@ -431,15 +471,19 @@ class LeanbackChannelWorker(
 				setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER)
 			}
 
-			// Name
-			if (item.seriesName != null) setTitle("${item.seriesName} - ${item.name}")
+			// Name and episode details
+			if (item.seriesName != null) {
+				setTitle(item.seriesName)
+				setEpisodeTitle(item.name)
+				setEpisodeNumber(item.indexNumber ?: 0)
+				setSeasonNumber(item.parentIndexNumber ?: 0)
+			}
 			else setTitle(item.name)
+
+			setDescription(item.overview?.stripHtml())
 
 			// Poster
 			setPosterArtUri(item.getPosterArtImageUrl(preferParentThumb))
-
-			// Use date created or fallback to current time if unavailable
-			var engagement = item.dateCreated
 
 			when {
 				// User has started playing the episode
@@ -447,23 +491,24 @@ class LeanbackChannelWorker(
 					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 					setLastPlaybackPositionMillis(item.userData!!.playbackPositionTicks.ticks.inWholeMilliseconds.toInt())
 					// Use last played date to prioritize
-					engagement = item.userData?.lastPlayedDate
+
+					setLastEngagementTimeUtcMillis(item.userData?.lastPlayedDate?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+						?: Instant.now().toEpochMilli())
 				}
 				// First episode of the season
-				item.indexNumber == 1 -> setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
+				item.indexNumber == 1 -> {
+					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
+					setLastEngagementTimeUtcMillis(Instant.now().toEpochMilli())
+				}
 				// Default
-				else -> setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
+				else -> {
+					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
+					setLastEngagementTimeUtcMillis(Instant.now().toEpochMilli())
+				}
 			}
 
-			setLastEngagementTimeUtcMillis(
-				engagement?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
-					?: Instant.now().toEpochMilli()
-			)
-
-			// Episode runtime has been determined
-			item.runTimeTicks?.let { runTimeTicks ->
-				setDurationMillis(runTimeTicks.ticks.inWholeMilliseconds.toInt())
-			}
+			// Runtime has been determined
+			setDurationMillis(item.runTimeTicks?.ticks?.inWholeMilliseconds?.toInt() ?: 0)
 
 			// Set intent to open the episode
 			setIntent(Intent(context, StartupActivity::class.java).apply {
