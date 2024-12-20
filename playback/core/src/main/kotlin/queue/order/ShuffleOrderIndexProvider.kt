@@ -34,6 +34,6 @@ internal class ShuffleOrderIndexProvider : OrderIndexProvider {
 	}
 
 	override fun useNextIndex() {
-		nextIndices.remove(0)
+		nextIndices.removeAt(0)
 	}
 }
