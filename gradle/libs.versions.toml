@@ -2,7 +2,7 @@
 aboutlibraries = "11.2.3"
 acra = "5.12.0"
 android-compileSdk = "35"
-android-desugar = "2.1.3"
+android-desugar = "2.1.4"
 android-gradle = "8.7.3"
 android-minSdk = "21"
 android-targetSdk = "35"
