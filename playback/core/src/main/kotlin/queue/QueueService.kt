@@ -132,13 +132,15 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 	override suspend fun next(usePlaybackOrder: Boolean, useRepeatMode: Boolean): QueueEntry? {
 		val index = getNextIndices(1, usePlaybackOrder, useRepeatMode).firstOrNull() ?: return null
-		if (usePlaybackOrder) {
-			// Automatically set repeat mode back to none when using the ONCE option
-			if (state.repeatMode.value == RepeatMode.REPEAT_ENTRY_ONCE && index == this._entryIndex.value) {
-				state.setRepeatMode(RepeatMode.NONE)
-			} else if (state.repeatMode.value == RepeatMode.NONE) {
-				orderIndexProvider.useNextIndex()
-			}
+
+		val provider = if (usePlaybackOrder) orderIndexProvider else defaultOrderIndexProvider
+		val repeatMode = if (useRepeatMode) state.repeatMode.value else RepeatMode.NONE
+
+		// Automatically set repeat mode back to none when using the ONCE option
+		if (repeatMode == RepeatMode.REPEAT_ENTRY_ONCE && index == this._entryIndex.value) {
+			state.setRepeatMode(RepeatMode.NONE)
+		} else if (repeatMode == RepeatMode.NONE) {
+			provider.useNextIndex()
 		}
 
 		return setIndex(index, true)
