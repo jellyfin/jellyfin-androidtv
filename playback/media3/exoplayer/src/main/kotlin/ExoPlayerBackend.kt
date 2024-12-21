@@ -209,6 +209,8 @@ class ExoPlayerBackend(
 	}
 
 	override fun play() {
+		// If the item has ended, revert first so the item will start over again
+		if (exoPlayer.playbackState == Player.STATE_ENDED) exoPlayer.seekTo(0)
 		exoPlayer.play()
 	}
 
