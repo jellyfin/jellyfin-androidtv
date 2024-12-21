@@ -88,7 +88,13 @@ class MutablePlayerState(
 				_videoSize.value = VideoSize(width, height)
 			}
 
-			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) = Unit
+			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
+				// Make sure to start stream again if repeat mode is turned on
+				// Note: the QueueService is responsible for changing REPEAT_ENTRY_ONCE to NONE
+				if (_repeatMode.value != RepeatMode.NONE) {
+					backendService.backend?.play()
+				}
+			}
 		})
 
 		volume = options.playerVolumeState
