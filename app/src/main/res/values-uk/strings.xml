@@ -167,7 +167,7 @@
     <string name="lbl_bitstream_ac3">Звук Bitstream Dolby Digital</string>
     <string name="lbl_refresh_switching">Перемикання частоти оновлення</string>
     <string name="pref_show_backdrop_description">Змінює зображення тла щоразу, коли обирається інший елемент медіатеки</string>
-    <string name="lbl_show_backdrop">Відображати задники</string>
+    <string name="lbl_show_backdrop">Відображати тло</string>
     <string name="lbl_open">Відкрити</string>
     <string name="lbl_play_next_up">Продовжити перегляд</string>
     <string name="lbl_clear_queue">Очистити чергу</string>
@@ -546,7 +546,7 @@
     <string name="ac3">DD</string>
     <string name="clear_image_cache">Очистити кеш зображень</string>
     <string name="clear_image_cache_content">Використано: %1$s</string>
-    <string name="lbl_runtime">Час виконання</string>
+    <string name="lbl_runtime">Тривалість</string>
     <string name="random">Випадково</string>
     <string name="unreleased">Ще не випущено</string>
     <string name="pref_playback_advanced">Розширені налаштування відтворення</string>
@@ -572,4 +572,9 @@
     <string name="prefer_exoplayer_ffmpeg">Надавати перевагу FFmpeg для відтворення аудіо</string>
     <string name="prefer_exoplayer_ffmpeg_content">Використовувати FFmpeg для декодування аудіо, навіть якщо доступні кодеки платформи.</string>
     <string name="video_start_delay">Затримка запуску відео</string>
+    <string name="segment_action_ask_to_skip">Запитати про пропуск</string>
+    <string name="skip_forward_length">Довжина пропуску вперед</string>
+    <string name="segment_action_nothing">Нічого не робити</string>
+    <string name="pref_mediasegment_actions">Дії з медіа сегментами</string>
+    <string name="segment_action_skip">Пропустити</string>
 </resources>

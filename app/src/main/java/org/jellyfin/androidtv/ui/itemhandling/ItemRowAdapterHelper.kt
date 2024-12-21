@@ -694,6 +694,8 @@ fun ItemRowAdapter.refreshItem(
 			}
 		)
 
-		callback()
+		withContext(Dispatchers.Main) {
+			callback()
+		}
 	}
 }

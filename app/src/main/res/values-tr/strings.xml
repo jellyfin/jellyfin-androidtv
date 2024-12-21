@@ -42,7 +42,7 @@
     <string name="lbl_add_to_queue">Kuyruğa ekle</string>
     <string name="msg_items_added">" öğe eklendi"</string>
     <string name="lbl_playlists">Oynatma Listeleri</string>
-    <string name="sum_enable_cinema_mode">Bir filmi başlatmadan önce mevcut tanıtımları ve önizlemeleri oynatın</string>
+    <string name="sum_enable_cinema_mode">Bir filmi başlatmadan önce mevcut introları ve önizlemeleri oynatın</string>
     <string name="lbl_enable_cinema_mode">Sinema modu</string>
     <string name="lbl_episodes">Bölümler</string>
     <string name="lbl_album">Albüm</string>
@@ -209,7 +209,7 @@
     <string name="msg_live_tv_next">Sıradaki %1$d saati yükle\?</string>
     <string name="lbl_load_guide_data">Rehber verilerini yükle</string>
     <string name="episode_missing_message_2">Bu bölüm kütüphanenizde eksik. Oynatma duracak.</string>
-    <string name="episode_missing_message">Bu bölüm kütüphanenizde eksil. Bunu atlayıp bir sonrakine geçmek ister misiniz\?</string>
+    <string name="episode_missing_message">Bu bölüm kütüphanenizde eksik. Bunu atlayıp bir sonrakine geçmek ister misiniz?</string>
     <string name="episode_missing">Bölüm eksik</string>
     <string name="no_player_message">Video oynatma özellikli bir uygulamanız olmadığı görülüyor. Bu seçenek, video içeriğini oynatmak için 3. taraf bir uygulama yüklemenizi gerektirir.</string>
     <string name="no_player">Oynatıcı yok</string>
@@ -563,4 +563,6 @@
     <string name="segment_type_commercial">Reklamlar</string>
     <string name="segment_type_intro">İntrolar</string>
     <string name="segment_type_outro">Kapanış jeneriği</string>
+    <string name="preference_enable_trickplay">Video oynatıcıda trickplay özelliğini etkinleştir</string>
+    <string name="skip_forward_length">İleri atlama uzunluğu</string>
 </resources>

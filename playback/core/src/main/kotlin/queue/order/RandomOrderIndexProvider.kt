@@ -23,6 +23,6 @@ internal class RandomOrderIndexProvider : OrderIndexProvider {
 	}
 
 	override fun useNextIndex() {
-		nextIndices.removeFirst()
+		nextIndices.removeAt(0)
 	}
 }
