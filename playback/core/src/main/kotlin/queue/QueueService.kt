@@ -113,14 +113,14 @@ class QueueService internal constructor() : PlayerService(), Queue {
 		val repeatMode = if (useRepeatMode) state.repeatMode.value else RepeatMode.NONE
 
 		return when (repeatMode) {
-			RepeatMode.NONE -> provider.provideIndices(amount, estimatedSize, currentQueueIndicesPlayed, entryIndex.value)
+			RepeatMode.NONE -> provider.provideIndices(amount, estimatedSize, currentQueueIndicesPlayed, _entryIndex.value)
 
 			RepeatMode.REPEAT_ENTRY_ONCE -> buildList(amount) {
-				add(entryIndex.value)
-				addAll(provider.provideIndices(amount - 1, estimatedSize, currentQueueIndicesPlayed, entryIndex.value))
+				add(_entryIndex.value)
+				addAll(provider.provideIndices(amount - 1, estimatedSize, currentQueueIndicesPlayed, _entryIndex.value))
 			}.take(amount)
 
-			RepeatMode.REPEAT_ENTRY_INFINITE -> List(amount) { entryIndex.value }
+			RepeatMode.REPEAT_ENTRY_INFINITE -> List(amount) { _entryIndex.value }
 		}
 	}
 
