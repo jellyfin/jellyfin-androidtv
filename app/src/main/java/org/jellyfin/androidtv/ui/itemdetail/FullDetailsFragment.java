@@ -688,15 +688,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         int hours = totalMinutes / 60;
         int minutes = totalMinutes % 60;
 
-        String runtimeString = "";
-
         if (hours > 0) {
-            runtimeString += hours + getString(R.string.hours_shorthand) + " ";
+            return getString(R.string.runtime_hours_minutes, hours, minutes);
         }
 
-        runtimeString += minutes + getString(R.string.minutes_shorthand);
-
-        return runtimeString;
+        return getString(R.string.runtime_minutes, minutes);
     }
 
     private String getEndTime() {
