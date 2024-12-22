@@ -32,7 +32,10 @@ android {
 	}
 
 	buildTypes {
-		val release by getting {
+		getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        val release by getting {
 			isMinifyEnabled = false
 
 			// Set package names used in various XML files
