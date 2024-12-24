@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -41,7 +42,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.core.component.KoinComponent
@@ -270,7 +270,7 @@ class LeanbackChannelWorker(
 		withContext(Dispatchers.IO) {
 			val resume = async {
 				api.itemsApi.getResumeItems(
-					fields = listOf(ItemFields.DATE_CREATED),
+					fields = ItemRepository.itemFields,
 					imageTypeLimit = 1,
 					limit = 10,
 					mediaTypes = listOf(MediaType.VIDEO),
@@ -284,7 +284,7 @@ class LeanbackChannelWorker(
 					imageTypeLimit = 1,
 					limit = 10,
 					enableResumable = false,
-					fields = listOf(ItemFields.DATE_CREATED),
+					fields = ItemRepository.itemFields,
 				).content.items
 			}
 
@@ -296,9 +296,7 @@ class LeanbackChannelWorker(
 		withContext(Dispatchers.IO) {
 			val latestEpisodes = async {
 				api.userLibraryApi.getLatestMedia(
-					fields = listOf(
-						ItemFields.OVERVIEW,
-					),
+					fields = ItemRepository.itemFields,
 					limit = 50,
 					includeItemTypes = listOf(BaseItemKind.EPISODE),
 					isPlayed = false
@@ -307,9 +305,7 @@ class LeanbackChannelWorker(
 
 			val latestMovies = async {
 				api.userLibraryApi.getLatestMedia(
-					fields = listOf(
-						ItemFields.OVERVIEW,
-					),
+					fields = ItemRepository.itemFields,
 					limit = 50,
 					includeItemTypes = listOf(BaseItemKind.MOVIE),
 					isPlayed = false
@@ -318,9 +314,7 @@ class LeanbackChannelWorker(
 
 			val latestMedia = async {
 				api.userLibraryApi.getLatestMedia(
-					fields = listOf(
-						ItemFields.OVERVIEW,
-					),
+					fields = ItemRepository.itemFields,
 					limit = 50,
 					includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 					isPlayed = false

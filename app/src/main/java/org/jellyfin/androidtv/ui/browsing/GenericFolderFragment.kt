@@ -2,8 +2,8 @@ package org.jellyfin.androidtv.ui.browsing
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
@@ -16,14 +16,6 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 			BaseItemKind.FOLDER,
 			BaseItemKind.USER_VIEW,
 			BaseItemKind.CHANNEL_FOLDER_ITEM,
-		)
-
-		private val itemFields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
 		)
 	}
 
@@ -39,7 +31,7 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 		if (showSpecialViewTypes.contains(mFolder.type)) {
 			if (mFolder.type != BaseItemKind.CHANNEL_FOLDER_ITEM) {
 				val resume = GetItemsRequest(
-					fields = itemFields,
+					fields = ItemRepository.itemFields,
 					parentId = mFolder.id,
 					limit = 50,
 					filters = setOf(ItemFilter.IS_RESUMABLE),
@@ -50,7 +42,7 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 			}
 
 			val latest = GetItemsRequest(
-				fields = itemFields,
+				fields = ItemRepository.itemFields,
 				parentId = mFolder.id,
 				limit = 50,
 				filters = setOf(ItemFilter.IS_UNPLAYED),
@@ -61,7 +53,7 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 		}
 
 		val byName = GetItemsRequest(
-			fields = itemFields,
+			fields = ItemRepository.itemFields,
 			parentId = mFolder.id,
 		)
 		val header = when (mFolder.type) {

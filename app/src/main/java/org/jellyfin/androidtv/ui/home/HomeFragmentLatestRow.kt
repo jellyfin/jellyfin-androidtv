@@ -5,12 +5,12 @@ import androidx.leanback.widget.Row
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.CollectionType
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 
 class HomeFragmentLatestRow(
@@ -28,12 +28,7 @@ class HomeFragmentLatestRow(
 			.map { item ->
 				// Create query and add it to a new row
 				val request = GetLatestMediaRequest(
-					fields = setOf(
-						ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-						ItemFields.OVERVIEW,
-						ItemFields.CHILD_COUNT,
-						ItemFields.SERIES_PRIMARY_IMAGE,
-					),
+					fields = ItemRepository.itemFields,
 					imageTypeLimit = 1,
 					parentId = item.id,
 					groupItems = true,
