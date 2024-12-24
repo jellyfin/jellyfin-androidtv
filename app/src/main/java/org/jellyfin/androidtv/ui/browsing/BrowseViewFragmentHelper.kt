@@ -2,12 +2,12 @@ package org.jellyfin.androidtv.ui.browsing
 
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemDtoQueryResult
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.LocationType
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.TimerInfoDto
@@ -24,11 +24,7 @@ fun EnhancedBrowseFragment.getLiveTvRecordingsAndTimers(
 	lifecycleScope.launch {
 		runCatching {
 			val recordings by api.liveTvApi.getRecordings(
-				fields = setOf(
-					ItemFields.OVERVIEW,
-					ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-					ItemFields.CHILD_COUNT,
-				),
+				fields = ItemRepository.itemFields,
 				enableImages = true,
 				limit = 40,
 			)

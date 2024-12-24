@@ -4,26 +4,16 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.playlistsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.koin.android.ext.android.inject
 import java.util.UUID
-
-private val itemFields = setOf(
-	ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-	ItemFields.OVERVIEW,
-	ItemFields.ITEM_COUNTS,
-	ItemFields.DISPLAY_PREFERENCES_ID,
-	ItemFields.CHILD_COUNT,
-	ItemFields.GENRES,
-	ItemFields.CHAPTERS,
-)
 
 fun ItemListFragment.loadItem(itemId: UUID) {
 	val api by inject<ApiClient>()
@@ -48,7 +38,7 @@ fun MusicFavoritesListFragment.getFavoritePlaylist(
 			filters = setOf(org.jellyfin.sdk.model.api.ItemFilter.IS_FAVORITE_OR_LIKES),
 			sortBy = setOf(ItemSortBy.RANDOM),
 			limit = 100,
-			fields = itemFields,
+			fields = ItemRepository.itemFields,
 		)
 
 		callback(result.items)
@@ -66,7 +56,7 @@ fun ItemListFragment.getPlaylist(
 			item.type == BaseItemKind.PLAYLIST -> api.playlistsApi.getPlaylistItems(
 				playlistId = item.id,
 				limit = 150,
-				fields = itemFields,
+				fields = ItemRepository.itemFields,
 			)
 
 			else -> api.itemsApi.getItems(
@@ -75,7 +65,7 @@ fun ItemListFragment.getPlaylist(
 				recursive = true,
 				sortBy = setOf(ItemSortBy.SORT_NAME),
 				limit = 200,
-				fields = itemFields,
+				fields = ItemRepository.itemFields,
 			)
 		}
 
