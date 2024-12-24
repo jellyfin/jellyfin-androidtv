@@ -12,6 +12,7 @@ import android.provider.BaseColumns
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.sdk.isUsable
@@ -21,7 +22,6 @@ import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDtoQueryResult
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.api.ItemFields
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -75,7 +75,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 			searchTerm = query,
 			recursive = true,
 			limit = limit,
-			fields = setOf(ItemFields.TAGLINES)
+			fields = ItemRepository.itemFields
 		)
 
 		items
