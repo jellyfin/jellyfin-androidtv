@@ -44,7 +44,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
-import org.jellyfin.playback.media3.exoplayer.mapping.SubtitleKt;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -346,7 +345,7 @@ public class VideoManager {
                     Uri subtitleUri = Uri.parse(api.createUrl(mediaStream.getDeliveryUrl(), Collections.emptyMap(), Collections.emptyMap(), true));
                     MediaItem.SubtitleConfiguration subtitleConfiguration = new MediaItem.SubtitleConfiguration.Builder(subtitleUri)
                             .setId("JF_EXTERNAL:" + String.valueOf(mediaStream.getIndex()))
-                            .setMimeType(SubtitleKt.getFfmpegSubtitleMimeType(mediaStream.getCodec()))
+                            .setMimeType(VideoManagerHelperKt.getSubtitleMediaStreamCodec(mediaStream))
                             .setLanguage(mediaStream.getLanguage())
                             .setLabel(mediaStream.getDisplayTitle())
                             .setSelectionFlags(getSubtitleSelectionFlags(mediaStream))
