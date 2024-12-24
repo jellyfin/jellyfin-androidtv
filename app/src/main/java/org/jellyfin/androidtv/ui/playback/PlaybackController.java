@@ -1023,7 +1023,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startPauseReportLoop() {
         stopReportLoop();
-        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
+        if (mCurrentStreamInfo == null) return;
+        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), mCurrentStreamInfo, mCurrentPosition * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
