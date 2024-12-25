@@ -498,7 +498,8 @@ class LeanbackChannelWorker(
 				// First episode of the season
 				item.indexNumber == 1 -> {
 					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
-					setLastEngagementTimeUtcMillis(Instant.now().toEpochMilli())
+					setLastEngagementTimeUtcMillis(item.dateCreated?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+						?: Instant.now().toEpochMilli())
 				}
 				// Default
 				else -> {
