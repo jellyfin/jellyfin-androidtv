@@ -10,6 +10,6 @@ gradle.properties @nielsvanvelzen
 # Linting
 android-lint.xml @nielsvanvelzen
 detekt.yaml @nielsvanvelzen
-
+# Students
 # Playback code
 /playback/ @nielsvanvelzen
