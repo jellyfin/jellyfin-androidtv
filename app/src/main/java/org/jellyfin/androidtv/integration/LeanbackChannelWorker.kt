@@ -270,7 +270,7 @@ class LeanbackChannelWorker(
 		withContext(Dispatchers.IO) {
 			val resume = async {
 				api.itemsApi.getResumeItems(
-					fields = listOf(ItemFields.DATE_CREATED),
+					fields = listOf(ItemFields.DATE_CREATED, ItemFields.OVERVIEW),
 					imageTypeLimit = 1,
 					limit = 10,
 					mediaTypes = listOf(MediaType.VIDEO),
@@ -284,7 +284,7 @@ class LeanbackChannelWorker(
 					imageTypeLimit = 1,
 					limit = 10,
 					enableResumable = false,
-					fields = listOf(ItemFields.DATE_CREATED),
+					fields = listOf(ItemFields.DATE_CREATED, ItemFields.OVERVIEW),
 				).content.items
 			}
 
