@@ -22,7 +22,6 @@
     <string name="lbl_last_played">"Utoljára lejátszott "</string>
     <string name="lbl_directed_by">Rendezte</string>
     <string name="lbl_ends">Végetér</string>
-    <string name="lbl_min">" perc"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Megtekintett</string>
     <string name="lbl_favorite">Kedvenc</string>

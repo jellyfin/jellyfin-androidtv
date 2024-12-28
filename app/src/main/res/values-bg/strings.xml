@@ -43,7 +43,6 @@
     <string name="lbl_last_played">"Последно гледан "</string>
     <string name="lbl_directed_by">Режисиран от</string>
     <string name="lbl_ends">Приключва</string>
-    <string name="lbl_min">" мин"</string>
     <string name="lbl_watched">Гледан</string>
     <string name="lbl_favorite">Фаворит</string>
     <string name="lbl_seasons">Сезони</string>

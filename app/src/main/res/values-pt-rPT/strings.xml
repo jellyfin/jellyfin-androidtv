@@ -50,7 +50,6 @@
     <string name="lbl_upcoming">Próximos</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duração</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Termina às</string>
     <string name="lbl_directed_by">Realizado por</string>
     <string name="lbl_last_played">"Reproduzido anteriormente "</string>

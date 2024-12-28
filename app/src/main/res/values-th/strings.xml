@@ -19,7 +19,6 @@
     <string name="lbl_last_played">"เล่นล่าสุด "</string>
     <string name="lbl_directed_by">กำกับโดย</string>
     <string name="lbl_ends">จบ</string>
-    <string name="lbl_min">" นาที"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">ดูแล้ว</string>
     <string name="lbl_favorite">รายการโปรด</string>

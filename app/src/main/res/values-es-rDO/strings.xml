@@ -48,7 +48,6 @@
     <string name="lbl_last_played">"Reproducido por última vez "</string>
     <string name="lbl_directed_by">Dirigido por</string>
     <string name="lbl_ends">Termina</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_favorite">Favorito</string>
