@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -101,6 +102,9 @@ class ExoPlayerBackend(
 					setConstantBitrateSeekingAlwaysEnabled(true)
 				}
 			))
+			.setAudioAttributes(AudioAttributes.Builder().apply {
+				setUsage(C.USAGE_MEDIA)
+			}.build(), true)
 			.setPauseAtEndOfMediaItems(true)
 			.build()
 			.also { player ->
