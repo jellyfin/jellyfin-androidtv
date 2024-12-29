@@ -20,9 +20,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.leanback.widget.Presenter
-import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.GridButton
+import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem
 
 class GridButtonPresenter @JvmOverloads constructor(
