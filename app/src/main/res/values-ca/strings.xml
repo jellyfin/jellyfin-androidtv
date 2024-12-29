@@ -560,4 +560,11 @@
     <string name="lbl_subtitle_text_stroke_color">Color de traç dels subtítols</string>
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg per reproducció d\'àudio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Utilitzar FFmpeg per a descodificar l\'àudio, encara que els còdecs de plataforma estiguin disponibles.</string>
+    <string name="default_video_zoom">Configuració de zoom predeterminat</string>
+    <string name="segment_action_skip">Salta</string>
+    <string name="segment_type_intro">Introduccions</string>
+    <string name="segment_type_preview">Previsualitzacions</string>
+    <string name="segment_type_recap">Recapitulacions</string>
+    <string name="segment_type_unknown">Segments desconeguts</string>
+    <string name="segment_action_nothing">No facis res</string>
 </resources>
