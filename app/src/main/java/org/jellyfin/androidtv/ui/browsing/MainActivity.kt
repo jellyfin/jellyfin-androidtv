@@ -101,14 +101,14 @@ class MainActivity : FragmentActivity() {
 	override fun onPause() {
 		super.onPause()
 
-		val workManager by inject<WorkManager>()
-		workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
-
 		screensaverViewModel.activityPaused = true
 	}
 
 	override fun onStop() {
 		super.onStop()
+
+		val workManager by inject<WorkManager>()
+		workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
 
 		lifecycleScope.launch {
 			Timber.d("MainActivity stopped")
