@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,17 +28,15 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.tv.material3.ClickableSurfaceDefaults
-import androidx.tv.material3.ProvideTextStyle
-import androidx.tv.material3.Surface
-import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.ProvideTextStyle
+import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.button.ButtonBase
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
@@ -69,82 +68,76 @@ fun NowPlayingComposable(
 		enter = fadeIn(),
 		exit = fadeOut(),
 	) {
-		Surface(
+		ButtonBase(
 			onClick = { navigationRepository.navigate(Destinations.nowPlaying) },
-			colors = ClickableSurfaceDefaults.colors(
-				containerColor = colorResource(id = R.color.button_default_normal_background),
-				focusedContainerColor = colorResource(id = R.color.button_default_highlight_background),
-				contentColor = colorResource(id = R.color.button_default_normal_text),
-				focusedContentColor = colorResource(id = R.color.button_default_highlight_text),
-			),
-			scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
-			shape = ClickableSurfaceDefaults.shape(
-				shape = RoundedCornerShape(4.dp),
-			),
+			shape = RoundedCornerShape(4.dp),
+			contentPadding = PaddingValues(0.dp),
 			modifier = Modifier
 				.widthIn(0.dp, 250.dp)
 		) {
-			Box(
-				modifier = Modifier
-					.align(Alignment.BottomStart)
-					.fillMaxWidth()
-					.height(1.dp)
-					.drawWithContent {
-						// Background
-						drawRect(Color.White, alpha = 0.4f)
-						// Foreground
-						drawRect(Color.White, size = size.copy(width = progress * size.width))
-					}
-			)
-
-			ProvideTextStyle(
-				value = TextStyle.Default.copy(
-					fontSize = 12.sp,
-				)
-			) {
-				Row(
-					horizontalArrangement = Arrangement.spacedBy(10.dp),
-					verticalAlignment = Alignment.CenterVertically,
+			Box {
+				Box(
 					modifier = Modifier
-						.padding(5.dp)
+						.align(Alignment.BottomStart)
+						.fillMaxWidth()
+						.height(1.dp)
+						.drawWithContent {
+							// Background
+							drawRect(Color.White, alpha = 0.4f)
+							// Foreground
+							drawRect(Color.White, size = size.copy(width = progress * size.width))
+						}
+				)
+
+				ProvideTextStyle(
+					value = TextStyle.Default.copy(
+						fontSize = 12.sp,
+					)
 				) {
-					val primaryImageTag = item?.imageTags?.get(ImageType.PRIMARY)
-					val (imageItemId, imageTag) = when {
-						primaryImageTag != null -> item.id to primaryImageTag
-						(item?.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
-						else -> null to null
-					}
-					val imageUrl = when {
-						imageItemId != null && imageTag != null -> imageHelper.getImageUrl(
-							itemId = imageItemId,
-							imageType = ImageType.PRIMARY,
-							imageTag = imageTag
+					Row(
+						horizontalArrangement = Arrangement.spacedBy(10.dp),
+						verticalAlignment = Alignment.CenterVertically,
+						modifier = Modifier
+							.padding(5.dp)
+					) {
+						val primaryImageTag = item?.imageTags?.get(ImageType.PRIMARY)
+						val (imageItemId, imageTag) = when {
+							primaryImageTag != null -> item.id to primaryImageTag
+							(item?.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
+							else -> null to null
+						}
+						val imageUrl = when {
+							imageItemId != null && imageTag != null -> imageHelper.getImageUrl(
+								itemId = imageItemId,
+								imageType = ImageType.PRIMARY,
+								imageTag = imageTag
+							)
+
+							else -> null
+						}
+						val imageBlurHash = imageTag?.let { tag ->
+							item?.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
+						}
+
+						AsyncImage(
+							url = imageUrl,
+							blurHash = imageBlurHash,
+							placeholder = ContextCompat.getDrawable(LocalContext.current, R.drawable.ic_album),
+							aspectRatio = item?.primaryImageAspectRatio ?: 1.0,
+							modifier = Modifier
+								.size(35.dp)
+								.clip(RoundedCornerShape(4.dp)),
+							scaleType = ImageView.ScaleType.CENTER_CROP,
 						)
 
-						else -> null
-					}
-					val imageBlurHash = imageTag?.let { tag ->
-						item?.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
-					}
-
-					AsyncImage(
-						url = imageUrl,
-						blurHash = imageBlurHash,
-						placeholder = ContextCompat.getDrawable(LocalContext.current, R.drawable.ic_album),
-						aspectRatio = item?.primaryImageAspectRatio ?: 1.0,
-						modifier = Modifier
-							.size(35.dp)
-							.clip(RoundedCornerShape(4.dp)),
-						scaleType = ImageView.ScaleType.CENTER_CROP,
-					)
-
-					Column(
-						verticalArrangement = Arrangement.SpaceAround,
-					) {
-						// Name
-						Text(text = item?.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
-						val artists = item?.artists ?: item?.albumArtists ?: item?.albumArtist?.let(::listOf)
-						Text(text = artists?.joinToString(", ").orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+						Column(
+							verticalArrangement = Arrangement.SpaceAround,
+						) {
+							// Name
+							Text(text = item?.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+							val artists = item?.artists ?: item?.albumArtists ?: item?.albumArtist?.let(::listOf)
+							Text(text = artists?.joinToString(", ").orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+						}
 					}
 				}
 			}
