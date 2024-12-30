@@ -512,7 +512,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
         DeviceProfile internalProfile = new ExoPlayerProfile(
-                isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
+                !internalOptions.getEnableDirectStream(),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
                 userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
         );
