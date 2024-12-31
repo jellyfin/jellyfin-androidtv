@@ -21,6 +21,7 @@ import org.jellyfin.sdk.model.api.PlaybackStartInfo
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
 import org.jellyfin.sdk.model.api.QueueItem
 import org.jellyfin.sdk.model.extensions.inWholeTicks
+import timber.log.Timber
 import kotlin.math.roundToInt
 import org.jellyfin.sdk.model.api.RepeatMode as SdkRepeatMode
 
@@ -70,27 +71,29 @@ class PlaySessionService(
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
-		api.playStateApi.reportPlaybackStart(
-			PlaybackStartInfo(
-				itemId = item.id,
-				playSessionId = stream.identifier,
-				playlistItemId = item.playlistItemId,
-				canSeek = true,
-				isMuted = state.volume.muted,
-				volumeLevel = (state.volume.volume * 100).roundToInt(),
-				isPaused = state.playState.value != PlayState.PLAYING,
-				aspectRatio = state.videoSize.value.aspectRatio.toString(),
-				positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
-				playMethod = stream.conversionMethod.playMethod,
-				repeatMode = state.repeatMode.value.remoteRepeatMode,
-				nowPlayingQueue = getQueue(),
-				playbackOrder = when (state.playbackOrder.value) {
-					org.jellyfin.playback.core.model.PlaybackOrder.DEFAULT -> PlaybackOrder.DEFAULT
-					org.jellyfin.playback.core.model.PlaybackOrder.RANDOM -> PlaybackOrder.SHUFFLE
-					org.jellyfin.playback.core.model.PlaybackOrder.SHUFFLE -> PlaybackOrder.SHUFFLE
-				}
+		runCatching {
+			api.playStateApi.reportPlaybackStart(
+				PlaybackStartInfo(
+					itemId = item.id,
+					playSessionId = stream.identifier,
+					playlistItemId = item.playlistItemId,
+					canSeek = true,
+					isMuted = state.volume.muted,
+					volumeLevel = (state.volume.volume * 100).roundToInt(),
+					isPaused = state.playState.value != PlayState.PLAYING,
+					aspectRatio = state.videoSize.value.aspectRatio.toString(),
+					positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
+					playMethod = stream.conversionMethod.playMethod,
+					repeatMode = state.repeatMode.value.remoteRepeatMode,
+					nowPlayingQueue = getQueue(),
+					playbackOrder = when (state.playbackOrder.value) {
+						org.jellyfin.playback.core.model.PlaybackOrder.DEFAULT -> PlaybackOrder.DEFAULT
+						org.jellyfin.playback.core.model.PlaybackOrder.RANDOM -> PlaybackOrder.SHUFFLE
+						org.jellyfin.playback.core.model.PlaybackOrder.SHUFFLE -> PlaybackOrder.SHUFFLE
+					}
+				)
 			)
-		)
+		}.onFailure { error -> Timber.w("Failed to send playback start event", error) }
 	}
 
 	private suspend fun sendStreamUpdate() {
@@ -98,27 +101,29 @@ class PlaySessionService(
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
-		api.playStateApi.reportPlaybackProgress(
-			PlaybackProgressInfo(
-				itemId = item.id,
-				playSessionId = stream.identifier,
-				playlistItemId = item.playlistItemId,
-				canSeek = true,
-				isMuted = state.volume.muted,
-				volumeLevel = (state.volume.volume * 100).roundToInt(),
-				isPaused = state.playState.value != PlayState.PLAYING,
-				aspectRatio = state.videoSize.value.aspectRatio.toString(),
-				positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
-				playMethod = stream.conversionMethod.playMethod,
-				repeatMode = state.repeatMode.value.remoteRepeatMode,
-				nowPlayingQueue = getQueue(),
-				playbackOrder = when (state.playbackOrder.value) {
-					org.jellyfin.playback.core.model.PlaybackOrder.DEFAULT -> PlaybackOrder.DEFAULT
-					org.jellyfin.playback.core.model.PlaybackOrder.RANDOM -> PlaybackOrder.SHUFFLE
-					org.jellyfin.playback.core.model.PlaybackOrder.SHUFFLE -> PlaybackOrder.SHUFFLE
-				}
+		runCatching {
+			api.playStateApi.reportPlaybackProgress(
+				PlaybackProgressInfo(
+					itemId = item.id,
+					playSessionId = stream.identifier,
+					playlistItemId = item.playlistItemId,
+					canSeek = true,
+					isMuted = state.volume.muted,
+					volumeLevel = (state.volume.volume * 100).roundToInt(),
+					isPaused = state.playState.value != PlayState.PLAYING,
+					aspectRatio = state.videoSize.value.aspectRatio.toString(),
+					positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
+					playMethod = stream.conversionMethod.playMethod,
+					repeatMode = state.repeatMode.value.remoteRepeatMode,
+					nowPlayingQueue = getQueue(),
+					playbackOrder = when (state.playbackOrder.value) {
+						org.jellyfin.playback.core.model.PlaybackOrder.DEFAULT -> PlaybackOrder.DEFAULT
+						org.jellyfin.playback.core.model.PlaybackOrder.RANDOM -> PlaybackOrder.SHUFFLE
+						org.jellyfin.playback.core.model.PlaybackOrder.SHUFFLE -> PlaybackOrder.SHUFFLE
+					}
+				)
 			)
-		)
+		}.onFailure { error -> Timber.w("Failed to send playback update event", error) }
 	}
 
 	private suspend fun sendStreamStop() {
@@ -126,15 +131,17 @@ class PlaySessionService(
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
-		api.playStateApi.reportPlaybackStopped(
-			PlaybackStopInfo(
-				itemId = item.id,
-				playSessionId = stream.identifier,
-				playlistItemId = item.playlistItemId,
-				positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
-				failed = false,
-				nowPlayingQueue = getQueue(),
+		runCatching {
+			api.playStateApi.reportPlaybackStopped(
+				PlaybackStopInfo(
+					itemId = item.id,
+					playSessionId = stream.identifier,
+					playlistItemId = item.playlistItemId,
+					positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
+					failed = false,
+					nowPlayingQueue = getQueue(),
+				)
 			)
-		)
+		}.onFailure { error -> Timber.w("Failed to send playback stop event", error) }
 	}
 }
