@@ -15,6 +15,10 @@ body:
           required: true
         - label: This report addresses only a single issue; If you encounter multiple issues, kindly create separate reports for each one.
           required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Information  
   - type: textarea
     id: description
     attributes:
@@ -40,6 +44,10 @@ body:
         The file name should start with "upload_org.jellyfin.androidtv".
         Make sure that they don't contain any sensitive information like server URL, auth tokens or passwords.
       placeholder: Paste logs…
+  - type: markdown
+    attributes:
+      value: |
+        ## Software Versions
   - type: input
     id: app-version
     attributes:
@@ -56,6 +64,7 @@ body:
       options:
         - Google Play
         - Amazon Appstore
+        - F-Droid
         - Sideloaded APK
   - type: input
     id: device-info
@@ -81,3 +90,15 @@ body:
       placeholder: 10.10.2
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Additional
+  - type: input
+    id: other-sources
+    attributes:
+      label: Other sources
+      description: If this topic has been discussed outside of GitHub, please link it.
+      placeholder: https://forum.jellyfin.org/...
+    validations:
+      required: false
