@@ -4,7 +4,7 @@ labels:
   - bug
   - playback
 body:
-    - type: checkboxes
+  - type: checkboxes
     id: before-posting
     attributes:
       label: "This issue respects the following points:"
@@ -15,7 +15,7 @@ body:
         - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
           required: true
         - label: This report addresses only a single issue; If you encounter multiple issues, kindly create separate reports for each one.
-          required: true
+          required: true 
   - type: textarea
     id: description
     attributes:

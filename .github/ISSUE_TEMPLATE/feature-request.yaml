@@ -3,7 +3,7 @@ description: Request a new feature
 labels:
   - enhancement
 body:
-- type: checkboxes
+  - type: checkboxes
     id: before-posting
     attributes:
       label: "This request respects the following points:"
