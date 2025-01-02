@@ -15,7 +15,11 @@ body:
         - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
           required: true
         - label: This report addresses only a single issue; If you encounter multiple issues, kindly create separate reports for each one.
-          required: true 
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Information  
   - type: textarea
     id: description
     attributes:
@@ -33,9 +37,24 @@ body:
     validations:
       required: true
   - type: textarea
+    id: mediainfo
+    attributes:
+      label: Media info of the file
+      description: |
+        Please share the media information for the file causing issues. You can use a variety of tools to retrieve this information.
+        - Use ffprobe (`ffprobe ./file.mp4`)
+        - Use the Media Info tool (set to text format, download here: https://mediaarea.net/en/MediaInfo)
+        - Copy the media info from the web interface
+      placeholder: Paste media info…
+      render: shell
+  - type: markdown
+    attributes:
+      value: |
+        ## Logs
+  - type: textarea
     id: logs
     attributes:
-      label: Logs
+      label: TV logs
       description: |
         Please paste your crash logs here if applicable. You can find these in your servers dashboard under "logs".
         The file name should start with "upload_org.jellyfin.androidtv".
@@ -49,17 +68,10 @@ body:
         Please paste your FFmpeg logs here. You can find these in your servers dashboard under "logs".
       placeholder: Paste logs…
       render: shell
-  - type: textarea
-    id: mediainfo
+  - type: markdown
     attributes:
-      label: Media info of the file
-      description: |
-        Please share the media information for the file causing issues. You can use a variety of tools to retrieve this information.
-        - Use ffprobe (`ffprobe ./file.mp4`)
-        - Use the Media Info tool (set to text format, download here: https://mediaarea.net/en/MediaInfo)
-        - Copy the media info from the web interface
-      placeholder: Paste media info…
-      render: shell
+      value: |
+        ## Software Versions
   - type: input
     id: app-version
     attributes:
