@@ -33,7 +33,7 @@ body:
     attributes:
       label: Application version
       description: The version of the installed Jellyfin Android TV app.
-      placeholder: 0.14.0
+      placeholder: 0.18.2
     validations:
       required: true
   - type: dropdown
@@ -50,7 +50,7 @@ body:
     attributes:
       label: Device information
       description: Manufacturer and model
-      placeholder: Nvidia Shield Pro (2017), Amazon Fire TV Stick v1 (2014)
+      placeholder: Nvidia Shield TV Pro (2019), Fire TV Stick HD (2020)
     validations:
       required: true
   - type: input
@@ -58,7 +58,7 @@ body:
     attributes:
       label: Android version
       description: Version of the OS and other information (e.g. custom ROM / OEM skin)
-      placeholder: Android 9, Fire OS 7
+      placeholder: Android 13, Fire OS 7
     validations:
       required: true
   - type: input
@@ -66,6 +66,6 @@ body:
     attributes:
       label: Jellyfin server version
       description: If on unstable, please specify the commit hash.
-      placeholder: 10.8.1
+      placeholder: 10.10.2
     validations:
       required: true
