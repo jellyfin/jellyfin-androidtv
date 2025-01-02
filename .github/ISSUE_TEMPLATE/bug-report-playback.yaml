@@ -104,3 +104,15 @@ body:
       placeholder: 10.10.2
     validations:
       required: true
+    - type: markdown
+    attributes:
+      value: |
+        ## Additional
+  - type: input
+    id: other-sources
+    attributes:
+      label: Other sources
+      description: If this topic has been discussed outside of GitHub, please link it.
+      placeholder: https://forum.jellyfin.org/...
+    validations:
+      required: false
