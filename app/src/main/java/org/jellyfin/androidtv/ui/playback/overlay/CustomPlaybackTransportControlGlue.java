@@ -109,6 +109,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     protected void onDetachedFromHost() {
         mHandler.removeCallbacks(mRefreshEndTime);
         mHandler.removeCallbacks(mRefreshViewVisibility);
+
+        closedCaptionsAction.removePopup();
+        playbackSpeedAction.dismissPopup();
+        selectAudioAction.dismissPopup();
+        selectQualityAction.dismissPopup();
+        zoomAction.dismissPopup();
+
         super.onDetachedFromHost();
     }
 
@@ -169,6 +176,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
             }
+
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
                 super.onUnbindRowViewHolder(vh);
