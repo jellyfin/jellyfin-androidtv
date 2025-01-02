@@ -14,11 +14,35 @@ body:
         - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
           required: true
   - type: textarea
-    id: description
     attributes:
-      label: Describe the feature you'd like
-      description: |
-        A clear and concise description of what you want to request.
-        You can also attach screenshots or screen recordings to help explain your request.
+      label: Problem Description
+      description: Describe the issue you are experiencing or the gap you are trying to address.
+      placeholder: |
+        At the moment, the Android TV Client does not support displaying lyrics during music playback, while the Jellyfin Web client does.
+        This creates an inconsistent user experience across platforms.
     validations:
       required: true
+  - type: textarea
+    attributes:
+      label: Proposed Solution
+      description: Provide a detailed description of what you would like to see implemented or changed.
+      placeholder: |
+        The Client could display lyrics as an overlay on the screensaver, synchronized with the song’s progress. Additionally, a scrolling lyrics section could be integrated into the mini-player, ensuring the lyrics are easily readable without obstructing playback controls.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives Considered
+      description: Outline any other approaches you have thought about or explored to solve the problem.
+      placeholder: |
+        An alternative approach could involve adding a dedicated "Lyrics" button in the Android TV Client, similar to the Jellyfin Web client.
+        Users could press this button to open a full-screen lyrics view. This option could cater to users who prefer controlling when and how they see lyrics, without adding overlays to existing interfaces.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: Include any relevant details, resources, or screenshots that might help in understanding or implementing the request.
+      placeholder: Add any additional context here.
+    validations:
+      required: false

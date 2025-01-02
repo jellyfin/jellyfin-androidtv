@@ -80,6 +80,16 @@ body:
       placeholder: 0.18.2
     validations:
       required: true
+  - type: dropdown
+    id: installation-source
+    attributes:
+      label: Where did you install the app from?
+      description: Choose the appropriate app store or installation method.
+      options:
+        - Google Play
+        - Amazon Appstore
+        - F-Droid
+        - Sideloaded APK
   - type: input
     id: device-info
     attributes:
