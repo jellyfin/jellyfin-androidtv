@@ -104,7 +104,7 @@ body:
       placeholder: 10.10.2
     validations:
       required: true
-    - type: markdown
+  - type: markdown
     attributes:
       value: |
         ## Additional
