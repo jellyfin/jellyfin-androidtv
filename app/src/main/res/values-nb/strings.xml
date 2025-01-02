@@ -560,4 +560,10 @@
     <string name="segment_type_preview">Forhåndsvisninger</string>
     <string name="segment_type_recap">Oppsummering</string>
     <string name="segment_type_unknown">Ukjente segmenter</string>
+    <string name="preference_enable_trickplay">Slå på trickplay i videospilleren</string>
+    <string name="default_video_zoom">Standard zoom</string>
+    <string name="segment_action_ask_to_skip">Spør om å spole frem</string>
+    <string name="skip_forward_length">Lengde det spoles frem med</string>
+    <string name="runtime_hours_minutes">%1$dt %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>
