@@ -18,7 +18,7 @@ body:
       label: Problem Description
       description: Describe the issue you are experiencing or the gap you are trying to address.
       placeholder: |
-        At the moment, the Android TV Client does not support displaying lyrics during music playback, while the Jellyfin Web client does.
+        The Android TV Client does not support displaying lyrics, while the Jellyfin Web client does.
         This creates an inconsistent user experience across platforms.
     validations:
       required: true
@@ -27,7 +27,7 @@ body:
       label: Proposed Solution
       description: Provide a detailed description of what you would like to see implemented or changed.
       placeholder: |
-        The Client could display lyrics as an overlay on the screensaver, synchronized with the song’s progress. Additionally, a scrolling lyrics section could be integrated into the mini-player, ensuring the lyrics are easily readable without obstructing playback controls.
+        The Client could display lyrics as an overlay on the screensaver. Additionally, a lyrics section could be integrated into the mini-player.
     validations:
       required: true
   - type: textarea
@@ -36,7 +36,7 @@ body:
       description: Outline any other approaches you have thought about or explored to solve the problem.
       placeholder: |
         An alternative approach could involve adding a dedicated "Lyrics" button in the Android TV Client, similar to the Jellyfin Web client.
-        Users could press this button to open a full-screen lyrics view. This option could cater to users who prefer controlling when and how they see lyrics, without adding overlays to existing interfaces.
+        Users could press this button to open a full-screen lyrics view.
     validations:
       required: true
   - type: textarea
