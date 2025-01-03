@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,7 +51,9 @@ import org.jellyfin.sdk.model.api.ImageType
 import org.koin.compose.koinInject
 
 @Composable
-fun NowPlayingComposable() {
+fun NowPlayingComposable(
+	onFocusableChange: (focusable: Boolean) -> Unit,
+) {
 	val playbackManager = koinInject<PlaybackManager>()
 	val navigationRepository = koinInject<NavigationRepository>()
 	val imageHelper = koinInject<ImageHelper>()
@@ -58,6 +61,8 @@ fun NowPlayingComposable() {
 	val entry by rememberQueueEntry(playbackManager)
 	val item = entry?.run { baseItemFlow.collectAsState(baseItem) }?.value
 	val progress = rememberPlayerProgress(playbackManager)
+
+	LaunchedEffect(item == null) { onFocusableChange(item != null) }
 
 	AnimatedVisibility(
 		visible = item != null,
@@ -153,5 +158,11 @@ class NowPlayingView @JvmOverloads constructor(
 	defStyle: Int = 0
 ) : AbstractComposeView(context, attrs, defStyle) {
 	@Composable
-	override fun Content() = NowPlayingComposable()
+	override fun Content() = NowPlayingComposable(
+		// Workaround for older Android versions unable to find focus in our toolbar view when the NowPlayingView is added but inactive
+		onFocusableChange = { focusable ->
+			isFocusable = focusable
+			descendantFocusability = if (focusable) FOCUS_AFTER_DESCENDANTS else FOCUS_BLOCK_DESCENDANTS
+		}
+	)
 }
