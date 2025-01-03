@@ -70,7 +70,9 @@
         <androidx.compose.ui.platform.ComposeView
             android:id="@+id/notifications"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:focusable="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
