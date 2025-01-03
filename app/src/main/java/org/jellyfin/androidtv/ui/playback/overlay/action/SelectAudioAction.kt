@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.PlaybackManager
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
-import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 
 class SelectAudioAction(
@@ -16,6 +15,8 @@ class SelectAudioAction(
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 	private val playbackManager: PlaybackManager,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
+	private var popup: PopupMenu? = null
+
 	init {
 		initializeWithIcon(R.drawable.ic_select_audio)
 	}
@@ -31,7 +32,8 @@ class SelectAudioAction(
 			?: return
 		val currentAudioIndex = playbackController.audioStreamIndex
 
-		PopupMenu(context, view, Gravity.END).apply {
+		dismissPopup()
+		popup = PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				for (track in audioTracks) {
 					add(0, track.index, track.index, track.displayTitle).apply {
@@ -41,11 +43,19 @@ class SelectAudioAction(
 				setGroupCheckable(0, true, false)
 			}
 
-			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener {
+				videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+				popup = null
+			}
 			setOnMenuItemClickListener { item ->
 				playbackController.switchAudioStream(item.itemId)
 				true
 			}
-		}.show()
+		}
+		popup?.show()
+	}
+
+	fun dismissPopup() {
+		popup?.dismiss()
 	}
 }

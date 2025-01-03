@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback.overlay.action
 import android.content.Context
 import android.view.Gravity
 import android.view.View
+import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.playback.PlaybackController
@@ -14,6 +15,8 @@ class ZoomAction(
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
+	private var popup: PopupMenu? = null
+
 	init {
 		initializeWithIcon(R.drawable.ic_aspect_ratio)
 	}
@@ -25,7 +28,8 @@ class ZoomAction(
 		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
-		val popup = popupMenu(context, view, Gravity.END) {
+		dismissPopup()
+		popup = popupMenu(context, view, Gravity.END) {
 			item(context.getString(R.string.lbl_fit)) {
 				playbackController.setZoom(ZoomMode.FIT)
 			}.apply {
@@ -44,8 +48,15 @@ class ZoomAction(
 				isChecked = playbackController.zoomMode == ZoomMode.STRETCH
 			}
 		}
-		popup.menu.setGroupCheckable(0, true, true)
-		popup.setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
-		popup.show()
+		popup?.menu?.setGroupCheckable(0, true, true)
+		popup?.setOnDismissListener {
+			videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+			popup = null
+		}
+		popup?.show()
+	}
+
+	fun dismissPopup() {
+		popup?.dismiss()
 	}
 }
