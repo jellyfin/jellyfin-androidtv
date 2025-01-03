@@ -901,6 +901,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
 
+        if (mCurrentStreamInfo == null) return;
+
         // rebuild the stream
         // if an older device uses exoplayer to play a transcoded stream but falls back to the generic http stream instead of hls, rebuild the stream
         if (!mVideoManager.isSeekable()) {
