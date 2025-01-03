@@ -17,6 +17,8 @@ class ClosedCaptionsAction(
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
+	private var popup: PopupMenu? = null
+
 	init {
 		initializeWithIcon(R.drawable.ic_select_subtitle)
 	}
@@ -34,7 +36,8 @@ class ClosedCaptionsAction(
 		}
 
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
-		PopupMenu(context, view, Gravity.END).apply {
+		removePopup()
+		popup = PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				var order = 0
 				add(0, -1, order++, context.getString(R.string.lbl_none)).apply {
@@ -51,11 +54,19 @@ class ClosedCaptionsAction(
 
 				setGroupCheckable(0, true, false)
 			}
-			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener {
+				videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+				popup = null
+			}
 			setOnMenuItemClickListener { item ->
 				playbackController.setSubtitleIndex(item.itemId)
 				true
 			}
-		}.show()
+		}
+		popup?.show()
+	}
+
+	fun removePopup() {
+		popup?.dismiss()
 	}
 }
