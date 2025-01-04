@@ -54,7 +54,7 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: TV logs
+      label: Client logs
       description: |
         Please paste your crash logs here if applicable. You can find these in your servers dashboard under "logs".
         The file name should start with "upload_org.jellyfin.androidtv".
@@ -71,7 +71,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Software Versions
+        ## Software versions
   - type: input
     id: app-version
     attributes:
@@ -123,6 +123,6 @@ body:
     attributes:
       label: Other sources
       description: If this topic has been discussed outside of GitHub, please link it.
-      placeholder: https://forum.jellyfin.org/...
+      placeholder: https://forum.jellyfin.org/…
     validations:
       required: false
