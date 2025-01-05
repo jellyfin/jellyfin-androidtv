@@ -235,7 +235,9 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     public void refreshFavorite(UUID channelId){
         for (int i = 0; i < mChannels.getChildCount(); i++) {
-            GuideChannelHeader gch = (GuideChannelHeader)mChannels.getChildAt(i);
+            View child = mChannels.getChildAt(i);
+            if (!(child instanceof GuideChannelHeader)) continue;
+            GuideChannelHeader gch = (GuideChannelHeader) child;
             if (gch.getChannel().getId().equals(channelId.toString()))
                 gch.refreshFavorite();
         }
