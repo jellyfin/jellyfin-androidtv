@@ -4,6 +4,22 @@ labels:
   - bug
   - playback
 body:
+  - type: checkboxes
+    id: before-posting
+    attributes:
+      label: "This issue respects the following points:"
+      description: All conditions are **required**.
+      options:
+        - label: This issue is **not** already reported on [GitHub](https://github.com/jellyfin/jellyfin-androidtv/issues?q=is%3Aopen+is%3Aissue) _(I've searched it)_.
+          required: true
+        - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
+          required: true
+        - label: This report addresses only a single issue; If you encounter multiple issues, kindly create separate reports for each one.
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug information  
   - type: textarea
     id: description
     attributes:
@@ -21,9 +37,23 @@ body:
     validations:
       required: true
   - type: textarea
+    id: mediainfo
+    attributes:
+      label: Media info of the file
+      description: |
+        Please share the media information for the file causing issues. You can use a variety of tools to retrieve this information.
+        - Use ffprobe (`ffprobe ./file.mp4`)
+        - Copy the media info from the web interface
+      placeholder: Paste media info…
+      render: shell
+  - type: markdown
+    attributes:
+      value: |
+        ## Logs
+  - type: textarea
     id: logs
     attributes:
-      label: Logs
+      label: Client logs
       description: |
         Please paste your crash logs here if applicable. You can find these in your servers dashboard under "logs".
         The file name should start with "upload_org.jellyfin.androidtv".
@@ -37,31 +67,34 @@ body:
         Please paste your FFmpeg logs here. You can find these in your servers dashboard under "logs".
       placeholder: Paste logs…
       render: shell
-  - type: textarea
-    id: mediainfo
+  - type: markdown
     attributes:
-      label: Media info of the file
-      description: |
-        Please share the media information for the file causing issues. You can use a variety of tools to retrieve this information.
-        - Use ffprobe (`ffprobe ./file.mp4`)
-        - Use the Media Info tool (set to text format, download here: https://mediaarea.net/en/MediaInfo)
-        - Copy the media info from the web interface
-      placeholder: Paste media info…
-      render: shell
+      value: |
+        ## Environment
   - type: input
     id: app-version
     attributes:
       label: Application version
       description: The version of the installed Jellyfin Android TV app.
-      placeholder: 0.14.0
+      placeholder: 0.18.2
     validations:
       required: true
+  - type: dropdown
+    id: installation-source
+    attributes:
+      label: Where did you install the app from?
+      description: Choose the appropriate app store or installation method.
+      options:
+        - Google Play Store
+        - Amazon Appstore
+        - F-Droid
+        - Sideloaded APK
   - type: input
     id: device-info
     attributes:
       label: Device information
       description: Manufacturer and model
-      placeholder: Nvidia Shield Pro (2017), Amazon Fire TV Stick v1 (2014)
+      placeholder: Nvidia Shield TV Pro (2019), Fire TV Stick HD (2020)
     validations:
       required: true
   - type: input
@@ -69,7 +102,7 @@ body:
     attributes:
       label: Android version
       description: Version of the OS and other information (e.g. custom ROM / OEM skin)
-      placeholder: Android 9, Fire OS 7
+      placeholder: Android 13, Fire OS 7
     validations:
       required: true
   - type: input
@@ -77,6 +110,18 @@ body:
     attributes:
       label: Jellyfin server version
       description: If on unstable, please specify the commit hash.
-      placeholder: 10.8.1
+      placeholder: 10.10.2
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Additional
+  - type: input
+    id: other-sources
+    attributes:
+      label: Other sources
+      description: If this topic has been discussed outside of GitHub, please link it.
+      placeholder: https://forum.jellyfin.org/…
+    validations:
+      required: false
