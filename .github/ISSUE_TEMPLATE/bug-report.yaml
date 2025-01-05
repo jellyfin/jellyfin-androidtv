@@ -18,7 +18,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Bug Information  
+        ## Bug information  
   - type: textarea
     id: description
     attributes:
@@ -47,7 +47,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Software versions
+        ## Environment
   - type: input
     id: app-version
     attributes:
@@ -62,7 +62,7 @@ body:
       label: Where did you install the app from?
       description: Choose the appropriate app store or installation method.
       options:
-        - Google Play
+        - Google Play Store
         - Amazon Appstore
         - F-Droid
         - Sideloaded APK

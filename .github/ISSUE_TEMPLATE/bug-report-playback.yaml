@@ -19,7 +19,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Bug Information  
+        ## Bug information  
   - type: textarea
     id: description
     attributes:
@@ -43,7 +43,6 @@ body:
       description: |
         Please share the media information for the file causing issues. You can use a variety of tools to retrieve this information.
         - Use ffprobe (`ffprobe ./file.mp4`)
-        - Use the Media Info tool (set to text format, download here: https://mediaarea.net/en/MediaInfo)
         - Copy the media info from the web interface
       placeholder: Paste media info…
       render: shell
@@ -71,7 +70,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Software versions
+        ## Environment
   - type: input
     id: app-version
     attributes:
@@ -86,7 +85,7 @@ body:
       label: Where did you install the app from?
       description: Choose the appropriate app store or installation method.
       options:
-        - Google Play
+        - Google Play Store
         - Amazon Appstore
         - F-Droid
         - Sideloaded APK
