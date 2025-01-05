@@ -38,6 +38,7 @@ class MainActivity : FragmentActivity() {
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
+	private val workManager by inject<WorkManager>()
 
 	private lateinit var binding: ActivityMainBinding
 
@@ -107,7 +108,6 @@ class MainActivity : FragmentActivity() {
 	override fun onStop() {
 		super.onStop()
 
-		val workManager by inject<WorkManager>()
 		workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
 
 		lifecycleScope.launch {
