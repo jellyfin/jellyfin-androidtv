@@ -98,7 +98,6 @@
     <string name="lbl_last_played">"Останнє відтворене "</string>
     <string name="lbl_directed_by">Режисер</string>
     <string name="lbl_ends">Завершується</string>
-    <string name="lbl_min">" хв"</string>
     <string name="lbl_runs">Триває</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_favorite">Обране</string>

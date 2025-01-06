@@ -43,7 +43,6 @@
     <string name="lbl_favorite">즐겨찾기</string>
     <string name="lbl_watched">시청완료</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_min">" 분"</string>
     <string name="lbl_last_played">"마지막으로 재생 "</string>
     <string name="lbl_other_options">다른 옵션</string>
     <string name="lbl_people">사람들</string>

@@ -75,7 +75,6 @@
     <string name="msg_playback_restricted">Administrator ograniczył odtwarzanie danego elementu</string>
     <string name="msg_playback_not_allowed">Odtwarzanie nie dozwolone</string>
     <string name="lbl_born">"Urodzony/a "</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
     <string name="msg_not_implemented">" niezaimplementowane"</string>
     <string name="lbl_coming_up">Nadchodzące</string>
@@ -585,4 +584,6 @@
     <string name="default_video_zoom">Domyślny tryb powiększenia</string>
     <string name="preference_enable_trickplay">Włącz trickplay w odtwarzaczu wideo</string>
     <string name="skip_forward_length">Długość pomijania do przodu</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

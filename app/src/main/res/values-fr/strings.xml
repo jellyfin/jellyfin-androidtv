@@ -49,7 +49,6 @@
     <string name="lbl_upcoming">À venir</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Durée</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Fin</string>
     <string name="lbl_directed_by">Réalisé par</string>
     <string name="lbl_last_played">"Dernière lecture "</string>
@@ -575,4 +574,6 @@
     <string name="segment_type_unknown">Segments inconnus</string>
     <string name="preference_enable_trickplay">Activer trickplay dans le lecteur vidéo</string>
     <string name="skip_forward_length">Longueur de l\'avance rapide</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

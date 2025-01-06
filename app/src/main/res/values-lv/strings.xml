@@ -129,7 +129,6 @@
     <string name="lbl_last_played">"Pēdējoreiz Atskaņots "</string>
     <string name="lbl_runs">Garums</string>
     <string name="lbl_ends">Beidzas</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Skatītie</string>
     <string name="lbl_favorite">Favorīti</string>

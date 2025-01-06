@@ -256,14 +256,9 @@ public class AudioNowPlayingFragment extends Fragment {
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
             Timber.d("Queue status changed (hasQueue=%s)", hasQueue);
-            if (hasQueue) {
-                loadItem();
-                if (mediaManager.getValue().isAudioPlayerInitialized()) {
-                    updateButtons();
-                }
-            } else {
-                if (navigationRepository.getValue().getCanGoBack()) navigationRepository.getValue().goBack();
-                else navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
+            loadItem();
+            if (mediaManager.getValue().isAudioPlayerInitialized()) {
+                updateButtons();
             }
         }
 
@@ -308,6 +303,9 @@ public class AudioNowPlayingFragment extends Fragment {
         if (mBaseItem != null) {
             updatePoster();
             updateInfo(mBaseItem);
+        } else {
+            if (navigationRepository.getValue().getCanGoBack()) navigationRepository.getValue().goBack();
+            else navigationRepository.getValue().navigate(Destinations.INSTANCE.getHome());
         }
     }
 

@@ -22,7 +22,6 @@
     <string name="lbl_last_played">"Utoljára lejátszott "</string>
     <string name="lbl_directed_by">Rendezte</string>
     <string name="lbl_ends">Végetér</string>
-    <string name="lbl_min">" perc"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Megtekintett</string>
     <string name="lbl_favorite">Kedvenc</string>
@@ -565,4 +564,6 @@
     <string name="segment_type_unknown">Ismeretlen szegmensek</string>
     <string name="preference_enable_trickplay">Trickplay engedélyezése a videolejátszóban</string>
     <string name="skip_forward_length">Előreugrás hossza</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

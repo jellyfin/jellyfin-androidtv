@@ -19,7 +19,6 @@
     <string name="lbl_last_played">"เล่นล่าสุด "</string>
     <string name="lbl_directed_by">กำกับโดย</string>
     <string name="lbl_ends">จบ</string>
-    <string name="lbl_min">" นาที"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">ดูแล้ว</string>
     <string name="lbl_favorite">รายการโปรด</string>
@@ -218,4 +217,11 @@
     <string name="color_pink">ชมพู</string>
     <string name="color_cyan">ฟ้า</string>
     <string name="color_yellow">เหลือง</string>
+    <string name="pref_audio_direct">ตรง</string>
+    <string name="lbl_runs">รัน</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_begin_padding">เริ่มการเติม</string>
+    <string name="lbl_runtime">รันไทม์</string>
+    <string name="lbl_shuffle_queue">สลับสถานะการสุ่ม</string>
 </resources>

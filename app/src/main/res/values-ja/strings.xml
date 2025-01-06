@@ -52,7 +52,6 @@
     <string name="lbl_favorite">お気に入り</string>
     <string name="lbl_watched">視聴済み</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_min">" 分"</string>
     <string name="lbl_directed_by">監督</string>
     <string name="lbl_last_played">"最終再生 "</string>
     <string name="lbl_other_options">その他オプション</string>

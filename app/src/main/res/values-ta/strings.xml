@@ -48,7 +48,6 @@
     <string name="lbl_last_played">"கடைசியாக இயக்கியது "</string>
     <string name="lbl_directed_by">இயக்கம்</string>
     <string name="lbl_ends">முடிகிறது</string>
-    <string name="lbl_min">" நிமிடம்"</string>
     <string name="lbl_runs">இயங்கும்</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">பார்த்தது</string>

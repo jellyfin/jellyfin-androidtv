@@ -48,7 +48,6 @@
     <string name="btn_cancel">বাতিল</string>
     <string name="loading">লোড হচ্ছে …</string>
     <string name="video_error_unknown_error">ভিডিও লোড করতে ব্যর্থ</string>
-    <string name="lbl_min">" সর্বনিম্ন"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">দেখা হয়েছে</string>
     <string name="lbl_favorite">প্রিয়</string>

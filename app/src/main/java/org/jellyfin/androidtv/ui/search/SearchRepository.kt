@@ -1,11 +1,11 @@
 package org.jellyfin.androidtv.ui.search
 
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import timber.log.Timber
@@ -33,11 +33,7 @@ class SearchRepositoryImpl(
 			limit = QUERY_LIMIT,
 			imageTypeLimit = 1,
 			includeItemTypes = itemTypes,
-			fields = listOf(
-				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				ItemFields.CAN_DELETE,
-				ItemFields.MEDIA_SOURCE_COUNT
-			),
+			fields = ItemRepository.itemFields,
 			recursive = true,
 			enableTotalRecordCount = false,
 		)

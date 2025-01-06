@@ -512,7 +512,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
         DeviceProfile internalProfile = new ExoPlayerProfile(
-                isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
+                !internalOptions.getEnableDirectStream(),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
                 userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
         );
@@ -901,6 +901,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
 
+        if (mCurrentStreamInfo == null) return;
+
         // rebuild the stream
         // if an older device uses exoplayer to play a transcoded stream but falls back to the generic http stream instead of hls, rebuild the stream
         if (!mVideoManager.isSeekable()) {
@@ -1023,7 +1025,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startPauseReportLoop() {
         stopReportLoop();
-        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
+        if (mCurrentStreamInfo == null) return;
+        reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), mCurrentStreamInfo, mCurrentPosition * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {

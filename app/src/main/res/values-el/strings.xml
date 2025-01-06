@@ -75,7 +75,6 @@
     <string name="lbl_people">Ανθρωποι</string>
     <string name="lbl_last_played">"Προβλήθηκαν πρόσφατα "</string>
     <string name="lbl_ends">Τελειώνει</string>
-    <string name="lbl_min">" λεπτά"</string>
     <string name="lbl_runs">Τρέχει</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Παρακολούθησα</string>
@@ -530,4 +529,6 @@
     <string name="past_week">Τελευταία εβδομάδα</string>
     <string name="scheduled_in_next_24_hours">Προγραμματισμένο για τις επόμενες 24 ώρες</string>
     <string name="pref_screensaver_ageratingmax_zero">Ολες οι ηλικίες</string>
+    <string name="runtime_hours_minutes">%1$dω %2$dλ</string>
+    <string name="runtime_minutes">%1$dλ</string>
 </resources>

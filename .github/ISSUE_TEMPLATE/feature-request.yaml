@@ -3,12 +3,54 @@ description: Request a new feature
 labels:
   - enhancement
 body:
-  - type: textarea
-    id: description
+  - type: checkboxes
+    id: before-posting
     attributes:
-      label: Describe the feature you'd like
-      description: |
-        A clear and concise description of what you want to request.
-        You can also attach screenshots or screen recordings to help explain your request.
+      label: "This request respects the following points:"
+      description: All conditions are **required**.
+      options:
+        - label: This request is **not** already on [GitHub](https://github.com/jellyfin/jellyfin-androidtv/labels/enhancement) _(I've searched it)_.
+          required: true
+        - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
+          required: true
+  - type: textarea
+    attributes:
+      label: Problem description
+      description: Describe the issue you are experiencing or the gap you are trying to address.
+      placeholder: |
+        The Android TV app does not support displaying lyrics, while the Jellyfin web interface does.
+        This creates an inconsistent user experience across platforms.
     validations:
       required: true
+  - type: textarea
+    attributes:
+      label: Proposed solution
+      description: Provide a detailed description of what you would like to see implemented or changed.
+      placeholder: |
+        The app could display lyrics in the screensaver. Additionally, a lyrics section could be integrated into the page that opens when music is played.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives considered
+      description: Outline any other approaches you have thought about or explored to solve the problem.
+      placeholder: |
+        An alternative approach could involve adding a dedicated "Lyrics" button in the app, similar to the Jellyfin web interface.
+        Users could press this button to open a full-screen lyrics view.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Include any relevant details, resources, or screenshots that might help in understanding or implementing the request.
+      placeholder: Add any additional context here.
+    validations:
+      required: false
+  - type: input
+    id: other-sources
+    attributes:
+      label: Other sources
+      description: If this topic has been discussed outside of GitHub, please link it.
+      placeholder: https://forum.jellyfin.org/…
+    validations:
+      required: false
