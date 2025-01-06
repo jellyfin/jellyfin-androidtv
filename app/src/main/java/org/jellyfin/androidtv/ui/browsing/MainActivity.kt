@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.ui.startup.StartupActivity
+import org.jellyfin.androidtv.util.WatchTracker
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.androidtv.util.isMediaSessionKeyEvent
 import org.koin.android.ext.android.inject
@@ -165,6 +166,7 @@ class MainActivity : FragmentActivity() {
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
 
 	override fun onUserInteraction() {
+		WatchTracker.onUserInteraction()
 		super.onUserInteraction()
 
 		screensaverViewModel.notifyInteraction(false)

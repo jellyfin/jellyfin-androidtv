@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.androidtv.util.WatchTracker;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -162,6 +163,8 @@ public class VideoManager {
                 Timber.d("Tracks changed");
             }
         });
+
+        WatchTracker.INSTANCE.startWatchTime(activity, this);
     }
 
     public void subscribe(@NonNull PlaybackControllerNotifiable notifier) {
@@ -276,16 +279,19 @@ public class VideoManager {
             _helper.getFragment().closePlayer();
             return;
         }
+        WatchTracker.INSTANCE.startWatchTime(this.mActivity, this);
         mExoPlayer.setPlayWhenReady(true);
         normalWidth = mExoPlayerView.getLayoutParams().width;
         normalHeight = mExoPlayerView.getLayoutParams().height;
     }
 
     public void play() {
+        WatchTracker.INSTANCE.startWatchTime(this.mActivity, this);
         mExoPlayer.setPlayWhenReady(true);
     }
 
     public void pause() {
+        WatchTracker.INSTANCE.stopWatchTime();
         mExoPlayer.setPlayWhenReady(false);
     }
 

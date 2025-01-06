@@ -467,6 +467,9 @@
     <string name="not_set">Не задано</string>
     <string name="pref_screensaver">Заставка</string>
     <string name="pref_screensaver_inapp_enabled">Использовать заставку приложения</string>
+    <string name="still_watching_title">Вы все еще смотрите?</string>
+    <string name="continue_watching_message">Вы хотите продолжить просмотр?</string>
+    <string name="no_button_text_with_time">Нет (%1$d)</string>
     <plurals name="hours">
         <item quantity="one">%1$s час</item>
         <item quantity="few">%1$s часа</item>

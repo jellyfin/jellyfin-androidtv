@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.WatchTracker;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.sdk.model.api.ChapterInfo;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;

@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.WatchTracker;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
@@ -1168,6 +1169,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
+        WatchTracker.INSTANCE.onEpisodeWatched();
         Timber.d("On Completion fired");
         itemComplete();
     }
