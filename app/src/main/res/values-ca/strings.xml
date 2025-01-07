@@ -40,9 +40,9 @@
     <string name="lbl_none">Cap</string>
     <string name="lbl_recordings">Gravacions</string>
     <string name="lbl_videos">Vídeos</string>
-    <string name="lbl_people">Gent</string>
+    <string name="lbl_people">Persones</string>
     <string name="lbl_other_options">Altres opcions</string>
-    <string name="lbl_last_played">"Última reproducció "</string>
+    <string name="lbl_last_played">"Últimes reproduccions "</string>
     <string name="lbl_directed_by">Dirigit per</string>
     <string name="lbl_ends">Finalitza</string>
     <string name="lbl_runs">Reproduccions</string>
