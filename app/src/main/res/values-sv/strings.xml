@@ -564,4 +564,6 @@
     <string name="segment_action_nothing">Gör inget</string>
     <string name="segment_action_skip">Hoppa över</string>
     <string name="segment_type_commercial">Reklamfilmer</string>
+    <string name="runtime_hours_minutes">%1$dt %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>
