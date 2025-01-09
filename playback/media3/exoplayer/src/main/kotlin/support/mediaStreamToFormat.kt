@@ -52,9 +52,20 @@ fun toFormat(stream: MediaStream, track: MediaStreamVideoTrack) = Format.Builder
 	f.setSampleMimeType(getFfmpegVideoMimeType(track.codec))
 }.build()
 
-fun MediaStream.toFormats() = tracks.map { track ->
-	when (track) {
-		is MediaStreamAudioTrack -> toFormat(stream = this, track)
-		is MediaStreamVideoTrack -> toFormat(stream = this, track)
+@OptIn(UnstableApi::class)
+fun toFormat(stream: MediaStream) = Format.Builder().also { f ->
+	f.setId(stream.identifier)
+	f.setContainerMimeType(getFfmpegContainerMimeType(stream.container.format))
+	f.setSampleMimeType(getFfmpegContainerMimeType(stream.container.format))
+}.build()
+
+fun MediaStream.toFormats(): List<Format> {
+	val containerFormat = toFormat(this)
+	val trackFormats = tracks.map { track ->
+		when (track) {
+			is MediaStreamAudioTrack -> toFormat(stream = this, track)
+			is MediaStreamVideoTrack -> toFormat(stream = this, track)
+		}
 	}
+	return trackFormats + containerFormat
 }
