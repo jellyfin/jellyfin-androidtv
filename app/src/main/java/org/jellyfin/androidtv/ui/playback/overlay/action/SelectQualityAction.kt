@@ -20,6 +20,7 @@ class SelectQualityAction(
 	private val previousQualitySelection = userPreferences[UserPreferences.maxBitrate]
 	private val qualityController = VideoQualityController(previousQualitySelection, userPreferences)
 	private val qualityProfiles = getQualityProfiles(context)
+	private var popup: PopupMenu? = null
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_quality)
@@ -32,7 +33,8 @@ class SelectQualityAction(
 		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
-		PopupMenu(context, view, Gravity.END).apply {
+		dismissPopup()
+		popup = PopupMenu(context, view, Gravity.END).apply {
 			qualityProfiles.values.forEachIndexed { i, selected ->
 				menu.add(0, i, i, selected)
 			}
@@ -45,13 +47,21 @@ class SelectQualityAction(
 				}
 			}
 
-			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener {
+				videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+				popup = null
+			}
 			setOnMenuItemClickListener { menuItem ->
 				qualityController.currentQuality = qualityProfiles.keys.elementAt(menuItem.itemId)
 				playbackController.refreshStream()
 				dismiss()
 				true
 			}
-		}.show()
+		}
+		popup?.show()
+	}
+
+	fun dismissPopup() {
+		popup?.dismiss()
 	}
 }

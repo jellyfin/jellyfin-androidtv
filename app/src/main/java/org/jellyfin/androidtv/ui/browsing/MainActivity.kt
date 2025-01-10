@@ -12,12 +12,15 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ActivityMainBinding
+import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
@@ -35,6 +38,7 @@ class MainActivity : FragmentActivity() {
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
+	private val workManager by inject<WorkManager>()
 
 	private lateinit var binding: ActivityMainBinding
 
@@ -103,6 +107,8 @@ class MainActivity : FragmentActivity() {
 
 	override fun onStop() {
 		super.onStop()
+
+		workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
 
 		lifecycleScope.launch {
 			Timber.d("MainActivity stopped")

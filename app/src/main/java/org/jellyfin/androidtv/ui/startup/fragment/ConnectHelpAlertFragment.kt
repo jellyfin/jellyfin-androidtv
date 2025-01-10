@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -87,7 +85,7 @@ private fun ConnectHelpAlert(
 					),
 				) {
 					Icon(
-						imageVector = Icons.Default.Done,
+						painter = painterResource(R.drawable.ic_check),
 						contentDescription = null,
 						modifier = Modifier.size(ButtonDefaults.IconSize),
 					)

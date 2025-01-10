@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
@@ -28,7 +29,6 @@ import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
@@ -242,12 +242,7 @@ fun FullDetailsFragment.resumePlayback() {
 				includeItemTypes = setOf(BaseItemKind.EPISODE),
 				recursive = true,
 				filters = setOf(ItemFilter.IS_UNPLAYED),
-				fields = setOf(
-					ItemFields.MEDIA_SOURCES,
-					ItemFields.MEDIA_STREAMS,
-					ItemFields.CHAPTERS,
-					ItemFields.TRICKPLAY,
-				),
+				fields = ItemRepository.itemFields,
 				sortBy = setOf(
 					ItemSortBy.PARENT_INDEX_NUMBER,
 					ItemSortBy.INDEX_NUMBER,

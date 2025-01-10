@@ -1,8 +1,8 @@
 package org.jellyfin.androidtv.ui.browsing
 
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 
@@ -20,13 +20,7 @@ class ByLetterFragment : BrowseFolderFragment() {
 			includeItemTypes = includeType?.let(BaseItemKind::fromNameOrNull)?.let(::setOf),
 			nameLessThan = letters.substring(0, 1),
 			recursive = true,
-			fields = setOf(
-				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				ItemFields.OVERVIEW,
-				ItemFields.ITEM_COUNTS,
-				ItemFields.DISPLAY_PREFERENCES_ID,
-				ItemFields.CHILD_COUNT,
-			),
+			fields = ItemRepository.itemFields,
 		)
 
 		rows.add(BrowseRowDef("#", numbersItemsRequest, 40))
@@ -39,13 +33,7 @@ class ByLetterFragment : BrowseFolderFragment() {
 				includeItemTypes = includeType?.let(BaseItemKind::fromNameOrNull)?.let(::setOf),
 				nameStartsWith = letter.toString(),
 				recursive = true,
-				fields = setOf(
-					ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-					ItemFields.OVERVIEW,
-					ItemFields.ITEM_COUNTS,
-					ItemFields.DISPLAY_PREFERENCES_ID,
-					ItemFields.CHILD_COUNT,
-				),
+				fields = ItemRepository.itemFields,
 			)
 
 			rows.add(BrowseRowDef(letter.toString(), letterItemsRequest, 40))

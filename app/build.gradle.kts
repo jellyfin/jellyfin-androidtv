@@ -32,11 +32,16 @@ android {
 	}
 
 	buildTypes {
-		getByName("release") {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-        val release by getting {
-			isMinifyEnabled = false
+		val release by getting {
+
+			isMinifyEnabled = true
+			isShrinkResources = true
+			proguardFiles(
+				getDefaultProguardFile("proguard-android-optimize.txt"),
+
+				// Includes a local, custom Proguard rules file
+				"proguard-rules.pro"
+			)
 
 			// Set package names used in various XML files
 			resValue("string", "app_id", namespace!!)

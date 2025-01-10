@@ -18,6 +18,7 @@ class PlaybackSpeedAction(
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private val speedController = VideoSpeedController(playbackController)
 	private val speeds = VideoSpeedController.SpeedSteps.entries.toTypedArray()
+	private var popup: PopupMenu? = null
 
 	init {
 		initializeWithIcon(R.drawable.ic_playback_speed)
@@ -30,17 +31,20 @@ class PlaybackSpeedAction(
 		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
-		val speedMenu = populateMenu(context, view, speedController)
+		dismissPopup()
+		popup = populateMenu(context, view, speedController)
 
-		speedMenu.setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
+		popup?.setOnDismissListener {
+			videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+			popup = null
+		}
 
-		speedMenu.setOnMenuItemClickListener { menuItem ->
+		popup?.setOnMenuItemClickListener { menuItem ->
 			speedController.currentSpeed = speeds[menuItem.itemId]
-			speedMenu.dismiss()
 			true
 		}
 
-		speedMenu.show()
+		popup?.show()
 	}
 
 	private fun populateMenu(
@@ -57,4 +61,7 @@ class PlaybackSpeedAction(
 		menu.getItem(speeds.indexOf(speedController.currentSpeed)).isChecked = true
 	}
 
+	fun dismissPopup() {
+		popup?.dismiss()
+	}
 }

@@ -3,6 +3,22 @@ description: Create a bug report
 labels:
   - bug
 body:
+  - type: checkboxes
+    id: before-posting
+    attributes:
+      label: "This issue respects the following points:"
+      description: All conditions are **required**.
+      options:
+        - label: This issue is **not** already reported on [GitHub](https://github.com/jellyfin/jellyfin-androidtv/issues?q=is%3Aopen+is%3Aissue) _(I've searched it)_.
+          required: true
+        - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
+          required: true
+        - label: This report addresses only a single issue; If you encounter multiple issues, kindly create separate reports for each one.
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug information  
   - type: textarea
     id: description
     attributes:
@@ -28,12 +44,16 @@ body:
         The file name should start with "upload_org.jellyfin.androidtv".
         Make sure that they don't contain any sensitive information like server URL, auth tokens or passwords.
       placeholder: Paste logs…
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
   - type: input
     id: app-version
     attributes:
       label: Application version
       description: The version of the installed Jellyfin Android TV app.
-      placeholder: 0.14.0
+      placeholder: 0.18.2
     validations:
       required: true
   - type: dropdown
@@ -42,15 +62,16 @@ body:
       label: Where did you install the app from?
       description: Choose the appropriate app store or installation method.
       options:
-        - Google Play
+        - Google Play Store
         - Amazon Appstore
+        - F-Droid
         - Sideloaded APK
   - type: input
     id: device-info
     attributes:
       label: Device information
       description: Manufacturer and model
-      placeholder: Nvidia Shield Pro (2017), Amazon Fire TV Stick v1 (2014)
+      placeholder: Nvidia Shield TV Pro (2019), Fire TV Stick HD (2020)
     validations:
       required: true
   - type: input
@@ -58,7 +79,7 @@ body:
     attributes:
       label: Android version
       description: Version of the OS and other information (e.g. custom ROM / OEM skin)
-      placeholder: Android 9, Fire OS 7
+      placeholder: Android 13, Fire OS 7
     validations:
       required: true
   - type: input
@@ -66,6 +87,18 @@ body:
     attributes:
       label: Jellyfin server version
       description: If on unstable, please specify the commit hash.
-      placeholder: 10.8.1
+      placeholder: 10.10.2
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Additional
+  - type: input
+    id: other-sources
+    attributes:
+      label: Other sources
+      description: If this topic has been discussed outside of GitHub, please link it.
+      placeholder: https://forum.jellyfin.org/…
+    validations:
+      required: false

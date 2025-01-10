@@ -3,13 +3,13 @@ package org.jellyfin.androidtv.ui.browsing
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.CollectionType
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
@@ -59,22 +59,13 @@ object BrowsingUtils {
 		limit = 50,
 		parentId = parentId,
 		imageTypeLimit = 1,
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.CHILD_COUNT,
-			ItemFields.MEDIA_SOURCES,
-			ItemFields.MEDIA_STREAMS,
-		)
+		fields = ItemRepository.itemFields
 	)
 
 	@JvmStatic
 	fun createSeriesGetNextUpRequest(parentId: UUID) = GetNextUpRequest(
 		seriesId = parentId,
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		)
+		fields = ItemRepository.itemFields
 	)
 
 	@JvmStatic
@@ -84,13 +75,7 @@ object BrowsingUtils {
 		itemType: BaseItemKind? = null,
 		groupItems: Boolean? = null
 	) = GetLatestMediaRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.CHILD_COUNT,
-			ItemFields.MEDIA_SOURCES,
-			ItemFields.MEDIA_STREAMS,
-		),
+		fields = ItemRepository.itemFields,
 		parentId = parentId,
 		limit = 50,
 		imageTypeLimit = 1,
@@ -101,42 +86,26 @@ object BrowsingUtils {
 	@JvmStatic
 	fun createSeasonsRequest(seriesId: UUID) = GetSeasonsRequest(
 		seriesId = seriesId,
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 	)
 
 	@JvmStatic
 	fun createUpcomingEpisodesRequest(parentId: UUID) = GetUpcomingEpisodesRequest(
 		parentId = parentId,
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 	)
 
 	@JvmStatic
 	fun createSimilarItemsRequest(itemId: UUID) = GetSimilarItemsRequest(
 		itemId = itemId,
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		limit = 20,
 	)
 
 	@JvmStatic
 	fun createLiveTVOnNowRequest() = GetRecommendedProgramsRequest(
 		isAiring = true,
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHANNEL_INFO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		imageTypeLimit = 1,
 		enableTotalRecordCount = false,
 		limit = 150,
@@ -146,12 +115,7 @@ object BrowsingUtils {
 	fun createLiveTVUpcomingRequest() = GetRecommendedProgramsRequest(
 		isAiring = false,
 		hasAired = false,
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHANNEL_INFO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		imageTypeLimit = 1,
 		enableTotalRecordCount = false,
 		limit = 150,
@@ -160,22 +124,14 @@ object BrowsingUtils {
 	@JvmStatic
 	@JvmOverloads
 	fun createLiveTVRecordingsRequest(limit: Int? = null) = GetRecordingsRequest(
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		enableImages = true,
 		limit = limit,
 	)
 
 	@JvmStatic
 	fun createLiveTVMovieRecordingsRequest() = GetRecordingsRequest(
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		enableImages = true,
 		limit = 60,
 		isMovie = true,
@@ -183,11 +139,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createLiveTVSeriesRecordingsRequest() = GetRecordingsRequest(
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		enableImages = true,
 		limit = 60,
 		isSeries = true,
@@ -195,11 +147,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createLiveTVSportsRecordingsRequest() = GetRecordingsRequest(
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		enableImages = true,
 		limit = 60,
 		isSports = true,
@@ -207,11 +155,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createLiveTVKidsRecordingsRequest() = GetRecordingsRequest(
-		fields = setOf(
-			ItemFields.OVERVIEW,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		enableImages = true,
 		limit = 60,
 		isKids = true,
@@ -224,31 +168,19 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createAlbumArtistsRequest(parentId: UUID) = GetAlbumArtistsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		parentId = parentId,
 	)
 
 	@JvmStatic
 	fun createArtistsRequest(parentId: UUID) = GetArtistsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		parentId = parentId,
 	)
 
 	@JvmStatic
 	fun createPersonItemsRequest(personId: UUID, itemType: BaseItemKind) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		personIds = setOf(personId),
 		recursive = true,
 		includeItemTypes = setOf(itemType),
@@ -257,11 +189,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createArtistItemsRequest(artistId: UUID, itemType: BaseItemKind) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		artistIds = setOf(artistId),
 		recursive = true,
 		includeItemTypes = setOf(itemType),
@@ -270,13 +198,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createNextEpisodesRequest(seasonId: UUID, indexNumber: Int) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		parentId = seasonId,
 		includeItemTypes = setOf(BaseItemKind.EPISODE),
 		startIndex = indexNumber,
@@ -285,15 +207,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createResumeItemsRequest(parentId: UUID, itemType: BaseItemKind) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-			ItemFields.MEDIA_STREAMS,
-			ItemFields.MEDIA_SOURCES,
-		),
+		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(itemType),
 		recursive = true,
 		parentId = parentId,
@@ -308,15 +222,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createFavoriteItemsRequest(parentId: UUID, itemType: BaseItemKind) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-			ItemFields.MEDIA_STREAMS,
-			ItemFields.MEDIA_SOURCES,
-		),
+		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(itemType),
 		recursive = true,
 		parentId = parentId,
@@ -327,7 +233,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createCollectionsRequest(parentId: UUID) = GetItemsRequest(
-		fields = setOf(ItemFields.CHILD_COUNT),
+		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(BaseItemKind.BOX_SET),
 		recursive = true,
 		imageTypeLimit = 1,
@@ -337,12 +243,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createPremieresRequest(parentId: UUID) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.DATE_CREATED,
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(BaseItemKind.EPISODE),
 		parentId = parentId,
 		indexNumber = 1,
@@ -358,13 +259,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createLastPlayedRequest(parentId: UUID) = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.OVERVIEW,
-			ItemFields.ITEM_COUNTS,
-			ItemFields.DISPLAY_PREFERENCES_ID,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(BaseItemKind.AUDIO),
 		recursive = true,
 		parentId = parentId,
@@ -378,11 +273,7 @@ object BrowsingUtils {
 
 	@JvmStatic
 	fun createPlaylistsRequest() = GetItemsRequest(
-		fields = setOf(
-			ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-			ItemFields.CUMULATIVE_RUN_TIME_TICKS,
-			ItemFields.CHILD_COUNT,
-		),
+		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(BaseItemKind.PLAYLIST),
 		imageTypeLimit = 1,
 		recursive = true,
@@ -393,13 +284,7 @@ object BrowsingUtils {
 	@JvmStatic
 	fun createBrowseGridItemsRequest(parent: BaseItemDto): GetItemsRequest {
 		val baseRequest = GetItemsRequest(
-			fields = setOf(
-				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				ItemFields.CHILD_COUNT,
-				ItemFields.MEDIA_SOURCES,
-				ItemFields.MEDIA_STREAMS,
-				ItemFields.DISPLAY_PREFERENCES_ID,
-			),
+			fields = ItemRepository.itemFields,
 			parentId = parent.id,
 		)
 

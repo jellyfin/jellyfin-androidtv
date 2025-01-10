@@ -141,7 +141,6 @@
     <string name="lbl_search_hint">搜尋文字（選擇鍵盤）</string>
     <string name="lbl_tv_queuing">自動播放下一集</string>
     <string name="lbl_ends">結束</string>
-    <string name="lbl_min">" 分鐘"</string>
     <string name="lbl_item">項目</string>
     <string name="lbl_items">項目</string>
     <string name="lbl_specials">特典</string>

@@ -4,16 +4,15 @@ import android.content.Context
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
-import org.jellyfin.sdk.model.api.ItemFields as SdkItemFields
 
 class HomeFragmentHelper(
 	private val context: Context,
@@ -26,13 +25,7 @@ class HomeFragmentHelper(
 	fun loadResume(title: String, includeMediaTypes: Collection<MediaType>): HomeFragmentRow {
 		val query = GetResumeItemsRequest(
 			limit = ITEM_LIMIT_RESUME,
-			fields = listOf(
-				SdkItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				SdkItemFields.OVERVIEW,
-				SdkItemFields.ITEM_COUNTS,
-				SdkItemFields.DISPLAY_PREFERENCES_ID,
-				SdkItemFields.CHILD_COUNT,
-			),
+			fields = ItemRepository.itemFields,
 			imageTypeLimit = 1,
 			enableTotalRecordCount = false,
 			mediaTypes = includeMediaTypes,
@@ -52,11 +45,7 @@ class HomeFragmentHelper(
 
 	fun loadLatestLiveTvRecordings(): HomeFragmentRow {
 		val query = GetRecordingsRequest(
-			fields = setOf(
-				ItemFields.OVERVIEW,
-				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				ItemFields.CHILD_COUNT
-			),
+			fields = ItemRepository.itemFields,
 			enableImages = true,
 			limit = ITEM_LIMIT_RECORDINGS
 		)
@@ -69,11 +58,7 @@ class HomeFragmentHelper(
 			imageTypeLimit = 1,
 			limit = ITEM_LIMIT_NEXT_UP,
 			enableResumable = false,
-			fields = setOf(
-				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				ItemFields.OVERVIEW,
-				ItemFields.CHILD_COUNT,
-			)
+			fields = ItemRepository.itemFields
 		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_next_up), query, arrayOf(ChangeTriggerType.TvPlayback)))
@@ -82,12 +67,7 @@ class HomeFragmentHelper(
 	fun loadOnNow(): HomeFragmentRow {
 		val query = GetRecommendedProgramsRequest(
 			isAiring = true,
-			fields = setOf(
-				ItemFields.OVERVIEW,
-				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-				ItemFields.CHANNEL_INFO,
-				ItemFields.CHILD_COUNT,
-			),
+			fields = ItemRepository.itemFields,
 			imageTypeLimit = 1,
 			enableTotalRecordCount = false,
 			limit = ITEM_LIMIT_ON_NOW
