@@ -64,4 +64,5 @@
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
 
     <color name="background_filter">#94101010</color>
+    <color name="background_icongroup">#1AFFFFFF</color>
 </resources>
