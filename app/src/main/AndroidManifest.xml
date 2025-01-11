@@ -49,7 +49,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jellyfin"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Legacy service required for AccountManagerMigration -->
         <service
