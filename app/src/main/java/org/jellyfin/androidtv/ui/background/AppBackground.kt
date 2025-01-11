@@ -86,7 +86,7 @@ fun AppBackground() {
 					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
 					modifier = Modifier
 						.fillMaxSize()
-						.then(if (blurBackground) Modifier.blur(10.dp) else Modifier)
+						.then(if (blurBackground) Modifier.blur(80.dp) else Modifier)
 				)
 			} else {
 				Image(
