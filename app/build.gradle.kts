@@ -18,7 +18,7 @@ android {
 		applicationId = namespace
 		versionName = project.getVersionName()
 		versionCode = getVersionCode(versionName!!)
-		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName")
+		setProperty("archivesBaseName", "jellyfin-elisiondesign-v$versionName")
 	}
 
 	buildFeatures {

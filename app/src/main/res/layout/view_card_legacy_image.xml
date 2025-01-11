@@ -41,12 +41,12 @@
 
         <ImageView
             android:id="@+id/favIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignEnd="@+id/main_image"
-            android:layout_alignBottom="@+id/resumeProgress"
-            android:layout_marginBottom="2dp"
-            android:alpha="0.8"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignStart="@+id/main_image"
+            android:layout_alignTop="@+id/main_image"
+            android:layout_marginTop="2dp"
+            android:alpha="1.0"
             android:src="@drawable/ic_heart_red"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -105,8 +105,8 @@
 
             <ImageView
                 android:id="@+id/watched"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:contentDescription="@null"
                 android:src="@drawable/circle_accent"
                 tools:ignore="ImageContrastCheck" />
@@ -125,8 +125,8 @@
 
             <ImageView
                 android:id="@+id/checkMark"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_watch"
                 android:contentDescription="@null"
@@ -197,12 +197,13 @@
 
             <TextView
                 android:id="@+id/title"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:ellipsize="marquee"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/poppins_medium"
                 android:layerType="hardware"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
@@ -213,6 +214,7 @@
 
             <TextView
                 android:id="@+id/content_text"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -227,7 +229,7 @@
                 android:singleLine="true"
                 android:textColor="@color/lb_basic_card_title_text_color"
                 android:textDirection="locale"
-                android:textSize="@dimen/lb_basic_card_content_text_size"
+                android:textSize="12sp"
                 tools:text="Content text" />
 
             <LinearLayout

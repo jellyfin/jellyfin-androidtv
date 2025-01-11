@@ -5,6 +5,7 @@
     android:layout_gravity="center"
 
     android:clipToPadding="false"
+    android:clipChildren="false"
     focusOutFront="true"
     android:padding="20dp">
 

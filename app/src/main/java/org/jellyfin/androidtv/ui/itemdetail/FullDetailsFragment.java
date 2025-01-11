@@ -259,9 +259,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             if (mResumeButton != null) {
                                 boolean resumeVisible = (mBaseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || JavaCompat.getCanResume(mBaseItem);
                                 mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
-                                if (JavaCompat.getCanResume(mBaseItem)) {
-                                    mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll())));
-                                }
                                 if (resumeVisible) {
                                     mResumeButton.requestFocus();
                                 } else if (playButton != null && ViewKt.isVisible(playButton)) {

@@ -29,12 +29,12 @@
         style="@style/Widget.Jellyfin.Row.Header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="@string/who_is_watching"
+        app:layout_constraintBottom_toTopOf="@+id/users"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification"
         app:layout_goneMarginTop="0dp" />
 
     <androidx.leanback.widget.HorizontalGridView
@@ -44,9 +44,10 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toTopOf="parent"
         app:rowHeight="153dp"
         tools:itemCount="4"
         tools:listitem="@layout/view_card_default" />
@@ -68,9 +69,9 @@
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/login_disclaimer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/users">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/add_user_button"
@@ -98,8 +99,8 @@
         android:gravity="center"
         android:maxLines="3"
         android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="@id/actions_container"
-        app:layout_constraintStart_toStartOf="@id/actions_container"
-        app:layout_constraintTop_toBottomOf="@+id/actions_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="This is the login disclaimer." />
 </androidx.constraintlayout.widget.ConstraintLayout>

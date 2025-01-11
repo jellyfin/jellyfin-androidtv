@@ -16,7 +16,7 @@
         android:layout_height="110dp"
         android:duplicateParentState="true"
         android:foreground="@drawable/ripple"
-        app:cardCornerRadius="?attr/cardRounding">
+        app:cardCornerRadius="?attr/profileRounding">
 
         <org.jellyfin.androidtv.ui.AsyncImageView
             android:id="@+id/banner"
@@ -30,6 +30,7 @@
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:duplicateParentState="true"
         android:ellipsize="marquee"
         android:layerType="hardware"

@@ -27,6 +27,7 @@ class TextUnderButton @JvmOverloads constructor(
 	}
 
 	fun setLabel(text: String?) {
+		
 		binding.label.isVisible = text != null
 		binding.label.text = text
 		binding.imageButton.contentDescription = text

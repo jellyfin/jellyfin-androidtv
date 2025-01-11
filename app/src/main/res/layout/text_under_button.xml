@@ -5,12 +5,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:duplicateParentState="true"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+    android:paddingStart="0dp"
+    android:paddingEnd="16dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageButton"
         style="@style/Button.Default"
-        android:layout_width="70dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -31,8 +33,6 @@
         android:alpha=".7"
         android:gravity="center"
         android:maxLines="2"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
         android:textSize="12sp"
         tools:text="TextView" />
 </RelativeLayout>

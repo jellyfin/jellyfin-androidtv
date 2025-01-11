@@ -52,12 +52,14 @@
             app:layout_constraintGuide_end="50dp" />
 
         <!-- Top -->
+
+        <!-- Title -->
         <TextView
             android:id="@+id/fdTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/poppins_medium"
             android:maxLines="2"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@id/fdMainInfoRow"
@@ -65,6 +67,7 @@
             app:layout_constraintStart_toStartOf="@id/guide_main_start"
             tools:text="fdTitle" />
 
+        <!-- Info Row with rating and file info-->
         <LinearLayout
             android:id="@+id/fdMainInfoRow"
             android:layout_width="0dp"
@@ -75,6 +78,7 @@
             app:layout_constraintEnd_toEndOf="@id/guide_right_end"
             app:layout_constraintStart_toStartOf="@id/guide_main_start" />
 
+        <!-- Genre Row -->
         <TextView
             android:id="@+id/fdGenreRow"
             android:layout_width="0dp"
@@ -84,7 +88,6 @@
             app:layout_constraintStart_toStartOf="@id/guide_main_start"
             tools:text="fdGenreRow" />
 
-        <!-- Left -->
 
         <TextView
             android:id="@+id/infoTitle1"
@@ -162,20 +165,22 @@
 
         <!-- Main -->
 
+        <!-- Content Description-->
         <org.jellyfin.androidtv.ui.ExpandableTextView
             android:id="@+id/fdSummaryText"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/poppins_light"
             android:maxLines="6"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/infoValue3"
             app:layout_constraintEnd_toEndOf="@id/guide_main_end"
             app:layout_constraintStart_toStartOf="@id/guide_main_start"
             app:layout_constraintTop_toBottomOf="@id/fdGenreRow"
             tools:text="fdSummaryText" />
 
+        <!-- Buttons -->
         <LinearLayout
             android:id="@+id/fdButtonRow"
             android:layout_width="0dp"
@@ -189,7 +194,6 @@
             app:layout_constraintTop_toBottomOf="@id/fdSummaryText" />
 
         <!-- Right -->
-
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -204,7 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="@drawable/shape_card"
+                android:background="@drawable/shape_card_hardcorners"
                 android:scaleType="centerInside"
                 tools:srcCompat="@drawable/app_banner" />
         </FrameLayout>
