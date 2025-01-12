@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import org.jellyfin.androidtv.R
@@ -89,13 +88,7 @@ fun AppBackground() {
 						.then(if (blurBackground) Modifier.blur(80.dp) else Modifier)
 				)
 			} else {
-				Image(
-					painter = painterResource(R.drawable.screen_background_blurbackground),
-					contentDescription = null,
-					alignment = Alignment.Center,
-					contentScale = ContentScale.Crop,
-					modifier = Modifier.fillMaxSize()
-				)
+				AppThemeBackground()
 			}
 		}
 	}

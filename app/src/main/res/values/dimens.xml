@@ -3,7 +3,7 @@
     <dimen name="overscan_vertical">48dp</dimen>
 
     <fraction name="card_scale_default">100%</fraction>
-    <fraction name="card_scale_focus">115%</fraction>
+    <fraction name="card_scale_focus">110%</fraction>
 
     <!-- Set leanback card scale values -->
     <fraction name="lb_focus_zoom_factor_small">@fraction/card_scale_focus</fraction>

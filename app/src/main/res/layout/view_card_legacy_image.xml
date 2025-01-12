@@ -185,33 +185,38 @@
         android:layout_height="wrap_content"
         lb:layout_viewType="info">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/info_field"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/lb_basic_card_info_height"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:paddingStart="2dp"
-            android:paddingTop="@dimen/lb_basic_card_info_padding_top"
-            android:paddingEnd="2dp"
-            android:paddingBottom="@dimen/lb_basic_card_info_padding_bottom">
 
+            android:orientation="vertical"
+            android:paddingStart="0dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="0dp"
+            >
+
+            <!-- Text of movie title -->
             <TextView
                 android:id="@+id/title"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
+                android:layout_marginStart="0sp"
                 android:ellipsize="marquee"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins_bold"
                 android:layerType="hardware"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textColor="@color/lb_basic_card_title_text_color"
                 android:textDirection="locale"
-                android:textSize="@dimen/lb_basic_card_title_text_size"
+                android:textSize="12sp"
                 tools:text="Title text" />
 
+
+            <!-- Text Series Title-->
             <TextView
                 android:id="@+id/content_text"
                 android:gravity="center"
@@ -219,8 +224,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
-                android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
                 android:layout_toStartOf="@+id/badge_layout"
                 android:ellipsize="marquee"
                 android:fontFamily="sans-serif-condensed"
@@ -264,7 +269,7 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.leanback.widget.NonOverlappingFrameLayout>
 
