@@ -21,4 +21,8 @@
     <issue id="Typos" severity="ignore" />
     <issue id="UnknownNullness" severity="informational" />
     <issue id="UnusedIds" severity="ignore" />
+    <issue id="UnusedAttribute">
+        <ignore regexp="usesCleartextTraffic" />
+        <ignore regexp="networkSecurityConfig" />
+    </issue>
 </lint>
