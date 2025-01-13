@@ -1,11 +1,13 @@
 package org.jellyfin.androidtv.ui.browsing.composable.inforow
 
+import org.jellyfin.androidtv.R.font
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.ProvideTextStyle
+import androidx.compose.ui.text.font.FontFamily
 
 /**
  * A single item in the [BaseItemInfoRow].
@@ -37,29 +41,33 @@ fun InfoRowItem(
 
 	val modifier = when {
 		backgroundColor.alpha > 0f -> Modifier
-			.background(backgroundColor, RoundedCornerShape(3.dp))
-			.padding(horizontal = 5.dp)
-
+			.border(1.2.dp, Color.White, RoundedCornerShape(6.dp))
+			.padding(horizontal = 6.dp, vertical = 0.dp)
 		else -> Modifier
 	}
 
+	val customFont = FontFamily(
+		Font(font.poppins_semibold, FontWeight.SemiBold)
+	)
+
 	ProvideTextStyle(
 		value = TextStyle(
-			color = foregroundColor,
-			fontSize = if (backgroundColor.alpha > 0f) 12.sp else 16.sp,
-			fontWeight = if (backgroundColor.alpha > 0f) FontWeight.W600 else FontWeight.W500,
+			color = Color.White,
+			fontSize = 11.sp,
+			fontFamily = customFont,
+			fontWeight = FontWeight.SemiBold,
 		)
 	) {
 		Row(
 			horizontalArrangement = Arrangement.spacedBy(3.dp),
 			verticalAlignment = Alignment.CenterVertically,
-			modifier = modifier.fillMaxHeight(),
+			modifier = modifier.height(18.dp),
 		) {
 			if (icon != null) {
 				Image(
 					painter = icon,
 					contentDescription = contentDescription,
-					modifier = Modifier.size(if (backgroundColor.alpha > 0f) 16.dp else 18.dp),
+					modifier = Modifier.size(16.dp),
 				)
 			}
 
