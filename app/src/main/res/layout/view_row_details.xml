@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="180dp"
+            app:layout_constraintGuide_begin="181dp"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -21,14 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="150dp" />
+            app:layout_constraintGuide_begin="58dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_main_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="170dp" />
+            app:layout_constraintGuide_begin="301dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_main_end"
@@ -49,119 +49,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="50dp" />
+            app:layout_constraintGuide_end="58dp" />
 
         <!-- Top -->
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/fdTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="@font/poppins_medium"
-            android:maxLines="2"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@id/fdMainInfoRow"
-            app:layout_constraintEnd_toEndOf="@id/guide_right_end"
-            app:layout_constraintStart_toStartOf="@id/guide_main_start"
-            tools:text="fdTitle" />
-
-        <!-- Info Row with rating and file info-->
+        <!-- Row One -->
         <LinearLayout
-            android:id="@+id/fdMainInfoRow"
+            android:id="@+id/rowOne"
             android:layout_width="0dp"
-            android:layout_height="20sp"
-            android:dividerPadding="4sp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/fdGenreRow"
-            app:layout_constraintEnd_toEndOf="@id/guide_right_end"
-            app:layout_constraintStart_toStartOf="@id/guide_main_start" />
+            app:layout_constraintBottom_toTopOf="@+id/guide_top"
+            app:layout_constraintEnd_toStartOf="@+id/guide_right_end"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guide_left_end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
 
-        <!-- Genre Row -->
-        <TextView
-            android:id="@+id/fdGenreRow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/guide_top"
-            app:layout_constraintEnd_toEndOf="@id/guide_right_end"
-            app:layout_constraintStart_toStartOf="@id/guide_main_start"
-            tools:text="fdGenreRow" />
+            <!-- Title -->
+            <TextView
+                android:id="@+id/fdTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="bottom|start"
+                android:maxLines="1"
+                android:textSize="30sp"
+                tools:text="fdTitle" />
 
-
-        <TextView
-            android:id="@+id/infoTitle1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewEnd"
-            android:textAllCaps="true"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/guide_left_end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guide_top"
-            tools:text="infoTitle1" />
-
-        <TextView
-            android:id="@+id/infoValue1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:alpha=".6"
-            android:textAlignment="viewEnd"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/guide_left_end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoTitle1"
-            tools:text="infoValue1" />
-
-        <TextView
-            android:id="@+id/infoTitle2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textAlignment="viewEnd"
-            android:textAllCaps="true"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/guide_left_end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoValue1"
-            tools:text="infoTitle2" />
-
-        <TextView
-            android:id="@+id/infoValue2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:alpha=".6"
-            android:textAlignment="viewEnd"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/guide_left_end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoTitle2"
-            tools:text="infoValue2" />
-
-        <TextView
-            android:id="@+id/infoTitle3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textAlignment="viewEnd"
-            android:textAllCaps="true"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/guide_left_end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoValue2"
-            tools:text="infoTitle3" />
-
-        <TextView
-            android:id="@+id/infoValue3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:alpha=".6"
-            android:textAlignment="viewEnd"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/guide_left_end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoTitle3"
-            tools:text="infoValue3" />
+            <!-- Info Row with rating and file info-->
+            <LinearLayout
+                android:id="@+id/fdMainInfoRow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:dividerPadding="4sp"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal" />
+        </LinearLayout>
 
         <!-- Main -->
 
@@ -169,39 +95,154 @@
         <org.jellyfin.androidtv.ui.ExpandableTextView
             android:id="@+id/fdSummaryText"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/poppins_light"
             android:maxLines="6"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/infoValue3"
-            app:layout_constraintEnd_toEndOf="@id/guide_main_end"
-            app:layout_constraintStart_toStartOf="@id/guide_main_start"
-            app:layout_constraintTop_toBottomOf="@id/fdGenreRow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guide_right_end"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guide_left_end"
+            app:layout_constraintTop_toBottomOf="@+id/fdGenreRow"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="fdSummaryText" />
 
-        <!-- Buttons -->
         <LinearLayout
-            android:id="@+id/fdButtonRow"
+            android:id="@+id/rowTwo"
             android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="10dp"
-            android:divider="@drawable/blank10x10"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal"
-            android:showDividers="none"
-            app:layout_constraintEnd_toEndOf="@id/guide_main_end"
-            app:layout_constraintStart_toStartOf="@id/guide_main_start"
-            app:layout_constraintTop_toBottomOf="@id/fdSummaryText" />
+            app:layout_constraintBottom_toTopOf="@+id/fdGenreRow"
+            app:layout_constraintEnd_toStartOf="@+id/guide_right_end"
+            app:layout_constraintStart_toStartOf="@+id/guide_left_end"
+            app:layout_constraintTop_toTopOf="@+id/guide_top">
 
-        <!-- Right -->
+            <!-- Buttons -->
+            <LinearLayout
+                android:id="@+id/fdButtonRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/blank10x10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:showDividers="none" />
+
+            <LinearLayout
+                android:id="@+id/fdInfoRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- First Vertical Layout -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/infoTitle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textAlignment="viewEnd"
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        tools:text="infoTitle1" />
+
+                    <TextView
+                        android:id="@+id/infoValue1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".6"
+                        android:textAlignment="viewEnd"
+                        android:textSize="14sp"
+                        tools:text="infoValue1" />
+                </LinearLayout>
+
+                <!-- Second Vertical Layout -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/infoTitle2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textAlignment="viewEnd"
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        tools:text="infoTitle2" />
+
+                    <TextView
+                        android:id="@+id/infoValue2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".6"
+                        android:textAlignment="viewEnd"
+                        android:textSize="14sp"
+                        tools:text="infoValue2" />
+                </LinearLayout>
+
+                <!-- Third Vertical Layout -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/infoTitle3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textAlignment="viewEnd"
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        tools:text="infoTitle3" />
+
+                    <TextView
+                        android:id="@+id/infoValue3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".6"
+                        android:textAlignment="viewEnd"
+                        android:textSize="14sp"
+                        tools:text="infoValue3" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Genre Row -->
+        <TextView
+            android:id="@+id/fdGenreRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/fdSummaryText"
+            app:layout_constraintEnd_toEndOf="@id/guide_right_end"
+            app:layout_constraintStart_toStartOf="@+id/guide_left_end"
+            app:layout_constraintTop_toBottomOf="@+id/rowTwo"
+            tools:text="fdGenreRow"
+            android:focusable="true" />
+
+        <!-- Movie logo -->
         <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/fdButtonRow"
-            app:layout_constraintEnd_toEndOf="@id/guide_right_end"
-            app:layout_constraintStart_toStartOf="@id/guide_right_start"
-            app:layout_constraintTop_toTopOf="@id/guide_top"
-            app:layout_constraintVertical_bias="0">
+            android:layout_height="50dp"
+            android:layout_marginTop="58dp"
+            app:layout_constraintStart_toStartOf="@+id/guide_left_end"
+            app:layout_constraintTop_toTopOf="parent">
 
             <org.jellyfin.androidtv.ui.AsyncImageView
                 android:id="@+id/mainImage"

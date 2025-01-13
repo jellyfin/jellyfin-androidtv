@@ -28,19 +28,6 @@
             tools:ignore="UnusedAttribute"
             tools:src="@drawable/ic_play"
             />
-
-        <TextView
-            android:id="@+id/label"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:alpha=".7"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textSize="12sp"
-            tools:text="TextView" />
     </RelativeLayout>
 
     <Space

@@ -65,4 +65,5 @@
 
     <color name="background_filter">#94101010</color>
     <color name="background_icongroup">#1AFFFFFF</color>
+    <color name="white_25alpha">#40FFFFFF</color>
 </resources>
