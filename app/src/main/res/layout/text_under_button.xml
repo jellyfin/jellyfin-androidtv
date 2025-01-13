@@ -39,7 +39,7 @@
             android:alpha=".7"
             android:gravity="center"
             android:maxLines="2"
-            android:textSize="10sp"
+            android:textSize="12sp"
             tools:text="TextView" />
     </RelativeLayout>
 
