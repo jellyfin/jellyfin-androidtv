@@ -69,7 +69,7 @@
             <!-- Title -->
             <TextView
                 android:id="@+id/fdTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins_semibold"
@@ -81,7 +81,7 @@
             <!-- Info Row with rating and file info-->
             <LinearLayout
                 android:id="@+id/fdMainInfoRow"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:dividerPadding="4sp"
@@ -131,6 +131,12 @@
                 android:orientation="horizontal"
                 android:showDividers="none" />
 
+            <!-- Expandable Space -->
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <LinearLayout
                 android:id="@+id/fdInfoRow"
                 android:layout_width="wrap_content"
@@ -150,9 +156,9 @@
                         android:id="@+id/infoTitle1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_semibold"
                         android:textAlignment="viewEnd"
-                        android:textAllCaps="true"
+                        android:textAllCaps="false"
                         android:textSize="14sp"
                         tools:text="infoTitle1" />
 
@@ -160,7 +166,7 @@
                         android:id="@+id/infoValue1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha=".6"
+                        android:fontFamily="@font/poppins_medium"
                         android:textAlignment="viewEnd"
                         android:textSize="14sp"
                         tools:text="infoValue1" />
@@ -177,9 +183,9 @@
                         android:id="@+id/infoTitle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_semibold"
                         android:textAlignment="viewEnd"
-                        android:textAllCaps="true"
+                        android:textAllCaps="false"
                         android:textSize="14sp"
                         tools:text="infoTitle2" />
 
@@ -187,7 +193,7 @@
                         android:id="@+id/infoValue2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha=".6"
+                        android:fontFamily="@font/poppins_medium"
                         android:textAlignment="viewEnd"
                         android:textSize="14sp"
                         tools:text="infoValue2" />
@@ -204,9 +210,9 @@
                         android:id="@+id/infoTitle3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins_semibold"
                         android:textAlignment="viewEnd"
-                        android:textAllCaps="true"
+                        android:textAllCaps="false"
                         android:textSize="14sp"
                         tools:text="infoTitle3" />
 
@@ -214,7 +220,7 @@
                         android:id="@+id/infoValue3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha=".6"
+                        android:fontFamily="@font/poppins_medium"
                         android:textAlignment="viewEnd"
                         android:textSize="14sp"
                         tools:text="infoValue3" />
@@ -227,6 +233,7 @@
             android:id="@+id/fdGenreRow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/fdSummaryText"
@@ -234,7 +241,9 @@
             app:layout_constraintStart_toStartOf="@+id/guide_left_end"
             app:layout_constraintTop_toBottomOf="@+id/rowTwo"
             tools:text="fdGenreRow"
-            android:focusable="true" />
+            android:focusable="false"
+            android:maxLines="4"
+            />
 
         <!-- Movie logo -->
         <FrameLayout
