@@ -52,6 +52,17 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="Button.Play" parent="android:Widget.Button">
+        <item name="android:background">@drawable/button_default_back</item>
+        <item name="android:foreground">@drawable/button_default_ripple</item>
+        <item name="android:textColor">@drawable/button_default_text</item>
+        <item name="drawableTint">@drawable/button_icon_tint</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
     <style name="Button.Icon" parent="android:Widget.Button">
         <item name="android:background">@drawable/button_icon_back</item>
         <item name="android:foreground">@drawable/button_icon_ripple</item>

@@ -1,38 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:duplicateParentState="true"
-    android:layoutDirection="ltr"
-    android:paddingStart="0dp"
-    android:paddingEnd="16dp">
+    android:layoutDirection="ltr">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageButton"
-        style="@style/Button.Default"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:clickable="false"
-        android:duplicateParentState="true"
-        app:tint="@drawable/button_icon_tint"
-        tools:ignore="UnusedAttribute"
-        tools:src="@drawable/ic_play"
-        android:layoutDirection="locale" />
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="85dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
-        android:alpha=".7"
-        android:gravity="center"
-        android:maxLines="2"
-        android:textSize="12sp"
-        tools:text="TextView" />
-</RelativeLayout>
+        android:duplicateParentState="true"
+        android:layoutDirection="ltr">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageButton"
+            style="@style/Button.Play"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:duplicateParentState="true"
+            android:layoutDirection="locale"
+            android:scaleType="centerInside"
+            app:tint="@drawable/button_icon_tint"
+            tools:ignore="UnusedAttribute"
+            tools:src="@drawable/ic_play"
+            />
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:alpha=".7"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textSize="10sp"
+            tools:text="TextView" />
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>
