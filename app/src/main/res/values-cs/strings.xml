@@ -574,4 +574,6 @@
     <string name="segment_action_ask_to_skip">Zeptat se na přeskočení</string>
     <string name="lbl_subtitle_text_stroke_color">Barva obrysu titulků</string>
     <string name="pref_mediasegment_actions">Akce mediálních segmentů</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

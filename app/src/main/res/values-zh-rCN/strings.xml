@@ -493,20 +493,20 @@
     <string name="person_birthday_and_age">出生于 %1$s (%2$d)</string>
     <string name="dolby_vision">杜比视界</string>
     <plurals name="items">
-        <item quantity="other">选项</item>
+        <item quantity="other">%1$s 选项</item>
     </plurals>
     <plurals name="movies">
-        <item quantity="other">电影</item>
+        <item quantity="other">%1$s 电影</item>
     </plurals>
     <plurals name="songs">
-        <item quantity="other">歌曲</item>
+        <item quantity="other">%1$s歌曲</item>
     </plurals>
     <plurals name="albums">
-        <item quantity="other">相册,专辑</item>
+        <item quantity="other">%1$s 合集</item>
     </plurals>
     <string name="dolby_atmos">杜比全景声</string>
     <plurals name="tv_series">
-        <item quantity="other">电视剧</item>
+        <item quantity="other">%1$s 电视剧</item>
     </plurals>
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="dts_x">DTS:X</string>
@@ -554,4 +554,6 @@
     <string name="default_video_zoom">默认缩放模式</string>
     <string name="preference_enable_trickplay">在视频播放器中启用特技播放</string>
     <string name="skip_forward_length">向前跳过长度</string>
+    <string name="runtime_minutes">%1$d分钟</string>
+    <string name="runtime_hours_minutes">%1$d小时 %2$d分钟</string>
 </resources>
