@@ -526,6 +526,9 @@
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
+    <string name="still_watching_title">Are you still watching?</string>
+    <string name="continue_watching_message">Do you want to continue watching?</string>
+    <string name="no_button_text_with_time">No (%1$d)</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

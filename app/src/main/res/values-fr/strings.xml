@@ -467,6 +467,9 @@
     <string name="pref_screensaver_inapp_timeout">Lancer l\'économiseur d\'écran après</string>
     <string name="pref_screensaver">Économiseur d\'écran</string>
     <string name="not_set">Non défini</string>
+    <string name="still_watching_title">Regardez-vous toujours ?</string>
+    <string name="continue_watching_message">Voulez-vous continuer à regarder ?</string>
+    <string name="no_button_text_with_time">Non (%1$d)</string>
     <plurals name="seconds">
         <item quantity="one">%1$s seconde</item>
         <item quantity="many">%1$s secondes</item>

@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback.overlay.action
 import android.content.Context
 import androidx.leanback.widget.PlaybackControlsRow
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
+import org.jellyfin.androidtv.util.WatchTracker
 
 class PlayPauseAction(context: Context) : PlaybackControlsRow.PlayPauseAction(context),
 	AndroidAction {

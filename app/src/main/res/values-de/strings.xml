@@ -461,6 +461,9 @@
     <string name="item_deleted">%1$s gelöscht</string>
     <string name="pref_screensaver">Bildschirmschoner</string>
     <string name="pref_screensaver_inapp_enabled">In-App-Bildschirmschoner verwenden</string>
+    <string name="still_watching_title">Schaust du noch?</string>
+    <string name="continue_watching_message">Möchtest du weiter schauen?</string>
+    <string name="no_button_text_with_time">Nein (%1$d)</string>
     <plurals name="seconds">
         <item quantity="one">%1$s Sekunde</item>
         <item quantity="other">%1$s Sekunden</item>
