@@ -79,7 +79,7 @@
     <string name="chapters">Части</string>
     <string name="msg_unable_load_subs">Субтитрите не могат да се заредят</string>
     <string name="msg_subtitles_loading">Субтитрите се зареждат…</string>
-    <string name="lbl_filters">Филтри</string>
+    <string name="lbl_filters">ТВ Филтри</string>
     <string name="lbl_ended">ПРИКЛЮЧИЛ</string>
     <string name="lbl__continuing">ПРОДЪЛЖАВА</string>
     <string name="lbl_display_preferences">Настройки на дисплея</string>
@@ -96,7 +96,7 @@
     <string name="lbl_showing">Показване</string>
     <string name="desc_debug">Предоставете допълнителна информация за отстраняване на грешки</string>
     <string name="lbl_enable_debug">Опции за отстраняване на грешки</string>
-    <string name="lbl_goto_series">Отидете на сериали</string>
+    <string name="lbl_goto_series">Отидете на епизоди</string>
     <string name="lbl_audio_output">Аудио изход</string>
     <string name="pref_audio_compat">Намаляване до стерео</string>
     <string name="pref_audio_direct">Директно</string>
@@ -171,4 +171,17 @@
     <string name="lbl_zoom">Мащабиране</string>
     <string name="lbl_auto_crop">Автоматично изрязване</string>
     <string name="lbl_audio_track">Изберете звуков канал</string>
+    <string name="continue_listening">Продължете да слушате</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_shuffle_queue">Разбъркване</string>
+    <string name="lbl_end_padding">Крайна подложка</string>
+    <string name="lbl_begin_padding">Начална подложка</string>
+    <string name="lbl_goto_now_playing">Отидете на възпроизвеждане сега</string>
+    <string name="lbl_instant_mix">Незабавен микс</string>
+    <string name="msg_item_added">" добавен елемент"</string>
+    <string name="desc_automatic_fav_songs">Автоматичен плейлист с любими песни</string>
+    <string name="desc_bitstream_ac3">Изисква способен хардуер</string>
+    <string name="desc_audio_night_mode">Автоматично изравнява силата на звука</string>
+    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital аудио</string>
 </resources>
