@@ -538,4 +538,52 @@
     <string name="pref_screensaver_ageratingrequired_disabled">Prikaz vseh elementov</string>
     <string name="all_channels">Vsi kanali</string>
     <string name="app_notification_update_soon">Posodobite strežnik z %1$s na vsaj %2$s, če želite aplikacijo uporabljati tudi po naslednji posodobitvi.</string>
+    <string name="video_start_delay">Zakasnitev začetka videa</string>
+    <string name="default_video_zoom">Privzeti način povečave</string>
+    <string name="segment_type_outro">Zaključki</string>
+    <plurals name="albums">
+        <item quantity="one">%1$s album</item>
+        <item quantity="two">%1$s albuma</item>
+        <item quantity="few">%1$s albumi</item>
+        <item quantity="other">%1$s albumov</item>
+    </plurals>
+    <string name="segment_action_ask_to_skip">Prosite za preskok</string>
+    <string name="preference_enable_trickplay">Omogoči trickplay v video predvajalniku</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s film</item>
+        <item quantity="two">%1$s filma</item>
+        <item quantity="few">%1$s filmov</item>
+        <item quantity="other">%1$s filmov</item>
+    </plurals>
+    <string name="person_birthday_and_age">Rojen %1$s (%2$d)</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="ac3">DD</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s pesem</item>
+        <item quantity="two">%1$s pesmi</item>
+        <item quantity="few">%1$s pesme</item>
+        <item quantity="other">%1$s pesemi</item>
+    </plurals>
+    <string name="skip_forward_length">Dolžina za preskok naprej</string>
+    <string name="pref_mediasegment_actions">Dejanja medijskega segmenta</string>
+    <string name="segment_action_nothing">Ne stori ničesar</string>
+    <string name="dca">DTS</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="eac3">DD+</string>
+    <string name="prefer_exoplayer_ffmpeg">Za predvajanje zvoka raje FFmpeg</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Uporabite FFmpeg za dekodiranje zvoka, tudi če so na voljo kodeki platforme.</string>
+    <string name="past_24_hours">Zadnjih 24 ur</string>
+    <string name="scheduled_in_next_24_hours">Načrtovano v naslednjih 24 urah</string>
+    <string name="dts_x">DTS:X</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV oddaja</item>
+        <item quantity="two">%1$s TV oddaji</item>
+        <item quantity="few">%1$s TV oddaje</item>
+        <item quantity="other">%1$s TV oddaj</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax_unlimited">Onemogoči maksimum</string>
+    <string name="pref_screensaver_ageratingrequired_title">Zahtevaj starostno oceno</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Prikazujem samo elemente z nastavljeno starostno oceno</string>
+    <string name="lbl_runtime">Čas Izvajanja</string>
 </resources>
