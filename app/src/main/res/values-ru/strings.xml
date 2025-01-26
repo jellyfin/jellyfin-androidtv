@@ -543,7 +543,7 @@
     <string name="segment_type_recap">В предыдущих сериях</string>
     <string name="pref_mediasegment_actions">Действия с медиасегментами</string>
     <string name="segment_action_ask_to_skip">Спрашивать прежде чем пропускать</string>
-    <string name="segment_action_skip">Пропускать</string>
+    <string name="segment_action_skip">Пропустить</string>
     <string name="segment_type_commercial">Реклама</string>
     <string name="segment_type_unknown">Неизвестные сегменты</string>
     <plurals name="tv_series">
@@ -584,4 +584,6 @@
     <string name="clear_image_cache">Очистить кэш изображений</string>
     <string name="preference_enable_trickplay">Включить trickplay при просмотре видео</string>
     <string name="skip_forward_length">Длина перемотки вперед</string>
+    <string name="runtime_hours_minutes">%1$dч %2$dмин</string>
+    <string name="runtime_minutes">%1$dмин</string>
 </resources>
