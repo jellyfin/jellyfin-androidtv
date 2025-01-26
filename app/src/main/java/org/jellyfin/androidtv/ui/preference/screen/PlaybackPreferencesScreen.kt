@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
+import okhttp3.internal.toHexString
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
@@ -16,9 +17,12 @@ import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
+import org.jellyfin.androidtv.util.getOpacity
+import org.jellyfin.androidtv.util.withOpacity
 import org.jellyfin.preference.store.PreferenceStore
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 class PlaybackPreferencesScreen : OptionsFragment() {
@@ -124,7 +128,25 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					0xFFD60080L to context.getString(R.string.color_pink),
 					0xFF009FDAL to context.getString(R.string.color_cyan),
 				)
-				bind(userPreferences, UserPreferences.subtitlesBackgroundColor)
+
+				bind {
+					get { userPreferences[UserPreferences.subtitlesBackgroundColor].let {
+							if (it == 0x00FFFFFFL) {
+								it
+							} else {
+								it.withOpacity(1f)
+							}
+						}
+					}
+					set { value ->
+						userPreferences[UserPreferences.subtitlesBackgroundColor] = if (value == 0x00FFFFFFL) {
+							value
+						} else {
+							value.withOpacity(userPreferences[UserPreferences.subtitlesBackgroundColor].let { if (it == 0x00FFFFFFL) 0xFF000000L else it  })
+						}
+					}
+					default { UserPreferences.subtitlesBackgroundColor.defaultValue }
+				}
 			}
 
 			@Suppress("MagicNumber")
@@ -138,9 +160,17 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				}
 
 				bind {
-					get { (userPreferences[UserPreferences.subtitlesBackgroundOpacity] * 100f).roundToInt() }
-					set { value -> userPreferences[UserPreferences.subtitlesBackgroundOpacity] = value / 100f }
-					default { (UserPreferences.subtitlesBackgroundOpacity.defaultValue * 100f).roundToInt() }
+					get { (userPreferences[UserPreferences.subtitlesBackgroundColor].let {
+						if (it == 0x00FFFFFFL) {
+							1.0f
+						} else {
+							it.getOpacity()
+						}
+					} * 100f).roundToInt() }
+					set { value ->
+						userPreferences[UserPreferences.subtitlesBackgroundColor] = userPreferences[UserPreferences.subtitlesBackgroundColor].withOpacity(value / 100f)
+					}
+					default { 100 }
 				}
 
 				depends {

@@ -171,11 +171,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var subtitlesBackgroundColor = longPreference("subtitles_background_color", 0x00FFFFFF)
 
 		/**
-		 * Subtitles background opacity
-		 */
-		var subtitlesBackgroundOpacity = floatPreference("subtitles_background_opacity", 1f)
-
-		/**
 		 * Subtitles foreground color
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
