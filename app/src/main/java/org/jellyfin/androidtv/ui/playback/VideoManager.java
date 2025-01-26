@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.androidtv.util.ColorUtilsKt;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -97,7 +98,10 @@ public class VideoManager {
         int strokeColor = userPreferences.get(UserPreferences.Companion.getSubtitleTextStrokeColor()).intValue();
         CaptionStyleCompat subtitleStyle = new CaptionStyleCompat(
                 userPreferences.get(UserPreferences.Companion.getSubtitlesTextColor()).intValue(),
-                userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundColor()).intValue(),
+                ColorUtilsKt.withOpacity(
+                        userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundColor()),
+                        userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundOpacity())
+                ).intValue(),
                 Color.TRANSPARENT,
                 Color.alpha(strokeColor) == 0 ? CaptionStyleCompat.EDGE_TYPE_NONE : CaptionStyleCompat.EDGE_TYPE_OUTLINE,
                 strokeColor,

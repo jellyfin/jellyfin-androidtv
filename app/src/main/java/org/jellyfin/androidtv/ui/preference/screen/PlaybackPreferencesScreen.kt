@@ -127,6 +127,27 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.subtitlesBackgroundColor)
 			}
 
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.pref_subtitles_background_opacity)
+				min = 20
+				max = 100
+				increment = 10
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "$value%"
+				}
+
+				bind {
+					get { (userPreferences[UserPreferences.subtitlesBackgroundOpacity] * 100f).roundToInt() }
+					set { value -> userPreferences[UserPreferences.subtitlesBackgroundOpacity] = value / 100f }
+					default { (UserPreferences.subtitlesBackgroundOpacity.defaultValue * 100f).roundToInt() }
+				}
+
+				depends {
+					userPreferences[UserPreferences.subtitlesBackgroundColor] != 0x00FFFFFFL
+				}
+			}
+
 			colorList {
 				setTitle(R.string.lbl_subtitle_text_stroke_color)
 				entries = mapOf(
