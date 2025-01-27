@@ -34,6 +34,7 @@ kotest = "5.9.1"
 kotlin = "2.0.21"
 kotlinx-coroutines = "1.9.0"
 kotlinx-serialization = "1.7.3"
+libass-android = "0.2.2"
 markwon = "4.6.2"
 mockk = "1.14.2"
 slf4j-timber = "0.0.4"
@@ -92,6 +93,7 @@ androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "androidx-media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
 jellyfin-androidx-media3-ffmpeg-decoder = { module = "org.jellyfin.media3:media3-ffmpeg-decoder", version.ref = "jellyfin-androidx-media" }
+libass-media3 = { module = "io.github.peerless2012:ass-media", version.ref = "libass-android" }
 
 # Markwon
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
