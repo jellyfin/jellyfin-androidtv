@@ -535,6 +535,7 @@
     <string name="pref_report_device_profile_failure">Failed to submit document. Your Jellyfin server may prohibit client logs.</string>
     <string name="fast_forward">Fast forward</string>
     <string name="rewind">Rewind</string>
+    <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
