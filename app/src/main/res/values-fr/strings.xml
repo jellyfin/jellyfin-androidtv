@@ -205,7 +205,7 @@
     <string name="lbl_now_playing_track">%1$s sur %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Identification</string>
-    <string name="lbl_favorite">Préféré</string>
+    <string name="lbl_favorite">Favori</string>
     <string name="lbl_image_size">Taille d\'image</string>
     <string name="lbl_image_type">Type d\'image</string>
     <string name="lbl_start_favorites">Placer les favoris en premier</string>
@@ -246,7 +246,7 @@
     <string name="no_player">Aucun lecteur</string>
     <string name="mark_watched_message">L\'élément ne semble pas avoir été joué aussi longtemps que sa durée. Marquer comme vu \?</string>
     <string name="audio_error">Incapable de jouer l\'audio %1$s</string>
-    <string name="player_error">Une erreur sur le lecteur est arrivée. Nous allons réessayer…</string>
+    <string name="player_error">Une erreur de lecture est survenue. Nous allons réessayer…</string>
     <string name="seek_error">Impossible de chercher</string>
     <string name="msg_live_tv_prev">Charger les %1$d précédentes heures \?</string>
     <string name="msg_live_tv_next">Charger les %1$d prochaines heures \?</string>
