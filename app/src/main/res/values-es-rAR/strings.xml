@@ -246,7 +246,7 @@
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir el primero no visto</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
-    <string name="lbl_tv_queuing">Poner en cola todos los episodios subsiguientes</string>
+    <string name="lbl_tv_queuing">Reproducir el siguiente episodio automáticamente</string>
     <string name="lbl_no_items">No hay elementos</string>
     <string name="msg_cannot_play">Este elemento no pude ser reproducido</string>
     <string name="msg_cannot_play_time">No se puede reproducir este elemento en este momento</string>
@@ -444,8 +444,8 @@
     <string name="login_quickconnect_step_1">1. Abrí la aplicación Jellyfin en tu teléfono o navegador web e inicia sesión con tu cuenta</string>
     <string name="app_notification_uimode_invalid">Esta aplicación está optimizada para televisiones. Recomendamos utilizar nuestra aplicación para móviles en otros dispositivos.</string>
     <string name="pref_crash_reports">Enviar informes de fallos al servidor</string>
-    <string name="app_notification_beta">Applicación actualizada a versión %1$s
-\nGracias por participar en el programa beta de Jellyfin</string>
+    <string name="app_notification_beta">Aplicación actualizada a versión %1$s
+\nGracias por participar en el programa beta de Jellyfin.</string>
     <string name="pref_screensaver_inapp_enabled">Usar el salvapantallas de la aplicación</string>
     <string name="pref_screensaver_inapp_enabled_description">Mostrar el salvapantallas de Jellyfin mientras la aplicación esté abierta</string>
     <string name="pref_screensaver">Salvapantallas</string>
@@ -495,4 +495,60 @@
         <item quantity="other"/>
     </plurals>
     <string name="because_you_watched">Porque viste %1$s</string>
+    <string name="lbl_subtitle_text_stroke_color">Color de los bordes de los subtítulos</string>
+    <string name="current_queue">En cola</string>
+    <string name="segment_type_commercial">Comerciales</string>
+    <string name="channels">Canales</string>
+    <string name="continue_listening">Seguir escuchando</string>
+    <string name="runtime_hours_minutes">%1$dh%2$dm</string>
+    <string name="lbl_subtitle_text_color">Color del texto del subtitulo</string>
+    <string name="person_birthday_and_age">Nació el %1$s (%2$d)</string>
+    <string name="photo_albums">Álbumes de fotos</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_subtitle_background_color">Color del fondo del subtitulo</string>
+    <string name="pref_external_player">Usar un reproductor externo</string>
+    <string name="random">Aleatorio</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para la reproducción de audio</string>
+    <string name="pref_playback_advanced">Preferencias avanzadas de reproducción</string>
+    <string name="segment_action_skip">Omitir</string>
+    <string name="unreleased">No se ha publicado aún</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Mostrando solo items con una calificación de edad establecida</string>
+    <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
+    <string name="segment_action_ask_to_skip">Preguntar para saltear</string>
+    <string name="segment_action_nothing">No hacer nada</string>
+    <string name="segment_type_intro">Intros</string>
+    <string name="photos">Fotos</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrando todos los items</string>
+    <string name="all_channels">Todos los canales</string>
+    <string name="past_week">La semana anterior</string>
+    <string name="past_24_hours">Después de 24 horas</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s película</item>
+        <item quantity="many">%1$s películas</item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="lbl_home">Inicio</string>
+    <string name="segment_type_preview">Previsualizaciones</string>
+    <string name="segment_type_recap">Recapitulaciónes</string>
+    <string name="segment_type_unknown">Segmentos desconocidos</string>
+    <string name="lbl_hide_watched_checkmark">Cuando hay episodios restantes</string>
+    <string name="pref_screensaver_ageratingrequired_title">Requerir calificación de edad</string>
+    <string name="app_notification_update_soon">Actualiza tu servidor de la %1$s hasta por lo menos la %2$s para seguir usando la app después de la próxima actualización.</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s Serie de TV</item>
+        <item quantity="many">%1$s Series de TV</item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s canción</item>
+        <item quantity="many">%1$s canciones</item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="clear_image_cache">Limpiar cache de imágenes</string>
+    <string name="clear_image_cache_content">Usado: %1$s</string>
+    <string name="pref_screensaver_ageratingmax_zero">Todas las edades</string>
+    <string name="pref_screensaver_ageratingmax">Edad máxima calificada</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Desactivar el máximo</string>
+    <string name="pref_screensaver_ageratingmax_entry">Hasta los %1$d</string>
 </resources>
