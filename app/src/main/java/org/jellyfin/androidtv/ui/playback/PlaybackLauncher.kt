@@ -28,7 +28,7 @@ class GarbagePlaybackLauncher(
 	}
 
 	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = when {
-		useExternalPlayer(itemType) -> Destinations.externalPlayer(position)
+		useExternalPlayer(itemType) -> Destinations.externalPlayer(position.toLong())
 		else -> Destinations.videoPlayer(position)
 	}
 }

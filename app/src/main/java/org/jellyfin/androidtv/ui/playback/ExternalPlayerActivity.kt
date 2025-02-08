@@ -17,9 +17,13 @@ import org.jellyfin.sdk.api.client.extensions.playStateApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.MediaSourceInfo
+import org.jellyfin.sdk.model.api.MediaStream
+import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
 import org.jellyfin.sdk.model.extensions.inWholeTicks
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
@@ -34,23 +38,26 @@ class ExternalPlayerActivity : FragmentActivity() {
 	companion object {
 		const val EXTRA_POSITION = "position"
 
-		// https://sites.google.com/site/mxvpen/api
+		// https://mx.j2inter.com/api
 		private const val API_MX_TITLE = "title"
 		private const val API_MX_SEEK_POSITION = "position"
 		private const val API_MX_FILENAME = "filename"
 		private const val API_MX_SECURE_URI = "secure_uri"
 		private const val API_MX_RETURN_RESULT = "return_result"
 		private const val API_MX_RESULT_POSITION = "position"
+		private const val API_MX_SUBS = "subs"
+		private const val API_MX_SUBS_NAME = "subs.name"
+		private const val API_MX_SUBS_FILENAME = "subs.filename"
 
 		// https://wiki.videolan.org/Android_Player_Intents/
 		private const val API_VLC_FROM_START = "from_start"
+		private const val API_VLC_SUBTITLES = "subtitles_location"
 		private const val API_VLC_RESULT_POSITION = "extra_position"
 
 		// https://www.vimu.tv/player-api
 		private const val API_VIMU_TITLE = "forcename"
 		private const val API_VIMU_SEEK_POSITION = "startfrom"
 		private const val API_VIMU_RESUME = "forceresume"
-
 
 		// The extra keys used by various video players to read the end position
 		private val resultPositionExtras = arrayOf(API_MX_RESULT_POSITION, API_VLC_RESULT_POSITION)
@@ -70,37 +77,60 @@ class ExternalPlayerActivity : FragmentActivity() {
 		finish()
 	}
 
-	private var currentItem: BaseItemDto? = null
+	private var currentItem: Pair<BaseItemDto, MediaSourceInfo>? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		val item = videoQueueManager.getCurrentVideoQueue().firstOrNull()
 		val position = intent.getLongExtra(EXTRA_POSITION, 0)
+		val mediaSource = item?.mediaSources?.firstOrNull { it.id?.toUUIDOrNull() == item.id }
 
-		if (item == null) {
+		if (item == null || mediaSource == null) {
 			Toast.makeText(this, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()
 			finish()
 		} else {
 			videoQueueManager.clearVideoQueue()
-			playItem(item, position)
+			playItem(item, mediaSource, position)
 		}
 	}
 
-	private fun playItem(item: BaseItemDto, position: Long) {
+	private fun playItem(item: BaseItemDto, mediaSource: MediaSourceInfo, position: Long) {
 		val url = api.videosApi.getVideoStreamUrl(
 			itemId = item.id,
+			mediaSourceId = mediaSource.id,
 			static = true,
 		)
 
 		val title = item.getDisplayName(this)
-		val fileName = item.path?.let { File(it).name }
+		val fileName = mediaSource.path?.let { File(it).name }
+		val externalSubtitles = mediaSource.mediaStreams
+			?.filter { it.type == MediaStreamType.SUBTITLE && it.isExternal }
+			?.sortedWith(compareBy<MediaStream> { it.isDefault }.thenBy { it.index })
+			.orEmpty()
 
-		Timber.i("Starting item ${item.id}: $url")
+		val subtitleUrls = externalSubtitles.map {
+			// TODO: Use "api.subtitleApi.getSubtitleUrl" with next SDK release
+			api.createUrl(
+				"/Videos/{itemId}/{mediaSourceId}/Subtitles/{index}/Stream.{format}", mapOf(
+					"itemId" to item.id,
+					"mediaSourceId" to mediaSource.id,
+					"index" to it.index,
+					"format" to it.codec.orEmpty(),
+				)
+			).toUri()
+		}.toTypedArray()
+		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()
+		val subtitleLanguages = externalSubtitles.map { it.language.orEmpty() }.toTypedArray()
+
+		Timber.i("Starting item ${item.id} with ${subtitleUrls.size} subtitles: $url${subtitleUrls.joinToString(", ", ", ")}")
+
 		val playIntent = Intent(Intent.ACTION_VIEW).apply {
-			val mediaType = if (item.mediaType == MediaType.VIDEO) "video/*"
-			else if (item.mediaType == MediaType.AUDIO) "audio/*"
-			else null
+			val mediaType = when (item.mediaType) {
+				MediaType.VIDEO -> "video/*"
+				MediaType.AUDIO -> "audio/*"
+				else -> null
+			}
 
 			setDataAndTypeAndNormalize(url.toUri(), mediaType)
 
@@ -109,8 +139,12 @@ class ExternalPlayerActivity : FragmentActivity() {
 			putExtra(API_MX_TITLE, title)
 			putExtra(API_MX_FILENAME, fileName)
 			putExtra(API_MX_SECURE_URI, true)
+			putExtra(API_MX_SUBS, subtitleUrls)
+			putExtra(API_MX_SUBS_NAME, subtitleNames)
+			putExtra(API_MX_SUBS_FILENAME, subtitleLanguages)
 
 			putExtra(API_VLC_FROM_START, true)
+			if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
 
 			putExtra(API_VIMU_SEEK_POSITION, position)
 			putExtra(API_VIMU_RESUME, false)
@@ -118,7 +152,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 		}
 
 		try {
-			currentItem = item
+			currentItem = item to mediaSource
 			playVideoLauncher.launch(playIntent)
 		} catch (_: ActivityNotFoundException) {
 			Toast.makeText(this, R.string.no_player_message, Toast.LENGTH_LONG).show()
@@ -128,16 +162,16 @@ class ExternalPlayerActivity : FragmentActivity() {
 
 
 	private fun onItemFinished(result: Intent?) {
-		val item = currentItem
-		if (item == null) {
+		if (currentItem == null) {
 			Toast.makeText(this@ExternalPlayerActivity, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
 			finish()
 			return
 		}
+		val (item, mediaSource) = currentItem!!
 		val extras = result?.extras
 
 		val endPosition = if (extras == null) null else resultPositionExtras
-			.firstOrNull { extra -> extras.containsKey(extra) == true }
+			.firstOrNull { extra -> extras.containsKey(extra) }
 			?.let { extra -> extras.getInt(extra, 0).milliseconds }
 
 		lifecycleScope.launch {
@@ -145,11 +179,13 @@ class ExternalPlayerActivity : FragmentActivity() {
 				api.playStateApi.reportPlaybackStopped(
 					PlaybackStopInfo(
 						itemId = item.id,
+						mediaSourceId = mediaSource.id,
 						positionTicks = endPosition?.inWholeTicks,
 						failed = false,
 					)
 				)
-			}.onFailure {
+			}.onFailure { error ->
+				Timber.w(error, "Failed to report playback stop event")
 				Toast.makeText(this@ExternalPlayerActivity, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
 			}
 

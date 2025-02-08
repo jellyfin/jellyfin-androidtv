@@ -155,7 +155,7 @@ object Destinations {
 			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
 		)
 
-	fun externalPlayer(position: Int?) = activityDestination<ExternalPlayerActivity>(
+	fun externalPlayer(position: Long?) = activityDestination<ExternalPlayerActivity>(
 		ExternalPlayerActivity.EXTRA_POSITION to (position ?: 0)
 	)
 
