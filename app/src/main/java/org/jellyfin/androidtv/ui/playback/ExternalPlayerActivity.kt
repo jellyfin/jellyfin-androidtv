@@ -23,11 +23,13 @@ import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
 import org.jellyfin.sdk.model.extensions.inWholeTicks
+import org.jellyfin.sdk.model.extensions.ticks
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
 import java.time.Instant
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -68,13 +70,15 @@ class ExternalPlayerActivity : FragmentActivity() {
 	private val api by inject<ApiClient>()
 
 	private val playVideoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+		Timber.i("Playback finished with result code ${result.resultCode}")
+		videoQueueManager.setCurrentMediaPosition(videoQueueManager.getCurrentMediaPosition() + 1)
+
 		if (result.resultCode != RESULT_OK) {
 			Toast.makeText(this, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
+			finish()
 		} else {
 			onItemFinished(result.data)
 		}
-
-		finish()
 	}
 
 	private var currentItem: Pair<BaseItemDto, MediaSourceInfo>? = null
@@ -82,20 +86,24 @@ class ExternalPlayerActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		val item = videoQueueManager.getCurrentVideoQueue().firstOrNull()
-		val position = intent.getLongExtra(EXTRA_POSITION, 0)
-		val mediaSource = item?.mediaSources?.firstOrNull { it.id?.toUUIDOrNull() == item.id }
+		val position = intent.getLongExtra(EXTRA_POSITION, 0).ticks
+		playNext(position)
+	}
 
-		if (item == null || mediaSource == null) {
+	private fun playNext(position: Duration = Duration.ZERO) {
+		val currentPosition = videoQueueManager.getCurrentMediaPosition()
+		val item = videoQueueManager.getCurrentVideoQueue().getOrNull(currentPosition) ?: return finish()
+		val mediaSource = item.mediaSources?.firstOrNull { it.id?.toUUIDOrNull() == item.id }
+
+		if (mediaSource == null) {
 			Toast.makeText(this, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()
 			finish()
 		} else {
-			videoQueueManager.clearVideoQueue()
 			playItem(item, mediaSource, position)
 		}
 	}
 
-	private fun playItem(item: BaseItemDto, mediaSource: MediaSourceInfo, position: Long) {
+	private fun playItem(item: BaseItemDto, mediaSource: MediaSourceInfo, position: Duration) {
 		val url = api.videosApi.getVideoStreamUrl(
 			itemId = item.id,
 			mediaSourceId = mediaSource.id,
@@ -134,7 +142,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 
 			setDataAndTypeAndNormalize(url.toUri(), mediaType)
 
-			putExtra(API_MX_SEEK_POSITION, position)
+			putExtra(API_MX_SEEK_POSITION, position.inWholeMilliseconds)
 			putExtra(API_MX_RETURN_RESULT, true)
 			putExtra(API_MX_TITLE, title)
 			putExtra(API_MX_FILENAME, fileName)
@@ -146,7 +154,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 			putExtra(API_VLC_FROM_START, true)
 			if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
 
-			putExtra(API_VIMU_SEEK_POSITION, position)
+			putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds)
 			putExtra(API_VIMU_RESUME, false)
 			putExtra(API_VIMU_TITLE, title)
 		}
@@ -167,12 +175,15 @@ class ExternalPlayerActivity : FragmentActivity() {
 			finish()
 			return
 		}
+
 		val (item, mediaSource) = currentItem!!
 		val extras = result?.extras
 
 		val endPosition = if (extras == null) null else resultPositionExtras
 			.firstOrNull { extra -> extras.containsKey(extra) }
 			?.let { extra -> extras.getInt(extra, 0).milliseconds }
+		val runtime = (mediaSource.runTimeTicks ?: item.runTimeTicks)?.ticks
+		val shouldPlayNext = runtime != null && endPosition != null && endPosition >= (runtime * 0.9)
 
 		lifecycleScope.launch {
 			runCatching {
@@ -196,7 +207,8 @@ class ExternalPlayerActivity : FragmentActivity() {
 				else -> Unit
 			}
 
-			finish()
+			if (shouldPlayNext) playNext()
+			else finish()
 		}
 	}
 }
