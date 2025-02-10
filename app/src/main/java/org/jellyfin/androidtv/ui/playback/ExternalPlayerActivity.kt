@@ -86,7 +86,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		val position = intent.getLongExtra(EXTRA_POSITION, 0).ticks
+		val position = intent.getLongExtra(EXTRA_POSITION, 0).milliseconds
 		playNext(position)
 	}
 
@@ -131,7 +131,11 @@ class ExternalPlayerActivity : FragmentActivity() {
 		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()
 		val subtitleLanguages = externalSubtitles.map { it.language.orEmpty() }.toTypedArray()
 
-		Timber.i("Starting item ${item.id} with ${subtitleUrls.size} subtitles: $url${subtitleUrls.joinToString(", ", ", ")}")
+		Timber.i(
+			"Starting item ${item.id} from $position with ${subtitleUrls.size} external subtitles: $url${
+				subtitleUrls.joinToString(", ", ", ")
+			}"
+		)
 
 		val playIntent = Intent(Intent.ACTION_VIEW).apply {
 			val mediaType = when (item.mediaType) {
@@ -142,7 +146,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 
 			setDataAndTypeAndNormalize(url.toUri(), mediaType)
 
-			putExtra(API_MX_SEEK_POSITION, position.inWholeMilliseconds)
+			putExtra(API_MX_SEEK_POSITION, position.inWholeMilliseconds.toInt())
 			putExtra(API_MX_RETURN_RESULT, true)
 			putExtra(API_MX_TITLE, title)
 			putExtra(API_MX_FILENAME, fileName)
@@ -154,7 +158,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 			putExtra(API_VLC_FROM_START, true)
 			if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
 
-			putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds)
+			putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds.toInt())
 			putExtra(API_VIMU_RESUME, false)
 			putExtra(API_VIMU_TITLE, title)
 		}
@@ -177,11 +181,14 @@ class ExternalPlayerActivity : FragmentActivity() {
 		}
 
 		val (item, mediaSource) = currentItem!!
-		val extras = result?.extras
+		val extras = result?.extras ?: Bundle.EMPTY
 
-		val endPosition = if (extras == null) null else resultPositionExtras
-			.firstOrNull { extra -> extras.containsKey(extra) }
-			?.let { extra -> extras.getInt(extra, 0).milliseconds }
+		val endPosition = resultPositionExtras.firstNotNullOfOrNull { key ->
+			@Suppress("DEPRECATION") val value = extras.get(key)
+			if (value is Number) value.toLong().milliseconds
+			else null
+		}
+
 		val runtime = (mediaSource.runTimeTicks ?: item.runTimeTicks)?.ticks
 		val shouldPlayNext = runtime != null && endPosition != null && endPosition >= (runtime * 0.9)
 
