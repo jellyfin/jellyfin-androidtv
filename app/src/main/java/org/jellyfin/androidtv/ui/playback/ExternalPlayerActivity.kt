@@ -52,7 +52,6 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_MX_SUBS_FILENAME = "subs.filename"
 
 		// https://wiki.videolan.org/Android_Player_Intents/
-		private const val API_VLC_FROM_START = "from_start"
 		private const val API_VLC_SUBTITLES = "subtitles_location"
 		private const val API_VLC_RESULT_POSITION = "extra_position"
 
@@ -155,7 +154,6 @@ class ExternalPlayerActivity : FragmentActivity() {
 			putExtra(API_MX_SUBS_NAME, subtitleNames)
 			putExtra(API_MX_SUBS_FILENAME, subtitleLanguages)
 
-			putExtra(API_VLC_FROM_START, true)
 			if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
 
 			putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds.toInt())
