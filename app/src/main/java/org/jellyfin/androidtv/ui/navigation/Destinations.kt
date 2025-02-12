@@ -36,6 +36,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
+import kotlin.time.Duration
 
 @Suppress("TooManyFunctions")
 object Destinations {
@@ -155,8 +156,8 @@ object Destinations {
 			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
 		)
 
-	fun externalPlayer(position: Int?) = activityDestination<ExternalPlayerActivity>(
-		"Position" to (position ?: 0)
+	fun externalPlayer(position: Duration = Duration.ZERO) = activityDestination<ExternalPlayerActivity>(
+		ExternalPlayerActivity.EXTRA_POSITION to position.inWholeMilliseconds
 	)
 
 	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(

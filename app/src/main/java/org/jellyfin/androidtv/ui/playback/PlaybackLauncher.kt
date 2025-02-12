@@ -4,6 +4,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.navigation.Destination
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.sdk.model.api.BaseItemKind
+import kotlin.time.Duration.Companion.milliseconds
 
 interface PlaybackLauncher {
 	fun useExternalPlayer(itemType: BaseItemKind?): Boolean
@@ -28,7 +29,7 @@ class GarbagePlaybackLauncher(
 	}
 
 	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = when {
-		useExternalPlayer(itemType) -> Destinations.externalPlayer(position)
+		useExternalPlayer(itemType) -> Destinations.externalPlayer(position.milliseconds)
 		else -> Destinations.videoPlayer(position)
 	}
 }

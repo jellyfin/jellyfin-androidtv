@@ -95,7 +95,7 @@ class ReportingHelper(
 		}
 	}
 
-	fun reportStopped(lifecycleOwner: LifecycleOwner, item: BaseItemDto, streamInfo: StreamInfo, position: Long) {
+	fun reportStopped(lifecycleOwner: LifecycleOwner, item: BaseItemDto, streamInfo: StreamInfo, position: Long?) {
 		val info = PlaybackStopInfo(
 			itemId = item.id,
 			positionTicks = position,

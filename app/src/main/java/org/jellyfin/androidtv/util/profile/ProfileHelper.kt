@@ -307,7 +307,7 @@ object ProfileHelper {
 			)
 		}
 
-	internal fun subtitleProfile(
+	private fun subtitleProfile(
 		format: String,
 		method: SubtitleDeliveryMethod
 	) = SubtitleProfile().apply {

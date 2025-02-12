@@ -5,7 +5,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 class VideoQueueManager {
 	private var _currentVideoQueue: List<BaseItemDto> = emptyList()
 	private var _currentMediaPosition = -1
-	var isVideoQueueModified: Boolean = false
 
 	fun setCurrentVideoQueue(items: List<BaseItemDto>?) {
 		if (items.isNullOrEmpty()) return clearVideoQueue()
@@ -26,7 +25,6 @@ class VideoQueueManager {
 
 	fun clearVideoQueue() {
 		_currentVideoQueue = emptyList()
-		isVideoQueueModified = false
 		_currentMediaPosition = -1
 	}
 }
