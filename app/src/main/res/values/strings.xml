@@ -526,6 +526,11 @@
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
+    <string name="codec_advanced">Advanced codec preferences</string>
+    <string name="codec">Codec</string>
+    <string name="user_avc_level">H.264 Level</string>
+    <string name="user_hevc_level">H.265 Level</string>
+    <string name="level_warning">Video\n\nSwitching from \'Auto\' could lead to playback issues</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

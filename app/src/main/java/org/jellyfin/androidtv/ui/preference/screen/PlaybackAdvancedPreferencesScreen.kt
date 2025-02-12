@@ -109,12 +109,6 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.audioNightMode)
 				depends { Build.VERSION.SDK_INT >= Build.VERSION_CODES.P }
 			}
-
-			checkbox {
-				setTitle(R.string.lbl_bitstream_ac3)
-				setContent(R.string.desc_bitstream_ac3)
-				bind(userPreferences, UserPreferences.ac3Enabled)
-			}
 		}
 	}
 }

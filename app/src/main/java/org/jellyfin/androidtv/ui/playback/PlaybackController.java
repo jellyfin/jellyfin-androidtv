@@ -514,7 +514,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 !internalOptions.getEnableDirectStream(),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
+                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO,
+                userPreferences.getValue().get(UserPreferences.Companion.getUserAVCLevel()),
+                userPreferences.getValue().get(UserPreferences.Companion.getUserHEVCLevel())
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
