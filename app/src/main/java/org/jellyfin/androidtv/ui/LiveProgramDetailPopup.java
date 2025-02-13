@@ -24,7 +24,7 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
 
@@ -48,13 +48,13 @@ public class LiveProgramDetailPopup {
     private Button mFirstButton;
     private Button mSeriesSettingsButton;
 
-    private EmptyLifecycleAwareResponse mTuneAction;
+    private EmptyResponse mTuneAction;
 
     private View mAnchor;
     private int mPosLeft;
     private int mPosTop;
 
-    public LiveProgramDetailPopup(Context context, LifecycleOwner lifecycleOwner, LiveTvGuide tvGuide, int width, EmptyLifecycleAwareResponse tuneAction) {
+    public LiveProgramDetailPopup(Context context, LifecycleOwner lifecycleOwner, LiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
         mContext = context;
         lifecycle = lifecycleOwner.getLifecycle();
         mTvGuide = tvGuide;
@@ -247,7 +247,7 @@ public class LiveProgramDetailPopup {
         tune.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTuneAction != null && mTuneAction.getActive()) mTuneAction.onResponse();
+                if (mTuneAction != null) mTuneAction.onResponse();
                 mPopup.dismiss();
             }
         });

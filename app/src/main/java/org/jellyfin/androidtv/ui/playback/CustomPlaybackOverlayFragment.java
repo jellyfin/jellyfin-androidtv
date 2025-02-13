@@ -71,7 +71,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -796,11 +796,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.channelsStatus.setText("");
         tvGuideBinding.filterStatus.setText("");
         final CustomPlaybackOverlayFragment self = this;
-        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyLifecycleAwareResponse(getLifecycle()) {
+        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
             @Override
             public void onResponse() {
-                if (!getActive()) return;
-
                 Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask(self);
@@ -1077,11 +1075,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null)
-            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, Utils.convertDpToPixel(requireContext(), 600), new EmptyLifecycleAwareResponse(getLifecycle()) {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, Utils.convertDpToPixel(requireContext(), 600), new EmptyResponse() {
                 @Override
                 public void onResponse() {
-                    if (!getActive()) return;
-
                     switchChannel(mSelectedProgram.getChannelId());
                 }
             });
