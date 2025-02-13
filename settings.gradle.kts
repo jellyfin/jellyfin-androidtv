@@ -37,13 +37,5 @@ dependencyResolutionManagement {
 				includeVersionByRegex("org.jellyfin.sdk", ".*", "openapi-unstable-SNAPSHOT")
 			}
 		}
-
-		// Jellyfin apiclient
-		maven("https://jitpack.io") {
-			content {
-				// Only allow legacy apiclient
-				includeVersionByRegex("com.github.jellyfin.jellyfin-sdk-kotlin", ".*", "v0.7.10")
-			}
-		}
 	}
 }
