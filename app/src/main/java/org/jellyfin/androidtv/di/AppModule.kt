@@ -46,20 +46,13 @@ import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper
 import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
-import org.jellyfin.androidtv.util.sdk.legacy
-import org.jellyfin.apiclient.AppInfo
-import org.jellyfin.apiclient.android
-import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.sdk.android.androidDevice
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
-import org.jellyfin.sdk.model.DeviceInfo
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.jellyfin.apiclient.Jellyfin as JellyfinApiClient
 import org.jellyfin.sdk.Jellyfin as JellyfinSdk
 
 val defaultDeviceInfo = named("defaultDeviceInfo")
@@ -86,21 +79,6 @@ val appModule = module {
 	}
 
 	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-
-	// Old apiclient
-	single {
-		JellyfinApiClient {
-			appInfo = AppInfo("Jellyfin Android TV", BuildConfig.VERSION_NAME)
-			logger = AndroidLogger()
-			android(androidApplication())
-		}
-	}
-
-	single {
-		get<JellyfinApiClient>().createApi(
-			device = get<DeviceInfo>(defaultDeviceInfo).legacy()
-		)
-	}
 
 	// Coil (images)
 	single {

@@ -1,14 +1,8 @@
 package org.jellyfin.androidtv.util.sdk
 
-import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.UUID
 import java.security.MessageDigest
-
-fun DeviceInfo.legacy() = object : IDevice {
-	override val deviceId: String get() = id
-	override val deviceName: String get() = name
-}
 
 fun DeviceInfo.forUser(userId: UUID) = forUser(userId.toString())
 
