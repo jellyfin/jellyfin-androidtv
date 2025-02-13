@@ -59,7 +59,7 @@ import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -659,11 +659,9 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         filters.setFavoriteOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterFavoritesOnly()));
         filters.setUnwatchedOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterUnwatchedOnly()));
 
-        mAdapter.setRetrieveFinishedListener(new EmptyLifecycleAwareResponse(getLifecycle()) {
+        mAdapter.setRetrieveFinishedListener(new EmptyResponse() {
             @Override
             public void onResponse() {
-                if (!getActive()) return;
-
                 setStatusText(mFolder.getName());
                 if (mCurrentItem == null) { // don't mess-up pos via loadMoreItemsIfNeeded
                     setItem(null);

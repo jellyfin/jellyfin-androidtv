@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.compat.PlaybackException
 import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.compat.VideoOptions
-import org.jellyfin.apiclient.interaction.Response
+import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi

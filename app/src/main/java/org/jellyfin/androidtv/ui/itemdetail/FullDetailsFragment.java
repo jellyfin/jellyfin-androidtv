@@ -77,7 +77,7 @@ import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
-import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
@@ -714,11 +714,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         BaseItemDto baseItem = mBaseItem;
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new LifecycleAwareResponse<List<BaseItemDto>>(getLifecycle()) {
+                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<List<BaseItemDto>>() {
                     @Override
                     public void onResponse(List<BaseItemDto> response) {
-                        if (!getActive()) return;
-
                         mediaManager.getValue().addToAudioQueue(response);
                     }
                 });
@@ -1196,10 +1194,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<BaseItemDto>>(getLifecycle()) {
+        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
-                if (!getActive()) return;
                 if (response.isEmpty()) {
                     Timber.e("No items to play - ignoring play request.");
                     return;

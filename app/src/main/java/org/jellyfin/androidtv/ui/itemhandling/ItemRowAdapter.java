@@ -31,7 +31,7 @@ import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.ItemSortBy;
@@ -78,7 +78,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private SortOrder sortOrder;
     private FilterOptions mFilters;
 
-    private EmptyLifecycleAwareResponse mRetrieveFinishedListener;
+    private EmptyResponse mRetrieveFinishedListener;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[]{};
     private Instant lastFullRetrieve;
@@ -720,13 +720,13 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     protected void notifyRetrieveFinished(@Nullable Exception exception) {
         setCurrentlyRetrieving(false);
-        if (mRetrieveFinishedListener != null && mRetrieveFinishedListener.getActive()) {
+        if (mRetrieveFinishedListener != null) {
             if (exception == null) mRetrieveFinishedListener.onResponse();
             else mRetrieveFinishedListener.onError(exception);
         }
     }
 
-    public void setRetrieveFinishedListener(EmptyLifecycleAwareResponse response) {
+    public void setRetrieveFinishedListener(EmptyResponse response) {
         this.mRetrieveFinishedListener = response;
     }
 
