@@ -50,8 +50,6 @@ fun BaseItemDto.copyWithUserData(
 	userData = userData,
 )
 
-fun BaseItemDto.getResumePositionTicks() = userData?.playbackPositionTicks ?: 0
-
 fun MediaSourceInfo.getVideoStream() = mediaStreams?.firstOrNull {
 	it.type == org.jellyfin.sdk.model.api.MediaStreamType.VIDEO
 }
