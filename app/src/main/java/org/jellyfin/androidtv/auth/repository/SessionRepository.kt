@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.auth.apiclient.ApiBinder
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.preference.PreferencesRepository
@@ -48,7 +47,6 @@ interface SessionRepository {
 
 class SessionRepositoryImpl(
 	private val authenticationPreferences: AuthenticationPreferences,
-	private val apiBinder: ApiBinder,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: ApiClient,
 	private val preferencesRepository: PreferencesRepository,
@@ -114,7 +112,6 @@ class SessionRepositoryImpl(
 
 		userRepository.updateCurrentUser(null)
 		_currentSession.value = null
-		apiBinder.updateSession(null, userApiClient.deviceInfo)
 		_state.value = SessionRepositoryState.READY
 	}
 
@@ -134,34 +131,30 @@ class SessionRepositoryImpl(
 
 		// Update session after binding the apiclient settings
 		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo
-		val success = apiBinder.updateSession(session, deviceInfo)
-		Timber.i("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
+		Timber.i("Updating current session. userId=${session?.userId}")
 
-		if (success) {
-			val applied = userApiClient.applySession(session, deviceInfo)
-
-			if (applied && session != null) {
-				try {
-					val user by userApiClient.userApi.getCurrentUser()
-					userRepository.updateCurrentUser(user)
-				} catch (err: ApiClientException) {
-					Timber.e(err, "Unable to authenticate: bad response when getting user info")
-					destroyCurrentSession()
-					return false
-				}
-
-				// Update crash reporting URL
-				val crashReportUrl = userApiClient.clientLogApi.logFileUrl()
-				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
-				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
-			} else {
-				userRepository.updateCurrentUser(null)
+		val applied = userApiClient.applySession(session, deviceInfo)
+		if (applied && session != null) {
+			try {
+				val user by userApiClient.userApi.getCurrentUser()
+				userRepository.updateCurrentUser(user)
+			} catch (err: ApiClientException) {
+				Timber.e(err, "Unable to authenticate: bad response when getting user info")
+				destroyCurrentSession()
+				return false
 			}
-			preferencesRepository.onSessionChanged()
-			_currentSession.value = session
-		} else destroyCurrentSession()
 
-		return success
+			// Update crash reporting URL
+			val crashReportUrl = userApiClient.clientLogApi.logFileUrl()
+			telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
+			telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
+		} else {
+			userRepository.updateCurrentUser(null)
+		}
+		preferencesRepository.onSessionChanged()
+		_currentSession.value = session
+
+		return true
 	}
 
 	private fun createLastUserSession(): Session? {
