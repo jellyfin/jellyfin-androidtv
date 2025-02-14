@@ -526,6 +526,8 @@
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
+    <string name="lbl_always_burn_in_subtitle_when_transcoding">Always burn in subtitle when transcoding</string>
+    <string name="sum_always_burn_in_subtitle_when_transcoding">Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronisation after transcoding at the cost of reduced transcoding speed.</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

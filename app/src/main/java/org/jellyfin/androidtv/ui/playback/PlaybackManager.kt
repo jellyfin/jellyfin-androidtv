@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.compat.PlaybackException
 import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.compat.VideoOptions
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
@@ -52,7 +53,8 @@ private fun createStreamInfo(
 }
 
 class PlaybackManager(
-	private val api: ApiClient
+	private val api: ApiClient,
+	private val userPreferences: UserPreferences
 ) {
 	fun getVideoStreamInfo(
 		lifecycleOwner: LifecycleOwner,
@@ -101,6 +103,7 @@ class PlaybackManager(
 				allowVideoStreamCopy = true,
 				allowAudioStreamCopy = true,
 				autoOpenLiveStream = true,
+				alwaysBurnInSubtitleWhenTranscoding = userPreferences[UserPreferences.alwaysBurnInSubtitleWhenTranscoding]
 			)
 		)
 

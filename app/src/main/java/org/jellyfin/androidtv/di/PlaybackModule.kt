@@ -30,7 +30,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManager
 
 val playbackModule = module {
-	single { LegacyPlaybackManager(get()) }
+	single { LegacyPlaybackManager(get(), get()) }
 	single { VideoQueueManager() }
 	single<MediaManager> { RewriteMediaManager(get(), get(), get(), get()) }
 
