@@ -59,29 +59,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         with:
           asset_paths: '["build/jellyfin-publish/*"]'
-      - name: Upload release archive to repo.jellyfin.org
-        uses: burnett01/rsync-deployments@0dc935cdecc5f5e571865e60d2a6cdc673704823 # tag=5.2
-        with:
-          switches: -vrptz
-          path: build/jellyfin-publish/
-          remote_path: /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }}/
-          remote_host: ${{ secrets.REPO_HOST }}
-          remote_user: ${{ secrets.REPO_USER }}
-          remote_key: ${{ secrets.REPO_KEY }}
-      - name: Update repo.jellyfin.org symlinks
-        uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17 # v1.2.0
-        with:
-          host: ${{ secrets.REPO_HOST }}
-          username: ${{ secrets.REPO_USER }}
-          key: ${{ secrets.REPO_KEY }}
-          envs: JELLYFIN_VERSION
-          script_stop: true
-          script: |
-            if [ -d "/srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}" ] && [ -n "${{ env.JELLYFIN_VERSION }}" ]; then
-                sudo rm -r /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
-            fi
-            sudo mv /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }} /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
-            cd /srv/repository/main/client/androidtv;
-            sudo rm -rf *.apk version.txt;
-            sudo ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
-            sudo ln -s versions/v${JELLYFIN_VERSION}/version.txt .;
