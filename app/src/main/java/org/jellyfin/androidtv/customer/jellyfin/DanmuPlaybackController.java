@@ -49,7 +49,7 @@ public class DanmuPlaybackController extends PlaybackController {
     private IDanmakuView mDanmakuView;//弹幕view
     private DanmakuContext mDanmakuContext;
 
-    private long mDanmakuStartSeekPosition = -1;
+    private volatile long mDanmakuStartSeekPosition = -1;
     private float videoSpeed = 1.0f;
     private boolean mDanmaKuShow;
 
@@ -128,12 +128,13 @@ public class DanmuPlaybackController extends PlaybackController {
 
     @Override
     public void seek(long pos, boolean skipToNext) {
-        //如果已经初始化过的，直接seek到对于位置
-        if (getDanmakuView() != null && getDanmakuView().isPrepared()) {
-            resolveDanmakuSeek(this, pos);
-        } else if (getDanmakuView() != null && !getDanmakuView().isPrepared()) {
+        // 下一集不进行
+        if (getDanmakuView() == null || !getDanmakuView().isPrepared()) {
             //如果没有初始化过的，记录位置等待
             setDanmakuStartSeekPosition(pos);
+        } else {
+            //如果已经初始化过的，直接seek到对于位置
+            resolveDanmakuSeek(this, pos);
         }
         super.seek(pos, skipToNext);
     }
@@ -194,8 +195,8 @@ public class DanmuPlaybackController extends PlaybackController {
                     if (danmakuView != null) {
                         long danmakuStartSeekPosition = Math.max(getDanmakuStartSeekPosition(), mCurrentPosition);
                         if (danmakuStartSeekPosition > 0) {
-                            danmakuView.start(danmakuStartSeekPosition);
-//                            danmakuView.seekTo(danmakuStartSeekPosition);
+                            danmakuView.start();
+                            danmakuView.seekTo(danmakuStartSeekPosition);
                         } else {
                             danmakuView.start();
                         }
@@ -364,7 +365,7 @@ public class DanmuPlaybackController extends PlaybackController {
         super.refreshCurrentPosition();
         if (customerUserPreferences.isDanmuFps()) {
             long currentTime = getDanmakuView().getCurrentTime();
-            log.info("当前弹幕时间: 视频={}, 弹幕={}, 时间差={}", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
+            log.debug("当前弹幕时间: 视频={}, 弹幕={}, 时间差={}", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
         }
     }
 
