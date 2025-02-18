@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
+import org.jellyfin.sdk.api.client.extensions.subtitleApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -117,15 +118,12 @@ class ExternalPlayerActivity : FragmentActivity() {
 			.orEmpty()
 
 		val subtitleUrls = externalSubtitles.map {
-			// TODO: Use "api.subtitleApi.getSubtitleUrl" with next SDK release
-			api.createUrl(
-				"/Videos/{itemId}/{mediaSourceId}/Subtitles/{index}/Stream.{format}", mapOf(
-					"itemId" to item.id,
-					"mediaSourceId" to mediaSource.id,
-					"index" to it.index,
-					"format" to it.codec.orEmpty(),
-				)
-			).toUri()
+			api.subtitleApi.getSubtitleUrl(
+				routeItemId = item.id,
+				routeMediaSourceId = mediaSource.id.toString(),
+				routeIndex = it.index,
+				routeFormat = it.codec.orEmpty(),
+			)
 		}.toTypedArray()
 		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()
 		val subtitleLanguages = externalSubtitles.map { it.language.orEmpty() }.toTypedArray()
