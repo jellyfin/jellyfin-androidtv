@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import master.flame.danmaku.danmaku.model.IDisplayer;
 import timber.log.Timber;
 
 public class CustomerUserPreferences extends SharedPreferenceStore {
@@ -27,6 +28,7 @@ public class CustomerUserPreferences extends SharedPreferenceStore {
     private static final String DAN_MU_SPEED = "danmu_speed";
     private static final String DAN_MU_FONT_SIZE = "danmu_f_size";
     private static final String DAN_MU_ROWS = "danmu_row";
+    private static final String DAN_MU_STYLE= "dm_style";
     public static final String AUTO_SKIP_TIMES = "autoSkipTime";
 
     private float videoSpeed;
@@ -35,12 +37,14 @@ public class CustomerUserPreferences extends SharedPreferenceStore {
     private float danmuFontSize;
     private boolean danmuFps;
     private boolean danmuController;
+    private int danmuStyle;
     private Map<String, AutoSkipModel> itemAutoSkipTimes;
 
     public CustomerUserPreferences(@NonNull Context context) {
         super(PreferenceManager.getDefaultSharedPreferences(context));
 
         videoSpeed = getFloat(VIDEO_SPEED_KEY, 1.0f);
+        danmuStyle = getInt(DAN_MU_STYLE, IDisplayer.DANMAKU_STYLE_STROKEN);
         danmuRows = getInt(DAN_MU_ROWS, 5);
         danmuController = getBool(DAN_MU_CONTROLLER, true);
         danmuSpeed = getFloat(DAN_MU_SPEED, 1.0f);
@@ -120,6 +124,15 @@ public class CustomerUserPreferences extends SharedPreferenceStore {
 
     public int getDanmuRows() {
         return danmuRows;
+    }
+
+    public int getDanmuStyle() {
+        return danmuStyle;
+    }
+
+    public void setDanmuStyle(int danmuStyle) {
+        setInt(DAN_MU_STYLE, danmuStyle);
+        this.danmuStyle = danmuStyle;
     }
 
     public void setDanmuRows(int danmuRows) {

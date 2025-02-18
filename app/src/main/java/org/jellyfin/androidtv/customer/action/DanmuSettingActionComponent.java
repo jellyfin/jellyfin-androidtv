@@ -3,7 +3,10 @@ package org.jellyfin.androidtv.customer.action;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -15,15 +18,31 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
+import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 
 public interface DanmuSettingActionComponent {
     Object[][] SPEED_VALUES = new Object[][]{
             {"慢", "正常", "快"},
             {1.3f, 1.0f, 0.7f}
+    };
+
+    /**
+     * 描边属性
+     */
+    Map<Integer, String> FONT_STYLE = new LinkedHashMap<Integer, String>() {
+        {
+            put(IDisplayer.DANMAKU_STYLE_DEFAULT, "自动");
+            put(IDisplayer.DANMAKU_STYLE_NONE, "无");
+            put(IDisplayer.DANMAKU_STYLE_SHADOW, "阴影");
+            put(IDisplayer.DANMAKU_STYLE_STROKEN, "描边");
+            put(IDisplayer.DANMAKU_STYLE_PROJECTION, "投影");
+        }
     };
 
     /**
@@ -78,6 +97,33 @@ public interface DanmuSettingActionComponent {
         fontSizeValue.setText(fontSizeValueGetter.apply(originFontSizeProgress));
         fontSize.setOnSeekBarChangeListener(new TextSeekBarListener(fontSizeValue, fontSizeValueGetter));
 
+        // 描边
+        int originDanmuStyle = customerUserPreferences.getDanmuStyle();
+        int[] newDanmuStyle = new int[]{originDanmuStyle};
+        RadioGroup fontStyleGroup = danmuSetting.findViewById(R.id.danmu_setting_font_style);
+        fontStyleGroup.removeAllViews();
+        RadioGroup.OnCheckedChangeListener onCheckedChangeListener = (group, checkedId) -> {
+            RadioButton checkedRadioButton = group.findViewById(checkedId);
+            if (checkedRadioButton == null) {
+                return;
+            }
+            Object tag = checkedRadioButton.getTag();
+            newDanmuStyle[0] = (int) tag;
+        };
+        fontStyleGroup.setOnClickListener(null);
+        for (Map.Entry<Integer, String> styleEntry : FONT_STYLE.entrySet()) {
+            RadioButton radioButton = new RadioButton(context);
+            radioButton.setText(styleEntry.getValue());
+            radioButton.setTag(styleEntry.getKey());
+            radioButton.setLayoutParams(new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+            fontStyleGroup.addView(radioButton);
+            radioButton.setChecked(false);
+            if (originDanmuStyle == styleEntry.getKey()) {
+                radioButton.setChecked(true);
+            }
+        }
+        fontStyleGroup.setOnCheckedChangeListener(onCheckedChangeListener);
+
         Button confirm = danmuSetting.findViewById(R.id.confirm);
         confirm.setOnClickListener(v -> {
             DanmakuContext danmakuContext = getDanmakuContext();
@@ -110,6 +156,14 @@ public interface DanmuSettingActionComponent {
                 HashMap<Integer, Integer> maxLinesPair = new HashMap<>();
                 maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, danmuRow);
                 danmakuContext.setMaximumLines(maxLinesPair);
+            }
+
+            /*
+             * 弹幕描边
+             */
+            if (newDanmuStyle[0] != originDanmuStyle) {
+                customerUserPreferences.setDanmuStyle(newDanmuStyle[0]);
+                danmakuContext.setDanmakuStyle(newDanmuStyle[0], 3);
             }
 
             /*

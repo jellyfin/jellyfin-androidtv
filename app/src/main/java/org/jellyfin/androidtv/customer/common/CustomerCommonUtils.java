@@ -1,18 +1,27 @@
 package org.jellyfin.androidtv.customer.common;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import kotlin.Lazy;
 
 public class CustomerCommonUtils {
     private static final Logger log = LoggerFactory.getLogger(CustomerCommonUtils.class);
     private static volatile Handler mainThreadHandler;
 
-    private static Context context;
+    private static final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+
+    public static UserPreferences getUserPreferences() {
+        return userPreferences.getValue();
+    }
 
     public static String getSuitableSize(Number originBit, String suffix) {
         if (originBit == null) {

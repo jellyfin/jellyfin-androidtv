@@ -522,6 +522,7 @@
     <string name="segment_action_nothing">Do nothing</string>
     <string name="segment_action_skip">Skip</string>
     <string name="segment_type_commercial">Commercials</string>
+    <string name="segment_action_hide_time">Auto hide duration</string>
     <string name="segment_type_intro">Intros</string>
     <string name="segment_type_outro">Outros</string>
     <string name="segment_type_preview">Previews</string>

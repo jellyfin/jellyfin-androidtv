@@ -92,12 +92,6 @@ open class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var useExternalPlayer = booleanPreference("external_player", false)
 
-		/* Playback - Video */
-		/**
-		 * Whether to use an gsy playback application or not.
-		 */
-		var useGsyPlayer = booleanPreference("gsy_player", false)
-
 		/**
 		 * Change refresh rate to match media when device supports it
 		 */
@@ -220,6 +214,11 @@ open class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Delay when starting video playback after loading the video player.
 		 */
 		var videoStartDelay = longPreference("video_start_delay", 0)
+
+		/**
+		 * Delay when starting video playback after loading the video player.
+		 */
+		var autoSkipHideTime = intPreference("auto_skip_hide_time", 8)
 
 		/**
 		 * The actions to take for each media segment type. Managed by the [MediaSegmentRepository].

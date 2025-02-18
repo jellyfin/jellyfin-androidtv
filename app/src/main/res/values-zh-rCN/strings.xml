@@ -560,6 +560,7 @@
     <string name="segment_action_nothing">无动作</string>
     <string name="segment_action_skip">跳过</string>
     <string name="segment_type_commercial">广告</string>
+    <string name="segment_action_hide_time">跳过显示时长</string>
     <string name="segment_type_intro">片头</string>
     <string name="segment_type_preview">预告</string>
     <string name="segment_type_recap">前情提要</string>

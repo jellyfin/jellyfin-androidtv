@@ -189,6 +189,22 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					}
 				}
 			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.segment_action_hide_time)
+				min = 0
+				max = 60
+				increment = 1
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value}s"
+				}
+				bind {
+					get { userPreferences[UserPreferences.autoSkipHideTime] }
+					set { value -> userPreferences[UserPreferences.autoSkipHideTime] = value }
+					default { UserPreferences.autoSkipHideTime.defaultValue }
+				}
+			}
 		}
 
 		category {

@@ -33,7 +33,6 @@ import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
@@ -162,7 +161,7 @@ public class DanmuPlaybackController extends PlaybackController {
 
         DanamakuAdapter danamakuAdapter = new DanamakuAdapter(mDanmakuView);
         mDanmakuContext = DanmakuContext.create();
-        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3)
+        mDanmakuContext.setDanmakuStyle(customerUserPreferences.getDanmuStyle(), 3)
                 .setDuplicateMergingEnabled(false)
                 .setScrollSpeedFactor(customerUserPreferences.getDanmuSpeed())
                 .setScaleTextSize(customerUserPreferences.getDanmuFontSize())
