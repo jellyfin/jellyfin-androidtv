@@ -89,11 +89,6 @@ android {
 	}
 }
 
-aboutLibraries {
-	// Remove the "generated" timestamp to allow for reproducible builds
-	excludeFields = arrayOf("generated")
-}
-
 val versionTxt by tasks.registering {
 	val path = layout.buildDirectory.asFile.get().resolve("version.txt")
 

@@ -62,4 +62,5 @@
     <string name="msg_set_to_record">התוכנית מוגדרת להקלטה</string>
     <string name="lbl_upcoming">בקרוב</string>
     <string name="because_you_watched">בגלל שאתה צפית ב%1$s</string>
+    <string name="lbl_home">בית</string>
 </resources>
