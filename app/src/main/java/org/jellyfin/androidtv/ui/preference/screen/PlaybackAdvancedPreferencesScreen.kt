@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
 import android.os.Build
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -8,16 +11,23 @@ import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
+import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.profile.createDeviceProfileReport
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
+	private val api: ApiClient by inject()
 	private val userPreferences: UserPreferences by inject()
+	private var deviceProfileReported = false
 
 	override val screen by optionsScreen {
 		setTitle(R.string.pref_playback)
@@ -84,7 +94,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.playerZoomMode)
 			}
 
-			checkbox{
+			checkbox {
 				setTitle(R.string.pref_external_player)
 				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
@@ -114,6 +124,40 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_bitstream_ac3)
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.ac3Enabled)
+			}
+		}
+
+		category {
+			setTitle(R.string.pref_troubleshooting)
+
+			action {
+				setTitle(R.string.pref_report_device_profile_title)
+				setContent(R.string.pref_report_device_profile_summary)
+
+				depends { !deviceProfileReported }
+
+				onActivate = {
+					deviceProfileReported = true
+
+					lifecycleScope.launch {
+						runCatching {
+							api.clientLogApi.logFile(createDeviceProfileReport(context, userPreferences)).content
+						}.fold(
+							onSuccess = { result ->
+								Toast.makeText(
+									context,
+									getString(R.string.pref_report_device_profile_success, result.fileName),
+									Toast.LENGTH_LONG
+								).show()
+							},
+							onFailure = { error ->
+								Timber.e(error, "Failed to upload device profile")
+								Toast.makeText(context, R.string.pref_report_device_profile_failure, Toast.LENGTH_LONG).show()
+								deviceProfileReported = false
+							}
+						)
+					}
+				}
 			}
 		}
 	}
