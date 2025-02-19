@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
-import okhttp3.internal.toHexString
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
@@ -22,7 +21,6 @@ import org.jellyfin.androidtv.util.withOpacity
 import org.jellyfin.preference.store.PreferenceStore
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 class PlaybackPreferencesScreen : OptionsFragment() {

@@ -1,8 +1,5 @@
 package org.jellyfin.androidtv.util
 
-import android.util.Log
-import okhttp3.internal.toHexString
-import timber.log.Timber
 import kotlin.math.min
 import kotlin.math.roundToLong
 
