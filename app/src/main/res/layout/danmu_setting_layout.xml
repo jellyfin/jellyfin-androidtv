@@ -97,14 +97,6 @@
                     android:gravity="center"
                     android:text="行数"
                     android:textSize="20sp" />
-                <!--            <EditText-->
-                <!--                android:id="@+id/editTextText"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="5"-->
-                <!--                android:ems="10"-->
-                <!--                android:inputType="text"-->
-                <!--                android:text="Name" />-->
                 <TextView
                     android:id="@+id/danmu_setting_row_value"
                     android:layout_width="0dp"
@@ -209,16 +201,58 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:gravity="center"
+                    android:text="偏移"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:ems="5"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="right"
+                    android:text="秒"
+                    android:textSize="15sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="18"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/danmu_setting_offset"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_vertical"
+                        android:digits="0123456789"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        tools:ignore="LabelFor" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center"
                     android:text="描边"
                     android:textSize="20sp" />
-                <!--            <EditText-->
-                <!--                android:id="@+id/editTextText"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="5"-->
-                <!--                android:ems="10"-->
-                <!--                android:inputType="text"-->
-                <!--                android:text="Name" />-->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -230,27 +264,6 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/radioButton"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:text="RadioButton" />-->
-
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/radioButton"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:text="RadioButton" />-->
-
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/radioButton"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:text="RadioButton" />-->
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
@@ -277,14 +290,6 @@
                     android:gravity="center"
                     android:text="FPS"
                     android:textSize="20sp" />
-                <!--            <EditText-->
-                <!--                android:id="@+id/editTextText"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="5"-->
-                <!--                android:ems="10"-->
-                <!--                android:inputType="text"-->
-                <!--                android:text="Name" />-->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

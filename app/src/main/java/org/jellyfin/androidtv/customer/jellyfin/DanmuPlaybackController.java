@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 
 import io.ktor.utils.io.ByteReadChannel;
 import master.flame.danmaku.controller.IDanmakuView;
@@ -288,11 +287,11 @@ public class DanmuPlaybackController extends PlaybackController {
             return;
         }
 
-        //
-        UUID seasonId = danmuItem.getSeasonId();
-        if (seasonId == null) {
-            seasonId = danmuItem.getId();
-        }
+//        //
+//        UUID seasonId = danmuItem.getSeasonId();
+//        if (seasonId == null) {
+//            seasonId = danmuItem.getId();
+//        }
 
 
 
