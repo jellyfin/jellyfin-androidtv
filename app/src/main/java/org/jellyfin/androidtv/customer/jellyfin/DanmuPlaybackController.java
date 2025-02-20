@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import io.ktor.utils.io.ByteReadChannel;
 import master.flame.danmaku.controller.IDanmakuView;
@@ -110,7 +111,7 @@ public class DanmuPlaybackController extends PlaybackController {
     @Override
     public void stop() {
         super.stop();
-        getDanmakuView().removeAllDanmakus(true);
+        danmakuStop();
     }
 
     @Override
@@ -147,6 +148,12 @@ public class DanmuPlaybackController extends PlaybackController {
     protected void danmakuOnResume() {
         if (mDanmakuView != null && mDanmakuView.isPrepared() && mDanmakuView.isPaused()) {
             mDanmakuView.resume();
+        }
+    }
+
+    protected void danmakuStop() {
+        if (mDanmakuView != null && mDanmakuView.isPrepared() && mDanmakuView.isPaused()) {
+            mDanmakuView.stop();
         }
     }
 
@@ -200,7 +207,7 @@ public class DanmuPlaybackController extends PlaybackController {
                             danmakuView.start();
                         }
                         if (videoSpeed != 1.0f) {
-                            danmakuView.setVideoSpeed(videoSpeed);
+                            danmakuView.setVideoSpeed(videoSpeed, mCurrentPosition);
                         }
                         resolveDanmakuShow();
                     }
@@ -281,6 +288,14 @@ public class DanmuPlaybackController extends PlaybackController {
             return;
         }
 
+        //
+        UUID seasonId = danmuItem.getSeasonId();
+        if (seasonId == null) {
+            seasonId = danmuItem.getId();
+        }
+
+
+
         if (gsyVideoPlayer.getDanmakuView() != null && !gsyVideoPlayer.getDanmakuView().isPrepared() && gsyVideoPlayer.getParser() != null) {
             gsyVideoPlayer.getDanmakuView().prepare(gsyVideoPlayer.getParser(),
                     gsyVideoPlayer.getDanmakuContext());
@@ -355,7 +370,8 @@ public class DanmuPlaybackController extends PlaybackController {
         videoSpeed = speed;
         IDanmakuView danmakuView = getDanmakuView();
         if (danmakuView != null) {
-            danmakuView.setVideoSpeed(videoSpeed);
+            danmakuView.setVideoSpeed(videoSpeed, mCurrentPosition
+            );
         }
     }
 
@@ -364,7 +380,7 @@ public class DanmuPlaybackController extends PlaybackController {
         super.refreshCurrentPosition();
         if (customerUserPreferences.isDanmuFps()) {
             long currentTime = getDanmakuView().getCurrentTime();
-            log.debug("当前弹幕时间: 视频={}, 弹幕={}, 时间差={}", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
+//            log.debug("当前弹幕时间: 视频={}, 弹幕={}, 时间差={}", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
         }
     }
 
