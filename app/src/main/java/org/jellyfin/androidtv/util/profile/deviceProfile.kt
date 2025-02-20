@@ -62,7 +62,9 @@ fun createDeviceProfile(
 	val avcHigh10Level = mediaTest.getAVCHigh10Level()
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
-	val maxResolution = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
+	val maxResolutionAVC = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
+	val maxResolutionHevc = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_HEVC)
+	val maxResolutionAV1 = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AV1)
 
 	name = "AndroidTV-Default"
 
@@ -280,13 +282,37 @@ fun createDeviceProfile(
 		}
 	}
 
-	// Limit video resolution support for older devices
+	// Get max resolutions for common codecs
+	// AVC
 	codecProfile {
 		type = CodecType.VIDEO
+		codec = Codec.Video.H264
 
 		conditions {
-			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolution.width
-			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolution.height
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionAVC.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionAVC.height
+		}
+	}
+
+	// HEVC
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.HEVC
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionHevc.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionHevc.height
+		}
+	}
+
+	// AV1
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.AV1
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionAV1.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionAV1.height
 		}
 	}
 
