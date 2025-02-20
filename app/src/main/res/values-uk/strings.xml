@@ -580,4 +580,7 @@
     <string name="segment_type_commercial">Реклама</string>
     <string name="runtime_hours_minutes">%1$dг %2$dхв</string>
     <string name="runtime_minutes">%1$dхв</string>
+    <string name="segment_type_preview">Прев\'ю</string>
+    <string name="segment_type_intro">Вступ</string>
+    <string name="segment_type_unknown">Невідомі сегменти</string>
 </resources>
