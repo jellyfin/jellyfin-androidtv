@@ -447,4 +447,5 @@
     <string name="crash_report_toast">おっと！問題が発生しました。クラッシュレポートが Jellyfin サーバーに送信されました。</string>
     <string name="pref_screensaver_inapp_enabled_description">アプリが開いているときにJellyfinスクリーンセーバーを表示する</string>
     <string name="episode_name_special">スペシャル</string>
+    <string name="continue_listening">続きから聴く</string>
 </resources>
