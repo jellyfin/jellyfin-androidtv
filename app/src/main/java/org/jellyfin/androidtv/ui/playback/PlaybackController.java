@@ -546,7 +546,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
-                    if (internalOptions.getSubtitleStreamIndex() == null) burningSubs = internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE;
+
+                    if (internalOptions.getSubtitleStreamIndex() == null) {
+                        boolean alwaysBurnTranscode = userPreferences.getValue().get(UserPreferences.Companion.getAlwaysBurnInSubtitleWhenTranscoding());
+                        boolean transcoding = internalResponse.getPlayMethod().equals(PlayMethod.TRANSCODE);
+                        boolean encodedSubs =internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE;
+                        burningSubs = encodedSubs || (transcoding && alwaysBurnTranscode);
+                    }
+
                     startItem(item, position, internalResponse);
                 }
 

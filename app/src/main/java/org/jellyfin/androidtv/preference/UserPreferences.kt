@@ -186,6 +186,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var subtitlesTextSize = floatPreference("subtitles_text_size", 1f)
 
 		/**
+		 * Always burn in subtitles when transcoding
+		 */
+		var alwaysBurnInSubtitleWhenTranscoding = booleanPreference("always_burn_in_subtitle_when_transcoding", false)
+
+		/**
 		 * Show screensaver in app
 		 */
 		var screensaverInAppEnabled = booleanPreference("screensaver_inapp_enabled", true)

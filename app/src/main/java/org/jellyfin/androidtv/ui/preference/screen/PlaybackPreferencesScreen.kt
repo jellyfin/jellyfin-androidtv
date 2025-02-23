@@ -161,6 +161,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					default { (UserPreferences.subtitlesTextSize.defaultValue * 100f).roundToInt() }
 				}
 			}
+
+			checkbox {
+				setTitle(R.string.lbl_always_burn_in_subtitle_when_transcoding)
+				setContent(R.string.sum_always_burn_in_subtitle_when_transcoding)
+				bind(userPreferences, UserPreferences.alwaysBurnInSubtitleWhenTranscoding)
+			}
 		}
 
 		category {
