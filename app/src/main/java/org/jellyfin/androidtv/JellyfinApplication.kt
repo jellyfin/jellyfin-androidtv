@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv
 
 import android.app.Application
+import android.app.UiModeManager
 import android.content.Context
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -22,6 +23,9 @@ import java.util.concurrent.TimeUnit
 class JellyfinApplication : Application() {
 	override fun onCreate() {
 		super.onCreate()
+
+//		val uiModeManager = applicationContext.getSystemService(UI_MODE_SERVICE) as UiModeManager
+//		isTv = uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
 
 		// Don't run in ACRA service
 		if (ACRA.isACRASenderServiceProcess()) return

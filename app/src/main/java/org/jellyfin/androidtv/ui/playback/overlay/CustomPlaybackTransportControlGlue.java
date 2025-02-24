@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.util.Consumer;
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 import androidx.leanback.widget.Action;
@@ -23,6 +24,8 @@ import androidx.leanback.widget.PlaybackTransportRowView;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.customer.CustomerUserPreferences;
+import org.jellyfin.androidtv.customer.jellyfin.DanmuPlaybackController;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -43,6 +46,10 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.SelectQualityAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.customer.JellyfinBingeWatchingAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.customer.JellyfinDanmuControlAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.customer.JellyfinDanmuSettingAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.customer.JellyfinPlaybackVideoInfoAction;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.koin.java.KoinJavaComponent;
 
@@ -53,6 +60,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     // Normal playback actions
     private PlayPauseAction playPauseAction;
+    private JellyfinBingeWatchingAction jellyfinBingeWatchingAction;
+    private JellyfinPlaybackVideoInfoAction jellyfinPlaybackVideoInfoAction;
+    private JellyfinDanmuControlAction jellyfinDanmuControlAction;
+    private JellyfinDanmuSettingAction jellyfinDanmuSettingAction;
     private RewindAction rewindAction;
     private FastForwardAction fastForwardAction;
     private SkipPreviousAction skipPreviousAction;
@@ -80,6 +91,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private final Handler mHandler = new Handler();
     private Runnable mRefreshEndTime;
     private Runnable mRefreshViewVisibility;
+    private final Consumer<Action> buttonRefresher;
 
     private LinearLayout mButtonRef;
 
@@ -100,6 +112,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             else
                 mHandler.postDelayed(mRefreshViewVisibility, 100);
         };
+
+        // 立即刷新按钮信息
+        buttonRefresher = this::notifyActionChanged;
 
         initActions(context);
     }
@@ -198,12 +213,18 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
         selectQualityAction = new SelectQualityAction(context, this, KoinJavaComponent.get(UserPreferences.class));
         selectQualityAction.setLabels(new String[]{context.getString(R.string.lbl_quality_profile)});
-        playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
+        playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController, buttonRefresher, KoinJavaComponent.get(CustomerUserPreferences.class));
         playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         zoomAction = new ZoomAction(context, this);
         zoomAction.setLabels(new String[]{context.getString(R.string.lbl_zoom)});
         chapterAction = new ChapterAction(context, this);
         chapterAction.setLabels(new String[]{context.getString(R.string.lbl_chapters)});
+        jellyfinBingeWatchingAction = new JellyfinBingeWatchingAction(context, this, playbackController);
+        jellyfinPlaybackVideoInfoAction = new JellyfinPlaybackVideoInfoAction(context, this, playbackController);
+        if (playbackController instanceof DanmuPlaybackController) {
+            jellyfinDanmuControlAction = new JellyfinDanmuControlAction(context, this, (DanmuPlaybackController) playbackController, buttonRefresher);
+            jellyfinDanmuSettingAction = new JellyfinDanmuSettingAction(context, this, (DanmuPlaybackController) playbackController);
+        }
 
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
         previousLiveTvChannelAction.setLabels(new String[]{context.getString(R.string.lbl_prev_item)});
@@ -254,6 +275,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (playerAdapter.isLiveTv()) {
             primaryActionsAdapter.add(channelBarChannelAction);
             primaryActionsAdapter.add(guideAction);
+        } else {
+            primaryActionsAdapter.add(jellyfinPlaybackVideoInfoAction);
         }
 
         // Secondary Items
@@ -280,6 +303,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (!playerAdapter.isLiveTv()) {
             secondaryActionsAdapter.add(playbackSpeedAction);
             secondaryActionsAdapter.add(selectQualityAction);
+            secondaryActionsAdapter.add(jellyfinBingeWatchingAction);
+            if (jellyfinDanmuControlAction != null) {
+                secondaryActionsAdapter.add(jellyfinDanmuControlAction);
+            }
+            if (jellyfinDanmuSettingAction != null) {
+                secondaryActionsAdapter.add(jellyfinDanmuSettingAction);
+            }
         }
 
         secondaryActionsAdapter.add(zoomAction);

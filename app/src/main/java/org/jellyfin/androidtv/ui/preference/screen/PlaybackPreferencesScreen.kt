@@ -88,6 +88,11 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_audio_output)
 				bind(userPreferences, UserPreferences.audioBehaviour)
 			}
+
+			checkbox {
+				setTitle(R.string.pref_audio_chinese)
+				bind(userPreferences, UserPreferences.chineseAudioBehaviour)
+			}
 		}
 
 		category {
@@ -182,6 +187,22 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 						set { value -> mediaSegmentRepository.setDefaultSegmentTypeAction(segmentType, value) }
 						default { MediaSegmentAction.NOTHING }
 					}
+				}
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.segment_action_hide_time)
+				min = 0
+				max = 60
+				increment = 1
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value}s"
+				}
+				bind {
+					get { userPreferences[UserPreferences.autoSkipHideTime] }
+					set { value -> userPreferences[UserPreferences.autoSkipHideTime] = value }
+					default { UserPreferences.autoSkipHideTime.defaultValue }
 				}
 			}
 		}

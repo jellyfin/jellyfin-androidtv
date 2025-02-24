@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.jellyfin.androidtv.customer.autoskip.AutoSkipTipLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/auto_skip_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center"
+    android:background="@color/black_transparent_light"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:visibility="gone"
+    >
+
+    <TextView
+        android:id="@+id/bottom_tip_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/auto_skip_tip"
+        />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_green_gradient_start"
+        android:textColorHighlight="@color/white"
+        android:text="@string/quick_skip" />
+</org.jellyfin.androidtv.customer.autoskip.AutoSkipTipLinearLayout>

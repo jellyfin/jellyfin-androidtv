@@ -29,7 +29,7 @@ import kotlin.time.Duration.Companion.minutes
  *
  * @param context Context to get the SharedPreferences from
  */
-class UserPreferences(context: Context) : SharedPreferenceStore(
+open class UserPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
@@ -107,6 +107,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Preferred behavior for audio streaming.
 		 */
 		var audioBehaviour = enumPreference("audio_behavior", AudioBehavior.DIRECT_STREAM)
+
+		/**
+		 * 优先选择国语配音
+		 */
+		var chineseAudioBehaviour = booleanPreference("chinese_audio_behavior", true)
 
 		/**
 		 * Preferred behavior for audio streaming.
@@ -209,6 +214,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Delay when starting video playback after loading the video player.
 		 */
 		var videoStartDelay = longPreference("video_start_delay", 0)
+
+		/**
+		 * Delay when starting video playback after loading the video player.
+		 */
+		var autoSkipHideTime = intPreference("auto_skip_hide_time", 8)
 
 		/**
 		 * The actions to take for each media segment type. Managed by the [MediaSegmentRepository].
