@@ -566,4 +566,5 @@
     <string name="skip_forward_length">Stapgrootte vooruitspringen</string>
     <string name="runtime_hours_minutes">%1$du %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Opaciteit ondertitelingsachtergrond</string>
 </resources>
