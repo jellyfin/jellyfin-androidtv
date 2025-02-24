@@ -146,14 +146,6 @@
                     android:gravity="center"
                     android:text="大小"
                     android:textSize="20sp" />
-                <!--            <EditText-->
-                <!--                android:id="@+id/editTextText"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="5"-->
-                <!--                android:ems="10"-->
-                <!--                android:inputType="text"-->
-                <!--                android:text="Name" />-->
                 <TextView
                     android:id="@+id/danmu_setting_font_size_value"
                     android:layout_width="0dp"
@@ -191,6 +183,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <TextView
@@ -207,10 +200,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:ems="5"
+                    android:ems="10"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:gravity="right"
+                    android:gravity="center_horizontal"
                     android:text="秒"
                     android:textSize="15sp" />
                 <LinearLayout
@@ -218,16 +211,28 @@
                     android:layout_height="match_parent"
                     android:layout_weight="18"
                     android:orientation="horizontal">
+
                     <EditText
-                        android:id="@+id/danmu_setting_offset"
+                        android:id="@+id/danmu_setting_offset_time"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|center_vertical"
-                        android:digits="0123456789"
+                        android:layout_height="match_parent"
                         android:importantForAutofill="no"
-                        android:inputType="number"
-                        android:singleLine="true"
-                        tools:ignore="LabelFor" />
+                        android:maxLength="15"
+                        android:digits="-0123456789"
+                        android:background="@null"
+                        android:paddingBottom="0dp"
+                        android:paddingStart="10dp"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="50dp"
+                        tools:ignore="LabelFor,RtlSymmetry" />
+                    <!--                    <SeekBar-->
+<!--                        android:id="@+id/danmu_setting_font_size"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:max="15"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginEnd="50dp"/>-->
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

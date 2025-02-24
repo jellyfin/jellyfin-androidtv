@@ -76,7 +76,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     List<BaseItemDto> mItems;
     protected VideoManager mVideoManager;
     int mCurrentIndex;
-    protected long mCurrentPosition = 0;
+    protected volatile long mCurrentPosition = 0;
     protected PlaybackState mPlaybackState = PlaybackState.IDLE;
 
     private StreamInfo mCurrentStreamInfo;
@@ -96,7 +96,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mStartPosition = 0;
 
     // tmp position used when seeking
-    private long mSeekPosition = -1;
+    private volatile long mSeekPosition = -1;
     private boolean wasSeeking = false;
     private boolean finishedInitialSeek = false;
 
@@ -933,18 +933,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         wasSeeking = true;
 
         // Stop playback when the requested seek position is at the end of the video
-        if (skipToNext && pos >= (getDuration() - 100)) {
+        long duration = getDuration();
+        if (skipToNext && pos >= (duration - 100)) {
             // Since we've skipped ahead, set the current position so the PlaybackStopInfo will report the correct end time
-            mCurrentPosition = getDuration();
-            // Make sure we also set the seek positions so mCurrentPosition won't get overwritten in refreshCurrentPosition()
-            currentSkipPos = mCurrentPosition;
-            mSeekPosition = mCurrentPosition;
+            mCurrentPosition = duration;
+//            // Make sure we also set the seek positions so mCurrentPosition won't get overwritten in refreshCurrentPosition()
+//            setmCurrentPosition(mCurrentPosition);
+//            mSeekPosition = mCurrentPosition;
             // Finalize item playback
             itemComplete();
             return;
         }
 
-        if (pos >= getDuration()) pos = getDuration();
+        if (pos >= duration) pos = duration;
 
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;

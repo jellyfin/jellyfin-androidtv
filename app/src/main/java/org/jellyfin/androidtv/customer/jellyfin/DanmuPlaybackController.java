@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.customer.ByteReadChannelInputStream;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
 import org.jellyfin.androidtv.customer.common.CustomerCommonUtils;
@@ -38,6 +39,7 @@ import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
+import timber.log.Timber;
 
 public class DanmuPlaybackController extends PlaybackController {
     private static final Logger log = LoggerFactory.getLogger(DanmuPlaybackController.class);
@@ -80,12 +82,13 @@ public class DanmuPlaybackController extends PlaybackController {
         if (danmakuView.isPrepared()) {
             danmakuView.stop();
         }
+
         if (position > 0) {
             setDanmakuStartSeekPosition(position);
         } else {
             setDanmakuStartSeekPosition(-1);
         }
-        onPrepareDanmaku(this);
+        onPrepareDanmaku(this, item);
     }
 
     @Override
@@ -110,7 +113,7 @@ public class DanmuPlaybackController extends PlaybackController {
     @Override
     public void stop() {
         super.stop();
-        danmakuStop();
+        releaseDanmaku(this);
     }
 
     @Override
@@ -174,15 +177,12 @@ public class DanmuPlaybackController extends PlaybackController {
                 .setCacheStuffer(new SpannedCacheStuffer(), danamakuAdapter) // 图文混排使用SpannedCacheStuffer
                 .setMaximumLines(maxLinesPair)
                 .preventOverlapping(overlappingEnablePair);
+
+        DanmakuTimer.debug = BuildConfig.DEBUG;
         if (mDanmakuView != null) {
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
                 @Override
                 public void updateTimer(DanmakuTimer timer) {
-                    //倍速
-//                    if (videoSpeed != 1.0f) {
-////                        timer.update(mCurrentPosition);
-//                        timer.add((long) (timer.lastInterval() * (videoSpeed - 1)));
-//                    }
                 }
 
                 @Override
@@ -206,7 +206,7 @@ public class DanmuPlaybackController extends PlaybackController {
                             danmakuView.start();
                         }
                         if (videoSpeed != 1.0f) {
-                            danmakuView.setVideoSpeed(videoSpeed, mCurrentPosition);
+                            danmakuView.setVideoSpeed(videoSpeed);
                         }
                         resolveDanmakuShow();
                     }
@@ -267,7 +267,7 @@ public class DanmuPlaybackController extends PlaybackController {
     private void resolveDanmakuShow() {
         mHandler.post(() -> {
             if (mDanmaKuShow) {
-                onPrepareDanmaku(DanmuPlaybackController.this);
+                onPrepareDanmaku(DanmuPlaybackController.this, getCurrentlyPlayingItem());
                 if (!getDanmakuView().isShown())
                     getDanmakuView().show();
             } else {
@@ -281,23 +281,21 @@ public class DanmuPlaybackController extends PlaybackController {
     /**
      * 开始播放弹幕
      */
-    private void onPrepareDanmaku(DanmuPlaybackController gsyVideoPlayer) {
+    private void onPrepareDanmaku(DanmuPlaybackController gsyVideoPlayer, BaseItemDto item) {
         if (!mDanmaKuShow) {
             // 未开启不加载
             return;
         }
 
-//        //
-//        UUID seasonId = danmuItem.getSeasonId();
-//        if (seasonId == null) {
-//            seasonId = danmuItem.getId();
-//        }
-
-
-
-        if (gsyVideoPlayer.getDanmakuView() != null && !gsyVideoPlayer.getDanmakuView().isPrepared() && gsyVideoPlayer.getParser() != null) {
-            gsyVideoPlayer.getDanmakuView().prepare(gsyVideoPlayer.getParser(),
+        IDanmakuView danmakuView = gsyVideoPlayer.getDanmakuView();
+        if (danmakuView != null && !danmakuView.isPrepared() && gsyVideoPlayer.getParser() != null) {
+            danmakuView.prepare(gsyVideoPlayer.getParser(),
                     gsyVideoPlayer.getDanmakuContext());
+        }
+
+        if (danmakuView != null) {
+            // 设置时间偏移
+            danmakuView.setOffsetTime(customerUserPreferences.getSeasonDanmuOffset(item));
         }
     }
 
@@ -369,17 +367,18 @@ public class DanmuPlaybackController extends PlaybackController {
         videoSpeed = speed;
         IDanmakuView danmakuView = getDanmakuView();
         if (danmakuView != null) {
-            danmakuView.setVideoSpeed(videoSpeed, mCurrentPosition
-            );
+            danmakuView.setVideoSpeed(videoSpeed);
         }
     }
 
     @Override
     protected void refreshCurrentPosition() {
         super.refreshCurrentPosition();
+        DanmakuTimer.videoTime = mCurrentPosition;
         if (customerUserPreferences.isDanmuFps()) {
             long currentTime = getDanmakuView().getCurrentTime();
-//            log.debug("当前弹幕时间: 视频={}, 弹幕={}, 时间差={}", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
+
+            Timber.d("当前弹幕时间: 视频=%d, 弹幕=%d, 时间差=%d", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
         }
     }
 

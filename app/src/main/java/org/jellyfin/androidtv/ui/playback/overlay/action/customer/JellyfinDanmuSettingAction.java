@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter;
 import org.jellyfin.androidtv.ui.playback.overlay.action.CustomAction;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
 
 import master.flame.danmaku.controller.IDanmakuView;
@@ -39,6 +40,11 @@ public class JellyfinDanmuSettingAction extends CustomAction implements DanmuSet
     @Override
     public CustomerUserPreferences getCustomerUserPreferences() {
         return customerUserPreferences;
+    }
+
+    @Override
+    public BaseItemDto getCurrentlyPlayingItem() {
+        return danmuPlaybackController.getCurrentlyPlayingItem();
     }
 
     @Override

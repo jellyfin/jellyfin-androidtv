@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -16,10 +17,12 @@ import androidx.core.util.Function;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
@@ -50,6 +53,12 @@ public interface DanmuSettingActionComponent {
      * @return 当前存储信息
      */
     CustomerUserPreferences getCustomerUserPreferences();
+
+    /**
+     * 当前播放信息
+     * @return 当前播放信息
+     */
+    BaseItemDto getCurrentlyPlayingItem();
 
     DanmakuContext getDanmakuContext();
 
@@ -96,6 +105,20 @@ public interface DanmuSettingActionComponent {
         fontSize.setProgress(originFontSizeProgress);
         fontSizeValue.setText(fontSizeValueGetter.apply(originFontSizeProgress));
         fontSize.setOnSeekBarChangeListener(new TextSeekBarListener(fontSizeValue, fontSizeValueGetter));
+
+        // 弹幕偏移
+        BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
+        UUID seasonId = currentlyPlayingItem == null ? null : currentlyPlayingItem.getSeasonId();
+        EditText offsetTimeView = danmuSetting.findViewById(R.id.danmu_setting_offset_time);
+        int tempDanmuOffset = 0;
+        if (seasonId != null) {
+            int seasonDanmuOffset = customerUserPreferences.getSeasonDanmuOffset(seasonId.toString());
+            if (seasonDanmuOffset != 0) {
+                tempDanmuOffset = seasonDanmuOffset;
+                offsetTimeView.setText(String.valueOf(tempDanmuOffset));
+            }
+        }
+        int originDanmuOffset = tempDanmuOffset;
 
         // 描边
         int originDanmuStyle = customerUserPreferences.getDanmuStyle();
@@ -156,6 +179,19 @@ public interface DanmuSettingActionComponent {
                 HashMap<Integer, Integer> maxLinesPair = new HashMap<>();
                 maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, danmuRow);
                 danmakuContext.setMaximumLines(maxLinesPair);
+            }
+
+            /*
+             * 弹幕偏移
+             */
+            String offsetTimeStr = String.valueOf(offsetTimeView.getText());
+            int danmuOffset = 0;
+            if (!offsetTimeStr.isEmpty()) {
+                danmuOffset = Integer.parseInt(offsetTimeStr);
+            }
+            if (danmuOffset != originDanmuOffset && seasonId != null) {
+                customerUserPreferences.putSeasonDanmuOffset(seasonId.toString(), danmuOffset);
+                danmakuView.setOffsetTime(danmuOffset);
             }
 
             /*

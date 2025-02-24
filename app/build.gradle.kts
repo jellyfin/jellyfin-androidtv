@@ -16,7 +16,7 @@ fun releaseTime(): String {
 }
 
 android {
-	val projectVersion = "1110.18.5-rc.1"
+	val projectVersion = "1120.18.4"
 	namespace = "org.jellyfin.androidtv"
 //		val selfAppId = namespace!!;
 	val selfAppId = "com.fengymi.jellyfin.androidtv"
