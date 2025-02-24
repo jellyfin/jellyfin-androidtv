@@ -9,6 +9,8 @@ import android.widget.Checkable
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -75,7 +77,7 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	 * Items used in [Adapter].
 	 */
 	data class ColorListItem(
-		val key: Long,
+		val key: Color,
 		val title: String,
 		val summary: String? = null
 	)
@@ -98,22 +100,16 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			holder as OptionViewHolder
 
 			val item = items[position]
-			holder.button.isChecked = item.key.toString() == selectedValue
+			holder.button.isChecked = item.key.toArgb().toString() == selectedValue
 
 			val buttontint = when {
-				holder.button.isChecked -> when (item.key) {
-					@Suppress("MagicNumber")
-					0xFFEEDC00 -> R.color.button_default_disabled_text
-
-					else -> R.color.button_default_normal_text
-				}
-
+				holder.button.isChecked -> R.color.button_default_normal_text
 				else -> R.color.transparent
 			}
 			holder.buttonbg.background = context?.let {
 				ResourcesCompat.getDrawable(it.resources, R.drawable.subtitle_background, it.theme)
 			}
-			holder.buttonfg.backgroundTintList = ColorStateList.valueOf(item.key.toString().toLong().toInt())
+			holder.buttonfg.backgroundTintList = ColorStateList.valueOf(item.key.toArgb())
 			holder.buttontint.buttonTintList =
 				context?.let { context ->
 					ContextCompat.getColor(context, buttontint).let {
@@ -132,10 +128,10 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			val item = items[index]
 			if (preference.callChangeListener(item.key)) {
 				when (val preference = preference) {
-					is ListPreference -> preference.value = item.key.toString()
+					is ListPreference -> preference.value = item.key.toArgb().toString()
 				}
 
-				selectedValue = item.key.toString()
+				selectedValue = item.key.toArgb().toString()
 			}
 
 			parentFragmentManager.popBackStack()
