@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
-import android.media.MediaFormat
+import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
@@ -62,9 +62,9 @@ fun createDeviceProfile(
 	val avcHigh10Level = mediaTest.getAVCHigh10Level()
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
-	val maxResolutionAVC = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
-	val maxResolutionHevc = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_HEVC)
-	val maxResolutionAV1 = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AV1)
+	val maxResolutionAVC = mediaTest.getMaxResolution(MimeTypes.VIDEO_H264)
+	val maxResolutionHevc = mediaTest.getMaxResolution(MimeTypes.VIDEO_H265)
+	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
 
 	name = "AndroidTV-Default"
 
