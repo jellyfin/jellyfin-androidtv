@@ -50,6 +50,8 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
+import java.time.Duration;
+
 public class PlaybackController implements PlaybackControllerNotifiable {
     // Frequency to report playback progress
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
@@ -978,7 +980,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 BaseItemDto program = updatedChannel.getCurrentProgram();
                 if (program != null) {
                     mCurrentProgramEnd = program.getEndDate();
-                    mCurrentProgramStart = program.getPremiereDate();
+                    mCurrentProgramStart = program.getStartDate();
                     if (mFragment != null) mFragment.updateDisplay();
                 }
                 return null;
@@ -987,11 +989,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private long getRealTimeProgress() {
-        long progress = Instant.now().toEpochMilli();
         if (mCurrentProgramStart != null) {
-            progress -= mCurrentProgramStart.toInstant(ZoneOffset.UTC).toEpochMilli();
+            return Duration.between(mCurrentProgramStart, LocalDateTime.now()).toMillis();
         }
-        return progress;
+        return 0;
     }
 
     private long getTimeShiftedProgress() {

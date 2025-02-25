@@ -42,14 +42,14 @@ public class ChannelCardView extends FrameLayout {
                     .append(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(program.getEndDate()))
             );
 
-            if (program.getStartDate().isAfter(LocalDateTime.now()) && program.getEndDate().isBefore(LocalDateTime.now())) {
+            if (program.getStartDate().isBefore(LocalDateTime.now()) && program.getEndDate().isAfter(LocalDateTime.now())) {
                 Duration duration = Duration.between(program.getStartDate(), program.getEndDate());
                 Duration progress = Duration.between(program.getStartDate(), LocalDateTime.now());
-
-                binding.progress.setProgress((int) (progress.getSeconds() / duration.getSeconds() * 100));
+            
+                binding.progress.setProgress((int) ((progress.getSeconds() / (double) duration.getSeconds()) * 100));
             } else {
                 binding.progress.setProgress(0);
-            }
+            }          
         } else {
             binding.time.setText("");
             binding.progress.setProgress(0);
