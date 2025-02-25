@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.preference.custom
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.compose.ui.graphics.Color
 import androidx.preference.ListPreference
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.custom.ColorPickerDialogFragment.ColorListItem
@@ -14,7 +15,7 @@ class ColorListPreference @JvmOverloads constructor(
 ) : ListPreference(context, attrs, defStyleAttr, defStyleRes) {
 	var items: List<ColorListItem> = emptyList()
 
-	fun getItem(key: String) = items.firstOrNull { it.key.toString() == key }
+	fun getItem(key: String) = items.firstOrNull { it.key == Color(key.toInt()) }
 
 	fun getCurrentItem() = value?.let(::getItem)
 

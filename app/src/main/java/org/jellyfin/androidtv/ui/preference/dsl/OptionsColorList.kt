@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.ui.preference.dsl
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.ui.preference.custom.ColorListPreference
 import org.jellyfin.androidtv.ui.preference.custom.ColorPickerDialogFragment
@@ -9,8 +11,8 @@ import java.util.UUID
 
 class OptionsColorList(
 	private val context: Context
-) : OptionsItemMutable<Long>() {
-	var entries: Map<Long, String> = emptyMap()
+) : OptionsItemMutable<Color>() {
+	var entries: Map<Color, String> = emptyMap()
 
 	fun setTitle(@StringRes resId: Int) {
 		title = context.getString(resId)
@@ -27,12 +29,12 @@ class OptionsColorList(
 			it.dialogTitle = title
 			it.summaryProvider = ColorListPreference.SimpleSummaryProvider.instance
 			it.items = entries.map { entry -> ColorPickerDialogFragment.ColorListItem(entry.key, entry.value) }
-			it.entryValues = entries.keys.map { longitems -> longitems.toString() }.toTypedArray()
+			it.entryValues = entries.keys.map { color -> color.toArgb().toString() }.toTypedArray()
 			it.entries = entries.values.toTypedArray()
-			it.value = binder.get().toString()
+			it.value = binder.get().toArgb().toString()
 			it.setOnPreferenceChangeListener { _, newValue ->
-				binder.set(newValue.toString().toLong())
-				it.value = binder.get().toString()
+				binder.set(newValue as Color)
+				it.value = binder.get().toArgb().toString()
 				container()
 
 				// Always return false because we save it
