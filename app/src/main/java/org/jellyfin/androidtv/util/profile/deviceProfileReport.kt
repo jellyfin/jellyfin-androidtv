@@ -19,6 +19,26 @@ private fun formatJson(json: String) = prettyPrintJson.encodeToString(prettyPrin
 
 private fun Range<Int>.prettyFormat() = if (lower == upper) "$lower" else "$lower-$upper"
 
+// Names are copied from MediaCodecInfo.CodecCapabilities.FEATURE_xxx constants as some constants are not available in older API versions
+private val featureNames = setOf(
+	"adaptive-playback",
+	"detached-surface",
+	"dynamic-color-aspects",
+	"dynamic-timestamp",
+	"encoding-statistics",
+	"frame-parsing",
+	"hdr-editing",
+	"hlg-editing",
+	"intra-refresh",
+	"low-latency",
+	"multiple-frames",
+	"partial-frame",
+	"qp-bounds",
+	"region-of-interest",
+	"secure-playback",
+	"tunneled-playback",
+)
+
 fun createDeviceProfileReport(
 	context: Context,
 	userPreferences: UserPreferences,
@@ -105,6 +125,20 @@ fun createDeviceProfileReport(
 					appendLine("    - profileLevels")
 					for (profileLevel in profileLevels) {
 						appendLine("      - ${profileLevel.profile}: ${profileLevel.level}")
+					}
+				}
+
+				// Only show features section if there is at least 1
+				featureNames.mapNotNull { name ->
+					when {
+						capabilities.isFeatureRequired(name) -> "$name (required)"
+						capabilities.isFeatureSupported(name) -> name
+						else -> null
+					}
+				}.takeIf { it.isNotEmpty() }?.let { features ->
+					appendLine("    - features")
+					for (feature in features) {
+						appendLine("      - $feature")
 					}
 				}
 			}
