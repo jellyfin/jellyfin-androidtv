@@ -300,7 +300,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(mBaseItem)) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-            play(mBaseItem, pos.intValue(), false, false);
+            play(mBaseItem, pos.intValue(), false);
             return true;
         }
 
@@ -784,7 +784,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : Utils.getSafeValue(mBaseItem.isFolder(), false) ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    play(mBaseItem, 0, false, false);
+                    play(mBaseItem, 0, false);
                 }
             });
 
@@ -822,7 +822,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        play(mBaseItem, 0, true, false);
+                        play(mBaseItem, 0, true);
                     }
                 });
                 mDetailsOverviewRow.addAction(shuffleButton);
@@ -1197,7 +1197,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     };
 
     void shufflePlay() {
-        play(mBaseItem, 0, true, false);
+        play(mBaseItem, 0, true);
+    }
+
+    void play(final BaseItemDto item, final int pos, final boolean shuffle) {
+        play(item, pos, shuffle, false);
     }
 
     void play(final BaseItemDto item, final int pos, final boolean shuffle, final boolean forceExternalPlayer) {
