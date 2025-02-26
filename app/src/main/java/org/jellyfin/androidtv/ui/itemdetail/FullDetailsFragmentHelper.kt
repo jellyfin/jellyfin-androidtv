@@ -103,6 +103,15 @@ fun FullDetailsFragment.showDetailsMenu(
 	}
 }.showIfNotEmpty()
 
+fun FullDetailsFragment.forceExternalPlayerPopup(
+	view: View,
+	mBaseItem: BaseItemDto,
+) = popupMenu(requireContext(), view) {
+	item(getString(R.string.pref_external_player)) {
+		play(mBaseItem, 0, false, true)
+	}
+}.show()
+
 fun FullDetailsFragment.createFakeSeriesTimerBaseItemDto(timer: SeriesTimerInfoDto) = BaseItemDto(
 	id = requireNotNull(timer.id).toUUID(),
 	type = BaseItemKind.FOLDER,

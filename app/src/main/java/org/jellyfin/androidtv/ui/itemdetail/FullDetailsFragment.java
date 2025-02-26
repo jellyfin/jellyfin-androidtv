@@ -788,6 +788,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             });
 
+            playButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    FullDetailsFragmentHelperKt.forceExternalPlayerPopup(FullDetailsFragment.this, view, mBaseItem);
+                    return true;
+                }
+            });
             mDetailsOverviewRow.addAction(playButton);
 
             if (resumeButtonVisible) {
@@ -1207,6 +1214,25 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 } else {
                     videoQueueManager.getValue().setCurrentVideoQueue(response);
                     Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(item.getType(), pos);
+                    navigationRepository.getValue().navigate(destination);
+                }
+            }
+        });
+    }
+    void play(final BaseItemDto item, final int pos, final boolean shuffle, boolean forceExternalPlayer) {
+        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
+            @Override
+            public void onResponse(List<BaseItemDto> response) {
+                if (response.isEmpty()) {
+                    Timber.e("No items to play - ignoring play request.");
+                    return;
+                }
+
+                if (item.getType() == BaseItemKind.MUSIC_ARTIST) {
+                    mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
+                } else {
+                    videoQueueManager.getValue().setCurrentVideoQueue(response);
+                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestinationEx(item.getType(), pos, forceExternalPlayer);
                     navigationRepository.getValue().navigate(destination);
                 }
             }
