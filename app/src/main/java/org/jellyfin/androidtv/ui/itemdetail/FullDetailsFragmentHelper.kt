@@ -238,7 +238,7 @@ fun FullDetailsFragment.resumePlayback() {
 	if (mBaseItem.type != BaseItemKind.SERIES) {
 		val pos = (mBaseItem.userData?.playbackPositionTicks?.ticks
 			?: Duration.ZERO) - resumePreroll.milliseconds
-		play(mBaseItem, pos.inWholeMilliseconds.toInt(), false)
+		play(mBaseItem, pos.inWholeMilliseconds.toInt(), false, false)
 		return
 	}
 
@@ -261,7 +261,7 @@ fun FullDetailsFragment.resumePlayback() {
 			)
 			val nextUpEpisode = episodes.items?.firstOrNull()
 
-			if (nextUpEpisode != null) play(nextUpEpisode, 0, false)
+			if (nextUpEpisode != null) play(nextUpEpisode, 0, false, false)
 		} catch (err: ApiClientException) {
 			Timber.w("Failed to get next up items")
 			Toast.makeText(
