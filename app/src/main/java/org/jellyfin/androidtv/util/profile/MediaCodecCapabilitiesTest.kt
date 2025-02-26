@@ -188,6 +188,8 @@ class MediaCodecCapabilitiesTest {
 			}
 		}
 
+		Timber.d("Computed max resolution for %s: %dx%d", mime, maxWidth, maxHeight)
+
 		return Size(maxWidth, maxHeight)
 	}
 
