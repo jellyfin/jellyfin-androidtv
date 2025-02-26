@@ -19,7 +19,6 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
-import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
@@ -49,6 +48,8 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+
+import java.time.Duration;
 
 public class PlaybackController implements PlaybackControllerNotifiable {
     // Frequency to report playback progress
@@ -473,9 +474,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                int maxBitrate = Utils.getMaxBitrate(userPreferences.getValue());
-                Timber.d("Max bitrate is: %d", maxBitrate);
-                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item, maxBitrate);
+                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item);
 
                 playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -491,7 +490,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     @NonNull
-    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item, int maxBitrate) {
+    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
@@ -509,10 +508,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
         DeviceProfile internalProfile = DeviceProfileKt.createDeviceProfile(
-                maxBitrate,
-                !internalOptions.getEnableDirectStream(),
-                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
-                userPreferences.getValue().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO
+                userPreferences.getValue(),
+                !internalOptions.getEnableDirectStream()
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
@@ -978,7 +975,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 BaseItemDto program = updatedChannel.getCurrentProgram();
                 if (program != null) {
                     mCurrentProgramEnd = program.getEndDate();
-                    mCurrentProgramStart = program.getPremiereDate();
+                    mCurrentProgramStart = program.getStartDate();
                     if (mFragment != null) mFragment.updateDisplay();
                 }
                 return null;
@@ -987,11 +984,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private long getRealTimeProgress() {
-        long progress = Instant.now().toEpochMilli();
         if (mCurrentProgramStart != null) {
-            progress -= mCurrentProgramStart.toInstant(ZoneOffset.UTC).toEpochMilli();
+            return Duration.between(mCurrentProgramStart, LocalDateTime.now()).toMillis();
         }
-        return progress;
+        return 0;
     }
 
     private long getTimeShiftedProgress() {
