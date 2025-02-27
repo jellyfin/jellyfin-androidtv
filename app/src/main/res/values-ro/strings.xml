@@ -199,7 +199,7 @@
     <string name="lbl_mark_unplayed">Marchează ca nevizionat</string>
     <string name="lbl_play_first_unwatched">Redă primul nevizionat</string>
     <string name="lbl_search_hint">Căutați text (selectați pentru tastatură)</string>
-    <string name="lbl_tv_queuing">Introduceți toate episoadele ulterioare în coadă</string>
+    <string name="lbl_tv_queuing">Redare automată a episodului următor</string>
     <string name="lbl_empty">Gol</string>
     <string name="lbl_no_items">Fără articole</string>
     <string name="msg_cannot_play">Acest element nu poate fi redat</string>
@@ -499,4 +499,12 @@
     <string name="photo_albums">Albume foto</string>
     <string name="photos">Poze</string>
     <string name="lbl_hide_watched_checkmark">Când sunt episoade rămase</string>
+    <string name="lbl_subtitle_text_color">Culoare text subtitrare</string>
+    <string name="lbl_subtitle_background_color">Culoare fundal subtitrare</string>
+    <string name="lbl_subtitle_text_stroke_color">Culoare contur subtitrare</string>
+    <string name="pref_external_player">Folosește player extern</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_home">Acasă</string>
+    <string name="lbl_runtime">Durată</string>
 </resources>
