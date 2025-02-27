@@ -24,7 +24,9 @@ class ToolbarView @JvmOverloads constructor(
 
 	init {
 		val clockBehavior = get<UserPreferences>()[UserPreferences.clockBehavior]
-		binding.toolbarClock.isVisible = clockBehavior != ClockBehavior.NEVER && clockBehavior != ClockBehavior.IN_VIDEO
+		val showDate = get<UserPreferences>()[UserPreferences.showDate]
+		binding.toolbarClock.isVisible = clockBehavior != ClockBehavior.NEVER && clockBehavior != ClockBehavior.IN_VIDEO && !showDate
+		binding.toolbarClockDate.isVisible = clockBehavior != ClockBehavior.NEVER && clockBehavior != ClockBehavior.IN_VIDEO && showDate
 
 		val style = context.theme.obtainStyledAttributes(attrs, R.styleable.JellyfinTheme, defStyleAttr, defStyleRes)
 		binding.toolbarRoot.background = style.getDrawable(R.styleable.JellyfinTheme_toolbarBackground)

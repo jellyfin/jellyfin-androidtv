@@ -56,13 +56,21 @@ class ClockUserView @JvmOverloads constructor(
 
 	private fun updateClockVisibility() {
 		val showClock = userPreferences[UserPreferences.clockBehavior]
+		val showDate = userPreferences[UserPreferences.showDate]
 
 		binding.clock.isVisible = when (showClock) {
 			ClockBehavior.ALWAYS -> true
 			ClockBehavior.NEVER -> false
 			ClockBehavior.IN_VIDEO -> isVideoPlayer
 			ClockBehavior.IN_MENUS -> !isVideoPlayer
-		}
+		} && !showDate
+
+		binding.clockDate.isVisible = when (showClock) {
+			ClockBehavior.ALWAYS -> true
+			ClockBehavior.NEVER -> false
+			ClockBehavior.IN_VIDEO -> isVideoPlayer
+			ClockBehavior.IN_MENUS -> !isVideoPlayer
+		} && showDate
 
 		binding.home.isVisible = !isVideoPlayer
 	}

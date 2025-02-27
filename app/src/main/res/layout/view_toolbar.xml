@@ -53,6 +53,19 @@
         app:layout_constraintStart_toEndOf="@+id/toolbar_content">
 
         <TextClock
+            android:id="@+id/toolbar_clock_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-light"
+            android:format12Hour="MMM d, h:mm"
+            android:format24Hour="MMM d, k:mm"
+            android:paddingStart="12dp"
+            android:textSize="20sp"
+            tools:text="13:37"
+            tools:ignore="RtlSymmetry" />
+
+        <TextClock
             android:id="@+id/toolbar_clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +73,7 @@
             android:fontFamily="sans-serif-light"
             android:format12Hour="h:mm"
             android:format24Hour="k:mm"
-            android:paddingStart="24dp"
+            android:paddingStart="12dp"
             android:textSize="20sp"
             tools:text="13:37"
             tools:ignore="RtlSymmetry" />
