@@ -507,4 +507,14 @@
     <string name="runtime_minutes">%1$dm</string>
     <string name="lbl_home">Acasă</string>
     <string name="lbl_runtime">Durată</string>
+    <string name="random">Aleatoriu</string>
+    <string name="pref_playback_advanced">Preferințe avansate de redare</string>
+    <string name="unreleased">Nu a fost încă lansat</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="person_birthday_and_age">Născut %1$s (%2$d)</string>
+    <string name="clear_image_cache_content">Folosit: %1$s</string>
+    <string name="clear_image_cache">Golește cache imagini</string>
+    <string name="pref_screensaver_ageratingmax_zero">Toate vârstele</string>
+    <string name="pref_screensaver_ageratingmax">Ratingul maxim de vârstă</string>
+    <string name="pref_screensaver_ageratingmax_entry">Pâna la %1$d ani</string>
 </resources>
