@@ -543,4 +543,36 @@
     <string name="segment_type_recap">Rezumate</string>
     <string name="segment_type_unknown">Segmente necunoscute</string>
     <string name="skip_forward_length">Durată derulare înainte</string>
+    <string name="preference_enable_trickplay">Activează trickplay în playerul video</string>
+    <plurals name="items">
+        <item quantity="one">Un element</item>
+        <item quantity="few">%1$s elemente</item>
+        <item quantity="other">%1$s de elemente</item>
+    </plurals>
+    <string name="pref_report_device_profile_failure">Nu s-a reușit trimiterea documentului. Serverul tău Jellyfin ar putea interzice jurnalele clientului.</string>
+    <string name="pref_subtitles_background_opacity">Opacitate fundal subtitrări</string>
+    <string name="pref_troubleshooting">Depanare</string>
+    <string name="pref_report_device_profile_title">Raportează capabilitățile de redare la server</string>
+    <string name="pref_report_device_profile_summary">Încarcă un document de depanare pe serverul Jellyfin cu informații despre capabilitățile de redare</string>
+    <string name="pref_report_device_profile_success">Document trimis ca %1$s</string>
+    <plurals name="movies">
+        <item quantity="one">Un film</item>
+        <item quantity="few">%1$s filme</item>
+        <item quantity="other">%1$s de filme</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">Un serial</item>
+        <item quantity="few">%1$s seriale</item>
+        <item quantity="other">%1$s de seriale</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">O melodie</item>
+        <item quantity="few">%1$s melodii</item>
+        <item quantity="other">%1$s de melodii</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">Un album</item>
+        <item quantity="few">%1$s albume</item>
+        <item quantity="other">%1$s de albume</item>
+    </plurals>
 </resources>
