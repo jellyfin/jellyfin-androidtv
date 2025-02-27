@@ -788,6 +788,14 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             });
 
+            playButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    FullDetailsFragmentHelperKt.externalPlayerPopup(FullDetailsFragment.this, view, mBaseItem);
+                    return true;
+                }
+            });
+
             mDetailsOverviewRow.addAction(playButton);
 
             if (resumeButtonVisible) {
@@ -1194,6 +1202,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void play(final BaseItemDto item, final int pos, final boolean shuffle) {
+        play(item, pos, shuffle, false);
+    }
+
+    void play(final BaseItemDto item, final int pos, final boolean shuffle, final boolean forceExternalPlayer) {
         playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
@@ -1206,7 +1218,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
                 } else {
                     videoQueueManager.getValue().setCurrentVideoQueue(response);
-                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(item.getType(), pos);
+                    Destination destination = forceExternalPlayer
+                            ? KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getExternalPlayer(item.getType(), pos)
+                            : KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(item.getType(), pos);
                     navigationRepository.getValue().navigate(destination);
                 }
             }

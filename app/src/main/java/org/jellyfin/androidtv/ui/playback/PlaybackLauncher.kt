@@ -9,6 +9,7 @@ import kotlin.time.Duration.Companion.milliseconds
 interface PlaybackLauncher {
 	fun useExternalPlayer(itemType: BaseItemKind?): Boolean
 	fun getPlaybackDestination(itemType: BaseItemKind?, position: Int): Destination
+	fun getExternalPlayer(itemType: BaseItemKind?, position: Int): Destination
 }
 
 class GarbagePlaybackLauncher(
@@ -28,6 +29,9 @@ class GarbagePlaybackLauncher(
 		else -> false
 	}
 
+	override fun getExternalPlayer(itemType: BaseItemKind?, position: Int): Destination =
+		Destinations.externalPlayer(position.milliseconds)
+
 	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = when {
 		useExternalPlayer(itemType) -> Destinations.externalPlayer(position.milliseconds)
 		else -> Destinations.videoPlayer(position)
@@ -37,4 +41,5 @@ class GarbagePlaybackLauncher(
 class RewritePlaybackLauncher : PlaybackLauncher {
 	override fun useExternalPlayer(itemType: BaseItemKind?) = false
 	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = Destinations.playbackRewritePlayer(position)
+	override fun getExternalPlayer(itemType: BaseItemKind?, position: Int) = Destinations.playbackRewritePlayer(position)
 }
