@@ -293,7 +293,7 @@
     <string name="lbl_tomatoes">Tomatoes</string>
     <string name="pref_default_rating">Default rating type</string>
     <string name="pref_clock_display">Show clock</string>
-    <string name="pref_show_date">Show Date</string>
+    <string name="pref_show_date">Show date</string>
     <string name="lbl_always">Always</string>
     <string name="pref_clock_display_browsing">While browsing</string>
     <string name="pref_clock_display_playback">During playback</string>
