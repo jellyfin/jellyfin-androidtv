@@ -528,5 +528,8 @@
     <string name="past_week">Ultima săptămână</string>
     <string name="scheduled_in_next_24_hours">Programat în următoarele 24 de ore</string>
     <string name="past_24_hours">Ultimele 24 ore</string>
-    <string name="prefer_exoplayer_ffmpeg">Preferă FFmpeg pentru redarea audio</string>
+    <string name="prefer_exoplayer_ffmpeg">Folosește FFmpeg pentru redarea audio</string>
+    <string name="video_start_delay">Întârziere început video</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Folosește FFmpeg pentru decodarea audio</string>
+    <string name="default_video_zoom">Mod zoom implicit</string>
 </resources>
