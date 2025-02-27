@@ -539,4 +539,7 @@
     <string name="segment_action_skip">Sari peste</string>
     <string name="segment_type_intro">Introduceri</string>
     <string name="segment_type_commercial">Publicitate</string>
+    <string name="segment_type_preview">Previzualizări</string>
+    <string name="segment_type_recap">Rezumate</string>
+    <string name="segment_type_unknown">Segmente necunoscute</string>
 </resources>
