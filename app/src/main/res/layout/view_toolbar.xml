@@ -73,7 +73,7 @@
             android:fontFamily="sans-serif-light"
             android:format12Hour="h:mm"
             android:format24Hour="k:mm"
-            android:paddingStart="12dp"
+            android:paddingStart="24dp"
             android:textSize="20sp"
             tools:text="13:37"
             tools:ignore="RtlSymmetry" />
