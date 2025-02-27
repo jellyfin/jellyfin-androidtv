@@ -525,4 +525,8 @@
     <string name="current_queue">Coada curentă</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Se afișează doar elementele cu rating de vârstă</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Se afișează toate elementele</string>
+    <string name="past_week">Ultima săptămână</string>
+    <string name="scheduled_in_next_24_hours">Programat în următoarele 24 de ore</string>
+    <string name="past_24_hours">Ultimele 24 ore</string>
+    <string name="prefer_exoplayer_ffmpeg">Preferă FFmpeg pentru redarea audio</string>
 </resources>
