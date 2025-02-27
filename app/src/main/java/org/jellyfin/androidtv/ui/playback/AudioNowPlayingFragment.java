@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.playback.core.PlaybackManager;
+import org.jellyfin.playback.core.model.LyricsMode;
 
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class AudioNowPlayingFragment extends Fragment {
     private ImageButton mRepeatButton;
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
+    private ImageButton mLyricsButton;
     private ImageButton mArtistButton;
     private TextView mCounter;
     private ScrollView mScrollView;
@@ -172,6 +174,17 @@ public class AudioNowPlayingFragment extends Fragment {
             }
         });
         mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
+
+        mLyricsButton = binding.lyricsBtn;
+        mLyricsButton.setContentDescription(getString(R.string.lbl_lyrics));
+        mLyricsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackManager.getValue().getState().cycleLyricsMode();
+                updateButtons();
+            }
+        });
+        mLyricsButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mArtistButton = binding.artistBtn;
         mArtistButton.setContentDescription(getString(R.string.lbl_open_artist));
@@ -312,6 +325,7 @@ public class AudioNowPlayingFragment extends Fragment {
     private void updateButtons() {
         Timber.d("Updating buttons");
         boolean playing = mediaManager.getValue().isPlayingAudio();
+        LyricsMode lyricsMode = playbackManager.getValue().getState().getLyricsMode().getValue();
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -332,6 +346,21 @@ public class AudioNowPlayingFragment extends Fragment {
                 if (mBaseItem != null) {
                     mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
                     mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && !mBaseItem.getAlbumArtists().isEmpty());
+                }
+
+                switch(lyricsMode) {
+                    case OFF:
+                        mLyricsButton.setImageResource(R.drawable.ic_lyrics);
+                        mLyricsButton.setContentDescription(getString(R.string.lbl_lyrics));
+                        break;
+                    case SCROLLING:
+                        mLyricsButton.setImageResource(R.drawable.ic_closed_caption_off);
+                        mLyricsButton.setContentDescription(getString(R.string.lbl_show_captions));
+                        break;
+                    case CAPTIONS:
+                        mLyricsButton.setImageResource(R.drawable.ic_closed_caption);
+                        mLyricsButton.setContentDescription(getString(R.string.lbl_hide_captions));
+                        break;
                 }
             }
         });
