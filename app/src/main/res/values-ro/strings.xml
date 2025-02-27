@@ -518,4 +518,11 @@
     <string name="pref_screensaver_ageratingmax">Ratingul maxim de vârstă</string>
     <string name="pref_screensaver_ageratingmax_entry">Pâna la %1$d ani</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Dezactivează limita de vârstă</string>
+    <string name="all_channels">Toate canalele</string>
+    <string name="continue_listening">Continuă să asculți</string>
+    <string name="pref_screensaver_ageratingrequired_title">Solicită rating de vârstă</string>
+    <string name="app_notification_update_soon">Actualizează serverul de la %1$s la cel puțin %2$s pentru a continua să folosești aplicația după următoarea actualizare.</string>
+    <string name="current_queue">Coada curentă</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Se afișează doar elementele cu rating de vârstă</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Se afișează toate elementele</string>
 </resources>
