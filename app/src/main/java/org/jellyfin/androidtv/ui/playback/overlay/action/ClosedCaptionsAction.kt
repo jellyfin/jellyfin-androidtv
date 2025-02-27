@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesCache
+import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesHelper
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
@@ -37,6 +39,7 @@ class ClosedCaptionsAction(
 
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		removePopup()
+
 		popup = PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				var order = 0
@@ -49,6 +52,16 @@ class ClosedCaptionsAction(
 
 					add(0, sub.index, order++, sub.displayTitle).apply {
 						isChecked = sub.index == playbackController.subtitleStreamIndex
+					}
+				}
+
+				for (openSubtitle in OpenSubtitlesCache.getSubtitlesForMedia(playbackController.currentlyPlayingItem.id).orEmpty()) {
+
+					val isDownloaded = openSubtitle.id?.let { OpenSubtitlesHelper.getSubtitleDownloadedFile(context, it).exists() } == true
+					val icon = if (isDownloaded) "✅" else "⬇\uFE0F"
+					val title = "$icon ${openSubtitle.attributes?.language} - ${openSubtitle.attributes?.release} - OpenSubtitles.com"
+					add(0, openSubtitle.getIdentifier(), order++, title ).apply {
+						isChecked = openSubtitle.getIdentifier() == playbackController.subtitleStreamIndex
 					}
 				}
 
@@ -69,4 +82,6 @@ class ClosedCaptionsAction(
 	fun removePopup() {
 		popup?.dismiss()
 	}
+
+
 }

@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="OpenSubtitles.com Languages">
+
+
+    <PreferenceCategory android:title="Preferred Languages">
+
+        <org.jellyfin.androidtv.ui.preference.custom.InfoTextPreference
+            android:key="os_info_text"
+            android:selectable="false"
+            android:title=""/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Languages" android:key="languages">
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

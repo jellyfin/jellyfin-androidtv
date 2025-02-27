@@ -185,6 +185,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var subtitlesTextSize = floatPreference("subtitles_text_size", 1f)
 
+
+
+		/**
+		 * OpenSubtitles related preference values
+		 */
+		var openSubtitlesToken= stringPreference("open_subtitles_token", "")
+		var openSubtitlesCustomApiKey= stringPreference("open_subtitles_custom_api_key", "")
+		var openSubtitlesCustomUserAgent= stringPreference("open_subtitles_custom_user_agent", "")
+		var openSubtitlesPreferredLanguages= stringPreference("open_subtitles_preferred_languages", "")
+
 		/**
 		 * Show screensaver in app
 		 */

@@ -164,6 +164,32 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 		}
 
 		category {
+			setTitle(R.string.pref_opensubtitles)
+
+			if (userPreferences[UserPreferences.openSubtitlesToken].isEmpty()) {
+				link {
+					title = "Login"
+					setContent(R.string.pref_opensubtitles)
+					icon = R.drawable.ic_user
+					withFragment<OpenSubtitlesLoginScreen>()
+				}
+			} else {
+				link {
+					title = "Account Details"
+					icon = R.drawable.ic_user
+					withFragment<OpenSubtitlesLogoutScreen>()
+				}
+				link {
+					title = "Preferred Languages"
+					icon = R.drawable.ic_select_subtitle
+					content = userPreferences[UserPreferences.openSubtitlesPreferredLanguages]
+					withFragment<OpenSubtitlesLanguagesScreen>()
+				}
+			}
+
+		}
+
+		category {
 			setTitle(R.string.pref_mediasegment_actions)
 
 			for (segmentType in MediaSegmentRepository.SupportedTypes) {
@@ -196,4 +222,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			}
 		}
 	}
+
+	override val rebuildOnResume: Boolean
+		get() = true
 }
