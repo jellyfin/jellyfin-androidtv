@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 fun DreamHeader(
 	showLogo: Boolean,
 	showClock: Boolean,
+	showDate: Boolean,
 ) {
 	Row(
 		horizontalArrangement = Arrangement.SpaceBetween,
@@ -55,13 +56,29 @@ fun DreamHeader(
 
 		// Clock
 		AnimatedVisibility(
-			visible = showClock,
+			visible = showClock && !showDate,
 			enter = fadeIn(),
 			exit = fadeOut(),
 		) {
 			val time = rememberCurrentTime()
 			Text(
 				text = DateUtils.formatDateTime(LocalContext.current, time, DateUtils.FORMAT_SHOW_TIME),
+				style = TextStyle(
+					color = Color.White,
+					fontSize = 20.sp
+				),
+			)
+		}
+
+		// Date
+		AnimatedVisibility(
+			visible = showClock && showDate,
+			enter = fadeIn(),
+			exit = fadeOut(),
+		) {
+			val time = rememberCurrentTime()
+			Text(
+				text = DateUtils.formatDateTime(LocalContext.current, time, DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_ABBREV_MONTH),
 				style = TextStyle(
 					color = Color.White,
 					fontSize = 20.sp

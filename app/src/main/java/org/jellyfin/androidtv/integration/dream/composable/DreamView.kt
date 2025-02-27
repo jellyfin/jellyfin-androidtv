@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.integration.dream.model.DreamContent
 fun DreamView(
 	content: DreamContent,
 	showClock: Boolean,
+	showDate: Boolean,
 ) = Box(
 	modifier = Modifier
 		.fillMaxSize()
@@ -38,5 +39,6 @@ fun DreamView(
 	DreamHeader(
 		showLogo = content != DreamContent.Logo,
 		showClock = showClock,
+		showDate = showDate,
 	)
 }
