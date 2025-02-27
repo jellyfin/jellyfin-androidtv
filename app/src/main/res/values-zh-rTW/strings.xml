@@ -554,4 +554,12 @@
     <plurals name="tv_series">
         <item quantity="other">%1$s 部電視劇</item>
     </plurals>
+    <string name="pref_report_device_profile_failure">無法上傳檔案。你的 Jellyfin 伺服器可能不允許用戶端紀錄檔。</string>
+    <string name="pref_subtitles_background_opacity">字幕背景不透明度</string>
+    <string name="pref_troubleshooting">疑難排解</string>
+    <string name="pref_report_device_profile_title">向伺服器回報播放能力</string>
+    <string name="pref_report_device_profile_summary">上傳含有播放能力的疑難排解檔案至伺服器</string>
+    <string name="pref_report_device_profile_success">檔案已提交為 %1$s</string>
+    <string name="runtime_hours_minutes">%1$d時 %2$d分</string>
+    <string name="runtime_minutes">%1$d分鐘</string>
 </resources>
