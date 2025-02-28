@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.model.LyricsMode
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.jellyfin.lyrics
 import org.jellyfin.playback.jellyfin.lyricsFlow
@@ -30,16 +31,17 @@ fun initializeLyricsView(
 	lyricsView.setContent {
 		val entry by rememberQueueEntry(playbackManager)
 		val lyrics = entry?.run { lyricsFlow.collectAsState(lyrics) }?.value
+		val lyricsMode = entry?.run { playbackManager.state.lyricsMode.collectAsState() }?.value
 
 		// Animate cover view alpha
 		val coverViewAlpha by animateFloatAsState(
 			label = "CoverViewAlpha",
-			targetValue = if (lyrics == null) 1f else 0.2f,
+			targetValue = if (lyrics == null || lyricsMode == null || lyricsMode != LyricsMode.SCROLLING) 1f else 0.2f,
 		)
 		LaunchedEffect(coverViewAlpha) { coverView.alpha = coverViewAlpha }
 
 		// Display lyrics overlay
-		if (lyrics != null) {
+		if (lyrics != null && lyricsMode != null) {
 			val playState by remember { playbackManager.state.playState }.collectAsState()
 
 			// Using the progress animation causes the layout to recompose, which we need for synced lyrics to work
