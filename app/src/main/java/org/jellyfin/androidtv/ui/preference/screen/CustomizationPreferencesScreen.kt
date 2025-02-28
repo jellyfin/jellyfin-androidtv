@@ -37,6 +37,11 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.clockBehavior)
 			}
 
+			checkbox {
+				setTitle(R.string.pref_show_date)
+				bind(userPreferences, UserPreferences.showDate)
+			}
+
 			enum<WatchedIndicatorBehavior> {
 				setTitle(R.string.pref_watched_indicator)
 				bind(userPreferences, UserPreferences.watchedIndicatorBehavior)

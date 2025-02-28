@@ -30,6 +30,21 @@
         tools:src="@drawable/ic_user" />
 
     <TextClock
+        android:id="@+id/clock_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:format12Hour="MMM d, h:mm"
+        android:format24Hour="MMM d, k:mm"
+        android:paddingStart="24dp"
+        android:shadowColor="@color/black"
+        android:shadowRadius="4"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        tools:ignore="RtlSymmetry"
+        tools:text="13:37" />
+
+    <TextClock
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
