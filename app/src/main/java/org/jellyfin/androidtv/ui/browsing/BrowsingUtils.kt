@@ -403,7 +403,7 @@ object BrowsingUtils {
 			parentId = parent.id,
 		)
 
-		if (parent.type == BaseItemKind.USER_VIEW || parent.type == BaseItemKind.COLLECTION_FOLDER) {
+		if (parent.type == BaseItemKind.USER_VIEW) {
 			return when (parent.collectionType) {
 				CollectionType.MOVIES -> baseRequest.copy(
 					includeItemTypes = setOf(BaseItemKind.MOVIE),
