@@ -75,7 +75,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 		play(mCurrentPosition, index)
 	} else {
 		val mediaSource = currentMediaSource
-		val stream = mediaSource.mediaStreams?.first { it.type == MediaStreamType.SUBTITLE && it.index == index }
+		val stream = mediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
 		if (stream == null) {
 			Timber.w("Failed to find correct media stream")
 			return setSubtitleIndex(-1)
@@ -108,7 +108,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 						.filter { it.type == MediaStreamType.SUBTITLE }
 						.filter { it.deliveryMethod == SubtitleDeliveryMethod.EMBED || it.deliveryMethod == SubtitleDeliveryMethod.HLS }
 						.indexOf(stream)
-						.takeIf { index -> index != -1 }
+						.takeIf { it != -1 }
 
 					if (localIndex == null) {
 						Timber.w("Failed to find local subtitle index")
