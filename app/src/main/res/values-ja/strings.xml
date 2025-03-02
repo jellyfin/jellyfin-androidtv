@@ -429,7 +429,6 @@
     <string name="pref_audio_night_mode">オーディオナイトモード（実験的）</string>
     <string name="lbl_tv_channel_status">%2$d チャンネル中 %1$d チャンネル</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="byletter_letters"></string>
     <string name="enable_smart_view">スマートスクリーンを有効にする</string>
     <string name="desc_audio_night_mode">オーディオの音量を自動的に調整します</string>
     <string name="lbl_subtitle_delay">字幕の遅延</string>
