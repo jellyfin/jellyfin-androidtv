@@ -300,12 +300,6 @@ object BrowsingUtils {
 					recursive = true,
 				)
 
-				CollectionType.BOXSETS -> baseRequest.copy(
-					includeItemTypes = setOf(BaseItemKind.BOX_SET),
-					parentId = null,
-					recursive = true,
-				)
-
 				CollectionType.MUSIC -> baseRequest.copy(
 					includeItemTypes = setOf(BaseItemKind.MUSIC_ALBUM),
 					recursive = true,
