@@ -249,7 +249,7 @@
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
     <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
-    <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
+    <string name="episode_missing_message">Este episódio está em falta na tua biblioteca. Desejas saltar este episódio e passar ao seguinte?</string>
     <string name="episode_missing">Episódio em falta</string>
     <string name="mark_watched_message">A reprodução deste item não pareceu ser tão longa como a sua duração. Marcar como visto\?</string>
     <string name="mark_watched">Marcar como visto</string>
