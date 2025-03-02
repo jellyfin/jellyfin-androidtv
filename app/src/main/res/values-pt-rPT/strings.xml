@@ -579,7 +579,7 @@
     <string name="pref_subtitles_background_opacity">Opacidade do fundo da legenda</string>
     <string name="pref_troubleshooting">Resolução de problemas</string>
     <string name="pref_report_device_profile_summary">Carregar um documento de resolução de problemas para o servidor Jellyfin com informações sobre as capacidades de reprodução</string>
-    <string name="pref_report_device_profile_failure">Falha ao entregar documento. O teu servidor Jellyfin pode proibir registos de conteúdo.</string>
+    <string name="pref_report_device_profile_failure">Falha ao enviar o documento. O teu servidor Jellyfin pode estar a proibir registos de clientes.</string>
     <string name="pref_report_device_profile_title">Relatar capacidades de reprodução ao servidor</string>
     <string name="pref_report_device_profile_success">Documento entregue como %1$s</string>
 </resources>
