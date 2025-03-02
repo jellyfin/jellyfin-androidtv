@@ -447,4 +447,19 @@
     <string name="pref_screensaver_inapp_enabled_description">アプリが開いているときにJellyfinスクリーンセーバーを表示する</string>
     <string name="episode_name_special">スペシャル</string>
     <string name="continue_listening">続きから聴く</string>
+    <plurals name="movies">
+        <item quantity="other">%1$s 本の映画</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s 本のテレビシリーズ</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">%1$s 曲</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="other">%1$s 件</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="other">%1$s 枚のアルバム</item>
+    </plurals>
 </resources>
