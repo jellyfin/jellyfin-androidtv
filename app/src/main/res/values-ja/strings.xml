@@ -462,4 +462,5 @@
     <plurals name="albums">
         <item quantity="other">%1$s 枚のアルバム</item>
     </plurals>
+    <string name="lbl_on_now">放送中</string>
 </resources>
