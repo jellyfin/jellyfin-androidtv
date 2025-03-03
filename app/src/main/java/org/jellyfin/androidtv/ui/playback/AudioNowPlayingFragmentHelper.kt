@@ -8,6 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -56,6 +57,7 @@ fun initializeLyricsView(
 				fontSize = 12.sp,
 				color = Color.White,
 				modifier = Modifier
+					.alpha(if (lyricsMode == LyricsMode.SCROLLING) 1f else 0f)
 					.fillMaxSize()
 					.fadingEdges(vertical = 50.dp)
 					.padding(horizontal = 15.dp),
