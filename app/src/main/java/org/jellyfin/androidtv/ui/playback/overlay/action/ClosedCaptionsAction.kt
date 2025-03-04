@@ -1,18 +1,19 @@
 package org.jellyfin.androidtv.ui.playback.overlay.action
 
+import android.app.Activity
 import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesCache
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesHelper
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 import org.jellyfin.androidtv.ui.playback.setSubtitleIndex
 import org.jellyfin.sdk.model.api.MediaStreamType
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class ClosedCaptionsAction(
@@ -20,6 +21,9 @@ class ClosedCaptionsAction(
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private var popup: PopupMenu? = null
+
+	val onlineSubtitlesHelper by (context as Activity).inject<OnlineSubtitlesHelper>()
+
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_subtitle)
@@ -55,13 +59,13 @@ class ClosedCaptionsAction(
 					}
 				}
 
-				for (openSubtitle in OpenSubtitlesCache.getSubtitlesForMedia(playbackController.currentlyPlayingItem.id).orEmpty()) {
+				for (subtitle in onlineSubtitlesHelper.getSubtitlesForMedia(playbackController.currentlyPlayingItem.id) ) {
 
-					val isDownloaded = openSubtitle.id?.let { OpenSubtitlesHelper.getSubtitleDownloadedFile(context, it).exists() } == true
+					val isDownloaded = onlineSubtitlesHelper.getDownloadedFile(context, subtitle.localFileName).exists()
 					val icon = if (isDownloaded) "✅" else "⬇\uFE0F"
-					val title = "$icon ${openSubtitle.attributes?.language} - ${openSubtitle.attributes?.release} - OpenSubtitles.com"
-					add(0, openSubtitle.getIdentifier(), order++, title ).apply {
-						isChecked = openSubtitle.getIdentifier() == playbackController.subtitleStreamIndex
+					val title = "$icon ${subtitle.language} - ${subtitle.title}"
+					add(0, subtitle.localSubtitleId, order++, title ).apply {
+						isChecked = subtitle.localSubtitleId == playbackController.subtitleStreamIndex
 					}
 				}
 

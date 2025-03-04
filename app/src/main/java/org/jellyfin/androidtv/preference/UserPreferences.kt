@@ -196,6 +196,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var openSubtitlesPreferredLanguages= stringPreference("open_subtitles_preferred_languages", "")
 
 		/**
+		 * SubDL related preference values
+		 */
+		var subdlCustomApiKey= stringPreference("subdl_custom_api_key", "")
+		var subdlPreferredLanguages= stringPreference("subdl_preferred_languages", "")
+
+		/**
 		 * Show screensaver in app
 		 */
 		var screensaverInAppEnabled = booleanPreference("screensaver_inapp_enabled", true)

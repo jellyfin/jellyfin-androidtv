@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.opensubtitles
+package org.jellyfin.androidtv.onlinesubtitles.opensubtitles
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,6 +9,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitleIndexer
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.json.JSONObject
 import timber.log.Timber
@@ -298,17 +299,9 @@ data class OS_Subtitle(
 	val id: String? = null,
 	val type: String? = null,
 	val attributes: OS_SubtitleAttributes? = null,
-	val localId: Int = UUID.randomUUID().hashCode().absoluteValue + 10000
+	val localId: Int = OnlineSubtitleIndexer.generateUniqueId()
 
-){
-	fun getIdentifier(): Int {
-		return localId
-	}
-
-	fun localFileName() : String {
-		return "$id.srt"
-	}
-}
+)
 
 @Serializable
 data class OS_SubtitleAttributes(

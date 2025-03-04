@@ -43,7 +43,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesHelper;
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -77,12 +77,10 @@ import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ChapterInfo;
-import org.jellyfin.sdk.model.api.MediaStream;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import kotlin.Lazy;
@@ -138,7 +136,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
-    private final Lazy<OpenSubtitlesHelper> openSubtitlesHelper = inject(OpenSubtitlesHelper.class);
+    private final Lazy<OnlineSubtitlesHelper> openSubtitlesHelper = inject(OnlineSubtitlesHelper.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -209,9 +207,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return false;
         });
 
-        if(openSubtitlesHelper.getValue().isLoggedIn()){
-            openSubtitlesHelper.getValue().getSubtitles(getViewLifecycleOwner(), mItemsToPlay.get(0));
-        }
+
+        openSubtitlesHelper.getValue().downloadSubtitles(getViewLifecycleOwner(), mItemsToPlay.get(0));
+
 
         return binding.getRoot();
     }

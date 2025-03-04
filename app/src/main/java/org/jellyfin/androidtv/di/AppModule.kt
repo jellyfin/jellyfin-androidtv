@@ -24,10 +24,14 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesClient
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesClientImpl
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesHelper
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesHelperImpl
+import org.jellyfin.androidtv.onlinesubtitles.opensubtitles.OpenSubtitlesClient
+import org.jellyfin.androidtv.onlinesubtitles.opensubtitles.OpenSubtitlesClientImpl
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelperImpl
+import org.jellyfin.androidtv.onlinesubtitles.opensubtitles.OpenSubtitlesSource
+import org.jellyfin.androidtv.onlinesubtitles.subdl.SubdlClient
+import org.jellyfin.androidtv.onlinesubtitles.subdl.SubdlClientImpl
+import org.jellyfin.androidtv.onlinesubtitles.subdl.SubdlOnlineSubtitleSource
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -109,8 +113,14 @@ val appModule = module {
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
 	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
+
+	single<OnlineSubtitlesHelper> { OnlineSubtitlesHelperImpl(get(), get(), get()) }
 	single<OpenSubtitlesClient> { OpenSubtitlesClientImpl(get()) }
-	single<OpenSubtitlesHelper> { OpenSubtitlesHelperImpl(get(), get()) }
+	single { OpenSubtitlesSource(get(), get()) }
+	single<SubdlClient> { SubdlClientImpl(get()) }
+	single { SubdlOnlineSubtitleSource(get(), get()) }
+
+
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }

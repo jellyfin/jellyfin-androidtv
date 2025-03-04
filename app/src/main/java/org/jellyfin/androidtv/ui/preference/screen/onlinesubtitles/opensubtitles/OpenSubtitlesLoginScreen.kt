@@ -1,27 +1,21 @@
-package org.jellyfin.androidtv.ui.preference.screen
+package org.jellyfin.androidtv.ui.preference.screen.onlinesubtitles.opensubtitles
 
 import android.os.Bundle
-import android.text.InputType
-import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
-import androidx.preference.Preference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesClient
+import org.jellyfin.androidtv.onlinesubtitles.opensubtitles.OpenSubtitlesClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
-import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.preference.custom.ButtonWithProgressbarPreference
 import org.jellyfin.androidtv.ui.preference.custom.InfoTextPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.preference.store.PreferenceStore
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class OpenSubtitlesLoginScreen : OptionsFragment() {
 

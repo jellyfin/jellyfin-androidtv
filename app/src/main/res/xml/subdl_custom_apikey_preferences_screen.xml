@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <PreferenceCategory android:title="SUBDL API KEY">
+
+        <EditTextPreference
+            app:dialogTitle="Api Key (Optional)"
+            app:key="subdl_api_key"
+            app:title="Api Key (Optional)"
+            app:useSimpleSummaryProvider="true" />
+
+        <org.jellyfin.androidtv.ui.preference.custom.ButtonWithProgressbarPreference
+            android:key="subdl_save_button"
+            android:title="SAVE" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

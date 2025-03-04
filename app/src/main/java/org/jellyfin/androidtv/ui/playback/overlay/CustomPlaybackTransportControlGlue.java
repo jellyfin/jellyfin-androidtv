@@ -23,6 +23,8 @@ import androidx.leanback.widget.PlaybackTransportRowView;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitle;
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -48,6 +50,7 @@ import org.koin.java.KoinJavaComponent;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
@@ -371,6 +374,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         mHandler.postDelayed(mRefreshViewVisibility, 100);
     }
 
+
+
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) {
@@ -380,7 +385,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
         VideoPlayerAdapter playerAdapter = getPlayerAdapter();
 
-        if (playerAdapter.hasSubs() && primaryActionsAdapter.indexOf(closedCaptionsAction) == -1) {
+        if ( primaryActionsAdapter.indexOf(closedCaptionsAction) == -1 && hasOnlineSubtitles()) {
             primaryActionsAdapter.add(closedCaptionsAction);
         }
 
@@ -391,5 +396,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
+    }
+
+    private boolean hasOnlineSubtitles() {
+        List<OnlineSubtitle> subs =   KoinJavaComponent.<OnlineSubtitlesHelper>get(OnlineSubtitlesHelper.class).getSubtitlesForMedia(playbackController.getCurrentlyPlayingItem().getId());
+        return !subs.isEmpty();
     }
 }

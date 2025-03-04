@@ -1,12 +1,11 @@
-package org.jellyfin.androidtv.ui.preference.screen
+package org.jellyfin.androidtv.ui.preference.screen.onlinesubtitles.opensubtitles
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesClient
+import org.jellyfin.androidtv.onlinesubtitles.opensubtitles.OpenSubtitlesClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.preference.custom.ButtonWithProgressbarPreference

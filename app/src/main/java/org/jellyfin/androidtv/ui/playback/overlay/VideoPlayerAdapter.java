@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.auth.repository.UserRepository;
-import org.jellyfin.androidtv.opensubtitles.OS_Subtitle;
-import org.jellyfin.androidtv.opensubtitles.OpenSubtitlesCache;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
@@ -100,13 +98,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     public boolean hasSubs() {
-        return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0
-                || hasOpenSubtitles();
-    }
-
-    private boolean hasOpenSubtitles() {
-        List<OS_Subtitle> subs = OpenSubtitlesCache.INSTANCE.getSubtitlesForMedia(playbackController.getCurrentlyPlayingItem().getId());
-        return subs != null && !subs.isEmpty();
+        return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
     }
 
     public boolean hasMultiAudio() {

@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
+import org.jellyfin.androidtv.ui.preference.screen.onlinesubtitles.OnlineSubtitlesPreferencesScreen
 import org.jellyfin.preference.store.PreferenceStore
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
@@ -161,32 +162,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					default { (UserPreferences.subtitlesTextSize.defaultValue * 100f).roundToInt() }
 				}
 			}
-		}
 
-		category {
-			setTitle(R.string.pref_opensubtitles)
-
-			if (userPreferences[UserPreferences.openSubtitlesToken].isEmpty()) {
-				link {
-					title = "Login"
-					setContent(R.string.pref_opensubtitles)
-					icon = R.drawable.ic_user
-					withFragment<OpenSubtitlesLoginScreen>()
-				}
-			} else {
-				link {
-					title = "Account Details"
-					icon = R.drawable.ic_user
-					withFragment<OpenSubtitlesLogoutScreen>()
-				}
-				link {
-					title = "Preferred Languages"
-					icon = R.drawable.ic_select_subtitle
-					content = userPreferences[UserPreferences.openSubtitlesPreferredLanguages]
-					withFragment<OpenSubtitlesLanguagesScreen>()
-				}
+			link {
+				title = "Online Subtitles"
+				icon = R.drawable.ic_select_subtitle
+				withFragment<OnlineSubtitlesPreferencesScreen>()
 			}
-
 		}
 
 		category {
@@ -223,6 +204,4 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 		}
 	}
 
-	override val rebuildOnResume: Boolean
-		get() = true
 }
