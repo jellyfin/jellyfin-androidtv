@@ -576,4 +576,10 @@
     <string name="skip_forward_length">Dĺžka skoku dopredu</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Priehladnosť pozadia titulkov</string>
+    <string name="pref_troubleshooting">Riešenie problémov</string>
+    <string name="pref_report_device_profile_title">Nahlásenie prehrávacích schopností zariadenia na server</string>
+    <string name="pref_report_device_profile_summary">Nahrať dokument riešenia problémov na server Jellyfin s informáciami o prehrávacích schopnostiach zariadenia</string>
+    <string name="pref_report_device_profile_success">Dokument odoslaný ako %1$s</string>
+    <string name="pref_report_device_profile_failure">Nepodarilo sa odoslať dokument. Váš server Jellyfin môže mať zakázené logy klientov.</string>
 </resources>
