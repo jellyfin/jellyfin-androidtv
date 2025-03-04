@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">動画を読み込めませんでした</string>
+    <string name="video_error_unknown_error">動画の読み込みに失敗しました</string>
     <string name="loading">読み込み中…</string>
     <string name="btn_cancel">キャンセル</string>
     <string name="pref_playback">再生</string>
@@ -363,7 +363,7 @@
     <string name="image_type_poster">ポスター</string>
     <string name="lbl_ends">終わりに</string>
     <string name="pref_device_model">デバイスモデル</string>
-    <string name="state_disabled">非許容</string>
+    <string name="state_disabled">無効</string>
     <string name="pref_theme_muted_purple">紫紺</string>
     <string name="color_yellow">黄色</string>
     <string name="color_cyan">シアン</string>
@@ -429,7 +429,6 @@
     <string name="pref_audio_night_mode">オーディオナイトモード（実験的）</string>
     <string name="lbl_tv_channel_status">%2$d チャンネル中 %1$d チャンネル</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="enable_smart_view">スマートスクリーンを有効にする</string>
     <string name="desc_audio_night_mode">オーディオの音量を自動的に調整します</string>
     <string name="lbl_subtitle_delay">字幕の遅延</string>
@@ -448,4 +447,20 @@
     <string name="pref_screensaver_inapp_enabled_description">アプリが開いているときにJellyfinスクリーンセーバーを表示する</string>
     <string name="episode_name_special">スペシャル</string>
     <string name="continue_listening">続きから聴く</string>
+    <plurals name="movies">
+        <item quantity="other">%1$s 本の映画</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s 本のテレビシリーズ</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">%1$s 曲</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="other">%1$s 件</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="other">%1$s 枚のアルバム</item>
+    </plurals>
+    <string name="lbl_on_now">放送中</string>
 </resources>

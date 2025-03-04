@@ -531,4 +531,7 @@
     <string name="pref_screensaver_ageratingmax_zero">Ολες οι ηλικίες</string>
     <string name="runtime_hours_minutes">%1$dω %2$dλ</string>
     <string name="runtime_minutes">%1$dλ</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Χρησιμοποίησε FFmpeg για την αποκωδικοποίησή του ήχου, ακόμα και αν οι κωδικοποιητές δεν είναι διαθέσιμοι.</string>
+    <string name="default_video_zoom">Προεπιλεγμένη λειτουργία Ζουμ</string>
+    <string name="video_start_delay">Καθυστέρηση εκκίνησής βίντεο</string>
 </resources>
