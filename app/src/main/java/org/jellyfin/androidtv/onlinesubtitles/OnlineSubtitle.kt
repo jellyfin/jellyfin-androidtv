@@ -9,4 +9,5 @@ data class OnlineSubtitle(
 	val downloadParamStr1: String? = null,
 	val downloadParamLong1: Long?= null,
 	val downloadParamInt1: Int?= null,
+	val offset: Long = 0,
 )

@@ -55,7 +55,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 
 	val onlineSubtitlesHelper by fragment.inject<OnlineSubtitlesHelper>()
 	if(onlineSubtitlesHelper.findOnlineSubtitle(currentlyPlayingItem.id, index) != null){
-		//this is an opensubtitle
+		//this is an online subtitle
 		setOnlineSubtitleIndex(index, force)
 		return
 	}

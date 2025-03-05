@@ -15,6 +15,9 @@ import org.jellyfin.sdk.model.UUID
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import java.io.File
+import java.time.Duration
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 interface OnlineSubtitlesHelper {
@@ -22,9 +25,14 @@ interface OnlineSubtitlesHelper {
 	fun downloadSubtitles(viewLifecycleOwner: LifecycleOwner, baseItemDto: BaseItemDto)
 
 	suspend fun getSubtitleFile(context: Context, subtitle: OnlineSubtitle, showInfo: (infoText: String) -> Unit): Result<File>
+
+	/***
+	 * This method is used when adding subtitle track
+	 */
 	fun findOnlineSubtitle(id: UUID, index: Int): OnlineSubtitle?
 	fun getSubtitlesForMedia(id: UUID): List<OnlineSubtitle>
 	fun getDownloadedFile(context: Context, fileName: String): File
+	fun addOffsetToSubtitle(context: Context, id: UUID, index: Int, diff: Long): OnlineSubtitle?
 }
 
 class OnlineSubtitlesHelperImpl(
@@ -158,4 +166,78 @@ class OnlineSubtitlesHelperImpl(
 		}
 	}
 
+	override fun addOffsetToSubtitle(context: Context, id: UUID, index: Int, diff: Long): OnlineSubtitle? {
+		val currentSubtitle = findOnlineSubtitle(id, index) ?: return null
+
+		val isVariant = currentSubtitle.offset != 0L
+
+		val cleanedFileName = currentSubtitle.localFileName.replace("\\(\\+\\d+\\)\\.srt$|\\.srt$".toRegex(), "")
+
+		val newOffset = currentSubtitle.offset + diff
+		val sign = if (newOffset >= 0) "+" else ""
+		val newFileName = "$cleanedFileName($sign$newOffset).srt"
+
+
+		val newSubtitle = OnlineSubtitle(
+			title = currentSubtitle.title,
+			language = currentSubtitle.language,
+			localSubtitleId = OnlineSubtitleIndexer.generateUniqueId(),
+			localFileName = newFileName,
+			type = currentSubtitle.type,
+			downloadParamLong1 = currentSubtitle.downloadParamLong1,
+			downloadParamInt1 = currentSubtitle.downloadParamInt1,
+			downloadParamStr1 = currentSubtitle.downloadParamStr1,
+			offset = newOffset
+		)
+
+		val inputFile = getDownloadedFile(context, currentSubtitle.localFileName)
+		val outputFile = getDownloadedFile(context, newFileName)
+
+		if (!outputFile.exists()){
+			applySrtDelay(inputFile, outputFile, diff)
+		}
+
+		//update list with new subtitle
+		val list = getSubtitlesForMedia(id).toMutableList()
+		if (isVariant){
+			//find and remove variant, and maybe delete file?
+			list.removeIf { currentSubtitle.localSubtitleId == it.localSubtitleId }
+		}
+
+		list.add(newSubtitle)
+		cacheMap[id] = list
+
+
+		return newSubtitle
+	}
+
+
+
+	private fun srtTimeToMillis(timeStr: String): Long {
+		val formatter = DateTimeFormatter.ofPattern("HH:mm:ss,SSS")
+		val time = LocalTime.parse(timeStr, formatter)
+		return Duration.between(LocalTime.MIN, time).toMillis()
+	}
+
+	private fun millisToSrtTime(millis: Long): String {
+		val time = LocalTime.MIN.plus(Duration.ofMillis(millis))
+		return time.format(DateTimeFormatter.ofPattern("HH:mm:ss,SSS"))
+	}
+
+	private fun applySrtDelay(input: File, output: File, delayMs: Long) {
+		val regex = Regex("(\\d{2}:\\d{2}:\\d{2},\\d{3}) --> (\\d{2}:\\d{2}:\\d{2},\\d{3})")
+
+		output.bufferedWriter().use { writer ->
+			input.forEachLine { line ->
+				val match = regex.find(line)
+				if (match != null) {
+					val newStart = millisToSrtTime(srtTimeToMillis(match.groupValues[1]) + delayMs)
+					val newEnd = millisToSrtTime(srtTimeToMillis(match.groupValues[2]) + delayMs)
+					writer.write("$newStart --> $newEnd\n")
+				} else {
+					writer.write("$line\n")
+				}
+			}
+		}
+	}
 }

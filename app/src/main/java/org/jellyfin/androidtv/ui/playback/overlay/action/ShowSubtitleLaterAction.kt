@@ -2,32 +2,40 @@ package org.jellyfin.androidtv.ui.playback.overlay.action
 
 import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitle
 import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 import org.jellyfin.androidtv.ui.playback.setSubtitleIndex
-import org.jellyfin.sdk.model.api.MediaStreamType
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class ClosedCaptionsAction(
+class ShowSubtitleLaterAction(
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
+
+
+	val step : Long = +500
+
+
+	init {
+		initializeWithIcon(R.drawable.ic_subtitle_show_later)
+	}
+
+
 	private var popup: PopupMenu? = null
 
 	val onlineSubtitlesHelper by (context as Activity).inject<OnlineSubtitlesHelper>()
 
-
-	init {
-		initializeWithIcon(R.drawable.ic_select_subtitle)
-	}
 
 	override fun handleClickAction(
 		playbackController: PlaybackController,
@@ -42,41 +50,25 @@ class ClosedCaptionsAction(
 		}
 
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
+
 		removePopup()
+
+		val currentStreamIndex = playbackController.subtitleStreamIndex
+		val currentItemId = playbackController.currentlyPlayingItem.id
+
+		val modifiedSubtitle : OnlineSubtitle = onlineSubtitlesHelper.addOffsetToSubtitle(context, currentItemId, currentStreamIndex, step) ?: return
+		playbackController.setSubtitleIndex(modifiedSubtitle.localSubtitleId)
+
 
 		popup = PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
-				var order = 0
-				add(0, -1, order++, context.getString(R.string.lbl_none)).apply {
-					isChecked = playbackController.subtitleStreamIndex == -1
+
+				val sign = if (modifiedSubtitle.offset >= 0) "+" else ""
+				add(0, -1, 0, "⏱: " +sign + modifiedSubtitle.offset+ " ms").apply {
+					isChecked = false
 				}
 
-				for (sub in playbackController.currentMediaSource.mediaStreams.orEmpty()) {
-					if (sub.type != MediaStreamType.SUBTITLE) continue
-
-					add(0, sub.index, order++, sub.displayTitle).apply {
-						isChecked = sub.index == playbackController.subtitleStreamIndex
-					}
-				}
-
-				for (subtitle in onlineSubtitlesHelper.getSubtitlesForMedia(playbackController.currentlyPlayingItem.id) ) {
-
-					var offsetInfo = ""
-					if(subtitle.offset != 0L){
-						val sign = if (subtitle.offset >= 0) "+" else ""
-						offsetInfo = "(⏱: " +sign + subtitle.offset+ " ms) "
-					}
-
-
-					val isDownloaded = onlineSubtitlesHelper.getDownloadedFile(context, subtitle.localFileName).exists()
-					val icon = if (isDownloaded) "✅" else "⬇\uFE0F"
-					val title = "$icon ${subtitle.language} - ${offsetInfo}${subtitle.title}"
-					add(0, subtitle.localSubtitleId, order++, title ).apply {
-						isChecked = subtitle.localSubtitleId == playbackController.subtitleStreamIndex
-					}
-				}
-
-				setGroupCheckable(0, true, false)
+				setGroupCheckable(0, false, false)
 			}
 			setOnDismissListener {
 				videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
@@ -88,11 +80,17 @@ class ClosedCaptionsAction(
 			}
 		}
 		popup?.show()
+		Handler(Looper.getMainLooper()).postDelayed({
+			removePopup()
+		}, 600)
+
 	}
+
 
 	fun removePopup() {
 		popup?.dismiss()
 	}
+
 
 
 }
