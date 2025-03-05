@@ -34,4 +34,6 @@ interface MediaManager {
 	fun prevAudioItem(): Int
 	fun stopAudio(releasePlayer: Boolean)
 	fun togglePlayPause()
+	fun fastForward()
+	fun rewind()
 }
