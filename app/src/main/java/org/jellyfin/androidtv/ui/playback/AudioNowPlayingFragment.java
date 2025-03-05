@@ -112,6 +112,7 @@ public class AudioNowPlayingFragment extends Fragment {
         mScrollView = binding.mainScroller;
         mCounter = binding.counter;
         AudioNowPlayingFragmentHelperKt.initializeLyricsView(binding.poster, binding.lyrics, playbackManager.getValue());
+        AudioNowPlayingFragmentHelperKt.initializeCaptionsView(binding.captions, playbackManager.getValue());
 
         mPlayPauseButton = binding.playPauseBtn;
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));

@@ -4,7 +4,9 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +15,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Size
@@ -47,6 +50,7 @@ private fun LyricsLine(
 	text: String,
 	fontSize: TextUnit,
 	color: Color,
+	backgroundColor: Color = Color.Transparent,
 	active: Boolean = false,
 	gap: Dp = 15.dp,
 ) {
@@ -54,6 +58,12 @@ private fun LyricsLine(
 		targetValue = if (active) color else color.copy(alpha = 0.5f),
 		animationSpec = tween(),
 		label = "LyricsLineColor",
+	)
+
+	val backgroundColor by animateColorAsState(
+		targetValue = backgroundColor,
+		animationSpec = tween(),
+		label = "LyricsLineBackgroundColor",
 	)
 
 	val scale by animateFloatAsState(
@@ -70,6 +80,7 @@ private fun LyricsLine(
 		modifier = Modifier
 			.padding(bottom = gap)
 			.scale(scale)
+			.background(backgroundColor)
 	)
 }
 
@@ -212,3 +223,72 @@ fun LyricsDtoBox(
 		)
 	}
 }
+
+
+@Composable
+private fun <T> CaptionsBoxContent(
+	items: Collection<T>,
+	modifier: Modifier = Modifier,
+	onMeasured: ((measurements: LyricsBoxContentMeasurements) -> Unit)? = null,
+	itemContent: @Composable (item: T, index: Int) -> Unit,
+) = Box(
+	modifier = modifier,
+	contentAlignment = Alignment.Center
+) {
+	items.forEachIndexed { index, item ->
+		itemContent(item, index)
+	}
+}
+
+
+@Composable
+fun CaptionsBox(
+	lines: List<TimedLine>,
+	currentTimestamp: Duration = Duration.ZERO,
+	fontSize: TextUnit = LocalTextStyle.current.fontSize,
+	color: Color = LocalTextStyle.current.color,
+	backgroundColor: Color = Color.Black
+) {
+	var lineMeasurements by remember { mutableStateOf<List<Measured>>(emptyList()) }
+	val activeLine = lines.indexAtTimestamp(currentTimestamp)
+
+	CaptionsBoxContent(
+		items = lines,
+		modifier = Modifier.fillMaxSize()
+	) { line, index ->
+		LyricsLine(
+			text = line.text,
+			active = index == activeLine,
+			fontSize = fontSize,
+			color = color,
+			backgroundColor = backgroundColor,
+		)
+	}
+}
+
+@Composable
+fun CaptionsDtoBox(
+	lyricDto: LyricDto,
+	modifier: Modifier = Modifier,
+	currentTimestamp: Duration = Duration.ZERO,
+	duration: Duration = Duration.ZERO,
+	paused: Boolean = false,
+	fontSize: TextUnit = LocalTextStyle.current.fontSize,
+	color: Color = LocalTextStyle.current.color,
+	backgroundColor: Color = Color.Black
+) = Box(modifier) {
+	val lyrics = lyricDto.lyrics
+	val isTimed = lyrics.firstOrNull()?.start != null
+	if (isTimed) {
+		CaptionsBox(
+			lines = lyrics.map {
+				TimedLine(it.start?.ticks ?: Duration.ZERO, it.text)
+			},
+			currentTimestamp = currentTimestamp,
+			fontSize = fontSize,
+			color = color,
+		)
+	}
+}
+
+

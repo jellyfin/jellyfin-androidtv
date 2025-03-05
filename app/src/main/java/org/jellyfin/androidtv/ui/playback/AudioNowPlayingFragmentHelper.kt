@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.ui.AsyncImageView
+import org.jellyfin.androidtv.ui.composable.CaptionsDtoBox
 import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
@@ -63,5 +64,37 @@ fun initializeLyricsView(
 					.padding(horizontal = 15.dp),
 			)
 		}
+	}
+}
+
+
+fun initializeCaptionsView(
+	captionsView: ComposeView,
+	playbackManager: PlaybackManager
+) {
+	captionsView.setContent {
+		val entry by rememberQueueEntry(playbackManager)
+		val lyrics = entry?.run { lyricsFlow.collectAsState(lyrics) }?.value
+		val lyricsMode = entry?.run { playbackManager.state.lyricsMode.collectAsState() }?.value
+		val playState by remember { playbackManager.state.playState }.collectAsState()
+
+		// Using the progress animation causes the layout to recompose, which we need for synced lyrics to work
+		// we don't actually use the animation value here
+		rememberPlayerProgress(playbackManager)
+
+		if (lyrics != null) {
+			CaptionsDtoBox(
+				lyricDto = lyrics,
+				currentTimestamp = playbackManager.state.positionInfo.active,
+				duration = playbackManager.state.positionInfo.duration,
+				paused = playState != PlayState.PLAYING,
+				fontSize = 14.sp,
+				color = Color.White,
+				backgroundColor = Color.Black,
+				modifier = Modifier
+					.alpha(if (lyricsMode == LyricsMode.CAPTIONS) 1f else 0f),
+			)
+		}
+
 	}
 }
