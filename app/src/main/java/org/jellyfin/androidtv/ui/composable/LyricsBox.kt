@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -50,7 +51,6 @@ private fun LyricsLine(
 	text: String,
 	fontSize: TextUnit,
 	color: Color,
-	backgroundColor: Color = Color.Transparent,
 	active: Boolean = false,
 	gap: Dp = 15.dp,
 ) {
@@ -58,12 +58,6 @@ private fun LyricsLine(
 		targetValue = if (active) color else color.copy(alpha = 0.5f),
 		animationSpec = tween(),
 		label = "LyricsLineColor",
-	)
-
-	val backgroundColor by animateColorAsState(
-		targetValue = backgroundColor,
-		animationSpec = tween(),
-		label = "LyricsLineBackgroundColor",
 	)
 
 	val scale by animateFloatAsState(
@@ -80,7 +74,6 @@ private fun LyricsLine(
 		modifier = Modifier
 			.padding(bottom = gap)
 			.scale(scale)
-			.background(backgroundColor)
 	)
 }
 
@@ -226,6 +219,26 @@ fun LyricsDtoBox(
 
 
 @Composable
+private fun CaptionsLine(
+	text: String,
+	fontSize: TextUnit,
+	color: Color,
+	active: Boolean = false,
+	backgroundColor: Color = Color.Black
+) {
+	Text(
+		text = text,
+		textAlign = TextAlign.Center,
+		fontSize = fontSize,
+		color = color,
+		modifier = Modifier
+			.alpha(if (active) 1f else 0f)
+			.background(backgroundColor)
+	)
+}
+
+
+@Composable
 private fun <T> CaptionsBoxContent(
 	items: Collection<T>,
 	modifier: Modifier = Modifier,
@@ -256,7 +269,7 @@ fun CaptionsBox(
 		items = lines,
 		modifier = Modifier.fillMaxSize()
 	) { line, index ->
-		LyricsLine(
+		CaptionsLine(
 			text = line.text,
 			active = index == activeLine,
 			fontSize = fontSize,
@@ -271,8 +284,6 @@ fun CaptionsDtoBox(
 	lyricDto: LyricDto,
 	modifier: Modifier = Modifier,
 	currentTimestamp: Duration = Duration.ZERO,
-	duration: Duration = Duration.ZERO,
-	paused: Boolean = false,
 	fontSize: TextUnit = LocalTextStyle.current.fontSize,
 	color: Color = LocalTextStyle.current.color,
 	backgroundColor: Color = Color.Black
@@ -287,6 +298,7 @@ fun CaptionsDtoBox(
 			currentTimestamp = currentTimestamp,
 			fontSize = fontSize,
 			color = color,
+			backgroundColor = backgroundColor
 		)
 	}
 }

@@ -86,9 +86,7 @@ fun initializeCaptionsView(
 			CaptionsDtoBox(
 				lyricDto = lyrics,
 				currentTimestamp = playbackManager.state.positionInfo.active,
-				duration = playbackManager.state.positionInfo.duration,
-				paused = playState != PlayState.PLAYING,
-				fontSize = 14.sp,
+				fontSize = 16.sp,
 				color = Color.White,
 				backgroundColor = Color.Black,
 				modifier = Modifier
