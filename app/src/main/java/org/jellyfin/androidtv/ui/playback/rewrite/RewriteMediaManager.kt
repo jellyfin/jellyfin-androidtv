@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
+import org.jellyfin.androidtv.preference.UserSettingPreferences
+import org.jellyfin.androidtv.preference.UserSettingPreferences.Companion.skipForwardLength
+import org.jellyfin.androidtv.preference.UserSettingPreferences.Companion.skipBackLength
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -31,6 +34,9 @@ import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaType
+import org.koin.java.KoinJavaComponent.get
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @Suppress("TooManyFunctions")
 class RewriteMediaManager(
@@ -264,10 +270,29 @@ class RewriteMediaManager(
 		playbackManager.state.stop()
 	}
 
+	/**
+	* Skips back a specified duration.
+	*/
+	override fun rewind() {
+
+		val prefs = get<UserSettingPreferences>(UserSettingPreferences::class.java)
+		val amount = prefs.get<Int>(skipBackLength)
+		playbackManager.state.rewind(amount.toDuration(DurationUnit.MILLISECONDS))
+	}
+
 	override fun togglePlayPause() {
 		val playState = playbackManager.state.playState.value
 		if (playState == PlayState.PAUSED || playState == PlayState.STOPPED) playbackManager.state.unpause()
 		else if (playState == PlayState.PLAYING) playbackManager.state.pause()
+	}
+
+    /**
+     * Skips forward a specified duration.
+     */
+	override fun fastForward() {
+		val prefs = get<UserSettingPreferences>(UserSettingPreferences::class.java)
+		val amount = prefs.get<Int>(skipForwardLength)
+		playbackManager.state.fastForward(amount.toDuration(DurationUnit.MILLISECONDS))
 	}
 
 	/**
