@@ -532,4 +532,10 @@
     <string name="segment_action_ask_to_skip">Yêu cầu bỏ qua</string>
     <string name="preference_enable_trickplay">Bật ảnh xem thử trong trình phát video</string>
     <string name="skip_forward_length">Bỏ qua chiều dài phía trước</string>
+    <string name="pref_report_device_profile_success">Tài liệu được gửi là %1$s</string>
+    <string name="pref_report_device_profile_failure">Không gửi tài liệu. Máy chủ Jellyfin của bạn có thể cấm nhật ký máy khách.</string>
+    <string name="pref_report_device_profile_summary">Tải một tài liệu khắc phục sự cố lên máy chủ Jellyfin với thông tin về khả năng phát lại</string>
+    <string name="pref_report_device_profile_title">Báo cáo khả năng phát lại cho máy chủ</string>
+    <string name="pref_subtitles_background_opacity">Độ mờ nền phụ đề</string>
+    <string name="pref_troubleshooting">Khắc phục sự cố</string>
 </resources>
