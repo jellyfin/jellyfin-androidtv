@@ -577,7 +577,6 @@
     <string name="pref_report_device_profile_title">向服务器回报播放能力</string>
     <string name="pref_report_device_profile_summary">上传含有播放能力的疑难排解文件至伺服器</string>
     <string name="pref_report_device_profile_success">文件已提交为 %1$s</string>
-</resources>
 
     <string name="label_playback_info">播放信息</string>
     <string name="label_audio_info">音频信息</string>
