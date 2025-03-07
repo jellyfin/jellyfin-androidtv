@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.appendCodeBlock
+import org.jellyfin.androidtv.util.appendDetails
 import org.jellyfin.androidtv.util.appendItem
 import org.jellyfin.androidtv.util.appendSection
 import org.jellyfin.androidtv.util.appendValue
@@ -54,7 +55,7 @@ fun createDeviceProfileReport(
 	appendLine()
 
 	// Device profile send to server
-	appendSection("Generated device profile") {
+	appendDetails("Generated device profile") {
 		appendCodeBlock(
 			language = "json",
 			code = createDeviceProfile(userPreferences, disableDirectPlay = false)
@@ -64,14 +65,14 @@ fun createDeviceProfileReport(
 	}
 
 	// Device capabilities used to generate profile
-	appendSection("Device codec decoders") {
-		val isQ = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-		val isS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+	val isQ = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+	val isS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
-		val codecs = MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos
-			.filter { !it.isEncoder }
-			.sortedBy { if (isQ) it.canonicalName else it.name }
+	val codecs = MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos
+		.filter { !it.isEncoder }
+		.sortedBy { if (isQ) it.canonicalName else it.name }
 
+	appendDetails("Device codec decoders") {
 		for (codec in codecs) {
 			if (isQ) appendLine("- **${codec.canonicalName} (${codec.name})**")
 			else appendLine("- **${codec.name}**")
@@ -145,14 +146,14 @@ fun createDeviceProfileReport(
 
 			appendLine()
 		}
+	}
 
-		appendSection("Known media types", depth = 4) {
-			codecs
-				.flatMap { codec -> codec.supportedTypes.asIterable() }
-				.distinct()
-				.sorted()
-				.forEach { type -> appendLine("- $type") }
-		}
+	appendDetails("Known media types") {
+		codecs
+			.flatMap { codec -> codec.supportedTypes.asIterable() }
+			.distinct()
+			.sorted()
+			.forEach { type -> appendLine("- $type") }
 	}
 
 	appendSection("App information") {
