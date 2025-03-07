@@ -49,6 +49,7 @@
         android:inputType="textUri"
         android:nextFocusDown="@id/confirm"
         android:nextFocusForward="@id/confirm"
+        android:text="@string/app_debug_url"
         android:privateImeOptions="horizontalAlignment=right"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,3 +1,6 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
 	id("com.android.application")
 	kotlin("android")
@@ -6,8 +9,17 @@ plugins {
 	alias(libs.plugins.aboutlibraries)
 }
 
+fun releaseTime(): String {
+	val now = LocalDateTime.now()
+	val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmss")
+	return now.format(formatter)
+}
+
 android {
+	val projectVersion = "1120.18.4"
 	namespace = "org.jellyfin.androidtv"
+//		val selfAppId = namespace!!;
+	val selfAppId = "com.fengymi.jellyfin.androidtv"
 	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
@@ -15,10 +27,10 @@ android {
 		targetSdk = libs.versions.android.targetSdk.get().toInt()
 
 		// Release version
-		applicationId = namespace
-		versionName = project.getVersionName()
+		applicationId = selfAppId
+		versionName = project.getVersionName(projectVersion)
 		versionCode = getVersionCode(versionName!!)
-		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName")
+		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName-${releaseTime()}")
 	}
 
 	buildFeatures {
@@ -32,16 +44,19 @@ android {
 	}
 
 	buildTypes {
+
 		val release by getting {
 			isMinifyEnabled = false
 
 			// Set package names used in various XML files
-			resValue("string", "app_id", namespace!!)
-			resValue("string", "app_search_suggest_authority", "${namespace}.content")
-			resValue("string", "app_search_suggest_intent_data", "content://${namespace}.content/intent")
+			resValue("string", "app_id", selfAppId)
+			resValue("string", "app_search_suggest_authority", "${selfAppId}.content")
+			resValue("string", "app_search_suggest_intent_data", "content://${selfAppId}.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
+
+			resValue("string", "aliplayer_crt", "assets/cert/aliplayer.release.crt")
 
 			buildConfigField("boolean", "DEVELOPMENT", "false")
 		}
@@ -51,9 +66,9 @@ android {
 			applicationIdSuffix = ".debug"
 
 			// Set package names used in various XML files
-			resValue("string", "app_id", namespace + applicationIdSuffix)
-			resValue("string", "app_search_suggest_authority", "${namespace + applicationIdSuffix}.content")
-			resValue("string", "app_search_suggest_intent_data", "content://${namespace + applicationIdSuffix}.content/intent")
+			resValue("string", "app_id", selfAppId + applicationIdSuffix)
+			resValue("string", "app_search_suggest_authority", "${selfAppId + applicationIdSuffix}.content")
+			resValue("string", "app_search_suggest_intent_data", "content://${selfAppId + applicationIdSuffix}.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
@@ -152,6 +167,15 @@ dependencies {
 
 	// Compatibility (desugaring)
 	coreLibraryDesugaring(libs.android.desugar)
+
+	// bilibili 弹幕
+	implementation(libs.danmaku.render.engine)
+	implementation(libs.danmaku.render.engine.ndk.armv7a)
+	implementation(libs.danmaku.render.engine.ndk.x86)
+	implementation(libs.danmaku.render.engine.ndk.armv5)
+
+	// json
+	implementation(libs.alibaba.json)
 
 	// Testing
 	testImplementation(libs.kotest.runner.junit5)

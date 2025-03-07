@@ -31,6 +31,12 @@
             android:layout_height="match_parent"
             app:use_controller="false" />
 
+<!--        <androidx.media3.ui.SubtitleView-->
+<!--            android:id="@+id/exo_subtitles"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:use_controller="false" />-->
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/leanback_fragment"
             android:name="org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment"
@@ -38,6 +44,28 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:id="@+id/danmuView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:use_controller="false" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/playbackViewExtraSetting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/playback_view_extra_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
     </FrameLayout>
 
     <FrameLayout
@@ -120,4 +148,39 @@
         android:id="@+id/skip_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/bottom_tip_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <include
+            layout="@layout/playback_auto_skip"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/playback_video_info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+
+        <include layout="@layout/playback_video_info" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/danmu_setting_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/danmu_setting_layout" />
+    </FrameLayout>
 </FrameLayout>

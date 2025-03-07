@@ -31,9 +31,13 @@ import androidx.tv.material3.Text
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.customer.common.CustomerCommonUtils
+import org.jellyfin.androidtv.preference.UserPreferences.Companion.autoSkipHideTime
+import org.jellyfin.androidtv.preference.UserPreferences.Companion.chineseAudioBehaviour
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun SkipOverlayComposable(
@@ -126,10 +130,13 @@ class SkipOverlayView @JvmOverloads constructor(
 			derivedStateOf { visible }
 		}
 
+		val autoSkipHideTime = CustomerCommonUtils.getUserPreferences()[autoSkipHideTime]
 		// Auto hide
 		LaunchedEffect(skipUiEnabled, targetPosition) {
-			delay(MediaSegmentRepository.AskToSkipAutoHideDuration)
-			_targetPosition.value = null
+			if (autoSkipHideTime > 0) {
+				delay(autoSkipHideTime.seconds)
+				_targetPosition.value = null
+			}
 		}
 
 		SkipOverlayComposable(visible)

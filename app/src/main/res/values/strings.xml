@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin</string>
-    <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin Debug</string>
+    <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Fengymi Jellyfin</string>
+    <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Fengymi Jellyfin Debug</string>
+    <string name="app_debug_url" translatable="false" tools:ignore="UnusedResources" />
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="loading">Loading…</string>
     <string name="btn_cancel">Cancel</string>
@@ -251,6 +252,7 @@
     <string name="pref_theme_emerald">Classic emerald</string>
     <string name="pref_about_title">About</string>
     <string name="pref_external_player">Use external player</string>
+    <string name="pref_gsy_player">Use gsy player</string>
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
     <string name="pref_next_up_timeout_title">Next up timer duration</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -434,6 +436,7 @@
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Subtitles</string>
     <string name="pref_audio">Audio</string>
+    <string name="pref_audio_chinese">Default select chinese audio</string>
     <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
     <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
     <string name="home_section_resume_book">Continue reading</string>
@@ -519,6 +522,7 @@
     <string name="segment_action_nothing">Do nothing</string>
     <string name="segment_action_skip">Skip</string>
     <string name="segment_type_commercial">Commercials</string>
+    <string name="segment_action_hide_time">Auto hide duration</string>
     <string name="segment_type_intro">Intros</string>
     <string name="segment_type_outro">Outros</string>
     <string name="segment_type_preview">Previews</string>
@@ -572,4 +576,83 @@
         <item quantity="one">%1$s album</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+
+    <string name="double_click_back_exit_title">Press back again to exit</string>
+    <string name="btn_retry">retry</string>
+    <string name="msg_normal_error">Get error</string>
+    <string name="player_change_core_title">change player core</string>
+    <string name="playback_info_title">Playback Info</string>
+    <string name="streaming_info_title">Streaming Info</string>
+    <string name="original_info_title">Original Media Info</string>
+    <string name="time_split"> ~ </string>
+    <string name="binge_watching_opening">opening</string>
+    <string name="binge_watching_ending">ending</string>
+    <string name="auto_skip_tip">Automatically enter after playing %s, %s, press the back button to cancel …</string>
+    <string name="quick_skip">quick skip</string>
+
+    <string name="label_playback_info">Playback Info</string>
+    <string name="label_audio_info">Audio Info</string>
+    <string name="label_video_info">Video Info</string>
+    <string name="label_track_gain">Track Gain</string>
+    <string name="label_transcoding_info">Transcoding Info</string>
+    <string name="label_directStreaming_info">Direct Streaming Info</string>
+    <string name="label_remuxing_info">Remuxing Info</string>
+    <string name="label_original_media_info">Original Media Info</string>
+    <string name="label_sync_play_info">SyncPlay Info</string>
+
+    <string name="LabelVideoCodec">视频编码</string>
+    <string name="LabelVideoBitrate">视频码率</string>
+    <string name="LabelPlayerDimensions">播放器尺寸</string>
+    <string name="LabelRealPlayerDimensions">真实播放器尺寸</string>
+    <string name="LabelVideoResolution">视频分辨率</string>
+    <string name="LabelVideoAgvFrameRate">平均帧率</string>
+    <string name="LabelVideoFrameRate">帧率</string>
+    <string name="LabelTranscodingProgress">转码进度</string>
+    <string name="LabelTranscodingFramerate">转码帧率</string>
+    <string name="LabelSize">大小</string>
+    <string name="LabelPleaseRestart">改动将在手动重启客户端后生效。</string>
+    <string name="LabelPlayMethod">播放方式</string>
+    <string name="LabelFolder">文件夹</string>
+    <string name="LabelBitrate">比特率</string>
+    <string name="LabelAudioSampleRate">采样率</string>
+    <string name="LabelAudioCodec">音频编码</string>
+    <string name="LabelAudioChannels">声道</string>
+    <string name="LabelAudioBitrate">比特率</string>
+    <string name="LabelAudioBitDepth">采样位宽</string>
+
+    <string name="LabelPlayer">播放器</string>
+    <string name="LabelProtocol">协议</string>
+    <string name="LabelStreamType">串流类型</string>
+
+
+    <string name="media_info_anamorphic">Anamorphic</string>
+    <string name="media_info_aspect_ratio">Aspect ratio</string>
+    <string name="media_info_bit_depth">Bit depth</string>
+    <string name="media_info_bitrate">Bitrate</string>
+    <string name="media_info_channels">Channels</string>
+    <string name="media_info_codec">Codec</string>
+    <string name="media_info_codec_tag">Codec tag</string>
+    <string name="media_info_color_space">Color primaries</string>
+    <string name="media_info_color_transfer">Color space</string>
+    <string name="media_info_color_primaries">Color transfer</string>
+    <string name="media_info_container">Container</string>
+    <string name="media_info_default">Default</string>
+    <string name="media_info_external">External</string>
+    <string name="media_info_forced">Forced</string>
+    <string name="media_info_framerate">Framerate</string>
+    <string name="media_info_interlaced">Interlaced</string>
+    <string name="media_info_language">Language</string>
+    <string name="media_info_layout">Layout</string>
+    <string name="media_info_level">Level</string>
+    <string name="media_info_path">Path</string>
+    <string name="media_info_pixel_format">Pixel format</string>
+    <string name="media_info_profile">Profile</string>
+    <string name="media_info_ref_frames">Ref frames</string>
+    <string name="media_info_resolution">Resolution</string>
+    <string name="media_info_rotation">Rotation</string>
+    <string name="media_info_sampleRate">Sample rate</string>
+    <string name="media_info_size">Size</string>
+    <string name="media_info_timestamp">Timestamp</string>
+    <string name="media_info_title">Title</string>
+    <string name="media_info_video_range_type">Video range</string>
 </resources>

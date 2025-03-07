@@ -22,6 +22,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
 	repositories {
+		mavenLocal()
 		mavenCentral()
 		google()
 
@@ -35,6 +36,17 @@ dependencyResolutionManagement {
 			content {
 				includeVersionByRegex("org.jellyfin.sdk", ".*", "master-SNAPSHOT")
 				includeVersionByRegex("org.jellyfin.sdk", ".*", "openapi-unstable-SNAPSHOT")
+			}
+		}
+
+		maven("https://maven.aliyun.com/repository/public") {
+//			content {
+//				includeVersionByRegex("com.github.CarGuo", ".*", ".*")
+//			}
+		}
+		maven("https://jitpack.io") {
+			content {
+				includeVersionByRegex("com.github.fengymi.*", ".*", ".*")
 			}
 		}
 	}

@@ -15,7 +15,7 @@
     <item android:state_enabled="true" android:state_focused="true">
         <shape android:shape="rectangle">
             <corners android:radius="?attr/buttonRounding" />
-            <solid android:color="?attr/buttonDefaultHighlightBackground" />
+            <solid android:color="@color/theme_muted_purple_accent" />
         </shape>
     </item>
 </selector>
