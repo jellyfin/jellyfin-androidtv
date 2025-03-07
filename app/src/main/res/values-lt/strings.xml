@@ -149,7 +149,7 @@
     <string name="lbl_enable_cinema_mode">Kino teatro aplinka</string>
     <string name="lbl_new">Nauji</string>
     <string name="lbl_more_like_this">Daugiau kaip šis</string>
-    <string name="lbl_previous_episode">Buvęs epizodas</string>
+    <string name="lbl_previous_episode">Ankstesnis epizodas</string>
     <string name="lbl_shuffle_queue">Įjungti maišymą</string>
     <string name="lbl_album_name">Albumo pavadinimas</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -272,7 +272,7 @@
     <string name="pref_clock_display_playback">Atkūrimo metu</string>
     <string name="lbl_always">Visada</string>
     <string name="server_connection_failed">Nepavyko prisijungti prie serverio</string>
-    <string name="lbl_hide_unwatched_count">Paslėpti nežiūrėtų skaičių</string>
+    <string name="lbl_hide_unwatched_count">Kai peržiūrėta</string>
     <string name="lbl_starting_on_schedule_ending_after">Prasideda laiku ir baigiasi %1$s po nustatyto laiko</string>
     <string name="lbl_refresh_switching">Atnaujinimo dažnio perjungimas</string>
     <string name="pref_telemetry_category">Gedimų ataskaitos</string>
@@ -408,11 +408,11 @@
     <string name="pref_refresh_rate_scale_on_tv">Mastelis televizoriuje</string>
     <string name="login_quickconnect_step_2">2. Atidarykite vartotojo meniu ir eikite į Quick Connect puslapį</string>
     <string name="pref_telemetry_description">Siųsti gedimų ataskaitas, įtraukti žurnalus</string>
-    <string name="server_unsupported_notification">Šis serveris naudoja Jellyfin %1$s versiją, kuri nepalaikoma. Jei norite toliau naudoti programą, atnaujinkite į Jellyfin %2$s.</string>
+    <string name="server_unsupported_notification">Šis serveris naudoja Jellyfin %1$s versiją, kuri nepalaikoma. Jei norite toliau naudoti programą, atnaujinkite į Jellyfin %2$s arba naujesnę versiją.</string>
     <string name="pref_crash_reports_disabled">Gedimų ataskatos nebus siunčiamos</string>
     <string name="pref_crash_reports_enabled">Gedimų ataskaitos bus siunčiamos į paskutinį naudotą serverį</string>
     <string name="pref_crash_report_logs">Įtraukti žurnalus</string>
-    <string name="lbl_prev_item">Buvęs failas</string>
+    <string name="lbl_prev_item">Ankstesnis failas</string>
     <string name="lbl_use_series_thumbnails">Pirmenybė teikiama serijų miniatiūroms</string>
     <string name="pref_audio_compat">Downmix į stereo</string>
     <string name="lbl_end_padding">Pabaigos tarpas</string>
@@ -462,4 +462,124 @@
     <string name="lbl_subtitle_text_stroke_color">Subtitrų apvadėlio spalva</string>
     <string name="pref_external_player">Naudoti išorinį grotuvą</string>
     <string name="channels">Kanalai</string>
+    <string name="past_week">Pastąrąją savaitę</string>
+    <string name="prefer_exoplayer_ffmpeg">Teikti pirmenybę FFmpeg garso atkūrimui</string>
+    <string name="segment_type_commercial">Reklamos</string>
+    <string name="pref_subtitles_background_opacity">Subtitrų fono skaidrumas</string>
+    <string name="pref_report_device_profile_title">Pranešti serveriui apie grojimo galimybes</string>
+    <string name="pref_report_device_profile_success">Dokumentas pateiktas kaip %1$s</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s filmas</item>
+        <item quantity="few">%1$s filmai</item>
+        <item quantity="other">%1$s filmų</item>
+    </plurals>
+    <string name="pref_enable_media_management">Įjungti turinio valdymą</string>
+    <string name="eac3">DD+</string>
+    <string name="past_24_hours">Praėjusios 24 valandos</string>
+    <string name="item_deleted">%1$s ištrintas</string>
+    <string name="unreleased">Neišleista</string>
+    <string name="segment_action_ask_to_skip">Prašyti praleisti</string>
+    <string name="not_set">Nenustatyta</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="pref_screensaver_inapp_timeout">Įjungti ekrano užsklandą po</string>
+    <string name="photo_albums">Nuotraukų albumai</string>
+    <string name="dca">DTS</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minutė</item>
+        <item quantity="few">%1$s minutės</item>
+        <item quantity="other">%1$s minučių</item>
+    </plurals>
+    <string name="pref_mediasegment_actions">Turinio segmentų veiksmai</string>
+    <string name="segment_action_nothing">Nieko nedaryti</string>
+    <string name="segment_action_skip">Praleisti</string>
+    <string name="segment_type_preview">Demonstracijos</string>
+    <string name="segment_type_outro">Pabaigos</string>
+    <string name="runtime_hours_minutes">%1$dval %2$dmin</string>
+    <string name="runtime_minutes">%1$dmin</string>
+    <string name="person_birthday_and_age">Gimė %1$s (%2$d)</string>
+    <string name="ac3">DD</string>
+    <string name="random">Atsitiktinis</string>
+    <string name="scheduled_in_next_24_hours">Suplanuota sekančioms 24 valandoms</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Naudoti FFmpeg garso dekodavimui, net jei yra platformos kodeksai.</string>
+    <string name="segment_type_unknown">Nežinomi segmentai</string>
+    <string name="skip_forward_length">Praleidimo į priekį trukmė</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s epizodas</item>
+        <item quantity="few">%1$s epizodai</item>
+        <item quantity="other">%1$s epizodų</item>
+    </plurals>
+    <string name="photos">Nuotraukos</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s daina</item>
+        <item quantity="few">%1$s dainos</item>
+        <item quantity="other">%1$s dainų</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s albumas</item>
+        <item quantity="few">%1$s albumai</item>
+        <item quantity="other">%1$s albumų</item>
+    </plurals>
+    <string name="current_queue">Dabartinė eilė</string>
+    <string name="disable_ui_mode_warning">Išjungti įrenginio tipo įspėjimą</string>
+    <string name="enable_reactive_homepage">Įjungti reaguojantį pagrindinį langą</string>
+    <string name="clear_image_cache">Išvalyti nuotraukų spartinančiąją talpą</string>
+    <string name="lbl_album_artists">Albumo atlikėjai</string>
+    <string name="default_video_zoom">Numatytas priartinimo režimas</string>
+    <string name="clear_image_cache_content">Naudojama: %1$s</string>
+    <string name="app_notification_update_soon">Atnaujinkite savo serverį nuo %1$s iki bent %2$s versijos prieš naudojant programą po sekančio atnaujinimo.</string>
+    <string name="all_channels">Visi kanalai</string>
+    <string name="segment_type_intro">Įvadai</string>
+    <string name="video_start_delay">Vaizdo pradžios delsa</string>
+    <string name="segment_type_recap">Apibendrinimai</string>
+    <string name="preference_enable_trickplay">Įjungti trickplay vaizdo grotuve</string>
+    <string name="pref_troubleshooting">Diagnostika</string>
+    <string name="pref_report_device_profile_summary">Įkelti diagnostikos dokumentą į Jellyfin serverį su informacija apie atkūrimo galimybes</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s takelis</item>
+        <item quantity="few">%1$s takeliai</item>
+        <item quantity="other">%1$s takelių</item>
+    </plurals>
+    <string name="pref_report_device_profile_failure">Nepavyko pateikti dokuimento. Jellyfin serveris gali drausti naudotojų žurnalus.</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s TV laida</item>
+        <item quantity="few">%1$s TV laidos</item>
+        <item quantity="other">%1$s TV laidų</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax">Maksimalus amžiaus įvertinimas</string>
+    <string name="pref_screensaver_ageratingmax_zero">Visų metų</string>
+    <string name="pref_screensaver">Ekrano užsklanda</string>
+    <string name="pref_screensaver_inapp_enabled">Naudoti programos ekrano užsklanda</string>
+    <string name="lbl_hide_watched_checkmark">Kai likę epizodų</string>
+    <string name="item_delete_confirm_title">Ištrinti</string>
+    <string name="pref_enable_media_management_description">Rodyti nustatymą valdyti turinį naršant</string>
+    <string name="pref_screensaver_inapp_enabled_description">Rodyti Jellyfin ekrano užsklandą kai programa atidaryta</string>
+    <string name="item_delete_confirm_message">Ar įsitikinote kad norite ištrinti iš serverio? Šis veiksmas negali būti atšauktas.</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="pref_playback_advanced">Išplėstinės grojimo nuostatos</string>
+    <string name="pref_screensaver_ageratingmax_entry">Iki %1$d amžiaus</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="pref_screensaver_ageratingrequired_title">Reikalauti amžiaus įvertinimo</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Išjungti maksimumą</string>
+    <plurals name="items">
+        <item quantity="one">%1$s dalykas</item>
+        <item quantity="few">%1$s dalykai</item>
+        <item quantity="other">%1$s dalykų</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingrequired_enabled">Rodomi tik su amžiaus įvertinimu</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Rodomi visi</string>
+    <string name="item_deletion_failed">Nepavyko ištrinti %1$s</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekundė</item>
+        <item quantity="few">%1$s sekundės</item>
+        <item quantity="other">%1$s sekundžių</item>
+    </plurals>
+    <string name="app_notification_beta">Programa atnaujinta į %1$s
+\nAčiū, kad dalyvaujate Jellyfin beta programoje.</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s valanda</item>
+        <item quantity="few">%1$s valandos</item>
+        <item quantity="other">%1$s valandų</item>
+    </plurals>
 </resources>

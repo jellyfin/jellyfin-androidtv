@@ -566,4 +566,10 @@
     <string name="skip_forward_length">Előreugrás hossza</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_troubleshooting">Hibakeresés</string>
+    <string name="pref_report_device_profile_success">Dokumentum benyújtva mint %1$s</string>
+    <string name="pref_subtitles_background_opacity">Felirat háttér átlátszósága</string>
+    <string name="pref_report_device_profile_failure">A dokumentum benyújtása sikertelen. Lehetséges, hogy a Jellyfin szerver tiltja a kliensnaplókat.</string>
+    <string name="pref_report_device_profile_title">Lejátszási képességek jelentése a szervernek</string>
+    <string name="pref_report_device_profile_summary">Hibakeresési dokumentum feltöltése a Jellyfin szerverre a lejátszási képességekről</string>
 </resources>

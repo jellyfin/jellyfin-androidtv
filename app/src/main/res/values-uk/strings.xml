@@ -576,4 +576,11 @@
     <string name="segment_action_nothing">Нічого не робити</string>
     <string name="pref_mediasegment_actions">Дії з медіа сегментами</string>
     <string name="segment_action_skip">Пропустити</string>
+    <string name="default_video_zoom">Режим масштабування за замовчуванням</string>
+    <string name="segment_type_commercial">Реклама</string>
+    <string name="runtime_hours_minutes">%1$dг %2$dхв</string>
+    <string name="runtime_minutes">%1$dхв</string>
+    <string name="segment_type_preview">Прев\'ю</string>
+    <string name="segment_type_intro">Вступ</string>
+    <string name="segment_type_unknown">Невідомі сегменти</string>
 </resources>

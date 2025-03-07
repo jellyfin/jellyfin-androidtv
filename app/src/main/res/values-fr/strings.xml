@@ -42,7 +42,7 @@
     <string name="lbl_cast_crew">Distribution et équipe</string>
     <string name="lbl_chapters">Chapitres</string>
     <string name="lbl_specials">Épisodes spéciaux</string>
-    <string name="lbl_trailers">Bandes annonces</string>
+    <string name="lbl_trailers">Bandes-annonces</string>
     <string name="lbl_items">Éléments</string>
     <string name="lbl_item">Élément</string>
     <string name="lbl_seasons">Saisons</string>
@@ -59,8 +59,8 @@
     <string name="lbl_none">Aucun</string>
     <string name="msg_video_playback_error">"Erreur de lecture de la vidéo - "</string>
     <string name="lbl_bracket_unknown">Inconnu</string>
-    <string name="lbl_trailer">"Bandes annonce "</string>
-    <string name="lbl_play_trailers">Lire bandes annonces</string>
+    <string name="lbl_trailer">"Bande-annonce "</string>
+    <string name="lbl_play_trailers">Lire les bandes-annonces</string>
     <string name="lbl_no">Non</string>
     <string name="lbl_yes">Oui</string>
     <string name="lbl_enter_server_address">Saisir l\'adresse du serveur</string>

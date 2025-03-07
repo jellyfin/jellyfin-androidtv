@@ -564,4 +564,12 @@
     <string name="segment_action_ask_to_skip">Ask to skip</string>
     <string name="skip_forward_length">Skip forward length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Subtitle background opacity</string>
+    <string name="pref_troubleshooting">Troubleshooting</string>
+    <string name="pref_report_device_profile_summary">Upload a troubleshooting document to the Jellyfin server with information about playback capabilities</string>
+    <string name="pref_report_device_profile_failure">Failed to submit document. Your Jellyfin server may prohibit client logs.</string>
+    <string name="pref_report_device_profile_title">Report playback capabilities to server</string>
+    <string name="pref_report_device_profile_success">Document submitted as %1$s</string>
 </resources>

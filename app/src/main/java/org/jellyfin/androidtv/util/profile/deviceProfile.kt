@@ -1,7 +1,9 @@
 package org.jellyfin.androidtv.util.profile
 
-import android.media.MediaFormat
+import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
 import org.jellyfin.sdk.model.api.EncodingContext
@@ -39,6 +41,23 @@ private val supportedAudioCodecs = arrayOf(
 	Codec.Audio.VORBIS,
 )
 
+private fun UserPreferences.getMaxBitrate(): Int {
+	var maxBitrate = this[UserPreferences.maxBitrate].toIntOrNull()
+
+	// The value "0" was used in an older release, make sure we prevent that from being used to avoid video not playing
+	if (maxBitrate == null || maxBitrate < 1) maxBitrate = UserPreferences.maxBitrate.defaultValue.toInt()
+
+	// Convert megabit to bit
+	return maxBitrate * 1_000_000
+}
+
+fun createDeviceProfile(userPreferences: UserPreferences, disableDirectPlay: Boolean) = createDeviceProfile(
+	maxBitrate = userPreferences.getMaxBitrate(),
+	disableDirectPlay = disableDirectPlay,
+	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
+	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
+)
+
 fun createDeviceProfile(
 	maxBitrate: Int,
 	disableDirectPlay: Boolean,
@@ -62,7 +81,9 @@ fun createDeviceProfile(
 	val avcHigh10Level = mediaTest.getAVCHigh10Level()
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
-	val maxResolution = mediaTest.getMaxResolution(MediaFormat.MIMETYPE_VIDEO_AVC)
+	val maxResolutionAVC = mediaTest.getMaxResolution(MimeTypes.VIDEO_H264)
+	val maxResolutionHevc = mediaTest.getMaxResolution(MimeTypes.VIDEO_H265)
+	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
 
 	name = "AndroidTV-Default"
 
@@ -280,13 +301,37 @@ fun createDeviceProfile(
 		}
 	}
 
-	// Limit video resolution support for older devices
+	// Get max resolutions for common codecs
+	// AVC
 	codecProfile {
 		type = CodecType.VIDEO
+		codec = Codec.Video.H264
 
 		conditions {
-			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolution.width
-			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolution.height
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionAVC.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionAVC.height
+		}
+	}
+
+	// HEVC
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.HEVC
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionHevc.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionHevc.height
+		}
+	}
+
+	// AV1
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.AV1
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionAV1.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionAV1.height
 		}
 	}
 

@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.util
 
 import android.content.Context
 import android.widget.Toast
-import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinComponent
@@ -49,41 +48,11 @@ object Utils : KoinComponent {
 	@JvmStatic
 	fun isTrue(value: Boolean?): Boolean = value == true
 
-	/**
-	 * A null safe version of `String.equalsIgnoreCase`.
-	 */
-	@JvmStatic
-	fun equalsIgnoreCase(str1: String?, str2: String?): Boolean = when {
-		str1 == null && str2 == null -> true
-		str1 == null || str2 == null -> false
-		else -> str1.equals(str2, ignoreCase = true)
-	}
-
 	@JvmStatic
 	fun <T> getSafeValue(value: T?, defaultValue: T): T = value ?: defaultValue
 
 	@JvmStatic
 	fun isEmpty(value: String?): Boolean = value.isNullOrEmpty()
-
-	@JvmStatic
-	fun isNonEmpty(value: String?): Boolean = !value.isNullOrEmpty()
-
-	@JvmStatic
-	fun join(separator: String, items: Iterable<String?>): String = items.joinToString(separator = separator)
-
-	@JvmStatic
-	fun join(separator: String, vararg items: String?): String = join(separator, items.toList())
-
-	@JvmStatic
-	fun getMaxBitrate(userPreferences: UserPreferences): Int {
-		var maxRate = userPreferences[UserPreferences.maxBitrate]
-
-		// Use default when value is what was previously "auto"
-		if (maxRate == "0") maxRate = UserPreferences.maxBitrate.defaultValue
-
-		// Convert megabit to bit
-		return (maxRate.toFloat() * 1_000_000).toInt()
-	}
 
 	@JvmStatic
 	fun getThemeColor(context: Context, resourceId: Int): Int {

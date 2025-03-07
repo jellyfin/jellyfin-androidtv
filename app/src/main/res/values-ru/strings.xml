@@ -582,8 +582,14 @@
     <string name="segment_type_intro">Интро</string>
     <string name="past_24_hours">Последние 24 часа</string>
     <string name="clear_image_cache">Очистить кэш изображений</string>
-    <string name="preference_enable_trickplay">Включить trickplay при просмотре видео</string>
+    <string name="preference_enable_trickplay">Включить trickplay в плеере</string>
     <string name="skip_forward_length">Длина перемотки вперед</string>
     <string name="runtime_hours_minutes">%1$dч %2$dмин</string>
     <string name="runtime_minutes">%1$dмин</string>
+    <string name="pref_subtitles_background_opacity">Непрозрачность фона субтитров</string>
+    <string name="pref_troubleshooting">Устранение неполадок</string>
+    <string name="pref_report_device_profile_title">Отправлять поддерживаемые функции воспроизведения на сервер</string>
+    <string name="pref_report_device_profile_failure">Не удалось загрузить данные. Возможно, ваш сервер Jellyfin не принимает клиентские логи.</string>
+    <string name="pref_report_device_profile_summary">Загружать диагностические данные на сервер Jellyfin вместе с информацией о поддерживаемых функциях воспроизведения</string>
+    <string name="pref_report_device_profile_success">Данные загружены как %1$s</string>
 </resources>

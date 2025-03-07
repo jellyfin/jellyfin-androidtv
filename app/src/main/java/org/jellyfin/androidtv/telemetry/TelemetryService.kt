@@ -18,6 +18,11 @@ import org.acra.sender.ReportSenderFactory
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.TelemetryPreferences
+import org.jellyfin.androidtv.util.appendCodeBlock
+import org.jellyfin.androidtv.util.appendItem
+import org.jellyfin.androidtv.util.appendSection
+import org.jellyfin.androidtv.util.appendValue
+import org.jellyfin.androidtv.util.buildMarkdown
 import org.jellyfin.sdk.api.client.util.AuthorizationHeaderBuilder
 import java.net.HttpURLConnection
 import java.net.URL
@@ -85,31 +90,7 @@ object TelemetryService {
 			throw ReportSenderException("Unable to send crash report to server", e)
 		}
 
-		private fun StringBuilder.appendSection(name: String, content: StringBuilder.() -> Unit) {
-			appendLine("### $name")
-			appendLine()
-			content()
-			appendLine()
-		}
-
-		private fun StringBuilder.appendItem(name: String, value: StringBuilder.() -> Unit) {
-			append("***$name***: ")
-			value()
-			appendLine("  ")
-		}
-
-		private fun StringBuilder.appendCodeBlock(language: String, code: String?) {
-			appendLine()
-			appendLine("```$language")
-			appendLine(code ?: "<null>")
-			append("```")
-		}
-
-		private fun StringBuilder.appendValue(value: String?) {
-			append("`", value ?: "<null>", "`")
-		}
-
-		private fun CrashReportData.toReport(): String = buildString {
+		private fun CrashReportData.toReport(): String = buildMarkdown {
 			// Header
 			appendLine("---")
 			appendLine("client: Jellyfin for Android TV")
@@ -118,6 +99,7 @@ object TelemetryService {
 			appendLine("type: crash_report")
 			appendLine("format: markdown")
 			appendLine("---")
+			appendLine()
 
 			// Content
 			appendSection("Logs") {

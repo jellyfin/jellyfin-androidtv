@@ -566,4 +566,7 @@
     </plurals>
     <string name="runtime_hours_minutes">%1$dt %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_troubleshooting">Vianetsintä</string>
+    <string name="pref_report_device_profile_title">Ilmoita laitteen tukemat toistomuodot palvelimelle</string>
+    <string name="pref_subtitles_background_opacity">Tekstityksen taustan läpinäkyvyys</string>
 </resources>

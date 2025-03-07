@@ -586,4 +586,10 @@
     <string name="skip_forward_length">Długość pomijania do przodu</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Nieprzezroczystość tła napisów</string>
+    <string name="pref_report_device_profile_summary">Prześlij dokument dotyczący rozwiązywania problemów na serwer Jellyfin z informacjami o możliwościach odtwarzania</string>
+    <string name="pref_troubleshooting">Rozwiązywanie problemów</string>
+    <string name="pref_report_device_profile_title">Zgłoś możliwości odtwarzania do serwera</string>
+    <string name="pref_report_device_profile_success">Dokument przesłany jako %1$s</string>
+    <string name="pref_report_device_profile_failure">Nie udało się przesłać dokumentu. Twój serwer Jellyfin może blokować dzienniki klienta.</string>
 </resources>

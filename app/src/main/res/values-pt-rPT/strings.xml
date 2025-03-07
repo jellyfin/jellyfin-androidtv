@@ -5,7 +5,7 @@
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Reprodução</string>
-    <string name="pref_max_bitrate_title">Taxa máxima de transmissão</string>
+    <string name="pref_max_bitrate_title">Taxa de bits máxima de transmissão</string>
     <string name="settings_title">Definições</string>
     <string name="chapters">Capítulos</string>
     <string name="lbl_settings">Definições</string>
@@ -249,7 +249,7 @@
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
     <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
-    <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
+    <string name="episode_missing_message">Este episódio está em falta na tua biblioteca. Desejas saltar este episódio e passar ao seguinte?</string>
     <string name="episode_missing">Episódio em falta</string>
     <string name="mark_watched_message">A reprodução deste item não pareceu ser tão longa como a sua duração. Marcar como visto\?</string>
     <string name="mark_watched">Marcar como visto</string>
@@ -576,4 +576,10 @@
     <string name="skip_forward_length">Avançar reprodução (segundos)</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Opacidade do fundo da legenda</string>
+    <string name="pref_troubleshooting">Resolução de problemas</string>
+    <string name="pref_report_device_profile_summary">Carregar um documento de resolução de problemas para o servidor Jellyfin com informações sobre as capacidades de reprodução</string>
+    <string name="pref_report_device_profile_failure">Falha ao enviar o documento. O teu servidor Jellyfin pode estar a proibir registos de clientes.</string>
+    <string name="pref_report_device_profile_title">Relatar capacidades de reprodução ao servidor</string>
+    <string name="pref_report_device_profile_success">Documento entregue como %1$s</string>
 </resources>
