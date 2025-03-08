@@ -23,6 +23,8 @@ import androidx.leanback.widget.PlaybackTransportRowView;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitle;
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -40,6 +42,8 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RewindAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectQualityAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.ShowSubtitleEarlierAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.ShowSubtitleLaterAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
@@ -48,6 +52,7 @@ import org.koin.java.KoinJavaComponent;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
@@ -59,6 +64,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
+    private ShowSubtitleEarlierAction showSubtitleEarlierAction;
+    private ShowSubtitleLaterAction showSubtitleLaterAction;
     private SelectQualityAction selectQualityAction;
     private PlaybackSpeedAction playbackSpeedAction;
     private ZoomAction zoomAction;
@@ -196,6 +203,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
+        showSubtitleEarlierAction = new ShowSubtitleEarlierAction(context, this);
+        showSubtitleEarlierAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
+        showSubtitleLaterAction = new ShowSubtitleLaterAction(context, this);
+        showSubtitleLaterAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
         selectQualityAction = new SelectQualityAction(context, this, KoinJavaComponent.get(UserPreferences.class));
         selectQualityAction.setLabels(new String[]{context.getString(R.string.lbl_quality_profile)});
         playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
@@ -371,6 +382,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         mHandler.postDelayed(mRefreshViewVisibility, 100);
     }
 
+
+
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) {
@@ -380,6 +393,22 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
         VideoPlayerAdapter playerAdapter = getPlayerAdapter();
 
+        if ( primaryActionsAdapter.indexOf(closedCaptionsAction) == -1 && hasOnlineSubtitles()) {
+            primaryActionsAdapter.add(closedCaptionsAction);
+        }
+
+        for (CustomAction customAction : new CustomAction[]{showSubtitleEarlierAction, showSubtitleLaterAction}) {
+            if (primaryActionsAdapter.indexOf(customAction) == -1) {
+                if (isOnlineSubtitleActive()) {
+                    primaryActionsAdapter.add(customAction);
+                }
+            }else{
+                if(!isOnlineSubtitleActive()){
+                    primaryActionsAdapter.remove(customAction);
+                }
+            }
+        }
+
         if (playerAdapter.hasSubs() && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
             closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
@@ -387,5 +416,17 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
+    }
+
+    private boolean hasOnlineSubtitles() {
+        List<OnlineSubtitle> subs =   KoinJavaComponent.<OnlineSubtitlesHelper>get(OnlineSubtitlesHelper.class).getSubtitlesForMedia(playbackController.getCurrentlyPlayingItem().getId());
+        return !subs.isEmpty();
+    }
+
+    private boolean isOnlineSubtitleActive() {
+        int streamIndex = playbackController.getSubtitleStreamIndex();
+        if(streamIndex == -1)
+            return false;
+        return KoinJavaComponent.<OnlineSubtitlesHelper>get(OnlineSubtitlesHelper.class).findOnlineSubtitle(playbackController.getCurrentlyPlayingItem().getId(), streamIndex) != null;
     }
 }

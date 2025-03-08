@@ -1,12 +1,20 @@
 package org.jellyfin.androidtv.ui.playback
 
+import android.net.Uri
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
+import androidx.media3.common.MediaItem.SubtitleConfiguration
+import androidx.media3.common.MimeTypes
+import androidx.media3.common.Player
 import androidx.media3.common.TrackSelectionOverride
+import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.util.sdk.end
@@ -43,6 +51,14 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 
 	// Already using this subtitle index
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
+
+
+	val onlineSubtitlesHelper by fragment.inject<OnlineSubtitlesHelper>()
+	if(onlineSubtitlesHelper.findOnlineSubtitle(currentlyPlayingItem.id, index) != null){
+		//this is an online subtitle
+		setOnlineSubtitleIndex(index, force)
+		return
+	}
 
 	// Disable subtitles
 	if (index == -1) {
@@ -93,7 +109,8 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 
 			SubtitleDeliveryMethod.EXTERNAL,
 			SubtitleDeliveryMethod.EMBED,
-			SubtitleDeliveryMethod.HLS -> {
+			SubtitleDeliveryMethod.HLS,
+				-> {
 				// External subtitles need to be resolved differently
 				val group = if (stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL) {
 					mVideoManager.mExoPlayer.currentTracks.groups.firstOrNull { group ->
@@ -144,6 +161,111 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 		}
 	}
 }
+
+@OptIn(UnstableApi::class)
+private fun PlaybackController.setOnlineSubtitleIndex(index: Int, force: Boolean = false) {
+	Timber.i("Switching subtitles from index ${mCurrentOptions.subtitleStreamIndex} to $index")
+
+	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
+
+	mCurrentOptions.subtitleStreamIndex = index
+
+	val group = findOnlineSubtitleTrackGroup(index)
+
+	if(group != null){
+		searchAndSelectOnlineSubtitle(index)
+	}else{
+		addOnlineSubtitleGroupAndSelect(index)
+	}
+}
+
+private fun PlaybackController.addOnlineSubtitleGroupAndSelect(index: Int) {
+	val onlineSubtitlesHelper by fragment.inject<OnlineSubtitlesHelper>()
+
+	val subtitle = onlineSubtitlesHelper.findOnlineSubtitle(currentlyPlayingItem.id, index)
+
+	if (subtitle == null){
+		return setSubtitleIndex(-1)
+	}
+
+	fragment.lifecycleScope.launch(Dispatchers.IO) {
+		val result = onlineSubtitlesHelper.getSubtitleFile(fragment.requireContext(), subtitle) {
+			fragment.lifecycleScope.launch(Dispatchers.Main){
+				Toast.makeText(fragment.requireContext(), it, Toast.LENGTH_LONG).show()
+			}
+		}
+		result.onSuccess { file ->
+			val subtitleUri = Uri.fromFile(file)
+
+			val subtitleConfiguration = SubtitleConfiguration.Builder(subtitleUri)
+				.setId("JF_EXTERNAL_OPEN_SUBTITLE:$index")
+				.setMimeType(MimeTypes.APPLICATION_SUBRIP)
+				.setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+				.build()
+
+
+			withContext(Dispatchers.Main) {
+
+				val currentMediaItem = mVideoManager.mExoPlayer.currentMediaItem ?: return@withContext
+
+				val newMediaItem = currentMediaItem.buildUpon()
+					.setSubtitleConfigurations(listOf(subtitleConfiguration))
+					.build()
+
+				mVideoManager.mExoPlayer.setMediaItem(newMediaItem, false)
+
+				mVideoManager.mExoPlayer.addListener(object : Player.Listener {
+					override fun onTracksChanged(tracks: Tracks) {
+
+						mVideoManager.mExoPlayer.removeListener(this)
+
+						searchAndSelectOnlineSubtitle(index)
+					}
+
+				})
+
+				Timber.d("prepare called PlayerController->setOpenSubtitleIndex")
+
+				mVideoManager.mExoPlayer.prepare()
+			}
+		}.onFailure {
+			withContext(Dispatchers.Main) {
+				setSubtitleIndex(-1)
+			}
+		}
+
+
+	}
+}
+
+@OptIn(UnstableApi::class)
+private fun PlaybackController.searchAndSelectOnlineSubtitle(index: Int) {
+
+	val group = findOnlineSubtitleTrackGroup(index)
+
+	if (group == null) {
+		Timber.w("Failed to find correct subtitle group for method EXTERNAL")
+		return setSubtitleIndex(-1)
+	}
+
+	Timber.i("Enabling subtitle group $index via method EXTERNAL")
+	mCurrentOptions.subtitleStreamIndex = index
+	with(mVideoManager.mExoPlayer.trackSelector!!) {
+		parameters = parameters.buildUpon()
+			.clearOverridesOfType(C.TRACK_TYPE_TEXT)
+			.addOverride(TrackSelectionOverride(group, 0))
+			.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
+			.build()
+	}
+}
+
+private fun PlaybackController.findOnlineSubtitleTrackGroup(index: Int) =
+	mVideoManager.mExoPlayer.currentTracks.groups.firstOrNull { group ->
+		// Verify this is a group with a single format (the subtitles) that is added by us. Because ExoPlayer uses a
+		// MergingMediaSource, each external subtitle format id is prefixed with its source index (normally starting at 1,
+		// increasing for each external subttitle). So we only check the end of the id
+		group.length == 1 && group.getTrackFormat(0).id?.endsWith(":JF_EXTERNAL_OPEN_SUBTITLE:$index") == true
+	}?.mediaTrackGroup
 
 fun PlaybackController.applyMediaSegments(
 	item: BaseItemDto,

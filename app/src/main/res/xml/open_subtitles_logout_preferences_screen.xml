@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="OpenSubtitles.com Logout">
+
+
+    <PreferenceCategory android:title="OpenSubtitles.com Logout">
+
+        <org.jellyfin.androidtv.ui.preference.custom.ButtonWithProgressbarPreference
+            android:key="os_logout_button"
+            android:title="Logout" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Details">
+
+        <org.jellyfin.androidtv.ui.preference.custom.InfoTextPreference
+            android:key="os_info_text"
+            android:selectable="false"
+            android:title=""/>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
+import org.jellyfin.androidtv.onlinesubtitles.OnlineSubtitlesHelper;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -135,6 +136,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<OnlineSubtitlesHelper> openSubtitlesHelper = inject(OnlineSubtitlesHelper.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -204,6 +206,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             Timber.d("Got touch event.");
             return false;
         });
+
+
+        openSubtitlesHelper.getValue().downloadSubtitles(getViewLifecycleOwner(), mItemsToPlay.get(0));
+
 
         return binding.getRoot();
     }

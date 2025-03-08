@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <PreferenceCategory android:title="OpenSubtitles.com Login">
+
+        <EditTextPreference
+            app:dialogTitle="Enter Username (Not E-mail!)"
+            app:key="os_username"
+            app:title="Username"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dialogTitle="Enter Password"
+            app:key="os_password"
+            app:title="Password"
+            app:useSimpleSummaryProvider="true" />
+
+        <org.jellyfin.androidtv.ui.preference.custom.ButtonWithProgressbarPreference
+            android:key="os_login_button"
+            android:title="Login" />
+
+        <org.jellyfin.androidtv.ui.preference.custom.InfoTextPreference
+            android:key="os_info_text"
+            android:selectable="false"
+            android:title=""
+            app:isPreferenceVisible="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Optional Configuration (In case of OpenSubtitles.com Api Key Deprecation)">
+
+        <EditTextPreference
+            app:dialogTitle="Api Key (Optional)"
+            app:key="os_api_key"
+            app:title="Api Key (Optional)"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dialogTitle="User Agent (Optional)"
+            app:key="os_user_agent"
+            app:title="User Agent (Optional)"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
