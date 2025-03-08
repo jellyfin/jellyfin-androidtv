@@ -565,7 +565,7 @@
     <string name="segment_action_ask_to_skip">Demander de sauter</string>
     <string name="pref_mediasegment_actions">Actions du segment des médias</string>
     <string name="segment_action_nothing">Ne rien faire</string>
-    <string name="segment_action_skip">Sauter</string>
+    <string name="segment_action_skip">Passer</string>
     <string name="segment_type_commercial">Publicités</string>
     <string name="segment_type_outro">Génériques de fin</string>
     <string name="segment_type_intro">Génériques de début</string>
