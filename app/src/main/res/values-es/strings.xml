@@ -444,7 +444,7 @@
     <string name="desc_audio_night_mode">Nivela el volumen de audio automáticamente</string>
     <string name="pref_audio_night_mode">Modo nocturno de audio (experimental)</string>
     <string name="app_notification_beta">Aplicación actualizada a %1$s
-\nGracias por participar en el programa beta de Jellyfin</string>
+\nGracias por participar en el programa beta de Jellyfin.</string>
     <string name="color_white">Blanco</string>
     <string name="color_black">Negro</string>
     <string name="color_darkgrey">Gris oscuro</string>
