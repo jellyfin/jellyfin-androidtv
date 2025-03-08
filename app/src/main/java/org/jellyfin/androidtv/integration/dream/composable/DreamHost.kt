@@ -20,6 +20,10 @@ fun DreamHost() {
 		showClock = when (userPreferences[UserPreferences.clockBehavior]) {
 			ClockBehavior.ALWAYS, ClockBehavior.IN_MENUS -> true
 			else -> false
+		},
+		showDate = userPreferences[UserPreferences.showDate] && when (userPreferences[UserPreferences.clockBehavior]) {
+			ClockBehavior.ALWAYS, ClockBehavior.IN_MENUS -> true
+			else -> false
 		}
 	)
 }
