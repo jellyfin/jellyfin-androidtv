@@ -538,4 +538,12 @@
     <string name="pref_report_device_profile_title">Báo cáo khả năng phát lại cho máy chủ</string>
     <string name="pref_subtitles_background_opacity">Độ mờ nền phụ đề</string>
     <string name="pref_troubleshooting">Khắc phục sự cố</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
 </resources>
