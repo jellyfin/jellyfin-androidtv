@@ -240,7 +240,7 @@
     <string name="subtitle_error">Impossible de choisir le sous-titre</string>
     <string name="too_many_errors">Trop d\'erreurs. Abandon</string>
     <string name="episode_missing_message_2">Cet épisode manque dans votre bibliothèque. La lecture sera arrêtée.</string>
-    <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le sauter et continuer avec le suivant \?</string>
+    <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le passer et continuer avec le suivant ?</string>
     <string name="episode_missing">Épisode manquant</string>
     <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
     <string name="no_player">Aucun lecteur</string>
@@ -562,7 +562,7 @@
     <string name="prefer_exoplayer_ffmpeg">Préférer FFmpeg pour la lecture audio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Utilisez FFmpeg pour décoder l\'audio, même si des codecs de plate-forme sont disponibles.</string>
     <string name="default_video_zoom">Mode zoom par défaut</string>
-    <string name="segment_action_ask_to_skip">Demander de sauter</string>
+    <string name="segment_action_ask_to_skip">Demander de passer</string>
     <string name="pref_mediasegment_actions">Actions du segment des médias</string>
     <string name="segment_action_nothing">Ne rien faire</string>
     <string name="segment_action_skip">Passer</string>
