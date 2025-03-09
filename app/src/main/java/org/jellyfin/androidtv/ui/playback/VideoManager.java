@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import android.app.Activity;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.media.audiofx.DynamicsProcessing;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
+import androidx.fragment.app.FragmentActivity;
 import androidx.media3.common.C;
 import androidx.media3.common.Format;
 import androidx.media3.common.MediaItem;
@@ -55,12 +57,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
 public class VideoManager {
     private ZoomMode mZoomMode;
-    private Activity mActivity;
+    private FragmentActivity mActivity;
     private Equalizer mEqualizer;
     private DynamicsProcessing mDynamicsProcessing;
     private Limiter mLimiter;
@@ -79,7 +82,7 @@ public class VideoManager {
     private final UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
     private final HttpDataSource.Factory exoPlayerHttpDataSourceFactory = KoinJavaComponent.get(HttpDataSource.Factory.class);
 
-    public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
+    public VideoManager(@NonNull FragmentActivity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
         _helper = helper;
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
@@ -276,6 +279,11 @@ public class VideoManager {
         mExoPlayer.setPlayWhenReady(true);
         normalWidth = mExoPlayerView.getLayoutParams().width;
         normalHeight = mExoPlayerView.getLayoutParams().height;
+    }
+
+    @NonNull
+    public FragmentActivity getActivity() {
+        return mActivity;
     }
 
     public void play() {

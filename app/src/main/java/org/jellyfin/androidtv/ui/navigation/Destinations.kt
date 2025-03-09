@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.navigation
 
 import androidx.core.os.bundleOf
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment
@@ -26,6 +25,7 @@ import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
+import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
 import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackRewriteFragment
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
@@ -169,6 +169,10 @@ object Destinations {
 	)
 
 	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(
+		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
+	)
+
+	fun stillWatching(item: UUID) = fragmentDestination<StillWatchingFragment>(
 		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
 	)
 }
