@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentPictureViewerBinding
 import org.jellyfin.androidtv.ui.AsyncImageView
-import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.util.createKeyHandler
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -44,7 +44,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		private val AUTO_HIDE_ACTIONS_DURATION = 4.seconds
 	}
 
-	private val screensaverViewModel by activityViewModel<ScreensaverViewModel>()
+	private val interactionTrackerViewModel by activityViewModel<InteractionTrackerViewModel>()
 	private val pictureViewerViewModel by viewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
 	private var _binding: FragmentPictureViewerBinding? = null
@@ -76,7 +76,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 			Timber.i("presentationActive=$active")
 			lock?.invoke()
 
-			if (active) lock = screensaverViewModel.addLifecycleLock(lifecycle)
+			if (active) lock = interactionTrackerViewModel.addLifecycleLock(lifecycle)
 		}.launchIn(lifecycleScope)
 	}
 
