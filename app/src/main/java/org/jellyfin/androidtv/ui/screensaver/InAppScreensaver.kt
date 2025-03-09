@@ -16,13 +16,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.jellyfin.androidtv.integration.dream.composable.DreamHost
-import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InAppScreensaver() {
-	val screensaverViewModel = koinViewModel<ScreensaverViewModel>()
-	val visible by screensaverViewModel.visible.collectAsState()
+	val interactionTrackerViewModel = koinViewModel<InteractionTrackerViewModel>()
+	val visible by interactionTrackerViewModel.visible.collectAsState()
 
 	AnimatedVisibility(
 		visible = visible,
@@ -37,7 +37,7 @@ fun InAppScreensaver() {
 					interactionSource = remember { MutableInteractionSource() },
 					indication = null,
 				) {
-					screensaverViewModel.notifyInteraction(true)
+					interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = false)
 				}
 		) {
 			DreamHost()
