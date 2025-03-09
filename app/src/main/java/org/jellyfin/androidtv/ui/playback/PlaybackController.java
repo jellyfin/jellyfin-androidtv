@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.jellyfin.androidtv.util.TimeUtils.MILLIS_PER_MIN;
+import static org.jellyfin.androidtv.util.TimeUtils.MILLIS_PER_SEC;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.annotation.TargetApi;
@@ -8,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
+import android.os.CountDownTimer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +26,8 @@ import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -56,6 +61,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
+    // Minutes without activity to trigger still watching fragment
+    private static final double MINUTES_WITHOUT_ACTIVITY = 0.1;
 
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -63,6 +70,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
+    private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -83,6 +92,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private Runnable mReportLoop;
     private Handler mHandler;
+
+    private CountDownTimer countdownTimer;
 
     private long mStartPosition = 0;
 
@@ -380,6 +391,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mCurrentPosition = newPos != -1 ? newPos : mCurrentPosition;
     }
 
+    public void cancelTimer() {
+        countdownTimer.cancel();
+    }
+
     public void play(long position) {
         play(position, null);
     }
@@ -475,6 +490,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 if (isLiveTv) mSeekPosition = -1;
 
                 VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item);
+
+                if (playbackControllerContainer.getValue().getEpisodesPlayedWithoutInterruption() >= 2) {
+                    countdownTimer = new CountDownTimer((long) (MINUTES_WITHOUT_ACTIVITY * MILLIS_PER_MIN), MILLIS_PER_SEC) {
+                        public void onTick(long millisUntilFinished) {}
+
+                        public void onFinish() {
+                            pause();
+                            navigationRepository.getValue().navigate(Destinations.INSTANCE.getStillWatching(), false);
+                        }
+                    }.start();
+                }
 
                 playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;

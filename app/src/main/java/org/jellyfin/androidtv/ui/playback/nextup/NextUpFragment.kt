@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,6 +36,7 @@ class NextUpFragment : Fragment() {
 	private val backgroundService: BackgroundService by inject()
 	private val userPreferences: UserPreferences by inject()
 	private val navigationRepository: NavigationRepository by inject()
+	private val playbackControllerContainer: PlaybackControllerContainer by inject()
 	private var timerStarted = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +50,13 @@ class NextUpFragment : Fragment() {
 			.onEach { state ->
 				when (state) {
 					// Open next item
-					NextUpState.PLAY_NEXT -> navigationRepository.navigate(Destinations.videoPlayer(0), true)
+					NextUpState.PLAY_NEXT -> {
+						if (!playbackControllerContainer.getEpisodeWasInterrupted()) playbackControllerContainer.incrementEpisodesPlayedWithoutInterruption()
+
+						playbackControllerContainer.setEpisodeWasInterrupted(false)
+
+						navigationRepository.navigate(Destinations.videoPlayer(0), true)
+					}
 					// Close activity
 					NextUpState.CLOSE -> navigationRepository.goBack()
 					// Unknown state
