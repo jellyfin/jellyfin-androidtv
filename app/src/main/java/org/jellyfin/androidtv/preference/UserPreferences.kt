@@ -151,6 +151,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var clockBehavior = enumPreference("pref_clock_behavior", ClockBehavior.ALWAYS)
 
 		/**
+		 * When to show date
+		 */
+		var showDate = booleanPreference("pref_show_date", false)
+
+		/**
 		 * Set which ratings provider should show on MyImageCardViews
 		 */
 		var defaultRatingType = enumPreference("pref_rating_type", RatingType.RATING_TOMATOES)
