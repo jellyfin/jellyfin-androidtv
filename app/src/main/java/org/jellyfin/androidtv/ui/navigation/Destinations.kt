@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.navigation
 
 import androidx.core.os.bundleOf
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment
@@ -27,6 +26,7 @@ import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
 import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackRewriteFragment
+import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
@@ -147,6 +147,7 @@ object Destinations {
 
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
+	val stillWatching = fragmentDestination<StillWatchingFragment>()
 
 	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: ItemSortBy?, albumSortOrder: SortOrder?) =
 		fragmentDestination<PictureViewerFragment>(
