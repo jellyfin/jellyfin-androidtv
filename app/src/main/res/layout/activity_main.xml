@@ -19,6 +19,11 @@
         android:layout_height="match_parent" />
 
     <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/screensaver"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
