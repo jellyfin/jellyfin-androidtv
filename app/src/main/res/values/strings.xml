@@ -550,6 +550,8 @@
     <string name="speech_error_unavailable">Speech recognition is unavailable on your device.</string>
     <string name="speech_error_unknown">An unexpected error occurred during speech recognition.</string>
     <string name="still_watching_label">Are you still watching?</string>
+    <string name="settings">Settings</string>
+    <string name="settings_description">Change the app to your own liking</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

@@ -39,10 +39,12 @@ import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.sdk.api.client.ApiClient
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinActivityViewModel
 
 enum class MainToolbarActiveButton {
 	User,
@@ -78,6 +80,7 @@ private fun MainToolbar(
 	val navigationRepository = koinInject<NavigationRepository>()
 	val mediaManager = koinInject<MediaManager>()
 	val sessionRepository = koinInject<SessionRepository>()
+	val settingsViewModel = koinActivityViewModel<SettingsViewModel>()
 	val activity = LocalActivity.current
 	val activeButtonColors = ButtonDefaults.colors(
 		containerColor = JellyfinTheme.colorScheme.buttonActive,
@@ -163,9 +166,7 @@ private fun MainToolbar(
 		end = {
 			ToolbarButtons {
 				IconButton(
-					onClick = {
-						activity?.startActivity(ActivityDestinations.userPreferences(activity))
-					},
+					onClick = { settingsViewModel.show() },
 				) {
 					Icon(
 						imageVector = ImageVector.vectorResource(R.drawable.ic_settings),
