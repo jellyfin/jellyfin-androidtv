@@ -177,5 +177,9 @@ fun CustomPlaybackOverlayFragment.recordProgram(program: BaseItemDto, isSeries: 
 }
 
 fun CustomPlaybackOverlayFragment.askToSkip(position: Duration) {
+	val mediaSegmentRepository by inject<org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository>()
 	binding.skipOverlay.targetPosition = position
+	
+	// Set the auto-hide duration from user preferences
+	binding.skipOverlay.autoHideDuration = mediaSegmentRepository.getAskToSkipAutoHideDuration()
 }

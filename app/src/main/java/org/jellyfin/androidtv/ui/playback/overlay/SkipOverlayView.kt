@@ -76,6 +76,7 @@ class SkipOverlayView @JvmOverloads constructor(
 	private val _currentPosition = MutableStateFlow(Duration.ZERO)
 	private val _targetPosition = MutableStateFlow<Duration?>(null)
 	private val _skipUiEnabled = MutableStateFlow(true)
+	private val _autoHideDuration = MutableStateFlow(MediaSegmentRepository.AskToSkipAutoHideDuration)
 
 	var currentPosition: Duration
 		get() = _currentPosition.value
@@ -106,6 +107,12 @@ class SkipOverlayView @JvmOverloads constructor(
 		set(value) {
 			_skipUiEnabled.value = value
 		}
+		
+	var autoHideDuration: Duration
+		get() = _autoHideDuration.value
+		set(value) {
+			_autoHideDuration.value = value
+		}
 
 	val visible: Boolean
 		get() {
@@ -121,6 +128,7 @@ class SkipOverlayView @JvmOverloads constructor(
 		val skipUiEnabled by _skipUiEnabled.collectAsState()
 		val currentPosition by _currentPosition.collectAsState()
 		val targetPosition by _targetPosition.collectAsState()
+		val autoHideDuration by _autoHideDuration.collectAsState()
 
 		val visible by remember(skipUiEnabled, currentPosition, targetPosition) {
 			derivedStateOf { visible }
@@ -128,8 +136,10 @@ class SkipOverlayView @JvmOverloads constructor(
 
 		// Auto hide
 		LaunchedEffect(skipUiEnabled, targetPosition) {
-			delay(MediaSegmentRepository.AskToSkipAutoHideDuration)
-			_targetPosition.value = null
+			if (targetPosition != null) {
+				delay(autoHideDuration)
+				_targetPosition.value = null
+			}
 		}
 
 		SkipOverlayComposable(visible)

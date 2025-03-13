@@ -230,6 +230,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable TrickPlay in legacy player user interface while seeking.
 		 */
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
+
+		/**
+		 * Duration to show the Skip Intro/Outro button on screen (in seconds)
+		 */
+		var askToSkipTimerDuration = intPreference("ask_to_skip_timer_duration", 8)
 	}
 
 	init {

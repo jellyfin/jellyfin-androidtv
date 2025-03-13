@@ -243,6 +243,19 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					}
 				}
 			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.pref_ask_to_skip_timer_title)
+				setContent(R.string.pref_ask_to_skip_timer_summary)
+				min = 3
+				max = 20
+				increment = 1
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int): String = "${value}s"
+				}
+				bind(userPreferences, UserPreferences.askToSkipTimerDuration)
+			}
 		}
 
 		category {
