@@ -34,6 +34,7 @@ interface MediaSegmentRepository {
 
 		/**
 		 * The duration to wait before automatically hiding the "ask to skip" UI.
+		 * This is now a placeholder that gets replaced with the user preference value.
 		 */
 		val AskToSkipAutoHideDuration = 8.seconds
 	}
@@ -43,6 +44,11 @@ interface MediaSegmentRepository {
 
 	suspend fun getSegmentsForItem(item: BaseItemDto): List<MediaSegmentDto>
 	fun getMediaSegmentAction(segment: MediaSegmentDto): MediaSegmentAction
+	
+	/**
+	 * Get the user-configured duration to show the "ask to skip" UI.
+	 */
+	fun getAskToSkipAutoHideDuration(): kotlin.time.Duration
 }
 
 fun Map<MediaSegmentType, MediaSegmentAction>.toMediaSegmentActionsString() =
@@ -107,4 +113,8 @@ class MediaSegmentRepositoryImpl(
 			includeSegmentTypes = MediaSegmentRepository.SupportedTypes,
 		).content.items
 	}.getOrDefault(emptyList())
+	
+	override fun getAskToSkipAutoHideDuration(): kotlin.time.Duration {
+		return userPreferences[UserPreferences.askToSkipTimerDuration].seconds
+	}
 }
