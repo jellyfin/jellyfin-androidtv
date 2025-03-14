@@ -20,4 +20,6 @@ interface PlaybackHelper {
 		retrieveAndPlay(id, shuffle, null, context)
 
 	fun playInstantMix(context: Context, item: BaseItemDto)
+
+	fun getLastPlayedItem(context: Context, mainItem: BaseItemDto, callback: Response<BaseItemDto?>)
 }
