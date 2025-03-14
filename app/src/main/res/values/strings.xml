@@ -94,6 +94,7 @@
     <string name="msg_cannot_play">This item cannot be played</string>
     <string name="lbl_no_items">No items</string>
     <string name="lbl_empty">Empty</string>
+    <string name="lbl_empty_screen">Empty Screen</string>
     <string name="lbl_tv_queuing">Play next episode automatically</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="lbl_play_first_unwatched">Play first unwatched</string>
@@ -476,6 +477,7 @@
     <string name="pref_screensaver_inapp_enabled">Use in-app screensaver</string>
     <string name="pref_screensaver_inapp_enabled_description">Show the Jellyfin screensaver while the app is open</string>
     <string name="pref_screensaver_inapp_timeout">Start screensaver after</string>
+    <string name="pref_screensaver_inapp_type">Screensaver type</string>
     <string name="enable_reactive_homepage">Enable reactive homepage</string>
     <string name="not_set">Not set</string>
     <string name="lbl_album_artists">Album artists</string>
@@ -497,6 +499,9 @@
     <string name="random">Random</string>
     <string name="unreleased">Not yet released</string>
     <string name="pref_playback_advanced">Advanced playback preferences</string>
+    <string name="pref_screensaver_showlogo">Show Logo in Screensaver</string>
+    <string name="pref_screensaver_showlogo_enabled">Show Logo in Screensaver</string>
+    <string name="pref_screensaver_showlogo_disabled">Do not show Logo in Screensaver</string>
     <string name="pref_screensaver_ageratingmax">Maximum age rating</string>
     <string name="pref_screensaver_ageratingmax_zero">All ages</string>
     <string name="pref_screensaver_ageratingmax_entry">Up to age %1$d</string>

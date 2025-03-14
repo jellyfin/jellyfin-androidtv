@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.ScreenSaverType
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -20,6 +21,11 @@ fun DreamHost() {
 		showClock = when (userPreferences[UserPreferences.clockBehavior]) {
 			ClockBehavior.ALWAYS, ClockBehavior.IN_MENUS -> true
 			else -> false
-		}
+		},
+		showLogoSetting = userPreferences[UserPreferences.screensaverShowLogo],
+		showBlank = when (userPreferences[UserPreferences.screensaverType]) {
+			ScreenSaverType.EMPTY_SCREEN -> true
+			else -> false
+		},
 	)
 }
