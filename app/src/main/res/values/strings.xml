@@ -532,6 +532,9 @@
     <string name="pref_report_device_profile_summary">Upload a troubleshooting document to the Jellyfin server with information about playback capabilities</string>
     <string name="pref_report_device_profile_success">Document submitted as %1$s</string>
     <string name="pref_report_device_profile_failure">Failed to submit document. Your Jellyfin server may prohibit client logs.</string>
+    <string name="lbl_lyrics">Show lyrics</string>
+    <string name="lbl_show_captions">Show captions</string>
+    <string name="lbl_hide_captions">Hide captions</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

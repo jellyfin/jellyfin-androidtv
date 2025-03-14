@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
+import org.jellyfin.playback.core.model.LyricsMode
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.PositionInfo
@@ -21,6 +22,7 @@ interface PlayerState {
 	val videoSize: StateFlow<VideoSize>
 	val playbackOrder: StateFlow<PlaybackOrder>
 	val repeatMode: StateFlow<RepeatMode>
+	val lyricsMode: StateFlow<LyricsMode>
 
 	/**
 	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
@@ -43,6 +45,10 @@ interface PlayerState {
 	fun seek(to: Duration)
 	fun fastForward(amount: Duration? = null)
 	fun rewind(amount: Duration? = null)
+
+	// Lyrics management
+	fun cycleLyricsMode()
+
 
 	// Playback properties
 
@@ -74,6 +80,9 @@ class MutablePlayerState(
 
 	private val _repeatMode = MutableStateFlow(RepeatMode.NONE)
 	override val repeatMode: StateFlow<RepeatMode> get() = _repeatMode.asStateFlow()
+
+	private val _lyricsMode = MutableStateFlow(LyricsMode.OFF)
+	override val lyricsMode: StateFlow<LyricsMode> get() = _lyricsMode.asStateFlow()
 
 	override val positionInfo: PositionInfo
 		get() = backendService.backend?.getPositionInfo() ?: PositionInfo.EMPTY
@@ -133,6 +142,14 @@ class MutablePlayerState(
 
 	override fun rewind(amount: Duration?) {
 		seekRelative(-(amount ?: options.defaultRewindAmount()))
+	}
+
+	override fun cycleLyricsMode() {
+		_lyricsMode.value = when (_lyricsMode.value) {
+			LyricsMode.OFF -> LyricsMode.SCROLLING
+			LyricsMode.SCROLLING -> LyricsMode.CAPTIONS
+			LyricsMode.CAPTIONS -> LyricsMode.OFF
+		}
 	}
 
 	override fun setSpeed(speed: Float) {

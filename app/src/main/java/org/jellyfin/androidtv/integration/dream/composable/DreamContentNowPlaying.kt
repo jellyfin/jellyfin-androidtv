@@ -29,12 +29,14 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.composable.AsyncImage
+import org.jellyfin.androidtv.ui.composable.CaptionsDtoBox
 import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.blurHashPainter
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.model.LyricsMode
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.jellyfin.lyrics
 import org.jellyfin.playback.jellyfin.lyricsFlow
@@ -81,18 +83,37 @@ fun DreamContentNowPlaying(
 	// Lyrics overlay (on top of background)
 	if (lyrics != null) {
 		val playState by playbackManager.state.playState.collectAsState()
-		LyricsDtoBox(
-			lyricDto = lyrics,
-			currentTimestamp = playbackManager.state.positionInfo.active,
-			duration = playbackManager.state.positionInfo.duration,
-			paused = playState != PlayState.PLAYING,
-			fontSize = 22.sp,
-			color = Color.White,
-			modifier = Modifier
-				.fillMaxSize()
-				.fadingEdges(vertical = 250.dp)
-				.padding(horizontal = 50.dp),
-		)
+		val lyricsMode by playbackManager.state.lyricsMode.collectAsState()
+
+		when (lyricsMode) {
+			LyricsMode.SCROLLING ->
+				LyricsDtoBox(
+					lyricDto = lyrics,
+					currentTimestamp = playbackManager.state.positionInfo.active,
+					duration = playbackManager.state.positionInfo.duration,
+					paused = playState != PlayState.PLAYING,
+					fontSize = 22.sp,
+					color = Color.White,
+					modifier = Modifier
+						.fillMaxSize()
+						.fadingEdges(vertical = 250.dp)
+						.padding(horizontal = 50.dp),
+				)
+
+			LyricsMode.CAPTIONS ->
+				CaptionsDtoBox(
+					lyricDto = lyrics,
+					currentTimestamp = playbackManager.state.positionInfo.active,
+					fontSize = 22.sp,
+					color = Color.White,
+					modifier = Modifier
+						.fillMaxSize()
+						.fadingEdges(vertical = 250.dp)
+						.padding(horizontal = 50.dp),
+				)
+
+			LyricsMode.OFF -> {}
+		}
 	}
 
 	// Metadata overlay (includes title / progress)
