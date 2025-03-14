@@ -26,6 +26,8 @@ import androidx.media3.common.TrackGroup;
 import androidx.media3.common.TrackSelectionOverride;
 import androidx.media3.common.TrackSelectionParameters;
 import androidx.media3.common.Tracks;
+import androidx.media3.common.text.Cue;
+import androidx.media3.common.text.CueGroup;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
@@ -111,6 +113,23 @@ public class VideoManager {
                 Timber.e("***** Got error from player");
                 if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
+            }
+
+            @Override
+            public void onCues(@NonNull CueGroup cueGroup) {
+                List<Cue> modifiedCues = new ArrayList<>();
+                final String LTRM = "\u200E";
+                for (Cue cue : cueGroup.cues) {
+                    CharSequence modifiedText =  LTRM + cueGroup.cues.get(0).text;
+                    Cue modifiedCue = new Cue.Builder()
+                            .setText(modifiedText)
+                            .setPosition(cue.position)
+                            .setLine(cue.line, cue.lineType)
+                            .build();
+                    modifiedCues.add(modifiedCue);
+                }
+                CueGroup cg = new CueGroup(modifiedCues, cueGroup.presentationTimeUs);
+                mExoPlayerView.getSubtitleView().setCues(cg.cues);
             }
 
             @Override
