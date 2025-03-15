@@ -11,12 +11,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.media3.common.C;
 import androidx.media3.common.Format;
+import androidx.media3.common.text.Cue;
+import androidx.media3.common.text.CueGroup;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.PlaybackParameters;
@@ -69,6 +72,8 @@ public class VideoManager {
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private Handler mHandler = new Handler();
+    private CustomSubtitleHelper mCustomSubtitleHelper;
+    private LinearLayout mCustomSubtitleContainer;
 
     private long mMetaDuration = -1;
     private long lastExoPlayerPosition = -1;
@@ -94,17 +99,25 @@ public class VideoManager {
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
-        int strokeColor = userPreferences.get(UserPreferences.Companion.getSubtitleTextStrokeColor()).intValue();
-        CaptionStyleCompat subtitleStyle = new CaptionStyleCompat(
-                userPreferences.get(UserPreferences.Companion.getSubtitlesTextColor()).intValue(),
-                userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundColor()).intValue(),
-                Color.TRANSPARENT,
-                Color.alpha(strokeColor) == 0 ? CaptionStyleCompat.EDGE_TYPE_NONE : CaptionStyleCompat.EDGE_TYPE_OUTLINE,
-                strokeColor,
-                null
-        );
-        mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
-        mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
+        
+        // Get the custom subtitle container
+        mCustomSubtitleContainer = view.findViewById(R.id.custom_subtitle_container);
+        
+        // Initialize the custom subtitle helper
+        mCustomSubtitleHelper = new CustomSubtitleHelper(mActivity, mCustomSubtitleContainer, userPreferences);
+        
+        // Hide the default subtitle view
+        mExoPlayerView.getSubtitleView().setVisibility(View.GONE);
+        
+        // Add a listener for subtitle cues
+        mExoPlayer.addListener(new Player.Listener() {
+            @Override
+            public void onCues(@NonNull List<Cue> cues) {
+                // Process subtitle cues in our custom helper
+                mCustomSubtitleHelper.onCues(new CueGroup(cues, 0));
+            }
+        });
+        
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
@@ -550,6 +563,7 @@ public class VideoManager {
         mPlaybackControllerNotifiable = null;
         stopPlayback();
         releasePlayer();
+        mCustomSubtitleHelper = null;
     }
 
     private void releasePlayer() {
