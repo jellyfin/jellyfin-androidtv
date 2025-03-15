@@ -30,6 +30,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:use_controller="false" />
+            
+        <!-- Custom subtitle container for stacked subtitles -->
+        <LinearLayout
+            android:id="@+id/custom_subtitle_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/leanback_fragment"
