@@ -43,7 +43,6 @@
     <string name="lbl_upcoming">In Arrivo</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Dura</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Finisce</string>
     <string name="lbl_directed_by">Diretto da</string>
     <string name="lbl_last_played">"Riprodotto l\'ultima volta "</string>
@@ -575,4 +574,6 @@
     <string name="segment_action_skip">Salta</string>
     <string name="segment_type_outro">Conclusioni</string>
     <string name="segment_type_preview">Anteprime</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

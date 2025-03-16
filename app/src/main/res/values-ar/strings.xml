@@ -76,7 +76,6 @@
     <string name="lbl_last_played">"آخر عرض "</string>
     <string name="lbl_directed_by">إخراج</string>
     <string name="lbl_ends">ينتهي في</string>
-    <string name="lbl_min">" دقيقة"</string>
     <string name="lbl_runs">مرات العرض</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">شُوهد</string>

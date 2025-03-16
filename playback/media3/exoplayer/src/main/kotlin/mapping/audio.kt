@@ -5,10 +5,10 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 
 @OptIn(UnstableApi::class)
-fun getFfmpegAudioMimeType(codec: String) = codec.lowercase().let { codec ->
+fun getFfmpegAudioMimeType(codec: String, fallback: String = codec) = codec.lowercase().let { codec ->
 	ffmpegAudioMimeTypes[codec]
 		?: MimeTypes.getAudioMediaMimeType(codec)
-		?: codec
+		?: fallback
 }
 
 val ffmpegAudioMimeTypes = mapOf(

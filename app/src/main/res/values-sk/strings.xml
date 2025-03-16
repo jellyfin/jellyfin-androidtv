@@ -82,7 +82,6 @@
     <string name="lbl_other_options">Ostatné možnosti</string>
     <string name="lbl_directed_by">Réžia</string>
     <string name="lbl_ends">Končí o</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_runs">Dĺžka</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_favorite">Obľúbené</string>
@@ -575,4 +574,6 @@
     <string name="default_video_zoom">Predvolený režim priblíženia</string>
     <string name="preference_enable_trickplay">Povoliť trickplay vo video prehrávači</string>
     <string name="skip_forward_length">Dĺžka skoku dopredu</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

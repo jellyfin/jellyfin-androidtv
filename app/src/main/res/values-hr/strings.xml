@@ -16,7 +16,6 @@
     <string name="lbl_last_played">"Posljednje izvedeno "</string>
     <string name="lbl_directed_by">Redatelj</string>
     <string name="lbl_ends">Završava</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Pogledano</string>
     <string name="lbl_favorite">Omiljeno</string>

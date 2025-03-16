@@ -48,8 +48,7 @@
     <string name="lbl_seasons">Seizoenen</string>
     <string name="lbl_upcoming">Binnenkort</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">Duur</string>
-    <string name="lbl_min">" min"</string>
+    <string name="lbl_runs">Speelduur</string>
     <string name="lbl_ends">Afgelopen</string>
     <string name="lbl_directed_by">Regie</string>
     <string name="lbl_last_played">"Laatst afgespeeld "</string>
@@ -565,4 +564,6 @@
     <string name="default_video_zoom">Standaard zoommodus</string>
     <string name="preference_enable_trickplay">Trickplay in videospeler inschakelen</string>
     <string name="skip_forward_length">Stapgrootte vooruitspringen</string>
+    <string name="runtime_hours_minutes">%1$du %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

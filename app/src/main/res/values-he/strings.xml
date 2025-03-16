@@ -114,7 +114,6 @@
     <string name="lbl_last_played">"נצפה לאחרונה "</string>
     <string name="lbl_directed_by">במאי</string>
     <string name="lbl_ends">נגמר</string>
-    <string name="lbl_min">" דקות"</string>
     <string name="lbl_runs">הרצות</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">נצפה</string>
@@ -580,4 +579,6 @@
     <string name="segment_action_ask_to_skip">בקש לדלג</string>
     <string name="preference_enable_trickplay">הפעלת טריקפליי בנגן הוידיאו</string>
     <string name="skip_forward_length">גודל דילוג קדימה</string>
+    <string name="runtime_hours_minutes">%1$d שעות %2$d דקות</string>
+    <string name="runtime_minutes">%1$d דקות</string>
 </resources>

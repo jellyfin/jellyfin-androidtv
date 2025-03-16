@@ -50,7 +50,6 @@
     <string name="lbl_upcoming">Próximos</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duração</string>
-    <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Termina às</string>
     <string name="lbl_directed_by">Realizado por</string>
     <string name="lbl_last_played">"Reproduzido anteriormente "</string>
@@ -575,4 +574,6 @@
     <string name="segment_type_outro">Créditos</string>
     <string name="preference_enable_trickplay">Ativar trickplay no leitor de vídeo</string>
     <string name="skip_forward_length">Avançar reprodução (segundos)</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>
