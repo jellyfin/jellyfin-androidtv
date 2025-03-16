@@ -15,6 +15,10 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.media3.common.C;
 import androidx.media3.common.Format;
 import androidx.media3.common.MediaItem;
@@ -44,6 +48,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.androidtv.ui.WatchTrackerViewModel;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -78,10 +83,14 @@ public class VideoManager {
 
     private final UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
 
-    public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
+    private final WatchTrackerViewModel watchTracker;
+
+    public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper,  @NonNull WatchTrackerViewModel watchTracker) {
         mActivity = activity;
         _helper = helper;
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
+        this.watchTracker = watchTracker;
+        this.watchTracker.setVideoManager(this);
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
 
@@ -276,16 +285,25 @@ public class VideoManager {
             _helper.getFragment().closePlayer();
             return;
         }
+
+        watchTracker.startWatchTime();
         mExoPlayer.setPlayWhenReady(true);
         normalWidth = mExoPlayerView.getLayoutParams().width;
         normalHeight = mExoPlayerView.getLayoutParams().height;
+
+    }
+
+    public Activity getActivity() {
+        return mActivity;
     }
 
     public void play() {
+        watchTracker.startWatchTime();
         mExoPlayer.setPlayWhenReady(true);
     }
 
     public void pause() {
+        watchTracker.stopWatchTime();
         mExoPlayer.setPlayWhenReady(false);
     }
 

@@ -51,6 +51,7 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
+import org.jellyfin.androidtv.ui.WatchTrackerViewModel;
 import org.jellyfin.androidtv.ui.itemhandling.ChapterItemInfoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
@@ -219,7 +220,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
 
         if (playbackControllerContainer.getValue().getPlaybackController() != null) {
-            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager((requireActivity()), view, helper), this);
+            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager(requireActivity(), view, helper, new WatchTrackerViewModel()), this);
         }
     }
 

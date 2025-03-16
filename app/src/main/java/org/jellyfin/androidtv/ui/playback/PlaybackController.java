@@ -1162,6 +1162,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
+        // WatchTracker.INSTANCE.onEpisodeWatched();
         Timber.d("On Completion fired");
         itemComplete();
     }
