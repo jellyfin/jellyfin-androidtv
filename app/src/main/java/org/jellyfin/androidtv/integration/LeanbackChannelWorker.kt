@@ -347,7 +347,7 @@ class LeanbackChannelWorker(
 			else -> item.indexNumber?.toString().orEmpty()
 		}
 
-		return PreviewProgram.Builder()
+		val builder = PreviewProgram.Builder()
 			.setChannelId(ContentUris.parseId(channelUri))
 			.setType(
 				when (item.type) {
@@ -361,22 +361,10 @@ class LeanbackChannelWorker(
 			)
 			.setTitle(item.seriesName ?: item.name)
 			.setEpisodeTitle(if (item.type == BaseItemKind.EPISODE) item.name else null)
-			.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
-			.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
 			.setDescription(item.overview?.stripHtml())
 			.setReleaseDate(
 				if (item.premiereDate != null) DateTimeFormatter.ISO_DATE.format(item.premiereDate)
 				else null
-			)
-			.setDurationMillis(
-				if (item.runTimeTicks?.ticks != null) {
-					// If we are resuming, we need to show remaining time, cause GoogleTV
-					// ignores setLastPlaybackPositionMillis
-					val duration = item.runTimeTicks?.ticks ?: Duration.ZERO
-					val playbackPosition = item.userData?.playbackPositionTicks?.ticks
-						?: Duration.ZERO
-					(duration - playbackPosition).inWholeMilliseconds.toInt()
-				} else 0
 			)
 			.setPosterArtUri(imageUri)
 			.setPosterArtAspectRatio(
@@ -391,8 +379,25 @@ class LeanbackChannelWorker(
 				putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
 				putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, item.type == BaseItemKind.COLLECTION_FOLDER)
 			})
-			.build()
-			.toContentValues()
+
+		if ((item.parentIndexNumber ?: 0) > 0)
+			builder.setSeasonNumber(seasonString, item.parentIndexNumber!!)
+		if ((item.indexNumber ?: 0) > 0)
+			builder.setEpisodeNumber(episodeString, item.indexNumber!!)
+
+		builder
+			.setDurationMillis(
+				if (item.runTimeTicks?.ticks != null) {
+					// If we are resuming, we need to show remaining time, cause GoogleTV
+					// ignores setLastPlaybackPositionMillis
+					val duration = item.runTimeTicks?.ticks ?: Duration.ZERO
+					val playbackPosition = item.userData?.playbackPositionTicks?.ticks
+						?: Duration.ZERO
+					(duration - playbackPosition).inWholeMilliseconds.toInt()
+				} else 0
+			)
+
+		return builder.build().toContentValues()
 	}
 
 	/**
@@ -478,7 +483,9 @@ class LeanbackChannelWorker(
 				setEpisodeNumber(item.indexNumber ?: 0)
 				setSeasonNumber(item.parentIndexNumber ?: 0)
 			}
-			else setTitle(item.name)
+			else {
+				setTitle(item.name)
+			}
 
 			setDescription(item.overview?.stripHtml())
 
@@ -509,7 +516,9 @@ class LeanbackChannelWorker(
 			}
 
 			// Runtime has been determined
-			setDurationMillis(item.runTimeTicks?.ticks?.inWholeMilliseconds?.toInt() ?: 0)
+			val runtime = item.runTimeTicks?.ticks?.inWholeMilliseconds?.toInt()
+			if (runtime != null)
+				setDurationMillis(runtime)
 
 			// Set intent to open the episode
 			setIntent(Intent(context, StartupActivity::class.java).apply {
