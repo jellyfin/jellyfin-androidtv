@@ -474,8 +474,12 @@ class LeanbackChannelWorker(
 			if (item.seriesName != null) {
 				setTitle(item.seriesName)
 				setEpisodeTitle(item.name)
-				setEpisodeNumber(item.indexNumber ?: 0)
-				setSeasonNumber(item.parentIndexNumber ?: 0)
+
+				if ((item.indexNumber ?: 0) > 0)
+					setEpisodeNumber(item.indexNumber!!)
+
+				if ((item.parentIndexNumber ?: 0) > 0)
+					setSeasonNumber(item.parentIndexNumber!!)
 			}
 			else {
 				setTitle(item.name)
