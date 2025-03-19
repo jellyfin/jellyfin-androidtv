@@ -9,7 +9,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.ButtonBase
@@ -70,74 +70,71 @@ fun NowPlayingComposable(
 	) {
 		ButtonBase(
 			onClick = { navigationRepository.navigate(Destinations.nowPlaying) },
-			shape = RoundedCornerShape(4.dp),
-			contentPadding = PaddingValues(0.dp),
+			shape = JellyfinTheme.shapes.extraSmall,
 			modifier = Modifier
 				.widthIn(0.dp, 250.dp)
 		) {
-			Box {
-				Box(
-					modifier = Modifier
-						.align(Alignment.BottomStart)
-						.fillMaxWidth()
-						.height(1.dp)
-						.drawWithContent {
-							// Background
-							drawRect(Color.White, alpha = 0.4f)
-							// Foreground
-							drawRect(Color.White, size = size.copy(width = progress * size.width))
-						}
+			Box(
+				modifier = Modifier
+					.align(Alignment.BottomStart)
+					.fillMaxWidth()
+					.height(1.dp)
+					.drawWithContent {
+						// Background
+						drawRect(Color.White, alpha = 0.4f)
+						// Foreground
+						drawRect(Color.White, size = size.copy(width = progress * size.width))
+					}
+			)
+
+			ProvideTextStyle(
+				value = TextStyle.Default.copy(
+					fontSize = 12.sp,
 				)
-
-				ProvideTextStyle(
-					value = TextStyle.Default.copy(
-						fontSize = 12.sp,
-					)
+			) {
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(10.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier
+						.padding(5.dp)
 				) {
-					Row(
-						horizontalArrangement = Arrangement.spacedBy(10.dp),
-						verticalAlignment = Alignment.CenterVertically,
-						modifier = Modifier
-							.padding(5.dp)
-					) {
-						val primaryImageTag = item?.imageTags?.get(ImageType.PRIMARY)
-						val (imageItemId, imageTag) = when {
-							primaryImageTag != null -> item.id to primaryImageTag
-							(item?.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
-							else -> null to null
-						}
-						val imageUrl = when {
-							imageItemId != null && imageTag != null -> imageHelper.getImageUrl(
-								itemId = imageItemId,
-								imageType = ImageType.PRIMARY,
-								imageTag = imageTag
-							)
-
-							else -> null
-						}
-						val imageBlurHash = imageTag?.let { tag ->
-							item?.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
-						}
-
-						AsyncImage(
-							url = imageUrl,
-							blurHash = imageBlurHash,
-							placeholder = ContextCompat.getDrawable(LocalContext.current, R.drawable.ic_album),
-							aspectRatio = item?.primaryImageAspectRatio ?: 1.0,
-							modifier = Modifier
-								.size(35.dp)
-								.clip(RoundedCornerShape(4.dp)),
-							scaleType = ImageView.ScaleType.CENTER_CROP,
+					val primaryImageTag = item?.imageTags?.get(ImageType.PRIMARY)
+					val (imageItemId, imageTag) = when {
+						primaryImageTag != null -> item.id to primaryImageTag
+						(item?.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
+						else -> null to null
+					}
+					val imageUrl = when {
+						imageItemId != null && imageTag != null -> imageHelper.getImageUrl(
+							itemId = imageItemId,
+							imageType = ImageType.PRIMARY,
+							imageTag = imageTag
 						)
 
-						Column(
-							verticalArrangement = Arrangement.SpaceAround,
-						) {
-							// Name
-							Text(text = item?.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
-							val artists = item?.artists ?: item?.albumArtists ?: item?.albumArtist?.let(::listOf)
-							Text(text = artists?.joinToString(", ").orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
-						}
+						else -> null
+					}
+					val imageBlurHash = imageTag?.let { tag ->
+						item?.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
+					}
+
+					AsyncImage(
+						url = imageUrl,
+						blurHash = imageBlurHash,
+						placeholder = ContextCompat.getDrawable(LocalContext.current, R.drawable.ic_album),
+						aspectRatio = item?.primaryImageAspectRatio ?: 1.0,
+						modifier = Modifier
+							.size(35.dp)
+							.clip(RoundedCornerShape(4.dp)),
+						scaleType = ImageView.ScaleType.CENTER_CROP,
+					)
+
+					Column(
+						verticalArrangement = Arrangement.SpaceAround,
+					) {
+						// Name
+						Text(text = item?.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+						val artists = item?.artists ?: item?.albumArtists ?: item?.albumArtist?.let(::listOf)
+						Text(text = artists?.joinToString(", ").orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
 					}
 				}
 			}
