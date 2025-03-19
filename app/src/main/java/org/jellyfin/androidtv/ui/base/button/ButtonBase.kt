@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.base.button
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -57,7 +56,7 @@ fun ButtonBase(
 			modifier = modifier
 				.combinedClickable(
 					interactionSource = interactionSource,
-					indication = LocalIndication.current,
+					indication = null,
 					enabled = enabled,
 					role = Role.Button,
 					onClick = onClick,
