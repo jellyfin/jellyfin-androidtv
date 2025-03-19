@@ -100,7 +100,8 @@ fun NextUpScreen(
 			AsyncImage(
 				modifier = Modifier
 					.align(Alignment.TopStart)
-					.overscan(),
+					.overscan()
+					.height(75.dp),
 				url = logo.url,
 				blurHash = logo.blurHash,
 				aspectRatio = logo.aspectRatio,
