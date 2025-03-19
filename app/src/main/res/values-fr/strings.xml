@@ -311,7 +311,7 @@
     <string name="user_picker_last_user_title">Plus récent</string>
     <string name="auto_sign_in">Connexion automatique</string>
     <string name="lbl_switch_user">Changer de compte</string>
-    <string name="no_network_permissions">Jelelyfin a besoin des permissions réseau pour fonctionner</string>
+    <string name="no_network_permissions">Jellyfin a besoin des permissions réseau pour fonctionner</string>
     <string name="pref_theme_muted_purple">Violet atténué</string>
     <string name="lbl_next_up_minimal">Sans vignette</string>
     <string name="lbl_next_up_extended">Avec vignette</string>
