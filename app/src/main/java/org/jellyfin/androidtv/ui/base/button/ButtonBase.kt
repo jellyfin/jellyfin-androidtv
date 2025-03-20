@@ -1,30 +1,21 @@
 package org.jellyfin.androidtv.ui.base.button
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
@@ -37,10 +28,9 @@ fun ButtonBase(
 	modifier: Modifier = Modifier,
 	onLongClick: (() -> Unit)? = null,
 	enabled: Boolean = true,
-	shape: Shape = CircleShape,
-	contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
+	shape: Shape = ButtonDefaults.Shape,
 	interactionSource: MutableInteractionSource? = null,
-	content: @Composable RowScope.() -> Unit
+	content: @Composable BoxScope.() -> Unit
 ) {
 	@Suppress("NAME_SHADOWING")
 	val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
@@ -61,34 +51,20 @@ fun ButtonBase(
 		else -> containerColor to contentColor
 	}
 
-	Box(
-		modifier = modifier
-			.combinedClickable(
-				interactionSource = interactionSource,
-				indication = LocalIndication.current,
-				enabled = enabled,
-				role = Role.Button,
-				onClick = onClick,
-				onLongClick = onLongClick,
-			)
-			.background(colors.first, shape)
-			.graphicsLayer {
-				this.shape = shape
-				this.clip = true
-			}
-	) {
-		ProvideTextStyle(value = JellyfinTheme.typography.default.copy(fontSize = 14.sp, color = colors.second)) {
-			Row(
-				modifier = Modifier
-					.defaultMinSize(
-						minWidth = 58.dp,
-						minHeight = 40.dp
-					)
-					.padding(contentPadding),
-				horizontalArrangement = Arrangement.Center,
-				verticalAlignment = Alignment.CenterVertically,
-				content = content
-			)
-		}
+	ProvideTextStyle(value = JellyfinTheme.typography.default.copy(fontSize = 14.sp, color = colors.second)) {
+		Box(
+			modifier = modifier
+				.combinedClickable(
+					interactionSource = interactionSource,
+					indication = null,
+					enabled = enabled,
+					role = Role.Button,
+					onClick = onClick,
+					onLongClick = onLongClick,
+				)
+				.background(colors.first, shape)
+				.clip(shape),
+			content = content,
+		)
 	}
 }

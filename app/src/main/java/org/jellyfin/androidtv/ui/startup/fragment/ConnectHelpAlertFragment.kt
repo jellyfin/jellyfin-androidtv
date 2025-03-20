@@ -34,7 +34,7 @@ import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.base.button.ButtonBase
+import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 
 @Composable
@@ -68,7 +68,7 @@ private fun ConnectHelpAlert(
 						text = stringResource(R.string.login_help_description),
 						style = LocalTextStyle.current.copy(fontSize = 16.sp),
 					)
-					ButtonBase(
+					Button(
 						modifier = Modifier
 							.padding(top = 24.dp)
 							.align(Alignment.Start)

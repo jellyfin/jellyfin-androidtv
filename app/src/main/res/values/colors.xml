@@ -48,6 +48,7 @@
     <color name="button_default_disabled_text">#686868</color>
     <color name="button_default_highlight_text">#444444</color>
     <color name="button_default_activated_text">#CC3333</color>
+    <color name="button_default_progress_background">#33000000</color>
 
     <!-- input_default -->
     <color name="input_default_stroke">#B3747474</color>
