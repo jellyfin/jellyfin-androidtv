@@ -33,6 +33,8 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.picture.PictureViewerViewModel
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
+import org.jellyfin.androidtv.ui.playback.WatchTrackerViewModel
+import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingViewModel
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepositoryImpl
@@ -104,6 +106,8 @@ val appModule = module {
 	// Non API related
 	single { DataRefreshService() }
 	single { PlaybackControllerContainer() }
+	single { WatchTrackerViewModel() }
+
 
 	single<UserRepository> { UserRepositoryImpl() }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get()) }
@@ -118,6 +122,7 @@ val appModule = module {
 	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }
 	viewModel { ServerAddViewModel(get()) }
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
+	viewModel { StillWatchingViewModel() }
 	viewModel { PictureViewerViewModel(get()) }
 	viewModel { ScreensaverViewModel(get()) }
 	viewModel { SearchViewModel(get()) }

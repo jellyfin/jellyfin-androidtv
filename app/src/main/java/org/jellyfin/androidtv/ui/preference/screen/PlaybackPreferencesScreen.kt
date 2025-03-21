@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
@@ -61,6 +62,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					userPreferences[UserPreferences.mediaQueuingEnabled]
 						&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED
 				}
+			}
+
+			enum<StillWatchingBehavior> {
+				setTitle(R.string.pref_still_watching_behavior_title)
+				bind(userPreferences, UserPreferences.stillWatchingEnabled)
+				depends { userPreferences[UserPreferences.mediaQueuingEnabled] }
 			}
 
 			checkbox {

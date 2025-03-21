@@ -63,6 +63,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
+    private final Lazy<WatchTrackerViewModel> lazyWatchTracker = inject(WatchTrackerViewModel.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -71,6 +72,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
     private StreamInfo mCurrentStreamInfo;
+
+    private WatchTrackerViewModel watchTracker;
 
     @Nullable
     private CustomPlaybackOverlayFragment mFragment;
@@ -115,6 +118,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = fragment;
         mHandler = new Handler();
 
+        watchTracker = lazyWatchTracker.getValue();
 
         refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
@@ -136,6 +140,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getPlayerZoomMode()));
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
+
+        watchTracker.setVideoManager(mgr);
     }
 
     public void setItems(List<BaseItemDto> items) {
@@ -407,7 +413,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 }
                 // just resume
                 mVideoManager.play();
-                mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
+                mPlaybackState = PlaybackState.PLAYING; // won't get another onPrepared call
                 mFragment.setFadingEnabled(true);
                 startReportLoop();
                 break;
@@ -480,6 +486,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 mPlaybackState = PlaybackState.BUFFERING;
                 mFragment.setPlayPauseActionState(0);
                 mFragment.setCurrentTime(position);
+
+                watchTracker.notifyPlay();
 
                 long duration = getCurrentlyPlayingItem().getRunTimeTicks() != null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
                 if (mVideoManager != null)
@@ -793,7 +801,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void endPlayback(Boolean closeActivity) {
-        if (closeActivity && mFragment != null) mFragment.closePlayer();
+        if (closeActivity && mFragment != null) {
+            mFragment.closePlayer();
+        }
         stop();
         if (mVideoManager != null)
             mVideoManager.destroy();
@@ -1162,6 +1172,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
+        watchTracker.onEpisodeWatched();
         Timber.d("On Completion fired");
         itemComplete();
     }
@@ -1179,6 +1190,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     stopSpinner();
                 }
             }
+
+            watchTracker.notifyProgress();
         }
         if (mFragment != null)
             mFragment.setCurrentTime(mCurrentPosition);

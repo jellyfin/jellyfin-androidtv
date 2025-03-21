@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.navigation
 
 import androidx.core.os.bundleOf
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment
