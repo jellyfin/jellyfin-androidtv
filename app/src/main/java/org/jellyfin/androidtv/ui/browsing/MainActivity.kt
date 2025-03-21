@@ -165,6 +165,7 @@ class MainActivity : FragmentActivity() {
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
 
 	override fun onUserInteraction() {
+		//WatchTracker.onUserInteraction()
 		super.onUserInteraction()
 
 		screensaverViewModel.notifyInteraction(false)
