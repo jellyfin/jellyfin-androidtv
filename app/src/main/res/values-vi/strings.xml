@@ -532,4 +532,29 @@
     <string name="segment_action_ask_to_skip">Yêu cầu bỏ qua</string>
     <string name="preference_enable_trickplay">Bật ảnh xem thử trong trình phát video</string>
     <string name="skip_forward_length">Bỏ qua chiều dài phía trước</string>
+    <string name="pref_report_device_profile_success">Tài liệu được gửi là %1$s</string>
+    <string name="pref_report_device_profile_failure">Không gửi tài liệu. Máy chủ Jellyfin của bạn có thể cấm nhật ký máy khách.</string>
+    <string name="pref_report_device_profile_summary">Tải một tài liệu khắc phục sự cố lên máy chủ Jellyfin với thông tin về khả năng phát lại</string>
+    <string name="pref_report_device_profile_title">Báo cáo khả năng phát lại cho máy chủ</string>
+    <string name="pref_subtitles_background_opacity">Độ mờ nền phụ đề</string>
+    <string name="pref_troubleshooting">Khắc phục sự cố</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="pref_video">Video</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="lbl_albums">Albums</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="indicator_subtitles">CC</string>
+    <plurals name="albums">
+        <item quantity="other">%1$s albums</item>
+    </plurals>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_videos">Videos</string>
 </resources>

@@ -576,4 +576,10 @@
     <string name="preference_enable_trickplay">Habilitar previsualitzacions al reproductor</string>
     <string name="skip_forward_length">Longitud de salt cap endavant</string>
     <string name="pref_mediasegment_actions">Accions de segment de mitjans</string>
+    <string name="pref_troubleshooting">Resolució de problemes</string>
+    <string name="pref_subtitles_background_opacity">Opacitat de fons dels subtítols</string>
+    <string name="pref_report_device_profile_title">Informar de les capacitats de reproducció al servidor</string>
+    <string name="pref_report_device_profile_summary">Puja un document de resolució de problemes al servidor de Jellyfin amb informació sobre les capacitats de reproducció</string>
+    <string name="pref_report_device_profile_success">Document enviat com a %1$s</string>
+    <string name="pref_report_device_profile_failure">No s\'ha pogut enviar el document. El teu servidor Jellyfin pot prohibir els registres del client.</string>
 </resources>

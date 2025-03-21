@@ -27,17 +27,16 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.tv.material3.ClickableSurfaceDefaults
-import androidx.tv.material3.ProvideTextStyle
-import androidx.tv.material3.Surface
-import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.ProvideTextStyle
+import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.button.ButtonBase
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
@@ -69,18 +68,9 @@ fun NowPlayingComposable(
 		enter = fadeIn(),
 		exit = fadeOut(),
 	) {
-		Surface(
+		ButtonBase(
 			onClick = { navigationRepository.navigate(Destinations.nowPlaying) },
-			colors = ClickableSurfaceDefaults.colors(
-				containerColor = colorResource(id = R.color.button_default_normal_background),
-				focusedContainerColor = colorResource(id = R.color.button_default_highlight_background),
-				contentColor = colorResource(id = R.color.button_default_normal_text),
-				focusedContentColor = colorResource(id = R.color.button_default_highlight_text),
-			),
-			scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
-			shape = ClickableSurfaceDefaults.shape(
-				shape = RoundedCornerShape(4.dp),
-			),
+			shape = JellyfinTheme.shapes.extraSmall,
 			modifier = Modifier
 				.widthIn(0.dp, 250.dp)
 		) {

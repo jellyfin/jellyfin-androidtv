@@ -18,7 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.tv.material3.ProvideTextStyle
+import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 
 /**
  * A single item in the [BaseItemInfoRow].

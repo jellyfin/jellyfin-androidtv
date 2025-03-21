@@ -38,6 +38,7 @@ fun AsyncImage(
 		modifier = modifier,
 		factory = { context ->
 			AsyncImageView(context).also { view ->
+				view.adjustViewBounds = true
 				view.scaleType = scaleType ?: ImageView.ScaleType.FIT_CENTER
 			}
 		},
