@@ -132,4 +132,7 @@ val appModule = module {
 	single<PlaybackHelper> { SdkPlaybackHelper(get(), get(), get(), get(), get(), get(), get()) }
 
 	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
+
+	// Add coroutine scope for async operations
+	single { kotlinx.coroutines.MainScope() }
 }

@@ -6,6 +6,9 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import org.koin.core.parameter.parametersOf
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaType
@@ -17,7 +20,7 @@ import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 class HomeFragmentHelper(
 	private val context: Context,
 	private val userRepository: UserRepository,
-) {
+) : KoinComponent {
 	fun loadRecentlyAdded(userViews: Collection<BaseItemDto>): HomeFragmentRow {
 		return HomeFragmentLatestRow(userRepository, userViews)
 	}
@@ -74,6 +77,10 @@ class HomeFragmentHelper(
 		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
+	}
+
+	fun loadLiveTv(): HomeFragmentRow {
+		return get<HomeFragmentLiveTVRowWithUserPreferenceCheck> { parametersOf(context as android.app.Activity) }
 	}
 
 	companion object {
