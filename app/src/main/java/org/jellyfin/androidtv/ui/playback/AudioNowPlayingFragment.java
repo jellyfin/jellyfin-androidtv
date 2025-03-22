@@ -310,6 +310,7 @@ public class AudioNowPlayingFragment extends Fragment {
     }
 
     private void updateButtons() {
+        if (getActivity() == null) return;
         Timber.d("Updating buttons");
         boolean playing = mediaManager.getValue().isPlayingAudio();
         requireActivity().runOnUiThread(new Runnable() {
