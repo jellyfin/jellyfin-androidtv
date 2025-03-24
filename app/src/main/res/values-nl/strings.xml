@@ -553,7 +553,7 @@
     <string name="video_start_delay">Startvertraging video</string>
     <string name="segment_action_skip">Overslaan</string>
     <string name="segment_type_commercial">Reclame</string>
-    <string name="segment_type_outro">Outro\'s</string>
+    <string name="segment_type_outro">Eindtitels</string>
     <string name="segment_type_preview">Vooruitblikken</string>
     <string name="segment_type_recap">Terugblikken</string>
     <string name="segment_type_unknown">Onbekende segmenten</string>

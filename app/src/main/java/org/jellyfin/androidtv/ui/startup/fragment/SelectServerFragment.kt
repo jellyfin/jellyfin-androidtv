@@ -27,8 +27,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Text
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -43,6 +41,8 @@ import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.databinding.FragmentSelectServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MenuBuilder
@@ -173,13 +173,13 @@ class SelectServerFragment : Fragment() {
 					Box(
 						modifier = Modifier
 							.fillMaxWidth()
-							.clip(MaterialTheme.shapes.medium)
+							.clip(JellyfinTheme.shapes.medium)
 							.background(colorResource(id = R.color.lb_basic_card_info_bg_color)),
 					) {
 						Text(
 							text = notification.message,
 							modifier = Modifier.padding(10.dp),
-							color = colorResource(id = R.color.white)
+							color = colorResource(id = R.color.white),
 						)
 					}
 				}

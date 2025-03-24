@@ -566,4 +566,10 @@
     <string name="skip_forward_length">Sprungweite vorwärts</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Untertitel Hintergrund Deckkraft</string>
+    <string name="pref_report_device_profile_title">Wiedergabefähigkeiten an Server melden</string>
+    <string name="pref_report_device_profile_summary">Ein Troubleshooting Dokument mit Informationen über die Wiedergabefähigkeiten auf den Jellyfin Server hochladen</string>
+    <string name="pref_troubleshooting">Fehlerbehebung</string>
+    <string name="pref_report_device_profile_success">Dokument eingereicht als %1$s</string>
+    <string name="pref_report_device_profile_failure">Dokument konnte nicht eingereicht werden. Dein Jellyfin-Server könnte Client-Logs verbieten.</string>
 </resources>
