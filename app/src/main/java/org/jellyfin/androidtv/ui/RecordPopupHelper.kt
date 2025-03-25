@@ -1,7 +1,9 @@
 package org.jellyfin.androidtv.ui
 
 import androidx.lifecycle.coroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.util.getActivity
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
@@ -41,9 +43,11 @@ fun RecordPopup.updateSeriesTimer(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			val id = seriesTimer.id
-			if (id == null) api.liveTvApi.createSeriesTimer(seriesTimer)
-			else api.liveTvApi.updateSeriesTimer(id, seriesTimer)
+			withContext(Dispatchers.IO) {
+				val id = seriesTimer.id
+				if (id == null) api.liveTvApi.createSeriesTimer(seriesTimer)
+				else api.liveTvApi.updateSeriesTimer(id, seriesTimer)
+			}
 		}.onSuccess {
 			callback()
 		}
@@ -58,9 +62,11 @@ fun RecordPopup.updateTimer(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			val id = timer.id
-			if (id == null) api.liveTvApi.createTimer(timer)
-			else api.liveTvApi.updateTimer(id, timer)
+			withContext(Dispatchers.IO) {
+				val id = timer.id
+				if (id == null) api.liveTvApi.createTimer(timer)
+				else api.liveTvApi.updateTimer(id, timer)
+			}
 		}.onSuccess {
 			callback()
 		}
@@ -86,7 +92,9 @@ fun RecordPopup.getLiveTvProgram(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			api.liveTvApi.getProgram(id.toString()).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getProgram(id.toString()).content
+			}
 		}.onSuccess { program ->
 			callback(program)
 		}

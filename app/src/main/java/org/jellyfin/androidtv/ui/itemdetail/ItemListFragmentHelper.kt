@@ -1,8 +1,10 @@
 package org.jellyfin.androidtv.ui.itemdetail
 
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
@@ -19,7 +21,9 @@ fun ItemListFragment.loadItem(itemId: UUID) {
 	val api by inject<ApiClient>()
 
 	lifecycleScope.launch {
-		val item by api.userLibraryApi.getItem(itemId)
+		val item = withContext(Dispatchers.IO) {
+			api.userLibraryApi.getItem(itemId).content
+		}
 		if (isActive) setBaseItem(item)
 	}
 }
@@ -31,15 +35,17 @@ fun MusicFavoritesListFragment.getFavoritePlaylist(
 	val api by inject<ApiClient>()
 
 	lifecycleScope.launch {
-		val result by api.itemsApi.getItems(
-			parentId = parentId,
-			includeItemTypes = setOf(BaseItemKind.AUDIO),
-			recursive = true,
-			filters = setOf(org.jellyfin.sdk.model.api.ItemFilter.IS_FAVORITE_OR_LIKES),
-			sortBy = setOf(ItemSortBy.RANDOM),
-			limit = 100,
-			fields = ItemRepository.itemFields,
-		)
+		val result = withContext(Dispatchers.IO) {
+			api.itemsApi.getItems(
+				parentId = parentId,
+				includeItemTypes = setOf(BaseItemKind.AUDIO),
+				recursive = true,
+				filters = setOf(org.jellyfin.sdk.model.api.ItemFilter.IS_FAVORITE_OR_LIKES),
+				sortBy = setOf(ItemSortBy.RANDOM),
+				limit = 100,
+				fields = ItemRepository.itemFields,
+			).content
+		}
 
 		callback(result.items)
 	}
@@ -52,21 +58,23 @@ fun ItemListFragment.getPlaylist(
 	val api by inject<ApiClient>()
 
 	lifecycleScope.launch {
-		val result by when {
-			item.type == BaseItemKind.PLAYLIST -> api.playlistsApi.getPlaylistItems(
-				playlistId = item.id,
-				limit = 150,
-				fields = ItemRepository.itemFields,
-			)
+		val result = withContext(Dispatchers.IO) {
+			when {
+				item.type == BaseItemKind.PLAYLIST -> api.playlistsApi.getPlaylistItems(
+					playlistId = item.id,
+					limit = 150,
+					fields = ItemRepository.itemFields,
+				).content
 
-			else -> api.itemsApi.getItems(
-				parentId = item.id,
-				includeItemTypes = setOf(BaseItemKind.AUDIO),
-				recursive = true,
-				sortBy = setOf(ItemSortBy.SORT_NAME),
-				limit = 200,
-				fields = ItemRepository.itemFields,
-			)
+				else -> api.itemsApi.getItems(
+					parentId = item.id,
+					includeItemTypes = setOf(BaseItemKind.AUDIO),
+					recursive = true,
+					sortBy = setOf(ItemSortBy.SORT_NAME),
+					limit = 200,
+					fields = ItemRepository.itemFields,
+				).content
+			}
 		}
 
 		callback(result.items)

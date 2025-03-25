@@ -3,7 +3,9 @@ package org.jellyfin.androidtv.ui.preference.screen
 import android.os.Build
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -141,7 +143,9 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 
 					lifecycleScope.launch {
 						runCatching {
-							api.clientLogApi.logFile(createDeviceProfileReport(context, userPreferences)).content
+							withContext(Dispatchers.IO) {
+								api.clientLogApi.logFile(createDeviceProfileReport(context, userPreferences)).content
+							}
 						}.fold(
 							onSuccess = { result ->
 								Toast.makeText(
