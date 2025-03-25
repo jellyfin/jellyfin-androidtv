@@ -26,6 +26,9 @@ android {
 }
 
 dependencies {
+	// Kotlin
+	implementation(libs.kotlinx.coroutines)
+
 	// Jellyfin
 	implementation(projects.playback.core)
 	implementation(libs.jellyfin.sdk) {

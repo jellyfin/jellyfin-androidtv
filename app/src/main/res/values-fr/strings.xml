@@ -240,7 +240,7 @@
     <string name="subtitle_error">Impossible de choisir le sous-titre</string>
     <string name="too_many_errors">Trop d\'erreurs. Abandon</string>
     <string name="episode_missing_message_2">Cet épisode manque dans votre bibliothèque. La lecture sera arrêtée.</string>
-    <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le sauter et continuer avec le suivant \?</string>
+    <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le passer et continuer avec le suivant ?</string>
     <string name="episode_missing">Épisode manquant</string>
     <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
     <string name="no_player">Aucun lecteur</string>
@@ -311,7 +311,7 @@
     <string name="user_picker_last_user_title">Plus récent</string>
     <string name="auto_sign_in">Connexion automatique</string>
     <string name="lbl_switch_user">Changer de compte</string>
-    <string name="no_network_permissions">Jelelyfin a besoin des permissions réseau pour fonctionner</string>
+    <string name="no_network_permissions">Jellyfin a besoin des permissions réseau pour fonctionner</string>
     <string name="pref_theme_muted_purple">Violet atténué</string>
     <string name="lbl_next_up_minimal">Sans vignette</string>
     <string name="lbl_next_up_extended">Avec vignette</string>
@@ -562,10 +562,10 @@
     <string name="prefer_exoplayer_ffmpeg">Préférer FFmpeg pour la lecture audio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Utilisez FFmpeg pour décoder l\'audio, même si des codecs de plate-forme sont disponibles.</string>
     <string name="default_video_zoom">Mode zoom par défaut</string>
-    <string name="segment_action_ask_to_skip">Demander de sauter</string>
+    <string name="segment_action_ask_to_skip">Demander de passer</string>
     <string name="pref_mediasegment_actions">Actions du segment des médias</string>
     <string name="segment_action_nothing">Ne rien faire</string>
-    <string name="segment_action_skip">Sauter</string>
+    <string name="segment_action_skip">Passer</string>
     <string name="segment_type_commercial">Publicités</string>
     <string name="segment_type_outro">Génériques de fin</string>
     <string name="segment_type_intro">Génériques de début</string>
@@ -576,4 +576,10 @@
     <string name="skip_forward_length">Longueur de l\'avance rapide</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_troubleshooting">Dépannage</string>
+    <string name="pref_subtitles_background_opacity">Opacité du fond du sous-titre</string>
+    <string name="pref_report_device_profile_title">Transmettre les capacités de lecture au serveur</string>
+    <string name="pref_report_device_profile_summary">Transmettre un fichier de diagnostic au serveur Jellyfin contenant les capacités de lecture</string>
+    <string name="pref_report_device_profile_failure">Échec de la transmission du fichier de diagnostic. Votre serveur Jellyfin peut interdire l’envoi des journaux clients.</string>
+    <string name="pref_report_device_profile_success">Fichier de diagnostic transmis sous le nom %1$s</string>
 </resources>

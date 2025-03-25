@@ -552,4 +552,10 @@
     <string name="all_channels">모든 채널</string>
     <string name="segment_type_recap">요약</string>
     <string name="scheduled_in_next_24_hours">다음 24시간 내 예약됨</string>
+    <string name="pref_subtitles_background_opacity">자막 배경 투명도</string>
+    <string name="pref_troubleshooting">문제 해결</string>
+    <string name="current_queue">현재 재생목록</string>
+    <string name="skip_forward_length">앞으로 건너뛰기 길이</string>
+    <string name="runtime_hours_minutes">%1$d시간 %2$d분</string>
+    <string name="runtime_minutes">%1$d분</string>
 </resources>

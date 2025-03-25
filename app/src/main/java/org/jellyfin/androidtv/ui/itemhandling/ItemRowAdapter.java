@@ -719,6 +719,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     protected void notifyRetrieveFinished(@Nullable Exception exception) {
+        if (exception != null) Timber.w(exception, "Failed to retrieve items");
+
         setCurrentlyRetrieving(false);
         if (mRetrieveFinishedListener != null) {
             if (exception == null) mRetrieveFinishedListener.onResponse();

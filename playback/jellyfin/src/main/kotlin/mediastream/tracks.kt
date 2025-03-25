@@ -6,11 +6,11 @@ import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
 import org.jellyfin.sdk.model.api.MediaStream
 import org.jellyfin.sdk.model.api.MediaStreamType
 
-fun JellyfinStreamResolver.MediaInfo.getMediaStreamContainer() = MediaStreamContainer(
+fun MediaInfo.getMediaStreamContainer() = MediaStreamContainer(
 	format = requireNotNull(mediaSource.container)
 )
 
-fun JellyfinStreamResolver.MediaInfo.getTracks() =
+fun MediaInfo.getTracks() =
 	mediaSource.mediaStreams
 		.orEmpty()
 		.mapNotNull(MediaStream::getMediaStreamTrack)
