@@ -356,6 +356,7 @@ fun createDeviceProfile(
 
 	// Not all subtitles can be loaded standalone by the player
 	subtitleProfile(Codec.Subtitle.DVBSUB, embedded = true, encode = true)
+	subtitleProfile(Codec.Subtitle.DVDSUB, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.IDX, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.PGS, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.PGSSUB, embedded = true, encode = true)
@@ -363,9 +364,6 @@ fun createDeviceProfile(
 	// ASS/SSA renderer only supports a small subset of the specification so encoding is required for correct rendering
 	subtitleProfile(Codec.Subtitle.ASS, encode = true)
 	subtitleProfile(Codec.Subtitle.SSA, encode = true)
-
-	// Unsupported formats that need encoding
-	subtitleProfile(Codec.Subtitle.DVDSUB, encode = true)
 }
 
 // Little helper function to more easily define subtitle profiles
