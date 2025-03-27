@@ -1,9 +1,11 @@
 package org.jellyfin.androidtv.auth.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticateMethod
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
@@ -94,7 +96,7 @@ class AuthenticationRepositoryImpl(
 		}
 
 		emitAll(authenticateAuthenticationResult(server, result))
-	}
+	}.flowOn(Dispatchers.IO)
 
 	private fun authenticateQuickConnect(server: Server, secret: String) = flow {
 		val api = jellyfin.createApi(server.address, deviceInfo = defaultDeviceInfo)
@@ -112,7 +114,7 @@ class AuthenticationRepositoryImpl(
 		}
 
 		emitAll(authenticateAuthenticationResult(server, result))
-	}
+	}.flowOn(Dispatchers.IO)
 
 	private fun authenticateAuthenticationResult(server: Server, result: AuthenticationResult) = flow {
 		val accessToken = result.accessToken ?: return@flow emit(RequireSignInState)
@@ -134,7 +136,7 @@ class AuthenticationRepositoryImpl(
 			Timber.w("Failed to set active session after authenticating")
 			emit(RequireSignInState)
 		}
-	}
+	}.flowOn(Dispatchers.IO)
 
 	private fun authenticateToken(server: Server, user: User) = flow {
 		emit(AuthenticatingState)
@@ -155,7 +157,7 @@ class AuthenticationRepositoryImpl(
 			Timber.e(err, "Unable to get current user data")
 			emit(ApiClientErrorLoginState(err))
 		}
-	}
+	}.flowOn(Dispatchers.IO)
 
 	private suspend fun authenticateFinish(server: Server, userInfo: UserDto, accessToken: String) {
 		val currentUser = authenticationStore.getUser(server.id, userInfo.id)

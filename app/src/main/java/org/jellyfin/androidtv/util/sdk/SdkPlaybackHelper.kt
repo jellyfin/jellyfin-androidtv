@@ -220,7 +220,9 @@ class SdkPlaybackHelper(
 				userPreferences[UserPreferences.resumeSubtractDuration].toIntOrNull()?.seconds
 					?: Duration.ZERO
 
-			val item by api.userLibraryApi.getItem(id)
+			val item = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getItem(id).content
+			}
 			val pos = position?.ticks ?: item.userData?.playbackPositionTicks?.ticks?.minus(
 				resumeSubtractDuration
 			) ?: Duration.ZERO
@@ -247,7 +249,7 @@ class SdkPlaybackHelper(
 
 	override fun playInstantMix(context: Context, item: BaseItemDto) {
 		getScope(context).launch {
-			val response =withContext(Dispatchers.IO) {
+			val response = withContext(Dispatchers.IO) {
 				api.instantMixApi.getInstantMixFromItem(
 					itemId = item.id,
 					fields = ItemRepository.itemFields

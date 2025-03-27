@@ -9,7 +9,9 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
 import android.provider.BaseColumns
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.ItemRepository
@@ -61,8 +63,9 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 
 				val limit = uri.getQueryParameter(SearchManager.SUGGEST_PARAMETER_LIMIT)?.toIntOrNull()
 					?: DEFAULT_LIMIT
-				return getSuggestions(query, limit)
+				return runBlocking { getSuggestions(query, limit) }
 			}
+
 			else -> throw IllegalArgumentException("Unknown Uri: $uri")
 		}
 	}
@@ -84,7 +87,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 		null
 	}
 
-	private fun getSuggestions(query: String, limit: Int) = runBlocking {
+	private suspend fun getSuggestions(query: String, limit: Int) = withContext(Dispatchers.IO) {
 		val searchResult = searchItems(query, limit)
 		if (searchResult != null) Timber.d("Query resulted in %d items", searchResult.totalRecordCount)
 

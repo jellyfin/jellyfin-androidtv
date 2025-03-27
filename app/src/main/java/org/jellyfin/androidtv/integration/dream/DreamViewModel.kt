@@ -59,7 +59,7 @@ class DreamViewModel(
 		delay(2.seconds)
 
 		while (true) {
-			val next = getRandomLibraryShowcase()
+			val next = withContext(Dispatchers.IO) { getRandomLibraryShowcase() }
 			if (next != null) {
 				emit(next)
 				delay(30.seconds)
