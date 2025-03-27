@@ -174,7 +174,9 @@ fun FullDetailsFragment.playTrailers() {
 		val api by inject<ApiClient>()
 
 		try {
-			val trailers by api.userLibraryApi.getLocalTrailers(mBaseItem.id)
+			val trailers = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getLocalTrailers(mBaseItem.id).content
+			}
 			play(trailers, 0, false)
 		} catch (exception: ApiClientException) {
 			Timber.e(exception, "Error retrieving trailers for playback")
@@ -192,13 +194,15 @@ fun FullDetailsFragment.getItem(id: UUID, callback: (item: BaseItemDto?) -> Unit
 
 	lifecycleScope.launch {
 		val response = try {
-			api.userLibraryApi.getItem(id)
+			withContext(Dispatchers.IO) {
+				api.userLibraryApi.getItem(id).content
+			}
 		} catch (err: ApiClientException) {
 			Timber.w(err, "Failed to get item $id")
 			null
 		}
 
-		callback(response?.content)
+		callback(response)
 	}
 }
 
@@ -208,14 +212,16 @@ fun FullDetailsFragment.populatePreviousButton() {
 	val api by inject<ApiClient>()
 
 	lifecycleScope.launch {
-		val siblings by api.tvShowsApi.getEpisodes(
-			seriesId = requireNotNull(mBaseItem.seriesId),
-			adjacentTo = mBaseItem.id,
-		)
+		val siblings = withContext(Dispatchers.IO) {
+			api.tvShowsApi.getEpisodes(
+				seriesId = requireNotNull(mBaseItem.seriesId),
+				adjacentTo = mBaseItem.id,
+			).content
+		}
 
 		val previousItem = siblings.items
-			?.filterNot { it.id == mBaseItem.id }
-			?.firstOrNull()
+			.filterNot { it.id == mBaseItem.id }
+			.firstOrNull()
 			?.id
 
 		mPrevItemId = previousItem
@@ -237,20 +243,22 @@ fun FullDetailsFragment.resumePlayback() {
 
 	lifecycleScope.launch {
 		try {
-			val episodes by api.itemsApi.getItems(
-				parentId = mBaseItem.id,
-				includeItemTypes = setOf(BaseItemKind.EPISODE),
-				recursive = true,
-				filters = setOf(ItemFilter.IS_UNPLAYED),
-				fields = ItemRepository.itemFields,
-				sortBy = setOf(
-					ItemSortBy.PARENT_INDEX_NUMBER,
-					ItemSortBy.INDEX_NUMBER,
-					ItemSortBy.SORT_NAME
-				),
-				limit = 1
-			)
-			val nextUpEpisode = episodes.items?.firstOrNull()
+			val episodes = withContext(Dispatchers.IO) {
+				api.itemsApi.getItems(
+					parentId = mBaseItem.id,
+					includeItemTypes = setOf(BaseItemKind.EPISODE),
+					recursive = true,
+					filters = setOf(ItemFilter.IS_UNPLAYED),
+					fields = ItemRepository.itemFields,
+					sortBy = setOf(
+						ItemSortBy.PARENT_INDEX_NUMBER,
+						ItemSortBy.INDEX_NUMBER,
+						ItemSortBy.SORT_NAME
+					),
+					limit = 1
+				).content
+			}
+			val nextUpEpisode = episodes.items.firstOrNull()
 
 			if (nextUpEpisode != null) play(nextUpEpisode, 0, false)
 		} catch (err: ApiClientException) {
@@ -272,7 +280,9 @@ fun FullDetailsFragment.getLiveTvSeriesTimer(
 
 	lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.getSeriesTimer(id).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getSeriesTimer(id).content
+			}
 		}.onSuccess { timer ->
 			callback(timer)
 		}
@@ -287,7 +297,9 @@ fun FullDetailsFragment.getLiveTvProgram(
 
 	lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.getProgram(id.toString()).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getProgram(id.toString()).content
+			}
 		}.onSuccess { program ->
 			callback(program)
 		}
@@ -302,7 +314,9 @@ fun FullDetailsFragment.createLiveTvSeriesTimer(
 
 	lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.createSeriesTimer(seriesTimer)
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.createSeriesTimer(seriesTimer)
+			}
 		}.onSuccess {
 			callback()
 		}
@@ -317,7 +331,9 @@ fun FullDetailsFragment.getLiveTvDefaultTimer(
 
 	lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.getDefaultTimer(id.toString()).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getDefaultTimer(id.toString()).content
+			}
 		}.onSuccess { seriesTimer ->
 			callback(seriesTimer)
 		}
@@ -332,7 +348,9 @@ fun FullDetailsFragment.cancelLiveTvSeriesTimer(
 
 	lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.cancelTimer(timerId)
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.cancelTimer(timerId)
+			}
 		}.onSuccess {
 			callback()
 		}
@@ -347,7 +365,9 @@ fun FullDetailsFragment.getLiveTvChannel(
 
 	lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.getChannel(id).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getChannel(id).content
+			}
 		}.onSuccess { channel ->
 			callback(channel)
 		}

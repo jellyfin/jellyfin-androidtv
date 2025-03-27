@@ -39,7 +39,7 @@
     <string name="msg_unable_to_create_recording">Kunne ikke opprette opptak</string>
     <string name="msg_recording_cancelled">Opptak avbrutt</string>
     <string name="msg_unable_to_cancel">Kunne ikke avbryte opptak</string>
-    <string name="lbl_cast_crew">Skuespillere og mannskap</string>
+    <string name="lbl_cast_crew">Medvirkende</string>
     <string name="lbl_chapters">Kapitler</string>
     <string name="lbl_specials">Utvalgte</string>
     <string name="lbl_trailers">Trailere</string>

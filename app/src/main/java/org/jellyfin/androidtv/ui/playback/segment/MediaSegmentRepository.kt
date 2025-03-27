@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback.segment
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.sdk.duration
 import org.jellyfin.sdk.api.client.ApiClient
@@ -108,10 +110,12 @@ class MediaSegmentRepositoryImpl(
 	}
 
 	override suspend fun getSegmentsForItem(item: BaseItemDto): List<MediaSegmentDto> = runCatching {
-		api.mediaSegmentsApi.getItemSegments(
-			itemId = item.id,
-			includeSegmentTypes = MediaSegmentRepository.SupportedTypes,
-		).content.items
+		withContext(Dispatchers.IO) {
+			api.mediaSegmentsApi.getItemSegments(
+				itemId = item.id,
+				includeSegmentTypes = MediaSegmentRepository.SupportedTypes,
+			).content.items
+		}
 	}.getOrDefault(emptyList())
 	
 	override fun getAskToSkipAutoHideDuration(): kotlin.time.Duration {

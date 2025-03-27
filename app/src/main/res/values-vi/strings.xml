@@ -557,4 +557,9 @@
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
     <string name="lbl_videos">Videos</string>
+    <string name="image_type_poster">Áp phích</string>
+    <string name="lbl_runtime">Thời lượng</string>
+    <plurals name="tracks">
+        <item quantity="other">%1$s bài</item>
+    </plurals>
 </resources>

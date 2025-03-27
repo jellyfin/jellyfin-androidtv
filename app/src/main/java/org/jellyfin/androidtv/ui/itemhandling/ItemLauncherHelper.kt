@@ -2,7 +2,9 @@ package org.jellyfin.androidtv.ui.itemhandling
 
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -18,7 +20,9 @@ object ItemLauncherHelper {
 			val api by KoinJavaComponent.inject<ApiClient>(ApiClient::class.java)
 
 			try {
-				val response by api.userLibraryApi.getItem(itemId = itemId)
+				val response = withContext(Dispatchers.IO) {
+					api.userLibraryApi.getItem(itemId = itemId).content
+				}
 				callback.onResponse(response)
 			} catch (error: ApiClientException) {
 				callback.onError(error)
