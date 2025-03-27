@@ -6,6 +6,7 @@ import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
+import coil3.network.NetworkFetcher
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
@@ -53,6 +54,7 @@ import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
 import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
 import org.jellyfin.sdk.android.androidDevice
 import org.jellyfin.sdk.api.client.HttpClientOptions
+import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
 import org.koin.android.ext.koin.androidContext
@@ -64,8 +66,9 @@ import org.jellyfin.sdk.Jellyfin as JellyfinSdk
 val defaultDeviceInfo = named("defaultDeviceInfo")
 
 val appModule = module {
-	// New SDK
+	// SDK
 	single(defaultDeviceInfo) { androidDevice(get()) }
+	single { OkHttpFactory() }
 	single { HttpClientOptions() }
 	single {
 		createJellyfin {
@@ -77,6 +80,10 @@ val appModule = module {
 
 			// Change server version
 			minimumServerVersion = ServerRepository.minimumServerVersion
+
+			// Use our own shared factory instance
+			apiClientFactory = get<OkHttpFactory>()
+			socketConnectionFactory = get<OkHttpFactory>()
 		}
 	}
 
@@ -89,13 +96,23 @@ val appModule = module {
 
 	// Coil (images)
 	single {
+		val okHttpFactory = get<OkHttpFactory>()
+		val httpClientOptions = get<HttpClientOptions>()
+
+		@OptIn(ExperimentalCoilApi::class)
+		OkHttpNetworkFetcherFactory(
+			callFactory = { okHttpFactory.createClient(httpClientOptions) },
+			connectivityChecker = ::createCoilConnectivityChecker,
+		)
+	}
+
+	single {
 		ImageLoader.Builder(androidContext()).apply {
 			serviceLoaderEnabled(false)
 			logger(CoilTimberLogger(if (BuildConfig.DEBUG) Logger.Level.Warn else Logger.Level.Error))
 
 			components {
-				@OptIn(ExperimentalCoilApi::class)
-				add(OkHttpNetworkFetcherFactory(connectivityChecker = ::createCoilConnectivityChecker))
+				add(get<NetworkFetcher.Factory>())
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(AnimatedImageDecoder.Factory())
 				else add(GifDecoder.Factory())
