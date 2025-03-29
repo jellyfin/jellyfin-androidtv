@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
@@ -85,6 +86,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable cinema mode
 		 */
 		var cinemaModeEnabled = booleanPreference("pref_enable_cinema_mode", true)
+
+		/**
+		 * Enable still watching
+		 */
+		var stillWatchingEnabled = enumPreference("pref_enable_still_watching", StillWatchingBehavior.DEFAULT)
 
 		/* Playback - Video */
 		/**

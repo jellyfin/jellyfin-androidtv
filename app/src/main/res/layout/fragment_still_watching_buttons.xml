@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!-- Although "Button" is automatically converted to AppCompatButton
+        we need to declare it explicitly for this particular button or the progressbar won't work -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/fragment_still_watching_buttons_no"
+            style="@style/Button.Default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="0dp"
+            android:text="@string/lbl_no" />
+    </FrameLayout>
+
+    <Space
+        android:layout_width="8dp"
+        android:layout_height="0dp" />
+
+    <Button
+        android:id="@+id/fragment_still_watching_buttons_yes"
+        style="@style/Button.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:text="@string/lbl_yes" />
+</LinearLayout>
+

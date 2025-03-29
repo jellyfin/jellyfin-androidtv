@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.ui.playback.WatchTrackerViewModel
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
@@ -40,6 +41,7 @@ class MainActivity : FragmentActivity() {
 	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
 	private val workManager by inject<WorkManager>()
+	private val watchTracker by inject<WatchTrackerViewModel>();
 
 	private lateinit var binding: ActivityMainBinding
 
@@ -169,6 +171,12 @@ class MainActivity : FragmentActivity() {
 		super.onUserInteraction()
 
 		screensaverViewModel.notifyInteraction(false)
+
+		val stillWatchingFragment = supportFragmentManager.findFragmentByTag("STILL_WATCHING")
+
+		if (stillWatchingFragment == null) {
+			watchTracker.notifyInteraction()
+		}
 	}
 
 	@Suppress("RestrictedApi") // False positive

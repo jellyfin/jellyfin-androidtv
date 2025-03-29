@@ -63,6 +63,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
+import org.jellyfin.androidtv.ui.playback.WatchTrackerViewModel;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
@@ -153,6 +154,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
     final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<WatchTrackerViewModel> watchTracker = inject(WatchTrackerViewModel.class);
 
     @Nullable
     @Override
@@ -1205,6 +1207,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (item.getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
                 } else {
+                    watchTracker.getValue().notifyStart(item, response);
                     videoQueueManager.getValue().setCurrentVideoQueue(response);
                     Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(item.getType(), pos);
                     navigationRepository.getValue().navigate(destination);
