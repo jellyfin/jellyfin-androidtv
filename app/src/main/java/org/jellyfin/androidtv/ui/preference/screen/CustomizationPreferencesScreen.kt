@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
+import org.jellyfin.androidtv.preference.constant.ScreenSaverType
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -120,6 +121,24 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				}
 
 				depends { userPreferences[UserPreferences.screensaverInAppEnabled] }
+			}
+
+			enum<ScreenSaverType> {
+				setTitle(R.string.pref_screensaver_inapp_type)
+				bind(userPreferences, UserPreferences.screensaverType)
+				depends { userPreferences[UserPreferences.screensaverInAppEnabled] }
+			}
+			checkbox {
+				setTitle(R.string.pref_screensaver_showlogo)
+				setContent(
+					R.string.pref_screensaver_showlogo_enabled,
+					R.string.pref_screensaver_showlogo_disabled,
+				)
+				depends {
+                    userPreferences[UserPreferences.screensaverType] == ScreenSaverType.NORMAL
+                }
+
+				bind(userPreferences, UserPreferences.screensaverShowLogo)
 			}
 
 			checkbox {
