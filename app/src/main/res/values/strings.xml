@@ -98,6 +98,8 @@
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="lbl_play_first_unwatched">Play first unwatched</string>
     <string name="lbl_mark_unplayed">Mark unplayed</string>
+    <string name="pref_ask_to_skip_timer_title">Skip button display duration</string>
+    <string name="pref_ask_to_skip_timer_summary">Duration to show the Skip Intro/Outro button on screen</string>
     <string name="lbl_mark_played">Mark played</string>
     <string name="lbl_remove_favorite">Remove favorite</string>
     <string name="lbl_add_favorite">Add favorite</string>
