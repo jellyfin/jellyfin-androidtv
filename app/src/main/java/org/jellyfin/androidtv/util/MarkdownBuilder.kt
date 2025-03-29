@@ -58,3 +58,14 @@ fun MarkdownBuilder.appendCodeBlock(language: String, code: String?) {
 fun MarkdownBuilder.appendValue(value: String?) {
 	append("`", value ?: "<null>", "`")
 }
+
+fun MarkdownBuilder.appendDetails(summary: String? = null, content: MarkdownBuilder.() -> Unit) {
+	appendLine()
+	appendLine("<details>")
+	if (summary != null) appendLine("<summary>${summary}</summary>")
+	appendLine()
+	content()
+	appendLine()
+	appendLine("</details>")
+	appendLine()
+}

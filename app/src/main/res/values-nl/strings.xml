@@ -114,7 +114,7 @@
     <string name="lbl_name">Naam</string>
     <string name="lbl_date_added">Datum toegevoegd</string>
     <string name="lbl_premier_date">Premièredatum</string>
-    <string name="lbl_critic_rating">Beoordeling recensenten</string>
+    <string name="lbl_critic_rating">Beoordeling critici</string>
     <string name="lbl_rating">Beoordeling</string>
     <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
     <string name="lbl_display_preferences">Weergavevoorkeuren</string>
@@ -314,7 +314,7 @@
     <string name="lbl_hide_unwatched_count">Als het item is gekeken</string>
     <string name="pref_watched_indicator">Gekeken-vinkjes tonen</string>
     <string name="press_to_close">Druk om te sluiten</string>
-    <string name="lbl_community_rating">Beoordeling gemeenschap</string>
+    <string name="lbl_community_rating">Beoordeling publiek</string>
     <string name="advanced_settings">Geavanceerd</string>
     <string name="always_authenticate_description">Het inschakelen van deze functie schakelt automatisch aanmelden uit</string>
     <string name="always_authenticate">Altijd vragen om toegangsgegevens</string>
@@ -553,7 +553,7 @@
     <string name="video_start_delay">Startvertraging video</string>
     <string name="segment_action_skip">Overslaan</string>
     <string name="segment_type_commercial">Reclame</string>
-    <string name="segment_type_outro">Outro\'s</string>
+    <string name="segment_type_outro">Eindtitels</string>
     <string name="segment_type_preview">Vooruitblikken</string>
     <string name="segment_type_recap">Terugblikken</string>
     <string name="segment_type_unknown">Onbekende segmenten</string>

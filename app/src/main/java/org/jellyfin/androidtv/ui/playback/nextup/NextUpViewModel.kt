@@ -60,8 +60,8 @@ class NextUpViewModel(
 			item,
 			item.id,
 			title,
-			NextUpItemData.Image(thumbnail, thumbnailBlurhash, item.primaryImageAspectRatio ?: 1.0),
-			NextUpItemData.Image(logo, null, 1.0)
+			thumbnail?.let { NextUpItemData.Image(it, thumbnailBlurhash, item.primaryImageAspectRatio ?: 1.0) },
+			logo?.let { NextUpItemData.Image(it, null, 1.0) }
 		)
 	}
 }

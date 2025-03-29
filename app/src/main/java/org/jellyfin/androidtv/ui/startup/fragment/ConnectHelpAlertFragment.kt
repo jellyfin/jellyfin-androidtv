@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,16 +26,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
-import androidx.tv.material3.Button
-import androidx.tv.material3.ButtonDefaults
-import androidx.tv.material3.Icon
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Surface
-import androidx.tv.material3.SurfaceDefaults
-import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.LocalTextStyle
+import org.jellyfin.androidtv.ui.base.ProvideTextStyle
+import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 
 @Composable
@@ -42,68 +43,59 @@ private fun ConnectHelpAlert(
 ) {
 	val focusRequester = remember { FocusRequester() }
 
-	Surface(
-		colors = SurfaceDefaults.colors(
-			containerColor = colorResource(R.color.not_quite_black),
-			contentColor = colorResource(R.color.white),
-		)
+	Box(
+		modifier = Modifier.background(colorResource(R.color.not_quite_black))
 	) {
-		Row(
-			modifier = Modifier
-				.fillMaxWidth()
-				.fillMaxHeight()
-				.overscan(),
-			horizontalArrangement = Arrangement.SpaceEvenly,
-		) {
-			Column(
+		ProvideTextStyle(LocalTextStyle.current.copy(color = colorResource(R.color.white))) {
+			Row(
 				modifier = Modifier
-					.width(400.dp)
-					.align(Alignment.CenterVertically),
+					.fillMaxWidth()
+					.fillMaxHeight()
+					.overscan(),
+				horizontalArrangement = Arrangement.SpaceEvenly,
 			) {
-				Text(
-					text = stringResource(R.string.login_help_title),
-					style = MaterialTheme.typography.displayMedium,
-				)
-				Text(
-					modifier = Modifier.padding(top = 16.dp),
-					text = stringResource(R.string.login_help_description),
-					style = MaterialTheme.typography.bodyLarge,
-				)
-				Button(
+				Column(
 					modifier = Modifier
-						.padding(top = 24.dp)
-						.align(Alignment.Start)
-						.focusRequester(focusRequester),
-					onClick = onClose,
-					colors = ButtonDefaults.colors(
-						containerColor = colorResource(R.color.button_default_normal_background),
-						contentColor = colorResource(R.color.button_default_normal_text),
-						focusedContainerColor = colorResource(R.color.button_default_highlight_background),
-						focusedContentColor = colorResource(R.color.button_default_highlight_text),
-						disabledContainerColor = colorResource(R.color.button_default_disabled_background),
-						disabledContentColor = colorResource(R.color.button_default_disabled_text),
-					),
+						.width(400.dp)
+						.align(Alignment.CenterVertically),
 				) {
-					Icon(
-						painter = painterResource(R.drawable.ic_check),
-						contentDescription = null,
-						modifier = Modifier.size(ButtonDefaults.IconSize),
-					)
-					Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 					Text(
-						text = stringResource(id = R.string.btn_got_it),
-						style = MaterialTheme.typography.bodyLarge,
+						text = stringResource(R.string.login_help_title),
+						style = LocalTextStyle.current.copy(fontSize = 45.sp),
 					)
+					Text(
+						modifier = Modifier.padding(top = 16.dp),
+						text = stringResource(R.string.login_help_description),
+						style = LocalTextStyle.current.copy(fontSize = 16.sp),
+					)
+					Button(
+						modifier = Modifier
+							.padding(top = 24.dp)
+							.align(Alignment.Start)
+							.focusRequester(focusRequester),
+						onClick = onClose,
+					) {
+						Icon(
+							painter = painterResource(R.drawable.ic_check),
+							contentDescription = null,
+							modifier = Modifier.size(20.dp),
+						)
+						Spacer(Modifier.size(8.dp))
+						Text(
+							text = stringResource(id = R.string.btn_got_it),
+							style = LocalTextStyle.current.copy(fontSize = 16.sp),
+						)
+					}
 				}
-			}
 
-			Image(
-				painter = painterResource(R.drawable.qr_jellyfin_docs),
-				contentDescription = stringResource(R.string.app_name),
-				modifier = Modifier
-					.width(200.dp)
-					.align(Alignment.CenterVertically),
-			)
+				Image(
+					painter = painterResource(R.drawable.qr_jellyfin_docs),
+					contentDescription = stringResource(R.string.app_name),
+					modifier = Modifier
+						.width(200.dp)
+						.align(Alignment.CenterVertically),
+				)
+			}
 		}
 	}
 

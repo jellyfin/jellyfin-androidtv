@@ -3,11 +3,13 @@ package org.jellyfin.androidtv.di
 import android.content.Context
 import android.os.Build
 import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
+import coil3.util.Logger
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -45,6 +47,8 @@ import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper
+import org.jellyfin.androidtv.util.coil.CoilTimberLogger
+import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
 import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
 import org.jellyfin.sdk.android.androidDevice
 import org.jellyfin.sdk.createJellyfin
@@ -84,8 +88,12 @@ val appModule = module {
 	single {
 		ImageLoader.Builder(androidContext()).apply {
 			serviceLoaderEnabled(false)
+			logger(CoilTimberLogger(if (BuildConfig.DEBUG) Logger.Level.Warn else Logger.Level.Error))
+
 			components {
-				add(OkHttpNetworkFetcherFactory())
+				@OptIn(ExperimentalCoilApi::class)
+				add(OkHttpNetworkFetcherFactory(connectivityChecker = ::createCoilConnectivityChecker))
+
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(AnimatedImageDecoder.Factory())
 				else add(GifDecoder.Factory())
 				add(SvgDecoder.Factory())
