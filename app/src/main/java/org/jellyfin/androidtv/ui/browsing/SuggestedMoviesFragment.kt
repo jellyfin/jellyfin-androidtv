@@ -1,7 +1,9 @@
 package org.jellyfin.androidtv.ui.browsing
 
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.data.repository.ItemRepository
@@ -22,14 +24,16 @@ class SuggestedMoviesFragment : EnhancedBrowseFragment() {
 
 	override fun setupQueries(rowLoader: RowLoader) {
 		lifecycleScope.launch {
-			val response by api.itemsApi.getItems(
-				parentId = mFolder.id,
-				includeItemTypes = setOf(BaseItemKind.MOVIE),
-				sortOrder = setOf(SortOrder.DESCENDING),
-				sortBy = setOf(ItemSortBy.DATE_PLAYED),
-				limit = 8,
-				recursive = true,
-			)
+			val response = withContext(Dispatchers.IO) {
+				api.itemsApi.getItems(
+					parentId = mFolder.id,
+					includeItemTypes = setOf(BaseItemKind.MOVIE),
+					sortOrder = setOf(SortOrder.DESCENDING),
+					sortBy = setOf(ItemSortBy.DATE_PLAYED),
+					limit = 8,
+					recursive = true,
+				).content
+			}
 
 			for (item in response.items) {
 				val similar = GetSimilarItemsRequest(

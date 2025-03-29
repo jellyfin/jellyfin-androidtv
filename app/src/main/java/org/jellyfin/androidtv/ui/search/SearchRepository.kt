@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.search
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -47,11 +49,13 @@ class SearchRepositoryImpl(
 			)
 		}
 
-		val result by apiClient.itemsApi.getItems(request)
+		val result = withContext(Dispatchers.IO) {
+			apiClient.itemsApi.getItems(request).content
+		}
 
 		Result.success(result.items)
 	} catch (e: ApiClientException) {
-		Timber.e("Failed to search for items", e)
+		Timber.e(e, "Failed to search for items")
 		Result.failure(e)
 	}
 }

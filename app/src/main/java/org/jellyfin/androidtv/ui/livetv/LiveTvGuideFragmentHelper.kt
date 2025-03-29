@@ -4,7 +4,9 @@ import android.content.Context
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
@@ -61,7 +63,9 @@ fun LiveTvGuideFragment.refreshSelectedProgram() {
 
 	lifecycleScope.launch {
 		runCatching {
-			val item by api.userLibraryApi.getItem(mSelectedProgram.id)
+			val item = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getItem(mSelectedProgram.id).content
+			}
 			mSelectedProgram = item
 		}.onFailure { error ->
 			Timber.e(error, "Unable to get program details")

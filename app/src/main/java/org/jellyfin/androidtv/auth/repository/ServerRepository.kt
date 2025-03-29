@@ -1,11 +1,14 @@
 package org.jellyfin.androidtv.auth.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.ConnectingState
@@ -159,7 +162,7 @@ class ServerRepositoryImpl(
 				.mapValues { (_, entry) -> entry.flatMap { server -> server.issues } }
 			emit(UnableToConnectState(addressCandidatesWithIssues))
 		}
-	}
+	}.flowOn(Dispatchers.IO)
 
 	override suspend fun getServer(id: UUID): Server? {
 		val server = authenticationStore.getServer(id) ?: return null
@@ -193,19 +196,22 @@ class ServerRepositoryImpl(
 		// Only update every 10 minutes
 		if (now - server.lastRefreshed < 600000 && server.version != null) return null
 
-		val api = jellyfin.createApi(server.address)
-		// Get login disclaimer
-		val branding = api.getBrandingOptionsOrDefault()
-		val systemInfo by api.systemApi.getPublicSystemInfo()
+		val newServer = withContext(Dispatchers.IO) {
+			val api = jellyfin.createApi(server.address)
 
-		val newServer = server.copy(
-			name = systemInfo.serverName ?: server.name,
-			version = systemInfo.version ?: server.version,
-			loginDisclaimer = branding.loginDisclaimer ?: server.loginDisclaimer,
-			splashscreenEnabled = branding.splashscreenEnabled,
-			setupCompleted = systemInfo.startupWizardCompleted ?: server.setupCompleted,
-			lastRefreshed = now
-		)
+			// Get login disclaimer
+			val branding = api.getBrandingOptionsOrDefault()
+			val systemInfo by api.systemApi.getPublicSystemInfo()
+
+			server.copy(
+				name = systemInfo.serverName ?: server.name,
+				version = systemInfo.version ?: server.version,
+				loginDisclaimer = branding.loginDisclaimer ?: server.loginDisclaimer,
+				splashscreenEnabled = branding.splashscreenEnabled,
+				setupCompleted = systemInfo.startupWizardCompleted ?: server.setupCompleted,
+				lastRefreshed = now
+			)
+		}
 		authenticationStore.putServer(id, newServer)
 
 		return newServer

@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.browsing
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.genresApi
@@ -16,10 +18,12 @@ class ByGenreFragment : BrowseFolderFragment() {
 		if (childCount <= 0) return
 
 		// Get all genres for this folder
-		val genresResponse by apiClient.genresApi.getGenres(
-			parentId = folder?.id,
-			sortBy = setOf(ItemSortBy.SORT_NAME),
-		)
+		val genresResponse = withContext(Dispatchers.IO) {
+			apiClient.genresApi.getGenres(
+				parentId = folder?.id,
+				sortBy = setOf(ItemSortBy.SORT_NAME),
+			).content
+		}
 
 		for (genre in genresResponse.items) {
 			val itemsRequest = GetItemsRequest(

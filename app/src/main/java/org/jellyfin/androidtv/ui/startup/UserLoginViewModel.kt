@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.startup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
 import org.jellyfin.androidtv.auth.model.AutomaticAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.ConnectedQuickConnectState
@@ -77,13 +79,16 @@ class UserLoginViewModel(
 		val server = server.value ?: return
 		_quickConnectState.emit(UnknownQuickConnectState)
 		quickConnectSecret = null
-		quickConnectApi.update(
-			baseUrl = server.address,
-			deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID()),
-		)
 
 		try {
-			val response by quickConnectApi.quickConnectApi.initiateQuickConnect()
+			val response = withContext(Dispatchers.IO) {
+				quickConnectApi.update(
+					baseUrl = server.address,
+					deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID()),
+				)
+
+				quickConnectApi.quickConnectApi.initiateQuickConnect().content
+			}
 
 			quickConnectSecret = response.secret
 			_quickConnectState.emit(PendingQuickConnectState(response.code))
@@ -111,7 +116,9 @@ class UserLoginViewModel(
 		val secret = quickConnectSecret ?: return false
 
 		try {
-			val state by quickConnectApi.quickConnectApi.getQuickConnectState(secret = secret)
+			val state = withContext(Dispatchers.IO) {
+				quickConnectApi.quickConnectApi.getQuickConnectState(secret = secret).content
+			}
 
 			if (state.authenticated) {
 				_quickConnectState.emit(ConnectedQuickConnectState)

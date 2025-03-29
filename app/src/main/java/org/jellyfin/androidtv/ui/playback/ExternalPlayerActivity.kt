@@ -8,7 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.util.sdk.getDisplayName
@@ -190,14 +192,16 @@ class ExternalPlayerActivity : FragmentActivity() {
 
 		lifecycleScope.launch {
 			runCatching {
-				api.playStateApi.reportPlaybackStopped(
-					PlaybackStopInfo(
-						itemId = item.id,
-						mediaSourceId = mediaSource.id,
-						positionTicks = endPosition?.inWholeTicks,
-						failed = false,
+				withContext(Dispatchers.IO) {
+					api.playStateApi.reportPlaybackStopped(
+						PlaybackStopInfo(
+							itemId = item.id,
+							mediaSourceId = mediaSource.id,
+							positionTicks = endPosition?.inWholeTicks,
+							failed = false,
+						)
 					)
-				)
+				}
 			}.onFailure { error ->
 				Timber.w(error, "Failed to report playback stop event")
 				Toast.makeText(this@ExternalPlayerActivity, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
