@@ -14,6 +14,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -110,7 +111,7 @@ class MainActivity : FragmentActivity() {
 
 		workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
 
-		lifecycleScope.launch {
+		lifecycleScope.launch(Dispatchers.IO) {
 			Timber.d("MainActivity stopped")
 			sessionRepository.restoreSession(destroyOnly = true)
 		}

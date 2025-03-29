@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.preference.store
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jellyfin.preference.Preference
 import org.jellyfin.preference.PreferenceEnum
 import org.jellyfin.preference.migration.MigrationContext
@@ -56,10 +58,12 @@ abstract class DisplayPreferencesStore(
 
 	override suspend fun update(): Boolean {
 		try {
-			val result by api.displayPreferencesApi.getDisplayPreferences(
-				displayPreferencesId = displayPreferencesId,
-				client = app
-			)
+			val result = withContext(Dispatchers.IO) {
+				api.displayPreferencesApi.getDisplayPreferences(
+					displayPreferencesId = displayPreferencesId,
+					client = app
+				).content
+			}
 			displayPreferencesDto = result
 			cachedPreferences = result.customPrefs.toMutableMap()
 
@@ -82,7 +86,7 @@ abstract class DisplayPreferencesStore(
 	override fun getLong(key: String, defaultValue: Long) =
 		cachedPreferences[key]?.toLongOrNull() ?: defaultValue
 
- 	override fun getFloat(key: String, defaultValue: Float) =
+	override fun getFloat(key: String, defaultValue: Float) =
 		cachedPreferences[key]?.toFloatOrNull() ?: defaultValue
 
 	override fun getBool(key: String, defaultValue: Boolean) =

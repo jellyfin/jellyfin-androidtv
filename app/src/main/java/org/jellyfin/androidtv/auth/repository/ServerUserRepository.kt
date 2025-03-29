@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.auth.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.model.PrivateUser
 import org.jellyfin.androidtv.auth.model.PublicUser
 import org.jellyfin.androidtv.auth.model.Server
@@ -47,7 +49,9 @@ class ServerUserRepositoryImpl(
 		val api = jellyfin.createApi(server.address)
 
 		return try {
-			val users by api.userApi.getPublicUsers()
+			val users = withContext(Dispatchers.IO) {
+				api.userApi.getPublicUsers().content
+			}
 			users.mapNotNull(UserDto::toPublicUser)
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to retrieve public users")

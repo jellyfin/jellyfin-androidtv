@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.util.apiclient
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.compat.StreamInfo
@@ -47,7 +48,7 @@ class ReportingHelper(
 			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
-		lifecycleOwner.lifecycleScope.launch(NonCancellable) {
+		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
 			Timber.i("Reporting ${item.name} playback started at $position")
 			runCatching {
 				api.playStateApi.reportPlaybackStart(info)
@@ -79,7 +80,7 @@ class ReportingHelper(
 			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
-		lifecycleOwner.lifecycleScope.launch(NonCancellable) {
+		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
 			Timber.d("Reporting ${item.name} playback progress at $position")
 			runCatching {
 				api.playStateApi.reportPlaybackProgress(info)
@@ -97,7 +98,7 @@ class ReportingHelper(
 			failed = false,
 		)
 
-		lifecycleOwner.lifecycleScope.launch(NonCancellable) {
+		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
 			Timber.i("Reporting ${item.name} playback stopped at $position")
 			runCatching {
 				api.playStateApi.reportPlaybackStopped(info)
