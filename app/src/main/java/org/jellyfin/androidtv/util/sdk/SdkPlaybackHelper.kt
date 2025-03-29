@@ -269,4 +269,32 @@ class SdkPlaybackHelper(
 		is LifecycleOwner -> context.lifecycleScope
 		else -> ProcessLifecycleOwner.get().lifecycleScope
 	}
+
+	override fun getLastPlayedItem(
+		context: Context,
+		mainItem: BaseItemDto,
+		callback: Response<BaseItemDto?>
+	) {
+		getScope(context).launch {
+			runCatching {
+				mainItem.seriesId
+					?.let {
+						val response by api.tvShowsApi.getEpisodes(
+							seriesId = it,
+							isMissing = false,
+							fields = ItemRepository.itemFields,
+							enableImages = false,
+						)
+						response.items
+					}
+					//Since query param sortBy DATE_PLAYED or 	SERIES_DATE_PLAYED is not working, we need to filter and sort manually
+					?.filter { it.userData?.played ?: true }
+					?.sortedByDescending { it.userData?.lastPlayedDate }
+					?.let { it[0] }
+			}.fold(
+				onSuccess = { callback.onResponse(it) },
+				onFailure = { callback.onError(Exception(it)) }
+			)
+		}
+	}
 }
