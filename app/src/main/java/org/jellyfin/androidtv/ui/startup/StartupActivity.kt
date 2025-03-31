@@ -15,6 +15,7 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
@@ -147,7 +149,9 @@ class StartupActivity : FragmentActivity() {
 			)
 			// User view item is requested
 			itemId != null && itemIsUserView -> {
-				val item by api.userLibraryApi.getItem(itemId = itemId)
+				val item = withContext(Dispatchers.IO) {
+					api.userLibraryApi.getItem(itemId = itemId).content
+				}
 				itemLauncher.getUserViewDestination(item)
 			}
 			// Other item is requested
@@ -178,9 +182,11 @@ class StartupActivity : FragmentActivity() {
 
 	private fun showServer(id: UUID) = supportFragmentManager.commit {
 		replace<StartupToolbarFragment>(R.id.content_view)
-		add<ServerFragment>(R.id.content_view, null, bundleOf(
-			ServerFragment.ARG_SERVER_ID to id.toString()
-		))
+		add<ServerFragment>(
+			R.id.content_view, null, bundleOf(
+				ServerFragment.ARG_SERVER_ID to id.toString()
+			)
+		)
 	}
 
 	private fun showServerSelection() = supportFragmentManager.commit {

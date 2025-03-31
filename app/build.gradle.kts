@@ -123,7 +123,6 @@ dependencies {
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.startup)
 	implementation(libs.bundles.androidx.compose)
-	implementation(libs.androidx.tv.material)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)

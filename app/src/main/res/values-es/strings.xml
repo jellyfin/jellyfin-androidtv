@@ -574,4 +574,12 @@
     <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
     <string name="preference_enable_trickplay">Habilitar previsualizaciones en el reproductor</string>
     <string name="skip_forward_length">Longitud de salto hacia adelante</string>
+    <string name="pref_troubleshooting">Resolución de problemas</string>
+    <string name="pref_report_device_profile_summary">Sube un documento de resolución de problemas al servidor de Jellyfin con información sobre las capacidades de reproducción</string>
+    <string name="pref_subtitles_background_opacity">Opacidad del fondo de los subtítulos</string>
+    <string name="pref_report_device_profile_title">Informar de las capacidades de reproducción al servidor</string>
+    <string name="pref_report_device_profile_success">Documento enviado como %1$s</string>
+    <string name="pref_report_device_profile_failure">No se ha podido enviar el documento. Es posible que tu servidor Jellyfin prohíba los registros del cliente.</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
 </resources>

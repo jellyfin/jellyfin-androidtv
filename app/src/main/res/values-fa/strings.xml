@@ -17,7 +17,7 @@
     <string name="lbl_item">مورد</string>
     <string name="lbl_items">موارد</string>
     <string name="lbl_trailers">پیش نمایش ها</string>
-    <string name="lbl_specials">ویژه</string>
+    <string name="lbl_specials">ویژه ها</string>
     <string name="lbl_chapters">فصل ها</string>
     <string name="lbl_cast_crew">بازیگران و عوامل</string>
     <string name="msg_unable_to_cancel">عدم توانایی در لغو ضبط</string>
@@ -39,7 +39,7 @@
     <string name="lbl_collections">مجموعه ها</string>
     <string name="lbl_other_channels">کانال‌های دیگر</string>
     <string name="lbl_favorite_channels">کانال‌های مورد علاقه</string>
-    <string name="lbl_coming_up">بعدی</string>
+    <string name="lbl_coming_up">در ادامه</string>
     <string name="lbl_favorites">مورد علاقه ها</string>
     <string name="lbl_by_name">بر اساس نام</string>
     <string name="lbl_latest">تازه‌ترین</string>
@@ -68,12 +68,12 @@
     <string name="lbl_now_playing_album">از %1$s</string>
     <string name="lbl_now_playing_track">%1$s از %2$s</string>
     <string name="lbl_add_favorite">افزودن به علاقه مندی‌ها</string>
-    <string name="lbl_remove_favorite">حذف از مورد علاقه</string>
+    <string name="lbl_remove_favorite">حذف از لیست مورد علاقه</string>
     <string name="lbl_mark_played">علامت‌گذاری پخش شده</string>
     <string name="lbl_mark_unplayed">علامت‌گذاری پخش نشده</string>
     <string name="lbl_play_first_unwatched">پخش نخشتین تماشا نشده</string>
     <string name="lbl_search_hint">جستجوی متن (برای صفحه کلید انتخاب را بزنید)</string>
-    <string name="lbl_tv_queuing">اضافه کردن تمام قسمت های بعدی به صف</string>
+    <string name="lbl_tv_queuing">پخش قسمت بعد به صورت خودکار</string>
     <string name="lbl_empty">خالی</string>
     <string name="lbl_no_items">هیچ موردی یافت نشد</string>
     <string name="msg_cannot_play">این مورد قابل پخش نیست</string>
@@ -100,7 +100,7 @@
     <string name="pref_audio_compat">کاهش به استریو</string>
     <string name="pref_audio_direct">مستقیم</string>
     <string name="msg_cancel_entire_series">آیا مطمئن هستید که می خواهید تمام این سریال را لغو کنید؟</string>
-    <string name="lbl_repeat_options">گزینه‌ها را دوباره تکرار کنید</string>
+    <string name="lbl_repeat_options">گزینه‌های تکرار</string>
     <string name="lbl_only_new_episodes">فقط قسمت های جدید</string>
     <string name="lbl_similar_items_library">موارد مشابه در کتابخانه شما</string>
     <string name="lbl_program_ended">برنامه به پایان رسید</string>
@@ -428,7 +428,7 @@
     <string name="item_deletion_failed">امکان حذف %1$s وجود ندارد</string>
     <string name="pref_refresh_rate_scale_on_tv">بزرگ‌نمایی در تلویزیون</string>
     <string name="pref_refresh_rate_scale_on_device">بزرگنمایی در دستگاه</string>
-    <string name="lbl_shuffle_queue">تصادفی</string>
+    <string name="lbl_shuffle_queue">انتخاب تصادفی</string>
     <string name="lbl_subtitle_delay">تأخیر زیرنویس</string>
     <string name="color_green">سبز</string>
     <string name="action_use_password">بکارگیری گذرواژه</string>
@@ -457,4 +457,10 @@
     <string name="lbl_additional_parts">قسمت‌های اضافی</string>
     <string name="lbl_home">خانه</string>
     <string name="lbl_runtime">زمان اجرا</string>
+    <string name="runtime_hours_minutes">%1$d ساعت %2$d دقیقه</string>
+    <string name="runtime_minutes">%1$d دقیقه</string>
+    <string name="desc_audio_night_mode">تنظیم خودکار صدا</string>
+    <string name="lbl_subtitle_text_color">رنگ نوشته زیرنویس</string>
+    <string name="lbl_subtitle_text_stroke_color">رنگ زیرنویس</string>
+    <string name="lbl_subtitle_background_color">رنگ پشت صفحه زیرنویس</string>
 </resources>

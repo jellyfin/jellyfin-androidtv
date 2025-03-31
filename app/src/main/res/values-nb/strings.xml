@@ -39,7 +39,7 @@
     <string name="msg_unable_to_create_recording">Kunne ikke opprette opptak</string>
     <string name="msg_recording_cancelled">Opptak avbrutt</string>
     <string name="msg_unable_to_cancel">Kunne ikke avbryte opptak</string>
-    <string name="lbl_cast_crew">Skuespillere og mannskap</string>
+    <string name="lbl_cast_crew">Medvirkende</string>
     <string name="lbl_chapters">Kapitler</string>
     <string name="lbl_specials">Utvalgte</string>
     <string name="lbl_trailers">Trailere</string>
@@ -566,4 +566,10 @@
     <string name="skip_forward_length">Lengde det spoles frem med</string>
     <string name="runtime_hours_minutes">%1$dt %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_report_device_profile_title">Rapporter avspillings kompatibilitet til tjener</string>
+    <string name="pref_report_device_profile_failure">Feilet med å levere dokument. Din Jellyfin tjener kan forby klient logger.</string>
+    <string name="pref_subtitles_background_opacity">Undertekst bakgrunnsopasitet</string>
+    <string name="pref_troubleshooting">Feilsøking</string>
+    <string name="pref_report_device_profile_success">Dokument levert som %1$s</string>
+    <string name="pref_report_device_profile_summary">Last opp et feilsøkings dokument til Jellyfin tjeneren om avspillings kompatiblitet</string>
 </resources>

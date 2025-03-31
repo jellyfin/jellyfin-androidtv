@@ -5,7 +5,9 @@ import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -74,128 +76,130 @@ class SdkPlaybackHelper(
 		mainItem: BaseItemDto,
 		allowIntros: Boolean,
 		shuffle: Boolean,
-	): List<BaseItemDto> = when (mainItem.type) {
-		BaseItemKind.EPISODE -> {
-			val seriesId = mainItem.seriesId
-			if (userPreferences[UserPreferences.mediaQueuingEnabled] && seriesId != null) {
-				val response by api.tvShowsApi.getEpisodes(
-					seriesId = seriesId,
-					startItemId = mainItem.id,
+	): List<BaseItemDto> = withContext(Dispatchers.IO) {
+		when (mainItem.type) {
+			BaseItemKind.EPISODE -> {
+				val seriesId = mainItem.seriesId
+				if (userPreferences[UserPreferences.mediaQueuingEnabled] && seriesId != null) {
+					val response by api.tvShowsApi.getEpisodes(
+						seriesId = seriesId,
+						startItemId = mainItem.id,
+						isMissing = false,
+						limit = ITEM_QUERY_LIMIT,
+						fields = ItemRepository.itemFields
+					)
+
+					response.items
+				} else {
+					listOf(mainItem)
+				}
+			}
+
+			BaseItemKind.SERIES, BaseItemKind.SEASON, BaseItemKind.BOX_SET, BaseItemKind.FOLDER -> {
+				val response by api.itemsApi.getItems(
+					parentId = mainItem.id,
 					isMissing = false,
+					includeItemTypes = listOf(
+						BaseItemKind.EPISODE,
+						BaseItemKind.MOVIE,
+						BaseItemKind.VIDEO
+					),
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(ItemSortBy.SORT_NAME),
+					recursive = true,
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields
 				)
 
 				response.items
-			} else {
-				listOf(mainItem)
 			}
-		}
 
-		BaseItemKind.SERIES, BaseItemKind.SEASON, BaseItemKind.BOX_SET, BaseItemKind.FOLDER -> {
-			val response by api.itemsApi.getItems(
-				parentId = mainItem.id,
-				isMissing = false,
-				includeItemTypes = listOf(
-					BaseItemKind.EPISODE,
-					BaseItemKind.MOVIE,
-					BaseItemKind.VIDEO
-				),
-				sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(ItemSortBy.SORT_NAME),
-				recursive = true,
-				limit = ITEM_QUERY_LIMIT,
-				fields = ItemRepository.itemFields
-			)
-
-			response.items
-		}
-
-		BaseItemKind.MUSIC_ALBUM -> {
-			val response by api.itemsApi.getItems(
-				isMissing = false,
-				mediaTypes = listOf(MediaType.AUDIO),
-				sortBy = listOf(
-					ItemSortBy.ALBUM_ARTIST,
-					ItemSortBy.SORT_NAME
-				),
-				recursive = true,
-				limit = ITEM_QUERY_LIMIT,
-				fields = ItemRepository.itemFields,
-				albumIds = listOf(mainItem.id)
-			)
-
-			response.items
-		}
-
-		BaseItemKind.MUSIC_ARTIST -> {
-			val response by api.itemsApi.getItems(
-				isMissing = false,
-				mediaTypes = listOf(MediaType.AUDIO),
-				sortBy = listOf(ItemSortBy.SORT_NAME),
-				recursive = true,
-				limit = ITEM_QUERY_LIMIT,
-				fields = ItemRepository.itemFields,
-				artistIds = listOf(mainItem.id)
-			)
-
-			response.items
-		}
-
-		BaseItemKind.PLAYLIST -> {
-			val response by api.itemsApi.getItems(
-				parentId = mainItem.id,
-				isMissing = false,
-				sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else null,
-				recursive = true,
-				limit = ITEM_QUERY_LIMIT,
-				fields = ItemRepository.itemFields
-			)
-
-			response.items
-		}
-
-		BaseItemKind.PROGRAM -> {
-			val parentId = requireNotNull(mainItem.parentId)
-			val channel by api.userLibraryApi.getItem(parentId)
-			val channelWithProgramMetadata = channel.copy(
-				premiereDate = mainItem.premiereDate,
-				endDate = mainItem.endDate,
-				officialRating = mainItem.officialRating,
-				runTimeTicks = mainItem.runTimeTicks,
-			)
-
-			listOf(channelWithProgramMetadata)
-		}
-
-		BaseItemKind.TV_CHANNEL -> {
-			val channel by api.liveTvApi.getChannel(mainItem.id)
-			val currentProgram = channel.currentProgram
-			if (currentProgram != null) {
-				val channelWithCurrentProgramMetadata = channel.copy(
-					premiereDate = currentProgram.premiereDate,
-					endDate = currentProgram.endDate,
-					officialRating = currentProgram.officialRating,
-					runTimeTicks = currentProgram.runTimeTicks,
+			BaseItemKind.MUSIC_ALBUM -> {
+				val response by api.itemsApi.getItems(
+					isMissing = false,
+					mediaTypes = listOf(MediaType.AUDIO),
+					sortBy = listOf(
+						ItemSortBy.ALBUM_ARTIST,
+						ItemSortBy.SORT_NAME
+					),
+					recursive = true,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields,
+					albumIds = listOf(mainItem.id)
 				)
-				listOf(channelWithCurrentProgramMetadata)
-			} else {
-				listOf(channel)
+
+				response.items
 			}
-		}
 
-		else -> {
-			val parts = getParts(mainItem)
-			val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
+			BaseItemKind.MUSIC_ARTIST -> {
+				val response by api.itemsApi.getItems(
+					isMissing = false,
+					mediaTypes = listOf(MediaType.AUDIO),
+					sortBy = listOf(ItemSortBy.SORT_NAME),
+					recursive = true,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields,
+					artistIds = listOf(mainItem.id)
+				)
 
-			if (addIntros) {
-				val intros = runCatching { api.userLibraryApi.getIntros(mainItem.id).content.items }.getOrNull()
-					.orEmpty()
-					// Force the type to be trailer as the legacy playback UI uses it to determine if it should show the next up screen
-					.map { it.copy(type = BaseItemKind.TRAILER) }
+				response.items
+			}
 
-				intros + parts
-			} else {
-				parts
+			BaseItemKind.PLAYLIST -> {
+				val response by api.itemsApi.getItems(
+					parentId = mainItem.id,
+					isMissing = false,
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else null,
+					recursive = true,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields
+				)
+
+				response.items
+			}
+
+			BaseItemKind.PROGRAM -> {
+				val parentId = requireNotNull(mainItem.parentId)
+				val channel by api.userLibraryApi.getItem(parentId)
+				val channelWithProgramMetadata = channel.copy(
+					premiereDate = mainItem.premiereDate,
+					endDate = mainItem.endDate,
+					officialRating = mainItem.officialRating,
+					runTimeTicks = mainItem.runTimeTicks,
+				)
+
+				listOf(channelWithProgramMetadata)
+			}
+
+			BaseItemKind.TV_CHANNEL -> {
+				val channel by api.liveTvApi.getChannel(mainItem.id)
+				val currentProgram = channel.currentProgram
+				if (currentProgram != null) {
+					val channelWithCurrentProgramMetadata = channel.copy(
+						premiereDate = currentProgram.premiereDate,
+						endDate = currentProgram.endDate,
+						officialRating = currentProgram.officialRating,
+						runTimeTicks = currentProgram.runTimeTicks,
+					)
+					listOf(channelWithCurrentProgramMetadata)
+				} else {
+					listOf(channel)
+				}
+			}
+
+			else -> {
+				val parts = getParts(mainItem)
+				val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
+
+				if (addIntros) {
+					val intros = runCatching { api.userLibraryApi.getIntros(mainItem.id).content.items }.getOrNull()
+						.orEmpty()
+						// Force the type to be trailer as the legacy playback UI uses it to determine if it should show the next up screen
+						.map { it.copy(type = BaseItemKind.TRAILER) }
+
+					intros + parts
+				} else {
+					parts
+				}
 			}
 		}
 	}
@@ -216,7 +220,9 @@ class SdkPlaybackHelper(
 				userPreferences[UserPreferences.resumeSubtractDuration].toIntOrNull()?.seconds
 					?: Duration.ZERO
 
-			val item by api.userLibraryApi.getItem(id)
+			val item = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getItem(id).content
+			}
 			val pos = position?.ticks ?: item.userData?.playbackPositionTicks?.ticks?.minus(
 				resumeSubtractDuration
 			) ?: Duration.ZERO
@@ -243,10 +249,12 @@ class SdkPlaybackHelper(
 
 	override fun playInstantMix(context: Context, item: BaseItemDto) {
 		getScope(context).launch {
-			val response by api.instantMixApi.getInstantMixFromItem(
-				itemId = item.id,
-				fields = ItemRepository.itemFields
-			)
+			val response = withContext(Dispatchers.IO) {
+				api.instantMixApi.getInstantMixFromItem(
+					itemId = item.id,
+					fields = ItemRepository.itemFields
+				).content
+			}
 
 			val items = response.items
 			if (items.isNotEmpty()) {

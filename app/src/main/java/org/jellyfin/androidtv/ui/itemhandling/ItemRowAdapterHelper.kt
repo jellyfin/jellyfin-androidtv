@@ -74,7 +74,9 @@ fun <T : Any> ItemRowAdapter.setItems(
 fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.itemsApi.getResumeItems(query)
+			val response = withContext(Dispatchers.IO) {
+				api.itemsApi.getResumeItems(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -98,7 +100,9 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.tvShowsApi.getNextUp(query)
+			val response = withContext(Dispatchers.IO) {
+				api.tvShowsApi.getNextUp(query).content
+			}
 
 			// Some special flavor for series, used in FullDetailsFragment
 			val firstNextUp = response.items.firstOrNull()
@@ -106,10 +110,12 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				// If we have exactly 1 episode returned, the series is currently partially watched
 				// we want to query the server for all episodes in the same season starting from
 				// this one to create a list of all unwatched episodes
-				val episodesResponse by api.itemsApi.getItems(
-					parentId = firstNextUp.seasonId,
-					startIndex = firstNextUp.indexNumber,
-				)
+				val episodesResponse = withContext(Dispatchers.IO) {
+					api.itemsApi.getItems(
+						parentId = firstNextUp.seasonId,
+						startIndex = firstNextUp.indexNumber,
+					).content
+				}
 
 				// Combine the next up episode with the additionally retrieved episodes
 				val items = buildList {
@@ -153,7 +159,9 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.userLibraryApi.getLatestMedia(query)
+			val response = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getLatestMedia(query).content
+			}
 
 			setItems(
 				items = response,
@@ -179,7 +187,9 @@ fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequ
 fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: GetSpecialsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.userLibraryApi.getSpecialFeatures(query.itemId)
+			val response = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getSpecialFeatures(query.itemId).content
+			}
 
 			setItems(
 				items = response,
@@ -199,7 +209,9 @@ fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: GetSpecialsReq
 fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: GetAdditionalPartsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.videosApi.getAdditionalPart(query.itemId)
+			val response = withContext(Dispatchers.IO) {
+				api.videosApi.getAdditionalPart(query.itemId).content
+			}
 
 			setItems(
 				items = response.items,
@@ -217,7 +229,9 @@ fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: GetAdditionalP
 fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserViewsRepository) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.userViewsApi.getUserViews()
+			val response = withContext(Dispatchers.IO) {
+				api.userViewsApi.getUserViews().content
+			}
 
 			val filteredItems = response.items
 				.filter { userViewsRepository.isSupported(it.collectionType) }
@@ -239,7 +253,9 @@ fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserVi
 fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.tvShowsApi.getSeasons(query)
+			val response = withContext(Dispatchers.IO) {
+				api.tvShowsApi.getSeasons(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -257,7 +273,9 @@ fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEpisodesRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.tvShowsApi.getUpcomingEpisodes(query)
+			val response = withContext(Dispatchers.IO) {
+				api.tvShowsApi.getUpcomingEpisodes(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -275,7 +293,9 @@ fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEp
 fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.libraryApi.getSimilarItems(query)
+			val response = withContext(Dispatchers.IO) {
+				api.libraryApi.getSimilarItems(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -293,7 +313,9 @@ fun ItemRowAdapter.retrieveSimilarItems(api: ApiClient, query: GetSimilarItemsRe
 fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: GetTrailersRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.userLibraryApi.getLocalTrailers(itemId = query.itemId)
+			val response = withContext(Dispatchers.IO) {
+				api.userLibraryApi.getLocalTrailers(itemId = query.itemId)
+			}.content
 
 			setItems(
 				items = response,
@@ -322,7 +344,9 @@ fun ItemRowAdapter.retrieveLiveTvRecommendedPrograms(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.liveTvApi.getRecommendedPrograms(query)
+			val response = withContext(Dispatchers.IO) {
+				api.liveTvApi.getRecommendedPrograms(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -346,7 +370,9 @@ fun ItemRowAdapter.retrieveLiveTvRecommendedPrograms(
 fun ItemRowAdapter.retrieveLiveTvRecordings(api: ApiClient, query: GetRecordingsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.liveTvApi.getRecordings(query)
+			val response = withContext(Dispatchers.IO) {
+				api.liveTvApi.getRecordings(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -374,7 +400,9 @@ fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.liveTvApi.getSeriesTimers()
+			val response = withContext(Dispatchers.IO) {
+				api.liveTvApi.getSeriesTimers().content
+			}
 
 			setItems(
 				items = buildList {
@@ -428,12 +456,14 @@ fun ItemRowAdapter.retrieveLiveTvChannels(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.liveTvApi.getLiveTvChannels(
-				query.copy(
-					startIndex = startIndex,
-					limit = batchSize,
-				)
-			)
+			val response = withContext(Dispatchers.IO) {
+				api.liveTvApi.getLiveTvChannels(
+					query.copy(
+						startIndex = startIndex,
+						limit = batchSize,
+					)
+				).content
+			}
 
 			totalItems = response.totalRecordCount
 			setItems(
@@ -463,12 +493,14 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.artistsApi.getAlbumArtists(
-				query.copy(
-					startIndex = startIndex,
-					limit = batchSize,
-				)
-			)
+			val response = withContext(Dispatchers.IO) {
+				api.artistsApi.getAlbumArtists(
+					query.copy(
+						startIndex = startIndex,
+						limit = batchSize,
+					)
+				).content
+			}
 
 			totalItems = response.totalRecordCount
 			setItems(
@@ -498,12 +530,14 @@ fun ItemRowAdapter.retrieveArtists(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.artistsApi.getArtists(
-				query.copy(
-					startIndex = startIndex,
-					limit = batchSize,
-				)
-			)
+			val response = withContext(Dispatchers.IO) {
+				api.artistsApi.getArtists(
+					query.copy(
+						startIndex = startIndex,
+						limit = batchSize,
+					)
+				).content
+			}
 
 			totalItems = response.totalRecordCount
 			setItems(
@@ -533,12 +567,14 @@ fun ItemRowAdapter.retrieveItems(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.itemsApi.getItems(
-				query.copy(
-					startIndex = startIndex,
-					limit = batchSize,
-				)
-			)
+			val response = withContext(Dispatchers.IO) {
+				api.itemsApi.getItems(
+					query.copy(
+						startIndex = startIndex,
+						limit = batchSize,
+					)
+				).content
+			}
 
 			totalItems = response.totalRecordCount
 			setItems(
@@ -566,7 +602,9 @@ fun ItemRowAdapter.retrievePremieres(
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response by api.itemsApi.getItems(query)
+			val response = withContext(Dispatchers.IO) {
+				api.itemsApi.getItems(query).content
+			}
 
 			setItems(
 				items = response.items,
@@ -665,37 +703,34 @@ fun ItemRowAdapter.refreshItem(
 	if (currentBaseRowItem !is BaseItemDtoBaseRowItem || currentBaseRowItem is AudioQueueBaseRowItem) return
 	val currentBaseItem = currentBaseRowItem.baseItem ?: return
 
-	lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+	lifecycleOwner.lifecycleScope.launch {
 		runCatching {
-			api.userLibraryApi.getItem(itemId = currentBaseItem.id).content
+			withContext(Dispatchers.IO) {
+				api.userLibraryApi.getItem(itemId = currentBaseItem.id).content
+			}
 		}.fold(
 			onSuccess = { refreshedBaseItem ->
-				withContext(Dispatchers.Main) {
-					val index = indexOf(currentBaseRowItem)
-					// Item could be removed while API was loading, check if the index is valid first
-					if (index == -1) return@withContext
+				val index = indexOf(currentBaseRowItem)
+				// Item could be removed while API was loading, check if the index is valid first
+				if (index == -1) return@fold
 
-					set(
-						index = index,
-						element = BaseItemDtoBaseRowItem(
-							item = refreshedBaseItem,
-							preferParentThumb = currentBaseRowItem.preferParentThumb,
-							staticHeight = currentBaseRowItem.staticHeight,
-							selectAction = currentBaseRowItem.selectAction,
-							preferSeriesPoster = currentBaseRowItem.preferSeriesPoster
-						)
+				set(
+					index = index,
+					element = BaseItemDtoBaseRowItem(
+						item = refreshedBaseItem,
+						preferParentThumb = currentBaseRowItem.preferParentThumb,
+						staticHeight = currentBaseRowItem.staticHeight,
+						selectAction = currentBaseRowItem.selectAction,
+						preferSeriesPoster = currentBaseRowItem.preferSeriesPoster
 					)
-				}
+				)
 			},
 			onFailure = { err ->
-				if (err is InvalidStatusException && err.status == 404) withContext(Dispatchers.Main) {
-					remove(currentBaseRowItem)
-				} else Timber.e(err, "Failed to refresh item")
+				if (err is InvalidStatusException && err.status == 404) remove(currentBaseRowItem)
+				else Timber.e(err, "Failed to refresh item")
 			}
 		)
 
-		withContext(Dispatchers.Main) {
-			callback()
-		}
+		callback()
 	}
 }
