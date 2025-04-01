@@ -2,7 +2,9 @@ package org.jellyfin.androidtv.ui.browsing
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -36,7 +38,7 @@ object BrowsingUtils {
 		type: BaseItemKind,
 		callback: (item: BaseItemDto?) -> Unit
 	) {
-		lifecycle.lifecycleScope.launch {
+		lifecycle.lifecycleScope.launch(Dispatchers.IO) {
 			try {
 				val result by api.itemsApi.getItems(
 					parentId = library.id,
@@ -46,10 +48,15 @@ object BrowsingUtils {
 					limit = 1,
 				)
 
-				callback(result.items?.firstOrNull())
+				withContext(Dispatchers.Main) {
+					callback(result.items.firstOrNull())
+				}
 			} catch (error: ApiClientException) {
 				Timber.w(error, "Failed to retrieve random item")
-				callback(null)
+
+				withContext(Dispatchers.Main) {
+					callback(null)
+				}
 			}
 		}
 	}

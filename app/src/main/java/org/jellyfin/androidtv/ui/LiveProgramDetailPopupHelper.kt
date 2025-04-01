@@ -1,7 +1,9 @@
 package org.jellyfin.androidtv.ui
 
 import androidx.lifecycle.coroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.util.getActivity
 import org.jellyfin.sdk.api.client.ApiClient
@@ -32,7 +34,9 @@ fun LiveProgramDetailPopup.cancelTimer(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			api.liveTvApi.cancelTimer(timerId)
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.cancelTimer(timerId)
+			}
 		}.onSuccess {
 			callback()
 		}
@@ -47,7 +51,9 @@ fun LiveProgramDetailPopup.cancelSeriesTimer(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			api.liveTvApi.cancelSeriesTimer(seriesTimerId)
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.cancelSeriesTimer(seriesTimerId)
+			}
 		}.onSuccess {
 			callback()
 		}
@@ -88,10 +94,12 @@ fun LiveProgramDetailPopup.recordProgram(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			val seriesTimer by api.liveTvApi.getDefaultTimer(programId.toString())
-			val timer = seriesTimer.asTimerInfoDto()
-			api.liveTvApi.createTimer(timer)
-			api.liveTvApi.getProgram(programId.toString()).content
+			withContext(Dispatchers.IO) {
+				val seriesTimer by api.liveTvApi.getDefaultTimer(programId.toString())
+				val timer = seriesTimer.asTimerInfoDto()
+				api.liveTvApi.createTimer(timer)
+				api.liveTvApi.getProgram(programId.toString()).content
+			}
 		}.onSuccess { program ->
 			callback(program)
 		}
@@ -106,9 +114,11 @@ fun LiveProgramDetailPopup.recordSeries(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			val timer by api.liveTvApi.getDefaultTimer(programId.toString())
-			api.liveTvApi.createSeriesTimer(timer)
-			api.liveTvApi.getProgram(programId.toString()).content
+			withContext(Dispatchers.IO) {
+				val timer by api.liveTvApi.getDefaultTimer(programId.toString())
+				api.liveTvApi.createSeriesTimer(timer)
+				api.liveTvApi.getProgram(programId.toString()).content
+			}
 		}.onSuccess { program ->
 			callback(program)
 		}
@@ -123,7 +133,9 @@ fun LiveProgramDetailPopup.getSeriesTimer(
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
-			api.liveTvApi.getSeriesTimer(seriesTimerId).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getSeriesTimer(seriesTimerId).content
+			}
 		}.onSuccess { seriesTimer ->
 			callback(seriesTimer)
 		}

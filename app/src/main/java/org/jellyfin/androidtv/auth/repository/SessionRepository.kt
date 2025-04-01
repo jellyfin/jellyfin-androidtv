@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.auth.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -136,7 +137,9 @@ class SessionRepositoryImpl(
 		val applied = userApiClient.applySession(session, deviceInfo)
 		if (applied && session != null) {
 			try {
-				val user by userApiClient.userApi.getCurrentUser()
+				val user = withContext(Dispatchers.IO) {
+					userApiClient.userApi.getCurrentUser().content
+				}
 				userRepository.updateCurrentUser(user)
 			} catch (err: ApiClientException) {
 				Timber.e(err, "Unable to authenticate: bad response when getting user info")

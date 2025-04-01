@@ -460,4 +460,7 @@
     <string name="runtime_hours_minutes">%1$d ساعت %2$d دقیقه</string>
     <string name="runtime_minutes">%1$d دقیقه</string>
     <string name="desc_audio_night_mode">تنظیم خودکار صدا</string>
+    <string name="lbl_subtitle_text_color">رنگ نوشته زیرنویس</string>
+    <string name="lbl_subtitle_text_stroke_color">رنگ زیرنویس</string>
+    <string name="lbl_subtitle_background_color">رنگ پشت صفحه زیرنویس</string>
 </resources>

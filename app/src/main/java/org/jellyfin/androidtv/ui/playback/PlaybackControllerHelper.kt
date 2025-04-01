@@ -7,6 +7,7 @@ import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.util.sdk.end
@@ -29,7 +30,9 @@ fun PlaybackController.getLiveTvChannel(
 
 	fragment.lifecycleScope.launch {
 		runCatching {
-			api.liveTvApi.getChannel(id).content
+			withContext(Dispatchers.IO) {
+				api.liveTvApi.getChannel(id).content
+			}
 		}.onSuccess { channel ->
 			callback(channel)
 		}

@@ -64,7 +64,7 @@ class AsyncImageView @JvmOverloads constructor(
 		aspectRatio: Double = 1.0,
 		blurHashResolution: Int = 32,
 	) = doOnAttach {
-		lifeCycleOwner?.lifecycleScope?.launch {
+		lifeCycleOwner?.lifecycleScope?.launch(Dispatchers.IO) {
 			var placeholderOrBlurHash = placeholder
 
 			// Only show blurhash if an image is going to be loaded from the network
