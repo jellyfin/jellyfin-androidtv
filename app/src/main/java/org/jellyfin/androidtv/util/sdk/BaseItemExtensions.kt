@@ -64,8 +64,7 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 
 	// Add season and episode info if available
 	if (parentIndexNumber != null && parentIndexNumber != 0) {
-		append(context.getString(R.string.lbl_season_number, parentIndexNumber))
-		append(" ")
+		append(context.getString(R.string.lbl_season_number, parentIndexNumber), " ")
 	}
 
 	if (indexNumber != null && indexNumberEnd != null)
