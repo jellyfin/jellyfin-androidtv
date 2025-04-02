@@ -1,0 +1,3 @@
+Paldies, ka izmantojat Jellyfin priekš Android TV! Vienmēr ieteicams izmantot jaunāko izdoto Jellyfin serveri.
+
+Lai iegūtu vairāk informācijas, lūdzu, skatiet mūsu blogu vietnē jellyfin.org vai lasiet pilnu izmaiņu sarakstu GitHub.
