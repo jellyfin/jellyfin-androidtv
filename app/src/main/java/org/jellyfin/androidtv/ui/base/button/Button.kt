@@ -7,27 +7,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
-@Composable
-private fun ButtonRow(
-	contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-	content: @Composable RowScope.() -> Unit,
-) = Row(
-	modifier = Modifier
-		.defaultMinSize(
-			minWidth = 58.dp,
-			minHeight = 40.dp
-		)
-		.padding(contentPadding),
-	horizontalArrangement = Arrangement.Center,
-	verticalAlignment = Alignment.CenterVertically,
-	content = content
-)
+object ButtonDefaults {
+	val Shape: Shape = CircleShape
+	val ContentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
+}
 
 @Composable
 fun Button(
@@ -82,3 +72,19 @@ fun ProgressButton(
 		)
 	}
 }
+
+@Composable
+private fun ButtonRow(
+	contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+	content: @Composable RowScope.() -> Unit,
+) = Row(
+	modifier = Modifier
+		.defaultMinSize(
+			minWidth = 58.dp,
+			minHeight = 40.dp
+		)
+		.padding(contentPadding),
+	horizontalArrangement = Arrangement.Center,
+	verticalAlignment = Alignment.CenterVertically,
+	content = content
+)
