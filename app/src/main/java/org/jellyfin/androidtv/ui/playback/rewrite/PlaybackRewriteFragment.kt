@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
@@ -37,7 +37,7 @@ class PlaybackRewriteFragment : Fragment() {
 	private val playbackManager by inject<PlaybackManager>()
 	private val api by inject<ApiClient>()
 
-	private val screensaverViewModel by activityViewModel<ScreensaverViewModel>()
+	private val interactionTrackerViewModel by activityViewModel<InteractionTrackerViewModel>()
 	private var screensaverLock: (() -> Unit)? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,7 @@ class PlaybackRewriteFragment : Fragment() {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				playbackManager.state.playState.onEach { playState ->
 					if (playState == PlayState.PLAYING && screensaverLock == null) {
-						screensaverLock = screensaverViewModel.addLifecycleLock(lifecycle)
+						screensaverLock = interactionTrackerViewModel.addLifecycleLock(lifecycle)
 					} else if (playState != PlayState.PLAYING && screensaverLock != null) {
 						screensaverLock?.invoke()
 						screensaverLock = null
