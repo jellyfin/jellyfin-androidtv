@@ -20,6 +20,7 @@ fun ProgressButtonBase(
 	onLongClick: (() -> Unit)? = null,
 	enabled: Boolean = true,
 	shape: Shape = ButtonDefaults.Shape,
+	colors: ButtonColors = ButtonDefaults.colors(),
 	interactionSource: MutableInteractionSource? = null,
 	content: @Composable BoxScope.() -> Unit
 ) {
@@ -31,6 +32,7 @@ fun ProgressButtonBase(
 		onLongClick = onLongClick,
 		enabled = enabled,
 		shape = shape,
+		colors = colors,
 		interactionSource = interactionSource,
 	) {
 		Box(Modifier.matchParentSize()) {
