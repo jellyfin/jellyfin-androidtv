@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.modifier.childFocusRestorer
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
@@ -87,7 +88,13 @@ fun BoxScope.ToolbarButtons(
 			.align(Alignment.CenterEnd),
 		horizontalArrangement = Arrangement.spacedBy(8.dp),
 	) {
-		content()
+		JellyfinTheme(
+			colorScheme = JellyfinTheme.colorScheme.copy(
+				button = Color.Transparent
+			)
+		) {
+			content()
+		}
 	}
 }
 

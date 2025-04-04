@@ -14,10 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.sp
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 
@@ -29,6 +27,7 @@ fun ButtonBase(
 	onLongClick: (() -> Unit)? = null,
 	enabled: Boolean = true,
 	shape: Shape = ButtonDefaults.Shape,
+	colors: ButtonColors = ButtonDefaults.colors(),
 	interactionSource: MutableInteractionSource? = null,
 	content: @Composable BoxScope.() -> Unit
 ) {
@@ -37,18 +36,11 @@ fun ButtonBase(
 	val focused by interactionSource.collectIsFocusedAsState()
 	val pressed by interactionSource.collectIsPressedAsState()
 
-	val containerColor = colorResource(R.color.button_default_normal_background)
-	val contentColor = colorResource(R.color.button_default_normal_text)
-	val focusedContainerColor = colorResource(R.color.button_default_highlight_background)
-	val focusedContentColor = colorResource(R.color.button_default_highlight_text)
-	val disabledContainerColor = colorResource(R.color.button_default_disabled_background)
-	val disabledContentColor = colorResource(R.color.button_default_disabled_text)
-
 	val colors = when {
-		!enabled -> disabledContainerColor to disabledContentColor
-		pressed -> focusedContainerColor to focusedContentColor
-		focused -> focusedContainerColor to focusedContentColor
-		else -> containerColor to contentColor
+		!enabled -> colors.disabledContainerColor to colors.disabledContentColor
+		pressed -> colors.focusedContainerColor to colors.focusedContentColor
+		focused -> colors.focusedContainerColor to colors.focusedContentColor
+		else -> colors.containerColor to colors.contentColor
 	}
 
 	ProvideTextStyle(value = JellyfinTheme.typography.default.copy(fontSize = 14.sp, color = colors.second)) {
