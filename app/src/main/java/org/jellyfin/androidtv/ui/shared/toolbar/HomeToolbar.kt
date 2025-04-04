@@ -47,12 +47,19 @@ fun HomeToolbar(
 				onClick = switchUsers,
 				contentPadding = if (userImageVisible) PaddingValues(3.dp) else IconButtonDefaults.ContentPadding,
 			) {
-				Image(
-					painter = if (userImageVisible) userImagePainter else painterResource(R.drawable.ic_switch_users),
-					contentDescription = stringResource(R.string.lbl_switch_user),
-					modifier = Modifier
-						.clip(IconButtonDefaults.Shape)
-				)
+				if (userImageVisible) {
+					Image(
+						painter = userImagePainter,
+						contentDescription = stringResource(R.string.lbl_switch_user),
+						modifier = Modifier
+							.clip(IconButtonDefaults.Shape)
+					)
+				} else {
+					Icon(
+						painter = painterResource(R.drawable.ic_switch_users),
+						contentDescription = stringResource(R.string.lbl_switch_user),
+					)
+				}
 			}
 		}
 	}
