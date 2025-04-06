@@ -184,7 +184,7 @@
     <string name="lbl_next_episode">Próximo episódio</string>
     <string name="lbl_previous_episode">Episódio anterior</string>
     <string name="lbl_more_like_this">Títulos semelhantes</string>
-    <string name="lbl_resume_from">Reproduzir a partir de %1$s</string>
+    <string name="lbl_resume_from">Retomar desde %1$s</string>
     <string name="lbl_guide_option_number">Número do canal</string>
     <string name="lbl_guide_option_played">Última reprodução</string>
     <string name="lbl_sort_by">Organizar por</string>
