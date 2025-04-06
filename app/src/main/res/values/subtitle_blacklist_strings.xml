@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Subtitle Blacklist Feature Strings -->
+    <string name="pref_subtitle_blacklist">Subtitle blacklist</string>
+    <string name="pref_subtitle_blacklist_summary">Mute audio when blacklisted words appear in subtitles</string>
+    <string name="pref_subtitle_blacklist_enable">Enable subtitle blacklist</string>
+    <string name="pref_subtitle_blacklist_enable_summary">Automatically mute audio when blacklisted words appear in subtitles</string>
+    <string name="pref_subtitle_blacklist_words">Blacklisted words</string>
+    <string name="pref_subtitle_blacklist_words_summary">Manage words that trigger audio muting</string>
+    <string name="pref_subtitle_blacklist_mute_before">Mute before duration</string>
+    <string name="pref_subtitle_blacklist_mute_before_summary">How long to mute audio before the blacklisted word appears</string>
+    <string name="pref_subtitle_blacklist_mute_after">Mute after duration</string>
+    <string name="pref_subtitle_blacklist_mute_after_summary">How long to mute audio after the blacklisted word appears</string>
+    <string name="pref_subtitle_blacklist_add_word">Add word</string>
+    <string name="pref_subtitle_blacklist_add_word_title">Add blacklisted word</string>
+    <string name="pref_subtitle_blacklist_add_word_hint">Enter word or phrase</string>
+    <string name="pref_subtitle_blacklist_empty">No blacklisted words</string>
+    <string name="pref_subtitle_blacklist_word_added">Word added to blacklist</string>
+    <string name="pref_subtitle_blacklist_word_removed">Word removed from blacklist</string>
+</resources>

@@ -2,13 +2,11 @@ package org.jellyfin.androidtv.ui.shared.toolbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,9 +51,7 @@ fun HomeToolbar(
 					Image(
 						painter = userImagePainter,
 						contentDescription = stringResource(R.string.lbl_switch_user),
-						contentScale = ContentScale.Crop,
 						modifier = Modifier
-							.aspectRatio(1f)
 							.clip(IconButtonDefaults.Shape)
 					)
 				} else {

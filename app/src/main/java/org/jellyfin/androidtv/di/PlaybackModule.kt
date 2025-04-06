@@ -11,6 +11,7 @@ import androidx.media3.datasource.okhttp.OkHttpDataSource
 import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.preference.SubtitleBlacklistPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
@@ -85,7 +86,20 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
 	)
-	install(exoPlayerPlugin(get(), exoPlayerOptions))
+	
+	// Use custom BlacklistExoPlayerBackend if subtitle blacklist is enabled
+	val subtitleBlacklistPreferences = get<SubtitleBlacklistPreferences>()
+	if (subtitleBlacklistPreferences[SubtitleBlacklistPreferences.blacklistEnabled]) {
+		install { context ->
+			org.jellyfin.androidtv.ui.playback.BlacklistExoPlayerBackend(
+				context,
+				exoPlayerOptions,
+				subtitleBlacklistPreferences
+			)
+		}
+	} else {
+		install(exoPlayerPlugin(get(), exoPlayerOptions))
+	}
 
 	val mediaSessionOptions = MediaSessionOptions(
 		channelId = notificationChannelId,
