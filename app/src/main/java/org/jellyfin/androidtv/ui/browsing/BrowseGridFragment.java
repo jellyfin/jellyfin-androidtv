@@ -167,15 +167,16 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OFFICIAL_RATING, SortOrder.ASCENDING));
             sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.COMMUNITY_RATING, SortOrder.DESCENDING));
             sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CRITIC_RATING, SortOrder.DESCENDING));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_random), ItemSortBy.RANDOM, SortOrder.DESCENDING));
 
             if (mFolder.getCollectionType() == CollectionType.TVSHOWS) {
-                sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.SERIES_DATE_PLAYED, SortOrder.DESCENDING));
+                sortOptions.put(7, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.SERIES_DATE_PLAYED, SortOrder.DESCENDING));
             } else {
-                sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DATE_PLAYED, SortOrder.DESCENDING));
+                sortOptions.put(7, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DATE_PLAYED, SortOrder.DESCENDING));
             }
 
             if (mFolder.getCollectionType() != null && mFolder.getCollectionType() == CollectionType.MOVIES) {
-                sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.RUNTIME, SortOrder.ASCENDING));
+                sortOptions.put(8, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.RUNTIME, SortOrder.ASCENDING));
             }
         }
 
