@@ -330,7 +330,6 @@
     <string name="help">Hilfe</string>
     <string name="pref_next_up_behavior_title">Informationen zum nächsten Video anzeigen</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="lbl_random">Zufällig</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">Auf %1$s</string>
     <string name="lbl_on_any_channel">Auf jedem Kanal</string>
