@@ -576,4 +576,10 @@
     <string name="pref_mediasegment_actions">Akce mediálních segmentů</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_troubleshooting">Řešení chyb</string>
+    <string name="pref_report_device_profile_success">Dokument odeslán jako %1$s</string>
+    <string name="pref_report_device_profile_title">Hlásit možnosti přehrávání na server</string>
+    <string name="pref_subtitles_background_opacity">Průhlednost pozadí titulků</string>
+    <string name="pref_report_device_profile_summary">Nahrát dokument s řešením chyb na server Jellyfinu s informacemi o možnostech přehrávání</string>
+    <string name="pref_report_device_profile_failure">Nepodařilo se odeslat dokument. Váš server Jellyfin může mít zakázané protokoly klienta.</string>
 </resources>
