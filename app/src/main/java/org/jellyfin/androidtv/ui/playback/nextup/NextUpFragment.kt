@@ -53,6 +53,8 @@ import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -62,6 +64,7 @@ import java.util.UUID
 fun NextUpScreen(
 	itemId: UUID,
 ) {
+	val api = koinInject<ApiClient>()
 	val navigationRepository = koinInject<NavigationRepository>()
 	val backgroundService = koinInject<BackgroundService>()
 	val viewModel = koinViewModel<NextUpViewModel>()
@@ -102,9 +105,9 @@ fun NextUpScreen(
 					.align(Alignment.TopStart)
 					.overscan()
 					.height(75.dp),
-				url = logo.url,
+				url = logo.getUrl(api),
 				blurHash = logo.blurHash,
-				aspectRatio = logo.aspectRatio,
+				aspectRatio = logo.aspectRatio ?: 1f,
 			)
 		}
 
@@ -132,6 +135,7 @@ fun NextUpOverlay(
 	onConfirm: () -> Unit,
 	onCancel: () -> Unit,
 ) = ProvideTextStyle(JellyfinTheme.typography.default.copy(color = Color.White)) {
+	val api = koinInject<ApiClient>()
 	val userPreferences = koinInject<UserPreferences>()
 	val confirmTimer = remember { Animatable(0f) }
 	LaunchedEffect(item) {
@@ -164,11 +168,11 @@ fun NextUpOverlay(
 				modifier = Modifier
 					.align(Alignment.CenterVertically)
 					.height(145.dp)
-					.aspectRatio(thumbnail.aspectRatio.toFloat())
+					.aspectRatio(thumbnail.aspectRatio ?: 1f)
 					.clip(JellyfinTheme.shapes.extraSmall),
-				url = thumbnail.url,
+				url = thumbnail.getUrl(api),
 				blurHash = thumbnail.blurHash,
-				aspectRatio = thumbnail.aspectRatio,
+				aspectRatio = thumbnail.aspectRatio ?: 1f,
 			)
 		}
 

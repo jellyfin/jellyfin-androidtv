@@ -10,7 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
-import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -21,7 +22,6 @@ class NextUpViewModel(
 	private val context: Context,
 	private val api: ApiClient,
 	private val userPreferences: UserPreferences,
-	private val imageHelper: ImageHelper,
 ) : ViewModel() {
 	private val _item = MutableStateFlow<NextUpItemData?>(null)
 	val item: StateFlow<NextUpItemData?> = _item
@@ -48,20 +48,17 @@ class NextUpViewModel(
 	private suspend fun loadItemData(id: UUID) = withContext(Dispatchers.IO) {
 		val item by api.userLibraryApi.getItem(itemId = id)
 
-		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior]) {
-			NextUpBehavior.EXTENDED -> imageHelper.getPrimaryImageUrl(item)
-			else -> null
-		}
-		val thumbnailBlurhash = item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(item.imageTags?.get(ImageType.PRIMARY))
-		val logo = imageHelper.getLogoImageUrl(item)
+		val thumbnail = item.itemImages[ImageType.PRIMARY]
+			.takeIf { userPreferences[UserPreferences.nextUpBehavior] == NextUpBehavior.EXTENDED }
+		val logo = item.itemImages[ImageType.LOGO] ?: item.parentImages[ImageType.LOGO]
 		val title = item.getDisplayName(context)
 
 		NextUpItemData(
 			item,
 			item.id,
 			title,
-			thumbnail?.let { NextUpItemData.Image(it, thumbnailBlurhash, item.primaryImageAspectRatio ?: 1.0) },
-			logo?.let { NextUpItemData.Image(it, null, 1.0) }
+			thumbnail,
+			logo,
 		)
 	}
 }
