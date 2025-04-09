@@ -13,6 +13,14 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	onButtonFocused = Color(0xFF444444),
 	buttonDisabled = Color(0x33747474),
 	onButtonDisabled = Color(0xFF686868),
+	buttonActive = Color(0x4DCCCCCC),
+	onButtonActive = Color(0xFFDDDDDD),
+	input = Color(0xB3747474),
+	onInput = Color(0xE6CCCCCC),
+	inputFocused = Color(0xE6CCCCCC),
+	onInputFocused = Color(0xFFDDDDDD),
+	recording = Color(0xB3FF7474),
+	onRecording = Color(0xFFDDDDDD),
 )
 
 @Immutable
@@ -26,6 +34,16 @@ data class ColorScheme(
 	val onButtonFocused: Color,
 	val buttonDisabled: Color,
 	val onButtonDisabled: Color,
+	val buttonActive: Color,
+	val onButtonActive: Color,
+
+	val input: Color,
+	val onInput: Color,
+	val inputFocused: Color,
+	val onInputFocused: Color,
+
+	val recording: Color,
+	val onRecording: Color,
 )
 
 val LocalColorScheme = staticCompositionLocalOf { colorScheme() }

@@ -1,24 +1,40 @@
 package org.jellyfin.androidtv.ui.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import androidx.core.content.getSystemService
+import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.fragment.compose.AndroidFragment
+import androidx.fragment.compose.content
 import androidx.leanback.app.RowsSupportFragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import org.jellyfin.androidtv.databinding.FragmentSearchBinding
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.coroutines.flow.map
+import org.jellyfin.androidtv.ui.search.composable.SearchTextInput
+import org.jellyfin.androidtv.ui.search.composable.SearchVoiceInput
+import org.jellyfin.androidtv.util.speech.rememberSpeechRecognizerAvailability
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
 class SearchFragment : Fragment() {
@@ -26,104 +42,104 @@ class SearchFragment : Fragment() {
 		const val EXTRA_QUERY = "query"
 	}
 
-	private val viewModel: SearchViewModel by viewModel()
-
-	private var _binding: FragmentSearchBinding? = null
-	private val binding get() = _binding!!
-
-	private val searchFragmentDelegate: SearchFragmentDelegate by inject {
-		parametersOf(requireContext())
-	}
-
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
-	): View {
-		_binding = FragmentSearchBinding.inflate(inflater, container, false)
+	) = content {
+		val viewModel = koinViewModel<SearchViewModel>()
+		val searchFragmentDelegate = koinInject<SearchFragmentDelegate> { parametersOf(requireContext()) }
+		var query by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
+		val textInputFocusRequester = remember { FocusRequester() }
+		val resultFocusRequester = remember { FocusRequester() }
+		val speechRecognizerAvailability = rememberSpeechRecognizerAvailability()
 
-		binding.searchBar.apply {
-			onTextChanged { viewModel.searchDebounced(it) }
-			onSubmit { viewModel.searchImmediately(it) }
-		}
+		LaunchedEffect(Unit) {
+			val extraQuery = arguments?.getString(EXTRA_QUERY)
+			if (!extraQuery.isNullOrBlank()) {
+				query = query.copy(text = extraQuery)
+				viewModel.searchImmediately(extraQuery)
+				resultFocusRequester.requestFocus()
+			} else {
+				textInputFocusRequester.requestFocus()
+			}
 
-		val rowsSupportFragment = RowsSupportFragment().apply {
-			adapter = searchFragmentDelegate.rowsAdapter
-			onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
-			onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
-		}
-
-		childFragmentManager.commit {
-			replace(binding.resultsFrame.id, rowsSupportFragment)
-		}
-
-		return binding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-		viewModel.searchResultsFlow
-			.onEach { searchFragmentDelegate.showResults(it) }
-			.launchIn(lifecycleScope)
-
-		val query = arguments?.getString(SearchFragment.EXTRA_QUERY)
-		if (!query.isNullOrBlank()) {
-			binding.searchBar.setText(query)
-			viewModel.searchImmediately(query)
-			binding.resultsFrame.requestFocus()
-		} else {
-			binding.searchBar.requestFocus()
-		}
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-
-		_binding = null
-	}
-
-	private fun EditText.onSubmit(onSubmit: (String) -> Unit) {
-		setOnEditorActionListener { view, actionId, _ ->
-			when (actionId) {
-				EditorInfo.IME_ACTION_DONE,
-				EditorInfo.IME_ACTION_SEARCH,
-				EditorInfo.IME_ACTION_PREVIOUS -> {
-					onSubmit(text.toString())
-
-					// Manually close IME to workaround focus issue with Fire TV
-					context.getSystemService<InputMethodManager>()
-						?.hideSoftInputFromWindow(view.windowToken, 0)
-
-					// Focus on search results
-					binding.resultsFrame.requestFocus()
-					true
-				}
-
-				else -> false
+			viewModel.searchResultsFlow.collect { results ->
+				searchFragmentDelegate.showResults(results)
 			}
 		}
-	}
 
-	private fun EditText.onTextChanged(onTextChanged: (String) -> Unit) {
-		addTextChangedListener(object : TextWatcher {
-			override fun afterTextChanged(
-				s: Editable,
-			) = onTextChanged(s.toString())
+		Column {
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(12.dp),
+				verticalAlignment = Alignment.CenterVertically,
+				modifier = Modifier
+					.focusRestorer()
+					.focusGroup()
+					.padding(top = 27.dp)
+					.padding(horizontal = 48.dp)
+			) {
+				if (speechRecognizerAvailability) {
+					SearchVoiceInput(
+						onQueryChange = { query = query.copy(text = it) },
+						onQuerySubmit = {
+							viewModel.searchImmediately(query.text)
+							resultFocusRequester.requestFocus()
+						}
+					)
+				}
 
-			override fun beforeTextChanged(
-				s: CharSequence,
-				start: Int,
-				count: Int,
-				after: Int,
-			) = Unit
+				SearchTextInput(
+					query = query.text,
+					onQueryChange = {
+						query = query.copy(text = it)
+						viewModel.searchDebounced(query.text)
+					},
+					onQuerySubmit = {
+						viewModel.searchImmediately(query.text)
+						// Note: We MUST change the focus to somewhere else when the keyboard is submitted because some vendors (like Amazon)
+						// will otherwise just keep showing a (fullscreen) keyboard, soft-locking the app.
+						resultFocusRequester.requestFocus()
+					},
+					modifier = Modifier
+						.weight(1f)
+						.focusRequester(textInputFocusRequester),
+				)
+			}
 
-			override fun onTextChanged(
-				s: CharSequence,
-				start: Int,
-				before: Int,
-				count: Int,
-			) = Unit
-		})
+			// The leanback code has its own awful focus handling that doesn't work properly with Compose view inteop to workaround this
+			// issue we add custom behavior that only allows focus exit when the current selected row is the first one. Additionally when
+			// we do switch the focus, we reset the leanback state so it won't cause weird behavior when focus is regained
+			// We also need to make sure the fragment is complete hidden when empty because otherwise it may trap focus and the user is
+			// unable to navigate within the app. This is most likely an issue with view interop itself.
+			var rowsSupportFragment by remember { mutableStateOf<RowsSupportFragment?>(null) }
+			val hasResults by remember { viewModel.searchResultsFlow.map { it.isNotEmpty() } }.collectAsState(false)
+			if (hasResults) {
+				AndroidFragment<RowsSupportFragment>(
+					modifier = Modifier
+						.focusGroup()
+						.focusRequester(resultFocusRequester)
+						.focusProperties {
+							onExit = {
+								val isFirstRowSelected = rowsSupportFragment?.selectedPosition == 0
+								if (requestedFocusDirection != FocusDirection.Up || !isFirstRowSelected) {
+									cancelFocusChange()
+								} else {
+									rowsSupportFragment?.selectedPosition = 0
+									rowsSupportFragment?.verticalGridView?.clearFocus()
+								}
+							}
+						}
+						.padding(top = 5.dp)
+						.fillMaxSize(),
+					onUpdate = { fragment ->
+						rowsSupportFragment = fragment
+						fragment.adapter = searchFragmentDelegate.rowsAdapter
+						fragment.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
+						fragment.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
+					}
+				)
+			}
+		}
 	}
 }
