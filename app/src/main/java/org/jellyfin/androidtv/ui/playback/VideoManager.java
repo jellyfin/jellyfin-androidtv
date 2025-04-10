@@ -31,6 +31,7 @@ import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.HttpDataSource;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.analytics.AnalyticsListener;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
@@ -91,7 +92,14 @@ public class VideoManager {
         }
 
         // Volume normalisation (audio night mode).
-        if (nightModeEnabled) enableAudioNightMode(mExoPlayer.getAudioSessionId());
+        if (nightModeEnabled) {
+            mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
+                @Override
+                public void onAudioSessionIdChanged(AnalyticsListener.EventTime eventTime, int audioSessionId) {
+                    enableAudioNightMode(audioSessionId);
+                }
+            });
+        }
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
@@ -618,6 +626,10 @@ public class VideoManager {
     }
 
     private void enableAudioNightMode(int audioSessionId) {
+        Timber.i("Enabling audio night mode for session %d", audioSessionId);
+        if (mEqualizer != null) mEqualizer.release();
+        if (mDynamicsProcessing != null) mDynamicsProcessing.release();
+
         // Equaliser variables.
         short eqDefault = (short) 0;
         short eqSmallBoost = (short) 2;
