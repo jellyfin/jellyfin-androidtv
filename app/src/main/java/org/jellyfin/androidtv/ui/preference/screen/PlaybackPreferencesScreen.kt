@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.ui.preference.screen.SubtitleBlacklistPreferencesScreen
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
@@ -94,6 +95,13 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 
 		category {
 			setTitle(R.string.pref_subtitles)
+
+			link {
+				setTitle(R.string.pref_subtitle_blacklist)
+				setContent(R.string.pref_subtitle_blacklist_summary)
+				icon = R.drawable.ic_filter
+				withFragment<SubtitleBlacklistPreferencesScreen>()
+			}
 
 			@Suppress("MagicNumber")
 			colorList {
