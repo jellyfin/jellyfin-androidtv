@@ -50,7 +50,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
-import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
@@ -814,7 +814,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             @Override
             public void onClick(View v) {
                 boolean allowViewSelection = userViewsRepository.getValue().allowViewSelection(mFolder.getCollectionType());
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.displayPreferences(mFolder.getDisplayPreferencesId(), allowViewSelection));
+                startActivity(ActivityDestinations.INSTANCE.displayPreferences(getContext(), mFolder.getDisplayPreferencesId(), allowViewSelection));
             }
         });
         mSettingsButton.setContentDescription(getString(R.string.lbl_settings));

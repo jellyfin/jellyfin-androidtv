@@ -39,7 +39,7 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
-import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
@@ -439,12 +439,12 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     }
 
     public void showFilterOptions() {
-        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuideFilterPreferences());
+        startActivity(ActivityDestinations.INSTANCE.liveTvGuideFilterPreferences(getContext()));
         TvManager.forceReload();
     }
 
     public void showOptions() {
-        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuideOptionPreferences());
+        startActivity(ActivityDestinations.INSTANCE.liveTvGuideOptionPreferences(getContext()));
         TvManager.forceReload();
     }
 
