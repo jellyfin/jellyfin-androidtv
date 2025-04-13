@@ -35,7 +35,6 @@ import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
@@ -367,10 +366,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             if (item != null && item.getUserData() != null) {
                 pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
             }
-            videoQueueManager.getValue().setCurrentVideoQueue(items);
-            videoQueueManager.getValue().setCurrentMediaPosition(ndx);
-            Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(mBaseItem.getType(), pos);
-            navigationRepository.getValue().navigate(destination);
+            KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos, false, ndx);
         } else {
             mediaManager.getValue().playNow(requireContext(), items, ndx, shuffle);
         }

@@ -9,14 +9,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import okhttp3.OkHttpClient
-import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
-import org.jellyfin.androidtv.ui.playback.GarbagePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.MediaManager
-import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.androidtv.util.profile.createDeviceProfile
@@ -40,13 +38,7 @@ val playbackModule = module {
 	single { VideoQueueManager() }
 	single<MediaManager> { RewriteMediaManager(get(), get(), get(), get()) }
 
-	factory {
-		val preferences = get<UserPreferences>()
-		val useRewrite = preferences[UserPreferences.playbackRewriteVideoEnabled] && BuildConfig.DEVELOPMENT
-
-		if (useRewrite) RewritePlaybackLauncher()
-		else GarbagePlaybackLauncher(get())
-	}
+	single { PlaybackLauncher(get(), get(), get()) }
 
 	// OkHttp data source using OkHttpFactory from SDK
 	single<HttpDataSource.Factory> {
