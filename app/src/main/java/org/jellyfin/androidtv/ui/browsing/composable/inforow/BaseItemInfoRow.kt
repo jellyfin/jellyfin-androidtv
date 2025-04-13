@@ -154,11 +154,20 @@ fun InfoRowMediaDetails(mediaSource: MediaSourceInfo) {
 
 	// Subtitles
 	if (subtitleStream != null) {
-		InfoRowItem(
-			contentDescription = null,
-			colors = InfoRowColors.Default,
-		) {
-			Text(stringResource(R.string.indicator_subtitles))
+		if (subtitleStream.isHearingImpaired) {
+			InfoRowItem(
+				contentDescription = null,
+				colors = InfoRowColors.Default,
+			) {
+				Text(stringResource(R.string.indicator_subtitles_hearing_impaired))
+			}
+		} else {
+			InfoRowItem(
+				contentDescription = null,
+				colors = InfoRowColors.Default,
+			) {
+				Text(stringResource(R.string.indicator_subtitles))
+			}
 		}
 	}
 
