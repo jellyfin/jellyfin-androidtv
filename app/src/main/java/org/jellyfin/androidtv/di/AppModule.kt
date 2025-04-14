@@ -52,6 +52,7 @@ import org.jellyfin.androidtv.util.coil.CoilTimberLogger
 import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
 import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
 import org.jellyfin.sdk.android.androidDevice
+import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
 import org.koin.android.ext.koin.androidContext
@@ -65,6 +66,7 @@ val defaultDeviceInfo = named("defaultDeviceInfo")
 val appModule = module {
 	// New SDK
 	single(defaultDeviceInfo) { androidDevice(get()) }
+	single { HttpClientOptions() }
 	single {
 		createJellyfin {
 			context = androidContext()
@@ -80,7 +82,7 @@ val appModule = module {
 
 	single {
 		// Create an empty API instance, the actual values are set by the SessionRepository
-		get<JellyfinSdk>().createApi()
+		get<JellyfinSdk>().createApi(httpClientOptions = get<HttpClientOptions>())
 	}
 
 	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get(), get()) }

@@ -344,7 +344,7 @@
     <string name="always_authenticate">Toujours demander pour les identifiants</string>
     <string name="alphabetical">Alphabétique</string>
     <string name="last_use">Utilisés récemment</string>
-    <string name="enable_playback_module_description">Il s\'agit d\'une fonctionnalité expérimentale. Aucun support n\'est fournit.</string>
+    <string name="enable_playback_module_description">Il s\'agit d\'une fonctionnalité expérimentale. Aucun support n\'est fourni.</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Étirer</string>
     <string name="lbl_auto_crop">Recadrage automatique</string>

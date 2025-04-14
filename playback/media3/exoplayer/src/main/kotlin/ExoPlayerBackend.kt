@@ -15,7 +15,6 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
@@ -78,17 +77,7 @@ class ExoPlayerBackend(
 			.setMediaSourceFactory(DefaultMediaSourceFactory(
 				DefaultDataSource.Factory(
 					context,
-					DefaultHttpDataSource.Factory().apply {
-						exoPlayerOptions.httpConnectTimeout
-							?.inWholeMilliseconds
-							?.toInt()
-							?.let(::setConnectTimeoutMs)
-
-						exoPlayerOptions.httpReadTimeout
-							?.inWholeMilliseconds
-							?.toInt()
-							?.let(::setReadTimeoutMs)
-					}
+					exoPlayerOptions.baseDataSourceFactory,
 				),
 				DefaultExtractorsFactory().apply {
 					val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
@@ -109,7 +98,6 @@ class ExoPlayerBackend(
 			.build()
 			.also { player ->
 				player.addListener(PlayerListener())
-				audioPipeline.setAudioSessionId(player.audioSessionId)
 
 				if (exoPlayerOptions.enableDebugLogging) {
 					player.addAnalyticsListener(EventLogger())

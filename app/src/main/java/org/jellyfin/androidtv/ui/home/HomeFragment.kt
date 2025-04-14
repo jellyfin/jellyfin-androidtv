@@ -5,15 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -22,6 +24,7 @@ import org.jellyfin.androidtv.databinding.FragmentHomeBinding
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.shared.toolbar.HomeToolbar
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageHelper
 import org.koin.android.ext.android.inject
@@ -41,16 +44,17 @@ class HomeFragment : Fragment() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-		binding.settings.setOnClickListener {
-			navigationRepository.navigate(Destinations.userPreferences)
-		}
+		binding.toolbar.setContent {
+			// Prevent user image to disappear when signing out by skipping null values
+			val currentUser by remember { userRepository.currentUser.filterNotNull() }.collectAsState(null)
+			val userImage = remember(currentUser) { currentUser?.let(imageHelper::getPrimaryImageUrl) }
 
-		binding.switchUsers.setOnClickListener {
-			switchUser()
-		}
-
-		binding.search.setOnClickListener {
-			navigationRepository.navigate(Destinations.search())
+			HomeToolbar(
+				openSearch = { navigationRepository.navigate(Destinations.search()) },
+				openSettings = { navigationRepository.navigate(Destinations.userPreferences) },
+				switchUsers = { switchUser() },
+				userImage = userImage,
+			)
 		}
 
 		return binding.root
@@ -59,21 +63,9 @@ class HomeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		userRepository.currentUser
-			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-			.onEach { user ->
-				if (user != null) {
-					binding.switchUsersImage.load(
-						url = imageHelper.getPrimaryImageUrl(user),
-						placeholder = ContextCompat.getDrawable(requireContext(), R.drawable.ic_user)
-					)
-				}
-			}
-			.launchIn(viewLifecycleOwner.lifecycleScope)
-
 		sessionRepository.currentSession
 			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-			.map { session->
+			.map { session ->
 				if (session == null) null
 				else serverRepository.getServer(session.serverId)
 			}

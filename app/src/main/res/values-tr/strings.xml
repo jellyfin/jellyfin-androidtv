@@ -564,4 +564,12 @@
     <string name="segment_type_outro">Kapanış jeneriği</string>
     <string name="preference_enable_trickplay">Video oynatıcıda trickplay özelliğini etkinleştir</string>
     <string name="skip_forward_length">İleri atlama uzunluğu</string>
+    <string name="pref_subtitles_background_opacity">Altyazı arka plan opaklığı</string>
+    <string name="pref_troubleshooting">Sorun Giderme</string>
+    <string name="pref_report_device_profile_title">Oynatma yeteneklerini sunucuya rapor et</string>
+    <string name="pref_report_device_profile_success">Belge %1$s olarak gönderildi</string>
+    <string name="runtime_hours_minutes">%1$ds %2$dd</string>
+    <string name="runtime_minutes">%1$dd</string>
+    <string name="pref_report_device_profile_summary">Oynatma kapasiteleri hakkında bilgileri içeren bir sorun giderme belgesini Jellyfin sunucusuna yükle</string>
+    <string name="pref_report_device_profile_failure">Belge gönderilemedi. Jellyfin sunucunuz istemci günlüklerine izin vermiyor olabilir.</string>
 </resources>
