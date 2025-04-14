@@ -323,8 +323,8 @@
     <string name="subtitle_error">Tekstitystä ei voida valita</string>
     <string name="too_many_errors">Liian monta virhettä. Luovutetaan</string>
     <string name="player_error">Soittimessa tapahtui virhe. Yritetään uudelleen…</string>
-    <string name="msg_live_tv_prev">Ladataanko edelliset %1$d tuntia\?</string>
-    <string name="msg_live_tv_next">Ladataanko seuraavat %1$d tuntia\?</string>
+    <string name="msg_live_tv_prev">Ladataanko edelliset %1$d tuntia?</string>
+    <string name="msg_live_tv_next">Ladataanko seuraavat %1$d tuntia?</string>
     <string name="lbl_load_guide_data">Lataa ohjelmaoppaan tiedot</string>
     <string name="episode_missing_message">Jaksoa ei ole kirjastossa. Haluatko ohittaa sen ja jatkaa seuraavaan jaksoon\?</string>
     <string name="episode_missing_message_2">Jaksoa ei ole kirjastossa. Toisto pysäytetään.</string>
