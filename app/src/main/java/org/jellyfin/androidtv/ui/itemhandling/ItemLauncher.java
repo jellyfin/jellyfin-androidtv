@@ -102,7 +102,7 @@ public class ItemLauncher {
                             Timber.d("playing audio queue item");
                             mediaManager.getValue().playFrom(rowItem.getBaseItem());
                         } else if (adapter.getQueryType() == QueryType.Search) {
-                            mediaManager.getValue().playNow(context, Arrays.asList(rowItem.getBaseItem()), 0, false);
+                            playbackLauncher.getValue().launch(context, Arrays.asList(rowItem.getBaseItem()));
                         } else {
                             Timber.d("playing audio item");
                             List<BaseItemDto> audioItemsAsList = new ArrayList<>();
@@ -111,7 +111,8 @@ public class ItemLauncher {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
-                            mediaManager.getValue().playNow(context, audioItemsAsList, adapter.indexOf(rowItem), false);
+
+                            playbackLauncher.getValue().launch(context, audioItemsAsList, 0, false, adapter.indexOf(rowItem));
                         }
 
                         return;
