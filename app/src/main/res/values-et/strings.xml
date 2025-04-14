@@ -175,9 +175,9 @@
     <string name="watch_now">Vaata nüüd</string>
     <string name="pref_next_up_behavior_title">Kuva järgmise video teave</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
-    <string name="msg_live_tv_next">Lae järgmised %1$d tundi\?</string>
+    <string name="msg_live_tv_next">Lae järgmised %1$d tundi?</string>
     <string name="mark_watched">Märgi vaadatuks</string>
-    <string name="msg_live_tv_prev">Lae eelmised %1$d tundi\?</string>
+    <string name="msg_live_tv_prev">Lae eelmised %1$d tundi?</string>
     <string name="too_many_errors">Liiga palju vigu. Annan alla</string>
     <string name="lbl_by_letter">Tähthaaval</string>
     <string name="lbl_directed_by">Lavastaja</string>
