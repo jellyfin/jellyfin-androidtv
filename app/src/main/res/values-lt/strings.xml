@@ -349,7 +349,7 @@
     <string name="no_player">Nėra paleidimo programos</string>
     <string name="episode_missing_message_2">Šios serijos nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
     <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui leisti.</string>
-    <string name="msg_live_tv_next">Krauti kitas %1$d valandas\?</string>
+    <string name="msg_live_tv_next">Krauti kitas %1$d valandas?</string>
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
     <string name="lbl_stars">Žvaigždės</string>
@@ -434,7 +434,7 @@
     <string name="alphabetical">Abėcėlę</string>
     <string name="searchable_hint">Ieškoti Jellyfin</string>
     <string name="searchable_settings_description">Medija</string>
-    <string name="msg_live_tv_prev">Krauti buvusias %1$d valandas\?</string>
+    <string name="msg_live_tv_prev">Krauti buvusias %1$d valandas?</string>
     <string name="server_field_empty">Adresas negali būti tuščias</string>
     <string name="login_server_unavailable">Nepavyko priisjungti prie serverio</string>
     <string name="login_username_field_empty">Vartotojo vardas negali būti tuščias</string>
