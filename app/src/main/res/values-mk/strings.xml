@@ -251,7 +251,7 @@
     <string name="grid_direction_vertical">Вертикално</string>
     <string name="lbl_unknown_key">Непознато (%1s)</string>
     <string name="no_player">Нема плеер</string>
-    <string name="msg_live_tv_next">Да се вчитаат следните %1$d часови\?</string>
+    <string name="msg_live_tv_next">Да се вчитаат следните %1$d часови?</string>
     <string name="lbl_playback_control_ends">Завршува во %1$s</string>
     <string name="pref_clock_display_playback">Во тек на репродукција</string>
     <string name="image_size_xlarge">Екстра-големо</string>
@@ -427,7 +427,7 @@
     <string name="lbl_sign_in">Ве молиме најавете се</string>
     <string name="lbl_episodes">Епизоди</string>
     <string name="state_disabled">Оневозможено</string>
-    <string name="msg_live_tv_prev">Да се вчитаат претходните %1$d часови\?</string>
+    <string name="msg_live_tv_prev">Да се вчитаат претходните %1$d часови?</string>
     <string name="just_one">Само ова</string>
     <string name="searchable_hint">Пребарај го Jellyfin</string>
     <string name="searchable_settings_description">Содржина</string>
