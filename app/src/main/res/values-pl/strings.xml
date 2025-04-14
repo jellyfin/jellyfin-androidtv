@@ -245,8 +245,8 @@
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
     <string name="player_error">Błąd odtwarzacza. Próbuję ponownie…</string>
     <string name="seek_error">Niemożliwe do odnalezienia</string>
-    <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin\?</string>
-    <string name="msg_live_tv_next">Załaduj następne %1$d godzin\?</string>
+    <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin?</string>
+    <string name="msg_live_tv_next">Załaduj następne %1$d godzin?</string>
     <string name="lbl_tv_filter_status">przez następne %1$d godzin</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanałów</string>
     <string name="episode_missing_message_2">Tego epizodu nie ma w twojej bibliotece. Odtwarzanie zostanie zatrzymane.</string>
