@@ -246,8 +246,8 @@
     <string name="too_many_errors">Занадто багато помилок. Все здаюся</string>
     <string name="player_error">Виникла помилка плеєру. Повторна спроба…</string>
     <string name="seek_error">Неможливо знайти</string>
-    <string name="msg_live_tv_prev">Завантажити попередні %1$d годин\?</string>
-    <string name="msg_live_tv_next">Завантажити наступні %1$d годин\?</string>
+    <string name="msg_live_tv_prev">Завантажити попередні %1$d годин?</string>
+    <string name="msg_live_tv_next">Завантажити наступні %1$d годин?</string>
     <string name="lbl_load_guide_data">Завантажити дані телегіда</string>
     <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
     <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
