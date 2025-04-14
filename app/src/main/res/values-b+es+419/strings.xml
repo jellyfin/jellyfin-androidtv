@@ -576,4 +576,5 @@
     <string name="skip_forward_length">Duración del salto hacia adelante</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_background_opacity">Opacidad del marco de subtítulos</string>
 </resources>

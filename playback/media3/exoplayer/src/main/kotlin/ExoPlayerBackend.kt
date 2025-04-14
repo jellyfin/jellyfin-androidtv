@@ -98,7 +98,6 @@ class ExoPlayerBackend(
 			.build()
 			.also { player ->
 				player.addListener(PlayerListener())
-				audioPipeline.setAudioSessionId(player.audioSessionId)
 
 				if (exoPlayerOptions.enableDebugLogging) {
 					player.addAnalyticsListener(EventLogger())
