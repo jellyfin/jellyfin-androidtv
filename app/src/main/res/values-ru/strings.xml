@@ -243,8 +243,8 @@
     <string name="too_many_errors">Слишком много ошибок. Отказ от попыток</string>
     <string name="player_error">Произошла ошибка проигрывателя. Повторная попытка…</string>
     <string name="seek_error">Невозможно искать</string>
-    <string name="msg_live_tv_prev">Загрузить предыдущие %1$d часов\?</string>
-    <string name="msg_live_tv_next">Загрузить следующие %1$d часов\?</string>
+    <string name="msg_live_tv_prev">Загрузить предыдущие %1$d часов?</string>
+    <string name="msg_live_tv_next">Загрузить следующие %1$d часов?</string>
     <string name="lbl_load_guide_data">Загрузить данные телегида</string>
     <string name="episode_missing_message">Этот эпизод отсутствует в медиатеке. Пропустить его и перейти к следующему\?</string>
     <string name="episode_missing_message_2">Этот эпизод отсутствует в медиатеке. Воспроизведение будет остановлено.</string>
