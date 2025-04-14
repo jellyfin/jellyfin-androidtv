@@ -230,18 +230,14 @@ class SdkPlaybackHelper(
 
 			val items = getItems(item, allowIntros, shuffle)
 
-			if (item.type == BaseItemKind.MUSIC_ALBUM || item.type == BaseItemKind.MUSIC_ARTIST || (item.type == BaseItemKind.PLAYLIST && item.mediaType == MediaType.AUDIO)) {
-				mediaManager.playNow(context, items, 0, shuffle)
-			} else if (item.type == BaseItemKind.AUDIO && items.isNotEmpty()) {
-				mediaManager.playNow(context, listOf(items.first()), 0, false)
-			} else {
-				playbackLauncher.launch(
-					context,
-					items,
-					pos.inWholeTicks.toInt(),
-					playbackControllerContainer.playbackController?.hasFragment() == true
-				)
-			}
+			playbackLauncher.launch(
+				context,
+				items,
+				pos.inWholeTicks.toInt(),
+				playbackControllerContainer.playbackController?.hasFragment() == true,
+				0,
+				shuffle,
+			)
 		}
 	}
 
@@ -256,7 +252,7 @@ class SdkPlaybackHelper(
 
 			val items = response.items
 			if (items.isNotEmpty()) {
-				mediaManager.playNow(context, items, 0, false)
+				playbackLauncher.launch(context, items)
 			} else {
 				Toast.makeText(context, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()
 			}

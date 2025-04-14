@@ -38,7 +38,7 @@ val playbackModule = module {
 	single { VideoQueueManager() }
 	single<MediaManager> { RewriteMediaManager(get(), get(), get(), get()) }
 
-	single { PlaybackLauncher(get(), get(), get()) }
+	single { PlaybackLauncher(get(), get(), get(), get()) }
 
 	// OkHttp data source using OkHttpFactory from SDK
 	single<HttpDataSource.Factory> {
