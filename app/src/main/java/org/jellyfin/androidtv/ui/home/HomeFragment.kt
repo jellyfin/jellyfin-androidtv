@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -21,6 +22,7 @@ import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.databinding.FragmentHomeBinding
+import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
@@ -49,9 +51,10 @@ class HomeFragment : Fragment() {
 			val currentUser by remember { userRepository.currentUser.filterNotNull() }.collectAsState(null)
 			val userImage = remember(currentUser) { currentUser?.let(imageHelper::getPrimaryImageUrl) }
 
+			val context = LocalContext.current
 			HomeToolbar(
 				openSearch = { navigationRepository.navigate(Destinations.search()) },
-				openSettings = { navigationRepository.navigate(Destinations.userPreferences) },
+				openSettings = { startActivity(ActivityDestinations.userPreferences(context)) },
 				switchUsers = { switchUser() },
 				userImage = userImage,
 			)

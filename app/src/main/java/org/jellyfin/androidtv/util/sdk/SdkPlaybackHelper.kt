@@ -235,12 +235,10 @@ class SdkPlaybackHelper(
 			} else if (item.type == BaseItemKind.AUDIO && items.isNotEmpty()) {
 				mediaManager.playNow(context, listOf(items.first()), 0, false)
 			} else {
-				videoQueueManager.setCurrentVideoQueue(items)
-				navigationRepository.navigate(
-					playbackLauncher.getPlaybackDestination(
-						item.type,
-						pos.inWholeTicks.toInt()
-					),
+				playbackLauncher.launch(
+					context,
+					items,
+					pos.inWholeTicks.toInt(),
 					playbackControllerContainer.playbackController?.hasFragment() == true
 				)
 			}

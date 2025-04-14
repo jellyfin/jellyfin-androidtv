@@ -57,7 +57,6 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
@@ -1205,9 +1204,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (item.getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(requireContext(), response, 0, shuffle);
                 } else {
-                    videoQueueManager.getValue().setCurrentVideoQueue(response);
-                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(item.getType(), pos);
-                    navigationRepository.getValue().navigate(destination);
+                    KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), response, pos);
                 }
             }
         });
@@ -1216,8 +1213,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     void play(final List<BaseItemDto> items, final int pos, final boolean shuffle) {
         if (items.isEmpty()) return;
         if (shuffle) Collections.shuffle(items);
-        videoQueueManager.getValue().setCurrentVideoQueue(items);
-        Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(items.get(0).getType(), pos);
-        navigationRepository.getValue().navigate(destination);
+        KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos);
     }
 }
