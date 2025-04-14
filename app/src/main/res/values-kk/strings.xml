@@ -228,8 +228,8 @@
     <string name="lbl_tv_filter_status">kelesı %1$d sağat üşın</string>
     <string name="lbl_tv_channel_status">%1$d %2$d arnadan</string>
     <string name="seek_error">Izdeu mümkın emes</string>
-    <string name="msg_live_tv_prev">Aldyñğy %1$d sağat jüktelsın be\?</string>
-    <string name="msg_live_tv_next">Kelesı %1$d sağat jüktelsın be\?</string>
+    <string name="msg_live_tv_prev">Aldyñğy %1$d sağat jüktelsın be?</string>
+    <string name="msg_live_tv_next">Kelesı %1$d sağat jüktelsın be?</string>
     <string name="lbl_load_guide_data">Telegid derekterın jükteu</string>
     <string name="episode_missing">Telebölım joq</string>
     <string name="no_player">Oinatqyş joq</string>
