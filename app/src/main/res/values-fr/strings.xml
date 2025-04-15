@@ -582,4 +582,5 @@
     <string name="pref_report_device_profile_summary">Transmettre un fichier de diagnostic au serveur Jellyfin contenant les capacités de lecture</string>
     <string name="pref_report_device_profile_failure">Échec de la transmission du fichier de diagnostic. Votre serveur Jellyfin peut interdire l’envoi des journaux clients.</string>
     <string name="pref_report_device_profile_success">Fichier de diagnostic transmis sous le nom %1$s</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>
