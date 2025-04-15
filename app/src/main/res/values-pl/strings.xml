@@ -245,8 +245,8 @@
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
     <string name="player_error">Błąd odtwarzacza. Próbuję ponownie…</string>
     <string name="seek_error">Niemożliwe do odnalezienia</string>
-    <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin?</string>
-    <string name="msg_live_tv_next">Załaduj następne %1$d godzin?</string>
+    <string name="msg_live_tv_prev">Załadować poprzednie %1$d godzin(y)?</string>
+    <string name="msg_live_tv_next">Załadować następne %1$d godzin(y)?</string>
     <string name="lbl_tv_filter_status">przez następne %1$d godzin</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanałów</string>
     <string name="episode_missing_message_2">Tego epizodu nie ma w twojej bibliotece. Odtwarzanie zostanie zatrzymane.</string>
@@ -592,4 +592,5 @@
     <string name="pref_report_device_profile_title">Zgłoś możliwości odtwarzania do serwera</string>
     <string name="pref_report_device_profile_success">Dokument przesłany jako %1$s</string>
     <string name="pref_report_device_profile_failure">Nie udało się przesłać dokumentu. Twój serwer Jellyfin może blokować dzienniki klienta.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>
