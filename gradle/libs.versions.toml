@@ -40,7 +40,7 @@ slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
 ## self
-danmakuRenderEngine = "v1.2.0"
+danmakuRenderEngine = "v1.2.4-USE-VIDEO-TIME"
 fastjson = "1.1.77.android_noneautotype"
 
 [plugins]
