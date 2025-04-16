@@ -217,8 +217,8 @@
     <string name="too_many_errors">יותר מדי תקלות. מוותר</string>
     <string name="player_error">בעיית נגן. מנסה שנית…</string>
     <string name="seek_error">לא ניתן לדלג</string>
-    <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות\?</string>
-    <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות\?</string>
+    <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות?</string>
+    <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות?</string>
     <string name="lbl_load_guide_data">טען את לוח השידורים</string>
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
     <string name="episode_missing_message">הפרק חסר בספרייה. האם תרצה לדלג עליו ולעבור לפרק הבא\?</string>

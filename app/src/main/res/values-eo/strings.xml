@@ -330,8 +330,8 @@
     <string name="turn_off">Malŝalti ĉi tiun opcion</string>
     <string name="msg_no_items">Neniuj aĵoj por ludi</string>
     <string name="subtitle_error">Ne eblas elekti subtekston</string>
-    <string name="msg_live_tv_prev">Ĉu ŝargi antaŭajn %1$d horojn\?</string>
-    <string name="msg_live_tv_next">Ĉu ŝargi sekvajn %1$d horojn\?</string>
+    <string name="msg_live_tv_prev">Ĉu ŝargi antaŭajn %1$d horojn?</string>
+    <string name="msg_live_tv_next">Ĉu ŝargi sekvajn %1$d horojn?</string>
     <string name="pref_next_up_behavior_title">Montri informojn pri sekva video</string>
     <string name="pref_next_up_timeout_title">Tempumila daŭro de Sekva plue</string>
     <string name="lbl_start_favorites">Metu Favoratojn ĉe Komenco</string>

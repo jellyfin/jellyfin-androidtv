@@ -246,8 +246,8 @@
     <string name="audio_error">Kunde inte spela ljud %1$s</string>
     <string name="too_many_errors">För många fel. Ger upp</string>
     <string name="player_error">Spelarfel påträffat. Försöker igen…</string>
-    <string name="msg_live_tv_prev">Ladda föregående %1$d timmar\?</string>
-    <string name="msg_live_tv_next">Ladda nästa %1$d timmar\?</string>
+    <string name="msg_live_tv_prev">Ladda föregående %1$d timmar?</string>
+    <string name="msg_live_tv_next">Ladda nästa %1$d timmar?</string>
     <string name="lbl_load_guide_data">Ladda guidedata</string>
     <string name="episode_missing_message_2">Detta avsnitt saknas i ditt bibliotek. Uppspelningen stoppas.</string>
     <string name="episode_missing_message">Detta avsnitt saknas från ditt bibliotek. Vill du hoppa över det och fortsätta med nästa\?</string>

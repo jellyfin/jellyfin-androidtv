@@ -244,8 +244,8 @@
     <string name="too_many_errors">Příliš mnoho chyb. Vzdávám to</string>
     <string name="player_error">V přehrávači došlo k chybě. Zkusím to znovu…</string>
     <string name="seek_error">Vyhledávání ve videu není možné</string>
-    <string name="msg_live_tv_prev">Načíst předchozích %1$d hodin\?</string>
-    <string name="msg_live_tv_next">Načíst dalších %1$d hodin\?</string>
+    <string name="msg_live_tv_prev">Načíst předchozích %1$d hodin?</string>
+    <string name="msg_live_tv_next">Načíst dalších %1$d hodin?</string>
     <string name="lbl_load_guide_data">Načíst data programového průvodce</string>
     <string name="episode_missing_message_2">Tato epizoda chybí ve vaší knihovně. Přehrávání bude zastaveno.</string>
     <string name="episode_missing_message">Tato epizoda chybí ve vaší knihovně. Chcete ji přeskočit a pokračovat další epizodou?</string>

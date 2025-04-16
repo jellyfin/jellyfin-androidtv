@@ -252,8 +252,8 @@
     <string name="lbl_resume_preroll">Nadaljuj pre-roll</string>
     <string name="pref_next_up_timeout_summary">Premor pred predvajanjem naslednjega predmeta na seznamu</string>
     <string name="seek_error">Iskanje ni mogoče</string>
-    <string name="msg_live_tv_next">Prenesi naslednjih %1$d ur\?</string>
-    <string name="msg_live_tv_prev">Prenesi prejšnjih %1$d ur\?</string>
+    <string name="msg_live_tv_next">Prenesi naslednjih %1$d ur?</string>
+    <string name="msg_live_tv_prev">Prenesi prejšnjih %1$d ur?</string>
     <string name="lbl_load_guide_data">Naloži podatke TV vodiča</string>
     <string name="episode_missing_message_2">Ta epizoda manjka v vaši knjižnici. Predvajanje se bo ustavilo.</string>
     <string name="episode_missing_message">Ta epizoda manjka v vaši knjižnici. Jo želite preskočiti in nadaljevati z naslednjo\?</string>

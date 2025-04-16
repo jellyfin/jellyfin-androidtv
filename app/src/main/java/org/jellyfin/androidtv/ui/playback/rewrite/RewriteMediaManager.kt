@@ -13,7 +13,6 @@ import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
-import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
@@ -219,8 +218,6 @@ class RewriteMediaManager(
 		playbackManager.queue.clear()
 		playbackManager.queue.addSupplier(queueSupplier)
 		playbackManager.state.play()
-
-		navigationRepository.navigate(Destinations.nowPlaying)
 	}
 
 	override fun playFrom(item: BaseItemDto): Boolean {

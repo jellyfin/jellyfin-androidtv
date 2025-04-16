@@ -250,8 +250,8 @@
     <string name="too_many_errors">Túl sok hiba. Feladom</string>
     <string name="player_error">Lejátszási hiba történt. Újrapróbálkozás…</string>
     <string name="seek_error">Nem lehet keresni</string>
-    <string name="msg_live_tv_prev">Betöltöd az előző %1$d órát\?</string>
-    <string name="msg_live_tv_next">Betöltöd a következő %1$d órát\?</string>
+    <string name="msg_live_tv_prev">Betöltöd az előző %1$d órát?</string>
+    <string name="msg_live_tv_next">Betöltöd a következő %1$d órát?</string>
     <string name="lbl_load_guide_data">Útmutató adatok betöltése</string>
     <string name="episode_missing_message_2">Ez az epizód hiányzik a könyvtáradból. A lejátszás megáll.</string>
     <string name="episode_missing_message">Ez az epizód hiányzik a könyvtáradból. Szeretnéd kihagyni, és folytatni az azután következővel\?</string>

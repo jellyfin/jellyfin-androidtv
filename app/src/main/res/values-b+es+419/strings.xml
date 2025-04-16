@@ -249,8 +249,8 @@
     <string name="subtitle_error">No se pudo seleccionar el subtítulo</string>
     <string name="too_many_errors">Demasiados errores. Deteniéndose</string>
     <string name="player_error">Se ha encontrado un error en el reproductor. Rei-ntentando…</string>
-    <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores\?</string>
-    <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes\?</string>
+    <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores?</string>
+    <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes?</string>
     <string name="lbl_load_guide_data">Cargar Guía de programas</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>

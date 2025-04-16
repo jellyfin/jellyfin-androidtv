@@ -204,8 +204,8 @@
     <string name="too_many_errors">Çok fazla hata. Bırakılıyor</string>
     <string name="player_error">Oynatıcı hatasıyla karşılaşıldı. Yeniden denenecek…</string>
     <string name="seek_error">Gezinilemiyor</string>
-    <string name="msg_live_tv_prev">Önceki %1$d saati yükle\?</string>
-    <string name="msg_live_tv_next">Sıradaki %1$d saati yükle\?</string>
+    <string name="msg_live_tv_prev">Önceki %1$d saati yükle?</string>
+    <string name="msg_live_tv_next">Sıradaki %1$d saati yükle?</string>
     <string name="lbl_load_guide_data">Rehber verilerini yükle</string>
     <string name="episode_missing_message_2">Bu bölüm kütüphanenizde eksik. Oynatma duracak.</string>
     <string name="episode_missing_message">Bu bölüm kütüphanenizde eksik. Bunu atlayıp bir sonrakine geçmek ister misiniz?</string>

@@ -248,8 +248,8 @@
     <string name="audio_error">Incapable de jouer l\'audio %1$s</string>
     <string name="player_error">Une erreur de lecture est survenue. Nous allons réessayer…</string>
     <string name="seek_error">Impossible de chercher</string>
-    <string name="msg_live_tv_prev">Charger les %1$d précédentes heures \?</string>
-    <string name="msg_live_tv_next">Charger les %1$d prochaines heures \?</string>
+    <string name="msg_live_tv_prev">Charger les %1$d précédentes heures ?</string>
+    <string name="msg_live_tv_next">Charger les %1$d prochaines heures ?</string>
     <string name="lbl_load_guide_data">Charger données du guide</string>
     <string name="mark_watched">Marquer comme lu</string>
     <string name="turn_off">Désactiver cette option</string>
@@ -582,4 +582,5 @@
     <string name="pref_report_device_profile_summary">Transmettre un fichier de diagnostic au serveur Jellyfin contenant les capacités de lecture</string>
     <string name="pref_report_device_profile_failure">Échec de la transmission du fichier de diagnostic. Votre serveur Jellyfin peut interdire l’envoi des journaux clients.</string>
     <string name="pref_report_device_profile_success">Fichier de diagnostic transmis sous le nom %1$s</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>

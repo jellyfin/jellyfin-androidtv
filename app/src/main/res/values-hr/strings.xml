@@ -158,8 +158,8 @@
     <string name="too_many_errors">Previše grešaka. Odustajem</string>
     <string name="player_error">Greška u izvođaču. Pokušat ću ponovno…</string>
     <string name="seek_error">Nije moguće pretraživati</string>
-    <string name="msg_live_tv_prev">Učitaj prethodnih %1$d sati\?</string>
-    <string name="msg_live_tv_next">Učitaj sljedećih %1$d sati\?</string>
+    <string name="msg_live_tv_prev">Učitaj prethodnih %1$d sati?</string>
+    <string name="msg_live_tv_next">Učitaj sljedećih %1$d sati?</string>
     <string name="lbl_load_guide_data">Učitaj podatke TV rasporeda</string>
     <string name="episode_missing_message_2">Ova epizoda nedostaje u vašoj biblioteci. Reprodukcija će stati.</string>
     <string name="episode_missing_message">Ova epizoda nedostaje u vašoj biblioteci. Želite li ju preskočiti i nastaviti s idućom\?</string>
