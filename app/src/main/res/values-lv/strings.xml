@@ -250,7 +250,7 @@
     <string name="pref_customization">Pielāgošana</string>
     <string name="pref_telemetry_category">Avāriju ziņošana</string>
     <string name="pref_crash_report_logs">Iekļaut pierakstus</string>
-    <string name="msg_live_tv_prev">Ielādēt iepriekšējās %1$d stundas?</string>
+    <string name="msg_live_tv_prev">Ielādēt iepriekšējās %1$d stundas?\"</string>
     <string name="lbl_user_last_used">Pēdējo reizi lietots %1$s %2$s</string>
     <string name="login_help_title">Nepieciešama palīdzība?</string>
     <string name="last_use">Pēdējais lietots</string>
@@ -322,7 +322,7 @@
     <string name="press_to_close">Nospiediet, lai aizvērtu</string>
     <string name="mark_watched">Atzīmēt skatītos</string>
     <string name="pref_next_up_behavior_title">Rādīt informāciju par nākamo video</string>
-    <string name="msg_live_tv_next">Ielādēt nākamas %1$d stundas?</string>
+    <string name="msg_live_tv_next">Ielādēt nākamas %1$d stundas?\"</string>
     <string name="no_player_message">Šķiet, ka jums nav ieinstalēta video atbalstoša lietotne. Lai atskaņotu video saturu, jums ir jāuzinstalē trešās puses lietojumprogramma.</string>
     <string name="too_many_errors">Pārāk daudz kļūdu. Mēģinajums pabeigts</string>
     <string name="msg_no_items">Nav vienumu, ko atskaņot</string>
@@ -580,4 +580,5 @@
     <string name="pref_report_device_profile_summary">Augšupielādējiet problēmu novēršanas dokumentu ar informāciju par atskaņošanas iespējām uz Jellyfin serveri</string>
     <string name="lbl_user_server">%1$s uz %2$s</string>
     <string name="lbl_starting_on_schedule_ending_after">Sākt saskaņā ar grafiku un beigt %1$s pēc grafika</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>
