@@ -207,7 +207,7 @@
     <string name="subtitle_error">Không thể chọn phụ đề</string>
     <string name="too_many_errors">Có quá nhiều lỗi. Từ bỏ</string>
     <string name="player_error">Đã gặp lỗi trình phát. Sẽ thử lại…</string>
-    <string name="msg_live_tv_prev">Tải %1$d giờ trước đó?</string>
+    <string name="msg_live_tv_prev">Tải trước %1$d giờ?</string>
     <string name="msg_live_tv_next">Tải tiếp theo %1$d giờ?\"</string>
     <string name="lbl_load_guide_data">Tải dữ liệu hướng dẫn</string>
     <string name="episode_missing_message_2">Tập này bị thiếu trong thư viện của bạn. Phát lại sẽ dừng.</string>
