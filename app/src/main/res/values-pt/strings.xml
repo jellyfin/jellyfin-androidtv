@@ -5,4 +5,6 @@
         <item quantity="many">%1$s segundos</item>
         <item quantity="other">%1$s segundos</item>
     </plurals>
+    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>
