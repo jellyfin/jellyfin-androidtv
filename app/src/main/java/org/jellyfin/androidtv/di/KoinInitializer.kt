@@ -18,9 +18,9 @@ class KoinInitializer : Initializer<KoinApplication> {
 			playbackModule,
 			preferenceModule,
 			utilsModule,
+			liveTvModule,
 		)
 	}
 
 	override fun dependencies() = listOf(LogInitializer::class.java)
 }
-
