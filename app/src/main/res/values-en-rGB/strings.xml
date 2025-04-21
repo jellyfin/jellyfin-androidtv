@@ -245,8 +245,8 @@
     <string name="too_many_errors">Too many errors. Giving up</string>
     <string name="player_error">Player error encountered. Will re-try…</string>
     <string name="seek_error">Unable to seek</string>
-    <string name="msg_live_tv_prev">Load prev %1$d hours\?</string>
-    <string name="msg_live_tv_next">Load next %1$d hours\?</string>
+    <string name="msg_live_tv_prev">Load prev %1$d hours?</string>
+    <string name="msg_live_tv_next">Load next %1$d hours?</string>
     <string name="lbl_load_guide_data">Load guide data</string>
     <string name="episode_missing_message_2">This episode is missing from your library. Playback will stop.</string>
     <string name="episode_missing_message">This episode is missing from your library. Would you like to skip it and continue to the next one\?</string>

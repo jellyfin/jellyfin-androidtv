@@ -486,6 +486,7 @@
     <string name="person_birthday_and_age">Born %1$s (%2$d)</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="indicator_subtitles">CC</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS:HD</string>

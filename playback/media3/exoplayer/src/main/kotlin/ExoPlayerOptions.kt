@@ -1,10 +1,10 @@
 package org.jellyfin.playback.media3.exoplayer
 
-import kotlin.time.Duration
+import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DefaultHttpDataSource
 
 data class ExoPlayerOptions(
-	val httpConnectTimeout: Duration? = null,
-	val httpReadTimeout: Duration? = null,
 	val preferFfmpeg: Boolean = false,
 	val enableDebugLogging: Boolean = false,
+	val baseDataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory(),
 )

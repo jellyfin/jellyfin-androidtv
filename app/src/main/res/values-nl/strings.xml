@@ -246,8 +246,8 @@
     <string name="msg_no_items">Geen items om af te spelen</string>
     <string name="subtitle_error">Kan ondertiteling niet selecteren</string>
     <string name="too_many_errors">Te veel fouten. Opgegeven</string>
-    <string name="msg_live_tv_prev">Vorige %1$d uren laden\?</string>
-    <string name="msg_live_tv_next">Volgende %1$d uren laden\?</string>
+    <string name="msg_live_tv_prev">Vorige %1$d uren laden?</string>
+    <string name="msg_live_tv_next">Volgende %1$d uren laden?</string>
     <string name="episode_missing_message_2">Deze aflevering ontbreekt in je bibliotheek. Afspelen zal stoppen.</string>
     <string name="episode_missing_message">Deze aflevering ontbreekt in je bibliotheek. Wil je deze overslaan en verdergaan met de volgende\?</string>
     <string name="episode_missing">Aflevering ontbreekt</string>
@@ -572,4 +572,5 @@
     <string name="pref_report_device_profile_failure">Document indienen mislukt. Je Jellyfin-server verbiedt mogelijk cliëntlogboeken.</string>
     <string name="pref_report_device_profile_title">Afspeelmogelijkheden aan server rapporteren</string>
     <string name="pref_report_device_profile_summary">Upload een probleemoplossingsdocument met informatie over afspeelmogelijkheden naar de Jellyfin-server</string>
+    <string name="indicator_subtitles_hearing_impaired">ODS</string>
 </resources>
