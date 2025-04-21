@@ -270,29 +270,21 @@ class RewriteMediaManager(
 		playbackManager.state.stop()
 	}
 
-	/**
-	* Skips back a specified duration.
-	*/
 	override fun rewind() {
-
-		val prefs = get<UserSettingPreferences>(UserSettingPreferences::class.java)
-		val amount = prefs.get<Int>(skipBackLength)
-		playbackManager.state.rewind(amount.toDuration(DurationUnit.MILLISECONDS))
+		playbackManager.state.rewind()
 	}
 
 	override fun togglePlayPause() {
-		val playState = playbackManager.state.playState.value
+		val playState = playbackManager.state.playState.value    /**
+     * Skips forward a specified duration.
+     */
+
 		if (playState == PlayState.PAUSED || playState == PlayState.STOPPED) playbackManager.state.unpause()
 		else if (playState == PlayState.PLAYING) playbackManager.state.pause()
 	}
 
-    /**
-     * Skips forward a specified duration.
-     */
 	override fun fastForward() {
-		val prefs = get<UserSettingPreferences>(UserSettingPreferences::class.java)
-		val amount = prefs.get<Int>(skipForwardLength)
-		playbackManager.state.fastForward(amount.toDuration(DurationUnit.MILLISECONDS))
+		playbackManager.state.fastForward()
 	}
 
 	/**
