@@ -11,12 +11,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
-import org.jellyfin.androidtv.preference.UserSettingPreferences
-import org.jellyfin.androidtv.preference.UserSettingPreferences.Companion.skipForwardLength
-import org.jellyfin.androidtv.preference.UserSettingPreferences.Companion.skipBackLength
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
-import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
@@ -34,9 +30,6 @@ import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaType
-import org.koin.java.KoinJavaComponent.get
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 @Suppress("TooManyFunctions")
 class RewriteMediaManager(
@@ -225,8 +218,6 @@ class RewriteMediaManager(
 		playbackManager.queue.clear()
 		playbackManager.queue.addSupplier(queueSupplier)
 		playbackManager.state.play()
-
-		navigationRepository.navigate(Destinations.nowPlaying)
 	}
 
 	override fun playFrom(item: BaseItemDto): Boolean {
@@ -275,10 +266,7 @@ class RewriteMediaManager(
 	}
 
 	override fun togglePlayPause() {
-		val playState = playbackManager.state.playState.value    /**
-     * Skips forward a specified duration.
-     */
-
+		val playState = playbackManager.state.playState.value
 		if (playState == PlayState.PAUSED || playState == PlayState.STOPPED) playbackManager.state.unpause()
 		else if (playState == PlayState.PLAYING) playbackManager.state.pause()
 	}

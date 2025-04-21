@@ -24,8 +24,6 @@
         <item name="inputDefaultHighlightBackground">@color/input_default_highlight_background</item>
         <!-- Default popup menu -->
         <item name="popupMenuBackground">@color/popup_menu_background</item>
-        <!-- Toolbar background color -->
-        <item name="toolbarBackground">@color/not_quite_black</item>
         <!-- Header text color -->
         <item name="headerTextColor">@color/white</item>
 

@@ -62,6 +62,16 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 	// Add the channel name if set
 	channelName?.let { append(channelName, " - ") }
 
+	// Add season and episode info if available
+	if (parentIndexNumber != null && parentIndexNumber != 0) {
+		append(context.getString(R.string.lbl_season_number, parentIndexNumber), " ")
+	}
+
+	if (indexNumber != null && indexNumberEnd != null)
+		append(context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd), " - ")
+	else if (indexNumber != null)
+		append(context.getString(R.string.lbl_episode_number, indexNumber), " - ")
+
 	// Add the episode title if set
 	episodeTitle?.let { append(episodeTitle, " ") }
 

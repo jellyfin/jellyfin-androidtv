@@ -71,10 +71,6 @@ class NavigationRepositoryImpl(
 		Timber.d("Navigating to $destination (via navigate function)")
 		val action = when (destination) {
 			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true, replace, false)
-			is Destination.Activity -> NavigationAction.NavigateActivity(destination) {
-				Timber.d("Navigating to nothing")
-				_currentAction.tryEmit(NavigationAction.Nothing)
-			}
 		}
 		if (destination is Destination.Fragment) {
 			if (replace && fragmentHistory.isNotEmpty()) fragmentHistory[fragmentHistory.lastIndex] = destination

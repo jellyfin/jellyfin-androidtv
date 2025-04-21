@@ -251,8 +251,8 @@
     <string name="too_many_errors">Príliš veľa chýb. Vzdávam sa</string>
     <string name="player_error">V prehrávači došlo k chybe. Prebehne ďalší pokus…</string>
     <string name="seek_error">Vyhľadávanie vo video nie je možné</string>
-    <string name="msg_live_tv_prev">Načítať predchádzajúcich %1$d hodín\?</string>
-    <string name="msg_live_tv_next">Načítať ďalších %1$d hodín\?</string>
+    <string name="msg_live_tv_prev">Načítať predchádzajúcich %1$d hodín?</string>
+    <string name="msg_live_tv_next">Načítať ďalších %1$d hodín?</string>
     <string name="lbl_load_guide_data">Načítať dáta programového sprievodcu</string>
     <string name="episode_missing_message_2">Táto epizóda chýba vo vašej knižnici. Prehrávanie bude zastavené.</string>
     <string name="episode_missing_message">Táto epizóda chýba vo vašej knižnici. Chcete ju preskočiť a pokračovať nasledujúcou epizódou\?</string>

@@ -243,8 +243,8 @@
     <string name="too_many_errors">Terlalu banyak kesalahan. Menyerah</string>
     <string name="player_error">Kesalahan dalam pemutaran. Mencoba kembali…</string>
     <string name="seek_error">Tidak mampu untuk mencari</string>
-    <string name="msg_live_tv_prev">Muat %1$d jam sebelumnya\?</string>
-    <string name="msg_live_tv_next">Muat %1$d jam selanjutnya\?</string>
+    <string name="msg_live_tv_prev">Muat %1$d jam sebelumnya?</string>
+    <string name="msg_live_tv_next">Muat %1$d jam selanjutnya?</string>
     <string name="lbl_load_guide_data">Muat data panduan</string>
     <string name="episode_missing_message_2">Episode ini tidak ada di pustaka anda. Pemutaran akan berhenti.</string>
     <string name="episode_missing_message">Episode ini tidak ada di pustaka anda. Apakah anda ingin melompati dan melanjutkan ke episode selanjutnya\?</string>

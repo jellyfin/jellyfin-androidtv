@@ -83,8 +83,8 @@
     <string name="too_many_errors">Превише грешака. Одустајем</string>
     <string name="player_error">Дошло је до грешке плејера. Покушаћу поново…</string>
     <string name="seek_error">Немогућа је претрага</string>
-    <string name="msg_live_tv_prev">Учитај претходних %1$d сати\?</string>
-    <string name="msg_live_tv_next">Учитај следећих %1$d сати\?</string>
+    <string name="msg_live_tv_prev">Учитај претходних %1$d сати?</string>
+    <string name="msg_live_tv_next">Учитај следећих %1$d сати?</string>
     <string name="lbl_load_guide_data">Учитајте податке водича</string>
     <string name="episode_missing_message_2">Ова епизода недостаје у вашој библиотеци. Репродукција ће се зауставити.</string>
     <string name="episode_missing_message">Ова епизода недостаје у вашој библиотеци. Да ли бисте желели да га прескочите и наставите на следећи\?</string>

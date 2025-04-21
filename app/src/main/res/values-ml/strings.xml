@@ -22,8 +22,8 @@
     <string name="server_connection_failed">സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല</string>
     <string name="lbl_playback_control_ends">%1$s ൽ അവസാനിക്കുന്നു</string>
     <string name="audio_error">%1$s ഓഡിയോ പ്ലേ ചെയ്യാൻ കഴിയില്ല</string>
-    <string name="msg_live_tv_prev">മുമ്പത്തെ %1$d മണിക്കൂർ ലോഡുചെയ്യണോ\?</string>
-    <string name="msg_live_tv_next">അടുത്ത %1$d മണിക്കൂർ ലോഡുചെയ്യണോ\?</string>
+    <string name="msg_live_tv_prev">മുമ്പത്തെ %1$d മണിക്കൂർ ലോഡുചെയ്യണോ?</string>
+    <string name="msg_live_tv_next">അടുത്ത %1$d മണിക്കൂർ ലോഡുചെയ്യണോ?</string>
     <string name="lbl_unknown_key">അജ്ഞാതം (%1s)</string>
     <string name="lbl_tv_filter_status">അടുത്മ %1$d ണിക്കൂർ</string>
     <string name="lbl_tv_channel_status">%1$d ഡി %2$d ചാനലുകൾ</string>
