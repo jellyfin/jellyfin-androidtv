@@ -53,9 +53,7 @@ public class AudioNowPlayingFragment extends Fragment {
     private ImageButton homeButton;
 
     private TextView mGenreRow;
-    private ImageButton mRewindButton;
     private ImageButton mPlayPauseButton;
-    private ImageButton mFastForwardButton;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
     private ImageButton mRepeatButton;
@@ -113,19 +111,16 @@ public class AudioNowPlayingFragment extends Fragment {
         mCounter = binding.counter;
         AudioNowPlayingFragmentHelperKt.initializeLyricsView(binding.poster, binding.lyrics, playbackManager.getValue());
 
-        mRewindButton = binding.rewindBtn;
-        mRewindButton.setContentDescription(getString(R.string.lbl_rewind));
-        mRewindButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton rewindButton = binding.rewindBtn;
+        rewindButton.setContentDescription(getString(R.string.rewind));
+        rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaManager manager = mediaManager.getValue();
-                if (manager != null) {
-                    manager.rewind();
-                    updateButtons();
-                }
+                mediaManager.getValue().rewind();
+                updateButtons();
             }
         });
-        mRewindButton.setOnFocusChangeListener(mainAreaFocusListener);
+        rewindButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mPlayPauseButton = binding.playPauseBtn;
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
@@ -137,19 +132,16 @@ public class AudioNowPlayingFragment extends Fragment {
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mFastForwardButton = binding.fastForwardBtn;
-        mFastForwardButton.setContentDescription(getString(R.string.lbl_fast_forward));
-        mFastForwardButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton fastForwardButton = binding.fastForwardBtn;
+        fastForwardButton.setContentDescription(getString(R.string.fast_forward));
+        fastForwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaManager manager = mediaManager.getValue();
-                if (manager != null) {
-                    manager.fastForward();
-                    updateButtons();
-                }
+                mediaManager.getValue().fastForward();
+                updateButtons();
             }
         });
-        mFastForwardButton.setOnFocusChangeListener(mainAreaFocusListener);
+        fastForwardButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mPrevButton = binding.prevBtn;
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
