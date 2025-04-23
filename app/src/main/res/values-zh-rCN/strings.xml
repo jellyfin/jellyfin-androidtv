@@ -563,4 +563,6 @@
     <string name="pref_report_device_profile_summary">上传含有播放能力的疑难排解文件至伺服器</string>
     <string name="pref_report_device_profile_success">文件已提交为 %1$s</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="fast_forward">快进</string>
+    <string name="rewind">快退</string>
 </resources>
