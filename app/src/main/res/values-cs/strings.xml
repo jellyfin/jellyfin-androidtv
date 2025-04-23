@@ -582,4 +582,5 @@
     <string name="pref_subtitles_background_opacity">Průhlednost pozadí titulků</string>
     <string name="pref_report_device_profile_summary">Nahrát dokument s řešením chyb na server Jellyfinu s informacemi o možnostech přehrávání</string>
     <string name="pref_report_device_profile_failure">Nepodařilo se odeslat dokument. Váš server Jellyfin může mít zakázané protokoly klienta.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>

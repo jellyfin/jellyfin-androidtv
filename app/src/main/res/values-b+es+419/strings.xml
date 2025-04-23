@@ -577,4 +577,7 @@
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
     <string name="pref_subtitles_background_opacity">Opacidad del marco de subtítulos</string>
+    <string name="pref_report_device_profile_title">Reportar las capacidades de reproducción al servidor</string>
+    <string name="pref_troubleshooting">Resolución de problemas</string>
+    <string name="indicator_subtitles_hearing_impaired">D/H</string>
 </resources>

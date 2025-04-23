@@ -245,7 +245,7 @@
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
     <string name="player_error">Ocorreu um erro no leitor. A tentar novamente…</string>
     <string name="seek_error">Impossível saltar</string>
-    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?</string>
+    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas?</string>
     <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
@@ -582,4 +582,5 @@
     <string name="pref_report_device_profile_failure">Falha ao enviar o documento. O teu servidor Jellyfin pode estar a proibir registos de clientes.</string>
     <string name="pref_report_device_profile_title">Relatar capacidades de reprodução ao servidor</string>
     <string name="pref_report_device_profile_success">Documento entregue como %1$s</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>

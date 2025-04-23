@@ -497,7 +497,7 @@
         <item quantity="other">%1$s odcinków</item>
     </plurals>
     <string name="not_set">Nie ustawiony</string>
-    <string name="lbl_album_artists">Wykonawcy albumu</string>
+    <string name="lbl_album_artists">Wykonawcy albumów</string>
     <string name="disable_ui_mode_warning">Wyłącz ostrzeżenie o typie urządzenia</string>
     <string name="because_you_watched">Bo obejrzałeś %1$s</string>
     <string name="channels">Kanały</string>
