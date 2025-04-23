@@ -16,6 +16,7 @@
  - [MajMongoose](https://github.com/majmongoose)
  - [Olaren15](https://github.com/Olaren15)
  - [dtrexler](https://github.com/dtrexler)
+ - [Kinhelm](https://github.com/Kinhelm)
 
 # Emby Contributors
 
