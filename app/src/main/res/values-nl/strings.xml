@@ -573,4 +573,6 @@
     <string name="pref_report_device_profile_title">Afspeelmogelijkheden aan server rapporteren</string>
     <string name="pref_report_device_profile_summary">Upload een probleemoplossingsdocument met informatie over afspeelmogelijkheden naar de Jellyfin-server</string>
     <string name="indicator_subtitles_hearing_impaired">ODS</string>
+    <string name="rewind">Terugspoelen</string>
+    <string name="fast_forward">Vooruitspoelen</string>
 </resources>
