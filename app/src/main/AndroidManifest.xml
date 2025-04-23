@@ -39,6 +39,7 @@
 
     <application
         android:name=".JellyfinApplication"
+        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:appCategory="video"
         android:banner="@mipmap/app_banner"

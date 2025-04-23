@@ -171,7 +171,7 @@ public class DanmuPlaybackController extends PlaybackController {
         DanamakuAdapter danamakuAdapter = new DanamakuAdapter(mDanmakuView);
         mDanmakuContext = DanmakuContext.create();
         mDanmakuContext.setDanmakuStyle(customerUserPreferences.getDanmuStyle(), 3)
-                .setDuplicateMergingEnabled(false)
+                .setDuplicateMergingEnabled(true)
                 .setScrollSpeedFactor(customerUserPreferences.getDanmuSpeed())
                 .setScaleTextSize(customerUserPreferences.getDanmuFontSize())
                 .setCacheStuffer(new SpannedCacheStuffer(), danamakuAdapter) // 图文混排使用SpannedCacheStuffer
@@ -212,7 +212,7 @@ public class DanmuPlaybackController extends PlaybackController {
                     }
                 }
             });
-            mDanmakuView.enableDanmakuDrawingCache(true);
+            mDanmakuView.enableDanmakuDrawingCache(false);
         }
     }
 
