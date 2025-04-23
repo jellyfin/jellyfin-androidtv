@@ -20,4 +20,9 @@ enum class RatingType(
 	 * Sets the default rating type to hidden.
 	 */
 	RATING_HIDDEN(R.string.lbl_hidden),
+
+	/**
+	 * Sets the default rating type to only display ratings in the media info screen.
+	 */
+	RATING_ONLY_IN_MEDIA_INFO(R.string.lbl_only_in_media_info),
 }

@@ -251,7 +251,7 @@ fun BaseItemInfoRow(
 		horizontalArrangement = Arrangement.spacedBy(8.dp),
 		verticalAlignment = Alignment.CenterVertically,
 	) {
-		if (ratingType != RatingType.RATING_HIDDEN) {
+		if (ratingType == RatingType.RATING_ONLY_IN_MEDIA_INFO || ratingType != RatingType.RATING_HIDDEN ) {
 			item.communityRating?.let { InfoRowCommunityRating(it / 10f) }
 			item.criticRating?.let { InfoRowCriticRating(it / 100f) }
 		}
