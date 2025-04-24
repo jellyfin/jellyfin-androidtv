@@ -61,18 +61,21 @@ class DreamViewModel(
 		emit(null)
 		delay(2.seconds)
 
-		var randomItems = getRandomLibraryItems();
-		while (randomItems == null)
-			delay(3.seconds)
-			randomItems = getRandomLibraryItems();
-
-		val isCompleteList = randomItems.totalRecordCount == randomItems.items.size
-		var itemsWithBackdrops = randomItems.items.filter { item ->
-				!item.backdropImageTags.isNullOrEmpty()
-		}
-
+		var isCompletList = false
+		var randomItems = null
 		while (true) {
-			for (item in itemsWithBackdrops) {
+			if (!isCompleteList) {
+				randomItems = getRandomLibraryItems();
+				while (randomItems == null)
+					delay(3.seconds)
+					randomItems = getRandomLibraryItems();
+				isCompleteList = randomItems.totalRecordCount == randomItems.items.size
+			}
+
+			for (item in randomItems.items) {
+				if (item.backdropImageTags.isNullOrEmpty()) {
+					continue
+				}
 				val next = withContext(Dispatchers.IO) { libraryShowcase(item) }
 				if (next != null) {
 					emit(next)
