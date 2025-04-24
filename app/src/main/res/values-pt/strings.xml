@@ -7,4 +7,6 @@
     </plurals>
     <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="fast_forward">Avançar</string>
+    <string name="rewind">Retroceder</string>
 </resources>
