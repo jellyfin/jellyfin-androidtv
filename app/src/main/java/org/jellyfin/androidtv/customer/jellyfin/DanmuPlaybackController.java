@@ -39,7 +39,6 @@ import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
-import timber.log.Timber;
 
 public class DanmuPlaybackController extends PlaybackController {
     private static final Logger log = LoggerFactory.getLogger(DanmuPlaybackController.class);
@@ -179,6 +178,7 @@ public class DanmuPlaybackController extends PlaybackController {
                 .preventOverlapping(overlappingEnablePair);
 
         DanmakuTimer.debug = BuildConfig.DEBUG;
+        DanmakuTimer.useVideoTime = true;
         if (mDanmakuView != null) {
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
                 @Override
@@ -375,11 +375,11 @@ public class DanmuPlaybackController extends PlaybackController {
     protected void refreshCurrentPosition() {
         super.refreshCurrentPosition();
         DanmakuTimer.videoTime = mCurrentPosition;
-        if (customerUserPreferences.isDanmuFps()) {
-            long currentTime = getDanmakuView().getCurrentTime();
-
-            Timber.d("当前弹幕时间: 视频=%d, 弹幕=%d, 时间差=%d", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
-        }
+//        if (customerUserPreferences.isDanmuFps()) {
+//            long currentTime = getDanmakuView().getCurrentTime();
+//
+//            Timber.d("当前弹幕时间: 视频=%d, 弹幕=%d, 时间差=%d", mCurrentPosition, currentTime, (currentTime - mCurrentPosition));
+//        }
     }
 
     public IDanmakuView getDanmakuView() {
