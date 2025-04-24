@@ -260,7 +260,7 @@
     <string name="lbl_audio_track">Selecionar faixa de áudio</string>
     <string name="lbl_pause">Pausar</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina em %1$s</string>
+    <string name="lbl_playback_control_ends">Termina às %1$s</string>
     <string name="lbl_sign_in">Por favor, faça login</string>
     <string name="login_username_field_empty">O nome de usuário não pode estar vazio</string>
     <string name="login_server_unavailable">Incapaz de conectar ao servidor</string>
