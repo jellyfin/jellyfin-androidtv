@@ -61,38 +61,13 @@ class DreamViewModel(
 		emit(null)
 		delay(2.seconds)
 
-		var isCompletList = false
-		var randomItems = null
-		while (true) {
-			if (!isCompleteList) {
-				randomItems = getRandomLibraryItems();
-				while (randomItems == null)
-					delay(3.seconds)
-					randomItems = getRandomLibraryItems();
-				isCompleteList = randomItems.totalRecordCount == randomItems.items.size
-			}
-
-			for (item in randomItems.items) {
-				if (item.backdropImageTags.isNullOrEmpty()) {
-					continue
-				}
-				val next = withContext(Dispatchers.IO) { libraryShowcase(item) }
-				if (next != null) {
-					emit(next)
-					delay(30.seconds)
-				} else {
-					delay(3.seconds)
-				}
-			}
-
-			if (!isCompleteList) {
-				randomItems = getRandomLibraryItems();
-				while (randomItems == null)
-					delay(3.seconds)
-					randomItems = getRandomLibraryItems();
-				itemsWithBackdrops = randomItems.items.filter { item ->
-					!item.itemBackdropImages.isNotEmpty()
-				}
+		for (item in iterateRandomLibraryItems()) {
+			val next = withContext(Dispatchers.IO) { libraryShowcase(item) }
+			if (next != null) {
+				emit(next)
+				delay(30.seconds)
+			} else {
+				delay(3.seconds)
 			}
 		}
 	}
@@ -107,6 +82,24 @@ class DreamViewModel(
 		initialValue = _mediaContent.value ?: _libraryContent.value ?: DreamContent.Logo,
 	)
 
+	private fun iterateRandomLibraryItems() = flow {
+		var randomLibraryItems = getRandomLibraryItems()
+		while (true) {
+			while (randomLibraryItems == null) {
+				delay(3.seconds)
+				randomLibraryItems = getRandomLibraryItems()
+			}
+			for (item in randomLibraryItems.items) {
+				if (!item.backdropImageTags.isNullOrEmpty()) {
+					emit(item)
+				}
+			}
+			if (randomLibraryItems.items.size < randomLibraryItems.totalRecordCount) {
+				randomLibraryItems = getRandomLibraryItems()
+			}
+		}
+	}
+
 	private suspend fun getRandomLibraryItems(): BaseItemDtoQueryResult? {
 		val requireParentalRating = userPreferences[UserPreferences.screensaverAgeRatingRequired]
 		val maxParentalRating = userPreferences[UserPreferences.screensaverAgeRatingMax]
@@ -116,7 +109,7 @@ class DreamViewModel(
 				includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 				recursive = true,
 				sortBy = listOf(ItemSortBy.RANDOM),
-				limit = 1000,
+				limit = 100,
 				imageTypes = listOf(ImageType.BACKDROP),
 				maxOfficialRating = if (maxParentalRating == -1) null else maxParentalRating.toString(),
 				hasParentalRating = if (requireParentalRating) true else null,
