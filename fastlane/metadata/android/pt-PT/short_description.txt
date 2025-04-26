@@ -1,1 +1,1 @@
-Aplicação Jellyfin para televisão, o software de sistema multimédia gratuito
+Jellyfin para televisão — um sistema multimédia gratuito e de código aberto
