@@ -436,7 +436,7 @@
     <string name="action_connect">Ligar</string>
     <string name="live_tv_preferences">Opções de TV em direto</string>
     <string name="app_notification_uimode_invalid">Esta aplicação está otimizada para televisores. Recomendamos que utilizes a nossa aplicação móvel noutros dispositivos.</string>
-    <string name="server_unsupported_notification">Este servidor usa a versão %1$s de Jellyfin que não é suportada. Por favor atualize para o Jellyfin %2$s ou mais recente para continuar a utilizar a aplicação.</string>
+    <string name="server_unsupported_notification">Este servidor utiliza a versão %1$s do Jellyfin, que não é suportada. Atualiza para o Jellyfin %2$s ou mais recente para continuares a utilizar a aplicação.</string>
     <string name="pref_telemetry_category">Reportar problemas</string>
     <string name="pref_crash_reports_enabled">Relatórios de problemas serão enviados para o último servidor utilizado</string>
     <string name="pref_crash_report_logs_disabled">Os registos não serão incluídos nos relatórios de problemas</string>
