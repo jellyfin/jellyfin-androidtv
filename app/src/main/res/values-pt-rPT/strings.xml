@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Não foi possível criar a gravação</string>
     <string name="msg_recording_cancelled">Gravação cancelada</string>
     <string name="msg_unable_to_cancel">Não foi possível cancelar a gravação</string>
-    <string name="lbl_cast_crew">Elenco &amp; equipa</string>
+    <string name="lbl_cast_crew">Elenco e equipa técnica</string>
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiais</string>
     <string name="lbl_trailers">Trailers</string>
@@ -246,7 +246,7 @@
     <string name="player_error">Ocorreu um erro no leitor. A tentar novamente…</string>
     <string name="seek_error">Impossível saltar</string>
     <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
-    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?</string>
+    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?\"</string>
     <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na tua biblioteca. Desejas saltar este episódio e passar ao seguinte?</string>
