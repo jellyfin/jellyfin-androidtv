@@ -441,8 +441,7 @@
     <string name="pref_crash_reports_enabled">Relatórios de problemas serão enviados para o último servidor utilizado</string>
     <string name="pref_crash_report_logs_disabled">Os registos não serão incluídos nos relatórios de problemas</string>
     <string name="server_setup_incomplete">A configuração deste servidor não foi concluída. Abra o Jellyfin num navegador web para terminar o processo antes de se autenticar.</string>
-    <string name="app_notification_beta">Aplicação atualizada para %1$s
-\nObrigado por participar no programa beta do Jellyfin.</string>
+    <string name="app_notification_beta">Aplicação atualizada para %1$s \nObrigado por participares no programa beta do Jellyfin.</string>
     <string name="login_quickconnect_step_2">2. Abrir o menu do utilizador e ir para a página Ligação Rápida</string>
     <string name="login_quickconnect_step_3">3. Introduzir o seguinte código:</string>
     <string name="pref_telemetry_description">Enviar relatório de problemas, incluir registos</string>
