@@ -9,4 +9,5 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="fast_forward">Avançar</string>
     <string name="rewind">Retroceder</string>
+    <string name="server_unsupported_notification">Este servidor utiliza a versão %1$s do Jellyfin, que não é suportada. Atualiza para o Jellyfin %2$s ou mais recente para continuares a utilizar a aplicação.</string>
 </resources>
