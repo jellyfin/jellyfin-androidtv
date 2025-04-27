@@ -7,7 +7,7 @@
     <string name="pref_playback">Воспроизведение</string>
     <string name="pref_max_bitrate_title">Макс. поток. скорость</string>
     <string name="settings_title">Предпочтения</string>
-    <string name="chapters">Сцены</string>
+    <string name="chapters">Разделы</string>
     <string name="lbl_settings">Предпочтения</string>
     <string name="lbl_continue_watching">Продолжить просмотр</string>
     <string name="lbl_next_up">Следующее</string>
@@ -40,9 +40,9 @@
     <string name="msg_unable_to_create_recording">Невозможно создать запись</string>
     <string name="msg_recording_cancelled">Запись отменена</string>
     <string name="msg_unable_to_cancel">Невозможно отменить запись</string>
-    <string name="lbl_cast_crew">Снимались и снимали</string>
-    <string name="lbl_chapters">Сцены</string>
-    <string name="lbl_specials">Специальные</string>
+    <string name="lbl_cast_crew">Актеры и команда</string>
+    <string name="lbl_chapters">Разделы</string>
+    <string name="lbl_specials">Доп. материалы</string>
     <string name="lbl_trailers">Трейлеры</string>
     <string name="lbl_items">Элементы</string>
     <string name="lbl_item">Элемент</string>
@@ -593,4 +593,6 @@
     <string name="pref_report_device_profile_summary">Загружать диагностические данные на сервер Jellyfin вместе с информацией о поддерживаемых функциях воспроизведения</string>
     <string name="pref_report_device_profile_success">Данные загружены как %1$s</string>
     <string name="indicator_subtitles_hearing_impaired">Слабослышащие</string>
+    <string name="fast_forward">Перемотать вперед</string>
+    <string name="rewind">Перемотать назад</string>
 </resources>
