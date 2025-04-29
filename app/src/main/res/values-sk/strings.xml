@@ -583,4 +583,6 @@
     <string name="pref_report_device_profile_success">Dokument odoslaný ako %1$s</string>
     <string name="pref_report_device_profile_failure">Nepodarilo sa odoslať dokument. Váš server Jellyfin môže mať zakázené logy klientov.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="fast_forward">Pretočiť dopredu</string>
+    <string name="rewind">Pretočiť dozadu</string>
 </resources>
