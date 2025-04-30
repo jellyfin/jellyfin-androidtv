@@ -230,6 +230,13 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable TrickPlay in legacy player user interface while seeking.
 		 */
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
+
+
+		/**
+		 * The threshold under which no quality option will be available/shown
+		 */
+		var qualityOptionThreshold = intPreference("quality_option_threshold", 200)
+
 	}
 
 	init {

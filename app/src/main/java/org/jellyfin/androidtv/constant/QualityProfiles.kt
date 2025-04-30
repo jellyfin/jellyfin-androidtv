@@ -13,9 +13,10 @@ private val qualityOptions = setOf(
 
 @Suppress("MagicNumber")
 fun getQualityProfiles(
-	context: Context
-): Map<String, String> = qualityOptions.associate {
-	val value = when {
+	context: Context,
+	threshold : Double = 200.0
+): Map<String, String> = filteredQualityOptions(threshold).associate {
+val value = when {
 		it >= 1.0 -> context.getString(R.string.bitrate_mbit, it)
 		else -> context.getString(R.string.bitrate_kbit, it * 1000.0)
 	}
@@ -23,3 +24,4 @@ fun getQualityProfiles(
 	it.toString().removeSuffix(".0") to value
 }
 
+private fun filteredQualityOptions(threshold: Double) = qualityOptions.filter { it <= threshold }

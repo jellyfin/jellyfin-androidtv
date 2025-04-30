@@ -19,7 +19,7 @@ class SelectQualityAction(
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private val previousQualitySelection = userPreferences[UserPreferences.maxBitrate]
 	private val qualityController = VideoQualityController(previousQualitySelection, userPreferences)
-	private val qualityProfiles = getQualityProfiles(context)
+	private val qualityProfiles = getQualityProfiles(context, userPreferences[UserPreferences.qualityOptionThreshold].toDouble())
 	private var popup: PopupMenu? = null
 
 	init {
