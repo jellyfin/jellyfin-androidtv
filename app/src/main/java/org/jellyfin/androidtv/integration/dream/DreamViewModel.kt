@@ -96,7 +96,7 @@ class DreamViewModel(
 			)
 
 			val item = response.items.firstOrNull { item ->
-				!item.backdropImageTags.isNullOrEmpty()
+				item.itemBackdropImages.isNotEmpty()
 			} ?: return null
 
 			Timber.i("Loading random library showcase item ${item.id}")

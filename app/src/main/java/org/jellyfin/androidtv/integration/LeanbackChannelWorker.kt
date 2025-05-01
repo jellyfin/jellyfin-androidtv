@@ -232,7 +232,7 @@ class LeanbackChannelWorker(
 		preferParentThumb: Boolean
 	): Uri = when {
 		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages[ImageType.PRIMARY]
-		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true) && parentThumbItemId != null -> parentImages[ImageType.THUMB]
+		(preferParentThumb || !itemImages.contains(ImageType.PRIMARY)) && parentImages.contains(ImageType.THUMB) -> parentImages[ImageType.THUMB]
 		else -> itemImages[ImageType.PRIMARY]
 	}.let { image ->
 		ImageProvider.getImageUri(image?.getUrl(api) ?: imageHelper.getResourceUrl(context, R.drawable.tile_land_tv))

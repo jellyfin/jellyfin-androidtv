@@ -4,6 +4,7 @@ package org.jellyfin.androidtv.util.sdk
 
 import org.jellyfin.androidtv.auth.model.PublicUser
 import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUID
@@ -21,6 +22,6 @@ fun UserDto.toPublicUser(): PublicUser? {
 		name = name ?: return null,
 		serverId = serverId?.toUUIDOrNull() ?: return null,
 		accessToken = null,
-		imageTag = primaryImageTag
+		imageTag = primaryImage?.tag
 	)
 }

@@ -416,7 +416,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
-            String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(mBaseItem, 600, true);
+            String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(mBaseItem, 600);
             if (primaryImageUrl == null) {
                 primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(mBaseItem, false, null, posterHeight);
             }
