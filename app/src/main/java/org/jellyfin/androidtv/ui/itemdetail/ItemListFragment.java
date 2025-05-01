@@ -472,7 +472,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private void updateBackdrop() {
         BaseItemDto item = mBaseItem;
 
-        if (item.getBackdropImageTags() == null || item.getBackdropImageTags().isEmpty() && mItems != null && mItems.size() >= 1)
+        if (item.getBackdropImageTags() == null || item.getBackdropImageTags().isEmpty() && mItems != null && !mItems.isEmpty())
             item = mItems.get(new Random().nextInt(mItems.size()));
 
         backgroundService.getValue().setBackground(item);

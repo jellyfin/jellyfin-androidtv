@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
@@ -124,7 +125,7 @@ class AuthenticationRepositoryImpl(
 			serverId = server.id,
 			name = userInfo.name!!,
 			accessToken = result.accessToken,
-			imageTag = userInfo.primaryImageTag,
+			imageTag = userInfo.primaryImage?.tag,
 			lastUsed = Instant.now().toEpochMilli(),
 		)
 
@@ -165,11 +166,11 @@ class AuthenticationRepositoryImpl(
 		val updatedUser = currentUser?.copy(
 			name = userInfo.name!!,
 			lastUsed = Instant.now().toEpochMilli(),
-			imageTag = userInfo.primaryImageTag,
+			imageTag = userInfo.primaryImage?.tag,
 			accessToken = accessToken,
 		) ?: AuthenticationStoreUser(
 			name = userInfo.name!!,
-			imageTag = userInfo.primaryImageTag,
+			imageTag = userInfo.primaryImage?.tag,
 			accessToken = accessToken,
 		)
 		authenticationStore.putUser(server.id, userInfo.id, updatedUser)

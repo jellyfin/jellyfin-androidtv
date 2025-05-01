@@ -1240,7 +1240,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 binding.itemTitle.setText(current.getName());
             }
             // Update the logo
-            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440, false);
+            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440);
             if (imageUrl != null) {
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);
