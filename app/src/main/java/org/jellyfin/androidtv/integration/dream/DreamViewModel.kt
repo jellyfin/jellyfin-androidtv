@@ -30,6 +30,8 @@ import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemDtoQueryResult
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -59,8 +61,8 @@ class DreamViewModel(
 		emit(null)
 		delay(2.seconds)
 
-		while (true) {
-			val next = withContext(Dispatchers.IO) { getRandomLibraryShowcase() }
+		for (item in iterateRandomLibraryItems()) {
+			val next = withContext(Dispatchers.IO) { libraryShowcase(item) }
 			if (next != null) {
 				emit(next)
 				delay(30.seconds)
@@ -80,7 +82,25 @@ class DreamViewModel(
 		initialValue = _mediaContent.value ?: _libraryContent.value ?: DreamContent.Logo,
 	)
 
-	private suspend fun getRandomLibraryShowcase(): DreamContent.LibraryShowcase? {
+	private fun iterateRandomLibraryItems() = flow {
+		var randomLibraryItems = getRandomLibraryItems()
+		while (true) {
+			while (randomLibraryItems == null) {
+				delay(3.seconds)
+				randomLibraryItems = getRandomLibraryItems()
+			}
+			for (item in randomLibraryItems.items) {
+				if (!item.backdropImageTags.isNullOrEmpty()) {
+					emit(item)
+				}
+			}
+			if (randomLibraryItems.items.size < randomLibraryItems.totalRecordCount) {
+				randomLibraryItems = getRandomLibraryItems()
+			}
+		}
+	}
+
+	private suspend fun getRandomLibraryItems(): BaseItemDtoQueryResult? {
 		val requireParentalRating = userPreferences[UserPreferences.screensaverAgeRatingRequired]
 		val maxParentalRating = userPreferences[UserPreferences.screensaverAgeRatingMax]
 
@@ -89,16 +109,19 @@ class DreamViewModel(
 				includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 				recursive = true,
 				sortBy = listOf(ItemSortBy.RANDOM),
-				limit = 5,
+				limit = 100,
 				imageTypes = listOf(ImageType.BACKDROP),
 				maxOfficialRating = if (maxParentalRating == -1) null else maxParentalRating.toString(),
 				hasParentalRating = if (requireParentalRating) true else null,
 			)
+			return response
+		} catch (err: ApiClientException) {
+			Timber.e(err)
+			return null
+		}
 
-			val item = response.items.firstOrNull { item ->
-				!item.backdropImageTags.isNullOrEmpty()
-			} ?: return null
-
+	private suspend fun libraryShowcase(item: BaseItemDto): DreamContent.LibraryShowcase?
+		try {
 			Timber.i("Loading random library showcase item ${item.id}")
 
 			val backdropUrl = item.itemBackdropImages.randomOrNull()?.getUrl(api)
