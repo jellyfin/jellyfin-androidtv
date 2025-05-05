@@ -415,4 +415,9 @@
     <string name="server_field_empty">הכתובת לא יכולה להיות ריקה</string>
     <string name="lbl_sign_in">אנא התחבר</string>
     <string name="select_version">גרסא</string>
+    <string name="lbl_starting_on_schedule_ending_after">מתחיל כמתכונן ומסיים את %1$s אחרי התכנון</string>
+    <string name="pref_clock_display_browsing">בזמן הדפדוף</string>
+    <string name="lbl_starting_early_ending_on_schedule">מתחיל את %1$s מוקדם ומסיים לפי התכנון</string>
+    <string name="lbl_start_end_on_schedule">מתחיל ומסיים בזמן המתוכנן</string>
+    <string name="lbl_starting_early_ending_after">מתחיל את %1$s מוקדם ומסיים את %2$s אחרי התכנון</string>
 </resources>
