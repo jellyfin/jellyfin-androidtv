@@ -217,7 +217,7 @@
     <string name="too_many_errors">יותר מדי תקלות. מוותר</string>
     <string name="player_error">בעיית נגן. מנסה שנית…</string>
     <string name="seek_error">לא ניתן לדלג</string>
-    <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות?</string>
+    <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות?\"</string>
     <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות?</string>
     <string name="lbl_load_guide_data">טען את לוח השידורים</string>
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
@@ -581,4 +581,13 @@
     <string name="skip_forward_length">גודל דילוג קדימה</string>
     <string name="runtime_hours_minutes">%1$d שעות %2$d דקות</string>
     <string name="runtime_minutes">%1$d דקות</string>
+    <string name="pref_report_device_profile_summary">העלה מסמך דיווח שגיאות לשרת Jellyfin עם מידע על יכולות נגן</string>
+    <string name="fast_forward">מהר קדימה</string>
+    <string name="rewind">החזר אחורה</string>
+    <string name="pref_subtitles_background_opacity">שקיפות רקע כתוביות</string>
+    <string name="pref_troubleshooting">פתרון בעיות</string>
+    <string name="pref_report_device_profile_title">דווח על יכולות ניגון לשרת</string>
+    <string name="pref_report_device_profile_success">מסמך נשלח כ %1$s</string>
+    <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>
