@@ -10,12 +10,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtils {
-    private static final int MILLIS_PER_SEC = 1000;
-    private static final long MILLIS_PER_MIN = TimeUnit.MINUTES.toMillis(1);
-    private static final long MILLIS_PER_HR = TimeUnit.HOURS.toMillis(1);
+    public static final int MILLIS_PER_SEC = 1000;
+    public static final long MILLIS_PER_MIN = TimeUnit.MINUTES.toMillis(1);
+    public static final long MILLIS_PER_HR = TimeUnit.HOURS.toMillis(1);
 
-    private static final int SECS_PER_MIN = 60;
-    private static final long SECS_PER_HR = TimeUnit.HOURS.toSeconds(1);
+    public static final int SECS_PER_MIN = 60;
+    public static final long SECS_PER_HR = TimeUnit.HOURS.toSeconds(1);
 
     private static final String DURATION_TIME_FORMAT_NO_HOURS = "%d:%02d";
     private static final String DURATION_TIME_FORMAT_WITH_HOURS = "%d:%02d:%02d";
