@@ -155,11 +155,10 @@ class DestinationFragmentView @JvmOverloads constructor(
 			else add(container.id, fragment, FRAGMENT_TAG_CONTENT)
 		}
 
-		// Commit
-		if (fragmentManager.isStateSaved) {
+		if (fragmentManager.isDestroyed) {
+			Timber.w("FragmentManager is already destroyed")
+		} else if (fragmentManager.isStateSaved) {
 			transaction.commitAllowingStateLoss()
-		} else if (fragmentManager.isDestroyed) {
-			Timber.e("FragmentManager is already destroyed")
 		} else {
 			transaction.commit()
 		}
