@@ -4,6 +4,7 @@ import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.LibassMode
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
 import org.jellyfin.sdk.model.api.EncodingContext
@@ -56,13 +57,15 @@ fun createDeviceProfile(userPreferences: UserPreferences, disableDirectPlay: Boo
 	disableDirectPlay = disableDirectPlay,
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
+	assDirectPlay = userPreferences[UserPreferences.libassMode] != LibassMode.DISABLED,
 )
 
 fun createDeviceProfile(
 	maxBitrate: Int,
 	disableDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	downMixAudio: Boolean,
+	assDirectPlay: Boolean,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -361,9 +364,9 @@ fun createDeviceProfile(
 	subtitleProfile(Codec.Subtitle.PGS, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.PGSSUB, embedded = true, encode = true)
 
-	// ASS/SSA renderer only supports a small subset of the specification so encoding is required for correct rendering
-	subtitleProfile(Codec.Subtitle.ASS, encode = true)
-	subtitleProfile(Codec.Subtitle.SSA, encode = true)
+	// ASS/SSA is supported via libass extension
+	subtitleProfile(Codec.Subtitle.ASS, encode = true, embedded = assDirectPlay, external = assDirectPlay)
+	subtitleProfile(Codec.Subtitle.SSA, encode = true, embedded = assDirectPlay, external = assDirectPlay)
 }
 
 // Little helper function to more easily define subtitle profiles

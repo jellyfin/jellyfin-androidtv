@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.LibassMode
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
@@ -230,6 +231,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable TrickPlay in legacy player user interface while seeking.
 		 */
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
+
+		/**
+		 * Enable libass.
+		 */
+		var libassMode = enumPreference<LibassMode>("libass_mode", LibassMode.DISABLED)
 	}
 
 	init {
