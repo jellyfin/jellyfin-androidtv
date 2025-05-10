@@ -51,6 +51,7 @@ import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.baseItemFlow
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.model.api.ExtraType
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.compose.koinInject
 
@@ -72,7 +73,7 @@ fun NowPlayingComposable(
 		targetState = item,
 		transitionSpec = { fadeIn() togetherWith fadeOut() },
 	) { item ->
-		if (item != null) {
+		if (item != null && item.extraType != ExtraType.THEME_SONG) {
 			ButtonBase(
 				onClick = { navigationRepository.navigate(Destinations.nowPlaying) },
 				shape = JellyfinTheme.shapes.extraSmall,

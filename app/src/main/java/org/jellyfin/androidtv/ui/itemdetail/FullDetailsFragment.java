@@ -46,6 +46,7 @@ import org.jellyfin.androidtv.data.querying.GetSpecialsRequest;
 import org.jellyfin.androidtv.data.querying.GetTrailersRequest;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.data.service.themesong.ThemeSongService;
 import org.jellyfin.androidtv.databinding.FragmentFullDetailsBinding;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
@@ -142,6 +143,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private final Lazy<ThemeSongService> themeSongService = inject(ThemeSongService.class);
     final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
@@ -286,6 +288,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     public void onStop() {
         super.onStop();
         stopClock();
+        themeSongService.getValue().itemPageHidden();
     }
 
     @Override
@@ -487,6 +490,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         mBaseItem = item;
         backgroundService.getValue().setBackground(item);
+        themeSongService.getValue().itemPageDisplayed(item);
         if (mBaseItem != null) {
             if (mChannelId != null) {
                 mBaseItem = JavaCompat.copyWithParentId(mBaseItem, mChannelId);
@@ -581,7 +585,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 break;
             case MUSIC_ARTIST:
-                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(),  BrowsingUtils.createArtistItemsRequest(mBaseItem.getId(), BaseItemKind.MUSIC_ALBUM), 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createArtistItemsRequest(mBaseItem.getId(), BaseItemKind.MUSIC_ALBUM), 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, artistAlbumsAdapter, 0, getString(R.string.lbl_albums));
 
                 break;
