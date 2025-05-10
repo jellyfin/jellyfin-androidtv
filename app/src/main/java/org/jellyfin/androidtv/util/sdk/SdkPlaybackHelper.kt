@@ -95,7 +95,7 @@ class SdkPlaybackHelper(
 				}
 			}
 
-			BaseItemKind.SERIES, BaseItemKind.SEASON, BaseItemKind.BOX_SET, BaseItemKind.FOLDER -> {
+			BaseItemKind.SERIES, BaseItemKind.SEASON, BaseItemKind.FOLDER -> {
 				val response by api.itemsApi.getItems(
 					parentId = mainItem.id,
 					isMissing = false,
@@ -105,6 +105,24 @@ class SdkPlaybackHelper(
 						BaseItemKind.VIDEO
 					),
 					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(ItemSortBy.SORT_NAME),
+					recursive = true,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields
+				)
+
+				response.items
+			}
+
+			BaseItemKind.BOX_SET -> {
+				val response by api.itemsApi.getItems(
+					parentId = mainItem.id,
+					isMissing = false,
+					includeItemTypes = listOf(
+						BaseItemKind.EPISODE,
+						BaseItemKind.MOVIE,
+						BaseItemKind.VIDEO
+					),
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else null,
 					recursive = true,
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields
