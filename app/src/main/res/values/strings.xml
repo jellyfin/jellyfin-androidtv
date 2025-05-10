@@ -514,6 +514,8 @@
     <string name="prefer_exoplayer_ffmpeg">Prefer FFmpeg for audio playback</string>
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
     <string name="default_video_zoom">Default zoom mode</string>
+    <string name="quality_option_threshold">Only show Quality Options under threshold.</string>
+    <string name="quality_option_threshold_content">Limit the number of shown Quality Options to those under 50 Mbit/s. If your Server only has 50 Mbit Upload this reduces clutter.</string>
     <string name="video_start_delay">Video start delay</string>
     <string name="pref_mediasegment_actions">Media segment actions</string>
     <string name="segment_action_ask_to_skip">Ask to skip</string>
