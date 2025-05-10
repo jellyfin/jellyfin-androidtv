@@ -648,6 +648,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mFadeEnabled = true;
         mHandler.removeCallbacks(mHideTask);
         mHandler.postDelayed(mHideTask, 6000);
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
+        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
     }
 
     @Override
