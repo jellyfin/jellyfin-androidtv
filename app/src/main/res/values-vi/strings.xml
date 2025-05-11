@@ -196,7 +196,7 @@
     <string name="lbl_prev_item">Mục trước</string>
     <string name="lbl_next_item">Mục kế tiếp</string>
     <string name="lbl_open_album">Mở album</string>
-    <string name="lbl_open_artist">Mở Nghệ Sĩ</string>
+    <string name="lbl_open_artist">Mở nghệ sĩ</string>
     <string name="lbl_add_to_queue">Thêm vào hàng đợi</string>
     <string name="msg_items_added">" đã thêm các mục"</string>
     <string name="lbl_runs">Chạy</string>
@@ -563,4 +563,6 @@
         <item quantity="other">%1$s bài</item>
     </plurals>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="fast_forward">Về trước nhanh</string>
+    <string name="rewind">Tua lại</string>
 </resources>
