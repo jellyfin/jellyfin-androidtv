@@ -240,10 +240,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         prepareOverlayFragment();
 
         //pre-load animations
-        fadeOut = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_fade_out);
+        fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out);
         fadeOut.setAnimationListener(hideAnimationListener);
-        slideDown = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_slide_in_top);
-        slideUp = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_slide_in_bottom);
+        slideDown = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_top_in);
+        slideUp = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_bottom_in);
         slideDown.setAnimationListener(showAnimationListener);
         setupPopupAnimations();
 
@@ -318,7 +318,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private void setupPopupAnimations() {
-        showPopup = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_slide_in_bottom);
+        showPopup = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_bottom_in);
         showPopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -334,7 +334,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             public void onAnimationRepeat(Animation animation) {
             }
         });
-        hidePopup = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_fade_out);
+        hidePopup = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out);
         hidePopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -1240,7 +1240,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 binding.itemTitle.setText(current.getName());
             }
             // Update the logo
-            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440, false);
+            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440);
             if (imageUrl != null) {
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);
@@ -1277,8 +1277,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void prepareChannelAdapter() {
         // create quick channel change row
         TvManager.loadAllChannels(this, response -> {
+            List<BaseItemDto> channels = TvManager.getAllChannels();
+            if (channels == null) return null;
             ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
-            channelAdapter.addAll(0, TvManager.getAllChannels());
+            channelAdapter.addAll(0, channels);
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.channels)), channelAdapter);
             mPopupRowAdapter.add(mChapterRow);

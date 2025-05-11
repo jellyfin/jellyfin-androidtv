@@ -6,58 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <org.jellyfin.androidtv.ui.shared.ToolbarView
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:toolbarBackground="@color/transparent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/search"
-                style="@style/Button.Icon"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:contentDescription="@string/lbl_search"
-                android:src="@drawable/ic_search" />
-
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:id="@+id/settings"
-                style="@style/Button.Icon"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:contentDescription="@string/lbl_settings"
-                android:src="@drawable/ic_settings" />
-
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="0dp" />
-
-            <FrameLayout
-                android:id="@+id/switch_users"
-                style="@style/Button.Icon"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:contentDescription="@string/lbl_switch_user">
-
-                <org.jellyfin.androidtv.ui.AsyncImageView
-                    android:id="@+id/switch_users_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="4dp"
-                    app:circleCrop="true"
-                    tools:src="@drawable/ic_user" />
-            </FrameLayout>
-        </LinearLayout>
-    </org.jellyfin.androidtv.ui.shared.ToolbarView>
+        android:layout_height="wrap_content" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/content_view"

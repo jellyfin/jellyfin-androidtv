@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
+import timber.log.Timber
 import java.util.Stack
 
 private class HistoryEntry(
@@ -154,9 +155,13 @@ class DestinationFragmentView @JvmOverloads constructor(
 			else add(container.id, fragment, FRAGMENT_TAG_CONTENT)
 		}
 
-		// Commit
-		if (fragmentManager.isStateSaved) transaction.commitNowAllowingStateLoss()
-		else transaction.commitNow()
+		if (fragmentManager.isDestroyed) {
+			Timber.w("FragmentManager is already destroyed")
+		} else if (fragmentManager.isStateSaved) {
+			transaction.commitAllowingStateLoss()
+		} else {
+			transaction.commit()
+		}
 	}
 
 	override fun onSaveInstanceState(): Parcelable {

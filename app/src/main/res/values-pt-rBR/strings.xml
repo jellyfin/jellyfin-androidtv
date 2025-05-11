@@ -250,8 +250,8 @@
     <string name="too_many_errors">Erros excessivos. Desistindo</string>
     <string name="player_error">Erro no reprodutor encontrado. Tentando novamente…</string>
     <string name="seek_error">Incapaz de buscar</string>
-    <string name="msg_live_tv_prev">Carregar às %1$d horas prévias\?</string>
-    <string name="msg_live_tv_next">Carregar próximas %1$d horas\?</string>
+    <string name="msg_live_tv_prev">Carregar às %1$d horas prévias?</string>
+    <string name="msg_live_tv_next">Carregar próximas %1$d horas?\"</string>
     <string name="lbl_load_guide_data">Carregar programação dos canais</string>
     <string name="episode_missing_message_2">Esse episódio não está disponível na sua biblioteca. A reprodução será interrompida.</string>
     <string name="episode_missing_message">Esse episódio não está disponível na sua biblioteca. Gostaria de pular esse e continuar para o próximo\?</string>
@@ -260,7 +260,7 @@
     <string name="lbl_audio_track">Selecionar faixa de áudio</string>
     <string name="lbl_pause">Pausar</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina em %1$s</string>
+    <string name="lbl_playback_control_ends">Termina às %1$s</string>
     <string name="lbl_sign_in">Por favor, faça login</string>
     <string name="login_username_field_empty">O nome de usuário não pode estar vazio</string>
     <string name="login_server_unavailable">Incapaz de conectar ao servidor</string>
@@ -515,19 +515,19 @@
         <item quantity="other">Utilizados:%1$s</item>
     </plurals>
     <plurals name="movies">
-        <item quantity="one">Filmes %1$s</item>
-        <item quantity="many">Filmes %1$s</item>
-        <item quantity="other">Filmes %1$s</item>
+        <item quantity="one">%1$s filme</item>
+        <item quantity="many">%1$s filmes</item>
+        <item quantity="other">%1$s filmes</item>
     </plurals>
     <plurals name="tv_series">
-        <item quantity="one">%1$s séries de TV</item>
+        <item quantity="one">%1$s série de TV</item>
         <item quantity="many">%1$s séries de TV</item>
         <item quantity="other">%1$s séries de TV</item>
     </plurals>
     <plurals name="songs">
-        <item quantity="one">Músicas de %1$s</item>
-        <item quantity="many">Músicas de %1$s</item>
-        <item quantity="other">Músicas de %1$s</item>
+        <item quantity="one">%1$s música</item>
+        <item quantity="many">%1$s músicas</item>
+        <item quantity="other">%1$s músicas</item>
     </plurals>
     <plurals name="albums">
         <item quantity="one">Álbum %1$s</item>
@@ -571,4 +571,18 @@
     <string name="segment_action_skip">Pular</string>
     <string name="segment_type_commercial">Comerciais</string>
     <string name="segment_type_intro">Intros</string>
+    <string name="fast_forward">Avanço rápido</string>
+    <string name="rewind">Retroceder</string>
+    <string name="preference_enable_trickplay">Habilitar trickplay no player de vídeo</string>
+    <string name="pref_subtitles_background_opacity">Opacidade do fundo da legenda</string>
+    <string name="pref_report_device_profile_title">Reportar recursos de reprodução ao servidor</string>
+    <string name="pref_troubleshooting">Solução de problemas</string>
+    <string name="pref_report_device_profile_success">Documento enviado como %1$s</string>
+    <string name="pref_mediasegment_actions">Ações de segmento de mídia</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="indicator_subtitles_hearing_impaired">Legenda descritiva</string>
+    <string name="segment_type_outro">Outros</string>
+    <string name="pref_report_device_profile_summary">Carregue um documento de solução de problemas para o servidor Jellyfin com informações sobre recursos de reprodução</string>
+    <string name="pref_report_device_profile_failure">Falha ao enviar o documento. Seu servidor Jellyfin pode proibir logs de clientes.</string>
 </resources>

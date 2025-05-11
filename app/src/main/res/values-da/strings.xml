@@ -248,7 +248,7 @@
     <string name="player_error">Afspilningsfejl. Prøver igen…</string>
     <string name="seek_error">Kan ikke søge</string>
     <string name="msg_live_tv_prev">Indlæs forrige %1$d timer?</string>
-    <string name="msg_live_tv_next">Indlæs næste %1$d timer\?</string>
+    <string name="msg_live_tv_next">Indlæs næste %1$d timer?</string>
     <string name="lbl_load_guide_data">Indlæs guidedata</string>
     <string name="episode_missing_message_2">Dette afsnit mangler fra dit bibliotek. Afspilningen stopper.</string>
     <string name="episode_missing_message">Dette afsnit mangler fra dit bibliotek. Vil du springe det over og fortsætte til det næste?</string>

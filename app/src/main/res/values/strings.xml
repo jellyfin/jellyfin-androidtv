@@ -488,6 +488,7 @@
     <string name="person_birthday_and_age">Born %1$s (%2$d)</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="indicator_subtitles">CC</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS:HD</string>
@@ -537,6 +538,8 @@
     <string name="pref_report_device_profile_summary">Upload a troubleshooting document to the Jellyfin server with information about playback capabilities</string>
     <string name="pref_report_device_profile_success">Document submitted as %1$s</string>
     <string name="pref_report_device_profile_failure">Failed to submit document. Your Jellyfin server may prohibit client logs.</string>
+    <string name="fast_forward">Fast forward</string>
+    <string name="rewind">Rewind</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

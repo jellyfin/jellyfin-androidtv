@@ -150,10 +150,20 @@ private fun List<MediaStream>.getDefault(type: MediaStreamType, defaultIndex: In
 fun InfoRowMediaDetails(mediaSource: MediaSourceInfo) {
 	val videoStream = mediaSource.mediaStreams?.getDefault(MediaStreamType.VIDEO)
 	val audioStream = mediaSource.mediaStreams?.getDefault(MediaStreamType.AUDIO, mediaSource.defaultAudioStreamIndex)
-	val subtitleStream = mediaSource.mediaStreams?.getDefault(MediaStreamType.SUBTITLE, mediaSource.defaultSubtitleStreamIndex)
+	val hasSdhSubtitleStream = mediaSource.mediaStreams?.any { it.type == MediaStreamType.SUBTITLE && it.isHearingImpaired } == true
+	val hasCcSubtitleStream = mediaSource.mediaStreams?.any { it.type == MediaStreamType.SUBTITLE && !it.isHearingImpaired } == true
 
 	// Subtitles
-	if (subtitleStream != null) {
+	if (hasSdhSubtitleStream) {
+		InfoRowItem(
+			contentDescription = null,
+			colors = InfoRowColors.Default,
+		) {
+			Text(stringResource(R.string.indicator_subtitles_hearing_impaired))
+		}
+	}
+
+	if (hasCcSubtitleStream) {
 		InfoRowItem(
 			contentDescription = null,
 			colors = InfoRowColors.Default,

@@ -244,8 +244,8 @@
     <string name="too_many_errors">Příliš mnoho chyb. Vzdávám to</string>
     <string name="player_error">V přehrávači došlo k chybě. Zkusím to znovu…</string>
     <string name="seek_error">Vyhledávání ve videu není možné</string>
-    <string name="msg_live_tv_prev">Načíst předchozích %1$d hodin\?</string>
-    <string name="msg_live_tv_next">Načíst dalších %1$d hodin\?</string>
+    <string name="msg_live_tv_prev">Načíst předchozích %1$d hodin?</string>
+    <string name="msg_live_tv_next">Načíst dalších %1$d hodin?</string>
     <string name="lbl_load_guide_data">Načíst data programového průvodce</string>
     <string name="episode_missing_message_2">Tato epizoda chybí ve vaší knihovně. Přehrávání bude zastaveno.</string>
     <string name="episode_missing_message">Tato epizoda chybí ve vaší knihovně. Chcete ji přeskočit a pokračovat další epizodou?</string>
@@ -576,4 +576,13 @@
     <string name="pref_mediasegment_actions">Akce mediálních segmentů</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_troubleshooting">Řešení chyb</string>
+    <string name="pref_report_device_profile_success">Dokument odeslán jako %1$s</string>
+    <string name="pref_report_device_profile_title">Hlásit možnosti přehrávání na server</string>
+    <string name="pref_subtitles_background_opacity">Průhlednost pozadí titulků</string>
+    <string name="pref_report_device_profile_summary">Nahrát dokument s řešením chyb na server Jellyfinu s informacemi o možnostech přehrávání</string>
+    <string name="pref_report_device_profile_failure">Nepodařilo se odeslat dokument. Váš server Jellyfin může mít zakázané protokoly klienta.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="fast_forward">Rychlý posun vpřed</string>
+    <string name="rewind">Rychlý posun zpět</string>
 </resources>

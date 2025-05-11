@@ -215,8 +215,8 @@
     <string name="lbl_begin_padding">패딩 시작</string>
     <string name="too_many_errors">오류가 너무 많이 발생했습니다. 중단합니다</string>
     <string name="seek_error">찾을수 없습니다</string>
-    <string name="msg_live_tv_prev">이전 %1$d 시간을 불러올까요\?</string>
-    <string name="msg_live_tv_next">다음 %1$d 시간을 불러올까요\?</string>
+    <string name="msg_live_tv_prev">이전 %1$d 시간을 불러올까요?</string>
+    <string name="msg_live_tv_next">다음 %1$d 시간을 불러올까요?</string>
     <string name="lbl_load_guide_data">가이드 불러오기</string>
     <string name="no_player">플레이어 없음</string>
     <string name="mark_watched_message">이 항목의 길이가 실제 길이보다 짧은 것 같습니다. 시청한 것으로 표시 하시겠습니까?</string>

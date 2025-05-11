@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Não foi possível criar a gravação</string>
     <string name="msg_recording_cancelled">Gravação cancelada</string>
     <string name="msg_unable_to_cancel">Não foi possível cancelar a gravação</string>
-    <string name="lbl_cast_crew">Elenco &amp; equipa</string>
+    <string name="lbl_cast_crew">Elenco e equipa técnica</string>
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiais</string>
     <string name="lbl_trailers">Trailers</string>
@@ -184,7 +184,7 @@
     <string name="lbl_next_episode">Próximo episódio</string>
     <string name="lbl_previous_episode">Episódio anterior</string>
     <string name="lbl_more_like_this">Títulos semelhantes</string>
-    <string name="lbl_resume_from">Reproduzir a partir de %1$s</string>
+    <string name="lbl_resume_from">Retomar desde %1$s</string>
     <string name="lbl_guide_option_number">Número do canal</string>
     <string name="lbl_guide_option_played">Última reprodução</string>
     <string name="lbl_sort_by">Organizar por</string>
@@ -245,8 +245,8 @@
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
     <string name="player_error">Ocorreu um erro no leitor. A tentar novamente…</string>
     <string name="seek_error">Impossível saltar</string>
-    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores\?</string>
-    <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
+    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
+    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?\"</string>
     <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na tua biblioteca. Desejas saltar este episódio e passar ao seguinte?</string>
@@ -436,13 +436,12 @@
     <string name="action_connect">Ligar</string>
     <string name="live_tv_preferences">Opções de TV em direto</string>
     <string name="app_notification_uimode_invalid">Esta aplicação está otimizada para televisores. Recomendamos que utilizes a nossa aplicação móvel noutros dispositivos.</string>
-    <string name="server_unsupported_notification">Este servidor usa a versão %1$s de Jellyfin que não é suportada. Por favor atualize para o Jellyfin %2$s ou mais recente para continuar a utilizar a aplicação.</string>
+    <string name="server_unsupported_notification">Este servidor utiliza a versão %1$s do Jellyfin, que não é suportada. Atualiza para o Jellyfin %2$s ou mais recente para continuares a utilizar a aplicação.</string>
     <string name="pref_telemetry_category">Reportar problemas</string>
     <string name="pref_crash_reports_enabled">Relatórios de problemas serão enviados para o último servidor utilizado</string>
     <string name="pref_crash_report_logs_disabled">Os registos não serão incluídos nos relatórios de problemas</string>
     <string name="server_setup_incomplete">A configuração deste servidor não foi concluída. Abra o Jellyfin num navegador web para terminar o processo antes de se autenticar.</string>
-    <string name="app_notification_beta">Aplicação atualizada para %1$s
-\nObrigado por participar no programa beta do Jellyfin.</string>
+    <string name="app_notification_beta">Aplicação atualizada para %1$s \nObrigado por participares no programa beta do Jellyfin.</string>
     <string name="login_quickconnect_step_2">2. Abrir o menu do utilizador e ir para a página Ligação Rápida</string>
     <string name="login_quickconnect_step_3">3. Introduzir o seguinte código:</string>
     <string name="pref_telemetry_description">Enviar relatório de problemas, incluir registos</string>
@@ -582,4 +581,7 @@
     <string name="pref_report_device_profile_failure">Falha ao enviar o documento. O teu servidor Jellyfin pode estar a proibir registos de clientes.</string>
     <string name="pref_report_device_profile_title">Relatar capacidades de reprodução ao servidor</string>
     <string name="pref_report_device_profile_success">Documento entregue como %1$s</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="rewind">Retroceder</string>
+    <string name="fast_forward">Avançar</string>
 </resources>

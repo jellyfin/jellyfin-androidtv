@@ -85,8 +85,8 @@
     <string name="too_many_errors">Demasiados errores. Deteniéndose</string>
     <string name="player_error">Se ha encontrado un error en el reproductor. Reintentando…</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
-    <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores\?</string>
-    <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes\?</string>
+    <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores?</string>
+    <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes?</string>
     <string name="lbl_load_guide_data">Cargar guía</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
@@ -526,7 +526,7 @@
     <plurals name="movies">
         <item quantity="one">%1$s película</item>
         <item quantity="many">%1$s películas</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="lbl_home">Inicio</string>
     <string name="segment_type_preview">Previsualizaciones</string>
@@ -538,12 +538,12 @@
     <plurals name="tv_series">
         <item quantity="one">%1$s Serie de TV</item>
         <item quantity="many">%1$s Series de TV</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="songs">
         <item quantity="one">%1$s canción</item>
         <item quantity="many">%1$s canciones</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="clear_image_cache">Limpiar cache de imágenes</string>
     <string name="clear_image_cache_content">Usado: %1$s</string>

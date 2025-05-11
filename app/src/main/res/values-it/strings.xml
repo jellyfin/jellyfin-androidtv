@@ -270,8 +270,8 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>
-    <string name="msg_live_tv_prev">Carico le precedenti %1$d ore\?</string>
-    <string name="msg_live_tv_next">Carico le prossime %1$d ore\?</string>
+    <string name="msg_live_tv_prev">Carico le precedenti %1$d ore?\"</string>
+    <string name="msg_live_tv_next">Carico le prossime %1$d ore?\"</string>
     <string name="episode_missing_message_2">Quest\'episodio manca nella tua libreria. La riproduzione verrà interrotta.</string>
     <string name="episode_missing_message">Quest\'episodio manca nella tua libreria. Vuoi saltarlo e continuare con il prossimo\?</string>
     <string name="image_size_large">Grandi</string>
@@ -582,4 +582,7 @@
     <string name="pref_report_device_profile_summary">Carica sul server Jellyfin un file con i dati di riproduzione</string>
     <string name="pref_report_device_profile_success">File caricato come %1$s</string>
     <string name="pref_report_device_profile_failure">Caricamento file fallito. Il server Jellyfin potrebbe aver negato il caricamento dei log.</string>
+    <string name="fast_forward">Avanti veloce</string>
+    <string name="rewind">Riavvolgi</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>

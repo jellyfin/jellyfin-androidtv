@@ -27,7 +27,7 @@ fun AsyncImage(
 	url: String? = null,
 	blurHash: String? = null,
 	placeholder: Drawable? = null,
-	aspectRatio: Double = 1.0,
+	aspectRatio: Float = 1f,
 	blurHashResolution: Int = 32,
 	scaleType: ImageView.ScaleType? = null,
 ) {
@@ -51,7 +51,7 @@ fun AsyncImage(
 					url = compositionState.url,
 					blurHash = compositionState.blurHash,
 					placeholder = placeholder,
-					aspectRatio = aspectRatio,
+					aspectRatio = aspectRatio.toDouble(),
 					blurHashResolution = blurHashResolution,
 				)
 			}

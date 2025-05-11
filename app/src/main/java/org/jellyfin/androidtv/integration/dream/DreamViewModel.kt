@@ -21,15 +21,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
+import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemSortBy
 import timber.log.Timber
@@ -95,29 +96,13 @@ class DreamViewModel(
 			)
 
 			val item = response.items.firstOrNull { item ->
-				!item.backdropImageTags.isNullOrEmpty()
+				item.itemBackdropImages.isNotEmpty()
 			} ?: return null
 
 			Timber.i("Loading random library showcase item ${item.id}")
 
-			val backdropTag = item.backdropImageTags!!.randomOrNull()
-				?: item.imageTags?.get(ImageType.BACKDROP)
-
-			val logoTag = item.imageTags?.get(ImageType.LOGO)
-
-			val backdropUrl = api.imageApi.getItemImageUrl(
-				itemId = item.id,
-				imageType = ImageType.BACKDROP,
-				tag = backdropTag,
-				format = ImageFormat.WEBP,
-			)
-
-			val logoUrl = api.imageApi.getItemImageUrl(
-				itemId = item.id,
-				imageType = ImageType.LOGO,
-				tag = logoTag,
-				format = ImageFormat.WEBP,
-			)
+			val backdropUrl = item.itemBackdropImages.randomOrNull()?.getUrl(api)
+			val logoUrl = item.itemImages[ImageType.LOGO]?.getUrl(api)
 
 			val (logo, backdrop) = withContext(Dispatchers.IO) {
 				val logoDeferred = async {

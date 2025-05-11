@@ -1,40 +1,71 @@
 package org.jellyfin.androidtv.ui.playback
 
+import android.content.Context
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.navigation.Destination
+import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.MediaType
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-interface PlaybackLauncher {
-	fun useExternalPlayer(itemType: BaseItemKind?): Boolean
-	fun getPlaybackDestination(itemType: BaseItemKind?, position: Int): Destination
-}
+/**
+ * Utility class to launch the playback UI for an item.
+ */
+class PlaybackLauncher(
+	private val mediaManager: MediaManager,
+	private val videoQueueManager: VideoQueueManager,
+	private val navigationRepository: NavigationRepository,
+	private val userPreferences: UserPreferences,
+) {
+	private val BaseItemDto.supportsExternalPlayer
+		get() = when (type) {
+			BaseItemKind.MOVIE,
+			BaseItemKind.EPISODE,
+			BaseItemKind.VIDEO,
+			BaseItemKind.SERIES,
+			BaseItemKind.SEASON,
+			BaseItemKind.RECORDING,
+			BaseItemKind.TV_CHANNEL,
+			BaseItemKind.PROGRAM,
+				-> true
 
-class GarbagePlaybackLauncher(
-	private val userPreferences: UserPreferences
-) : PlaybackLauncher {
-	override fun useExternalPlayer(itemType: BaseItemKind?) = when (itemType) {
-		BaseItemKind.MOVIE,
-		BaseItemKind.EPISODE,
-		BaseItemKind.VIDEO,
-		BaseItemKind.SERIES,
-		BaseItemKind.SEASON,
-		BaseItemKind.RECORDING,
-		BaseItemKind.TV_CHANNEL,
-		BaseItemKind.PROGRAM,
-		-> userPreferences[UserPreferences.useExternalPlayer]
+			else -> false
+		}
 
-		else -> false
+	@JvmOverloads
+	fun launch(
+		context: Context,
+		items: List<BaseItemDto>,
+		position: Int? = null,
+		replace: Boolean = false,
+		itemsPosition: Int = 0,
+		shuffle: Boolean = false,
+	) {
+		val isAudio = items.any { it.mediaType == MediaType.AUDIO }
+
+		if (isAudio) {
+			mediaManager.playNow(context, items, itemsPosition, shuffle)
+			navigationRepository.navigate(Destinations.nowPlaying)
+		} else {
+			val items = if (shuffle) items.shuffled() else items
+
+			videoQueueManager.setCurrentVideoQueue(items.toList())
+			videoQueueManager.setCurrentMediaPosition(itemsPosition)
+
+			if (items.isEmpty()) return
+
+			if (userPreferences[UserPreferences.useExternalPlayer] && items.all { it.supportsExternalPlayer }) {
+				context.startActivity(ActivityDestinations.externalPlayer(context, position?.milliseconds ?: Duration.ZERO))
+			} else if (userPreferences[UserPreferences.playbackRewriteVideoEnabled]) {
+				val destination = Destinations.playbackRewritePlayer(position)
+				navigationRepository.navigate(destination, replace)
+			} else {
+				val destination = Destinations.videoPlayer(position)
+				navigationRepository.navigate(destination, replace)
+			}
+		}
 	}
-
-	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = when {
-		useExternalPlayer(itemType) -> Destinations.externalPlayer(position.milliseconds)
-		else -> Destinations.videoPlayer(position)
-	}
-}
-
-class RewritePlaybackLauncher : PlaybackLauncher {
-	override fun useExternalPlayer(itemType: BaseItemKind?) = false
-	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = Destinations.playbackRewritePlayer(position)
 }

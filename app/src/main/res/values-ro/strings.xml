@@ -241,8 +241,8 @@
     <string name="too_many_errors">Prea multe erori. Renunț</string>
     <string name="player_error">Eroare la redare întâlnită. Voi încerca din nou…</string>
     <string name="seek_error">Imposibil de căutat</string>
-    <string name="msg_live_tv_prev">Încărcați anterior %1$d ore\?</string>
-    <string name="msg_live_tv_next">Încărcați următoarele %1$d ore\?</string>
+    <string name="msg_live_tv_prev">Încărcați anterior %1$d ore?\"</string>
+    <string name="msg_live_tv_next">Încărcați următoarele %1$d ore?\"</string>
     <string name="lbl_load_guide_data">Încărcați datele ghidului</string>
     <string name="episode_missing_message_2">Acest episod lipsește din bibliotecă. Redarea se va opri.</string>
     <string name="episode_missing_message">Acest episod lipsește din biblioteca. Doriți să îl săriți și să continuați cu următorul\?</string>
@@ -582,4 +582,7 @@
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS:HD</string>
     <string name="dca">DTS</string>
+    <string name="rewind">Derulează înapoi</string>
+    <string name="fast_forward">Înainte rapid</string>
+    <string name="indicator_subtitles_hearing_impaired">Deficienta de auz</string>
 </resources>

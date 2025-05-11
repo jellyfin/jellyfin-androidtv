@@ -588,7 +588,7 @@ fun ItemRowAdapter.retrieveItems(
 				},
 			)
 
-			if (response.items.isEmpty()) removeRow()
+			if (itemsLoaded == 0) removeRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }

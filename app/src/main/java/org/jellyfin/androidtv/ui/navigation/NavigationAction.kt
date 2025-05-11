@@ -15,14 +15,6 @@ sealed interface NavigationAction {
 	) : NavigationAction
 
 	/**
-	 * Open the activity in [destination] and immediately call [onOpened] to clear the emitted state.
-	 */
-	data class NavigateActivity(
-		val destination: Destination.Activity,
-		val onOpened: () -> Unit,
-	) : NavigationAction
-
-	/**
 	 * Go back to the previous fragment manager state.
 	 */
 	data object GoBack : NavigationAction

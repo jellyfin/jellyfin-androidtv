@@ -107,8 +107,8 @@
     <string name="too_many_errors">பல பிழைகள். விடப்பட்டது</string>
     <string name="player_error">பிளேயர் பிழை ஏற்பட்டது. மீண்டும் முயற்சி…</string>
     <string name="seek_error">தேட முடியவில்லை</string>
-    <string name="msg_live_tv_prev">முந்தைய %1$d மணிநேரத்தை ஏற்றவா\?</string>
-    <string name="msg_live_tv_next">அடுத்த %1$d மணிநேரத்தை ஏற்றவா\?</string>
+    <string name="msg_live_tv_prev">முந்தைய %1$d மணிநேரத்தை ஏற்றவா?</string>
+    <string name="msg_live_tv_next">அடுத்த %1$d மணிநேரத்தை ஏற்றவா?</string>
     <string name="lbl_load_guide_data">வழிகாட்டி தரவை ஏற்றவும்</string>
     <string name="episode_missing_message_2">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. பின்னணி நிறுத்தப்படும்.</string>
     <string name="episode_missing_message">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. அதைத் தவிர்த்துவிட்டு அடுத்ததைத் தொடர விரும்புகிறீர்களா\?</string>

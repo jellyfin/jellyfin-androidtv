@@ -35,14 +35,12 @@ import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
-import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.PlaybackHelper;
@@ -55,7 +53,6 @@ import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -92,7 +89,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
-    private final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
@@ -357,23 +353,12 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
-        if (MediaType.VIDEO.equals(mBaseItem.getMediaType())) {
-            if (shuffle) {
-                Collections.shuffle(items);
-            }
-
-            int pos = 0;
-            BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;
-            if (item != null && item.getUserData() != null) {
-                pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
-            }
-            videoQueueManager.getValue().setCurrentVideoQueue(items);
-            videoQueueManager.getValue().setCurrentMediaPosition(ndx);
-            Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(mBaseItem.getType(), pos);
-            navigationRepository.getValue().navigate(destination);
-        } else {
-            mediaManager.getValue().playNow(requireContext(), items, ndx, shuffle);
+        int pos = 0;
+        BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;
+        if (item != null && item.getUserData() != null) {
+            pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
         }
+        KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos, false, ndx, shuffle);
     }
 
     private void addButtons(int buttonSize) {
@@ -487,7 +472,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private void updateBackdrop() {
         BaseItemDto item = mBaseItem;
 
-        if (item.getBackdropImageTags() == null || item.getBackdropImageTags().isEmpty() && mItems != null && mItems.size() >= 1)
+        if (item.getBackdropImageTags() == null || item.getBackdropImageTags().isEmpty() && mItems != null && !mItems.isEmpty())
             item = mItems.get(new Random().nextInt(mItems.size()));
 
         backgroundService.getValue().setBackground(item);

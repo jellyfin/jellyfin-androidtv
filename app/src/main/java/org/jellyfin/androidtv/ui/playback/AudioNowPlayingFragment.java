@@ -111,6 +111,17 @@ public class AudioNowPlayingFragment extends Fragment {
         mCounter = binding.counter;
         AudioNowPlayingFragmentHelperKt.initializeLyricsView(binding.poster, binding.lyrics, playbackManager.getValue());
 
+        ImageButton rewindButton = binding.rewindBtn;
+        rewindButton.setContentDescription(getString(R.string.rewind));
+        rewindButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaManager.getValue().rewind();
+                updateButtons();
+            }
+        });
+        rewindButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mPlayPauseButton = binding.playPauseBtn;
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +131,17 @@ public class AudioNowPlayingFragment extends Fragment {
             }
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
+
+        ImageButton fastForwardButton = binding.fastForwardBtn;
+        fastForwardButton.setContentDescription(getString(R.string.fast_forward));
+        fastForwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaManager.getValue().fastForward();
+                updateButtons();
+            }
+        });
+        fastForwardButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mPrevButton = binding.prevBtn;
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));

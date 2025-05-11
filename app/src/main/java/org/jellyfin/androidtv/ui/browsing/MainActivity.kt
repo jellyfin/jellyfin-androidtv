@@ -121,18 +121,8 @@ class MainActivity : FragmentActivity() {
 		screensaverViewModel.notifyInteraction(true)
 
 		when (action) {
-			// DestinationFragmentView actions
 			is NavigationAction.NavigateFragment -> binding.contentView.navigate(action)
 			NavigationAction.GoBack -> binding.contentView.goBack()
-
-			// Others
-			is NavigationAction.NavigateActivity -> {
-				val destination = action.destination
-				val intent = Intent(this@MainActivity, destination.activity.java)
-				intent.putExtras(destination.extras)
-				startActivity(intent)
-				action.onOpened()
-			}
 
 			NavigationAction.Nothing -> Unit
 		}
