@@ -141,7 +141,7 @@
     <string name="lbl_episodes">Episódios</string>
     <string name="lbl_enable_cinema_mode">Modo Cinema</string>
     <string name="sum_enable_cinema_mode">Ativar introduções e pré-visualizações antes do filme</string>
-    <string name="lbl_playlists">Playlists</string>
+    <string name="lbl_playlists">Listas de reprodução</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="lbl_add_to_queue">Adicionar à fila</string>
     <string name="lbl_open_artist">Abrir artista</string>
@@ -408,7 +408,7 @@
     <string name="pref_show_backdrop_description">Alterar imagem de fundo para seleção de items</string>
     <string name="state_disabled">Desativado</string>
     <string name="lbl_quality_profile">Perfil de qualidade</string>
-    <string name="image_type_poster">Poster</string>
+    <string name="image_type_poster">Cartaz</string>
     <string name="image_size_smallest">Menor</string>
     <string name="desc_audio_night_mode">Nivelar volume automaticamente</string>
     <string name="pref_audio_night_mode">Modo áudio noturno (experimental)</string>
