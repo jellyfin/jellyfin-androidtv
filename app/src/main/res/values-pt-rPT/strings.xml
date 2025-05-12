@@ -141,7 +141,7 @@
     <string name="lbl_episodes">Episódios</string>
     <string name="lbl_enable_cinema_mode">Modo Cinema</string>
     <string name="sum_enable_cinema_mode">Ativar introduções e pré-visualizações antes do filme</string>
-    <string name="lbl_playlists">Listas de reprodução</string>
+    <string name="lbl_playlists">Playlists</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="lbl_add_to_queue">Adicionar à fila</string>
     <string name="lbl_open_artist">Abrir artista</string>
