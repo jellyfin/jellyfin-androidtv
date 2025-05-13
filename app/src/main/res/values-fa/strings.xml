@@ -405,7 +405,7 @@
 \nبا زدن دکمه \"اضافه کردن حساب\" یک حساب جدید ایجاد کنید.</string>
     <string name="lbl_end_padding">پایان پر کردن</string>
     <string name="lbl_begin_padding">شروع پر کردن</string>
-    <string name="lbl_tune_to_channel">تغییر به کانال</string>
+    <string name="lbl_tune_to_channel">به کانال مورد نظر تنظیم کنید</string>
     <string name="state_disabled">ناتوان کردن</string>
     <string name="lbl_hide_watched_checkmark">هنگامی که اینجا قسمتی باقی‌مانده باشد</string>
     <string name="live_tv_preferences">گزینه‌های پخش زنده تلویزیون</string>
