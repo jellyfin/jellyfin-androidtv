@@ -11,4 +11,5 @@
     <string name="rewind">Retroceder</string>
     <string name="server_unsupported_notification">Este servidor utiliza a versão %1$s do Jellyfin, que não é suportada. Atualiza para o Jellyfin %2$s ou mais recente para continuares a utilizar a aplicação.</string>
     <string name="image_type_poster">Cartaz</string>
+    <string name="pref_customization">Personalização</string>
 </resources>
