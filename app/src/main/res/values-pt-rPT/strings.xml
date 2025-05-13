@@ -379,7 +379,7 @@
     <string name="pref_behavior">Comportamento</string>
     <string name="pref_accounts">Contas</string>
     <string name="sort_accounts_by">Listar contas por</string>
-    <string name="pref_customization">Customização</string>
+    <string name="pref_customization">Personalização</string>
     <string name="server_issue_ssl_handshake">A negociação SSL falhou</string>
     <string name="server_issue_timeout">A ligação expirou</string>
     <string name="server_issue_outdated_version">O servidor usa a versão não suportada %1$s. Por favor atualize para a versão %2$s ou mais recente</string>
