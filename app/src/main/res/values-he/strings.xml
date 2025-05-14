@@ -259,7 +259,7 @@
     <string name="lbl_tv_channel_status">%1$d מתוך %2$d ערוצים</string>
     <string name="server_connecting">מתחבר ל%1$s</string>
     <string name="pref_clock_display_playback">בזמן השמעה</string>
-    <string name="pref_clock_display_browsing">בזמן גלישה</string>
+    <string name="pref_clock_display_browsing">בזמן הדפדוף</string>
     <string name="lbl_always">תמיד</string>
     <string name="pref_clock_display">הצג שעון</string>
     <string name="pref_default_rating">סוג דירוג ברירת מחדל</string>
