@@ -582,7 +582,7 @@
     <string name="runtime_hours_minutes">%1$d שעות %2$d דקות</string>
     <string name="runtime_minutes">%1$d דקות</string>
     <string name="pref_report_device_profile_summary">העלה מסמך דיווח שגיאות לשרת Jellyfin עם מידע על יכולות נגן</string>
-    <string name="fast_forward">מהר קדימה</string>
+    <string name="fast_forward">הרץ קדימה</string>
     <string name="rewind">החזר אחורה</string>
     <string name="pref_subtitles_background_opacity">שקיפות רקע כתוביות</string>
     <string name="pref_troubleshooting">פתרון בעיות</string>
