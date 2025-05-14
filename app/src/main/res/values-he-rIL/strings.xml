@@ -37,7 +37,7 @@
     <string name="lbl_cast_crew">שחקנים וצוות</string>
     <string name="lbl_runs">פעיל</string>
     <string name="lbl_pause">השהה</string>
-    <string name="lbl_other_options">אפשרויות אחרות</string>
+    <string name="lbl_other_options">אפשרויות נוספות</string>
     <string name="lbl_shuffle_all">ערבב הכל</string>
     <string name="lbl_seasons">עונות</string>
     <string name="lbl_cancel_recording">בטל הקלטה</string>
@@ -419,5 +419,6 @@
     <string name="pref_clock_display_browsing">בזמן הדפדוף</string>
     <string name="lbl_starting_early_ending_on_schedule">מתחיל את %1$s מוקדם ומסיים לפי התכנון</string>
     <string name="lbl_start_end_on_schedule">מתחיל ומסיים בזמן המתוכנן</string>
-    <string name="lbl_starting_early_ending_after">מתחיל את %1$s מוקדם ומסיים את %2$s אחרי התכנון</string>
+    <string name="lbl_starting_early_ending_after">מתחיל %1$s מוקדם ומסיים %2$s לאחר לוח זמנים</string>
+    <string name="seek_error">לא ניתן לדלג</string>
 </resources>
