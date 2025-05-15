@@ -456,13 +456,13 @@
     <string name="color_pink">ורוד</string>
     <string name="pref_enable_media_management">הפעלת ניהול מדיה</string>
     <string name="item_delete_confirm_message">האם אתה בטוח שאתה רוצה למחוק את הפריט הזה מהשרת? אי אפשר לשחזר את הפעולה הזאת.</string>
-    <string name="pref_enable_media_management_description">הראה אפשרויות לסדר את המדיה בזמן שימוש</string>
+    <string name="pref_enable_media_management_description">הראה אפשרויות לניהול המדיה בזמן שימוש</string>
     <string name="item_delete_confirm_title">מחיקת פריט</string>
-    <string name="item_deleted">%1$s נמחקו</string>
+    <string name="item_deleted">%1$s נמחק</string>
     <string name="item_deletion_failed">לא ניתן למחוק את %1$s</string>
     <string name="pref_screensaver">שומר מסך</string>
-    <string name="pref_screensaver_inapp_enabled_description">הצג את שומר המסך בזמן שג\'ליפין פתוח</string>
-    <string name="lbl_album_artists">אלבומים</string>
+    <string name="pref_screensaver_inapp_enabled_description">הצג את שומר המסך המובנה של Jellyfin בזמן שהיישום פתוח</string>
+    <string name="lbl_album_artists">אמני אלבומים</string>
     <plurals name="tracks">
         <item quantity="one">שיר %1$s</item>
         <item quantity="two">%1$s שירים</item>
@@ -490,7 +490,7 @@
         <item quantity="other">%1$s פרקים</item>
     </plurals>
     <string name="pref_screensaver_inapp_enabled">השתמש בשומר מסך מובנה</string>
-    <string name="pref_screensaver_inapp_timeout">התחל שומר מסך אחרי</string>
+    <string name="pref_screensaver_inapp_timeout">התחל את שומר המסך אחרי</string>
     <plurals name="minutes">
         <item quantity="one">דקה %1$s</item>
         <item quantity="two">%1$s דקות</item>
@@ -498,7 +498,7 @@
         <item quantity="other">%1$s דקות</item>
     </plurals>
     <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
-    <string name="disable_ui_mode_warning">השבתת אזהרת סוג התקן</string>
+    <string name="disable_ui_mode_warning">השבתה של אזהרת סוג התקן</string>
     <string name="because_you_watched">כיוון שצפית ב־%1$s</string>
     <string name="channels">ערוצים</string>
     <string name="photos">תמונות</string>
