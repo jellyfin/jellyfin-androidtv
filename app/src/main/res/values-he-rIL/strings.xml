@@ -495,4 +495,5 @@
     <string name="item_delete_confirm_title">מחיקת פריט</string>
     <string name="item_delete_confirm_message">האם אתה בטוח שאתה רוצה למחוק את הפריט הזה מהשרת? אי אפשר לשחזר את הפעולה הזאת.</string>
     <string name="pref_screensaver">שומר מסך</string>
+    <string name="pref_playback_advanced">מאפייני ניגון מתקדמים</string>
 </resources>
