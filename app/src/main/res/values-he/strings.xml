@@ -3,7 +3,7 @@
     <string name="btn_got_it">הבנתי</string>
     <string name="lbl_subtitle_track">בחר כתוביות</string>
     <string name="lbl_audio_track">בחר רצועת שמע</string>
-    <string name="lbl_zoom">הגדלה</string>
+    <string name="lbl_zoom">זום</string>
     <string name="desc_bitstream_ac3">דורש חומרה מתאימה</string>
     <string name="lbl_bitstream_ac3">שמע בדולבי דיגיטל</string>
     <string name="lbl_new_premieres">יצאו לאחרונה</string>
@@ -415,7 +415,7 @@
     <string name="input_username">שם משתמש</string>
     <string name="action_use_quickconnect">השתמש ב-Quick Connect</string>
     <string name="action_use_password">השתמש בסיסמה</string>
-    <string name="action_login">התחבר</string>
+    <string name="action_login">היכנס</string>
     <string name="lbl_start_end_on_schedule">מתחיל בתזמון ומסתיים בתזמון</string>
     <string name="lbl_subtitle_delay">השהיית כתוביות</string>
     <string name="lbl_shuffle_queue">החלף מצב ערבוב</string>
@@ -428,7 +428,7 @@
     <string name="pref_audio_night_mode">מצב לילה אודיו (ניסיוני)</string>
     <string name="desc_audio_night_mode">משפר את עוצמת השמע באופן אוטומטי</string>
     <string name="lbl_quality_profile">פרופיל איכות</string>
-    <string name="image_type_poster">פּוֹסטֵר</string>
+    <string name="image_type_poster">פוסטר</string>
     <string name="image_size_smallest">הכי קטן</string>
     <string name="license_artifact">חפץ</string>
     <string name="pref_refresh_rate_scale_on_tv">קביעת קנה מידה בטלוויזיה</string>
@@ -479,8 +479,7 @@
     <string name="not_set">לא הוגדר</string>
     <plurals name="hours">
         <item quantity="one">שעה %1$s</item>
-        <item quantity="two">%1$s שעות</item>
-        <item quantity="many">%1$s שעות</item>
+        <item quantity="two">שעתיים</item>
         <item quantity="other">%1$s שעות</item>
     </plurals>
     <plurals name="episodes">
@@ -556,7 +555,7 @@
     <string name="unreleased">טרם יצא</string>
     <string name="pref_screensaver_ageratingrequired_enabled">מציג פריטים שיש להם הגבלת גיל</string>
     <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
-    <string name="pref_screensaver_ageratingmax">דירוג גיל מקסימלי</string>
+    <string name="pref_screensaver_ageratingmax">הגבלת גיל מרבית</string>
     <string name="prefer_exoplayer_ffmpeg">העדף FFmpeg לניגון שמע</string>
     <string name="lbl_subtitle_background_color">צבע רקע הכתוביות</string>
     <string name="lbl_subtitle_text_stroke_color">צבע קו הכתוביות</string>
@@ -566,19 +565,19 @@
     <string name="segment_action_nothing">לא לעשות כלום</string>
     <string name="segment_type_outro">סיומות</string>
     <string name="segment_type_commercial">פרסומות</string>
-    <string name="segment_type_intro">קדימונים</string>
+    <string name="segment_type_intro">פתיחים</string>
     <string name="segment_type_preview">תצוגות מקדימות</string>
     <string name="segment_type_recap">סיכומי הפרקים הקודמים</string>
     <string name="segment_type_unknown">מקטע לא מוכר</string>
     <string name="past_week">בשבוע האחרון</string>
-    <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הבאות</string>
+    <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הקרובות</string>
     <string name="past_24_hours">24 שעות אחרונות</string>
     <string name="pref_mediasegment_actions">פעולות על מקטע המדיה</string>
-    <string name="segment_action_skip">דילוג</string>
-    <string name="default_video_zoom">מצב הגדלה ברירת מחדל</string>
+    <string name="segment_action_skip">דלג</string>
+    <string name="default_video_zoom">מצב זום ברירת מחדל</string>
     <string name="segment_action_ask_to_skip">בקש לדלג</string>
-    <string name="preference_enable_trickplay">הפעלת טריקפליי בנגן הוידיאו</string>
-    <string name="skip_forward_length">גודל דילוג קדימה</string>
+    <string name="preference_enable_trickplay">הפעלת Trickplay בנגן הוידאו</string>
+    <string name="skip_forward_length">אורך דילוג קדימה</string>
     <string name="runtime_hours_minutes">%1$d שעות %2$d דקות</string>
     <string name="runtime_minutes">%1$d דקות</string>
     <string name="pref_report_device_profile_summary">העלה מסמך דיווח שגיאות לשרת Jellyfin עם מידע על יכולות נגן</string>
@@ -588,6 +587,6 @@
     <string name="pref_troubleshooting">פתרון בעיות</string>
     <string name="pref_report_device_profile_title">דווח על יכולות ניגון לשרת</string>
     <string name="pref_report_device_profile_success">מסמך נשלח כ %1$s</string>
-    <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
+    <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה-Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
 </resources>
