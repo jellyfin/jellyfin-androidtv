@@ -318,7 +318,7 @@
     <string name="subtitle_error">לא מסוגל לבחור כתוביות</string>
     <string name="msg_no_items">אין פריטים לנגן</string>
     <string name="lbl_stars">כוכבים</string>
-    <string name="lbl_user_last_used">שומש לאחרונה ב-%1$s ב-%2$s</string>
+    <string name="lbl_user_last_used">היה בשימוש לאחרונה ב-%1$s בשעה %2$s</string>
     <string name="server_connection_failed">לא מסוגל להתחבר לשרת</string>
     <string name="login_authenticating">מתאמת…</string>
     <string name="login_server_unavailable">לא מסוגל להתחבר לשרת</string>
@@ -407,7 +407,7 @@
     <string name="server_issue_ssl_handshake">לחיצת יד SSL נכשלה</string>
     <string name="sort_accounts_by">סדר משתמשים לפי</string>
     <string name="server_issue_outdated_version">השרת משתמש בגרסא לא נתמכת %1$s. אנא עדכן ל-%2$s ומעלה</string>
-    <string name="image_type_poster">כרזה</string>
+    <string name="image_type_poster">פוסטר</string>
     <string name="server_issue_invalid_product">תוכנה השרת לא תואמת</string>
     <string name="discovered_servers_title">שרתים שנתגלו</string>
     <string name="pref_watched_indicator">הצג סמני \"נצפה\"</string>
@@ -449,7 +449,7 @@
     <string name="pref_login">התחברות</string>
     <string name="pref_audio">שמע</string>
     <string name="pref_direct_stream_live_on">קידוד מחדש מבוטל</string>
-    <string name="action_login">התחבר</string>
+    <string name="action_login">היכנס</string>
     <string name="input_password">סיסמה</string>
     <string name="login_connect_to">מתחבר ל-%1$s</string>
     <string name="login_other_options">אפשרויות אחרות:</string>
@@ -496,4 +496,91 @@
     <string name="item_delete_confirm_message">האם אתה בטוח שאתה רוצה למחוק את הפריט הזה מהשרת? אי אפשר לשחזר את הפעולה הזאת.</string>
     <string name="pref_screensaver">שומר מסך</string>
     <string name="pref_playback_advanced">מאפייני ניגון מתקדמים</string>
+    <string name="past_week">בשבוע האחרון</string>
+    <plurals name="hours">
+        <item quantity="one">שעה %1$s</item>
+        <item quantity="two">שעתיים</item>
+        <item quantity="other">%1$s שעות</item>
+    </plurals>
+    <string name="video_start_delay">עיכוב בתחילת הוידיאו</string>
+    <string name="pref_report_device_profile_summary">העלה מסמך דיווח שגיאות לשרת Jellyfin עם מידע על יכולות נגן</string>
+    <string name="pref_report_device_profile_success">מסמך נשלח כ %1$s</string>
+    <plurals name="tracks">
+        <item quantity="one">שיר %1$s</item>
+        <item quantity="two">%1$s שירים</item>
+        <item quantity="other">%1$s שירים</item>
+    </plurals>
+    <string name="segment_action_ask_to_skip">בקש לדלג</string>
+    <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הקרובות</string>
+    <string name="current_queue">תור נוכחי</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">השבתת מקסימום</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">מציג פריטים שיש להם הגבלת גיל</string>
+    <string name="all_channels">כל הערוצים</string>
+    <string name="default_video_zoom">מצב זום ברירת מחדל</string>
+    <string name="app_notification_update_soon">יש לעדכן את השרת מגרסה %1$s לגרסה %2$s לפחות בכדי להמשיך להשתמש באפליקציה אחרי העדכון הבא.</string>
+    <string name="fast_forward">הרץ קדימה</string>
+    <string name="segment_type_intro">פתיחים</string>
+    <string name="pref_report_device_profile_title">דווח על יכולות ניגון לשרת</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s song</item>
+        <item quantity="two">%1$s שירים</item>
+        <item quantity="other">%1$s שירים</item>
+    </plurals>
+    <string name="rewind">החזר אחורה</string>
+    <plurals name="tv_series">
+        <item quantity="one">סדרה %1$s</item>
+        <item quantity="two">%1$s סדרות</item>
+        <item quantity="other">%1$s סדרות</item>
+    </plurals>
+    <string name="prefer_exoplayer_ffmpeg">העדף FFmpeg לניגון שמע</string>
+    <plurals name="episodes">
+        <item quantity="one">פרק %1$s</item>
+        <item quantity="two">%1$s פרקים</item>
+        <item quantity="other">%1$s פרקים</item>
+    </plurals>
+    <string name="prefer_exoplayer_ffmpeg_content">השתמש ב-FFmpeg לפיענוח שמע, גם אם נמצאים מקודדים של הפלטפורמה.</string>
+    <string name="segment_type_preview">תצוגות מקדימות</string>
+    <plurals name="items">
+        <item quantity="one">פריט %1$s</item>
+        <item quantity="two">%1$s פריטים</item>
+        <item quantity="other">%1$s פריטים</item>
+    </plurals>
+    <string name="past_24_hours">24 שעות אחרונות</string>
+    <string name="skip_forward_length">אורך דילוג קדימה</string>
+    <string name="pref_mediasegment_actions">פעולות על מקטע המדיה</string>
+    <string name="segment_action_nothing">לא לעשות כלום</string>
+    <string name="segment_action_skip">דלג</string>
+    <string name="segment_type_recap">סיכומי הפרקים הקודמים</string>
+    <string name="pref_screensaver_ageratingmax_entry">עד גיל %1$d</string>
+    <string name="pref_screensaver_ageratingrequired_title">דרוש הגבלת גיל</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
+    <string name="segment_type_commercial">פרסומות</string>
+    <string name="segment_type_outro">סיומות</string>
+    <string name="segment_type_unknown">מקטע לא מוכר</string>
+    <string name="preference_enable_trickplay">הפעלת Trickplay בנגן הוידאו</string>
+    <string name="pref_subtitles_background_opacity">שקיפות רקע כתוביות</string>
+    <string name="pref_troubleshooting">פתרון בעיות</string>
+    <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה-Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
+    <plurals name="movies">
+        <item quantity="one">סרט %1$s</item>
+        <item quantity="two">%1$s סרטים</item>
+        <item quantity="other">%1$s סרטים</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">שניה %1$s</item>
+        <item quantity="two">%1$s שניות</item>
+        <item quantity="other">%1$s שניות</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">אלבום %1$s</item>
+        <item quantity="two">%1$s אלבומים</item>
+        <item quantity="other">%1$s אלבומים</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax_zero">כל הגילאים</string>
+    <string name="pref_screensaver_ageratingmax">הגבלת גיל מרבית</string>
+    <plurals name="minutes">
+        <item quantity="one">דקה %1$s</item>
+        <item quantity="two">%1$s דקות</item>
+        <item quantity="other">%1$s דקות</item>
+    </plurals>
 </resources>
