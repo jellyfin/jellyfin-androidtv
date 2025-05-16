@@ -177,6 +177,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             if (mFolder.getCollectionType() != null && mFolder.getCollectionType() == CollectionType.MOVIES) {
                 sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.RUNTIME, SortOrder.ASCENDING));
             }
+            
+            sortOptions.put(8, new SortOption(getString(R.string.lbl_random), ItemSortBy.RANDOM, SortOrder.DESCENDING));
         }
 
         setDefaultGridRowCols(mPosterSizeSetting, mImageType);
