@@ -21,6 +21,7 @@
     <string name="lbl_views">Views</string>
     <string name="lbl_by_letter">By letter</string>
     <string name="lbl_suggested">Suggested</string>
+    <string name="lbl_random">Random</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Search</string>
