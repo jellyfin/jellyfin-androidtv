@@ -6,10 +6,12 @@ import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.isTvDevice
 import org.koin.android.ext.android.inject
 
@@ -72,6 +74,19 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 					rebuild()
 				}
 			}
+
+			seekbar {
+				setTitle(R.string.quality_option_threshold)
+				setContent(R.string.quality_option_threshold_content)
+				min = 1
+				max = 200
+				increment = 1
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int) = "${value}Mbit/s"
+				}
+				bind(userPreferences, UserPreferences.qualityOptionThreshold)
+			}
+
 		}
 	}
 }
