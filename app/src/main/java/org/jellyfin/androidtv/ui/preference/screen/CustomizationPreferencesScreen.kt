@@ -49,6 +49,12 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.lbl_play_theme_songs)
+				setContent(R.string.pref_play_theme_songs_description)
+				bind(userPreferences, UserPreferences.themeSongsEnabled)
+			}
+
+			checkbox {
 				setTitle(R.string.lbl_use_series_thumbnails)
 				setContent(R.string.lbl_use_series_thumbnails_description)
 				bind(userPreferences, UserPreferences.seriesThumbnailsEnabled)
