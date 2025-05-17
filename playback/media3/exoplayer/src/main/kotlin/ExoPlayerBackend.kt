@@ -23,6 +23,10 @@ import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
+import io.github.peerless2012.ass.media.AssHandler
+import io.github.peerless2012.ass.media.kt.withAssMkvSupport
+import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
+import io.github.peerless2012.ass.media.type.AssRenderType
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
@@ -55,6 +59,31 @@ class ExoPlayerBackend(
 	private var audioPipeline = ExoPlayerAudioPipeline()
 
 	private val exoPlayer by lazy {
+		val dataSourceFactory = DefaultDataSource.Factory(
+			context,
+			exoPlayerOptions.baseDataSourceFactory,
+		)
+		val extractorsFactory = DefaultExtractorsFactory().apply {
+			val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+			setTsExtractorTimestampSearchBytes(
+				when (isLowRamDevice) {
+					true -> TS_SEARCH_BYTES_LM
+					false -> TS_SEARCH_BYTES_HM
+				}
+			)
+			setConstantBitrateSeekingEnabled(true)
+			setConstantBitrateSeekingAlwaysEnabled(true)
+		}
+
+		val mediaSourceFactory = if (exoPlayerOptions.enableLibass) {
+			val assHandler = AssHandler(AssRenderType.LEGACY)
+			val assSubtitleParserFactory = AssSubtitleParserFactory(assHandler)
+			val assExtractorsFactory = extractorsFactory.withAssMkvSupport(assSubtitleParserFactory, assHandler)
+			DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
+				setSubtitleParserFactory(assSubtitleParserFactory)
+			}
+		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
+
 		ExoPlayer.Builder(context)
 			.setRenderersFactory(DefaultRenderersFactory(context).apply {
 				setEnableDecoderFallback(true)
@@ -74,23 +103,7 @@ class ExoPlayerBackend(
 					)
 				})
 			})
-			.setMediaSourceFactory(DefaultMediaSourceFactory(
-				DefaultDataSource.Factory(
-					context,
-					exoPlayerOptions.baseDataSourceFactory,
-				),
-				DefaultExtractorsFactory().apply {
-					val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
-					setTsExtractorTimestampSearchBytes(
-						when (isLowRamDevice) {
-							true -> TS_SEARCH_BYTES_LM
-							false -> TS_SEARCH_BYTES_HM
-						}
-					)
-					setConstantBitrateSeekingEnabled(true)
-					setConstantBitrateSeekingAlwaysEnabled(true)
-				}
-			))
+			.setMediaSourceFactory(mediaSourceFactory)
 			.setAudioAttributes(AudioAttributes.Builder().apply {
 				setUsage(C.USAGE_MEDIA)
 			}.build(), true)
