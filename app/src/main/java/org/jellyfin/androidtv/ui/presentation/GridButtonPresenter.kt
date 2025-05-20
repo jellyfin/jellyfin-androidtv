@@ -80,7 +80,7 @@ class GridButtonPresenter @JvmOverloads constructor(
 	override fun onCreateViewHolder(parent: ViewGroup): ViewHolder =
 		ViewHolder(ComposeView(parent.context))
 
-	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder?, item: Any?) {
+	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any?) {
 		if (viewHolder !is ViewHolder) return
 
 		when (item) {
@@ -89,6 +89,6 @@ class GridButtonPresenter @JvmOverloads constructor(
 		}
 	}
 
-	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder?) = Unit
-	override fun onViewAttachedToWindow(viewHolder: Presenter.ViewHolder?) = Unit
+	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) = Unit
+	override fun onViewAttachedToWindow(viewHolder: Presenter.ViewHolder) = Unit
 }

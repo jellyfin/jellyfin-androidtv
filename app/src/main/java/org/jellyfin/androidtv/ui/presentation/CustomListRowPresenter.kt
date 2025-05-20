@@ -15,12 +15,12 @@ open class CustomListRowPresenter @JvmOverloads constructor(
 
 	override fun isUsingDefaultShadow() = false
 
-	override fun onSelectLevelChanged(holder: RowPresenter.ViewHolder?) = Unit
+	override fun onSelectLevelChanged(holder: RowPresenter.ViewHolder) = Unit
 
-	override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder?, item: Any?) {
+	override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any) {
 		super.onBindRowViewHolder(holder, item)
 
-		val view = holder?.view?.parent as? View ?: return
+		val view = holder.view?.parent as? View ?: return
 		if (topPadding != null) view.setPadding(view.paddingLeft, topPadding, view.paddingRight, view.paddingBottom)
 
 		// Hide header view when the item doesn't have one

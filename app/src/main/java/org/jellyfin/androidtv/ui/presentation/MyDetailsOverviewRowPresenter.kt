@@ -77,7 +77,7 @@ class MyDetailsOverviewRowPresenter(
 		return viewHolder!!
 	}
 
-	override fun onBindRowViewHolder(viewHolder: RowPresenter.ViewHolder?, item: Any?) {
+	override fun onBindRowViewHolder(viewHolder: RowPresenter.ViewHolder, item: Any) {
 		super.onBindRowViewHolder(viewHolder, item)
 		if (item !is MyDetailsOverviewRow) return
 		if (viewHolder !is ViewHolder) return

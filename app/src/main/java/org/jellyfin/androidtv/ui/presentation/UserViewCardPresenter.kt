@@ -61,13 +61,13 @@ class UserViewCardPresenter(
 		return ViewHolder(cardView)
 	}
 
-	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
+	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any?) {
 		if (item !is BaseRowItem) return
 
 		(viewHolder as? ViewHolder)?.setItem(item)
 	}
 
-	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder?) {
+	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {
 		(viewHolder as? ViewHolder)?.setItem(null)
 	}
 }
