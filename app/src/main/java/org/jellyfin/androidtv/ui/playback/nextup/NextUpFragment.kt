@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -127,7 +126,6 @@ fun NextUpScreen(
 	}
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NextUpOverlay(
 	modifier: Modifier = Modifier,
@@ -161,7 +159,7 @@ fun NextUpOverlay(
 		modifier = modifier
 			.overscan()
 			.fillMaxWidth()
-			.focusRestorer { focusRequester }
+			.focusRestorer(focusRequester)
 	) {
 		item.thumbnail?.let { thumbnail ->
 			AsyncImage(
@@ -203,7 +201,7 @@ fun NextUpOverlay(
 			Row(
 				modifier = Modifier
 					.focusGroup()
-					.focusRestorer { focusRequester }
+					.focusRestorer(focusRequester)
 			) {
 				Button(onClick = onCancel) {
 					Text(stringResource(R.string.btn_cancel))
