@@ -12,7 +12,7 @@ class AppNotificationPresenter : Presenter() {
 		return AppNotificationViewHolder(binding)
 	}
 
-	override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
+	override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
 		viewHolder as AppNotificationViewHolder
 		item as AppNotification
 

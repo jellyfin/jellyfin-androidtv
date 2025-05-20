@@ -26,9 +26,9 @@ class TextItemPresenter : Presenter() {
 		return ViewHolder(view)
 	}
 
-	override fun onBindViewHolder(viewHolder: ViewHolder?, item: Any?) {
-		(viewHolder?.view as? TextView)?.text = item.toString()
+	override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
+		(viewHolder.view as? TextView)?.text = item.toString()
 	}
 
-	override fun onUnbindViewHolder(viewHolder: ViewHolder?) = Unit
+	override fun onUnbindViewHolder(viewHolder: ViewHolder) = Unit
 }
