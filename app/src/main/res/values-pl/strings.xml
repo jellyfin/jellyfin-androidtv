@@ -595,4 +595,5 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="rewind">Przewiń do tyłu</string>
     <string name="fast_forward">Przewiń do przodu</string>
+    <string name="preference_enable_libass">Włącz renderowanie napisów klienta Advanced SubStation Alpha</string>
 </resources>
