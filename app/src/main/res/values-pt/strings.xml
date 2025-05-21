@@ -5,11 +5,13 @@
         <item quantity="many">%1$s segundos</item>
         <item quantity="other">%1$s segundos</item>
     </plurals>
-    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
+    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="fast_forward">Avançar</string>
     <string name="rewind">Retroceder</string>
     <string name="server_unsupported_notification">Este servidor utiliza a versão %1$s do Jellyfin, que não é suportada. Atualiza para o Jellyfin %2$s ou mais recente para continuares a utilizar a aplicação.</string>
     <string name="image_type_poster">Cartaz</string>
     <string name="pref_customization">Personalização</string>
+    <string name="preference_enable_libass">Ativar a renderização de legendas do cliente Advanced SubStation Alpha</string>
+    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?</string>
 </resources>
