@@ -207,8 +207,8 @@
     <string name="subtitle_error">Không thể chọn phụ đề</string>
     <string name="too_many_errors">Có quá nhiều lỗi. Từ bỏ</string>
     <string name="player_error">Đã gặp lỗi trình phát. Sẽ thử lại…</string>
-    <string name="msg_live_tv_prev">Tải trước %1$d giờ?</string>
-    <string name="msg_live_tv_next">Tải tiếp theo %1$d giờ?\"</string>
+    <string name="msg_live_tv_prev">Tải về trước %1$d giờ?</string>
+    <string name="msg_live_tv_next">Tải kế tiếp %1$d giờ?</string>
     <string name="lbl_load_guide_data">Tải dữ liệu hướng dẫn</string>
     <string name="episode_missing_message_2">Tập này bị thiếu trong thư viện của bạn. Phát lại sẽ dừng.</string>
     <string name="episode_missing_message">Tập này bị thiếu trong thư viện của bạn. Bạn có muốn bỏ qua nó và tiếp tục phần tiếp theo không\?</string>
@@ -565,4 +565,5 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="fast_forward">Về trước nhanh</string>
     <string name="rewind">Tua lại</string>
+    <string name="preference_enable_libass">Bật máy khách phụ đề Advanced SubStation Alpha</string>
 </resources>
