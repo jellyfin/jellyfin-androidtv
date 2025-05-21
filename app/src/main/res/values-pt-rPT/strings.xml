@@ -245,8 +245,8 @@
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
     <string name="player_error">Ocorreu um erro no leitor. A tentar novamente…</string>
     <string name="seek_error">Impossível saltar</string>
-    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?\"</string>
-    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?\"</string>
+    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?</string>
+    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?</string>
     <string name="lbl_load_guide_data">Carregar programação</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na tua biblioteca. Desejas saltar este episódio e passar ao seguinte?</string>
@@ -460,9 +460,9 @@
     <string name="pref_enable_media_management_description">Mostrar opção para gerir media enquanto navega</string>
     <string name="item_delete_confirm_message">Tens a certeza de que queres eliminar este item do servidor? Esta ação não pode ser anulada.</string>
     <plurals name="tracks">
-        <item quantity="one">faixa</item>
-        <item quantity="many">faixas</item>
-        <item quantity="other">faixas</item>
+        <item quantity="one">%1$s faixa</item>
+        <item quantity="many">%1$s faixas</item>
+        <item quantity="other">%1$s faixas</item>
     </plurals>
     <string name="disable_ui_mode_warning">Desativar aviso de tipo de dispositivo</string>
     <string name="enable_reactive_homepage">Ativar pagina inicial reativa</string>
@@ -473,14 +473,14 @@
     <string name="not_set">Não definido</string>
     <string name="lbl_album_artists">Artistas do album</string>
     <plurals name="minutes">
-        <item quantity="one">minuto</item>
-        <item quantity="many">minutos</item>
-        <item quantity="other">minutos</item>
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="many">%1$s minutos</item>
+        <item quantity="other">%1$s minutos</item>
     </plurals>
     <plurals name="episodes">
-        <item quantity="one">episódio</item>
-        <item quantity="many">episódios</item>
-        <item quantity="other">episódios</item>
+        <item quantity="one">%1$s episódio</item>
+        <item quantity="many">%1$s episódios</item>
+        <item quantity="other">%1$s episódios</item>
     </plurals>
     <plurals name="seconds">
         <item quantity="one">%1$s segundo</item>
@@ -488,9 +488,9 @@
         <item quantity="other">%1$s segundos</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">hora</item>
-        <item quantity="many">horas</item>
-        <item quantity="other">horas</item>
+        <item quantity="one">%1$s hora</item>
+        <item quantity="many">%1$s horas</item>
+        <item quantity="other">%1$s horas</item>
     </plurals>
     <string name="lbl_latest_in">Adicionado recentemente em %1$s</string>
     <string name="because_you_watched">Porque viste %1$s</string>
@@ -584,4 +584,5 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="rewind">Retroceder</string>
     <string name="fast_forward">Avançar</string>
+    <string name="preference_enable_libass">Ativar a renderização de legendas do cliente Advanced SubStation Alpha</string>
 </resources>
