@@ -575,5 +575,5 @@
     <string name="rewind">Spol tilbake</string>
     <string name="fast_forward">Spol fremmover</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">Skru på Advanced SubStation Alpha undertekst-klient rendering</string>
+    <string name="preference_enable_libass">Aktiver visning av Advanced SubStation Alpha-undertekster i klienten</string>
 </resources>
