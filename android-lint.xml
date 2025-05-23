@@ -13,9 +13,6 @@
     <issue id="MangledCRLF" severity="warning" />
     <issue id="NegativeMargin" severity="warning" />
     <issue id="NoHardKeywords" severity="warning" />
-    <issue id="NotificationPermission">
-        <ignore regexp="com.bumptech.glide.request.target.NotificationTarget" />
-    </issue>
     <issue id="Registered" severity="warning" />
     <issue id="RequiredSize" severity="error" />
     <issue id="Typos" severity="ignore" />
