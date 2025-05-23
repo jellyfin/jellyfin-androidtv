@@ -232,6 +232,36 @@ fun FullDetailsFragment.populatePreviousButton() {
 	}
 }
 
+fun FullDetailsFragment.getNextUpEpisode(callback: (nextUpEpisode: BaseItemDto?) -> Unit) = lifecycleScope.launch {
+	val api by inject<ApiClient>()
+
+	try {
+		val episodes = withContext(Dispatchers.IO) {
+			api.itemsApi.getItems(
+				parentId = mBaseItem.id,
+				includeItemTypes = setOf(BaseItemKind.EPISODE),
+				recursive = true,
+				filters = setOf(ItemFilter.IS_UNPLAYED),
+				fields = ItemRepository.itemFields,
+				sortBy = setOf(
+					ItemSortBy.PARENT_INDEX_NUMBER,
+					ItemSortBy.INDEX_NUMBER,
+					ItemSortBy.SORT_NAME
+				),
+				limit = 1
+			).content
+		}
+		callback(episodes.items.firstOrNull())
+	} catch (err: ApiClientException) {
+		Timber.w("Failed to get next up items")
+		Toast.makeText(
+			requireContext(),
+			getString(R.string.msg_video_playback_error),
+			Toast.LENGTH_LONG
+		).show()
+	}
+}
+
 fun FullDetailsFragment.resumePlayback(v: View) {
 	if (mBaseItem.type != BaseItemKind.SERIES) {
 		val pos = (mBaseItem.userData?.playbackPositionTicks?.ticks
@@ -240,41 +270,13 @@ fun FullDetailsFragment.resumePlayback(v: View) {
 		return
 	}
 
-	val api by inject<ApiClient>()
+	getNextUpEpisode {
+		if (it == null) return@getNextUpEpisode
 
-	lifecycleScope.launch {
-		try {
-			val episodes = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(
-					parentId = mBaseItem.id,
-					includeItemTypes = setOf(BaseItemKind.EPISODE),
-					recursive = true,
-					filters = setOf(ItemFilter.IS_UNPLAYED),
-					fields = ItemRepository.itemFields,
-					sortBy = setOf(
-						ItemSortBy.PARENT_INDEX_NUMBER,
-						ItemSortBy.INDEX_NUMBER,
-						ItemSortBy.SORT_NAME
-					),
-					limit = 1
-				).content
-			}
-			val nextUpEpisode = episodes.items.firstOrNull()
-
-			if (nextUpEpisode == null) return@launch
-
-			if (nextUpEpisode.userData?.playbackPositionTicks == 0L) {
-				play(nextUpEpisode, 0, false)
-			} else {
-				showResumeMenu(v, nextUpEpisode)
-			}
-		} catch (err: ApiClientException) {
-			Timber.w("Failed to get next up items")
-			Toast.makeText(
-				requireContext(),
-				getString(R.string.msg_video_playback_error),
-				Toast.LENGTH_LONG
-			).show()
+		if (it.userData?.playbackPositionTicks == 0L) {
+			play(it, 0, false)
+		} else {
+			showResumeMenu(v, it)
 		}
 	}
 }
