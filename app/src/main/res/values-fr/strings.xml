@@ -585,4 +585,5 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="rewind">Rembobiner</string>
     <string name="fast_forward">Avance rapide</string>
+    <string name="preference_enable_libass">Activer le rendu client des sous-titres Advanced SubStation Alpha</string>
 </resources>

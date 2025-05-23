@@ -24,7 +24,6 @@ import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
 import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.media3.session.MediaSessionOptions
 import org.jellyfin.playback.media3.session.media3SessionPlugin
-import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
@@ -67,13 +66,14 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 			notificationChannelId,
 			NotificationManager.IMPORTANCE_LOW
 		)
+		channel.setShowBadge(false)
 		NotificationManagerCompat.from(get()).createNotificationChannel(channel)
 	}
 
 	val userPreferences = get<UserPreferences>()
-	val api = get<ApiClient>()
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
+		enableLibass = userPreferences[UserPreferences.assDirectPlay],
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
 	)

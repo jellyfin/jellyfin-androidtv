@@ -300,7 +300,7 @@
     <string name="image_size_medium">Средний</string>
     <string name="image_size_small">Мелкий</string>
     <string name="image_type_banner">Баннер</string>
-    <string name="image_type_thumbnail">Бегунок</string>
+    <string name="image_type_thumbnail">Миниатюра</string>
     <string name="lbl_use_series_thumbnails_description">Использовать бегунки сериалов при отображении эпизодов</string>
     <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
     <string name="lbl_hide_unwatched_count">Когда объект просматривается</string>

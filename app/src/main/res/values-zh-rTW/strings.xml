@@ -291,8 +291,8 @@
     <string name="too_many_errors">出現過多錯誤，放棄重試</string>
     <string name="player_error">播放器發生錯誤。即將重試…</string>
     <string name="seek_error">無法預覽</string>
-    <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？</string>
-    <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？</string>
+    <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？＂</string>
+    <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？＂</string>
     <string name="lbl_load_guide_data">載入指南資料</string>
     <string name="episode_missing_message_2">您的媒體庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
@@ -412,7 +412,7 @@
     <string name="app_notification_uimode_invalid">此應用程式已針對電視進行了優化. 我們建議在其他設備上使用我們的流動應用程式.</string>
     <string name="pref_crash_report_logs">包括日誌記錄</string>
     <string name="input_password">密碼</string>
-    <string name="login_quickconnect_step_3">3. 輸入以下驗證碼:</string>
+    <string name="login_quickconnect_step_3">3. 輸入以下驗證碼：</string>
     <string name="pref_crash_reports">傳送崩潰報告到伺服器</string>
     <string name="pref_crash_reports_enabled">崩潰報告將會傳送到你最近使用的伺服器</string>
     <string name="pref_crash_reports_disabled">不傳送崩潰報告</string>
@@ -458,7 +458,7 @@
 \n感謝您參與 Jellyfin 測試計劃。</string>
     <string name="desc_audio_night_mode">自動平衡音量水平</string>
     <string name="login_connect_to">正在連接伺服器 %1$s</string>
-    <string name="login_other_options">其他選項:</string>
+    <string name="login_other_options">其他選項：</string>
     <string name="pref_refresh_rate_scale_on_tv">在電視上縮放</string>
     <string name="pref_refresh_rate_scale_on_device">在設備上縮放</string>
     <string name="pref_enable_media_management_description">在瀏覽時顯示管理媒體文件選項</string>
@@ -492,7 +492,7 @@
     <string name="unreleased">尚未發佈</string>
     <string name="dolby_vision">杜比視界</string>
     <string name="person_birthday_and_age">出生於 %1$s (%2$d)</string>
-    <string name="clear_image_cache">清除圖片緩存</string>
+    <string name="clear_image_cache">清除圖片快取</string>
     <string name="photo_albums">相冊</string>
     <string name="photos">照片</string>
     <string name="pref_playback_advanced">進階播放設定</string>
@@ -515,9 +515,9 @@
     <string name="continue_listening">繼續收聽</string>
     <string name="app_notification_update_soon">將您的伺服器從 %1$s 更新到至少 %2$s，以便在下次更新後繼續使用此應用程式。</string>
     <string name="current_queue">目前佇列</string>
-    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dolby_atmos">杜比全景聲</string>
     <string name="ac3">杜比數位</string>
-    <string name="clear_image_cache_content">已使用: %1$s</string>
+    <string name="clear_image_cache_content">已使用： %1$s</string>
     <string name="dts_x">DTS:X</string>
     <string name="dca">DTS</string>
     <string name="eac3">杜比數位Plus</string>
@@ -562,4 +562,7 @@
     <string name="pref_report_device_profile_success">檔案已提交為 %1$s</string>
     <string name="runtime_hours_minutes">%1$d時 %2$d分</string>
     <string name="runtime_minutes">%1$d分鐘</string>
+    <string name="fast_forward">快轉</string>
+    <string name="rewind">倒轉</string>
+    <string name="indicator_subtitles_hearing_impaired">聽障字幕</string>
 </resources>

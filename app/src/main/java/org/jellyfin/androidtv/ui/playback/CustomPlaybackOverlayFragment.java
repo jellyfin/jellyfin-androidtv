@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -647,6 +648,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mFadeEnabled = true;
         mHandler.removeCallbacks(mHideTask);
         mHandler.postDelayed(mHideTask, 6000);
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
+        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
     }
 
     @Override
@@ -663,7 +666,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         // Hide system bars
         WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
-        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
+        WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView());
+        insetsController.hide(WindowInsetsCompat.Type.systemBars());
+        insetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
 
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             Timber.e("Unable to get audio focus");

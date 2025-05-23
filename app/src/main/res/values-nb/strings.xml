@@ -244,8 +244,8 @@
     <string name="too_many_errors">For mange feil. Gir opp</string>
     <string name="player_error">Det oppstod en spillerfeil. Prøver på nytt…</string>
     <string name="seek_error">Kan ikke søke</string>
-    <string name="msg_live_tv_prev">Last forrige %1$d timer?\"</string>
-    <string name="msg_live_tv_next">Last inn neste %1$d timer?\"</string>
+    <string name="msg_live_tv_prev">Last forrige %1$d timer?</string>
+    <string name="msg_live_tv_next">Last inn neste %1$d timer?</string>
     <string name="lbl_load_guide_data">Last guide-data</string>
     <string name="episode_missing_message_2">Denne episoden mangler fra biblioteket ditt. Avspillingen stopper.</string>
     <string name="episode_missing_message">Denne episoden mangler fra biblioteket ditt. Vil du hoppe over det og fortsette til neste\?</string>
@@ -575,4 +575,5 @@
     <string name="rewind">Spol tilbake</string>
     <string name="fast_forward">Spol fremmover</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="preference_enable_libass">Aktiver visning av Advanced SubStation Alpha-undertekster i klienten</string>
 </resources>

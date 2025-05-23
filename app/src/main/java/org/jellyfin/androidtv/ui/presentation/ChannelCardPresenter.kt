@@ -21,12 +21,12 @@ class ChannelCardPresenter : Presenter() {
 		return ViewHolder(view)
 	}
 
-	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder?, item: Any?) {
+	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any?) {
 		if (item !is BaseItemDto) return
 		if (viewHolder !is ViewHolder) return
 
 		viewHolder.setItem(item)
 	}
 
-	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder?) = Unit
+	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) = Unit
 }
