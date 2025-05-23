@@ -769,7 +769,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mResumeButton = TextUnderButton.create(requireContext(), R.drawable.ic_resume, buttonSize, 2, buttonLabel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FullDetailsFragmentHelperKt.resumePlayback(FullDetailsFragment.this);
+                FullDetailsFragmentHelperKt.resumePlayback(FullDetailsFragment.this, v);
             }
         });
 
