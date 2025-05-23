@@ -775,7 +775,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         if (BaseItemExtensionsKt.canPlay(baseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (JavaCompat.getCanResume(mBaseItem));
+            boolean isSeries = baseItem.getType() == BaseItemKind.SERIES;
+            boolean isFinished = mBaseItem.getUserData().getPlayed();
+            boolean isStarted = mBaseItem.getUserData().getPlayedPercentage() > 0;
+            boolean resumeButtonVisible = (isSeries && isStarted && !isFinished) || (JavaCompat.getCanResume(mBaseItem));
             mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
             playButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : Utils.getSafeValue(mBaseItem.isFolder(), false) ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
