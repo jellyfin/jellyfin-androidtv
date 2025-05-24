@@ -114,7 +114,7 @@
     <string name="lbl_last_played">"נצפה לאחרונה "</string>
     <string name="lbl_directed_by">במאי</string>
     <string name="lbl_ends">נגמר</string>
-    <string name="lbl_runs">הרצות</string>
+    <string name="lbl_runs">אורך</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">נצפה</string>
     <string name="lbl_favorite">מועדף</string>
@@ -217,8 +217,8 @@
     <string name="too_many_errors">יותר מדי תקלות. מוותר</string>
     <string name="player_error">בעיית נגן. מנסה שנית…</string>
     <string name="seek_error">לא ניתן לדלג</string>
-    <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות?\"</string>
-    <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות?\"</string>
+    <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות?</string>
+    <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות?</string>
     <string name="lbl_load_guide_data">טען את לוח השידורים</string>
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
     <string name="episode_missing_message">הפרק חסר בספרייה. האם תרצה לדלג עליו ולעבור לפרק הבא\?</string>
@@ -589,4 +589,5 @@
     <string name="pref_report_device_profile_success">מסמך נשלח כ %1$s</string>
     <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה-Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="preference_enable_libass">הפעל רנדור כתוביות מסוג Advanced SubStation Alpha</string>
 </resources>
