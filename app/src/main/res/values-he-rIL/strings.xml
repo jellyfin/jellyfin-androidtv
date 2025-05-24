@@ -4,7 +4,7 @@
     <string name="lbl_by_letter">לפי אות</string>
     <string name="lbl_views">צפיות</string>
     <string name="lbl_on_now">משודר כעת</string>
-    <string name="lbl_next_up">המידה הבא</string>
+    <string name="lbl_next_up">הבא בתור</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
     <string name="lbl_settings">העדפות</string>
     <string name="chapters">פרקים</string>
@@ -35,7 +35,7 @@
     <string name="lbl_other_channels">ערוצים אחרים</string>
     <string name="lbl_items">פריטים</string>
     <string name="lbl_cast_crew">שחקנים וצוות</string>
-    <string name="lbl_runs">פעיל</string>
+    <string name="lbl_runs">אורך</string>
     <string name="lbl_pause">השהה</string>
     <string name="lbl_other_options">אפשרויות נוספות</string>
     <string name="lbl_shuffle_all">ערבב הכל</string>
@@ -137,7 +137,7 @@
     <string name="lbl_tv_filter_status">למשך%1$dהשעות הבאות</string>
     <string name="pref_next_up_timeout_summary">כמה זמן לחכות לפני הפעלת הפריט הבא</string>
     <string name="lbl_ok">אוקי</string>
-    <string name="lbl_play_next_up">נגן בהמשך</string>
+    <string name="lbl_play_next_up">נגן את הבא בתור</string>
     <string name="lbl_sports">ספורט</string>
     <string name="bitrate_mbit">%1$,.0f מגהביט/ס</string>
     <string name="lbl_play_from_here">נגן מכאן</string>
@@ -150,7 +150,7 @@
     <string name="lbl_subtitle_text_color">צבע טקסט של כתוביות</string>
     <string name="lbl_image_size">גודל תמונה</string>
     <string name="lbl_my_media">המדיה שלי</string>
-    <string name="continue_listening">המשך להאזין</string>
+    <string name="continue_listening">המשך האזנה</string>
     <string name="lbl_schedule">לוח זמנים</string>
     <string name="lbl_save">שמור</string>
     <string name="lbl_play_trailers">נגן טריילר(ים)</string>
@@ -177,7 +177,7 @@
     <string name="grid_direction_horizontal">אופקי</string>
     <string name="watch_now">צפה עכשיו</string>
     <string name="lbl_guest_stars">כוכבים אורחים</string>
-    <string name="pref_next_up_timeout_title">משך טיימר הפריט הבא</string>
+    <string name="pref_next_up_timeout_title">תזמון טיימר הבא בתור</string>
     <string name="mark_watched">סמן כנצפה</string>
     <string name="runtime_hours_minutes">%1$dש%2$dד</string>
     <string name="runtime_minutes">%1$dד</string>
@@ -284,15 +284,15 @@
     <string name="saved_servers">שרתים שמורים</string>
     <string name="lbl_next_up_minimal">ללא תצוגה ממוזערת</string>
     <string name="advanced_settings">מתקדם</string>
-    <string name="msg_live_tv_next">טען את %1$d השעות הבאות?\"</string>
+    <string name="msg_live_tv_next">טען את %1$d השעות הבאות?</string>
     <string name="lbl_hide_watched_checkmark">כאשר נותרו פרקים</string>
     <string name="login_username_field_empty">שם המשתמש לא יכול להיות ריק</string>
     <string name="home_prefs">בית</string>
     <string name="no_player">אין נגן</string>
     <string name="welcome_title">ברוכים הבאים ל-Jellyfin!</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="home_section_resume">המשך לצפות</string>
-    <string name="home_section_resume_audio">המשך להקשיב</string>
+    <string name="home_section_resume">המשך צפייה</string>
+    <string name="home_section_resume_audio">המשך האזנה</string>
     <string name="home_section_none">אין</string>
     <string name="color_red">אדום</string>
     <string name="pref_browsing">דפדוף</string>
@@ -311,9 +311,9 @@
     <string name="lbl_switch_user">החלף משתמש</string>
     <string name="connect_manually_by_address">הכנס כתובת שרת</string>
     <string name="pref_subtitles_size">גודל טקסט</string>
-    <string name="msg_live_tv_prev">טען את %1$d השעות הקודמות?\"</string>
+    <string name="msg_live_tv_prev">טען את %1$d השעות הקודמות?</string>
     <string name="audio_error">לא מסוגל לנגן שמע %1$s</string>
-    <string name="episode_missing_message">פרק זה חסר בספרייה שלך. תרצה לדלג עליו ולהמשיך לפרק הבא?</string>
+    <string name="episode_missing_message">פרק זה חסר בספרייה שלך. האם לדלג עליו ולהמשיך לפרק הבא?</string>
     <string name="episode_missing_message_2">פרק זה חסר בספרייה שלך. הניגון יפסק.</string>
     <string name="subtitle_error">לא מסוגל לבחור כתוביות</string>
     <string name="msg_no_items">אין פריטים לנגן</string>
@@ -583,4 +583,5 @@
         <item quantity="two">%1$s דקות</item>
         <item quantity="other">%1$s דקות</item>
     </plurals>
+    <string name="preference_enable_libass">הפעל רנדור כתוביות מסוג Advanced SubStation Alpha</string>
 </resources>
