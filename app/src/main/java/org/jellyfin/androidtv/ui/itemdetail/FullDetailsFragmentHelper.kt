@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.popupMenu
 import org.jellyfin.androidtv.util.sdk.TrailerUtils.getExternalTrailerIntent
@@ -231,7 +232,37 @@ fun FullDetailsFragment.populatePreviousButton() {
 	}
 }
 
-fun FullDetailsFragment.resumePlayback() {
+fun FullDetailsFragment.getNextUpEpisode(callback: (nextUpEpisode: BaseItemDto?) -> Unit) = lifecycleScope.launch {
+	val api by inject<ApiClient>()
+
+	try {
+		val episodes = withContext(Dispatchers.IO) {
+			api.itemsApi.getItems(
+				parentId = mBaseItem.id,
+				includeItemTypes = setOf(BaseItemKind.EPISODE),
+				recursive = true,
+				filters = setOf(ItemFilter.IS_UNPLAYED),
+				fields = ItemRepository.itemFields,
+				sortBy = setOf(
+					ItemSortBy.PARENT_INDEX_NUMBER,
+					ItemSortBy.INDEX_NUMBER,
+					ItemSortBy.SORT_NAME
+				),
+				limit = 1
+			).content
+		}
+		callback(episodes.items.firstOrNull())
+	} catch (err: ApiClientException) {
+		Timber.w("Failed to get next up items")
+		Toast.makeText(
+			requireContext(),
+			getString(R.string.msg_video_playback_error),
+			Toast.LENGTH_LONG
+		).show()
+	}
+}
+
+fun FullDetailsFragment.resumePlayback(v: View) {
 	if (mBaseItem.type != BaseItemKind.SERIES) {
 		val pos = (mBaseItem.userData?.playbackPositionTicks?.ticks
 			?: Duration.ZERO) - resumePreroll.milliseconds
@@ -239,38 +270,33 @@ fun FullDetailsFragment.resumePlayback() {
 		return
 	}
 
-	val api by inject<ApiClient>()
+	getNextUpEpisode {
+		if (it == null) return@getNextUpEpisode
 
-	lifecycleScope.launch {
-		try {
-			val episodes = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(
-					parentId = mBaseItem.id,
-					includeItemTypes = setOf(BaseItemKind.EPISODE),
-					recursive = true,
-					filters = setOf(ItemFilter.IS_UNPLAYED),
-					fields = ItemRepository.itemFields,
-					sortBy = setOf(
-						ItemSortBy.PARENT_INDEX_NUMBER,
-						ItemSortBy.INDEX_NUMBER,
-						ItemSortBy.SORT_NAME
-					),
-					limit = 1
-				).content
-			}
-			val nextUpEpisode = episodes.items.firstOrNull()
-
-			if (nextUpEpisode != null) play(nextUpEpisode, 0, false)
-		} catch (err: ApiClientException) {
-			Timber.w("Failed to get next up items")
-			Toast.makeText(
-				requireContext(),
-				getString(R.string.msg_video_playback_error),
-				Toast.LENGTH_LONG
-			).show()
+		if (it.userData?.playbackPositionTicks == 0L) {
+			play(it, 0, false)
+		} else {
+			showResumeMenu(v, it)
 		}
 	}
 }
+
+fun FullDetailsFragment.showResumeMenu(
+	view: View,
+	nextUpEpisode: BaseItemDto
+) = popupMenu(requireContext(), view) {
+	item(getString(
+		R.string.lbl_resume_from,
+		TimeUtils.formatMillis((nextUpEpisode.userData!!.playbackPositionTicks / 10000) - resumePreroll)
+	)) {
+		val pos = (nextUpEpisode.userData?.playbackPositionTicks?.ticks
+			?: Duration.ZERO) - resumePreroll.milliseconds
+		play(nextUpEpisode, pos.inWholeMilliseconds.toInt(), false)
+	}
+	item(getString(R.string.lbl_from_beginning)) {
+		play(nextUpEpisode, 0, false)
+	}
+}.showIfNotEmpty()
 
 fun FullDetailsFragment.getLiveTvSeriesTimer(
 	id: String,
