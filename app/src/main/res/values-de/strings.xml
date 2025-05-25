@@ -575,4 +575,5 @@
     <string name="indicator_subtitles_hearing_impaired">Untertitel für Gehörlose und Schwerhörige</string>
     <string name="fast_forward">Vorspulen</string>
     <string name="rewind">Zurückspulen</string>
+    <string name="preference_enable_libass">Aktivieren Sie das erweiterte SubStation Alpha-Untertitel-Client-Rendering</string>
 </resources>

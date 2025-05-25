@@ -595,4 +595,5 @@
     <string name="indicator_subtitles_hearing_impaired">Слабослышащие</string>
     <string name="fast_forward">Перемотать вперед</string>
     <string name="rewind">Перемотать назад</string>
+    <string name="preference_enable_libass">Включить отрисовку субтитров типа Advanced SubStation Alpha на клиенте</string>
 </resources>

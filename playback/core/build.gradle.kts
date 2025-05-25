@@ -32,9 +32,6 @@ dependencies {
 	// Android(x)
 	implementation(libs.androidx.core)
 
-	// Dependency Injection
-	implementation(libs.bundles.koin)
-
 	// Logging
 	implementation(libs.timber)
 
