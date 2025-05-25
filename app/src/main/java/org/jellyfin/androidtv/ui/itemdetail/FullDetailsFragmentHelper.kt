@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment.TICKS_IN_MILLISECONDS
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.TimeUtils
@@ -253,7 +254,7 @@ fun FullDetailsFragment.getNextUpEpisode(callback: (nextUpEpisode: BaseItemDto?)
 		}
 		callback(episodes.items.firstOrNull())
 	} catch (err: ApiClientException) {
-		Timber.w("Failed to get next up items")
+		Timber.w("Failed to get next up items", err)
 		Toast.makeText(
 			requireContext(),
 			getString(R.string.msg_video_playback_error),
@@ -287,7 +288,7 @@ fun FullDetailsFragment.showResumeMenu(
 ) = popupMenu(requireContext(), view) {
 	item(getString(
 		R.string.lbl_resume_from,
-		TimeUtils.formatMillis((nextUpEpisode.userData!!.playbackPositionTicks / 10000) - resumePreroll)
+		TimeUtils.formatMillis((nextUpEpisode.userData!!.playbackPositionTicks / TICKS_IN_MILLISECONDS) - resumePreroll)
 	)) {
 		val pos = (nextUpEpisode.userData?.playbackPositionTicks?.ticks
 			?: Duration.ZERO) - resumePreroll.milliseconds

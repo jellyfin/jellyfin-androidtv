@@ -106,6 +106,7 @@ import timber.log.Timber;
 public class FullDetailsFragment extends Fragment implements RecordingIndicatorView, View.OnKeyListener {
 
     private int BUTTON_SIZE;
+    static final int TICKS_IN_MILLISECONDS = 10000;
 
     TextUnderButton mResumeButton;
     private TextUnderButton mVersionsButton;
@@ -257,7 +258,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                 boolean resumeVisible = (mBaseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || JavaCompat.getCanResume(mBaseItem);
                                 mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                 if (JavaCompat.getCanResume(mBaseItem)) {
-                                    mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll())));
+                                    mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks() / TICKS_IN_MILLISECONDS) - getResumePreroll())));
                                 }
                                 if (resumeVisible) {
                                     mResumeButton.requestFocus();
@@ -296,7 +297,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             return keyProcessor.getValue().handleKey(keyCode, mCurrentItem, requireActivity());
         } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(mBaseItem)) {
             //default play action
-            Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+            Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / TICKS_IN_MILLISECONDS;
             play(mBaseItem, pos.intValue(), false);
             return true;
         }
