@@ -763,7 +763,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         } else {
             long startPos = 0;
             if (JavaCompat.getCanResume(mBaseItem)) {
-                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll();
+                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks() / TICKS_IN_MILLISECONDS) - getResumePreroll();
             }
             buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
         }
