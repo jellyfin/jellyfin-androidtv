@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
-import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment.TICKS_IN_MILLISECONDS
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.TimeUtils
@@ -286,12 +285,12 @@ fun FullDetailsFragment.showResumeMenu(
 	view: View,
 	nextUpEpisode: BaseItemDto
 ) = popupMenu(requireContext(), view) {
+	val pos = (nextUpEpisode.userData?.playbackPositionTicks?.ticks
+		?: Duration.ZERO) - resumePreroll.milliseconds
 	item(getString(
 		R.string.lbl_resume_from,
-		TimeUtils.formatMillis((nextUpEpisode.userData!!.playbackPositionTicks / TICKS_IN_MILLISECONDS) - resumePreroll)
+		TimeUtils.formatMillis(pos.inWholeMilliseconds)
 	)) {
-		val pos = (nextUpEpisode.userData?.playbackPositionTicks?.ticks
-			?: Duration.ZERO) - resumePreroll.milliseconds
 		play(nextUpEpisode, pos.inWholeMilliseconds.toInt(), false)
 	}
 	item(getString(R.string.lbl_from_beginning)) {
