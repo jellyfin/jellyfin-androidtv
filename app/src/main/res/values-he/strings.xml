@@ -179,7 +179,7 @@
     <string name="lbl_previous_episode">הפרק הקודם</string>
     <string name="lbl_next_episode">הפרק הבא</string>
     <string name="lbl_more_like_this">עוד כמו זה</string>
-    <string name="lbl_resume_from">המשך ממיקום %1$s</string>
+    <string name="lbl_resume_from">המשך מ־%1$s</string>
     <string name="lbl_resume_preroll">הרצה אחורה בהמשך ניגון</string>
     <string name="lbl_guide_option_number">מספר ערוץ</string>
     <string name="lbl_guide_option_played">נוגנו לאחרונה</string>
