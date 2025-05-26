@@ -241,11 +241,11 @@
     <string name="audio_error">Audio %1$s kann nicht abgespielt werden</string>
     <string name="msg_no_items">Keine Einträge zum Abspielen vorhanden</string>
     <string name="subtitle_error">Untertitel können nicht ausgewählt werden</string>
-    <string name="too_many_errors">Zu viele Fehler. Es wird aufgegeben</string>
-    <string name="player_error">Player-Fehler aufgetreten. Wird erneut versucht…</string>
-    <string name="seek_error">Nicht in der Lage zu suchen</string>
-    <string name="msg_live_tv_prev">Vorherige %1$d Stunden laden?\"</string>
-    <string name="msg_live_tv_next">Nächste %1$d Stunden laden?\"</string>
+    <string name="too_many_errors">Zu viele Fehler. Gebe auf</string>
+    <string name="player_error">Player-Fehler aufgetreten. Erneut versuchen…</string>
+    <string name="seek_error">Kann nicht suchen</string>
+    <string name="msg_live_tv_prev">Vorherige %1$d Stunden laden?</string>
+    <string name="msg_live_tv_next">Nächste %1$d Stunden laden?</string>
     <string name="lbl_load_guide_data">Guide-Daten laden</string>
     <string name="episode_missing_message_2">Diese Episode fehlt in deiner Bibliothek. Die Wiedergabe wird angehalten.</string>
     <string name="episode_missing_message">Diese Episode fehlt in deiner Bibliothek. Möchtest du sie überspringen und mit der nächsten Episode fortfahren\?</string>
@@ -575,5 +575,5 @@
     <string name="indicator_subtitles_hearing_impaired">Untertitel für Gehörlose und Schwerhörige</string>
     <string name="fast_forward">Vorspulen</string>
     <string name="rewind">Zurückspulen</string>
-    <string name="preference_enable_libass">Aktivieren Sie das erweiterte SubStation Alpha-Untertitel-Client-Rendering</string>
+    <string name="preference_enable_libass">Das erweiterte SubStation Alpha-Untertitel-Client-Rendering aktivieren</string>
 </resources>
