@@ -24,9 +24,11 @@ import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
 import io.github.peerless2012.ass.media.AssHandler
+import io.github.peerless2012.ass.media.factory.AssRenderersFactory
 import io.github.peerless2012.ass.media.kt.withAssMkvSupport
 import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
 import io.github.peerless2012.ass.media.type.AssRenderType
+import io.github.peerless2012.ass.media.widget.AssSubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
@@ -59,7 +61,7 @@ class ExoPlayerBackend(
 	private var audioPipeline = ExoPlayerAudioPipeline()
 
 	private val assHandler by lazy {
-		AssHandler(AssRenderType.LEGACY)
+		AssHandler(AssRenderType.OVERLAY)
 	}
 
 	private val exoPlayer by lazy {
@@ -87,16 +89,21 @@ class ExoPlayerBackend(
 			}
 		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
 
+		val renderersFactory = DefaultRenderersFactory(context).apply {
+			setEnableDecoderFallback(true)
+			setExtensionRendererMode(
+				when (exoPlayerOptions.preferFfmpeg) {
+					true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+					false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
+				}
+			)
+		}.let { renderersFactory ->
+			if (exoPlayerOptions.enableLibass) AssRenderersFactory(assHandler, renderersFactory)
+			else renderersFactory
+		}
+
 		ExoPlayer.Builder(context)
-			.setRenderersFactory(DefaultRenderersFactory(context).apply {
-				setEnableDecoderFallback(true)
-				setExtensionRendererMode(
-					when (exoPlayerOptions.preferFfmpeg) {
-						true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-						false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
-					}
-				)
-			})
+			.setRenderersFactory(renderersFactory)
 			.setTrackSelector(DefaultTrackSelector(context).apply {
 				setParameters(buildUponParameters().apply {
 					setAudioOffloadPreferences(
@@ -178,7 +185,14 @@ class ExoPlayerBackend(
 
 	override fun setSubtitleView(surfaceView: PlayerSubtitleView?) {
 		if (surfaceView != null) {
-			if (subtitleView == null) subtitleView = SubtitleView(surfaceView.context)
+			if (subtitleView == null) {
+				subtitleView = SubtitleView(surfaceView.context).apply {
+					if (exoPlayerOptions.enableLibass) {
+						addView(AssSubtitleView(surfaceView.context, assHandler))
+					}
+				}
+			}
+
 			surfaceView.addView(subtitleView)
 		} else {
 			(subtitleView?.parent as? ViewGroup)?.removeView(subtitleView)
