@@ -73,6 +73,7 @@ class ExoPlayerBackend(
 							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
 						}.build()
 					)
+					setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
 				})
 			})
 			.setMediaSourceFactory(DefaultMediaSourceFactory(
