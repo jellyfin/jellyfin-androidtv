@@ -39,6 +39,7 @@ import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemSortBy
 import timber.log.Timber
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @SuppressLint("StaticFieldLeak")
@@ -73,6 +74,7 @@ class DreamViewModel(
 				// A batch size of 60 should be equal to 30 minutes of items
 				batchSize = 60,
 				emitDelay = 30.seconds,
+				noItemsDelay = 2.minutes,
 				errorDelay = 3.seconds,
 			)
 		)
@@ -93,6 +95,7 @@ class DreamViewModel(
 		maxParentalRating: Int,
 		batchSize: Int,
 		emitDelay: Duration,
+		noItemsDelay: Duration,
 		errorDelay: Duration,
 	): Flow<DreamContent.LibraryShowcase?> = flow {
 		while (true) {
@@ -115,6 +118,9 @@ class DreamViewModel(
 			if (items == null) {
 				emit(null)
 				delay(errorDelay)
+			} else if (items.isEmpty()) {
+				emit(null)
+				delay(noItemsDelay)
 			} else {
 				for (item in items) {
 					if (item.itemBackdropImages.isEmpty()) continue
