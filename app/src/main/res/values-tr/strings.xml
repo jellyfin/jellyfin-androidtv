@@ -572,4 +572,8 @@
     <string name="runtime_minutes">%1$dd</string>
     <string name="pref_report_device_profile_summary">Oynatma kapasiteleri hakkında bilgileri içeren bir sorun giderme belgesini Jellyfin sunucusuna yükle</string>
     <string name="pref_report_device_profile_failure">Belge gönderilemedi. Jellyfin sunucunuz istemci günlüklerine izin vermiyor olabilir.</string>
+    <string name="preference_enable_libass">Gelişmiş SubStation Alpha altyazı istemcisi işleme özelliğini etkinleştir</string>
+    <string name="fast_forward">İleriye sar</string>
+    <string name="rewind">Geri sar</string>
+    <string name="indicator_subtitles_hearing_impaired">İşitme engelliler için altyazı</string>
 </resources>
