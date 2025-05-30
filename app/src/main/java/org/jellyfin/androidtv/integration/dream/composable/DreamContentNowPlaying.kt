@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.jellyfin.lyrics
@@ -56,7 +57,7 @@ fun DreamContentNowPlaying(
 	val lyrics = content.entry.run { lyricsFlow.collectAsState(lyrics) }.value
 	val progress = rememberPlayerProgress(playbackManager)
 
-	val primaryImage = content.item.itemImages[ImageType.PRIMARY] ?: content.item.albumPrimaryImage
+	val primaryImage = content.item.itemImages[ImageType.PRIMARY] ?: content.item.albumPrimaryImage ?: content.item.parentImages[ImageType.PRIMARY]
 
 	// Background
 	if (primaryImage?.blurHash != null) {
