@@ -1,5 +1,5 @@
 [versions]
-aboutlibraries = "12.1.2"
+aboutlibraries = "12.2.0"
 acra = "5.12.0"
 android-compileSdk = "35"
 android-desugar = "2.1.5"
