@@ -88,17 +88,17 @@ class StartupViewModel(
 	fun loadAllUsers() {
 		viewModelScope.launch {
 			val allUsersWithServerInfo = mutableListOf<UserWithServerInfo>()
-			
+
 			for (server in serverRepository.storedServers.value) {
 				val storedUsers = serverUserRepository.getStoredServerUsers(server)
 				val publicUsers = serverUserRepository.getPublicServerUsers(server)
 				val allUsersForServer = (storedUsers + publicUsers).distinctBy { it.id }
-				
+
 				allUsersForServer.forEach { user ->
 					allUsersWithServerInfo.add(UserWithServerInfo(user, server))
 				}
 			}
-			
+
 			_allUsers.value = allUsersWithServerInfo.sortedWith(
 				compareByDescending<UserWithServerInfo> { userWithServer ->
 					if (
@@ -147,14 +147,5 @@ class StartupViewModel(
 	}
 
 	suspend fun updateServer(server: Server): Boolean = serverRepository.updateServer(server)
-
-	fun toggleServerMode() {
-		_showAllServers.value = !_showAllServers.value
-	}
-
-	fun setShowAllServers(showAll: Boolean) {
-		_showAllServers.value = showAll
-		authenticationPreferences[AuthenticationPreferences.showAllServersUsers] = showAll
-	}
 }
 

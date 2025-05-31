@@ -75,7 +75,7 @@ class ServerFragment : Fragment() {
 		// Single-server user adapter
 		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
 		userAdapter.onItemPressed = { user ->
-			server?.let { srv ->
+			server.let { srv ->
 				startupViewModel.authenticate(srv, user).onEach { state ->
 					when (state) {
 						// Ignored states
@@ -145,7 +145,7 @@ class ServerFragment : Fragment() {
 				} else {
 					// Use single-server adapter
 					binding.users.adapter = userAdapter
-					server?.let { startupViewModel.loadUsers(it) }
+					server.let { startupViewModel.loadUsers(it) }
 				}
 			}.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -259,7 +259,7 @@ class ServerFragment : Fragment() {
 
 		// Refresh the preference state in case it was changed in settings
 		startupViewModel.refreshShowAllServersPreference()
-		
+
 		startupViewModel.reloadStoredServers()
 		backgroundService.clearBackgrounds()
 
@@ -328,7 +328,7 @@ class ServerFragment : Fragment() {
 	) : ListAdapter<UserWithServerInfo, AllUsersAdapter.ViewHolder>() {
 		var onItemPressed: (UserWithServerInfo) -> Unit = {}
 
-		override fun areItemsTheSame(old: UserWithServerInfo, new: UserWithServerInfo): Boolean = 
+		override fun areItemsTheSame(old: UserWithServerInfo, new: UserWithServerInfo): Boolean =
 			old.user.id == new.user.id && old.server.id == new.server.id
 
 		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -342,7 +342,7 @@ class ServerFragment : Fragment() {
 		override fun onBindViewHolder(holder: ViewHolder, userWithServer: UserWithServerInfo) {
 			val user = userWithServer.user
 			val server = userWithServer.server
-			
+
 			// Show user name with server name
 			holder.cardView.title = "${user.name}@${server.name}"
 			holder.cardView.setImage(
