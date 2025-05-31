@@ -19,6 +19,7 @@ class AuthenticationPreferences(context: Context) : SharedPreferenceStore(
 
 		val sortBy = enumPreference("sort_by", AuthenticationSortBy.LAST_USE)
 		val alwaysAuthenticate = booleanPreference("always_authenticate", false)
+		val showAllServersUsers = booleanPreference("show_all_servers_users", false)
 
 		// Persistent state
 		val lastServerId = stringPreference("last_server_id", "")

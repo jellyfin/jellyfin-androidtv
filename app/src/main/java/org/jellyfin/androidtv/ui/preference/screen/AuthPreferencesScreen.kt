@@ -95,11 +95,22 @@ class AuthPreferencesScreen : OptionsFragment() {
 			}
 		}
 
+		// Add cross-server users setting available to all users
+		category {
+			setTitle(R.string.advanced_settings)
+
+			checkbox {
+				setTitle(R.string.show_all_servers_users)
+				setContent(R.string.show_all_servers_users_description)
+				bind(authenticationPreferences, AuthenticationPreferences.showAllServersUsers)
+			}
+		}
+
 		// Disallow changing the "always authenticate" option from the login screen
 		// because that would allow a kid to disable the function to access a parent's account
 		if (sessionRepository.currentSession.value != null) {
 			category {
-				setTitle(R.string.advanced_settings)
+				setTitle(R.string.security_settings)
 
 				checkbox {
 					setTitle(R.string.always_authenticate)
