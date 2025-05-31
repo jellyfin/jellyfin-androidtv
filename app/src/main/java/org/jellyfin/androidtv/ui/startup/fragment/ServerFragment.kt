@@ -40,6 +40,7 @@ import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
+import org.jellyfin.androidtv.ui.startup.UserWithServerInfo
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -71,17 +72,50 @@ class ServerFragment : Fragment() {
 
 		_binding = FragmentServerBinding.inflate(inflater, container, false)
 
+		// Single-server user adapter
 		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
 		userAdapter.onItemPressed = { user ->
-			startupViewModel.authenticate(server, user).onEach { state ->
+			server?.let { srv ->
+				startupViewModel.authenticate(srv, user).onEach { state ->
+					when (state) {
+						// Ignored states
+						AuthenticatingState -> Unit
+						AuthenticatedState -> Unit
+						// Actions
+						RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
+							UserLoginFragment.ARG_SERVER_ID to srv.id.toString(),
+							UserLoginFragment.ARG_USERNAME to user.name,
+						))
+						// Errors
+						ServerUnavailableState,
+						is ApiClientErrorLoginState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+
+						is ServerVersionNotSupported -> Toast.makeText(
+							context,
+							getString(
+								R.string.server_issue_outdated_version,
+								state.server.version,
+								ServerRepository.recommendedServerVersion.toString()
+							),
+							Toast.LENGTH_LONG
+						).show()
+					}
+				}.launchIn(lifecycleScope)
+			}
+		}
+
+		// All-servers user adapter
+		val allUsersAdapter = AllUsersAdapter(requireContext(), startupViewModel, authenticationRepository, serverUserRepository)
+		allUsersAdapter.onItemPressed = { userWithServer ->
+			startupViewModel.authenticate(userWithServer).onEach { state ->
 				when (state) {
 					// Ignored states
 					AuthenticatingState -> Unit
 					AuthenticatedState -> Unit
 					// Actions
 					RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
-						UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
-						UserLoginFragment.ARG_USERNAME to user.name,
+						UserLoginFragment.ARG_SERVER_ID to userWithServer.server.id.toString(),
+						UserLoginFragment.ARG_USERNAME to userWithServer.user.name,
 					))
 					// Errors
 					ServerUnavailableState,
@@ -99,19 +133,44 @@ class ServerFragment : Fragment() {
 				}
 			}.launchIn(lifecycleScope)
 		}
-		binding.users.adapter = userAdapter
+
+		// Listen to the showAllServers preference and switch adapters accordingly
+		startupViewModel.showAllServers
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+			.onEach { showAllServers ->
+				if (showAllServers) {
+					// Use all-users adapter
+					binding.users.adapter = allUsersAdapter
+					startupViewModel.loadAllUsers()
+				} else {
+					// Use single-server adapter
+					binding.users.adapter = userAdapter
+					server?.let { startupViewModel.loadUsers(it) }
+				}
+			}.launchIn(viewLifecycleOwner.lifecycleScope)
+
+		// Listen to user data changes and update adapters
+		startupViewModel.allUsers
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+			.onEach { allUsers ->
+				if (startupViewModel.showAllServers.value) {
+					allUsersAdapter.items = allUsers
+					binding.users.isFocusable = allUsers.any()
+					binding.noUsersWarning.isVisible = allUsers.isEmpty()
+					binding.root.requestFocus()
+				}
+			}.launchIn(viewLifecycleOwner.lifecycleScope)
 
 		startupViewModel.users
 			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
 			.onEach { users ->
-				userAdapter.items = users
-
-				binding.users.isFocusable = users.any()
-				binding.noUsersWarning.isVisible = users.isEmpty()
-				binding.root.requestFocus()
+				if (!startupViewModel.showAllServers.value) {
+					userAdapter.items = users
+					binding.users.isFocusable = users.any()
+					binding.noUsersWarning.isVisible = users.isEmpty()
+					binding.root.requestFocus()
+				}
 			}.launchIn(viewLifecycleOwner.lifecycleScope)
-
-		startupViewModel.loadUsers(server)
 
 		onServerChange(server)
 
@@ -167,6 +226,13 @@ class ServerFragment : Fragment() {
 		} else {
 			binding.notification.isGone = true
 		}
+
+		// Load users based on current mode
+		if (startupViewModel.showAllServers.value) {
+			startupViewModel.loadAllUsers()
+		} else {
+			startupViewModel.loadUsers(server)
+		}
 	}
 
 	private inline fun <reified F : Fragment> navigateFragment(
@@ -191,11 +257,14 @@ class ServerFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
+		// Refresh the preference state in case it was changed in settings
+		startupViewModel.refreshShowAllServersPreference()
+		
 		startupViewModel.reloadStoredServers()
 		backgroundService.clearBackgrounds()
 
 		val server = serverIdArgument?.let(startupViewModel::getServer)
-		if (server != null) startupViewModel.loadUsers(server)
+		if (server != null) startupViewModel.loadAllUsers()
 		else navigateFragment<SelectServerFragment>(keepToolbar = true)
 	}
 
@@ -243,6 +312,62 @@ class ServerFragment : Fragment() {
 
 			holder.cardView.setOnClickListener {
 				onItemPressed(user)
+			}
+		}
+
+		private class ViewHolder(
+			val cardView: DefaultCardView,
+		) : RecyclerView.ViewHolder(cardView)
+	}
+
+	private class AllUsersAdapter(
+		private val context: Context,
+		private val startupViewModel: StartupViewModel,
+		private val authenticationRepository: AuthenticationRepository,
+		private val serverUserRepository: ServerUserRepository,
+	) : ListAdapter<UserWithServerInfo, AllUsersAdapter.ViewHolder>() {
+		var onItemPressed: (UserWithServerInfo) -> Unit = {}
+
+		override fun areItemsTheSame(old: UserWithServerInfo, new: UserWithServerInfo): Boolean = 
+			old.user.id == new.user.id && old.server.id == new.server.id
+
+		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+			val cardView = DefaultCardView(context).apply {
+				setSize(DefaultCardView.Size.SQUARE)
+			}
+
+			return ViewHolder(cardView)
+		}
+
+		override fun onBindViewHolder(holder: ViewHolder, userWithServer: UserWithServerInfo) {
+			val user = userWithServer.user
+			val server = userWithServer.server
+			
+			// Show user name with server name
+			holder.cardView.title = "${user.name}@${server.name}"
+			holder.cardView.setImage(
+				url = startupViewModel.getUserImage(server, user),
+				placeholder = ContextCompat.getDrawable(context, R.drawable.tile_user)
+			)
+			holder.cardView.setPopupMenu {
+				// Logout button
+				if (user is PrivateUser && user.accessToken != null) {
+					item(context.getString(R.string.lbl_sign_out)) {
+						authenticationRepository.logout(user)
+					}
+				}
+
+				// Remove button
+				if (user is PrivateUser) {
+					item(context.getString(R.string.lbl_remove)) {
+						serverUserRepository.deleteStoredUser(user)
+						startupViewModel.loadAllUsers()
+					}
+				}
+			}
+
+			holder.cardView.setOnClickListener {
+				onItemPressed(userWithServer)
 			}
 		}
 
