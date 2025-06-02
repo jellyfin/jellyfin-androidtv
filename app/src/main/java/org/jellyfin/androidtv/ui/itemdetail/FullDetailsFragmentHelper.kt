@@ -260,7 +260,7 @@ suspend fun FullDetailsFragment.getNextUpEpisode(): BaseItemDto? {
 		}
 		return episodes.items.firstOrNull()
 	} catch (err: ApiClientException) {
-		Timber.w("Failed to get next up items", err)
+		Timber.w(err, "Failed to get next up items")
 		return null
 	}
 }
