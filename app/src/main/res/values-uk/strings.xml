@@ -583,4 +583,17 @@
     <string name="segment_type_preview">Прев\'ю</string>
     <string name="segment_type_intro">Вступ</string>
     <string name="segment_type_unknown">Невідомі сегменти</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="preference_enable_trickplay">Увімкнути trickplay у відеоплеєрі</string>
+    <string name="pref_report_device_profile_summary">Завантажити документ з усунення несправностей на сервер Jellyfin з інформацією про можливості відтворення</string>
+    <string name="pref_report_device_profile_success">Документ надіслано як %1$s</string>
+    <string name="pref_report_device_profile_failure">Не вдалося надіслати документ. Ваш сервер Jellyfin може забороняти журнали клієнтів.</string>
+    <string name="preference_enable_libass">Увімкнути відображення субтитрів Advanced SubStation Alpha (ASS)</string>
+    <string name="segment_type_recap">У попередніх серіях</string>
+    <string name="fast_forward">Перемотування вперед</string>
+    <string name="rewind">Перемотування назад</string>
+    <string name="pref_subtitles_background_opacity">Прозорість фону субтитрів</string>
+    <string name="pref_troubleshooting">Усунення несправностей</string>
+    <string name="pref_report_device_profile_title">Повідомляти сервер про можливості відтворення</string>
+    <string name="segment_type_outro">Закінчення</string>
 </resources>
