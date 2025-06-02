@@ -541,4 +541,5 @@
     <string name="pref_screensaver_ageratingmax_unlimited">إلغاء حدّ التصنيف العمري</string>
     <string name="pref_screensaver_ageratingrequired_title">يتطلب تصنيف عمري</string>
     <string name="pref_screensaver_ageratingrequired_enabled">يتم عرض العناصر ذات تصنيف عمري فقط</string>
+    <string name="continue_listening">تابع الاستماع</string>
 </resources>
