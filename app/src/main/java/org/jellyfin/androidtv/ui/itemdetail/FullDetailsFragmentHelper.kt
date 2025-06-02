@@ -232,7 +232,14 @@ fun FullDetailsFragment.populatePreviousButton() {
 	}
 }
 
-fun FullDetailsFragment.getNextUpEpisode(callback: (nextUpEpisode: BaseItemDto?) -> Unit) = lifecycleScope.launch {
+fun FullDetailsFragment.getNextUpEpisodeCb(callback: (BaseItemDto?) -> Unit) {
+	lifecycleScope.launch {
+		val nextUpEpisode = getNextUpEpisode()
+		callback(nextUpEpisode)
+	}
+}
+
+suspend fun FullDetailsFragment.getNextUpEpisode(): BaseItemDto? {
 	val api by inject<ApiClient>()
 
 	try {
@@ -251,14 +258,10 @@ fun FullDetailsFragment.getNextUpEpisode(callback: (nextUpEpisode: BaseItemDto?)
 				limit = 1
 			).content
 		}
-		callback(episodes.items.firstOrNull())
+		return episodes.items.firstOrNull()
 	} catch (err: ApiClientException) {
 		Timber.w("Failed to get next up items", err)
-		Toast.makeText(
-			requireContext(),
-			getString(R.string.msg_video_playback_error),
-			Toast.LENGTH_LONG
-		).show()
+		return null
 	}
 }
 
@@ -270,13 +273,20 @@ fun FullDetailsFragment.resumePlayback(v: View) {
 		return
 	}
 
-	getNextUpEpisode {
-		if (it == null) return@getNextUpEpisode
+	lifecycleScope.launch {
+		val nextUpEpisode = getNextUpEpisode()
+		if (nextUpEpisode == null) {
+			Toast.makeText(
+				requireContext(),
+				getString(R.string.msg_video_playback_error),
+				Toast.LENGTH_LONG
+			).show()
+		}
 
-		if (it.userData?.playbackPositionTicks == 0L) {
-			play(it, 0, false)
+		if (nextUpEpisode?.userData?.playbackPositionTicks == 0L) {
+			play(nextUpEpisode, 0, false)
 		} else {
-			showResumeMenu(v, it)
+			showResumeMenu(v, nextUpEpisode!!)
 		}
 	}
 }
