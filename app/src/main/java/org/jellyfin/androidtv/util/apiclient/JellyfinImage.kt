@@ -28,16 +28,28 @@ fun JellyfinImage.getUrl(
 	maxHeight: Int? = null,
 	fillWidth: Int? = null,
 	fillHeight: Int? = null,
-): String = api.imageApi.getItemImageUrl(
-	itemId = item,
-	imageType = type,
-	tag = tag,
-	imageIndex = index,
-	maxWidth = maxWidth,
-	maxHeight = maxHeight,
-	fillWidth = fillWidth,
-	fillHeight = fillHeight,
-)
+): String = when (source) {
+	JellyfinImageSource.USER -> api.imageApi.getUserImageUrl(
+		userId = item,
+		tag = tag,
+		imageIndex = index,
+		maxWidth = maxWidth,
+		maxHeight = maxHeight,
+		fillWidth = fillWidth,
+		fillHeight = fillHeight,
+	)
+
+	else -> api.imageApi.getItemImageUrl(
+		itemId = item,
+		imageType = type,
+		tag = tag,
+		imageIndex = index,
+		maxWidth = maxWidth,
+		maxHeight = maxHeight,
+		fillWidth = fillWidth,
+		fillHeight = fillHeight,
+	)
+}
 
 enum class JellyfinImageSource {
 	ITEM,
@@ -45,6 +57,7 @@ enum class JellyfinImageSource {
 	ALBUM,
 	SERIES,
 	CHANNEL,
+	USER,
 }
 
 // UserDto
@@ -52,7 +65,7 @@ val UserDto.primaryImage
 	get() = primaryImageTag?.let { primaryImageTag ->
 		JellyfinImage(
 			item = id,
-			source = JellyfinImageSource.ITEM,
+			source = JellyfinImageSource.USER,
 			type = ImageType.PRIMARY,
 			tag = primaryImageTag,
 			blurHash = null,
