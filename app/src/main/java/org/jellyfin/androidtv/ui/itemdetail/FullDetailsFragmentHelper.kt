@@ -232,7 +232,7 @@ fun FullDetailsFragment.populatePreviousButton() {
 	}
 }
 
-fun FullDetailsFragment.getNextUpEpisodeCb(callback: (BaseItemDto?) -> Unit) {
+fun FullDetailsFragment.getNextUpEpisode(callback: (BaseItemDto?) -> Unit) {
 	lifecycleScope.launch {
 		val nextUpEpisode = getNextUpEpisode()
 		callback(nextUpEpisode)

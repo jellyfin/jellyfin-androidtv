@@ -787,7 +787,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             mDetailsOverviewRow.addAction(playButton);
 
             if (isSeries && !isStarted) {
-                FullDetailsFragmentHelperKt.getNextUpEpisodeCb(this, nextUpEpisode -> {
+                FullDetailsFragmentHelperKt.getNextUpEpisode(this, nextUpEpisode -> {
                     handleResumeButtonAndFocus(nextUpEpisode);
                     return null;
                 });
