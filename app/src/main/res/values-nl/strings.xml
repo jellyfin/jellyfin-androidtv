@@ -575,4 +575,5 @@
     <string name="indicator_subtitles_hearing_impaired">ODS</string>
     <string name="rewind">Terugspoelen</string>
     <string name="fast_forward">Vooruitspoelen</string>
+    <string name="preference_enable_libass">Client-rendering van Advanced SubStation Alpha-ondertitels inschakelen</string>
 </resources>
