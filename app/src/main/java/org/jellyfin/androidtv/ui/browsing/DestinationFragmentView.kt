@@ -152,7 +152,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 
 			// Attach or add next fragment
 			if (fragment.isDetached) attach(fragment)
-			else add(container.id, fragment, FRAGMENT_TAG_CONTENT)
+			else replace(container.id, fragment, FRAGMENT_TAG_CONTENT)
 		}
 
 		if (fragmentManager.isDestroyed) {
