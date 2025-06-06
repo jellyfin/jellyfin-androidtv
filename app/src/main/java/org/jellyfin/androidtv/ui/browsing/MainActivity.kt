@@ -22,7 +22,7 @@ import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
-import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -38,7 +38,7 @@ class MainActivity : FragmentActivity() {
 	private val navigationRepository by inject<NavigationRepository>()
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
-	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
+	private val interactionTrackerViewModel by viewModel<InteractionTrackerViewModel>()
 	private val workManager by inject<WorkManager>()
 
 	private lateinit var binding: ActivityMainBinding
@@ -56,7 +56,7 @@ class MainActivity : FragmentActivity() {
 
 		if (!validateAuthentication()) return
 
-		screensaverViewModel.keepScreenOn.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+		interactionTrackerViewModel.keepScreenOn.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
 			.onEach { keepScreenOn ->
 				if (keepScreenOn) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 				else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -70,7 +70,7 @@ class MainActivity : FragmentActivity() {
 			.onEach { action ->
 				handleNavigationAction(action)
 				backPressedCallback.isEnabled = navigationRepository.canGoBack
-				screensaverViewModel.notifyInteraction(false)
+				interactionTrackerViewModel.notifyInteraction(canCancel = false, userInitiated = false)
 			}.launchIn(lifecycleScope)
 
 		binding = ActivityMainBinding.inflate(layoutInflater)
@@ -86,7 +86,7 @@ class MainActivity : FragmentActivity() {
 
 		applyTheme()
 
-		screensaverViewModel.activityPaused = false
+		interactionTrackerViewModel.activityPaused = false
 	}
 
 	private fun validateAuthentication(): Boolean {
@@ -103,7 +103,7 @@ class MainActivity : FragmentActivity() {
 	override fun onPause() {
 		super.onPause()
 
-		screensaverViewModel.activityPaused = true
+		interactionTrackerViewModel.activityPaused = true
 	}
 
 	override fun onStop() {
@@ -118,7 +118,7 @@ class MainActivity : FragmentActivity() {
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) {
-		screensaverViewModel.notifyInteraction(true)
+		interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = false)
 
 		when (action) {
 			is NavigationAction.NavigateFragment -> binding.contentView.navigate(action)
@@ -137,8 +137,8 @@ class MainActivity : FragmentActivity() {
 
 	private fun onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean {
 		// Ignore the key event that closes the screensaver
-		if (screensaverViewModel.visible.value) {
-			screensaverViewModel.notifyInteraction(canCancel = event?.action == KeyEvent.ACTION_UP)
+		if (interactionTrackerViewModel.visible.value) {
+			interactionTrackerViewModel.notifyInteraction(canCancel = event?.action == KeyEvent.ACTION_UP, userInitiated = true)
 			return true
 		}
 
@@ -158,14 +158,14 @@ class MainActivity : FragmentActivity() {
 	override fun onUserInteraction() {
 		super.onUserInteraction()
 
-		screensaverViewModel.notifyInteraction(false)
+		interactionTrackerViewModel.notifyInteraction(false, userInitiated = true)
 	}
 
 	@Suppress("RestrictedApi") // False positive
 	override fun dispatchKeyEvent(event: KeyEvent): Boolean {
 		// Ignore the key event that closes the screensaver
-		if (!event.isMediaSessionKeyEvent() && screensaverViewModel.visible.value) {
-			screensaverViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP)
+		if (!event.isMediaSessionKeyEvent() && interactionTrackerViewModel.visible.value) {
+			interactionTrackerViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP, userInitiated = true)
 			return true
 		}
 
@@ -176,8 +176,8 @@ class MainActivity : FragmentActivity() {
 	@Suppress("RestrictedApi") // False positive
 	override fun dispatchKeyShortcutEvent(event: KeyEvent): Boolean {
 		// Ignore the key event that closes the screensaver
-		if (!event.isMediaSessionKeyEvent() && screensaverViewModel.visible.value) {
-			screensaverViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP)
+		if (!event.isMediaSessionKeyEvent() && interactionTrackerViewModel.visible.value) {
+			interactionTrackerViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP, userInitiated = true)
 			return true
 		}
 
@@ -187,8 +187,8 @@ class MainActivity : FragmentActivity() {
 
 	override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
 		// Ignore the touch event that closes the screensaver
-		if (screensaverViewModel.visible.value) {
-			screensaverViewModel.notifyInteraction(true)
+		if (interactionTrackerViewModel.visible.value) {
+			interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = true)
 			return true
 		}
 
