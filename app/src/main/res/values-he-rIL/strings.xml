@@ -14,7 +14,7 @@
     <string name="pref_playback">ניגון</string>
     <string name="btn_cancel">בטל</string>
     <string name="loading">טוען…</string>
-    <string name="video_error_unknown_error">נכשל לטעון וידאו</string>
+    <string name="video_error_unknown_error">טעינת וידאו נכשלה</string>
     <string name="lbl_trailers">קדימונים</string>
     <string name="lbl_genres">ז\'אנר</string>
     <string name="lbl_additional_parts">חלקים נוספים</string>
