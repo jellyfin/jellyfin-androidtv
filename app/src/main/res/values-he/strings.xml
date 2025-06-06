@@ -5,7 +5,7 @@
     <string name="lbl_audio_track">בחר רצועת שמע</string>
     <string name="lbl_zoom">זום</string>
     <string name="desc_bitstream_ac3">דורש חומרה מתאימה</string>
-    <string name="lbl_bitstream_ac3">שמע בדולבי דיגיטל</string>
+    <string name="lbl_bitstream_ac3">הזרמה ישירה של שמע בפורמט Dolby Digital</string>
     <string name="lbl_new_premieres">יצאו לאחרונה</string>
     <string name="desc_automatic_fav_songs">רשימת השמעה אוטומטית של שירים מועדפים</string>
     <string name="msg_item_added">" פריט נוסף"</string>
