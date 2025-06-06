@@ -165,7 +165,7 @@
     <string name="pref_max_bitrate_title">קצב נתונים מקסימאלי</string>
     <string name="pref_playback">ניגון</string>
     <string name="byletter_letters">אבגדהוזחטיכלמנסעפצקרשתךץףם</string>
-    <string name="btn_cancel">ביטול</string>
+    <string name="btn_cancel">בטל</string>
     <string name="loading">טוען…</string>
     <string name="video_error_unknown_error">טעינת וידאו נכשלה</string>
     <string name="lbl_show_premieres">הצג בכורות עונתיות</string>
