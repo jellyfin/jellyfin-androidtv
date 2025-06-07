@@ -16,27 +16,33 @@ import org.jellyfin.androidtv.integration.dream.model.DreamContent
 fun DreamView(
 	content: DreamContent,
 	showClock: Boolean,
-) = Box(
-	modifier = Modifier
-		.fillMaxSize()
-) {
-	AnimatedContent(
-		targetState = content,
-		transitionSpec = {
-			fadeIn(tween(durationMillis = 1_000)) togetherWith fadeOut(snap(delayMillis = 1_000))
-		},
-		label = "DreamContentTransition"
-	) { content ->
-		when (content) {
-			DreamContent.Logo -> DreamContentLogo()
-			is DreamContent.LibraryShowcase -> DreamContentLibraryShowcase(content)
-			is DreamContent.NowPlaying -> DreamContentNowPlaying(content)
+	showLogoSetting: Boolean,
+	showBlank: Boolean,
+) = if (showBlank) {
+	Box(modifier = Modifier.fillMaxSize()) {}
+} else {
+	Box(
+		modifier = Modifier
+			.fillMaxSize()
+	) {
+		AnimatedContent(
+			targetState = content,
+			transitionSpec = {
+				fadeIn(tween(durationMillis = 1_000)) togetherWith fadeOut(snap(delayMillis = 1_000))
+			},
+			label = "DreamContentTransition"
+		) { content ->
+			when (content) {
+				DreamContent.Logo -> DreamContentLogo()
+				is DreamContent.LibraryShowcase -> DreamContentLibraryShowcase(content)
+				is DreamContent.NowPlaying -> DreamContentNowPlaying(content)
+			}
 		}
-	}
 
-	// Header overlay
-	DreamHeader(
-		showLogo = content != DreamContent.Logo,
-		showClock = showClock,
-	)
+		// Header overlay
+		DreamHeader(
+			showLogo = content != DreamContent.Logo && showLogoSetting,
+			showClock = showClock,
+		)
+	}
 }
