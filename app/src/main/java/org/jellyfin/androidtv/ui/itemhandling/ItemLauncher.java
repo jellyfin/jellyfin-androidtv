@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
+import org.jellyfin.androidtv.data.service.themesong.ThemeSongService;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.navigation.Destination;
@@ -36,6 +37,7 @@ public class ItemLauncher {
     private final Lazy<MediaManager> mediaManager = KoinJavaComponent.<MediaManager>inject(MediaManager.class);
     private final Lazy<PlaybackLauncher> playbackLauncher = KoinJavaComponent.<PlaybackLauncher>inject(PlaybackLauncher.class);
     private final Lazy<PlaybackHelper> playbackHelper = KoinJavaComponent.<PlaybackHelper>inject(PlaybackHelper.class);
+    private final Lazy<ThemeSongService> themeSongService = KoinJavaComponent.<ThemeSongService>inject(ThemeSongService.class);
 
     public void launchUserView(@Nullable final BaseItemDto baseItem) {
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
@@ -66,6 +68,7 @@ public class ItemLauncher {
     }
 
     public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, final Context context) {
+        themeSongService.getValue().itemPageRequested();
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
@@ -74,7 +77,6 @@ public class ItemLauncher {
                 } catch (Exception e) {
                     //swallow it
                 }
-
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case USER_VIEW:

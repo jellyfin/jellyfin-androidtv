@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.data.service.themesong.ThemeSongService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -97,6 +98,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected ListRow mCurrentRow;
 
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
