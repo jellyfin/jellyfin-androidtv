@@ -249,8 +249,8 @@
     <string name="too_many_errors">Hi ha massa errors. Renunciar</string>
     <string name="player_error">S\'ha trobat un error del reproductor. Es tornarà a provar…</string>
     <string name="seek_error">No es pot buscar</string>
-    <string name="msg_live_tv_prev">Carregar %1$d hores anteriors?\"</string>
-    <string name="msg_live_tv_next">Carregar les properes %1$d hores?\"</string>
+    <string name="msg_live_tv_prev">Carregar %1$d hores anteriors?</string>
+    <string name="msg_live_tv_next">Carregar les properes %1$d hores?</string>
     <string name="lbl_load_guide_data">Carrega les dades de la guia</string>
     <string name="episode_missing_message_2">Falta aquest episodi a la biblioteca. La reproducció s’aturarà.</string>
     <string name="episode_missing_message">Falta aquest episodi a la biblioteca. Voleu ometre\'l i continuar amb el següent\?</string>
@@ -583,6 +583,11 @@
     <string name="pref_report_device_profile_success">Document enviat com a %1$s</string>
     <string name="pref_report_device_profile_failure">No s\'ha pogut enviar el document. El teu servidor Jellyfin pot prohibir els registres del client.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="fast_forward">Endavant ràpid</string>
+    <string name="fast_forward">Adelantar</string>
     <string name="rewind">Rebobinar</string>
+    <string name="speech_error_no_permission">Els permisos per usar el micròfon estan denegats. Si us plau, activa-ho a la configuració del sistema.</string>
+    <string name="speech_error_unavailable">El reconeixement de veu no està disponible per al seu dispositiu.</string>
+    <string name="preference_enable_libass">Activar el client de renderitzat de subtítols Advanced SubStation Alpha</string>
+    <string name="lbl_from_beginning">Reprodueix des de l\'inici</string>
+    <string name="speech_error_unknown">Ha succeït un error inesperat durant el reconeixement de veu.</string>
 </resources>
