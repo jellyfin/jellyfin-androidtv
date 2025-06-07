@@ -374,7 +374,7 @@
     <string name="image_size_smallest">קטן ביותר</string>
     <string name="enable_smart_view_description">תצוגה חכמה מראה פריטים רלוונטים במקום טבלה</string>
     <string name="lbl_record_all">יקליט את כל הפרקים</string>
-    <string name="license_description">הסבר</string>
+    <string name="license_description">תיאור</string>
     <string name="always_authenticate_description">הפעלת אפשרות זו תבטל את התחברות החשבון האוטומטית</string>
     <string name="sum_enable_cinema_mode">נגן קדימונים זמינים לפני תחילת הסרט</string>
     <string name="no_player_message">לא נראה שיש אפליקציה המסוגלת לנגן וידאו. תכונה זו דורשת שתותקן במכשיר תוכנה חיצונית המסוגלת לנגן וידאו.</string>
