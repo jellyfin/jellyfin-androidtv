@@ -19,7 +19,6 @@ object ItemRepository {
 		ItemFields.OVERVIEW,
 		ItemFields.PATH,
 		ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-		ItemFields.SERIES_PRIMARY_IMAGE,
 		ItemFields.TAGLINES,
 		ItemFields.TRICKPLAY,
 	)

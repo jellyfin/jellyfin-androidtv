@@ -26,7 +26,7 @@ import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
 import org.jellyfin.sdk.model.ServerVersion
-import org.jellyfin.sdk.model.api.BrandingOptions
+import org.jellyfin.sdk.model.api.BrandingOptionsDto
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
@@ -243,7 +243,7 @@ class ServerRepositoryImpl(
 		brandingApi.getBrandingOptions().content
 	} catch (exception: InvalidContentException) {
 		Timber.w(exception, "Invalid branding options response, using default value")
-		BrandingOptions(
+		BrandingOptionsDto(
 			loginDisclaimer = null,
 			customCss = null,
 			splashscreenEnabled = false,
