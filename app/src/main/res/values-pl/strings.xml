@@ -596,4 +596,8 @@
     <string name="rewind">Przewiń do tyłu</string>
     <string name="fast_forward">Przewiń do przodu</string>
     <string name="preference_enable_libass">Włącz renderowanie napisów klienta Advanced SubStation Alpha</string>
+    <string name="speech_error_no_permission">Brak uprawnień do korzystania z mikrofonu. Włącz je w ustawieniach systemu.</string>
+    <string name="speech_error_unknown">Wystąpił nieoczekiwany błąd podczas rozpoznawania mowy.</string>
+    <string name="lbl_from_beginning">Odtwórz od początku</string>
+    <string name="speech_error_unavailable">Funkcja rozpoznawania mowy jest niedostępna na tym urządzeniu.</string>
 </resources>
