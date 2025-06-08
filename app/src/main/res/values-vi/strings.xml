@@ -566,4 +566,8 @@
     <string name="fast_forward">Về trước nhanh</string>
     <string name="rewind">Tua lại</string>
     <string name="preference_enable_libass">Bật máy khách phụ đề Advanced SubStation Alpha</string>
+    <string name="lbl_from_beginning">Phát từ đầu</string>
+    <string name="speech_error_no_permission">Không có quyền sử dụng micrô. Vui lòng kích hoạt nó trong cài đặt hệ thống.</string>
+    <string name="speech_error_unavailable">Nhận dạng giọng nói không có sẵn trên thiết bị của bạn.</string>
+    <string name="speech_error_unknown">Một lỗi bất ngờ xảy ra trong quá trình nhận dạng giọng nói.</string>
 </resources>
