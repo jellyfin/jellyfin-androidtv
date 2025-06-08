@@ -257,7 +257,7 @@
     <string name="lbl_news">חדשות</string>
     <string name="lbl_tv_filter_status">ב-%1$d השעות הקרובות</string>
     <string name="lbl_tv_channel_status">%1$d מתוך %2$d ערוצים</string>
-    <string name="server_connecting">מתחבר ל%1$s</string>
+    <string name="server_connecting">מתחבר ל-%1$s</string>
     <string name="pref_clock_display_playback">במהלך הניגון</string>
     <string name="pref_clock_display_browsing">בזמן הדפדוף</string>
     <string name="lbl_always">תמיד</string>
@@ -292,7 +292,7 @@
     <string name="login_help_title">זקוק לעזרה?</string>
     <string name="connect_manually_by_address">הזן כתובת שרת</string>
     <string name="discovered_servers_empty">לא נמצאו שרתים ברשת המקומית.</string>
-    <string name="discovered_servers_title">שרתים שנמצאו</string>
+    <string name="discovered_servers_title">שרתים שהתגלו</string>
     <string name="lbl_hidden">מוסתר</string>
     <string name="pref_developer_link_description">תכונות מתקדמות ונסיוניות</string>
     <string name="pref_developer_link">הגדרות מפתחים</string>
