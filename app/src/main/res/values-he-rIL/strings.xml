@@ -409,7 +409,7 @@
     <string name="server_issue_outdated_version">השרת משתמש בגרסה %1$s שאינה נתמכת עוד, אנא עדכנו את השרת לגרסה %2$s ומעלה</string>
     <string name="image_type_poster">פוסטר</string>
     <string name="server_issue_invalid_product">תוכנה השרת אינה תואמת</string>
-    <string name="discovered_servers_title">שרתים שנמצאו</string>
+    <string name="discovered_servers_title">שרתים שהתגלו</string>
     <string name="pref_watched_indicator">הצג סימן עבור פריטים שנצפו</string>
     <string name="pref_developer_link_description">תכונות מתקדמות ונסיוניות</string>
     <string name="server_field_empty">הכתובת לא יכולה להיות ריקה</string>
