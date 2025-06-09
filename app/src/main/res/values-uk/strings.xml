@@ -596,4 +596,8 @@
     <string name="pref_troubleshooting">Усунення несправностей</string>
     <string name="pref_report_device_profile_title">Повідомляти сервер про можливості відтворення</string>
     <string name="segment_type_outro">Закінчення</string>
+    <string name="speech_error_unknown">Під час розпізнавання мовлення сталася неочікувана помилка.</string>
+    <string name="speech_error_no_permission">Немає дозволу на використання мікрофона. Будь ласка, увімкніть його в налаштуваннях системи.</string>
+    <string name="lbl_from_beginning">Відтворити з початку</string>
+    <string name="speech_error_unavailable">Розпізнавання мовлення недоступне на вашому пристрої.</string>
 </resources>
