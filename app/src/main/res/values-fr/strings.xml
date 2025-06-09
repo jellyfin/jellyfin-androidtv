@@ -586,8 +586,8 @@
     <string name="rewind">Rembobiner</string>
     <string name="fast_forward">Avance rapide</string>
     <string name="preference_enable_libass">Activer le rendu client des sous-titres Advanced SubStation Alpha</string>
-    <string name="lbl_from_beginning">Lire du début</string>
+    <string name="lbl_from_beginning">Lire depuis le début</string>
     <string name="speech_error_unknown">Une erreur inattendue s\'est produite lors de la reconnaissance vocale.</string>
-    <string name="speech_error_no_permission">Pas le droit d\'accéder au micro. Activez-le dans les options système.</string>
+    <string name="speech_error_no_permission">L\'accès au micro n\'est pas autorisé. Veuillez l\'activer dans les préférences système.</string>
     <string name="speech_error_unavailable">La reconnaissance vocale n\'est pas disponible sur votre appareil.</string>
 </resources>
