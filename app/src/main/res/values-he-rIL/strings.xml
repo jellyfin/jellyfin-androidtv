@@ -127,7 +127,7 @@
     <string name="desc_audio_night_mode">מאזן את עוצמת השמע באופן אוטומטי</string>
     <string name="lbl_sort_by">מיין לפי</string>
     <string name="lbl_start_favorites">מקם מועדפים בהתחלה</string>
-    <string name="lbl_show_backdrop">הצג תמונות רקע בזמן דפדוף</string>
+    <string name="lbl_show_backdrop">הצג תמונות רקע</string>
     <string name="lbl_show_indicators">הצג סימונים עבור</string>
     <string name="lbl_show_premieres">הצג בכורות עונתיות</string>
     <string name="lbl_guide_option_number">מספר ערוץ</string>
@@ -510,7 +510,7 @@
         <item quantity="two">%1$s רצועות</item>
         <item quantity="other">%1$s רצועות</item>
     </plurals>
-    <string name="segment_action_ask_to_skip">הצג כפתור דילוג</string>
+    <string name="segment_action_ask_to_skip">להציג כפתור דילוג</string>
     <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הקרובות</string>
     <string name="current_queue">תור נוכחי</string>
     <string name="pref_screensaver_ageratingmax_unlimited">השבתת מקסימום</string>
@@ -549,7 +549,7 @@
     <string name="skip_forward_length">אורך דילוג קדימה</string>
     <string name="pref_mediasegment_actions">פעולות בהגעה למקטעי מדיה</string>
     <string name="segment_action_nothing">לא לעשות כלום</string>
-    <string name="segment_action_skip">דלג אוטומטית</string>
+    <string name="segment_action_skip">לדלג אוטומטית</string>
     <string name="segment_type_recap">סיכומי הפרקים הקודמים</string>
     <string name="pref_screensaver_ageratingmax_entry">עד גיל %1$d</string>
     <string name="pref_screensaver_ageratingrequired_title">דרוש הגבלת גיל</string>
