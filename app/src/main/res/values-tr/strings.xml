@@ -576,4 +576,8 @@
     <string name="fast_forward">İleriye sar</string>
     <string name="rewind">Geri sar</string>
     <string name="indicator_subtitles_hearing_impaired">İşitme engelliler için altyazı</string>
+    <string name="speech_error_no_permission">Mikrofonu kullanmak için izin yok. Lütfen sistem ayarlarından etkinleştirin.</string>
+    <string name="speech_error_unknown">Ses tanıma sırasında beklenmeyen bir hata oluştu.</string>
+    <string name="lbl_from_beginning">Baştan oynat</string>
+    <string name="speech_error_unavailable">Ses tanıma özelliği cihazınızda kullanılamıyor.</string>
 </resources>
