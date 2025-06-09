@@ -576,4 +576,8 @@
     <string name="fast_forward">Vorspulen</string>
     <string name="rewind">Zurückspulen</string>
     <string name="preference_enable_libass">Das erweiterte SubStation Alpha-Untertitel-Client-Rendering aktivieren</string>
+    <string name="speech_error_unknown">Während der Spracherkennung ist ein unerwarteter Fehler aufgetreten.</string>
+    <string name="lbl_from_beginning">Von Anfang an spielen</string>
+    <string name="speech_error_unavailable">Die Spracherkennung ist auf Ihrem Gerät nicht verfügbar.</string>
+    <string name="speech_error_no_permission">Keine Berechtigung zur Verwendung des Mikrofons. Bitte aktivieren Sie dies in den Systemeinstellungen.</string>
 </resources>
