@@ -129,7 +129,7 @@
     <string name="lbl_album_name">Назив албума</string>
     <string name="lbl_next_episode">Следећа епизода</string>
     <string name="lbl_previous_episode">Претходна епизода</string>
-    <string name="lbl_more_like_this">Још оваквих</string>
+    <string name="lbl_more_like_this">Још оваквог садржаја</string>
     <string name="lbl_resume_preroll">Настави пред пуштање</string>
     <string name="lbl_resume_from">Настави од %1$s</string>
     <string name="lbl_guide_option_number">Број канала</string>
@@ -433,4 +433,13 @@
     <string name="pref_customization_description">Теме,почетни екран,ремапирање</string>
     <string name="lbl_latest_in">Недавно додато у</string>
     <string name="because_you_watched">Јер сте гледали</string>
+    <string name="speech_error_no_permission">"Није дозвољен микрофон. Молимо Вас  дозволиоте микрофон у подешавањима."</string>
+    <string name="speech_error_unavailable">Препознавање говора није доступно на Вашем уређају.</string>
+    <string name="speech_error_unknown">Дошло је до неочекиване грешке током препознавања говора.</string>
+    <plurals name="seconds">
+        <item quantity="one">Једна</item>
+        <item quantity="few">Неколико</item>
+        <item quantity="other">Друго</item>
+    </plurals>
+    <string name="lbl_from_beginning">Пусти од почетка</string>
 </resources>
