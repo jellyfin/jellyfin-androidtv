@@ -385,11 +385,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void play(long position) {
-        play(position, null);
+        play(position, null, null);
+    }
+    public void play(long position, @Nullable Integer forcedSubtitleIndex) {
+        play(position, forcedSubtitleIndex, null);
+    }
+    public void play(long position, @Nullable String forcedAudioLanguage) {
+        play(position, null, forcedAudioLanguage);
     }
 
-    protected void play(long position, @Nullable Integer forcedSubtitleIndex) {
-        Timber.i("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
+    protected void play(long position, @Nullable Integer forcedSubtitleIndex, @Nullable String forcedAudioLanguage) {
+        Timber.i("Play called from state: %s with pos: %d, sub index: %d and forced audio: %s", mPlaybackState, position, forcedSubtitleIndex, forcedAudioLanguage);
 
         if (mFragment == null) {
             Timber.w("mFragment is null, returning");
@@ -478,7 +484,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item);
+                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, forcedAudioLanguage, item);
 
                 playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -494,7 +500,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     @NonNull
-    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item) {
+    private VideoOptions buildExoPlayerOptions(
+            @Nullable Integer forcedSubtitleIndex,
+            @Nullable String forcedAudioLanguage,
+            BaseItemDto item) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
@@ -508,6 +517,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         }
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
+        if (forcedAudioLanguage != null) {
+            // find the first audio stream with the requested language
+            for (MediaStream stream : currentMediaSource.getMediaStreams()) {
+                if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
+                    internalOptions.setAudioStreamIndex(stream.getIndex());
+                    break;
+                }
+            }
+        }
         if (!isLiveTv && currentMediaSource != null) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
@@ -1128,7 +1146,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             spinnerOff = false;
 
             // Show "Next Up" fragment
-            if (mFragment != null) mFragment.showNextUp(nextItem.getId());
+            if (mFragment != null) mFragment.showNextUp(nextItem.getId(), mLastPlayedAudioLanguage);
             endPlayback();
         } else {
             next();
