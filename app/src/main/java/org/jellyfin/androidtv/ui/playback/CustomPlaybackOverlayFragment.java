@@ -1309,7 +1309,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void showNextUp(
             @NonNull UUID id,
-            String isoLanguageCode
+            @Nullable String isoLanguageCode
     ) {
         if (navigating) return;
         navigating = true;
