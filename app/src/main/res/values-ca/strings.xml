@@ -7,7 +7,7 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Cancel·la</string>
     <string name="loading">S\'està carregant…</string>
-    <string name="video_error_unknown_error">Error en carregar el vídeo</string>
+    <string name="video_error_unknown_error">S\'ha produït un error en carregar el vídeo</string>
     <string name="lbl_other">Altres</string>
     <string name="lbl_tv_series">Sèries de televisió</string>
     <string name="lbl_movies">Pel·lícules</string>
@@ -213,7 +213,7 @@
     <string name="lbl_series_settings">Preferències de sèries</string>
     <string name="lbl_episode_not_record">Aquesta visualització NO s\'enregistrarà</string>
     <string name="lbl_schedule">Programació</string>
-    <string name="lbl_live">Directe</string>
+    <string name="lbl_live">En directe</string>
     <string name="lbl_new">Nou</string>
     <string name="lbl_repeat">Repeteix</string>
     <string name="lbl_recent_recordings">Enregistraments recents</string>
@@ -232,7 +232,7 @@
     <string name="server_connection_failed">No s\'ha pogut connectar amb el servidor</string>
     <string name="server_connecting">Connectant al %1$s</string>
     <string name="pref_clock_display_playback">Durant la reproducció</string>
-    <string name="pref_clock_display_browsing">Mentre navega</string>
+    <string name="pref_clock_display_browsing">Mentre es navega</string>
     <string name="lbl_always">Sempre</string>
     <string name="pref_clock_display">Mostra el rellotge</string>
     <string name="pref_default_rating">Tipus de qualificació per defecte</string>
