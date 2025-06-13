@@ -154,6 +154,7 @@ fun PlaybackController.applyMediaSegments(
 ) {
 	val mediaSegmentRepository by fragment.inject<MediaSegmentRepository>()
 
+	fragment?.clearSkipOverlay()
 	fragment.lifecycleScope.launch {
 		val mediaSegments = runCatching {
 			mediaSegmentRepository.getSegmentsForItem(item)
