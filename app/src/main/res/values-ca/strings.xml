@@ -17,14 +17,14 @@
     <string name="lbl_coming_up">Properament</string>
     <string name="lbl_favorites">Preferits</string>
     <string name="lbl_by_name">Per nom</string>
-    <string name="lbl_latest">Recentment afegit</string>
+    <string name="lbl_latest">Afegit recentment</string>
     <string name="msg_not_implemented">" No implementat"</string>
     <string name="lbl_search">Cerca</string>
     <string name="lbl_genres">Gèneres</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Suggerit</string>
     <string name="lbl_by_letter">Per lletra</string>
-    <string name="lbl_views">Visites</string>
+    <string name="lbl_views">Vistes</string>
     <string name="lbl_on_now">En curs</string>
     <string name="lbl_next_up">A continuació</string>
     <string name="lbl_continue_watching">Continueu mirant</string>
@@ -297,7 +297,7 @@
     <string name="home_section_resume">Continueu mirant</string>
     <string name="home_section_library_small">Els meus continguts (petit)</string>
     <string name="home_section_library">Els meus continguts</string>
-    <string name="home_section_latest_media">Afegit recentment</string>
+    <string name="home_section_latest_media">Contingut afegit recentment</string>
     <string name="home_sections">Seccions de l\'inici</string>
     <string name="home_prefs">Inici</string>
     <string name="license_license">Llicència</string>
@@ -478,7 +478,7 @@
         <item quantity="many">%1$s episodis</item>
         <item quantity="other">%1$s episodis</item>
     </plurals>
-    <string name="lbl_latest_in">Recentment afegit a %1$s</string>
+    <string name="lbl_latest_in">Afegit recentment a %1$s</string>
     <plurals name="minutes">
         <item quantity="one">%1$s minut</item>
         <item quantity="many">%1$s minuts</item>
@@ -569,7 +569,7 @@
     <string name="video_start_delay">Retard de l\'inici del vídeo</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
-    <string name="segment_action_ask_to_skip">Demana per a saltar</string>
+    <string name="segment_action_ask_to_skip">Pregunta abans de saltar</string>
     <string name="segment_type_commercial">Publicitat</string>
     <string name="segment_type_outro">Crèdits</string>
     <string name="preference_enable_trickplay">Habilita les previsualitzacions al reproductor</string>
