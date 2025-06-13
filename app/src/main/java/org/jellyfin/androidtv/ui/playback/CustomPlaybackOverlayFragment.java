@@ -479,7 +479,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (binding.skipOverlay.getVisible()) {
                     // Hide without doing anything
                     if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                        binding.skipOverlay.setTargetPositionMs(null);
+                        clearSkipOverlay();
                         return true;
                     }
 
@@ -487,7 +487,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
                         playbackControllerContainer.getValue().getPlaybackController().seek(binding.skipOverlay.getTargetPositionMs(), true);
                         leanbackOverlayFragment.setShouldShowOverlay(false);
-                        if (binding != null) binding.skipOverlay.setTargetPositionMs(null);
+                        if (binding != null) clearSkipOverlay();
                         return true;
                     }
                 }
@@ -1261,6 +1261,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 prepareChapterAdapter();
             }
         }
+    }
+
+    public void clearSkipOverlay() {
+        binding.skipOverlay.setTargetPositionMs(null);
     }
 
     private void prepareChapterAdapter() {
