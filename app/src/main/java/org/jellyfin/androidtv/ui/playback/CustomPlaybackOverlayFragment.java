@@ -293,9 +293,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         });
 
         int startPos = getArguments().getInt("Position", 0);
+        String isoLanguageCode = getArguments().getString("IsoLanguageCode", null);
 
         // start playing
-        playbackControllerContainer.getValue().getPlaybackController().play(startPos);
+        playbackControllerContainer.getValue().getPlaybackController().play(startPos, isoLanguageCode);
         leanbackOverlayFragment.updatePlayState();
 
         // Set initial skip overlay state
@@ -1310,11 +1311,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     }
 
-    public void showNextUp(@NonNull UUID id) {
+    public void showNextUp(
+            @NonNull UUID id,
+            @Nullable String isoLanguageCode
+    ) {
         if (navigating) return;
         navigating = true;
 
-        navigationRepository.getValue().navigate(Destinations.INSTANCE.nextUp(id), true);
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.nextUp(id, isoLanguageCode), true);
     }
 
     @Override

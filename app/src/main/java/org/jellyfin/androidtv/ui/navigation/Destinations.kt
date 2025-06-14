@@ -129,15 +129,23 @@ object Destinations {
 			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
 		)
 
-	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(
-		"Position" to (position ?: 0)
+	fun videoPlayer(
+		position: Int?,
+		isoLanguageCode: String? = null,
+	) = fragmentDestination<CustomPlaybackOverlayFragment>(
+		"Position" to (position ?: 0),
+		"IsoLanguageCode" to isoLanguageCode,
 	)
 
 	fun playbackRewritePlayer(position: Int?) = fragmentDestination<PlaybackRewriteFragment>(
 		PlaybackRewriteFragment.EXTRA_POSITION to position
 	)
 
-	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(
-		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
+	fun nextUp(
+		item: UUID,
+		isoLanguageCode: String?,
+	) = fragmentDestination<NextUpFragment>(
+		NextUpFragment.ARGUMENT_ITEM_ID to item.toString(),
+		NextUpFragment.ARGUMENT_ISO_LANGUAGE_CODE to isoLanguageCode,
 	)
 }

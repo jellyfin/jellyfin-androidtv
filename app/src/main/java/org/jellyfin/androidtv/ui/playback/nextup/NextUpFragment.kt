@@ -62,6 +62,7 @@ import java.util.UUID
 @Composable
 fun NextUpScreen(
 	itemId: UUID,
+	isoLanguageCode: String?,
 ) {
 	val api = koinInject<ApiClient>()
 	val navigationRepository = koinInject<NavigationRepository>()
@@ -84,7 +85,7 @@ fun NextUpScreen(
 	LaunchedEffect(state) {
 		when (state) {
 			// Open next item
-			NextUpState.PLAY_NEXT -> navigationRepository.navigate(Destinations.videoPlayer(0), true)
+			NextUpState.PLAY_NEXT -> navigationRepository.navigate(Destinations.videoPlayer(0, isoLanguageCode), true)
 			// Close activity
 			NextUpState.CLOSE -> navigationRepository.goBack()
 			// Unknown state
@@ -234,6 +235,7 @@ fun NextUpOverlay(
 class NextUpFragment : Fragment() {
 	companion object {
 		const val ARGUMENT_ITEM_ID = "item_id"
+		const val ARGUMENT_ISO_LANGUAGE_CODE = "iso_language_code"
 	}
 
 	override fun onCreateView(
@@ -245,6 +247,7 @@ class NextUpFragment : Fragment() {
 		if (id != null) {
 			NextUpScreen(
 				itemId = id,
+				isoLanguageCode = arguments?.getString(ARGUMENT_ISO_LANGUAGE_CODE),
 			)
 		}
 	}
