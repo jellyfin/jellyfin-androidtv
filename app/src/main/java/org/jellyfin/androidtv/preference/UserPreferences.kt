@@ -172,6 +172,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var subtitlesBackgroundColor = longPreference("subtitles_background_color", 0x00FFFFFF)
 
 		/**
+		 * Subtitles bold text
+		 */
+		var subtitlesTextBold = booleanPreference("subtitles_text_bold", false)
+
+		/**
 		 * Subtitles foreground color
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)

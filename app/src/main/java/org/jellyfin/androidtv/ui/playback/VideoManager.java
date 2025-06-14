@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
 import android.media.audiofx.Equalizer;
@@ -122,7 +123,7 @@ public class VideoManager {
                 Color.TRANSPARENT,
                 Color.alpha(strokeColor) == 0 ? CaptionStyleCompat.EDGE_TYPE_NONE : CaptionStyleCompat.EDGE_TYPE_OUTLINE,
                 strokeColor,
-                null
+                userPreferences.get(UserPreferences.Companion.getSubtitlesTextBold()) ? Typeface.DEFAULT_BOLD : null
         );
         mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
