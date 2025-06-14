@@ -18,7 +18,7 @@
     <string name="lbl_favorites">Preferits</string>
     <string name="lbl_by_name">Per nom</string>
     <string name="lbl_latest">Afegit recentment</string>
-    <string name="msg_not_implemented">" No implementat"</string>
+    <string name="msg_not_implemented">" no implementat"</string>
     <string name="lbl_search">Cerca</string>
     <string name="lbl_genres">Gèneres</string>
     <string name="lbl_status">%1$s / %2$s</string>
@@ -33,12 +33,12 @@
     <string name="lbl_play_all">Reprodueix-ho tot</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_play_trailers">Reprodueix tràiler(s)</string>
+    <string name="lbl_play_trailers">Reprodueix els tràilers</string>
     <string name="lbl_trailer">"Tràiler "</string>
     <string name="lbl_bracket_unknown">Desconegut</string>
     <string name="msg_video_playback_error">"Error de reproducció de vídeo - "</string>
     <string name="lbl_none">Cap</string>
-    <string name="lbl_recordings">Gravacions</string>
+    <string name="lbl_recordings">Enregistraments</string>
     <string name="lbl_videos">Vídeos</string>
     <string name="lbl_people">Persones</string>
     <string name="lbl_other_options">Altres opcions</string>
@@ -58,13 +58,13 @@
     <string name="lbl_specials">Especials</string>
     <string name="lbl_chapters">Capítols</string>
     <string name="lbl_cast_crew">Repartiment i equip tècnic</string>
-    <string name="msg_unable_to_cancel">No es pot cancel·lar la gravació</string>
-    <string name="msg_recording_cancelled">Gravació cancel·lada</string>
-    <string name="msg_unable_to_create_recording">No es pot crear la gravació</string>
-    <string name="msg_set_to_record">Programa configurat per a gravar</string>
-    <string name="lbl_record">Grava</string>
+    <string name="msg_unable_to_cancel">No es pot cancel·lar l\'enregistrament</string>
+    <string name="msg_recording_cancelled">Enregistrament cancel·lat</string>
+    <string name="msg_unable_to_create_recording">No es pot crear l\'enregistrament</string>
+    <string name="msg_set_to_record">Programa configurat per a enregistrar</string>
+    <string name="lbl_record">Enregistra</string>
     <string name="lbl_cancel_recording">Cancel·la la gravació</string>
-    <string name="lbl_record_series">Grava la sèrie</string>
+    <string name="lbl_record_series">Enregistra la sèrie</string>
     <string name="lbl_cancel_series">Cancel·la la sèrie</string>
     <string name="lbl_cancel">Cancel·la</string>
     <string name="lbl_pause">Atura</string>
@@ -114,9 +114,9 @@
     <string name="msg_subtitles_loading">S\'estan carregant els subtítols…</string>
     <string name="lbl_filters">Filtres de TV en directe</string>
     <string name="lbl_ended">FINALITZAT</string>
-    <string name="lbl__continuing">CONTINUANT</string>
+    <string name="lbl__continuing">EN PRODUCCIÓ</string>
     <string name="lbl_display_preferences">Preferències de visualització</string>
-    <string name="lbl_starting_with">començant per aquells el nom del qual comença per</string>
+    <string name="lbl_starting_with">començant pels que tenen un nom començat per</string>
     <string name="lbl_rating">Valoració</string>
     <string name="lbl_critic_rating">Crítica</string>
     <string name="lbl_premier_date">Data de l\'estrena</string>
@@ -143,7 +143,7 @@
     <string name="lbl_begin_padding">S\'està iniciant el \"padding\"</string>
     <string name="msg_will_record">Enregistrarà</string>
     <string name="msg_recording_now">Enregistrament en curs</string>
-    <string name="lbl_tune_to_channel">Sintonitza al canal</string>
+    <string name="lbl_tune_to_channel">Sintonitza el canal</string>
     <string name="lbl_on">a</string>
     <string name="lbl_tomorrow">Demà</string>
     <string name="lbl_today">Avui</string>
@@ -230,7 +230,7 @@
     <string name="login_authenticating">S\'està autenticant…</string>
     <string name="server_field_empty">L\'adreça no pot estar buida</string>
     <string name="server_connection_failed">No s\'ha pogut connectar amb el servidor</string>
-    <string name="server_connecting">Connectant al %1$s</string>
+    <string name="server_connecting">S\'està connectant a %1$s</string>
     <string name="pref_clock_display_playback">Durant la reproducció</string>
     <string name="pref_clock_display_browsing">Mentre es navega</string>
     <string name="lbl_always">Sempre</string>
@@ -365,8 +365,8 @@
     <string name="image_size_small">Petit</string>
     <string name="image_type_banner">Pancarta</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="enable_smart_view_description">El panell intel·ligent mostra elements rellevants enlloc de la graella</string>
-    <string name="enable_smart_view">Activa el panell intel·ligent</string>
+    <string name="enable_smart_view_description">La pantalla intel·ligent mostra elements rellevants enlloc de la graella</string>
+    <string name="enable_smart_view">Activa la pantalla intel·ligent</string>
     <string name="lbl_sign_out">Tanca la sessió</string>
     <string name="lbl_remove">Elimina</string>
     <string name="lbl_server">Servidor</string>
@@ -378,7 +378,7 @@
     <string name="lbl_remove_users">Aquesta acció també eliminarà tots els comptes associats</string>
     <string name="lbl_manage_servers">Gestiona els servidors</string>
     <string name="server_connection_failed_candidates">No s\'ha pogut connectar amb el servidor, havent provat l\'adreça: %1$s</string>
-    <string name="pref_next_up_behavior_title">Mostra la informació del següent vídeo</string>
+    <string name="pref_next_up_behavior_title">Mostra la informació del vídeo següent</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_playback_speed">Velocitat de reproducció</string>
     <string name="lbl_fit">Normal</string>
@@ -386,7 +386,7 @@
     <string name="lbl_auto_crop">Ajust automàtic</string>
     <string name="lbl_community_rating">Puntuació de la comunitat</string>
     <string name="pref_show_backdrop_description">Canvia el fons de pantalla segons els elements seleccionats</string>
-    <string name="crash_report_toast">Vaja! Alguna cosa ha anat malament, s\'ha enviat un informe de error al teu servidor de Jellyfin.</string>
+    <string name="crash_report_toast">Vaja! Alguna cosa ha anat malament, s\'ha enviat un informe de fallada al vostre servidor de Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">Els registres no s\'inclouran als informes de fallada</string>
     <string name="pref_crash_report_logs_enabled">Els registres s\'inclouran als informes de fallada</string>
     <string name="pref_crash_report_logs">Inclou registres</string>
@@ -406,7 +406,7 @@
     <string name="login_quickconnect_step_2">2. Obriu el menú d\'usuari i aneu a la pàgina de connexió ràpida</string>
     <string name="login_quickconnect_step_1">1. Obriu l\'aplicació de Jellyfin al vostre telèfon o navegador i inicieu la sessió amb el vostre compte</string>
     <string name="login_other_options">Altres opcions:</string>
-    <string name="login_connect_to">Connectant a %1$s</string>
+    <string name="login_connect_to">S\'està connectant a %1$s</string>
     <string name="input_password">Contrasenya</string>
     <string name="input_username">Nom d\'usuari</string>
     <string name="action_use_password">Fes servir una contrasenya</string>
@@ -422,7 +422,7 @@
     <string name="pref_login_description">Servidors, comptes, inici de sessió automàtic</string>
     <string name="pref_login">Inici de sessió</string>
     <string name="pref_libraries_description">Canvia com es mostren les mediateques</string>
-    <string name="pref_libraries">Mediatques</string>
+    <string name="pref_libraries">Mediateques</string>
     <string name="pref_home_description">Configuració de les seccions a mostrar</string>
     <string name="pref_theme">Tema</string>
     <string name="pref_browsing">Navegació</string>
@@ -440,7 +440,7 @@
     <string name="pref_audio_night_mode">Mode de so nocturn (experimental)</string>
     <string name="desc_audio_night_mode">Anivella automàticament el volum de l\'àudio</string>
     <string name="color_white">Blanc</string>
-    <string name="server_setup_incomplete">La configuració d\'aquest servidor no s\'ha completat. Obre Jellyfin en un navegador web per a finalitzar la configuració abans d\'iniciar la sessió.</string>
+    <string name="server_setup_incomplete">La configuració d\'aquest servidor no s\'ha completat. Obriu Jellyfin en un navegador web per a finalitzar la configuració abans d\'iniciar la sessió.</string>
     <string name="episode_name_special">especial</string>
     <string name="app_notification_beta">Aplicació actualitzada a %1$s
 \nGràcies per participar en el programa Jellyfin beta.</string>
@@ -460,7 +460,7 @@
     </plurals>
     <string name="not_set">No definit</string>
     <string name="item_deletion_failed">No es pot eliminar %1$s</string>
-    <string name="pref_screensaver_inapp_enabled_description">Mostra el protector de pantalla de Jellyfin mentre l\'aplicació està oberta</string>
+    <string name="pref_screensaver_inapp_enabled_description">Mostra el protector de pantalla de Jellyfin mentre l\'aplicació és oberta</string>
     <string name="enable_reactive_homepage">Activa la pàgina reactiva d\'inici</string>
     <string name="lbl_album_artists">Artistes de l\'àlbum</string>
     <plurals name="seconds">
@@ -488,7 +488,7 @@
     <string name="pref_enable_media_management">Activa la gestió de contingut multimèdia</string>
     <string name="pref_enable_media_management_description">Mostra l\'opció de gestionar el contingut multimèdia mentre es navega</string>
     <string name="item_delete_confirm_title">Elimina l\'element</string>
-    <string name="item_delete_confirm_message">N\'esteu segur que desitgeu eliminar aquest element del servidor? Aquesta acció no es pot desfer.</string>
+    <string name="item_delete_confirm_message">N\'esteu segur, que desitgeu eliminar aquest element del servidor? Aquesta acció no es pot desfer.</string>
     <string name="pref_screensaver">Estalvi de pantalla</string>
     <string name="pref_screensaver_inapp_enabled">Fes servir l\'estalvi de pantalla de l\'aplicació</string>
     <string name="pref_screensaver_inapp_timeout">Inicia l\'estalvi de pantalla després de</string>
@@ -539,7 +539,7 @@
     <string name="unreleased">Encara no s\'ha publicat</string>
     <string name="lbl_home">Inici</string>
     <string name="pref_screensaver_ageratingmax">Classificació d\'edat màxima</string>
-    <string name="pref_screensaver_ageratingrequired_enabled">Només es mostren elements amb una classificació per edat establerta</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Només es mostren elements amb una classificació per edat indicada</string>
     <string name="pref_playback_advanced">Opcions avançades de reproducció</string>
     <string name="pref_screensaver_ageratingmax_zero">Totes les edats</string>
     <string name="pref_screensaver_ageratingmax_entry">Fins als %1$d anys</string>
@@ -577,7 +577,7 @@
     <string name="pref_mediasegment_actions">Accions de segments multimèdia</string>
     <string name="pref_troubleshooting">Resolució de problemes</string>
     <string name="pref_subtitles_background_opacity">Opacitat de fons dels subtítols</string>
-    <string name="pref_report_device_profile_title">Informar de les capacitats de reproducció al servidor</string>
+    <string name="pref_report_device_profile_title">Informa de les capacitats de reproducció al servidor</string>
     <string name="pref_report_device_profile_summary">Puja un document de resolució de problemes al servidor de Jellyfin amb informació sobre les capacitats de reproducció</string>
     <string name="pref_report_device_profile_success">Document enviat com a %1$s</string>
     <string name="pref_report_device_profile_failure">No s\'ha pogut enviar el document. El teu servidor Jellyfin pot prohibir els registres del client.</string>
