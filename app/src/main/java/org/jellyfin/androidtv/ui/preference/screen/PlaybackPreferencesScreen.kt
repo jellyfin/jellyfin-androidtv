@@ -220,6 +220,11 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					default { (UserPreferences.subtitlesTextSize.defaultValue * 100f).roundToInt() }
 				}
 			}
+
+			checkbox {
+				setTitle(R.string.pref_subtitles_bold)
+				bind(userPreferences, UserPreferences.subtitlesTextBold)
+			}
 		}
 
 		category {
