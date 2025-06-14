@@ -573,7 +573,7 @@
     <string name="segment_type_commercial">Publicitat</string>
     <string name="segment_type_outro">Crèdits</string>
     <string name="preference_enable_trickplay">Habilita les previsualitzacions al reproductor</string>
-    <string name="skip_forward_length">Longitud de salt cap endavant</string>
+    <string name="skip_forward_length">Longitud de salt cap a endavant</string>
     <string name="pref_mediasegment_actions">Accions de segments multimèdia</string>
     <string name="pref_troubleshooting">Resolució de problemes</string>
     <string name="pref_subtitles_background_opacity">Opacitat de fons dels subtítols</string>
