@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.ScreenSaverType
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
@@ -190,6 +191,17 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Show screensaver in app
 		 */
 		var screensaverInAppEnabled = booleanPreference("screensaver_inapp_enabled", true)
+
+		/**
+		 * Screensaver Type in app
+		 */
+		var screensaverType = enumPreference("screensaver_inapp_type", ScreenSaverType.NORMAL)
+
+		/**
+		 * Show Logo in screensaver
+		 */
+		var screensaverShowLogo = booleanPreference("screensaver_inapp_showlogo", true)
+
 
 		/**
 		 * Timeout before showing the screensaver in app, depends on [screensaverInAppEnabled].
