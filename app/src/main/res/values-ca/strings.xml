@@ -26,7 +26,7 @@
     <string name="lbl_by_letter">Per lletra</string>
     <string name="lbl_views">Vistes</string>
     <string name="lbl_on_now">En curs</string>
-    <string name="lbl_next_up">A continuació</string>
+    <string name="lbl_next_up">Més</string>
     <string name="lbl_continue_watching">Continueu mirant</string>
     <string name="lbl_settings">Preferències</string>
     <string name="chapters">Capítols</string>
@@ -44,7 +44,7 @@
     <string name="lbl_other_options">Altres opcions</string>
     <string name="lbl_last_played">"Últimes reproduccions "</string>
     <string name="lbl_directed_by">Dirigit per</string>
-    <string name="lbl_ends">Finalitza</string>
+    <string name="lbl_ends">Acabaria a les</string>
     <string name="lbl_runs">Reproduccions</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Vist</string>
@@ -417,7 +417,7 @@
     <string name="pref_audio">Àudio</string>
     <string name="pref_subtitles">Subtítols</string>
     <string name="pref_video">Vídeo</string>
-    <string name="pref_playback_description">Vídeo, subtítols, TV en direccte, a continuació</string>
+    <string name="pref_playback_description">Vídeo, subtítols, TV en directe, més</string>
     <string name="pref_customization_description">Tema, inici, remapejat</string>
     <string name="pref_login_description">Servidors, comptes, inici de sessió automàtic</string>
     <string name="pref_login">Inici de sessió</string>
