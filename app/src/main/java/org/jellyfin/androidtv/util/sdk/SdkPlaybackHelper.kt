@@ -95,7 +95,30 @@ class SdkPlaybackHelper(
 				}
 			}
 
-			BaseItemKind.SERIES, BaseItemKind.SEASON, BaseItemKind.FOLDER -> {
+			BaseItemKind.SERIES -> {
+				val response by api.tvShowsApi.getEpisodes(
+					seriesId = mainItem.id,
+					isMissing = false,
+					sortBy = if (shuffle) ItemSortBy.RANDOM else ItemSortBy.SORT_NAME,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields,
+				)
+				response.items
+			}
+
+			BaseItemKind.SEASON -> {
+				val response by api.tvShowsApi.getEpisodes(
+					seriesId = requireNotNull(mainItem.seriesId),
+					seasonId = mainItem.id,
+					isMissing = false,
+					sortBy = if (shuffle) ItemSortBy.RANDOM else ItemSortBy.SORT_NAME,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields,
+				)
+				response.items
+			}
+
+			BaseItemKind.FOLDER -> {
 				val response by api.itemsApi.getItems(
 					parentId = mainItem.id,
 					isMissing = false,
