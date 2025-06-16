@@ -590,4 +590,5 @@
     <string name="speech_error_unknown">Une erreur inattendue s\'est produite lors de la reconnaissance vocale.</string>
     <string name="speech_error_no_permission">L\'accès au micro n\'est pas autorisé. Veuillez l\'activer dans les préférences système.</string>
     <string name="speech_error_unavailable">La reconnaissance vocale n\'est pas disponible sur votre appareil.</string>
+    <string name="pref_subtitles_bold">Caractères gras</string>
 </resources>
