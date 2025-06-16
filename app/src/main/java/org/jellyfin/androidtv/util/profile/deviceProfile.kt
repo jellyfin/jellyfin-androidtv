@@ -362,7 +362,7 @@ fun createDeviceProfile(
 	subtitleProfile(Codec.Subtitle.DVBSUB, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.DVDSUB, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.IDX, embedded = true, encode = true)
-	subtitleProfile(Codec.Subtitle.PGS, encode = true, embedded = pgsDirectPlay, external = pgsDirectPlay)
+	subtitleProfile(Codec.Subtitle.PGS, encode = true, embedded = false, external = true)
 	subtitleProfile(Codec.Subtitle.PGSSUB, encode = true, embedded = pgsDirectPlay, external = pgsDirectPlay)
 
 	// ASS/SSA is supported via libass extension
