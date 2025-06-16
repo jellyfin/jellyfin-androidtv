@@ -57,6 +57,7 @@ fun createDeviceProfile(userPreferences: UserPreferences, disableDirectPlay: Boo
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
+	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
 )
 
 fun createDeviceProfile(
