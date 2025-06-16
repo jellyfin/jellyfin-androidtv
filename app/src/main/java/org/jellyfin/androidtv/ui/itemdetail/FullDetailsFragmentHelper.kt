@@ -23,15 +23,12 @@ import org.jellyfin.androidtv.util.sdk.compat.copyWithUserData
 import org.jellyfin.androidtv.util.showIfNotEmpty
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFilter
-import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.extensions.ticks
@@ -244,18 +241,10 @@ suspend fun FullDetailsFragment.getNextUpEpisode(): BaseItemDto? {
 
 	try {
 		val episodes = withContext(Dispatchers.IO) {
-			api.itemsApi.getItems(
+			api.tvShowsApi.getNextUp(
 				parentId = mBaseItem.id,
-				includeItemTypes = setOf(BaseItemKind.EPISODE),
-				recursive = true,
-				filters = setOf(ItemFilter.IS_UNPLAYED),
 				fields = ItemRepository.itemFields,
-				sortBy = setOf(
-					ItemSortBy.PARENT_INDEX_NUMBER,
-					ItemSortBy.INDEX_NUMBER,
-					ItemSortBy.SORT_NAME
-				),
-				limit = 1
+				limit = 1,
 			).content
 		}
 		return episodes.items.firstOrNull()
@@ -297,10 +286,12 @@ fun FullDetailsFragment.showResumeMenu(
 ) = popupMenu(requireContext(), view) {
 	val pos = (nextUpEpisode.userData?.playbackPositionTicks?.ticks
 		?: Duration.ZERO) - resumePreroll.milliseconds
-	item(getString(
-		R.string.lbl_resume_from,
-		TimeUtils.formatMillis(pos.inWholeMilliseconds)
-	)) {
+	item(
+		getString(
+			R.string.lbl_resume_from,
+			TimeUtils.formatMillis(pos.inWholeMilliseconds)
+		)
+	) {
 		play(nextUpEpisode, pos.inWholeMilliseconds.toInt(), false)
 	}
 	item(getString(R.string.lbl_from_beginning)) {
