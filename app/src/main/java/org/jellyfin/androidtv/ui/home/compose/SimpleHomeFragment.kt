@@ -36,6 +36,7 @@ class SimpleHomeFragment : Fragment() {
 						homeState = homeState,
 						onLibraryClick = viewModel::onLibraryClick,
 						onItemClick = viewModel::onItemClick,
+						getItemImageUrl = viewModel::getItemImageUrl,
 						modifier = Modifier.fillMaxSize(),
 					)
 				}
