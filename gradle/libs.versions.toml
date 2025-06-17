@@ -10,8 +10,12 @@ android-targetSdk = "35"
 androidx-activity = "1.10.1"
 androidx-appcompat = "1.7.1"
 androidx-cardview = "1.0.0"
-androidx-compose-foundation = "1.8.2"
-androidx-compose-ui = "1.8.2"
+androidx-compose-bom = "2025.05.00"
+androidx-compose-foundation = "1.7.6"
+androidx-compose-ui = "1.7.6"
+androidx-compose-material3 = "1.3.1"
+androidx-tv-material = "1.0.0"
+androidx-navigation-compose = "2.8.4"
 androidx-constraintlayout = "2.2.1"
 androidx-core = "1.16.0"
 androidx-fragment = "1.8.8"
@@ -26,7 +30,7 @@ androidx-window = "1.4.0"
 androidx-work = "2.10.1"
 coil = "3.2.0"
 detekt = "1.23.8"
-java-jdk = "21"
+java-jdk = "17"
 jellyfin-androidx-media = "1.6.1+1"
 jellyfin-sdk = "1.6.8"
 koin = "4.1.0"
@@ -58,16 +62,21 @@ kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 # Android(x)
-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-gradle" }
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
+androidx-compose-material3-adaptive = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "androidx-compose-material3" }
+androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "androidx-tv-material" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-compose" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
-androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "androidx-fragment" }
 androidx-leanback-core = { module = "androidx.leanback:leanback", version.ref = "androidx-leanback" }
@@ -82,6 +91,9 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = 
 androidx-tvprovider = { module = "androidx.tvprovider:tvprovider", version.ref = "androidx-tvprovider" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
+
+# Accompanist
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 
 # Dependency Injection
 koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
@@ -136,6 +148,11 @@ acra = [
 androidx-compose = [
     "androidx-compose-foundation",
     "androidx-compose-ui-tooling",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-material3",
+    "androidx-compose-material3-adaptive",
+    "androidx-tv-material",
+    "androidx-navigation-compose",
 ]
 androidx-lifecycle = [
     "androidx-lifecycle-process",

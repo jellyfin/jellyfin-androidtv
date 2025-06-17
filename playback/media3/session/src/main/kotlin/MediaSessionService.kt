@@ -1,11 +1,11 @@
 package org.jellyfin.playback.media3.session
 
 import android.content.Context
+import android.net.Uri
 import android.os.Looper
 import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.net.toUri
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaStyleNotificationHelper
@@ -66,7 +66,8 @@ class MediaSessionService(
 
 			// Add branding & art
 			setSmallIcon(options.iconSmall)
-			item.metadata.artworkUri?.toUri()?.let { artworkUri ->
+			item.metadata.artworkUri?.let { artworkUriString ->
+				val artworkUri = Uri.parse(artworkUriString)
 				runCatching {
 					session.bitmapLoader.loadBitmap(artworkUri).await()
 				}.fold(

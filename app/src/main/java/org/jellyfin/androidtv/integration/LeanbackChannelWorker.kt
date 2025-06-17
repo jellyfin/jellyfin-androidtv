@@ -13,7 +13,6 @@ import androidx.tvprovider.media.tv.Channel
 import androidx.tvprovider.media.tv.ChannelLogoUtils
 import androidx.tvprovider.media.tv.PreviewProgram
 import androidx.tvprovider.media.tv.TvContractCompat
-import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.tvprovider.media.tv.WatchNextProgram
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -319,15 +318,14 @@ class LeanbackChannelWorker(
 		}
 
 		return PreviewProgram.Builder()
-			.setChannelId(ContentUris.parseId(channelUri))
-			.setType(
+			.setChannelId(ContentUris.parseId(channelUri))			.setType(
 				when (item.type) {
-					BaseItemKind.SERIES -> WatchNextPrograms.TYPE_TV_SERIES
-					BaseItemKind.MOVIE -> WatchNextPrograms.TYPE_MOVIE
-					BaseItemKind.EPISODE -> WatchNextPrograms.TYPE_TV_EPISODE
-					BaseItemKind.AUDIO -> WatchNextPrograms.TYPE_TRACK
-					BaseItemKind.PLAYLIST -> WatchNextPrograms.TYPE_PLAYLIST
-					else -> WatchNextPrograms.TYPE_CHANNEL
+					BaseItemKind.SERIES -> TvContractCompat.WatchNextPrograms.TYPE_TV_SERIES
+					BaseItemKind.MOVIE -> TvContractCompat.WatchNextPrograms.TYPE_MOVIE
+					BaseItemKind.EPISODE -> TvContractCompat.WatchNextPrograms.TYPE_TV_EPISODE
+					BaseItemKind.AUDIO -> TvContractCompat.WatchNextPrograms.TYPE_TRACK
+					BaseItemKind.PLAYLIST -> TvContractCompat.WatchNextPrograms.TYPE_PLAYLIST
+					else -> TvContractCompat.WatchNextPrograms.TYPE_CHANNEL
 				}
 			)
 			.setTitle(item.seriesName ?: item.name)
@@ -378,13 +376,13 @@ class LeanbackChannelWorker(
 		deletePrograms(nextUpItems)
 
 		// Get current watch next state
-		val currentWatchNextPrograms = getCurrentWatchNext()
+		val currentWatchNextProgram = getCurrentWatchNext()
 
 		// Create all programs in nextUpItems but not in watch next
 		val programsToAdd = nextUpItems
-			.filter { next -> currentWatchNextPrograms.none { it.internalProviderId == next.id.toString() } }
+			.filter { next -> currentWatchNextProgram.none { it.internalProviderId == next.id.toString() } }
 		context.contentResolver.bulkInsert(
-			WatchNextPrograms.CONTENT_URI,
+			TvContractCompat.WatchNextPrograms.CONTENT_URI,
 			programsToAdd.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }
 				.toTypedArray())
 	}
@@ -396,13 +394,13 @@ class LeanbackChannelWorker(
 	@SuppressLint("RestrictedApi")
 	private fun deletePrograms(nextUpItems: List<BaseItemDto>) {
 		// Retrieve current watch next row
-		val currentWatchNextPrograms = getCurrentWatchNext()
+		val currentWatchNextProgram = getCurrentWatchNext()
 
 		// Find all stale programs to delete
-		val deletedByUser = currentWatchNextPrograms.filter { !it.isBrowsable }
+		val deletedByUser = currentWatchNextProgram.filter { !it.isBrowsable }
 		val noLongerInWatchNext =
-			currentWatchNextPrograms.filter { (nextUpItems).none { next -> it.internalProviderId == next.id.toString() } }
-		val continueWatching = currentWatchNextPrograms.filter { it.watchNextType == WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE }
+			currentWatchNextProgram.filter { (nextUpItems).none { next -> it.internalProviderId == next.id.toString() } }
+		val continueWatching = currentWatchNextProgram.filter { it.watchNextType == TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE }
 
 		// Delete the programs
 		(deletedByUser + noLongerInWatchNext + continueWatching)
@@ -414,16 +412,16 @@ class LeanbackChannelWorker(
 	 */
 	@SuppressLint("RestrictedApi")
 	private fun getCurrentWatchNext(): MutableList<WatchNextProgram> {
-		val currentWatchNextPrograms: MutableList<WatchNextProgram> = mutableListOf()
-		context.contentResolver.query(WatchNextPrograms.CONTENT_URI, WatchNextProgram.PROJECTION, null, null, null)
+		val currentWatchNextProgram: MutableList<WatchNextProgram> = mutableListOf()
+		context.contentResolver.query(TvContractCompat.WatchNextPrograms.CONTENT_URI, WatchNextProgram.PROJECTION, null, null, null)
 			.use { cursor ->
 				if (cursor != null && cursor.moveToFirst()) {
 					do {
-						currentWatchNextPrograms.add(WatchNextProgram.fromCursor(cursor))
+						currentWatchNextProgram.add(WatchNextProgram.fromCursor(cursor))
 					} while (cursor.moveToNext())
 				}
 			}
-		return currentWatchNextPrograms
+		return currentWatchNextProgram
 	}
 
 	/**
@@ -438,11 +436,11 @@ class LeanbackChannelWorker(
 
 			// Poster size & type
 			if (item.type == BaseItemKind.EPISODE) {
-				setType(WatchNextPrograms.TYPE_TV_EPISODE)
-				setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
+				setType(TvContractCompat.WatchNextPrograms.TYPE_TV_EPISODE)
+				setPosterArtAspectRatio(TvContractCompat.WatchNextPrograms.ASPECT_RATIO_16_9)
 			} else if (item.type == BaseItemKind.MOVIE) {
-				setType(WatchNextPrograms.TYPE_MOVIE)
-				setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER)
+				setType(TvContractCompat.WatchNextPrograms.TYPE_MOVIE)
+				setPosterArtAspectRatio(TvContractCompat.WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER)
 			}
 
 			// Name and episode details
@@ -464,7 +462,7 @@ class LeanbackChannelWorker(
 			when {
 				// User has started playing the episode
 				(item.userData?.playbackPositionTicks ?: 0) > 0 -> {
-					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
+					setWatchNextType(TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 					setLastPlaybackPositionMillis(item.userData!!.playbackPositionTicks.ticks.inWholeMilliseconds.toInt())
 					// Use last played date to prioritize
 
@@ -475,7 +473,7 @@ class LeanbackChannelWorker(
 				}
 				// First episode of the season
 				item.indexNumber == 1 -> {
-					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
+					setWatchNextType(TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
 					setLastEngagementTimeUtcMillis(
 						item.dateCreated?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
 							?: Instant.now().toEpochMilli()
@@ -483,7 +481,7 @@ class LeanbackChannelWorker(
 				}
 				// Default
 				else -> {
-					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
+					setWatchNextType(TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
 					setLastEngagementTimeUtcMillis(Instant.now().toEpochMilli())
 				}
 			}

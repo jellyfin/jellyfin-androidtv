@@ -4,7 +4,6 @@ import android.app.ActivityManager
 import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
-import androidx.core.content.getSystemService
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -68,7 +67,8 @@ class ExoPlayerBackend(
 			exoPlayerOptions.baseDataSourceFactory,
 		)
 		val extractorsFactory = DefaultExtractorsFactory().apply {
-			val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+			val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+			val isLowRamDevice = activityManager?.isLowRamDevice == true
 			setTsExtractorTimestampSearchBytes(
 				when (isLowRamDevice) {
 					true -> TS_SEARCH_BYTES_LM

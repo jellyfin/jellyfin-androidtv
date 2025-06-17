@@ -24,5 +24,13 @@ class PlayerSubtitleView @JvmOverloads constructor(
 			playbackManager.backendService.attachSubtitleView(this)
 		}
 	}
+
+	override fun onDetachedFromWindow() {
+		super.onDetachedFromWindow()
+
+		if (!isInEditMode) {
+			playbackManager.backendService.detachSubtitleView(this)
+		}
+	}
 }
 

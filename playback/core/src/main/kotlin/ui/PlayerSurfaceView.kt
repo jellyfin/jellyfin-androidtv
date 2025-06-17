@@ -30,5 +30,13 @@ class PlayerSurfaceView @JvmOverloads constructor(
 			playbackManager.backendService.attachSurfaceView(this)
 		}
 	}
+
+	override fun onDetachedFromWindow() {
+		super.onDetachedFromWindow()
+
+		if (!isInEditMode) {
+			playbackManager.backendService.detachSurfaceView(this)
+		}
+	}
 }
 

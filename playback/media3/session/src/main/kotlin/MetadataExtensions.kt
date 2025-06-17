@@ -1,6 +1,6 @@
 package org.jellyfin.playback.media3.session
 
-import androidx.core.net.toUri
+import android.net.Uri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import org.jellyfin.playback.core.queue.QueueEntryMetadata
@@ -16,7 +16,7 @@ fun QueueEntryMetadata.toMediaItem() = MediaItem.Builder().apply {
 		setDisplayTitle(displayTitle)
 		setSubtitle(subtitle)
 		setDescription(description)
-		setArtworkUri(artworkUri?.toUri())
+		setArtworkUri(artworkUri?.let { Uri.parse(it) })
 		setTrackNumber(trackNumber)
 		setTotalTrackCount(totalTrackCount)
 		recordDate?.let {

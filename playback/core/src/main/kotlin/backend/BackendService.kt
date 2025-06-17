@@ -1,6 +1,5 @@
 package org.jellyfin.playback.core.backend
 
-import androidx.core.view.doOnDetach
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
@@ -37,16 +36,14 @@ class BackendService {
 		}
 
 		// Apply new surface view
-		_surfaceView = surfaceView.apply {
-			_backend?.setSurfaceView(surfaceView)
+		_surfaceView = surfaceView
+		_backend?.setSurfaceView(surfaceView)
+	}
 
-			// Automatically detach
-			doOnDetach {
-				if (surfaceView == _surfaceView) {
-					_surfaceView = null
-					_backend?.setSurfaceView(null)
-				}
-			}
+	fun detachSurfaceView(surfaceView: PlayerSurfaceView) {
+		if (surfaceView == _surfaceView) {
+			_surfaceView = null
+			_backend?.setSurfaceView(null)
 		}
 	}
 
@@ -57,16 +54,14 @@ class BackendService {
 		}
 
 		// Apply new surface view
-		_subtitleView = subtitleView.apply {
-			_backend?.setSubtitleView(subtitleView)
+		_subtitleView = subtitleView
+		_backend?.setSubtitleView(subtitleView)
+	}
 
-			// Automatically detach
-			doOnDetach {
-				if (subtitleView == _subtitleView) {
-					_subtitleView = null
-					_backend?.setSubtitleView(null)
-				}
-			}
+	fun detachSubtitleView(subtitleView: PlayerSubtitleView) {
+		if (subtitleView == _subtitleView) {
+			_subtitleView = null
+			_backend?.setSubtitleView(null)
 		}
 	}
 

@@ -85,6 +85,19 @@ val versionTxt by tasks.registering {
 }
 
 dependencies {
+	// Compose BOM - ensures all Compose libraries use compatible versions
+	val composeBom = platform(libs.androidx.compose.bom)
+	implementation(composeBom)
+	debugImplementation(composeBom)
+
+	// General compose dependencies
+	implementation(libs.androidx.activity.compose)
+	implementation(libs.androidx.compose.ui.tooling.preview)
+	debugImplementation(libs.androidx.compose.ui.tooling)
+
+	// Compose for TV dependencies
+	implementation(libs.androidx.tv.material)
+
 	// Jellyfin
 	implementation(projects.playback.core)
 	implementation(projects.playback.jellyfin)
@@ -111,8 +124,11 @@ dependencies {
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.androidx.fragment)
 	implementation(libs.androidx.fragment.compose)
+	
+	// Keep Leanback for gradual migration
 	implementation(libs.androidx.leanback.core)
 	implementation(libs.androidx.leanback.preference)
+	
 	implementation(libs.androidx.preference)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.androidx.tvprovider)

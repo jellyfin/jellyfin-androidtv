@@ -20,6 +20,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -27,7 +28,7 @@ fun Icon(
 	imageVector: ImageVector,
 	contentDescription: String?,
 	modifier: Modifier = Modifier,
-	tint: Color = LocalTextStyle.current.color,
+	tint: Color = Color.Unspecified,
 ) = Icon(
 	painter = rememberVectorPainter(imageVector),
 	contentDescription = contentDescription,
@@ -40,7 +41,7 @@ fun Icon(
 	bitmap: ImageBitmap,
 	contentDescription: String?,
 	modifier: Modifier = Modifier,
-	tint: Color = LocalTextStyle.current.color,
+	tint: Color = Color.Unspecified,
 ) = Icon(
 	painter = remember(bitmap) { BitmapPainter(bitmap) },
 	contentDescription = contentDescription,
