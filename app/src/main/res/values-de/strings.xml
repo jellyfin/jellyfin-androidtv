@@ -580,4 +580,5 @@
     <string name="lbl_from_beginning">Von Anfang an spielen</string>
     <string name="speech_error_unavailable">Die Spracherkennung ist auf Ihrem Gerät nicht verfügbar.</string>
     <string name="speech_error_no_permission">Keine Berechtigung zur Verwendung des Mikrofons. Bitte aktivieren Sie dies in den Systemeinstellungen.</string>
+    <string name="pref_subtitles_bold">fetter Text</string>
 </resources>
