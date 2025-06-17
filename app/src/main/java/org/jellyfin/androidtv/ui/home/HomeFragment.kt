@@ -29,6 +29,8 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.shared.toolbar.HomeToolbar
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.ui.feature.ComposeFeatureFlags
+import org.jellyfin.androidtv.ui.home.compose.SimpleHomeFragment
 import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
@@ -65,6 +67,19 @@ class HomeFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
+		// Check if Compose home is enabled via feature flag
+		if (ComposeFeatureFlags.ENABLE_COMPOSE_HOME) {
+			// Log to verify feature flag is working
+			android.util.Log.d("HomeFragment", "COMPOSE_HOME feature flag is ENABLED - loading SimpleHomeFragment")
+			
+			// Replace the default HomeRowsFragment with our Compose version
+			childFragmentManager.beginTransaction()
+				.replace(binding.contentView.id, SimpleHomeFragment())
+				.commit()
+		} else {
+			android.util.Log.d("HomeFragment", "COMPOSE_HOME feature flag is DISABLED - using traditional HomeRowsFragment")
+		}
 
 		sessionRepository.currentSession
 			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
