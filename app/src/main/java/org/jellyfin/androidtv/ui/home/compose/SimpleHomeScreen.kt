@@ -33,6 +33,7 @@ fun SimpleHomeScreen(
     homeState: HomeScreenState,
     onLibraryClick: (BaseItemDto) -> Unit,
     onItemClick: (BaseItemDto) -> Unit = {},
+    getItemImageUrl: (BaseItemDto) -> String? = { null },
     modifier: Modifier = Modifier
 ) {
     when {
@@ -47,13 +48,13 @@ fun SimpleHomeScreen(
                 modifier = modifier.fillMaxSize()
             )
         }
-        else -> {
-            HomeContent(
-                homeState = homeState,
-                onLibraryClick = onLibraryClick,
-                onItemClick = onItemClick,
-                modifier = modifier.fillMaxSize()
-            )
+        else -> {                HomeContent(
+                    homeState = homeState,
+                    onLibraryClick = onLibraryClick,
+                    onItemClick = onItemClick,
+                    getItemImageUrl = getItemImageUrl,
+                    modifier = modifier.fillMaxSize()
+                )
         }
     }
 }
@@ -63,6 +64,7 @@ private fun HomeContent(
     homeState: HomeScreenState,
     onLibraryClick: (BaseItemDto) -> Unit,
     onItemClick: (BaseItemDto) -> Unit,
+    getItemImageUrl: (BaseItemDto) -> String?,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -91,22 +93,21 @@ private fun HomeContent(
 
         // Continue Watching section
         if (homeState.resumeItems.isNotEmpty()) {
-            item {
-                ContentSection(
+            item {                ContentSection(
                     title = "Continue Watching",
                     items = homeState.resumeItems,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
+                    getItemImageUrl = getItemImageUrl
                 )
             }
-        }
-
-        // Next Up section  
+        }        // Next Up section  
         if (homeState.nextUpItems.isNotEmpty()) {
             item {
                 ContentSection(
                     title = "Next Up",
                     items = homeState.nextUpItems,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
+                    getItemImageUrl = getItemImageUrl
                 )
             }
         }
@@ -117,7 +118,8 @@ private fun HomeContent(
                 ContentSection(
                     title = "Latest Movies",
                     items = homeState.latestMovies,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
+                    getItemImageUrl = getItemImageUrl
                 )
             }
         }
@@ -128,7 +130,8 @@ private fun HomeContent(
                 ContentSection(
                     title = "Latest Episodes", 
                     items = homeState.latestEpisodes,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
+                    getItemImageUrl = getItemImageUrl
                 )
             }
         }
@@ -150,21 +153,23 @@ private fun ContentSection(
     title: String,
     items: List<BaseItemDto>,
     onItemClick: (BaseItemDto) -> Unit,
+    getItemImageUrl: (BaseItemDto) -> String?,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(
-            text = title,
+        Text(            text = title,
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontWeight = FontWeight.SemiBold
             ),
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(bottom = 12.dp)
         )
-          MediaRow(
+        
+        MediaRow(
             title = title,
             items = items,
-            onItemClick = onItemClick
+            onItemClick = onItemClick,
+            getItemImageUrl = getItemImageUrl
         )
     }
 }

@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
 import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
@@ -132,6 +133,7 @@ val appModule = module {
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }
 	single { KeyProcessor() }
+	single { ImageHelper(get()) }
 	single { ReportingHelper(get(), get()) }
 	single<PlaybackHelper> { SdkPlaybackHelper(get(), get(), get(), get()) }
 

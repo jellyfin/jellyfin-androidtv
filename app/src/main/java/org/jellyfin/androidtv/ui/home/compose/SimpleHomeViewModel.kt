@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -42,7 +43,8 @@ class SimpleHomeViewModel(
     private val userRepository: UserRepository,
     private val userViewsRepository: UserViewsRepository,
     private val navigationRepository: NavigationRepository,
-    private val apiClient: ApiClient
+    private val apiClient: ApiClient,
+    private val imageHelper: ImageHelper
 ) : ViewModel() {
 
     private val _homeState = MutableStateFlow(HomeScreenState())
