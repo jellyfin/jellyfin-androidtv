@@ -600,4 +600,5 @@
     <string name="speech_error_unknown">Wystąpił nieoczekiwany błąd podczas rozpoznawania mowy.</string>
     <string name="lbl_from_beginning">Odtwórz od początku</string>
     <string name="speech_error_unavailable">Funkcja rozpoznawania mowy jest niedostępna na tym urządzeniu.</string>
+    <string name="pref_subtitles_bold">Tekst pogrubiony</string>
 </resources>
