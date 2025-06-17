@@ -590,4 +590,5 @@
     <string name="lbl_from_beginning">Prehrať od začiatku</string>
     <string name="speech_error_unavailable">Rozpoznávanie reči nie je vo vašom zariadení k dispozícii.</string>
     <string name="speech_error_unknown">Počas rozpoznávania reči došlo k neočakávanej chybe.</string>
+    <string name="pref_subtitles_bold">Tučný text</string>
 </resources>

@@ -11,11 +11,8 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
-import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
@@ -37,10 +34,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class SdkPlaybackHelper(
 	private val api: ApiClient,
-	private val mediaManager: MediaManager,
 	private val userPreferences: UserPreferences,
-	private val videoQueueManager: VideoQueueManager,
-	private val navigationRepository: NavigationRepository,
 	private val playbackLauncher: PlaybackLauncher,
 	private val playbackControllerContainer: PlaybackControllerContainer,
 ) : PlaybackHelper {
@@ -95,7 +89,30 @@ class SdkPlaybackHelper(
 				}
 			}
 
-			BaseItemKind.SERIES, BaseItemKind.SEASON, BaseItemKind.FOLDER -> {
+			BaseItemKind.SERIES -> {
+				val response by api.tvShowsApi.getEpisodes(
+					seriesId = mainItem.id,
+					isMissing = false,
+					sortBy = if (shuffle) ItemSortBy.RANDOM else ItemSortBy.SORT_NAME,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields,
+				)
+				response.items
+			}
+
+			BaseItemKind.SEASON -> {
+				val response by api.tvShowsApi.getEpisodes(
+					seriesId = requireNotNull(mainItem.seriesId),
+					seasonId = mainItem.id,
+					isMissing = false,
+					sortBy = if (shuffle) ItemSortBy.RANDOM else ItemSortBy.SORT_NAME,
+					limit = ITEM_QUERY_LIMIT,
+					fields = ItemRepository.itemFields,
+				)
+				response.items
+			}
+
+			BaseItemKind.FOLDER -> {
 				val response by api.itemsApi.getItems(
 					parentId = mainItem.id,
 					isMissing = false,

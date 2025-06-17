@@ -220,6 +220,17 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					default { (UserPreferences.subtitlesTextSize.defaultValue * 100f).roundToInt() }
 				}
 			}
+
+			checkbox {
+				setTitle(R.string.pref_subtitles_bold)
+				bind {
+					val boldWeight = 700
+					val normalWeight = UserPreferences.subtitlesTextWeight.defaultValue
+					get { userPreferences[UserPreferences.subtitlesTextWeight] == boldWeight }
+					set { checked -> userPreferences[UserPreferences.subtitlesTextWeight] = if (checked) boldWeight else normalWeight }
+					default { false }
+				}
+			}
 		}
 
 		category {
