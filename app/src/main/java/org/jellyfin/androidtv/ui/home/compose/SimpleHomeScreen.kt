@@ -46,13 +46,14 @@ fun SimpleHomeScreen(
                 modifier = modifier.fillMaxSize()
             )
         }
-        else -> {                HomeContent(
-                    homeState = homeState,
-                    onLibraryClick = onLibraryClick,
-                    onItemClick = onItemClick,
-                    getItemImageUrl = getItemImageUrl,
-                    modifier = modifier.fillMaxSize()
-                )
+        else -> {
+            HomeContent(
+                homeState = homeState,
+                onLibraryClick = onLibraryClick,
+                onItemClick = onItemClick,
+                getItemImageUrl = getItemImageUrl,
+                modifier = modifier.fillMaxSize()
+            )
         }
     }
 }
@@ -64,45 +65,44 @@ private fun HomeContent(
     onItemClick: (BaseItemDto) -> Unit,
     getItemImageUrl: (BaseItemDto) -> String?,
     modifier: Modifier = Modifier
-	homeState: HomeScreenState,
-	onLibraryClick: (BaseItemDto) -> Unit,
-	onItemClick: (BaseItemDto) -> Unit,
-	modifier: Modifier = Modifier,
 ) {
-	LazyColumn(
-		modifier = modifier,
-		contentPadding = PaddingValues(16.dp),
-		verticalArrangement = Arrangement.spacedBy(24.dp),
-	) {
-		// Welcome header
-		item {
-			Column {
-				Text(
-					text = "Welcome back",
-					style = MaterialTheme.typography.headlineLarge.copy(
-						fontWeight = FontWeight.Bold,
-					),
-					color = MaterialTheme.colorScheme.onSurface,
-				)
-				Text(
-					text = "Continue watching or discover something new",
-					style = MaterialTheme.typography.bodyLarge,
-					color = MaterialTheme.colorScheme.onSurfaceVariant,
-					modifier = Modifier.padding(top = 4.dp),
-				)
-			}
-		}
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+    ) {
+        // Welcome header
+        item {
+            Column {
+                Text(
+                    text = "Welcome back",
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = "Continue watching or discover something new",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
+        }
 
         // Continue Watching section
         if (homeState.resumeItems.isNotEmpty()) {
-            item {                ContentSection(
+            item {
+                ContentSection(
                     title = "Continue Watching",
                     items = homeState.resumeItems,
                     onItemClick = onItemClick,
                     getItemImageUrl = getItemImageUrl
                 )
             }
-        }        // Next Up section  
+        }
+
+        // Next Up section  
         if (homeState.nextUpItems.isNotEmpty()) {
             item {
                 ContentSection(
@@ -137,60 +137,17 @@ private fun HomeContent(
                 )
             }
         }
-		// Continue Watching section
-		if (homeState.resumeItems.isNotEmpty()) {
-			item {
-				ContentSection(
-					title = "Continue Watching",
-					items = homeState.resumeItems,
-					onItemClick = onItemClick,
-				)
-			}
-		}
 
-		// Next Up section
-		if (homeState.nextUpItems.isNotEmpty()) {
-			item {
-				ContentSection(
-					title = "Next Up",
-					items = homeState.nextUpItems,
-					onItemClick = onItemClick,
-				)
-			}
-		}
-
-		// Latest Movies section
-		if (homeState.latestMovies.isNotEmpty()) {
-			item {
-				ContentSection(
-					title = "Latest Movies",
-					items = homeState.latestMovies,
-					onItemClick = onItemClick,
-				)
-			}
-		}
-
-		// Latest Episodes section
-		if (homeState.latestEpisodes.isNotEmpty()) {
-			item {
-				ContentSection(
-					title = "Latest Episodes",
-					items = homeState.latestEpisodes,
-					onItemClick = onItemClick,
-				)
-			}
-		}
-
-		// Your Libraries section
-		if (homeState.libraries.isNotEmpty()) {
-			item {
-				LibrariesSection(
-					libraries = homeState.libraries,
-					onLibraryClick = onLibraryClick,
-				)
-			}
-		}
-	}
+        // Your Libraries section
+        if (homeState.libraries.isNotEmpty()) {
+            item {
+                LibrariesSection(
+                    libraries = homeState.libraries,
+                    onLibraryClick = onLibraryClick,
+                )
+            }
+        }
+    }
 }
 
 @Composable
@@ -202,7 +159,8 @@ private fun ContentSection(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(            text = title,
+        Text(
+            text = title,
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontWeight = FontWeight.SemiBold
             ),
@@ -217,138 +175,77 @@ private fun ContentSection(
             getItemImageUrl = getItemImageUrl
         )
     }
-	title: String,
-	items: List<BaseItemDto>,
-	onItemClick: (BaseItemDto) -> Unit,
-	modifier: Modifier = Modifier,
-) {
-	Column(modifier = modifier) {
-		Text(
-			text = title,
-			style = MaterialTheme.typography.headlineSmall.copy(
-				fontWeight = FontWeight.SemiBold,
-			),
-			color = MaterialTheme.colorScheme.onSurface,
-			modifier = Modifier.padding(bottom = 12.dp),
-		)
-		MediaRow(
-			title = title,
-			items = items,
-			onItemClick = onItemClick,
-		)
-	}
 }
 
 @Composable
 private fun LibrariesSection(
-	libraries: List<BaseItemDto>,
-	onLibraryClick: (BaseItemDto) -> Unit,
-	modifier: Modifier = Modifier,
+    libraries: List<BaseItemDto>,
+    onLibraryClick: (BaseItemDto) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-	Column(modifier = modifier) {
-		Text(
-			text = "Your Libraries",
-			style = MaterialTheme.typography.headlineSmall.copy(
-				fontWeight = FontWeight.SemiBold,
-			),
-			color = MaterialTheme.colorScheme.onSurface,
-			modifier = Modifier.padding(bottom = 12.dp),
-		)
+    Column(modifier = modifier) {
+        Text(
+            text = "Your Libraries",
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontWeight = FontWeight.SemiBold,
+            ),
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(bottom = 12.dp),
+        )
 
-		LazyRow(
-			horizontalArrangement = Arrangement.spacedBy(12.dp),
-			contentPadding = PaddingValues(horizontal = 4.dp),
-		) {
-			items(libraries) { library ->
-				MediaCard(
-					item = library,
-					onClick = { onLibraryClick(library) },
-				)
-			}
-		}
-	}
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(horizontal = 4.dp),
+        ) {
+            items(libraries) { library ->
+                MediaCard(
+                    item = library,
+                    onClick = { onLibraryClick(library) },
+                )
+            }
+        }
+    }
 }
 
 @Composable
 private fun LoadingState(
-	modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ) {
-	Box(
-		modifier = modifier,
-		contentAlignment = Alignment.Center,
-	) {
-		Column(
-			horizontalAlignment = Alignment.CenterHorizontally,
-			verticalArrangement = Arrangement.spacedBy(16.dp),
-		) {
-			CircularProgressIndicator(
-				color = MaterialTheme.colorScheme.primary,
-			)
-			Text(
-				text = "Loading your content...",
-				style = MaterialTheme.typography.bodyLarge,
-				color = MaterialTheme.colorScheme.onSurfaceVariant,
-			)
-		}
-	}
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Text(
+                text = "Loading your content...",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
 }
 
 @Composable
 private fun ErrorState(
-	error: String,
-	modifier: Modifier = Modifier,
+    error: String,
+    modifier: Modifier = Modifier,
 ) {
-	Box(
-		modifier = modifier,
-		contentAlignment = Alignment.Center,
-	) {
-		Text(
-			text = "Error: $error",
-			style = MaterialTheme.typography.bodyLarge,
-			color = MaterialTheme.colorScheme.error,
-			textAlign = TextAlign.Center,
-			modifier = Modifier.padding(16.dp),
-		)
-	}
-}
-
-@Composable
-private fun LibrariesContent(
-	libraries: List<BaseItemDto>,
-	onLibraryClick: (BaseItemDto) -> Unit,
-	modifier: Modifier = Modifier,
-) {
-	if (libraries.isEmpty()) {
-		Box(
-			modifier = modifier,
-			contentAlignment = Alignment.Center,
-		) {
-			Text(
-				text = "No libraries found",
-				style = MaterialTheme.typography.bodyLarge,
-				modifier = Modifier.padding(16.dp),
-			)
-		}
-	} else {
-		LazyColumn(
-			modifier = modifier,
-			contentPadding = PaddingValues(16.dp),
-			verticalArrangement = Arrangement.spacedBy(12.dp),
-		) {
-			item {
-				Text(
-					text = "Your Libraries",
-					style = MaterialTheme.typography.headlineSmall,
-					modifier = Modifier.padding(bottom = 8.dp),
-				)
-			}
-			items(libraries) { library ->
-				MediaCard(
-					item = library,
-					onClick = { onLibraryClick(library) },
-					modifier = Modifier.fillMaxWidth(),
-				)
-			}
-		}
-	}
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = "Error: $error",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(16.dp),
+        )
+    }
 }
