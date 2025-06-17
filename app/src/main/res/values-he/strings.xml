@@ -363,7 +363,7 @@
     <string name="server_issue_missing_version">לא ניתן לזהות את גרסת השרת</string>
     <string name="server_issue_invalid_product">תוכנת השרת אינה נתמכת</string>
     <string name="server_issue_unable_to_connect">תקלה בהתחברות לשרת</string>
-    <string name="pref_subtitles_size">גודל גופן</string>
+    <string name="pref_subtitles_size">גודל טקסט</string>
     <string name="pref_subtitles_background_summary">הצג רקע שחור מאחורי הכתוביות</string>
     <string name="pref_subtitles_background_title">הפעל רקע לכתוביות</string>
     <string name="searchable_settings_description">מדיה</string>
@@ -593,4 +593,5 @@
     <string name="speech_error_unavailable">זיהוי דיבור אינו זמין במכשיר זה.</string>
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
     <string name="speech_error_unknown">שגיאה בלתי צפויה התרחשה במהלך זיהוי הדיבור.</string>
+    <string name="pref_subtitles_bold">טקסט מודגש</string>
 </resources>
