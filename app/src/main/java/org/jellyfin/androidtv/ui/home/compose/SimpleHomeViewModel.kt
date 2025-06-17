@@ -72,7 +72,7 @@ class SimpleHomeViewModel(
 				val latestEpisodes = latestEpisodesDeferred.await()
 
 				Timber.d(
-					"SimpleHomeViewModel: Loaded ${userViews.size} user views, ${resumeItems.size} resume items, ${nextUpItems.size} next up items, ${latestMovies.size} latest movies, ${latestEpisodes.size} latest episodes",
+					"SimpleHomeViewModel: Loaded ${userViews.size} user views, ${resumeItems.size} resume items, ${nextUpItems.size} next up items, ${latestMovies.size} latest movies, ${latestEpisodes.size} latest episodes"
 				)
 
 				_homeState.value = HomeScreenState(
@@ -92,7 +92,9 @@ class SimpleHomeViewModel(
 				)
 			}
 		}
-	} private suspend fun loadResumeItems(): List<BaseItemDto> {
+	}
+
+	private suspend fun loadResumeItems(): List<BaseItemDto> {
 		return try {
 			val request = GetResumeItemsRequest(
 				limit = 10,
@@ -123,7 +125,9 @@ class SimpleHomeViewModel(
 			Timber.e(e, "Failed to load next up items")
 			emptyList()
 		}
-	} private suspend fun loadLatestMovies(): List<BaseItemDto> {
+	}
+
+	private suspend fun loadLatestMovies(): List<BaseItemDto> {
 		return try {
 			val request = GetLatestMediaRequest(
 				includeItemTypes = listOf(BaseItemKind.MOVIE),
@@ -139,6 +143,7 @@ class SimpleHomeViewModel(
 			emptyList()
 		}
 	}
+
 	private suspend fun loadLatestEpisodes(): List<BaseItemDto> {
 		return try {
 			val request = GetLatestMediaRequest(
@@ -170,7 +175,18 @@ class SimpleHomeViewModel(
 		} catch (e: Exception) {
 			Timber.e(e, "Failed to navigate to item: ${item.name}")
 		}
-	} fun refresh() {
+	}
+
+	fun getItemImageUrl(item: BaseItemDto): String? {
+		return try {
+			imageHelper.getPrimaryImageUrl(item)
+		} catch (e: Exception) {
+			Timber.e(e, "Failed to get image URL for item: ${item.name}")
+			null
+		}
+	}
+
+	fun refresh() {
 		loadHomeData()
 	}
 }
