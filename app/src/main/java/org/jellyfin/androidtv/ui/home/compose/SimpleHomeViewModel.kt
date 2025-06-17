@@ -72,7 +72,7 @@ class SimpleHomeViewModel(
 				val latestEpisodes = latestEpisodesDeferred.await()
 
 				Timber.d(
-					"SimpleHomeViewModel: Loaded ${userViews.size} user views, ${resumeItems.size} resume items, ${nextUpItems.size} next up items, ${latestMovies.size} latest movies, ${latestEpisodes.size} latest episodes"
+					"SimpleHomeViewModel: Loaded ${userViews.size} user views, ${resumeItems.size} resume items, ${nextUpItems.size} next up items, ${latestMovies.size} latest movies, ${latestEpisodes.size} latest episodes",
 				)
 
 				_homeState.value = HomeScreenState(
