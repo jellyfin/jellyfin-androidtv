@@ -39,11 +39,11 @@ data class HomeScreenState(
  * Enhanced ViewModel for Compose Home Screen with real data loading
  */
 class SimpleHomeViewModel(
-    private val userRepository: UserRepository,
-    private val userViewsRepository: UserViewsRepository,
-    private val navigationRepository: NavigationRepository,
-    private val apiClient: ApiClient,
-    private val imageHelper: ImageHelper
+	private val userRepository: UserRepository,
+	private val userViewsRepository: UserViewsRepository,
+	private val navigationRepository: NavigationRepository,
+	private val apiClient: ApiClient,
+	private val imageHelper: ImageHelper,
 ) : ViewModel() {
 
 	private val _homeState = MutableStateFlow(HomeScreenState())
