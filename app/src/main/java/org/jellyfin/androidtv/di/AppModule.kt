@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -43,7 +44,6 @@ import org.jellyfin.androidtv.ui.search.SearchViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
-import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
@@ -97,8 +97,11 @@ val appModule = module {
 				@OptIn(ExperimentalCoilApi::class)
 				add(OkHttpNetworkFetcherFactory(connectivityChecker = ::createCoilConnectivityChecker))
 
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(AnimatedImageDecoder.Factory())
-				else add(GifDecoder.Factory())
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+					add(AnimatedImageDecoder.Factory())
+				} else {
+					add(GifDecoder.Factory())
+				}
 				add(SvgDecoder.Factory())
 			}
 		}.build()

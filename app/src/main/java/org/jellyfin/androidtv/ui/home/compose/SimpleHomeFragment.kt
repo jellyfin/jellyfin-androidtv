@@ -18,28 +18,28 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * This is a minimal example to demonstrate the gradual migration approach.
  */
 class SimpleHomeFragment : Fragment() {
-    
-    private val viewModel by viewModel<SimpleHomeViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        android.util.Log.d("SimpleHomeFragment", "onCreateView() called - Compose home screen loading")
-          return ComposeView(requireContext()).apply {
-            setContent {
-                JellyfinTheme {
-                    val homeState by viewModel.homeState.collectAsState()
+	private val viewModel by viewModel<SimpleHomeViewModel>()
 
-                    SimpleHomeScreen(
-                        homeState = homeState,
-                        onLibraryClick = viewModel::onLibraryClick,
-                        onItemClick = viewModel::onItemClick,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-        }
-    }
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?,
+	): View {
+		android.util.Log.d("SimpleHomeFragment", "onCreateView() called - Compose home screen loading")
+		return ComposeView(requireContext()).apply {
+			setContent {
+				JellyfinTheme {
+					val homeState by viewModel.homeState.collectAsState()
+
+					SimpleHomeScreen(
+						homeState = homeState,
+						onLibraryClick = viewModel::onLibraryClick,
+						onItemClick = viewModel::onItemClick,
+						modifier = Modifier.fillMaxSize(),
+					)
+				}
+			}
+		}
+	}
 }

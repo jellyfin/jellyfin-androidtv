@@ -22,6 +22,8 @@ import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.databinding.FragmentHomeBinding
+import org.jellyfin.androidtv.ui.feature.ComposeFeatureFlags
+import org.jellyfin.androidtv.ui.home.compose.SimpleHomeFragment
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -29,8 +31,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.shared.toolbar.HomeToolbar
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageHelper
-import org.jellyfin.androidtv.ui.feature.ComposeFeatureFlags
-import org.jellyfin.androidtv.ui.home.compose.SimpleHomeFragment
 import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
@@ -84,8 +84,11 @@ class HomeFragment : Fragment() {
 		sessionRepository.currentSession
 			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
 			.map { session ->
-				if (session == null) null
-				else serverRepository.getServer(session.serverId)
+				if (session == null) {
+					null
+				} else {
+					serverRepository.getServer(session.serverId)
+				}
 			}
 			.onEach { server ->
 				notificationRepository.updateServerNotifications(server)

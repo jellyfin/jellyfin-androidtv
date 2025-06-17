@@ -132,14 +132,14 @@ object Destinations {
 		)
 
 	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(
-		"Position" to (position ?: 0)
+		"Position" to (position ?: 0),
 	)
 
 	fun playbackRewritePlayer(position: Int?) = fragmentDestination<PlaybackRewriteFragment>(
-		PlaybackRewriteFragment.EXTRA_POSITION to position
+		PlaybackRewriteFragment.EXTRA_POSITION to position,
 	)
 
 	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(
-		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
+		NextUpFragment.ARGUMENT_ITEM_ID to item.toString(),
 	)
 }
