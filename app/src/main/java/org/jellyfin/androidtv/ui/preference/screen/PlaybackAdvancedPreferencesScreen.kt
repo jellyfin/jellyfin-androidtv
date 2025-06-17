@@ -97,6 +97,13 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.preference_enable_pgs)
+				setContent(R.string.enable_pgs_description)
+
+				bind(userPreferences, UserPreferences.pgsDirectPlay)
+			}
+
+			checkbox {
 				setTitle(R.string.pref_external_player)
 				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
