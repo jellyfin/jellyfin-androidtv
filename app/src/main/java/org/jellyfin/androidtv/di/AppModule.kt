@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.browsing.compose.ComposeMoviesViewModel
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
@@ -130,6 +131,7 @@ val appModule = module {
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SimpleHomeViewModel(get(), get(), get(), get(), get()) }
+	viewModel<ComposeMoviesViewModel> { ComposeMoviesViewModel() }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 

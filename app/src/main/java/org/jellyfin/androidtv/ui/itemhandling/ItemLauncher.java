@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
+import org.jellyfin.androidtv.ui.feature.ComposeFeatureFlags;
 import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -26,6 +27,9 @@ import org.koin.java.KoinJavaComponent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import kotlin.Lazy;
+import timber.log.Timber;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -51,6 +55,11 @@ public class ItemLauncher {
 
         switch (collectionType) {
             case MOVIES:
+                // Check if Compose Movies screen is enabled
+                if (ComposeFeatureFlags.ENABLE_COMPOSE_MOVIES) {
+                    return Destinations.INSTANCE.composeMoviesBrowser(baseItem);
+                }
+                // Fall through to existing logic for TV Shows and traditional behavior
             case TVSHOWS:
                 LibraryPreferences displayPreferences = preferencesRepository.getValue().getLibraryPreferences(baseItem.getDisplayPreferencesId());
                 boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());

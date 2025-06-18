@@ -5,18 +5,23 @@ package org.jellyfin.androidtv.ui.feature
  * This allows you to test and enable new features incrementally
  */
 object ComposeFeatureFlags {
-    
-    /**
+      /**
      * Enable the new Compose-based home screen
      * When true, uses MediaBrowseLayout instead of Leanback RowsSupportFragment
      */
-    val ENABLE_COMPOSE_HOME = true // Set to false to disable
+    val ENABLE_COMPOSE_HOME = false // Disabled due to focus navigation issues
     
     /**
      * Enable Compose-based browse screens
      * When true, uses MediaBrowseLayout for library browsing
      */
     val ENABLE_COMPOSE_BROWSE = false // Start with false, enable when ready
+      /**
+     * Enable Compose-based Movies library screen
+     * When true, uses ComposeMoviesFragment instead of BrowseGridFragment for Movies
+     */
+    @JvmField
+    val ENABLE_COMPOSE_MOVIES = true // Enable for testing
     
     /**
      * Enable Compose-based grid layouts
