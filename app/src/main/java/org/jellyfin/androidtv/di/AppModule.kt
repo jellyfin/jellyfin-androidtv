@@ -27,9 +27,9 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.browsing.compose.ComposeMoviesViewModel
 import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
-import org.jellyfin.androidtv.ui.browsing.compose.ComposeMoviesViewModel
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
