@@ -310,7 +310,7 @@
     <string name="alphabetical">אלפביתי</string>
     <string name="lbl_switch_user">החלף משתמש</string>
     <string name="connect_manually_by_address">הכנס כתובת שרת</string>
-    <string name="pref_subtitles_size">גודל גופן</string>
+    <string name="pref_subtitles_size">גודל טקסט</string>
     <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות?</string>
     <string name="audio_error">לא ניתן לנגן שמע %1$s</string>
     <string name="episode_missing_message">פרק זה חסר בספרייה שלך. האם לדלג עליו ולהמשיך לפרק הבא?</string>
@@ -588,4 +588,5 @@
     <string name="speech_error_unknown">שגיאה בלתי צפויה התרחשה במהלך זיהוי הדיבור.</string>
     <string name="speech_error_unavailable">זיהוי דיבור אינו זמין במכשיר זה.</string>
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
+    <string name="pref_subtitles_bold">טקסט מודגש</string>
 </resources>
