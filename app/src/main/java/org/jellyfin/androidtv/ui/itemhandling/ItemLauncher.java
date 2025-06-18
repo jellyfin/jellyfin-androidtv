@@ -92,6 +92,11 @@ public class ItemLauncher {
         // Fall through to existing logic for traditional behavior
         return Destinations.INSTANCE.librarySmartScreen(baseItem);
       case LIVETV:
+        // Check if Compose Live TV screen is enabled
+        if (ComposeFeatureFlags.ENABLE_COMPOSE_LIVETV) {
+          return Destinations.INSTANCE.composeLiveTvBrowser(baseItem);
+        }
+        // Fall through to existing logic for traditional behavior
         return Destinations.INSTANCE.librarySmartScreen(baseItem);
       default:
         return Destinations.INSTANCE.libraryBrowser(baseItem);

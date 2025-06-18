@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.ui.browsing.ByLetterFragment
 import org.jellyfin.androidtv.ui.browsing.CollectionFragment
 import org.jellyfin.androidtv.ui.browsing.GenericFolderFragment
 import org.jellyfin.androidtv.ui.browsing.SuggestedMoviesFragment
+import org.jellyfin.androidtv.ui.browsing.compose.ComposeLiveTvFragment
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeMoviesFragment
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeMusicFragment
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeTvShowsFragment
@@ -66,6 +67,11 @@ object Destinations {
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun composeMusicBrowser(item: BaseItemDto) = fragmentDestination<ComposeMusicFragment>(
+		Extras.Folder to Json.Default.encodeToString(item),
+	)
+
+	// TODO only pass item id instead of complete JSON to browsing destinations
+	fun composeLiveTvBrowser(item: BaseItemDto) = fragmentDestination<ComposeLiveTvFragment>(
 		Extras.Folder to Json.Default.encodeToString(item),
 	)
 
