@@ -97,7 +97,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 					ImmersiveListSection(
 						title = "Latest",
 						items = latestAudio,
-						layout = ImmersiveListLayout.HORIZONTAL_ROW,
+						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 					),
 				)
 				Timber.d("Added Latest Audio section with ${latestAudio.size} items")
@@ -110,7 +110,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 					ImmersiveListSection(
 						title = "Last Played",
 						items = lastPlayed,
-						layout = ImmersiveListLayout.HORIZONTAL_ROW,
+						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 					),
 				)
 				Timber.d("Added Last Played section with ${lastPlayed.size} items")
@@ -123,7 +123,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 					ImmersiveListSection(
 						title = "Favorites",
 						items = favoriteAlbums,
-						layout = ImmersiveListLayout.HORIZONTAL_ROW,
+						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 					),
 				)
 				Timber.d("Added Favorites section with ${favoriteAlbums.size} items")
@@ -136,7 +136,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 					ImmersiveListSection(
 						title = "Playlists",
 						items = playlists,
-						layout = ImmersiveListLayout.HORIZONTAL_ROW,
+						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 					),
 				)
 				Timber.d("Added Playlists section with ${playlists.size} items")
