@@ -430,7 +430,7 @@ fun MultiSectionImmersiveList(
 							when (section.layout) {
 								ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
 								ImmersiveListLayout.VERTICAL_GRID -> 600.dp
-							}
+							},
 						),
 				)
 			}
