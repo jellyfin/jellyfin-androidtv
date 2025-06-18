@@ -85,6 +85,12 @@ public class ItemLauncher {
         if (!enableSmartScreen) return Destinations.INSTANCE.libraryBrowser(baseItem);
         else return Destinations.INSTANCE.librarySmartScreen(baseItem);
       case MUSIC:
+        // Check if Compose Music screen is enabled
+        if (ComposeFeatureFlags.ENABLE_COMPOSE_MUSIC) {
+          return Destinations.INSTANCE.composeMusicBrowser(baseItem);
+        }
+        // Fall through to existing logic for traditional behavior
+        return Destinations.INSTANCE.librarySmartScreen(baseItem);
       case LIVETV:
         return Destinations.INSTANCE.librarySmartScreen(baseItem);
       default:

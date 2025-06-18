@@ -32,6 +32,13 @@ object ComposeFeatureFlags {
 	val ENABLE_COMPOSE_TVSHOWS = true // Enable for testing
 
 	/**
+	 * Enable Compose-based Music library screen
+	 * When true, uses ComposeMusicFragment instead of BrowseViewFragment for Music
+	 */
+	@JvmField
+	val ENABLE_COMPOSE_MUSIC = true // Enable for testing
+
+	/**
 	 * Enable Compose-based grid layouts
 	 * When true, uses MediaGrid instead of HorizontalGridPresenter
 	 */
