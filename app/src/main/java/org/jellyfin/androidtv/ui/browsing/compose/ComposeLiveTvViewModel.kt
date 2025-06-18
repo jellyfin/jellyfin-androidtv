@@ -149,7 +149,6 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 
 			// Load smart sections (last 24 hours, scheduled, etc.)
 			loadSmartSections(sections)
-
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading Live TV sections")
 		}
@@ -247,12 +246,13 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				.mapNotNull { timer -> convertTimerToBaseItem(timer) }
 
 			if (scheduledRecordings.isNotEmpty()) {
-				sections.add(0, 
+				sections.add(
+					0,
 					ImmersiveListSection(
 						title = "Scheduled in Next 24 Hours",
 						items = scheduledRecordings,
 						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					)
+					),
 				)
 			}
 
@@ -260,34 +260,35 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 			val past24Hours = LocalDateTime.now().minusDays(1)
 			val pastWeek = LocalDateTime.now().minusWeeks(1)
 
-			val dayRecordings = recordings.filter { 
-				it.dateCreated?.isAfter(past24Hours) == true 
+			val dayRecordings = recordings.filter {
+				it.dateCreated?.isAfter(past24Hours) == true
 			}
-			val weekRecordings = recordings.filter { 
-				it.dateCreated?.isAfter(pastWeek) == true && 
-				it.dateCreated?.isBefore(past24Hours) == true 
+			val weekRecordings = recordings.filter {
+				it.dateCreated?.isAfter(pastWeek) == true &&
+					it.dateCreated?.isBefore(past24Hours) == true
 			}
 
 			if (dayRecordings.isNotEmpty()) {
-				sections.add(0,
+				sections.add(
+					0,
 					ImmersiveListSection(
 						title = "Past 24 Hours",
 						items = dayRecordings,
 						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					)
+					),
 				)
 			}
 
 			if (weekRecordings.isNotEmpty()) {
-				sections.add(if (dayRecordings.isNotEmpty()) 1 else 0,
+				sections.add(
+					if (dayRecordings.isNotEmpty()) 1 else 0,
 					ImmersiveListSection(
 						title = "Past Week",
 						items = weekRecordings,
 						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					)
+					),
 				)
 			}
-
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading smart sections")
 		}
