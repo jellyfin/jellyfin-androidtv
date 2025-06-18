@@ -34,6 +34,7 @@ class SimpleHomeFragment : Fragment() {
 
 					SimpleHomeScreen(
 						homeState = homeState,
+						viewModel = viewModel,
 						onLibraryClick = viewModel::onLibraryClick,
 						onItemClick = viewModel::onItemClick,
 						getItemImageUrl = viewModel::getItemImageUrl,

@@ -28,6 +28,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 @Composable
 fun SimpleHomeScreen(
 	homeState: HomeScreenState,
+	viewModel: SimpleHomeViewModel,
 	onLibraryClick: (BaseItemDto) -> Unit,
 	onItemClick: (BaseItemDto) -> Unit = {},
 	getItemImageUrl: (BaseItemDto) -> String? = { null },
@@ -48,6 +49,7 @@ fun SimpleHomeScreen(
 		else -> {
 			HomeContent(
 				homeState = homeState,
+				viewModel = viewModel,
 				onLibraryClick = onLibraryClick,
 				onItemClick = onItemClick,
 				getItemImageUrl = getItemImageUrl,
@@ -60,6 +62,7 @@ fun SimpleHomeScreen(
 @Composable
 private fun HomeContent(
 	homeState: HomeScreenState,
+	viewModel: SimpleHomeViewModel,
 	onLibraryClick: (BaseItemDto) -> Unit,
 	onItemClick: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
@@ -96,7 +99,7 @@ private fun HomeContent(
 					title = "Continue Watching",
 					items = homeState.resumeItems,
 					onItemClick = onItemClick,
-					getItemImageUrl = getItemImageUrl,
+					getItemImageUrl = { item -> viewModel.getSeriesImageUrl(item) },
 				)
 			}
 		}
@@ -108,6 +111,17 @@ private fun HomeContent(
 					title = "Next Up",
 					items = homeState.nextUpItems,
 					onItemClick = onItemClick,
+					getItemImageUrl = { item -> viewModel.getSeriesImageUrl(item) },
+				)
+			}
+		}
+
+		// Your Libraries section
+		if (homeState.libraries.isNotEmpty()) {
+			item {
+				LibrariesSection(
+					libraries = homeState.libraries,
+					onLibraryClick = onLibraryClick,
 					getItemImageUrl = getItemImageUrl,
 				)
 			}
@@ -132,17 +146,7 @@ private fun HomeContent(
 					title = "Latest Episodes",
 					items = homeState.latestEpisodes,
 					onItemClick = onItemClick,
-					getItemImageUrl = getItemImageUrl,
-				)
-			}
-		}
-
-		// Your Libraries section
-		if (homeState.libraries.isNotEmpty()) {
-			item {
-				LibrariesSection(
-					libraries = homeState.libraries,
-					onLibraryClick = onLibraryClick,
+					getItemImageUrl = { item -> viewModel.getSeriesImageUrl(item) },
 				)
 			}
 		}
@@ -180,6 +184,7 @@ private fun ContentSection(
 private fun LibrariesSection(
 	libraries: List<BaseItemDto>,
 	onLibraryClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	Column(modifier = modifier) {
@@ -199,6 +204,7 @@ private fun LibrariesSection(
 			items(libraries) { library ->
 				MediaCard(
 					item = library,
+					imageUrl = getItemImageUrl(library),
 					onClick = { onLibraryClick(library) },
 				)
 			}

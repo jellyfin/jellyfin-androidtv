@@ -13,6 +13,8 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
@@ -161,6 +163,43 @@ class SimpleHomeViewModel(
 		}
 	}
 
+	fun getItemImageUrl(item: BaseItemDto): String? {
+		return try {
+			val imageUrl = imageHelper.getPrimaryImageUrl(item, 300, 450)
+			Timber.d("Generated image URL for ${item.name}: $imageUrl")
+			imageUrl
+		} catch (e: Exception) {
+			Timber.e(e, "Failed to get image URL for item: ${item.name}")
+			null
+		}
+	}
+
+	fun getSeriesImageUrl(item: BaseItemDto): String? {
+		return try {
+			// For episodes, get the series poster image
+			when (item.type) {
+				BaseItemKind.EPISODE -> {
+					// Use the built-in seriesPrimaryImage from ImageHelper
+					val seriesImageUrl = item.seriesPrimaryImage?.getUrl(
+						api = apiClient,
+						maxWidth = 300,
+						maxHeight = 450
+					)
+					Timber.d("Generated series image URL for episode ${item.name} -> ${item.seriesName}: $seriesImageUrl")
+					seriesImageUrl ?: getItemImageUrl(item)
+				}
+				else -> {
+					// For non-episodes, use regular image
+					getItemImageUrl(item)
+				}
+			}
+		} catch (e: Exception) {
+			Timber.e(e, "Failed to get series image URL for item: ${item.name}")
+			// Fallback to regular image
+			getItemImageUrl(item)
+		}
+	}
+
 	fun onLibraryClick(library: BaseItemDto) {
 		try {
 			navigationRepository.navigate(Destinations.libraryBrowser(library))
@@ -174,15 +213,6 @@ class SimpleHomeViewModel(
 			navigationRepository.navigate(Destinations.itemDetails(item.id))
 		} catch (e: Exception) {
 			Timber.e(e, "Failed to navigate to item: ${item.name}")
-		}
-	}
-
-	fun getItemImageUrl(item: BaseItemDto): String? {
-		return try {
-			imageHelper.getPrimaryImageUrl(item)
-		} catch (e: Exception) {
-			Timber.e(e, "Failed to get image URL for item: ${item.name}")
-			null
 		}
 	}
 
