@@ -34,6 +34,7 @@ data class HomeScreenState(
 	val nextUpItems: List<BaseItemDto> = emptyList(),
 	val latestMovies: List<BaseItemDto> = emptyList(),
 	val latestEpisodes: List<BaseItemDto> = emptyList(),
+	val recentlyAddedStuff: List<BaseItemDto> = emptyList(),
 	val error: String? = null,
 )
 
@@ -66,15 +67,17 @@ class SimpleHomeViewModel(
 				val nextUpItemsDeferred = async { loadNextUpItems() }
 				val latestMoviesDeferred = async { loadLatestMovies() }
 				val latestEpisodesDeferred = async { loadLatestEpisodes() }
+				val recentlyAddedStuffDeferred = async { loadRecentlyAddedStuff() }
 
 				val userViews = userViewsDeferred.await()
 				val resumeItems = resumeItemsDeferred.await()
 				val nextUpItems = nextUpItemsDeferred.await()
 				val latestMovies = latestMoviesDeferred.await()
 				val latestEpisodes = latestEpisodesDeferred.await()
+				val recentlyAddedStuff = recentlyAddedStuffDeferred.await()
 
 				Timber.d(
-					"SimpleHomeViewModel: Loaded ${userViews.size} user views, ${resumeItems.size} resume items, ${nextUpItems.size} next up items, ${latestMovies.size} latest movies, ${latestEpisodes.size} latest episodes",
+					"SimpleHomeViewModel: Loaded ${userViews.size} user views, ${resumeItems.size} resume items, ${nextUpItems.size} next up items, ${latestMovies.size} latest movies, ${latestEpisodes.size} latest episodes, ${recentlyAddedStuff.size} recently added stuff",
 				)
 
 				_homeState.value = HomeScreenState(
@@ -84,6 +87,7 @@ class SimpleHomeViewModel(
 					nextUpItems = nextUpItems,
 					latestMovies = latestMovies,
 					latestEpisodes = latestEpisodes,
+					recentlyAddedStuff = recentlyAddedStuff,
 					error = null,
 				)
 			} catch (e: Exception) {
@@ -159,6 +163,33 @@ class SimpleHomeViewModel(
 			result
 		} catch (e: Exception) {
 			Timber.e(e, "Failed to load latest episodes")
+			emptyList()
+		}
+	}
+
+	private suspend fun loadRecentlyAddedStuff(): List<BaseItemDto> {
+		return try {
+			// First, find the "stuff" library
+			val userViews = userViewsRepository.views.first()
+			val stuffLibrary = userViews.find { it.name?.lowercase() == "stuff" }
+			
+			if (stuffLibrary != null) {
+				val request = GetLatestMediaRequest(
+					parentId = stuffLibrary.id,
+					includeItemTypes = listOf(BaseItemKind.VIDEO),
+					isPlayed = false,
+					limit = 20,
+					groupItems = false,
+				)
+				val result = apiClient.userLibraryApi.getLatestMedia(request = request).content
+				Timber.d("Recently added stuff loaded: ${result.size} items")
+				result
+			} else {
+				Timber.d("No 'stuff' library found")
+				emptyList()
+			}
+		} catch (e: Exception) {
+			Timber.e(e, "Failed to load recently added stuff")
 			emptyList()
 		}
 	}
