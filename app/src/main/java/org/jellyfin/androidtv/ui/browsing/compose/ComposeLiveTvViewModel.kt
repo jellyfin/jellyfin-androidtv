@@ -298,8 +298,10 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 		// This is a simplified conversion - in a real implementation you'd want
 		// to create a proper BaseItemDto with all necessary fields
 		return try {
+			// Convert timer.id from String? to UUID - if null, generate a random UUID
+			val id = timer.id?.let { UUID.fromString(it) } ?: UUID.randomUUID()
 			BaseItemDto(
-				id = timer.id,
+				id = id,
 				name = timer.name,
 				overview = timer.overview,
 				startDate = timer.startDate,
@@ -324,7 +326,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				// Navigate to channel or start playback
 				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
-			BaseItemKind.LIVE_TV_RECORDING -> {
+			BaseItemKind.RECORDING -> {
 				// Navigate to recording details or start playback
 				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
