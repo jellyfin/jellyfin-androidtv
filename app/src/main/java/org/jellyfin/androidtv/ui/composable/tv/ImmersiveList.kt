@@ -34,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -337,7 +336,7 @@ private fun HorizontalCardsList(
 	) {
 		items(items) { item ->
 			Box(
-				modifier = Modifier.padding(4.dp) // Add padding around each card for focus scaling
+				modifier = Modifier.padding(4.dp), // Add padding around each card for focus scaling
 			) {
 				ImmersiveListCard(
 					item = item,
@@ -377,7 +376,7 @@ private fun VerticalCardsGrid(
 	) {
 		items(items) { item ->
 			Box(
-				modifier = Modifier.padding(4.dp) // Add padding around each card for focus scaling
+				modifier = Modifier.padding(4.dp), // Add padding around each card for focus scaling
 			) {
 				ImmersiveListCard(
 					item = item,
@@ -420,8 +419,8 @@ private fun ImmersiveListCard(
 			containerColor = if (isFocused) JellyfinColors.FocusedContainer else Color.Transparent,
 		),
 		scale = androidx.tv.material3.CardDefaults.scale(
-			focusedScale = 1.05f,  // Reduced from 1.1f to 1.05f to prevent cutoff
-			pressedScale = 0.98f,  // Slightly less aggressive pressed scale
+			focusedScale = 1.05f, // Reduced from 1.1f to 1.05f to prevent cutoff
+			pressedScale = 0.98f, // Slightly less aggressive pressed scale
 		),
 		border = androidx.tv.material3.CardDefaults.border(
 			focusedBorder = androidx.tv.material3.Border(
