@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -152,7 +153,7 @@ fun ImmersiveList(
 						onItemClick = onItemClick,
 						onItemFocus = { item -> focusedItem = item },
 						getItemImageUrl = getItemImageUrl,
-						modifier = Modifier.fillMaxSize(),
+						modifier = Modifier.fillMaxWidth(),
 					)
 				}
 				ImmersiveListLayout.VERTICAL_GRID -> {
@@ -161,7 +162,7 @@ fun ImmersiveList(
 						onItemClick = onItemClick,
 						onItemFocus = { item -> focusedItem = item },
 						getItemImageUrl = getItemImageUrl,
-						modifier = Modifier.fillMaxSize(),
+						modifier = Modifier.fillMaxWidth(),
 					)
 				}
 			}
@@ -251,7 +252,7 @@ private fun VerticalCardsGrid(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
 		verticalArrangement = Arrangement.spacedBy(16.dp),
 		contentPadding = PaddingValues(16.dp),
-		modifier = modifier,
+		modifier = modifier, // Remove weight, will use different approach
 	) {
 		items(items) { item ->
 			ImmersiveListCard(
@@ -423,7 +424,14 @@ fun MultiSectionImmersiveList(
 					onItemFocus = { item -> globalFocusedItem = item },
 					getItemImageUrl = getItemImageUrl,
 					getItemBackdropUrl = getItemBackdropUrl,
-					modifier = Modifier.fillMaxWidth(),
+					modifier = Modifier
+						.fillMaxWidth()
+						.height(
+							when (section.layout) {
+								ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
+								ImmersiveListLayout.VERTICAL_GRID -> 600.dp
+							}
+						),
 				)
 			}
 		}

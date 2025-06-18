@@ -87,94 +87,23 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 		}
 
 		try {
-			// Continue Watching Movies
-			val resumeItems = loadResumeMovies(folderId)
-			if (resumeItems.isNotEmpty()) {
-				sections.add(
-					ImmersiveListSection(
-						title = "Continue Watching",
-						items = resumeItems,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
-				)
-				Timber.d("Added Continue Watching section with ${resumeItems.size} items")
-			}
-
-			// Latest Movies
-			val latestItems = loadLatestMovies(folderId)
-			if (latestItems.isNotEmpty()) {
-				sections.add(
-					ImmersiveListSection(
-						title = "Latest Movies",
-						items = latestItems,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
-				)
-				Timber.d("Added Latest Movies section with ${latestItems.size} items")
-			}
-
-			// All Movies (Grid View)
+			// All Movies (Grid View) - Single section showing all movies
 			val allMovies = loadAllMovies(folderId)
 			if (allMovies.isNotEmpty()) {
 				sections.add(
 					ImmersiveListSection(
-						title = "All Movies",
+						title = "Movies",
 						items = allMovies,
 						layout = ImmersiveListLayout.VERTICAL_GRID,
 					),
 				)
-				Timber.d("Added All Movies section with ${allMovies.size} items")
-			}
-
-			// Favorite Movies
-			val favoriteItems = loadFavoriteMovies(folderId)
-			if (favoriteItems.isNotEmpty()) {
-				sections.add(
-					ImmersiveListSection(
-						title = "Favorites",
-						items = favoriteItems,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
-				)
-				Timber.d("Added Favorites section with ${favoriteItems.size} items")
+				Timber.d("Added Movies section with ${allMovies.size} items")
 			}
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading movie sections")
 		}
 
 		return sections
-	}
-
-	private suspend fun loadResumeMovies(folderId: UUID): List<BaseItemDto> {
-		return try {
-			val response = apiClient.itemsApi.getResumeItems(
-				parentId = folderId,
-				includeItemTypes = setOf(BaseItemKind.MOVIE),
-				fields = ItemRepository.itemFields,
-				limit = 20,
-			)
-			response.content.items
-		} catch (e: Exception) {
-			Timber.e(e, "Error loading resume movies")
-			emptyList()
-		}
-	}
-	private suspend fun loadLatestMovies(folderId: UUID): List<BaseItemDto> {
-		return try {
-			val response = apiClient.itemsApi.getItems(
-				parentId = folderId,
-				includeItemTypes = setOf(BaseItemKind.MOVIE),
-				recursive = true,
-				fields = ItemRepository.itemFields,
-				sortBy = setOf(ItemSortBy.DATE_CREATED),
-				sortOrder = setOf(SortOrder.DESCENDING),
-				limit = 20,
-			)
-			response.content.items
-		} catch (e: Exception) {
-			Timber.e(e, "Error loading latest movies")
-			emptyList()
-		}
 	}
 
 	private suspend fun loadAllMovies(folderId: UUID): List<BaseItemDto> {
@@ -186,30 +115,11 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 				fields = ItemRepository.itemFields,
 				sortBy = setOf(ItemSortBy.SORT_NAME),
 				sortOrder = setOf(SortOrder.ASCENDING),
-				limit = 50, // Limit for performance
+				limit = 200, // Increased limit since this is now the primary view
 			)
 			response.content.items
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading all movies")
-			emptyList()
-		}
-	}
-
-	private suspend fun loadFavoriteMovies(folderId: UUID): List<BaseItemDto> {
-		return try {
-			val response = apiClient.itemsApi.getItems(
-				parentId = folderId,
-				includeItemTypes = setOf(BaseItemKind.MOVIE),
-				recursive = true,
-				filters = setOf(ItemFilter.IS_FAVORITE),
-				fields = ItemRepository.itemFields,
-				sortBy = setOf(ItemSortBy.SORT_NAME),
-				sortOrder = setOf(SortOrder.ASCENDING),
-				limit = 20,
-			)
-			response.content.items
-		} catch (e: Exception) {
-			Timber.e(e, "Error loading favorite movies")
 			emptyList()
 		}
 	}
