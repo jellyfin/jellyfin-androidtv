@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.integration.dream
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -33,7 +32,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-@SuppressLint("StaticFieldLeak")
 class DreamViewModel(
 	private val api: ApiClient,
 	playbackManager: PlaybackManager,
