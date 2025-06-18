@@ -27,6 +27,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 import java.time.LocalDateTime
+import java.util.UUID
 
 /**
  * ViewModel for the Compose Live TV library screen with immersive list components
@@ -148,6 +149,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 
 			// Load smart sections (last 24 hours, scheduled, etc.)
 			loadSmartSections(sections)
+
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading Live TV sections")
 		}
@@ -245,13 +247,12 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				.mapNotNull { timer -> convertTimerToBaseItem(timer) }
 
 			if (scheduledRecordings.isNotEmpty()) {
-				sections.add(
-					0,
+				sections.add(0, 
 					ImmersiveListSection(
 						title = "Scheduled in Next 24 Hours",
 						items = scheduledRecordings,
 						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
+					)
 				)
 			}
 
@@ -259,35 +260,34 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 			val past24Hours = LocalDateTime.now().minusDays(1)
 			val pastWeek = LocalDateTime.now().minusWeeks(1)
 
-			val dayRecordings = recordings.filter {
-				it.dateCreated?.isAfter(past24Hours) == true
+			val dayRecordings = recordings.filter { 
+				it.dateCreated?.isAfter(past24Hours) == true 
 			}
-			val weekRecordings = recordings.filter {
-				it.dateCreated?.isAfter(pastWeek) == true &&
-					it.dateCreated?.isBefore(past24Hours) == true
+			val weekRecordings = recordings.filter { 
+				it.dateCreated?.isAfter(pastWeek) == true && 
+				it.dateCreated?.isBefore(past24Hours) == true 
 			}
 
 			if (dayRecordings.isNotEmpty()) {
-				sections.add(
-					0,
+				sections.add(0,
 					ImmersiveListSection(
 						title = "Past 24 Hours",
 						items = dayRecordings,
 						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
+					)
 				)
 			}
 
 			if (weekRecordings.isNotEmpty()) {
-				sections.add(
-					if (dayRecordings.isNotEmpty()) 1 else 0,
+				sections.add(if (dayRecordings.isNotEmpty()) 1 else 0,
 					ImmersiveListSection(
 						title = "Past Week",
 						items = weekRecordings,
 						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
+					)
 				)
 			}
+
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading smart sections")
 		}
@@ -298,8 +298,10 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 		// This is a simplified conversion - in a real implementation you'd want
 		// to create a proper BaseItemDto with all necessary fields
 		return try {
+			// Convert timer.id from String? to UUID - if null, generate a random UUID
+			val id = timer.id?.let { UUID.fromString(it) } ?: UUID.randomUUID()
 			BaseItemDto(
-				id = timer.id,
+				id = id,
 				name = timer.name,
 				overview = timer.overview,
 				startDate = timer.startDate,
@@ -324,7 +326,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				// Navigate to channel or start playback
 				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
-			BaseItemKind.LIVE_TV_RECORDING -> {
+			BaseItemKind.RECORDING -> {
 				// Navigate to recording details or start playback
 				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
