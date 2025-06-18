@@ -156,7 +156,7 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 		return item.itemBackdropImages.firstOrNull()?.getUrl(
 			api = apiClient,
 			maxWidth = 1920,
-			maxHeight = 1080
+			maxHeight = 1080,
 		)
 	}
 }
