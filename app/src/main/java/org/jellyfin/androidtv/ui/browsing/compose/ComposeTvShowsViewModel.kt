@@ -155,7 +155,6 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				)
 				Timber.d("Added Favorite Series section with ${favoriteSeries.size} items")
 			}
-
 		} catch (e: Exception) {
 			Timber.e(e, "Error loading TV show sections")
 		}
