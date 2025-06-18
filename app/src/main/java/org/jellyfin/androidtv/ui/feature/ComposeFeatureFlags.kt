@@ -25,6 +25,13 @@ object ComposeFeatureFlags {
 	val ENABLE_COMPOSE_MOVIES = true // Enable for testing
 
 	/**
+	 * Enable Compose-based TV Shows library screen
+	 * When true, uses ComposeTvShowsFragment instead of BrowseGridFragment for TV Shows
+	 */
+	@JvmField
+	val ENABLE_COMPOSE_TVSHOWS = true // Enable for testing
+
+	/**
 	 * Enable Compose-based grid layouts
 	 * When true, uses MediaGrid instead of HorizontalGridPresenter
 	 */

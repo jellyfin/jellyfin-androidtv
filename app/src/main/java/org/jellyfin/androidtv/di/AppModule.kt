@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeMoviesViewModel
+import org.jellyfin.androidtv.ui.browsing.compose.ComposeTvShowsViewModel
 import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -132,6 +133,7 @@ val appModule = module {
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SimpleHomeViewModel(get(), get(), get(), get(), get()) }
 	viewModel<ComposeMoviesViewModel> { ComposeMoviesViewModel() }
+	viewModel<ComposeTvShowsViewModel> { ComposeTvShowsViewModel() }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 

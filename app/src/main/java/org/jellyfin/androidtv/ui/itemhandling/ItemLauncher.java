@@ -59,8 +59,22 @@ public class ItemLauncher {
         if (ComposeFeatureFlags.ENABLE_COMPOSE_MOVIES) {
           return Destinations.INSTANCE.composeMoviesBrowser(baseItem);
         }
-        // Fall through to existing logic for TV Shows and traditional behavior
+        // Fall through to existing logic for traditional behavior
+        LibraryPreferences movieDisplayPreferences =
+            preferencesRepository
+                .getValue()
+                .getLibraryPreferences(baseItem.getDisplayPreferencesId());
+        boolean movieEnableSmartScreen =
+            movieDisplayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
+
+        if (!movieEnableSmartScreen) return Destinations.INSTANCE.libraryBrowser(baseItem);
+        else return Destinations.INSTANCE.librarySmartScreen(baseItem);
       case TVSHOWS:
+        // Check if Compose TV Shows screen is enabled
+        if (ComposeFeatureFlags.ENABLE_COMPOSE_TVSHOWS) {
+          return Destinations.INSTANCE.composeTvShowsBrowser(baseItem);
+        }
+        // Fall through to existing logic for traditional behavior
         LibraryPreferences displayPreferences =
             preferencesRepository
                 .getValue()
