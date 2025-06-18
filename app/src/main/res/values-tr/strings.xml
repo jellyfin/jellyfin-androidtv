@@ -580,4 +580,5 @@
     <string name="speech_error_unknown">Ses tanıma sırasında beklenmeyen bir hata oluştu.</string>
     <string name="lbl_from_beginning">Baştan oynat</string>
     <string name="speech_error_unavailable">Ses tanıma özelliği cihazınızda kullanılamıyor.</string>
+    <string name="pref_subtitles_bold">Kalın metin</string>
 </resources>
