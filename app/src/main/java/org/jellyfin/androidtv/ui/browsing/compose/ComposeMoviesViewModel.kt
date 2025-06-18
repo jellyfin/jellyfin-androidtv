@@ -16,6 +16,8 @@ import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -146,16 +148,16 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 	}
 
 	fun getItemImageUrl(item: BaseItemDto): String? {
-		return imageHelper.getPrimaryImageUrl(item, null, 400)
+		// For horizontal cards, prefer backdrop images first, then fall back to primary
+		return getItemBackdropUrl(item) ?: imageHelper.getPrimaryImageUrl(item, null, 400)
 	}
+	
 	fun getItemBackdropUrl(item: BaseItemDto): String? {
-		return item.backdropImageTags?.firstOrNull()?.let { _ ->
-			// Use the primary image if no backdrop, as a fallback
-			imageHelper.getPrimaryImageUrl(item, null, 1920)
-		} ?: run {
-			// Fallback to primary image if no backdrop
-			imageHelper.getPrimaryImageUrl(item, null, 1920)
-		}
+		return item.itemBackdropImages.firstOrNull()?.getUrl(
+			api = apiClient,
+			maxWidth = 1920,
+			maxHeight = 1080
+		)
 	}
 }
 
