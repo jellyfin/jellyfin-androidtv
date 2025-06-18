@@ -1,16 +1,8 @@
 package org.jellyfin.androidtv.integration.dream
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil3.ImageLoader
-import coil3.request.ImageRequest
-import coil3.toBitmap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +13,6 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.apiclient.getUrl
@@ -45,12 +36,10 @@ import kotlin.time.Duration.Companion.seconds
 @SuppressLint("StaticFieldLeak")
 class DreamViewModel(
 	private val api: ApiClient,
-	private val imageLoader: ImageLoader,
-	private val context: Context,
 	playbackManager: PlaybackManager,
 	private val userPreferences: UserPreferences,
 ) : ViewModel() {
-	@OptIn(ExperimentalCoroutinesApi::class)
+
 	private val _mediaContent = playbackManager.queue.entry
 		.map { entry ->
 			entry?.baseItem?.let { baseItem ->
@@ -124,7 +113,7 @@ class DreamViewModel(
 			} else {
 				for (item in items) {
 					if (item.itemBackdropImages.isEmpty()) continue
-					val showcase = item.asLibraryShowcase() ?: continue
+					val showcase = item.asLibraryShowcase()
 					emit(showcase)
 					delay(emitDelay)
 				}
@@ -132,27 +121,9 @@ class DreamViewModel(
 		}
 	}.cancellable()
 
-	private suspend fun BaseItemDto.asLibraryShowcase(): DreamContent.LibraryShowcase? {
+	private fun BaseItemDto.asLibraryShowcase(): DreamContent.LibraryShowcase {
 		val backdropUrl = itemBackdropImages.randomOrNull()?.getUrl(api)
 		val logoUrl = itemImages[ImageType.LOGO]?.getUrl(api)
-
-		val (logo, backdrop) = withContext(Dispatchers.IO) {
-			val logoDeferred = async {
-				imageLoader.execute(
-					request = ImageRequest.Builder(context).data(logoUrl).build()
-				).image?.toBitmap()
-			}
-
-			val backdropDeferred = async {
-				imageLoader.execute(
-					request = ImageRequest.Builder(context).data(backdropUrl).build()
-				).image?.toBitmap()
-			}
-
-			awaitAll(logoDeferred, backdropDeferred)
-		}
-
-		if (backdrop == null) return null
-		return DreamContent.LibraryShowcase(this, backdrop, logo)
+		return DreamContent.LibraryShowcase(this, backdropUrl, logoUrl)
 	}
 }
