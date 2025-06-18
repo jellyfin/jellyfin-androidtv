@@ -16,31 +16,31 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * Replaces BrowseGridFragment for Movies library browsing
  */
 class ComposeMoviesFragment : Fragment() {
-    
-    private val moviesViewModel: ComposeMoviesViewModel by viewModel()
-    
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                JellyfinTvTheme {
-                    ComposeMoviesScreen(
-                        folderArguments = arguments,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-        }
-    }
-    
-    companion object {
-        fun newInstance(args: Bundle?): ComposeMoviesFragment {
-            return ComposeMoviesFragment().apply {
-                arguments = args
-            }
-        }
-    }
+
+	private val moviesViewModel: ComposeMoviesViewModel by viewModel()
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?,
+	): View {
+		return ComposeView(requireContext()).apply {
+			setContent {
+				JellyfinTvTheme {
+					ComposeMoviesScreen(
+						folderArguments = arguments,
+						modifier = Modifier.fillMaxSize(),
+					)
+				}
+			}
+		}
+	}
+
+	companion object {
+		fun newInstance(args: Bundle?): ComposeMoviesFragment {
+			return ComposeMoviesFragment().apply {
+				arguments = args
+			}
+		}
+	}
 }
