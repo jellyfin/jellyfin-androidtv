@@ -61,7 +61,7 @@ public class ItemLauncher {
         }
         // Fall through to existing logic for traditional behavior
         if (baseItem == null) return Destinations.INSTANCE.libraryBrowser(null);
-        
+
         LibraryPreferences movieDisplayPreferences =
             preferencesRepository
                 .getValue()
@@ -78,7 +78,7 @@ public class ItemLauncher {
         }
         // Fall through to existing logic for traditional behavior
         if (baseItem == null) return Destinations.INSTANCE.libraryBrowser(null);
-        
+
         LibraryPreferences displayPreferences =
             preferencesRepository
                 .getValue()
