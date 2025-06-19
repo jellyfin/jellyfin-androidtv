@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.databinding.ItemRowBinding;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.MediaType;
 
 public class ItemRowView extends FrameLayout {
@@ -96,7 +97,7 @@ public class ItemRowView extends FrameLayout {
     mBaseItem = item;
     ourIndex = ndx + 1;
     mIndexNo.setText(Integer.toString(ourIndex));
-    if (item.getType() == AUDIO) {
+    if (item.getType() == BaseItemKind.AUDIO) {
       mItemName.setText(item.getName());
       String artist =
           item.getArtists() != null && item.getArtists().size() > 0
