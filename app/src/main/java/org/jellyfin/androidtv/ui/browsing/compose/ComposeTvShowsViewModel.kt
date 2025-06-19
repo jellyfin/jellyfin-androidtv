@@ -21,7 +21,6 @@ import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
-import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFilter
@@ -207,7 +206,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 					val seriesImageUrl = item.seriesPrimaryImage?.getUrl(
 						api = apiClient,
 						maxWidth = 400,
-						maxHeight = 600
+						maxHeight = 600,
 					)
 					// Fallback: use episode primary image
 					seriesImageUrl ?: imageHelper.getPrimaryImageUrl(item, null, 400)
