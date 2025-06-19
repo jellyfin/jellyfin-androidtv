@@ -30,11 +30,11 @@ class ComposeSeriesFragment : Fragment() {
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
-		savedInstanceState: Bundle?
+		savedInstanceState: Bundle?,
 	): View {
 		val seriesId = UUID.fromString(
-			arguments?.getString("seriesId") 
-				?: throw IllegalArgumentException("Series ID is required")
+			arguments?.getString("seriesId")
+				?: throw IllegalArgumentException("Series ID is required"),
 		)
 
 		return ComposeView(requireContext()).apply {

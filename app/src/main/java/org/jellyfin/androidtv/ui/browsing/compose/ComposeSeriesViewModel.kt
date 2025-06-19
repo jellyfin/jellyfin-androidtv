@@ -44,14 +44,14 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				// Get series details
 				val seriesResponse = apiClient.itemsApi.getItem(
 					itemId = seriesId,
-					userId = apiClient.userId
+					userId = apiClient.userId,
 				)
 				
 				val series = seriesResponse.content
 				if (series == null) {
 					_uiState.value = _uiState.value.copy(
 						isLoading = false,
-						error = "Series not found"
+						error = "Series not found",
 					)
 					return@launch
 				}
@@ -63,7 +63,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					enableUserData = true,
 					enableImages = true,
 					sortBy = listOf(ItemSortBy.SORT_NAME),
-					sortOrder = listOf(SortOrder.ASCENDING)
+					sortOrder = listOf(SortOrder.ASCENDING),
 				)
 				
 				val seasons = seasonsResponse.content.items ?: emptyList()
@@ -76,8 +76,8 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Seasons",
 							items = seasons,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS
-						)
+							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+						),
 					)
 				}
 				
@@ -90,12 +90,13 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				}
 				
 				if (continueWatching.isNotEmpty()) {
-					sections.add(0, // Add at the beginning
+					sections.add(
+						0, // Add at the beginning
 						ImmersiveListSection(
 							title = "Continue Watching",
 							items = continueWatching,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS
-						)
+							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+						),
 					)
 				}
 
@@ -108,7 +109,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						sortOrder = listOf(SortOrder.DESCENDING),
 						limit = 20,
 						enableUserData = true,
-						enableImages = true
+						enableImages = true,
 					)
 					
 					val recentEpisodes = recentEpisodesResponse.content.items ?: emptyList()
@@ -117,8 +118,8 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 							ImmersiveListSection(
 								title = "Recent Episodes",
 								items = recentEpisodes.take(10), // Limit to 10 most recent
-								layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS
-							)
+								layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+							),
 						)
 					}
 				} catch (e: Exception) {
@@ -129,16 +130,15 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					isLoading = false,
 					sections = sections,
 					series = series,
-					title = series.name ?: "Series"
+					title = series.name ?: "Series",
 				)
 				
 				Timber.d("Loaded ${seasons.size} seasons for series: ${series.name}")
-				
 			} catch (e: Exception) {
 				Timber.e(e, "Error loading series data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
-					error = "Failed to load series data: ${e.message}"
+					error = "Failed to load series data: ${e.message}",
 				)
 			}
 		}

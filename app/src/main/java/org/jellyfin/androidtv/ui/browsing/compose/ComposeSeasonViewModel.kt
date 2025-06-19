@@ -43,14 +43,14 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				// Get season details
 				val seasonResponse = apiClient.tvShowsApi.getSeasons(
 					seriesId = seasonId,
-					userId = apiClient.userId
+					userId = apiClient.userId,
 				)
 				
 				val season = seasonResponse.content.items?.firstOrNull { it.id == seasonId }
 				if (season == null) {
 					_uiState.value = _uiState.value.copy(
 						isLoading = false,
-						error = "Season not found"
+						error = "Season not found",
 					)
 					return@launch
 				}
@@ -63,7 +63,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 					sortBy = listOf(ItemSortBy.SORT_NAME),
 					sortOrder = listOf(SortOrder.ASCENDING),
 					enableUserData = true,
-					enableImages = true
+					enableImages = true,
 				)
 				
 				val episodes = episodesResponse.content.items ?: emptyList()
@@ -76,8 +76,8 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Episodes",
 							items = episodes,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS
-						)
+							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+						),
 					)
 				}
 				
@@ -88,12 +88,13 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				}
 				
 				if (continueWatching.isNotEmpty()) {
-					sections.add(0, // Add at the beginning
+					sections.add(
+						0, // Add at the beginning
 						ImmersiveListSection(
 							title = "Continue Watching",
 							items = continueWatching,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS
-						)
+							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+						),
 					)
 				}
 
@@ -102,16 +103,15 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 					sections = sections,
 					season = season,
 					title = season.name ?: "Season",
-					seriesName = season.seriesName
+					seriesName = season.seriesName,
 				)
 				
 				Timber.d("Loaded ${episodes.size} episodes for season: ${season.name}")
-				
 			} catch (e: Exception) {
 				Timber.e(e, "Error loading season data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
-					error = "Failed to load season data: ${e.message}"
+					error = "Failed to load season data: ${e.message}",
 				)
 			}
 		}
