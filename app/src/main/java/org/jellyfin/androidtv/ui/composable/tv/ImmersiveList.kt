@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -91,6 +92,7 @@ fun ImmersiveList(
 	onItemFocus: (BaseItemDto) -> Unit = {},
 	getItemImageUrl: (BaseItemDto) -> String? = { null },
 	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 ) {
 	var focusedItem by remember { mutableStateOf<BaseItemDto?>(items.firstOrNull()) }
 
@@ -140,6 +142,7 @@ fun ImmersiveList(
 			ContentInformationOverlay(
 				focusedItem = focusedItem,
 				sectionTitle = title,
+				getItemLogoUrl = getItemLogoUrl,
 				modifier = Modifier
 					.fillMaxWidth()
 					.weight(0.6f), // Takes about 60% of screen height
@@ -197,6 +200,7 @@ private fun ImmersiveBackground(
 private fun ContentInformationOverlay(
 	focusedItem: BaseItemDto?,
 	sectionTitle: String,
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 	modifier: Modifier = Modifier,
 ) {
 	Box(
@@ -233,11 +237,7 @@ private fun ContentInformationOverlay(
 
 			// Focused item information
 			focusedItem?.let { item ->
-				// Item logo (if available) - We'll need to pass ImageHelper from the ViewModel
-				// For now, let's skip the logo since it requires complex dependency injection
-				// TODO: Add logo support via ViewModel parameter
-
-				// Item title
+				// Item title (without logo in the row)
 				Text(
 					text = item.name ?: "Unknown Title",
 					style = MaterialTheme.typography.displayMedium.copy(
@@ -331,6 +331,23 @@ private fun ContentInformationOverlay(
 						modifier = Modifier.padding(bottom = 16.dp),
 					)
 				}
+			}
+		}
+		
+		// Item logo positioned absolutely at top right, aligned with cards
+		focusedItem?.let { item ->
+			val logoUrl = getItemLogoUrl(item)
+			if (logoUrl != null) {
+				AsyncImage(
+					model = logoUrl,
+					contentDescription = "${item.name} logo",
+					modifier = Modifier
+						.align(Alignment.TopEnd)
+						.padding(top = 80.dp, end = 72.dp) // Align with cards: 48dp container + 24dp content padding
+						.height(120.dp) // Larger logo
+						.widthIn(max = 400.dp), // Increased max width
+					contentScale = ContentScale.Fit,
+				)
 			}
 		}
 	}
@@ -568,6 +585,7 @@ fun MultiSectionImmersiveList(
 	onItemFocus: (BaseItemDto) -> Unit = {},
 	getItemImageUrl: (BaseItemDto) -> String? = { null },
 	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 ) {
 	var globalFocusedItem by remember { mutableStateOf<BaseItemDto?>(null) }
 
@@ -611,6 +629,7 @@ fun MultiSectionImmersiveList(
 					onItemFocus = { item -> globalFocusedItem = item },
 					getItemImageUrl = getItemImageUrl,
 					getItemBackdropUrl = getItemBackdropUrl,
+					getItemLogoUrl = getItemLogoUrl,
 					modifier = Modifier
 						.fillMaxWidth()
 						.height(

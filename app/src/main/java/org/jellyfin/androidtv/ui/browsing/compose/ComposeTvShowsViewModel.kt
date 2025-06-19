@@ -253,6 +253,16 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 			}
 		}
 	}
+
+	fun getItemLogoUrl(item: BaseItemDto): String? {
+		return try {
+			// Use ImageHelper to get logo URL directly
+			imageHelper.getLogoImageUrl(item, 400)
+		} catch (e: Exception) {
+			Timber.e(e, "Failed to get logo for item: ${item.name}")
+			null
+		}
+	}
 }
 
 /**

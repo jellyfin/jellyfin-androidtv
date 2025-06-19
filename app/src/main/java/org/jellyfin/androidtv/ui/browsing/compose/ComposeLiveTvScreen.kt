@@ -168,6 +168,9 @@ private fun LiveTvContentScreen(
 		getItemBackdropUrl = { item ->
 			viewModel.getItemBackdropUrl(item)
 		},
+		getItemLogoUrl = { item ->
+			viewModel.getItemLogoUrl(item)
+		},
 		modifier = modifier.fillMaxSize(),
 	)
 }
