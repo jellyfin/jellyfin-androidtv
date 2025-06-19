@@ -165,23 +165,16 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 		Timber.d("Item clicked: ${item.name} (Type: ${item.type})")
 		when (item.type) {
 			BaseItemKind.SERIES -> {
-				// Navigate to series details (seasons view)
-				navigationRepository.navigate(Destinations.itemDetails(item.id))
+				// Navigate to Compose series details (seasons view)
+				navigationRepository.navigate(Destinations.composeSeriesDetail(item.id))
 			}
 			BaseItemKind.SEASON -> {
-				// Navigate to season details (episodes view)
-				navigationRepository.navigate(Destinations.itemDetails(item.id))
+				// Navigate to Compose season details (episodes view)
+				navigationRepository.navigate(Destinations.composeSeasonDetail(item.id))
 			}
 			BaseItemKind.EPISODE -> {
-				// For episodes, check if it's resumable or if user wants details
-				val hasProgress = (item.userData?.playbackPositionTicks ?: 0) > 0
-				if (hasProgress) {
-					// Episode has progress - navigate to details which allows resume or restart
-					navigationRepository.navigate(Destinations.itemDetails(item.id))
-				} else {
-					// New episode - navigate to details for playback options
-					navigationRepository.navigate(Destinations.itemDetails(item.id))
-				}
+				// For episodes, navigate to item details for playback
+				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
 			else -> {
 				// Handle other item types if needed

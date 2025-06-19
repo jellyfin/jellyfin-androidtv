@@ -138,6 +138,8 @@ val appModule = module {
 	viewModel<ComposeMusicViewModel> { ComposeMusicViewModel() }
 	viewModel<ComposeTvShowsViewModel> { ComposeTvShowsViewModel() }
 	viewModel<ComposeLiveTvViewModel> { ComposeLiveTvViewModel() }
+	viewModel<ComposeSeriesViewModel> { ComposeSeriesViewModel() }
+	viewModel<ComposeSeasonViewModel> { ComposeSeasonViewModel() }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 
