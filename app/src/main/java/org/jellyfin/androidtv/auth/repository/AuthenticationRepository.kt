@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticateMethod
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
@@ -28,7 +27,6 @@ import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.exception.TimeoutException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
 import org.jellyfin.sdk.api.client.extensions.authenticateWithQuickConnect
@@ -76,9 +74,12 @@ class AuthenticationRepositoryImpl(
 
 		val authStoreUser = authenticationStore.getUser(server.id, user.id)
 		// Try login with access token
-		return if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
-		// Require login
-		else flowOf(RequireSignInState)
+		return if (authStoreUser?.accessToken != null) {
+			authenticateToken(server, user.withToken(authStoreUser.accessToken))
+		} // Require login
+		else {
+			flowOf(RequireSignInState)
+		}
 	}
 
 	private fun authenticateCredential(server: Server, username: String, password: String) = flow {
@@ -89,10 +90,6 @@ class AuthenticationRepositoryImpl(
 		} catch (err: TimeoutException) {
 			Timber.e(err, "Failed to connect to server trying to sign in $username")
 			emit(ServerUnavailableState)
-			return@flow
-		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to sign in as $username")
-			emit(ApiClientErrorLoginState(err))
 			return@flow
 		}
 
@@ -107,10 +104,6 @@ class AuthenticationRepositoryImpl(
 		} catch (err: TimeoutException) {
 			Timber.e(err, "Failed to connect to server")
 			emit(ServerUnavailableState)
-			return@flow
-		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to sign in with Quick Connect secret")
-			emit(ApiClientErrorLoginState(err))
 			return@flow
 		}
 
@@ -145,18 +138,17 @@ class AuthenticationRepositoryImpl(
 		val success = setActiveSession(user, server)
 		if (!success) {
 			emit(RequireSignInState)
-		} else try {
-			// Update user info
-			val userInfo by userApiClient.userApi.getCurrentUser()
-			authenticateFinish(server, userInfo, user.accessToken.orEmpty())
-			emit(AuthenticatedState)
-		} catch (err: TimeoutException) {
-			Timber.e(err, "Failed to connect to server")
-			emit(ServerUnavailableState)
-			return@flow
-		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to get current user data")
-			emit(ApiClientErrorLoginState(err))
+		} else {
+			try {
+				// Update user info
+				val userInfo by userApiClient.userApi.getCurrentUser()
+				authenticateFinish(server, userInfo, user.accessToken.orEmpty())
+				emit(AuthenticatedState)
+			} catch (err: TimeoutException) {
+				Timber.e(err, "Failed to connect to server")
+				emit(ServerUnavailableState)
+				return@flow
+			}
 		}
 	}.flowOn(Dispatchers.IO)
 
@@ -198,15 +190,18 @@ class AuthenticationRepositoryImpl(
 			.getUser(user.serverId, user.id)
 			?.copy(accessToken = null)
 
-		return if (authStoreUser != null) authenticationStore.putUser(user.serverId, user.id, authStoreUser)
-		else false
+		return if (authStoreUser != null) {
+			authenticationStore.putUser(user.serverId, user.id, authStoreUser)
+		} else {
+			false
+		}
 	}
 
 	override fun getUserImageUrl(server: Server, user: User): String? = user.imageTag?.let { tag ->
 		jellyfin.createApi(server.address).imageApi.getUserImageUrl(
 			userId = user.id,
 			tag = tag,
-			maxHeight = ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT
+			maxHeight = ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT,
 		)
 	}
 }
