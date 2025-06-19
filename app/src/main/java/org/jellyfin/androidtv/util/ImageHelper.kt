@@ -77,7 +77,7 @@ class ImageHelper(
 			else -> null
 		} ?: item.itemImages[ImageType.PRIMARY]
 
-		return image.getUrl(
+		return image?.getUrl(
 			api = api,
 			fillWidth = fillWidth,
 			fillHeight = fillHeight,
