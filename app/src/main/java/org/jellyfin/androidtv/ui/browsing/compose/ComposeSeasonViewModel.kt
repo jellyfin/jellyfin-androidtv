@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -44,12 +45,12 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 			
 			try {
 				// Get season details
-				val seasonResponse = apiClient.itemsApi.getItem(
-					itemId = seasonId,
-					userId = apiClient.userId!!,
+				val seasonResponse = apiClient.itemsApi.getItems(
+					ids = setOf(seasonId),
+					fields = ItemRepository.itemFields,
 				)
 				
-				val season = seasonResponse.content
+				val season = seasonResponse.content.items.firstOrNull()
 				if (season == null) {
 					_uiState.value = _uiState.value.copy(
 						isLoading = false,
@@ -59,17 +60,15 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				}
 
 				// Get episodes for this season
-				val episodesResponse = apiClient.tvShowsApi.getEpisodes(
-					seriesId = season.parentId ?: seasonId,
-					seasonId = seasonId,
-					userId = apiClient.userId!!,
-					sortBy = listOf(ItemSortBy.SORT_NAME),
-					sortOrder = listOf(SortOrder.ASCENDING),
-					enableUserData = true,
-					enableImages = true,
+				val episodesResponse = apiClient.itemsApi.getItems(
+					parentId = seasonId,
+					includeItemTypes = setOf(BaseItemKind.EPISODE),
+					fields = ItemRepository.itemFields,
+					sortBy = setOf(ItemSortBy.SORT_NAME),
+					sortOrder = setOf(SortOrder.ASCENDING),
 				)
 				
-				val episodes = episodesResponse.content?.items ?: emptyList()
+				val episodes: List<BaseItemDto> = episodesResponse.content.items
 				
 				val sections = mutableListOf<ImmersiveListSection>()
 				
@@ -85,7 +84,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				}
 				
 				// Continue Watching section (episodes with progress)
-				val continueWatching = episodes.filter { episode ->
+				val continueWatching: List<BaseItemDto> = episodes.filter { episode ->
 					val progress = episode.userData?.playedPercentage ?: 0.0
 					progress > 0.0 && progress < 90.0 // Started but not finished
 				}
@@ -106,7 +105,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 					sections = sections,
 					season = season,
 					title = season.name ?: "Season",
-					seriesName = season.parentTitle,
+					seriesName = null, // Will be set later if needed
 				)
 				
 				Timber.d("Loaded ${episodes.size} episodes for season: ${season.name}")
