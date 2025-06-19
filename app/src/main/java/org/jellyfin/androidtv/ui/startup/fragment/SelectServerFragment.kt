@@ -74,8 +74,8 @@ class SelectServerFragment : Fragment() {
 							R.id.content_view,
 							null,
 							bundleOf(
-								ServerFragment.ARG_SERVER_ID to server.id.toString()
-							)
+								ServerFragment.ARG_SERVER_ID to server.id.toString(),
+							),
 						)
 						addToBackStack(null)
 					}
@@ -84,7 +84,7 @@ class SelectServerFragment : Fragment() {
 				item(getString(R.string.lbl_remove)) {
 					startupViewModel.deleteServer(server.id)
 				}
-			}
+			},
 		)
 		binding.storedServers.setHasFixedSize(true)
 		binding.storedServers.addItemDecoration(serverDivider)
@@ -103,28 +103,35 @@ class SelectServerFragment : Fragment() {
 								R.id.content_view,
 								null,
 								bundleOf(
-									ServerFragment.ARG_SERVER_ID to state.id.toString()
-								)
+									ServerFragment.ARG_SERVER_ID to state.id.toString(),
+								),
 							)
 						}
 					} else {
 						items = items.map {
-							if (it.server.id == server.id) StatefulServer(state, it.server)
-							else it
+							if (it.server.id == server.id) {
+								StatefulServer(state, it.server)
+							} else {
+								it
+							}
 						}
 
 						// Show error as toast
 						if (state is UnableToConnectState) {
-							Toast.makeText(requireContext(), getString(
-								R.string.server_connection_failed_candidates,
-								state.addressCandidates
-									.map { "${it.key} ${it.value.getSummary(requireContext())}" }
-									.joinToString(prefix = "\n", separator = "\n")
-							), Toast.LENGTH_LONG).show()
+							Toast.makeText(
+								requireContext(),
+								getString(
+									R.string.server_connection_failed_candidates,
+									state.addressCandidates
+										.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+										.joinToString(prefix = "\n", separator = "\n"),
+								),
+								Toast.LENGTH_LONG,
+							).show()
 						}
 					}
 				}.launchIn(lifecycleScope)
-			}
+			},
 		)
 		binding.discoveryServers.adapter = discoveryServerAdapter
 
@@ -165,7 +172,7 @@ class SelectServerFragment : Fragment() {
 			val notifications by notificationsRepository.notifications.collectAsState()
 
 			Column(
-				verticalArrangement = Arrangement.spacedBy(5.dp)
+				verticalArrangement = Arrangement.spacedBy(5.dp),
 			) {
 				for (notification in notifications) {
 					if (!notification.public) continue
@@ -249,7 +256,7 @@ class SelectServerFragment : Fragment() {
 			setPopupMenu { serverPopupBuilder(server) }
 		}
 
-		inner class ViewHolder(
+		class ViewHolder(
 			val serverButtonView: ServerButtonView,
 		) : RecyclerView.ViewHolder(serverButtonView)
 	}
