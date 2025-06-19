@@ -39,7 +39,8 @@ fun RecordPopup.updateSeriesTimer(
 	seriesTimer: SeriesTimerInfoDto,
 	callback: () -> Unit,
 ) {
-	val api by mContext.getActivity()!!.inject<ApiClient>()
+	val activity = mContext.getActivity() ?: return
+	val api by activity.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
