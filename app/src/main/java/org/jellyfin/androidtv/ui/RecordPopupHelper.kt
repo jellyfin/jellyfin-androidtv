@@ -46,8 +46,11 @@ fun RecordPopup.updateSeriesTimer(
 		runCatching {
 			withContext(Dispatchers.IO) {
 				val id = seriesTimer.id
-				if (id == null) api.liveTvApi.createSeriesTimer(seriesTimer)
-				else api.liveTvApi.updateSeriesTimer(id, seriesTimer)
+				if (id == null) {
+					api.liveTvApi.createSeriesTimer(seriesTimer)
+				} else {
+					api.liveTvApi.updateSeriesTimer(id, seriesTimer)
+				}
 			}
 		}.onSuccess {
 			callback()
@@ -65,8 +68,11 @@ fun RecordPopup.updateTimer(
 		runCatching {
 			withContext(Dispatchers.IO) {
 				val id = timer.id
-				if (id == null) api.liveTvApi.createTimer(timer)
-				else api.liveTvApi.updateTimer(id, timer)
+				if (id == null) {
+					api.liveTvApi.createTimer(timer)
+				} else {
+					api.liveTvApi.updateTimer(id, timer)
+				}
 			}
 		}.onSuccess {
 			callback()
