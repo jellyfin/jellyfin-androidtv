@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
+import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
@@ -91,45 +92,6 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 		}
 
 		try {
-			// Continue Watching Episodes - Episodes that user has started but not finished
-			val continueWatchingEpisodes = loadContinueWatchingEpisodes(folderId)
-			if (continueWatchingEpisodes.isNotEmpty()) {
-				sections.add(
-					ImmersiveListSection(
-						title = "Continue Watching",
-						items = continueWatchingEpisodes,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
-				)
-				Timber.d("Added Continue Watching section with ${continueWatchingEpisodes.size} items")
-			}
-
-			// Next Up Episodes - Next episodes to watch for series in progress
-			val nextUpEpisodes = loadNextUpEpisodes(folderId)
-			if (nextUpEpisodes.isNotEmpty()) {
-				sections.add(
-					ImmersiveListSection(
-						title = "Next Up",
-						items = nextUpEpisodes,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
-				)
-				Timber.d("Added Next Up section with ${nextUpEpisodes.size} items")
-			}
-
-			// Latest Episodes - Recently added episodes
-			val latestEpisodes = loadLatestEpisodes(folderId)
-			if (latestEpisodes.isNotEmpty()) {
-				sections.add(
-					ImmersiveListSection(
-						title = "Latest Episodes",
-						items = latestEpisodes,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-					),
-				)
-				Timber.d("Added Latest Episodes section with ${latestEpisodes.size} items")
-			}
-
 			// All TV Series (Grid View) - Main grid showing all series
 			val allSeries = loadAllSeries(folderId)
 			if (allSeries.isNotEmpty()) {
@@ -143,14 +105,14 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				Timber.d("Added All TV Series section with ${allSeries.size} items")
 			}
 
-			// Favorite Series
+			// Favorite Series - Use vertical grid like All TV Series since these are series
 			val favoriteSeries = loadFavoriteSeries(folderId)
 			if (favoriteSeries.isNotEmpty()) {
 				sections.add(
 					ImmersiveListSection(
 						title = "Favorite Series",
 						items = favoriteSeries,
-						layout = ImmersiveListLayout.HORIZONTAL_CARDS,
+						layout = ImmersiveListLayout.VERTICAL_GRID,
 					),
 				)
 				Timber.d("Added Favorite Series section with ${favoriteSeries.size} items")
@@ -160,58 +122,6 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 		}
 
 		return sections
-	}
-
-	private suspend fun loadContinueWatchingEpisodes(folderId: UUID): List<BaseItemDto> {
-		return try {
-			val response = apiClient.itemsApi.getItems(
-				parentId = folderId,
-				includeItemTypes = setOf(BaseItemKind.EPISODE),
-				recursive = true,
-				fields = ItemRepository.itemFields,
-				sortBy = setOf(ItemSortBy.DATE_PLAYED),
-				sortOrder = setOf(SortOrder.DESCENDING),
-				filters = setOf(ItemFilter.IS_RESUMABLE),
-				limit = 50,
-			)
-			response.content.items
-		} catch (e: Exception) {
-			Timber.e(e, "Error loading continue watching episodes")
-			emptyList()
-		}
-	}
-
-	private suspend fun loadNextUpEpisodes(folderId: UUID): List<BaseItemDto> {
-		return try {
-			val response = apiClient.tvShowsApi.getNextUp(
-				parentId = folderId,
-				fields = ItemRepository.itemFields,
-				limit = 50,
-			)
-			response.content.items
-		} catch (e: Exception) {
-			Timber.e(e, "Error loading next up episodes")
-			emptyList()
-		}
-	}
-
-	private suspend fun loadLatestEpisodes(folderId: UUID): List<BaseItemDto> {
-		return try {
-			val response = apiClient.itemsApi.getItems(
-				parentId = folderId,
-				includeItemTypes = setOf(BaseItemKind.EPISODE),
-				recursive = true,
-				fields = ItemRepository.itemFields,
-				sortBy = setOf(ItemSortBy.DATE_CREATED),
-				sortOrder = setOf(SortOrder.DESCENDING),
-				filters = setOf(ItemFilter.IS_UNPLAYED),
-				limit = 50,
-			)
-			response.content.items
-		} catch (e: Exception) {
-			Timber.e(e, "Error loading latest episodes")
-			emptyList()
-		}
 	}
 
 	private suspend fun loadAllSeries(folderId: UUID): List<BaseItemDto> {
@@ -263,8 +173,15 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
 			BaseItemKind.EPISODE -> {
-				// Navigate to episode details or start playback
-				navigationRepository.navigate(Destinations.itemDetails(item.id))
+				// For episodes, check if it's resumable or if user wants details
+				val hasProgress = (item.userData?.playbackPositionTicks ?: 0) > 0
+				if (hasProgress) {
+					// Episode has progress - navigate to details which allows resume or restart
+					navigationRepository.navigate(Destinations.itemDetails(item.id))
+				} else {
+					// New episode - navigate to details for playback options
+					navigationRepository.navigate(Destinations.itemDetails(item.id))
+				}
 			}
 			else -> {
 				// Handle other item types if needed
@@ -282,21 +199,60 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 	}
 
 	fun getItemImageUrl(item: BaseItemDto): String? {
-		// For horizontal cards (episodes), prefer backdrop images first, then fall back to primary
-		return if (item.type == BaseItemKind.EPISODE) {
-			getItemBackdropUrl(item) ?: imageHelper.getPrimaryImageUrl(item, null, 400)
-		} else {
-			// For series, use primary images (poster style)
-			imageHelper.getPrimaryImageUrl(item, null, 400)
+		return when (item.type) {
+			BaseItemKind.EPISODE -> {
+				// For episodes, prefer series primary image for consistency
+				try {
+					// Use the built-in seriesPrimaryImage from the item if available
+					val seriesImageUrl = item.seriesPrimaryImage?.getUrl(
+						api = apiClient,
+						maxWidth = 400,
+						maxHeight = 600
+					)
+					// Fallback: use episode primary image
+					seriesImageUrl ?: imageHelper.getPrimaryImageUrl(item, null, 400)
+				} catch (e: Exception) {
+					Timber.e(e, "Failed to get image for episode: ${item.name}")
+					imageHelper.getPrimaryImageUrl(item, null, 400)
+				}
+			}
+			BaseItemKind.SERIES -> {
+				// For series in horizontal cards, prefer backdrop images (landscape)
+				// This provides the correct aspect ratio for horizontal card layouts
+				val backdropUrl = getItemBackdropUrl(item)
+				backdropUrl ?: imageHelper.getPrimaryImageUrl(item, null, 400)
+			}
+			else -> {
+				// Fallback for other types
+				imageHelper.getPrimaryImageUrl(item, null, 400)
+			}
 		}
 	}
 	
 	fun getItemBackdropUrl(item: BaseItemDto): String? {
-		return item.itemBackdropImages.firstOrNull()?.getUrl(
-			api = apiClient,
-			maxWidth = 1920,
-			maxHeight = 1080,
-		)
+		return when (item.type) {
+			BaseItemKind.EPISODE -> {
+				// For episodes, prefer episode's own backdrop if available
+				try {
+					item.itemBackdropImages.firstOrNull()?.getUrl(
+						api = apiClient,
+						maxWidth = 1920,
+						maxHeight = 1080,
+					)
+				} catch (e: Exception) {
+					Timber.e(e, "Failed to get backdrop for episode: ${item.name}")
+					null
+				}
+			}
+			else -> {
+				// For series and other types, use their own backdrop
+				item.itemBackdropImages.firstOrNull()?.getUrl(
+					api = apiClient,
+					maxWidth = 1920,
+					maxHeight = 1080,
+				)
+			}
+		}
 	}
 }
 

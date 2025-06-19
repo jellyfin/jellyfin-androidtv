@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -24,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +41,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -45,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.delay
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.theme.JellyfinColors
 import org.jellyfin.sdk.model.api.BaseItemDto
 
@@ -228,6 +233,10 @@ private fun ContentInformationOverlay(
 
 			// Focused item information
 			focusedItem?.let { item ->
+				// Item logo (if available) - We'll need to pass ImageHelper from the ViewModel
+				// For now, let's skip the logo since it requires complex dependency injection
+				// TODO: Add logo support via ViewModel parameter
+
 				// Item title
 				Text(
 					text = item.name ?: "Unknown Title",
@@ -241,16 +250,71 @@ private fun ContentInformationOverlay(
 					modifier = Modifier.padding(bottom = 8.dp),
 				)
 
-				// Production year
-				item.productionYear?.let { year ->
-					Text(
-						text = year.toString(),
-						style = MaterialTheme.typography.titleLarge.copy(
-							fontSize = 20.sp,
-						),
-						color = Color.White.copy(alpha = 0.7f),
-						modifier = Modifier.padding(bottom = 8.dp),
-					)
+				// Ratings row
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(24.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier.padding(bottom = 8.dp),
+				) {
+					// Production year
+					item.productionYear?.let { year ->
+						Text(
+							text = year.toString(),
+							style = MaterialTheme.typography.titleLarge.copy(
+								fontSize = 20.sp,
+							),
+							color = Color.White.copy(alpha = 0.7f),
+						)
+					}
+
+					// Community rating (star rating)
+					item.communityRating?.let { rating ->
+						Row(
+							verticalAlignment = Alignment.CenterVertically,
+							horizontalArrangement = Arrangement.spacedBy(4.dp),
+						) {
+							Icon(
+								painter = painterResource(R.drawable.ic_star),
+								contentDescription = "Community Rating",
+								tint = Color.Yellow,
+								modifier = Modifier.size(20.dp),
+							)
+							Text(
+								text = String.format("%.1f", rating),
+								style = MaterialTheme.typography.titleLarge.copy(
+									fontSize = 18.sp,
+									fontWeight = FontWeight.Medium,
+								),
+								color = Color.White,
+							)
+						}
+					}
+
+					// Critic rating (Rotten Tomatoes)
+					item.criticRating?.let { rating ->
+						Row(
+							verticalAlignment = Alignment.CenterVertically,
+							horizontalArrangement = Arrangement.spacedBy(4.dp),
+						) {
+							Icon(
+								painter = when {
+									rating >= 60f -> painterResource(R.drawable.ic_rt_fresh)
+									else -> painterResource(R.drawable.ic_rt_rotten)
+								},
+								contentDescription = "Critic Rating",
+								tint = Color.Unspecified,
+								modifier = Modifier.size(20.dp),
+							)
+							Text(
+								text = "${rating.toInt()}%",
+								style = MaterialTheme.typography.titleLarge.copy(
+									fontSize = 18.sp,
+									fontWeight = FontWeight.Medium,
+								),
+								color = Color.White,
+							)
+						}
+					}
 				}
 
 				// Overview/description
@@ -343,7 +407,6 @@ private fun HorizontalCardsList(
 					onClick = { onItemClick(item) },
 					onFocus = { onItemFocus(item) },
 					imageUrl = getItemImageUrl(item),
-					isSelected = item == focusedItem,
 					modifier = Modifier.width(300.dp).height(169.dp), // 16:9 aspect ratio for horizontal cards
 				)
 			}
@@ -383,7 +446,6 @@ private fun VerticalCardsGrid(
 					onClick = { onItemClick(item) },
 					onFocus = { onItemFocus(item) },
 					imageUrl = getItemImageUrl(item),
-					isSelected = item == focusedItem,
 					modifier = Modifier.aspectRatio(16f / 9f), // 16:9 aspect ratio for horizontal cards
 				)
 			}
@@ -402,7 +464,6 @@ private fun ImmersiveListCard(
 	onFocus: () -> Unit,
 	imageUrl: String?,
 	modifier: Modifier = Modifier,
-	isSelected: Boolean = false,
 ) {
 	var isFocused by remember { mutableStateOf(false) }
 
