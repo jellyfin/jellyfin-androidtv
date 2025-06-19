@@ -41,7 +41,7 @@ public class ItemLauncher {
       KoinJavaComponent.<PlaybackHelper>inject(PlaybackHelper.class);
 
   public void launchUserView(@Nullable final BaseItemDto baseItem) {
-    Timber.d("**** Collection type: %s", baseItem.getCollectionType());
+    Timber.d("**** Collection type: %s", baseItem != null ? baseItem.getCollectionType() : "null");
 
     Destination destination = getUserViewDestination(baseItem);
 
@@ -60,6 +60,8 @@ public class ItemLauncher {
           return Destinations.INSTANCE.composeMoviesBrowser(baseItem);
         }
         // Fall through to existing logic for traditional behavior
+        if (baseItem == null) return Destinations.INSTANCE.libraryBrowser(null);
+        
         LibraryPreferences movieDisplayPreferences =
             preferencesRepository
                 .getValue()
@@ -75,6 +77,8 @@ public class ItemLauncher {
           return Destinations.INSTANCE.composeTvShowsBrowser(baseItem);
         }
         // Fall through to existing logic for traditional behavior
+        if (baseItem == null) return Destinations.INSTANCE.libraryBrowser(null);
+        
         LibraryPreferences displayPreferences =
             preferencesRepository
                 .getValue()

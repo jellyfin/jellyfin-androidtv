@@ -165,7 +165,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
       setGridPresenter(new VerticalGridPresenter());
     else setGridPresenter(new HorizontalGridPresenter());
 
-    sortOptions = new HashMap<>();
+    sortOptions.clear();
     {
       sortOptions.put(
           0,
@@ -341,7 +341,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     }
   }
 
-  private Map<Integer, SortOption> sortOptions;
+  private Map<Integer, SortOption> sortOptions = new HashMap<>();
 
   private SortOption getSortOption(ItemSortBy value) {
     for (SortOption sortOption : sortOptions.values()) {
