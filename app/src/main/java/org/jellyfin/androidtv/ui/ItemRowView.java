@@ -92,27 +92,24 @@ public class ItemRowView extends FrameLayout {
         mBaseItem = item;
         ourIndex = ndx + 1;
         mIndexNo.setText(Integer.toString(ourIndex));
-        switch (item.getType()) {
-            case AUDIO:
-                mItemName.setText(item.getName());
-                String artist = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : !TextUtils.isEmpty(item.getAlbumArtist()) ? item.getAlbumArtist() : null;
-                if (!TextUtils.isEmpty(artist)) {
+        if (item.getType() == AUDIO) {
+            mItemName.setText(item.getName());
+            String artist = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : !TextUtils.isEmpty(item.getAlbumArtist()) ? item.getAlbumArtist() : null;
+            if (!TextUtils.isEmpty(artist)) {
                     mExtraName.setText(artist);
                 } else {
                     mExtraName.setVisibility(GONE);
                 }
-                break;
-            default:
-                String series = item.getSeriesName() != null ? BaseItemExtensionsKt.getFullName(item, mContext) : null;
-                if (!TextUtils.isEmpty(series)) {
+        } else {
+            String series = item.getSeriesName() != null ? BaseItemExtensionsKt.getFullName(item, mContext) : null;
+            if (!TextUtils.isEmpty(series)) {
                     mItemName.setText(series);
                     mExtraName.setText(item.getName());
                 } else {
                     mItemName.setText(item.getName());
                     mExtraName.setVisibility(GONE);
                 }
-                updateWatched();
-                break;
+            updateWatched();
         }
         formattedTime = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks()/10000 : 0);
         mRunTime.setText(formattedTime);
