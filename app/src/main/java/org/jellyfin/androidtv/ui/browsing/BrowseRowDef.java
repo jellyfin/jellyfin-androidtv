@@ -201,6 +201,6 @@ public class BrowseRowDef {
     public GetSpecialsRequest getSpecialsQuery() { return specialsQuery; }
 
     public ChangeTriggerType[] getChangeTriggers() {
-        return changeTriggers;
+        return changeTriggers != null ? changeTriggers.clone() : null;
     }
 }
