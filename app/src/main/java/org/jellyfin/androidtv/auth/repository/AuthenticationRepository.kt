@@ -90,10 +90,6 @@ class AuthenticationRepositoryImpl(
 			Timber.e(err, "Failed to connect to server trying to sign in $username")
 			emit(ServerUnavailableState)
 			return@flow
-		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to sign in as $username")
-			emit(ApiClientErrorLoginState(err))
-			return@flow
 		}
 
 		emitAll(authenticateAuthenticationResult(server, result))
@@ -107,10 +103,6 @@ class AuthenticationRepositoryImpl(
 		} catch (err: TimeoutException) {
 			Timber.e(err, "Failed to connect to server")
 			emit(ServerUnavailableState)
-			return@flow
-		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to sign in with Quick Connect secret")
-			emit(ApiClientErrorLoginState(err))
 			return@flow
 		}
 
@@ -154,9 +146,6 @@ class AuthenticationRepositoryImpl(
 			Timber.e(err, "Failed to connect to server")
 			emit(ServerUnavailableState)
 			return@flow
-		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to get current user data")
-			emit(ApiClientErrorLoginState(err))
 		}
 	}.flowOn(Dispatchers.IO)
 

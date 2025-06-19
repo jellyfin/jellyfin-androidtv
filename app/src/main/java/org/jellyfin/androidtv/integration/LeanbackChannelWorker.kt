@@ -165,10 +165,6 @@ class LeanbackChannelWorker(
 			Timber.w(err, "Server unreachable, trying again later")
 
 			Result.retry()
-		} catch (err: ApiClientException) {
-			Timber.e(err, "SDK error, trying again later")
-
-			Result.retry()
 		}
 	}
 
