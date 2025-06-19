@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -68,7 +69,7 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 				)
 
 				Timber.d("ComposeMoviesViewModel: Loaded ${sections.size} sections")
-			} catch (e: Exception) {
+			} catch (e: ApiClientException) {
 				Timber.e(e, "Error loading movies data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
@@ -100,7 +101,7 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 				)
 				Timber.d("Added Movies section with ${allMovies.size} items")
 			}
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading movie sections")
 		}
 
@@ -119,7 +120,7 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 				limit = 200, // Increased limit since this is now the primary view
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading all movies")
 			emptyList()
 		}
@@ -164,7 +165,7 @@ class ComposeMoviesViewModel : ViewModel(), KoinComponent {
 		return try {
 			// Use ImageHelper to get logo URL directly
 			imageHelper.getLogoImageUrl(item, 400)
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to get logo for item: ${item.name}")
 			null
 		}

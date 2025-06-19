@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.ui.browsing.MediaSection
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -93,7 +94,7 @@ class ComposeFolderViewModel : ViewModel(), KoinComponent {
 					isLoading = false,
 					sections = sections,
 				)
-			} catch (e: Exception) {
+			} catch (e: ApiClientException) {
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
 					error = e.message,
@@ -114,7 +115,7 @@ class ComposeFolderViewModel : ViewModel(), KoinComponent {
 			)
 			val response = api.itemsApi.getItems(request = request)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			emptyList()
 		}
 	}
@@ -131,7 +132,7 @@ class ComposeFolderViewModel : ViewModel(), KoinComponent {
 			)
 			val response = api.itemsApi.getItems(request = request)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			emptyList()
 		}
 	}
@@ -144,7 +145,7 @@ class ComposeFolderViewModel : ViewModel(), KoinComponent {
 			)
 			val response = api.itemsApi.getItems(request = request)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			emptyList()
 		}
 	}
@@ -162,7 +163,7 @@ class ComposeFolderViewModel : ViewModel(), KoinComponent {
 			response.content.items.filter {
 				it.parentIndexNumber == 0 || it.indexNumber == 0
 			}
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			emptyList()
 		}
 	}

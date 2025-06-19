@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -70,7 +71,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 				)
 
 				Timber.d("ComposeMusicViewModel: Loaded ${sections.size} sections")
-			} catch (e: Exception) {
+			} catch (e: ApiClientException) {
 				Timber.e(e, "Error loading music data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
@@ -141,7 +142,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 				)
 				Timber.d("Added Playlists section with ${playlists.size} items")
 			}
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading music sections")
 		}
 
@@ -159,7 +160,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 				groupItems = true,
 			)
 			response.content
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading latest audio")
 			emptyList()
 		}
@@ -179,7 +180,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 				limit = 50,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading last played audio")
 			emptyList()
 		}
@@ -198,7 +199,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 				limit = 60,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading favorite albums")
 			emptyList()
 		}
@@ -216,7 +217,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 				limit = 60,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading audio playlists")
 			emptyList()
 		}
@@ -269,7 +270,7 @@ class ComposeMusicViewModel : ViewModel(), KoinComponent {
 		return try {
 			// Use ImageHelper to get logo URL directly
 			imageHelper.getLogoImageUrl(item, 400)
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to get logo for item: ${item.name}")
 			null
 		}

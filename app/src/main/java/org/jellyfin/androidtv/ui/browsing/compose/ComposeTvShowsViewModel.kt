@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -71,7 +72,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				)
 
 				Timber.d("ComposeTvShowsViewModel: Loaded ${sections.size} sections")
-			} catch (e: Exception) {
+			} catch (e: ApiClientException) {
 				Timber.e(e, "Error loading TV shows data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
@@ -116,7 +117,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				)
 				Timber.d("Added Favorite Series section with ${favoriteSeries.size} items")
 			}
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading TV show sections")
 		}
 
@@ -135,7 +136,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				limit = 200,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading all series")
 			emptyList()
 		}
@@ -154,7 +155,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 				limit = 50,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading favorite series")
 			emptyList()
 		}
@@ -209,8 +210,8 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 						maxHeight = 600,
 					)
 					// Fallback: use episode primary image
-					seriesImageUrl ?: imageHelper.getPrimaryImageUrl(item, null, 400)
-				} catch (e: Exception) {
+					seriesImageUrl ?:					imageHelper.getPrimaryImageUrl(item, null, 400)
+				} catch (e: ApiClientException) {
 					Timber.e(e, "Failed to get image for episode: ${item.name}")
 					imageHelper.getPrimaryImageUrl(item, null, 400)
 				}
@@ -238,7 +239,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 						maxWidth = 1920,
 						maxHeight = 1080,
 					)
-				} catch (e: Exception) {
+				} catch (e: ApiClientException) {
 					Timber.e(e, "Failed to get backdrop for episode: ${item.name}")
 					null
 				}
@@ -258,7 +259,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 		return try {
 			// Use ImageHelper to get logo URL directly
 			imageHelper.getLogoImageUrl(item, 400)
-		} catch (e: Exception) {
+		} catch (e: IllegalArgumentException) {
 			Timber.e(e, "Failed to get logo for item: ${item.name}")
 			null
 		}

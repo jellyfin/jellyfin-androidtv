@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.CollectionType
@@ -69,7 +70,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
                     title = currentFolder?.name ?: "Browse"
                 )
                 
-            } catch (e: Exception) {
+            } catch (e: ApiClientException) {
                 Timber.e(e, "Error loading browse data")
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
@@ -101,7 +102,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
                 sections.add(MediaSection("Favorites", favoriteItems))
             }
             
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading movie sections")
         }
         
@@ -136,7 +137,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
                 sections.add(MediaSection("Favorite Series", favoriteItems))
             }
             
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading TV show sections")
         }
         
@@ -165,7 +166,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
                 sections.add(MediaSection("Favorite Albums", favoriteItems))
             }
             
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading music sections")
         }
         
@@ -181,7 +182,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
             // Upcoming
             // Note: These would use your existing LiveTV API calls
             
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading Live TV sections")
         }
         
@@ -199,7 +200,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
             // Use existing ItemRepository methods
             // This is a placeholder - you'd adapt your existing resume items logic
             emptyList()
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading resume items")
             emptyList()
         }
@@ -209,7 +210,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
         return try {
             // Use existing ItemRepository methods for latest items
             emptyList()
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading latest items")
             emptyList()
         }
@@ -219,7 +220,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
         return try {
             // Use existing ItemRepository methods for favorites
             emptyList()
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading favorite items")
             emptyList()
         }
@@ -229,7 +230,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
         return try {
             // Use existing next up logic
             emptyList()
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading next up items")
             emptyList()
         }
@@ -239,7 +240,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
         return try {
             // Use existing recently played logic
             emptyList()
-        } catch (e: Exception) {
+        } catch (e: ApiClientException) {
             Timber.e(e, "Error loading recently played items")
             emptyList()
         }

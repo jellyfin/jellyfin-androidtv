@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -68,7 +69,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				)
 
 				Timber.d("ComposeLiveTvViewModel: Loaded ${sections.size} sections")
-			} catch (e: Exception) {
+			} catch (e: ApiClientException) {
 				Timber.e(e, "Error loading Live TV data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
@@ -149,7 +150,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 
 			// Load smart sections (last 24 hours, scheduled, etc.)
 			loadSmartSections(sections)
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading Live TV sections")
 		}
 
@@ -166,7 +167,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				limit = 150,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading on now programs")
 			emptyList()
 		}
@@ -183,7 +184,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				limit = 150,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading upcoming programs")
 			emptyList()
 		}
@@ -195,7 +196,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				isFavorite = true,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading favorite channels")
 			emptyList()
 		}
@@ -207,7 +208,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				isFavorite = false,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading other channels")
 			emptyList()
 		}
@@ -221,7 +222,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				limit = 50,
 			)
 			response.content.items
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading recent recordings")
 			emptyList()
 		}
@@ -289,7 +290,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 					),
 				)
 			}
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error loading smart sections")
 		}
 	}
@@ -310,7 +311,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 				channelId = timer.channelId,
 				type = BaseItemKind.LIVE_TV_PROGRAM,
 			)
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Error converting timer to BaseItemDto")
 			null
 		}
@@ -363,7 +364,7 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 		return try {
 			// Use ImageHelper to get logo URL directly
 			imageHelper.getLogoImageUrl(item, 400)
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to get logo for item: ${item.name}")
 			null
 		}

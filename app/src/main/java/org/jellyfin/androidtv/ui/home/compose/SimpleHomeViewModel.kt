@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -90,7 +91,7 @@ class SimpleHomeViewModel(
 					recentlyAddedStuff = recentlyAddedStuff,
 					error = null,
 				)
-			} catch (e: Exception) {
+			} catch (e: ApiClientException) {
 				Timber.e(e, "Failed to load home data")
 				_homeState.value = _homeState.value.copy(
 					isLoading = false,
@@ -111,7 +112,7 @@ class SimpleHomeViewModel(
 				excludeActiveSessions = true,
 			)
 			apiClient.itemsApi.getResumeItems(request = request).content.items.orEmpty()
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to load resume items")
 			emptyList()
 		}
@@ -127,7 +128,7 @@ class SimpleHomeViewModel(
 				enableRewatching = false,
 			)
 			apiClient.tvShowsApi.getNextUp(request = request).content.items.orEmpty()
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to load next up items")
 			emptyList()
 		}
@@ -144,7 +145,7 @@ class SimpleHomeViewModel(
 			val result = apiClient.userLibraryApi.getLatestMedia(request = request).content
 			Timber.d("Latest movies loaded: ${result.size} items")
 			result
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to load latest movies")
 			emptyList()
 		}
@@ -161,7 +162,7 @@ class SimpleHomeViewModel(
 			val result = apiClient.userLibraryApi.getLatestMedia(request = request).content
 			Timber.d("Latest episodes loaded: ${result.size} items")
 			result
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to load latest episodes")
 			emptyList()
 		}
@@ -188,7 +189,7 @@ class SimpleHomeViewModel(
 				Timber.d("No 'stuff' library found")
 				emptyList()
 			}
-		} catch (e: Exception) {
+		} catch (e: ApiClientException) {
 			Timber.e(e, "Failed to load recently added stuff")
 			emptyList()
 		}
@@ -199,7 +200,7 @@ class SimpleHomeViewModel(
 			val imageUrl = imageHelper.getPrimaryImageUrl(item, 300, 450)
 			Timber.d("Generated image URL for ${item.name}: $imageUrl")
 			imageUrl
-		} catch (e: Exception) {
+		} catch (e: IllegalArgumentException) {
 			Timber.e(e, "Failed to get image URL for item: ${item.name}")
 			null
 		}
@@ -224,7 +225,7 @@ class SimpleHomeViewModel(
 					getItemImageUrl(item)
 				}
 			}
-		} catch (e: Exception) {
+		} catch (e: IllegalArgumentException) {
 			Timber.e(e, "Failed to get series image URL for item: ${item.name}")
 			// Fallback to regular image
 			getItemImageUrl(item)
@@ -234,7 +235,7 @@ class SimpleHomeViewModel(
 	fun onLibraryClick(library: BaseItemDto) {
 		try {
 			navigationRepository.navigate(Destinations.libraryBrowser(library))
-		} catch (e: Exception) {
+		} catch (e: IllegalArgumentException) {
 			Timber.e(e, "Failed to navigate to library: ${library.name}")
 		}
 	}
@@ -242,7 +243,7 @@ class SimpleHomeViewModel(
 	fun onItemClick(item: BaseItemDto) {
 		try {
 			navigationRepository.navigate(Destinations.itemDetails(item.id))
-		} catch (e: Exception) {
+		} catch (e: IllegalArgumentException) {
 			Timber.e(e, "Failed to navigate to item: ${item.name}")
 		}
 	}
