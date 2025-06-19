@@ -62,7 +62,8 @@ fun RecordPopup.updateTimer(
 	timer: TimerInfoDto,
 	callback: () -> Unit,
 ) {
-	val api by mContext.getActivity()!!.inject<ApiClient>()
+	val activity = mContext.getActivity() ?: return
+	val api by activity.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {
@@ -95,7 +96,8 @@ fun RecordPopup.getLiveTvProgram(
 	id: UUID,
 	callback: (program: BaseItemDto) -> Unit,
 ) {
-	val api by mContext.getActivity()!!.inject<ApiClient>()
+	val activity = mContext.getActivity() ?: return
+	val api by activity.inject<ApiClient>()
 
 	lifecycle.coroutineScope.launch {
 		runCatching {

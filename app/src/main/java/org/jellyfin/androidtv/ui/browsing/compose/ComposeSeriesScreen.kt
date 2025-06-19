@@ -73,7 +73,7 @@ fun ComposeSeriesScreen(
 				LoadingState()
 			}
 			uiState.error != null -> {
-				ErrorState(error = uiState.error)
+				ErrorState(error = uiState.error!!)
 			}
 			uiState.sections.isEmpty() -> {
 				EmptyState()
@@ -193,7 +193,7 @@ private fun SeriesDetailImmersiveList(
 	LaunchedEffect(globalFocusedItem) {
 		if (globalFocusedItem != null) {
 			delay(150)
-			onItemFocus(globalFocusedItem)
+			onItemFocus(globalFocusedItem!!)
 		}
 	}
 

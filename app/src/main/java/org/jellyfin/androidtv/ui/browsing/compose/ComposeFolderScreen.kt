@@ -41,7 +41,7 @@ fun ComposeFolderScreen(
 			LoadingScreen(modifier = modifier)
 		} uiState.error != null -> {
 			ErrorScreen(
-				error = uiState.error, // Safe since we checked it above
+				error = uiState.error!!, // Safe since we checked it above
 				modifier = modifier,
 			)
 		}

@@ -43,7 +43,7 @@ fun ComposeSeasonScreen(
 				LoadingState()
 			}
 			uiState.error != null -> {
-				ErrorState(error = uiState.error)
+				ErrorState(error = uiState.error!!)
 			}
 			uiState.sections.isEmpty() -> {
 				EmptyState()
