@@ -19,11 +19,11 @@ class AuthenticatorService : Service() {
 	override fun onBind(intent: Intent): IBinder? = authenticator.iBinder
 
 	private class Authenticator(
-		private val service: AuthenticatorService
+		private val service: AuthenticatorService,
 	) : AbstractAccountAuthenticator(service) {
 		private val unsupportedOperationBundle = bundleOf(
 			AccountManager.KEY_ERROR_CODE to AccountManager.ERROR_CODE_REMOTE_EXCEPTION,
-			AccountManager.KEY_ERROR_MESSAGE to "Unsupported operation"
+			AccountManager.KEY_ERROR_MESSAGE to "Unsupported operation",
 		)
 
 		override fun addAccount(
@@ -44,14 +44,14 @@ class AuthenticatorService : Service() {
 			response: AccountAuthenticatorResponse,
 			accountType: String,
 		): Bundle = bundleOf(
-			AccountManager.KEY_INTENT to Intent(service, PreferencesActivity::class.java)
+			AccountManager.KEY_INTENT to Intent(service, PreferencesActivity::class.java),
 		)
 
 		override fun getAccountRemovalAllowed(
 			response: AccountAuthenticatorResponse,
 			account: Account,
 		): Bundle = bundleOf(
-			AccountManager.KEY_BOOLEAN_RESULT to true
+			AccountManager.KEY_BOOLEAN_RESULT to true,
 		)
 
 		override fun getAuthToken(
