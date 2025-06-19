@@ -245,7 +245,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
   		 * Enable internal player PGS subtitle rendering support
 		 */
-		var pgsDirectPlay = booleanPreference("pgs_enabled", false)
+		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 	}
 
 	init {
