@@ -241,6 +241,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable libass.
 		 */
 		var assDirectPlay = booleanPreference("libass_enabled", false)
+
+		/**
+  		 * Enable PGS subtitle direct-play.
+		 */
+		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 	}
 
 	init {
