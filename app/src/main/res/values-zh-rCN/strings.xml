@@ -570,4 +570,5 @@
     <string name="speech_error_no_permission">无权使用麦克风。请在系统设置中启用。</string>
     <string name="lbl_from_beginning">从头开始播放</string>
     <string name="speech_error_unknown">语音识别过程中出现意外错误。</string>
+    <string name="pref_subtitles_bold">粗体文本</string>
 </resources>

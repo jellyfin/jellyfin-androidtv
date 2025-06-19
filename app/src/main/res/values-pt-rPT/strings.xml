@@ -16,7 +16,7 @@
     <string name="lbl_by_letter">Por letra</string>
     <string name="lbl_suggested">Sugerido</string>
     <string name="lbl_genres">Géneros</string>
-    <string name="lbl_search">Pesquisa</string>
+    <string name="lbl_search">Pesquisar</string>
     <string name="msg_not_implemented">" não implementado"</string>
     <string name="lbl_latest">Adicionado recentemente</string>
     <string name="lbl_by_name">Por nome</string>
@@ -65,11 +65,11 @@
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
     <string name="lbl_enter_server_address">Introduz o endereço do servidor</string>
-    <string name="lbl_valid_server_address">Por favor, introduza o endereço do servidor (IP ou domínio/nome do servidor)</string>
+    <string name="lbl_valid_server_address">Introduz o endereço do servidor (IP ou domínio/nome do servidor)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascido "</string>
     <string name="lbl_loading_elipses">A carregar…</string>
-    <string name="msg_playback_not_allowed">Reprodução não permitida de momento</string>
+    <string name="msg_playback_not_allowed">A reprodução não é permitida neste momento</string>
     <string name="msg_playback_restricted">O administrador restringiu a reprodução deste item de momento</string>
     <string name="msg_playback_incompatible">Não é possível reproduzir este formato de vídeo</string>
     <string name="lbl_never">Nunca</string>
@@ -78,7 +78,7 @@
     <string name="lbl_no_items">Sem itens</string>
     <string name="lbl_empty">Vazio</string>
     <string name="lbl_tv_queuing">Reproduzir o próximo episódio automaticamente</string>
-    <string name="lbl_search_hint">Procurar texto (selecione para ver teclado)</string>
+    <string name="lbl_search_hint">Procurar texto (seleciona para ver o teclado)</string>
     <string name="lbl_play_first_unwatched">Reproduzir o primeiro não visto</string>
     <string name="lbl_mark_unplayed">Marcar como não visto</string>
     <string name="lbl_mark_played">Marcar como visto</string>
@@ -97,7 +97,7 @@
     <string name="lbl_begin_padding">Padding de início (min)</string>
     <string name="lbl_program_ended">Programa terminou</string>
     <string name="lbl_end_padding">Padding do fim (min)</string>
-    <string name="lbl_similar_items_library">Itens semelhantes na sua mediateca</string>
+    <string name="lbl_similar_items_library">Itens semelhantes na tua biblioteca</string>
     <string name="lbl_record_any_channel">Gravar em qualquer canal</string>
     <string name="lbl_record_any_time">Gravar a qualquer hora</string>
     <string name="lbl_only_new_episodes">Apenas novos episódios</string>
@@ -170,7 +170,7 @@
     <string name="watch_now">Ver agora</string>
     <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de reproduzir o item seguinte</string>
     <string name="pref_about_title">Sobre</string>
-    <string name="lbl_my_media">A minha media</string>
+    <string name="lbl_my_media">O meu conteúdo</string>
     <string name="lbl_image_type">Tipo de imagem</string>
     <string name="lbl_start_favorites">Colocar os favoritos no início</string>
     <string name="lbl_hd_programs">Programas em HD (Alta-Definição)</string>
@@ -386,7 +386,7 @@
     <string name="server_issue_unsupported_version">O servidor utiliza a versão %1$s que não é suportada</string>
     <string name="server_issue_missing_version">Não foi possível apurar a versão do servidor</string>
     <string name="server_issue_invalid_product">O software do servidor é incompatível</string>
-    <string name="server_issue_unable_to_connect">Impossível ligar</string>
+    <string name="server_issue_unable_to_connect">Não é possível ligar</string>
     <string name="pref_subtitles_size">Tamanho do texto</string>
     <string name="pref_subtitles_background_summary">Mostrar fundo negro sob as legendas</string>
     <string name="pref_subtitles_background_title">Ativar fundo</string>
@@ -415,7 +415,7 @@
     <string name="login_connect_to">A ligar a %1$s</string>
     <string name="lbl_additional_parts">Partes adicionais</string>
     <string name="lbl_subtitle_delay">Atraso de legendas</string>
-    <string name="home_section_latest_media">Últimos itens</string>
+    <string name="home_section_latest_media">Conteúdo adicionado recentemente</string>
     <string name="action_use_password">Utilizar uma palavra passe</string>
     <string name="input_password">Palavra passe</string>
     <string name="image_size_xlarge">Extra grande</string>
@@ -457,7 +457,7 @@
     <string name="item_delete_confirm_title">Eliminar item</string>
     <string name="item_deleted">%1$s eliminado</string>
     <string name="item_deletion_failed">Não foi possível eliminar %1$s</string>
-    <string name="pref_enable_media_management_description">Mostrar opção para gerir media enquanto navega</string>
+    <string name="pref_enable_media_management_description">Mostra a opção para gerir o conteúdo multimédia durante a navegação</string>
     <string name="item_delete_confirm_message">Tens a certeza de que queres eliminar este item do servidor? Esta ação não pode ser anulada.</string>
     <plurals name="tracks">
         <item quantity="one">%1$s faixa</item>
@@ -566,7 +566,7 @@
     <string name="segment_type_recap">Recapitulações</string>
     <string name="segment_type_unknown">Segmentos desconhecidos</string>
     <string name="segment_action_nothing">Não fazer nada</string>
-    <string name="pref_mediasegment_actions">Ações de segmentos de multimédias</string>
+    <string name="pref_mediasegment_actions">Ações em segmentos de conteúdo multimédia</string>
     <string name="segment_action_skip">Saltar</string>
     <string name="segment_type_intro">Introduções</string>
     <string name="segment_type_preview">Pré-visualizações</string>
@@ -585,4 +585,9 @@
     <string name="rewind">Retroceder</string>
     <string name="fast_forward">Avançar</string>
     <string name="preference_enable_libass">Ativar a renderização de legendas do cliente Advanced SubStation Alpha</string>
+    <string name="pref_subtitles_bold">Negrito</string>
+    <string name="lbl_from_beginning">Reproduzir do início</string>
+    <string name="speech_error_unavailable">O reconhecimento de voz não está disponível no teu dispositivo.</string>
+    <string name="speech_error_unknown">Ocorreu um erro inesperado durante o reconhecimento de voz.</string>
+    <string name="speech_error_no_permission">Não tens permissão para usar o microfone. Por favor, ativa-o nas definições do sistema.</string>
 </resources>
