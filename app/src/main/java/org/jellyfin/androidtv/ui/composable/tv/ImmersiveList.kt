@@ -169,7 +169,7 @@ fun ImmersiveList(
  * Immersive background that shows backdrop of focused item
  */
 @Composable
-private fun ImmersiveBackground(
+internal fun ImmersiveBackground(
 	item: BaseItemDto?,
 	getBackdropUrl: (BaseItemDto) -> String?,
 ) {
@@ -363,7 +363,7 @@ private fun ContentInformationOverlay(
 									fontSize = 16.sp,
 									fontWeight = FontWeight.Bold,
 								),
-								color = JellyfinColors.primary,
+								color = JellyfinColors.Primary,
 								modifier = Modifier
 									.background(
 										color = Color.Black.copy(alpha = 0.6f),

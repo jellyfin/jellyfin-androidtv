@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -429,7 +430,7 @@ private fun SeriesInformationOverlay(
 									fontSize = 16.sp,
 									fontWeight = FontWeight.Medium,
 								),
-								color = JellyfinColors.primary,
+								color = JellyfinColors.Primary,
 								modifier = Modifier
 									.background(
 										color = Color.Black.copy(alpha = 0.6f),
