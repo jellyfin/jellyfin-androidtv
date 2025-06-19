@@ -250,8 +250,8 @@
     <string name="too_many_errors">Erros excessivos. Desistindo</string>
     <string name="player_error">Erro no reprodutor encontrado. Tentando novamente…</string>
     <string name="seek_error">Incapaz de buscar</string>
-    <string name="msg_live_tv_prev">Carregar às %1$d horas prévias?</string>
-    <string name="msg_live_tv_next">Carregar próximas %1$d horas?\"</string>
+    <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores?</string>
+    <string name="msg_live_tv_next">Carregar as próximas %1$d horas?</string>
     <string name="lbl_load_guide_data">Carregar programação dos canais</string>
     <string name="episode_missing_message_2">Esse episódio não está disponível na sua biblioteca. A reprodução será interrompida.</string>
     <string name="episode_missing_message">Esse episódio não está disponível na sua biblioteca. Gostaria de pular esse e continuar para o próximo\?</string>
@@ -585,4 +585,10 @@
     <string name="segment_type_outro">Outros</string>
     <string name="pref_report_device_profile_summary">Carregue um documento de solução de problemas para o servidor Jellyfin com informações sobre recursos de reprodução</string>
     <string name="pref_report_device_profile_failure">Falha ao enviar o documento. Seu servidor Jellyfin pode proibir logs de clientes.</string>
+    <string name="pref_subtitles_bold">Texto negrito</string>
+    <string name="lbl_from_beginning">Reproduzir do início</string>
+    <string name="preference_enable_libass">Ativar renderização avançada de legendas SubStation Alpha no cliente</string>
+    <string name="speech_error_unavailable">O reconhecimento de fala não está disponível no seu dispositivo.</string>
+    <string name="speech_error_no_permission">Sem permissão para usar o microfone. Por favor, ative-a nas configurações do sistema.</string>
+    <string name="speech_error_unknown">Ocorreu um erro inesperado durante o reconhecimento de fala.</string>
 </resources>
