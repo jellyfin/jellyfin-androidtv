@@ -572,9 +572,9 @@
     <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הקרובות</string>
     <string name="past_24_hours">24 שעות אחרונות</string>
     <string name="pref_mediasegment_actions">פעולות בהגעה למקטעי מדיה</string>
-    <string name="segment_action_skip">לדלג אוטומטית</string>
+    <string name="segment_action_skip">דלג אוטומטית</string>
     <string name="default_video_zoom">מצב זום ברירת מחדל</string>
-    <string name="segment_action_ask_to_skip">להציג כפתור דילוג</string>
+    <string name="segment_action_ask_to_skip">הצע לדלג</string>
     <string name="preference_enable_trickplay">הפעלת Trickplay בנגן הוידאו</string>
     <string name="skip_forward_length">אורך דילוג קדימה</string>
     <string name="runtime_hours_minutes">%1$d שע\' %2$d דק\'</string>
