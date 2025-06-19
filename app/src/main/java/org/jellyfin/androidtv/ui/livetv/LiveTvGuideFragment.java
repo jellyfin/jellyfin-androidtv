@@ -101,7 +101,6 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private Handler mHandler = new Handler();
 
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
-    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 

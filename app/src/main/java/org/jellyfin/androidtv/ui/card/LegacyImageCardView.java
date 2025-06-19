@@ -30,7 +30,6 @@ public class LegacyImageCardView extends BaseCardView {
       ViewCardLegacyImageBinding.inflate(LayoutInflater.from(getContext()), this);
   private ImageView mBanner;
   private int BANNER_SIZE = Utils.convertDpToPixel(getContext(), 50);
-  private int noIconMargin = Utils.convertDpToPixel(getContext(), 5);
   private NumberFormat nf = NumberFormat.getInstance();
 
   public LegacyImageCardView(Context context, boolean showInfo) {
