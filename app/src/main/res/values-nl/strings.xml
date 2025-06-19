@@ -581,4 +581,5 @@
     <string name="speech_error_no_permission">Geen toestemming om de microfoon te gebruiken. Schakel deze in via de systeeminstellingen.</string>
     <string name="speech_error_unavailable">Spraakherkenning is niet beschikbaar op jouw apparaat.</string>
     <string name="pref_subtitles_bold">Vetgedrukte tekst</string>
+    <string name="preference_enable_pgs">PGS-ondertiteling direct afspelen</string>
 </resources>
