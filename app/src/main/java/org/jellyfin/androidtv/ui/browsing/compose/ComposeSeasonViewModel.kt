@@ -6,13 +6,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.ui.composable.layout.ImmersiveListSection
+import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -41,12 +43,12 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 			
 			try {
 				// Get season details
-				val seasonResponse = apiClient.tvShowsApi.getSeasons(
-					seriesId = seasonId,
-					userId = apiClient.userId,
+				val seasonResponse = apiClient.itemsApi.getItem(
+					itemId = seasonId,
+					userId = apiClient.userId!!,
 				)
 				
-				val season = seasonResponse.content.items?.firstOrNull { it.id == seasonId }
+				val season = seasonResponse.content
 				if (season == null) {
 					_uiState.value = _uiState.value.copy(
 						isLoading = false,
@@ -59,14 +61,14 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				val episodesResponse = apiClient.tvShowsApi.getEpisodes(
 					seriesId = season.seriesId ?: seasonId,
 					seasonId = seasonId,
-					userId = apiClient.userId,
+					userId = apiClient.userId!!,
 					sortBy = listOf(ItemSortBy.SORT_NAME),
 					sortOrder = listOf(SortOrder.ASCENDING),
 					enableUserData = true,
 					enableImages = true,
 				)
 				
-				val episodes = episodesResponse.content.items ?: emptyList()
+				val episodes = episodesResponse.content?.items ?: emptyList()
 				
 				val sections = mutableListOf<ImmersiveListSection>()
 				

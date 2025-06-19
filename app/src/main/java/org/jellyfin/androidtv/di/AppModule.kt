@@ -30,6 +30,8 @@ import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeLiveTvViewModel
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeMoviesViewModel
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeMusicViewModel
+import org.jellyfin.androidtv.ui.browsing.compose.ComposeSeasonViewModel
+import org.jellyfin.androidtv.ui.browsing.compose.ComposeSeriesViewModel
 import org.jellyfin.androidtv.ui.browsing.compose.ComposeTvShowsViewModel
 import org.jellyfin.androidtv.ui.home.compose.SimpleHomeViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher

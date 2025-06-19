@@ -6,10 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.ui.composable.layout.ImmersiveListSection
+import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -44,7 +45,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				// Get series details
 				val seriesResponse = apiClient.itemsApi.getItem(
 					itemId = seriesId,
-					userId = apiClient.userId,
+					userId = apiClient.userId!!,
 				)
 				
 				val series = seriesResponse.content
@@ -59,14 +60,14 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				// Get seasons for this series
 				val seasonsResponse = apiClient.tvShowsApi.getSeasons(
 					seriesId = seriesId,
-					userId = apiClient.userId,
+					userId = apiClient.userId!!,
 					enableUserData = true,
 					enableImages = true,
 					sortBy = listOf(ItemSortBy.SORT_NAME),
 					sortOrder = listOf(SortOrder.ASCENDING),
 				)
 				
-				val seasons = seasonsResponse.content.items ?: emptyList()
+				val seasons = seasonsResponse.content?.items ?: emptyList()
 				
 				val sections = mutableListOf<ImmersiveListSection>()
 				
@@ -104,7 +105,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				try {
 					val recentEpisodesResponse = apiClient.tvShowsApi.getEpisodes(
 						seriesId = seriesId,
-						userId = apiClient.userId,
+						userId = apiClient.userId!!,
 						sortBy = listOf(ItemSortBy.DATE_ADDED),
 						sortOrder = listOf(SortOrder.DESCENDING),
 						limit = 20,
@@ -112,7 +113,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						enableImages = true,
 					)
 					
-					val recentEpisodes = recentEpisodesResponse.content.items ?: emptyList()
+					val recentEpisodes = recentEpisodesResponse.content?.items ?: emptyList()
 					if (recentEpisodes.isNotEmpty()) {
 						sections.add(
 							ImmersiveListSection(

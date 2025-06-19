@@ -14,7 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jellyfin.androidtv.ui.composable.layout.MultiSectionImmersiveList
+import org.jellyfin.androidtv.ui.composable.tv.MultiSectionImmersiveList
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
@@ -43,7 +43,7 @@ fun ComposeSeriesScreen(
 				LoadingState()
 			}
 			uiState.error != null -> {
-				ErrorState(error = uiState.error)
+				ErrorState(error = uiState.error!!)
 			}
 			uiState.sections.isEmpty() -> {
 				EmptyState()
