@@ -193,7 +193,5 @@ class ComposeFolderViewModel : ViewModel(), KoinComponent {
 		_uiState.value = _uiState.value.copy(focusedItem = item)
 	}
 
-	fun getItemImageUrl(item: BaseItemDto): String? {
-		return imageHelper.getPrimaryImageUrl(item)
-	}
+	fun getItemImageUrl(item: BaseItemDto): String? = imageHelper.getPrimaryImageUrl(item)
 }

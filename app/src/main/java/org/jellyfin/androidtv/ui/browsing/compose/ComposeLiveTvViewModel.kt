@@ -352,13 +352,11 @@ class ComposeLiveTvViewModel : ViewModel(), KoinComponent {
 		return imageHelper.getPrimaryImageUrl(item, null, 400)
 	}
 	
-	fun getItemBackdropUrl(item: BaseItemDto): String? {
-		return item.itemBackdropImages.firstOrNull()?.getUrl(
-			api = apiClient,
-			maxWidth = 1920,
-			maxHeight = 1080,
-		)
-	}
+	fun getItemBackdropUrl(item: BaseItemDto): String? = item.itemBackdropImages.firstOrNull()?.getUrl(
+		api = apiClient,
+		maxWidth = 1920,
+		maxHeight = 1080,
+	)
 
 	fun getItemLogoUrl(item: BaseItemDto): String? {
 		return try {

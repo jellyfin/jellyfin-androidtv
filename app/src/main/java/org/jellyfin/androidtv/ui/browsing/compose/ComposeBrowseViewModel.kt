@@ -269,9 +269,7 @@ class ComposeBrowseViewModel : ViewModel(), KoinComponent {
 		backgroundService.setBackground(item)
 	}
 
-	fun getItemImageUrl(item: BaseItemDto): String? {
-		return imageHelper.getPrimaryImageUrl(item, null, 300)
-	}
+	fun getItemImageUrl(item: BaseItemDto): String? = imageHelper.getPrimaryImageUrl(item, null, 300)
 }
 
 /**
