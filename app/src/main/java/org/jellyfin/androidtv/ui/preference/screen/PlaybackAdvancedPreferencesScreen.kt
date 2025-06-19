@@ -98,8 +98,6 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 
 			checkbox {
 				setTitle(R.string.preference_enable_pgs)
-				setContent(R.string.enable_pgs_description)
-
 				bind(userPreferences, UserPreferences.pgsDirectPlay)
 			}
 
