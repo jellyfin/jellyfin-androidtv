@@ -367,7 +367,7 @@ private fun ContentInformationOverlay(
 								modifier = Modifier
 									.background(
 										color = Color.Black.copy(alpha = 0.6f),
-										shape = RoundedCornerShape(4.dp)
+										shape = RoundedCornerShape(4.dp),
 									)
 									.padding(horizontal = 8.dp, vertical = 2.dp),
 							)
@@ -387,7 +387,7 @@ private fun ContentInformationOverlay(
 								modifier = Modifier
 									.background(
 										color = Color.Black.copy(alpha = 0.6f),
-										shape = RoundedCornerShape(4.dp)
+										shape = RoundedCornerShape(4.dp),
 									)
 									.padding(horizontal = 6.dp, vertical = 2.dp),
 							)
