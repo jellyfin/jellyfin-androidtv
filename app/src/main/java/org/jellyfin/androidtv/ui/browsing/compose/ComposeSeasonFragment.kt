@@ -30,11 +30,11 @@ class ComposeSeasonFragment : Fragment() {
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
-		savedInstanceState: Bundle?
+		savedInstanceState: Bundle?,
 	): View {
 		val seasonId = UUID.fromString(
-			arguments?.getString("seasonId") 
-				?: throw IllegalArgumentException("Season ID is required")
+			arguments?.getString("seasonId")
+				?: throw IllegalArgumentException("Season ID is required"),
 		)
 
 		return ComposeView(requireContext()).apply {

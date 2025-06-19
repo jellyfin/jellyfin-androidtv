@@ -26,7 +26,7 @@ import java.util.UUID
 fun ComposeSeriesScreen(
 	seriesId: UUID,
 	modifier: Modifier = Modifier,
-	viewModel: ComposeSeriesViewModel = koinViewModel()
+	viewModel: ComposeSeriesViewModel = koinViewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
 
@@ -36,7 +36,7 @@ fun ComposeSeriesScreen(
 	}
 
 	Box(
-		modifier = modifier.fillMaxSize()
+		modifier = modifier.fillMaxSize(),
 	) {
 		when {
 			uiState.isLoading -> {
@@ -55,7 +55,7 @@ fun ComposeSeriesScreen(
 					onItemFocused = viewModel::onItemFocused,
 					getItemImageUrl = viewModel::getItemImageUrl,
 					getItemBackdropUrl = viewModel::getItemBackdropUrl,
-					getItemLogoUrl = viewModel::getItemLogoUrl
+					getItemLogoUrl = viewModel::getItemLogoUrl,
 				)
 			}
 		}
@@ -64,20 +64,20 @@ fun ComposeSeriesScreen(
 
 @Composable
 private fun LoadingState(
-	modifier: Modifier = Modifier
+	modifier: Modifier = Modifier,
 ) {
 	Box(
 		modifier = modifier.fillMaxSize(),
-		contentAlignment = Alignment.Center
+		contentAlignment = Alignment.Center,
 	) {
 		Column(
-			horizontalAlignment = Alignment.CenterHorizontally
+			horizontalAlignment = Alignment.CenterHorizontally,
 		) {
 			CircularProgressIndicator()
 			Text(
 				text = "Loading seasons...",
 				style = MaterialTheme.typography.bodyLarge,
-				modifier = Modifier.padding(top = 16.dp)
+				modifier = Modifier.padding(top = 16.dp),
 			)
 		}
 	}
@@ -86,31 +86,31 @@ private fun LoadingState(
 @Composable
 private fun ErrorState(
 	error: String,
-	modifier: Modifier = Modifier
+	modifier: Modifier = Modifier,
 ) {
 	Box(
 		modifier = modifier.fillMaxSize(),
-		contentAlignment = Alignment.Center
+		contentAlignment = Alignment.Center,
 	) {
 		Text(
 			text = "Error: $error",
 			style = MaterialTheme.typography.bodyLarge,
-			color = MaterialTheme.colorScheme.error
+			color = MaterialTheme.colorScheme.error,
 		)
 	}
 }
 
 @Composable
 private fun EmptyState(
-	modifier: Modifier = Modifier
+	modifier: Modifier = Modifier,
 ) {
 	Box(
 		modifier = modifier.fillMaxSize(),
-		contentAlignment = Alignment.Center
+		contentAlignment = Alignment.Center,
 	) {
 		Text(
 			text = "No seasons found",
-			style = MaterialTheme.typography.bodyLarge
+			style = MaterialTheme.typography.bodyLarge,
 		)
 	}
 }
@@ -123,18 +123,18 @@ private fun ContentState(
 	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-	modifier: Modifier = Modifier
+	modifier: Modifier = Modifier,
 ) {
 	MultiSectionImmersiveList(
 		sections = uiState.sections,
 		title = uiState.title,
-		backgroundImageUrl = uiState.focusedItem?.let { getItemBackdropUrl(it) } 
+		backgroundImageUrl = uiState.focusedItem?.let { getItemBackdropUrl(it) }
 			?: uiState.series?.let { getItemBackdropUrl(it) },
-		logoImageUrl = uiState.focusedItem?.let { getItemLogoUrl(it) } 
+		logoImageUrl = uiState.focusedItem?.let { getItemLogoUrl(it) }
 			?: uiState.series?.let { getItemLogoUrl(it) },
 		onItemClick = onItemClick,
 		onItemFocused = onItemFocused,
 		getItemImageUrl = getItemImageUrl,
-		modifier = modifier
+		modifier = modifier,
 	)
 }
