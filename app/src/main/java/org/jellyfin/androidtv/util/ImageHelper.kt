@@ -38,7 +38,7 @@ class ImageHelper(
 			return ASPECT_RATIO_16_9
 		}
 
-		val primaryAspectRatio = item.primaryImageAspectRatio;
+		val primaryAspectRatio = item.primaryImageAspectRatio
 		if (item.type == BaseItemKind.EPISODE) {
 			if (primaryAspectRatio != null) return primaryAspectRatio
 			if (item.parentThumbItemId != null || item.seriesThumbImageTag != null) return ASPECT_RATIO_16_9
@@ -67,7 +67,7 @@ class ImageHelper(
 		item: BaseItemDto,
 		preferParentThumb: Boolean,
 		fillWidth: Int? = null,
-		fillHeight: Int? = null
+		fillHeight: Int? = null,
 	): String? {
 		val image = when {
 			preferParentThumb && item.type == BaseItemKind.EPISODE -> item.parentImages[ImageType.THUMB] ?: item.seriesThumbImage
@@ -86,7 +86,7 @@ class ImageHelper(
 
 	fun getLogoImageUrl(
 		item: BaseItemDto?,
-		maxWidth: Int? = null
+		maxWidth: Int? = null,
 	): String? {
 		val image = item?.itemImages[ImageType.LOGO] ?: item?.parentImages[ImageType.LOGO]
 		return image?.getUrl(api, maxWidth = maxWidth)
