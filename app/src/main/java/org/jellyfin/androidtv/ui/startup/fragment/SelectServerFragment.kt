@@ -249,7 +249,7 @@ class SelectServerFragment : Fragment() {
 			setPopupMenu { serverPopupBuilder(server) }
 		}
 
-		inner class ViewHolder(
+		class ViewHolder(
 			val serverButtonView: ServerButtonView,
 		) : RecyclerView.ViewHolder(serverButtonView)
 	}

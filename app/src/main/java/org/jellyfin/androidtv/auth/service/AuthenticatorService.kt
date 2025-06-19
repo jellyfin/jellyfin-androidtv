@@ -18,7 +18,7 @@ class AuthenticatorService : Service() {
 
 	override fun onBind(intent: Intent): IBinder? = authenticator.iBinder
 
-	private inner class Authenticator(
+	private class Authenticator(
 		private val service: AuthenticatorService
 	) : AbstractAccountAuthenticator(service) {
 		private val unsupportedOperationBundle = bundleOf(
