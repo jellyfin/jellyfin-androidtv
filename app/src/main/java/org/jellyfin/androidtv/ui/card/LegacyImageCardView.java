@@ -150,7 +150,7 @@ public class LegacyImageCardView extends BaseCardView {
         }
     }
 
-    public void insertCardData (@Nullable String fullName, @NonNull int icon, @NonNull boolean iconVisible) {
+    public void insertCardData (@Nullable String fullName, int icon, boolean iconVisible) {
         binding.overlayText.setText(fullName);
         if (iconVisible) {
             binding.iconImage.setImageResource(icon);
