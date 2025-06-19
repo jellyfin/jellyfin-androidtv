@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
+import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
@@ -77,7 +78,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Seasons",
 							items = seasons,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 						),
 					)
 				}
@@ -96,7 +97,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Continue Watching",
 							items = continueWatching,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 						),
 					)
 				}
@@ -119,7 +120,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 							ImmersiveListSection(
 								title = "Recent Episodes",
 								items = recentEpisodes.take(10), // Limit to 10 most recent
-								layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+								layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 							),
 						)
 					}

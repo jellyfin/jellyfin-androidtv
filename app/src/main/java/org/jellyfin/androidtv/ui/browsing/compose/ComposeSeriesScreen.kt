@@ -127,14 +127,11 @@ private fun ContentState(
 ) {
 	MultiSectionImmersiveList(
 		sections = uiState.sections,
-		title = uiState.title,
-		backgroundImageUrl = uiState.focusedItem?.let { getItemBackdropUrl(it) }
-			?: uiState.series?.let { getItemBackdropUrl(it) },
-		logoImageUrl = uiState.focusedItem?.let { getItemLogoUrl(it) }
-			?: uiState.series?.let { getItemLogoUrl(it) },
 		onItemClick = onItemClick,
-		onItemFocused = onItemFocused,
+		onItemFocus = onItemFocused,
 		getItemImageUrl = getItemImageUrl,
-		modifier = modifier,
+		getItemBackdropUrl = getItemBackdropUrl,
+		getItemLogoUrl = getItemLogoUrl,
+		modifier = modifier.fillMaxSize(),
 	)
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
+import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
@@ -59,7 +60,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 
 				// Get episodes for this season
 				val episodesResponse = apiClient.tvShowsApi.getEpisodes(
-					seriesId = season.seriesId ?: seasonId,
+					seriesId = season.parentId ?: seasonId,
 					seasonId = seasonId,
 					userId = apiClient.userId!!,
 					sortBy = listOf(ItemSortBy.SORT_NAME),
@@ -78,7 +79,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Episodes",
 							items = episodes,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 						),
 					)
 				}
@@ -95,7 +96,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Continue Watching",
 							items = continueWatching,
-							layout = ImmersiveListSection.Layout.HORIZONTAL_CARDS,
+							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 						),
 					)
 				}
@@ -105,7 +106,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 					sections = sections,
 					season = season,
 					title = season.name ?: "Season",
-					seriesName = season.seriesName,
+					seriesName = season.parentTitle,
 				)
 				
 				Timber.d("Loaded ${episodes.size} episodes for season: ${season.name}")
