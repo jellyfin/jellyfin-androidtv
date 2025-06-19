@@ -109,7 +109,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						includeItemTypes = setOf(BaseItemKind.EPISODE),
 						recursive = true,
 						fields = ItemRepository.itemFields,
-						sortBy = setOf(ItemSortBy.DATE_ADDED),
+						sortBy = setOf(ItemSortBy.DATE_CREATED),
 						sortOrder = setOf(SortOrder.DESCENDING),
 						limit = 20,
 					)
