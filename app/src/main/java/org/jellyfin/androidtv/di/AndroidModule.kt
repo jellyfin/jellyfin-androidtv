@@ -11,7 +11,13 @@ import org.koin.dsl.module
  * Provides DI for Android system components
  */
 val androidModule = module {
-	factory { androidApplication().getSystemService<UiModeManager>()!! }
-	factory { androidApplication().getSystemService<AudioManager>()!! }
+	factory { 
+		androidApplication().getSystemService<UiModeManager>() 
+			?: throw IllegalStateException("UiModeManager service not available")
+	}
+	factory { 
+		androidApplication().getSystemService<AudioManager>() 
+			?: throw IllegalStateException("AudioManager service not available")
+	}
 	factory { WorkManager.getInstance(get()) }
 }

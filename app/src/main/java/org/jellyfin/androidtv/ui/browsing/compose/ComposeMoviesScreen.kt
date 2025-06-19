@@ -43,7 +43,7 @@ fun ComposeMoviesScreen(
 		}
 		uiState.error != null -> {
 			ErrorScreen(
-				error = uiState.error!!,
+				error = uiState.error,
 				modifier = modifier,
 			)
 		}

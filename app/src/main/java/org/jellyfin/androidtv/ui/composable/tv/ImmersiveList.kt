@@ -110,7 +110,7 @@ fun ImmersiveList(
 		if (focusedItem != null) {
 			// Small delay to prevent rapid background changes during navigation
 			delay(150)
-			onItemFocus(focusedItem!!)
+			onItemFocus(focusedItem)
 		}
 	}
 
@@ -670,7 +670,7 @@ fun MultiSectionImmersiveList(
 	LaunchedEffect(globalFocusedItem) {
 		if (globalFocusedItem != null) {
 			delay(150)
-			onItemFocus(globalFocusedItem!!)
+			onItemFocus(globalFocusedItem)
 		}
 	}
 
