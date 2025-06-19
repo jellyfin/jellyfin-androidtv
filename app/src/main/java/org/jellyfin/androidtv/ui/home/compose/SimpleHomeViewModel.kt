@@ -215,7 +215,7 @@ class SimpleHomeViewModel(
 					val seriesImageUrl = item.seriesPrimaryImage?.getUrl(
 						api = apiClient,
 						maxWidth = 300,
-						maxHeight = 450
+						maxHeight = 450,
 					)
 					Timber.d("Generated series image URL for episode ${item.name} -> ${item.seriesName}: $seriesImageUrl")
 					seriesImageUrl ?: getItemImageUrl(item)

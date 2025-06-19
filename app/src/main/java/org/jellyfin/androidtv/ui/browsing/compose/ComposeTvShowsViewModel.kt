@@ -210,7 +210,7 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 						maxHeight = 600,
 					)
 					// Fallback: use episode primary image
-					seriesImageUrl ?:					imageHelper.getPrimaryImageUrl(item, null, 400)
+					seriesImageUrl ?: imageHelper.getPrimaryImageUrl(item, null, 400)
 				} catch (e: ApiClientException) {
 					Timber.e(e, "Failed to get image for episode: ${item.name}")
 					imageHelper.getPrimaryImageUrl(item, null, 400)
