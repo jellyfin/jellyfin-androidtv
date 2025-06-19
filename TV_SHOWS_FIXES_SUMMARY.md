@@ -84,3 +84,31 @@ All changes maintain backwards compatibility and follow existing patterns:
 - ✅ Clean, focused UI with only series-based sections
 
 The TV Shows screen now provides a cleaner, more focused experience for browsing TV series libraries!
+
+## Logo Positioning and Sizing Enhancement
+
+### Changes Made
+- **Repositioned logo**: Moved from inline with title to absolute positioning at top-right
+- **Increased logo size**: Changed from 60dp height to 120dp height for better visibility
+- **Increased max width**: Changed from 200dp to 400dp max width to accommodate larger logos
+- **Aligned with cards**: Logo right edge now aligns with the right edge of the rightmost card
+  - Calculation: 72dp from right edge (48dp container padding + 24dp content padding)
+- **Improved visual hierarchy**: Logo no longer competes with title text for horizontal space
+
+### Technical Implementation
+- Removed logo from the Row containing the title
+- Added absolute positioning using `Modifier.align(Alignment.TopEnd)`
+- Logo positioned with `padding(top = 80.dp, end = 72.dp)` to align with card grid
+- Maintained `ContentScale.Fit` to preserve aspect ratios
+
+### Visual Impact
+- Logo is now much more prominent and visible
+- Better use of screen real estate
+- Consistent alignment with the main content grid
+- Title text has full width available without logo interference
+
+### Files Modified
+- `app/src/main/java/org/jellyfin/androidtv/ui/composable/tv/ImmersiveList.kt`
+  - Updated `ContentInformationOverlay` function
+  - Removed logo from title Row
+  - Added absolute positioned logo at top-right

@@ -247,14 +247,15 @@ private fun ContentInformationOverlay(
 					color = Color.White,
 					maxLines = 2,
 					overflow = TextOverflow.Ellipsis,
-					modifier = Modifier.padding(bottom = 8.dp),
+					modifier = Modifier
+						.padding(bottom = 8.dp, end = 380.dp), // Reserve space for logo on the right
 				)
 
 				// Ratings row
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(24.dp),
 					verticalAlignment = Alignment.CenterVertically,
-					modifier = Modifier.padding(bottom = 8.dp),
+					modifier = Modifier.padding(bottom = 16.dp), // Increased spacing for better breathing room
 				) {
 					// Production year
 					item.productionYear?.let { year ->
@@ -328,7 +329,7 @@ private fun ContentInformationOverlay(
 						color = Color.White.copy(alpha = 0.8f),
 						maxLines = 3,
 						overflow = TextOverflow.Ellipsis,
-						modifier = Modifier.padding(bottom = 16.dp),
+						modifier = Modifier.padding(bottom = 24.dp, end = 400.dp), // Added more right padding for logo buffer
 					)
 				}
 			}
@@ -343,9 +344,9 @@ private fun ContentInformationOverlay(
 					contentDescription = "${item.name} logo",
 					modifier = Modifier
 						.align(Alignment.TopEnd)
-						.padding(top = 80.dp, end = 72.dp) // Align with cards: 48dp container + 24dp content padding
-						.height(120.dp) // Larger logo
-						.widthIn(max = 400.dp), // Increased max width
+						.padding(top = 120.dp, end = 60.dp) // Moved logo up by 20dp, added more right buffer
+						.height(110.dp) // Slightly increased height for better visibility
+						.widthIn(max = 380.dp), // Increased max width with more buffer space
 					contentScale = ContentScale.Fit,
 				)
 			}
