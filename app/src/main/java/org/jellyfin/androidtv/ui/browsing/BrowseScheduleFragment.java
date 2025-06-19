@@ -5,10 +5,6 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 
 public class BrowseScheduleFragment extends EnhancedBrowseFragment {
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void setupQueries(final RowLoader rowLoader) {

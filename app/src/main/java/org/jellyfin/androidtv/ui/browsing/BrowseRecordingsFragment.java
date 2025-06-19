@@ -26,10 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
