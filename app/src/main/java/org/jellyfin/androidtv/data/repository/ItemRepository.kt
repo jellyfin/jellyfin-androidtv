@@ -22,5 +22,10 @@ object ItemRepository {
 		ItemFields.SERIES_PRIMARY_IMAGE,
 		ItemFields.TAGLINES,
 		ItemFields.TRICKPLAY,
+		// Additional fields for TV series metadata
+		ItemFields.STATUS,
+		ItemFields.AIR_TIME,
+		ItemFields.PRODUCTION_YEAR,
+		ItemFields.END_DATE,
 	)
 }

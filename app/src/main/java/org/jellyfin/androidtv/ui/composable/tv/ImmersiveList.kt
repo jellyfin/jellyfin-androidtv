@@ -53,6 +53,7 @@ import kotlinx.coroutines.delay
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.theme.JellyfinColors
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.MediaStreamType
 
 /**
  * Layout type for the immersive list
@@ -251,7 +252,7 @@ private fun ContentInformationOverlay(
 						.padding(bottom = 8.dp, end = 380.dp), // Reserve space for logo on the right
 				)
 
-				// Ratings row
+				// Ratings and metadata row
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(24.dp),
 					verticalAlignment = Alignment.CenterVertically,
@@ -313,6 +314,82 @@ private fun ContentInformationOverlay(
 									fontWeight = FontWeight.Medium,
 								),
 								color = Color.White,
+							)
+						}
+					}
+
+					// Status (for TV shows - continuing/ended)
+					item.status?.let { status ->
+						Text(
+							text = status,
+							style = MaterialTheme.typography.titleLarge.copy(
+								fontSize = 18.sp,
+								fontWeight = FontWeight.Medium,
+							),
+							color = when (status.lowercase()) {
+								"continuing", "ongoing" -> Color.Green
+								"ended", "cancelled" -> Color.Red.copy(alpha = 0.8f)
+								else -> Color.White.copy(alpha = 0.7f)
+							},
+						)
+					}
+
+					// Runtime (for episodes/movies)
+					item.runTimeTicks?.let { ticks ->
+						val minutes = (ticks / 10_000_000) / 60 // Convert from ticks to minutes
+						if (minutes > 0) {
+							Text(
+								text = "${minutes}m",
+								style = MaterialTheme.typography.titleLarge.copy(
+									fontSize = 18.sp,
+								),
+								color = Color.White.copy(alpha = 0.7f),
+							)
+						}
+					}
+
+					// Video quality indicator (for episodes/movies)
+					item.mediaStreams?.firstOrNull { it.type == MediaStreamType.VIDEO }?.let { videoStream ->
+						videoStream.height?.let { height ->
+							val quality = when {
+								height >= 2160 -> "4K"
+								height >= 1080 -> "HD"
+								height >= 720 -> "720p"
+								else -> "SD"
+							}
+							Text(
+								text = quality,
+								style = MaterialTheme.typography.titleLarge.copy(
+									fontSize = 16.sp,
+									fontWeight = FontWeight.Bold,
+								),
+								color = JellyfinColors.primary,
+								modifier = Modifier
+									.background(
+										color = Color.Black.copy(alpha = 0.6f),
+										shape = RoundedCornerShape(4.dp)
+									)
+									.padding(horizontal = 8.dp, vertical = 2.dp),
+							)
+						}
+					}
+
+					// Audio format indicator (for episodes/movies)
+					item.mediaStreams?.firstOrNull { it.type == MediaStreamType.AUDIO }?.let { audioStream ->
+						audioStream.codec?.let { codec ->
+							Text(
+								text = codec.uppercase(),
+								style = MaterialTheme.typography.titleLarge.copy(
+									fontSize = 14.sp,
+									fontWeight = FontWeight.Medium,
+								),
+								color = Color.White.copy(alpha = 0.6f),
+								modifier = Modifier
+									.background(
+										color = Color.Black.copy(alpha = 0.6f),
+										shape = RoundedCornerShape(4.dp)
+									)
+									.padding(horizontal = 6.dp, vertical = 2.dp),
 							)
 						}
 					}
