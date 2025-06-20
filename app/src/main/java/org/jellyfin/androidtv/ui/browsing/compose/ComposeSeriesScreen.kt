@@ -47,7 +47,9 @@ import org.jellyfin.androidtv.ui.composable.tv.ImmersiveBackground
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.composable.tv.MediaCard
+import org.jellyfin.androidtv.ui.composable.tv.MediaGrid
 import org.jellyfin.androidtv.ui.theme.JellyfinColors
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
@@ -151,11 +153,11 @@ private fun EmptyState(
 @Composable
 private fun ContentState(
 	uiState: SeriesUiState,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	onItemFocused: (org.jellyfin.sdk.model.api.BaseItemDto?) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-	getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	onItemClick: (BaseItemDto) -> Unit,
+	onItemFocused: (BaseItemDto?) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
+	getItemBackdropUrl: (BaseItemDto) -> String?,
+	getItemLogoUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	SeriesDetailImmersiveList(
@@ -175,7 +177,7 @@ private fun ContentState(
  */
 @Composable
 private fun FocusedItemOverlay(
-	item: org.jellyfin.sdk.model.api.BaseItemDto?,
+	item: BaseItemDto?,
 	modifier: Modifier = Modifier,
 ) {
 	Box(
@@ -260,9 +262,9 @@ private fun FocusedItemOverlay(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HorizontalCardRow(
-	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	LazyRow(
@@ -289,10 +291,9 @@ private fun HorizontalCardRow(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun CastRow(
-	// Ensure cards stay within the 160.dp row height
-	width = 160.dp * 2f / 3f,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	LazyRow(
@@ -321,16 +322,16 @@ private fun CastRow(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SeriesDetailImmersiveList(
-	series: org.jellyfin.sdk.model.api.BaseItemDto?,
+	series: BaseItemDto?,
 	sections: List<ImmersiveListSection>,
 	modifier: Modifier = Modifier,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
-	onItemFocus: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
-	getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
-	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	onItemClick: (BaseItemDto) -> Unit = {},
+	onItemFocus: (BaseItemDto) -> Unit = {},
+	getItemImageUrl: (BaseItemDto) -> String? = { null },
+	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 ) {
-	var globalFocusedItem by remember { mutableStateOf<org.jellyfin.sdk.model.api.BaseItemDto?>(null) }
+	var globalFocusedItem by remember { mutableStateOf<BaseItemDto?>(null) }
 
 	// Use series as background when no item is focused, otherwise use focused item
 	val backgroundItem = globalFocusedItem ?: series
@@ -407,12 +408,12 @@ private fun SeriesDetailImmersiveList(
 
 					// Section content
 					when (section.layout) {
-                                                        VerticalGrid(
-                                        }
-                                }
-                        }
-                }
-        }
+						ImmersiveListLayout.HORIZONTAL_CARDS -> {
+							HorizontalCardRow(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
 						}
 						ImmersiveListLayout.CAST_ROW -> {
 							CastRow(
@@ -422,7 +423,8 @@ private fun SeriesDetailImmersiveList(
 							)
 						}
 						ImmersiveListLayout.VERTICAL_GRID -> {
-							CastRow(
+							MediaGrid(
+								title = section.title,
 								items = section.items,
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
@@ -440,9 +442,9 @@ private fun SeriesDetailImmersiveList(
  */
 @Composable
 private fun SeriesInformationOverlay(
-	series: org.jellyfin.sdk.model.api.BaseItemDto?,
-	focusedItem: org.jellyfin.sdk.model.api.BaseItemDto?,
-	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	series: BaseItemDto?,
+	focusedItem: BaseItemDto?,
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 	modifier: Modifier = Modifier,
 ) {
 	// Show series info when no item is focused, otherwise show focused item info
