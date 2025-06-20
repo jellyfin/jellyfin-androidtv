@@ -124,7 +124,7 @@ public class AutoSkipTipLinearLayout extends LinearLayout {
     }
 
     protected void setupBottomTipAnimations(Context context) {
-        showBottomTipPopup = AnimationUtils.loadAnimation(context, androidx.leanback.R.anim.abc_slide_in_bottom);
+        showBottomTipPopup = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_slide_in_bottom);
         showBottomTipPopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -141,7 +141,7 @@ public class AutoSkipTipLinearLayout extends LinearLayout {
             }
         });
 
-        hideBottomTipPopup = AnimationUtils.loadAnimation(context, androidx.leanback.R.anim.abc_fade_out);
+        hideBottomTipPopup = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_out);
         hideBottomTipPopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
