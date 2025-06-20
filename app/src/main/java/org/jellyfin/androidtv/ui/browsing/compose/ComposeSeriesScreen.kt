@@ -307,8 +307,8 @@ private fun CastRow(
 				onClick = {
 					onItemClick(item)
 				},
-				width = 160.dp * 2 / 3,
-				aspectRatio = 2f / 3f,
+                                width = (160.dp * (2f / 3f)), // Explicitly: rowHeight * aspectRatio
+                                aspectRatio = 2f / 3f,
 				showTitle = false,
 			)
 		}
