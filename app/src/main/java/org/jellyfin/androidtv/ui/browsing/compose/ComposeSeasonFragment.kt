@@ -11,17 +11,17 @@ import java.util.UUID
 
 /**
  * Fragment wrapper for ComposeSeasonScreen
- * Displays episodes for a specific season using Jetpack Compose
+ * Displays seasons for a specific TV show using Jetpack Compose
  */
 class ComposeSeasonFragment : Fragment() {
 
 	companion object {
-		private const val ARG_SEASON_ID = "season_id"
+		private const val ARG_SERIES_ID = "series_id"
 
-		fun newInstance(seasonId: UUID): ComposeSeasonFragment {
+		fun newInstance(seriesId: UUID): ComposeSeasonFragment {
 			return ComposeSeasonFragment().apply {
 				arguments = Bundle().apply {
-					putString(ARG_SEASON_ID, seasonId.toString())
+					putString(ARG_SERIES_ID, seriesId.toString())
 				}
 			}
 		}
@@ -32,15 +32,15 @@ class ComposeSeasonFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	): View {
-		val seasonId = UUID.fromString(
-			arguments?.getString(ARG_SEASON_ID)
-				?: throw IllegalArgumentException("Season ID is required"),
+		val seriesId = UUID.fromString(
+			arguments?.getString(ARG_SERIES_ID)
+				?: throw IllegalArgumentException("Series ID is required"),
 		)
 
 		return ComposeView(requireContext()).apply {
 			setContent {
 				JellyfinTvTheme {
-					ComposeSeasonScreen(seasonId = seasonId)
+					ComposeSeasonScreen(seriesId = seriesId)
 				}
 			}
 		}

@@ -4,12 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,25 +26,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.jellyfin.androidtv.ui.composable.tv.MultiSectionImmersiveList
+import org.jellyfin.androidtv.ui.composable.tv.ImmersiveList
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
 /**
- * Season detail screen showing episodes using the immersive list pattern
- * This screen displays all episodes for a specific season with series context
+ * TV Show seasons screen showing all seasons using the immersive list pattern
+ * This screen displays all seasons for a specific TV show
  */
 @Composable
 fun ComposeSeasonScreen(
-	seasonId: UUID,
+	seriesId: UUID,
 	modifier: Modifier = Modifier,
 	viewModel: ComposeSeasonViewModel = koinViewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
 
-	// Load season data when the screen is first composed
-	LaunchedEffect(seasonId) {
-		viewModel.loadSeasonData(seasonId)
+	// Load series seasons when the screen is first composed
+	LaunchedEffect(seriesId) {
+		viewModel.loadSeriesSeasons(seriesId)
 	}
 
 	Box(
@@ -84,7 +87,7 @@ private fun LoadingState(
 		) {
 			CircularProgressIndicator()
 			Text(
-				text = "Loading episodes...",
+				text = "Loading seasons...",
 				style = MaterialTheme.typography.bodyLarge,
 				modifier = Modifier.padding(top = 16.dp),
 			)
@@ -118,7 +121,7 @@ private fun EmptyState(
 		contentAlignment = Alignment.Center,
 	) {
 		Text(
-			text = "No episodes found",
+			text = "No seasons found",
 			style = MaterialTheme.typography.bodyLarge,
 		)
 	}
@@ -135,19 +138,59 @@ private fun ContentState(
 	modifier: Modifier = Modifier,
 ) {
 	Box(modifier = modifier.fillMaxSize()) {
-		// Main content
-		MultiSectionImmersiveList(
-			sections = uiState.sections,
-			onItemClick = onItemClick,
-			onItemFocus = { item -> onItemFocused(item) },
-			getItemImageUrl = getItemImageUrl,
-			getItemBackdropUrl = getItemBackdropUrl,
-			getItemLogoUrl = getItemLogoUrl,
-			modifier = Modifier.fillMaxSize(),
-		)
+		// Background banner image (clear, not blurred)
+		uiState.series?.let { series ->
+			getItemBackdropUrl(series)?.let { _ ->
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.background(Color.Black) // Fallback background
+				) {
+					// Background gradient overlay for text readability
+					Box(
+						modifier = Modifier
+							.fillMaxSize()
+							.background(
+								Brush.verticalGradient(
+									colors = listOf(
+										Color.Black.copy(alpha = 0.3f),
+										Color.Black.copy(alpha = 0.7f),
+									),
+								),
+							)
+					)
+				}
+			}
+		}
 		
-		// Season header overlay
-		SeasonHeaderOverlay(
+		// Content sections
+		LazyColumn(
+			contentPadding = PaddingValues(
+				top = 120.dp, // Space for header
+				bottom = 32.dp,
+			),
+			verticalArrangement = Arrangement.spacedBy(32.dp),
+			modifier = Modifier.fillMaxSize(),
+		) {
+			items(uiState.sections) { section ->
+				ImmersiveList(
+					title = section.title,
+					items = section.items,
+					layout = section.layout,
+					onItemClick = onItemClick,
+					onItemFocus = { item -> onItemFocused(item) },
+					getItemImageUrl = getItemImageUrl,
+					getItemBackdropUrl = getItemBackdropUrl,
+					getItemLogoUrl = getItemLogoUrl,
+					modifier = Modifier
+						.fillMaxWidth()
+						.height(280.dp),
+				)
+			}
+		}
+		
+		// Series header overlay
+		SeriesHeaderOverlay(
 			uiState = uiState,
 			modifier = Modifier
 				.fillMaxWidth()
@@ -157,13 +200,13 @@ private fun ContentState(
 }
 
 @Composable
-private fun SeasonHeaderOverlay(
+private fun SeriesHeaderOverlay(
 	uiState: SeasonUiState,
 	modifier: Modifier = Modifier,
 ) {
 	val title = buildTitle(uiState)
-	val episodeCount = uiState.sections
-		.find { it.title == "Episodes" }
+	val seasonCount = uiState.sections
+		.find { it.title == "Seasons" }
 		?.items?.size ?: 0
 	
 	Column(
@@ -191,21 +234,21 @@ private fun SeasonHeaderOverlay(
 			fontWeight = FontWeight.Bold,
 		)
 		
-		if (episodeCount > 0) {
+		if (seasonCount > 0) {
 			Spacer(modifier = Modifier.height(8.dp))
 			Row(
 				horizontalArrangement = Arrangement.spacedBy(16.dp),
 				verticalAlignment = Alignment.CenterVertically,
 			) {
 				Text(
-					text = "$episodeCount episodes",
+					text = "$seasonCount seasons",
 					style = MaterialTheme.typography.bodyLarge,
 					color = Color.White.copy(alpha = 0.8f),
 				)
 				
-				// Show season info if available
-				uiState.season?.let { season ->
-					season.productionYear?.let { year ->
+				// Show series info if available
+				uiState.series?.let { series ->
+					series.productionYear?.let { year ->
 						Text(
 							text = "•",
 							style = MaterialTheme.typography.bodyLarge,
@@ -225,9 +268,6 @@ private fun SeasonHeaderOverlay(
 
 private fun buildTitle(uiState: SeasonUiState): String {
 	return when {
-		uiState.seriesName != null && uiState.title != "Season" -> {
-			"${uiState.seriesName} - ${uiState.title}"
-		}
 		uiState.seriesName != null -> {
 			uiState.seriesName
 		}
