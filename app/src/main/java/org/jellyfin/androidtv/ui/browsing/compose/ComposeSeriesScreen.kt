@@ -284,44 +284,14 @@ private fun HorizontalCardRow(
 }
 
 /**
- * Horizontal row of cards for cast (single row)
+ * Horizontal row of cast cards (single row)
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun CastRow(
-        }
-}
-/**
- * Vertical grid of cards for cast
- */
-@OptIn(ExperimentalTvMaterial3Api::class)
-@Composable
-private fun VerticalGrid(
-        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-        modifier: Modifier = Modifier,
-) {
-        LazyVerticalGrid(
-                columns = GridCells.Fixed(6),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = modifier.height(400.dp),
-                contentPadding = PaddingValues(horizontal = 48.dp),
-        ) {
-                items(items) { item ->
-                        MediaCard(
-                                item = item,
-                                imageUrl = getItemImageUrl(item),
-                                onClick = {
-                                        onItemClick(item)
-                                },
-                                width = 140.dp,
-                                aspectRatio = 1f,
-                                showTitle = false,
-                        )
-                }
-        }
+	// Ensure cards stay within the 160.dp row height
+	width = 160.dp * 2f / 3f,
+	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
 	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
@@ -337,8 +307,8 @@ private fun VerticalGrid(
 				onClick = {
 					onItemClick(item)
 				},
-				width = 120.dp,
-				aspectRatio = 1f, // Square aspect ratio for cast photos
+				width = (160.dp * (2f / 3f)), // Explicitly: rowHeight * aspectRatio
+				aspectRatio = 2f / 3f,
 				showTitle = false,
 			)
 		}
