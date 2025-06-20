@@ -20,12 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveList
@@ -88,11 +88,11 @@ private fun LoadingState(
 			horizontalAlignment = Alignment.CenterHorizontally,
 		) {
 			CircularProgressIndicator()
-                        Text(
-                                text = stringResource(R.string.compose_loading_seasons),
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(top = 16.dp),
-                        )
+			Text(
+				text = stringResource(R.string.compose_loading_seasons),
+				style = MaterialTheme.typography.bodyLarge,
+				modifier = Modifier.padding(top = 16.dp),
+			)
 		}
 	}
 }
@@ -106,11 +106,11 @@ private fun ErrorState(
 		modifier = modifier.fillMaxSize(),
 		contentAlignment = Alignment.Center,
 	) {
-                Text(
-                        text = stringResource(R.string.compose_error, error),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.error,
-                )
+		Text(
+			text = stringResource(R.string.compose_error, error),
+			style = MaterialTheme.typography.bodyLarge,
+			color = MaterialTheme.colorScheme.error,
+		)
 	}
 }
 
@@ -122,10 +122,10 @@ private fun EmptyState(
 		modifier = modifier.fillMaxSize(),
 		contentAlignment = Alignment.Center,
 	) {
-                Text(
-                        text = stringResource(R.string.compose_no_seasons),
-                        style = MaterialTheme.typography.bodyLarge,
-                )
+		Text(
+			text = stringResource(R.string.compose_no_seasons),
+			style = MaterialTheme.typography.bodyLarge,
+		)
 	}
 }
 
@@ -252,24 +252,24 @@ private fun SeasonHeaderOverlay(
 				horizontalArrangement = Arrangement.spacedBy(16.dp),
 				verticalAlignment = Alignment.CenterVertically,
 			) {
-                                Text(
-                                        text = pluralStringResource(
-                                                R.plurals.episodes,
-                                                episodeCount,
-                                                episodeCount,
-                                        ),
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = Color.White.copy(alpha = 0.8f),
-                                )
+				Text(
+					text = pluralStringResource(
+						R.plurals.episodes,
+						episodeCount,
+						episodeCount,
+					),
+					style = MaterialTheme.typography.bodyLarge,
+					color = Color.White.copy(alpha = 0.8f),
+				)
 				
 				// Show season info if available
 				uiState.season?.let { season ->
 					season.productionYear?.let { year ->
-                                                Text(
-                                                        text = stringResource(R.string.dot_separator),
-                                                        style = MaterialTheme.typography.bodyLarge,
-                                                        color = Color.White.copy(alpha = 0.6f),
-                                                )
+						Text(
+							text = stringResource(R.string.dot_separator),
+							style = MaterialTheme.typography.bodyLarge,
+							color = Color.White.copy(alpha = 0.6f),
+						)
 						Text(
 							text = year.toString(),
 							style = MaterialTheme.typography.bodyLarge,
