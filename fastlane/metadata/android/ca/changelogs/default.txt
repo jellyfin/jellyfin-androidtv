@@ -1,3 +1,3 @@
-Gràcies per utilitzar Jellyfin al Android TV! Es recomana sempre utilitzar el servidor de Jellyfin més recent.
+Gràcies per utilitzar Jellyfin a l'Android TV! Es recomana fer servir sempre el servidor de Jellyfin més recent.
 
-Per a obtenir més informació, si us plau, consulti el nostre blog a jellyfin.org, o llegeix el registre de canvis complet a GitHub.
+Per a més informació, consulteu el nostre blog a jellyfin.org, o llegiu el registre complet de canvis a GitHub.

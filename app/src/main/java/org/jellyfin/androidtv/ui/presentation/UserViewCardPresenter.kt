@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.card.LegacyImageCardView
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -25,12 +26,10 @@ class UserViewCardPresenter(
 			val baseItem = rowItem?.baseItem
 
 			// Load image
-			val imageTag = baseItem?.imageTags?.get(ImageType.PRIMARY)
-			val imageBlurhash = imageTag?.let { baseItem.imageBlurHashes?.get(ImageType.PRIMARY)?.get(it) }
-			val imageUrl = imageTag?.let { imageHelper.getImageUrl(baseItem.id, ImageType.PRIMARY, it) }
+			val image = baseItem?.itemImages[ImageType.PRIMARY]
 			cardView.mainImageView.load(
-				url = imageUrl,
-				blurHash = imageBlurhash,
+				url = image?.let(imageHelper::getImageUrl),
+				blurHash = image?.blurHash,
 				placeholder = ContextCompat.getDrawable(cardView.context, R.drawable.tile_land_folder),
 				aspectRatio = ImageHelper.ASPECT_RATIO_16_9,
 				blurHashResolution = 32,
@@ -62,13 +61,13 @@ class UserViewCardPresenter(
 		return ViewHolder(cardView)
 	}
 
-	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
+	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any?) {
 		if (item !is BaseRowItem) return
 
 		(viewHolder as? ViewHolder)?.setItem(item)
 	}
 
-	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder?) {
+	override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {
 		(viewHolder as? ViewHolder)?.setItem(null)
 	}
 }

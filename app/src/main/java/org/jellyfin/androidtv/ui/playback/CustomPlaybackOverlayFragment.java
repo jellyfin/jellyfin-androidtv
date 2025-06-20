@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -253,10 +254,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         prepareOverlayFragment();
 
         //pre-load animations
-        fadeOut = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_fade_out);
+        fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out);
         fadeOut.setAnimationListener(hideAnimationListener);
-        slideDown = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_slide_in_top);
-        slideUp = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_slide_in_bottom);
+        slideDown = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_top_in);
+        slideUp = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_bottom_in);
         slideDown.setAnimationListener(showAnimationListener);
         setupPopupAnimations();
 
@@ -331,7 +332,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private void setupPopupAnimations() {
-        showPopup = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_slide_in_bottom);
+        showPopup = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_bottom_in);
         showPopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -347,7 +348,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             public void onAnimationRepeat(Animation animation) {
             }
         });
-        hidePopup = AnimationUtils.loadAnimation(requireContext(), androidx.leanback.R.anim.abc_fade_out);
+        hidePopup = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out);
         hidePopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -538,7 +539,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (binding.skipOverlay.getVisible()) {
                     // Hide without doing anything
                     if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                        binding.skipOverlay.setTargetPositionMs(null);
+                        clearSkipOverlay();
                         return true;
                     }
 
@@ -546,7 +547,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
                         playbackControllerContainer.getValue().getPlaybackController().seek(binding.skipOverlay.getTargetPositionMs(), true);
                         leanbackOverlayFragment.setShouldShowOverlay(false);
-                        if (binding != null) binding.skipOverlay.setTargetPositionMs(null);
+                        if (binding != null) clearSkipOverlay();
                         return true;
                     }
                 }
@@ -712,6 +713,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mFadeEnabled = true;
         mHandler.removeCallbacks(mHideTask);
         mHandler.postDelayed(mHideTask, 6000);
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
+        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
     }
 
     @Override
@@ -728,7 +731,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         // Hide system bars
         WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
-        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
+        WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView());
+        insetsController.hide(WindowInsetsCompat.Type.systemBars());
+        insetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
 
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             Timber.e("Unable to get audio focus");
@@ -1305,7 +1312,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 binding.itemTitle.setText(current.getName());
             }
             // Update the logo
-            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440, false);
+            String imageUrl = imageHelper.getValue().getLogoImageUrl(current, 440);
             if (imageUrl != null) {
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);
@@ -1322,6 +1329,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 prepareChapterAdapter();
             }
         }
+    }
+
+    public void clearSkipOverlay() {
+        binding.skipOverlay.setTargetPositionMs(null);
     }
 
     private void prepareChapterAdapter() {

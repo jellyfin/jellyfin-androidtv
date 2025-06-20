@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.popupMenu
 import org.jellyfin.androidtv.util.sdk.TrailerUtils.getExternalTrailerIntent
@@ -22,15 +23,12 @@ import org.jellyfin.androidtv.util.sdk.compat.copyWithUserData
 import org.jellyfin.androidtv.util.showIfNotEmpty
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ItemFilter
-import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.extensions.ticks
@@ -231,7 +229,32 @@ fun FullDetailsFragment.populatePreviousButton() {
 	}
 }
 
-fun FullDetailsFragment.resumePlayback() {
+fun FullDetailsFragment.getNextUpEpisode(callback: (BaseItemDto?) -> Unit) {
+	lifecycleScope.launch {
+		val nextUpEpisode = getNextUpEpisode()
+		callback(nextUpEpisode)
+	}
+}
+
+suspend fun FullDetailsFragment.getNextUpEpisode(): BaseItemDto? {
+	val api by inject<ApiClient>()
+
+	try {
+		val episodes = withContext(Dispatchers.IO) {
+			api.tvShowsApi.getNextUp(
+				parentId = mBaseItem.id,
+				fields = ItemRepository.itemFields,
+				limit = 1,
+			).content
+		}
+		return episodes.items.firstOrNull()
+	} catch (err: ApiClientException) {
+		Timber.w(err, "Failed to get next up items")
+		return null
+	}
+}
+
+fun FullDetailsFragment.resumePlayback(v: View) {
 	if (mBaseItem.type != BaseItemKind.SERIES) {
 		val pos = (mBaseItem.userData?.playbackPositionTicks?.ticks
 			?: Duration.ZERO) - resumePreroll.milliseconds
@@ -239,38 +262,42 @@ fun FullDetailsFragment.resumePlayback() {
 		return
 	}
 
-	val api by inject<ApiClient>()
-
 	lifecycleScope.launch {
-		try {
-			val episodes = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(
-					parentId = mBaseItem.id,
-					includeItemTypes = setOf(BaseItemKind.EPISODE),
-					recursive = true,
-					filters = setOf(ItemFilter.IS_UNPLAYED),
-					fields = ItemRepository.itemFields,
-					sortBy = setOf(
-						ItemSortBy.PARENT_INDEX_NUMBER,
-						ItemSortBy.INDEX_NUMBER,
-						ItemSortBy.SORT_NAME
-					),
-					limit = 1
-				).content
-			}
-			val nextUpEpisode = episodes.items.firstOrNull()
-
-			if (nextUpEpisode != null) play(nextUpEpisode, 0, false)
-		} catch (err: ApiClientException) {
-			Timber.w("Failed to get next up items")
+		val nextUpEpisode = getNextUpEpisode()
+		if (nextUpEpisode == null) {
 			Toast.makeText(
 				requireContext(),
 				getString(R.string.msg_video_playback_error),
 				Toast.LENGTH_LONG
 			).show()
 		}
+
+		if (nextUpEpisode?.userData?.playbackPositionTicks == 0L) {
+			play(nextUpEpisode, 0, false)
+		} else {
+			showResumeMenu(v, nextUpEpisode!!)
+		}
 	}
 }
+
+fun FullDetailsFragment.showResumeMenu(
+	view: View,
+	nextUpEpisode: BaseItemDto
+) = popupMenu(requireContext(), view) {
+	val pos = (nextUpEpisode.userData?.playbackPositionTicks?.ticks
+		?: Duration.ZERO) - resumePreroll.milliseconds
+	item(
+		getString(
+			R.string.lbl_resume_from,
+			TimeUtils.formatMillis(pos.inWholeMilliseconds)
+		)
+	) {
+		play(nextUpEpisode, pos.inWholeMilliseconds.toInt(), false)
+	}
+	item(getString(R.string.lbl_from_beginning)) {
+		play(nextUpEpisode, 0, false)
+	}
+}.showIfNotEmpty()
 
 fun FullDetailsFragment.getLiveTvSeriesTimer(
 	id: String,

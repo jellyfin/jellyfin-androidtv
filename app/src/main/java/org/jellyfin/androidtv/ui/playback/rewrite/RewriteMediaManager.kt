@@ -261,10 +261,18 @@ class RewriteMediaManager(
 		playbackManager.state.stop()
 	}
 
+	override fun rewind() {
+		playbackManager.state.rewind()
+	}
+
 	override fun togglePlayPause() {
 		val playState = playbackManager.state.playState.value
 		if (playState == PlayState.PAUSED || playState == PlayState.STOPPED) playbackManager.state.unpause()
 		else if (playState == PlayState.PLAYING) playbackManager.state.pause()
+	}
+
+	override fun fastForward() {
+		playbackManager.state.fastForward()
 	}
 
 	/**

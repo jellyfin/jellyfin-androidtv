@@ -15,13 +15,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
+import org.jellyfin.androidtv.util.apiclient.parentBackdropImages
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
-import org.jellyfin.sdk.model.api.ImageType
 import java.time.Instant
-import java.util.UUID
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
@@ -54,23 +55,6 @@ class BackgroundService(
 	val blurBackground get() = _blurBackground.asStateFlow()
 	val enabled get() = _enabled.asStateFlow()
 
-	// Helper function for [setBackground]
-	private fun List<String>?.getUrls(itemId: UUID?): List<String> {
-		// Check for nullability
-		if (itemId == null || isNullOrEmpty()) return emptyList()
-
-		return mapIndexed { index, tag ->
-			api.imageApi.getItemImageUrl(
-				itemId = itemId,
-				imageType = ImageType.BACKDROP,
-				tag = tag,
-				imageIndex = index,
-				fillWidth = context.resources.displayMetrics.widthPixels,
-				fillHeight = context.resources.displayMetrics.heightPixels,
-			)
-		}
-	}
-
 	/**
 	 * Use all available backdrops from [baseItem] as background.
 	 */
@@ -83,9 +67,9 @@ class BackgroundService(
 		_blurBackground.value = true
 
 		// Get all backdrop urls
-		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
-		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
-		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
+		val backdropUrls = (baseItem.itemBackdropImages + baseItem.parentBackdropImages)
+			.map { it.getUrl(api) }
+			.toSet()
 
 		loadBackgrounds(backdropUrls)
 	}

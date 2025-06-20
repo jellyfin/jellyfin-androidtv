@@ -566,4 +566,17 @@
     <string name="segment_type_commercial">Reklamfilmer</string>
     <string name="runtime_hours_minutes">%1$dt %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
+    <string name="pref_subtitles_bold">Fet text</string>
+    <string name="pref_report_device_profile_failure">Misslyckades med att skicka dokument. Din Jellyfin-server kanske förbjuder klientloggar.</string>
+    <string name="fast_forward">Spola fram</string>
+    <string name="pref_subtitles_background_opacity">Genomskinlighet av undertextsbakgrund</string>
+    <string name="pref_troubleshooting">Felsökning</string>
+    <string name="rewind">Spola tillbaka</string>
+    <string name="speech_error_unavailable">Taligenkänning är inte tillgängligt på din enhet.</string>
+    <string name="lbl_from_beginning">Spela från början</string>
+    <string name="pref_report_device_profile_summary">Ladda upp ett felsökningsdokument till Jellyfin-servern med information om uppspelningsmöjligheter</string>
+    <string name="speech_error_no_permission">Nekad tillåtelse att använda mikrofonen. Aktivera det i systemets inställningar.</string>
+    <string name="speech_error_unknown">Ett oväntat fel inträffade under taligenkänningen.</string>
+    <string name="pref_report_device_profile_title">Rapportera uppspelningsmöjligheter till server</string>
+    <string name="pref_report_device_profile_success">Dokument skickat som %1$s</string>
 </resources>

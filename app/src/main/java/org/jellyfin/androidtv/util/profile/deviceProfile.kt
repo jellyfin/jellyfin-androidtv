@@ -56,13 +56,17 @@ fun createDeviceProfile(userPreferences: UserPreferences, disableDirectPlay: Boo
 	disableDirectPlay = disableDirectPlay,
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
+	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
+	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
 )
 
 fun createDeviceProfile(
 	maxBitrate: Int,
 	disableDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
-	downMixAudio: Boolean
+	downMixAudio: Boolean,
+	assDirectPlay: Boolean,
+	pgsDirectPlay: Boolean,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -358,12 +362,12 @@ fun createDeviceProfile(
 	subtitleProfile(Codec.Subtitle.DVBSUB, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.DVDSUB, embedded = true, encode = true)
 	subtitleProfile(Codec.Subtitle.IDX, embedded = true, encode = true)
-	subtitleProfile(Codec.Subtitle.PGS, embedded = true, encode = true)
-	subtitleProfile(Codec.Subtitle.PGSSUB, embedded = true, encode = true)
+	subtitleProfile(Codec.Subtitle.PGS, embedded = pgsDirectPlay, encode = true)
+	subtitleProfile(Codec.Subtitle.PGSSUB, embedded = pgsDirectPlay, encode = true)
 
-	// ASS/SSA renderer only supports a small subset of the specification so encoding is required for correct rendering
-	subtitleProfile(Codec.Subtitle.ASS, encode = true)
-	subtitleProfile(Codec.Subtitle.SSA, encode = true)
+	// ASS/SSA is supported via libass extension
+	subtitleProfile(Codec.Subtitle.ASS, encode = true, embedded = assDirectPlay, external = assDirectPlay)
+	subtitleProfile(Codec.Subtitle.SSA, encode = true, embedded = assDirectPlay, external = assDirectPlay)
 }
 
 // Little helper function to more easily define subtitle profiles

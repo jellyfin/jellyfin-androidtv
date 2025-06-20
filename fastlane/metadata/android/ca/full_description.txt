@@ -1,14 +1,14 @@
-Els teus mitjans, els teus termes.
+El vostre material multimèdia, les vostres normes.
 
-El projecte de Jellyfin és un servidor de mitjans, de programari lliure i codi obert. Sense pagaments, seguiments o motius ocults. Obtingui el nostre servidor per a organitzar els teus àudios, vídeos, fotografies i més en un sol lloc.
+El projecte de Jellyfin és un servidor de contingut multimèdia de programari lliure i codi obert. Sense pagaments, espionatge o motivacions ocultes. Obtingueu el nostre servidor per a organitzar els vostres àudios, vídeos, fotografies i més en un sol lloc.
 
-Per a utilitzar l'aplicació, has de tenir un servidor Jellyfin configurat i en marxa. Més informació a <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+Per a utilitzar l'aplicació, heu de tenir un servidor Jellyfin configurat i actiu. Més informació a <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
 
-Amb un servidor Jellyfin, pots:
+Amb un servidor Jellyfin, podeu:
 
-*Veure TV en directe i gravar sèries des del teu servidor Jellyfin (Es requereix equip/serveis addicionals)
-*Transmetre a dispositius Chromecast a la teva xarxa
-*Veure els teus mitjans al teu dispositiu Android
-*Veure la teva col·lecció de mitjans en una interfície fàcil d'utilitzar
+* Mirar TV en directe i enregistrar sèries des del vostre servidor Jellyfin (Es requereix equip/serveis addicionals)
+* Transmetre a dispositius Chromecast de la vostra xarxa
+* Transmetre el vostre material multimèdia al vostre dispositiu Android
+* Mirar la vostra col·lecció de contingut multimèdia en una interfície fàcil d'utilitzar
 
-Aquesta és l'aplicació oficial de Jellyfin per a Android TV. Gràcies per utilitzar Jellyfin!
+Aquesta és l'aplicació oficial de Jellyfin per a Android TV. Gràcies per fer servir Jellyfin!

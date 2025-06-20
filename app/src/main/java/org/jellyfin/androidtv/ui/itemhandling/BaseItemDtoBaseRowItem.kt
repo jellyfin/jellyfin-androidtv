@@ -6,6 +6,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.androidtv.util.getTimeFormatter
 import org.jellyfin.androidtv.util.locale
 import org.jellyfin.androidtv.util.sdk.getFullName
@@ -126,17 +127,10 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 		fillWidth: Int,
 		fillHeight: Int
 	): String? {
-		val seriesId = baseItem?.seriesId
-		val seriesPrimaryImageTag = baseItem?.seriesPrimaryImageTag
+		val seriesPrimaryImage = baseItem?.seriesPrimaryImage
 
 		return when {
-			preferSeriesPoster && seriesId != null && seriesPrimaryImageTag != null -> {
-				imageHelper.getImageUrl(
-					seriesId,
-					org.jellyfin.sdk.model.api.ImageType.PRIMARY,
-					seriesPrimaryImageTag
-				)
-			}
+			preferSeriesPoster && seriesPrimaryImage != null -> imageHelper.getImageUrl(seriesPrimaryImage)
 
 			imageType == ImageType.BANNER -> imageHelper.getBannerImageUrl(
 				requireNotNull(

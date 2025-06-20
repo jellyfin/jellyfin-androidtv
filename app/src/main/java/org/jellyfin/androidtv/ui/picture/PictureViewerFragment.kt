@@ -21,9 +21,10 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentPictureViewerBinding
 import org.jellyfin.androidtv.ui.AsyncImageView
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.createKeyHandler
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -207,20 +208,18 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	}
 
 	private fun AsyncImageView.load(item: BaseItemDto) {
-		val url = api.imageApi.getItemImageUrl(
-			itemId = item.id,
-			imageType = ImageType.PRIMARY,
-			tag = item.imageTags?.get(ImageType.PRIMARY),
-			// Ask the server to downscale the image to avoid the app going out of memory
-			// unfortunately this can be a bit slow for larger files
-			maxWidth = resources.displayMetrics.widthPixels,
-			maxHeight = resources.displayMetrics.heightPixels,
-		)
+		val image = item.itemImages[ImageType.PRIMARY]
 
 		load(
-			url = url,
-			blurHash = item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(item.imageTags?.get(ImageType.PRIMARY)),
-			aspectRatio = item.primaryImageAspectRatio ?: 1.0,
+			url = image?.getUrl(
+				api = api,
+				// Ask the server to downscale the image to avoid the app going out of memory
+				// unfortunately this can be a bit slow for larger files
+				maxWidth = resources.displayMetrics.widthPixels,
+				maxHeight = resources.displayMetrics.heightPixels,
+			),
+			blurHash = image?.blurHash,
+			aspectRatio = image?.aspectRatio?.toDouble() ?: 1.0,
 		)
 	}
 }

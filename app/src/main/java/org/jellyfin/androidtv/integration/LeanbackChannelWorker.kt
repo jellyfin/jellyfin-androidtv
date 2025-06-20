@@ -27,20 +27,21 @@ import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.androidtv.util.stripHtml
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.exception.TimeoutException
-import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.extensions.ticks
@@ -51,7 +52,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.time.Duration
-
 
 /**
  * Manages channels on the android tv home screen.
@@ -100,39 +100,39 @@ class LeanbackChannelWorker(
 			// Get channel URIs
 			val latestMediaChannel = getChannelUri(
 				"latest_media", Channel.Builder()
-				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-				.setDisplayName(context.getString(R.string.home_section_latest_media))
-				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-				.build(),
+					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+					.setDisplayName(context.getString(R.string.home_section_latest_media))
+					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+					.build(),
 				default = true
 			)
 			val myMediaChannel = getChannelUri(
 				"my_media", Channel.Builder()
-				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-				.setDisplayName(context.getString(R.string.lbl_my_media))
-				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-				.build()
+					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+					.setDisplayName(context.getString(R.string.lbl_my_media))
+					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+					.build()
 			)
 			val nextUpChannel = getChannelUri(
 				"next_up", Channel.Builder()
-				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-				.setDisplayName(context.getString(R.string.lbl_next_up))
-				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-				.build()
+					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+					.setDisplayName(context.getString(R.string.lbl_next_up))
+					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+					.build()
 			)
 			val latestMoviesChannel = getChannelUri(
 				"latest_movies", Channel.Builder()
-				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-				.setDisplayName(context.getString(R.string.lbl_movies))
-				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-				.build()
+					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+					.setDisplayName(context.getString(R.string.lbl_movies))
+					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+					.build()
 			)
 			val latestEpisodesChannel = getChannelUri(
 				"latest_episodes", Channel.Builder()
-				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-				.setDisplayName(context.getString(R.string.lbl_new_episodes))
-				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-				.build()
+					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+					.setDisplayName(context.getString(R.string.lbl_new_episodes))
+					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+					.build()
 			)
 			val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
@@ -231,35 +231,12 @@ class LeanbackChannelWorker(
 	private fun BaseItemDto.getPosterArtImageUrl(
 		preferParentThumb: Boolean
 	): Uri = when {
-		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> api.imageApi.getItemImageUrl(
-			itemId = id,
-			imageType = ImageType.PRIMARY,
-			format = ImageFormat.WEBP,
-			width = 106.dp(context),
-			height = 153.dp(context),
-			tag = imageTags?.get(ImageType.PRIMARY),
-		)
-
-		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true) && parentThumbItemId != null -> api.imageApi.getItemImageUrl(
-			itemId = parentThumbItemId!!,
-			imageType = ImageType.THUMB,
-			format = ImageFormat.WEBP,
-			width = 272.dp(context),
-			height = 153.dp(context),
-			tag = imageTags?.get(ImageType.THUMB),
-		)
-
-		imageTags?.containsKey(ImageType.PRIMARY) == true -> api.imageApi.getItemImageUrl(
-			itemId = id,
-			imageType = ImageType.PRIMARY,
-			format = ImageFormat.WEBP,
-			width = 272.dp(context),
-			height = 153.dp(context),
-			tag = imageTags?.get(ImageType.PRIMARY),
-		)
-
-		else -> imageHelper.getResourceUrl(context, R.drawable.tile_land_tv)
-	}.let(ImageProvider::getImageUri)
+		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages[ImageType.PRIMARY]
+		(preferParentThumb || !itemImages.contains(ImageType.PRIMARY)) && parentImages.contains(ImageType.THUMB) -> parentImages[ImageType.THUMB]
+		else -> itemImages[ImageType.PRIMARY]
+	}.let { image ->
+		ImageProvider.getImageUri(image?.getUrl(api) ?: imageHelper.getResourceUrl(context, R.drawable.tile_land_tv))
+	}
 
 	/**
 	 * Gets the resume and next up episodes. The returned pair contains two lists:
@@ -405,10 +382,10 @@ class LeanbackChannelWorker(
 
 		// Create all programs in nextUpItems but not in watch next
 		val programsToAdd = nextUpItems
-			.filter { next -> currentWatchNextPrograms.none{ it.internalProviderId == next.id.toString() }}
+			.filter { next -> currentWatchNextPrograms.none { it.internalProviderId == next.id.toString() } }
 		context.contentResolver.bulkInsert(
 			WatchNextPrograms.CONTENT_URI,
-			programsToAdd.map{item -> getBaseItemAsWatchNextProgram(item).toContentValues() }
+			programsToAdd.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }
 				.toTypedArray())
 	}
 
@@ -423,8 +400,9 @@ class LeanbackChannelWorker(
 
 		// Find all stale programs to delete
 		val deletedByUser = currentWatchNextPrograms.filter { !it.isBrowsable }
-		val noLongerInWatchNext = currentWatchNextPrograms.filter { (nextUpItems).none { next -> it.internalProviderId == next.id.toString() } }
-		val continueWatching = currentWatchNextPrograms.filter { it.watchNextType == WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE}
+		val noLongerInWatchNext =
+			currentWatchNextPrograms.filter { (nextUpItems).none { next -> it.internalProviderId == next.id.toString() } }
+		val continueWatching = currentWatchNextPrograms.filter { it.watchNextType == WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE }
 
 		// Delete the programs
 		(deletedByUser + noLongerInWatchNext + continueWatching)
@@ -490,14 +468,18 @@ class LeanbackChannelWorker(
 					setLastPlaybackPositionMillis(item.userData!!.playbackPositionTicks.ticks.inWholeMilliseconds.toInt())
 					// Use last played date to prioritize
 
-					setLastEngagementTimeUtcMillis(item.userData?.lastPlayedDate?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
-						?: Instant.now().toEpochMilli())
+					setLastEngagementTimeUtcMillis(
+						item.userData?.lastPlayedDate?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+							?: Instant.now().toEpochMilli()
+					)
 				}
 				// First episode of the season
 				item.indexNumber == 1 -> {
 					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
-					setLastEngagementTimeUtcMillis(item.dateCreated?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
-						?: Instant.now().toEpochMilli())
+					setLastEngagementTimeUtcMillis(
+						item.dateCreated?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+							?: Instant.now().toEpochMilli()
+					)
 				}
 				// Default
 				else -> {

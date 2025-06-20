@@ -573,4 +573,13 @@
     <string name="pref_report_device_profile_title">Afspeelmogelijkheden aan server rapporteren</string>
     <string name="pref_report_device_profile_summary">Upload een probleemoplossingsdocument met informatie over afspeelmogelijkheden naar de Jellyfin-server</string>
     <string name="indicator_subtitles_hearing_impaired">ODS</string>
+    <string name="rewind">Terugspoelen</string>
+    <string name="fast_forward">Vooruitspoelen</string>
+    <string name="preference_enable_libass">Client-rendering van Advanced SubStation Alpha-ondertiteling inschakelen</string>
+    <string name="lbl_from_beginning">Vanaf begin afspelen</string>
+    <string name="speech_error_unknown">Er is een onverwachte fout opgetreden bij de spraakherkenning.</string>
+    <string name="speech_error_no_permission">Geen toestemming om de microfoon te gebruiken. Schakel deze in via de systeeminstellingen.</string>
+    <string name="speech_error_unavailable">Spraakherkenning is niet beschikbaar op jouw apparaat.</string>
+    <string name="pref_subtitles_bold">Vetgedrukte tekst</string>
+    <string name="preference_enable_pgs">PGS-ondertiteling direct afspelen</string>
 </resources>

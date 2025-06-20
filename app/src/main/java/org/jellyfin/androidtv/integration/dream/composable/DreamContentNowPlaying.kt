@@ -34,13 +34,15 @@ import org.jellyfin.androidtv.ui.composable.blurHashPainter
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
+import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.jellyfin.lyrics
 import org.jellyfin.playback.jellyfin.lyricsFlow
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.imageApi
-import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.compose.koinInject
 
@@ -55,20 +57,12 @@ fun DreamContentNowPlaying(
 	val lyrics = content.entry.run { lyricsFlow.collectAsState(lyrics) }.value
 	val progress = rememberPlayerProgress(playbackManager)
 
-	val primaryImageTag = content.item.imageTags?.get(ImageType.PRIMARY)
-	val (imageItemId, imageTag) = when {
-		primaryImageTag != null -> content.item.id to primaryImageTag
-		(content.item.albumId != null && content.item.albumPrimaryImageTag != null) -> content.item.albumId to content.item.albumPrimaryImageTag
-		else -> null to null
-	}
+	val primaryImage = content.item.itemImages[ImageType.PRIMARY] ?: content.item.albumPrimaryImage ?: content.item.parentImages[ImageType.PRIMARY]
 
 	// Background
-	val imageBlurHash = imageTag?.let { tag ->
-		content.item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
-	}
-	if (imageBlurHash != null) {
+	if (primaryImage?.blurHash != null) {
 		Image(
-			painter = blurHashPainter(imageBlurHash, IntSize(32, 32)),
+			painter = blurHashPainter(primaryImage.blurHash, IntSize(32, 32)),
 			contentDescription = null,
 			alignment = Alignment.Center,
 			contentScale = ContentScale.Crop,
@@ -103,15 +97,10 @@ fun DreamContentNowPlaying(
 			.align(Alignment.BottomStart)
 			.overscan(),
 	) {
-		if (imageItemId != null) {
+		if (primaryImage != null) {
 			AsyncImage(
-				url = api.imageApi.getItemImageUrl(
-					itemId = imageItemId,
-					imageType = ImageType.PRIMARY,
-					tag = imageTag,
-					format = ImageFormat.WEBP,
-				),
-				blurHash = imageBlurHash,
+				url = primaryImage.getUrl(api),
+				blurHash = primaryImage.blurHash,
 				scaleType = ImageView.ScaleType.CENTER_CROP,
 				modifier = Modifier
 					.size(128.dp)

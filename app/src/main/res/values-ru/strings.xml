@@ -7,7 +7,7 @@
     <string name="pref_playback">Воспроизведение</string>
     <string name="pref_max_bitrate_title">Макс. поток. скорость</string>
     <string name="settings_title">Предпочтения</string>
-    <string name="chapters">Сцены</string>
+    <string name="chapters">Разделы</string>
     <string name="lbl_settings">Предпочтения</string>
     <string name="lbl_continue_watching">Продолжить просмотр</string>
     <string name="lbl_next_up">Следующее</string>
@@ -40,9 +40,9 @@
     <string name="msg_unable_to_create_recording">Невозможно создать запись</string>
     <string name="msg_recording_cancelled">Запись отменена</string>
     <string name="msg_unable_to_cancel">Невозможно отменить запись</string>
-    <string name="lbl_cast_crew">Снимались и снимали</string>
-    <string name="lbl_chapters">Сцены</string>
-    <string name="lbl_specials">Специальные</string>
+    <string name="lbl_cast_crew">Актеры и команда</string>
+    <string name="lbl_chapters">Разделы</string>
+    <string name="lbl_specials">Доп. материалы</string>
     <string name="lbl_trailers">Трейлеры</string>
     <string name="lbl_items">Элементы</string>
     <string name="lbl_item">Элемент</string>
@@ -300,7 +300,7 @@
     <string name="image_size_medium">Средний</string>
     <string name="image_size_small">Мелкий</string>
     <string name="image_type_banner">Баннер</string>
-    <string name="image_type_thumbnail">Бегунок</string>
+    <string name="image_type_thumbnail">Миниатюра</string>
     <string name="lbl_use_series_thumbnails_description">Использовать бегунки сериалов при отображении эпизодов</string>
     <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
     <string name="lbl_hide_unwatched_count">Когда объект просматривается</string>
@@ -593,4 +593,11 @@
     <string name="pref_report_device_profile_summary">Загружать диагностические данные на сервер Jellyfin вместе с информацией о поддерживаемых функциях воспроизведения</string>
     <string name="pref_report_device_profile_success">Данные загружены как %1$s</string>
     <string name="indicator_subtitles_hearing_impaired">Слабослышащие</string>
+    <string name="fast_forward">Перемотать вперед</string>
+    <string name="rewind">Перемотать назад</string>
+    <string name="preference_enable_libass">Включить отрисовку субтитров типа Advanced SubStation Alpha на клиенте</string>
+    <string name="speech_error_unavailable">Распознавание речи недоступно на вашем устройстве.</string>
+    <string name="speech_error_no_permission">Отсутствует разрешение на использование микрофона. Пожалуйста, выдайте разрешение в настройках системы.</string>
+    <string name="lbl_from_beginning">Воспроизвести с начала</string>
+    <string name="speech_error_unknown">Во время распознавания речи произошла неожиданная ошибка.</string>
 </resources>

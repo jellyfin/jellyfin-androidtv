@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -53,6 +52,8 @@ import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -62,6 +63,7 @@ import java.util.UUID
 fun NextUpScreen(
 	itemId: UUID,
 ) {
+	val api = koinInject<ApiClient>()
 	val navigationRepository = koinInject<NavigationRepository>()
 	val backgroundService = koinInject<BackgroundService>()
 	val viewModel = koinViewModel<NextUpViewModel>()
@@ -102,9 +104,9 @@ fun NextUpScreen(
 					.align(Alignment.TopStart)
 					.overscan()
 					.height(75.dp),
-				url = logo.url,
+				url = logo.getUrl(api),
 				blurHash = logo.blurHash,
-				aspectRatio = logo.aspectRatio,
+				aspectRatio = logo.aspectRatio ?: 1f,
 			)
 		}
 
@@ -124,7 +126,6 @@ fun NextUpScreen(
 	}
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NextUpOverlay(
 	modifier: Modifier = Modifier,
@@ -132,6 +133,7 @@ fun NextUpOverlay(
 	onConfirm: () -> Unit,
 	onCancel: () -> Unit,
 ) = ProvideTextStyle(JellyfinTheme.typography.default.copy(color = Color.White)) {
+	val api = koinInject<ApiClient>()
 	val userPreferences = koinInject<UserPreferences>()
 	val confirmTimer = remember { Animatable(0f) }
 	LaunchedEffect(item) {
@@ -157,18 +159,18 @@ fun NextUpOverlay(
 		modifier = modifier
 			.overscan()
 			.fillMaxWidth()
-			.focusRestorer { focusRequester }
+			.focusRestorer(focusRequester)
 	) {
 		item.thumbnail?.let { thumbnail ->
 			AsyncImage(
 				modifier = Modifier
 					.align(Alignment.CenterVertically)
 					.height(145.dp)
-					.aspectRatio(thumbnail.aspectRatio.toFloat())
+					.aspectRatio(thumbnail.aspectRatio ?: 1f)
 					.clip(JellyfinTheme.shapes.extraSmall),
-				url = thumbnail.url,
+				url = thumbnail.getUrl(api),
 				blurHash = thumbnail.blurHash,
-				aspectRatio = thumbnail.aspectRatio,
+				aspectRatio = thumbnail.aspectRatio ?: 1f,
 			)
 		}
 
@@ -199,7 +201,7 @@ fun NextUpOverlay(
 			Row(
 				modifier = Modifier
 					.focusGroup()
-					.focusRestorer { focusRequester }
+					.focusRestorer(focusRequester)
 			) {
 				Button(onClick = onCancel) {
 					Text(stringResource(R.string.btn_cancel))

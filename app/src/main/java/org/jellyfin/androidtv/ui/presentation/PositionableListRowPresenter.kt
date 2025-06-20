@@ -15,9 +15,9 @@ class PositionableListRowPresenter : CustomListRowPresenter {
 
 	override fun isUsingDefaultShadow() = false
 
-	override fun onSelectLevelChanged(holder: RowPresenter.ViewHolder?) = Unit
+	override fun onSelectLevelChanged(holder: RowPresenter.ViewHolder) = Unit
 
-	override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder?, item: Any?) {
+	override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any) {
 		super.onBindRowViewHolder(holder, item)
 		if (holder !is ViewHolder) return
 

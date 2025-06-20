@@ -160,9 +160,9 @@
     <string name="msg_no_items">चलाने के लिए कोई आइटम नहीं</string>
     <string name="pref_button_remapping_description">सौंपने के लिए टीवी रिमोट पर कोई भी बटन दबाए</string>
     <string name="mark_watched_message">आइटम अपनी अवधि के अनुसार नहीं चला। देखा गया मार्क करें?</string>
-    <string name="msg_live_tv_next">अगले %1$d घंटे लोड करें?</string>
+    <string name="msg_live_tv_next">अगले %1$d घंटे लोड करें?\"</string>
     <string name="episode_missing_message">यह एपिसोड आपके संग्रह से गायब है। क्या आप इसे छोड़कर अगले एपिसोड पर जाना चाहेंगे?</string>
-    <string name="msg_live_tv_prev">पिछले %1$d घंटे लोड करें?</string>
+    <string name="msg_live_tv_prev">पिछले %1$d घंटे लोड करें?\"</string>
     <string name="too_many_errors">बहुत सारी त्रुटियां</string>
     <string name="sum_enable_cinema_mode">मूवी शुरू करने से पहले उपलब्ध इंट्रो और प्रीव्यू चलाएं</string>
     <string name="msg_item_added">" आइटम जोड़े गए"</string>

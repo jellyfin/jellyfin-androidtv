@@ -52,7 +52,7 @@
                 android:id="@+id/detailArea"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_toStartOf="@id/poster">
+                android:layout_toStartOf="@id/preview">
 
                 <LinearLayout
                     android:id="@+id/information"
@@ -162,11 +162,25 @@
                         android:src="@drawable/ic_previous" />
 
                     <ImageButton
+                        android:id="@+id/rewindBtn"
+                        style="@style/Button.Icon"
+                        android:layout_width="28sp"
+                        android:layout_height="28sp"
+                        android:src="@drawable/ic_rewind" />
+
+                    <ImageButton
                         android:id="@+id/playPauseBtn"
                         style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
                         android:src="@drawable/ic_pause" />
+
+                    <ImageButton
+                        android:id="@+id/fastForwardBtn"
+                        style="@style/Button.Icon"
+                        android:layout_width="28sp"
+                        android:layout_height="28sp"
+                        android:src="@drawable/ic_fast_forward" />
 
                     <ImageButton
                         android:id="@+id/nextBtn"
@@ -206,30 +220,12 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <FrameLayout
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="60dp"
-                android:background="@drawable/audio_now_playing_album_background" />
-
-            <org.jellyfin.androidtv.ui.AsyncImageView
-                android:id="@+id/poster"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="60dp"
-                android:background="@drawable/shape_card" />
-
             <androidx.compose.ui.platform.ComposeView
-                android:id="@+id/lyrics"
+                android:id="@+id/preview"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="60dp"
-                android:background="@drawable/shape_card"
-                android:descendantFocusability="blocksDescendants"
-                android:focusable="false" />
+                android:layout_marginEnd="60dp" />
 
             <FrameLayout
                 android:id="@+id/rowsFragment"
