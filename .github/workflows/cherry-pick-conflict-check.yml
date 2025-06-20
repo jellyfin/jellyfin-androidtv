@@ -1,0 +1,147 @@
+name: Cherry-Pick Conflict Detection
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_hash:
+        description: 'Commit hash to analyze for cherry-pick conflicts'
+        required: true
+        type: string
+      target_branch:
+        description: 'Target branch for cherry-pick (default: current branch)'
+        required: false
+        default: 'HEAD'
+        type: string
+  pull_request:
+    types: [opened, synchronize]
+  schedule:
+    # Run daily at 2 AM UTC to check for new upstream commits
+    - cron: '0 2 * * *'
+
+jobs:
+  conflict-detection:
+    runs-on: ubuntu-latest
+    name: Analyze Cherry-Pick Conflicts
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Setup upstream remote
+      run: |
+        git remote add upstream https://github.com/jellyfin/jellyfin-androidtv.git || true
+        git fetch upstream
+        git fetch origin
+    
+    - name: Make script executable
+      run: chmod +x check_cherry_pick_conflicts.sh
+    
+    - name: Analyze specific commit (manual trigger)
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        echo "## Cherry-Pick Conflict Analysis Report" >> $GITHUB_STEP_SUMMARY
+        echo "**Commit:** ${{ github.event.inputs.commit_hash }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Target Branch:** ${{ github.event.inputs.target_branch }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Run the analysis and capture output
+        ./check_cherry_pick_conflicts.sh ${{ github.event.inputs.commit_hash }} ${{ github.event.inputs.target_branch }} > analysis_output.txt 2>&1
+        
+        # Add results to summary
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        cat analysis_output.txt >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        
+        # Check if conflicts were detected
+        if grep -q "CONFLICTS DETECTED" analysis_output.txt; then
+          echo "::warning::Conflicts detected for commit ${{ github.event.inputs.commit_hash }}"
+          exit 1
+        else
+          echo "::notice::No conflicts detected for commit ${{ github.event.inputs.commit_hash }}"
+        fi
+    
+    - name: Check recent upstream commits (scheduled)
+      if: github.event_name == 'schedule'
+      run: |
+        echo "## Daily Upstream Conflict Check" >> $GITHUB_STEP_SUMMARY
+        echo "**Date:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Get commits from last 24 hours
+        RECENT_COMMITS=$(git log upstream/master --since="24 hours ago" --pretty=format:"%H" | head -5)
+        
+        if [ -z "$RECENT_COMMITS" ]; then
+          echo "No new commits in upstream in the last 24 hours." >> $GITHUB_STEP_SUMMARY
+          exit 0
+        fi
+        
+        echo "### Recent Upstream Commits Analysis:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        CONFLICT_COUNT=0
+        for commit in $RECENT_COMMITS; do
+          echo "#### Analyzing commit: $commit" >> $GITHUB_STEP_SUMMARY
+          ./check_cherry_pick_conflicts.sh $commit > temp_analysis.txt 2>&1
+          
+          if grep -q "CONFLICTS DETECTED" temp_analysis.txt; then
+            echo "❌ **CONFLICTS DETECTED**" >> $GITHUB_STEP_SUMMARY
+            CONFLICT_COUNT=$((CONFLICT_COUNT + 1))
+          else
+            echo "✅ **NO CONFLICTS**" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          head -20 temp_analysis.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        done
+        
+        if [ $CONFLICT_COUNT -gt 0 ]; then
+          echo "::warning::$CONFLICT_COUNT commits have potential conflicts"
+        else
+          echo "::notice::All recent commits can be cherry-picked safely"
+        fi
+    
+    - name: Analyze PR commits
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "## PR Cherry-Pick Analysis" >> $GITHUB_STEP_SUMMARY
+        echo "**PR:** #${{ github.event.number }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Base Branch:** ${{ github.base_ref }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Get commits in this PR
+        PR_COMMITS=$(git log ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} --pretty=format:"%H")
+        
+        echo "### Analyzing PR commits for potential conflicts:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        for commit in $PR_COMMITS; do
+          echo "#### Commit: $commit" >> $GITHUB_STEP_SUMMARY
+          ./check_cherry_pick_conflicts.sh $commit > pr_analysis.txt 2>&1
+          
+          if grep -q "CONFLICTS DETECTED" pr_analysis.txt; then
+            echo "❌ **POTENTIAL CONFLICTS**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **SAFE TO CHERRY-PICK**" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          head -15 pr_analysis.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        done
+    
+    - name: Upload analysis results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: conflict-analysis-results
+        path: |
+          analysis_output.txt
+          temp_analysis.txt
+          pr_analysis.txt
+        retention-days: 30
