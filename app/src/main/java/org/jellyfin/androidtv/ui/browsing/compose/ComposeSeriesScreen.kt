@@ -289,10 +289,10 @@ private fun HorizontalCardRow(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun CastRow(
-        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-        modifier: Modifier = Modifier,
+	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	modifier: Modifier = Modifier,
 ) {
 	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -406,27 +406,27 @@ private fun SeriesDetailImmersiveList(
 
 					// Section content
 					when (section.layout) {
-                                                ImmersiveListLayout.HORIZONTAL_CARDS -> {
-                                                        HorizontalCardRow(
-                                                                items = section.items,
-                                                                onItemClick = onItemClick,
-                                                                getItemImageUrl = getItemImageUrl,
-                                                        )
-                                                }
-                                                ImmersiveListLayout.CAST_ROW -> {
-                                                        CastRow(
-                                                                items = section.items,
-                                                                onItemClick = onItemClick,
-                                                                getItemImageUrl = getItemImageUrl,
-                                                        )
-                                                }
-                                                ImmersiveListLayout.VERTICAL_GRID -> {
-                                                        CastRow(
-                                                                items = section.items,
-                                                                onItemClick = onItemClick,
-                                                                getItemImageUrl = getItemImageUrl,
-                                                        )
-                                                }
+						ImmersiveListLayout.HORIZONTAL_CARDS -> {
+							HorizontalCardRow(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
+						}
+						ImmersiveListLayout.CAST_ROW -> {
+							CastRow(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
+						}
+						ImmersiveListLayout.VERTICAL_GRID -> {
+							CastRow(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
+						}
 					}
 				}
 			}

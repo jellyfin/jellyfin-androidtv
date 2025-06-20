@@ -59,9 +59,9 @@ import org.jellyfin.sdk.model.api.MediaStreamType
  * Layout type for the immersive list
  */
 enum class ImmersiveListLayout {
-        HORIZONTAL_CARDS,
-        VERTICAL_GRID,
-        CAST_ROW,
+	HORIZONTAL_CARDS,
+	VERTICAL_GRID,
+	CAST_ROW,
 }
 
 /**
@@ -448,32 +448,32 @@ private fun CardsSection(
 	Box(
 		modifier = modifier.padding(horizontal = 48.dp, vertical = 16.dp),
 	) {
-                when (layout) {
-                        ImmersiveListLayout.HORIZONTAL_CARDS -> {
-                                HorizontalCardsList(
-                                        items = items,
-                                        focusedItem = focusedItem,
-                                        onItemClick = onItemClick,
-                                        onItemFocus = onItemFocus,
-                                        getItemImageUrl = getItemImageUrl,
-                                        modifier = Modifier.fillMaxSize(),
-                                )
-                        }
-                        ImmersiveListLayout.CAST_ROW -> {
-                                HorizontalCardsList(
-                                        items = items,
-                                        focusedItem = focusedItem,
-                                        onItemClick = onItemClick,
-                                        onItemFocus = onItemFocus,
-                                        getItemImageUrl = getItemImageUrl,
-                                        modifier = Modifier.fillMaxSize(),
-                                )
-                        }
-                        ImmersiveListLayout.VERTICAL_GRID -> {
-                                VerticalCardsGrid(
-                                        items = items,
-                                        focusedItem = focusedItem,
-                                        onItemClick = onItemClick,
+		when (layout) {
+			ImmersiveListLayout.HORIZONTAL_CARDS -> {
+				HorizontalCardsList(
+					items = items,
+					focusedItem = focusedItem,
+					onItemClick = onItemClick,
+					onItemFocus = onItemFocus,
+					getItemImageUrl = getItemImageUrl,
+					modifier = Modifier.fillMaxSize(),
+				)
+			}
+			ImmersiveListLayout.CAST_ROW -> {
+				HorizontalCardsList(
+					items = items,
+					focusedItem = focusedItem,
+					onItemClick = onItemClick,
+					onItemFocus = onItemFocus,
+					getItemImageUrl = getItemImageUrl,
+					modifier = Modifier.fillMaxSize(),
+				)
+			}
+			ImmersiveListLayout.VERTICAL_GRID -> {
+				VerticalCardsGrid(
+					items = items,
+					focusedItem = focusedItem,
+					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
 					modifier = Modifier.fillMaxSize(),
@@ -721,13 +721,13 @@ fun MultiSectionImmersiveList(
 					getItemLogoUrl = getItemLogoUrl,
 					modifier = Modifier
 						.fillMaxWidth()
-                                                .height(
-                                                        when (section.layout) {
-                                                                ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
-                                                                ImmersiveListLayout.CAST_ROW -> 260.dp
-                                                                ImmersiveListLayout.VERTICAL_GRID -> 600.dp
-                                                        },
-                                                ),
+						.height(
+							when (section.layout) {
+								ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
+								ImmersiveListLayout.CAST_ROW -> 260.dp
+								ImmersiveListLayout.VERTICAL_GRID -> 600.dp
+							},
+						),
 				)
 			}
 		}
