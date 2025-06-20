@@ -18,12 +18,11 @@ on:
         default: 'text'
         type: choice
         options:
-        - text
-        - json
+          - text
+          - json
 
   pull_request:
     types: [opened, synchronize]
-    # Only run on PRs that might involve cherry-picks
     branches:
       - master
       - develop
@@ -31,7 +30,6 @@ on:
 
   issue_comment:
     types: [created]
-    # Trigger on comments like "/check-cherry-pick abc123def master"
 
 jobs:
   detect-cherry-pick-request:
@@ -63,12 +61,12 @@ jobs:
         (github.event_name == 'pull_request' && contains(github.event.pull_request.title, 'cherry-pick')) ||
         (github.event_name == 'issue_comment' && needs.detect-cherry-pick-request.outputs.should_run == 'true')
       )
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history needed for conflict detection
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Git
@@ -88,7 +86,6 @@ jobs:
             echo "target_branch=${{ needs.detect-cherry-pick-request.outputs.target_branch }}" >> $GITHUB_OUTPUT
             echo "output_format=text" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
-            # Extract commit hash from PR if it's a cherry-pick PR
             PR_TITLE="${{ github.event.pull_request.title }}"
             if [[ "$PR_TITLE" =~ cherry-pick[[:space:]]+([a-f0-9]{7,40}) ]]; then
               echo "commit_hash=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
@@ -99,14 +96,31 @@ jobs:
             echo "output_format=json" >> $GITHUB_OUTPUT
           fi
 
-      - name: Validate commit hash
+      # --- NEW STEP ---------------------------------------------------------
+      - name: Ensure commit object is available
+        id: ensure-commit
         run: |
-          COMMIT_HASH="${{ steps.params.outputs.commit_hash }}"
-          if ! git cat-file -e "$COMMIT_HASH" 2>/dev/null; then
-            echo "❌ Invalid commit hash: $COMMIT_HASH"
+          set -eo pipefail
+          COMMIT_HASH='${{ steps.params.outputs.commit_hash }}'
+
+          # Try to fetch from origin (your fork) first
+          git fetch --no-tags --depth=1 origin "$COMMIT_HASH" || true
+
+          # If still missing, fetch from upstream
+          if ! git cat-file -e "${COMMIT_HASH}^{commit}" 2>/dev/null; then
+            git remote add upstream https://github.com/ORIGINAL_OWNER/REPO.git
+            git fetch --no-tags --depth=1 upstream "$COMMIT_HASH"
+          fi
+
+          # Final check
+          if ! git cat-file -e "${COMMIT_HASH}^{commit}" 2>/dev/null; then
+            echo "::error ::Commit $COMMIT_HASH not found in origin or upstream."
             exit 1
           fi
-          echo "✅ Commit hash validated: $COMMIT_HASH"
+      # ----------------------------------------------------------------------
+
+      - name: Validate commit hash
+        run: echo "✅ Commit hash validated: ${{ steps.params.outputs.commit_hash }}"
 
       - name: Make scripts executable
         run: |
@@ -119,20 +133,19 @@ jobs:
           COMMIT_HASH="${{ steps.params.outputs.commit_hash }}"
           TARGET_BRANCH="${{ steps.params.outputs.target_branch }}"
           OUTPUT_FORMAT="${{ steps.params.outputs.output_format }}"
-          
+
           echo "🔍 Running enhanced cherry-pick conflict analysis..."
           echo "Commit: $COMMIT_HASH"
           echo "Target Branch: $TARGET_BRANCH"
           echo "Output Format: $OUTPUT_FORMAT"
           echo ""
-          
+
           if [ "$OUTPUT_FORMAT" = "json" ]; then
             OUTPUT=$(./check_cherry_pick_conflicts_enhanced.sh "$COMMIT_HASH" "$TARGET_BRANCH" --json)
             echo "conflict_analysis<<EOF" >> $GITHUB_OUTPUT
             echo "$OUTPUT" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
-            
-            # Extract risk level for further processing
+
             RISK_LEVEL=$(echo "$OUTPUT" | jq -r '.risk_level')
             echo "risk_level=$RISK_LEVEL" >> $GITHUB_OUTPUT
           else
@@ -140,14 +153,13 @@ jobs:
             echo "conflict_analysis<<EOF" >> $GITHUB_OUTPUT
             echo "$OUTPUT" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
-            
-            # Extract risk level from text output
+
             RISK_LEVEL=$(echo "$OUTPUT" | grep "Risk Level:" | awk '{print $3}')
             echo "risk_level=$RISK_LEVEL" >> $GITHUB_OUTPUT
           fi
 
       - name: Create conflict report artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@v4
         with:
           name: cherry-pick-conflict-report-${{ steps.params.outputs.commit_hash }}
           path: |
@@ -157,41 +169,35 @@ jobs:
 
       - name: Comment on PR (if triggered by PR)
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: actions/github-script@v7
         with:
           script: |
             const conflictAnalysis = `${{ steps.conflict_check.outputs.conflict_analysis }}`;
             const riskLevel = `${{ steps.conflict_check.outputs.risk_level }}`;
-            
+
             let emoji = "✅";
             let status = "Low Risk";
-            
-            if (riskLevel === "HIGH") {
-              emoji = "❌";
-              status = "High Risk";
-            } else if (riskLevel === "MEDIUM") {
-              emoji = "⚠️";
-              status = "Medium Risk";
-            }
-            
+            if (riskLevel === "HIGH") { emoji = "❌"; status = "High Risk"; }
+            else if (riskLevel === "MEDIUM") { emoji = "⚠️"; status = "Medium Risk"; }
+
             const comment = `## ${emoji} Cherry-pick Conflict Analysis
-            
+
             **Status:** ${status}
             **Commit:** \`${{ steps.params.outputs.commit_hash }}\`
             **Target Branch:** \`${{ steps.params.outputs.target_branch }}\`
-            
+
             <details>
             <summary>📋 Detailed Analysis</summary>
-            
+
             \`\`\`
             ${conflictAnalysis}
             \`\`\`
-            
+
             </details>
-            
+
             ---
-            *This analysis was generated automatically. For manual checks, use: \`/check-cherry-pick ${{ steps.params.outputs.commit_hash }} ${{ steps.params.outputs.target_branch }}\`*`;
-            
+            *Automated result. Use \`/check-cherry-pick <sha> <branch>\` for manual checks.*`;
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -201,42 +207,36 @@ jobs:
 
       - name: Comment on issue (if triggered by comment)
         if: github.event_name == 'issue_comment'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: actions/github-script@v7
         with:
           script: |
             const conflictAnalysis = `${{ steps.conflict_check.outputs.conflict_analysis }}`;
             const riskLevel = `${{ steps.conflict_check.outputs.risk_level }}`;
-            
+
             let emoji = "✅";
             let status = "Low Risk";
-            
-            if (riskLevel === "HIGH") {
-              emoji = "❌";
-              status = "High Risk";
-            } else if (riskLevel === "MEDIUM") {
-              emoji = "⚠️";
-              status = "Medium Risk";
-            }
-            
+            if (riskLevel === "HIGH") { emoji = "❌"; status = "High Risk"; }
+            else if (riskLevel === "MEDIUM") { emoji = "⚠️"; status = "Medium Risk"; }
+
             const comment = `## ${emoji} Cherry-pick Conflict Analysis Results
-            
+
             **Status:** ${status}
             **Commit:** \`${{ steps.params.outputs.commit_hash }}\`
             **Target Branch:** \`${{ steps.params.outputs.target_branch }}\`
-            
+
             <details>
             <summary>📋 View Full Analysis</summary>
-            
+
             \`\`\`
             ${conflictAnalysis}
             \`\`\`
-            
+
             </details>
-            
-            ${riskLevel === "HIGH" ? "⚠️ **High conflict risk detected!** Manual intervention will likely be needed." : ""}
-            ${riskLevel === "MEDIUM" ? "⚠️ **Moderate conflict risk.** Proceed with caution and test thoroughly." : ""}
-            ${riskLevel === "LOW" ? "✅ **Low conflict risk.** Safe to proceed with cherry-pick." : ""}`;
-            
+
+            ${riskLevel === "HIGH" ? "⚠️ **High conflict risk!** Manual intervention likely." : ""}
+            ${riskLevel === "MEDIUM" ? "⚠️ **Moderate conflict risk.** Test thoroughly." : ""}
+            ${riskLevel === "LOW" ? "✅ **Low conflict risk.** Safe to proceed." : ""}`;
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -256,19 +256,17 @@ jobs:
           else
             echo "✅ Low conflict risk - safe to proceed"
             exit 0
-          fi
 
-  # Additional job for scheduled checks of recent commits
   scheduled-conflict-monitoring:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         branch: [master, develop]
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ matrix.branch }}
@@ -280,24 +278,18 @@ jobs:
 
       - name: Check recent commits for potential conflicts
         run: |
-          echo "🔍 Checking recent commits on ${{ matrix.branch }} for potential cherry-pick conflicts..."
-          
-          # Get commits from last 7 days
+          echo "🔍 Checking recent commits on ${{ matrix.branch }}..."
           RECENT_COMMITS=$(git log --since="7 days ago" --pretty=format:"%H" ${{ matrix.branch }})
-          
           for commit in $RECENT_COMMITS; do
             echo "Analyzing commit: $commit"
             ./check_cherry_pick_conflicts_enhanced.sh "$commit" "master" --json > "conflict-report-$commit.json"
-            
             RISK_LEVEL=$(jq -r '.risk_level' "conflict-report-$commit.json")
             if [ "$RISK_LEVEL" = "HIGH" ]; then
               echo "⚠️ High-risk commit detected: $commit"
-              # Could trigger notifications here
             fi
           done
 
-# Optional: Add schedule trigger for regular monitoring
-# Uncomment the lines below to enable scheduled checks
+# Optional schedule trigger
 # on:
 #   schedule:
-#     - cron: '0 8 * * MON'  # Every Monday at 8 AM UTC
+#     - cron: '0 8 * * MON'
