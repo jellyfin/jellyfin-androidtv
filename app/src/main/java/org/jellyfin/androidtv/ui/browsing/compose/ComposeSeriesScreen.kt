@@ -288,9 +288,40 @@ private fun HorizontalCardRow(
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
+private fun CastRow(
+        }
+}
+/**
+ * Vertical grid of cards for cast
+ */
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
 private fun VerticalGrid(
-	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+        modifier: Modifier = Modifier,
+) {
+        LazyVerticalGrid(
+                columns = GridCells.Fixed(6),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = modifier.height(400.dp),
+                contentPadding = PaddingValues(horizontal = 48.dp),
+        ) {
+                items(items) { item ->
+                        MediaCard(
+                                item = item,
+                                imageUrl = getItemImageUrl(item),
+                                onClick = {
+                                        onItemClick(item)
+                                },
+                                width = 140.dp,
+                                aspectRatio = 1f,
+                                showTitle = false,
+                        )
+                }
+        }
 	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
@@ -406,15 +437,22 @@ private fun SeriesDetailImmersiveList(
 
 					// Section content
 					when (section.layout) {
-						ImmersiveListLayout.HORIZONTAL_CARDS -> {
-							HorizontalCardRow(
+                                                        VerticalGrid(
+                                        }
+                                }
+                        }
+                }
+        }
+						}
+						ImmersiveListLayout.CAST_ROW -> {
+							CastRow(
 								items = section.items,
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
 							)
 						}
 						ImmersiveListLayout.VERTICAL_GRID -> {
-							VerticalGrid(
+							CastRow(
 								items = section.items,
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
