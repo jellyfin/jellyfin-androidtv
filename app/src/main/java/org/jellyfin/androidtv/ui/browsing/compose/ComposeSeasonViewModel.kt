@@ -27,8 +27,8 @@ import timber.log.Timber
 import java.util.UUID
 
 /**
- * ViewModel for the TV Show seasons screen
- * Displays all seasons for a specific TV show
+ * ViewModel for the Season detail screen
+ * Displays all episodes for a specific season
  */
 class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 	private val apiClient: ApiClient by inject()
@@ -38,46 +38,46 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 	private val _uiState = MutableStateFlow(SeasonUiState())
 	val uiState: StateFlow<SeasonUiState> = _uiState.asStateFlow()
 
-	fun loadSeriesSeasons(seriesId: UUID) {
+	fun loadSeasonEpisodes(seasonId: UUID) {
 		viewModelScope.launch {
 			_uiState.value = _uiState.value.copy(isLoading = true, error = null)
 			
 			try {
-				// Get series details
-				val seriesResponse = apiClient.itemsApi.getItems(
-					ids = setOf(seriesId),
+				// Get season details
+				val seasonResponse = apiClient.itemsApi.getItems(
+					ids = setOf(seasonId),
 					fields = ItemRepository.itemFields,
 				)
 				
-				val series = seriesResponse.content.items.firstOrNull()
-				if (series == null) {
+				val season = seasonResponse.content.items.firstOrNull()
+				if (season == null) {
 					_uiState.value = _uiState.value.copy(
 						isLoading = false,
-						error = "TV Show not found",
+						error = "Season not found",
 					)
 					return@launch
 				}
 
-				// Get all seasons for this series
-				val seasonsResponse = apiClient.itemsApi.getItems(
-					parentId = seriesId,
-					includeItemTypes = setOf(BaseItemKind.SEASON),
+				// Get all episodes for this season
+				val episodesResponse = apiClient.itemsApi.getItems(
+					parentId = seasonId,
+					includeItemTypes = setOf(BaseItemKind.EPISODE),
 					fields = ItemRepository.itemFields,
-					sortBy = setOf(ItemSortBy.SORT_NAME, ItemSortBy.INDEX_NUMBER),
+					sortBy = setOf(ItemSortBy.INDEX_NUMBER),
 					sortOrder = setOf(SortOrder.ASCENDING),
 					enableUserData = true,
 				)
 				
-				val seasons: List<BaseItemDto> = seasonsResponse.content.items
+				val episodes: List<BaseItemDto> = episodesResponse.content.items
 				
 				val sections = mutableListOf<ImmersiveListSection>()
 				
-				// All Seasons section - main content
-				if (seasons.isNotEmpty()) {
+				// Episodes section - main content
+				if (episodes.isNotEmpty()) {
 					sections.add(
 						ImmersiveListSection(
-							title = "Seasons",
-							items = seasons,
+							title = "Episodes",
+							items = episodes,
 							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
 						),
 					)
@@ -86,39 +86,35 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
 					sections = sections,
-					series = series, // Store the series info
-					title = series.name ?: "TV Show",
-					seriesName = series.name,
+					season = season, // Store the season info
+					title = season.name ?: "Season",
+					seriesName = season.seriesName,
 				)
 				
 				Timber.d(
-					"Loaded TV show '${series.name}' with ${seasons.size} seasons",
+					"Loaded season '${season.name}' with ${episodes.size} episodes",
 				)
 			} catch (e: ApiClientException) {
-				Timber.e(e, "API error loading season data")
+				Timber.e(e, "API error loading episode data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
-					error = "Failed to load season data: ${e.message}",
+					error = "Failed to load episode data: ${e.message}",
 				)
 			} catch (e: IllegalArgumentException) {
-				Timber.e(e, "Invalid argument when loading season data")
+				Timber.e(e, "Invalid argument when loading episode data")
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,
-					error = "Invalid season data",
+					error = "Invalid episode data",
 				)
 			}
 		}
 	}
 
 	fun onItemClick(item: BaseItemDto) {
-		Timber.d("Season clicked: ${item.name} (${item.type})")
+		Timber.d("Episode clicked: ${item.name} (${item.type})")
 		when (item.type) {
-			BaseItemKind.SEASON -> {
-				// Navigate to episodes view for this season
-				navigationRepository.navigate(Destinations.itemDetails(item.id))
-			}
-			BaseItemKind.SERIES -> {
-				// Navigate to series overview
+			BaseItemKind.EPISODE -> {
+				// Navigate to episode detail view
 				navigationRepository.navigate(Destinations.itemDetails(item.id))
 			}
 			else -> {
@@ -135,13 +131,13 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 		// Log focus changes for debugging
 		item?.let { focusedItem ->
 			when (focusedItem.type) {
-				BaseItemKind.SEASON -> {
-					val seasonNumber = focusedItem.indexNumber
-					val episodeCount = focusedItem.childCount
+				BaseItemKind.EPISODE -> {
+					val episodeNumber = focusedItem.indexNumber
+					val seasonNumber = focusedItem.parentIndexNumber
 					
 					Timber.d(
-						"Focused on season: ${focusedItem.name} " +
-							"(Season #$seasonNumber, $episodeCount episodes)",
+						"Focused on episode: ${focusedItem.name} " +
+							"(Season $seasonNumber, Episode $episodeNumber)",
 					)
 				}
 				else -> {
@@ -149,6 +145,22 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				}
 			}
 		}
+	}
+
+	// Test helper function to simulate error state
+	internal fun simulateError(errorMessage: String) {
+		_uiState.value = _uiState.value.copy(
+			isLoading = false,
+			error = errorMessage,
+		)
+	}
+
+	// Test helper function to simulate loading state
+	internal fun simulateLoading() {
+		_uiState.value = _uiState.value.copy(
+			isLoading = true,
+			error = null,
+		)
 	}
 
 	fun getItemImageUrl(item: BaseItemDto): String? {
@@ -205,14 +217,14 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 }
 
 /**
- * UI State for the TV Show seasons screen
+ * UI State for the Season detail screen
  */
 data class SeasonUiState(
 	val isLoading: Boolean = true,
 	val sections: List<ImmersiveListSection> = emptyList(),
 	val error: String? = null,
 	val focusedItem: BaseItemDto? = null,
-	val series: BaseItemDto? = null,
-	val title: String = "TV Show",
+	val season: BaseItemDto? = null,
+	val title: String = "Season",
 	val seriesName: String? = null,
 )

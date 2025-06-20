@@ -71,7 +71,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				
 				val sections = mutableListOf<ImmersiveListSection>()
 				
-				// All Seasons section
+				// Seasons section - horizontal cards
 				if (seasons.isNotEmpty()) {
 					sections.add(
 						ImmersiveListSection(
@@ -81,50 +81,27 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						),
 					)
 				}
-				
-				// Continue Watching section (seasons with progress)
-				val continueWatching: List<BaseItemDto> = seasons.filter { season ->
-					val unplayedItemCount = season.userData?.unplayedItemCount ?: 0
-					val totalItems = season.childCount ?: 0
-					// Season has some progress if not all episodes are unwatched
-					totalItems > 0 && unplayedItemCount < totalItems && unplayedItemCount > 0
-				}
-				
-				if (continueWatching.isNotEmpty()) {
-					sections.add(
-						0, // Add at the beginning
-						ImmersiveListSection(
-							title = "Continue Watching",
-							items = continueWatching,
-							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-						),
-					)
-				}
 
-				// Recent Episodes section - get latest episodes across all seasons
+				// Cast section - vertical grid
 				try {
-					val recentEpisodesResponse = apiClient.itemsApi.getItems(
+					val castResponse = apiClient.itemsApi.getItems(
 						parentId = seriesId,
-						includeItemTypes = setOf(BaseItemKind.EPISODE),
-						recursive = true,
+						includeItemTypes = setOf(BaseItemKind.PERSON),
 						fields = ItemRepository.itemFields,
-						sortBy = setOf(ItemSortBy.DATE_CREATED),
-						sortOrder = setOf(SortOrder.DESCENDING),
-						limit = 20,
 					)
-					
-					val recentEpisodes: List<BaseItemDto> = recentEpisodesResponse.content.items
-					if (recentEpisodes.isNotEmpty()) {
+
+					val cast = castResponse.content.items
+					if (cast.isNotEmpty()) {
 						sections.add(
 							ImmersiveListSection(
-								title = "Recent Episodes",
-								items = recentEpisodes.take(10), // Limit to 10 most recent
-								layout = ImmersiveListLayout.HORIZONTAL_CARDS,
+								title = "Cast",
+								items = cast,
+								layout = ImmersiveListLayout.VERTICAL_GRID,
 							),
 						)
 					}
 				} catch (e: Exception) {
-					Timber.w(e, "Failed to load recent episodes for series: ${series.name}")
+					Timber.w(e, "Failed to load cast for series: ${series.name}")
 				}
 
 				_uiState.value = _uiState.value.copy(

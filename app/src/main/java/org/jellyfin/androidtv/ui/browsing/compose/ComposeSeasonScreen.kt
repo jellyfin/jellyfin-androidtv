@@ -31,20 +31,20 @@ import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
 /**
- * TV Show seasons screen showing all seasons using the immersive list pattern
- * This screen displays all seasons for a specific TV show
+ * Season detail screen showing all episodes using the immersive list pattern
+ * This screen displays all episodes for a specific season
  */
 @Composable
 fun ComposeSeasonScreen(
-	seriesId: UUID,
+	seasonId: UUID,
 	modifier: Modifier = Modifier,
 	viewModel: ComposeSeasonViewModel = koinViewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
 
-	// Load series seasons when the screen is first composed
-	LaunchedEffect(seriesId) {
-		viewModel.loadSeriesSeasons(seriesId)
+	// Load season episodes when the screen is first composed
+	LaunchedEffect(seasonId) {
+		viewModel.loadSeasonEpisodes(seasonId)
 	}
 
 	Box(
@@ -139,8 +139,8 @@ private fun ContentState(
 ) {
 	Box(modifier = modifier.fillMaxSize()) {
 		// Background banner image (clear, not blurred)
-		uiState.series?.let { series ->
-			getItemBackdropUrl(series)?.let { _ ->
+		uiState.season?.let { season ->
+			getItemBackdropUrl(season)?.let { _ ->
 				Box(
 					modifier = Modifier
 						.fillMaxSize()
@@ -189,8 +189,8 @@ private fun ContentState(
 			}
 		}
 		
-		// Series header overlay
-		SeriesHeaderOverlay(
+		// Season header overlay
+		SeasonHeaderOverlay(
 			uiState = uiState,
 			modifier = Modifier
 				.fillMaxWidth()
@@ -200,13 +200,12 @@ private fun ContentState(
 }
 
 @Composable
-private fun SeriesHeaderOverlay(
+private fun SeasonHeaderOverlay(
 	uiState: SeasonUiState,
 	modifier: Modifier = Modifier,
 ) {
-	val title = buildTitle(uiState)
-	val seasonCount = uiState.sections
-		.find { it.title == "Seasons" }
+	val episodeCount = uiState.sections
+		.find { it.title == "Episodes" }
 		?.items?.size ?: 0
 	
 	Column(
@@ -227,28 +226,39 @@ private fun SeriesHeaderOverlay(
 				bottom = 24.dp,
 			),
 	) {
+		// Show series name if available
+		uiState.seriesName?.let { seriesName ->
+			Text(
+				text = seriesName,
+				style = MaterialTheme.typography.titleLarge,
+				color = Color.White.copy(alpha = 0.8f),
+			)
+			Spacer(modifier = Modifier.height(8.dp))
+		}
+
+		// Season title
 		Text(
-			text = title,
+			text = uiState.title,
 			style = MaterialTheme.typography.headlineLarge,
 			color = Color.White,
 			fontWeight = FontWeight.Bold,
 		)
 		
-		if (seasonCount > 0) {
+		if (episodeCount > 0) {
 			Spacer(modifier = Modifier.height(8.dp))
 			Row(
 				horizontalArrangement = Arrangement.spacedBy(16.dp),
 				verticalAlignment = Alignment.CenterVertically,
 			) {
 				Text(
-					text = "$seasonCount seasons",
+					text = "$episodeCount episodes",
 					style = MaterialTheme.typography.bodyLarge,
 					color = Color.White.copy(alpha = 0.8f),
 				)
 				
-				// Show series info if available
-				uiState.series?.let { series ->
-					series.productionYear?.let { year ->
+				// Show season info if available
+				uiState.season?.let { season ->
+					season.productionYear?.let { year ->
 						Text(
 							text = "•",
 							style = MaterialTheme.typography.bodyLarge,
@@ -263,14 +273,5 @@ private fun SeriesHeaderOverlay(
 				}
 			}
 		}
-	}
-}
-
-private fun buildTitle(uiState: SeasonUiState): String {
-	return when {
-		uiState.seriesName != null -> {
-			uiState.seriesName
-		}
-		else -> uiState.title
 	}
 }

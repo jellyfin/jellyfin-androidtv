@@ -11,9 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -44,6 +49,7 @@ import org.jellyfin.androidtv.ui.composable.tv.ImmersiveBackground
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveList
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
+import org.jellyfin.androidtv.ui.composable.tv.MediaCard
 import org.jellyfin.androidtv.ui.theme.JellyfinColors
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
@@ -158,26 +164,169 @@ private fun ContentState(
 	SeriesDetailImmersiveList(
 		series = uiState.series,
 		sections = uiState.sections,
-		focusedItem = uiState.focusedItem,
 		onItemClick = onItemClick,
 		onItemFocus = onItemFocused,
 		getItemImageUrl = getItemImageUrl,
 		getItemBackdropUrl = getItemBackdropUrl,
 		getItemLogoUrl = getItemLogoUrl,
-		modifier = modifier.fillMaxSize(),
+		modifier = modifier,
 	)
 }
 
 /**
- * Custom immersive list component for series details that shows comprehensive
- * information about the TV series including ratings, status, genres, and air dates
+ * Focused item overlay showing details of the currently focused item
+ */
+@Composable
+private fun FocusedItemOverlay(
+	item: org.jellyfin.sdk.model.api.BaseItemDto?,
+	modifier: Modifier = Modifier,
+) {
+	Box(
+		modifier = modifier
+			.background(
+				Brush.verticalGradient(
+					colors = listOf(
+						Color.Black.copy(alpha = 0.7f),
+						Color.Black.copy(alpha = 0.4f),
+						Color.Transparent,
+					),
+				),
+			)
+			.padding(horizontal = 48.dp),
+	) {
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(top = 32.dp),
+		) {
+			item?.let { focusedItem ->
+				// Title
+				Text(
+					text = focusedItem.name ?: "Unknown",
+					style = MaterialTheme.typography.displayMedium.copy(
+						fontWeight = FontWeight.Bold,
+						fontSize = 42.sp,
+					),
+					color = Color.White,
+					maxLines = 2,
+					overflow = TextOverflow.Ellipsis,
+					modifier = Modifier.padding(bottom = 12.dp),
+				)
+
+				// Metadata row
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(16.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier.padding(bottom = 8.dp),
+				) {
+					// Year
+					focusedItem.productionYear?.let { year ->
+						Text(
+							text = year.toString(),
+							style = MaterialTheme.typography.titleLarge,
+							color = Color.White.copy(alpha = 0.7f),
+						)
+					}
+
+					// Runtime
+					focusedItem.runTimeTicks?.let { ticks ->
+						val minutes = (ticks / 10_000_000) / 60
+						if (minutes > 0) {
+							Text(
+								text = "${minutes}m",
+								style = MaterialTheme.typography.titleLarge,
+								color = Color.White.copy(alpha = 0.7f),
+							)
+						}
+					}
+				}
+
+				// Overview
+				focusedItem.overview?.let { overview ->
+					Text(
+						text = overview,
+						style = MaterialTheme.typography.bodyLarge,
+						color = Color.White.copy(alpha = 0.8f),
+						maxLines = 3,
+						overflow = TextOverflow.Ellipsis,
+						modifier = Modifier.padding(end = 400.dp),
+					)
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Horizontal row of cards for seasons
+ */
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun HorizontalCardRow(
+	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	modifier: Modifier = Modifier,
+) {
+	LazyRow(
+		horizontalArrangement = Arrangement.spacedBy(16.dp),
+		modifier = modifier.height(280.dp),
+		contentPadding = PaddingValues(horizontal = 48.dp),
+	) {
+		items(items) { item ->
+			MediaCard(
+				item = item,
+				imageUrl = getItemImageUrl(item),
+				onClick = { onItemClick(item) },
+				width = 180.dp,
+				aspectRatio = 2f / 3f,
+				showTitle = true,
+			)
+		}
+	}
+}
+
+/**
+ * Vertical grid of cards for cast
+ */
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun VerticalGrid(
+	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	modifier: Modifier = Modifier,
+) {
+	LazyVerticalGrid(
+		columns = GridCells.Fixed(6),
+		horizontalArrangement = Arrangement.spacedBy(16.dp),
+		verticalArrangement = Arrangement.spacedBy(16.dp),
+		modifier = modifier.height(400.dp),
+		contentPadding = PaddingValues(horizontal = 48.dp),
+	) {
+		items(items) { item ->
+			MediaCard(
+				item = item,
+				imageUrl = getItemImageUrl(item),
+				onClick = { 
+					onItemClick(item)
+				},
+				width = 140.dp,
+				aspectRatio = 1f,
+				showTitle = false,
+			)
+		}
+	}
+}
+
+/**
+ * Clean series detail layout with proper sections
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SeriesDetailImmersiveList(
 	series: org.jellyfin.sdk.model.api.BaseItemDto?,
 	sections: List<ImmersiveListSection>,
-	focusedItem: org.jellyfin.sdk.model.api.BaseItemDto?,
 	modifier: Modifier = Modifier,
 	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
 	onItemFocus: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
@@ -204,9 +353,9 @@ private fun SeriesDetailImmersiveList(
 			getBackdropUrl = getItemBackdropUrl,
 		)
 
-		// Content with custom series information overlay
+		// Content with clean layout
 		LazyColumn(
-			verticalArrangement = Arrangement.spacedBy(32.dp),
+			verticalArrangement = Arrangement.spacedBy(24.dp),
 			contentPadding = PaddingValues(bottom = 32.dp),
 			modifier = Modifier
 				.fillMaxSize()
@@ -220,39 +369,64 @@ private fun SeriesDetailImmersiveList(
 					),
 				),
 		) {
-			// Custom series information header
+			// Series information header - only show when no item is focused
 			item {
-				SeriesInformationOverlay(
-					series = series,
-					focusedItem = globalFocusedItem,
-					getItemLogoUrl = getItemLogoUrl,
-					modifier = Modifier
-						.fillMaxWidth()
-						.height(380.dp),
-				)
+				if (globalFocusedItem == null) {
+					SeriesInformationOverlay(
+						series = series,
+						focusedItem = null,
+						getItemLogoUrl = getItemLogoUrl,
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(320.dp),
+					)
+				} else {
+					// Show focused item info
+					FocusedItemOverlay(
+						item = globalFocusedItem,
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(280.dp),
+					)
+				}
 			}
 
-			// Sections with seasons/episodes
+			// Sections with seasons/cast
 			items(sections) { section ->
-				ImmersiveList(
-					title = section.title,
-					items = section.items,
-					layout = section.layout,
-					backgroundMode = org.jellyfin.androidtv.ui.composable.tv.BackgroundMode.NONE, // Background handled globally
-					onItemClick = onItemClick,
-					onItemFocus = { item -> globalFocusedItem = item },
-					getItemImageUrl = getItemImageUrl,
-					getItemBackdropUrl = getItemBackdropUrl,
-					getItemLogoUrl = getItemLogoUrl,
+				Column(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(
-							when (section.layout) {
-								ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
-								ImmersiveListLayout.VERTICAL_GRID -> 600.dp
-							},
+						.padding(horizontal = 48.dp),
+				) {
+					// Section title
+					Text(
+						text = section.title,
+						style = MaterialTheme.typography.headlineMedium.copy(
+							fontWeight = FontWeight.Bold,
+							fontSize = 28.sp,
 						),
-				)
+						color = Color.White,
+						modifier = Modifier.padding(bottom = 16.dp),
+					)
+
+					// Section content
+					when (section.layout) {
+						ImmersiveListLayout.HORIZONTAL_CARDS -> {
+							HorizontalCardRow(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
+						}
+						ImmersiveListLayout.VERTICAL_GRID -> {
+							VerticalGrid(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
+						}
+					}
+				}
 			}
 		}
 	}
