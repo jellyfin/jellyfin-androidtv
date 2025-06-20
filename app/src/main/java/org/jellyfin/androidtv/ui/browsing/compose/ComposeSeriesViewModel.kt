@@ -82,11 +82,11 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					)
 				}
 
-                                // Cast section - horizontal row (using people from series data)
-                                val cast = series.people?.take(8) // Limit to 8 cast members for one row
-                                val castEmpty = cast.isNullOrEmpty()
-                                Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
-                                if (!castEmpty) {
+				// Cast section - horizontal row (using people from series data)
+				val cast = series.people?.take(8) // Limit to 8 cast members for one row
+				val castEmpty = cast.isNullOrEmpty()
+				Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
+				if (!castEmpty) {
 					// Convert BaseItemPerson to BaseItemDto for compatibility with ImmersiveListSection
 					val castItems = cast.map { person ->
 						// Create a minimal BaseItemDto representation for the person
@@ -110,13 +110,13 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					Timber.d("Added Cast section with ${castItems.size} members")
 				}
 
-                                _uiState.value = _uiState.value.copy(
-                                        isLoading = false,
-                                        sections = sections,
-                                        series = series,
-                                        title = series.name ?: "Series",
-                                        isCastEmpty = castEmpty,
-                                )
+				_uiState.value = _uiState.value.copy(
+					isLoading = false,
+					sections = sections,
+					series = series,
+					title = series.name ?: "Series",
+					isCastEmpty = castEmpty,
+				)
 				
 				Timber.d("Loaded ${seasons.size} seasons for series: ${series.name}")
 			} catch (e: Exception) {
@@ -232,11 +232,11 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
  * UI State for the Series detail screen
  */
 data class SeriesUiState(
-        val isLoading: Boolean = true,
-        val sections: List<ImmersiveListSection> = emptyList(),
-        val error: String? = null,
-        val focusedItem: BaseItemDto? = null,
-        val series: BaseItemDto? = null,
-        val title: String = "Series",
-        val isCastEmpty: Boolean = false,
+	val isLoading: Boolean = true,
+	val sections: List<ImmersiveListSection> = emptyList(),
+	val error: String? = null,
+	val focusedItem: BaseItemDto? = null,
+	val series: BaseItemDto? = null,
+	val title: String = "Series",
+	val isCastEmpty: Boolean = false,
 )

@@ -159,15 +159,15 @@ private fun ContentState(
 	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
-        SeriesDetailImmersiveList(
-                series = uiState.series,
-                sections = uiState.sections,
-                hasCastSection = !uiState.isCastEmpty,
-                onItemClick = onItemClick,
-                onItemFocus = onItemFocused,
-                getItemImageUrl = getItemImageUrl,
-                getItemBackdropUrl = getItemBackdropUrl,
-                getItemLogoUrl = getItemLogoUrl,
+	SeriesDetailImmersiveList(
+		series = uiState.series,
+		sections = uiState.sections,
+		hasCastSection = !uiState.isCastEmpty,
+		onItemClick = onItemClick,
+		onItemFocus = onItemFocused,
+		getItemImageUrl = getItemImageUrl,
+		getItemBackdropUrl = getItemBackdropUrl,
+		getItemLogoUrl = getItemLogoUrl,
 		modifier = modifier,
 	)
 }
@@ -325,15 +325,15 @@ private fun VerticalGrid(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SeriesDetailImmersiveList(
-        series: org.jellyfin.sdk.model.api.BaseItemDto?,
-        sections: List<ImmersiveListSection>,
-        hasCastSection: Boolean = true,
-        modifier: Modifier = Modifier,
-        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
-        onItemFocus: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
-        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
-        getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
-        getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	series: org.jellyfin.sdk.model.api.BaseItemDto?,
+	sections: List<ImmersiveListSection>,
+	hasCastSection: Boolean = true,
+	modifier: Modifier = Modifier,
+	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
+	onItemFocus: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
+	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
 ) {
 	var globalFocusedItem by remember { mutableStateOf<org.jellyfin.sdk.model.api.BaseItemDto?>(null) }
 
@@ -393,11 +393,11 @@ private fun SeriesDetailImmersiveList(
 			}
 
 			// Sections with seasons/cast
-                        items(sections) { section ->
-                                Column(
-                                        modifier = Modifier.fillMaxWidth(),
-                                ) {
-                                        // Section title
+			items(sections) { section ->
+				Column(
+					modifier = Modifier.fillMaxWidth(),
+				) {
+					// Section title
 					Text(
 						text = section.title,
 						style = MaterialTheme.typography.headlineMedium.copy(
@@ -425,24 +425,24 @@ private fun SeriesDetailImmersiveList(
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
 							)
-                                        }
-                                }
-                        }
+						}
+					}
+				}
 
-                        if (!hasCastSection) {
-                                item {
-                                        Text(
-                                                text = stringResource(R.string.msg_no_cast_available),
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = Color.White.copy(alpha = 0.7f),
-                                                modifier = Modifier
-                                                        .padding(horizontal = 48.dp)
-                                        )
-                                }
-                        }
-                }
-        }
-}
+				if (!hasCastSection) {
+					item {
+						Text(
+							text = stringResource(R.string.msg_no_cast_available),
+							style = MaterialTheme.typography.bodySmall,
+							color = Color.White.copy(alpha = 0.7f),
+							modifier = Modifier
+								.padding(horizontal = 48.dp),
+						)
+					}
+				}
+			}
+		}
+	}
 }
 
 /**
