@@ -1,0 +1,50 @@
+# Cherry-pick Conflict Detection Configuration
+# This file allows customization of the conflict detection system
+
+# Risk scoring thresholds
+CONFLICT_THRESHOLD_LOW=20
+CONFLICT_THRESHOLD_MEDIUM=50
+
+# Scoring weights (adjust to match your team's needs)
+SCORE_MERGE_CONFLICTS=40      # Direct merge conflicts detected
+SCORE_RECENT_MODIFICATIONS=15 # Files modified in last 7 days
+SCORE_MEDIUM_MODIFICATIONS=5  # Files modified in last 30 days
+SCORE_LARGE_COMMIT=20         # 100+ lines changed
+SCORE_MEDIUM_COMMIT=10        # 50+ lines changed
+SCORE_CODE_FILES=5            # Java/Kotlin/XML files
+SCORE_BUILD_FILES=15          # Build configuration files
+
+# Time thresholds (in days)
+RECENT_MODIFICATION_DAYS=7    # Consider modifications "recent"
+MEDIUM_MODIFICATION_DAYS=30   # Consider modifications "medium-term"
+
+# File patterns for scoring
+CODE_FILE_PATTERNS=".*\.(java|kt|xml)$"
+BUILD_FILE_PATTERNS=".*(build\.gradle|pom\.xml|package\.json)$"
+
+# Notification settings
+NOTIFY_ON_HIGH_RISK=true      # Send notifications for high-risk commits
+NOTIFY_ON_MEDIUM_RISK=false   # Send notifications for medium-risk commits
+
+# Default branches for analysis
+DEFAULT_TARGET_BRANCH="master"
+MONITORING_BRANCHES="master,develop,release/*"
+
+# GitHub Actions settings
+AUTO_COMMENT_ON_PR=true       # Automatically comment on cherry-pick PRs
+FAIL_ON_HIGH_RISK=true        # Fail the workflow on high-risk detections
+ARTIFACT_RETENTION_DAYS=30    # How long to keep analysis artifacts
+
+# Advanced options
+ENABLE_DRY_RUN_TEST=true      # Perform actual cherry-pick dry run
+ENABLE_DETAILED_ANALYSIS=true # Include comprehensive file analysis
+MAX_ANALYSIS_FILES=100        # Limit files to analyze (performance)
+
+# Custom recommendations (one per line)
+# Use {RISK_LEVEL}, {COMMIT_HASH}, {TARGET_BRANCH} as variables
+CUSTOM_RECOMMENDATIONS=(
+  "Consider scheduling cherry-pick during maintenance window"
+  "Ensure all tests pass before cherry-picking"
+  "Document any manual conflict resolutions"
+  "Notify QA team of cherry-picked changes"
+)
