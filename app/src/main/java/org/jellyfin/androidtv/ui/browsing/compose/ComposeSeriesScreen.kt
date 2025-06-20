@@ -264,26 +264,26 @@ private fun FocusedItemOverlay(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HorizontalCardRow(
-        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-        modifier: Modifier = Modifier,
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
+	modifier: Modifier = Modifier,
 ) {
-        LazyRow(
+	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
 		modifier = modifier.height(180.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-                items(items) { mediaItem ->
-                        MediaCard(
-                                item = mediaItem,
-                                imageUrl = getItemImageUrl(mediaItem),
-                                onClick = { onItemClick(mediaItem) },
-                                width = 240.dp,
-                                aspectRatio = 16f / 9f, // Horizontal aspect ratio for seasons
-                                showTitle = true,
-                        )
-                }
+		items(items) { mediaItem ->
+			MediaCard(
+				item = mediaItem,
+				imageUrl = getItemImageUrl(mediaItem),
+				onClick = { onItemClick(mediaItem) },
+				width = 240.dp,
+				aspectRatio = 16f / 9f, // Horizontal aspect ratio for seasons
+				showTitle = true,
+			)
+		}
 	}
 }
 
@@ -292,29 +292,29 @@ private fun HorizontalCardRow(
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun VerticalGrid(
-        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-        modifier: Modifier = Modifier,
+private fun CastRow(
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
+	modifier: Modifier = Modifier,
 ) {
-        LazyRow(
+	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
 		modifier = modifier.height(160.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-                items(items) { castItem ->
-                        MediaCard(
-                                item = castItem,
-                                imageUrl = getItemImageUrl(castItem),
-                                onClick = {
-                                        onItemClick(castItem)
-                                },
-                                width = 120.dp,
-                                aspectRatio = 1f, // Square aspect ratio for cast photos
-                                showTitle = false,
-                        )
-                }
+		items(items) { castItem ->
+			MediaCard(
+				item = castItem,
+				imageUrl = getItemImageUrl(castItem),
+				onClick = {
+					onItemClick(castItem)
+				},
+				width = 120.dp,
+				aspectRatio = 1f, // Square aspect ratio for cast photos
+				showTitle = false,
+			)
+		}
 	}
 }
 
@@ -435,12 +435,14 @@ private fun SeriesDetailImmersiveList(
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
 							)
-                                this.item {
+						}
 					}
 				}
+			}
+		}
 
-				if (!hasCastSection) {
-					item {
+		if (!hasCastSection) {
+			item {
 						Text(
 							text = stringResource(R.string.msg_no_cast_available),
 							style = MaterialTheme.typography.bodySmall,

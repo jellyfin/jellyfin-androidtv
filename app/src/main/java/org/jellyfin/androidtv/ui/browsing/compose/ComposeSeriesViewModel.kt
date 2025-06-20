@@ -84,11 +84,10 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 
 				// Cast section - horizontal row (using people from series data)
 				val cast = series.people?.take(8) // Limit to 8 cast members for one row
-val isCastListEmpty = cast.isNullOrEmpty()
-Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
-if (!isCastListEmpty) {
+				val isCastListEmpty = cast.isNullOrEmpty()
 				Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
-				if (!castEmpty) {
+				
+				if (!isCastListEmpty) {
 					// Convert BaseItemPerson to BaseItemDto for compatibility with ImmersiveListSection
 					val castItems = cast.map { person ->
 						// Create a minimal BaseItemDto representation for the person
@@ -117,7 +116,7 @@ if (!isCastListEmpty) {
 					sections = sections,
 					series = series,
 					title = series.name ?: "Series",
-					isCastEmpty = castEmpty,
+					isCastEmpty = isCastListEmpty,
 				)
 				
 				Timber.d("Loaded ${seasons.size} seasons for series: ${series.name}")
