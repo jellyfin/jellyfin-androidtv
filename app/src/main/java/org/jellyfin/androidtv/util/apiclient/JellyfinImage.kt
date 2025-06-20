@@ -6,7 +6,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.UserDto
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import java.util.UUID
 
 /**
@@ -104,7 +103,7 @@ val BaseItemDto.itemBackdropImages
 
 val BaseItemDto.parentImages
 	get() = mapOf(
-		ImageType.PRIMARY to (parentPrimaryImageItemId?.toUUIDOrNull() to parentPrimaryImageTag),
+		ImageType.PRIMARY to (parentPrimaryImageItemId to parentPrimaryImageTag),
 		ImageType.LOGO to (parentLogoItemId to parentLogoImageTag),
 		ImageType.ART to (parentArtItemId to parentArtImageTag),
 		ImageType.THUMB to (parentThumbItemId to parentThumbImageTag),
