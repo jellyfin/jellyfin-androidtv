@@ -61,6 +61,7 @@ Look through the following graphic to see if your native language could use some
 ### Dependencies
 
 - Android Studio
+- JDK 21 (or JDK 17 if `gradle/libs.versions.toml` is updated)
 
 ### Build
 
