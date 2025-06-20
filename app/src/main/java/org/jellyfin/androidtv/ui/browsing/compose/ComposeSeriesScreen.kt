@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -163,6 +164,7 @@ private fun ContentState(
 	SeriesDetailImmersiveList(
 		series = uiState.series,
 		sections = uiState.sections,
+		hasCastSection = !uiState.isCastEmpty,
 		onItemClick = onItemClick,
 		onItemFocus = onItemFocused,
 		getItemImageUrl = getItemImageUrl,
@@ -262,26 +264,26 @@ private fun FocusedItemOverlay(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HorizontalCardRow(
-	items: List<BaseItemDto>,
-	onItemClick: (BaseItemDto) -> Unit,
-	getItemImageUrl: (BaseItemDto) -> String?,
-	modifier: Modifier = Modifier,
+        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+        modifier: Modifier = Modifier,
 ) {
-	LazyRow(
+        LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
 		modifier = modifier.height(180.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-		items(items) { item ->
-			MediaCard(
-				item = item,
-				imageUrl = getItemImageUrl(item),
-				onClick = { onItemClick(item) },
-				width = 240.dp,
-				aspectRatio = 16f / 9f, // Horizontal aspect ratio for seasons
-				showTitle = true,
-			)
-		}
+                items(items) { mediaItem ->
+                        MediaCard(
+                                item = mediaItem,
+                                imageUrl = getItemImageUrl(mediaItem),
+                                onClick = { onItemClick(mediaItem) },
+                                width = 240.dp,
+                                aspectRatio = 16f / 9f, // Horizontal aspect ratio for seasons
+                                showTitle = true,
+                        )
+                }
 	}
 }
 
@@ -290,40 +292,44 @@ private fun HorizontalCardRow(
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun CastRow(
-	items: List<BaseItemDto>,
-	onItemClick: (BaseItemDto) -> Unit,
-	getItemImageUrl: (BaseItemDto) -> String?,
-	modifier: Modifier = Modifier,
+private fun VerticalGrid(
+        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+        modifier: Modifier = Modifier,
 ) {
-	LazyRow(
+        LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
 		modifier = modifier.height(160.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-		items(items) { item ->
-			MediaCard(
-				item = item,
-				imageUrl = getItemImageUrl(item),
-				onClick = {
-					onItemClick(item)
-				},
-				width = (160.dp * (2f / 3f)), // Explicitly: rowHeight * aspectRatio
-				aspectRatio = 2f / 3f,
-				showTitle = false,
-			)
-		}
+                items(items) { castItem ->
+                        MediaCard(
+                                item = castItem,
+                                imageUrl = getItemImageUrl(castItem),
+                                onClick = {
+                                        onItemClick(castItem)
+                                },
+                                width = 120.dp,
+                                aspectRatio = 1f, // Square aspect ratio for cast photos
+                                showTitle = false,
+                        )
+                }
 	}
 }
 
 /**
- * Clean series detail layout with proper sections
+ * Clean series detail layout with proper sections.
+ *
+ * @param hasCastSection whether a cast section is present in [sections]. When
+ * false a small placeholder will be shown instead.
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SeriesDetailImmersiveList(
 	series: BaseItemDto?,
 	sections: List<ImmersiveListSection>,
+	hasCastSection: Boolean = true,
 	modifier: Modifier = Modifier,
 	onItemClick: (BaseItemDto) -> Unit = {},
 	onItemFocus: (BaseItemDto) -> Unit = {},
@@ -429,7 +435,19 @@ private fun SeriesDetailImmersiveList(
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
 							)
-						}
+                                this.item {
+					}
+				}
+
+				if (!hasCastSection) {
+					item {
+						Text(
+							text = stringResource(R.string.msg_no_cast_available),
+							style = MaterialTheme.typography.bodySmall,
+							color = Color.White.copy(alpha = 0.7f),
+							modifier = Modifier
+								.padding(horizontal = 48.dp),
+						)
 					}
 				}
 			}
