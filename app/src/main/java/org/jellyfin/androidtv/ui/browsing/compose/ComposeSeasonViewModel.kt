@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.repository.ItemRepository
-import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
+import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.ImageHelper
@@ -17,7 +17,6 @@ import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
-import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -140,7 +139,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				
 				Timber.d(
 					"Loaded season '${season.name}' with ${episodes.size} episodes. " +
-					"Continue watching: ${continueWatching.size}, Recently added: ${recentEpisodes.size}"
+						"Continue watching: ${continueWatching.size}, Recently added: ${recentEpisodes.size}",
 				)
 			} catch (e: ApiClientException) {
 				Timber.e(e, "API error loading season data")
@@ -195,7 +194,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 					
 					Timber.d(
 						"Focused on episode: ${focusedItem.name} " +
-						"(#$episodeNumber, ${if (runtime != null) "$runtime, " else ""}${progress.toInt()}% watched)"
+							"(#$episodeNumber, ${if (runtime != null) "$runtime, " else ""}${progress.toInt()}% watched)",
 					)
 				}
 				else -> {
