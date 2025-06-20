@@ -5,15 +5,12 @@ This document tracks the progress of migrating the Jellyfin Android TV app from 
 
 ## Development Setup
 
-The migration branch requires **Java 21**. If Java 21 is not available on your
-machine, update the version catalog to use JDK 17 instead:
+The migration branch is configured to use **Java 17**. If you want to use
+**Java 21**, update the version catalog:
 
 ```toml
 # gradle/libs.versions.toml
-java-jdk = "17"
-```
-
-After modifying the catalog, ensure you run Gradle with JDK 17.
+java-jdk = "21"
 
 ## ✅ Completed Components
 
