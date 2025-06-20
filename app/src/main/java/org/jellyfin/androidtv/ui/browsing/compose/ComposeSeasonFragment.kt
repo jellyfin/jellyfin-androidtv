@@ -33,7 +33,7 @@ class ComposeSeasonFragment : Fragment() {
 		savedInstanceState: Bundle?,
 	): View {
 		val seasonId = UUID.fromString(
-			arguments?.getString("seasonId")
+			arguments?.getString(ARG_SEASON_ID)
 				?: throw IllegalArgumentException("Season ID is required"),
 		)
 
