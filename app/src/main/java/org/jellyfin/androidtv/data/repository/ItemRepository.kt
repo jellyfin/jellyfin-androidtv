@@ -18,6 +18,7 @@ object ItemRepository {
 		ItemFields.MEDIA_STREAMS,
 		ItemFields.OVERVIEW,
 		ItemFields.PATH,
+		ItemFields.PEOPLE,
 		ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 		ItemFields.SERIES_PRIMARY_IMAGE,
 		ItemFields.TAGLINES,

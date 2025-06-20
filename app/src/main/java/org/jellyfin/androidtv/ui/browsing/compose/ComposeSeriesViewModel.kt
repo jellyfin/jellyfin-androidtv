@@ -82,26 +82,31 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					)
 				}
 
-				// Cast section - vertical grid
-				try {
-					val castResponse = apiClient.itemsApi.getItems(
-						parentId = seriesId,
-						includeItemTypes = setOf(BaseItemKind.PERSON),
-						fields = ItemRepository.itemFields,
-					)
-
-					val cast = castResponse.content.items
-					if (cast.isNotEmpty()) {
-						sections.add(
-							ImmersiveListSection(
-								title = "Cast",
-								items = cast,
-								layout = ImmersiveListLayout.VERTICAL_GRID,
-							),
+				// Cast section - vertical grid (using people from series data)
+				val cast = series.people?.take(20) // Limit to first 20 cast members
+				Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
+				if (!cast.isNullOrEmpty()) {
+					// Convert BaseItemPerson to BaseItemDto for compatibility with ImmersiveListSection
+					val castItems = cast.map { person ->
+						// Create a minimal BaseItemDto representation for the person
+						BaseItemDto(
+							id = person.id,
+							name = person.name,
+							type = BaseItemKind.PERSON,
+							overview = person.role,
+							imageTags = person.primaryImageTag?.let { mapOf(org.jellyfin.sdk.model.api.ImageType.PRIMARY to it) },
+							imageBlurHashes = person.imageBlurHashes,
 						)
 					}
-				} catch (e: Exception) {
-					Timber.w(e, "Failed to load cast for series: ${series.name}")
+					
+					sections.add(
+						ImmersiveListSection(
+							title = "Cast",
+							items = castItems,
+							layout = ImmersiveListLayout.VERTICAL_GRID,
+						),
+					)
+					Timber.d("Added Cast section with ${castItems.size} members")
 				}
 
 				_uiState.value = _uiState.value.copy(
@@ -147,13 +152,30 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 	fun getItemImageUrl(item: BaseItemDto): String? {
 		return when (item.type) {
 			BaseItemKind.SEASON -> {
-				// For seasons, prefer their primary image (season poster)
+				// For seasons in horizontal cards, prefer thumb/backdrop images for horizontal aspect ratio
 				try {
+					// First try to get thumb image (horizontal aspect ratio)
+					val thumbUrl = imageHelper.getThumbImageUrl(item, 400, 225)
+					if (thumbUrl != null) {
+						return thumbUrl
+					}
+					
+					// Fallback to backdrop image if available
+					val backdropUrl = item.itemBackdropImages.firstOrNull()?.getUrl(
+						api = apiClient,
+						maxWidth = 400,
+						maxHeight = 225,
+					)
+					if (backdropUrl != null) {
+						return backdropUrl
+					}
+					
+					// Final fallback to primary image (poster)
 					imageHelper.getPrimaryImageUrl(item, null, 400)
 				} catch (e: Exception) {
 					Timber.e(e, "Failed to get image for season: ${item.name}")
-					// Fallback to series image if season doesn't have one
-					getItemBackdropUrl(item)
+					// Fallback to series backdrop or primary image
+					getItemBackdropUrl(item) ?: imageHelper.getPrimaryImageUrl(item, null, 400)
 				}
 			}
 			BaseItemKind.EPISODE -> {
@@ -164,6 +186,15 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					Timber.e(e, "Failed to get image for episode: ${item.name}")
 					// Fallback to series image if episode doesn't have one
 					getItemBackdropUrl(item)
+				}
+			}
+			BaseItemKind.PERSON -> {
+				// For cast/people, use their primary image (headshot)
+				try {
+					imageHelper.getPrimaryImageUrl(item, null, 400)
+				} catch (e: Exception) {
+					Timber.e(e, "Failed to get image for person: ${item.name}")
+					null
 				}
 			}
 			else -> {
