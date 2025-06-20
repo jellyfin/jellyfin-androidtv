@@ -35,6 +35,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -107,11 +109,11 @@ private fun LoadingState(
 			horizontalAlignment = Alignment.CenterHorizontally,
 		) {
 			CircularProgressIndicator()
-			Text(
-				text = "Loading seasons...",
-				style = MaterialTheme.typography.bodyLarge,
-				modifier = Modifier.padding(top = 16.dp),
-			)
+                        Text(
+                                text = stringResource(R.string.compose_loading_seasons),
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.padding(top = 16.dp),
+                        )
 		}
 	}
 }
@@ -125,11 +127,11 @@ private fun ErrorState(
 		modifier = modifier.fillMaxSize(),
 		contentAlignment = Alignment.Center,
 	) {
-		Text(
-			text = "Error: $error",
-			style = MaterialTheme.typography.bodyLarge,
-			color = MaterialTheme.colorScheme.error,
-		)
+                Text(
+                        text = stringResource(R.string.compose_error, error),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.error,
+                )
 	}
 }
 
@@ -141,10 +143,10 @@ private fun EmptyState(
 		modifier = modifier.fillMaxSize(),
 		contentAlignment = Alignment.Center,
 	) {
-		Text(
-			text = "No seasons found",
-			style = MaterialTheme.typography.bodyLarge,
-		)
+                Text(
+                        text = stringResource(R.string.compose_no_seasons),
+                        style = MaterialTheme.typography.bodyLarge,
+                )
 	}
 }
 
@@ -198,12 +200,12 @@ private fun FocusedItemOverlay(
 		) {
 			item?.let { focusedItem ->
 				// Title
-				Text(
-					text = focusedItem.name ?: "Unknown",
-					style = MaterialTheme.typography.displayMedium.copy(
-						fontWeight = FontWeight.Bold,
-						fontSize = 42.sp,
-					),
+                                Text(
+                                        text = focusedItem.name ?: stringResource(R.string.lbl_bracket_unknown),
+                                        style = MaterialTheme.typography.displayMedium.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 42.sp,
+                                        ),
 					color = Color.White,
 					maxLines = 2,
 					overflow = TextOverflow.Ellipsis,
@@ -229,11 +231,15 @@ private fun FocusedItemOverlay(
 					focusedItem.runTimeTicks?.let { ticks ->
 						val minutes = (ticks / 10_000_000) / 60
 						if (minutes > 0) {
-							Text(
-								text = "${minutes}m",
-								style = MaterialTheme.typography.titleLarge,
-								color = Color.White.copy(alpha = 0.7f),
-							)
+                                                        Text(
+                                                                text = pluralStringResource(
+                                                                        R.plurals.minutes,
+                                                                        minutes,
+                                                                        minutes,
+                                                                ),
+                                                                style = MaterialTheme.typography.titleLarge,
+                                                                color = Color.White.copy(alpha = 0.7f),
+                                                        )
 						}
 					}
 				}
@@ -463,12 +469,12 @@ private fun SeriesInformationOverlay(
 		) {
 			// Title
 			displayItem?.let { item ->
-				Text(
-					text = item.name ?: "Unknown Title",
-					style = MaterialTheme.typography.displayMedium.copy(
-						fontWeight = FontWeight.Bold,
-						fontSize = 48.sp,
-					),
+                                Text(
+                                        text = item.name ?: stringResource(R.string.compose_unknown_title),
+                                        style = MaterialTheme.typography.displayMedium.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 48.sp,
+                                        ),
 					color = Color.White,
 					maxLines = 2,
 					overflow = TextOverflow.Ellipsis,
@@ -487,12 +493,12 @@ private fun SeriesInformationOverlay(
 						// Show series year range
 						val startYear = series.productionYear
 						val endYear = series.endDate?.year
-						val yearText = when {
-							startYear != null && endYear != null && endYear != startYear -> "$startYear - $endYear"
-							startYear != null && series.status?.lowercase() == "continuing" -> "$startYear - Present"
-							startYear != null -> startYear.toString()
-							else -> null
-						}
+                                                val yearText = when {
+                                                        startYear != null && endYear != null && endYear != startYear -> "$startYear - $endYear"
+                                                        startYear != null && series.status?.lowercase() == "continuing" -> "$startYear - ${stringResource(R.string.lbl_present)}"
+                                                        startYear != null -> startYear.toString()
+                                                        else -> null
+                                                }
 						yearText?.let { year ->
 							Text(
 								text = year,
@@ -517,12 +523,12 @@ private fun SeriesInformationOverlay(
 							verticalAlignment = Alignment.CenterVertically,
 							horizontalArrangement = Arrangement.spacedBy(4.dp),
 						) {
-							Icon(
-								painter = painterResource(R.drawable.ic_star),
-								contentDescription = "Rating",
-								tint = Color.Yellow,
-								modifier = Modifier.size(20.dp),
-							)
+                                                        Icon(
+                                                                painter = painterResource(R.drawable.ic_star),
+                                                                contentDescription = stringResource(R.string.lbl_rating),
+                                                                tint = Color.Yellow,
+                                                                modifier = Modifier.size(20.dp),
+                                                        )
 							Text(
 								text = String.format("%.1f", rating),
 								style = MaterialTheme.typography.titleLarge.copy(
@@ -562,11 +568,15 @@ private fun SeriesInformationOverlay(
 					if (focusedItem == null) {
 						series?.childCount?.let { count ->
 							if (count > 0) {
-								Text(
-									text = "$count Episodes",
-									style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
-									color = Color.White.copy(alpha = 0.7f),
-								)
+                                                                Text(
+                                                                        text = pluralStringResource(
+                                                                                R.plurals.episodes,
+                                                                                count,
+                                                                                count,
+                                                                        ),
+                                                                        style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
+                                                                        color = Color.White.copy(alpha = 0.7f),
+                                                                )
 							}
 						}
 					}
@@ -576,11 +586,15 @@ private fun SeriesInformationOverlay(
 						item.runTimeTicks?.let { ticks ->
 							val minutes = (ticks / 10_000_000) / 60
 							if (minutes > 0) {
-								Text(
-									text = "${minutes}m",
-									style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
-									color = Color.White.copy(alpha = 0.7f),
-								)
+                                                                Text(
+                                                                        text = pluralStringResource(
+                                                                                R.plurals.minutes,
+                                                                                minutes,
+                                                                                minutes,
+                                                                        ),
+                                                                        style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
+                                                                        color = Color.White.copy(alpha = 0.7f),
+                                                                )
 							}
 						}
 					}

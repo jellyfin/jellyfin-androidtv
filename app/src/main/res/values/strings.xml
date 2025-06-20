@@ -4,6 +4,12 @@
     <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin Debug</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="loading">Loading…</string>
+    <string name="compose_loading_seasons">Loading seasons…</string>
+    <string name="compose_error">Error: %1$s</string>
+    <string name="compose_no_seasons">No seasons found</string>
+    <string name="compose_unknown_title">Unknown Title</string>
+    <string name="lbl_present">Present</string>
+    <string name="dot_separator">•</string>
     <string name="btn_cancel">Cancel</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Playback</string>
