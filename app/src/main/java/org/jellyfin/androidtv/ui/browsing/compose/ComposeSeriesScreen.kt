@@ -443,15 +443,13 @@ private fun SeriesDetailImmersiveList(
 
 		if (!hasCastSection) {
 			item {
-						Text(
-							text = stringResource(R.string.msg_no_cast_available),
-							style = MaterialTheme.typography.bodySmall,
-							color = Color.White.copy(alpha = 0.7f),
-							modifier = Modifier
-								.padding(horizontal = 48.dp),
-						)
-					}
-				}
+				Text(
+					text = stringResource(R.string.msg_no_cast_available),
+					style = MaterialTheme.typography.bodySmall,
+					color = Color.White.copy(alpha = 0.7f),
+					modifier = Modifier
+						.padding(horizontal = 48.dp),
+				)
 			}
 		}
 	}
