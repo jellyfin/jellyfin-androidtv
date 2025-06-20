@@ -144,7 +144,7 @@ private fun ContentState(
 				Box(
 					modifier = Modifier
 						.fillMaxSize()
-						.background(Color.Black) // Fallback background
+						.background(Color.Black), // Fallback background
 				) {
 					// Background gradient overlay for text readability
 					Box(
@@ -157,7 +157,7 @@ private fun ContentState(
 										Color.Black.copy(alpha = 0.7f),
 									),
 								),
-							)
+							),
 					)
 				}
 			}
