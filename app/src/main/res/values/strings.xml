@@ -8,7 +8,6 @@
     <string name="compose_error">Error: %1$s</string>
     <string name="compose_no_seasons">No seasons found</string>
     <string name="compose_unknown_title">Unknown Title</string>
-    <string name="lbl_present">Present</string>
     <string name="dot_separator">•</string>
     <string name="btn_cancel">Cancel</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>

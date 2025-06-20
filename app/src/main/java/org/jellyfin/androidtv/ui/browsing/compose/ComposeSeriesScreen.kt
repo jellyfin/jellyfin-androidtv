@@ -470,7 +470,7 @@ private fun SeriesInformationOverlay(
 	focusedItem: BaseItemDto?,
 	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 	modifier: Modifier = Modifier,
-) {
+                                                        startYear != null && series.status?.lowercase() == "continuing" -> "$startYear - Present"
 	// Show series info when no item is focused, otherwise show focused item info
 	val displayItem = focusedItem ?: series
 
