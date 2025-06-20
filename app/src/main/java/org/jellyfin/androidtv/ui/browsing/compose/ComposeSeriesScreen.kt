@@ -284,34 +284,34 @@ private fun HorizontalCardRow(
 }
 
 /**
- * Horizontal row of cards for cast (single row)
+ * Horizontal row of cast cards (single row)
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun VerticalGrid(
-	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-	modifier: Modifier = Modifier,
+private fun CastRow(
+        items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+        onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
+        getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+        modifier: Modifier = Modifier,
 ) {
 	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
 		modifier = modifier.height(160.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-		items(items) { item ->
-			MediaCard(
-				item = item,
-				imageUrl = getItemImageUrl(item),
-				onClick = {
-					onItemClick(item)
-				},
-				width = 120.dp,
-				aspectRatio = 1f, // Square aspect ratio for cast photos
-				showTitle = false,
-			)
-		}
-	}
+                items(items) { item ->
+                        MediaCard(
+                                item = item,
+                                imageUrl = getItemImageUrl(item),
+                                onClick = {
+                                        onItemClick(item)
+                                },
+                                width = 160.dp * 2 / 3,
+                                aspectRatio = 2f / 3f,
+                                showTitle = false,
+                        )
+                }
+        }
 }
 
 /**
@@ -414,11 +414,11 @@ private fun SeriesDetailImmersiveList(
 							)
 						}
 						ImmersiveListLayout.VERTICAL_GRID -> {
-							VerticalGrid(
-								items = section.items,
-								onItemClick = onItemClick,
-								getItemImageUrl = getItemImageUrl,
-							)
+                                                        CastRow(
+                                                                items = section.items,
+                                                                onItemClick = onItemClick,
+                                                                getItemImageUrl = getItemImageUrl,
+                                                        )
 						}
 					}
 				}
