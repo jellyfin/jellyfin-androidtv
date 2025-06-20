@@ -586,4 +586,10 @@
     <string name="fast_forward">Rychlý posun vpřed</string>
     <string name="rewind">Rychlý posun zpět</string>
     <string name="preference_enable_libass">Povolit vykreslování titulků Advanced SubStation Alpha na straně klienta</string>
+    <string name="preference_enable_pgs">Přímo přehrávat titulky PGS</string>
+    <string name="speech_error_unknown">Během rozpoznávání řeči došlo k neočekávané chybě.</string>
+    <string name="pref_subtitles_bold">Tučný text</string>
+    <string name="lbl_from_beginning">Přehrát od začátku</string>
+    <string name="speech_error_no_permission">Aplikace nemá oprávnění k používání mikrofonu. Povolte jej prosím v nastavení systému.</string>
+    <string name="speech_error_unavailable">Rozpoznávání řeči není na vašem zařízení k dispozici.</string>
 </resources>
