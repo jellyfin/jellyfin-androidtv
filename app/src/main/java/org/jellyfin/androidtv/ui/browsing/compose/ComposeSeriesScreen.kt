@@ -269,7 +269,7 @@ private fun HorizontalCardRow(
 ) {
 	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
-		modifier = modifier.height(280.dp),
+		modifier = modifier.height(180.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
 		items(items) { item ->
@@ -277,8 +277,8 @@ private fun HorizontalCardRow(
 				item = item,
 				imageUrl = getItemImageUrl(item),
 				onClick = { onItemClick(item) },
-				width = 180.dp,
-				aspectRatio = 2f / 3f,
+				width = 240.dp,
+				aspectRatio = 16f / 9f, // Horizontal aspect ratio for seasons
 				showTitle = true,
 			)
 		}
@@ -286,7 +286,7 @@ private fun HorizontalCardRow(
 }
 
 /**
- * Vertical grid of cards for cast
+ * Horizontal row of cards for cast (single row)
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
@@ -296,11 +296,9 @@ private fun VerticalGrid(
 	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
-	LazyVerticalGrid(
-		columns = GridCells.Fixed(6),
+	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(16.dp),
-		verticalArrangement = Arrangement.spacedBy(16.dp),
-		modifier = modifier.height(400.dp),
+		modifier = modifier.height(160.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
 		items(items) { item ->
@@ -310,8 +308,8 @@ private fun VerticalGrid(
 				onClick = {
 					onItemClick(item)
 				},
-				width = 140.dp,
-				aspectRatio = 1f,
+				width = 120.dp,
+				aspectRatio = 1f, // Square aspect ratio for cast photos
 				showTitle = false,
 			)
 		}
@@ -354,8 +352,8 @@ private fun SeriesDetailImmersiveList(
 
 		// Content with clean layout
 		LazyColumn(
-			verticalArrangement = Arrangement.spacedBy(24.dp),
-			contentPadding = PaddingValues(bottom = 32.dp),
+			verticalArrangement = Arrangement.spacedBy(32.dp),
+			contentPadding = PaddingValues(bottom = 48.dp),
 			modifier = Modifier
 				.fillMaxSize()
 				.background(
@@ -393,9 +391,7 @@ private fun SeriesDetailImmersiveList(
 			// Sections with seasons/cast
 			items(sections) { section ->
 				Column(
-					modifier = Modifier
-						.fillMaxWidth()
-						.padding(horizontal = 48.dp),
+					modifier = Modifier.fillMaxWidth(),
 				) {
 					// Section title
 					Text(
@@ -405,7 +401,9 @@ private fun SeriesDetailImmersiveList(
 							fontSize = 28.sp,
 						),
 						color = Color.White,
-						modifier = Modifier.padding(bottom = 16.dp),
+						modifier = Modifier
+							.padding(horizontal = 48.dp)
+							.padding(bottom = 20.dp),
 					)
 
 					// Section content

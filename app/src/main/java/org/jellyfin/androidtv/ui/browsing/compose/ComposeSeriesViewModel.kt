@@ -82,8 +82,8 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 					)
 				}
 
-				// Cast section - vertical grid (using people from series data)
-				val cast = series.people?.take(20) // Limit to first 20 cast members
+				// Cast section - horizontal row (using people from series data)
+				val cast = series.people?.take(8) // Limit to 8 cast members for one row
 				Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
 				if (!cast.isNullOrEmpty()) {
 					// Convert BaseItemPerson to BaseItemDto for compatibility with ImmersiveListSection
@@ -103,7 +103,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Cast",
 							items = castItems,
-							layout = ImmersiveListLayout.VERTICAL_GRID,
+							layout = ImmersiveListLayout.VERTICAL_GRID, // We'll use this for our horizontal row
 						),
 					)
 					Timber.d("Added Cast section with ${castItems.size} members")
