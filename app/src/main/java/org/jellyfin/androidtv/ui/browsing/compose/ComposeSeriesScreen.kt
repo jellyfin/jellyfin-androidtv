@@ -49,7 +49,9 @@ import org.jellyfin.androidtv.ui.composable.tv.ImmersiveBackground
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListLayout
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveListSection
 import org.jellyfin.androidtv.ui.composable.tv.MediaCard
+import org.jellyfin.androidtv.ui.composable.tv.MediaGrid
 import org.jellyfin.androidtv.ui.theme.JellyfinColors
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
@@ -153,16 +155,17 @@ private fun EmptyState(
 @Composable
 private fun ContentState(
 	uiState: SeriesUiState,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	onItemFocused: (org.jellyfin.sdk.model.api.BaseItemDto?) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-	getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
-	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	onItemClick: (BaseItemDto) -> Unit,
+	onItemFocused: (BaseItemDto?) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
+	getItemBackdropUrl: (BaseItemDto) -> String?,
+	getItemLogoUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	SeriesDetailImmersiveList(
 		series = uiState.series,
 		sections = uiState.sections,
+		hasCastSection = !uiState.isCastEmpty,
 		onItemClick = onItemClick,
 		onItemFocus = onItemFocused,
 		getItemImageUrl = getItemImageUrl,
@@ -177,7 +180,7 @@ private fun ContentState(
  */
 @Composable
 private fun FocusedItemOverlay(
-	item: org.jellyfin.sdk.model.api.BaseItemDto?,
+	item: BaseItemDto?,
 	modifier: Modifier = Modifier,
 ) {
 	Box(
@@ -266,9 +269,9 @@ private fun FocusedItemOverlay(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HorizontalCardRow(
-	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	LazyRow(
@@ -276,11 +279,11 @@ private fun HorizontalCardRow(
 		modifier = modifier.height(180.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-		items(items) { item ->
+		items(items) { mediaItem ->
 			MediaCard(
-				item = item,
-				imageUrl = getItemImageUrl(item),
-				onClick = { onItemClick(item) },
+				item = mediaItem,
+				imageUrl = getItemImageUrl(mediaItem),
+				onClick = { onItemClick(mediaItem) },
 				width = 240.dp,
 				aspectRatio = 16f / 9f, // Horizontal aspect ratio for seasons
 				showTitle = true,
@@ -290,14 +293,14 @@ private fun HorizontalCardRow(
 }
 
 /**
- * Horizontal row of cards for cast (single row)
+ * Horizontal row of cast cards (single row)
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun VerticalGrid(
-	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
+private fun CastRow(
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
 	LazyRow(
@@ -305,12 +308,12 @@ private fun VerticalGrid(
 		modifier = modifier.height(160.dp),
 		contentPadding = PaddingValues(horizontal = 48.dp),
 	) {
-		items(items) { item ->
+		items(items) { castItem ->
 			MediaCard(
-				item = item,
-				imageUrl = getItemImageUrl(item),
+				item = castItem,
+				imageUrl = getItemImageUrl(castItem),
 				onClick = {
-					onItemClick(item)
+					onItemClick(castItem)
 				},
 				width = 120.dp,
 				aspectRatio = 1f, // Square aspect ratio for cast photos
@@ -321,21 +324,25 @@ private fun VerticalGrid(
 }
 
 /**
- * Clean series detail layout with proper sections
+ * Clean series detail layout with proper sections.
+ *
+ * @param hasCastSection whether a cast section is present in [sections]. When
+ * false a small placeholder will be shown instead.
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SeriesDetailImmersiveList(
-	series: org.jellyfin.sdk.model.api.BaseItemDto?,
+	series: BaseItemDto?,
 	sections: List<ImmersiveListSection>,
+	hasCastSection: Boolean = true,
 	modifier: Modifier = Modifier,
-	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
-	onItemFocus: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit = {},
-	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
-	getItemBackdropUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
-	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	onItemClick: (BaseItemDto) -> Unit = {},
+	onItemFocus: (BaseItemDto) -> Unit = {},
+	getItemImageUrl: (BaseItemDto) -> String? = { null },
+	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 ) {
-	var globalFocusedItem by remember { mutableStateOf<org.jellyfin.sdk.model.api.BaseItemDto?>(null) }
+	var globalFocusedItem by remember { mutableStateOf<BaseItemDto?>(null) }
 
 	// Use series as background when no item is focused, otherwise use focused item
 	val backgroundItem = globalFocusedItem ?: series
@@ -419,14 +426,35 @@ private fun SeriesDetailImmersiveList(
 								getItemImageUrl = getItemImageUrl,
 							)
 						}
+						ImmersiveListLayout.CAST_ROW -> {
+							CastRow(
+								items = section.items,
+								onItemClick = onItemClick,
+								getItemImageUrl = getItemImageUrl,
+							)
+						}
 						ImmersiveListLayout.VERTICAL_GRID -> {
-							VerticalGrid(
+							MediaGrid(
+								title = section.title,
 								items = section.items,
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,
 							)
 						}
 					}
+				}
+			}
+
+			// Show "no cast available" message if there's no cast section
+			if (!hasCastSection) {
+				item {
+					Text(
+						text = stringResource(R.string.msg_no_cast_available),
+						style = MaterialTheme.typography.bodySmall,
+						color = Color.White.copy(alpha = 0.7f),
+						modifier = Modifier
+							.padding(horizontal = 48.dp),
+					)
 				}
 			}
 		}
@@ -438,9 +466,9 @@ private fun SeriesDetailImmersiveList(
  */
 @Composable
 private fun SeriesInformationOverlay(
-	series: org.jellyfin.sdk.model.api.BaseItemDto?,
-	focusedItem: org.jellyfin.sdk.model.api.BaseItemDto?,
-	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String? = { null },
+	series: BaseItemDto?,
+	focusedItem: BaseItemDto?,
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 	modifier: Modifier = Modifier,
 ) {
 	// Show series info when no item is focused, otherwise show focused item info
