@@ -103,7 +103,7 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 						ImmersiveListSection(
 							title = "Cast",
 							items = castItems,
-							layout = ImmersiveListLayout.VERTICAL_GRID, // We'll use this for our horizontal row
+							layout = ImmersiveListLayout.CAST_ROW,
 						),
 					)
 					Timber.d("Added Cast section with ${castItems.size} members")

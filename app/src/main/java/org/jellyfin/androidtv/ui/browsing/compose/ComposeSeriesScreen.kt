@@ -407,8 +407,15 @@ private fun SeriesDetailImmersiveList(
 
 					// Section content
 					when (section.layout) {
-						ImmersiveListLayout.HORIZONTAL_CARDS -> {
-							HorizontalCardRow(
+                                                        VerticalGrid(
+                                        }
+                                }
+                        }
+                }
+        }
+						}
+						ImmersiveListLayout.CAST_ROW -> {
+							CastRow(
 								items = section.items,
 								onItemClick = onItemClick,
 								getItemImageUrl = getItemImageUrl,

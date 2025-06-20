@@ -61,6 +61,7 @@ import org.jellyfin.sdk.model.api.MediaStreamType
 enum class ImmersiveListLayout {
 	HORIZONTAL_CARDS,
 	VERTICAL_GRID,
+	CAST_ROW,
 }
 
 /**
@@ -458,6 +459,16 @@ private fun CardsSection(
 					modifier = Modifier.fillMaxSize(),
 				)
 			}
+			ImmersiveListLayout.CAST_ROW -> {
+				HorizontalCardsList(
+					items = items,
+					focusedItem = focusedItem,
+					onItemClick = onItemClick,
+					onItemFocus = onItemFocus,
+					getItemImageUrl = getItemImageUrl,
+					modifier = Modifier.fillMaxSize(),
+				)
+			}
 			ImmersiveListLayout.VERTICAL_GRID -> {
 				VerticalCardsGrid(
 					items = items,
@@ -713,6 +724,7 @@ fun MultiSectionImmersiveList(
 						.height(
 							when (section.layout) {
 								ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
+								ImmersiveListLayout.CAST_ROW -> 260.dp
 								ImmersiveListLayout.VERTICAL_GRID -> 600.dp
 							},
 						),
