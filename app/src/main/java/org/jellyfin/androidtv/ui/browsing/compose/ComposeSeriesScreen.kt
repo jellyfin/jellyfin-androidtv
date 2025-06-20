@@ -289,7 +289,8 @@ private fun HorizontalCardRow(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun CastRow(
-	items: List<org.jellyfin.sdk.model.api.BaseItemDto>,
+                                // Ensure cards stay within the 160.dp row height
+                                width = 160.dp * 2f / 3f,
 	onItemClick: (org.jellyfin.sdk.model.api.BaseItemDto) -> Unit,
 	getItemImageUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
