@@ -3,6 +3,15 @@
 ## Overview
 This document tracks the progress of migrating the Jellyfin Android TV app from Leanback to Jetpack Compose for TV with Material 3 theming.
 
+## Development Setup
+
+The migration branch is configured to use **Java 17**. If you want to use
+**Java 21**, update the version catalog:
+
+```toml
+# gradle/libs.versions.toml
+java-jdk = "21"
+
 ## ✅ Completed Components
 
 ### 1. Build Configuration
