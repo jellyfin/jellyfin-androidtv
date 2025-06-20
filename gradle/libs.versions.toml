@@ -4,7 +4,7 @@ accompanist = "0.37.3"
 acra = "5.12.0"
 android-compileSdk = "35"
 android-desugar = "2.1.5"
-android-gradle = "8.10.1"
+android-gradle = "8.9.1"
 android-minSdk = "21"
 android-targetSdk = "35"
 androidx-activity = "1.10.1"
@@ -42,7 +42,7 @@ slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
 ## self
-danmakuRenderEngine = "dev~use_video_time-SNAPSHOT"
+danmakuRenderEngine = "v1.2.6"
 fastjson = "1.1.77.android_noneautotype"
 
 [plugins]
