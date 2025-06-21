@@ -176,19 +176,20 @@ private fun ContentState(
 			modifier = Modifier.fillMaxSize(),
 		) {
 			items(uiState.sections) { section ->
-				ImmersiveList(
-					title = section.title,
-					items = section.items,
-					layout = section.layout,
-					onItemClick = onItemClick,
-					onItemFocus = { item -> onItemFocused(item) },
-					getItemImageUrl = getItemImageUrl,
-					getItemBackdropUrl = getItemBackdropUrl,
-					getItemLogoUrl = getItemLogoUrl,
-					modifier = Modifier
-						.fillMaxWidth()
-						.height(280.dp),
-				)
+                                ImmersiveList(
+                                        title = section.title,
+                                        items = section.items,
+                                        layout = section.layout,
+                                        onItemClick = onItemClick,
+                                        onItemFocus = { item -> onItemFocused(item) },
+                                        getItemImageUrl = getItemImageUrl,
+                                        getItemBackdropUrl = getItemBackdropUrl,
+                                        getItemLogoUrl = getItemLogoUrl,
+                                        cardAspectRatio = section.cardAspectRatio,
+                                        modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(280.dp),
+                                )
 			}
 		}
 		
