@@ -73,16 +73,16 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 				val sections = mutableListOf<ImmersiveListSection>()
 				
 				// Episodes section - main content
-                                if (episodes.isNotEmpty()) {
-                                        sections.add(
-                                                ImmersiveListSection(
-                                                        title = "Episodes",
-                                                        items = episodes,
-                                                        layout = ImmersiveListLayout.HORIZONTAL_CARDS,
-                                                        cardAspectRatio = 4f / 3f,
-                                                ),
-                                        )
-                                }
+				if (episodes.isNotEmpty()) {
+					sections.add(
+						ImmersiveListSection(
+							title = "Episodes",
+							items = episodes,
+							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
+							cardAspectRatio = 4f / 3f,
+						),
+					)
+				}
 
 				_uiState.value = _uiState.value.copy(
 					isLoading = false,

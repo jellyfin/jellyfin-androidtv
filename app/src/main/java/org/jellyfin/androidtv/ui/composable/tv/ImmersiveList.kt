@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.composable.tv
 
+import android.text.format.Formatter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -42,12 +43,12 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.delay
@@ -55,7 +56,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.theme.JellyfinColors
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaStreamType
-import android.text.format.Formatter
 
 /**
  * Layout type for the immersive list
@@ -87,17 +87,17 @@ enum class BackgroundMode {
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun ImmersiveList(
-        title: String,
-        items: List<BaseItemDto>,
-        modifier: Modifier = Modifier,
-        layout: ImmersiveListLayout = ImmersiveListLayout.HORIZONTAL_CARDS,
-        backgroundMode: BackgroundMode = BackgroundMode.FOCUSED_ITEM,
-        onItemClick: (BaseItemDto) -> Unit = {},
-        onItemFocus: (BaseItemDto) -> Unit = {},
-        getItemImageUrl: (BaseItemDto) -> String? = { null },
-        getItemBackdropUrl: (BaseItemDto) -> String? = { null },
-        getItemLogoUrl: (BaseItemDto) -> String? = { null },
-        cardAspectRatio: Float = 16f / 9f,
+	title: String,
+	items: List<BaseItemDto>,
+	modifier: Modifier = Modifier,
+	layout: ImmersiveListLayout = ImmersiveListLayout.HORIZONTAL_CARDS,
+	backgroundMode: BackgroundMode = BackgroundMode.FOCUSED_ITEM,
+	onItemClick: (BaseItemDto) -> Unit = {},
+	onItemFocus: (BaseItemDto) -> Unit = {},
+	getItemImageUrl: (BaseItemDto) -> String? = { null },
+	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
+	getItemLogoUrl: (BaseItemDto) -> String? = { null },
+	cardAspectRatio: Float = 16f / 9f,
 ) {
 	var focusedItem by remember { mutableStateOf<BaseItemDto?>(items.firstOrNull()) }
 
@@ -377,39 +377,39 @@ private fun ContentInformationOverlay(
 						}
 					}
 
-                                        // Audio format indicator (for episodes/movies)
-                                        item.mediaStreams?.firstOrNull { it.type == MediaStreamType.AUDIO }?.let { audioStream ->
-                                                audioStream.codec?.let { codec ->
-                                                        Text(
-                                                                text = codec.uppercase(),
-                                                                style = MaterialTheme.typography.titleLarge.copy(
-                                                                        fontSize = 14.sp,
-                                                                        fontWeight = FontWeight.Medium,
-                                                                ),
-                                                                color = Color.White.copy(alpha = 0.6f),
-                                                                modifier = Modifier
-                                                                        .background(
-                                                                                color = Color.Black.copy(alpha = 0.6f),
-                                                                                shape = RoundedCornerShape(4.dp),
-                                                                        )
-                                                                        .padding(horizontal = 6.dp, vertical = 2.dp),
-                                                        )
-                                                }
-                                        }
+					// Audio format indicator (for episodes/movies)
+					item.mediaStreams?.firstOrNull { it.type == MediaStreamType.AUDIO }?.let { audioStream ->
+						audioStream.codec?.let { codec ->
+							Text(
+								text = codec.uppercase(),
+								style = MaterialTheme.typography.titleLarge.copy(
+									fontSize = 14.sp,
+									fontWeight = FontWeight.Medium,
+								),
+								color = Color.White.copy(alpha = 0.6f),
+								modifier = Modifier
+									.background(
+										color = Color.Black.copy(alpha = 0.6f),
+										shape = RoundedCornerShape(4.dp),
+									)
+									.padding(horizontal = 6.dp, vertical = 2.dp),
+							)
+						}
+					}
 
-                                        // File size indicator
-                                        item.mediaSources?.firstOrNull()?.size?.let { bytes ->
-                                                val context = LocalContext.current
-                                                val formatted = Formatter.formatFileSize(context, bytes)
-                                                Text(
-                                                        text = formatted,
-                                                        style = MaterialTheme.typography.titleLarge.copy(
-                                                                fontSize = 14.sp,
-                                                        ),
-                                                        color = Color.White.copy(alpha = 0.7f),
-                                                )
-                                        }
-                                }
+					// File size indicator
+					item.mediaSources?.firstOrNull()?.size?.let { bytes ->
+						val context = LocalContext.current
+						val formatted = Formatter.formatFileSize(context, bytes)
+						Text(
+							text = formatted,
+							style = MaterialTheme.typography.titleLarge.copy(
+								fontSize = 14.sp,
+							),
+							color = Color.White.copy(alpha = 0.7f),
+						)
+					}
+				}
 
 				// Overview/description
 				item.overview?.let { overview ->
@@ -464,34 +464,34 @@ private fun CardsSection(
 	) {
 		when (layout) {
 			ImmersiveListLayout.HORIZONTAL_CARDS -> {
-                                HorizontalCardsList(
-                                        items = items,
-                                        onItemClick = onItemClick,
-                                        onItemFocus = onItemFocus,
-                                        getItemImageUrl = getItemImageUrl,
-                                        cardAspectRatio = cardAspectRatio,
-                                        modifier = Modifier.fillMaxSize(),
-                                )
+				HorizontalCardsList(
+					items = items,
+					onItemClick = onItemClick,
+					onItemFocus = onItemFocus,
+					getItemImageUrl = getItemImageUrl,
+					cardAspectRatio = cardAspectRatio,
+					modifier = Modifier.fillMaxSize(),
+				)
 			}
 			ImmersiveListLayout.CAST_ROW -> {
-                                HorizontalCardsList(
-                                        items = items,
-                                        onItemClick = onItemClick,
-                                        onItemFocus = onItemFocus,
-                                        getItemImageUrl = getItemImageUrl,
-                                        cardAspectRatio = cardAspectRatio,
-                                        modifier = Modifier.fillMaxSize(),
-                                )
+				HorizontalCardsList(
+					items = items,
+					onItemClick = onItemClick,
+					onItemFocus = onItemFocus,
+					getItemImageUrl = getItemImageUrl,
+					cardAspectRatio = cardAspectRatio,
+					modifier = Modifier.fillMaxSize(),
+				)
 			}
 			ImmersiveListLayout.VERTICAL_GRID -> {
-                                VerticalCardsGrid(
-                                        items = items,
-                                        onItemClick = onItemClick,
-                                        onItemFocus = onItemFocus,
-                                        getItemImageUrl = getItemImageUrl,
-                                        cardAspectRatio = cardAspectRatio,
-                                        modifier = Modifier.fillMaxSize(),
-                                )
+				VerticalCardsGrid(
+					items = items,
+					onItemClick = onItemClick,
+					onItemFocus = onItemFocus,
+					getItemImageUrl = getItemImageUrl,
+					cardAspectRatio = cardAspectRatio,
+					modifier = Modifier.fillMaxSize(),
+				)
 			}
 		}
 	}
@@ -503,12 +503,12 @@ private fun CardsSection(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HorizontalCardsList(
-        items: List<BaseItemDto>,
-        onItemClick: (BaseItemDto) -> Unit,
-        onItemFocus: (BaseItemDto) -> Unit,
-        getItemImageUrl: (BaseItemDto) -> String?,
-        cardAspectRatio: Float,
-        modifier: Modifier = Modifier,
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	onItemFocus: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
+	cardAspectRatio: Float,
+	modifier: Modifier = Modifier,
 ) {
 	val listState = rememberLazyListState()
 
@@ -522,14 +522,14 @@ private fun HorizontalCardsList(
 			Box(
 				modifier = Modifier.padding(4.dp), // Add padding around each card for focus scaling
 			) {
-                                ImmersiveListCard(
-                                        item = item,
-                                        onClick = { onItemClick(item) },
-                                        onFocus = { onItemFocus(item) },
-                                        imageUrl = getItemImageUrl(item),
-                                        aspectRatio = cardAspectRatio,
-                                        modifier = Modifier.width(300.dp).aspectRatio(cardAspectRatio),
-                                )
+				ImmersiveListCard(
+					item = item,
+					onClick = { onItemClick(item) },
+					onFocus = { onItemFocus(item) },
+					imageUrl = getItemImageUrl(item),
+					aspectRatio = cardAspectRatio,
+					modifier = Modifier.width(300.dp).aspectRatio(cardAspectRatio),
+				)
 			}
 		}
 	}
@@ -541,12 +541,12 @@ private fun HorizontalCardsList(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun VerticalCardsGrid(
-        items: List<BaseItemDto>,
-        onItemClick: (BaseItemDto) -> Unit,
-        onItemFocus: (BaseItemDto) -> Unit,
-        getItemImageUrl: (BaseItemDto) -> String?,
-        cardAspectRatio: Float,
-        modifier: Modifier = Modifier,
+	items: List<BaseItemDto>,
+	onItemClick: (BaseItemDto) -> Unit,
+	onItemFocus: (BaseItemDto) -> Unit,
+	getItemImageUrl: (BaseItemDto) -> String?,
+	cardAspectRatio: Float,
+	modifier: Modifier = Modifier,
 ) {
 	val gridState = rememberLazyGridState()
 
@@ -562,14 +562,14 @@ private fun VerticalCardsGrid(
 			Box(
 				modifier = Modifier.padding(4.dp), // Add padding around each card for focus scaling
 			) {
-                                ImmersiveListCard(
-                                        item = item,
-                                        onClick = { onItemClick(item) },
-                                        onFocus = { onItemFocus(item) },
-                                        imageUrl = getItemImageUrl(item),
-                                        aspectRatio = cardAspectRatio,
-                                        modifier = Modifier.aspectRatio(cardAspectRatio),
-                                )
+				ImmersiveListCard(
+					item = item,
+					onClick = { onItemClick(item) },
+					onFocus = { onItemFocus(item) },
+					imageUrl = getItemImageUrl(item),
+					aspectRatio = cardAspectRatio,
+					modifier = Modifier.aspectRatio(cardAspectRatio),
+				)
 			}
 		}
 	}
@@ -581,12 +581,12 @@ private fun VerticalCardsGrid(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun ImmersiveListCard(
-        item: BaseItemDto,
-        onClick: () -> Unit,
-        onFocus: () -> Unit,
-        imageUrl: String?,
-        aspectRatio: Float,
-        modifier: Modifier = Modifier,
+	item: BaseItemDto,
+	onClick: () -> Unit,
+	onFocus: () -> Unit,
+	imageUrl: String?,
+	aspectRatio: Float,
+	modifier: Modifier = Modifier,
 ) {
 	var isFocused by remember { mutableStateOf(false) }
 
@@ -675,10 +675,10 @@ private fun ImmersiveListCard(
  * Helper data class for immersive list sections
  */
 data class ImmersiveListSection(
-        val title: String,
-        val items: List<BaseItemDto>,
-        val layout: ImmersiveListLayout = ImmersiveListLayout.HORIZONTAL_CARDS,
-        val cardAspectRatio: Float = 16f / 9f,
+	val title: String,
+	val items: List<BaseItemDto>,
+	val layout: ImmersiveListLayout = ImmersiveListLayout.HORIZONTAL_CARDS,
+	val cardAspectRatio: Float = 16f / 9f,
 )
 
 /**
@@ -727,21 +727,21 @@ fun MultiSectionImmersiveList(
 				),
 		) {
 			items(sections) { section ->
-                                ImmersiveList(
-                                        title = section.title,
-                                        items = section.items,
-                                        layout = section.layout,
-                                        backgroundMode = BackgroundMode.NONE, // Background handled globally
-                                        onItemClick = onItemClick,
-                                        onItemFocus = { item -> globalFocusedItem = item },
-                                        getItemImageUrl = getItemImageUrl,
-                                        getItemBackdropUrl = getItemBackdropUrl,
-                                        getItemLogoUrl = getItemLogoUrl,
-                                        cardAspectRatio = section.cardAspectRatio,
-                                        modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(
-                                                        when (section.layout) {
+				ImmersiveList(
+					title = section.title,
+					items = section.items,
+					layout = section.layout,
+					backgroundMode = BackgroundMode.NONE, // Background handled globally
+					onItemClick = onItemClick,
+					onItemFocus = { item -> globalFocusedItem = item },
+					getItemImageUrl = getItemImageUrl,
+					getItemBackdropUrl = getItemBackdropUrl,
+					getItemLogoUrl = getItemLogoUrl,
+					cardAspectRatio = section.cardAspectRatio,
+					modifier = Modifier
+						.fillMaxWidth()
+						.height(
+							when (section.layout) {
 								ImmersiveListLayout.HORIZONTAL_CARDS -> 280.dp
 								ImmersiveListLayout.CAST_ROW -> 260.dp
 								ImmersiveListLayout.VERTICAL_GRID -> 600.dp
