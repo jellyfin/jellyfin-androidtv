@@ -154,16 +154,17 @@ fun ImmersiveList(
 			)
 
 			// Cards grid (bottom portion)
-			CardsSection(
-				items = items,
-				layout = layout,
-				onItemClick = onItemClick,
-				onItemFocus = { item -> focusedItem = item },
-				getItemImageUrl = getItemImageUrl,
-				modifier = Modifier
-					.fillMaxWidth()
-					.weight(0.4f), // Takes about 40% of screen height
-			)
+                        CardsSection(
+                                items = items,
+                                layout = layout,
+                                onItemClick = onItemClick,
+                                onItemFocus = { item -> focusedItem = item },
+                                getItemImageUrl = getItemImageUrl,
+                                cardAspectRatio = cardAspectRatio,
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(0.4f), // Takes about 40% of screen height
+                        )
 		}
 	}
 }
@@ -452,12 +453,13 @@ private fun ContentInformationOverlay(
  */
 @Composable
 private fun CardsSection(
-	items: List<BaseItemDto>,
-	layout: ImmersiveListLayout,
-	onItemClick: (BaseItemDto) -> Unit,
-	onItemFocus: (BaseItemDto) -> Unit,
-	getItemImageUrl: (BaseItemDto) -> String?,
-	modifier: Modifier = Modifier,
+        items: List<BaseItemDto>,
+        layout: ImmersiveListLayout,
+        onItemClick: (BaseItemDto) -> Unit,
+        onItemFocus: (BaseItemDto) -> Unit,
+        getItemImageUrl: (BaseItemDto) -> String?,
+        cardAspectRatio: Float,
+        modifier: Modifier = Modifier,
 ) {
 	Box(
 		modifier = modifier.padding(horizontal = 48.dp, vertical = 16.dp),
