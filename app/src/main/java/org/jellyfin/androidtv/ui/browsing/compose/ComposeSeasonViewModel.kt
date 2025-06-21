@@ -79,6 +79,7 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 							title = "Episodes",
 							items = episodes,
 							layout = ImmersiveListLayout.HORIZONTAL_CARDS,
+							cardAspectRatio = 4f / 3f,
 						),
 					)
 				}

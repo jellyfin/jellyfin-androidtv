@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.composable.tv
 
+import android.text.format.Formatter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -42,6 +43,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -95,6 +97,7 @@ fun ImmersiveList(
 	getItemImageUrl: (BaseItemDto) -> String? = { null },
 	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
 	getItemLogoUrl: (BaseItemDto) -> String? = { null },
+	cardAspectRatio: Float = 16f / 9f,
 ) {
 	var focusedItem by remember { mutableStateOf<BaseItemDto?>(items.firstOrNull()) }
 
@@ -157,6 +160,7 @@ fun ImmersiveList(
 				onItemClick = onItemClick,
 				onItemFocus = { item -> focusedItem = item },
 				getItemImageUrl = getItemImageUrl,
+				cardAspectRatio = cardAspectRatio,
 				modifier = Modifier
 					.fillMaxWidth()
 					.weight(0.4f), // Takes about 40% of screen height
@@ -393,6 +397,19 @@ private fun ContentInformationOverlay(
 							)
 						}
 					}
+
+					// File size indicator
+					item.mediaSources?.firstOrNull()?.size?.let { bytes ->
+						val context = LocalContext.current
+						val formatted = Formatter.formatFileSize(context, bytes)
+						Text(
+							text = formatted,
+							style = MaterialTheme.typography.titleLarge.copy(
+								fontSize = 14.sp,
+							),
+							color = Color.White.copy(alpha = 0.7f),
+						)
+					}
 				}
 
 				// Overview/description
@@ -441,6 +458,7 @@ private fun CardsSection(
 	onItemClick: (BaseItemDto) -> Unit,
 	onItemFocus: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
+	cardAspectRatio: Float,
 	modifier: Modifier = Modifier,
 ) {
 	Box(
@@ -453,6 +471,7 @@ private fun CardsSection(
 					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
+					cardAspectRatio = cardAspectRatio,
 					modifier = Modifier.fillMaxSize(),
 				)
 			}
@@ -462,6 +481,7 @@ private fun CardsSection(
 					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
+					cardAspectRatio = cardAspectRatio,
 					modifier = Modifier.fillMaxSize(),
 				)
 			}
@@ -471,6 +491,7 @@ private fun CardsSection(
 					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
+					cardAspectRatio = cardAspectRatio,
 					modifier = Modifier.fillMaxSize(),
 				)
 			}
@@ -488,6 +509,7 @@ private fun HorizontalCardsList(
 	onItemClick: (BaseItemDto) -> Unit,
 	onItemFocus: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
+	cardAspectRatio: Float,
 	modifier: Modifier = Modifier,
 ) {
 	val listState = rememberLazyListState()
@@ -507,7 +529,8 @@ private fun HorizontalCardsList(
 					onClick = { onItemClick(item) },
 					onFocus = { onItemFocus(item) },
 					imageUrl = getItemImageUrl(item),
-					modifier = Modifier.width(300.dp).height(169.dp), // 16:9 aspect ratio for horizontal cards
+					aspectRatio = cardAspectRatio,
+					modifier = Modifier.width(300.dp).aspectRatio(cardAspectRatio),
 				)
 			}
 		}
@@ -524,6 +547,7 @@ private fun VerticalCardsGrid(
 	onItemClick: (BaseItemDto) -> Unit,
 	onItemFocus: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
+	cardAspectRatio: Float,
 	modifier: Modifier = Modifier,
 ) {
 	val gridState = rememberLazyGridState()
@@ -545,7 +569,8 @@ private fun VerticalCardsGrid(
 					onClick = { onItemClick(item) },
 					onFocus = { onItemFocus(item) },
 					imageUrl = getItemImageUrl(item),
-					modifier = Modifier.aspectRatio(16f / 9f), // 16:9 aspect ratio for horizontal cards
+					aspectRatio = cardAspectRatio,
+					modifier = Modifier.aspectRatio(cardAspectRatio),
 				)
 			}
 		}
@@ -562,6 +587,7 @@ private fun ImmersiveListCard(
 	onClick: () -> Unit,
 	onFocus: () -> Unit,
 	imageUrl: String?,
+	aspectRatio: Float,
 	modifier: Modifier = Modifier,
 ) {
 	var isFocused by remember { mutableStateOf(false) }
@@ -654,6 +680,7 @@ data class ImmersiveListSection(
 	val title: String,
 	val items: List<BaseItemDto>,
 	val layout: ImmersiveListLayout = ImmersiveListLayout.HORIZONTAL_CARDS,
+	val cardAspectRatio: Float = 16f / 9f,
 )
 
 /**
@@ -712,6 +739,7 @@ fun MultiSectionImmersiveList(
 					getItemImageUrl = getItemImageUrl,
 					getItemBackdropUrl = getItemBackdropUrl,
 					getItemLogoUrl = getItemLogoUrl,
+					cardAspectRatio = section.cardAspectRatio,
 					modifier = Modifier
 						.fillMaxWidth()
 						.height(

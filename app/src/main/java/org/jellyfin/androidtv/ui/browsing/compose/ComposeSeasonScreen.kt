@@ -185,6 +185,7 @@ private fun ContentState(
 					getItemImageUrl = getItemImageUrl,
 					getItemBackdropUrl = getItemBackdropUrl,
 					getItemLogoUrl = getItemLogoUrl,
+					cardAspectRatio = section.cardAspectRatio,
 					modifier = Modifier
 						.fillMaxWidth()
 						.height(280.dp),
