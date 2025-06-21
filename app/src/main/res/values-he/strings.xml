@@ -594,4 +594,5 @@
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
     <string name="speech_error_unknown">שגיאה בלתי צפויה התרחשה במהלך זיהוי הדיבור.</string>
     <string name="pref_subtitles_bold">טקסט מודגש</string>
+    <string name="preference_enable_pgs">נגן ישירות כתוביות מסוג PSG</string>
 </resources>
