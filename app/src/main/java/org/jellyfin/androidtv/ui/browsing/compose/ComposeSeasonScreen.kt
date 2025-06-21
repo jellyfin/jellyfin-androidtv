@@ -28,6 +28,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.composable.tv.ImmersiveList
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID

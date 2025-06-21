@@ -83,8 +83,8 @@ class ComposeSeriesViewModel : ViewModel(), KoinComponent {
 				}
 
 				// Cast section - horizontal row (using people from series data)
-				val cast = series.people?.take(8) // Limit to 8 cast members for one row
-				val isCastListEmpty = cast.isNullOrEmpty()
+				val cast = series.people?.take(8) ?: emptyList() // Limit to 8 cast members for one row, default to empty list
+				val isCastListEmpty = cast.isEmpty()
 				Timber.d("Found ${series.people?.size ?: 0} people for series: ${series.name}")
 				
 				if (!isCastListEmpty) {

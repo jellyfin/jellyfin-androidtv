@@ -235,11 +235,7 @@ private fun FocusedItemOverlay(
 						val minutes = (ticks / 10_000_000) / 60
 						if (minutes > 0) {
 							Text(
-								text = pluralStringResource(
-									R.plurals.minutes,
-									minutes,
-									minutes,
-								),
+								text = "${minutes.toInt()}m",
 								style = MaterialTheme.typography.titleLarge,
 								color = Color.White.copy(alpha = 0.7f),
 							)
@@ -470,7 +466,7 @@ private fun SeriesInformationOverlay(
 	focusedItem: BaseItemDto?,
 	getItemLogoUrl: (BaseItemDto) -> String? = { null },
 	modifier: Modifier = Modifier,
-                                                        startYear != null && series.status?.lowercase() == "continuing" -> "$startYear - Present"
+) {
 	// Show series info when no item is focused, otherwise show focused item info
 	val displayItem = focusedItem ?: series
 
@@ -498,7 +494,7 @@ private fun SeriesInformationOverlay(
 			// Title
 			displayItem?.let { item ->
 				Text(
-					text = item.name ?: stringResource(R.string.compose_unknown_title),
+					text = item.name ?: "Unknown Title",
 					style = MaterialTheme.typography.displayMedium.copy(
 						fontWeight = FontWeight.Bold,
 						fontSize = 48.sp,
@@ -523,9 +519,7 @@ private fun SeriesInformationOverlay(
 						val endYear = series.endDate?.year
 						val yearText = when {
 							startYear != null && endYear != null && endYear != startYear -> "$startYear - $endYear"
-							startYear != null && series.status?.lowercase() == "continuing" -> "$startYear - ${stringResource(
-								R.string.lbl_present,
-							)}"
+							startYear != null && series.status?.lowercase() == "continuing" -> "$startYear - Present"
 							startYear != null -> startYear.toString()
 							else -> null
 						}
@@ -555,7 +549,7 @@ private fun SeriesInformationOverlay(
 						) {
 							Icon(
 								painter = painterResource(R.drawable.ic_star),
-								contentDescription = stringResource(R.string.lbl_rating),
+								contentDescription = "Rating",
 								tint = Color.Yellow,
 								modifier = Modifier.size(20.dp),
 							)
@@ -599,11 +593,7 @@ private fun SeriesInformationOverlay(
 						series?.childCount?.let { count ->
 							if (count > 0) {
 								Text(
-									text = pluralStringResource(
-										R.plurals.episodes,
-										count,
-										count,
-									),
+									text = "$count Episodes",
 									style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
 									color = Color.White.copy(alpha = 0.7f),
 								)
@@ -617,11 +607,7 @@ private fun SeriesInformationOverlay(
 							val minutes = (ticks / 10_000_000) / 60
 							if (minutes > 0) {
 								Text(
-									text = pluralStringResource(
-										R.plurals.minutes,
-										minutes,
-										minutes,
-									),
+									text = "${minutes.toInt()}m",
 									style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
 									color = Color.White.copy(alpha = 0.7f),
 								)

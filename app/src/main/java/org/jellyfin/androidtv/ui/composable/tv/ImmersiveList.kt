@@ -154,7 +154,6 @@ fun ImmersiveList(
 			CardsSection(
 				items = items,
 				layout = layout,
-				focusedItem = focusedItem,
 				onItemClick = onItemClick,
 				onItemFocus = { item -> focusedItem = item },
 				getItemImageUrl = getItemImageUrl,
@@ -439,7 +438,6 @@ private fun ContentInformationOverlay(
 private fun CardsSection(
 	items: List<BaseItemDto>,
 	layout: ImmersiveListLayout,
-	focusedItem: BaseItemDto?,
 	onItemClick: (BaseItemDto) -> Unit,
 	onItemFocus: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
@@ -452,7 +450,6 @@ private fun CardsSection(
 			ImmersiveListLayout.HORIZONTAL_CARDS -> {
 				HorizontalCardsList(
 					items = items,
-					focusedItem = focusedItem,
 					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
@@ -462,7 +459,6 @@ private fun CardsSection(
 			ImmersiveListLayout.CAST_ROW -> {
 				HorizontalCardsList(
 					items = items,
-					focusedItem = focusedItem,
 					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
@@ -472,7 +468,6 @@ private fun CardsSection(
 			ImmersiveListLayout.VERTICAL_GRID -> {
 				VerticalCardsGrid(
 					items = items,
-					focusedItem = focusedItem,
 					onItemClick = onItemClick,
 					onItemFocus = onItemFocus,
 					getItemImageUrl = getItemImageUrl,
@@ -490,7 +485,6 @@ private fun CardsSection(
 @Composable
 private fun HorizontalCardsList(
 	items: List<BaseItemDto>,
-	focusedItem: BaseItemDto?,
 	onItemClick: (BaseItemDto) -> Unit,
 	onItemFocus: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
@@ -527,7 +521,6 @@ private fun HorizontalCardsList(
 @Composable
 private fun VerticalCardsGrid(
 	items: List<BaseItemDto>,
-	focusedItem: BaseItemDto?,
 	onItemClick: (BaseItemDto) -> Unit,
 	onItemFocus: (BaseItemDto) -> Unit,
 	getItemImageUrl: (BaseItemDto) -> String?,
