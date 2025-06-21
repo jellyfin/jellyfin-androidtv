@@ -140,65 +140,36 @@ private fun ContentState(
 	getItemLogoUrl: (org.jellyfin.sdk.model.api.BaseItemDto) -> String?,
 	modifier: Modifier = Modifier,
 ) {
-	Box(modifier = modifier.fillMaxSize()) {
-		// Background banner image (clear, not blurred)
-		uiState.season?.let { season ->
-			getItemBackdropUrl(season)?.let { _ ->
-				Box(
-					modifier = Modifier
-						.fillMaxSize()
-						.background(Color.Black), // Fallback background
-				) {
-					// Background gradient overlay for text readability
-					Box(
-						modifier = Modifier
-							.fillMaxSize()
-							.background(
-								Brush.verticalGradient(
-									colors = listOf(
-										Color.Black.copy(alpha = 0.3f),
-										Color.Black.copy(alpha = 0.7f),
-									),
-								),
-							),
-					)
-				}
-			}
-		}
-		
-		// Content sections
-		LazyColumn(
-			contentPadding = PaddingValues(
-				top = 120.dp, // Space for header
-				bottom = 32.dp,
-			),
-			verticalArrangement = Arrangement.spacedBy(32.dp),
-			modifier = Modifier.fillMaxSize(),
-		) {
-			items(uiState.sections) { section ->
+	Box(modifier = modifier.fillMaxSize()) { // Main container
+		// uiState.sections should typically contain one section for episodes.
+		// If sections is empty, this part won't compose, matching current logic.
+		// Assuming the first section is the primary one for ImmersiveList backdrop
+		uiState.sections.firstOrNull()?.let { episodesSection ->
+			if (episodesSection.items.isNotEmpty()) {
 				ImmersiveList(
-					title = section.title,
-					items = section.items,
-					layout = section.layout,
+					title = episodesSection.title, // "Episodes"
+					items = episodesSection.items,
+					layout = episodesSection.layout,
 					onItemClick = onItemClick,
-					onItemFocus = { item -> onItemFocused(item) },
+					onItemFocus = onItemFocused, // This will drive the background
 					getItemImageUrl = getItemImageUrl,
-					getItemBackdropUrl = getItemBackdropUrl,
-					getItemLogoUrl = getItemLogoUrl,
-					cardAspectRatio = section.cardAspectRatio,
-					modifier = Modifier
-						.fillMaxWidth()
-						.height(280.dp),
+					getItemBackdropUrl = getItemBackdropUrl, // Episode backdrop for background
+					getItemLogoUrl = getItemLogoUrl, // Episode or Series logo
+					getItemDisplayName = viewModel::getItemDisplayName, // Pass the new display name function
+					cardAspectRatio = episodesSection.cardAspectRatio,
+					backgroundMode = BackgroundMode.FOCUSED_ITEM, // Let ImmersiveList handle its background
+					modifier = Modifier.fillMaxSize() // ImmersiveList takes the whole space
 				)
 			}
 		}
-		
-		// Season header overlay
+
+		// SeasonHeaderOverlay is drawn on top of the ImmersiveList's background
+		// It needs to be after ImmersiveList in the Box to overlay correctly.
 		SeasonHeaderOverlay(
 			uiState = uiState,
 			modifier = Modifier
 				.fillMaxWidth()
-				.align(Alignment.TopStart),
+				.align(Alignment.TopStart)
 		)
 	}
 }
@@ -215,19 +186,22 @@ private fun SeasonHeaderOverlay(
 	Column(
 		modifier = modifier
 			.background(
+				// Use a more subtle gradient or make it fully transparent
+				// if ImmersiveList's ContentInformationOverlay handles similar info.
+				// For now, keeping a subtle top gradient for separation.
 				Brush.verticalGradient(
 					colors = listOf(
-						Color.Black.copy(alpha = 0.8f),
-						Color.Black.copy(alpha = 0.6f),
-						Color.Transparent,
+						Color.Black.copy(alpha = 0.7f), // Darker at the very top
+						Color.Black.copy(alpha = 0.5f),
+						Color.Transparent, // Fades out
 					),
-				),
+				)
 			)
 			.padding(
 				start = 48.dp,
-				top = 32.dp,
+				top = 32.dp, // Standard TV padding
 				end = 48.dp,
-				bottom = 24.dp,
+				bottom = 24.dp, // Padding at the bottom of the overlay content
 			),
 	) {
 		// Show series name if available
@@ -235,14 +209,14 @@ private fun SeasonHeaderOverlay(
 			Text(
 				text = seriesName,
 				style = MaterialTheme.typography.titleLarge,
-				color = Color.White.copy(alpha = 0.8f),
+				color = Color.White.copy(alpha = 0.8f), // Slightly dimmed
 			)
 			Spacer(modifier = Modifier.height(8.dp))
 		}
 
 		// Season title
 		Text(
-			text = uiState.title,
+			text = uiState.title, // This is the Season's name
 			style = MaterialTheme.typography.headlineLarge,
 			color = Color.White,
 			fontWeight = FontWeight.Bold,
@@ -264,7 +238,7 @@ private fun SeasonHeaderOverlay(
 					color = Color.White.copy(alpha = 0.8f),
 				)
 				
-				// Show season info if available
+				// Show season info if available (e.g., year)
 				uiState.season?.let { season ->
 					season.productionYear?.let { year ->
 						Text(

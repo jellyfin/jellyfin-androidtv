@@ -195,15 +195,34 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 	}
 	
 	fun getItemBackdropUrl(item: BaseItemDto): String? {
-		return try {
-			item.itemBackdropImages.firstOrNull()?.getUrl(
+		try {
+			// Prioritize item's own backdrop
+			val itemBackdrop = item.itemBackdropImages.firstOrNull()?.getUrl(
 				api = apiClient,
 				maxWidth = 1920,
 				maxHeight = 1080,
 			)
+			if (itemBackdrop != null) {
+				return itemBackdrop
+			}
+
+			// Fallback for episodes: use season backdrop if episode has no specific backdrop
+			if (item.type == BaseItemKind.EPISODE) {
+				val seasonBackdrop = uiState.value.season?.itemBackdropImages?.firstOrNull()?.getUrl(
+					api = apiClient,
+					maxWidth = 1920,
+					maxHeight = 1080,
+				)
+				if (seasonBackdrop != null) {
+					return seasonBackdrop
+				}
+				// As a further fallback, could try series backdrop if season has none
+				// For now, season fallback is sufficient.
+			}
+			return null // No backdrop found
 		} catch (e: ApiClientException) {
-			Timber.e(e, "Failed to get backdrop for episode: ${item.name}")
-			null
+			Timber.e(e, "Failed to get backdrop for item: ${item.name}")
+			return null
 		}
 	}
 
@@ -213,6 +232,27 @@ class ComposeSeasonViewModel : ViewModel(), KoinComponent {
 		} catch (e: IllegalArgumentException) {
 			Timber.e(e, "Failed to get logo for item: ${item.name}")
 			null
+		}
+	}
+
+	fun getItemDisplayName(item: BaseItemDto): String? {
+		return when (item.type) {
+			BaseItemKind.EPISODE -> {
+				val episodeIndex = item.indexNumber
+				val seasonIndex = item.parentIndexNumber // Season number
+				val title = item.name ?: "Episode"
+
+				if (seasonIndex != null && seasonIndex > 0 && episodeIndex != null) {
+					// Format as SxxExx. Title if season number is available
+					"S%02dE%02d. %s".format(seasonIndex, episodeIndex, title)
+				} else if (episodeIndex != null) {
+					// Format as Exx. Title if only episode number is available
+					"E%02d. %s".format(episodeIndex, title)
+				} else {
+					title // Fallback to just title
+				}
+			}
+			else -> item.name // Default for other types
 		}
 	}
 }

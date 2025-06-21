@@ -97,6 +97,7 @@ fun ImmersiveList(
 	getItemImageUrl: (BaseItemDto) -> String? = { null },
 	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
 	getItemLogoUrl: (BaseItemDto) -> String? = { null },
+	getItemDisplayName: (BaseItemDto) -> String? = { it.name }, // P1: New parameter with default
 	cardAspectRatio: Float = 16f / 9f,
 ) {
 	var focusedItem by remember { mutableStateOf<BaseItemDto?>(items.firstOrNull()) }
@@ -148,6 +149,7 @@ fun ImmersiveList(
 				focusedItem = focusedItem,
 				sectionTitle = title,
 				getItemLogoUrl = getItemLogoUrl,
+				getItemDisplayName = getItemDisplayName, // P1: Pass parameter
 				modifier = Modifier
 					.fillMaxWidth()
 					.weight(0.6f), // Takes about 60% of screen height
@@ -186,11 +188,18 @@ internal fun ImmersiveBackground(
 			val backdropUrl = getBackdropUrl(item)
 			if (backdropUrl != null) {
 				AsyncImage(
-					model = backdropUrl,
+					model = backdropUrl, // Prioritize backdrop
 					contentDescription = null,
 					modifier = Modifier.fillMaxSize(),
 					contentScale = ContentScale.Crop,
 					alpha = 0.7f,
+				)
+			} else {
+				// P2: Fallback solid color background if backdropUrl is null but item is not
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)) // Example theme-aware color
 				)
 			}
 		}
@@ -206,6 +215,7 @@ private fun ContentInformationOverlay(
 	focusedItem: BaseItemDto?,
 	sectionTitle: String,
 	getItemLogoUrl: (BaseItemDto) -> String? = { null },
+	getItemDisplayName: (BaseItemDto) -> String?, // P1: New parameter
 	modifier: Modifier = Modifier,
 ) {
 	Box(
@@ -242,9 +252,10 @@ private fun ContentInformationOverlay(
 
 			// Focused item information
 			focusedItem?.let { item ->
+				val displayName = getItemDisplayName(item) ?: item.name ?: "Unknown Title" // P1: Use display name
 				// Item title (without logo in the row)
 				Text(
-					text = item.name ?: "Unknown Title",
+					text = displayName, // P1: Use display name
 					style = MaterialTheme.typography.displayMedium.copy(
 						fontWeight = FontWeight.Bold,
 						fontSize = 48.sp,
@@ -695,6 +706,7 @@ fun MultiSectionImmersiveList(
 	getItemImageUrl: (BaseItemDto) -> String? = { null },
 	getItemBackdropUrl: (BaseItemDto) -> String? = { null },
 	getItemLogoUrl: (BaseItemDto) -> String? = { null },
+	getItemDisplayName: (BaseItemDto) -> String? = { it.name }, // P1: New parameter
 ) {
 	var globalFocusedItem by remember { mutableStateOf<BaseItemDto?>(null) }
 
@@ -739,6 +751,7 @@ fun MultiSectionImmersiveList(
 					getItemImageUrl = getItemImageUrl,
 					getItemBackdropUrl = getItemBackdropUrl,
 					getItemLogoUrl = getItemLogoUrl,
+					getItemDisplayName = getItemDisplayName, // P1: Pass parameter
 					cardAspectRatio = section.cardAspectRatio,
 					modifier = Modifier
 						.fillMaxWidth()

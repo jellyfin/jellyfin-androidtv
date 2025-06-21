@@ -257,6 +257,12 @@ class ComposeTvShowsViewModel : ViewModel(), KoinComponent {
 			null
 		}
 	}
+
+	fun getItemDisplayName(item: BaseItemDto): String? {
+		// For TV Shows screen, the item name is usually sufficient.
+		// Specific formatting can be added if needed for series names.
+		return item.name
+	}
 }
 
 /**
