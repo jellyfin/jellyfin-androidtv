@@ -16,4 +16,5 @@
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas?</string>
     <string name="pref_subtitles_bold">Negrito</string>
     <string name="server_issue_unable_to_connect">Não é possível ligar</string>
+    <string name="preference_enable_pgs">Reproduzir diretamente legendas PGS</string>
 </resources>
