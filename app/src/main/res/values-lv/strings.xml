@@ -581,4 +581,20 @@
     <string name="lbl_user_server">%1$s uz %2$s</string>
     <string name="lbl_starting_on_schedule_ending_after">Sākt saskaņā ar grafiku un beigt %1$s pēc grafika</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="preference_enable_libass">Ieslēgt Advanced SubStation Alpha subtitru klienta atveidošanu</string>
+    <string name="fast_forward">Paritināt uz priekšu</string>
+    <string name="preference_enable_pgs">PGS subtitru tieša atskaņošana</string>
+    <string name="pref_subtitles_bold">Treknraksts</string>
+    <string name="rewind">Paritināt atpakaļ</string>
+    <string name="lbl_from_beginning">Atskaņot no sākuma</string>
+    <string name="speech_error_unavailable">Balss atpazīšana nav pieejama Jūsu ierīcē.</string>
+    <string name="speech_error_no_permission">Nav atļaujas izmantot mikrofonu. Lūdzu ieslēgt to sistēmas iestatījumos.</string>
+    <string name="lbl_exit">Iziet</string>
+    <string name="pref_still_watching_behavior_title">Rādīt neaktivitātes perioda uznirstošo logu</string>
+    <string name="lbl_still_watching_default">3 epizodes jeb 90 minūtes</string>
+    <string name="lbl_still_watching_short">2 epizodes jeb 60 minūtes</string>
+    <string name="lbl_still_watching_long">5 epizodes jeb 150 minūtes</string>
+    <string name="speech_error_unknown">Balss atpazīšanas laikā ir notikusi negaidīta kļūme.</string>
+    <string name="still_watching_label">Vai tu vēl skaties?</string>
+    <string name="lbl_still_watching_very_long">8 epizodes jeb 240 minūtes</string>
 </resources>
