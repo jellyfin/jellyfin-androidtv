@@ -43,6 +43,7 @@ import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -50,8 +51,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import java.time.Duration;
 
 public class PlaybackController implements PlaybackControllerNotifiable {
     // Frequency to report playback progress
