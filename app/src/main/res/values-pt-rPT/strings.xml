@@ -130,8 +130,8 @@
     <string name="lbl_live_tv_guide">Guia de TV em direto</string>
     <string name="lbl_recorded_tv">Gravações TV</string>
     <string name="pref_live_tv_cat">TV em direto</string>
-    <string name="msg_error_live_stream">Erro de reprodução da TV ao vivo. Tentará novamente…</string>
-    <string name="lbl_direct_stream_live">Stream direto da TV ao vivo</string>
+    <string name="msg_error_live_stream">Erro ao transmitir TV em direto. A tentar novamente…</string>
+    <string name="lbl_direct_stream_live">Transmissão de TV em direto</string>
     <string name="lbl_programs">Programas</string>
     <string name="lbl_albums">Álbuns</string>
     <string name="lbl_artists">Artistas</string>
@@ -161,7 +161,7 @@
     <string name="lbl_image_size">Tamanho da imagem</string>
     <string name="lbl_zoom">Aumentar</string>
     <string name="desc_bitstream_ac3">Precisas de hardware compatível</string>
-    <string name="lbl_bitstream_ac3">Fluxo Dolby Digital audio</string>
+    <string name="lbl_bitstream_ac3">Áudio Dolby Digital em bitstream</string>
     <string name="lbl_new_premieres">Novas estreias</string>
     <string name="lbl_now_playing_album">desde %1$s</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
@@ -590,4 +590,5 @@
     <string name="speech_error_unavailable">O reconhecimento de voz não está disponível no teu dispositivo.</string>
     <string name="speech_error_unknown">Ocorreu um erro inesperado durante o reconhecimento de voz.</string>
     <string name="speech_error_no_permission">Não tens permissão para usar o microfone. Por favor, ativa-o nas definições do sistema.</string>
+    <string name="preference_enable_pgs">Reproduzir diretamente legendas PGS</string>
 </resources>
