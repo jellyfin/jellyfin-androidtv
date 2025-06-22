@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.net.toUri
 import androidx.tvprovider.media.tv.Channel
 import androidx.tvprovider.media.tv.ChannelLogoUtils
 import androidx.tvprovider.media.tv.PreviewProgram
@@ -144,18 +146,21 @@ class LeanbackChannelWorker(
 				latestEpisodes to latestEpisodesChannel,
 				myMedia to myMediaChannel,
 			).forEach { (items, channel) ->
-				Timber.d("Updating channel %s", channel)
-				items.map { item ->
-					createPreviewProgram(
-						channel,
-						item,
-						preferParentThumb
-					)
-				}.let {
-					context.contentResolver.bulkInsert(
-						TvContractCompat.PreviewPrograms.CONTENT_URI,
-						it.toTypedArray()
-					)
+				if (channel == null) {
+					Timber.e("Skipping channel because it was not available")
+				} else {
+					items.map { item ->
+						createPreviewProgram(
+							channel,
+							item,
+							preferParentThumb
+						)
+					}.let {
+						context.contentResolver.bulkInsert(
+							TvContractCompat.PreviewPrograms.CONTENT_URI,
+							it.toTypedArray()
+						)
+					}
 				}
 			}
 			updateWatchNext(resumeItems + nextUpItems)
@@ -178,35 +183,46 @@ class LeanbackChannelWorker(
 	 * update or create the channel. The [name] parameter is used to store the id and should be
 	 * unique.
 	 */
-	private fun getChannelUri(name: String, settings: Channel, default: Boolean = false): Uri {
+	private fun getChannelUri(name: String, settings: Channel, default: Boolean = false): Uri? {
 		val store = context.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE)
+		var uri: Uri? = null
 
-		val uri = if (store.contains(name)) {
-			// Retrieve uri and update content resolver
-			Uri.parse(store.getString(name, null)).also { uri ->
-				context.contentResolver.update(uri, settings.toContentValues(), null, null)
-			}
-		} else {
-			// Create new channel and save uri
-			context.contentResolver.insert(
-				TvContractCompat.Channels.CONTENT_URI,
-				settings.toContentValues()
-			)!!.also { uri ->
-				store.edit().putString(name, uri.toString()).apply()
-				if (default) {
-					// Set as default row to display (we can request one row to automatically be added to the home screen)
-					TvContractCompat.requestChannelBrowsable(context, ContentUris.parseId(uri))
-				}
+		// Try and re-use our existing channel definition
+		if (store.contains(name)) {
+			uri = store.getString(name, null)?.toUri()
+
+			if (uri != null) {
+				val result = context.contentResolver.update(uri, settings.toContentValues(), null, null)
+				// If we did not affect exactly 1 row there might be something wrong, so recreate it
+				if (result != 1) uri = null
 			}
 		}
 
-		// Update logo
-		ResourcesCompat.getDrawable(context.resources, R.mipmap.app_icon, context.theme)?.let {
-			ChannelLogoUtils.storeChannelLogo(
-				context,
-				ContentUris.parseId(uri),
-				it.toBitmap(80.dp(context), 80.dp(context))
+		if (uri == null) {
+			// Create new channel
+			uri = context.contentResolver.insert(
+				TvContractCompat.Channels.CONTENT_URI,
+				settings.toContentValues()
 			)
+
+			// Set as default row to display (we can request one row to automatically be added to the home screen)
+			if (uri != null && default) {
+				TvContractCompat.requestChannelBrowsable(context, ContentUris.parseId(uri))
+			}
+
+			// Save uri to shared preferences
+			store.edit { putString(name, uri?.toString()) }
+		}
+
+		// Update logo
+		if (uri != null) {
+			ResourcesCompat.getDrawable(context.resources, R.mipmap.app_icon, context.theme)?.let {
+				ChannelLogoUtils.storeChannelLogo(
+					context,
+					ContentUris.parseId(uri),
+					it.toBitmap(80.dp(context), 80.dp(context))
+				)
+			}
 		}
 
 		return uri
