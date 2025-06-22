@@ -18,11 +18,10 @@ import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingStates
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
 
 class InteractionTrackerViewModel(
 	private val userPreferences: UserPreferences,
-	private val playbackControllerContainer : PlaybackControllerContainer
+	private val playbackControllerContainer: PlaybackControllerContainer
 ) : ViewModel() {
 	// Screensaver vars
 
@@ -89,18 +88,11 @@ class InteractionTrackerViewModel(
 
 	private fun checkStillWatchingStatus() {
 		val presetName = userPreferences[UserPreferences.stillWatchingBehavior].toString().uppercase()
-		val preset = try {
-			StillWatchingPresetConfigs.valueOf(presetName)
-		} catch (e: IllegalArgumentException) {
-			StillWatchingPresetConfigs.DISABLED
-		}
+		val preset = runCatching { StillWatchingPresetConfigs.valueOf(presetName) }.getOrDefault(StillWatchingPresetConfigs.DISABLED)
 
 		val stillWatchingSetting = StillWatchingStates.getSetting(preset)
-
-		val minMinutesInMs = (stillWatchingSetting.minMinutes as Int).minutes.inWholeMilliseconds
-
 		val episodeRequirementMet = episodeCount == stillWatchingSetting.episodeCount
-		val watchTimeRequirementMet = watchTime >= minMinutesInMs
+		val watchTimeRequirementMet = watchTime >= stillWatchingSetting.minDuration.inWholeMilliseconds
 
 		if (episodeRequirementMet || watchTimeRequirementMet) {
 			showStillWatching = true
