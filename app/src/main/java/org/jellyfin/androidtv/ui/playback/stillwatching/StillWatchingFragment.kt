@@ -178,7 +178,6 @@ fun StillWatchingOverlay(
 
 				AsyncImage(
 					modifier = Modifier
-						.align(Alignment.CenterHorizontally)
 						.height(145.dp)
 						.aspectRatio(thumbnail.aspectRatio ?: 1f)
 						.clip(JellyfinTheme.shapes.extraSmall),
