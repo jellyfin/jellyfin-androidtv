@@ -41,6 +41,7 @@
     <string name="lbl_shuffle_all">Shuffle all</string>
     <string name="lbl_play">Play</string>
     <string name="lbl_pause">Pause</string>
+    <string name="lbl_exit">Exit</string>
     <string name="lbl_cancel">Cancel</string>
     <string name="lbl_cancel_recording">Cancel recording</string>
     <string name="lbl_cancel_series">Cancel series</string>
@@ -257,6 +258,7 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="watch_now">Watch now</string>
     <string name="pref_next_up_behavior_title">Show next video info</string>
+    <string name="pref_still_watching_behavior_title">Show inactivity timeout popup</string>
     <string name="pref_app_theme">App theme</string>
     <string name="pref_device_model">Device model</string>
     <string name="grid_direction">Grid direction</string>
@@ -360,6 +362,10 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_next_up_extended">With thumbnail</string>
     <string name="lbl_next_up_minimal">Without thumbnail</string>
+    <string name="lbl_still_watching_default">3 episodes or 90 minutes</string>
+    <string name="lbl_still_watching_short">2 episodes or 60 minutes</string>
+    <string name="lbl_still_watching_long">5 episodes or 150 minutes</string>
+    <string name="lbl_still_watching_very_long">8 episodes or 240 minutes</string>
     <string name="lbl_starting_early_ending_after">Starting %1$s early and ending %2$s after schedule</string>
     <string name="lbl_starting_early_ending_on_schedule">Starting %1$s early and ending on Schedule</string>
     <string name="lbl_starting_on_schedule_ending_after">Starting on schedule and ending %1$s after schedule</string>
@@ -542,6 +548,7 @@
     <string name="speech_error_no_permission">No permission to use the microphone. Please enable it in system settings.</string>
     <string name="speech_error_unavailable">Speech recognition is unavailable on your device.</string>
     <string name="speech_error_unknown">An unexpected error occurred during speech recognition.</string>
+    <string name="still_watching_label">Are you still watching?</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
