@@ -589,4 +589,13 @@
     <string name="preference_enable_libass">Activa el client de renderitzat de subtítols Advanced SubStation Alpha</string>
     <string name="lbl_from_beginning">Reprodueix des de l\'inici</string>
     <string name="speech_error_unknown">Ha succeït un error inesperat durant el reconeixement de veu.</string>
+    <string name="preference_enable_pgs">Reprodueix directament els subtítols PGS</string>
+    <string name="pref_subtitles_bold">Text en negreta</string>
+    <string name="lbl_exit">Surt</string>
+    <string name="pref_still_watching_behavior_title">Mostra la finestra emergent de temps d\'inactivitat</string>
+    <string name="lbl_still_watching_default">3 episodis o 90 minuts</string>
+    <string name="lbl_still_watching_short">2 episodis o 60 minuts</string>
+    <string name="lbl_still_watching_long">5 episodis o 150 minuts</string>
+    <string name="lbl_still_watching_very_long">8 episodis o 240 minuts</string>
+    <string name="still_watching_label">Encara ho esteu mirant?</string>
 </resources>
