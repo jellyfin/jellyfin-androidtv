@@ -303,7 +303,7 @@
     <string name="image_type_thumbnail">Miniatura</string>
     <string name="enable_smart_view_description">O ecrã inteligente mostra itens relevantes em vez de uma grelha</string>
     <string name="enable_smart_view">Ativar ecrã inteligente</string>
-    <string name="lbl_sign_out">Sair</string>
+    <string name="lbl_sign_out">Terminar sessão</string>
     <string name="lbl_remove">Remover</string>
     <string name="lbl_server">Servidor</string>
     <string name="lbl_user_server">%1$s em %2$s</string>
@@ -591,4 +591,11 @@
     <string name="speech_error_unknown">Ocorreu um erro inesperado durante o reconhecimento de voz.</string>
     <string name="speech_error_no_permission">Não tens permissão para usar o microfone. Por favor, ativa-o nas definições do sistema.</string>
     <string name="preference_enable_pgs">Reproduzir diretamente legendas PGS</string>
+    <string name="lbl_exit">Sair</string>
+    <string name="pref_still_watching_behavior_title">Mostrar aviso de inatividade</string>
+    <string name="lbl_still_watching_default">3 episódios ou 90 minutos</string>
+    <string name="lbl_still_watching_short">2 episódios ou 60 minutos</string>
+    <string name="lbl_still_watching_long">5 episódios ou 150 minutos</string>
+    <string name="lbl_still_watching_very_long">8 episódios ou 240 minutos</string>
+    <string name="still_watching_label">Ainda estás a ver?</string>
 </resources>
