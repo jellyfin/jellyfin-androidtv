@@ -590,4 +590,11 @@
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
     <string name="pref_subtitles_bold">טקסט מודגש</string>
     <string name="preference_enable_pgs">נגן ישירות כתוביות מסוג PSG</string>
+    <string name="lbl_exit">יציאה</string>
+    <string name="pref_still_watching_behavior_title">הצג הודעה קופצת לאחר חוסר שימוש ממושך</string>
+    <string name="lbl_still_watching_default">3 פרקים או 90 דקות</string>
+    <string name="lbl_still_watching_short">2 פרקים או 60 דקות</string>
+    <string name="lbl_still_watching_long">5 פרקים או 150 דקות</string>
+    <string name="lbl_still_watching_very_long">8 פרקים או 240 דקות</string>
+    <string name="still_watching_label">עדיין צופה?</string>
 </resources>
