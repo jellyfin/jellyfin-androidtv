@@ -591,4 +591,12 @@
     <string name="speech_error_no_permission">L\'accès au micro n\'est pas autorisé. Veuillez l\'activer dans les préférences système.</string>
     <string name="speech_error_unavailable">La reconnaissance vocale n\'est pas disponible sur votre appareil.</string>
     <string name="pref_subtitles_bold">Caractères gras</string>
+    <string name="preference_enable_pgs">Sous-titres PGS en lecture directe</string>
+    <string name="lbl_exit">Quitter</string>
+    <string name="pref_still_watching_behavior_title">Afficher la fenêtre contextuelle d\'inactivité</string>
+    <string name="lbl_still_watching_default">3 épisodes ou 90 minutes</string>
+    <string name="lbl_still_watching_short">2 épisodes ou 60 minutes</string>
+    <string name="lbl_still_watching_long">5 épisodes ou 150 minutes</string>
+    <string name="lbl_still_watching_very_long">8 épisodes ou 240 minutes</string>
+    <string name="still_watching_label">Tu regardes toujours ?</string>
 </resources>
