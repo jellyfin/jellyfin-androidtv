@@ -270,10 +270,7 @@ fun FullDetailsFragment.resumePlayback(v: View) {
 				getString(R.string.msg_video_playback_error),
 				Toast.LENGTH_LONG
 			).show()
-			return@launch
-		}
-
-		if (nextUpEpisode.userData?.playbackPositionTicks == 0L) {
+		} else if (nextUpEpisode.userData?.playbackPositionTicks == 0L) {
 			play(nextUpEpisode, 0, false)
 		} else {
 			showResumeMenu(v, nextUpEpisode)
