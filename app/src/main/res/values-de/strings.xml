@@ -581,4 +581,12 @@
     <string name="speech_error_unavailable">Die Spracherkennung ist auf Ihrem Gerät nicht verfügbar.</string>
     <string name="speech_error_no_permission">Keine Berechtigung zur Verwendung des Mikrofons. Bitte aktivieren Sie dies in den Systemeinstellungen.</string>
     <string name="pref_subtitles_bold">fetter Text</string>
+    <string name="preference_enable_pgs">PGS Untertitel direkt abspielen</string>
+    <string name="lbl_exit">Verlassen</string>
+    <string name="pref_still_watching_behavior_title">Popup für Inaktivitäts-Timeout anzeigen</string>
+    <string name="lbl_still_watching_default">3 Folgen oder 90 Minuten</string>
+    <string name="lbl_still_watching_short">2 Folgen oder 60 Minuten</string>
+    <string name="lbl_still_watching_long">5 Folgen oder 150 Minuten</string>
+    <string name="lbl_still_watching_very_long">8 Folgen oder 240 Minuten</string>
+    <string name="still_watching_label">Bist du noch am schauen?</string>
 </resources>

@@ -600,4 +600,12 @@
     <string name="speech_error_no_permission">Отсутствует разрешение на использование микрофона. Пожалуйста, выдайте разрешение в настройках системы.</string>
     <string name="lbl_from_beginning">Воспроизвести с начала</string>
     <string name="speech_error_unknown">Во время распознавания речи произошла неожиданная ошибка.</string>
+    <string name="preference_enable_pgs">Воспроизводить напрямую субтитры типа PGS</string>
+    <string name="pref_subtitles_bold">Жирный шрифт</string>
+    <string name="lbl_exit">Выйти</string>
+    <string name="pref_still_watching_behavior_title">Показывать всплывающее окно о неактивности</string>
+    <string name="lbl_still_watching_very_long">8 эпизодов или 240 минут</string>
+    <string name="lbl_still_watching_long">5 эпизодов или 150 минут</string>
+    <string name="lbl_still_watching_short">2 эпизода или 60 минут</string>
+    <string name="still_watching_label">Вы всё ещё смотрите?</string>
 </resources>
