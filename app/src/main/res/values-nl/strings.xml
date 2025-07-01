@@ -582,4 +582,11 @@
     <string name="speech_error_unavailable">Spraakherkenning is niet beschikbaar op jouw apparaat.</string>
     <string name="pref_subtitles_bold">Vetgedrukte tekst</string>
     <string name="preference_enable_pgs">PGS-ondertiteling direct afspelen</string>
+    <string name="pref_still_watching_behavior_title">Pop-up tonen bij inactiviteit</string>
+    <string name="lbl_still_watching_default">3 afleveringen of 90 minuten</string>
+    <string name="lbl_still_watching_short">2 afleveringen of 60 minuten</string>
+    <string name="lbl_still_watching_long">5 afleveringen of 150 minuten</string>
+    <string name="lbl_still_watching_very_long">8 afleveringen of 240 minuten</string>
+    <string name="still_watching_label">Ben je er nog?</string>
+    <string name="lbl_exit">Afsluiten</string>
 </resources>

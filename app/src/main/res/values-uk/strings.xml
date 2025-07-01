@@ -600,4 +600,13 @@
     <string name="speech_error_no_permission">Немає дозволу на використання мікрофона. Будь ласка, увімкніть його в налаштуваннях системи.</string>
     <string name="lbl_from_beginning">Відтворити з початку</string>
     <string name="speech_error_unavailable">Розпізнавання мовлення недоступне на вашому пристрої.</string>
+    <string name="lbl_still_watching_long">5 епізодів або 150 хвилин</string>
+    <string name="preference_enable_pgs">Відтворювати PGS субтитри напряму</string>
+    <string name="pref_subtitles_bold">Жирний шрифт</string>
+    <string name="lbl_exit">Вихід</string>
+    <string name="pref_still_watching_behavior_title">Показати спливаюче вікно з повідомленням про бездіяльність</string>
+    <string name="lbl_still_watching_default">3 епізоди або 90 хвилин</string>
+    <string name="lbl_still_watching_short">2 епізоди або 60 хвилин</string>
+    <string name="lbl_still_watching_very_long">8 епізодів або 240 хвилин</string>
+    <string name="still_watching_label">Все ще дивитеся?</string>
 </resources>

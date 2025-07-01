@@ -21,7 +21,9 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
+import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.androidtv.ui.InteractionTrackerViewModel;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -41,6 +43,7 @@ import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -48,8 +51,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import java.time.Duration;
 
 public class PlaybackController implements PlaybackControllerNotifiable {
     // Frequency to report playback progress
@@ -63,6 +64,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
+    private final Lazy<InteractionTrackerViewModel> lazyInteractionTracker = inject(InteractionTrackerViewModel.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -71,6 +73,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
     private StreamInfo mCurrentStreamInfo;
+
+    private final InteractionTrackerViewModel interactionTracker;
 
     @Nullable
     private CustomPlaybackOverlayFragment mFragment;
@@ -115,6 +119,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = fragment;
         mHandler = new Handler();
 
+        interactionTracker = lazyInteractionTracker.getValue();
 
         refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
@@ -407,7 +412,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 }
                 // just resume
                 mVideoManager.play();
-                mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
+                mPlaybackState = PlaybackState.PLAYING; // won't get another onPrepared call
                 mFragment.setFadingEnabled(true);
                 startReportLoop();
                 break;
@@ -793,7 +798,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void endPlayback(Boolean closeActivity) {
-        if (closeActivity && mFragment != null) mFragment.closePlayer();
+        if (closeActivity && mFragment != null) {
+            mFragment.closePlayer();
+        }
         stop();
         if (mVideoManager != null)
             mVideoManager.destroy();
@@ -1085,14 +1092,22 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         Timber.d("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
-        if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED
-                && curItem.getType() != BaseItemKind.TRAILER) {
+        boolean stillWatchingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getStillWatchingBehavior()) != StillWatchingBehavior.DISABLED;
+        boolean nextUpEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED;
+        if ((stillWatchingEnabled || nextUpEnabled) && curItem.getType() != BaseItemKind.TRAILER) {
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             spinnerOff = false;
 
-            // Show "Next Up" fragment
-            if (mFragment != null) mFragment.showNextUp(nextItem.getId());
+            if (mFragment != null) {
+                if (stillWatchingEnabled && interactionTracker.getShowStillWatching()) {
+                    // Show "Still Watching" fragment
+                    mFragment.showStillWatching(nextItem.getId());
+                } else if (nextUpEnabled) {
+                    // Show "Next Up" fragment
+                    mFragment.showNextUp(nextItem.getId());
+                }
+            }
             endPlayback();
         } else {
             next();
@@ -1113,6 +1128,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
 
             mPlaybackState = PlaybackState.PLAYING;
+            interactionTracker.notifyStart(getCurrentlyPlayingItem());
             mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.TRANSCODE ? Instant.now().toEpochMilli() : 0;
             startReportLoop();
         }
@@ -1162,6 +1178,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
+        interactionTracker.onEpisodeWatched();
         Timber.d("On Completion fired");
         itemComplete();
     }

@@ -591,4 +591,12 @@
     <string name="speech_error_unavailable">Rozpoznávanie reči nie je vo vašom zariadení k dispozícii.</string>
     <string name="speech_error_unknown">Počas rozpoznávania reči došlo k neočakávanej chybe.</string>
     <string name="pref_subtitles_bold">Tučný text</string>
+    <string name="preference_enable_pgs">Priame prehrávanie PGS titulkov</string>
+    <string name="lbl_exit">Ukončiť</string>
+    <string name="pref_still_watching_behavior_title">Zobraziť popup okno časového limitu nečinnosti</string>
+    <string name="lbl_still_watching_default">3 epizódy alebo 90 minút</string>
+    <string name="lbl_still_watching_short">2 epizódy alebo 60 minút</string>
+    <string name="lbl_still_watching_long">5 epizód alebo 150 minút</string>
+    <string name="lbl_still_watching_very_long">8 epizód alebo 240 minút</string>
+    <string name="still_watching_label">Stále pozeráte?</string>
 </resources>

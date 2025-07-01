@@ -570,4 +570,13 @@
     <string name="speech_error_no_permission">Không có quyền sử dụng micrô. Vui lòng kích hoạt nó trong cài đặt hệ thống.</string>
     <string name="speech_error_unavailable">Nhận dạng giọng nói không có sẵn trên thiết bị của bạn.</string>
     <string name="speech_error_unknown">Một lỗi bất ngờ xảy ra trong quá trình nhận dạng giọng nói.</string>
+    <string name="pref_subtitles_bold">Chữ đậm</string>
+    <string name="preference_enable_pgs">Trực tiếp phát phụ đề PGS</string>
+    <string name="lbl_exit">Thoát</string>
+    <string name="pref_still_watching_behavior_title">Hiển thị cửa sổ bật lên thời gian chờ không hoạt động</string>
+    <string name="lbl_still_watching_default">3 tập hoặc 90 phút</string>
+    <string name="lbl_still_watching_short">2 tập hoặc 60 phút</string>
+    <string name="lbl_still_watching_long">5 tập hoặc 150 phút</string>
+    <string name="lbl_still_watching_very_long">8 tập hoặc 240 phút</string>
+    <string name="still_watching_label">Bạn vẫn đang xem?</string>
 </resources>

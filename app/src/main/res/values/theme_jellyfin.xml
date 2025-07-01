@@ -61,7 +61,6 @@
 
         <!-- Tile colors -->
         <item name="tile_port_person_bg">@color/indigo_dye</item>
-        <item name="tile_user_bg">@color/indigo_dye</item>
         <item name="tile_port_video_bg">@color/indigo_dye</item>
         <item name="tile_land_folder_bg">@color/indigo_dye</item>
         <item name="tile_chapter_bg">@color/indigo_dye</item>

@@ -28,6 +28,5 @@
 
         <!-- Tile colors -->
         <item name="tile_port_person_bg">#212121</item>
-        <item name="tile_user_bg">#384873</item>
     </style>
 </resources>
