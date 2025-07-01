@@ -255,7 +255,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     protected void doLoad() {
         if (TvManager.shouldForceReload() || mCurrentGuideStart.plusMinutes(30).isBefore(LocalDateTime.now()) || mChannels.getChildCount() == 0) {
             load();
-            
+
             mFirstFocusChannelId = TvManager.getLastLiveTvChannel();
         }
     }
@@ -716,7 +716,6 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         while (current.isBefore(mCurrentGuideEnd)) {
             TextView time = new TextView(requireContext());
             time.setText(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(current));
-            //time.setWidth(interval != 60 ? (interval * guideRowWidthPerMinPx) : oneHour);
             time.setWidth(interval != 60 ? ( interval < 15 ? 15 * guideRowWidthPerMinPx : interval * guideRowWidthPerMinPx) : oneHour);
             mTimeline.addView(time);
             current = current.plusMinutes(interval);
