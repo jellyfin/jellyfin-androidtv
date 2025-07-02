@@ -214,6 +214,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     }
 
     private void load() {
+        mCurrentGuideStart = LocalDateTime.now();
         fillTimeLine(mCurrentGuideStart, getGuideHours());
         TvManager.loadAllChannels(this, ndx -> {
             if (ndx >= PAGE_SIZE) {
@@ -698,7 +699,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private void fillTimeLine(LocalDateTime start, int hours) {
         mCurrentGuideStart = start;
         mCurrentGuideStart = mCurrentGuideStart
-                .withMinute(mCurrentGuideStart.getMinute() >= 30 ? 30 : 0)
+                .withMinute(mCurrentGuideStart.getMinute())
                 .withSecond(0)
                 .withNano(0);
 
@@ -707,18 +708,19 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 .plusHours(hours);
         int oneHour = 60 * guideRowWidthPerMinPx;
         int halfHour = 30 * guideRowWidthPerMinPx;
-        int interval = mCurrentGuideStart.getMinute() >= 30 ? 30 : 60;
+
+        int interval = mCurrentGuideStart.getMinute() >= 30 ? 60 - mCurrentGuideStart.getMinute() : 30 - mCurrentGuideStart.getMinute();
         mTimeline.removeAllViews();
 
         LocalDateTime current = mCurrentGuideStart;
         while (current.isBefore(mCurrentGuideEnd)) {
             TextView time = new TextView(requireContext());
             time.setText(DateTimeExtensionsKt.getTimeFormatter(getContext()).format(current));
-            time.setWidth(interval == 30 ? halfHour : oneHour);
+            time.setWidth(interval != 60 ? ( interval < 15 ? 15 * guideRowWidthPerMinPx : interval * guideRowWidthPerMinPx) : oneHour);
             mTimeline.addView(time);
             current = current.plusMinutes(interval);
             //after first one, we always go on hours
-            interval = 60;
+            interval = interval < 30 ? 30 : 60;
         }
     }
 

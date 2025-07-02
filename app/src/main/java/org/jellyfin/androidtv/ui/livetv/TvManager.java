@@ -125,29 +125,23 @@ public class TvManager {
         LocalDateTime startTimeRounded = startTime.withMinute(startTime.getMinute() >= 30 ? 30 : 0).withSecond(0).withNano(0);
         LocalDateTime endTimeRounded = endTime.minusSeconds(1);
 
-        if (forceReload || needLoadTime == null || startTimeRounded.isAfter(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
-            forceReload = false;
+        endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
 
-            endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
+        TvManagerHelperKt.getPrograms(fragment, Arrays.copyOfRange(channelIds, startNdx, endNdx), startTimeRounded, endTimeRounded, programs -> {
+            if (programs != null) {
+                Timber.d("*** About to build dictionary");
+                buildProgramsDict(programs, startTime);
+                Timber.d("*** Programs retrieval finished");
 
-            TvManagerHelperKt.getPrograms(fragment, Arrays.copyOfRange(channelIds, startNdx, endNdx), startTimeRounded, endTimeRounded, programs -> {
-                if (programs != null) {
-                    Timber.d("*** About to build dictionary");
-                    buildProgramsDict(programs, startTimeRounded);
-                    Timber.d("*** Programs retrieval finished");
+                outerResponse.onResponse();
+            } else {
+                outerResponse.onResponse();
+            }
 
-                    outerResponse.onResponse();
-                } else {
-                    outerResponse.onResponse();
-                }
+            return null;
+        });
 
-                return null;
-            });
-
-            Timber.d("*** About to get programs");
-        } else {
-            outerResponse.onResponse();
-        }
+        Timber.d("*** About to get programs");
     }
 
     private static void buildProgramsDict(Collection<BaseItemDto> programs, LocalDateTime startTime) {
