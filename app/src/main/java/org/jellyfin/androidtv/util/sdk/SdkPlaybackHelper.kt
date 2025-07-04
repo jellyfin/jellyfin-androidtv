@@ -27,7 +27,6 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
-import org.jellyfin.sdk.model.extensions.inWholeTicks
 import org.jellyfin.sdk.model.extensions.ticks
 import java.util.UUID
 import kotlin.time.Duration
@@ -266,7 +265,7 @@ class SdkPlaybackHelper(
 				navigationRepository.navigate(
 					playbackLauncher.getPlaybackDestination(
 						item.type,
-						pos.inWholeTicks.toInt()
+						pos.inWholeMilliseconds.toInt()
 					),
 					playbackControllerContainer.playbackController?.hasFragment() == true
 				)
