@@ -17,10 +17,13 @@ import androidx.core.util.Function;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
+import org.jellyfin.androidtv.customer.common.ViewNavigationUtils;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -72,6 +75,9 @@ public interface DanmuSettingActionComponent {
 
         CustomerUserPreferences customerUserPreferences = getCustomerUserPreferences();
 
+        // ButtonsNavigation
+        List<View> views = new ArrayList<>();
+
         // 速度
         SeekBar speed = danmuSetting.findViewById(R.id.danmu_setting_speed);
         TextView speedValue = danmuSetting.findViewById(R.id.danmu_setting_speed_value);
@@ -81,10 +87,7 @@ public interface DanmuSettingActionComponent {
         Function<Integer, String> speedValueGetter = integer -> String.format("%.1f", (integer + 5) / 10.0f);
         speedValue.setText(speedValueGetter.apply(originProgress));
         speed.setOnSeekBarChangeListener(new TextSeekBarListener(speedValue, speedValueGetter));
-
-        @SuppressLint("UseSwitchCompatOrMaterialCode")
-        Switch fps = danmuSetting.findViewById(R.id.danmu_setting_fps);
-        fps.setChecked(customerUserPreferences.isDanmuFps());
+        views.add(speed);
 
         // 弹幕行数
         SeekBar row = danmuSetting.findViewById(R.id.danmu_setting_row);
@@ -95,6 +98,7 @@ public interface DanmuSettingActionComponent {
         row.setProgress(originDanmuRowProgress);
         rowValue.setText(rowValueGetter.apply(originDanmuRowProgress));
         row.setOnSeekBarChangeListener(new TextSeekBarListener(rowValue, rowValueGetter));
+        views.add(row);
 
         // 字体大小
         SeekBar fontSize = danmuSetting.findViewById(R.id.danmu_setting_font_size);
@@ -105,6 +109,7 @@ public interface DanmuSettingActionComponent {
         fontSize.setProgress(originFontSizeProgress);
         fontSizeValue.setText(fontSizeValueGetter.apply(originFontSizeProgress));
         fontSize.setOnSeekBarChangeListener(new TextSeekBarListener(fontSizeValue, fontSizeValueGetter));
+        views.add(fontSize);
 
         // 弹幕偏移
         BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
@@ -118,6 +123,7 @@ public interface DanmuSettingActionComponent {
                 offsetTimeView.setText(String.valueOf(tempDanmuOffset));
             }
         }
+        views.add(offsetTimeView);
         int originDanmuOffset = tempDanmuOffset;
 
         // 描边
@@ -134,6 +140,7 @@ public interface DanmuSettingActionComponent {
             newDanmuStyle[0] = (int) tag;
         };
         fontStyleGroup.setOnClickListener(null);
+        List<View> fontStyleViews = new ArrayList<>(FONT_STYLE.size());
         for (Map.Entry<Integer, String> styleEntry : FONT_STYLE.entrySet()) {
             RadioButton radioButton = new RadioButton(context);
             radioButton.setText(styleEntry.getValue());
@@ -143,9 +150,18 @@ public interface DanmuSettingActionComponent {
             radioButton.setChecked(false);
             if (originDanmuStyle == styleEntry.getKey()) {
                 radioButton.setChecked(true);
+                views.add(radioButton);
             }
+            fontStyleViews.add(radioButton);
         }
         fontStyleGroup.setOnCheckedChangeListener(onCheckedChangeListener);
+        int styleIndex = views.size() - 1;
+
+        // fps加入导航
+        @SuppressLint("UseSwitchCompatOrMaterialCode")
+        Switch fps = danmuSetting.findViewById(R.id.danmu_setting_fps);
+        fps.setChecked(customerUserPreferences.isDanmuFps());
+        views.add(fps);
 
         Button confirm = danmuSetting.findViewById(R.id.confirm);
         confirm.setOnClickListener(v -> {
@@ -212,9 +228,22 @@ public interface DanmuSettingActionComponent {
             }
             danmuSetting.setVisibility(View.GONE);
         });
+        views.add(confirm);
 
         Button cancel = danmuSetting.findViewById(R.id.cancel);
         cancel.setOnClickListener(v -> danmuSetting.setVisibility(View.GONE));
+        // 确认按钮导航
+        ViewNavigationUtils.viewPreNext(confirm, cancel, true, true);
+        ViewNavigationUtils.viewPreNext(cancel, confirm, true, true);
+        ViewNavigationUtils.viewIndexNext(views, cancel, views.size() - 1);
+
+        // 设置字体导航
+        ViewNavigationUtils.listViewsNavigation(fontStyleViews, true);
+        for (View tempView : fontStyleViews) {
+            ViewNavigationUtils.viewIndexNext(views, tempView, styleIndex);
+        }
+        // 设置整体导航
+        ViewNavigationUtils.listViewsNavigation(views, false);
 
         speed.requestFocus();
         danmuSetting.setVisibility(View.VISIBLE);
