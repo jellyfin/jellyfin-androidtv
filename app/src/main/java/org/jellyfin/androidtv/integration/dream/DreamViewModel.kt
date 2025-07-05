@@ -10,7 +10,6 @@ import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -132,27 +131,27 @@ class DreamViewModel(
 		}
 	}.cancellable()
 
-	private suspend fun BaseItemDto.asLibraryShowcase(): DreamContent.LibraryShowcase? {
-		val backdropUrl = itemBackdropImages.randomOrNull()?.getUrl(api)
+	private suspend fun BaseItemDto.asLibraryShowcase(): DreamContent.LibraryShowcase? = withContext(Dispatchers.IO) {
 		val logoUrl = itemImages[ImageType.LOGO]?.getUrl(api)
+		val backdropUrl = itemBackdropImages.randomOrNull()?.getUrl(api)
 
-		val (logo, backdrop) = withContext(Dispatchers.IO) {
-			val logoDeferred = async {
+		// Require a backdrop
+		if (backdropUrl == null) return@withContext null
+
+		// Only attempt to load logo if there is one, wrap in async {} to load it parallel with the backdrop
+		val logo = logoUrl?.let { url ->
+			async {
 				imageLoader.execute(
-					request = ImageRequest.Builder(context).data(logoUrl).build()
+					request = ImageRequest.Builder(context).data(url).build()
 				).image?.toBitmap()
 			}
-
-			val backdropDeferred = async {
-				imageLoader.execute(
-					request = ImageRequest.Builder(context).data(backdropUrl).build()
-				).image?.toBitmap()
-			}
-
-			awaitAll(logoDeferred, backdropDeferred)
 		}
 
-		if (backdrop == null) return null
-		return DreamContent.LibraryShowcase(this, backdrop, logo)
+		val backdrop = imageLoader.execute(
+			request = ImageRequest.Builder(context).data(backdropUrl).build()
+		).image?.toBitmap()
+
+		if (backdrop == null) null
+		else DreamContent.LibraryShowcase(this@asLibraryShowcase, backdrop, logo?.await())
 	}
 }

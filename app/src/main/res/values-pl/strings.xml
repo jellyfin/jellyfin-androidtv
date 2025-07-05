@@ -602,4 +602,11 @@
     <string name="speech_error_unavailable">Funkcja rozpoznawania mowy jest niedostępna na tym urządzeniu.</string>
     <string name="pref_subtitles_bold">Tekst pogrubiony</string>
     <string name="preference_enable_pgs">Bezpośrednio odtwarzaj napisy PGS</string>
+    <string name="lbl_exit">Wyjdź</string>
+    <string name="pref_still_watching_behavior_title">Pokaż okienko przekroczenia limitu czasu bezczynności</string>
+    <string name="lbl_still_watching_default">3 odcinki lub 90 minut</string>
+    <string name="lbl_still_watching_short">2 odcinki lub 60 minut</string>
+    <string name="lbl_still_watching_long">5 odcinków lub 150 minut</string>
+    <string name="lbl_still_watching_very_long">8 odcinków lub 240 minut</string>
+    <string name="still_watching_label">Czy nadal oglądasz?</string>
 </resources>

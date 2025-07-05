@@ -32,8 +32,8 @@ subprojects {
 
 	// Configure default Kotlin compiler options
 	tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile> {
-		kotlinOptions {
-			jvmTarget = JavaVersion.VERSION_1_8.toString()
+		compilerOptions {
+			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
 		}
 	}
 

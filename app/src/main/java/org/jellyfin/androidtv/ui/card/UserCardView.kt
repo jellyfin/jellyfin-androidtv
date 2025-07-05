@@ -1,22 +1,30 @@
-package org.jellyfin.androidtv.ui
+package org.jellyfin.androidtv.ui.card
 
 import android.content.Context
 import android.graphics.Rect
 import android.os.Build
 import android.util.AttributeSet
 import android.view.KeyEvent
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,82 +33,85 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.base.CircularProgressIndicator
-import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.base.button.ButtonBase
-import org.jellyfin.androidtv.ui.base.button.ButtonDefaults
+import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.popupMenu
 import org.jellyfin.androidtv.util.showIfNotEmpty
 
 @Composable
-fun ServerButton(
-	icon: @Composable () -> Unit,
+fun UserCard(
+	image: @Composable () -> Unit,
 	name: @Composable () -> Unit,
-	address: @Composable () -> Unit,
-	version: @Composable () -> Unit,
 	onClick: () -> Unit,
 	modifier: Modifier = Modifier,
 	interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-	shape: Shape = ButtonDefaults.Shape,
+	shape: Shape = CircleShape,
 ) {
-	ButtonBase(
-		onClick = onClick,
-		modifier = modifier,
-		interactionSource = interactionSource,
-		shape = shape,
+	val focused by interactionSource.collectIsFocusedAsState()
+
+	// Mix button background with input foreground because we display text beneath the profile picture on a transparent background similar
+	// to the input text
+	val color = when {
+		focused -> JellyfinTheme.colorScheme.buttonFocused to JellyfinTheme.colorScheme.onInputFocused
+		else -> JellyfinTheme.colorScheme.button to JellyfinTheme.colorScheme.onInput
+	}
+	val scale by animateFloatAsState(if (focused) 1.1f else 1f, label = "UserCardFocusScale")
+
+	Column(
+		modifier = modifier
+			.scale(scale)
+			.focusable(interactionSource = interactionSource)
+			.clickable(interactionSource = interactionSource, onClick = onClick, indication = null)
 	) {
-		Row(
-			horizontalArrangement = Arrangement.spacedBy(8.dp),
-			verticalAlignment = Alignment.CenterVertically,
+		Box(
 			modifier = Modifier
-				.fillMaxSize()
-				.padding(horizontal = 16.dp, vertical = 8.dp)
+				.aspectRatio(1f)
+				.clip(shape)
+				.border(2.dp, color.first, shape)
 		) {
-			icon()
+			image()
+		}
 
-			Column(
-				modifier = Modifier
-					.weight(1f)
-					.fillMaxHeight(),
-				verticalArrangement = Arrangement.SpaceBetween,
+		Spacer(Modifier.height(8.dp))
+
+		Box(
+			modifier = Modifier
+				.fillMaxWidth()
+				.basicMarquee(
+					iterations = if (focused) Int.MAX_VALUE else 0,
+					initialDelayMillis = 0,
+				),
+			contentAlignment = Alignment.TopCenter,
+		) {
+			ProvideTextStyle(
+				LocalTextStyle.current.copy(
+					color = color.second,
+				)
 			) {
-				ProvideTextStyle(LocalTextStyle.current.copy(fontSize = 14.sp)) {
-					name()
-				}
-
-				ProvideTextStyle(LocalTextStyle.current.copy(fontSize = 12.sp)) {
-					address()
-				}
-			}
-
-			Box(modifier = Modifier.align(Alignment.Bottom)) {
-				ProvideTextStyle(LocalTextStyle.current.copy(fontSize = 12.sp)) {
-					version()
-				}
+				name()
 			}
 		}
 	}
 }
 
-class ServerButtonView @JvmOverloads constructor(
+class UserCardView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0,
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
-	var name by mutableStateOf("")
-	var address by mutableStateOf("")
-	var version by mutableStateOf<String?>(null)
-	var state by mutableStateOf(State.DEFAULT)
+	var name by mutableStateOf<String?>(null)
+	var image by mutableStateOf<String?>(null)
 	private var focused by mutableStateOf(false)
 
 	init {
@@ -141,46 +152,34 @@ class ServerButtonView @JvmOverloads constructor(
 			else interactionSource.emit(FocusInteraction.Unfocus(focusInteraction))
 		}
 
-		ServerButton(
-			icon = {
-				when (state) {
-					State.DEFAULT -> Icon(
-						painter = painterResource(R.drawable.ic_house),
-						contentDescription = null,
+		UserCard(
+			image = {
+				if (image != null) {
+					AsyncImage(
+						modifier = Modifier.fillMaxSize(),
+						url = image,
 					)
-
-					State.EDIT -> Icon(
-						painter = painterResource(R.drawable.ic_house_edit),
-						contentDescription = null,
-					)
-
-					State.CONNECTING -> CircularProgressIndicator(
-						modifier = Modifier.size(24.dp)
-					)
-
-					State.ERROR -> Icon(
-						painter = painterResource(R.drawable.ic_error),
-						contentDescription = null,
-					)
+				} else {
+					Box(modifier = Modifier.fillMaxSize()) {
+						Image(
+							painter = painterResource(R.drawable.ic_user),
+							contentDescription = name,
+							modifier = Modifier
+								.size(48.dp)
+								.align(Alignment.Center)
+						)
+					}
 				}
 			},
-			name = { Text(name) },
-			address = { Text(address) },
-			version = { Text(version.orEmpty()) },
+			name = {
+				Text(name.orEmpty(), maxLines = 1)
+			},
+			modifier = Modifier
+				.padding(horizontal = 6.dp, vertical = 8.dp)
+				.width(110.dp),
 			interactionSource = interactionSource,
-			// Use the old shape as the Android View implementation is only used in legacy UI
-			shape = RoundedCornerShape(3.dp),
-			// New implementation doesn't end up at 51.dp by default so force the old size
-			modifier = Modifier.height(51.dp),
-			// We use our own click handler for the view
+			// We use our own click handler for views used in presenters
 			onClick = {}
 		)
-	}
-
-	enum class State {
-		DEFAULT,
-		EDIT,
-		CONNECTING,
-		ERROR
 	}
 }

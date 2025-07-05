@@ -527,4 +527,20 @@
     <string name="pref_crash_reports_enabled">Laporan kerusakan akan dikirim ke server yang terakhir digunakan</string>
     <string name="item_deletion_failed">Tidak bisa menghapus %1$s</string>
     <string name="episode_name_special">Spesial</string>
+    <string name="lbl_from_beginning">Mulai dari awal</string>
+    <string name="lbl_still_watching_default">3 episode atau 90 menit</string>
+    <string name="lbl_still_watching_long">5 episode atau 150 menit</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="server_issue_timeout">Waktu koneksi berakhir</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="pref_playback_advanced">Preferensi pemutaran lanjutan</string>
+    <string name="lbl_exit">Keluar</string>
+    <string name="lbl_still_watching_short">2 episode atau 60 menit</string>
+    <string name="lbl_still_watching_very_long">8 episode atau 240 menit</string>
+    <string name="pref_subtitles_bold">Teks tebal</string>
+    <string name="dts_hd">DTS:HD</string>
 </resources>

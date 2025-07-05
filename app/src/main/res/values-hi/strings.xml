@@ -160,9 +160,9 @@
     <string name="msg_no_items">चलाने के लिए कोई आइटम नहीं</string>
     <string name="pref_button_remapping_description">सौंपने के लिए टीवी रिमोट पर कोई भी बटन दबाए</string>
     <string name="mark_watched_message">आइटम अपनी अवधि के अनुसार नहीं चला। देखा गया मार्क करें?</string>
-    <string name="msg_live_tv_next">अगले %1$d घंटे लोड करें?\"</string>
+    <string name="msg_live_tv_next">अगले %1$d घंटे दिखाएं?</string>
     <string name="episode_missing_message">यह एपिसोड आपके संग्रह से गायब है। क्या आप इसे छोड़कर अगले एपिसोड पर जाना चाहेंगे?</string>
-    <string name="msg_live_tv_prev">पिछले %1$d घंटे लोड करें?\"</string>
+    <string name="msg_live_tv_prev">पिछले %1$d घंटे दिखाएं?</string>
     <string name="too_many_errors">बहुत सारी त्रुटियां</string>
     <string name="sum_enable_cinema_mode">मूवी शुरू करने से पहले उपलब्ध इंट्रो और प्रीव्यू चलाएं</string>
     <string name="msg_item_added">" आइटम जोड़े गए"</string>
@@ -295,4 +295,14 @@
     <string name="lbl_always">हमेशा</string>
     <string name="server_connection_failed">सर्वर से कनेक्ट करने में असमर्थ</string>
     <string name="server_connection_failed_candidates">सर्वर से कनेक्ट करने में असमर्थ, यह पते प्रयास किए गए: %1$s</string>
+    <string name="login_server_unavailable">सर्वर से जुड़ने में समस्या हो रही है</string>
+    <string name="lbl_remove_users">इससे सभी संबद्ध खातों को भी हटाया जाएगा</string>
+    <string name="login_username_field_empty">कृपया उपयोगकर्ता नाम दर्ज करें</string>
+    <string name="lbl_manage_servers">सर्वर प्रबंधन करें</string>
+    <string name="lbl_from_beginning">फिर से शुरू करें</string>
+    <string name="server_field_empty">पता खाली नहीं हो सकता</string>
+    <string name="lbl_exit">बाहर जाएं</string>
+    <string name="pref_still_watching_behavior_title">निष्क्रियता समय सीमा पॉपअप दिखाएं</string>
+    <string name="login_authenticating">प्रमाणीकरण किया जा रहा है…</string>
+    <string name="login_invalid_credentials">उपयोगकर्ता नाम या पासवर्ड सही नहीं है</string>
 </resources>

@@ -581,4 +581,12 @@
     <string name="lbl_from_beginning">Baştan oynat</string>
     <string name="speech_error_unavailable">Ses tanıma özelliği cihazınızda kullanılamıyor.</string>
     <string name="pref_subtitles_bold">Kalın metin</string>
+    <string name="preference_enable_pgs">Doğrudan oynatma PGS altyazıları</string>
+    <string name="lbl_exit">Çıkış</string>
+    <string name="pref_still_watching_behavior_title">Hareketsizlik zaman aşımı açılır penceresini göster</string>
+    <string name="lbl_still_watching_default">3 bölüm veya 90 dakika</string>
+    <string name="lbl_still_watching_short">2 bölüm veya 60 dakika</string>
+    <string name="lbl_still_watching_long">5 bölüm veya 150 dakika</string>
+    <string name="lbl_still_watching_very_long">8 bölüm veya 240 dakika</string>
+    <string name="still_watching_label">Hala izliyor musunuz?</string>
 </resources>
