@@ -89,6 +89,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var cinemaModeEnabled = booleanPreference("pref_enable_cinema_mode", true)
 
 		/**
+		 * Require confirmation before seeking with D-pad
+		 */
+		var requireSeekConfirmation = booleanPreference("require_seek_confirmation", false)
+
+		/**
 		 * Enable still watching
 		 */
 		var stillWatchingBehavior = enumPreference("enable_still_watching", StillWatchingBehavior.DISABLED)
