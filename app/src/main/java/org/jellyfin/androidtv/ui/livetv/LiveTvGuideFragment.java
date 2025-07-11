@@ -321,7 +321,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
-                    if (mSelectedProgramView instanceof ProgramGridCell) {
+                    if ((mSelectedProgramView instanceof ProgramGridCell) || (mSelectedProgramView instanceof GuideChannelHeader)) {
                         if (mSelectedProgram.getStartDate().isBefore(LocalDateTime.now()))
                             playbackHelper.getValue().retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                         else
