@@ -534,6 +534,8 @@
     <string name="segment_type_recap">Recaps</string>
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
+    <string name="pref_seek_confirmation_title">Require seek confirmation</string>
+    <string name="pref_seek_confirmation_description">When enabled, D-pad left/right will preview the skip position and require OK to confirm. When disabled, D-pad left/right will skip immediately.</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
     <string name="pref_subtitles_background_opacity">Subtitle background opacity</string>
     <string name="pref_troubleshooting">Troubleshooting</string>

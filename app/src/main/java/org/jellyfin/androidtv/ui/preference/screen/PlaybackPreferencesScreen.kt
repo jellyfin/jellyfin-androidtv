@@ -88,6 +88,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				}
 				bind(userSettingPreferences, UserSettingPreferences.skipForwardLength)
 			}
+			
+			checkbox {
+				setTitle(R.string.pref_seek_confirmation_title)
+				setContent(R.string.pref_seek_confirmation_description)
+				bind(userPreferences, UserPreferences.requireSeekConfirmation)
+			}
 		}
 
 		category {
