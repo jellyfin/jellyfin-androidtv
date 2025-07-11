@@ -254,6 +254,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
+
+		/**
+		 * Enable enhanced D-pad seeking with improved responsiveness and bounds checking.
+		 */
+		var enhancedDpadSeekingEnabled = booleanPreference("enhanced_dpad_seeking", false)
 	}
 
 	init {
