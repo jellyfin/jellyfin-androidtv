@@ -611,7 +611,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 show();
                             }
 
-                            // Use VideoPlayerAdapter method for consistent behavior with FF button
+                            // Use VideoPlayerAdapter method for smoother seeking behavior
                             leanbackOverlayFragment.getPlayerAdapter().fastForward();
                             setFadingEnabled(true);
                             
@@ -623,7 +623,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 show();
                             }
 
-                            // Use VideoPlayerAdapter method for consistent behavior with RW button
+                            // Use VideoPlayerAdapter method for smoother seeking behavior
                             leanbackOverlayFragment.getPlayerAdapter().rewind();
                             setFadingEnabled(true);
                             
@@ -726,8 +726,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
-
-
 
         // end playback from here if this fragment belongs to the current session.
         // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
