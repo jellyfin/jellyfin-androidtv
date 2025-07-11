@@ -21,6 +21,7 @@ import androidx.leanback.widget.PlaybackRowPresenter;
 import androidx.leanback.widget.PlaybackTransportRowPresenter;
 import androidx.leanback.widget.PlaybackTransportRowView;
 import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.SeekBar;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -49,7 +50,7 @@ import org.koin.java.KoinJavaComponent;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
+public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> implements View.OnKeyListener {
 
     // Normal playback actions
     private PlayPauseAction playPauseAction;
@@ -82,6 +83,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private Runnable mRefreshViewVisibility;
 
     private LinearLayout mButtonRef;
+    private SeekBar mSeekBar;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
@@ -174,12 +176,14 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
+                mSeekBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
             }
 
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
                 super.onUnbindRowViewHolder(vh);
                 vh.setOnKeyListener(null);
+                mSeekBar = null;
             }
         };
         rowPresenter.setDescriptionPresenter(detailsPresenter);
@@ -369,6 +373,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             mEndsText.setVisibility(mButtonRef.getVisibility());
         mHandler.removeCallbacks(mRefreshViewVisibility);
         mHandler.postDelayed(mRefreshViewVisibility, 100);
+    }
+
+    public boolean isSeekBarFocused() {
+        return mSeekBar != null && mSeekBar.hasFocus();
     }
 
     @Override
