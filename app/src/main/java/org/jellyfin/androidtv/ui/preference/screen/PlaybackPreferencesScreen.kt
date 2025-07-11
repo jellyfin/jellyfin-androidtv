@@ -94,8 +94,6 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				}
 				bind(userSettingPreferences, UserSettingPreferences.skipForwardLength)
 			}
-			
-
 		}
 
 		category {
