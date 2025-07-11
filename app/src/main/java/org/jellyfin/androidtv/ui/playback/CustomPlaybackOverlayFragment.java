@@ -139,6 +139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -610,8 +611,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
-                    // D-pad seek logic - when overlay hidden OR when seek bar is focused
-                    if ((!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                    // Enhanced D-pad seek logic - when overlay hidden OR when seek bar is focused (if enhanced seeking is enabled)
+                    if (userPreferences.getValue().get(UserPreferences.Companion.getEnhancedDpadSeekingEnabled()) && 
+                        (!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                             if (!mIsVisible) {
                                 show();

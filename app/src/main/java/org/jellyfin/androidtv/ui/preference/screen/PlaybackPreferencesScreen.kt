@@ -76,6 +76,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.cinemaModeEnabled)
 			}
 
+			checkbox {
+				setTitle(R.string.lbl_enhanced_dpad_seeking)
+				setContent(R.string.sum_enhanced_dpad_seeking)
+				bind(userPreferences, UserPreferences.enhancedDpadSeekingEnabled)
+			}
+
 			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.skip_forward_length)
