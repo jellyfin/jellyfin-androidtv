@@ -1371,22 +1371,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private boolean isSeekBarFocused() {
-        try {
-            if (leanbackOverlayFragment != null && leanbackOverlayFragment.getView() != null) {
-                View currentFocus = leanbackOverlayFragment.getView().findFocus();
-                // Check if the focused view is related to seeking/transport controls
-                // The seek bar would typically be a SeekBar or similar component
-                return currentFocus != null && (
-                    currentFocus.getClass().getSimpleName().contains("Seek") ||
-                    currentFocus.getClass().getSimpleName().contains("Transport") ||
-                    currentFocus.getClass().getSimpleName().contains("Progress")
-                );
-            }
-        } catch (Exception e) {
-            // Fallback: if we can't determine focus, assume seek bar is focused when overlay is visible
-            return mIsVisible;
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            return leanbackOverlayFragment.getPlayerGlue().isSeekBarFocused();
         }
         return false;
     }
-    
 }
