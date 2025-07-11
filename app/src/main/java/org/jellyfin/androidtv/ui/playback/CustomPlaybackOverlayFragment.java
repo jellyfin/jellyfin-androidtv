@@ -128,6 +128,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
+    
+    // Accelerated seeking state
+    private long mLastSeekTime = 0;
+    private int mLastSeekDirection = 0; // -1 for back, 1 for forward, 0 for none
+    private int mConsecutiveSeekCount = 0;
+    private static final long SEEK_HOLD_THRESHOLD_MS = 800; // Consider it "holding" if seeks happen within 800ms
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
 
@@ -580,12 +586,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
                             playbackControllerContainer.getValue().getPlaybackController().fastForward();
                             setFadingEnabled(true);
+                            
+                            // Reset accelerated seeking when using fast forward buttons
+                            resetAcceleratedSeekingState();
                             return true;
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
                             playbackControllerContainer.getValue().getPlaybackController().rewind();
                             setFadingEnabled(true);
+                            
+                            // Reset accelerated seeking when using rewind buttons
+                            resetAcceleratedSeekingState();
                             return true;
                         }
                     }
@@ -598,6 +610,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             // if the player is playing and the overlay is hidden, this will pause
                             // if the player is paused and then 'back' is pressed to hide the overlay, this will play
                             playbackControllerContainer.getValue().getPlaybackController().playPause();
+                            
+                            // Reset accelerated seeking when play/pause is pressed
+                            resetAcceleratedSeekingState();
                             return true;
                         }
                     }
@@ -611,7 +626,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                             long currentPos = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
                             UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
-                            long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+                            long baseSkipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+                            
+                            // Get accelerated seek amount based on consecutive seeks
+                            long skipAmount = getAcceleratedSeekAmount(baseSkipAmount, 1);
                             long targetPos = Utils.getSafeSeekPosition(currentPos + skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
                             
                             // Direct seek mode: immediately seek to target position
@@ -627,7 +645,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                             long currentPos = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
                             UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
-                            long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
+                            long baseSkipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
+                            
+                            // Get accelerated seek amount based on consecutive seeks
+                            long skipAmount = getAcceleratedSeekAmount(baseSkipAmount, -1);
                             long targetPos = Utils.getSafeSeekPosition(currentPos - skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
                             
                             // Direct seek mode: immediately seek to target position
@@ -742,6 +763,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         binding.topPanel.startAnimation(slideDown);
         mIsVisible = true;
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        
+        // Reset accelerated seeking when overlay is shown
+        resetAcceleratedSeekingState();
     }
 
     public void hide() {
@@ -751,6 +775,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mIsVisible = false;
         binding.topPanel.startAnimation(fadeOut);
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        
+        // Reset accelerated seeking when overlay is hidden
+        resetAcceleratedSeekingState();
     }
 
     private void showChapterPanel() {
@@ -1384,5 +1411,56 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return mIsVisible;
         }
         return false;
+    }
+    
+    /**
+     * Reset the accelerated seeking state
+     */
+    private void resetAcceleratedSeekingState() {
+        mLastSeekTime = 0;
+        mLastSeekDirection = 0;
+        mConsecutiveSeekCount = 0;
+    }
+    
+    /**
+     * Calculate the seek amount based on consecutive seek operations.
+     * Implements accelerated seeking for held keys.
+     * 
+     * @param baseSkipAmount The base skip amount from user preferences
+     * @param direction The seek direction (-1 for back, 1 for forward)
+     * @return The accelerated seek amount in milliseconds
+     */
+    private long getAcceleratedSeekAmount(long baseSkipAmount, int direction) {
+        long currentTime = System.currentTimeMillis();
+        
+        // Check if this is a consecutive seek in the same direction within the threshold
+        if (currentTime - mLastSeekTime <= SEEK_HOLD_THRESHOLD_MS && mLastSeekDirection == direction) {
+            mConsecutiveSeekCount++;
+        } else {
+            // Reset if direction changed or too much time passed
+            mConsecutiveSeekCount = 1;
+        }
+        
+        // Update tracking variables
+        mLastSeekTime = currentTime;
+        mLastSeekDirection = direction;
+        
+        // Calculate accelerated seek amount
+        if (mConsecutiveSeekCount <= 3) {
+            // First 3 seeks: Use normal skip amount
+            return baseSkipAmount;
+        } else if (mConsecutiveSeekCount <= 6) {
+            // Next 3 seeks: 30 seconds
+            return 30000;
+        } else if (mConsecutiveSeekCount <= 9) {
+            // Next 3 seeks: 1 minute
+            return 60000;
+        } else if (mConsecutiveSeekCount <= 12) {
+            // Next 3 seeks: 3 minutes
+            return 180000;
+        } else {
+            // Beyond that: 5 minutes
+            return 300000;
+        }
     }
 }
