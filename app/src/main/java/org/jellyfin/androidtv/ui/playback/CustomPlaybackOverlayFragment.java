@@ -636,6 +636,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
             }
 
+            boolean naturalDpadSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNaturalDpadSeekingEnabled());
             if (!naturalDpadSeekingEnabled) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_DPAD_LEFT:
