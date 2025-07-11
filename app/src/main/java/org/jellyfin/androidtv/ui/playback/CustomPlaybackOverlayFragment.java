@@ -128,11 +128,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
-    
-    // Seek preview state
-    private boolean mIsSeekPreview = false;
-    private long mOriginalPosition = 0;
-    private long mTargetPosition = 0;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
 
@@ -144,7 +139,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
-    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -514,16 +508,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
 
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    // Handle seek preview cancellation first
-                    if (mIsSeekPreview) {
-                        // Cancel preview and return to original position
-                        playbackControllerContainer.getValue().getPlaybackController().seek(mOriginalPosition);
-                        mIsSeekPreview = false;
-                        mOriginalPosition = 0;
-                        mTargetPosition = 0;
-                        return true;
-                    }
-                    
                     if (mPopupPanelVisible) {
                         // back should just hide the popup panel
                         hidePopupPanel();
@@ -606,15 +590,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
-                    // Handle seek preview confirmation (works regardless of overlay visibility)
-                    if (mIsSeekPreview && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        // Confirm the seek by seeking to stored target position
-                        playbackControllerContainer.getValue().getPlaybackController().seek(mTargetPosition);
-                        mIsSeekPreview = false;
-                        mOriginalPosition = 0;
-                        mTargetPosition = 0;
-                        return true;
-                    }
+
 
                     if (!mIsVisible) {
                         if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
@@ -638,26 +614,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
                             long targetPos = Utils.getSafeSeekPosition(currentPos + skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
                             
-                            // Check if user wants seek confirmation
-                            boolean requireConfirmation = userPreferences.getValue().get(UserPreferences.Companion.getRequireSeekConfirmation());
-                            
-                            if (requireConfirmation) {
-                                // Preview mode: accumulate multiple clicks and show visual preview
-                                if (!mIsSeekPreview) {
-                                    // First click - start preview mode
-                                    mOriginalPosition = currentPos;
-                                    mTargetPosition = targetPos;
-                                    mIsSeekPreview = true;
-                                } else {
-                                    // Subsequent clicks - accumulate from current target
-                                    mTargetPosition = Utils.getSafeSeekPosition(mTargetPosition + skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
-                                }
-                                // Show visual preview by seeking to target position
-                                playbackControllerContainer.getValue().getPlaybackController().seek(mTargetPosition);
-                            } else {
-                                // Direct seek mode: immediately seek to target position
-                                playbackControllerContainer.getValue().getPlaybackController().seek(targetPos);
-                            }
+                            // Direct seek mode: immediately seek to target position
+                            playbackControllerContainer.getValue().getPlaybackController().seek(targetPos);
 
                             return true;
                         }
@@ -672,26 +630,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
                             long targetPos = Utils.getSafeSeekPosition(currentPos - skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
                             
-                            // Check if user wants seek confirmation
-                            boolean requireConfirmation = userPreferences.getValue().get(UserPreferences.Companion.getRequireSeekConfirmation());
-                            
-                            if (requireConfirmation) {
-                                // Preview mode: accumulate multiple clicks and show visual preview
-                                if (!mIsSeekPreview) {
-                                    // First click - start preview mode
-                                    mOriginalPosition = currentPos;
-                                    mTargetPosition = targetPos;
-                                    mIsSeekPreview = true;
-                                } else {
-                                    // Subsequent clicks - accumulate from current target
-                                    mTargetPosition = Utils.getSafeSeekPosition(mTargetPosition - skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
-                                }
-                                // Show visual preview by seeking to target position
-                                playbackControllerContainer.getValue().getPlaybackController().seek(mTargetPosition);
-                            } else {
-                                // Direct seek mode: immediately seek to target position
-                                playbackControllerContainer.getValue().getPlaybackController().seek(targetPos);
-                            }
+                            // Direct seek mode: immediately seek to target position
+                            playbackControllerContainer.getValue().getPlaybackController().seek(targetPos);
 
                             return true;
                         }
@@ -809,14 +749,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (!mIsVisible) return;
 
         mIsVisible = false;
-        
-        // Reset seek preview state when hiding overlay
-        if (mIsSeekPreview) {
-            mIsSeekPreview = false;
-            mOriginalPosition = 0;
-            mTargetPosition = 0;
-        }
-        
         binding.topPanel.startAnimation(fadeOut);
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
     }
