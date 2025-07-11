@@ -63,9 +63,11 @@ object Utils : KoinComponent {
 	}
 
 	@JvmStatic
-	fun getSafeSeekPosition(position: Long, duration: Long): Long = when {
-		position >= duration -> (duration - 1000).coerceAtLeast(0)
-		else -> position.coerceAtLeast(0)
+	fun getSafeSeekPosition(position: Long, duration: Long): Long {
+		val minSafePosition = 100L // Use 100ms instead of 0 to avoid ExoPlayer issues with position 0 causing the seek position to reset to source position
+		val maxSafePosition = duration - 1000L
+
+		return position.coerceIn(minSafePosition, maxSafePosition)
 	}
 
 	@JvmStatic
