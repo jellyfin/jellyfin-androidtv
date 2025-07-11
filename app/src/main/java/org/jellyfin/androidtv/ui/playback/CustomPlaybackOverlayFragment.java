@@ -603,8 +603,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
-                    // Enhanced D-pad seek logic - when overlay hidden OR when seek bar is focused (if enhanced seeking is enabled)
-                    if (userPreferences.getValue().get(UserPreferences.Companion.getEnhancedDpadSeekingEnabled()) && 
+                    boolean naturalDpadSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNaturalDpadSeekingEnabled());
+                    if (naturalDpadSeekingEnabled && 
                         (!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                             if (!mIsVisible) {
@@ -636,8 +636,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
             }
 
-            // Original D-pad UI handling when enhanced seeking is disabled
-            if (!userPreferences.getValue().get(UserPreferences.Companion.getEnhancedDpadSeekingEnabled())) {
+            if (!naturalDpadSeekingEnabled) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_DPAD_LEFT:
                     case KeyEvent.KEYCODE_DPAD_RIGHT:

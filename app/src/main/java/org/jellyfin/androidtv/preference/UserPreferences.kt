@@ -256,9 +256,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 
 		/**
-		 * Enable enhanced D-pad seeking with improved responsiveness and bounds checking.
+		 * Enable natural D-pad seeking that moves relative to current position instead of snapping to fixed intervals.
 		 */
-		var enhancedDpadSeekingEnabled = booleanPreference("enhanced_dpad_seeking", false)
+		var naturalDpadSeekingEnabled = booleanPreference("natural_dpad_seeking", false)
 	}
 
 	init {
