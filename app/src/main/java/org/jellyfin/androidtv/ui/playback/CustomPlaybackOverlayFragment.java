@@ -455,10 +455,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     playbackController.playPause();
                     return true;
                 } else if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
-                    playbackController.fastForward();
+                    leanbackOverlayFragment.getPlayerAdapter().fastForward();
                     return true;
                 } else if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
-                    playbackController.rewind();
+                    leanbackOverlayFragment.getPlayerAdapter().rewind();
                     return true;
                 }
             }
@@ -578,7 +578,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     // Control fast forward and rewind if overlay hidden and not showing live TV
                     if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
-                            playbackControllerContainer.getValue().getPlaybackController().fastForward();
+                            // Use VideoPlayerAdapter method for consistent behavior with FF button
+                            leanbackOverlayFragment.getPlayerAdapter().fastForward();
                             setFadingEnabled(true);
                             
 
@@ -586,7 +587,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
-                            playbackControllerContainer.getValue().getPlaybackController().rewind();
+                            // Use VideoPlayerAdapter method for consistent behavior with RW button
+                            leanbackOverlayFragment.getPlayerAdapter().rewind();
                             setFadingEnabled(true);
                             
 
@@ -615,7 +617,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 show();
                             }
 
-                            playbackControllerContainer.getValue().getPlaybackController().fastForward();
+                            // Use VideoPlayerAdapter method for consistent behavior with FF button
+                            leanbackOverlayFragment.getPlayerAdapter().fastForward();
                             setFadingEnabled(true);
                             
                             return true;
@@ -626,7 +629,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 show();
                             }
 
-                            playbackControllerContainer.getValue().getPlaybackController().rewind();
+                            // Use VideoPlayerAdapter method for consistent behavior with RW button
+                            leanbackOverlayFragment.getPlayerAdapter().rewind();
                             setFadingEnabled(true);
                             
                             return true;
