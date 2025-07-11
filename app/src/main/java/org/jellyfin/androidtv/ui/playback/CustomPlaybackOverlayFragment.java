@@ -85,6 +85,8 @@ import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
+import org.koin.java.KoinJavaComponent;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
     protected VlcPlayerInterfaceBinding binding;
@@ -504,6 +506,38 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     return true;
                 }
 
+                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                        if (!mIsVisible) {
+                            show();
+                        }
+
+                        long currentPos = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
+                        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
+                        long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+                        long targetPos = Utils.getSafeSeekPosition(currentPos + skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
+                        playbackControllerContainer.getValue().getPlaybackController().seek(targetPos);
+
+                        return true;
+                    }
+                }
+
+                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                    if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                        if (!mIsVisible) {
+                            show();
+                        }
+
+                        long currentPos = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
+                        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
+                        long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
+                        long targetPos = Utils.getSafeSeekPosition(currentPos - skipAmount, playbackControllerContainer.getValue().getPlaybackController().getDuration());
+                        playbackControllerContainer.getValue().getPlaybackController().seek(targetPos);
+
+                        return true;
+                    }
+                }
+
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
                     if (mPopupPanelVisible) {
                         // back should just hide the popup panel
@@ -588,18 +622,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
 
                     if (!mIsVisible) {
-                        if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                setFadingEnabled(true);
-                                return true;
-                            }
-
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                setFadingEnabled(true);
-                                return true;
-                            }
-                        }
-
                         if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
                                 && playbackControllerContainer.getValue().getPlaybackController().canSeek()) {
                             // if the player is playing and the overlay is hidden, this will pause
@@ -612,12 +634,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     //and then manage our fade timer
                     if (mFadeEnabled) startFadeTimer();
                 }
-            }
-
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_DPAD_LEFT:
-                case KeyEvent.KEYCODE_DPAD_RIGHT:
-                    leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
             }
 
             return false;
