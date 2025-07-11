@@ -162,6 +162,8 @@
     <string name="lbl_episodes">Episodes</string>
     <string name="lbl_enable_cinema_mode">Cinema mode</string>
     <string name="sum_enable_cinema_mode">Play available intros and previews before starting a movie</string>
+    <string name="lbl_enhanced_dpad_seeking">Natural D-pad controls</string>
+    <string name="sum_enhanced_dpad_seeking">Skip forward/back from current position instead of jumping to preset times</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="msg_items_added">" items added"</string>
     <string name="lbl_add_to_queue">Add to queue</string>
