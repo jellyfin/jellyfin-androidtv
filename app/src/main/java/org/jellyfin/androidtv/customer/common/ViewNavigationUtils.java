@@ -57,6 +57,13 @@ public class ViewNavigationUtils {
         }
     }
 
+    public static void clearAllNavigation(View button) {
+        button.setNextFocusUpId(button.getId());
+        button.setNextFocusDownId(button.getId());
+        button.setNextFocusLeftId(button.getId());
+        button.setNextFocusRightId(button.getId());
+    }
+
     public static void viewNextPre(View pre, View next, boolean horizontal, boolean loop) {
         if (horizontal) {
             next.setNextFocusLeftId(pre.getId());
@@ -69,6 +76,5 @@ public class ViewNavigationUtils {
         if (loop) {
             pre.setNextFocusDownId(next.getId());
         }
-
     }
 }

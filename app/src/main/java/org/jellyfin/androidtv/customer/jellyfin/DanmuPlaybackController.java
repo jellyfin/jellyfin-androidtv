@@ -129,6 +129,7 @@ public class DanmuPlaybackController extends PlaybackController {
 
     @Override
     public void seek(long pos, boolean skipToNext) {
+        super.seek(pos, skipToNext);
         // 下一集不进行
         if (getDanmakuView() == null || !getDanmakuView().isPrepared()) {
             //如果没有初始化过的，记录位置等待
@@ -137,7 +138,6 @@ public class DanmuPlaybackController extends PlaybackController {
             //如果已经初始化过的，直接seek到对于位置
             resolveDanmakuSeek(this, pos);
         }
-        super.seek(pos, skipToNext);
     }
 
     protected void danmakuOnPause() {

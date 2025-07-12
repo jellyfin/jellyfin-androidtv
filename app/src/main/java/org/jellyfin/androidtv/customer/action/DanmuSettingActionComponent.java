@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.util.Function;
 
+import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
 import org.jellyfin.androidtv.customer.common.ViewNavigationUtils;
@@ -31,6 +32,7 @@ import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
+import timber.log.Timber;
 
 public interface DanmuSettingActionComponent {
     Object[][] SPEED_VALUES = new Object[][]{
@@ -84,7 +86,13 @@ public interface DanmuSettingActionComponent {
         float originDanmuSpeed = customerUserPreferences.getDanmuSpeed();
         int originProgress = (int) (originDanmuSpeed * 10 - 5);
         speed.setProgress(originProgress);
-        Function<Integer, String> speedValueGetter = integer -> String.format("%.1f", (integer + 5) / 10.0f);
+        Function<Integer, String> speedValueGetter = integer -> {
+            String format = String.format("%.1f", (integer + 5) / 10.0f);
+            if (BuildConfig.DEBUG) {
+                Timber.d("数据库值=%s, 原始值=%s, 计算后值=%s", originDanmuSpeed, integer, format);
+            }
+            return format;
+        };
         speedValue.setText(speedValueGetter.apply(originProgress));
         speed.setOnSeekBarChangeListener(new TextSeekBarListener(speedValue, speedValueGetter));
         views.add(speed);
@@ -125,6 +133,7 @@ public interface DanmuSettingActionComponent {
         }
         views.add(offsetTimeView);
         int originDanmuOffset = tempDanmuOffset;
+        ViewNavigationUtils.viewNextPre(fontSize, offsetTimeView, true, false);
 
         // 描边
         int originDanmuStyle = customerUserPreferences.getDanmuStyle();
@@ -232,6 +241,10 @@ public interface DanmuSettingActionComponent {
 
         Button cancel = danmuSetting.findViewById(R.id.cancel);
         cancel.setOnClickListener(v -> danmuSetting.setVisibility(View.GONE));
+
+        // 清除全部按钮导航逻辑
+        views.forEach(ViewNavigationUtils::clearAllNavigation);
+
         // 确认按钮导航
         ViewNavigationUtils.viewPreNext(confirm, cancel, true, true);
         ViewNavigationUtils.viewPreNext(cancel, confirm, true, true);

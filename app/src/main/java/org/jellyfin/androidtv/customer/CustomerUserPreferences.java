@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager;
 
 import com.alibaba.fastjson.JSON;
 
+import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.danmu.model.AutoSkipModel;
 import org.jellyfin.preference.store.SharedPreferenceStore;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -92,6 +93,10 @@ public class CustomerUserPreferences extends SharedPreferenceStore {
             Timber.e(e, "加载片头片尾缓存记录失败");
             this.itemAutoSkipTimes = new HashMap<>();
         }
+
+        if (BuildConfig.DEBUG) {
+            Timber.d("数据库值 加载配置数据=%s", JSON.toJSONString(this));
+        }
     }
 
     public float getDanmuSpeed() {
@@ -100,7 +105,10 @@ public class CustomerUserPreferences extends SharedPreferenceStore {
 
     public void setDanmuSpeed(float danmuSpeed) {
         this.danmuSpeed = danmuSpeed;
-        setFloat(DAN_MU_SPEED, videoSpeed);
+        if (BuildConfig.DEBUG) {
+            Timber.d("数据库值 setDanmuSpeed 保存数据库=%s", danmuSpeed);
+        }
+        setFloat(DAN_MU_SPEED, danmuSpeed);
     }
 
     public boolean isDanmuFps() {
