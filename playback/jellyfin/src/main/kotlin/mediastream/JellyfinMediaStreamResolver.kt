@@ -1,11 +1,9 @@
 package org.jellyfin.playback.jellyfin.mediastream
 
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
-import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.queue.QueueEntry
-import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
@@ -25,7 +23,7 @@ class JellyfinMediaStreamResolver(
 		private val supportedMediaTypes = arrayOf(MediaType.VIDEO, MediaType.AUDIO)
 	}
 
-	override suspend fun getStream(queueEntry: QueueEntry, testStream: (stream: MediaStream) -> PlaySupportReport): PlayableMediaStream? {
+	override suspend fun getStream(queueEntry: QueueEntry): PlayableMediaStream? {
 		val baseItem = queueEntry.baseItem
 		if (baseItem == null || !supportedMediaTypes.contains(baseItem.mediaType)) return null
 

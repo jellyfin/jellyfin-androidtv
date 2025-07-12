@@ -21,7 +21,7 @@ internal class MediaStreamService(
 			if (entry == null) {
 				backend.setCurrent(null)
 			} else {
-				val hasMediaStream = entry.ensureMediaStream(backend)
+				val hasMediaStream = entry.ensureMediaStream()
 
 				if (hasMediaStream) {
 					backend.setCurrent(entry)
@@ -40,12 +40,10 @@ internal class MediaStreamService(
 		// TODO Register some kind of event when $current item is at -30 seconds to setNext()
 	}
 
-	private suspend fun QueueEntry.ensureMediaStream(
-		backend: PlayerBackend,
-	): Boolean {
+	private suspend fun QueueEntry.ensureMediaStream(): Boolean {
 		mediaStream = mediaStream ?: mediaStreamResolvers.firstNotNullOfOrNull { resolver ->
 			runCatching {
-				resolver.getStream(this, backend::supportsStream)
+				resolver.getStream(this)
 			}.onFailure {
 				Timber.e(it, "Media stream resolver failed for $this")
 			}.getOrNull()
