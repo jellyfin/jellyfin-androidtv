@@ -21,7 +21,7 @@ import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import kotlin.math.max
 
 class QueueService internal constructor() : PlayerService(), Queue {
-	private val suppliers = mutableListOf<QueueSupplier>()
+	private val _suppliers = mutableListOf<QueueSupplier>()
 	private var currentSupplierIndex = 0
 	private var currentSupplierItemIndex = 0
 	private val fetchedItems: MutableList<QueueEntry> = mutableListOf()
@@ -30,7 +30,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	private var orderIndexProvider: OrderIndexProvider = defaultOrderIndexProvider
 	private var currentQueueIndicesPlayed = mutableListOf<Int>()
 
-	override val estimatedSize get() = max(fetchedItems.size, suppliers.sumOf { it.size })
+	override val estimatedSize get() = max(fetchedItems.size, _suppliers.sumOf { it.size })
 
 	private val _entryIndex = MutableStateFlow(Queue.INDEX_NONE)
 	override val entryIndex: StateFlow<Int> get() = _entryIndex.asStateFlow()
@@ -64,20 +64,24 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	// Entry management
 
 	override fun addSupplier(supplier: QueueSupplier) {
-		suppliers.add(supplier)
+		_suppliers.add(supplier)
 
 		if (_entryIndex.value == Queue.INDEX_NONE) {
 			coroutineScope.launch { setIndex(0) }
 		}
 	}
 
+	override fun getSuppliers(): Collection<QueueSupplier> {
+		return _suppliers.toList()
+	}
+
 	private suspend fun getOrSupplyItem(index: Int): QueueEntry? {
 		// Fetch additional items from suppliers until we reach the desired index
 		while (index >= fetchedItems.size) {
 			// No more suppliers to try
-			if (currentSupplierIndex >= suppliers.size) break
+			if (currentSupplierIndex >= _suppliers.size) break
 
-			val supplier = suppliers[currentSupplierIndex]
+			val supplier = _suppliers[currentSupplierIndex]
 			val nextItem = supplier.getItem(currentSupplierItemIndex)
 
 			if (nextItem != null) {
@@ -97,7 +101,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	}
 
 	override fun clear() {
-		suppliers.clear()
+		_suppliers.clear()
 		currentSupplierIndex = 0
 		currentSupplierItemIndex = 0
 		fetchedItems.clear()

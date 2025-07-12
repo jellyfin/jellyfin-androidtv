@@ -29,6 +29,11 @@ interface Queue {
 	fun addSupplier(supplier: QueueSupplier)
 
 	/**
+	 * Get all current suppliers of this queue.
+	 */
+	fun getSuppliers(): Collection<QueueSupplier>
+
+	/**
 	 * Clear all queue state, including suppliers, entries and currently playing entry.
 	 */
 	fun clear()
