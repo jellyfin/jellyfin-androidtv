@@ -27,12 +27,13 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwnerKt;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentAudioNowPlayingBinding;
+import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
@@ -227,8 +228,7 @@ public class AudioNowPlayingFragment extends Fragment {
     }
 
     protected void addQueue() {
-        mQueueRow = new ListRow(new HeaderItem(getString(R.string.current_queue)), mediaManager.getValue().getCurrentAudioQueue());
-        mediaManager.getValue().getCurrentAudioQueue().setRow(mQueueRow);
+        mQueueRow = new ListRow(new HeaderItem(getString(R.string.current_queue)), new AudioQueueBaseRowAdapter(playbackManager.getValue(), LifecycleOwnerKt.getLifecycleScope(this)));
         mRowsAdapter.add(mQueueRow);
     }
 
@@ -280,8 +280,6 @@ public class AudioNowPlayingFragment extends Fragment {
         @Override
         public void onQueueReplaced() {
             dismissPopup();
-            mRowsAdapter.remove(mQueueRow);
-            addQueue();
         }
     };
 
@@ -393,10 +391,10 @@ public class AudioNowPlayingFragment extends Fragment {
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof BaseRowItem) {
+            if (item instanceof AudioQueueBaseRowItem) {
                 // Keep counter
-                ItemRowAdapter adapter = (ItemRowAdapter) mQueueRow.getAdapter();
-                mCounter.setText((adapter.indexOf(item) + 1) + " | " + adapter.size());
+                AudioQueueBaseRowAdapter adapter = (AudioQueueBaseRowAdapter) mQueueRow.getAdapter();
+                mCounter.setText((adapter.indexOf((AudioQueueBaseRowItem) item) + 1) + " | " + adapter.size());
             }
         }
     }

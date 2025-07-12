@@ -4,13 +4,18 @@ import android.content.Context
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.Row
+import androidx.lifecycle.LifecycleCoroutineScope
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.playback.AudioQueueBaseRowAdapter
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
+import org.jellyfin.playback.core.PlaybackManager
 
 class HomeFragmentNowPlayingRow(
-	private val mediaManager: MediaManager
+	private val lifecycleScope: LifecycleCoroutineScope,
+	private val playbackManager: PlaybackManager,
+	private val mediaManager: MediaManager,
 ) : HomeFragmentRow {
 	private var row: ListRow? = null
 
@@ -27,7 +32,7 @@ class HomeFragmentNowPlayingRow(
 			// Ensure row exists
 			if (row == null) row = ListRow(
 				HeaderItem(context.getString(R.string.lbl_now_playing)),
-				mediaManager.managedAudioQueue
+				AudioQueueBaseRowAdapter(playbackManager, lifecycleScope)
 			)
 			// Add row if it wasn't added already
 			if (!rowsAdapter.contains(row!!)) rowsAdapter.add(0, row!!)

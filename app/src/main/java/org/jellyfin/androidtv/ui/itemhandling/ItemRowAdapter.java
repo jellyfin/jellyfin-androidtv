@@ -609,9 +609,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             case StaticItems:
                 loadStaticItems();
                 break;
-            case StaticAudioQueueItems:
-                loadStaticAudioItems();
-                break;
             case Specials:
                 ItemRowAdapterHelperKt.retrieveSpecialFeatures(this, api.getValue(), mSpecialsQuery);
                 break;
@@ -679,20 +676,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 add(new BaseItemDtoBaseRowItem(item));
             }
             itemsLoaded = mItems.size();
-        } else {
-            removeRow();
-        }
-
-        notifyRetrieveFinished();
-    }
-
-    private void loadStaticAudioItems() {
-        if (mItems != null) {
-            for (org.jellyfin.sdk.model.api.BaseItemDto item : mItems) {
-                add(new AudioQueueBaseRowItem(item));
-            }
-            itemsLoaded = mItems.size();
-
         } else {
             removeRow();
         }
