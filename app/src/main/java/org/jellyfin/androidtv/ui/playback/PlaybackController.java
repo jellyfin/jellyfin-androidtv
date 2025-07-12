@@ -1030,6 +1030,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             Timber.d("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
+
+            boolean naturalSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNaturalDpadSeekingEnabled());
             mHandler.postDelayed(skipRunnable, 800);
         }
     }

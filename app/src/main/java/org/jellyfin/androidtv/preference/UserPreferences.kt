@@ -88,6 +88,8 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var cinemaModeEnabled = booleanPreference("pref_enable_cinema_mode", true)
 
+
+
 		/**
 		 * Enable still watching
 		 */
@@ -252,6 +254,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
+
+		/**
+		 * Enable natural D-pad seeking that moves relative to current position instead of snapping to fixed intervals.
+		 */
+		var naturalDpadSeekingEnabled = booleanPreference("natural_dpad_seeking", false)
 	}
 
 	init {

@@ -85,6 +85,9 @@ import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.koin.java.KoinJavaComponent;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
     protected VlcPlayerInterfaceBinding binding;
@@ -136,6 +139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -588,23 +592,41 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
 
                     if (!mIsVisible) {
-                        if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                setFadingEnabled(true);
-                                return true;
-                            }
-
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                setFadingEnabled(true);
-                                return true;
-                            }
-                        }
-
                         if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
                                 && playbackControllerContainer.getValue().getPlaybackController().canSeek()) {
                             // if the player is playing and the overlay is hidden, this will pause
                             // if the player is paused and then 'back' is pressed to hide the overlay, this will play
                             playbackControllerContainer.getValue().getPlaybackController().playPause();
+                            
+
+                            return true;
+                        }
+                    }
+
+                    boolean naturalDpadSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNaturalDpadSeekingEnabled());
+                    if (naturalDpadSeekingEnabled && 
+                        (!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                            if (!mIsVisible) {
+                                show();
+                            }
+
+                            // Use VideoPlayerAdapter method for smoother seeking behavior
+                            leanbackOverlayFragment.getPlayerAdapter().fastForward();
+                            setFadingEnabled(true);
+                            
+                            return true;
+                        }
+
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                            if (!mIsVisible) {
+                                show();
+                            }
+
+                            // Use VideoPlayerAdapter method for smoother seeking behavior
+                            leanbackOverlayFragment.getPlayerAdapter().rewind();
+                            setFadingEnabled(true);
+                            
                             return true;
                         }
                     }
@@ -614,10 +636,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
             }
 
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_DPAD_LEFT:
-                case KeyEvent.KEYCODE_DPAD_RIGHT:
-                    leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
+            boolean naturalDpadSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNaturalDpadSeekingEnabled());
+            if (!naturalDpadSeekingEnabled) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_LEFT:
+                    case KeyEvent.KEYCODE_DPAD_RIGHT:
+                        leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
+                }
             }
 
             return false;
@@ -1343,5 +1368,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             params.preferredDisplayModeId = 0;
             getActivity().getWindow().setAttributes(params);
         }
+    }
+
+    private boolean isSeekBarFocused() {
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            return leanbackOverlayFragment.getPlayerGlue().isSeekBarFocused();
+        }
+        return false;
     }
 }
