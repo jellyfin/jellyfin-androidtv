@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.backend.PlayerBackend
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
@@ -43,7 +44,9 @@ internal class MediaStreamService(
 	private suspend fun QueueEntry.ensureMediaStream(): Boolean {
 		mediaStream = mediaStream ?: mediaStreamResolvers.firstNotNullOfOrNull { resolver ->
 			runCatching {
-				resolver.getStream(this)
+				withContext(Dispatchers.IO) {
+					resolver.getStream(this@ensureMediaStream)
+				}
 			}.onFailure {
 				Timber.e(it, "Media stream resolver failed for $this")
 			}.getOrNull()
