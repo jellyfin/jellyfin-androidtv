@@ -60,7 +60,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     // Normal playback actions
     private PlayPauseAction playPauseAction;
-    private JellyfinBingeWatchingAction jellyfinBingeWatchingAction;
     private JellyfinPlaybackVideoInfoAction jellyfinPlaybackVideoInfoAction;
     private JellyfinDanmuControlAction jellyfinDanmuControlAction;
     private JellyfinDanmuSettingAction jellyfinDanmuSettingAction;
@@ -219,7 +218,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         zoomAction.setLabels(new String[]{context.getString(R.string.lbl_zoom)});
         chapterAction = new ChapterAction(context, this);
         chapterAction.setLabels(new String[]{context.getString(R.string.lbl_chapters)});
-        jellyfinBingeWatchingAction = new JellyfinBingeWatchingAction(context, this, playbackController);
         jellyfinPlaybackVideoInfoAction = new JellyfinPlaybackVideoInfoAction(context, this, playbackController);
         if (playbackController instanceof DanmuPlaybackController) {
             jellyfinDanmuControlAction = new JellyfinDanmuControlAction(context, this, (DanmuPlaybackController) playbackController, buttonRefresher);
@@ -303,7 +301,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (!playerAdapter.isLiveTv()) {
             secondaryActionsAdapter.add(playbackSpeedAction);
             secondaryActionsAdapter.add(selectQualityAction);
-            secondaryActionsAdapter.add(jellyfinBingeWatchingAction);
             if (jellyfinDanmuControlAction != null) {
                 secondaryActionsAdapter.add(jellyfinDanmuControlAction);
             }
