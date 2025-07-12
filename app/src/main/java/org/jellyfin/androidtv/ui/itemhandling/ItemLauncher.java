@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.Response;
@@ -65,7 +66,7 @@ public class ItemLauncher {
         }
     }
 
-    public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, final Context context) {
+    public void launch(final BaseRowItem rowItem, MutableObjectAdapter<Object> adapter, final Context context) {
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
@@ -100,8 +101,8 @@ public class ItemLauncher {
                             navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
                         } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && adapter.indexOf(rowItem) < mediaManager.getValue().getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
-                            mediaManager.getValue().playFrom(rowItem.getBaseItem());
-                        } else if (adapter.getQueryType() == QueryType.Search) {
+                            mediaManager.getValue().playFrom(((AudioQueueBaseRowItem) rowItem).getQueueEntry());
+                        } else if (adapter instanceof ItemRowAdapter && ((ItemRowAdapter)adapter).getQueryType() == QueryType.Search) {
                             playbackLauncher.getValue().launch(context, Arrays.asList(rowItem.getBaseItem()));
                         } else {
                             Timber.d("playing audio item");
@@ -125,12 +126,14 @@ public class ItemLauncher {
                         return;
 
                     case PHOTO:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.pictureViewer(
-                                baseItem.getId(),
-                                false,
-                                adapter.getSortBy(),
-                                adapter.getSortOrder()
-                        ));
+                        if (adapter instanceof ItemRowAdapter) {
+                            navigationRepository.getValue().navigate(Destinations.INSTANCE.pictureViewer(
+                                    baseItem.getId(),
+                                    false,
+                                    ((ItemRowAdapter) adapter).getSortBy(),
+                                    ((ItemRowAdapter) adapter).getSortOrder()
+                            ));
+                        }
                         return;
 
                 }

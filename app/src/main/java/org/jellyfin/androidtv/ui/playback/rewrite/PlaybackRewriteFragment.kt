@@ -44,8 +44,7 @@ class PlaybackRewriteFragment : Fragment() {
 		super.onCreate(savedInstanceState)
 
 		// Create a queue from the items added to the legacy video queue
-		val queueSupplier = RewriteMediaManager.BaseItemQueueSupplier(api)
-		queueSupplier.items.addAll(videoQueueManager.getCurrentVideoQueue())
+		val queueSupplier = RewriteMediaManager.BaseItemQueueSupplier(api, videoQueueManager.getCurrentVideoQueue())
 		Timber.i("Created a queue with ${queueSupplier.items.size} items")
 		playbackManager.queue.clear()
 		playbackManager.queue.addSupplier(queueSupplier)
