@@ -270,8 +270,8 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>
-    <string name="msg_live_tv_prev">Carico le precedenti %1$d ore?\"</string>
-    <string name="msg_live_tv_next">Carico le prossime %1$d ore?\"</string>
+    <string name="msg_live_tv_prev">Carico le precedenti %1$d ore?</string>
+    <string name="msg_live_tv_next">Carico le prossime %1$d ore?</string>
     <string name="episode_missing_message_2">Quest\'episodio manca nella tua libreria. La riproduzione verrà interrotta.</string>
     <string name="episode_missing_message">Quest\'episodio manca nella tua libreria. Vuoi saltarlo e continuare con il prossimo\?</string>
     <string name="image_size_large">Grandi</string>
@@ -585,4 +585,18 @@
     <string name="fast_forward">Avanti veloce</string>
     <string name="rewind">Riavvolgi</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="preference_enable_libass">Abilita Advanced SubStation Alpha subtitle client rendering</string>
+    <string name="pref_subtitles_bold">Testo in grassetto</string>
+    <string name="preference_enable_pgs">Riproduci direttamente sottotitoli PGS</string>
+    <string name="lbl_from_beginning">Riproduci dall\'inizio</string>
+    <string name="speech_error_no_permission">Senza permesso per usare il microfono. Per favore abilitalo nelle impostazioni di sistema.</string>
+    <string name="speech_error_unavailable">Il riconoscimento vocale non è disponibile nel tuo dispositivo.</string>
+    <string name="speech_error_unknown">Errore durante il riconoscimento vocale.</string>
+    <string name="lbl_exit">Chudi</string>
+    <string name="pref_still_watching_behavior_title">Mostra avviso per inattività</string>
+    <string name="lbl_still_watching_default">3 episodi o 90 minuti</string>
+    <string name="lbl_still_watching_short">2 episodi o 60 minuti</string>
+    <string name="lbl_still_watching_long">5 episodi o 150 minuti</string>
+    <string name="lbl_still_watching_very_long">8 episodi o 240 minuti</string>
+    <string name="still_watching_label">Stai ancora guardando?</string>
 </resources>
