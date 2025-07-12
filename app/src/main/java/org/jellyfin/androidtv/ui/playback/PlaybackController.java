@@ -14,10 +14,8 @@ import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
-import org.jellyfin.androidtv.customer.autoskip.AutoSkipComponent;
 import org.jellyfin.androidtv.customer.behavior.BestStreamSelector;
 import org.jellyfin.androidtv.customer.behavior.ChineseBestAudioSelector;
-import org.jellyfin.androidtv.danmu.model.AutoSkipModel;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
@@ -73,7 +71,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
     private final Lazy<InteractionTrackerViewModel> lazyInteractionTracker = inject(InteractionTrackerViewModel.class);
-    private AutoSkipComponent autoSkipComponent;
     private CustomerUserPreferences customerUserPreferences;
 
     List<BaseItemDto> mItems;
@@ -160,14 +157,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getPlayerZoomMode()));
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
-
-        autoSkipComponent = new AutoSkipComponent(this::seek, () -> {
-            BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
-            if (currentlyPlayingItem == null) {
-                return null;
-            }
-            return currentlyPlayingItem.getEpisodeTitle();
-        }, fragment.getContext(), fragment.binding.bottomTipInfo);
     }
 
     public void setItems(List<BaseItemDto> items) {
@@ -617,15 +606,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        AutoSkipModel autoSkipModel = customerUserPreferences.getAutoSkipModel(item);
-        setAutoSkip(autoSkipModel);
-        if (position <= 0) {
-            if (autoSkipModel != null && autoSkipModel.getTsTime() <= 0 && autoSkipModel.getTeTime() > 0) {
-                position = autoSkipModel.getTeTime() * 1000L;
-            }
-        } else {
-            autoSkipComponent.setTouSkipped(true);
-        }
         mStartPosition = position;
         mCurrentStreamInfo = response;
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
@@ -873,8 +853,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         wasSeeking = false;
         burningSubs = false;
         mCurrentStreamInfo = null;
-
-        setAutoSkip(null);
     }
 
     public void next() {
@@ -1261,7 +1239,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     stopSpinner();
                 }
             }
-            autoSkipComponent.autoSkip(mCurrentPosition);
         }
         if (mFragment != null)
             mFragment.setCurrentTime(mCurrentPosition);
@@ -1306,10 +1283,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
-    }
-
-    public void setAutoSkip(AutoSkipModel autoSkip) {
-        autoSkipComponent.setAutoSkipModel(autoSkip);
     }
 
     /**

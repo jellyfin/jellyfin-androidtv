@@ -30,7 +30,6 @@ public class JellyfinBingeWatchingAction extends CustomAction implements BingeWa
 
     @Override
     public void updateCurrentAutoSkipModel(AutoSkipModel autoSkipModel) {
-        playbackController.setAutoSkip(autoSkipModel);
     }
 
     @Override
