@@ -39,10 +39,9 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
-import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
@@ -52,7 +51,9 @@ import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
+import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -329,13 +330,17 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                         else
                             showProgramOptions();
                         return true;
-                    }
-                    else if (mSelectedProgramView instanceof GuideChannelHeader) {
+                    } else if (mSelectedProgramView instanceof GuideChannelHeader) {
                         // Tuning directly to a channel
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
                         BaseItemDto pChannel = channelHeader.getChannel();
-                        Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
-                        itemLauncher.getValue().launch(new BaseItemDtoBaseRowItem(pChannel),null,requireContext());
+                        Lazy<PlaybackLauncher> playbackLauncher = KoinJavaComponent.<PlaybackLauncher>inject(PlaybackLauncher.class);
+                        playbackHelper.getValue().getItemsToPlay(requireContext(), pChannel, false, false, new Response<List<BaseItemDto>>() {
+                            @Override
+                            public void onResponse(List<BaseItemDto> response) {
+                                playbackLauncher.getValue().launch(requireContext(), response);
+                            }
+                        });
                     }
                 }
                 return false;
