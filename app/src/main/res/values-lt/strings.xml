@@ -532,7 +532,7 @@
     <string name="segment_type_intro">Įvadai</string>
     <string name="video_start_delay">Vaizdo pradžios delsa</string>
     <string name="segment_type_recap">Apibendrinimai</string>
-    <string name="preference_enable_trickplay">Įjungti trickplay vaizdo grotuve</string>
+    <string name="preference_enable_trickplay">Įjungti \"trickplay\" vaizdo grotuve</string>
     <string name="pref_troubleshooting">Diagnostika</string>
     <string name="pref_report_device_profile_summary">Įkelti diagnostikos dokumentą į Jellyfin serverį su informacija apie atkūrimo galimybes</string>
     <plurals name="tracks">
@@ -582,4 +582,21 @@
         <item quantity="few">%1$s valandos</item>
         <item quantity="other">%1$s valandų</item>
     </plurals>
+    <string name="pref_subtitles_bold">Paryškintas tekstas</string>
+    <string name="preference_enable_pgs">Tiesiogiai atkurti PGS subtitrus</string>
+    <string name="lbl_from_beginning">Leisti nuo pradžios</string>
+    <string name="speech_error_no_permission">Nėra leidimo naudotis mikrofonu. Įgalinkite jį sistemos nustatymuose.</string>
+    <string name="speech_error_unavailable">Jūsų prietaise kalbos atpažinimo funkcija nepasiekiama.</string>
+    <string name="speech_error_unknown">Atpažįstant kalbą įvyko nenumatyta klaida.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="lbl_exit">Išeiti</string>
+    <string name="pref_still_watching_behavior_title">Rodyti iššokantį neaktyvumo laiko langą</string>
+    <string name="lbl_still_watching_default">3 epizodai arba 90 minučių</string>
+    <string name="lbl_still_watching_short">2 epizodai arba 60 minučių</string>
+    <string name="lbl_still_watching_long">5 epizodai arba 150 minučių</string>
+    <string name="lbl_still_watching_very_long">8 epizodai arba 240 minučių</string>
+    <string name="fast_forward">Greitai pirmyn</string>
+    <string name="rewind">Persukti</string>
+    <string name="preference_enable_libass">Įjungti išplėstinį SubStation Alpha subtitrų kliento atvaizdavimą</string>
+    <string name="still_watching_label">Ar vis dar žiūrite?</string>
 </resources>
