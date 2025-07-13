@@ -125,6 +125,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         }
     }
 
+    @NonNull
     public CustomPlaybackTransportControlGlue getPlayerGlue() {
         return playerGlue;
     }
