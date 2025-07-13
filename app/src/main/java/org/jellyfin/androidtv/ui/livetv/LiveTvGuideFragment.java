@@ -333,7 +333,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                         return true;
                     }
                     else if (mSelectedProgramView instanceof GuideChannelHeader) {
-                        // Tuning directly to a channel by ID
+                        // Tuning directly to a channel
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
                         BaseItemDto pChannel = channelHeader.getChannel();
                         Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
