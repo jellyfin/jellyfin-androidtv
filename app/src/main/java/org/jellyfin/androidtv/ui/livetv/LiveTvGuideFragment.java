@@ -39,6 +39,9 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncherHelper;
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -50,6 +53,7 @@ import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
+import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.time.LocalDateTime;
@@ -332,7 +336,8 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                         // Tuning directly to a channel by ID
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
                         BaseItemDto pChannel = channelHeader.getChannel();
-                        playbackHelper.getValue().retrieveAndPlay(pChannel.getId(), false, requireContext());
+                        Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+                        itemLauncher.getValue().launch(new BaseItemDtoBaseRowItem(pChannel),null,requireContext());
                     }
                 }
                 return false;
@@ -603,7 +608,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private int currentCellId = 0;
 
-    private GuideChannelHeader getChannelHeader(Context context, org.jellyfin.sdk.model.api.BaseItemDto channel){
+    private GuideChannelHeader getChannelHeader(Context context, BaseItemDto channel){
         return new GuideChannelHeader(context, this, channel);
     }
 
