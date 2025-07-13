@@ -258,7 +258,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable natural D-pad seeking that moves relative to current position instead of snapping to fixed intervals.
 		 */
-		var naturalDpadSeekingEnabled = booleanPreference("natural_dpad_seeking", false)
+		var naturalDpadSeekingEnabled = booleanPreference("natural_dpad_seeking", true)
 	}
 
 	init {
