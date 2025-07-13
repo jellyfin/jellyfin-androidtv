@@ -58,9 +58,6 @@ class AuthenticationRepositoryImpl(
 	private val defaultDeviceInfo: DeviceInfo,
 ) : AuthenticationRepository {
 	override fun authenticate(server: Server, method: AuthenticateMethod): Flow<LoginState> {
-		// Check server version first
-		if (!server.versionSupported) return flowOf(ServerVersionNotSupported(server))
-
 		return when (method) {
 			is AutomaticAuthenticateMethod -> authenticateAutomatic(server, method.user)
 			is CredentialAuthenticateMethod -> authenticateCredential(server, method.username, method.password)
@@ -135,7 +132,8 @@ class AuthenticationRepositoryImpl(
 			emit(AuthenticatedState)
 		} else {
 			Timber.w("Failed to set active session after authenticating")
-			emit(RequireSignInState)
+			if (!server.versionSupported) emit(ServerVersionNotSupported(server))
+			else emit(RequireSignInState)
 		}
 	}.flowOn(Dispatchers.IO)
 
@@ -144,7 +142,8 @@ class AuthenticationRepositoryImpl(
 
 		val success = setActiveSession(user, server)
 		if (!success) {
-			emit(RequireSignInState)
+			if (!server.versionSupported) emit(ServerVersionNotSupported(server))
+			else emit(RequireSignInState)
 		} else try {
 			// Update user info
 			val userInfo by userApiClient.userApi.getCurrentUser()

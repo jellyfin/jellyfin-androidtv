@@ -126,7 +126,7 @@ class SessionRepositoryImpl(
 			authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
 			// Check if server version is supported
-			val server = serverRepository.getServer(session.serverId)
+			val server = serverRepository.getServer(session.serverId, true)
 			if (server == null || !server.versionSupported) return false
 		}
 
