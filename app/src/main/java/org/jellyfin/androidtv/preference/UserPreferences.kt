@@ -88,8 +88,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var cinemaModeEnabled = booleanPreference("pref_enable_cinema_mode", true)
 
-
-
 		/**
 		 * Enable still watching
 		 */
