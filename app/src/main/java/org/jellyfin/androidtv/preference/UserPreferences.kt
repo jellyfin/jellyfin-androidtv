@@ -256,9 +256,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 
 		/**
-		 * Enable natural D-pad seeking that moves relative to current position instead of snapping to fixed intervals.
+		 * Enable preview seeking that allows users to preview seek positions before confirming them.
+		 * When disabled, D-pad left/right will seek immediately.
 		 */
-		var naturalDpadSeekingEnabled = booleanPreference("natural_dpad_seeking", true)
+		var previewSeekingEnabled = booleanPreference("preview_seeking", true)
 	}
 
 	init {

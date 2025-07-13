@@ -77,9 +77,9 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
-				setTitle(R.string.lbl_enhanced_dpad_seeking)
-				setContent(R.string.sum_enhanced_dpad_seeking)
-				bind(userPreferences, UserPreferences.naturalDpadSeekingEnabled)
+				setTitle(R.string.lbl_preview_seeking)
+				setContent(R.string.sum_preview_seeking)
+				bind(userPreferences, UserPreferences.previewSeekingEnabled)
 			}
 
 			@Suppress("MagicNumber")
