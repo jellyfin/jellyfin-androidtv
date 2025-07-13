@@ -1035,7 +1035,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             mSeekPosition = currentSkipPos;
 
-            boolean naturalSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNaturalDpadSeekingEnabled());
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
