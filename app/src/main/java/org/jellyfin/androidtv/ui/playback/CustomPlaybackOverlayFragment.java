@@ -511,15 +511,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                 // Handle preview seeking confirmation/cancellation
                 if (mIsPreviewSeeking) {
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        // Confirm seek - actually seek to preview position
-                        playbackControllerContainer.getValue().getPlaybackController().seek(mPreviewPosition);
-                        exitPreviewSeekMode();
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER ||
+                            keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                        // Confirm seek – accept the preview position and resume playback
+                        confirmPreviewSeek();
                         return true;
-                    } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                    } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B ||
+                            keyCode == KeyEvent.KEYCODE_ESCAPE) {
                         // Cancel seek - return to original position
-                        playbackControllerContainer.getValue().getPlaybackController().seek(mOriginalPosition);
-                        exitPreviewSeekMode();
+                        cancelPreviewSeek();
                         return true;
                     }
                 }
