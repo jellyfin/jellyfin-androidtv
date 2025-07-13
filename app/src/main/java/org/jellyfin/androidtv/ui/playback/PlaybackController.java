@@ -108,6 +108,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
+    // Preview seeking support
+    private long mPreviewPosition = -1;
+    private boolean mIsPreviewMode = false;
+
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         this(items, fragment, 0);
     }
@@ -1287,8 +1291,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public long getCurrentPosition() {
-        // don't report the real position if seeking
-        return !isPlaying() && mSeekPosition != -1 ? mSeekPosition : mCurrentPosition;
+        // Return preview position if in preview mode
+        if (mIsPreviewMode && mPreviewPosition != -1) {
+            return mPreviewPosition;
+        }
+        
+        refreshCurrentPosition();
+        return mCurrentPosition;
     }
 
     public boolean isPaused() {
@@ -1302,6 +1311,24 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
+    }
+
+    public void setPreviewPosition(long position) {
+        mPreviewPosition = position;
+        mIsPreviewMode = true;
+    }
+
+    public void clearPreviewPosition() {
+        mPreviewPosition = -1;
+        mIsPreviewMode = false;
+    }
+
+    public long getPreviewPosition() {
+        return mPreviewPosition;
+    }
+
+    public boolean isPreviewMode() {
+        return mIsPreviewMode;
     }
 
     /**
