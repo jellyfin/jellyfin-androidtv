@@ -650,8 +650,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 return true;
                             } 
                             
-                            // Immediate seeking - use the existing fastForward method
-                            playbackControllerContainer.getValue().getPlaybackController().fastForward();
+                            // Immediate seeking - use PlayerAdapter for smooth behavior
+                            leanbackOverlayFragment.getPlayerAdapter().fastForward();
                             setFadingEnabled(true);
                             return true;
                         }
@@ -678,8 +678,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 return true;
                             } 
 
-                            // Immediate seeking - use the existing rewind method
-                            playbackControllerContainer.getValue().getPlaybackController().rewind();
+                            // Immediate seeking - use PlayerAdapter for smooth behavior
+                            leanbackOverlayFragment.getPlayerAdapter().rewind();
                             setFadingEnabled(true);    
                             return true;
                         }
