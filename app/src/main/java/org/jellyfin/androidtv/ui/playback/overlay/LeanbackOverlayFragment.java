@@ -113,6 +113,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerGlue.recordingStateChanged();
     }
 
+    @NonNull
     public VideoPlayerAdapter getPlayerAdapter() {
         return playerAdapter;
     }
