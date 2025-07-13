@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -83,7 +82,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private Runnable mRefreshViewVisibility;
 
     private LinearLayout mButtonRef;
-    private ProgressBar mProgressBar;
+    private View mSeekBar;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
@@ -176,14 +175,14 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
-                mProgressBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
+                mSeekBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
             }
 
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
                 super.onUnbindRowViewHolder(vh);
                 vh.setOnKeyListener(null);
-                mProgressBar = null;
+                mSeekBar = null;
             }
         };
         rowPresenter.setDescriptionPresenter(detailsPresenter);
@@ -376,7 +375,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public boolean isSeekBarFocused() {
-        return mProgressBar != null && mProgressBar.hasFocus();
+        return mSeekBar != null && mSeekBar.hasFocus();
     }
 
     @Override
