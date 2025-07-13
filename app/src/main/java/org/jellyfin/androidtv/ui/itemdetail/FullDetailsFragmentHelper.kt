@@ -242,7 +242,7 @@ suspend fun FullDetailsFragment.getNextUpEpisode(): BaseItemDto? {
 	try {
 		val episodes = withContext(Dispatchers.IO) {
 			api.tvShowsApi.getNextUp(
-				parentId = mBaseItem.id,
+				seriesId = mBaseItem.seriesId ?: mBaseItem.id,
 				fields = ItemRepository.itemFields,
 				limit = 1,
 			).content

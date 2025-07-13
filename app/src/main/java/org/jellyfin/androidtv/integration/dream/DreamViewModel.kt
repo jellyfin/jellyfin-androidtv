@@ -99,16 +99,18 @@ class DreamViewModel(
 	): Flow<DreamContent.LibraryShowcase?> = flow {
 		while (true) {
 			val items = try {
-				val response by api.itemsApi.getItems(
-					includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
-					recursive = true,
-					sortBy = listOf(ItemSortBy.RANDOM),
-					limit = batchSize,
-					imageTypes = listOf(ImageType.BACKDROP),
-					maxOfficialRating = if (maxParentalRating == -1) null else maxParentalRating.toString(),
-					hasParentalRating = if (requireParentalRating) true else null,
-				)
-				response.items
+				withContext(Dispatchers.IO) {
+					val response by api.itemsApi.getItems(
+						includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+						recursive = true,
+						sortBy = listOf(ItemSortBy.RANDOM),
+						limit = batchSize,
+						imageTypes = listOf(ImageType.BACKDROP),
+						maxOfficialRating = if (maxParentalRating == -1) null else maxParentalRating.toString(),
+						hasParentalRating = if (requireParentalRating) true else null,
+					)
+					response.items
+				}
 			} catch (err: ApiClientException) {
 				Timber.e(err)
 				null

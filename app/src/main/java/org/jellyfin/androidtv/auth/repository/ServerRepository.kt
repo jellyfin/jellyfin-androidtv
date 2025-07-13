@@ -44,8 +44,8 @@ interface ServerRepository {
 	suspend fun loadDiscoveryServers()
 
 	fun addServer(address: String): Flow<ServerAdditionState>
-	suspend fun getServer(id: UUID): Server?
-	suspend fun updateServer(server: Server): Boolean
+	suspend fun getServer(id: UUID, eagerUpdate: Boolean = false): Server?
+	suspend fun updateServer(server: Server, force: Boolean = false): Boolean
 	suspend fun deleteServer(server: UUID): Boolean
 
 	companion object {
@@ -105,6 +105,7 @@ class ServerRepositoryImpl(
 					goodRecommendations += recommendedServer
 					false
 				}
+
 				else -> {
 					badRecommendations += recommendedServer
 					false
@@ -164,11 +165,15 @@ class ServerRepositoryImpl(
 		}
 	}.flowOn(Dispatchers.IO)
 
-	override suspend fun getServer(id: UUID): Server? {
+	override suspend fun getServer(id: UUID, eagerUpdate: Boolean): Server? {
 		val server = authenticationStore.getServer(id) ?: return null
 
 		val updatedServer = try {
-			updateServerInternal(id, server)
+			val forceUpdate = eagerUpdate && server.version
+				?.let(ServerVersion::fromString)
+				?.let { version -> version < ServerRepository.minimumServerVersion } == true
+
+			updateServerInternal(id, server, forceUpdate)
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to update server")
 			null
@@ -177,12 +182,12 @@ class ServerRepositoryImpl(
 		return (updatedServer ?: server).asServer(id)
 	}
 
-	override suspend fun updateServer(server: Server): Boolean {
+	override suspend fun updateServer(server: Server, force: Boolean): Boolean {
 		// Only update existing servers
 		val serverInfo = authenticationStore.getServer(server.id) ?: return false
 
 		return try {
-			updateServerInternal(server.id, serverInfo) != null
+			updateServerInternal(server.id, serverInfo, force) != null
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to update server")
 
@@ -190,11 +195,15 @@ class ServerRepositoryImpl(
 		}
 	}
 
-	private suspend fun updateServerInternal(id: UUID, server: AuthenticationStoreServer): AuthenticationStoreServer? {
+	private suspend fun updateServerInternal(
+		id: UUID,
+		server: AuthenticationStoreServer,
+		forceUpdate: Boolean
+	): AuthenticationStoreServer? {
 		val now = Instant.now().toEpochMilli()
 
 		// Only update every 10 minutes
-		if (now - server.lastRefreshed < 600000 && server.version != null) return null
+		if (now - server.lastRefreshed < 600000 && server.version != null && !forceUpdate) return null
 
 		val newServer = withContext(Dispatchers.IO) {
 			val api = jellyfin.createApi(server.address)
