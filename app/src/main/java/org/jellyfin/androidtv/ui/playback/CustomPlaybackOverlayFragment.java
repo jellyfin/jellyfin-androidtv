@@ -144,7 +144,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
-    // Preview seeking state
     private boolean mIsPreviewSeeking = false;
     private long mOriginalPosition = 0;
     private long mPreviewPosition = 0;
@@ -623,7 +622,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
-                    // Natural seeking is always enabled now - the preference controls preview vs immediate seeking
                     if ((!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
                         boolean previewSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getPreviewSeekingEnabled());
                         
@@ -650,7 +648,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 return true;
                             } 
                             
-                            // Immediate seeking - use PlayerAdapter for smooth behavior
+                            // Immediate seeking
                             leanbackOverlayFragment.getPlayerAdapter().fastForward();
                             setFadingEnabled(true);
                             return true;
@@ -678,7 +676,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 return true;
                             } 
 
-                            // Immediate seeking - use PlayerAdapter for smooth behavior
+                            // Immediate seeking
                             leanbackOverlayFragment.getPlayerAdapter().rewind();
                             setFadingEnabled(true);    
                             return true;
@@ -1035,7 +1033,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     header.loadImage();
                     tvGuideBinding.programRows.addView(row);
                 });
-
                 displayedChannels++;
             }
             return null;

@@ -108,7 +108,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
-    // Preview seeking support
     private long mPreviewPosition = -1;
     private boolean mIsPreviewMode = false;
 
