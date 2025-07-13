@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,7 +22,6 @@ import androidx.leanback.widget.PlaybackRowPresenter;
 import androidx.leanback.widget.PlaybackTransportRowPresenter;
 import androidx.leanback.widget.PlaybackTransportRowView;
 import androidx.leanback.widget.RowPresenter;
-import androidx.leanback.widget.SeekBar;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -83,7 +83,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private Runnable mRefreshViewVisibility;
 
     private LinearLayout mButtonRef;
-    private SeekBar mSeekBar;
+    private ProgressBar mProgressBar;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
@@ -176,14 +176,14 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
-                mSeekBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
+                mProgressBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
             }
 
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
                 super.onUnbindRowViewHolder(vh);
                 vh.setOnKeyListener(null);
-                mSeekBar = null;
+                mProgressBar = null;
             }
         };
         rowPresenter.setDescriptionPresenter(detailsPresenter);
@@ -376,7 +376,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public boolean isSeekBarFocused() {
-        return mSeekBar != null && mSeekBar.hasFocus();
+        return mProgressBar != null && mProgressBar.hasFocus();
     }
 
     @Override
