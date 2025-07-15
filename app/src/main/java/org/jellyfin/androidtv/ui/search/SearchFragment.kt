@@ -32,6 +32,8 @@ import androidx.leanback.app.RowsSupportFragment
 import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.ui.search.composable.SearchTextInput
 import org.jellyfin.androidtv.ui.search.composable.SearchVoiceInput
+import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
+import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.jellyfin.androidtv.util.speech.rememberSpeechRecognizerAvailability
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -70,13 +72,14 @@ class SearchFragment : Fragment() {
 		}
 
 		Column {
+			MainToolbar(MainToolbarActiveButton.Search)
+
 			Row(
 				horizontalArrangement = Arrangement.spacedBy(12.dp),
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier
 					.focusRestorer()
 					.focusGroup()
-					.padding(top = 27.dp)
 					.padding(horizontal = 48.dp)
 			) {
 				if (speechRecognizerAvailability) {

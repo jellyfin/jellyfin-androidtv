@@ -56,6 +56,7 @@ import org.koin.compose.koinInject
 
 @Composable
 fun NowPlayingComposable(
+	modifier: Modifier = Modifier,
 	onFocusableChange: (focusable: Boolean) -> Unit,
 ) {
 	val api = koinInject<ApiClient>()
@@ -69,6 +70,7 @@ fun NowPlayingComposable(
 	LaunchedEffect(item == null) { onFocusableChange(item != null) }
 
 	AnimatedContent(
+		modifier = modifier,
 		targetState = item,
 		transitionSpec = { fadeIn() togetherWith fadeOut() },
 	) { item ->
