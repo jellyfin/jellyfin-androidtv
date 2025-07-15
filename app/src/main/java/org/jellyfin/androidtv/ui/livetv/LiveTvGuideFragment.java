@@ -40,7 +40,6 @@ import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
-import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
@@ -53,7 +52,6 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
 import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
-import org.koin.java.KoinJavaComponent;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -104,9 +102,9 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private Handler mHandler = new Handler();
 
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
-    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<PlaybackLauncher> playbackLauncher = inject(PlaybackLauncher.class);
 
     @Nullable
     @Override
@@ -333,9 +331,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     } else if (mSelectedProgramView instanceof GuideChannelHeader) {
                         // Tuning directly to a channel
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
-                        BaseItemDto pChannel = channelHeader.getChannel();
-                        Lazy<PlaybackLauncher> playbackLauncher = KoinJavaComponent.<PlaybackLauncher>inject(PlaybackLauncher.class);
-                        playbackHelper.getValue().getItemsToPlay(requireContext(), pChannel, false, false, new Response<List<BaseItemDto>>() {
+                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 playbackLauncher.getValue().launch(requireContext(), response);
