@@ -291,8 +291,8 @@
     <string name="too_many_errors">出現過多錯誤，放棄重試</string>
     <string name="player_error">播放器發生錯誤。即將重試…</string>
     <string name="seek_error">無法預覽</string>
-    <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？＂</string>
-    <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？＂</string>
+    <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？</string>
+    <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？</string>
     <string name="lbl_load_guide_data">載入指南資料</string>
     <string name="episode_missing_message_2">您的媒體庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
@@ -565,4 +565,18 @@
     <string name="fast_forward">快轉</string>
     <string name="rewind">倒轉</string>
     <string name="indicator_subtitles_hearing_impaired">聽障字幕</string>
+    <string name="pref_subtitles_bold">粗體文字</string>
+    <string name="lbl_from_beginning">從頭開始播放</string>
+    <string name="speech_error_no_permission">沒有使用麥克風的權限。請在系統設定中啟用。</string>
+    <string name="speech_error_unavailable">您的裝置無法使用語音辨識。</string>
+    <string name="speech_error_unknown">語音辨識過程中出現意外錯誤。</string>
+    <string name="lbl_exit">離開</string>
+    <string name="pref_still_watching_behavior_title">顯示不活躍彈出視窗</string>
+    <string name="lbl_still_watching_default">3 集或 90 分鐘</string>
+    <string name="lbl_still_watching_short">2 集或 60 分鐘</string>
+    <string name="lbl_still_watching_long">5 集或 150 分鐘</string>
+    <string name="lbl_still_watching_very_long">8 集或 240 分鐘</string>
+    <string name="preference_enable_libass">啟用高級 SubStation Alpha 字幕用戶端渲染</string>
+    <string name="preference_enable_pgs">直接播放 PGS 字幕</string>
+    <string name="still_watching_label">你還在觀看嗎？</string>
 </resources>
