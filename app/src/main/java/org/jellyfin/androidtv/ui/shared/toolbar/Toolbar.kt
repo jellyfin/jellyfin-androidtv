@@ -1,21 +1,18 @@
 package org.jellyfin.androidtv.ui.shared.toolbar
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.base.modifier.childFocusRestorer
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 
@@ -39,46 +35,74 @@ fun Logo(modifier: Modifier = Modifier) {
 @Composable
 fun Toolbar(
 	modifier: Modifier = Modifier,
-	content: @Composable BoxScope.() -> Unit,
+	start: @Composable () -> Unit = { Logo() },
+	center: @Composable () -> Unit = {},
+	end: @Composable () -> Unit = { ToolbarClock() },
 ) {
-	Row(
+	ToolbarLayout(
 		modifier = modifier
-			.fillMaxWidth()
 			.height(95.dp)
 			.overscan(),
-	) {
-		Logo()
+		start = start,
+		center = center,
+		end = end,
+	)
+}
 
-		Spacer(Modifier.width(24.dp))
+@Composable
+fun ToolbarClock() {
+	val currentTime by rememberCurrentTime()
+	Text(
+		text = currentTime,
+		fontSize = 20.sp,
+		color = Color.White,
+	)
+}
 
-		Box(
-			modifier = Modifier
-				.fillMaxHeight()
-				.weight(1f)
-		) {
-			content()
-		}
-		Spacer(Modifier.width(24.dp))
+@Composable
+fun ToolbarLayout(
+	modifier: Modifier = Modifier,
+	start: @Composable () -> Unit = {},
+	center: @Composable () -> Unit = {},
+	end: @Composable () -> Unit = {},
+) = SubcomposeLayout(modifier = modifier) { constraints ->
+	val sideConstraints = constraints.copy(minWidth = 0, maxWidth = constraints.maxWidth / 3, minHeight = 0)
+	val startPlaceables = subcompose("start", content = start).map { it.measure(sideConstraints) }
+	val endPlaceables = subcompose("end", content = end).map { it.measure(sideConstraints) }
 
-		val currentTime by rememberCurrentTime()
-		Text(
-			text = currentTime,
-			fontSize = 20.sp,
-			color = Color.White,
-			modifier = Modifier.align(Alignment.CenterVertically)
-		)
+	val sideWidth = maxOf(
+		startPlaceables.maxOfOrNull { it.width } ?: 0,
+		endPlaceables.maxOfOrNull { it.width } ?: 0,
+	)
+
+	val centerWidth = (constraints.maxWidth - 2 * sideWidth).coerceAtLeast(0)
+	val centerPlaceables = subcompose("center", content = center)
+		.map { it.measure(constraints.copy(minWidth = 0, maxWidth = centerWidth)) }
+
+	val height = listOf(
+		startPlaceables.maxOfOrNull { it.height } ?: 0,
+		centerPlaceables.maxOfOrNull { it.height } ?: 0,
+		endPlaceables.maxOfOrNull { it.height } ?: 0
+	).maxOrNull() ?: 0
+
+	layout(constraints.maxWidth, height) {
+		startPlaceables.forEach { it.place(0, (height - it.height) / 2) }
+		centerPlaceables.forEach { it.place((constraints.maxWidth - it.width) / 2, (height - it.height) / 2) }
+		endPlaceables.forEach { it.place(constraints.maxWidth - it.width, (height - it.height) / 2) }
 	}
 }
 
 @Composable
-fun BoxScope.ToolbarButtons(
+fun ToolbarButtons(
+	modifier: Modifier = Modifier,
 	content: @Composable RowScope.() -> Unit,
 ) {
 	Row(
-		modifier = Modifier
-			.childFocusRestorer()
-			.align(Alignment.CenterEnd),
+		modifier = modifier
+			.focusRestorer()
+			.focusGroup(),
 		horizontalArrangement = Arrangement.spacedBy(8.dp),
+		verticalAlignment = Alignment.CenterVertically,
 	) {
 		JellyfinTheme(
 			colorScheme = JellyfinTheme.colorScheme.copy(
