@@ -705,16 +705,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void enterPreviewSeekMode() {
         mIsPreviewSeeking = true;
-
-        // Pause the video during preview seeking
         playbackControllerContainer.getValue().getPlaybackController().pause();
 
-        // Set preview position in controller
         long currentPosition = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
         playbackControllerContainer.getValue().getPlaybackController().setPreviewPosition(currentPosition);
 
         // Focus the seekbar to show preview position
-        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+        if (leanbackOverlayFragment != null) {
             leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
         }
     }
