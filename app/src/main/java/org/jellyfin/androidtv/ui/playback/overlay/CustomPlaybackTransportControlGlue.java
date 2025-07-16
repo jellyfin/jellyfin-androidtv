@@ -3,17 +3,20 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import static java.lang.Math.round;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
+import androidx.leanback.widget.PlaybackSeekDataProvider;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
@@ -24,6 +27,7 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.action.AndroidAction;
@@ -84,6 +88,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private LinearLayout mButtonRef;
     private View mSeekBar;
 
+    // Thumbnail preview
+    private ImageView mThumbnailPreview;
+
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
         this.playbackController = playbackController;
@@ -115,6 +122,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.dismissPopup();
         selectQualityAction.dismissPopup();
         zoomAction.dismissPopup();
+
+        // Hide and cleanup thumbnail preview
+        hideThumbnailPreview();
 
         super.onDetachedFromHost();
     }
@@ -176,6 +186,14 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
                 mSeekBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
+                
+                // Get reference to thumbnail preview view
+                if (mThumbnailPreview == null) {
+                    View rootView = getPlayerAdapter().getMasterOverlayFragment().getView();
+                    if (rootView != null) {
+                        mThumbnailPreview = rootView.findViewById(R.id.thumbnail_preview);
+                    }
+                }
             }
 
             @Override
@@ -183,6 +201,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 super.onUnbindRowViewHolder(vh);
                 vh.setOnKeyListener(null);
                 mSeekBar = null;
+                mThumbnailPreview = null;
             }
         };
         rowPresenter.setDescriptionPresenter(detailsPresenter);
@@ -394,5 +413,39 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
+    }
+
+    public void updateThumbnailPreview(long previewPosition) {
+        if (getSeekProvider() == null || mThumbnailPreview == null) return;
+
+        // Calculate the correct thumbnail index based on preview position
+        long skipForwardLength = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class).get(UserSettingPreferences.Companion.getSkipForwardLength()).longValue();
+        int thumbnailIndex = (int) (previewPosition / skipForwardLength);
+
+        // Create custom callback to display thumbnail
+        PlaybackSeekDataProvider.ResultCallback thumbnailCallback = new PlaybackSeekDataProvider.ResultCallback() {
+            @Override
+            public void onThumbnailLoaded(Bitmap bitmap, int index) {
+                if (bitmap != null && mThumbnailPreview != null) {
+                    mThumbnailPreview.setImageBitmap(bitmap);
+                    showThumbnailPreview();
+                }
+            }
+        };
+
+        getSeekProvider().getThumbnail(thumbnailIndex, thumbnailCallback);
+    }
+
+    private void showThumbnailPreview() {
+        if (mThumbnailPreview != null) {
+            mThumbnailPreview.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideThumbnailPreview() {
+        if (mThumbnailPreview != null) {
+            mThumbnailPreview.setVisibility(View.GONE);
+            mThumbnailPreview.setImageBitmap(null); // Clear the bitmap to free memory
+        }
     }
 }
