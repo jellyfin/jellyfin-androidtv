@@ -509,7 +509,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (mIsPreviewSeeking) {
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER ||
                             keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                        // Confirm seek – accept the preview position and resume playback
                         confirmPreviewSeek();
                         return true;
                     } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B ||
@@ -706,12 +705,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void enterPreviewSeekMode() {
         mIsPreviewSeeking = true;
-        long currentPosition = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
 
         // Pause the video during preview seeking
         playbackControllerContainer.getValue().getPlaybackController().pause();
 
         // Set preview position in controller
+        long currentPosition = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
         playbackControllerContainer.getValue().getPlaybackController().setPreviewPosition(currentPosition);
 
         // Focus the seekbar to show preview position
@@ -723,10 +722,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void exitPreviewSeekMode() {
         mIsPreviewSeeking = false;
 
-        // Clear preview position in controller
         playbackControllerContainer.getValue().getPlaybackController().clearPreviewPosition();
-
-        // Resume playback
         playbackControllerContainer.getValue().getPlaybackController().play(
             playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition()
         );

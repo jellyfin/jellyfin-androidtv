@@ -1293,7 +1293,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mIsPreviewMode && mPreviewPosition != -1) {
             return mPreviewPosition;
         }
-        
+
         refreshCurrentPosition();
         return mCurrentPosition;
     }
