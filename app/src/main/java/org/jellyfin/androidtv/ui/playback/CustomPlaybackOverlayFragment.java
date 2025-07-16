@@ -4,8 +4,10 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.PlaybackSeekDataProvider;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -91,6 +94,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
     protected VlcPlayerInterfaceBinding binding;
     private OverlayTvGuideBinding tvGuideBinding;
+    private ImageView thumbnailPreview;
 
     private RowsSupportFragment mPopupRowsFragment;
     private ListRow mChapterRow;
@@ -203,6 +207,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding = OverlayTvGuideBinding.inflate(inflater, container, false);
         binding.getRoot().addView(tvGuideBinding.getRoot());
         tvGuideBinding.getRoot().setVisibility(View.GONE);
+
+        // Initialize thumbnail preview
+        thumbnailPreview = binding.getRoot().findViewById(R.id.thumbnail_preview);
 
         binding.getRoot().setOnTouchListener((v, event) -> {
             //and then manage our fade timer
@@ -719,6 +726,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void exitPreviewSeekMode() {
         mIsPreviewSeeking = false;
 
+        // Hide the thumbnail preview
+        hideThumbnailPreview();
+
         playbackControllerContainer.getValue().getPlaybackController().clearPreviewPosition();
         playbackControllerContainer.getValue().getPlaybackController().play(
             playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition()
@@ -732,6 +742,36 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // Update the seekbar display
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
             leanbackOverlayFragment.getPlayerGlue().getPlayerAdapter().updateCurrentPosition();
+
+            // Calculate the correct thumbnail index based on preview position
+            long skipForwardLength = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength()).longValue();
+            int thumbnailIndex = (int) (previewPosition / skipForwardLength);
+
+            // Create custom callback to display thumbnail
+            PlaybackSeekDataProvider.ResultCallback thumbnailCallback = new PlaybackSeekDataProvider.ResultCallback() {
+                @Override
+                public void onThumbnailLoaded(Bitmap bitmap, int index) {
+                    if (bitmap != null && thumbnailPreview != null) {
+                        thumbnailPreview.setImageBitmap(bitmap);
+                        showThumbnailPreview();
+                    }
+                }
+            };
+
+            leanbackOverlayFragment.getPlayerGlue().getSeekProvider().getThumbnail(thumbnailIndex, thumbnailCallback);
+        }
+    }
+
+    private void showThumbnailPreview() {
+        if (thumbnailPreview != null) {
+            thumbnailPreview.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideThumbnailPreview() {
+        if (thumbnailPreview != null) {
+            thumbnailPreview.setVisibility(View.GONE);
+            thumbnailPreview.setImageBitmap(null);
         }
     }
 
