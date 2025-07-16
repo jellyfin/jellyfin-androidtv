@@ -21,7 +21,7 @@
     <string name="lbl_play_next_up">Sıradakini oynat</string>
     <string name="lbl_clear_queue">Kuyruğu temizle</string>
     <string name="btn_got_it">Anladım</string>
-    <string name="lbl_subtitle_track">Altyazı parçası seç</string>
+    <string name="lbl_subtitle_track">Alt yazı parçası seç</string>
     <string name="lbl_audio_track">Ses parçası seçin</string>
     <string name="lbl_zoom">Yakınlaşma</string>
     <string name="desc_bitstream_ac3">Uyumlu donanım gerektirir</string>
@@ -57,9 +57,9 @@
     <string name="lbl_recorded_tv">Kaydedilmiş TV</string>
     <string name="lbl_live_tv_guide">Canlı TV Rehberi</string>
     <string name="lbl_no_recordings">Mevcut kayıt yok</string>
-    <string name="msg_burn_sub_warning">Altyazılar işleniyor. Bu işlem birkaç saniye sürebilir…</string>
-    <string name="msg_unable_load_subs">Altyazı yüklenemedi</string>
-    <string name="msg_subtitles_loading">Altyazılar yükleniyor…</string>
+    <string name="msg_burn_sub_warning">Alt yazılar işleniyor. Bu işlem birkaç saniye sürebilir…</string>
+    <string name="msg_unable_load_subs">Alt yazı yüklenemedi</string>
+    <string name="msg_subtitles_loading">Alt yazılar yükleniyor…</string>
     <string name="lbl_filters">Canlı TV filtreleri</string>
     <string name="lbl_ended">BİTTİ</string>
     <string name="lbl__continuing">DEVAM EDİYOR</string>
@@ -200,7 +200,7 @@
     <string name="turn_off">Bu seçeneği kapat</string>
     <string name="audio_error">Ses oynatılamıyor %1$s</string>
     <string name="msg_no_items">Oynatıclacak öğe bulunmuyor</string>
-    <string name="subtitle_error">Altyazı seçilemedi</string>
+    <string name="subtitle_error">Alt yazı seçilemedi</string>
     <string name="too_many_errors">Çok fazla hata. Bırakılıyor</string>
     <string name="player_error">Oynatıcı hatasıyla karşılaşıldı. Yeniden denenecek…</string>
     <string name="seek_error">Gezinilemiyor</string>
@@ -216,7 +216,7 @@
     <string name="mark_watched">İzlendi olarak işaretle</string>
     <string name="lbl_Reset">Sıfırla</string>
     <string name="pref_button_remapping_description">Atamak için TV uzaktan kumandasındaki herhangi bir düğmeye basın</string>
-    <string name="pref_subtitle_track_button">Altyazı parçası düğmesi</string>
+    <string name="pref_subtitle_track_button">Alt yazı parçası düğmesi</string>
     <string name="pref_audio_track_button">Ses parçası düğmesi</string>
     <string name="lbl_unknown_key">Bilinmeyen (%1s)</string>
     <string name="grid_direction_vertical">Dikey</string>
@@ -373,10 +373,10 @@
     <string name="lbl_stretch">Esnet</string>
     <string name="lbl_auto_crop">Otomatik kırp</string>
     <string name="lbl_community_rating">Topluluk puanı</string>
-    <string name="lbl_subtitle_delay">Altyazı gecikmesi</string>
+    <string name="lbl_subtitle_delay">Alt yazı gecikmesi</string>
     <string name="server_connection_failed_candidates">Sunucuya bağlanılamıyor, şu adresler denendi: %1$s</string>
     <string name="image_type_poster">Poster</string>
-    <string name="pref_subtitles_background_summary">Altyazıların arkasında siyah bir arka plan göster</string>
+    <string name="pref_subtitles_background_summary">Alt yazıların arkasında siyah bir arka plan göster</string>
     <string name="color_black">Siyah</string>
     <string name="color_red">Kırmızı</string>
     <string name="server_issue_invalid_product">Sunucu yazılımı uyumlu değil</string>
@@ -433,7 +433,7 @@
         <item quantity="one">%1$s dakika</item>
         <item quantity="other">%1$s dakika</item>
     </plurals>
-    <string name="pref_playback_description">Video, altyazılar, canlı tv, sıradaki bölüm</string>
+    <string name="pref_playback_description">Video, alt yazılar, canlı tv, sıradaki bölüm</string>
     <string name="disable_ui_mode_warning">Cihaz türü uyarısını devre dışı bırak</string>
     <string name="pref_browsing">Gözatma</string>
     <string name="pref_crash_reports">Sunucuya çökme raporlarını gönder</string>
@@ -454,7 +454,7 @@
     <string name="pref_libraries_description">Kütüphanelerin görüntülenme şeklini değiştirin</string>
     <string name="pref_login">Oturum aç</string>
     <string name="pref_login_description">Sunucular, hesaplar, otomatik oturum açma</string>
-    <string name="pref_subtitles">Altyazılar</string>
+    <string name="pref_subtitles">Alt yazılar</string>
     <string name="pref_direct_stream_live_on">Kod dönüştürme devre dışı bırakıldı</string>
     <string name="pref_direct_stream_live_off">Gerektiğinde kod dönüştürme kullanılır</string>
     <string name="home_section_resume_book">Okumaya devam et</string>
@@ -545,9 +545,9 @@
     <string name="past_week">Geçen hafta</string>
     <string name="scheduled_in_next_24_hours">Önümüzdeki 24 saat için planlandı</string>
     <string name="past_24_hours">Son 24 saat</string>
-    <string name="lbl_subtitle_background_color">Altyazı arka plan rengi</string>
-    <string name="lbl_subtitle_text_stroke_color">Altyazı kontur rengi</string>
-    <string name="lbl_subtitle_text_color">Altyazı metin rengi</string>
+    <string name="lbl_subtitle_background_color">Alt yazı arka plan rengi</string>
+    <string name="lbl_subtitle_text_stroke_color">Alt yazı kontur rengi</string>
+    <string name="lbl_subtitle_text_color">Alt yazı metin rengi</string>
     <string name="prefer_exoplayer_ffmpeg">Ses çalma için FFmpeg\'i tercih et</string>
     <string name="prefer_exoplayer_ffmpeg_content">Platform codec bileşenleri mevcut olsa bile ses kodunu çözmek için FFmpeg kullan.</string>
     <string name="segment_action_ask_to_skip">Atlamak için sor</string>
@@ -564,7 +564,7 @@
     <string name="segment_type_outro">Kapanış jeneriği</string>
     <string name="preference_enable_trickplay">Video oynatıcıda trickplay özelliğini etkinleştir</string>
     <string name="skip_forward_length">İleri atlama uzunluğu</string>
-    <string name="pref_subtitles_background_opacity">Altyazı arka plan opaklığı</string>
+    <string name="pref_subtitles_background_opacity">Alt yazı arka plan opaklığı</string>
     <string name="pref_troubleshooting">Sorun Giderme</string>
     <string name="pref_report_device_profile_title">Oynatma yeteneklerini sunucuya rapor et</string>
     <string name="pref_report_device_profile_success">Belge %1$s olarak gönderildi</string>
@@ -572,16 +572,16 @@
     <string name="runtime_minutes">%1$dd</string>
     <string name="pref_report_device_profile_summary">Oynatma kapasiteleri hakkında bilgileri içeren bir sorun giderme belgesini Jellyfin sunucusuna yükle</string>
     <string name="pref_report_device_profile_failure">Belge gönderilemedi. Jellyfin sunucunuz istemci günlüklerine izin vermiyor olabilir.</string>
-    <string name="preference_enable_libass">Gelişmiş SubStation Alpha altyazı istemcisi işleme özelliğini etkinleştir</string>
+    <string name="preference_enable_libass">Gelişmiş SubStation Alpha alt yazı istemcisi işleme özelliğini etkinleştir</string>
     <string name="fast_forward">İleriye sar</string>
     <string name="rewind">Geri sar</string>
-    <string name="indicator_subtitles_hearing_impaired">İşitme engelliler için altyazı</string>
+    <string name="indicator_subtitles_hearing_impaired">İşitme engelliler için alt yazı</string>
     <string name="speech_error_no_permission">Mikrofonu kullanmak için izin yok. Lütfen sistem ayarlarından etkinleştirin.</string>
     <string name="speech_error_unknown">Ses tanıma sırasında beklenmeyen bir hata oluştu.</string>
     <string name="lbl_from_beginning">Baştan oynat</string>
     <string name="speech_error_unavailable">Ses tanıma özelliği cihazınızda kullanılamıyor.</string>
     <string name="pref_subtitles_bold">Kalın metin</string>
-    <string name="preference_enable_pgs">Doğrudan oynatma PGS altyazıları</string>
+    <string name="preference_enable_pgs">Doğrudan oynatma PGS alt yazıları</string>
     <string name="lbl_exit">Çıkış</string>
     <string name="pref_still_watching_behavior_title">Hareketsizlik zaman aşımı açılır penceresini göster</string>
     <string name="lbl_still_watching_default">3 bölüm veya 90 dakika</string>
