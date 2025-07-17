@@ -170,6 +170,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         // setup fade task
         mHideTask = () -> {
+            leanbackOverlayFragment.getPlayerGlue().hideThumbnailPreview();
             if (mIsVisible) {
                 leanbackOverlayFragment.hideOverlay();
             }
@@ -638,7 +639,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             }
 
                             // Immediate seeking
-                            leanbackOverlayFragment.getPlayerAdapter().fastForward();
+                            leanbackOverlayFragment.getPlayerGlue().fastForward();
                             setFadingEnabled(true);
                             return true;
                         }
@@ -662,7 +663,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             }
 
                             // Immediate seeking
-                            leanbackOverlayFragment.getPlayerAdapter().rewind();
+                            leanbackOverlayFragment.getPlayerGlue().rewind();
                             setFadingEnabled(true);
                             return true;
                         }

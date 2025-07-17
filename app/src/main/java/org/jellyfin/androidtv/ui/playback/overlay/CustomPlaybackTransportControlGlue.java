@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import static java.lang.Math.round;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
@@ -83,6 +82,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private final Handler mHandler = new Handler();
     private Runnable mRefreshEndTime;
     private Runnable mRefreshViewVisibility;
+    private final Runnable mHideThumbnailPreview;
 
     private LinearLayout mButtonRef;
     private View mSeekBar;
@@ -107,6 +107,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 mHandler.postDelayed(mRefreshViewVisibility, 100);
         };
 
+        mHideThumbnailPreview = this::hideThumbnailPreview;
+
         initActions(context);
     }
 
@@ -114,6 +116,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     protected void onDetachedFromHost() {
         mHandler.removeCallbacks(mRefreshEndTime);
         mHandler.removeCallbacks(mRefreshViewVisibility);
+        mHandler.removeCallbacks(mHideThumbnailPreview);
 
         closedCaptionsAction.removePopup();
         playbackSpeedAction.dismissPopup();
@@ -394,6 +397,18 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     }
 
+    public void fastForward() {
+        getPlayerAdapter().fastForward();
+        updateThumbnailPreview(getPlayerAdapter().getCurrentPosition());
+        scheduleHideThumbnailPreview();
+    }
+
+    public void rewind() {
+        getPlayerAdapter().rewind();
+        updateThumbnailPreview(getPlayerAdapter().getCurrentPosition());
+        scheduleHideThumbnailPreview();
+    }
+
     public void updatePreviewPosition(long previewPosition) {
         getPlayerAdapter().updateCurrentPosition();
         updateThumbnailPreview(previewPosition);
@@ -481,5 +496,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (mThumbnailPreviewHandler != null) {
             mThumbnailPreviewHandler.hideThumbnailPreview();
         }
+    }
+
+    private void scheduleHideThumbnailPreview() {
+        mHandler.removeCallbacks(mHideThumbnailPreview);
+        mHandler.postDelayed(mHideThumbnailPreview, 1000);
     }
 }
