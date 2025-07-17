@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
-import androidx.leanback.widget.PlaybackSeekDataProvider;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
@@ -88,8 +87,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private LinearLayout mButtonRef;
     private View mSeekBar;
 
-    // Thumbnail preview
-    private ImageView mThumbnailPreview;
+    private ThumbnailPreviewHandler mThumbnailPreviewHandler;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
@@ -124,7 +122,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         zoomAction.dismissPopup();
 
         // Hide and cleanup thumbnail preview
-        hideThumbnailPreview();
+        if (mThumbnailPreviewHandler != null) {
+            mThumbnailPreviewHandler.hideThumbnailPreview();
+        }
 
         super.onDetachedFromHost();
     }
@@ -186,14 +186,22 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
                 mSeekBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
-                
-                // Get reference to thumbnail preview view
-                if (mThumbnailPreview == null) {
-                    View rootView = getPlayerAdapter().getMasterOverlayFragment().getView();
-                    if (rootView != null) {
-                        mThumbnailPreview = rootView.findViewById(R.id.thumbnail_preview);
-                    }
-                }
+
+                if (mThumbnailPreviewHandler != null) return;
+
+                View rootView = getPlayerAdapter().getMasterOverlayFragment().getView();
+                if (rootView == null) return;
+
+                ImageView thumbnailPreview = rootView.findViewById(R.id.thumbnail_preview);
+                if (thumbnailPreview == null) return;
+
+                UserSettingPreferences userPrefs = KoinJavaComponent.get(UserSettingPreferences.class);
+                long skipForwardLength = userPrefs.get(UserSettingPreferences.Companion.getSkipForwardLength()).longValue();
+                mThumbnailPreviewHandler = new ThumbnailPreviewHandler(
+                    getSeekProvider(),
+                    thumbnailPreview,
+                    skipForwardLength
+                );
             }
 
             @Override
@@ -201,7 +209,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 super.onUnbindRowViewHolder(vh);
                 vh.setOnKeyListener(null);
                 mSeekBar = null;
-                mThumbnailPreview = null;
+                mThumbnailPreviewHandler = null;
             }
         };
         rowPresenter.setDescriptionPresenter(detailsPresenter);
@@ -386,6 +394,54 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     }
 
+    public void updatePreviewPosition(long previewPosition) {
+        getPlayerAdapter().updateCurrentPosition();
+        updateThumbnailPreview(previewPosition);
+    }
+
+    public void enterPreviewSeekMode() {
+        playbackController.pause();
+
+        long currentPosition = playbackController.getCurrentPosition();
+        playbackController.setPreviewPosition(currentPosition);
+
+        setInjectedViewsVisibility();
+    }
+
+    public void exitPreviewSeekMode() {
+        hideThumbnailPreview();
+        playbackController.clearPreviewPosition();
+        playbackController.play(playbackController.getCurrentPosition());
+    }
+
+    public void previewSeekForward() {
+        UserSettingPreferences prefs = KoinJavaComponent.get(UserSettingPreferences.class);
+        long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+        long duration = playbackController.getDuration();
+        long currentPreviewPosition = playbackController.getPreviewPosition();
+        long newPreviewPosition = org.jellyfin.androidtv.util.Utils.getSafeSeekPosition(
+            currentPreviewPosition + skipAmount, duration);
+
+        updatePreviewPosition(newPreviewPosition);
+    }
+
+    public void previewSeekBackward() {
+        UserSettingPreferences prefs = KoinJavaComponent.get(UserSettingPreferences.class);
+        long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
+        long duration = playbackController.getDuration();
+        long currentPreviewPosition = playbackController.getPreviewPosition();
+        long newPreviewPosition = org.jellyfin.androidtv.util.Utils.getSafeSeekPosition(
+            currentPreviewPosition - skipAmount, duration);
+
+        updatePreviewPosition(newPreviewPosition);
+    }
+
+    public void confirmPreviewSeek() {
+        long currentPreviewPosition = playbackController.getPreviewPosition();
+        playbackController.seek(currentPreviewPosition);
+        exitPreviewSeekMode();
+    }
+
     public void setInjectedViewsVisibility() {
         if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
             mEndsText.setVisibility(mButtonRef.getVisibility());
@@ -415,37 +471,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         return super.onKey(v, keyCode, event);
     }
 
-    public void updateThumbnailPreview(long previewPosition) {
-        if (getSeekProvider() == null || mThumbnailPreview == null) return;
-
-        // Calculate the correct thumbnail index based on preview position
-        long skipForwardLength = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class).get(UserSettingPreferences.Companion.getSkipForwardLength()).longValue();
-        int thumbnailIndex = (int) (previewPosition / skipForwardLength);
-
-        // Create custom callback to display thumbnail
-        PlaybackSeekDataProvider.ResultCallback thumbnailCallback = new PlaybackSeekDataProvider.ResultCallback() {
-            @Override
-            public void onThumbnailLoaded(Bitmap bitmap, int index) {
-                if (bitmap != null && mThumbnailPreview != null) {
-                    mThumbnailPreview.setImageBitmap(bitmap);
-                    showThumbnailPreview();
-                }
-            }
-        };
-
-        getSeekProvider().getThumbnail(thumbnailIndex, thumbnailCallback);
-    }
-
-    private void showThumbnailPreview() {
-        if (mThumbnailPreview != null) {
-            mThumbnailPreview.setVisibility(View.VISIBLE);
+    public void updateThumbnailPreview(long previewSeekPosition) {
+        if (mThumbnailPreviewHandler != null && mThumbnailPreviewHandler.isAvailable()) {
+            mThumbnailPreviewHandler.updateThumbnailPreview(previewSeekPosition);
         }
     }
 
     public void hideThumbnailPreview() {
-        if (mThumbnailPreview != null) {
-            mThumbnailPreview.setVisibility(View.GONE);
-            mThumbnailPreview.setImageBitmap(null); // Clear the bitmap to free memory
+        if (mThumbnailPreviewHandler != null) {
+            mThumbnailPreviewHandler.hideThumbnailPreview();
         }
     }
 }

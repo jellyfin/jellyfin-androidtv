@@ -630,15 +630,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                     enterPreviewSeekMode();
                                 }
 
-                                // Calculate preview position
-                                UserSettingPreferences prefs = userSettingPreferences.getValue();
-                                long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
-                                long duration =  playbackControllerContainer.getValue().getPlaybackController().getDuration();
-                                long currentPreviewPosition = playbackControllerContainer.getValue().getPlaybackController().getPreviewPosition();
-                                long newPreviewPosition = Utils.getSafeSeekPosition(currentPreviewPosition + skipAmount, duration);
-
-                                // Update UI with preview position (without actually seeking)
-                                updatePreviewPosition(newPreviewPosition);
+                                if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+                                    leanbackOverlayFragment.getPlayerGlue().previewSeekForward();
+                                }
                                 setFadingEnabled(true);
                                 return true;
                             }
@@ -660,15 +654,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                     enterPreviewSeekMode();
                                 }
 
-                                // Calculate preview position
-                                UserSettingPreferences prefs = userSettingPreferences.getValue();
-                                long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
-                                long duration =  playbackControllerContainer.getValue().getPlaybackController().getDuration();
-                                long currentPreviewPosition = playbackControllerContainer.getValue().getPlaybackController().getPreviewPosition();
-                                long newPreviewPosition = Utils.getSafeSeekPosition(currentPreviewPosition - skipAmount, duration);
-
-                                // Update UI with preview position (without actually seeking)
-                                updatePreviewPosition(newPreviewPosition);
+                                if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+                                    leanbackOverlayFragment.getPlayerGlue().previewSeekBackward();
+                                }
                                 setFadingEnabled(true);
                                 return true;
                             }
@@ -705,51 +693,30 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void enterPreviewSeekMode() {
         mIsPreviewSeeking = true;
-
-        // Pause the video during preview seeking
-        playbackControllerContainer.getValue().getPlaybackController().pause();
-
-        // Set preview position in controller
-        long currentPosition = playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition();
-        playbackControllerContainer.getValue().getPlaybackController().setPreviewPosition(currentPosition);
-
-        // Focus the seekbar to show preview position
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
+            leanbackOverlayFragment.getPlayerGlue().enterPreviewSeekMode();
         }
     }
 
     private void exitPreviewSeekMode() {
         mIsPreviewSeeking = false;
-
-        // Hide the thumbnail preview
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            leanbackOverlayFragment.getPlayerGlue().hideThumbnailPreview();
+            leanbackOverlayFragment.getPlayerGlue().exitPreviewSeekMode();
         }
-
-        playbackControllerContainer.getValue().getPlaybackController().clearPreviewPosition();
-        playbackControllerContainer.getValue().getPlaybackController().play(
-            playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition()
-        );
     }
 
     private void updatePreviewPosition(long previewPosition) {
-        // Update the UI to show the preview position without actually seeking
-        playbackControllerContainer.getValue().getPlaybackController().setPreviewPosition(previewPosition);
-
-        // Update the seekbar display
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            leanbackOverlayFragment.getPlayerGlue().getPlayerAdapter().updateCurrentPosition();
-            leanbackOverlayFragment.getPlayerGlue().updateThumbnailPreview(previewPosition);
+            leanbackOverlayFragment.getPlayerGlue().updatePreviewPosition(previewPosition);
         }
     }
 
     private void confirmPreviewSeek() {
         if (mIsPreviewSeeking) {
-            long currentPreviewPosition = playbackControllerContainer.getValue().getPlaybackController().getPreviewPosition();
-            playbackControllerContainer.getValue().getPlaybackController().seek(currentPreviewPosition);
-
-            exitPreviewSeekMode();
+            if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+                leanbackOverlayFragment.getPlayerGlue().confirmPreviewSeek();
+            }
+            mIsPreviewSeeking = false;
         }
     }
 
