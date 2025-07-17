@@ -14,9 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImagePainter
@@ -108,7 +110,7 @@ private fun MainToolbar(
 					contentPadding = if (userImageVisible) PaddingValues(3.dp) else IconButtonDefaults.ContentPadding,
 				) {
 					Image(
-						painter = if (userImageVisible) userImagePainter else painterResource(R.drawable.ic_user),
+						painter = if (userImageVisible) userImagePainter else rememberVectorPainter(ImageVector.vectorResource(R.drawable.ic_user)),
 						contentDescription = stringResource(R.string.lbl_switch_user),
 						contentScale = ContentScale.Crop,
 						modifier = Modifier
@@ -160,7 +162,7 @@ private fun MainToolbar(
 					},
 				) {
 					Icon(
-						painter = painterResource(R.drawable.ic_settings),
+						imageVector = ImageVector.vectorResource(R.drawable.ic_settings),
 						contentDescription = stringResource(R.string.lbl_settings),
 					)
 				}

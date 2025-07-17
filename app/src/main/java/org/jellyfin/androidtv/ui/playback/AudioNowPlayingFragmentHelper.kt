@@ -16,8 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.R
@@ -77,7 +78,7 @@ fun initializePreviewView(
 				}
 			} else if (lyrics == null) {
 				// "placeholder" image
-				Icon(painterResource(R.drawable.ic_album), contentDescription = null, tint = Color.White.copy(alpha = 0.4f))
+				Icon(ImageVector.vectorResource(R.drawable.ic_album), contentDescription = null, tint = Color.White.copy(alpha = 0.4f))
 			}
 		}
 

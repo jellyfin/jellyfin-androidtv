@@ -17,8 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
@@ -108,7 +109,7 @@ fun SearchVoiceInput(
 			}
 		) {
 			Icon(
-				painter = painterResource(R.drawable.ic_microphone),
+				imageVector = ImageVector.vectorResource(R.drawable.ic_microphone),
 				contentDescription = null,
 				modifier = Modifier.size(28.dp)
 			)

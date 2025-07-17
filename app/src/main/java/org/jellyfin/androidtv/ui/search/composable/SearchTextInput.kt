@@ -17,7 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -73,7 +74,7 @@ fun SearchTextInput(
 						.border(2.dp, color.first, RoundedCornerShape(percent = 30))
 						.padding(12.dp)
 				) {
-					Icon(painterResource(R.drawable.ic_search), contentDescription = null)
+					Icon(ImageVector.vectorResource(R.drawable.ic_search), contentDescription = null)
 					Spacer(Modifier.width(12.dp))
 					innerTextField()
 				}
