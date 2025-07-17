@@ -163,7 +163,7 @@
     <string name="desc_bitstream_ac3">Precisas de hardware compatível</string>
     <string name="lbl_bitstream_ac3">Áudio Dolby Digital em bitstream</string>
     <string name="lbl_new_premieres">Novas estreias</string>
-    <string name="lbl_now_playing_album">desde %1$s</string>
+    <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_favorite">Favorito</string>
