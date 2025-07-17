@@ -47,6 +47,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
+import org.jellyfin.androidtv.util.Utils;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.LocalDateTime;
@@ -395,6 +396,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public void updatePreviewPosition(long previewPosition) {
+        playbackController.setPreviewPosition(previewPosition);
         getPlayerAdapter().updateCurrentPosition();
         updateThumbnailPreview(previewPosition);
     }
@@ -414,28 +416,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         playbackController.play(playbackController.getCurrentPosition());
     }
 
-    public void previewSeekForward() {
-        UserSettingPreferences prefs = KoinJavaComponent.get(UserSettingPreferences.class);
-        long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+    public void previewSeek(long skipAmount) {
         long duration = playbackController.getDuration();
         long currentPreviewPosition = playbackController.getPreviewPosition();
-        long newPreviewPosition = org.jellyfin.androidtv.util.Utils.getSafeSeekPosition(
-            currentPreviewPosition + skipAmount, duration);
-
+        long newPreviewPosition = Utils.getSafeSeekPosition(currentPreviewPosition + skipAmount, duration);
         updatePreviewPosition(newPreviewPosition);
     }
-
-    public void previewSeekBackward() {
-        UserSettingPreferences prefs = KoinJavaComponent.get(UserSettingPreferences.class);
-        long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
-        long duration = playbackController.getDuration();
-        long currentPreviewPosition = playbackController.getPreviewPosition();
-        long newPreviewPosition = org.jellyfin.androidtv.util.Utils.getSafeSeekPosition(
-            currentPreviewPosition - skipAmount, duration);
-
-        updatePreviewPosition(newPreviewPosition);
-    }
-
     public void confirmPreviewSeek() {
         long currentPreviewPosition = playbackController.getPreviewPosition();
         playbackController.seek(currentPreviewPosition);
@@ -450,7 +436,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public boolean isSeekBarFocused() {
-        return mSeekBar != null && mSeekBar.hasFocus();
+        return mSeekBar != null && mSeekBar.isFocused();
     }
 
     @Override

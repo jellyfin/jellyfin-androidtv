@@ -631,8 +631,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                 }
 
                                 if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-                                    leanbackOverlayFragment.getPlayerGlue().previewSeekForward();
+                                    UserSettingPreferences prefs = userSettingPreferences.getValue();
+                                    long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+                                    leanbackOverlayFragment.getPlayerGlue().previewSeek(skipAmount);
                                 }
+
                                 setFadingEnabled(true);
                                 return true;
                             }
@@ -649,13 +652,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             }
 
                             if (previewSeekingEnabled) {
-                                // Enter preview seeking mode if not already in it
                                 if (!mIsPreviewSeeking) {
                                     enterPreviewSeekMode();
                                 }
 
                                 if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-                                    leanbackOverlayFragment.getPlayerGlue().previewSeekBackward();
+                                    UserSettingPreferences prefs = userSettingPreferences.getValue();
+                                    long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
+                                    leanbackOverlayFragment.getPlayerGlue().previewSeek(-skipAmount);
                                 }
                                 setFadingEnabled(true);
                                 return true;
@@ -702,12 +706,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mIsPreviewSeeking = false;
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
             leanbackOverlayFragment.getPlayerGlue().exitPreviewSeekMode();
-        }
-    }
-
-    private void updatePreviewPosition(long previewPosition) {
-        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            leanbackOverlayFragment.getPlayerGlue().updatePreviewPosition(previewPosition);
         }
     }
 
