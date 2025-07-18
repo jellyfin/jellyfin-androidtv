@@ -603,4 +603,10 @@
     <string name="indicator_subtitles_hearing_impaired">Podnapisi za gluhe in naglušne</string>
     <string name="pref_troubleshooting">Odpravljanje težav</string>
     <string name="pref_report_device_profile_summary">Pošlji poročilo od zmogljivostih predvajalnika strežniku Jellyfin, za namen odpravljanja napak</string>
+    <string name="preference_enable_pgs">Neposredno predvajaj podnapise PGS</string>
+    <string name="speech_error_no_permission">Ni dovoljenja za uporabo mikrofona. Prosimo, omogočite ga v sistemskih nastavitvah.</string>
+    <string name="speech_error_unavailable">Prepoznava govora ni na voljo na vaši napravi.</string>
+    <string name="speech_error_unknown">Med prepoznavo govora je prišlo do nepričakovane napake.</string>
+    <string name="preference_enable_libass">Omogoči napredni prikaz podnapisov SubStation Alpha na odjemalcu</string>
+    <string name="still_watching_label">Še vedno gledaš?</string>
 </resources>
