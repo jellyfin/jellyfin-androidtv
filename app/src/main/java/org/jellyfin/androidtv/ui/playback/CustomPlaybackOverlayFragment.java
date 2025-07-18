@@ -665,6 +665,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             return true;
                         }
                     }
+
                     //and then manage our fade timer
                     if (mFadeEnabled) startFadeTimer();
                 }
