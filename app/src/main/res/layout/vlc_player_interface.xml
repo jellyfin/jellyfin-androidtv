@@ -119,10 +119,10 @@
     <ImageView
         android:id="@+id/thumbnail_preview"
         android:layout_width="240dp"
-        android:layout_height="125dp"
+        android:layout_height="135dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="140dp"
-        android:background="@color/black_transparent"
+        android:background="@null"
         android:scaleType="centerCrop"
         android:visibility="gone"
         android:elevation="10dp"
