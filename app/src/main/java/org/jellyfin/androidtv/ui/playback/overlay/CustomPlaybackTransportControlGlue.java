@@ -417,9 +417,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     public void enterPreviewSeekMode() {
         playbackController.pause();
-
-        long currentPosition = playbackController.getCurrentPosition();
-        playbackController.setPreviewPosition(currentPosition);
+        playbackController.setPreviewPosition(getPlayerAdapter().getCurrentPosition());
 
         setInjectedViewsVisibility();
     }
@@ -427,11 +425,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     public void exitPreviewSeekMode() {
         hideThumbnailPreview();
         playbackController.clearPreviewPosition();
-        playbackController.play(playbackController.getCurrentPosition());
+        playbackController.play(getPlayerAdapter().getCurrentPosition());
     }
 
     public void previewSeek(long skipAmount) {
-        long duration = playbackController.getDuration();
+        long duration = getPlayerAdapter().getDuration();
         long currentPreviewPosition = playbackController.getPreviewPosition();
         long newPreviewPosition = Utils.getSafeSeekPosition(currentPreviewPosition + skipAmount, duration);
         updatePreviewPosition(newPreviewPosition);

@@ -1286,6 +1286,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return bufferedPosition;
     }
 
+
     public long getCurrentPosition() {
         // Return preview position if in preview mode
         if (mIsPreviewMode && mPreviewPosition != -1) {
