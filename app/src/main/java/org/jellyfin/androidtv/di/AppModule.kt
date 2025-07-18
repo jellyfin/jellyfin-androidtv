@@ -75,7 +75,11 @@ val appModule = module {
 			context = androidContext()
 
 			// Add client info
-			clientInfo = ClientInfo("Jellyfin Android TV", BuildConfig.VERSION_NAME)
+			val clientName = buildString {
+				append("Jellyfin Android TV")
+				if (BuildConfig.DEBUG) append(" (debug)")
+			}
+			clientInfo = ClientInfo(clientName, BuildConfig.VERSION_NAME)
 			deviceInfo = get(defaultDeviceInfo)
 
 			// Change server version
