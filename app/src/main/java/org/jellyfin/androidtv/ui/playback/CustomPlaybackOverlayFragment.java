@@ -657,7 +657,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
-
                     if (!mIsVisible) {
                         if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
                                 && playbackControllerContainer.getValue().getPlaybackController().canSeek()) {
@@ -677,6 +676,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     };
 
+
+    private boolean isSeekBarFocused() {
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            return leanbackOverlayFragment.getPlayerGlue().isSeekBarFocused();
+        }
+        return false;
+    }
+    
     private void enterPreviewSeekMode() {
         mIsPreviewSeeking = true;
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
@@ -969,6 +976,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     header.loadImage();
                     tvGuideBinding.programRows.addView(row);
                 });
+
                 displayedChannels++;
             }
             return null;
@@ -1418,12 +1426,5 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             params.preferredDisplayModeId = 0;
             getActivity().getWindow().setAttributes(params);
         }
-    }
-
-    private boolean isSeekBarFocused() {
-        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            return leanbackOverlayFragment.getPlayerGlue().isSeekBarFocused();
-        }
-        return false;
     }
 }

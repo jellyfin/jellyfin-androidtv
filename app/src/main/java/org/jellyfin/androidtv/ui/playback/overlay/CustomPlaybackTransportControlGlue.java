@@ -434,6 +434,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         long newPreviewPosition = Utils.getSafeSeekPosition(currentPreviewPosition + skipAmount, duration);
         updatePreviewPosition(newPreviewPosition);
     }
+    
     public void confirmPreviewSeek() {
         long currentPreviewPosition = playbackController.getPreviewPosition();
         playbackController.seek(currentPreviewPosition);
