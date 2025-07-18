@@ -52,7 +52,7 @@ import org.koin.java.KoinJavaComponent;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> implements View.OnKeyListener {
+public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
     // Normal playback actions
     private PlayPauseAction playPauseAction;
@@ -125,7 +125,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectQualityAction.dismissPopup();
         zoomAction.dismissPopup();
 
-        // Hide and cleanup thumbnail preview
         if (mThumbnailPreviewHandler != null) {
             mThumbnailPreviewHandler.hideThumbnailPreview();
         }

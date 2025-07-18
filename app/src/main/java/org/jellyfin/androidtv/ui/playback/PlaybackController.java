@@ -96,6 +96,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mSeekPosition = -1;
     private boolean wasSeeking = false;
     private boolean finishedInitialSeek = false;
+    private boolean mIsPreviewMode = false;
 
     private LocalDateTime mCurrentProgramEnd = null;
     private LocalDateTime mCurrentProgramStart = null;
@@ -104,12 +105,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean directStreamLiveTv;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
+    private long mPreviewPosition = -1;
 
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
-
-    private long mPreviewPosition = -1;
-    private boolean mIsPreviewMode = false;
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         this(items, fragment, 0);
@@ -1033,7 +1032,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             Timber.d("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
-
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
@@ -1323,10 +1321,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public long getPreviewPosition() {
         return mPreviewPosition;
-    }
-
-    public boolean isPreviewMode() {
-        return mIsPreviewMode;
     }
 
     /**

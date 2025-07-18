@@ -113,11 +113,6 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerGlue.recordingStateChanged();
     }
 
-    @NonNull
-    public VideoPlayerAdapter getPlayerAdapter() {
-        return playerAdapter;
-    }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -126,7 +121,6 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         }
     }
 
-    @NonNull
     public CustomPlaybackTransportControlGlue getPlayerGlue() {
         return playerGlue;
     }
