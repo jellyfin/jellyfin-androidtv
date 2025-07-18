@@ -511,7 +511,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                         confirmPreviewSeek();
                         return true;
-                    } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B ||
+                    }
+
+                    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B ||
                             keyCode == KeyEvent.KEYCODE_ESCAPE) {
                         exitPreviewSeekMode();
                         return true;
