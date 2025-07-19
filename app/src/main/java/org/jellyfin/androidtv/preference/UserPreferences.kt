@@ -254,10 +254,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 
 		/**
-		 * Enable preview seeking that allows users to preview seek positions before confirming them.
+		 * Require confirmation before seeking to allows users to preview seek positions before confirming them.
 		 * When disabled, D-pad left/right will seek immediately.
 		 */
-		var previewSeekingEnabled = booleanPreference("preview_seeking", true)
+		var seekConfirmationRequired = booleanPreference("seek_confirmation", true)
 	}
 
 	init {

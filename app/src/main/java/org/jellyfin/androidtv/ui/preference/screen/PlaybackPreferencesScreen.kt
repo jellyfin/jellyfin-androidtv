@@ -77,9 +77,9 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
-				setTitle(R.string.lbl_preview_seeking)
-				setContent(R.string.sum_preview_seeking)
-				bind(userPreferences, UserPreferences.previewSeekingEnabled)
+				setTitle(R.string.lbl_seek_confirmation)
+				setContent(R.string.sum_seek_confirmation)
+				bind(userPreferences, UserPreferences.seekConfirmationRequired)
 			}
 
 			@Suppress("MagicNumber")

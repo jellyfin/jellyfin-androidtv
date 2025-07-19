@@ -96,7 +96,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mSeekPosition = -1;
     private boolean wasSeeking = false;
     private boolean finishedInitialSeek = false;
-    private boolean mIsPreviewMode = false;
+    private boolean mPendingSeekConfirmation = false;
 
     private LocalDateTime mCurrentProgramEnd = null;
     private LocalDateTime mCurrentProgramStart = null;
@@ -105,7 +105,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean directStreamLiveTv;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
-    private long mPreviewPosition = -1;
+    private long mPendingSeekPosition = -1;
 
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
@@ -1288,9 +1288,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
 
     public long getCurrentPosition() {
-        // Return preview position if in preview mode
-        if (mIsPreviewMode && mPreviewPosition != -1) {
-            return mPreviewPosition;
+        // Return pending seek position if in pending seek confirmation mode
+        if (mPendingSeekConfirmation && mPendingSeekPosition != -1) {
+            return mPendingSeekPosition;
         }
 
         refreshCurrentPosition();
@@ -1310,18 +1310,18 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.setZoom(mode);
     }
 
-    public void setPreviewPosition(long position) {
-        mPreviewPosition = position;
-        mIsPreviewMode = true;
+    public void setPendingSeekPosition(long position) {
+        mPendingSeekPosition = position;
+        mPendingSeekConfirmation = true;
     }
 
-    public void clearPreviewPosition() {
-        mPreviewPosition = -1;
-        mIsPreviewMode = false;
+    public void clearPendingSeekPosition() {
+        mPendingSeekPosition = -1;
+        mPendingSeekConfirmation = false;
     }
 
-    public long getPreviewPosition() {
-        return mPreviewPosition;
+    public long getPendingSeekPosition() {
+        return mPendingSeekPosition;
     }
 
     /**

@@ -162,8 +162,8 @@
     <string name="lbl_episodes">Episodes</string>
     <string name="lbl_enable_cinema_mode">Cinema mode</string>
     <string name="sum_enable_cinema_mode">Play available intros and previews before starting a movie</string>
-    <string name="lbl_preview_seeking">Require confirmation before skipping</string>
-    <string name="sum_preview_seeking">Pauses playback and shows where you\'ll skip to. Confirm to proceed or cancel to stay at the current time</string>
+    <string name="lbl_seek_confirmation">Require confirmation before skipping</string>
+    <string name="sum_seek_confirmation">Pauses playback and shows where you\'ll skip to. Confirm to proceed or cancel to stay at the current time</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="msg_items_added">" items added"</string>
     <string name="lbl_add_to_queue">Add to queue</string>

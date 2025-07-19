@@ -127,7 +127,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
-    private boolean mIsPreviewSeeking = false;
+    private boolean mPendingSeekConfirmation = false;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
 
@@ -505,17 +505,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
                 }
 
-                // Handle preview seeking confirmation/cancellation
-                if (mIsPreviewSeeking) {
+                // Handle seek confirmation/cancellation
+                if (mPendingSeekConfirmation) {
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER ||
                             keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                        confirmPreviewSeek();
+                        applyPendingSeek();
                         return true;
                     }
 
                     if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B ||
                             keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                        exitPreviewSeekMode();
+                        exitSeekConfirmationMode();
                         return true;
                     }
                 }
@@ -609,13 +609,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
 
                     if ((!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
-                        boolean previewSeekingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getPreviewSeekingEnabled());
+                        boolean seekConfirmationRequired = userPreferences.getValue().get(UserPreferences.Companion.getSeekConfirmationRequired());
 
                         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
 
-                            if (previewSeekingEnabled) {
-                                if (!mIsPreviewSeeking) {
-                                    enterPreviewSeekMode();
+                            if (seekConfirmationRequired) {
+                                if (!mPendingSeekConfirmation) {
+                                    enterSeekConfirmationMode();
                                 }
 
                                 if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
@@ -636,9 +636,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
 
-                            if (previewSeekingEnabled) {
-                                if (!mIsPreviewSeeking) {
-                                    enterPreviewSeekMode();
+                            if (seekConfirmationRequired) {
+                                if (!mPendingSeekConfirmation) {
+                                    enterSeekConfirmationMode();
                                 }
 
                                 if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
@@ -684,26 +684,26 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         return false;
     }
     
-    private void enterPreviewSeekMode() {
-        mIsPreviewSeeking = true;
+    private void enterSeekConfirmationMode() {
+        mPendingSeekConfirmation = true;
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            leanbackOverlayFragment.getPlayerGlue().enterPreviewSeekMode();
+            leanbackOverlayFragment.getPlayerGlue().enterSeekConfirmationMode();
         }
     }
 
-    private void exitPreviewSeekMode() {
-        mIsPreviewSeeking = false;
+    private void exitSeekConfirmationMode() {
+        mPendingSeekConfirmation = false;
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-            leanbackOverlayFragment.getPlayerGlue().exitPreviewSeekMode();
+            leanbackOverlayFragment.getPlayerGlue().exitSeekConfirmationMode();
         }
     }
 
-    private void confirmPreviewSeek() {
-        if (mIsPreviewSeeking) {
+    private void applyPendingSeek() {
+        if (mPendingSeekConfirmation) {
             if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
-                leanbackOverlayFragment.getPlayerGlue().confirmPreviewSeek();
+                leanbackOverlayFragment.getPlayerGlue().applyPendingSeek();
             }
-            mIsPreviewSeeking = false;
+            mPendingSeekConfirmation = false;
         }
     }
 

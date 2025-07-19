@@ -409,36 +409,36 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         scheduleHideThumbnailPreview();
     }
 
-    public void updatePreviewPosition(long previewPosition) {
-        playbackController.setPreviewPosition(previewPosition);
+    public void updatePendingSeekPosition(long pendingSeekPosition) {
+        playbackController.setPendingSeekPosition(pendingSeekPosition);
         getPlayerAdapter().updateCurrentPosition();
-        updateThumbnailPreview(previewPosition);
+        updateThumbnailPreview(pendingSeekPosition);
     }
 
-    public void enterPreviewSeekMode() {
+    public void enterSeekConfirmationMode() {
         playbackController.pause();
-        playbackController.setPreviewPosition(getPlayerAdapter().getCurrentPosition());
+        playbackController.setPendingSeekPosition(getPlayerAdapter().getCurrentPosition());
 
         setInjectedViewsVisibility();
     }
 
-    public void exitPreviewSeekMode() {
+    public void exitSeekConfirmationMode() {
         hideThumbnailPreview();
-        playbackController.clearPreviewPosition();
+        playbackController.clearPendingSeekPosition();
         playbackController.play(getPlayerAdapter().getCurrentPosition());
     }
 
     public void previewSeek(long skipAmount) {
         long duration = getPlayerAdapter().getDuration();
-        long currentPreviewPosition = playbackController.getPreviewPosition();
-        long newPreviewPosition = Utils.getSafeSeekPosition(currentPreviewPosition + skipAmount, duration);
-        updatePreviewPosition(newPreviewPosition);
+        long currentPendingSeekPosition = playbackController.getPendingSeekPosition();
+        long newPendingSeekPosition = Utils.getSafeSeekPosition(currentPendingSeekPosition + skipAmount, duration);
+        updatePendingSeekPosition(newPendingSeekPosition);
     }
     
-    public void confirmPreviewSeek() {
-        long currentPreviewPosition = playbackController.getPreviewPosition();
-        playbackController.seek(currentPreviewPosition);
-        exitPreviewSeekMode();
+    public void applyPendingSeek() {
+        long currentPendingSeekPosition = playbackController.getPendingSeekPosition();
+        playbackController.seek(currentPendingSeekPosition);
+        exitSeekConfirmationMode();
     }
 
     public void setInjectedViewsVisibility() {
