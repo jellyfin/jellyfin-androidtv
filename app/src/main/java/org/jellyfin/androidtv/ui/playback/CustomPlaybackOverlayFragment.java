@@ -683,7 +683,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
         return false;
     }
-    
+
     private void enterSeekConfirmationMode() {
         mPendingSeekConfirmation = true;
         if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
@@ -812,6 +812,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mIsVisible = false;
         binding.topPanel.startAnimation(fadeOut);
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            leanbackOverlayFragment.getPlayerGlue().hideThumbnailPreview();
+        }
     }
 
     private void showChapterPanel() {
