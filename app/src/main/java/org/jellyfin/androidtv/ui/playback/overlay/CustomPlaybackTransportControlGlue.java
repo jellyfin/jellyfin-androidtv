@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.action.AndroidAction;
@@ -44,6 +46,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
+import org.jellyfin.androidtv.util.Utils;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.LocalDateTime;
@@ -80,8 +83,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private final Handler mHandler = new Handler();
     private Runnable mRefreshEndTime;
     private Runnable mRefreshViewVisibility;
+    private final Runnable mHideThumbnailPreview;
 
     private LinearLayout mButtonRef;
+    private View mSeekBar;
+
+    private ThumbnailPreviewHandler mThumbnailPreviewHandler;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
@@ -101,6 +108,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 mHandler.postDelayed(mRefreshViewVisibility, 100);
         };
 
+        mHideThumbnailPreview = this::hideThumbnailPreview;
+
         initActions(context);
     }
 
@@ -108,12 +117,17 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     protected void onDetachedFromHost() {
         mHandler.removeCallbacks(mRefreshEndTime);
         mHandler.removeCallbacks(mRefreshViewVisibility);
+        mHandler.removeCallbacks(mHideThumbnailPreview);
 
         closedCaptionsAction.removePopup();
         playbackSpeedAction.dismissPopup();
         selectAudioAction.dismissPopup();
         selectQualityAction.dismissPopup();
         zoomAction.dismissPopup();
+
+        if (mThumbnailPreviewHandler != null) {
+            mThumbnailPreviewHandler.hideThumbnailPreview();
+        }
 
         super.onDetachedFromHost();
     }
@@ -174,12 +188,31 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
+                mSeekBar = vh.view.findViewById(androidx.leanback.R.id.playback_progress);
+
+                if (mThumbnailPreviewHandler != null) return;
+
+                View rootView = getPlayerAdapter().getMasterOverlayFragment().getView();
+                if (rootView == null) return;
+
+                ImageView thumbnailPreview = rootView.findViewById(R.id.thumbnail_preview);
+                if (thumbnailPreview == null) return;
+
+                UserSettingPreferences userPrefs = KoinJavaComponent.get(UserSettingPreferences.class);
+                long skipForwardLength = userPrefs.get(UserSettingPreferences.Companion.getSkipForwardLength()).longValue();
+                mThumbnailPreviewHandler = new ThumbnailPreviewHandler(
+                    getSeekProvider(),
+                    thumbnailPreview,
+                    skipForwardLength
+                );
             }
 
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
                 super.onUnbindRowViewHolder(vh);
                 vh.setOnKeyListener(null);
+                mSeekBar = null;
+                mThumbnailPreviewHandler = null;
             }
         };
         rowPresenter.setDescriptionPresenter(detailsPresenter);
@@ -364,11 +397,59 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     }
 
+    public void fastForward() {
+        getPlayerAdapter().fastForward();
+        updateThumbnailPreview(getPlayerAdapter().getCurrentPosition());
+        scheduleHideThumbnailPreview();
+    }
+
+    public void rewind() {
+        getPlayerAdapter().rewind();
+        updateThumbnailPreview(getPlayerAdapter().getCurrentPosition());
+        scheduleHideThumbnailPreview();
+    }
+
+    public void updatePendingSeekPosition(long pendingSeekPosition) {
+        playbackController.setPendingSeekPosition(pendingSeekPosition);
+        getPlayerAdapter().updateCurrentPosition();
+        updateThumbnailPreview(pendingSeekPosition);
+    }
+
+    public void enterSeekConfirmationMode() {
+        playbackController.pause();
+        playbackController.setPendingSeekPosition(getPlayerAdapter().getCurrentPosition());
+
+        setInjectedViewsVisibility();
+    }
+
+    public void exitSeekConfirmationMode() {
+        hideThumbnailPreview();
+        playbackController.clearPendingSeekPosition();
+        playbackController.play(getPlayerAdapter().getCurrentPosition());
+    }
+
+    public void previewSeek(long skipAmount) {
+        long duration = getPlayerAdapter().getDuration();
+        long currentPendingSeekPosition = playbackController.getPendingSeekPosition();
+        long newPendingSeekPosition = Utils.getSafeSeekPosition(currentPendingSeekPosition + skipAmount, duration);
+        updatePendingSeekPosition(newPendingSeekPosition);
+    }
+    
+    public void applyPendingSeek() {
+        long currentPendingSeekPosition = playbackController.getPendingSeekPosition();
+        playbackController.seek(currentPendingSeekPosition);
+        exitSeekConfirmationMode();
+    }
+
     public void setInjectedViewsVisibility() {
         if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
             mEndsText.setVisibility(mButtonRef.getVisibility());
         mHandler.removeCallbacks(mRefreshViewVisibility);
         mHandler.postDelayed(mRefreshViewVisibility, 100);
+    }
+
+    public boolean isSeekBarFocused() {
+        return mSeekBar != null && mSeekBar.isFocused();
     }
 
     @Override
@@ -387,5 +468,22 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
+    }
+
+    public void updateThumbnailPreview(long previewSeekPosition) {
+        if (mThumbnailPreviewHandler != null && mThumbnailPreviewHandler.isAvailable()) {
+            mThumbnailPreviewHandler.updateThumbnailPreview(previewSeekPosition);
+        }
+    }
+
+    public void hideThumbnailPreview() {
+        if (mThumbnailPreviewHandler != null) {
+            mThumbnailPreviewHandler.hideThumbnailPreview();
+        }
+    }
+
+    private void scheduleHideThumbnailPreview() {
+        mHandler.removeCallbacks(mHideThumbnailPreview);
+        mHandler.postDelayed(mHideThumbnailPreview, 1000);
     }
 }
