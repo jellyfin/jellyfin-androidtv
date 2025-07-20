@@ -1286,7 +1286,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return bufferedPosition;
     }
 
-
     public long getCurrentPosition() {
         // Return pending seek position if in pending seek confirmation mode
         if (mPendingSeekConfirmation && mPendingSeekPosition != -1) {
