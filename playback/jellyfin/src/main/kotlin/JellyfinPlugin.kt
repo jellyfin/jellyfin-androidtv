@@ -10,6 +10,7 @@ import org.jellyfin.sdk.model.api.DeviceProfile
 fun jellyfinPlugin(
 	api: ApiClient,
 	deviceProfileBuilder: () -> DeviceProfile,
+
 ) = playbackPlugin {
 	provide(JellyfinMediaStreamResolver(api, deviceProfileBuilder))
 

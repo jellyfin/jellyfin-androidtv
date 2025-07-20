@@ -2,15 +2,20 @@ package org.jellyfin.playback.core
 
 import android.content.Context
 import android.os.Build
+import androidx.lifecycle.Lifecycle
 import androidx.core.content.getSystemService
+import androidx.lifecycle.Lifecycle
 import org.jellyfin.playback.core.backend.PlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.mediastream.MediaStreamService
 import org.jellyfin.playback.core.plugin.PlaybackPlugin
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueService
+import androidx.lifecycle.Lifecycle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 
 class PlaybackManagerBuilder(context: Context) {
 	private val factories = mutableListOf<PlaybackPlugin>()
@@ -20,6 +25,10 @@ class PlaybackManagerBuilder(context: Context) {
 	// Options
 	var defaultRewindAmount: (() -> Duration)? = null
 	var defaultFastForwardAmount: (() -> Duration)? = null
+	var lifecycle: Lifecycle? = null
+	var lifecycle: Lifecycle? = null
+	var lifecycle: Lifecycle? = null
+	var lifecycle: Lifecycle? = null
 
 	fun install(pluginFactory: PlaybackPlugin) {
 		factories.add(pluginFactory)
@@ -58,7 +67,7 @@ class PlaybackManagerBuilder(context: Context) {
 			defaultRewindAmount = defaultRewindAmount ?: { 10.seconds },
 			defaultFastForwardAmount = defaultFastForwardAmount ?: { 10.seconds },
 		)
-		return PlaybackManager(backends.first(), services, options)
+		return PlaybackManager(backends.first(), services, options, lifecycle)
 	}
 }
 

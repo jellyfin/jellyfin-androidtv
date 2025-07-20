@@ -28,6 +28,18 @@ android {
 dependencies {
 	// Kotlin
 	implementation(libs.kotlinx.coroutines)
+	// Android(x)
+	implementation(libs.androidx.lifecycle.runtime)
+
+	// Android(x)
+	implementation(libs.androidx.lifecycle.runtime)
+	// Android(x)
+	implementation(libs.androidx.lifecycle.runtime)
+
+	// Android(x)
+	implementation(libs.androidx.lifecycle.runtime)
+	// Android lifecycle
+	implementation(libs.androidx.lifecycle.runtime)
 
 	// Android(x)
 	implementation(libs.androidx.core)

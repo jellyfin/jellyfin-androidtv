@@ -6,9 +6,9 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
-import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
@@ -51,6 +51,8 @@ val playbackModule = module {
 }
 
 fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
+	lifecycle = ProcessLifecycleOwner.get().lifecycle
+	lifecycle = ProcessLifecycleOwner.get().lifecycle
 	val activityIntent = Intent(get(), MainActivity::class.java)
 	val pendingIntent = PendingIntent.getActivity(get(), 0, activityIntent, PendingIntent.FLAG_IMMUTABLE)
 
@@ -89,4 +91,7 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	val userSettingPreferences = get<UserSettingPreferences>()
 	defaultRewindAmount = { userSettingPreferences[UserSettingPreferences.skipBackLength].milliseconds }
 	defaultFastForwardAmount = { userSettingPreferences[UserSettingPreferences.skipForwardLength].milliseconds }
+
+	// Set lifecycle for foreground services
+	lifecycle = ProcessLifecycleOwner.get().lifecycle
 }
