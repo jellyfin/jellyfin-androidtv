@@ -1,5 +1,8 @@
 package org.jellyfin.playback.jellyfin.playsession
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,8 +23,16 @@ import kotlin.time.Duration
 class PlaySessionSocketService(
 	private val api: ApiClient,
 	private val playSessionService: PlaySessionService,
+	private val lifecycle: Lifecycle?,
 ) : PlayerService() {
 	override suspend fun onInitialize() {
+		coroutineScope.launch(Dispatchers.IO) {
+			if (lifecycle == null) subscribe(this)
+			else lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) { subscribe(this) }
+		}
+	}
+
+	private fun subscribe(coroutineScope: CoroutineScope) {
 		// Player control
 		api.webSocket.subscribe<PlaystateMessage>().onEach { message ->
 			coroutineScope.launch(Dispatchers.Main) {
