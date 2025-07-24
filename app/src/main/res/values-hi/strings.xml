@@ -5,7 +5,7 @@
     <string name="pref_max_bitrate_title">मैक्स स्ट्रीमिंग बिटरेट</string>
     <string name="pref_authentication_cat">प्रमाणीकरण</string>
     <string name="chapters">अध्याय</string>
-    <string name="lbl_settings">पसंद</string>
+    <string name="lbl_settings">प्राथमिकताएँ विकल्प</string>
     <string name="lbl_continue_watching">देखना जारी रखें</string>
     <string name="lbl_on_now">अभी चालू है</string>
     <string name="lbl_by_letter">अक्षर के अनुसार</string>
@@ -66,7 +66,7 @@
     <string name="lbl_people">लोग</string>
     <string name="lbl_recordings">रिकोर्डिगं</string>
     <string name="lbl_videos">वीडियोज़</string>
-    <string name="lbl_home">घर</string>
+    <string name="lbl_home">होम</string>
     <string name="lbl_runtime">रनटाइम</string>
     <string name="because_you_watched">क्योंकी आपने %1$s देखा</string>
     <string name="continue_listening">सुनना जारी रखें</string>
@@ -480,4 +480,111 @@
     <string name="login_quickconnect_step_2">2. उपयोगकर्ता मेनू खोलें और त्वरित कनेक्ट पेज पर जाएं</string>
     <string name="pref_crash_reports">सर्वर पर क्रैश रिपोर्ट भेजें</string>
     <string name="pref_crash_report_logs_disabled">लॉग को क्रैश रिपोर्ट में शामिल नहीं किया जाएगा</string>
+    <string name="segment_type_unknown">अज्ञात खंड</string>
+    <string name="prefer_exoplayer_ffmpeg">ऑडियो प्लेबैक के लिए FFmpeg को प्राथमिकता दें</string>
+    <string name="segment_action_nothing">कुछ मत करो</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">अधिकतम आयु बंद करें</string>
+    <string name="pref_screensaver_inapp_timeout">इसके बाद स्क्रीनसेवर प्रारंभ करें</string>
+    <string name="enable_reactive_homepage">प्रतिक्रियाशील होमपेज चालू करें</string>
+    <string name="dts_hd">डीटीएस:एचडी</string>
+    <string name="clear_image_cache_content">इस्तेमाल किया गया: %1$s</string>
+    <string name="pref_screensaver_ageratingrequired_title">आयु रेटिंग की आवश्यकता</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">सभी आइटम दिखाए जा रहे हैं</string>
+    <string name="app_notification_update_soon">अगले अपडेट के बाद ऐप का उपयोग जारी रखने के लिए अपने सर्वर को %1$s से कम से कम %2$s तक अपडेट करें।</string>
+    <string name="prefer_exoplayer_ffmpeg_content">ऑडियो को डिकोड करने के लिए FFmpeg का उपयोग करें, भले ही प्लेटफ़ॉर्म कोडेक उपलब्ध हों।</string>
+    <string name="segment_action_skip">स्किप</string>
+    <string name="preference_enable_trickplay">वीडियो प्लेयर में ट्रिकप्ले चालू करें</string>
+    <string name="speech_error_no_permission">माइक्रोफ़ोन इस्तेमाल करने की अनुमति नहीं है। कृपया सिस्टम सेटिंग में जाकर इसे चालू करें।</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s घंटा</item>
+        <item quantity="other">%1$s घंटे</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s टीवी सीरीज</item>
+        <item quantity="other">%1$s टीवी सीरीज़</item>
+    </plurals>
+    <string name="video_start_delay">वीडियो प्रारंभ विलंब</string>
+    <string name="preference_enable_pgs">सीधे PGS उपशीर्षक चलाएँ</string>
+    <string name="lbl_album_artists">एल्बम कलाकार</string>
+    <plurals name="items">
+        <item quantity="one">%1$s आइटम</item>
+        <item quantity="other">%1$s आइटम्स</item>
+    </plurals>
+    <string name="random">रैंडम</string>
+    <string name="eac3">डॉडी+</string>
+    <string name="fast_forward">त्वरित फॉरवर्ड</string>
+    <string name="rewind">रिवाइंड</string>
+    <string name="photos">फोटोज</string>
+    <string name="unreleased">रिलीज़ नहीं किया गया</string>
+    <string name="scheduled_in_next_24_hours">अगले 24 घंटों में निर्धारित</string>
+    <string name="past_24_hours">पिछले 24 घंटे</string>
+    <string name="segment_type_intro">इंट्रो</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s फ़िल्म</item>
+        <item quantity="other">%1$s फिल्में</item>
+    </plurals>
+    <string name="dca">डीटीएस</string>
+    <string name="pref_screensaver_ageratingmax_entry">%1$d आयु तक</string>
+    <string name="segment_type_preview">प्रीव्यू</string>
+    <string name="segment_type_outro">आऊटरो</string>
+    <string name="skip_forward_length">स्किप फॉरवर्ड लंबाई</string>
+    <string name="pref_screensaver_inapp_enabled_description">ऐप खुला होने पर जेलीफिन स्क्रीनसेवर दिखाएं</string>
+    <string name="dolby_vision">डॉल्बी विजन</string>
+    <string name="pref_playback_advanced">उन्नत प्लेबैक विकल्प</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">केवल आयु रेटिंग सेट वाले आइटम दिखाए जा रहे हैं</string>
+    <string name="all_channels">सभी चैनल</string>
+    <string name="indicator_subtitles_hearing_impaired">एसडीएच</string>
+    <string name="past_week">पिछले सप्ताह</string>
+    <string name="pref_mediasegment_actions">मीडिया खंड क्रियाएँ</string>
+    <string name="segment_type_commercial">विज्ञापनों</string>
+    <string name="segment_type_recap">रिकैप</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s सेकंड</item>
+        <item quantity="other">%1$s सेकण्ड्स</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s मिनट</item>
+        <item quantity="other">%1$s मिनट्स</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s एल्बम</item>
+        <item quantity="other">%1$s एलबम्स</item>
+    </plurals>
+    <string name="not_set">सेट नहीं</string>
+    <string name="clear_image_cache">इमेज कैश साफ़ करें</string>
+    <string name="person_birthday_and_age">जन्म %1$s (%2$d)</string>
+    <string name="disable_ui_mode_warning">डिवाइस प्रकार चेतावनी बंद करें</string>
+    <string name="channels">चैनल्स</string>
+    <string name="photo_albums">फ़ोटो एलबम्स</string>
+    <string name="indicator_subtitles">सीसी</string>
+    <string name="dolby_atmos">डॉल्बी एटमॉस</string>
+    <string name="dts_x">डीटीएस:एक्स</string>
+    <string name="ac3">डॉडी</string>
+    <string name="current_queue">वर्तमान कतार</string>
+    <string name="default_video_zoom">डिफ़ॉल्ट ज़ूम मोड</string>
+    <string name="segment_action_ask_to_skip">स्किप करना है या नही पूछें</string>
+    <string name="pref_subtitles_background_opacity">उपशीर्षक बैकग्राउंड स्पष्टता</string>
+    <string name="pref_troubleshooting">समस्या निवारण</string>
+    <string name="pref_report_device_profile_title">सर्वर को प्लेबैक क्षमताओं की रिपोर्ट करें</string>
+    <string name="pref_report_device_profile_summary">प्लेबैक क्षमताओं के बारे में जानकारी के साथ जेलीफिन सर्वर पर एक समस्या निवारण दस्तावेज़ अपलोड करें</string>
+    <string name="pref_report_device_profile_success">दस्तावेज़ %1$s के रूप में सबमिट किया गया</string>
+    <string name="pref_report_device_profile_failure">दस्तावेज़ सबमिट करने में विफल। आपका जेलीफ़िन सर्वर क्लाइंट लॉग को प्रतिबंधित कर सकता है।</string>
+    <string name="preference_enable_libass">उन्नत सबस्टेशन अल्फा उपशीर्षक (ASS) क्लाइंट रेंडरिंग चालू करें</string>
+    <string name="speech_error_unavailable">आपके डिवाइस पर वाचा पहचान उपलब्ध नहीं है।</string>
+    <string name="speech_error_unknown">वाचा पहचान के दौरान एक अप्रत्याशित एरर उत्पन्न हुआ।</string>
+    <string name="still_watching_label">क्या आप अभी भी देख रहे हैं?</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s ट्रैक</item>
+        <item quantity="other">%1$s ट्रैक्स</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s एपिसोड</item>
+        <item quantity="other">%1$s एपिसोड्स</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s गाना</item>
+        <item quantity="other">%1$s गानें</item>
+    </plurals>
+    <string name="pref_screensaver_ageratingmax">अधिकतम आयु रेटिंग</string>
+    <string name="pref_screensaver_ageratingmax_zero">सभी उम्र</string>
 </resources>
