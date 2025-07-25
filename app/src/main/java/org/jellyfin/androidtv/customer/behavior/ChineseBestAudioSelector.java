@@ -6,6 +6,9 @@ import org.jellyfin.sdk.model.api.MediaStreamType;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import timber.log.Timber;
 
 /**
  * 国语选择器
@@ -13,6 +16,7 @@ import java.util.Map;
 public class ChineseBestAudioSelector implements BestStreamSelector {
     protected static final int BEST_SORT = 1;
     protected static final int DEFAULT_SORT = 10000;
+    protected static final int LOW_SORT = 100000;
     protected static Map<String, Integer> bestMatchSort;
     static {
         bestMatchSort = new LinkedHashMap<>();
@@ -22,6 +26,7 @@ public class ChineseBestAudioSelector implements BestStreamSelector {
         bestMatchSort.put("cantonese", 100); // 广东
         bestMatchSort.put("中文", 500);
         bestMatchSort.put("粤语", 1000);
+        bestMatchSort.put("dolby", LOW_SORT); // 杜比音降序
     }
 
     @Override
@@ -30,25 +35,24 @@ public class ChineseBestAudioSelector implements BestStreamSelector {
             return null;
         }
 
-        int sortLevel = DEFAULT_SORT;
-        Integer bestIndex = null;
-        for (MediaStream mediaStream : mediaStreams) {
-            if (!MediaStreamType.AUDIO.equals(mediaStream.getType())) {
-                continue;
-            }
+        MediaStream bastMatchMediaStream = mediaStreams
+                .stream()
+                .filter(mediaStream -> MediaStreamType.AUDIO.equals(mediaStream.getType()))
+                .sorted((a, b) -> {
+                    int aLevel = getBestSortLevel(Objects.nonNull(a.getDisplayTitle()) ? a.getDisplayTitle() : a.getTitle());
+                    int bLevel = getBestSortLevel(Objects.nonNull(b.getDisplayTitle()) ? b.getDisplayTitle() : b.getTitle());
+                    return Integer.compare(aLevel, bLevel);
+                })
+                .findFirst()
+                .orElse(null);
 
-            String title = mediaStream.getTitle();
-            int bestSortLevel = getBestSortLevel(title);
-            if (bestSortLevel == BEST_SORT) {
-                return mediaStream.getIndex();
-            }
-
-            if (sortLevel > bestSortLevel) {
-                sortLevel = bestSortLevel;
-                bestIndex = mediaStream.getIndex();
-            }
+        if (bastMatchMediaStream == null) {
+            return null;
         }
-        return bestIndex;
+
+        int i = mediaStreams.indexOf(bastMatchMediaStream);
+        Timber.d("getBestMatchStream %s %d", bastMatchMediaStream.getDisplayTitle(),  i);
+        return i;
     }
 
     protected int getBestSortLevel(String title) {

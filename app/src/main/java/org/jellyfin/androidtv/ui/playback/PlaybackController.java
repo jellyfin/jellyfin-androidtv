@@ -765,9 +765,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Integer lastChosenLanguage = lastChosenLanguageAudioTrack(info.getMediaSource());
         Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
         Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
-        if (chineseAudioSelector != null) {
-            lastChosenLanguage = chineseAudioSelector.getBestMatchStream(info.getSelectableAudioStreams());
-        }
+//        if (chineseAudioSelector != null) {
+//            lastChosenLanguage = chineseAudioSelector.getBestMatchStream(info.getSelectableAudioStreams());
+//        }
 
         if (lastChosenLanguage != null)
             mDefaultAudioIndex = lastChosenLanguage;
@@ -1245,7 +1245,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             // 修改
             if (chineseAudioSelector != null) {
-                Integer localBestGuess = chineseAudioSelector.getBestMatchStream(getCurrentStreamInfo().getSelectableAudioStreams());
+                Integer localBestGuess = chineseAudioSelector.getBestMatchStream(getCurrentMediaSource().getMediaStreams());
                 if (localBestGuess != null) {
                     eligibleAudioTrack = localBestGuess;
                 }
