@@ -96,6 +96,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mSeekPosition = -1;
     private boolean wasSeeking = false;
     private boolean finishedInitialSeek = false;
+    private boolean mPendingSeekConfirmation = false;
 
     private LocalDateTime mCurrentProgramEnd = null;
     private LocalDateTime mCurrentProgramStart = null;
@@ -104,6 +105,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean directStreamLiveTv;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
+    private long mPendingSeekPosition = -1;
 
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
@@ -1284,9 +1286,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return bufferedPosition;
     }
 
+
     public long getCurrentPosition() {
-        // don't report the real position if seeking
-        return !isPlaying() && mSeekPosition != -1 ? mSeekPosition : mCurrentPosition;
+        // Return pending seek position if in pending seek confirmation mode
+        if (mPendingSeekConfirmation && mPendingSeekPosition != -1) {
+            return mPendingSeekPosition;
+        }
+
+        refreshCurrentPosition();
+        return mCurrentPosition;
     }
 
     public boolean isPaused() {
@@ -1300,6 +1308,20 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
+    }
+
+    public void setPendingSeekPosition(long position) {
+        mPendingSeekPosition = position;
+        mPendingSeekConfirmation = true;
+    }
+
+    public void clearPendingSeekPosition() {
+        mPendingSeekPosition = -1;
+        mPendingSeekConfirmation = false;
+    }
+
+    public long getPendingSeekPosition() {
+        return mPendingSeekPosition;
     }
 
     /**
