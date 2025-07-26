@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,7 @@ import androidx.media3.common.TrackGroup;
 import androidx.media3.common.TrackSelectionOverride;
 import androidx.media3.common.TrackSelectionParameters;
 import androidx.media3.common.Tracks;
+import androidx.media3.common.VideoSize;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.HttpDataSource;
@@ -43,6 +46,7 @@ import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.CaptionStyleCompat;
 import androidx.media3.ui.PlayerView;
+import androidx.media3.ui.SubtitleView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
@@ -127,8 +131,37 @@ public class VideoManager {
                 strokeColor,
                 TypefaceCompat.create(activity, Typeface.DEFAULT, textWeight, false)
         );
-        mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
+        mExoPlayerView.getSubtitleView().setFractionalTextSize(SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
+        mExoPlayer.addListener(new Player.Listener() {
+            @Override
+            public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+                try {
+                    Context context = mActivity.getWindow().getDecorView().getContext();
+                    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                    Point size = new Point();
+                    wm.getDefaultDisplay().getRealSize(size);
+                    int dh = size.y;
+                    int dw = size.x;
+                    int vh = videoSize.height;
+                    int vw = videoSize.width;
+                    float ar = (float) vw / vh;
+                    if (ar<1.78f)
+                        return;
+                    if (vw>dw)
+                        vh = (int) (dw/ar);
+                    int negativeMargin = (dh-vh)/2;
+                    FrameLayout.LayoutParams subslp = (FrameLayout.LayoutParams) mExoPlayerView.getSubtitleView().getLayoutParams();
+                    subslp.bottomMargin = subslp.bottomMargin - negativeMargin + (int)(negativeMargin * 0.075f);
+                    mExoPlayerView.getSubtitleView().setLayoutParams(subslp);
+                    mExoPlayerView.setClipChildren(false);
+                    float increaseFactor = negativeMargin/17800f;
+                    mExoPlayerView.getSubtitleView().setFractionalTextSize((SubtitleView.DEFAULT_TEXT_SIZE_FRACTION+increaseFactor) * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()), true);
+                } catch (Exception e) {
+                    Timber.e("***** Got and error while patching subtitles on wide aspect ratio.");
+                }
+            }
+        });
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
