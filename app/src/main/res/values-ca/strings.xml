@@ -536,7 +536,7 @@
         <item quantity="other">%1$s cançons</item>
     </plurals>
     <string name="random">Aleatori</string>
-    <string name="unreleased">Encara no s\'ha publicat</string>
+    <string name="unreleased">Encara no s\'ha estrenat</string>
     <string name="lbl_home">Inici</string>
     <string name="pref_screensaver_ageratingmax">Classificació d\'edat màxima</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Només es mostren elements amb una classificació per edat indicada</string>
