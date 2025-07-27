@@ -42,6 +42,8 @@ class CustomSeekProvider(
 		val currentRequest = imageRequests[index]
 		if (currentRequest?.isDisposed == false) currentRequest.dispose()
 
+		callback.onThumbnailLoaded(null, index)
+
 		val item = videoPlayerAdapter.currentlyPlayingItem
 		val mediaSource = videoPlayerAdapter.currentMediaSource
 		val mediaSourceId = mediaSource?.id?.toUUIDOrNull()
