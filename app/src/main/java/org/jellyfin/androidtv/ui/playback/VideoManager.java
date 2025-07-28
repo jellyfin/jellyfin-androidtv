@@ -64,9 +64,11 @@ import java.util.List;
 import java.util.Optional;
 
 import io.github.peerless2012.ass.media.AssHandler;
+import io.github.peerless2012.ass.media.factory.AssRenderersFactory;
 import io.github.peerless2012.ass.media.kt.AssPlayerKt;
 import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory;
 import io.github.peerless2012.ass.media.type.AssRenderType;
+import io.github.peerless2012.ass.media.widget.AssSubtitleView;
 import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -97,13 +99,9 @@ public class VideoManager {
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
         boolean assDirectPlay = userPreferences.get(UserPreferences.Companion.getAssDirectPlay());
-        if (assDirectPlay) {
-            AssHandler assHandler = new AssHandler(AssRenderType.LEGACY);
-            mExoPlayer = configureExoplayerBuilder(activity, assHandler).build();
-            assHandler.init(mExoPlayer);
-        } else {
-            mExoPlayer = configureExoplayerBuilder(activity, null).build();
-        }
+        AssHandler assHandler = assDirectPlay ? new AssHandler(AssRenderType.OVERLAY) : null;
+
+        mExoPlayer = configureExoplayerBuilder(activity, assHandler).build();
 
         if (userPreferences.get(UserPreferences.Companion.getDebuggingEnabled())) {
             mExoPlayer.addAnalyticsListener(new EventLogger());
@@ -133,6 +131,12 @@ public class VideoManager {
         );
         mExoPlayerView.getSubtitleView().setFractionalTextSize(SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
+
+        if (assHandler != null) {
+            assHandler.init(mExoPlayer);
+            mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
+        }
+
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
@@ -245,7 +249,6 @@ public class VideoManager {
         DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
-        exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
 
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
         trackSelector.setParameters(trackSelector.buildUponParameters()
@@ -268,7 +271,9 @@ public class VideoManager {
             DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory);
             mediaSourceFactory.setSubtitleParserFactory(assSubtitleParserFactory);
             exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
+            exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, defaultRendererFactory));
         } else {
+            exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
             exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
         }
 
