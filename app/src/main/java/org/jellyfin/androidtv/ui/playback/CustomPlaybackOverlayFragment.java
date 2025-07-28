@@ -69,15 +69,19 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
+import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.ChapterInfo;
+import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -125,6 +129,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
+    private LocalDateTime mProgramEndTime = null;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
 
@@ -611,6 +616,31 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     //and then manage our fade timer
                     if (mFadeEnabled) startFadeTimer();
+                }
+
+                if ( (playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    //do some stuff here
+                    BaseItemDto current = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
+                    if (current.getCurrentProgram() != null) {
+                        mProgramEndTime = current.getCurrentProgram().getEndDate();
+                        LocalDateTime nowTime = LocalDateTime.now();
+
+                        if (nowTime.isAfter(mProgramEndTime)) {
+                            UUID channelID = current.getCurrentProgram().getChannelId();
+                            BaseItemDto myChannel = TvManager.getChannelByID(channelID);
+                            final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
+                            playbackHelper.getValue().getItemsToPlay(requireContext(), myChannel,false,false, new Response<List<BaseItemDto>>() {
+                                @Override
+                                public void onResponse(List<BaseItemDto> response) {
+                                    playbackControllerContainer.getValue().getPlaybackController().setItems(response);
+                                    playbackControllerContainer.getValue().getPlaybackController().updateTvProgramInfo();
+                                    updateDisplay();
+                                }
+                            });
+                        }
+                    }
+
+                    return true;
                 }
             }
 
@@ -1248,6 +1278,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (current.getType() == BaseItemKind.EPISODE) {
                 binding.itemTitle.setText(current.getSeriesName());
                 binding.itemSubtitle.setText(BaseItemExtensionsKt.getDisplayName(current, requireContext()));
+            } else if (current.getType() == BaseItemKind.TV_CHANNEL) {
+                binding.itemTitle.setText(current.getName());
+                if (current.getCurrentProgram() != null) {
+                    String nowPlaying = current.getCurrentProgram().getName() + " - " + current.getCurrentProgram().getEpisodeTitle();
+                    binding.itemSubtitle.setText(current.getCurrentProgram().getName() + " - " + current.getCurrentProgram().getEpisodeTitle());
+                    mProgramEndTime = current.getCurrentProgram().getEndDate();
+                }
             } else {
                 binding.itemTitle.setText(current.getName());
             }
