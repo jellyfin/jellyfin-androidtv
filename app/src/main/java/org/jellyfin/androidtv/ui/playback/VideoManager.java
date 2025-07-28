@@ -137,35 +137,41 @@ public class VideoManager {
             mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
         }
 
+        // Subtitle position and size patch
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
-                try {
-                    Context context = mActivity.getWindow().getDecorView().getContext();
-                    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                    Point size = new Point();
-                    wm.getDefaultDisplay().getRealSize(size);
-                    int dh = size.y;
-                    int dw = size.x;
-                    int vh = videoSize.height;
-                    int vw = videoSize.width;
-                    float ar = (float) vw / vh;
-                    if (ar<1.78f)
-                        return;
-                    if (vw>dw)
-                        vh = (int) (dw/ar);
-                    int negativeMargin = (dh-vh)/2;
-                    FrameLayout.LayoutParams subslp = (FrameLayout.LayoutParams) mExoPlayerView.getSubtitleView().getLayoutParams();
-                    subslp.bottomMargin = subslp.bottomMargin - negativeMargin + (int)(negativeMargin * 0.075f);
-                    mExoPlayerView.getSubtitleView().setLayoutParams(subslp);
-                    mExoPlayerView.setClipChildren(false);
-                    float increaseFactor = negativeMargin/17800f;
-                    mExoPlayerView.getSubtitleView().setFractionalTextSize((SubtitleView.DEFAULT_TEXT_SIZE_FRACTION+increaseFactor) * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()), true);
-                } catch (Exception e) {
-                    Timber.e("***** Got and error while patching subtitles on wide aspect ratio.");
-                }
+                // Get current display and video dimensions
+                Context context = mActivity.getWindow().getDecorView().getContext();
+                WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                Point size = new Point();
+                windowManager.getDefaultDisplay().getRealSize(size);
+                int displayHeight = size.y;
+                int displayWidth = size.x;
+                int videoHeight = videoSize.height;
+                int videoWidth = videoSize.width;
+                float aspectRatio = (float) videoWidth / videoHeight;
+                // The issue only occurs on wide aspect ratio, so return otherwise
+                if (aspectRatio<1.78f)
+                    return;
+                // In case movie is 4k, transform videoHeight in its 1080p equivalent
+                // because display dimensions are 1080p conformant
+                if (videoWidth>displayWidth)
+                    videoHeight = (int) (displayWidth/aspectRatio);
+                // Find out by how many pixels we should lower the subtitles and apply
+                int negativeMargin = (displayHeight-videoHeight)/2;
+                FrameLayout.LayoutParams subsLayoutParams = (FrameLayout.LayoutParams) mExoPlayerView.getSubtitleView().getLayoutParams();
+                subsLayoutParams.bottomMargin = subsLayoutParams.bottomMargin - negativeMargin + (int)(negativeMargin * 0.075f);
+                mExoPlayerView.getSubtitleView().setLayoutParams(subsLayoutParams);
+                // Make the subs view visible despite being outside parent
+                mExoPlayerView.setClipChildren(false);
+                // Apply factor to the subtitle text size, based on how much we've lowered them
+                // (bigger the black bar, bigger the increase)
+                float increaseFactor = negativeMargin/17800f;
+                mExoPlayerView.getSubtitleView().setFractionalTextSize((SubtitleView.DEFAULT_TEXT_SIZE_FRACTION+increaseFactor) * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()), true);
             }
         });
+
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
