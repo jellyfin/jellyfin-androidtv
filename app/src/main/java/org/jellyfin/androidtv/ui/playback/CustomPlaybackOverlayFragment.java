@@ -618,7 +618,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     if (mFadeEnabled) startFadeTimer();
                 }
 
-                if ( (playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                if ( (playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) && !mGuideVisible && keyCode != KeyEvent.KEYCODE_BACK ) {
                     //do some stuff here
                     BaseItemDto current = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
                     if (current.getCurrentProgram() != null) {
@@ -653,6 +653,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return false;
         }
     };
+
 
     public LocalDateTime getCurrentLocalStartDate() {
         return mCurrentGuideStart;
