@@ -565,4 +565,17 @@
     <string name="pref_screensaver_ageratingmax_unlimited">Адключыць максімум</string>
     <string name="pref_screensaver_ageratingrequired_title">Патрабуецца ўзроставы рэйтынг</string>
     <string name="pref_screensaver_inapp_enabled_description">Паказаць застаўку Jellyfin, калі праграма адкрыта</string>
+    <string name="runtime_hours_minutes">%1$dг %2$dхв</string>
+    <string name="lbl_exit">Выхад</string>
+    <string name="lbl_subtitle_text_color">Колер тэксту субтытраў</string>
+    <string name="pref_still_watching_behavior_title">Паказаць усплывальнае акно з тайм-аўтам бяздзейнасці</string>
+    <string name="lbl_still_watching_default">3 эпізода або 90 хвілін</string>
+    <string name="lbl_still_watching_long">5 эпізодаў або 150 хвілін</string>
+    <string name="pref_subtitles_bold">Тоўсты тэкст</string>
+    <string name="lbl_from_beginning">Прайграваць з пачатку</string>
+    <string name="runtime_minutes">%1$dхв</string>
+    <string name="lbl_subtitle_background_color">Колер фону субтытраў</string>
+    <string name="lbl_subtitle_text_stroke_color">Колер абводкі субтытраў</string>
+    <string name="lbl_still_watching_short">2 эпізода або 60 хвілін</string>
+    <string name="lbl_still_watching_very_long">8 эпізодаў або 240 хвілін</string>
 </resources>
