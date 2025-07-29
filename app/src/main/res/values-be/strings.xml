@@ -578,4 +578,15 @@
     <string name="lbl_subtitle_text_stroke_color">Колер абводкі субтытраў</string>
     <string name="lbl_still_watching_short">2 эпізода або 60 хвілін</string>
     <string name="lbl_still_watching_very_long">8 эпізодаў або 240 хвілін</string>
+    <string name="segment_type_intro">Уступы</string>
+    <string name="prefer_exoplayer_ffmpeg">Аддаваць перавагу FFmpeg пры прайграванні аўдыё</string>
+    <string name="video_start_delay">Затрымка пачатку відэа</string>
+    <string name="segment_action_nothing">Нічога не рабіць</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Выкарыстоўваць FFmpeg для дэкодавання аўдыё, нават калі даступныя кодэкі платформы.</string>
+    <string name="pref_mediasegment_actions">Дзеянні з сегментамі медыяфайла</string>
+    <string name="segment_action_ask_to_skip">Запытаць дазвол на прапуск</string>
+    <string name="segment_action_skip">Прапусціць</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="default_video_zoom">Рэжым маштабавання па змаўчанні</string>
+    <string name="segment_type_commercial">Рэклама</string>
 </resources>
