@@ -600,4 +600,13 @@
     <string name="pref_report_device_profile_failure">Не ўдалося адправіць дакумент. Магчыма, ваш сервер Jellyfin не дазваляе захоўваць кліенцкія журналы.</string>
     <string name="preference_enable_trickplay">Уключыць trickplay у відэаплэеры</string>
     <string name="pref_troubleshooting">Пошук і выпраўленне непаладак</string>
+    <string name="fast_forward">Пераматаць наперад</string>
+    <string name="preference_enable_pgs">Прайграваць субтытры PGS без дадатковай апрацоўкі</string>
+    <string name="speech_error_no_permission">Няма дазволу на выкарыстанне мікрафона. Калі ласка, уключыце яго ў сістэмных наладах.</string>
+    <string name="speech_error_unknown">Падчас распазнавання маўлення адбылася нечаканая памылка.</string>
+    <string name="rewind">Пераматаць назад</string>
+    <string name="preference_enable_libass">Уключыць пашыранае адлюстраванне субтытраў фармату Advanced SubStation Alpha (ASS) на баку кліента</string>
+    <string name="segment_type_outro">Завяршэнне</string>
+    <string name="still_watching_label">Ці працягваеце глядзець?</string>
+    <string name="speech_error_unavailable">Распазнаванне маўлення недаступнае на вашай прыладзе.</string>
 </resources>
