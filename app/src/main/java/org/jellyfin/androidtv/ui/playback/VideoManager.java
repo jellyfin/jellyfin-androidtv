@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
@@ -12,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -139,36 +137,33 @@ public class VideoManager {
 
         // Subtitle position and size patch
         mExoPlayer.addListener(new Player.Listener() {
+            /**
+             * This Listener will await VideoSize info in order to override SubtitleView
+             * layout parameters in case it is a widescreen video. It will fill the entire
+             * screen instead of just the video view.
+             * @param videoSize The new size of the video.
+             */
             @Override
             public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
-                // Get current display and video dimensions
-                Context context = mActivity.getWindow().getDecorView().getContext();
-                WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                Point size = new Point();
-                windowManager.getDefaultDisplay().getRealSize(size);
-                int displayHeight = size.y;
-                int displayWidth = size.x;
+                SubtitleView subtitleView = mExoPlayerView.getSubtitleView();
                 int videoHeight = videoSize.height;
                 int videoWidth = videoSize.width;
                 float aspectRatio = (float) videoWidth / videoHeight;
-                // The issue only occurs on wide aspect ratio, so return otherwise
+                // We're changing wide aspect ratio video subtitle to match others, so return if lower AR
                 if (aspectRatio<1.78f)
                     return;
                 // In case movie is 4k, transform videoHeight in its 1080p equivalent
                 // because display dimensions are 1080p conformant
-                if (videoWidth>displayWidth)
-                    videoHeight = (int) (displayWidth/aspectRatio);
-                // Find out by how many pixels we should lower the subtitles and apply
-                int negativeMargin = (displayHeight-videoHeight)/2;
-                FrameLayout.LayoutParams subsLayoutParams = (FrameLayout.LayoutParams) mExoPlayerView.getSubtitleView().getLayoutParams();
-                subsLayoutParams.bottomMargin = subsLayoutParams.bottomMargin - negativeMargin + (int)(negativeMargin * 0.075f);
-                mExoPlayerView.getSubtitleView().setLayoutParams(subsLayoutParams);
-                // Make the subs view visible despite being outside parent
+                if (videoHeight > mExoPlayerView.getHeight())
+                    videoHeight = (int) (mExoPlayerView.getWidth() / aspectRatio);
+                FrameLayout.LayoutParams subslp = (FrameLayout.LayoutParams) subtitleView.getLayoutParams();
+                int verticalMargins = mExoPlayerView.getHeight() - videoHeight;
+                subslp.height = mExoPlayerView.getHeight();
+                // Elevate SubtitleView by 1 vertical margin, otherwise it will start drawing below the top of the screen
+                subslp.topMargin = verticalMargins/(-2);
+                // Store new params and make the subs view visible despite being outside parent
+                subtitleView.setLayoutParams(subslp);
                 mExoPlayerView.setClipChildren(false);
-                // Apply factor to the subtitle text size, based on how much we've lowered them
-                // (bigger the black bar, bigger the increase)
-                float increaseFactor = negativeMargin/17800f;
-                mExoPlayerView.getSubtitleView().setFractionalTextSize((SubtitleView.DEFAULT_TEXT_SIZE_FRACTION+increaseFactor) * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()), true);
             }
         });
 
