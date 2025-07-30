@@ -42,8 +42,6 @@ class CustomSeekProvider(
 		val currentRequest = imageRequests[index]
 		if (currentRequest?.isDisposed == false) currentRequest.dispose()
 
-		callback.onThumbnailLoaded(null, index)
-
 		val item = videoPlayerAdapter.currentlyPlayingItem
 		val mediaSource = videoPlayerAdapter.currentMediaSource
 		val mediaSourceId = mediaSource?.id?.toUUIDOrNull()
@@ -91,6 +89,8 @@ class CustomSeekProvider(
 			transformations(SubsetTransformation(offsetX, offsetY, trickPlayInfo.width, trickPlayInfo.height))
 
 			target(
+				onStart = { _ -> callback.onThumbnailLoaded(null, index) },
+				onError = { _ -> callback.onThumbnailLoaded(null, index) },
 				onSuccess = { image ->
 					val bitmap = image.toBitmap()
 					callback.onThumbnailLoaded(bitmap, index)
