@@ -8,11 +8,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.compose.ui.platform.ComposeView;
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 import androidx.leanback.widget.Action;
@@ -195,15 +195,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 View rootView = getPlayerAdapter().getMasterOverlayFragment().getView();
                 if (rootView == null) return;
 
-                ImageView thumbnailPreview = rootView.findViewById(R.id.thumbnail_preview);
+                ComposeView thumbnailPreview = rootView.findViewById(R.id.thumbnail_preview);
                 if (thumbnailPreview == null) return;
 
-                UserSettingPreferences userPrefs = KoinJavaComponent.get(UserSettingPreferences.class);
-                long skipForwardLength = userPrefs.get(UserSettingPreferences.Companion.getSkipForwardLength()).longValue();
                 mThumbnailPreviewHandler = new ThumbnailPreviewHandler(
                     getSeekProvider(),
-                    thumbnailPreview,
-                    skipForwardLength
+                    thumbnailPreview
                 );
             }
 

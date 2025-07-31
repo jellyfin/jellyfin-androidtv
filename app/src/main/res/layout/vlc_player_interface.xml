@@ -116,17 +116,13 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/thumbnail_preview"
-        android:layout_width="240dp"
-        android:layout_height="135dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="140dp"
-        android:background="@null"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        android:elevation="10dp"
-        android:padding="8dp" />
+        android:visibility="visible" />
 
     <org.jellyfin.androidtv.ui.playback.overlay.SkipOverlayView
         android:id="@+id/skip_overlay"
