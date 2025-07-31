@@ -36,55 +36,69 @@ class CustomSeekProvider(
 		return LongArray(size) { i -> min(i * interval, duration) }
 	}
 
+	private fun getTileSheetData(timeMs: Long): Pair<String, NetworkHeaders>? {
+		val item = videoPlayerAdapter.currentlyPlayingItem
+		val mediaSource = videoPlayerAdapter.currentMediaSource
+		val mediaSourceId = mediaSource?.id?.toUUIDOrNull()
+		if (item == null || mediaSource == null || mediaSourceId == null) return null
+
+		val trickPlayResolutions = item.trickplay?.get(mediaSource.id)
+		val trickPlayInfo = trickPlayResolutions?.values?.firstOrNull()
+		if (trickPlayInfo == null) return null
+
+		val tileNumber = timeMs.floorDiv(trickPlayInfo.interval).toInt()
+		val tilesPerSheet = trickPlayInfo.tileWidth * trickPlayInfo.tileHeight  
+		val sheetIndex = tileNumber / tilesPerSheet
+
+		val url = api.trickplayApi.getTrickplayTileImageUrl(
+			itemId = item.id,
+			width = trickPlayInfo.width,
+			index = sheetIndex,
+			mediaSourceId = mediaSourceId,
+		)
+
+		val headers = NetworkHeaders.Builder().apply {
+			set(
+				key = "Authorization",
+				value = AuthorizationHeaderBuilder.buildHeader(
+					api.clientInfo.name,
+					api.clientInfo.version,
+					api.deviceInfo.id,
+					api.deviceInfo.name,
+					api.accessToken
+				)
+			)
+		}.build()
+
+		return Pair(url, headers)
+	}
+
 	override fun getThumbnail(index: Int, callback: ResultCallback) {
 		if (!trickPlayEnabled) return
 
 		val currentRequest = imageRequests[index]
 		if (currentRequest?.isDisposed == false) currentRequest.dispose()
 
+		val currentTimeMs = (index * interval).coerceIn(0, videoPlayerAdapter.duration)
+		val (url, headers) = getTileSheetData(currentTimeMs) ?: return
+
 		val item = videoPlayerAdapter.currentlyPlayingItem
 		val mediaSource = videoPlayerAdapter.currentMediaSource
-		val mediaSourceId = mediaSource?.id?.toUUIDOrNull()
-		if (item == null || mediaSource == null || mediaSourceId == null) return
+		val trickPlayInfo = item?.trickplay?.get(mediaSource?.id)?.values?.firstOrNull() ?: return
 
-		val trickPlayResolutions = item.trickplay?.get(mediaSource.id)
-		val trickPlayInfo = trickPlayResolutions?.values?.firstOrNull()
-		if (trickPlayInfo == null) return
-
-		val currentTimeMs = (index * interval).coerceIn(0, videoPlayerAdapter.duration)
 		val currentTile = currentTimeMs.floorDiv(trickPlayInfo.interval).toInt()
-
 		val tileSize = trickPlayInfo.tileWidth * trickPlayInfo.tileHeight
 		val tileOffset = currentTile % tileSize
-		val tileIndex = currentTile / tileSize
 
 		val tileOffsetX = tileOffset % trickPlayInfo.tileWidth
 		val tileOffsetY = tileOffset / trickPlayInfo.tileWidth
 		val offsetX = tileOffsetX * trickPlayInfo.width
 		val offsetY = tileOffsetY * trickPlayInfo.height
 
-		val url = api.trickplayApi.getTrickplayTileImageUrl(
-			itemId = item.id,
-			width = trickPlayInfo.width,
-			index = tileIndex,
-			mediaSourceId = mediaSourceId,
-		)
-
 		imageRequests[index] = imageLoader.enqueue(ImageRequest.Builder(context).apply {
 			data(url)
 			size(Size.ORIGINAL)
-			httpHeaders(NetworkHeaders.Builder().apply {
-				set(
-					key = "Authorization",
-					value = AuthorizationHeaderBuilder.buildHeader(
-						api.clientInfo.name,
-						api.clientInfo.version,
-						api.deviceInfo.id,
-						api.deviceInfo.name,
-						api.accessToken
-					)
-				)
-			}.build())
+			httpHeaders(headers)
 
 			transformations(SubsetTransformation(offsetX, offsetY, trickPlayInfo.width, trickPlayInfo.height))
 
@@ -94,6 +108,17 @@ class CustomSeekProvider(
 					callback.onThumbnailLoaded(bitmap, index)
 				}
 			)
+		}.build())
+	}
+
+	fun prefetchTileSheet(timeMs: Long) {
+		if (!trickPlayEnabled) return
+
+		val (url, headers) = getTileSheetData(timeMs) ?: return
+
+		imageLoader.enqueue(ImageRequest.Builder(context).apply {
+			data(url)
+			httpHeaders(headers)
 		}.build())
 	}
 

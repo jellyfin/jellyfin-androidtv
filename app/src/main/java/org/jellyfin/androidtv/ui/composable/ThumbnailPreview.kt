@@ -28,9 +28,6 @@ fun ThumbnailPreview(
         modifier = modifier
             .width(240.dp)
             .height(135.dp)
-            .shadow(10.dp, RoundedCornerShape(8.dp))
-            .clip(RoundedCornerShape(8.dp))
-            .padding(8.dp)
+            .clip(RoundedCornerShape(4.dp))
     )
-
 } 
