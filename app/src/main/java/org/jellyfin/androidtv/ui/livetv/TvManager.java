@@ -239,4 +239,8 @@ public class TvManager {
         ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, timers.get(0).getStartDate(), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);
     }
+    public static BaseItemDto getChannelByID(UUID channelID) {
+        int channelIndex = getAllChannelsIndex(channelID);
+        return allChannels.get(channelIndex);
+    }
 }
