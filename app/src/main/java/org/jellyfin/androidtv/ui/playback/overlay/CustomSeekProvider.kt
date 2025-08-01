@@ -89,6 +89,8 @@ class CustomSeekProvider(
 			transformations(SubsetTransformation(offsetX, offsetY, trickPlayInfo.width, trickPlayInfo.height))
 
 			target(
+				onStart = { _ -> callback.onThumbnailLoaded(null, index) },
+				onError = { _ -> callback.onThumbnailLoaded(null, index) },
 				onSuccess = { image ->
 					val bitmap = image.toBitmap()
 					callback.onThumbnailLoaded(bitmap, index)
