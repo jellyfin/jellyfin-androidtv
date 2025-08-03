@@ -222,15 +222,13 @@ class ExoPlayerBackend(
 
 		currentStream = stream
 
-		var streamIsPrepared = false
-		repeat(exoPlayer.mediaItemCount) { index ->
-			streamIsPrepared =
-				streamIsPrepared || exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode()
-					.toString()
+		val streamIsPrepared = (0 until exoPlayer.mediaItemCount).any { index ->
+			exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
 		}
 
 		if (!streamIsPrepared) prepareItem(item)
 
+		Timber.i("Playing ${item.mediaStream?.url}")
 		exoPlayer.seekToNextMediaItem()
 		exoPlayer.play()
 	}
