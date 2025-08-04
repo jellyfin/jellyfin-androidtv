@@ -244,7 +244,7 @@
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactiva aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
-    <string name="msg_no_items">No hi ha elements per reproduir</string>
+    <string name="msg_no_items">No hi ha elements per a reproduir</string>
     <string name="subtitle_error">No es pot seleccionar el subtítol</string>
     <string name="too_many_errors">Hi ha massa errors. S\'ha aturat la reproducció</string>
     <string name="player_error">S\'ha trobat un error del reproductor. Es tornarà a intentar…</string>
@@ -536,7 +536,7 @@
         <item quantity="other">%1$s cançons</item>
     </plurals>
     <string name="random">Aleatori</string>
-    <string name="unreleased">Encara no s\'ha publicat</string>
+    <string name="unreleased">Encara no s\'ha estrenat</string>
     <string name="lbl_home">Inici</string>
     <string name="pref_screensaver_ageratingmax">Classificació d\'edat màxima</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Només es mostren elements amb una classificació per edat indicada</string>

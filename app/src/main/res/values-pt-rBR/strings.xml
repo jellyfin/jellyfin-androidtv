@@ -42,7 +42,7 @@
     <string name="lbl_cast_crew">Elenco e equipe</string>
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiais</string>
-    <string name="lbl_trailers">Reboques</string>
+    <string name="lbl_trailers">Trailers</string>
     <string name="lbl_items">Itens</string>
     <string name="lbl_item">Item</string>
     <string name="lbl_seasons">Temporadas</string>
@@ -591,4 +591,11 @@
     <string name="speech_error_unavailable">O reconhecimento de fala não está disponível no seu dispositivo.</string>
     <string name="speech_error_no_permission">Sem permissão para usar o microfone. Por favor, ative-a nas configurações do sistema.</string>
     <string name="speech_error_unknown">Ocorreu um erro inesperado durante o reconhecimento de fala.</string>
+    <string name="lbl_exit">Sair</string>
+    <string name="pref_still_watching_behavior_title">Exibir popup de tempo limite por inatividade</string>
+    <string name="lbl_still_watching_default">3 episódios ou 90 minutos</string>
+    <string name="lbl_still_watching_short">2 episódios ou 60 minutos</string>
+    <string name="lbl_still_watching_long">5 episódios ou 150 minutos</string>
+    <string name="lbl_still_watching_very_long">8 episódios ou 240 minutos</string>
+    <string name="still_watching_label">Você ainda está assistindo?</string>
 </resources>

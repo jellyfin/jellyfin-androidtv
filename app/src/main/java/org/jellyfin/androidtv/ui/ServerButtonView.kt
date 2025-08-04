@@ -26,8 +26,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.AbstractComposeView
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.R
@@ -145,12 +146,12 @@ class ServerButtonView @JvmOverloads constructor(
 			icon = {
 				when (state) {
 					State.DEFAULT -> Icon(
-						painter = painterResource(R.drawable.ic_house),
+						imageVector = ImageVector.vectorResource(R.drawable.ic_house),
 						contentDescription = null,
 					)
 
 					State.EDIT -> Icon(
-						painter = painterResource(R.drawable.ic_house_edit),
+						imageVector = ImageVector.vectorResource(R.drawable.ic_house_edit),
 						contentDescription = null,
 					)
 
@@ -159,7 +160,7 @@ class ServerButtonView @JvmOverloads constructor(
 					)
 
 					State.ERROR -> Icon(
-						painter = painterResource(R.drawable.ic_error),
+						imageVector = ImageVector.vectorResource(R.drawable.ic_error),
 						contentDescription = null,
 					)
 				}
