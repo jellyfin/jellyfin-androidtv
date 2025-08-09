@@ -198,6 +198,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var subtitlesTextSize = floatPreference("subtitles_text_size", 1f)
 
 		/**
+		 * Subtitles offset
+		 */
+		var subtitlesOffset = floatPreference("subtitles_offset", 0.08f)
+
+		/**
 		 * Show screensaver in app
 		 */
 		var screensaverInAppEnabled = booleanPreference("screensaver_inapp_enabled", true)
