@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lbl_latest">ഏറ്റവും പുതിയ</string>
+    <string name="lbl_latest">അടുത്തിടെ ചേർത്തത്</string>
     <string name="msg_not_implemented">" നടപ്പിലാക്കാത്ത"</string>
     <string name="lbl_search">തിരയുക</string>
     <string name="lbl_suggested">നിർദ്ദേശിച്ചു</string>
@@ -12,7 +12,7 @@
     <string name="lbl_settings">ക്രമീകരണങ്ങൾ</string>
     <string name="chapters">അധ്യായങ്ങൾ</string>
     <string name="pref_authentication_cat">പ്രാമാണീകരണം</string>
-    <string name="settings_title">ക്രമീകരണങ്ങൾ</string>
+    <string name="settings_title">മുൻഗണനകൾ</string>
     <string name="pref_max_bitrate_title">മാക്സ് സ്ട്രീമിംഗ് ബിട്രേറ്റ്</string>
     <string name="pref_playback">പ്ലേബാക്ക്</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -311,7 +311,7 @@
     <string name="lbl_collections">ശേഖരങ്ങൾ</string>
     <string name="lbl_other_channels">മറ്റ് ചാനലുകൾ</string>
     <string name="lbl_favorite_channels">പ്രിയപ്പെട്ട ചാനലുകൾ</string>
-    <string name="lbl_coming_up">വരുന്നു</string>
+    <string name="lbl_coming_up">അടുത്തതായി</string>
     <string name="lbl_favorites">പ്രിയങ്കരങ്ങൾ</string>
     <string name="lbl_by_name">പേരുകൊണ്ട്</string>
     <string name="enable_playback_module_description">ഇതൊരു പരീക്ഷണാത്മക സവിശേഷതയാണ്. ഒരു പിന്തുണയും നൽകിയിട്ടില്ല.</string>
@@ -324,4 +324,10 @@
     <string name="always_authenticate_description">ഈ പ്രവർത്തനം പ്രവർത്തനക്ഷമമാക്കുന്നത് യാന്ത്രിക സൈൻ ഇൻ പ്രവർത്തനരഹിതമാക്കുന്നു</string>
     <string name="always_authenticate">എപ്പോഴും ക്രെഡൻഷ്യലുകൾ ചോദിക്കുക</string>
     <string name="lbl_community_rating">സാമൂഹിക വിലയിരുത്തൽ</string>
+    <string name="continue_listening">കേൾക്കുന്നത് തുടരുക</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_genres">വിഭാഗങ്ങൾ</string>
+    <string name="lbl_home">വീട്</string>
+    <string name="state_disabled">വികലാംഗം</string>
+    <string name="lbl_latest_in">%1$s -ൽ അടുത്തിടെ ചേർത്തത്</string>
 </resources>
