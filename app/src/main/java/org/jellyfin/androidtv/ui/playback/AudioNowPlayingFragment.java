@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -66,7 +65,6 @@ public class AudioNowPlayingFragment extends Fragment {
     private TextView mSongTitle;
     private TextView mAlbumTitle;
     private TextView mCurrentNdx;
-    private ProgressBar mCurrentProgress;
     private TextView mCurrentPos;
     private TextView mRemainingTime;
     private int mCurrentDuration;
@@ -201,7 +199,9 @@ public class AudioNowPlayingFragment extends Fragment {
         });
         mArtistButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mCurrentProgress = binding.playerProgress;
+        AudioNowPlayingFragmentHelperKt.initializePlayerProgress(binding.playerProgress, playbackManager.getValue());
+        binding.playerProgress.setOnFocusChangeListener(mainAreaFocusListener);
+
         mCurrentPos = binding.currentPos;
         mRemainingTime = binding.remainingTime;
 
@@ -286,17 +286,19 @@ public class AudioNowPlayingFragment extends Fragment {
     private View.OnFocusChangeListener mainAreaFocusListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (!hasFocus && v != homeButton) {
+            if (!mScrollView.hasFocus() && v != homeButton) {
+                if (queueRowHasFocus) return;
                 // when the playback control buttons lose focus, and the home button is not focused
                 // the only other focusable object is the queue row.
                 // Scroll to the bottom of the scrollView
                 mScrollView.smoothScrollTo(0, mScrollView.getHeight() - 1);
                 queueRowHasFocus = true;
-                return;
+            } else {
+                if (!queueRowHasFocus) return;
+                queueRowHasFocus = false;
+                //scroll so entire main area is in view
+                mScrollView.smoothScrollTo(0, 0);
             }
-            queueRowHasFocus = false;
-            //scroll so entire main area is in view
-            mScrollView.smoothScrollTo(0, 0);
         }
     };
 
@@ -356,8 +358,6 @@ public class AudioNowPlayingFragment extends Fragment {
             }
             mCurrentNdx.setText(getString(R.string.lbl_now_playing_track, mediaManager.getValue().getCurrentAudioQueueDisplayPosition(), mediaManager.getValue().getCurrentAudioQueueDisplaySize()));
             mCurrentDuration = ((Long) ((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
-            //set progress to match duration
-            mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
             backgroundService.getValue().setBackground(item);
         }
@@ -366,7 +366,6 @@ public class AudioNowPlayingFragment extends Fragment {
     public void setCurrentTime(long time) {
         // Round the current time as otherwise the time played and time remaining will not be in sync
         time = Math.round(time / 1000L) * 1000L;
-        mCurrentProgress.setProgress(((Long) time).intValue());
         mCurrentPos.setText(TimeUtils.formatMillis(time));
         mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
     }
