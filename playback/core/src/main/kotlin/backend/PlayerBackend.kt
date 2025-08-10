@@ -35,6 +35,7 @@ interface PlayerBackend {
 	fun stop()
 
 	fun seekTo(position: Duration)
+	fun setScrubbing(scrubbing: Boolean)
 
 	fun setSpeed(speed: Float)
 }

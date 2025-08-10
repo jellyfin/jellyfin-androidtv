@@ -148,7 +148,9 @@ class ExoPlayerBackend(
 		}
 
 		override fun onVideoSizeChanged(size: VideoSize) {
-			listener?.onVideoSizeChange(size.width, size.height)
+			if (size != VideoSize.UNKNOWN) {
+				listener?.onVideoSizeChange(size.width, size.height)
+			}
 		}
 
 		override fun onCues(cueGroup: CueGroup) {
@@ -254,6 +256,10 @@ class ExoPlayerBackend(
 		}
 
 		exoPlayer.seekTo(position.inWholeMilliseconds)
+	}
+
+	override fun setScrubbing(scrubbing: Boolean) {
+		exoPlayer.isScrubbingModeEnabled = scrubbing
 	}
 
 	override fun setSpeed(speed: Float) {
