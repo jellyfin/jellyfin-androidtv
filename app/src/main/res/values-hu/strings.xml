@@ -315,7 +315,7 @@
     <string name="pref_theme_muted_purple">Tompa lila</string>
     <string name="press_to_close">Nyomja meg a bezáráshoz</string>
     <string name="add_user">Felhasználó hozzáadása</string>
-    <string name="who_is_watching">Felhasználó kiválasztása</string>
+    <string name="who_is_watching">Ki van itt?</string>
     <string name="no_user_warning">Nem találtunk felhasználói fiókot!
 \nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gombbal.</string>
     <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
