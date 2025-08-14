@@ -23,7 +23,9 @@ import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
-import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.apiclient.JellyfinImage
+import org.jellyfin.androidtv.util.apiclient.JellyfinImageSource
+import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
@@ -32,10 +34,10 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.exception.TimeoutException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
 import org.jellyfin.sdk.api.client.extensions.authenticateWithQuickConnect
-import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.api.AuthenticationResult
+import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.UserDto
 import timber.log.Timber
 import java.time.Instant
@@ -201,11 +203,15 @@ class AuthenticationRepositoryImpl(
 		else false
 	}
 
-	override fun getUserImageUrl(server: Server, user: User): String? = user.imageTag?.let { tag ->
-		jellyfin.createApi(server.address).imageApi.getUserImageUrl(
-			userId = user.id,
-			tag = tag,
-			maxHeight = ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT
+	override fun getUserImageUrl(server: Server, user: User): String? = user.imageTag?.let { primaryImageTag ->
+		JellyfinImage(
+			item = user.id,
+			source = JellyfinImageSource.USER,
+			type = ImageType.PRIMARY,
+			tag = primaryImageTag,
+			blurHash = null,
+			aspectRatio = null,
+			index = null
 		)
-	}
+	}?.getUrl(jellyfin.createApi(server.address))
 }
