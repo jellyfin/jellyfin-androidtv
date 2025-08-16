@@ -36,7 +36,6 @@ fun DreamView(
 
 	// Header overlay
 	DreamHeader(
-		showLogo = content != DreamContent.Logo,
 		showClock = showClock,
 	)
 }

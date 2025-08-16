@@ -148,7 +148,9 @@ class ExoPlayerBackend(
 		}
 
 		override fun onVideoSizeChanged(size: VideoSize) {
-			listener?.onVideoSizeChange(size.width, size.height)
+			if (size != VideoSize.UNKNOWN) {
+				listener?.onVideoSizeChange(size.width, size.height)
+			}
 		}
 
 		override fun onCues(cueGroup: CueGroup) {
@@ -222,15 +224,13 @@ class ExoPlayerBackend(
 
 		currentStream = stream
 
-		var streamIsPrepared = false
-		repeat(exoPlayer.mediaItemCount) { index ->
-			streamIsPrepared =
-				streamIsPrepared || exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode()
-					.toString()
+		val streamIsPrepared = (0 until exoPlayer.mediaItemCount).any { index ->
+			exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
 		}
 
 		if (!streamIsPrepared) prepareItem(item)
 
+		Timber.i("Playing ${item.mediaStream?.url}")
 		exoPlayer.seekToNextMediaItem()
 		exoPlayer.play()
 	}
@@ -256,6 +256,10 @@ class ExoPlayerBackend(
 		}
 
 		exoPlayer.seekTo(position.inWholeMilliseconds)
+	}
+
+	override fun setScrubbing(scrubbing: Boolean) {
+		exoPlayer.isScrubbingModeEnabled = scrubbing
 	}
 
 	override fun setSpeed(speed: Float) {

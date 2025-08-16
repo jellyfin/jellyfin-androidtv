@@ -111,7 +111,6 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -134,12 +133,10 @@
         <activity
             android:name=".ui.browsing.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing" />
 
         <activity
             android:name=".ui.preference.PreferencesActivity"
-            android:screenOrientation="behind"
             android:theme="@style/Theme.Jellyfin.Preferences" />
 
         <activity android:name=".ui.playback.ExternalPlayerActivity" />

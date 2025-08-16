@@ -1,14 +1,27 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
 import android.os.Build
 import android.util.Size
+import android.view.Display
+import androidx.core.content.ContextCompat
 import timber.log.Timber
 
-class MediaCodecCapabilitiesTest {
+class MediaCodecCapabilitiesTest(
+	private val context: Context,
+) {
+	private val display by lazy { ContextCompat.getDisplayOrDefault(context) }
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
+
+	@Suppress("DEPRECATION")
+	private val supportedHdrTypes by lazy {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) display.mode.supportedHdrTypes.toList()
+		else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) display.hdrCapabilities.supportedHdrTypes.toList()
+		else emptyList()
+	}
 
 	// AVC levels as reported by ffprobe are multiplied by 10, e.g. level 4.1 is 41. Level 1b is set to 9
 	private val avcLevels = listOf(
@@ -193,4 +206,15 @@ class MediaCodecCapabilitiesTest {
 		return Size(maxWidth, maxHeight)
 	}
 
+	fun supportsDolbyVision(): Boolean {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)
+	}
+
+	fun supportsHdr10(): Boolean {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)
+	}
+
+	fun supportsHdr10Plus(): Boolean {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)
+	}
 }
