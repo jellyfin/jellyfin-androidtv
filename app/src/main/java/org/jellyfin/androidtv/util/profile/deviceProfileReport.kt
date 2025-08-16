@@ -71,7 +71,7 @@ fun createDeviceProfileReport(
 	appendDetails("Generated device profile") {
 		appendCodeBlock(
 			language = "json",
-			code = createDeviceProfile(userPreferences, disableDirectPlay = false)
+			code = createDeviceProfile(context, userPreferences, disableDirectPlay = false)
 				.let(ApiSerializer::encodeRequestBody)
 				?.let(::formatJson)
 		)
@@ -203,6 +203,7 @@ fun createDeviceProfileReport(
 		if (isO) appendItem("Wide color gamut") { appendValue(display.isWideColorGamut.toString()) }
 		if (isQ) appendItem("Preferred wide color space") { appendValue(display.preferredWideGamutColorSpace.toString()) }
 		if (isN) {
+			@Suppress("DEPRECATION")
 			val supportedHdrTypes = if (isUpsideDownCake) display.mode.supportedHdrTypes.toList()
 			else display.hdrCapabilities.supportedHdrTypes.toList()
 
