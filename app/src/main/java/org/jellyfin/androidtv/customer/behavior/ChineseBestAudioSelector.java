@@ -20,13 +20,13 @@ public class ChineseBestAudioSelector implements BestStreamSelector {
     protected static Map<String, Integer> bestMatchSort;
     static {
         bestMatchSort = new LinkedHashMap<>();
+        bestMatchSort.put("dolby", LOW_SORT); // 杜比音降序
         bestMatchSort.put("国语", BEST_SORT); // 国语
         bestMatchSort.put("普通话", BEST_SORT);
         bestMatchSort.put("mandarin", BEST_SORT); // 普通话
         bestMatchSort.put("cantonese", 100); // 广东
         bestMatchSort.put("中文", 500);
         bestMatchSort.put("粤语", 1000);
-        bestMatchSort.put("dolby", LOW_SORT); // 杜比音降序
     }
 
     @Override
