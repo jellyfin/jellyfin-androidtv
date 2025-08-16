@@ -145,6 +145,8 @@ public class VideoManager {
              */
             @Override
             public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+                if (videoSize.height == 0 || videoSize.width == 0)
+                    return;
                 SubtitleView subtitleView = mExoPlayerView.getSubtitleView();
                 int videoHeight = videoSize.height;
                 int videoWidth = videoSize.width;
