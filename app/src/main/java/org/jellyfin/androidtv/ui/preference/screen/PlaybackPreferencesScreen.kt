@@ -239,9 +239,9 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				}
 
 				bind {
-					get { (userPreferences[UserPreferences.subtitlesOffset] * 100f).roundToInt() }
-					set { value -> userPreferences[UserPreferences.subtitlesOffset] = value / 100f }
-					default { (UserPreferences.subtitlesOffset.defaultValue * 100f).roundToInt() }
+					get { (userPreferences[UserPreferences.subtitlesOffsetPosition] * 100f).roundToInt() }
+					set { value -> userPreferences[UserPreferences.subtitlesOffsetPosition] = value / 100f }
+					default { (UserPreferences.subtitlesOffsetPosition.defaultValue * 100f).roundToInt() }
 				}
 			}
 
