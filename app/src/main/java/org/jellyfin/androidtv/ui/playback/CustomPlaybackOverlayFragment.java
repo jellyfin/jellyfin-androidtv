@@ -619,7 +619,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
 
                 if ( (playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) && !mGuideVisible && keyCode != KeyEvent.KEYCODE_BACK ) {
-                    //do some stuff here
+                    // Using the remote keypress that brings up the overlay fragment as a trigger. This check will go fetch the currently playing item
+                    // and get its end time, then update the overlay fragment with the new end time.
                     BaseItemDto current = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
                     if (current.getCurrentProgram() != null) {
                         mProgramEndTime = current.getCurrentProgram().getEndDate();
@@ -1282,9 +1283,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             } else if (current.getType() == BaseItemKind.TV_CHANNEL) {
                 binding.itemTitle.setText(current.getName());
                 if (current.getCurrentProgram() != null) {
-                    String nowPlaying = current.getCurrentProgram().getName() + " - " + current.getCurrentProgram().getEpisodeTitle();
-                    binding.itemSubtitle.setText(current.getCurrentProgram().getName() + " - " + current.getCurrentProgram().getEpisodeTitle());
-                    mProgramEndTime = current.getCurrentProgram().getEndDate();
+                    if (current.getCurrentProgram().getEpisodeTitle() != null){
+                        binding.itemSubtitle.setText(current.getCurrentProgram().getName() + " - " + current.getCurrentProgram().getEpisodeTitle());
+                    } else {
+                        binding.itemSubtitle.setText(current.getCurrentProgram().getName());
+                    }
+                        mProgramEndTime = current.getCurrentProgram().getEndDate();
                 }
             } else {
                 binding.itemTitle.setText(current.getName());
