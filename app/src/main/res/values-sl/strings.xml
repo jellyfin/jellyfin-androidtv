@@ -547,7 +547,7 @@
         <item quantity="few">%1$s albumi</item>
         <item quantity="other">%1$s albumov</item>
     </plurals>
-    <string name="segment_action_ask_to_skip">Prosite za preskok</string>
+    <string name="segment_action_ask_to_skip">Vprašaj za preskok</string>
     <string name="preference_enable_trickplay">Omogoči trickplay v video predvajalniku</string>
     <plurals name="movies">
         <item quantity="one">%1$s film</item>
@@ -586,4 +586,27 @@
     <string name="pref_screensaver_ageratingrequired_title">Zahtevaj starostno oceno</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Prikazujem samo elemente z nastavljeno starostno oceno</string>
     <string name="lbl_runtime">Čas Izvajanja</string>
+    <string name="fast_forward">Hitro naprej</string>
+    <string name="pref_subtitles_bold">Krepko besedilo</string>
+    <string name="pref_report_device_profile_title">Poročaj strežniku o zmogljivostih predvajanja</string>
+    <string name="pref_report_device_profile_success">Poročilo poslano kot %1$s</string>
+    <string name="lbl_from_beginning">Predvajaj od začetka</string>
+    <string name="rewind">Previj nazaj</string>
+    <string name="pref_subtitles_background_opacity">Prosojnost ozadja podnapisov</string>
+    <string name="pref_report_device_profile_failure">Pošiljanje poročila ni uspelo. Vaš strežnik Jellyfin morda ne podpira dnevnikov odjemalcev.</string>
+    <string name="lbl_exit">Izhod</string>
+    <string name="pref_still_watching_behavior_title">Pokaži pojavno okno za neaktivnost</string>
+    <string name="lbl_still_watching_default">3 epizode ali 90 minut</string>
+    <string name="lbl_still_watching_short">2 epizodi ali 60 minut</string>
+    <string name="lbl_still_watching_long">5 epizod ali 150 minut</string>
+    <string name="lbl_still_watching_very_long">8 epizod ali 240 minut</string>
+    <string name="indicator_subtitles_hearing_impaired">Podnapisi za gluhe in naglušne</string>
+    <string name="pref_troubleshooting">Odpravljanje težav</string>
+    <string name="pref_report_device_profile_summary">Pošlji poročilo od zmogljivostih predvajalnika strežniku Jellyfin, za namen odpravljanja napak</string>
+    <string name="preference_enable_pgs">Neposredno predvajaj podnapise PGS</string>
+    <string name="speech_error_no_permission">Ni dovoljenja za uporabo mikrofona. Prosimo, omogočite ga v sistemskih nastavitvah.</string>
+    <string name="speech_error_unavailable">Prepoznava govora ni na voljo na vaši napravi.</string>
+    <string name="speech_error_unknown">Med prepoznavo govora je prišlo do nepričakovane napake.</string>
+    <string name="preference_enable_libass">Omogoči napredni prikaz podnapisov SubStation Alpha na odjemalcu</string>
+    <string name="still_watching_label">Še vedno gledaš?</string>
 </resources>

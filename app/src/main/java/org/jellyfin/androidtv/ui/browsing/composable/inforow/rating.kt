@@ -1,8 +1,10 @@
 package org.jellyfin.androidtv.ui.browsing.composable.inforow
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Text
 import java.text.NumberFormat
@@ -15,7 +17,8 @@ import java.text.NumberFormat
 @Composable
 fun InfoRowCommunityRating(communityRating: Float) {
 	InfoRowItem(
-		icon = painterResource(R.drawable.ic_star),
+		icon = ImageVector.vectorResource(R.drawable.ic_star),
+		iconTint = Color(0xFFEECE55),
 		contentDescription = stringResource(R.string.lbl_community_rating),
 	) {
 		Text(String.format("%.1f", communityRating * 10f))
@@ -33,9 +36,10 @@ private const val CRITIC_RATING_FRESH = 0.6f
 fun InfoRowCriticRating(criticRating: Float) {
 	InfoRowItem(
 		icon = when {
-			criticRating >= CRITIC_RATING_FRESH -> painterResource(R.drawable.ic_rt_fresh)
-			else -> painterResource(R.drawable.ic_rt_rotten)
+			criticRating >= CRITIC_RATING_FRESH -> ImageVector.vectorResource(R.drawable.ic_rt_fresh)
+			else -> ImageVector.vectorResource(R.drawable.ic_rt_rotten)
 		},
+		iconTint = Color.Unspecified,
 		contentDescription = stringResource(R.string.lbl_critic_rating),
 	) {
 		Text(NumberFormat.getPercentInstance().format(criticRating))

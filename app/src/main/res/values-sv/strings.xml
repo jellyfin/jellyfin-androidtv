@@ -579,4 +579,14 @@
     <string name="speech_error_unknown">Ett oväntat fel inträffade under taligenkänningen.</string>
     <string name="pref_report_device_profile_title">Rapportera uppspelningsmöjligheter till server</string>
     <string name="pref_report_device_profile_success">Dokument skickat som %1$s</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="preference_enable_libass">Aktivera avanceras SubStation transparant klientrendering</string>
+    <string name="lbl_exit">Avsluta</string>
+    <string name="pref_still_watching_behavior_title">Visa popup för inaktivitetstimer</string>
+    <string name="lbl_still_watching_default">3 avsnitt eller 90 minuter</string>
+    <string name="lbl_still_watching_short">2 avsnitt eller 60 minuter</string>
+    <string name="lbl_still_watching_long">5 avsnitt eller 150 minuter</string>
+    <string name="lbl_still_watching_very_long">8 avsnitt eller 240 minuter</string>
+    <string name="preference_enable_pgs">Direktspela PGS-undertexter</string>
+    <string name="still_watching_label">Tittar du fortfarande?</string>
 </resources>

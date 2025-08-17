@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.di
 
 import android.content.Context
 import android.os.Build
+import androidx.lifecycle.ProcessLifecycleOwner
 import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
 import coil3.gif.AnimatedImageDecoder
@@ -75,7 +76,11 @@ val appModule = module {
 			context = androidContext()
 
 			// Add client info
-			clientInfo = ClientInfo("Jellyfin Android TV", BuildConfig.VERSION_NAME)
+			val clientName = buildString {
+				append("Jellyfin Android TV")
+				if (BuildConfig.DEBUG) append(" (debug)")
+			}
+			clientInfo = ClientInfo(clientName, BuildConfig.VERSION_NAME)
 			deviceInfo = get(defaultDeviceInfo)
 
 			// Change server version
@@ -92,7 +97,7 @@ val appModule = module {
 		get<JellyfinSdk>().createApi(httpClientOptions = get<HttpClientOptions>())
 	}
 
-	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get(), get(), ProcessLifecycleOwner.get().lifecycle) }
 
 	// Coil (images)
 	single {
