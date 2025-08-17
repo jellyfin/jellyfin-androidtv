@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -27,13 +26,14 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
+import org.jellyfin.androidtv.ui.base.SeekbarDefaults
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.blurHashPainter
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
-import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
+import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
 import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
@@ -55,9 +55,10 @@ fun DreamContentNowPlaying(
 	val api = koinInject<ApiClient>()
 	val playbackManager = koinInject<PlaybackManager>()
 	val lyrics = content.entry.run { lyricsFlow.collectAsState(lyrics) }.value
-	val progress = rememberPlayerProgress(playbackManager)
 
-	val primaryImage = content.item.itemImages[ImageType.PRIMARY] ?: content.item.albumPrimaryImage ?: content.item.parentImages[ImageType.PRIMARY]
+	val primaryImage = content.item.itemImages[ImageType.PRIMARY]
+		?: content.item.albumPrimaryImage
+		?: content.item.parentImages[ImageType.PRIMARY]
 
 	// Background
 	if (primaryImage?.blurHash != null) {
@@ -139,20 +140,16 @@ fun DreamContentNowPlaying(
 
 			Spacer(modifier = Modifier.height(10.dp))
 
-			Box(
+			PlayerSeekbar(
+				playbackManager = playbackManager,
+				colors = SeekbarDefaults.colors(
+					backgroundColor = Color.White.copy(alpha = 0.2f),
+					progressColor = Color.White,
+					bufferColor = Color.Transparent,
+				),
 				modifier = Modifier
 					.fillMaxWidth()
 					.height(4.dp)
-					.clip(RoundedCornerShape(2.dp))
-					.drawWithContent {
-						// Background
-						drawRect(Color.White, alpha = 0.2f)
-						// Foreground
-						drawRect(
-							Color.White,
-							size = size.copy(width = progress * size.width)
-						)
-					}
 			)
 		}
 	}

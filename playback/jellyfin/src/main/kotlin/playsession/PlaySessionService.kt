@@ -93,7 +93,7 @@ class PlaySessionService(
 					}
 				)
 			)
-		}.onFailure { error -> Timber.w("Failed to send playback start event", error) }
+		}.onFailure { error -> Timber.w(error, "Failed to send playback start event") }
 	}
 
 	private suspend fun sendStreamUpdate() {

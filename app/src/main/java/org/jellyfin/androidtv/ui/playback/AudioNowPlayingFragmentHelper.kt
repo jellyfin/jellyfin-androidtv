@@ -6,6 +6,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +30,7 @@ import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
+import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
 import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
@@ -41,6 +44,25 @@ import org.jellyfin.playback.jellyfin.queue.baseItemFlow
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.compose.koinInject
+
+fun initializePlayerProgress(
+	playerProgress: ComposeView,
+	playbackManager: PlaybackManager,
+) {
+	playerProgress.setContent {
+		Box(
+			modifier = Modifier
+				.padding(horizontal = 10.dp, vertical = 20.dp)
+		) {
+			PlayerSeekbar(
+				playbackManager = playbackManager,
+				modifier = Modifier
+					.fillMaxWidth()
+					.height(4.dp)
+			)
+		}
+	}
+}
 
 fun initializePreviewView(
 	lyricsView: ComposeView,

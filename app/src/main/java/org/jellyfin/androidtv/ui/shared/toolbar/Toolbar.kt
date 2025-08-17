@@ -50,12 +50,15 @@ fun Toolbar(
 }
 
 @Composable
-fun ToolbarClock() {
+fun ToolbarClock(
+	modifier: Modifier = Modifier,
+) {
 	val currentTime by rememberCurrentTime()
 	Text(
 		text = currentTime,
 		fontSize = 20.sp,
 		color = Color.White,
+		modifier = modifier,
 	)
 }
 

@@ -31,11 +31,6 @@ fun JellyfinImage.getUrl(
 	JellyfinImageSource.USER -> api.imageApi.getUserImageUrl(
 		userId = item,
 		tag = tag,
-		imageIndex = index,
-		maxWidth = maxWidth,
-		maxHeight = maxHeight,
-		fillWidth = fillWidth,
-		fillHeight = fillHeight,
 	)
 
 	else -> api.imageApi.getItemImageUrl(

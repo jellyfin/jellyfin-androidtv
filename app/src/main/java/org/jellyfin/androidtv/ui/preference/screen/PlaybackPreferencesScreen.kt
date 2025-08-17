@@ -216,7 +216,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_subtitles_size)
 				min = 25 // 0.25f
 				max = 250 // 2.5f
-				increment = 25 // 0.25f
+				increment = 5 // 0.05f
 				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
 					override fun display(value: Int): String = "$value%"
 				}
