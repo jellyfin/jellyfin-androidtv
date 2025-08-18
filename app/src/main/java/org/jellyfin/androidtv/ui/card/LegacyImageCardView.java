@@ -35,10 +35,11 @@ public class LegacyImageCardView extends BaseCardView {
     private int BANNER_SIZE = Utils.convertDpToPixel(getContext(), 50);
     private int noIconMargin = Utils.convertDpToPixel(getContext(), 5);
     private NumberFormat nf = NumberFormat.getInstance();
-
+    private TextView subtitleView;
+    
     public LegacyImageCardView(Context context, boolean showInfo) {
         super(context, null, androidx.leanback.R.attr.imageCardViewStyle);
-
+        subtitleView = findViewById(R.id.card_title);
         if (!showInfo) {
             setCardType(CARD_TYPE_MAIN_ONLY);
         }
@@ -56,7 +57,10 @@ public class LegacyImageCardView extends BaseCardView {
 
         setForeground(null);
     }
-
+    
+    public void setSubtitle(String subtitle) {
+        subtitleView.setText(subtitle);
+    }
     public void setBanner(int bannerResource) {
         if (mBanner == null) {
             mBanner = new ImageView(getContext());
