@@ -38,6 +38,14 @@
             app:crossfadeDuration="0"
             lb:layout_viewType="main"
             tools:src="@drawable/app_logo" />
+        <TextView
+            android:id="@+id/card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:padding="8dp" />
 
         <ImageView
             android:id="@+id/favIcon"
