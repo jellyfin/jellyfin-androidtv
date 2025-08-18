@@ -135,6 +135,7 @@ public class CardPresenter extends Presenter {
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
                             if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
+                                mCardView..setSubtitle(mItem.getSubtitle());;
                             break;
                         case EPISODE:
                             if (m instanceof BaseItemDtoBaseRowItem && ((BaseItemDtoBaseRowItem) m).getPreferSeriesPoster()) {
