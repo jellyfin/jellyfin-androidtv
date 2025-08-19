@@ -589,4 +589,5 @@
     <string name="lbl_still_watching_very_long">8 afleveringen of 240 minuten</string>
     <string name="still_watching_label">Ben je er nog?</string>
     <string name="lbl_exit">Afsluiten</string>
+    <string name="pref_subtitles_position">Afstand vanaf onderzijde</string>
 </resources>
