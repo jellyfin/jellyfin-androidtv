@@ -72,6 +72,7 @@ public class AutoSkipComponent {
      * @param autoSkipModel 当前跳过信息
      */
     public void setAutoSkipModel(AutoSkipModel autoSkipModel) {
+//        Timber.d("autoSkip 设置autoSkipModel - autoSkipModel=%s", JSON.toJSONString(autoSkipModel));
         if (this.autoSkipModel == autoSkipModel) {
             return;
         }
@@ -118,6 +119,7 @@ public class AutoSkipComponent {
             mHandler.post(touSkipper);
         }
 
+//        Timber.d("autoSkip 进度测试 - weiSkipped=%s, currentPosition=%s, wsTime=%s, weTime=%s", weiSkipped, currentPosition, wsTime, weTime);
         // 片尾
         if (!weiSkipped && currentPosition >= wsTime && currentPosition < weTime) {
             mHandler.post(weiSkipper);

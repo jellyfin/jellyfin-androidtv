@@ -632,6 +632,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
+        if (mCurrentIndex != mLastIndex) {
+            clearPlaybackSessionOptions();
+            mCurrentOptions.setAudioStreamIndex(null);
+            mLastIndex = mCurrentIndex;
+        }
+
         AutoSkipModel autoSkipModel = customerUserPreferences.getAutoSkipModel(item);
         setAutoSkip(autoSkipModel);
         if (position <= 0) {
@@ -640,12 +646,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
         } else {
             autoSkipComponent.setTouSkipped(true);
-        }
-
-        if (mCurrentIndex != mLastIndex) {
-            clearPlaybackSessionOptions();
-            mCurrentOptions.setAudioStreamIndex(null);
-            mLastIndex = mCurrentIndex;
         }
 
         mStartPosition = position;
