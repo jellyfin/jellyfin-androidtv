@@ -52,9 +52,10 @@ class DreamViewModel(
 	@OptIn(ExperimentalCoroutinesApi::class)
 	private val _mediaContent = playbackManager.queue.entry
 		.map { entry ->
-			entry?.baseItem?.let { baseItem ->
-				DreamContent.NowPlaying(entry, baseItem)
-			}
+			entry
+				?.takeIf { it.visibleInScreensaver }
+				?.baseItem
+				?.let { baseItem -> DreamContent.NowPlaying(entry, baseItem) }
 		}
 		.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
