@@ -47,13 +47,13 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 
 					bind(userPreferences, UserPreferences.playbackRewriteVideoEnabled)
 				}
-			}
 
-			checkbox {
-				setTitle(R.string.preference_enable_libass)
-				setContent(R.string.enable_playback_module_description)
+				checkbox {
+					setTitle(R.string.preference_enable_libass)
+					setContent(R.string.enable_playback_module_description)
 
-				bind(userPreferences, UserPreferences.assDirectPlay)
+					bind(userPreferences, UserPreferences.assDirectPlay)
+				}
 			}
 
 			checkbox {
