@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.customer.common.CustomerCommonUtils
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.autoSkipHideTime
-import org.jellyfin.androidtv.preference.UserPreferences.Companion.chineseAudioBehaviour
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import kotlin.time.Duration
