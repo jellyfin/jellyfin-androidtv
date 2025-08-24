@@ -3,14 +3,20 @@ package org.jellyfin.androidtv.ui.player.video
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -20,13 +26,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.button.IconButton
+import org.jellyfin.androidtv.ui.base.popover.Popover
 import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.playback.core.queue.queue
 import org.koin.compose.koinInject
 
 @Composable
@@ -47,6 +57,13 @@ fun VideoPlayerControls(
 			PlayPauseButton(playbackManager, playState)
 			RewindButton(playbackManager)
 			FastForwardButton(playbackManager)
+
+			Spacer(Modifier.weight(1f))
+
+			MoreOptionsButton {
+				PreviousEntryButton(playbackManager)
+				NextEntryButton(playbackManager)
+			}
 		}
 
 		PlayerSeekbar(
@@ -124,4 +141,78 @@ private fun FastForwardButton(
 		imageVector = ImageVector.vectorResource(R.drawable.ic_fast_forward),
 		contentDescription = stringResource(R.string.fast_forward),
 	)
+}
+
+@Composable
+private fun PreviousEntryButton(
+	playbackManager: PlaybackManager,
+) {
+	val entryIndex by playbackManager.queue.entryIndex.collectAsState()
+	val coroutineScope = rememberCoroutineScope()
+
+	IconButton(
+		enabled = entryIndex > 0,
+		onClick = {
+			coroutineScope.launch {
+				playbackManager.queue.previous()
+			}
+		},
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_previous),
+			contentDescription = stringResource(R.string.lbl_prev_item),
+		)
+	}
+}
+
+@Composable
+private fun NextEntryButton(
+	playbackManager: PlaybackManager,
+) {
+	val entryIndex by playbackManager.queue.entryIndex.collectAsState()
+	val coroutineScope = rememberCoroutineScope()
+
+	IconButton(
+		enabled = entryIndex < playbackManager.queue.estimatedSize - 1,
+		onClick = {
+			coroutineScope.launch {
+				playbackManager.queue.next()
+			}
+		},
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_next),
+			contentDescription = stringResource(R.string.lbl_next_item),
+		)
+	}
+}
+
+@Composable
+private fun MoreOptionsButton(
+	content: @Composable () -> Unit,
+) = Box {
+	var expanded by remember { mutableStateOf(false) }
+	IconButton(
+		onClick = { expanded = true },
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_more),
+			contentDescription = stringResource(R.string.lbl_other_options),
+		)
+	}
+
+	Popover(
+		expanded = expanded,
+		onDismissRequest = { expanded = false },
+		alignment = Alignment.TopCenter,
+		offset = DpOffset(0.dp, (-5).dp)
+	) {
+		Row(
+			horizontalArrangement = Arrangement.spacedBy(12.dp),
+			modifier = Modifier
+				.padding(4.dp)
+		) {
+			content()
+		}
+	}
 }
