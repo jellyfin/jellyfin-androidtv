@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.jellyfin.androidtv.integration.dream.visibleInScreensaver
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackController
@@ -141,7 +142,7 @@ class RewriteMediaManager(
 	override fun addToAudioQueue(items: List<BaseItemDto>) {
 		if (items.isEmpty()) return
 
-		playbackManager.queue.addSupplier(BaseItemQueueSupplier(api, items))
+		playbackManager.queue.addSupplier(BaseItemQueueSupplier(api, items, true))
 		playbackManager.state.setPlaybackOrder(if (isShuffleMode) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
 
 		if (playbackManager.state.playState.value != PlayState.PLAYING) playbackManager.state.play()
@@ -161,7 +162,7 @@ class RewriteMediaManager(
 		playbackManager.queue.clear()
 
 		if (filteredItems.isNotEmpty()) {
-			playbackManager.queue.addSupplier(BaseItemQueueSupplier(api, filteredItems))
+			playbackManager.queue.addSupplier(BaseItemQueueSupplier(api, filteredItems, true))
 			playbackManager.state.play()
 		}
 	}
@@ -225,13 +226,16 @@ class RewriteMediaManager(
 	class BaseItemQueueSupplier(
 		private val api: ApiClient,
 		val items: List<BaseItemDto>,
+		val visibleInScreensaver: Boolean,
 	) : QueueSupplier {
 		override val size: Int
 			get() = items.size
 
 		override suspend fun getItem(index: Int): QueueEntry? {
 			val item = items.getOrNull(index) ?: return null
-			return createBaseItemQueueEntry(api, item)
+			return createBaseItemQueueEntry(api, item).also {
+				it.visibleInScreensaver = visibleInScreensaver
+			}
 		}
 	}
 }
