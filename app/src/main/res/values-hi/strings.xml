@@ -587,4 +587,5 @@
     </plurals>
     <string name="pref_screensaver_ageratingmax">अधिकतम आयु रेटिंग</string>
     <string name="pref_screensaver_ageratingmax_zero">सभी उम्र</string>
+    <string name="pref_subtitles_position">नीचे से अंतर</string>
 </resources>
