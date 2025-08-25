@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -46,8 +46,6 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class AudioNowPlayingFragment extends Fragment {
-    private ImageButton homeButton;
-
     private TextView mGenreRow;
     private ImageButton mPlayPauseButton;
     private ImageButton mNextButton;
@@ -57,7 +55,7 @@ public class AudioNowPlayingFragment extends Fragment {
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
     private TextView mCounter;
-    private ScrollView mScrollView;
+    private NestedScrollView mScrollView;
 
     private DisplayMetrics mMetrics;
 
@@ -90,8 +88,7 @@ public class AudioNowPlayingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentAudioNowPlayingBinding binding = FragmentAudioNowPlayingBinding.inflate(getLayoutInflater(), container, false);
 
-        homeButton = binding.clock.getHomeButton();
-        homeButton.setOnFocusChangeListener(mainAreaFocusListener);
+        binding.clock.setVideoPlayer(true);
 
         mArtistName = binding.artistTitle;
         mGenreRow = binding.genreRow;
@@ -283,18 +280,21 @@ public class AudioNowPlayingFragment extends Fragment {
     private View.OnFocusChangeListener mainAreaFocusListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (!mScrollView.hasFocus() && v != homeButton) {
-                if (queueRowHasFocus) return;
-                // when the playback control buttons lose focus, and the home button is not focused
-                // the only other focusable object is the queue row.
-                // Scroll to the bottom of the scrollView
-                mScrollView.smoothScrollTo(0, mScrollView.getHeight() - 1);
+            View rowsFragmentView = mRowsFragment.getView();
+            if (rowsFragmentView == null) return;
+
+            if (mRowsFragment.getView().hasFocus()) {
+                if (!queueRowHasFocus) {
+                    mScrollView.smoothScrollTo(0, mScrollView.getBottom());
+                }
+
                 queueRowHasFocus = true;
             } else {
-                if (!queueRowHasFocus) return;
+                if (queueRowHasFocus) {
+                    mScrollView.smoothScrollTo(0, 0);
+                }
+
                 queueRowHasFocus = false;
-                //scroll so entire main area is in view
-                mScrollView.smoothScrollTo(0, 0);
             }
         }
     };
@@ -400,12 +400,5 @@ public class AudioNowPlayingFragment extends Fragment {
             popupMenu.dismiss();
             popupMenu = null;
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        homeButton.setOnFocusChangeListener(null);
     }
 }
