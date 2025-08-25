@@ -263,9 +263,6 @@ public class AudioNowPlayingFragment extends Fragment {
         @Override
         public void onProgress(long pos) {
             setCurrentTime(pos);
-            if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
-                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
-            }
         }
 
         @Override
