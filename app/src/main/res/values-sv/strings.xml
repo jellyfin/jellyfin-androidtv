@@ -550,7 +550,7 @@
     <string name="lbl_subtitle_text_stroke_color">Färg för undertextens kantlinje</string>
     <string name="prefer_exoplayer_ffmpeg">Föredra FFmpeg för ljuduppspelning</string>
     <string name="prefer_exoplayer_ffmpeg_content">Använd FFmpeg för att avkoda ljud, även om det finns tillgängliga plattformscodecs.</string>
-    <string name="segment_type_outro">Outros</string>
+    <string name="segment_type_outro">Outro</string>
     <string name="preference_enable_trickplay">Aktivera trickplay i videospelaren</string>
     <string name="default_video_zoom">Standard zoomläge</string>
     <string name="video_start_delay">Fördröjning av videostart</string>
@@ -558,7 +558,7 @@
     <string name="segment_type_recap">Sammanfattningar</string>
     <string name="segment_type_unknown">Okända segment</string>
     <string name="segment_action_ask_to_skip">Fråga om att hoppa över</string>
-    <string name="segment_type_intro">Intros</string>
+    <string name="segment_type_intro">Intron</string>
     <string name="skip_forward_length">Hoppa framåt i längd</string>
     <string name="pref_mediasegment_actions">Åtgärder inom mediesegmentet</string>
     <string name="segment_action_nothing">Gör inget</string>
@@ -589,4 +589,5 @@
     <string name="lbl_still_watching_very_long">8 avsnitt eller 240 minuter</string>
     <string name="preference_enable_pgs">Direktspela PGS-undertexter</string>
     <string name="still_watching_label">Tittar du fortfarande?</string>
+    <string name="pref_subtitles_position">Avstånd från botten</string>
 </resources>
