@@ -162,6 +162,8 @@
     <string name="lbl_episodes">Episodes</string>
     <string name="lbl_enable_cinema_mode">Cinema mode</string>
     <string name="sum_enable_cinema_mode">Play available intros and previews before starting a movie</string>
+    <string name="lbl_seek_confirmation">Require confirmation before skipping</string>
+    <string name="sum_seek_confirmation">Pauses playback and shows where you\'ll skip to. Confirm to skip or cancel to stay</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="msg_items_added">" items added"</string>
     <string name="lbl_add_to_queue">Add to queue</string>
@@ -535,6 +537,7 @@
     <string name="segment_type_recap">Recaps</string>
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
+    <string name="skip_back_length">Skip back length</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
     <string name="pref_subtitles_background_opacity">Subtitle background opacity</string>
     <string name="pref_troubleshooting">Troubleshooting</string>

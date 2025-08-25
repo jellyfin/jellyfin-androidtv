@@ -257,6 +257,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
+
+		/**
+		 * Require confirmation before seeking to allows users to preview seek positions before confirming them.
+		 * When disabled, D-pad left/right will seek immediately.
+		 */
+		var seekConfirmationRequired = booleanPreference("seek_confirmation", true)
 	}
 
 	init {
