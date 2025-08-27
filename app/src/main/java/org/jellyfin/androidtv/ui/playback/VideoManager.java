@@ -155,9 +155,9 @@ public class VideoManager {
                 // We're changing wide aspect ratio video subtitle to match others, so return if lower AR
                 if (aspectRatio<1.78f)
                     return;
-                // In case movie is 4k, transform videoHeight in its 1080p equivalent
+                // In case movie is not 1080p, transform videoHeight in its 1080p equivalent
                 // because display dimensions are 1080p conformant
-                if (videoHeight > mExoPlayerView.getHeight())
+                if (videoHeight != mExoPlayerView.getHeight())
                     videoHeight = (int) (mExoPlayerView.getWidth() / aspectRatio);
                 FrameLayout.LayoutParams subslp = (FrameLayout.LayoutParams) subtitleView.getLayoutParams();
                 int verticalMargins = mExoPlayerView.getHeight() - videoHeight;
