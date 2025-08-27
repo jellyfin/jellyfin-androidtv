@@ -402,8 +402,7 @@
     <string name="dca">DTS</string>
     <string name="pref_enable_media_management">メディア管理を有効にする</string>
     <string name="pref_screensaver">スクリーンセーバー</string>
-    <string name="app_notification_beta">アプリが %1$s に更新されました
-\nJellyfin ベータ プログラムにご参加いただきありがとうございます</string>
+    <string name="app_notification_beta">アプリが %1$s に更新されました \nJellyfin ベータ プログラムにご参加いただきありがとうございます。</string>
     <string name="photos">フォト</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dts_x">DTS:X</string>
