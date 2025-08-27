@@ -48,12 +48,13 @@ class SearchViewModel(
 	fun searchImmediately(query: String) = searchDebounced(query, 0.milliseconds)
 
 	fun searchDebounced(query: String, debounce: Duration = debounceDuration): Boolean {
-		if (query == previousQuery) return false
-		previousQuery = query
+		val trimmed = query.trim()
+		if (trimmed == previousQuery) return false
+		previousQuery = trimmed
 
 		searchJob?.cancel()
 
-		if (query.isBlank()) {
+		if (trimmed.isBlank()) {
 			_searchResultsFlow.value = emptyList()
 			return true
 		}
@@ -63,7 +64,7 @@ class SearchViewModel(
 
 			_searchResultsFlow.value = groups.map { (stringRes, itemKinds) ->
 				async {
-					val result = searchRepository.search(query, itemKinds)
+					val result = searchRepository.search(trimmed, itemKinds)
 					val items = result.getOrNull().orEmpty()
 
 					SearchResultGroup(stringRes, items)

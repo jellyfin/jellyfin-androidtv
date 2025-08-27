@@ -59,9 +59,8 @@ class SearchFragment : Fragment() {
 		LaunchedEffect(Unit) {
 			val extraQuery = arguments?.getString(EXTRA_QUERY)
 			if (!extraQuery.isNullOrBlank()) {
-				val trimmedQuery = extraQuery.trim()
-				query = query.copy(text = trimmedQuery)
-				viewModel.searchImmediately(trimmedQuery)
+				query = query.copy(text = extraQuery)
+				viewModel.searchImmediately(extraQuery)
 				resultFocusRequester.requestFocus()
 			} else {
 				textInputFocusRequester.requestFocus()
@@ -97,10 +96,10 @@ class SearchFragment : Fragment() {
 					query = query.text,
 					onQueryChange = {
 						query = query.copy(text = it)
-						viewModel.searchDebounced(query.text.trim())
+						viewModel.searchDebounced(query.text)
 					},
 					onQuerySubmit = {
-						viewModel.searchImmediately(query.text.trim())
+						viewModel.searchImmediately(query.text)
 						// Note: We MUST change the focus to somewhere else when the keyboard is submitted because some vendors (like Amazon)
 						// will otherwise just keep showing a (fullscreen) keyboard, soft-locking the app.
 						resultFocusRequester.requestFocus()
