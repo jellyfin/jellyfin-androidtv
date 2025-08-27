@@ -20,8 +20,8 @@ import org.jellyfin.androidtv.ui.picture.PictureViewerFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
-import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackRewriteFragment
 import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
+import org.jellyfin.androidtv.ui.player.video.VideoPlayerFragment
 import org.jellyfin.androidtv.ui.search.SearchFragment
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -134,8 +134,8 @@ object Destinations {
 		"Position" to (position ?: 0)
 	)
 
-	fun playbackRewritePlayer(position: Int?) = fragmentDestination<PlaybackRewriteFragment>(
-		PlaybackRewriteFragment.EXTRA_POSITION to position
+	fun videoPlayerNew(position: Int?) = fragmentDestination<VideoPlayerFragment>(
+		VideoPlayerFragment.EXTRA_POSITION to position
 	)
 
 	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(

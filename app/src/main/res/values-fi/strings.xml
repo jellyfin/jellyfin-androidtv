@@ -569,4 +569,25 @@
     <string name="pref_troubleshooting">Vianetsintä</string>
     <string name="pref_report_device_profile_title">Ilmoita laitteen tukemat toistomuodot palvelimelle</string>
     <string name="pref_subtitles_background_opacity">Tekstityksen taustan läpinäkyvyys</string>
+    <string name="fast_forward">Pikakelaa</string>
+    <string name="pref_still_watching_behavior_title">Näytä käyttämättömyyden varoitusikkuna</string>
+    <string name="pref_report_device_profile_summary">Lataa vianmääritysdokumentti Jellyfin-palvelimelle videon toistokykytietojen kanssa</string>
+    <string name="pref_subtitles_bold">Lihavoitu teksti</string>
+    <string name="lbl_from_beginning">Aloita toisto alusta</string>
+    <string name="speech_error_no_permission">Ei käyttöoikeuksia mikrofonin käyttöön. Ota mikrofoni käyttöön järjestelmän asetuksista.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="pref_subtitles_position">Etäisyys alareunasta</string>
+    <string name="pref_report_device_profile_success">Dokumentti lähetetty nimellä %1$s</string>
+    <string name="pref_report_device_profile_failure">Dokumentin lähetys epäonnistui. Jellyfin-palvelimesi voi estää käyttäjiltä lokit.</string>
+    <string name="rewind">Kelaa taaksepäin</string>
+    <string name="preference_enable_pgs">Toista suoraan PGS-tekstitykset</string>
+    <string name="speech_error_unknown">Odottamaton virhe tapahtui puheentunnistuksessa.</string>
+    <string name="lbl_exit">Poistu</string>
+    <string name="lbl_still_watching_default">3 jaksoa tai 90 minuuttia</string>
+    <string name="lbl_still_watching_short">2 jaksoa tai 60 minuuttia</string>
+    <string name="lbl_still_watching_long">5 jaksoa tai 150 minuuttia</string>
+    <string name="lbl_still_watching_very_long">8 jaksoa tai 240 minuuttia</string>
+    <string name="speech_error_unavailable">Puheentunnistus ei ole saatavilla laitteellasi.</string>
+    <string name="preference_enable_libass">Ota käyttöön Advanced SubStation Alpha -tekstitysten renderöinti käyttäjällä</string>
+    <string name="still_watching_label">Katseletko yhä?</string>
 </resources>

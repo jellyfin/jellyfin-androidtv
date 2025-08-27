@@ -36,12 +36,13 @@
         android:layout_marginStart="4dp"
         android:minHeight="22sp" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/mainScroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/genreRow"
         android:layout_marginTop="10dp"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -244,5 +245,5 @@
 
         </RelativeLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

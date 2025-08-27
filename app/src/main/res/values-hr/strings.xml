@@ -573,4 +573,5 @@
     <string name="pref_screensaver_ageratingmax">Najviša dobna skupina</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Prikaži sve sadržaje</string>
     <string name="preference_enable_trickplay">Omogući trickplay u video playeru</string>
+    <string name="lbl_exit">Izlaz</string>
 </resources>

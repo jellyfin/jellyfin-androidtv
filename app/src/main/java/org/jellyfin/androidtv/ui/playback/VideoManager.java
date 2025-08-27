@@ -127,7 +127,8 @@ public class VideoManager {
                 strokeColor,
                 TypefaceCompat.create(activity, Typeface.DEFAULT, textWeight, false)
         );
-        mExoPlayerView.getSubtitleView().setFractionalTextSize(SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
+        mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
+        mExoPlayerView.getSubtitleView().setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
 
         if (assHandler != null) {

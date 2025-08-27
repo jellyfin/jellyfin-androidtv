@@ -1,11 +1,10 @@
-package org.jellyfin.androidtv.ui.playback.rewrite
+package org.jellyfin.androidtv.ui.player.video
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.compose.content
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -14,21 +13,17 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
+import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.queue.queue
-import org.jellyfin.playback.core.ui.PlayerSubtitleView
-import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.sdk.api.client.ApiClient
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
+import kotlin.time.Duration.Companion.milliseconds
 
-/**
- * Temporary fragment used for testing the playback rewrite. This will eventually be replaced with a
- * proper player user interface.
- */
-class PlaybackRewriteFragment : Fragment() {
+class VideoPlayerFragment : Fragment() {
 	companion object {
 		const val EXTRA_POSITION: String = "position"
 	}
@@ -44,17 +39,15 @@ class PlaybackRewriteFragment : Fragment() {
 		super.onCreate(savedInstanceState)
 
 		// Create a queue from the items added to the legacy video queue
-		val queueSupplier = RewriteMediaManager.BaseItemQueueSupplier(api, videoQueueManager.getCurrentVideoQueue())
+		val queueSupplier = RewriteMediaManager.BaseItemQueueSupplier(api, videoQueueManager.getCurrentVideoQueue(), false)
 		Timber.i("Created a queue with ${queueSupplier.items.size} items")
 		playbackManager.queue.clear()
 		playbackManager.queue.addSupplier(queueSupplier)
 
 		// Set position
-		val position = arguments?.getInt(EXTRA_POSITION) ?: 0
-		if (position != 0) {
+		arguments?.getInt(EXTRA_POSITION)?.milliseconds?.let {
 			lifecycleScope.launch {
-				Timber.i("Skipping to queue item $position")
-				playbackManager.queue.setIndex(position, false)
+				playbackManager.state.seek(it)
 			}
 		}
 
@@ -76,16 +69,12 @@ class PlaybackRewriteFragment : Fragment() {
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return FrameLayout(requireContext()).apply {
-			addView(PlayerSurfaceView(requireContext()).also { view ->
-				view.playbackManager = playbackManager
-			})
-
-			addView(PlayerSubtitleView(requireContext()).also { view ->
-				view.playbackManager = playbackManager
-			})
-		}
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	) = content {
+		VideoPlayerScreen()
 	}
 
 	override fun onPause() {

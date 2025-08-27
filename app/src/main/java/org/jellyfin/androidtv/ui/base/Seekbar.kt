@@ -26,6 +26,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.times
 
 @Immutable
@@ -136,8 +137,9 @@ fun Seekbar(
 				if (isScrubbing && isKeyUp && onScrubbing != null) {
 					scrubCancelJob?.cancel()
 					scrubCancelJob = coroutineScope.launch {
-						delay(300)
+						delay(300.milliseconds)
 						onScrubbing(false)
+						progressOverride = null
 					}
 				}
 
