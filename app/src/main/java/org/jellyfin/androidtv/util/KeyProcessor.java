@@ -100,7 +100,7 @@ public class KeyProcessor {
                                 createPlayMenu(rowItem, MediaType.AUDIO.equals(item.getMediaType()), activity);
                                 return true;
                             case PHOTO:
-                                navigationRepository.getValue().navigate(Destinations.INSTANCE.pictureViewer(
+                                navigationRepository.getValue().navigate(Destinations.INSTANCE.photoPlayer(
                                         rowItem.getBaseItem().getId(),
                                         true,
                                         ItemSortBy.SORT_NAME,
