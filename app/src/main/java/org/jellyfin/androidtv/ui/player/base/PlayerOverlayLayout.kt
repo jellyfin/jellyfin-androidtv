@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -110,7 +111,13 @@ fun PlayerOverlayLayout(
 					)
 					.overscan(),
 			) {
-				controls()
+				JellyfinTheme(
+					colorScheme = JellyfinTheme.colorScheme.copy(
+						button = Color.Transparent
+					)
+				) {
+					controls()
+				}
 			}
 		}
 	}
