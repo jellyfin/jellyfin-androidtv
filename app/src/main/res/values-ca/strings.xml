@@ -333,9 +333,9 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">Especial</string>
     <string name="help">Ajuda</string>
-    <string name="add_user">Afegeix compte</string>
+    <string name="add_user">Afegiu-hi un compte</string>
     <string name="who_is_watching">Qui ho està mirant\?</string>
-    <string name="no_user_warning">No s\'ha trobat cap compte! \nAfegiu un nou compte pitjant el botó \"Afegeix compte\".</string>
+    <string name="no_user_warning">No s\'ha trobat cap compte! \nAfegiu un nou compte pitjant el botó \"Afegiu-hi un compte\".</string>
     <string name="welcome_content">Connecteu-vos al vostre servidor per a començar.</string>
     <string name="welcome_title">Us donem la benvinguda a Jellyfin!</string>
     <string name="saved_servers">Servidors desats</string>
@@ -354,7 +354,7 @@
     <string name="pref_watched_indicator">Marca els elements ja visualitzats</string>
     <string name="login_help_description">Jellyfin necessita un servidor on connectar-se. Visiteu la documentació a docs.jellyfin.org o escanegeu el codi QR per a començar.</string>
     <string name="login_help_title">Us cal ajuda?</string>
-    <string name="connect_manually_by_address">Introdueix l\'adreça del servidor</string>
+    <string name="connect_manually_by_address">Introduïu l\'adreça del servidor</string>
     <string name="discovered_servers_empty">No s\'han trobat servidors a la xarxa local.</string>
     <string name="discovered_servers_title">Servidors a la xarxa</string>
     <string name="lbl_hidden">Amagat</string>
