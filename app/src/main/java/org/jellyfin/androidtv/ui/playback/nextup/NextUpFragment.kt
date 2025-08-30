@@ -241,11 +241,13 @@ class NextUpFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	) = content {
-		val id = remember(arguments) { arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull() }
-		if (id != null) {
-			NextUpScreen(
-				itemId = id,
-			)
+		JellyfinTheme {
+			val id = remember(arguments) { arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull() }
+			if (id != null) {
+				NextUpScreen(
+					itemId = id,
+				)
+			}
 		}
 	}
 }

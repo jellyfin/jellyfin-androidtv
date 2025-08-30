@@ -33,6 +33,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
@@ -112,8 +113,10 @@ class ConnectHelpAlertFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	) = content {
-		ConnectHelpAlert(
-			onClose = { parentFragmentManager.popBackStack() },
-		)
+		JellyfinTheme {
+			ConnectHelpAlert(
+				onClose = { parentFragmentManager.popBackStack() },
+			)
+		}
 	}
 }
