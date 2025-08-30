@@ -30,6 +30,7 @@ import androidx.fragment.compose.AndroidFragment
 import androidx.fragment.compose.content
 import androidx.leanback.app.RowsSupportFragment
 import kotlinx.coroutines.flow.map
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.search.composable.SearchTextInput
 import org.jellyfin.androidtv.ui.search.composable.SearchVoiceInput
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
@@ -49,99 +50,101 @@ class SearchFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	) = content {
-		val viewModel = koinViewModel<SearchViewModel>()
-		val searchFragmentDelegate = koinInject<SearchFragmentDelegate> { parametersOf(requireContext()) }
-		var query by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
-		val textInputFocusRequester = remember { FocusRequester() }
-		val resultFocusRequester = remember { FocusRequester() }
-		val speechRecognizerAvailability = rememberSpeechRecognizerAvailability()
+		JellyfinTheme {
+			val viewModel = koinViewModel<SearchViewModel>()
+			val searchFragmentDelegate = koinInject<SearchFragmentDelegate> { parametersOf(requireContext()) }
+			var query by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
+			val textInputFocusRequester = remember { FocusRequester() }
+			val resultFocusRequester = remember { FocusRequester() }
+			val speechRecognizerAvailability = rememberSpeechRecognizerAvailability()
 
-		LaunchedEffect(Unit) {
-			val extraQuery = arguments?.getString(EXTRA_QUERY)
-			if (!extraQuery.isNullOrBlank()) {
-				query = query.copy(text = extraQuery)
-				viewModel.searchImmediately(extraQuery)
-				resultFocusRequester.requestFocus()
-			} else {
-				textInputFocusRequester.requestFocus()
+			LaunchedEffect(Unit) {
+				val extraQuery = arguments?.getString(EXTRA_QUERY)
+				if (!extraQuery.isNullOrBlank()) {
+					query = query.copy(text = extraQuery)
+					viewModel.searchImmediately(extraQuery)
+					resultFocusRequester.requestFocus()
+				} else {
+					textInputFocusRequester.requestFocus()
+				}
+
+				viewModel.searchResultsFlow.collect { results ->
+					searchFragmentDelegate.showResults(results)
+				}
 			}
 
-			viewModel.searchResultsFlow.collect { results ->
-				searchFragmentDelegate.showResults(results)
-			}
-		}
+			Column {
+				MainToolbar(MainToolbarActiveButton.Search)
 
-		Column {
-			MainToolbar(MainToolbarActiveButton.Search)
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(12.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier
+						.focusRestorer()
+						.focusGroup()
+						.padding(horizontal = 48.dp)
+				) {
+					if (speechRecognizerAvailability) {
+						SearchVoiceInput(
+							onQueryChange = { query = query.copy(text = it) },
+							onQuerySubmit = {
+								viewModel.searchImmediately(query.text)
+								resultFocusRequester.requestFocus()
+							}
+						)
+					}
 
-			Row(
-				horizontalArrangement = Arrangement.spacedBy(12.dp),
-				verticalAlignment = Alignment.CenterVertically,
-				modifier = Modifier
-					.focusRestorer()
-					.focusGroup()
-					.padding(horizontal = 48.dp)
-			) {
-				if (speechRecognizerAvailability) {
-					SearchVoiceInput(
-						onQueryChange = { query = query.copy(text = it) },
+					SearchTextInput(
+						query = query.text,
+						onQueryChange = {
+							query = query.copy(text = it)
+							viewModel.searchDebounced(query.text)
+						},
 						onQuerySubmit = {
 							viewModel.searchImmediately(query.text)
+							// Note: We MUST change the focus to somewhere else when the keyboard is submitted because some vendors (like Amazon)
+							// will otherwise just keep showing a (fullscreen) keyboard, soft-locking the app.
 							resultFocusRequester.requestFocus()
-						}
+						},
+						modifier = Modifier
+							.weight(1f)
+							.focusRequester(textInputFocusRequester),
 					)
 				}
 
-				SearchTextInput(
-					query = query.text,
-					onQueryChange = {
-						query = query.copy(text = it)
-						viewModel.searchDebounced(query.text)
-					},
-					onQuerySubmit = {
-						viewModel.searchImmediately(query.text)
-						// Note: We MUST change the focus to somewhere else when the keyboard is submitted because some vendors (like Amazon)
-						// will otherwise just keep showing a (fullscreen) keyboard, soft-locking the app.
-						resultFocusRequester.requestFocus()
-					},
-					modifier = Modifier
-						.weight(1f)
-						.focusRequester(textInputFocusRequester),
-				)
-			}
-
-			// The leanback code has its own awful focus handling that doesn't work properly with Compose view inteop to workaround this
-			// issue we add custom behavior that only allows focus exit when the current selected row is the first one. Additionally when
-			// we do switch the focus, we reset the leanback state so it won't cause weird behavior when focus is regained
-			// We also need to make sure the fragment is complete hidden when empty because otherwise it may trap focus and the user is
-			// unable to navigate within the app. This is most likely an issue with view interop itself.
-			var rowsSupportFragment by remember { mutableStateOf<RowsSupportFragment?>(null) }
-			val hasResults by remember { viewModel.searchResultsFlow.map { it.isNotEmpty() } }.collectAsState(false)
-			if (hasResults) {
-				AndroidFragment<RowsSupportFragment>(
-					modifier = Modifier
-						.focusGroup()
-						.focusRequester(resultFocusRequester)
-						.focusProperties {
-							onExit = {
-								val isFirstRowSelected = rowsSupportFragment?.selectedPosition == 0
-								if (requestedFocusDirection != FocusDirection.Up || !isFirstRowSelected) {
-									cancelFocusChange()
-								} else {
-									rowsSupportFragment?.selectedPosition = 0
-									rowsSupportFragment?.verticalGridView?.clearFocus()
+				// The leanback code has its own awful focus handling that doesn't work properly with Compose view inteop to workaround this
+				// issue we add custom behavior that only allows focus exit when the current selected row is the first one. Additionally when
+				// we do switch the focus, we reset the leanback state so it won't cause weird behavior when focus is regained
+				// We also need to make sure the fragment is complete hidden when empty because otherwise it may trap focus and the user is
+				// unable to navigate within the app. This is most likely an issue with view interop itself.
+				var rowsSupportFragment by remember { mutableStateOf<RowsSupportFragment?>(null) }
+				val hasResults by remember { viewModel.searchResultsFlow.map { it.isNotEmpty() } }.collectAsState(false)
+				if (hasResults) {
+					AndroidFragment<RowsSupportFragment>(
+						modifier = Modifier
+							.focusGroup()
+							.focusRequester(resultFocusRequester)
+							.focusProperties {
+								onExit = {
+									val isFirstRowSelected = rowsSupportFragment?.selectedPosition == 0
+									if (requestedFocusDirection != FocusDirection.Up || !isFirstRowSelected) {
+										cancelFocusChange()
+									} else {
+										rowsSupportFragment?.selectedPosition = 0
+										rowsSupportFragment?.verticalGridView?.clearFocus()
+									}
 								}
 							}
+							.padding(top = 5.dp)
+							.fillMaxSize(),
+						onUpdate = { fragment ->
+							rowsSupportFragment = fragment
+							fragment.adapter = searchFragmentDelegate.rowsAdapter
+							fragment.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
+							fragment.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
 						}
-						.padding(top = 5.dp)
-						.fillMaxSize(),
-					onUpdate = { fragment ->
-						rowsSupportFragment = fragment
-						fragment.adapter = searchFragmentDelegate.rowsAdapter
-						fragment.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
-						fragment.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
-					}
-				)
+					)
+				}
 			}
 		}
 	}

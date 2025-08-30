@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.base
 
+import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -14,7 +15,9 @@ fun JellyfinTheme(
 	CompositionLocalProvider(
 		LocalColorScheme provides colorScheme,
 		LocalShapes provides shapes,
-		LocalTypography provides typography
+		LocalTypography provides typography,
+		// Disable overscroll
+		LocalOverscrollFactory provides null,
 	) {
 		ProvideTextStyle(value = typography.default, content = content)
 	}
