@@ -85,6 +85,8 @@ import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
+import org.jellyfin.androidtv.preference.UserPreferences;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
     protected VlcPlayerInterfaceBinding binding;
@@ -125,6 +127,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean navigating = false;
+    private boolean mPendingSeekConfirmation = false;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
 
@@ -136,6 +139,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private final Lazy<UserSettingPreferences> userSettingPreferences = inject(UserSettingPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -164,6 +169,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         // setup fade task
         mHideTask = () -> {
+            leanbackOverlayFragment.getPlayerGlue().hideThumbnailPreview();
             if (mIsVisible) {
                 leanbackOverlayFragment.hideOverlay();
             }
@@ -499,6 +505,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
                 }
 
+                // Handle seek confirmation/cancellation
+                if (mPendingSeekConfirmation) {
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER ||
+                            keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                        applyPendingSeek();
+                        return true;
+                    }
+
+                    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B ||
+                            keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                        exitSeekConfirmationMode();
+                        return true;
+                    }
+                }
+
                 if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
                     closePlayer();
                     return true;
@@ -587,19 +608,56 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
-                    if (!mIsVisible) {
-                        if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    if ((!mIsVisible || isSeekBarFocused()) && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                        boolean seekConfirmationRequired = userPreferences.getValue().get(UserPreferences.Companion.getSeekConfirmationRequired());
+
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+
+                            if (seekConfirmationRequired) {
+                                if (!mPendingSeekConfirmation) {
+                                    enterSeekConfirmationMode();
+                                }
+
+                                if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+                                    UserSettingPreferences prefs = userSettingPreferences.getValue();
+                                    long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipForwardLength());
+                                    leanbackOverlayFragment.getPlayerGlue().previewSeek(skipAmount);
+                                }
+
                                 setFadingEnabled(true);
                                 return true;
                             }
 
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                setFadingEnabled(true);
-                                return true;
-                            }
+                            // Immediate seeking
+                            leanbackOverlayFragment.getPlayerGlue().fastForward();
+                            setFadingEnabled(true);
+                            return true;
                         }
 
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+
+                            if (seekConfirmationRequired) {
+                                if (!mPendingSeekConfirmation) {
+                                    enterSeekConfirmationMode();
+                                }
+
+                                if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+                                    UserSettingPreferences prefs = userSettingPreferences.getValue();
+                                    long skipAmount = prefs.get(UserSettingPreferences.Companion.getSkipBackLength());
+                                    leanbackOverlayFragment.getPlayerGlue().previewSeek(-skipAmount);
+                                }
+                                setFadingEnabled(true);
+                                return true;
+                            }
+
+                            // Immediate seeking
+                            leanbackOverlayFragment.getPlayerGlue().rewind();
+                            setFadingEnabled(true);
+                            return true;
+                        }
+                    }
+
+                    if (!mIsVisible) {
                         if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
                                 && playbackControllerContainer.getValue().getPlaybackController().canSeek()) {
                             // if the player is playing and the overlay is hidden, this will pause
@@ -614,15 +672,40 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
             }
 
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_DPAD_LEFT:
-                case KeyEvent.KEYCODE_DPAD_RIGHT:
-                    leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
-            }
-
             return false;
         }
     };
+
+
+    private boolean isSeekBarFocused() {
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            return leanbackOverlayFragment.getPlayerGlue().isSeekBarFocused();
+        }
+        return false;
+    }
+
+    private void enterSeekConfirmationMode() {
+        mPendingSeekConfirmation = true;
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            leanbackOverlayFragment.getPlayerGlue().enterSeekConfirmationMode();
+        }
+    }
+
+    private void exitSeekConfirmationMode() {
+        mPendingSeekConfirmation = false;
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            leanbackOverlayFragment.getPlayerGlue().exitSeekConfirmationMode();
+        }
+    }
+
+    private void applyPendingSeek() {
+        if (mPendingSeekConfirmation) {
+            if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+                leanbackOverlayFragment.getPlayerGlue().applyPendingSeek();
+            }
+            mPendingSeekConfirmation = false;
+        }
+    }
 
     public LocalDateTime getCurrentLocalStartDate() {
         return mCurrentGuideStart;
@@ -729,6 +812,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mIsVisible = false;
         binding.topPanel.startAnimation(fadeOut);
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+
+        if (leanbackOverlayFragment != null && leanbackOverlayFragment.getPlayerGlue() != null) {
+            leanbackOverlayFragment.getPlayerGlue().hideThumbnailPreview();
+        }
     }
 
     private void showChapterPanel() {
