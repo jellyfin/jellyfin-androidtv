@@ -157,8 +157,11 @@ fun rememberPlayerOverlayVisibility(
 	// to make sure popups keep the overlay visible
 	val windowInfo = LocalWindowInfo.current
 	visible = visible || !windowInfo.isWindowFocused
+
+	var previousIsWindowFocused by remember { mutableStateOf(windowInfo.isWindowFocused) }
 	LaunchedEffect(windowInfo.isWindowFocused) {
-		show()
+		if (windowInfo.isWindowFocused != previousIsWindowFocused) show()
+		previousIsWindowFocused = windowInfo.isWindowFocused
 	}
 
 	return PlayerOverlayVisibilityState(

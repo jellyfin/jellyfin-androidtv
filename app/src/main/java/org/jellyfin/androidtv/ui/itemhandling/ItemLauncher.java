@@ -127,7 +127,7 @@ public class ItemLauncher {
 
                     case PHOTO:
                         if (adapter instanceof ItemRowAdapter) {
-                            navigationRepository.getValue().navigate(Destinations.INSTANCE.pictureViewer(
+                            navigationRepository.getValue().navigate(Destinations.INSTANCE.photoPlayer(
                                     baseItem.getId(),
                                     false,
                                     ((ItemRowAdapter) adapter).getSortBy(),

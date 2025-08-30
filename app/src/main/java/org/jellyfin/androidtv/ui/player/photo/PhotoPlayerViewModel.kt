@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.picture
+package org.jellyfin.androidtv.ui.player.photo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,7 +21,7 @@ import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
 
-class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
+class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
 	private var album: List<BaseItemDto> = emptyList()
 	private var albumIndex = -1
 
@@ -30,12 +30,12 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 
 	suspend fun loadItem(id: UUID, sortBy: Collection<ItemSortBy>, sortOrder: SortOrder) {
 		// Load requested item
-		val itemResponse =withContext(Dispatchers.IO) {
+		val itemResponse = withContext(Dispatchers.IO) {
 			api.userLibraryApi.getItem(itemId = id).content
 		}
 		_currentItem.value = itemResponse
 
-		val albumResponse =withContext(Dispatchers.IO) {
+		val albumResponse = withContext(Dispatchers.IO) {
 			api.itemsApi.getItems(
 				parentId = itemResponse.parentId,
 				includeItemTypes = setOf(BaseItemKind.PHOTO),
