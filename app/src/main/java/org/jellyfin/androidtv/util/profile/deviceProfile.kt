@@ -354,8 +354,9 @@ fun createDeviceProfile(
 			if (!mediaTest.supportsDolbyVision()) ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 			if (!mediaTest.supportsHdr10()) ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
 			if (!mediaTest.supportsHdr10Plus()) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10_PLUS.serialName
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_ELHDR10_PLUS.serialName
+				// TODO Use VideoRangeType enum with Jelylfin 10.11 based SDK
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 			}
 		}
 	}.let {
