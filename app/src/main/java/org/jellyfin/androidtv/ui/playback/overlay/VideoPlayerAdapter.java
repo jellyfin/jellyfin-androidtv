@@ -84,7 +84,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         return playbackController.getBufferedPosition();
     }
 
-    void updateCurrentPosition() {
+    public void updateCurrentPosition() {
         getCallback().onCurrentPositionChanged(this);
         getCallback().onBufferedPositionChanged(this);
     }
