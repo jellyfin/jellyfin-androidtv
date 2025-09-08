@@ -366,9 +366,9 @@
     <string name="licenses_link">Licenties</string>
     <string name="select_version">Versie</string>
     <string name="pref_subtitles_background_title">Achtergrond inschakelen</string>
-    <string name="home_section_i">Startpaginasectie %1$d</string>
-    <string name="home_sections">Secties startpagina</string>
-    <string name="home_prefs">Startpagina</string>
+    <string name="home_section_i">Startschermsectie %1$d</string>
+    <string name="home_sections">Secties startscherm</string>
+    <string name="home_prefs">Startscherm</string>
     <string name="license_repository">Repository</string>
     <string name="license_artifact">Artifact</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -381,7 +381,7 @@
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
     <string name="pref_show_backdrop_description">Achtergrond aanpassen aan geselecteerd item</string>
     <string name="pref_playback_description">Beeld, ondertiteling, live-tv, als volgende</string>
-    <string name="pref_customization_description">Thema, startpagina, knoppen</string>
+    <string name="pref_customization_description">Thema, startscherm, knoppen</string>
     <string name="server_issue_ssl_handshake">SSL-handshake mislukt</string>
     <string name="server_issue_timeout">Verbindingstime-out</string>
     <string name="home_section_resume_book">Verderlezen</string>
@@ -485,7 +485,7 @@
         <item quantity="one">%1$s nummer</item>
         <item quantity="other">%1$s nummers</item>
     </plurals>
-    <string name="enable_reactive_homepage">Reactieve startpagina inschakelen</string>
+    <string name="enable_reactive_homepage">Reactief startscherm inschakelen</string>
     <string name="lbl_album_artists">Albumartiesten</string>
     <string name="not_set">Niet ingesteld</string>
     <string name="disable_ui_mode_warning">Waarschuwing voor apparaattype uitschakelen</string>
@@ -529,7 +529,7 @@
     <string name="random">Willekeurig</string>
     <string name="unreleased">Nog niet uitgebracht</string>
     <string name="pref_playback_advanced">Geavanceerde afspeelvoorkeuren</string>
-    <string name="lbl_home">Startpagina</string>
+    <string name="lbl_home">Startscherm</string>
     <string name="pref_screensaver_ageratingmax_zero">Alle leeftijden</string>
     <string name="pref_screensaver_ageratingmax">Maximale leeftijdsclassificatie</string>
     <string name="pref_screensaver_ageratingmax_entry">Tot leeftijd %1$d</string>
