@@ -1204,6 +1204,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
                 if (currentSubtitleIndex == null) currentSubtitleIndex = -1;
                 PlaybackControllerHelperKt.setSubtitleIndex(this, currentSubtitleIndex, true);
+            } else {
+                PlaybackControllerHelperKt.disableDefaultSubtitles(this);
             }
 
             // select an audio track
