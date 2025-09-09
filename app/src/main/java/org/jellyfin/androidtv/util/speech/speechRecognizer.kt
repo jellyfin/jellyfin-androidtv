@@ -19,6 +19,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import org.jellyfin.androidtv.util.locale
+import timber.log.Timber
 
 @Composable
 @Stable
@@ -54,6 +55,7 @@ fun rememberSpeechRecognizer(
 	val speechRecognizer = remember(context) { SpeechRecognizer.createSpeechRecognizer(context) }
 
 	fun emitError(errorStatus: SpeechRecognizerStatus) {
+		Timber.w("Emitting error $errorStatus")
 		status = errorStatus
 		onError?.invoke(errorStatus)
 	}
@@ -109,19 +111,21 @@ fun rememberSpeechRecognizer(
 		}
 	}
 
-	// Cancel speech when back pressed
-	BackHandler(
-		enabled = status is SpeechRecognizerStatus.Listening,
-		onBack = speechRecognizer::cancel,
-	)
-
 	fun startListening() {
+		val language = context.locale.language
+		Timber.i("Starting to listen for $language speech")
+
 		val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
 			putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
 			putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, onPartialResult != null)
-			putExtra(RecognizerIntent.EXTRA_LANGUAGE, context.locale.language)
+			putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
 		}
 		speechRecognizer.startListening(intent)
+	}
+
+	fun stopListening() {
+		Timber.i("Stopping speech recognition")
+		speechRecognizer.stopListening()
 	}
 
 	val recordAudioPermission = rememberPermissionState(
@@ -153,9 +157,15 @@ fun rememberSpeechRecognizer(
 		}
 	}
 
+	// Cancel speech when back pressed
+	BackHandler(
+		enabled = status is SpeechRecognizerStatus.Listening,
+		onBack = ::stopListening,
+	)
+
 	return SpeechRecognizerState(
 		status = status,
 		startListening = ::tryStartListening,
-		stopListening = speechRecognizer::cancel,
+		stopListening = ::stopListening,
 	)
 }
