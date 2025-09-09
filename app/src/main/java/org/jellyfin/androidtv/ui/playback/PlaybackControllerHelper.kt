@@ -40,6 +40,18 @@ fun PlaybackController.getLiveTvChannel(
 }
 
 @OptIn(UnstableApi::class)
+fun PlaybackController.disableDefaultSubtitles() {
+	Timber.i("Disabling non-baked subtitles")
+
+	with(mVideoManager.mExoPlayer.trackSelector!!) {
+		parameters = parameters.buildUpon()
+			.clearOverridesOfType(C.TRACK_TYPE_TEXT)
+			.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
+			.build()
+	}
+}
+
+@OptIn(UnstableApi::class)
 @JvmOverloads
 fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	Timber.i("Switching subtitles from index ${mCurrentOptions.subtitleStreamIndex} to $index")
@@ -58,14 +70,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 			burningSubs = false
 			play(mCurrentPosition, -1)
 		} else {
-			Timber.i("Disabling subtitles")
-
-			with(mVideoManager.mExoPlayer.trackSelector!!) {
-				parameters = parameters.buildUpon()
-					.clearOverridesOfType(C.TRACK_TYPE_TEXT)
-					.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
-					.build()
-			}
+			disableDefaultSubtitles()
 		}
 	} else if (burningSubs) {
 		Timber.i("Restarting playback to disable subtitle baking")
@@ -73,7 +78,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 		// If we're currently burning subs and want to switch streams we need some special behavior
 		// to stop the current baked subs. We can just stop & start with the new subtitle index for that
 		stop()
-		burningSubs = true
+		burningSubs = false
 		mCurrentOptions.subtitleStreamIndex = index
 		play(mCurrentPosition, index)
 	} else {
