@@ -63,7 +63,7 @@
     <string name="lbl_play_trailers">Reproduzir trailer(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
-    <string name="lbl_enter_server_address">Digite o endereço do servidor</string>
+    <string name="lbl_enter_server_address">Digitar endereço do servidor</string>
     <string name="lbl_valid_server_address">Por favor, digite o endereço do servidor (IP ou nome do domínio/máquina)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascimento "</string>
@@ -339,7 +339,7 @@
     <string name="no_user_warning">Não foi possível encontrar nenhuma conta!
 \nAdicione uma nova conta pressionando o botão \"Adicionar conta\".</string>
     <string name="welcome_content">Conecte-se ao seu servidor para começar.</string>
-    <string name="welcome_title">Bem-vindo ao Jellyfin!</string>
+    <string name="welcome_title">Boas-vindas ao Jellyfin!</string>
     <string name="saved_servers">Servidores salvos</string>
     <string name="press_to_close">Pressione para fechar</string>
     <string name="no_network_permissions">Jellyfin requer permissões de rede para funcionar</string>
@@ -382,7 +382,7 @@
     <string name="server_issue_outdated_version">Versão não suportada %1$s, Por favor atualize para a versão %2$s ou superior</string>
     <string name="server_issue_unsupported_version">Servidor está usando a versão %1$s que não é mais suportada</string>
     <string name="server_issue_missing_version">Não foi possível identificar a versão do servidor</string>
-    <string name="server_issue_invalid_product">O programa do servidor é incompatível</string>
+    <string name="server_issue_invalid_product">O software do servidor é incompatível</string>
     <string name="server_issue_unable_to_connect">Não foi possível conectar</string>
     <string name="server_connection_failed_candidates">Não foi possível se conectar ao servidor através dos endereços: %1$s</string>
     <string name="lbl_playback_speed">Velocidade de reprodução</string>
@@ -452,8 +452,7 @@
     <string name="pref_crash_report_logs_disabled">Registros não serão incluídos nos relatórios de falhas</string>
     <string name="server_setup_incomplete">A configuração desse servidor não foi concluída. Abra o Jellyfin em um navegador para concluir a configuração antes de fazer login.</string>
     <string name="episode_name_special">especial</string>
-    <string name="app_notification_beta">Aplicativo atualizado para %1$s
-\nObrigado por participar do programa beta do Jellyfin.</string>
+    <string name="app_notification_beta">Aplicativo atualizado para %1$s\nObrigado por participar do programa beta do Jellyfin.</string>
     <string name="item_deleted">%1$s deletado</string>
     <string name="pref_enable_media_management">Ativar o gerenciamento de mídia</string>
     <string name="item_delete_confirm_title">Deletar item</string>
@@ -598,4 +597,6 @@
     <string name="lbl_still_watching_long">5 episódios ou 150 minutos</string>
     <string name="lbl_still_watching_very_long">8 episódios ou 240 minutos</string>
     <string name="still_watching_label">Você ainda está assistindo?</string>
+    <string name="pref_subtitles_position">Distância de baixo</string>
+    <string name="preference_enable_pgs">Reproduzir legendas PGS diretamente</string>
 </resources>
