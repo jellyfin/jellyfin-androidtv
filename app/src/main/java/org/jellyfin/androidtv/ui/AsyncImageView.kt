@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.ui
 
+import android.app.ActivityManager
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -73,7 +75,8 @@ class AsyncImageView @JvmOverloads constructor(
 			var placeholderOrBlurHash = placeholder
 
 			// Only show blurhash if an image is going to be loaded from the network
-			if (url != null && blurHash != null) withContext(Dispatchers.IO) {
+			val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+			if (url != null && blurHash != null && !isLowRamDevice) withContext(Dispatchers.IO) {
 				val blurHashBitmap = BlurHashDecoder.decode(
 					blurHash,
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,
