@@ -113,7 +113,7 @@
     <string name="lbl_today">Ma</string>
     <string name="lbl_load_channels">"Csatornák betöltése "</string>
     <string name="lbl_unwatched">Nem lejátszott</string>
-    <string name="msg_no_playable_items">Nince lejátszható elem</string>
+    <string name="msg_no_playable_items">Nincs lejátszható elem</string>
     <string name="lbl_now_playing_album">%1$s -tól</string>
     <string name="lbl_starting_with">Kezdve azokkal, amelyeknek a neve ezzel kezdődik</string>
     <string name="lbl_on">Ekkor</string>
