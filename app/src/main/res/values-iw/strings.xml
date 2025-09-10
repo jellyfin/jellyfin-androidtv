@@ -112,7 +112,7 @@
     <string name="lbl_people">אנשים</string>
     <string name="lbl_other_options">אפשרויות נוספות</string>
     <string name="lbl_last_played">"נצפה לאחרונה "</string>
-    <string name="lbl_directed_by">בוים על ידי</string>
+    <string name="lbl_directed_by">ביים</string>
     <string name="lbl_ends">מסתיים</string>
     <string name="lbl_runs">אורך</string>
     <string name="lbl_sd">SD</string>
@@ -178,7 +178,7 @@
     <string name="lbl_album_name">שם האלבום</string>
     <string name="lbl_previous_episode">הפרק הקודם</string>
     <string name="lbl_next_episode">הפרק הבא</string>
-    <string name="lbl_more_like_this">עוד כמו זה</string>
+    <string name="lbl_more_like_this">פריטים דומים</string>
     <string name="lbl_resume_from">המשך מ־%1$s</string>
     <string name="lbl_resume_preroll">הרצה אחורה בהמשך ניגון</string>
     <string name="lbl_guide_option_number">מספר ערוץ</string>
@@ -378,14 +378,14 @@
     <string name="home_section_library">המדיה שלי</string>
     <string name="home_section_latest_media">מדיה שנוספה לאחרונה</string>
     <string name="home_sections">חלקות מסך הבית</string>
-    <string name="license_license">רשיון</string>
+    <string name="license_license">רישיון</string>
     <string name="license_author">יוצר</string>
     <string name="license_repository">מאגר</string>
     <string name="license_website">אתר</string>
     <string name="license_version">גרסה</string>
     <string name="license_description">תיאור</string>
     <string name="licenses_link_description">הצג את רישיונות הספריות שבשימוש ע\"י אפליקציית Jellyfin</string>
-    <string name="licenses_link">רשיונות</string>
+    <string name="licenses_link">רישיונות</string>
     <string name="select_version">גרסה</string>
     <string name="advanced_settings">הגדרות מתקדמות</string>
     <string name="always_authenticate_description">הפעלת אפשרות זו תבטל את התחברות החשבון האוטומטית</string>
@@ -588,7 +588,7 @@
     <string name="pref_report_device_profile_success">מסמך נשלח כ-%1$s</string>
     <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה-Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">אפשר רינדור בצד לקוח של כתוביות בפורמט Advanced SubStation Alpha</string>
+    <string name="preference_enable_libass">אפשר ציור בצד לקוח של כתוביות בפורמט Advanced SubStation Alpha</string>
     <string name="lbl_from_beginning">נגן מההתחלה</string>
     <string name="speech_error_unavailable">זיהוי דיבור אינו זמין במכשיר זה.</string>
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
