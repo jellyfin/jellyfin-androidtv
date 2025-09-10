@@ -123,7 +123,7 @@
     <string name="lbl_series">סדרה</string>
     <string name="lbl_trailers">קדימונים</string>
     <string name="lbl_specials">מיוחדים</string>
-    <string name="lbl_chapters">פרקים</string>
+    <string name="lbl_chapters">סצנות</string>
     <string name="lbl_cast_crew">שחקנים וצוות</string>
     <string name="msg_unable_to_cancel">לא ניתן לבטל את ההקלטה</string>
     <string name="msg_recording_cancelled">ההקלטה בוטלה</string>
