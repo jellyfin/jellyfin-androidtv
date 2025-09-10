@@ -154,7 +154,7 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">מומלץ</string>
     <string name="lbl_by_letter">לפי אות</string>
-    <string name="lbl_views">צפיות</string>
+    <string name="lbl_views">תצוגות</string>
     <string name="lbl_on_now">משודר כעת</string>
     <string name="lbl_next_up">הבא בתור</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
