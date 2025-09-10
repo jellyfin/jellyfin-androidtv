@@ -76,6 +76,12 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.cinemaModeEnabled)
 			}
 
+			checkbox {
+				setTitle(R.string.lbl_seek_confirmation)
+				setContent(R.string.sum_seek_confirmation)
+				bind(userPreferences, UserPreferences.seekConfirmationRequired)
+			}
+
 			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.skip_forward_length)
@@ -87,6 +93,19 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 					override fun display(value: Int) = "${value / 1000}s"
 				}
 				bind(userSettingPreferences, UserSettingPreferences.skipForwardLength)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.skip_back_length)
+				setContent(R.string.skip_back_length)
+				min = 5_000
+				max = 30_000
+				increment = 5_000
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int) = "${value / 1000}s"
+				}
+				bind(userSettingPreferences, UserSettingPreferences.skipBackLength)
 			}
 		}
 

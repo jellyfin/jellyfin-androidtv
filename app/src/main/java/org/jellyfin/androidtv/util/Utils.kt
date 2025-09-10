@@ -62,10 +62,16 @@ object Utils : KoinComponent {
 		return themeColor
 	}
 
+	private const val MIN_SAFE_SEEK_POSITION_MS = 100L // Avoid ExoPlayer issues with position 0
+	private const val END_POSITION_BUFFER_MS = 1000L // Buffer from end to avoid overshooting
+
 	@JvmStatic
-	fun getSafeSeekPosition(position: Long, duration: Long): Long = when {
-		position >= duration -> (duration - 1000).coerceAtLeast(0)
-		else -> position.coerceAtLeast(0)
+	fun getSafeSeekPosition(position: Long, duration: Long): Long {
+		// Use MIN_SAFE_SEEK_POSITION_MS instead of 0 to avoid ExoPlayer position reset issues
+		val minSafePosition = MIN_SAFE_SEEK_POSITION_MS
+		val maxSafePosition = duration - END_POSITION_BUFFER_MS
+
+		return position.coerceIn(minSafePosition, maxSafePosition)
 	}
 
 	@JvmStatic
