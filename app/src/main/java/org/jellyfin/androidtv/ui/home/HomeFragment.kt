@@ -54,9 +54,6 @@ class HomeFragment : Fragment() {
 				// The leanback code has its own awful focus handling that doesn't work properly with Compose view inteop to workaround this
 				// issue we add custom behavior that only allows focus exit when the current selected row is the first one. Additionally when
 				// we do switch the focus, we reset the leanback state so it won't cause weird behavior when focus is regained
-				// We also need to make sure the fragment is complete hidden when empty because otherwise it may trap focus and the user is
-				// unable to navigate within the app. This is most likely an issue with view interop itself.
-				// Note: this message and implementation is copied from the SearchFragment
 				var rowsSupportFragment by remember { mutableStateOf<HomeRowsFragment?>(null) }
 				AndroidFragment<HomeRowsFragment>(
 					modifier = Modifier
@@ -64,7 +61,7 @@ class HomeFragment : Fragment() {
 						.focusRequester(rowsFocusRequester)
 						.focusProperties {
 							onExit = {
-								val isFirstRowSelected = rowsSupportFragment?.selectedPosition == 0
+								val isFirstRowSelected = rowsSupportFragment?.selectedPosition?.let { it <= 0 } ?: false
 								if (requestedFocusDirection != FocusDirection.Up || !isFirstRowSelected) {
 									cancelFocusChange()
 								} else {

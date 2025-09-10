@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +28,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.compose.AndroidFragment
 import androidx.fragment.compose.content
 import androidx.leanback.app.RowsSupportFragment
-import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.search.composable.SearchTextInput
 import org.jellyfin.androidtv.ui.search.composable.SearchVoiceInput
@@ -115,36 +113,32 @@ class SearchFragment : Fragment() {
 				// The leanback code has its own awful focus handling that doesn't work properly with Compose view inteop to workaround this
 				// issue we add custom behavior that only allows focus exit when the current selected row is the first one. Additionally when
 				// we do switch the focus, we reset the leanback state so it won't cause weird behavior when focus is regained
-				// We also need to make sure the fragment is complete hidden when empty because otherwise it may trap focus and the user is
-				// unable to navigate within the app. This is most likely an issue with view interop itself.
 				var rowsSupportFragment by remember { mutableStateOf<RowsSupportFragment?>(null) }
-				val hasResults by remember { viewModel.searchResultsFlow.map { it.isNotEmpty() } }.collectAsState(false)
-				if (hasResults) {
-					AndroidFragment<RowsSupportFragment>(
-						modifier = Modifier
-							.focusGroup()
-							.focusRequester(resultFocusRequester)
-							.focusProperties {
-								onExit = {
-									val isFirstRowSelected = rowsSupportFragment?.selectedPosition == 0
-									if (requestedFocusDirection != FocusDirection.Up || !isFirstRowSelected) {
-										cancelFocusChange()
-									} else {
-										rowsSupportFragment?.selectedPosition = 0
-										rowsSupportFragment?.verticalGridView?.clearFocus()
-									}
+
+				AndroidFragment<RowsSupportFragment>(
+					modifier = Modifier
+						.focusGroup()
+						.focusRequester(resultFocusRequester)
+						.focusProperties {
+							onExit = {
+								val isFirstRowSelected = rowsSupportFragment?.selectedPosition?.let { it <= 0 } ?: false
+								if (requestedFocusDirection != FocusDirection.Up || !isFirstRowSelected) {
+									cancelFocusChange()
+								} else {
+									rowsSupportFragment?.selectedPosition = 0
+									rowsSupportFragment?.verticalGridView?.clearFocus()
 								}
 							}
-							.padding(top = 5.dp)
-							.fillMaxSize(),
-						onUpdate = { fragment ->
-							rowsSupportFragment = fragment
-							fragment.adapter = searchFragmentDelegate.rowsAdapter
-							fragment.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
-							fragment.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
 						}
-					)
-				}
+						.padding(top = 5.dp)
+						.fillMaxSize(),
+					onUpdate = { fragment ->
+						rowsSupportFragment = fragment
+						fragment.adapter = searchFragmentDelegate.rowsAdapter
+						fragment.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
+						fragment.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
+					}
+				)
 			}
 		}
 	}
