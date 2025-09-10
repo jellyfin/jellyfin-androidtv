@@ -159,7 +159,7 @@
     <string name="lbl_next_up">הבא בתור</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
     <string name="lbl_settings">העדפות</string>
-    <string name="chapters">פרקים</string>
+    <string name="chapters">סצנות</string>
     <string name="pref_authentication_cat">אימות</string>
     <string name="settings_title">העדפות</string>
     <string name="pref_max_bitrate_title">קצב סיביות מרבי להזרמה</string>
@@ -495,7 +495,7 @@
         <item quantity="many">%1$s דקות</item>
         <item quantity="other">%1$s דקות</item>
     </plurals>
-    <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
+    <string name="lbl_latest_in">נוסף לאחרונה ב־%1$s</string>
     <string name="disable_ui_mode_warning">השבתה של אזהרת סוג התקן</string>
     <string name="because_you_watched">כיוון שצפית ב־%1$s</string>
     <string name="channels">ערוצים</string>
