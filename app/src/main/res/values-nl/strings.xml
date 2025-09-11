@@ -335,7 +335,7 @@
     <string name="lbl_special">Special</string>
     <string name="help">Help</string>
     <string name="add_user">Account toevoegen</string>
-    <string name="who_is_watching">Wie is er aan het kijken\?</string>
+    <string name="who_is_watching">Wie gaat er kijken?</string>
     <string name="no_user_warning">Er zijn geen accounts gevonden!
 \nVoeg een nieuw account toe met de knop \"Account toevoegen\".</string>
     <string name="welcome_content">Maak verbinding met je server om te beginnen.</string>
