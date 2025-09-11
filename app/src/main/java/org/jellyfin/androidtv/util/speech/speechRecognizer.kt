@@ -124,6 +124,8 @@ fun rememberSpeechRecognizer(
 	}
 
 	fun stopListening() {
+		if (status !is SpeechRecognizerStatus.Listening) return
+
 		Timber.i("Stopping speech recognition")
 		speechRecognizer.stopListening()
 	}
