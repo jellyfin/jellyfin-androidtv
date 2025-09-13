@@ -17,8 +17,6 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.trickplayApi
 import org.jellyfin.sdk.api.client.util.AuthorizationHeaderBuilder
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import kotlin.math.ceil
-import kotlin.math.min
 
 class CustomSeekProvider(
 	private val videoPlayerAdapter: VideoPlayerAdapter,
@@ -33,9 +31,31 @@ class CustomSeekProvider(
 	override fun getSeekPositions(): LongArray {
 		if (!videoPlayerAdapter.canSeek()) return LongArray(0)
 
-		val duration = videoPlayerAdapter.duration
-		val size = ceil(duration.toDouble() / forwardTime.toDouble()).toInt() + 1
-		return LongArray(size) { i -> min(i * forwardTime, duration) }
+		// Intentionally reduce resolution from milliseconds to seconds to avoid seeking less than a second which would confuse users
+		val currentPositionSeconds = videoPlayerAdapter.currentPosition / 1000
+		val forwardTimeSeconds = forwardTime / 1000
+		val firstSeekPositionSeconds = currentPositionSeconds % forwardTimeSeconds
+		val videoEndPositionSeconds = videoPlayerAdapter.duration / 1000
+
+		val seekPositionCount = ((videoEndPositionSeconds - firstSeekPositionSeconds) / forwardTimeSeconds).toInt() + 1
+
+		val seekPositions = ArrayList<Long>(seekPositionCount + 2)
+		// Omit explicitly adding the beginning of the video as a seek position if the first seek position already represents it
+		if (firstSeekPositionSeconds != 0L) {
+			seekPositions.add(0L)
+		}
+		// Add all available seek positions but the last one
+		for (i in 0..<seekPositionCount - 1) {
+			seekPositions.add((firstSeekPositionSeconds + (i * forwardTimeSeconds)) * 1000)
+		}
+		// Omit explicitly adding the last seek position if the video end already represents it to avoid a sub-second seek at the end
+		val lastSeekPositionSeconds = firstSeekPositionSeconds + ((seekPositionCount - 1) * forwardTimeSeconds)
+		if (lastSeekPositionSeconds != videoEndPositionSeconds) {
+			seekPositions.add(lastSeekPositionSeconds * 1000)
+		}
+		seekPositions.add(videoPlayerAdapter.duration)
+
+		return seekPositions.toLongArray()
 	}
 
 	override fun getThumbnail(index: Int, callback: ResultCallback) {
