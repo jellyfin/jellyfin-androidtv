@@ -17,8 +17,6 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.trickplayApi
 import org.jellyfin.sdk.api.client.util.AuthorizationHeaderBuilder
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import kotlin.math.ceil
-import kotlin.math.min
 
 class CustomSeekProvider(
 	private val videoPlayerAdapter: VideoPlayerAdapter,
@@ -29,17 +27,44 @@ class CustomSeekProvider(
 	private val forwardTime: Long
 ) : PlaybackSeekDataProvider() {
 	private val imageRequests = mutableMapOf<Int, Disposable>()
+	private var currentSeekPositions = LongArray(0)
 
 	override fun getSeekPositions(): LongArray {
 		if (!videoPlayerAdapter.canSeek()) return LongArray(0)
 
-		val duration = videoPlayerAdapter.duration
-		val size = ceil(duration.toDouble() / forwardTime.toDouble()).toInt() + 1
-		return LongArray(size) { i -> min(i * forwardTime, duration) }
+		val currentSeekPosition = videoPlayerAdapter.currentPosition
+		val videoEndPosition = videoPlayerAdapter.duration
+
+		val firstSeekPosition = currentSeekPosition % forwardTime
+		val lastSeekPosition = videoEndPosition - ((videoEndPosition - currentSeekPosition) % forwardTime)
+		val seekPositionCount = ((lastSeekPosition - firstSeekPosition) / forwardTime).toInt() + 1
+
+		val seekPositions = ArrayList<Long>(seekPositionCount + 2) // intermediate seek positions + beginning + end position
+		seekPositions.add(0L)
+		// Omit the first seek position if it represents the beginning of the video
+		if (firstSeekPosition != 0L) {
+			seekPositions.add(firstSeekPosition)
+		}
+		// Add all available seek positions but the last one
+		for (i in 1..<seekPositionCount - 1) {
+			seekPositions.add(firstSeekPosition + (i * forwardTime))
+		}
+		// Omit the last seek position if it represents the end of the video
+		if (lastSeekPosition != videoEndPosition) {
+			seekPositions.add(lastSeekPosition)
+		}
+		// Omit the video end seek position if it represents the beginning of the video
+		if (videoEndPosition != 0L) {
+			seekPositions.add(videoEndPosition)
+		}
+
+		currentSeekPositions = seekPositions.toLongArray()
+		return currentSeekPositions
 	}
 
 	override fun getThumbnail(index: Int, callback: ResultCallback) {
 		if (!trickPlayEnabled) return
+		if (index >= currentSeekPositions.size) return
 
 		val currentRequest = imageRequests[index]
 		if (currentRequest?.isDisposed == false) currentRequest.dispose()
@@ -53,7 +78,7 @@ class CustomSeekProvider(
 		val trickPlayInfo = trickPlayResolutions?.values?.firstOrNull()
 		if (trickPlayInfo == null) return
 
-		val currentTimeMs = (index * forwardTime).coerceIn(0, videoPlayerAdapter.duration)
+		val currentTimeMs = currentSeekPositions[index]
 		val currentTile = currentTimeMs.floorDiv(trickPlayInfo.interval).toInt()
 
 		val tileSize = trickPlayInfo.tileWidth * trickPlayInfo.tileHeight
@@ -107,5 +132,7 @@ class CustomSeekProvider(
 			if (!request.isDisposed) request.dispose()
 		}
 		imageRequests.clear()
+
+		currentSeekPositions = LongArray(0)
 	}
 }
