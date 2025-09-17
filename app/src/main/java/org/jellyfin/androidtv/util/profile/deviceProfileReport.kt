@@ -9,6 +9,7 @@ import android.view.Surface
 import androidx.core.content.ContextCompat
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.appendCodeBlock
 import org.jellyfin.androidtv.util.appendDetails
@@ -52,6 +53,15 @@ private val isR = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R // API 30
 private val isS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S // API 31
 private val isUpsideDownCake = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE // API 34
 private val isBaklava = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA // API 36
+
+// HDR formats to label strings
+enum class HdrFormats(val label: String) {
+	DOLBY_VISION("Dolby Vision"),
+	DOLBY_VISION_EL("Dolby Vision Enhancement Layer"),
+	HDR10("HDR10"),
+	HDR10_PLUS("HDR10+"),
+	HLG("HLG"),
+}
 
 fun createDeviceProfileReport(
 	context: Context,
@@ -166,6 +176,36 @@ fun createDeviceProfileReport(
 			.forEach { type -> appendLine("- $type") }
 	}
 
+	appendDetails("Codec HDR Support") {
+		val mediaTest = MediaCodecCapabilitiesTest(context)
+
+		val codecHDRSupport = buildMap<String, Map<HdrFormats, Boolean>> {
+			if(mediaTest.supportsAV1()) {
+				put(Codec.Video.AV1, mapOf(
+					HdrFormats.DOLBY_VISION to mediaTest.supportsAV1DolbyVision(),
+					HdrFormats.HDR10 to mediaTest.supportsAV1HDR10(),
+					HdrFormats.HDR10_PLUS to mediaTest.supportsAV1HDR10Plus()
+				))
+			}
+			if(mediaTest.supportsHevc()) {
+				put(Codec.Video.HEVC, mapOf(
+					HdrFormats.DOLBY_VISION to mediaTest.supportsHevcDolbyVision(),
+					HdrFormats.DOLBY_VISION_EL to mediaTest.supportsHevcDolbyVisionEL(),
+					HdrFormats.HDR10 to mediaTest.supportsHevcHDR10(),
+					HdrFormats.HDR10_PLUS to mediaTest.supportsHevcHDR10Plus()
+				))
+			}
+		}
+
+		for ((codec, formats) in codecHDRSupport) {
+			appendLine("**${codec.uppercase()}**")
+			for (format in formats) {
+				appendLine("  - ${format.key.label}: ${format.value}")
+			}
+			appendLine()
+		}
+	}
+
 	appendDetails("Display information") {
 		val display = ContextCompat.getDisplayOrDefault(context)
 
@@ -209,10 +249,10 @@ fun createDeviceProfileReport(
 
 			appendItem("HDR capabilities") {
 				appendLine()
-				appendLine("- Dolby Vision: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)}")
-				appendLine("- HDR10: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)}")
-				if (isQ) appendLine("- HDR10+: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)}")
-				appendLine("- HLG: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HLG)}")
+				appendLine("- ${HdrFormats.DOLBY_VISION.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)}")
+				appendLine("- ${HdrFormats.HDR10}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)}")
+				if (isQ) appendLine("- ${HdrFormats.HDR10_PLUS.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)}")
+				appendLine("- ${HdrFormats.HLG.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HLG)}")
 			}
 		}
 
