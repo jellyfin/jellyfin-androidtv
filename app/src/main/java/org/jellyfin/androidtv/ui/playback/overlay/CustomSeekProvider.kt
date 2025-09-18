@@ -33,7 +33,7 @@ class CustomSeekProvider(
 ) : PlaybackSeekDataProvider() {
 	private val imageRequests = mutableMapOf<Int, Disposable>()
 
-	private var cachedThumbnailPlaceholder: Bitmap? = null
+	private var cachedPlaceholderThumbnail: Bitmap? = null
 
 	override fun getSeekPositions(): LongArray {
 		if (!videoPlayerAdapter.canSeek()) return LongArray(0)
@@ -117,14 +117,14 @@ class CustomSeekProvider(
 	}
 
 	fun getPlaceholderThumbnail(width: Int, height: Int): Bitmap {
-		if (cachedThumbnailPlaceholder?.width == width && cachedThumbnailPlaceholder?.height == height) {
-			return cachedThumbnailPlaceholder!!
+		if (cachedPlaceholderThumbnail?.width == width && cachedPlaceholderThumbnail?.height == height) {
+			return cachedPlaceholderThumbnail!!
 		}
 
 		val color = ContextCompat.getColor(context, R.color.black_transparent_light)
 		val result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 		result.eraseColor(color)
-		cachedThumbnailPlaceholder = result
+		cachedPlaceholderThumbnail = result
 		return result
 	}
 }
