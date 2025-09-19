@@ -388,9 +388,9 @@
     <string name="lbl_playback_speed">Брзина репродукције</string>
     <string name="pref_audio_night_mode">Звук ноћни мод (експериментално)</string>
     <plurals name="albums">
-        <item quantity="one">Један</item>
-        <item quantity="few">Неколико</item>
-        <item quantity="other">Други</item>
+        <item quantity="one">%1$s албум</item>
+        <item quantity="few">%1$s албума</item>
+        <item quantity="other">%1$s албума</item>
     </plurals>
     <string name="lbl_subtitle_text_color">Боја титла</string>
     <string name="lbl_subtitle_background_color">Боја позадине титла</string>
@@ -399,7 +399,7 @@
     <string name="image_size_smallest">Најмање</string>
     <string name="pref_external_player">Користи екстерни плејер</string>
     <string name="lbl_quality_profile">Профил квалитета</string>
-    <string name="continue_listening">Настави Слушање</string>
+    <string name="continue_listening">Настави слушање</string>
     <string name="image_size_xlarge">Огромно</string>
     <string name="color_darkgrey">Тамно сиво</string>
     <string name="color_red">Црвено</string>
@@ -431,9 +431,9 @@
     <string name="sort_accounts_by">Сортирај налоге по</string>
     <string name="pref_behavior">Понашање</string>
     <string name="pref_customization_description">Теме,почетни екран,ремапирање</string>
-    <string name="lbl_latest_in">Недавно додато у</string>
-    <string name="because_you_watched">Јер сте гледали</string>
-    <string name="speech_error_no_permission">"Није дозвољен микрофон. Молимо Вас  дозволиоте микрофон у подешавањима."</string>
+    <string name="lbl_latest_in">Недавно додато у %1$s</string>
+    <string name="because_you_watched">Јер сте гледали %1$s</string>
+    <string name="speech_error_no_permission">Није дозвољен микрофон. Молимо Вас, дозволиоте микрофон у подешавањима.</string>
     <string name="speech_error_unavailable">Препознавање говора није доступно на Вашем уређају.</string>
     <string name="speech_error_unknown">Дошло је до неочекиване грешке током препознавања говора.</string>
     <plurals name="seconds">
