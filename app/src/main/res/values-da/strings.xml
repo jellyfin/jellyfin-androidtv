@@ -514,7 +514,7 @@
     </plurals>
     <plurals name="movies">
         <item quantity="one">%1$s film</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s film</item>
     </plurals>
     <plurals name="albums">
         <item quantity="one">%1$s album</item>
