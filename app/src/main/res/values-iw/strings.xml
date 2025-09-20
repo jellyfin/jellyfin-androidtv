@@ -279,7 +279,7 @@
     <string name="no_network_permissions">Jellyfin צריכה הרשאות רשת כדי לפעול</string>
     <string name="pref_theme_muted_purple">סגול מעומעם</string>
     <string name="lbl_switch_user">החלף משתמש</string>
-    <string name="user_picker_last_user_summary">השתמש בחשבון הפעיל האחרון</string>
+    <string name="user_picker_last_user_summary">השתמש במשתמש הפעיל האחרון</string>
     <string name="user_picker_last_user_title">היה בשימוש לאחרונה</string>
     <string name="user_picker_disable_summary">הצג את מסך ההתחברות תמיד</string>
     <string name="user_picker_disable_title">כיבוי</string>
@@ -310,7 +310,7 @@
     <string name="lbl_user_last_used">היה בשימוש פעם אחרונה ב-%1$s בשעה %2$s</string>
     <string name="lbl_remove_server">מחק שרת</string>
     <string name="lbl_sign_out_content">דורש להתחבר שוב בפעם הבאה</string>
-    <string name="lbl_remove_user_content">הסר חשבון</string>
+    <string name="lbl_remove_user_content">הסר משתמש</string>
     <string name="lbl_remove_users">פעולה זו תמחק בנוסף את כל המשתמשים המקושרים</string>
     <string name="lbl_manage_servers">ניהול שרתים</string>
     <string name="lbl_community_rating">דירוג הקהילה</string>
@@ -324,10 +324,9 @@
     <string name="lbl_next_up_extended">עם תמונה ממוזערת</string>
     <string name="lbl_special">מיוחד</string>
     <string name="help">עזרה</string>
-    <string name="add_user">הוסף חשבון</string>
+    <string name="add_user">הוסף משתמש</string>
     <string name="who_is_watching">מי צופה\?</string>
-    <string name="no_user_warning">לא הצלחנו למצוא אף חשבון!
-\nהוסף חשבון חדש על ידי לחיצה על כפתור \"הוסף משתמש\".</string>
+    <string name="no_user_warning">לא הצלחנו למצוא אף משתמש!\nהוסף משתמש חדש על ידי לחיצה על כפתור \"הוסף משתמש\".</string>
     <string name="welcome_content">התחבר לשרת שלך בכדי להתחיל.</string>
     <string name="welcome_title">ברוכים הבאים ל-Jellyfin!</string>
     <string name="saved_servers">שרתים שמורים</string>
@@ -388,10 +387,10 @@
     <string name="licenses_link">רישיונות</string>
     <string name="select_version">גרסה</string>
     <string name="advanced_settings">הגדרות מתקדמות</string>
-    <string name="always_authenticate_description">הפעלת אפשרות זו תבטל את התחברות החשבון האוטומטית</string>
+    <string name="always_authenticate_description">הפעלת אפשרות זו תבטל את ההתחברות האוטומטית</string>
     <string name="always_authenticate">תמיד בקש נתוני הזדהות</string>
-    <string name="alphabetical">אלפביתי</string>
-    <string name="last_use">שומש לאחרונה</string>
+    <string name="alphabetical">אלף ביתי</string>
+    <string name="last_use">היה בשימוש לאחרונה</string>
     <string name="enable_playback_module_description">זוהי תכולה נסיונית. לא תסופק תמיכה.</string>
     <string name="lbl_on_any_channel">בכל ערוץ</string>
     <string name="lbl_record_all">יקליט את כל הפרקים</string>
