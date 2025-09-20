@@ -96,6 +96,24 @@ fun createDeviceProfile(
 	val maxResolutionHevc = mediaTest.getMaxResolution(MimeTypes.VIDEO_H265)
 	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
 
+	/// HDR capabilities
+	// Display
+	val supportsDolbyVisionDisplay = mediaTest.supportsDolbyVision()
+	val supportsHdr10Display = mediaTest.supportsHdr10()
+	val supportsHdr10PlusDisplay = mediaTest.supportsHdr10Plus()
+
+	// Codecs
+	// AV1
+	val supportsAV1DolbyVision = mediaTest.supportsAV1DolbyVision()
+	val supportsAV1HDR10 = mediaTest.supportsAV1HDR10()
+	val supportsAV1HDR10Plus = mediaTest.supportsAV1HDR10Plus()
+
+	// HEVC
+	val supportsHevcDolbyVision = mediaTest.supportsHevcDolbyVision()
+	val supportsHevcDolbyVisionEL = mediaTest.supportsHevcDolbyVisionEL()
+	val supportsHevcHDR10 = mediaTest.supportsHevcHDR10()
+	val supportsHevcHDR10Plus = mediaTest.supportsHevcHDR10Plus()
+
 	name = "AndroidTV-Default"
 
 	/// Bitrate
@@ -346,17 +364,81 @@ fun createDeviceProfile(
 		}
 	}
 
-	// HDR
+	/// HDR exclude list
+	// TODO Use VideoRangeType enum with Jelylfin 10.11 based SDK
+	// Display
 	codecProfile {
 		type = CodecType.VIDEO
 
 		conditions {
-			if (!mediaTest.supportsDolbyVision()) ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
-			if (!mediaTest.supportsHdr10()) ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
-			if (!mediaTest.supportsHdr10Plus()) {
-				// TODO Use VideoRangeType enum with Jelylfin 10.11 based SDK
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+			if (!supportsDolbyVisionDisplay) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
+				if(!supportsHdr10PlusDisplay) {
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+				}
+				if(!supportsHdr10Display)
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
+			}
+			if (!supportsHdr10PlusDisplay) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
+				if (!supportsHdr10Display)
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
+			}
+		}
+	}.let {
+		// Remove codec profile if all HDR types are fully supported
+		if (it.conditions.isEmpty()) codecProfiles.remove(it)
+	}
+
+	// Codecs
+	// AV1
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.AV1
+
+		conditions {
+			if(supportsDolbyVisionDisplay && !supportsAV1DolbyVision) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
+				if(supportsHdr10Display && !supportsAV1HDR10)
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
+				if(supportsHdr10PlusDisplay && !supportsAV1HDR10Plus)
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+			}
+			if(supportsHdr10PlusDisplay && !mediaTest.supportsAV1HDR10Plus()) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
+				if(supportsHdr10Display && !mediaTest.supportsAV1HDR10())
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
+			}
+		}
+	}.let {
+		// Remove codec profile if all HDR types are fully supported
+		if (it.conditions.isEmpty()) codecProfiles.remove(it)
+	}
+
+	// HEVC
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.HEVC
+
+		conditions {
+			if(supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
+				if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+				if(!supportsHevcDolbyVision) {
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
+					if (supportsHdr10Display && !supportsHevcHDR10)
+						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
+					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
+						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+				}
+			}
+			if(supportsHdr10PlusDisplay && !supportsHevcHDR10Plus) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
+				if(supportsHdr10Display && !supportsHevcHDR10)
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
 			}
 		}
 	}.let {
