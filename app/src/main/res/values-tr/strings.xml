@@ -589,4 +589,5 @@
     <string name="lbl_still_watching_long">5 bölüm veya 150 dakika</string>
     <string name="lbl_still_watching_very_long">8 bölüm veya 240 dakika</string>
     <string name="still_watching_label">Hala izliyor musunuz?</string>
+    <string name="pref_subtitles_position">Alttan uzaklık</string>
 </resources>
