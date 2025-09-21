@@ -68,8 +68,12 @@ object TelemetryService {
 			// Create connection
 			val connection = URL(url).openConnection() as HttpURLConnection
 			// Add authorization
+			val clientName = buildString {
+				append("Jellyfin Android TV")
+				if (BuildConfig.DEBUG) append(" (debug)")
+			}
 			val authorization = AuthorizationHeaderBuilder.buildHeader(
-				clientName = BuildConfig.APPLICATION_ID,
+				clientName = clientName,
 				clientVersion = BuildConfig.VERSION_NAME,
 				deviceId = "",
 				deviceName = "",
