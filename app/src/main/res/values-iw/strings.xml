@@ -344,7 +344,7 @@
     <string name="pref_video">וידאו</string>
     <string name="pref_playback_description">וידאו, כתוביות, טלוויזיה חיה, הבא בתור</string>
     <string name="pref_customization_description">ערכת נושא, מסך הבית, הגדרות שליטה</string>
-    <string name="pref_login_description">שרתים, חשבונות, התחברות אוטומטית</string>
+    <string name="pref_login_description">שרתים, משתמשים, התחברות אוטומטית</string>
     <string name="pref_login">התחברות</string>
     <string name="pref_libraries_description">הגדר כיצד יוצגו הספריות</string>
     <string name="pref_libraries">ספריות</string>
@@ -352,7 +352,7 @@
     <string name="pref_theme">ערכת נושא</string>
     <string name="pref_browsing">דפדוף</string>
     <string name="pref_behavior">אופי פעולה</string>
-    <string name="pref_accounts">חשבונות</string>
+    <string name="pref_accounts">משתמשים</string>
     <string name="sort_accounts_by">מיין משתמשים לפי</string>
     <string name="pref_customization">התאמה אישית</string>
     <string name="server_issue_ssl_handshake">לחיצת היד של פרוטוקול SSL נכשלה</string>
