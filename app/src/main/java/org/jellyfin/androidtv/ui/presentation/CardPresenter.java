@@ -391,10 +391,17 @@ public class CardPresenter extends Presenter {
         int fillWidth = Math.round(holder.getCardWidth() * holder.mCardView.getResources().getDisplayMetrics().density);
         int fillHeight = Math.round(holder.getCardHeight() * holder.mCardView.getResources().getDisplayMetrics().density);
 
-        holder.updateCardViewImage(
-                image == null ? rowItem.getImageUrl(holder.mCardView.getContext(), imageHelper.getValue(), mImageType, fillWidth, fillHeight) : imageHelper.getValue().getImageUrl(image),
-                image == null ? null : image.getBlurHash()
-        );
+        final String imageUrl;
+        final String blurHash;
+        if (image == null) {
+            imageUrl = rowItem.getImageUrl(holder.mCardView.getContext(), imageHelper.getValue(), mImageType, fillWidth, fillHeight);
+            blurHash = null;
+        } else {
+            imageUrl = imageHelper.getValue().getImageUrl(image, fillWidth, fillHeight);
+            blurHash = image.getBlurHash();
+        }
+
+        holder.updateCardViewImage(imageUrl, blurHash);
     }
 
     @Override
