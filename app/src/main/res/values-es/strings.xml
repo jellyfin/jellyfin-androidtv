@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Falló la carga del vídeo</string>
+    <string name="video_error_unknown_error">No se pudo cargar el video</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_playback">Reproducir</string>
@@ -599,4 +599,5 @@
     <string name="pref_still_watching_behavior_title">Mostrar aviso por inactividad</string>
     <string name="speech_error_unknown">Se produjo un error inesperado durante el reconocimiento de voz.</string>
     <string name="still_watching_label">¿Aún sigues ahí?</string>
+    <string name="pref_subtitles_position">Posición desde abajo</string>
 </resources>
