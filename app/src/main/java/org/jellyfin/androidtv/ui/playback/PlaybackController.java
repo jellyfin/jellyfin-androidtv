@@ -163,7 +163,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
 
-        autoSkipComponent = new AutoSkipComponent(this::seek, () -> {
+        autoSkipComponent = new AutoSkipComponent(this::seekNext, () -> {
             BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
             if (currentlyPlayingItem == null) {
                 return null;
@@ -972,6 +972,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         seek(pos, false);
     }
 
+    public void seekNext(long pos) {
+        seek(pos, true);
+    }
+
     public void seek(long pos, boolean skipToNext) {
         if (pos <= 0) pos = 0;
 
@@ -998,8 +1002,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             // Since we've skipped ahead, set the current position so the PlaybackStopInfo will report the correct end time
             mCurrentPosition = duration;
             // Make sure we also set the seek positions so mCurrentPosition won't get overwritten in refreshCurrentPosition()
-            currentSkipPos = mCurrentPosition;
-            mSeekPosition = mCurrentPosition;
+//            currentSkipPos = mCurrentPosition;
+//            mSeekPosition = mCurrentPosition;
             // Finalize item playback
             itemComplete();
             return;

@@ -41,6 +41,7 @@ import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.customer.autoskip.AutoSkipTipLinearLayout;
 import org.jellyfin.androidtv.customer.common.CustomerCommonUtils;
 import org.jellyfin.androidtv.customer.jellyfin.DanmuPlaybackController;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
@@ -131,6 +132,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
     private FrameLayout playbackViewExtraSetting;
+    private AutoSkipTipLinearLayout autoSkipTipLinearLayout;
     private FrameLayout danmuSettingInfo;
     private FrameLayout playbackVideoInfoLayout;
 
@@ -184,6 +186,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         binding = VlcPlayerInterfaceBinding.inflate(inflater, container, false);
         binding.textClock.setVideoPlayer(true);
 
+        autoSkipTipLinearLayout = binding.bottomTipInfo.findViewById(R.id.auto_skip_info);
         playbackViewExtraSetting = binding.playbackViewExtraSetting;
         danmuSettingInfo = binding.danmuSettingInfo;
         playbackVideoInfoLayout = binding.playbackVideoInfoLayout;
@@ -443,6 +446,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
             if (keyListener.onKey(v, keyCode, event)) return true;
+            // 底部提示信息
+            if (autoSkipTipLinearLayout != null) {
+                if (autoSkipTipLinearLayout.onKeyUp(keyCode, event)) {
+                    return true;
+                }
+            }
 
             // 视频信息页面
             if (hideSettingView(playbackVideoInfoLayout, keyCode, true)) {
