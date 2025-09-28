@@ -1,7 +1,7 @@
 [versions]
 aboutlibraries = "12.2.4"
 accompanist = "0.37.3"
-acra = "5.12.0"
+acra = "5.13.1"
 android-compileSdk = "36"
 android-desugar = "2.1.5"
 android-gradle = "8.13.0"
