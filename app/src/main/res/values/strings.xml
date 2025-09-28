@@ -443,6 +443,9 @@
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Subtitles</string>
     <string name="pref_audio">Audio</string>
+    <string name="pref_preferred_audio_language">Preferred audio language</string>
+    <string name="pref_preferred_audio_language_description">Automatically select audio tracks in this language when available</string>
+    <string name="pref_preferred_audio_language_none">None (use default)</string>
     <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
     <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
     <string name="home_section_resume_book">Continue reading</string>

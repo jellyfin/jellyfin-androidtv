@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.playback;
 
 import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
+import static org.koin.java.KoinJavaComponent.get;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
@@ -43,6 +45,7 @@ import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.PlayMethod;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
+import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
@@ -738,16 +741,46 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return null;
     }
 
+    private Integer preferredAudioLanguageTrack(MediaSourceInfo info) {
+        if (info == null) {
+            return null;
+        }
+
+        UserRepository userRepo = KoinJavaComponent.<UserRepository>get(UserRepository.class);
+        UserDto currentUser = userRepo.getCurrentUser().getValue();
+        if (currentUser == null || currentUser.getConfiguration() == null) {
+            return null;
+        }
+            
+        String preferredLanguage = currentUser.getConfiguration().getAudioLanguagePreference();
+        if (preferredLanguage == null || preferredLanguage.isEmpty()) {
+            return null;
+        }
+
+        for (MediaStream track : info.getMediaStreams()) {
+            if (track.getType() == MediaStreamType.AUDIO
+                && track.getLanguage() != null 
+                && track.getLanguage().equals(preferredLanguage)
+            ) {
+                return track.getIndex();
+            }
+        }
+        return null;
+    }
+
     private void setDefaultAudioIndex(StreamInfo info) {
         if (mDefaultAudioIndex != -1)
             return;
 
         Integer lastChosenLanguage = lastChosenLanguageAudioTrack(info.getMediaSource());
+        Integer preferredLanguage = preferredAudioLanguageTrack(info.getMediaSource());
         Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
         Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
 
         if (lastChosenLanguage != null)
             mDefaultAudioIndex = lastChosenLanguage;
+        else if (preferredLanguage != null)
+            mDefaultAudioIndex = preferredLanguage;
         else if (remoteDefault != null)
             mDefaultAudioIndex = remoteDefault;
         else if (bestGuess != null)
@@ -755,7 +788,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Timber.d("default audio index set to %s", mDefaultAudioIndex);
     }
 
-    public void switchAudioStream(int index) {
+    public void switchAudioStreamByUser(int index) {
+        switchAudioStreamInternal(index, true);
+    }
+
+    public void switchAudioStreamAutomatically(int index) {
+        switchAudioStreamInternal(index, false);
+    }
+
+
+    private void switchAudioStreamInternal(int index, boolean isManualSelection) {
         if (!(isPlaying() || isPaused()) || index < 0)
             return;
 
@@ -769,8 +811,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
         String currentAudioIsoCode = currentItem.getMediaStreams().get(index).getLanguage();
 
-        if (currentAudioIsoCode != null
-                && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
+        if (isManualSelection && currentAudioIsoCode != null && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
             videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
                     currentAudioIsoCode
             );
@@ -1213,14 +1254,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             // select an audio track
             int eligibleAudioTrack = mDefaultAudioIndex;
 
-            // if track switching is done without rebuilding the stream, mCurrentOptions is updated
-            // otherwise, use the server default
-            if (mCurrentOptions.getAudioStreamIndex() != null) {
+            if (mDefaultAudioIndex != -1) {
+                eligibleAudioTrack = mDefaultAudioIndex;
+            } else if (mCurrentOptions.getAudioStreamIndex() != null) {
                 eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
             } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
                 eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
             }
-            switchAudioStream(eligibleAudioTrack);
+            switchAudioStreamAutomatically(eligibleAudioTrack);
         }
     }
 
