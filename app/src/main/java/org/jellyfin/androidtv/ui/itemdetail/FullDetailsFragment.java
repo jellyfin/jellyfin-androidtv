@@ -74,6 +74,12 @@ import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
+import org.jellyfin.androidtv.util.TrackSelectionHelper;
+import org.jellyfin.androidtv.util.TrackSelectionManager;
+import java.util.stream.Collectors;
+import org.jellyfin.sdk.model.api.MediaStreamType;
+import org.jellyfin.sdk.model.api.MediaStream;
+import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.Response;
@@ -144,6 +150,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private final Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
@@ -460,6 +467,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             }
 
             mDetailsOverviewRow.setImageDrawable(primaryImageUrl);
+
 
             return mDetailsOverviewRow;
         }
@@ -968,6 +976,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             });
             favButton.setActivated(userData.isFavorite());
             mDetailsOverviewRow.addAction(favButton);
+
+            // Add track selection buttons if available
+            addTrackSelectionButtons(buttonSize);
         }
 
         if (mBaseItem.getType() == BaseItemKind.EPISODE && mBaseItem.getSeriesId() != null) {
@@ -1231,5 +1242,100 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (items.isEmpty()) return;
         if (shuffle) Collections.shuffle(items);
         KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos);
+    }
+
+    private void addTrackSelectionButtons(int buttonSize) {
+        if (mBaseItem.getMediaSources() == null || mBaseItem.getMediaSources().isEmpty()) {
+            return;
+        }
+
+        MediaSourceInfo mediaSource = mBaseItem.getMediaSources().get(0);
+        if (mediaSource.getMediaStreams() == null) {
+            return;
+        }
+
+        // Check for audio tracks (only show if multiple tracks available)
+        List<MediaStream> audioStreams = mediaSource.getMediaStreams().stream()
+                .filter(stream -> stream.getType() == MediaStreamType.AUDIO)
+                .collect(Collectors.toList());
+        
+        if (audioStreams.size() > 1) {
+            // Get current audio track name
+            Integer selectedAudioIndex = TrackSelectionManager.INSTANCE.getSelectedAudioTrack(mBaseItem.getId());
+            String audioTrackName = TrackSelectionHelper.INSTANCE.getCurrentAudioTrackName(mediaSource, selectedAudioIndex);
+            if (audioTrackName == null) {
+                audioTrackName = "Default";
+            }
+
+            final TextUnderButton[] audioButtonRef = new TextUnderButton[1];
+            audioButtonRef[0] = TextUnderButton.create(requireContext(), R.drawable.ic_select_audio, buttonSize, 2, audioTrackName, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer currentSelection = TrackSelectionManager.INSTANCE.getSelectedAudioTrack(mBaseItem.getId());
+                    TrackSelectionHelper.INSTANCE.showAudioTrackSelection(
+                            requireContext(),
+                            mediaSource,
+                            currentSelection,
+                            (selectedIndex) -> {
+                                // Store the selection
+                                TrackSelectionManager.INSTANCE.setSelectedAudioTrack(mBaseItem.getId(), selectedIndex);
+                                
+                                // Update VideoQueueManager with the selected language for future plays
+                                if (selectedIndex != null && mediaSource != null) {
+                                    MediaStream selectedStream = mediaSource.getMediaStreams().stream()
+                                            .filter(stream -> stream.getIndex() == selectedIndex && stream.getType() == MediaStreamType.AUDIO)
+                                            .findFirst()
+                                            .orElse(null);
+                                    if (selectedStream != null && selectedStream.getLanguage() != null) {
+                                        videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(selectedStream.getLanguage());
+                                    }
+                                }
+                                
+                                // Update button text
+                                String newTrackName = TrackSelectionHelper.INSTANCE.getCurrentAudioTrackName(mediaSource, selectedIndex);
+                                if (newTrackName == null) {
+                                    newTrackName = "Default";
+                                }
+                                audioButtonRef[0].setLabel(newTrackName);
+                                return null;
+                            }
+                    );
+                }
+            });
+            mDetailsOverviewRow.addAction(audioButtonRef[0]);
+        }
+
+        // Check for subtitle tracks
+        List<MediaStream> subtitleStreams = mediaSource.getMediaStreams().stream()
+                .filter(stream -> stream.getType() == MediaStreamType.SUBTITLE)
+                .collect(Collectors.toList());
+        
+        if (!subtitleStreams.isEmpty()) {
+            // Get current subtitle track name
+            Integer selectedSubtitleIndex = TrackSelectionManager.INSTANCE.getSelectedSubtitleTrack(mBaseItem.getId());
+            String subtitleTrackName = TrackSelectionHelper.INSTANCE.getCurrentSubtitleTrackName(mediaSource, selectedSubtitleIndex);
+
+            final TextUnderButton[] subtitleButtonRef = new TextUnderButton[1];
+            subtitleButtonRef[0] = TextUnderButton.create(requireContext(), R.drawable.ic_select_subtitle, buttonSize, 2, subtitleTrackName, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer currentSelection = TrackSelectionManager.INSTANCE.getSelectedSubtitleTrack(mBaseItem.getId());
+                    TrackSelectionHelper.INSTANCE.showSubtitleTrackSelection(
+                            requireContext(),
+                            mediaSource,
+                            currentSelection,
+                            (selectedIndex) -> {
+                                // Store the selection
+                                TrackSelectionManager.INSTANCE.setSelectedSubtitleTrack(mBaseItem.getId(), selectedIndex);
+                                // Update button text
+                                String newTrackName = TrackSelectionHelper.INSTANCE.getCurrentSubtitleTrackName(mediaSource, selectedIndex);
+                                subtitleButtonRef[0].setLabel(newTrackName);
+                                return null;
+                            }
+                    );
+                }
+            });
+            mDetailsOverviewRow.addAction(subtitleButtonRef[0]);
+        }
     }
 }
