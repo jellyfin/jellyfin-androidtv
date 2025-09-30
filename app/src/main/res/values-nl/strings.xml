@@ -70,7 +70,7 @@
     <string name="lbl_loading_elipses">Laden…</string>
     <string name="msg_playback_not_allowed">Afspelen op dit moment niet toegestaan</string>
     <string name="msg_playback_restricted">De beheerder heeft afspelen van dit item tot bepaalde tijdstippen beperkt</string>
-    <string name="msg_playback_incompatible">Kan dit videoformaat niet afspelen</string>
+    <string name="msg_playback_incompatible">Kan deze beeldindeling niet afspelen</string>
     <string name="lbl_never">Nooit</string>
     <string name="msg_cannot_play_time">Kan dit item op dit moment niet afspelen</string>
     <string name="msg_cannot_play">Dit item kan niet afgespeeld worden</string>
