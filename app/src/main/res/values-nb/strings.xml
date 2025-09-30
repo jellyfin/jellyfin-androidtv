@@ -576,4 +576,18 @@
     <string name="fast_forward">Spol fremmover</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="preference_enable_libass">Aktiver visning av Advanced SubStation Alpha-undertekster i klienten</string>
+    <string name="lbl_from_beginning">Spill av fra begynnelsen</string>
+    <string name="preference_enable_pgs">Direkteavspilling av PGS-undertekster</string>
+    <string name="lbl_exit">Avslutt</string>
+    <string name="pref_still_watching_behavior_title">Vis inaktiv tidsavbrudd popup</string>
+    <string name="lbl_still_watching_default">3 episoder eller 90 minutter</string>
+    <string name="lbl_still_watching_short">2 episoder eller 60 minutter</string>
+    <string name="lbl_still_watching_long">5 episoder eller 150 minutter</string>
+    <string name="lbl_still_watching_very_long">8 episoder eller 240 minutter</string>
+    <string name="pref_subtitles_position">Forskyvning fra bunnen</string>
+    <string name="pref_subtitles_bold">Fet skrift</string>
+    <string name="speech_error_no_permission">Ingen tilgang til å bruke mikrofonen. Vennligst gi tilgang i systeminnstillingene.</string>
+    <string name="speech_error_unavailable">Talegjennkjenning er utilgjengelig for denne enheten.</string>
+    <string name="speech_error_unknown">En uventet feil oppstod under talegjennkjenning.</string>
+    <string name="still_watching_label">Ser du fortsatt?</string>
 </resources>
