@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.util.appendSection
 import org.jellyfin.androidtv.util.appendValue
 import org.jellyfin.androidtv.util.buildMarkdown
 import org.jellyfin.sdk.api.client.util.ApiSerializer
+import org.jellyfin.sdk.model.ServerVersion
 import kotlin.time.Duration.Companion.nanoseconds
 
 private val prettyPrintJson = Json { prettyPrint = true }
@@ -66,6 +67,7 @@ enum class HdrFormats(val label: String) {
 fun createDeviceProfileReport(
 	context: Context,
 	userPreferences: UserPreferences,
+	serverVersion: ServerVersion,
 ) = buildMarkdown {
 	// Header
 	appendLine("---")
@@ -79,9 +81,10 @@ fun createDeviceProfileReport(
 
 	// Device profile send to server
 	appendDetails("Generated device profile") {
+		appendLine("- Server compatibility: $serverVersion")
 		appendCodeBlock(
 			language = "json",
-			code = createDeviceProfile(context, userPreferences)
+			code = createDeviceProfile(context, userPreferences, serverVersion)
 				.let(ApiSerializer::encodeRequestBody)
 				?.let(::formatJson)
 		)
