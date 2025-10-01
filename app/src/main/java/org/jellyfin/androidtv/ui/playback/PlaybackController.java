@@ -529,8 +529,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
         DeviceProfile internalProfile = DeviceProfileKt.createDeviceProfile(
                 mFragment.getContext(),
-                userPreferences.getValue(),
-                !internalOptions.getEnableDirectStream()
+                userPreferences.getValue()
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;

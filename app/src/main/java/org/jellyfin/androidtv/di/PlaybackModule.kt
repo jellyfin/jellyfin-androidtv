@@ -82,7 +82,7 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	)
 	install(media3SessionPlugin(get(), mediaSessionOptions))
 
-	val deviceProfileBuilder = { createDeviceProfile(androidContext(), userPreferences, false) }
+	val deviceProfileBuilder = { createDeviceProfile(androidContext(), userPreferences) }
 	install(jellyfinPlugin(get(), deviceProfileBuilder, ProcessLifecycleOwner.get().lifecycle))
 
 	// Options

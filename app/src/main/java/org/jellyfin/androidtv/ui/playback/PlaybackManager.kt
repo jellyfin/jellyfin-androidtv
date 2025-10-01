@@ -91,7 +91,7 @@ class PlaybackManager(
 		options: VideoOptions,
 		startTimeTicks: Long
 	) = runCatching {
-		val response =withContext(Dispatchers.IO) {
+		val response = withContext(Dispatchers.IO) {
 			api.mediaInfoApi.getPostedPlaybackInfo(
 				itemId = requireNotNull(options.itemId) { "Item id cannot be null" },
 				data = PlaybackInfoDto(
