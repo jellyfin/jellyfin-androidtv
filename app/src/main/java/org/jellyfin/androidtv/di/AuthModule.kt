@@ -26,4 +26,9 @@ val authModule = module {
 	single<SessionRepository> {
 		SessionRepositoryImpl(get(), get(), get(), get(), get(defaultDeviceInfo), get(), get(), get())
 	}
+
+	factory {
+		val serverRepository = get<ServerRepository>()
+		serverRepository.currentServer.value?.serverVersion ?: ServerRepository.minimumServerVersion
+	}
 }
