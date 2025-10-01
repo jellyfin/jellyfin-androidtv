@@ -41,7 +41,6 @@ interface ServerRepository {
 	val discoveredServers: StateFlow<List<Server>>
 	val currentServer: StateFlow<Server?>
 
-
 	suspend fun loadStoredServers()
 	suspend fun loadDiscoveryServers()
 
