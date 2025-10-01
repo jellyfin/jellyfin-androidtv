@@ -56,11 +56,9 @@ private fun UserPreferences.getMaxBitrate(): Int {
 fun createDeviceProfile(
 	context: Context,
 	userPreferences: UserPreferences,
-	disableDirectPlay: Boolean = false,
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(context),
 	maxBitrate = userPreferences.getMaxBitrate(),
-	disableDirectPlay = disableDirectPlay,
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
@@ -70,7 +68,6 @@ fun createDeviceProfile(
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
 	maxBitrate: Int,
-	disableDirectPlay: Boolean,
 	isAC3Enabled: Boolean,
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
@@ -149,46 +146,44 @@ fun createDeviceProfile(
 	}
 
 	/// Direct play profiles
-	if (!disableDirectPlay) {
-		// Video
-		directPlayProfile {
-			type = DlnaProfileType.VIDEO
+	// Video
+	directPlayProfile {
+		type = DlnaProfileType.VIDEO
 
-			container(
-				Codec.Container.ASF,
-				Codec.Container.HLS,
-				Codec.Container.M4V,
-				Codec.Container.MKV,
-				Codec.Container.MOV,
-				Codec.Container.MP4,
-				Codec.Container.OGM,
-				Codec.Container.OGV,
-				Codec.Container.TS,
-				Codec.Container.VOB,
-				Codec.Container.WEBM,
-				Codec.Container.WMV,
-				Codec.Container.XVID,
-			)
+		container(
+			Codec.Container.ASF,
+			Codec.Container.HLS,
+			Codec.Container.M4V,
+			Codec.Container.MKV,
+			Codec.Container.MOV,
+			Codec.Container.MP4,
+			Codec.Container.OGM,
+			Codec.Container.OGV,
+			Codec.Container.TS,
+			Codec.Container.VOB,
+			Codec.Container.WEBM,
+			Codec.Container.WMV,
+			Codec.Container.XVID,
+		)
 
-			videoCodec(
-				Codec.Video.AV1,
-				Codec.Video.H264,
-				Codec.Video.HEVC,
-				Codec.Video.MPEG,
-				Codec.Video.MPEG2VIDEO,
-				Codec.Video.VP8,
-				Codec.Video.VP9,
-			)
+		videoCodec(
+			Codec.Video.AV1,
+			Codec.Video.H264,
+			Codec.Video.HEVC,
+			Codec.Video.MPEG,
+			Codec.Video.MPEG2VIDEO,
+			Codec.Video.VP8,
+			Codec.Video.VP9,
+		)
 
-			audioCodec(*allowedAudioCodecs)
-		}
+		audioCodec(*allowedAudioCodecs)
+	}
 
-		// Audio
-		directPlayProfile {
-			type = DlnaProfileType.AUDIO
+	// Audio
+	directPlayProfile {
+		type = DlnaProfileType.AUDIO
 
-			audioCodec(*allowedAudioCodecs)
-		}
+		audioCodec(*allowedAudioCodecs)
 	}
 
 	/// Codec profiles
@@ -374,11 +369,11 @@ fun createDeviceProfile(
 			if (!supportsDolbyVisionDisplay) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-				if(!supportsHdr10PlusDisplay) {
+				if (!supportsHdr10PlusDisplay) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 				}
-				if(!supportsHdr10Display)
+				if (!supportsHdr10Display)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
 			}
 			if (!supportsHdr10PlusDisplay) {
@@ -399,16 +394,16 @@ fun createDeviceProfile(
 		codec = Codec.Video.AV1
 
 		conditions {
-			if(supportsDolbyVisionDisplay && !supportsAV1DolbyVision) {
+			if (supportsDolbyVisionDisplay && !supportsAV1DolbyVision) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
-				if(supportsHdr10Display && !supportsAV1HDR10)
+				if (supportsHdr10Display && !supportsAV1HDR10)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-				if(supportsHdr10PlusDisplay && !supportsAV1HDR10Plus)
+				if (supportsHdr10PlusDisplay && !supportsAV1HDR10Plus)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 			}
-			if(supportsHdr10PlusDisplay && !mediaTest.supportsAV1HDR10Plus()) {
+			if (supportsHdr10PlusDisplay && !mediaTest.supportsAV1HDR10Plus()) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
-				if(supportsHdr10Display && !mediaTest.supportsAV1HDR10())
+				if (supportsHdr10Display && !mediaTest.supportsAV1HDR10())
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
 			}
 		}
@@ -423,11 +418,11 @@ fun createDeviceProfile(
 		codec = Codec.Video.HEVC
 
 		conditions {
-			if(supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
+			if (supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
 				if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
-				if(!supportsHevcDolbyVision) {
+				if (!supportsHevcDolbyVision) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 					if (supportsHdr10Display && !supportsHevcHDR10)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
@@ -435,9 +430,9 @@ fun createDeviceProfile(
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 				}
 			}
-			if(supportsHdr10PlusDisplay && !supportsHevcHDR10Plus) {
+			if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
-				if(supportsHdr10Display && !supportsHevcHDR10)
+				if (supportsHdr10Display && !supportsHevcHDR10)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
 			}
 		}

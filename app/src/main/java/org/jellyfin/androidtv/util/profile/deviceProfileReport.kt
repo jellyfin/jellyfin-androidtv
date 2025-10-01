@@ -81,7 +81,7 @@ fun createDeviceProfileReport(
 	appendDetails("Generated device profile") {
 		appendCodeBlock(
 			language = "json",
-			code = createDeviceProfile(context, userPreferences, disableDirectPlay = false)
+			code = createDeviceProfile(context, userPreferences)
 				.let(ApiSerializer::encodeRequestBody)
 				?.let(::formatJson)
 		)
