@@ -64,6 +64,11 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         if (shouldShowOverlay) {
             super.showControlsOverlay(runAnimation);
             playerAdapter.getMasterOverlayFragment().show();
+            PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+            if (playbackController != null) {
+                float pixelOffset = 120f * getResources().getDisplayMetrics().density;
+                playbackController.adjustSubtitlePosition(true, pixelOffset);
+            }
         }
     }
 
@@ -71,6 +76,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void hideControlsOverlay(boolean runAnimation) {
         super.hideControlsOverlay(runAnimation);
         playerAdapter.getMasterOverlayFragment().hide();
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        if (playbackController != null) {
+            playbackController.restoreSubtitlePositionWithDelay();
+        }
     }
 
     public void updateCurrentPosition() {

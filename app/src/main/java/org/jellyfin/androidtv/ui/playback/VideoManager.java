@@ -83,8 +83,14 @@ public class VideoManager {
     private long mMetaDuration = -1;
     private long lastExoPlayerPosition = -1;
     private boolean nightModeEnabled;
+    private float originalSubtitleBottomPadding = -1f;
+    private float adjustedSubtitlePadding = -1f;
 
     public boolean isContracted = false;
+
+    private static final float SUBTITLE_OFFSET_DP = 120f;
+    private static final int SUBTITLE_RESTORE_DELAY_MS = 300;
+    private static final float MAX_SUBTITLE_PADDING = 0.8f;
 
     private final UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
     private final HttpDataSource.Factory exoPlayerHttpDataSourceFactory = KoinJavaComponent.get(HttpDataSource.Factory.class);
@@ -126,7 +132,8 @@ public class VideoManager {
                 TypefaceCompat.create(activity, Typeface.DEFAULT, textWeight, false)
         );
         mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
-        mExoPlayerView.getSubtitleView().setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
+        originalSubtitleBottomPadding = userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition());
+        mExoPlayerView.getSubtitleView().setBottomPaddingFraction(originalSubtitleBottomPadding);
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
 
         if (assHandler != null) {
@@ -689,5 +696,29 @@ public class VideoManager {
             mDynamicsProcessing.setLimiterAllChannelsTo(mLimiter);
             mDynamicsProcessing.setEnabled(true);
         }
+    }
+
+    public void adjustSubtitlePosition(boolean controlsVisible, float pixelOffset) {
+        if (mExoPlayerView == null || originalSubtitleBottomPadding < 0) return;
+
+        float viewHeight = mExoPlayerView.getSubtitleView().getHeight();
+        float offsetFraction = viewHeight > 0 ? pixelOffset / viewHeight : 0f;
+
+        float targetPadding = controlsVisible ? 
+            originalSubtitleBottomPadding + offsetFraction :
+            originalSubtitleBottomPadding;
+
+        if (adjustedSubtitlePadding != targetPadding) {
+            adjustedSubtitlePadding = targetPadding;
+            mExoPlayerView.getSubtitleView().setBottomPaddingFraction(
+                Math.max(0f, Math.min(MAX_SUBTITLE_PADDING, targetPadding))
+            );
+        }
+    }
+
+    public void restoreSubtitlePositionWithDelay() {
+        mHandler.postDelayed(() -> {
+            adjustSubtitlePosition(false, 0f);
+        }, SUBTITLE_RESTORE_DELAY_MS);
     }
 }

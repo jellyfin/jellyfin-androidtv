@@ -207,6 +207,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return !isLiveTv;
     }
 
+    public void adjustSubtitlePosition(boolean controlsVisible, float pixelOffset) {
+        mVideoManager.adjustSubtitlePosition(controlsVisible, pixelOffset);
+    }
+
+    public void restoreSubtitlePositionWithDelay() {
+        mVideoManager.restoreSubtitlePositionWithDelay();
+    }
+
     public boolean isLiveTv() {
         return isLiveTv;
     }
