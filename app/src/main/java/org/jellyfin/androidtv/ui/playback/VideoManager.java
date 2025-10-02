@@ -88,7 +88,7 @@ public class VideoManager {
 
     public boolean isContracted = false;
 
-    private static final float SUBTITLE_OFFSET_DP = 120f;
+    public static final float SUBTITLE_OFFSET_DP = 120f;
     private static final int SUBTITLE_RESTORE_DELAY_MS = 300;
     private static final float MAX_SUBTITLE_PADDING = 0.8f;
 
