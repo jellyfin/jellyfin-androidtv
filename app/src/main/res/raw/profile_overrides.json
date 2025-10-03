@@ -1,0 +1,47 @@
+[
+  {
+    "Devices": [
+      {
+        "Name": "Amazon Fire TV 4K Max (2nd Gen)",
+        "Identifiers": {
+          "Model": "AFTKRT"
+        }
+      },
+      {
+        "Name": "Amazon Fire TV 4K Max (1st Gen)",
+        "Identifiers": {
+          "Model": "AFTKA"
+        }
+      },
+      {
+        "Name": "Amazon Fire TV 4K (2nd Gen)",
+        "Identifiers": {
+          "Model": "AFTKM"
+        }
+      }
+    ],
+    "Profiles": {
+      "CodecProfiles": [
+        {
+          "Type": "Video",
+          "Codec": "hevc",
+          "Conditions": [
+            {
+              "Condition": "NotEquals",
+              "Property": "VideoRangeType",
+              "Value": "DOVIWithHDR10Plus",
+              "IsRequired": false
+            },
+            {
+              "Condition": "NotEquals",
+              "Property": "VideoRangeType",
+              "Value": "DOVIWithELHDR10Plus",
+              "IsRequired": false
+            }
+          ],
+          "ApplyConditions": []
+        }
+      ]
+    }
+  }
+]

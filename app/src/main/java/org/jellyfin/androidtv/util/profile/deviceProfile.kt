@@ -58,6 +58,7 @@ fun createDeviceProfile(
 	userPreferences: UserPreferences,
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(context),
+	profileOverrides = DeviceProfileOverrides(context),
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
@@ -67,6 +68,7 @@ fun createDeviceProfile(
 
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
+	profileOverrides: DeviceProfileOverrides,
 	maxBitrate: Int,
 	isAC3Enabled: Boolean,
 	downMixAudio: Boolean,
@@ -145,6 +147,10 @@ fun createDeviceProfile(
 		audioCodec(Codec.Audio.MP3)
 	}
 
+	// Device transcode overrides
+	DeviceProfileBuilderOverrideManager.
+		applyOverrideProfiles(this, *profileOverrides.getTranscodingOverrides().toTypedArray())
+
 	/// Direct play profiles
 	// Video
 	directPlayProfile {
@@ -185,6 +191,10 @@ fun createDeviceProfile(
 
 		audioCodec(*allowedAudioCodecs)
 	}
+
+	// Device direct play overrides
+	DeviceProfileBuilderOverrideManager.
+		applyOverrideProfiles(this, *profileOverrides.getDirectPlayOverrides().toTypedArray())
 
 	/// Codec profiles
 	// H264 profile
@@ -449,6 +459,10 @@ fun createDeviceProfile(
 			ProfileConditionValue.AUDIO_CHANNELS lowerThanOrEquals if (downMixAudio) 2 else 8
 		}
 	}
+
+	// Device codec overrides
+	DeviceProfileBuilderOverrideManager.
+		applyOverrideProfiles(this, *profileOverrides.getCodecOverrides().toTypedArray())
 
 	/// Subtitle profiles
 	// Jellyfin server only supports WebVTT subtitles in HLS, other text subtitles will be converted to WebVTT
