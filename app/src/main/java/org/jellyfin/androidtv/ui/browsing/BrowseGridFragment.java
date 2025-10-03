@@ -181,7 +181,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
         setDefaultGridRowCols(mPosterSizeSetting, mImageType);
         setAutoCardGridValues();
-
         setupQueries();
         setupEventListeners();
     }
