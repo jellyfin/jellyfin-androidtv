@@ -2,7 +2,13 @@ package org.jellyfin.androidtv.ui.preference.screen
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.lifecycle.lifecycleScope
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
@@ -12,14 +18,20 @@ import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsLanguageList
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
+import org.jellyfin.androidtv.ui.preference.dsl.languageList
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.colorList
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.preference.store.PreferenceStore
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.localizationApi
+import org.jellyfin.sdk.model.api.CultureDto
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
@@ -27,7 +39,9 @@ import kotlin.math.roundToInt
 class PlaybackPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
 	private val userSettingPreferences: UserSettingPreferences by inject()
+	private val userRepository: UserRepository by inject()
 	private val mediaSegmentRepository: MediaSegmentRepository by inject()
+	private val api: ApiClient by inject()
 
 	override val stores: Array<PreferenceStore<*, *>>
 		get() = arrayOf(userSettingPreferences)
@@ -92,6 +106,54 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 
 		category {
 			setTitle(R.string.pref_audio)
+
+			var languageListInstance: OptionsLanguageList? = null
+			
+			languageList {
+				setTitle(R.string.pref_preferred_audio_language)
+				entries = mapOf("" to "Loading languages...")
+				
+				languageListInstance = this
+				
+				setOnEntriesUpdated {
+					activity?.runOnUiThread {
+						rebuild()
+					}
+				}
+				
+				bind {
+					get { userRepository.currentUser.value?.configuration?.audioLanguagePreference ?: "" }
+					set { value -> 
+						CoroutineScope(Dispatchers.IO).launch {
+							val currentUser = userRepository.currentUser.value ?: return@launch
+							val currentConfig = currentUser.configuration ?: return@launch
+							val updatedUser = currentUser.copy(
+								configuration = currentConfig.copy(
+									audioLanguagePreference = value
+								)
+							)
+							userRepository.updateCurrentUser(updatedUser)
+						}
+					}
+					default { "" }
+				}
+			}
+			
+			lifecycleScope.launch {
+				val languageEntries = mutableMapOf("" to "None (use default)")
+				
+				val cultures = withContext<List<CultureDto>>(Dispatchers.IO) {
+					api.localizationApi.getCultures().content
+				}
+				
+				cultures.forEach { culture: CultureDto ->
+					culture.threeLetterIsoLanguageNames.forEach { code: String ->
+						languageEntries[code] = culture.displayName
+					}
+				}
+				
+				languageListInstance?.updateEntries(languageEntries)
+			}
 
 			enum<AudioBehavior> {
 				setTitle(R.string.lbl_audio_output)
