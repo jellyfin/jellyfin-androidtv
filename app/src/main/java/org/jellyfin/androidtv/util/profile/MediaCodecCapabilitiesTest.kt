@@ -81,6 +81,13 @@ class MediaCodecCapabilitiesTest(
 		CodecProfileLevel.HEVCMainTierLevel62 to 186,
 	)
 
+	// Devices with known HEVC DoVi/HDR10+ playback issues
+	private val modelsWithDoViHdr10PlusBug = listOf(
+		"AFTKRT", // Amazon Fire TV 4K Max (2nd Gen)
+		"AFTKA", // Amazon Fire TV 4K Max (1st Gen)
+		"AFTKM" // Amazon Fire TV 4K (2nd Gen)
+	)
+
 	fun supportsAV1(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
 		hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AV1)
 
@@ -157,6 +164,7 @@ class MediaCodecCapabilitiesTest(
 				CodecProfileLevel.DolbyVisionLevelHd24
 			) &&
 			supportsMultiInstance(MediaFormat.MIMETYPE_VIDEO_HEVC)
+
 	fun supportsHevcHDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
 		hasDecoder(
 			MediaFormat.MIMETYPE_VIDEO_HEVC,
@@ -170,6 +178,8 @@ class MediaCodecCapabilitiesTest(
 			CodecProfileLevel.HEVCProfileMain10HDR10Plus,
 			CodecProfileLevel.HEVCMainTierLevel4
 		)
+
+	fun hasHevcDoviHdr10PlusBug(): Boolean = Build.MODEL in modelsWithDoViHdr10PlusBug
 
 	fun getHevcMainLevel(): Int = getHevcLevel(
 		CodecProfileLevel.HEVCProfileMain
@@ -256,7 +266,7 @@ class MediaCodecCapabilitiesTest(
 
 			try {
 				val types = info.getSupportedTypes()
-				if(!types.contains(mime)) continue
+				if (!types.contains(mime)) continue
 
 				val capabilities = info.getCapabilitiesForType(mime)
 				if (capabilities.maxSupportedInstances > 1) return true
