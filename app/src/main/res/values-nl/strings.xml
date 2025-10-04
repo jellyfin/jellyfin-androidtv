@@ -115,7 +115,7 @@
     <string name="lbl_date_added">Datum toegevoegd</string>
     <string name="lbl_premier_date">Premièredatum</string>
     <string name="lbl_critic_rating">Beoordeling critici</string>
-    <string name="lbl_rating">Beoordeling</string>
+    <string name="lbl_rating">Kijkwijzer</string>
     <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
     <string name="lbl_display_preferences">Weergavevoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
