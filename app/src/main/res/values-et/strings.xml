@@ -550,4 +550,12 @@
     <string name="pref_screensaver_ageratingmax_entry">Kuni vanusele %1$d</string>
     <string name="prefer_exoplayer_ffmpeg">Eelista heli taasesituseks FFmpeg\'i</string>
     <string name="prefer_exoplayer_ffmpeg_content">Kasuta FFmpeg\'i heli dekodeerimiseks isegi kui platvormile on saadaolevad koodekid.</string>
+    <string name="pref_subtitles_bold">Paks tekst</string>
+    <string name="lbl_from_beginning">Vaata algusest</string>
+    <string name="pref_subtitles_position">Kaugus alaservast</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="runtime_hours_minutes">%1$dt %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_still_watching_long">5 episoodi või 150 minutit</string>
+    <string name="lbl_still_watching_very_long">8 episoodi või 240 minutit</string>
 </resources>
