@@ -115,9 +115,6 @@ fun createDeviceProfile(
 	val supportsHevcHDR10 = mediaTest.supportsHevcHDR10()
 	val supportsHevcHDR10Plus = mediaTest.supportsHevcHDR10Plus()
 
-	// Checks if device has known HEVC DoVi/HDR10+ playback issues
-	val hasHevcDoviHdr10PlusBug = mediaTest.hasHevcDoviHdr10PlusBug()
-
 	name = "AndroidTV-Default"
 
 	/// Bitrate
@@ -430,14 +427,14 @@ fun createDeviceProfile(
 			if (supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
 				if (jellyfinTenEleven) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !hasHevcDoviHdr10PlusBug)
+					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 				}
 				if (!supportsHevcDolbyVision) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 					if (supportsHdr10Display && !supportsHevcHDR10)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-					if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !hasHevcDoviHdr10PlusBug)
+					if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 				}
 			}
@@ -446,7 +443,7 @@ fun createDeviceProfile(
 				if (supportsHdr10Display && !supportsHevcHDR10)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
 			}
-			if (jellyfinTenEleven && hasHevcDoviHdr10PlusBug && (supportsHdr10PlusDisplay || supportsDolbyVisionDisplay)) {
+			if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug && (supportsHdr10PlusDisplay || supportsDolbyVisionDisplay)) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 			}
