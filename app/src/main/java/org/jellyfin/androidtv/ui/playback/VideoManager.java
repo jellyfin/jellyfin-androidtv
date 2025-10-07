@@ -8,7 +8,6 @@ import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
 import android.media.audiofx.Equalizer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -108,7 +107,7 @@ public class VideoManager {
             mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
                 @Override
                 public void onAudioSessionIdChanged(AnalyticsListener.EventTime eventTime, int audioSessionId) {
-                    enableAudioNightMode(audioSessionId);
+                    VideoManagerHelperKt.applyAudioNightmode(audioSessionId);
                 }
             });
         }
@@ -652,42 +651,6 @@ public class VideoManager {
     private void stopProgressLoop() {
         if (progressLoop != null) {
             mHandler.removeCallbacks(progressLoop);
-        }
-    }
-
-    private void enableAudioNightMode(int audioSessionId) {
-        Timber.i("Enabling audio night mode for session %d", audioSessionId);
-        if (mEqualizer != null) mEqualizer.release();
-        if (mDynamicsProcessing != null) mDynamicsProcessing.release();
-
-        // Equaliser variables.
-        short eqDefault = (short) 0;
-        short eqSmallBoost = (short) 2;
-        short eqBigBoost = (short) 3;
-        mEqualizer = new Equalizer(0, audioSessionId);
-
-        // Compressor variables.
-        int attackTime = 30;
-        int releaseTime = 300;
-        int ratio = 10;
-        int threshold = -24;
-        int postGain = 3;
-
-        // Mid range boost to make dialogue louder.
-        mEqualizer.setBandLevel((short) 0, eqDefault);
-        mEqualizer.setBandLevel((short) 1, eqSmallBoost);
-        mEqualizer.setBandLevel((short) 2, eqBigBoost);
-        mEqualizer.setBandLevel((short) 3, eqSmallBoost);
-        mEqualizer.setBandLevel((short) 4, eqDefault);
-        mEqualizer.setEnabled(true);
-
-        // Compression of audio (available >= android.P only).
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            mDynamicsProcessing = new DynamicsProcessing(audioSessionId);
-            mLimiter = new Limiter(true, true, 1, attackTime, releaseTime, ratio, threshold, postGain);
-            mLimiter.setEnabled(true);
-            mDynamicsProcessing.setLimiterAllChannelsTo(mLimiter);
-            mDynamicsProcessing.setEnabled(true);
         }
     }
 }
