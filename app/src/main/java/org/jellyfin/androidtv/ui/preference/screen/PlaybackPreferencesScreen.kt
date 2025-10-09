@@ -132,7 +132,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 									audioLanguagePreference = value
 								)
 							)
-							userRepository.updateCurrentUser(updatedUser)
+							userRepository.setCurrentUser(updatedUser)
 						}
 					}
 					default { "" }
