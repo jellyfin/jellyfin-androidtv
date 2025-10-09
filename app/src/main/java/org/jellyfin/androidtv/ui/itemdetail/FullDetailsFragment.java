@@ -786,6 +786,15 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     play(mBaseItem, 0, false);
                 }
             });
+
+            playButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    play(mBaseItem, 0, false, true);
+                    return true;
+                }
+            });
+
             mDetailsOverviewRow.addAction(playButton);
 
             if (isSeries && !isStarted) {
@@ -1212,7 +1221,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         play(mBaseItem, 0, true);
     }
 
-    void play(final BaseItemDto item, final int pos, final boolean shuffle) {
+    void play(BaseItemDto item, int pos, boolean shuffle) {
+        play(item, pos, shuffle, false);
+    }
+
+    void play(final BaseItemDto item, final int pos, final boolean shuffle, final boolean useExternalPlayer) {
         playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
@@ -1222,7 +1235,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
 
                 interactionTracker.getValue().notifyStartSession(item, response);
-                KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), response, pos, false, 0, shuffle);
+                KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), response, pos, false, 0, shuffle, useExternalPlayer);
             }
         });
     }
