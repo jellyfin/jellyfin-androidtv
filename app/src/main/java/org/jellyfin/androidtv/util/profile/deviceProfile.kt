@@ -427,14 +427,14 @@ fun createDeviceProfile(
 			if (supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
 				if (jellyfinTenEleven) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
+					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 				}
 				if (!supportsHevcDolbyVision) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 					if (supportsHdr10Display && !supportsHevcHDR10)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-					if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
+					if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 				}
 			}
@@ -442,6 +442,10 @@ fun createDeviceProfile(
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
 				if (supportsHdr10Display && !supportsHevcHDR10)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
+			}
+			if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug && (supportsHdr10PlusDisplay || supportsDolbyVisionDisplay)) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 			}
 		}
 	}.let {

@@ -36,12 +36,15 @@ private fun createStreamInfo(
 	if (options.enableDirectPlay && source.supportsDirectPlay) {
 		playMethod = PlayMethod.DIRECT_PLAY
 		container = source.container
-		mediaUrl = api.videosApi.getVideoStreamUrl(
-			itemId = itemId,
-			mediaSourceId = source.id,
-			static = true,
-			tag = source.eTag,
-		)
+		mediaUrl = when {
+			source.isRemote && source.path != null -> source.path
+			else -> api.videosApi.getVideoStreamUrl(
+				itemId = itemId,
+				mediaSourceId = source.id,
+				static = true,
+				tag = source.eTag,
+			)
+		}
 	} else if (options.enableDirectStream && source.supportsDirectStream) {
 		playMethod = PlayMethod.DIRECT_STREAM
 		container = source.transcodingContainer
