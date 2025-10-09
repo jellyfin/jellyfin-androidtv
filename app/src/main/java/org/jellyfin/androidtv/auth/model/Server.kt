@@ -18,7 +18,7 @@ data class Server(
 	val setupCompleted: Boolean = true,
 	var dateLastAccessed: Instant = Instant.MIN,
 ) {
-	private val serverVersion = version?.let(ServerVersion::fromString)
+	val serverVersion = version?.let(ServerVersion::fromString)
 	val versionSupported = serverVersion != null && serverVersion >= ServerRepository.minimumServerVersion
 
 	operator fun compareTo(other: ServerVersion): Int = serverVersion?.compareTo(other) ?: -1

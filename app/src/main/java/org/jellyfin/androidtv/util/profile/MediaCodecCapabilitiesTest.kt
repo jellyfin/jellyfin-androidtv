@@ -157,6 +157,7 @@ class MediaCodecCapabilitiesTest(
 				CodecProfileLevel.DolbyVisionLevelHd24
 			) &&
 			supportsMultiInstance(MediaFormat.MIMETYPE_VIDEO_HEVC)
+
 	fun supportsHevcHDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
 		hasDecoder(
 			MediaFormat.MIMETYPE_VIDEO_HEVC,
@@ -256,7 +257,7 @@ class MediaCodecCapabilitiesTest(
 
 			try {
 				val types = info.getSupportedTypes()
-				if(!types.contains(mime)) continue
+				if (!types.contains(mime)) continue
 
 				val capabilities = info.getCapabilitiesForType(mime)
 				if (capabilities.maxSupportedInstances > 1) return true

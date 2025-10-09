@@ -39,9 +39,12 @@ import org.jellyfin.sdk.model.api.BrandingOptions as BrandingOptionsDto
 interface ServerRepository {
 	val storedServers: StateFlow<List<Server>>
 	val discoveredServers: StateFlow<List<Server>>
+	val currentServer: StateFlow<Server?>
 
 	suspend fun loadStoredServers()
 	suspend fun loadDiscoveryServers()
+
+	fun setCurrentServer(server: Server?)
 
 	fun addServer(address: String): Flow<ServerAdditionState>
 	suspend fun getServer(id: UUID, eagerUpdate: Boolean = false): Server?
@@ -67,6 +70,9 @@ class ServerRepositoryImpl(
 	private val _discoveredServers = MutableStateFlow(emptyList<Server>())
 	override val discoveredServers = _discoveredServers.asStateFlow()
 
+	private val _currentServer = MutableStateFlow<Server?>(null)
+	override val currentServer = _currentServer.asStateFlow()
+
 	// Loading data
 	override suspend fun loadStoredServers() {
 		authenticationStore.getServers()
@@ -85,6 +91,10 @@ class ServerRepositoryImpl(
 				servers += server
 				_discoveredServers.emit(servers.toList())
 			}
+	}
+
+	override fun setCurrentServer(server: Server?) {
+		_currentServer.value = server
 	}
 
 	// Mutating data

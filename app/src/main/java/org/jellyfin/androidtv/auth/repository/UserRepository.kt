@@ -10,13 +10,13 @@ import org.jellyfin.sdk.model.api.UserDto
 interface UserRepository {
 	val currentUser: StateFlow<UserDto?>
 
-	fun updateCurrentUser(user: UserDto?)
+	fun setCurrentUser(user: UserDto?)
 }
 
 class UserRepositoryImpl : UserRepository {
 	override val currentUser = MutableStateFlow<UserDto?>(null)
 
-	override fun updateCurrentUser(user: UserDto?) {
+	override fun setCurrentUser(user: UserDto?) {
 		currentUser.value = user
 	}
 }

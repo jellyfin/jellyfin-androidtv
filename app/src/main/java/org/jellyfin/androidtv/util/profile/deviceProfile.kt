@@ -5,6 +5,7 @@ import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
 import org.jellyfin.sdk.model.api.EncodingContext
@@ -56,6 +57,7 @@ private fun UserPreferences.getMaxBitrate(): Int {
 fun createDeviceProfile(
 	context: Context,
 	userPreferences: UserPreferences,
+	serverVersion: ServerVersion,
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(context),
 	maxBitrate = userPreferences.getMaxBitrate(),
@@ -63,6 +65,7 @@ fun createDeviceProfile(
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
+	jellyfinTenEleven = serverVersion >= ServerVersion(10, 11, 0),
 )
 
 fun createDeviceProfile(
@@ -72,6 +75,7 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
+	jellyfinTenEleven: Boolean,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -368,10 +372,12 @@ fun createDeviceProfile(
 		conditions {
 			if (!supportsDolbyVisionDisplay) {
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-				if (!supportsHdr10PlusDisplay) {
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+				if (jellyfinTenEleven) {
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
+					if (!supportsHdr10PlusDisplay) {
+						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+					}
 				}
 				if (!supportsHdr10Display)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
@@ -398,7 +404,7 @@ fun createDeviceProfile(
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 				if (supportsHdr10Display && !supportsAV1HDR10)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-				if (supportsHdr10PlusDisplay && !supportsAV1HDR10Plus)
+				if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsAV1HDR10Plus)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 			}
 			if (supportsHdr10PlusDisplay && !mediaTest.supportsAV1HDR10Plus()) {
@@ -419,14 +425,16 @@ fun createDeviceProfile(
 
 		conditions {
 			if (supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-				if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+				if (jellyfinTenEleven) {
+					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
+					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
+						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
+				}
 				if (!supportsHevcDolbyVision) {
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
 					if (supportsHdr10Display && !supportsHevcHDR10)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus)
+					if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
 						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
 				}
 			}
@@ -434,6 +442,10 @@ fun createDeviceProfile(
 				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
 				if (supportsHdr10Display && !supportsHevcHDR10)
 					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
+			}
+			if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug && (supportsHdr10PlusDisplay || supportsDolbyVisionDisplay)) {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
 			}
 		}
 	}.let {
