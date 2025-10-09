@@ -284,5 +284,9 @@ fun createDeviceProfileReport(
 		appendItem("Device brand") { appendValue(Build.BRAND) }
 		appendItem("Device product") { appendValue(Build.PRODUCT) }
 		appendItem("Device model") { appendValue(Build.MODEL) }
+		appendItem("Device manufacturer") { appendValue(Build.MANUFACTURER) }
+		appendItem("Device codename") { appendValue(Build.DEVICE) }
+		if (isS) appendItem("Device SKU") { appendValue(Build.SKU) }
+		if (isS) appendItem("Device SOC") { appendValue(Build.SOC_MODEL) }
 	}
 }
