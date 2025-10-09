@@ -130,7 +130,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 		val seriesPrimaryImage = baseItem?.seriesPrimaryImage
 
 		return when {
-			preferSeriesPoster && seriesPrimaryImage != null -> imageHelper.getImageUrl(seriesPrimaryImage)
+			preferSeriesPoster && seriesPrimaryImage != null -> imageHelper.getImageUrl(seriesPrimaryImage, fillWidth, fillHeight)
 
 			imageType == ImageType.BANNER -> imageHelper.getBannerImageUrl(
 				requireNotNull(
