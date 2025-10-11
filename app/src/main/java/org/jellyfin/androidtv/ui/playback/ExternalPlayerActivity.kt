@@ -12,9 +12,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.profile.createDeviceProfile
 import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.api.client.extensions.playStateApi
 import org.jellyfin.sdk.api.client.extensions.subtitleApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
@@ -24,7 +28,10 @@ import org.jellyfin.sdk.model.api.MediaSourceInfo
 import org.jellyfin.sdk.model.api.MediaStream
 import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.PlaybackInfoDto
+import org.jellyfin.sdk.model.api.PlaybackStartInfo
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
+import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.extensions.inWholeTicks
 import org.jellyfin.sdk.model.extensions.ticks
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -70,6 +77,14 @@ class ExternalPlayerActivity : FragmentActivity() {
 	private val videoQueueManager by inject<VideoQueueManager>()
 	private val dataRefreshService by inject<DataRefreshService>()
 	private val api by inject<ApiClient>()
+	private val userPreferences by inject<UserPreferences>()
+	private val serverRepository by inject<ServerRepository>()
+
+	private data class PlaybackSessionInfo(
+		val item: BaseItemDto,
+		val mediaSource: MediaSourceInfo,
+		val playSessionId: String?,
+	)
 
 	private val playVideoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 		Timber.i("Playback finished with result code ${result.resultCode}")
@@ -83,7 +98,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 		}
 	}
 
-	private var currentItem: Pair<BaseItemDto, MediaSourceInfo>? = null
+	private var currentItem: PlaybackSessionInfo? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -105,68 +120,134 @@ class ExternalPlayerActivity : FragmentActivity() {
 		}
 	}
 
-	private fun playItem(item: BaseItemDto, mediaSource: MediaSourceInfo, position: Duration) {
-		val url = api.videosApi.getVideoStreamUrl(
+	private suspend fun getPlaySessionId(item: BaseItemDto, mediaSource: MediaSourceInfo): String? {
+		val profile = createDeviceProfile(
+			this@ExternalPlayerActivity,
+			userPreferences,
+			serverRepository.currentServer.value?.serverVersion ?: org.jellyfin.sdk.model.ServerVersion(10, 9, 0)
+		)
+		val response by api.mediaInfoApi.getPostedPlaybackInfo(
 			itemId = item.id,
-			mediaSourceId = mediaSource.id,
-			static = true,
-		)
-
-		val title = item.getDisplayName(this)
-		val fileName = mediaSource.path?.let { File(it).name }
-		val externalSubtitles = mediaSource.mediaStreams
-			?.filter { it.type == MediaStreamType.SUBTITLE && it.isExternal }
-			?.sortedWith(compareBy<MediaStream> { it.isDefault }.thenBy { it.index })
-			.orEmpty()
-
-		val subtitleUrls = externalSubtitles.map {
-			api.subtitleApi.getSubtitleUrl(
-				routeItemId = item.id,
-				routeMediaSourceId = mediaSource.id.toString(),
-				routeIndex = it.index,
-				routeFormat = it.codec.orEmpty(),
+			data = PlaybackInfoDto(
+				mediaSourceId = mediaSource.id,
+				deviceProfile = profile,
+				// External players handle their own playback with direct files
+				enableDirectPlay = true,
+				enableDirectStream = false,
+				enableTranscoding = false,
+				allowVideoStreamCopy = false,
+				allowAudioStreamCopy = false,
+				autoOpenLiveStream = false,
 			)
-		}.toTypedArray()
-		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()
-		val subtitleLanguages = externalSubtitles.map { it.language.orEmpty() }.toTypedArray()
-
-		Timber.i(
-			"Starting item ${item.id} from $position with ${subtitleUrls.size} external subtitles: $url${
-				subtitleUrls.joinToString(", ", ", ")
-			}"
 		)
+		return response.playSessionId
+	}
 
-		val playIntent = Intent(Intent.ACTION_VIEW).apply {
-			val mediaType = when (item.mediaType) {
-				MediaType.VIDEO -> "video/*"
-				MediaType.AUDIO -> "audio/*"
-				else -> null
+	private fun playItem(item: BaseItemDto, mediaSource: MediaSourceInfo, position: Duration) {
+		lifecycleScope.launch {
+			val playSessionId = getPlaySessionId(item, mediaSource)
+
+			val url = api.videosApi.getVideoStreamUrl(
+				itemId = item.id,
+				mediaSourceId = mediaSource.id,
+				static = true,
+				playSessionId = playSessionId,
+			)
+
+			val title = item.getDisplayName(this@ExternalPlayerActivity)
+			val fileName = mediaSource.path?.let { File(it).name }
+			val externalSubtitles = mediaSource.mediaStreams
+				?.filter { it.type == MediaStreamType.SUBTITLE && it.isExternal }
+				?.sortedWith(compareBy<MediaStream> { it.isDefault }.thenBy { it.index })
+				.orEmpty()
+
+			val subtitleUrls = externalSubtitles.map {
+				api.subtitleApi.getSubtitleUrl(
+					routeItemId = item.id,
+					routeMediaSourceId = mediaSource.id.toString(),
+					routeIndex = it.index,
+					routeFormat = it.codec.orEmpty(),
+				)
+			}.toTypedArray()
+			val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()
+			val subtitleLanguages = externalSubtitles.map { it.language.orEmpty() }.toTypedArray()
+
+			Timber.i(
+				"Starting item ${item.id} from $position with ${subtitleUrls.size} external subtitles: $url${
+					subtitleUrls.joinToString(", ", ", ")
+				}"
+			)
+
+			// Report playback start to server
+			if (playSessionId != null) {
+				reportPlaybackStart(item, mediaSource, playSessionId, position)
 			}
 
-			setDataAndTypeAndNormalize(url.toUri(), mediaType)
+			val playIntent = Intent(Intent.ACTION_VIEW).apply {
+				val mediaType = when (item.mediaType) {
+					MediaType.VIDEO -> "video/*"
+					MediaType.AUDIO -> "audio/*"
+					else -> null
+				}
 
-			putExtra(API_MX_SEEK_POSITION, position.inWholeMilliseconds.toInt())
-			putExtra(API_MX_RETURN_RESULT, true)
-			putExtra(API_MX_TITLE, title)
-			putExtra(API_MX_FILENAME, fileName)
-			putExtra(API_MX_SECURE_URI, true)
-			putExtra(API_MX_SUBS, subtitleUrls)
-			putExtra(API_MX_SUBS_NAME, subtitleNames)
-			putExtra(API_MX_SUBS_FILENAME, subtitleLanguages)
+				setDataAndTypeAndNormalize(url.toUri(), mediaType)
 
-			if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
+				putExtra(API_MX_SEEK_POSITION, position.inWholeMilliseconds.toInt())
+				putExtra(API_MX_RETURN_RESULT, true)
+				putExtra(API_MX_TITLE, title)
+				putExtra(API_MX_FILENAME, fileName)
+				putExtra(API_MX_SECURE_URI, true)
+				putExtra(API_MX_SUBS, subtitleUrls)
+				putExtra(API_MX_SUBS_NAME, subtitleNames)
+				putExtra(API_MX_SUBS_FILENAME, subtitleLanguages)
 
-			putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds.toInt())
-			putExtra(API_VIMU_RESUME, false)
-			putExtra(API_VIMU_TITLE, title)
+				if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
+
+				putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds.toInt())
+				putExtra(API_VIMU_RESUME, false)
+				putExtra(API_VIMU_TITLE, title)
+			}
+
+			try {
+				currentItem = PlaybackSessionInfo(item, mediaSource, playSessionId)
+				playVideoLauncher.launch(playIntent)
+			} catch (_: ActivityNotFoundException) {
+				Toast.makeText(this@ExternalPlayerActivity, R.string.no_player_message, Toast.LENGTH_LONG).show()
+				finish()
+			}
 		}
+	}
 
-		try {
-			currentItem = item to mediaSource
-			playVideoLauncher.launch(playIntent)
-		} catch (_: ActivityNotFoundException) {
-			Toast.makeText(this, R.string.no_player_message, Toast.LENGTH_LONG).show()
-			finish()
+	private fun reportPlaybackStart(
+		item: BaseItemDto,
+		mediaSource: MediaSourceInfo,
+		playSessionId: String,
+		position: Duration
+	) {
+		lifecycleScope.launch {
+			runCatching {
+				withContext(Dispatchers.IO) {
+					api.playStateApi.reportPlaybackStart(
+						PlaybackStartInfo(
+							itemId = item.id,
+							mediaSourceId = mediaSource.id,
+							playSessionId = playSessionId,
+							positionTicks = position.inWholeTicks,
+							playMethod = PlayMethod.DIRECT_PLAY,
+							canSeek = (item.runTimeTicks ?: 0) > 0,
+							isPaused = false,
+							isMuted = false,
+							volumeLevel = 100,
+							audioStreamIndex = mediaSource.defaultAudioStreamIndex,
+							subtitleStreamIndex = mediaSource.defaultSubtitleStreamIndex,
+							repeatMode = org.jellyfin.sdk.model.api.RepeatMode.REPEAT_NONE,
+							playbackOrder = org.jellyfin.sdk.model.api.PlaybackOrder.DEFAULT,
+						)
+					)
+				}
+			}.onFailure { error ->
+				Timber.w(error, "Failed to report playback start event")
+			}
 		}
 	}
 
@@ -178,7 +259,11 @@ class ExternalPlayerActivity : FragmentActivity() {
 			return
 		}
 
-		val (item, mediaSource) = currentItem!!
+		val sessionInfo = currentItem!!
+		val item = sessionInfo.item
+		val mediaSource = sessionInfo.mediaSource
+		val playSessionId = sessionInfo.playSessionId
+
 		val extras = result?.extras ?: Bundle.EMPTY
 
 		val endPosition = resultPositionExtras.firstNotNullOfOrNull { key ->
@@ -197,6 +282,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 						PlaybackStopInfo(
 							itemId = item.id,
 							mediaSourceId = mediaSource.id,
+							playSessionId = playSessionId,
 							positionTicks = endPosition?.inWholeTicks,
 							failed = false,
 						)

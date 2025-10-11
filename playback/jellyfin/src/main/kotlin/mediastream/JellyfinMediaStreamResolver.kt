@@ -40,6 +40,7 @@ class JellyfinMediaStreamResolver(
 					mediaSourceId = mediaInfo.mediaSource.id,
 					static = true,
 					tag = mediaInfo.mediaSource.eTag,
+					playSessionId = mediaInfo.playSessionId,
 				)
 			)
 
@@ -52,6 +53,7 @@ class JellyfinMediaStreamResolver(
 					mediaSourceId = mediaInfo.mediaSource.id,
 					static = true,
 					tag = mediaInfo.mediaSource.eTag,
+					playSessionId = mediaInfo.playSessionId,
 				)
 			)
 
@@ -59,14 +61,14 @@ class JellyfinMediaStreamResolver(
 			mediaInfo.mediaSource.supportsDirectStream && mediaInfo.mediaSource.transcodingUrl != null -> mediaInfo.toStream(
 				queueEntry = queueEntry,
 				conversionMethod = MediaConversionMethod.Remux,
-				url = api.createUrl(requireNotNull(mediaInfo.mediaSource.transcodingUrl), ignorePathParameters = true)
+				url = api.createUrl(requireNotNull(mediaInfo.mediaSource.transcodingUrl), queryParameters = mapOf("playSessionId" to mediaInfo.playSessionId), ignorePathParameters = true)
 			)
 
 			// Transcode
 			mediaInfo.mediaSource.supportsTranscoding && mediaInfo.mediaSource.transcodingUrl != null -> mediaInfo.toStream(
 				queueEntry = queueEntry,
 				conversionMethod = MediaConversionMethod.Transcode,
-				url = api.createUrl(requireNotNull(mediaInfo.mediaSource.transcodingUrl), ignorePathParameters = true)
+				url = api.createUrl(requireNotNull(mediaInfo.mediaSource.transcodingUrl), queryParameters = mapOf("playSessionId" to mediaInfo.playSessionId), ignorePathParameters = true)
 			)
 
 			// No compatible stream found

@@ -43,16 +43,17 @@ private fun createStreamInfo(
 				mediaSourceId = source.id,
 				static = true,
 				tag = source.eTag,
+				playSessionId = playSessionId
 			)
 		}
 	} else if (options.enableDirectStream && source.supportsDirectStream) {
 		playMethod = PlayMethod.DIRECT_STREAM
 		container = source.transcodingContainer
-		mediaUrl = api.createUrl(requireNotNull(source.transcodingUrl), ignorePathParameters = true)
+		mediaUrl = api.createUrl(requireNotNull(source.transcodingUrl), queryParameters = mapOf("playSessionId" to playSessionId), ignorePathParameters = true)
 	} else if (source.supportsTranscoding) {
 		playMethod = PlayMethod.TRANSCODE
 		container = source.transcodingContainer
-		mediaUrl = api.createUrl(requireNotNull(source.transcodingUrl), ignorePathParameters = true)
+		mediaUrl = api.createUrl(requireNotNull(source.transcodingUrl), queryParameters = mapOf("playSessionId" to playSessionId), ignorePathParameters = true)
 	}
 }
 
