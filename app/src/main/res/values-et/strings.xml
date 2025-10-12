@@ -587,4 +587,7 @@
     <string name="segment_type_commercial">Reklaamid</string>
     <string name="video_start_delay">Taasesituse alguse viivitus</string>
     <string name="preference_enable_trickplay">Luba trickplay kasutamine</string>
+    <string name="pref_mediasegment_actions">Meediasegmendi toimingud</string>
+    <string name="segment_type_unknown">Tundmatud segmendid</string>
+    <string name="preference_enable_libass">Luba Advanced SubStation Alpha (ASS) subtiitrite renderdamine kliendil</string>
 </resources>
