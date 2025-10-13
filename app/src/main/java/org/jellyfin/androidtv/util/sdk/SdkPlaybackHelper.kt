@@ -26,6 +26,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.extensions.ticks
 import java.util.UUID
 import kotlin.time.Duration
@@ -248,28 +249,28 @@ class SdkPlaybackHelper(
 		}
 	}
 
-	override fun retrieveAndPlay(id: UUID, shuffle: Boolean, position: Long?, context: Context) {
+	override fun retrieveAndPlay(id: List<UUID>, shuffle: Boolean, position: Long?, index: Int?, context: Context) {
 		getScope(context).launch {
 			val resumeSubtractDuration =
 				userPreferences[UserPreferences.resumeSubtractDuration].toIntOrNull()?.seconds
 					?: Duration.ZERO
 
-			val item = withContext(Dispatchers.IO) {
-				api.userLibraryApi.getItem(id).content
-			}
-			val pos = position?.ticks ?: item.userData?.playbackPositionTicks?.ticks?.minus(
+			val items = withContext(Dispatchers.IO) {
+				api.itemsApi.getItems(GetItemsRequest(
+					ids=id,
+				)).content
+			}.items
+
+			val pos = position?.ticks ?: items[0].userData?.playbackPositionTicks?.ticks?.minus(
 				resumeSubtractDuration
 			) ?: Duration.ZERO
-			val allowIntros = pos == Duration.ZERO && item.type == BaseItemKind.MOVIE
-
-			val items = getItems(item, allowIntros, shuffle)
 
 			playbackLauncher.launch(
 				context,
 				items,
 				pos.inWholeMilliseconds.toInt(),
 				playbackControllerContainer.playbackController?.hasFragment() == true,
-				0,
+				index ?: 0,
 				shuffle,
 			)
 		}
