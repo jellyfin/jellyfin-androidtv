@@ -151,7 +151,7 @@ class SdkPlaybackHelper(
 				val response by api.itemsApi.getItems(
 					isMissing = false,
 					mediaTypes = listOf(MediaType.AUDIO),
-					sortBy = listOf(
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(
 						ItemSortBy.ALBUM_ARTIST,
 						ItemSortBy.SORT_NAME
 					),
@@ -168,7 +168,7 @@ class SdkPlaybackHelper(
 				val response by api.itemsApi.getItems(
 					isMissing = false,
 					mediaTypes = listOf(MediaType.AUDIO),
-					sortBy = listOf(ItemSortBy.SORT_NAME),
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(ItemSortBy.SORT_NAME),
 					recursive = true,
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields,
