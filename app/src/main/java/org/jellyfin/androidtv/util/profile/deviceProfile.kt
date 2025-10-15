@@ -367,6 +367,8 @@ fun createDeviceProfile(
 
 	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
 	val unsupportedRangeTypes = buildSet {
+		if (jellyfinTenEleven) add("DOVIInvalid")
+
 		if (!supportsDolbyVisionDisplay) {
 			add(VideoRangeType.DOVI.serialName)
 
@@ -438,7 +440,7 @@ fun createDeviceProfile(
 		type = CodecType.VIDEO
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString(",")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString("|")
 		}
 	}
 
@@ -449,7 +451,7 @@ fun createDeviceProfile(
 		codec = Codec.Video.AV1
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString(",")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|")
 		}
 	}
 
@@ -459,7 +461,7 @@ fun createDeviceProfile(
 		codec = Codec.Video.HEVC
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString(",")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|")
 		}
 	}
 
