@@ -436,11 +436,19 @@ fun createDeviceProfile(
 	}
 
 	// Display
+	// Note: The codec profiles use a workaround to create correct behavior
+	// The notEquals condition will always fail the ConditionProcessor test in the server so we use applyConditions to only have the codec
+	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
+	// notEquals in the StreamBuilder to create a correct transcode pipeline
 	if (unsupportedRangeTypes.isNotEmpty()) codecProfile {
 		type = CodecType.VIDEO
 
 		conditions {
 			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString("|")
+		}
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypes
 		}
 	}
 
@@ -453,6 +461,10 @@ fun createDeviceProfile(
 		conditions {
 			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|")
 		}
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1
+		}
 	}
 
 	// HEVC
@@ -462,6 +474,10 @@ fun createDeviceProfile(
 
 		conditions {
 			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|")
+		}
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc
 		}
 	}
 
