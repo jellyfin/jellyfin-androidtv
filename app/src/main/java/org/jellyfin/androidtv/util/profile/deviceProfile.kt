@@ -444,7 +444,7 @@ fun createDeviceProfile(
 
 	// Codecs
 	// AV1
-	if (unsupportedRangeTypesAv1.isNotEmpty()) codecProfile {
+	if (unsupportedRangeTypesAv1.isNotEmpty() && unsupportedRangeTypesAv1 != unsupportedRangeTypes) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.AV1
 
@@ -454,7 +454,7 @@ fun createDeviceProfile(
 	}
 
 	// HEVC
-	if (unsupportedRangeTypesHevc.isNotEmpty()) codecProfile {
+	if (unsupportedRangeTypesHevc.isNotEmpty() && unsupportedRangeTypesHevc != unsupportedRangeTypes) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.HEVC
 
