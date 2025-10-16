@@ -544,9 +544,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             TvManager.setLastLiveTvChannel(item.getId());
             //internal/exo player
             Timber.i("Using internal player for Live TV");
-            playbackManager.getValue().getVideoStreamInfo(mFragment, internalOptions, position * 10000, new Response<StreamInfo>() {
+            playbackManager.getValue().getVideoStreamInfo(mFragment, internalOptions, position * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
                 @Override
                 public void onResponse(StreamInfo response) {
+                    if (!isActive()) return;
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
@@ -555,13 +556,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 @Override
                 public void onError(Exception exception) {
+                    if (!isActive()) return;
                     handlePlaybackInfoError(exception);
                 }
             });
         } else {
-            playbackManager.getValue().getVideoStreamInfo(mFragment, internalOptions, position * 10000, new Response<StreamInfo>() {
+            playbackManager.getValue().getVideoStreamInfo(mFragment, internalOptions, position * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
                 @Override
                 public void onResponse(StreamInfo internalResponse) {
+                    if (!isActive()) return;
                     Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.TRANSCODE) ? "transcode" : "direct stream");
                     if (mVideoManager == null)
                         return;
@@ -572,6 +575,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 @Override
                 public void onError(Exception exception) {
+                    if (!isActive()) return;
                     Timber.e(exception, "Unable to get stream info for internal player");
                     if (mVideoManager == null)
                         return;
@@ -976,9 +980,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.stopPlayback();
             mPlaybackState = PlaybackState.BUFFERING;
 
-            playbackManager.getValue().changeVideoStream(mFragment, mCurrentStreamInfo, mCurrentOptions, pos * 10000, new Response<StreamInfo>() {
+            playbackManager.getValue().changeVideoStream(mFragment, mCurrentStreamInfo, mCurrentOptions, pos * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
                 @Override
                 public void onResponse(StreamInfo response) {
+                    if (!isActive()) return;
                     mCurrentStreamInfo = response;
                     if (mVideoManager != null) {
                         mVideoManager.setMediaStreamInfo(api.getValue(), response);
@@ -988,6 +993,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                 @Override
                 public void onError(Exception exception) {
+                    if (!isActive()) return;
                     if (mFragment != null)
                         Utils.showToast(mFragment.getContext(), R.string.msg_video_playback_error);
                     Timber.e(exception, "Error trying to seek transcoded stream");

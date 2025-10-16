@@ -331,9 +331,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     } else if (mSelectedProgramView instanceof GuideChannelHeader) {
                         // Tuning directly to a channel
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
-                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>() {
+                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
+                                if (!isActive()) return;
                                 playbackLauncher.getValue().launch(requireContext(), response);
                             }
                         });
@@ -437,9 +438,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null) {
-            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, mSummary.getWidth()+20, new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, mSummary.getWidth()+20, new EmptyResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!isActive()) return;
                     playbackHelper.getValue().retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                 }
             });
@@ -484,9 +486,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mChannels.removeAllViews();
         mChannelStatus.setText("");
         mFilterStatus.setText("");
-        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!isActive()) return;
                 Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask();

@@ -713,9 +713,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         BaseItemDto baseItem = mBaseItem;
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<List<BaseItemDto>>() {
+                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
                     @Override
                     public void onResponse(List<BaseItemDto> response) {
+                        if (!isActive()) return;
                         mediaManager.getValue().addToAudioQueue(response);
                     }
                 });
@@ -1213,9 +1214,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
+        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>(getLifecycle()) {
             @Override
             public void onResponse(List<BaseItemDto> response) {
+                if (!isActive()) return;
                 if (response.isEmpty()) {
                     Timber.e("No items to play - ignoring play request.");
                     return;
