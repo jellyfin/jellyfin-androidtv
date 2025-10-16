@@ -364,93 +364,121 @@ fun createDeviceProfile(
 	}
 
 	/// HDR exclude list
-	// TODO Use VideoRangeType enum with Jelylfin 10.11 based SDK
+
+	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
+	val unsupportedRangeTypes = buildSet {
+		if (jellyfinTenEleven) add("DOVIInvalid")
+
+		if (!supportsDolbyVisionDisplay) {
+			add(VideoRangeType.DOVI.serialName)
+
+			if (jellyfinTenEleven) {
+				add("DOVIWithEL")
+				if (!supportsHdr10PlusDisplay) {
+					add("DOVIWithHDR10Plus")
+					add("DOVIWithELHDR10Plus")
+				}
+			}
+
+			if (!supportsHdr10Display) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
+		}
+
+		if (!supportsHdr10PlusDisplay) {
+			add(VideoRangeType.HDR10_PLUS.serialName)
+			if (!supportsHdr10Display) add(VideoRangeType.HDR10.serialName)
+		}
+	}
+
+	val unsupportedRangeTypesAv1 = buildSet {
+		// Base of unsupported types for display
+		addAll(unsupportedRangeTypes)
+
+		if (!supportsAV1DolbyVision) {
+			add(VideoRangeType.DOVI.serialName)
+			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
+			if (jellyfinTenEleven && !supportsAV1HDR10Plus) add("DOVIWithHDR10Plus")
+		}
+
+		if (!supportsAV1HDR10Plus) {
+			add(VideoRangeType.HDR10_PLUS.serialName)
+
+			if (!mediaTest.supportsAV1HDR10()) add(VideoRangeType.HDR10.serialName)
+		}
+	}
+
+	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
+	val unsupportedRangeTypesHevc = buildSet {
+		// Base of unsupported types for display
+		addAll(unsupportedRangeTypes)
+
+		if (!supportsHevcDolbyVisionEL) {
+			if (jellyfinTenEleven) {
+				add("DOVIWithEL")
+				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add("DOVIWithELHDR10Plus")
+			}
+
+			if (!supportsHevcDolbyVision) {
+				add(VideoRangeType.DOVI.serialName)
+				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
+				if (jellyfinTenEleven && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add("DOVIWithHDR10Plus")
+			}
+		}
+
+		if (!supportsHevcHDR10Plus) {
+			add(VideoRangeType.HDR10_PLUS.serialName)
+			if (!supportsHevcHDR10) add(VideoRangeType.HDR10.serialName)
+		}
+
+		if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug) {
+			add("DOVIWithHDR10Plus")
+			add("DOVIWithELHDR10Plus")
+		}
+	}
+
 	// Display
-	codecProfile {
+	// Note: The codec profiles use a workaround to create correct behavior
+	// The notEquals condition will always fail the ConditionProcessor test in the server so we use applyConditions to only have the codec
+	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
+	// notEquals in the StreamBuilder to create a correct transcode pipeline
+	if (unsupportedRangeTypes.isNotEmpty()) codecProfile {
 		type = CodecType.VIDEO
 
 		conditions {
-			if (!supportsDolbyVisionDisplay) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
-				if (jellyfinTenEleven) {
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-					if (!supportsHdr10PlusDisplay) {
-						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
-						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
-					}
-				}
-				if (!supportsHdr10Display)
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-			}
-			if (!supportsHdr10PlusDisplay) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
-				if (!supportsHdr10Display)
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
-			}
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString("|")
 		}
-	}.let {
-		// Remove codec profile if all HDR types are fully supported
-		if (it.conditions.isEmpty()) codecProfiles.remove(it)
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypes
+		}
 	}
 
 	// Codecs
 	// AV1
-	codecProfile {
+	if (unsupportedRangeTypesAv1.isNotEmpty() && unsupportedRangeTypesAv1 != unsupportedRangeTypes) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.AV1
 
 		conditions {
-			if (supportsDolbyVisionDisplay && !supportsAV1DolbyVision) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
-				if (supportsHdr10Display && !supportsAV1HDR10)
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-				if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsAV1HDR10Plus)
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
-			}
-			if (supportsHdr10PlusDisplay && !mediaTest.supportsAV1HDR10Plus()) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
-				if (supportsHdr10Display && !mediaTest.supportsAV1HDR10())
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
-			}
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|")
 		}
-	}.let {
-		// Remove codec profile if all HDR types are fully supported
-		if (it.conditions.isEmpty()) codecProfiles.remove(it)
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1
+		}
 	}
 
 	// HEVC
-	codecProfile {
+	if (unsupportedRangeTypesHevc.isNotEmpty() && unsupportedRangeTypesHevc != unsupportedRangeTypes) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.HEVC
 
 		conditions {
-			if (supportsDolbyVisionDisplay && !supportsHevcDolbyVisionEL) {
-				if (jellyfinTenEleven) {
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithEL"
-					if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
-						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
-				}
-				if (!supportsHevcDolbyVision) {
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI.serialName
-					if (supportsHdr10Display && !supportsHevcHDR10)
-						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.DOVI_WITH_HDR10.serialName
-					if (jellyfinTenEleven && supportsHdr10PlusDisplay && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug)
-						ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
-				}
-			}
-			if (supportsHdr10PlusDisplay && !supportsHevcHDR10Plus) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10_PLUS.serialName
-				if (supportsHdr10Display && !supportsHevcHDR10)
-					ProfileConditionValue.VIDEO_RANGE_TYPE notEquals VideoRangeType.HDR10.serialName
-			}
-			if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug && (supportsHdr10PlusDisplay || supportsDolbyVisionDisplay)) {
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithHDR10Plus"
-				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals "DOVIWithELHDR10Plus"
-			}
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|")
 		}
-	}.let {
-		// Remove codec profile if all HDR types are fully supported
-		if (it.conditions.isEmpty()) codecProfiles.remove(it)
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc
+		}
 	}
 
 	// Audio channel profile
