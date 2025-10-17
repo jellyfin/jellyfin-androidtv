@@ -43,7 +43,7 @@
     <string name="lbl_views">Vaatamised</string>
     <string name="msg_unable_to_cancel">Pole võimalik salvestamist tühistada</string>
     <string name="lbl_chapters">Peatükid</string>
-    <string name="msg_set_to_record">Programm on seatud salvestama</string>
+    <string name="msg_set_to_record">Saade on seatud salvestama</string>
     <string name="msg_recording_cancelled">Salvestus tühistatud</string>
     <string name="lbl_ended">LÕPPENUD</string>
     <string name="msg_subtitles_loading">Subtiitrite laadimine…</string>
@@ -206,7 +206,7 @@
     <string name="lbl_new_premieres">Uued linastused</string>
     <string name="lbl_playback_speed">Taasesituse kiirus</string>
     <string name="lbl_play_next_up">Esita järgmine</string>
-    <string name="no_program_data">Programmi andmed pole saadaval</string>
+    <string name="no_program_data">Saateinfo pole saadaval</string>
     <string name="lbl_select_date">Vali kuupäev</string>
     <string name="lbl_on_schedule">Õigeaegselt</string>
     <string name="lbl_guest_stars">Külalistähed</string>
