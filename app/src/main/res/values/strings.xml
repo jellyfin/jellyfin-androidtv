@@ -181,6 +181,8 @@
     <string name="lbl_new_premieres">New premieres</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
+    <string name="lbl_prefer_ac3">Prefer transcoding to Dolby Digital</string>
+    <string name="desc_prefer_ac3">Prioritize AC3 over AAC</string>
     <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_auto_crop">Auto crop</string>
