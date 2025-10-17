@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
+import org.jellyfin.androidtv.ui.playback.VideoManager;
 import org.jellyfin.sdk.api.client.ApiClient;
 
 import coil3.ImageLoader;
@@ -64,6 +65,11 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         if (shouldShowOverlay) {
             super.showControlsOverlay(runAnimation);
             playerAdapter.getMasterOverlayFragment().show();
+            PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+            if (playbackController != null) {
+                float pixelOffset = VideoManager.SUBTITLE_OFFSET_DP * getResources().getDisplayMetrics().density;
+                playbackController.adjustSubtitlePosition(true, pixelOffset);
+            }
         }
     }
 
@@ -71,6 +77,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void hideControlsOverlay(boolean runAnimation) {
         super.hideControlsOverlay(runAnimation);
         playerAdapter.getMasterOverlayFragment().hide();
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        if (playbackController != null) {
+            playbackController.restoreSubtitlePositionWithDelay();
+        }
     }
 
     public void updateCurrentPosition() {
