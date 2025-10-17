@@ -133,6 +133,13 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setContent(R.string.desc_bitstream_ac3)
 				bind(userPreferences, UserPreferences.ac3Enabled)
 			}
+
+			checkbox {
+				setTitle(R.string.lbl_prefer_ac3)
+				setContent(R.string.desc_prefer_ac3)
+				bind(userPreferences, UserPreferences.ac3Preferred)
+				depends { userPreferences[UserPreferences.ac3Enabled] }
+			}
 		}
 
 		category {
