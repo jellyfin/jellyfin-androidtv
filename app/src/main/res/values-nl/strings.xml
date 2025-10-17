@@ -527,7 +527,7 @@
     <string name="clear_image_cache_content">Gebruikt: %1$s</string>
     <string name="clear_image_cache">Afbeeldingscache wissen</string>
     <string name="random">Willekeurig</string>
-    <string name="unreleased">Nog niet uitgebracht</string>
+    <string name="unreleased">Nog niet verschenen</string>
     <string name="pref_playback_advanced">Geavanceerde afspeelvoorkeuren</string>
     <string name="lbl_home">Startscherm</string>
     <string name="pref_screensaver_ageratingmax_zero">Alle leeftijden</string>
