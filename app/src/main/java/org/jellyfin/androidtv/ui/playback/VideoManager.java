@@ -40,6 +40,7 @@ import androidx.media3.exoplayer.util.EventLogger;
 import androidx.media3.extractor.DefaultExtractorsFactory;
 import androidx.media3.extractor.ExtractorsFactory;
 import androidx.media3.extractor.ts.TsExtractor;
+import androidx.media3.session.MediaSession;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.CaptionStyleCompat;
 import androidx.media3.ui.PlayerView;
@@ -78,6 +79,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private MediaSession mediaSession;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -191,6 +193,9 @@ public class VideoManager {
                 Timber.d("Tracks changed");
             }
         });
+
+        mediaSession = new MediaSession.Builder(activity, mExoPlayer).build();
+        Timber.i("MediaSession initialized for Bluetooth controls");
     }
 
     public void subscribe(@NonNull PlaybackControllerNotifiable notifier) {
@@ -589,6 +594,10 @@ public class VideoManager {
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
+            if(mediaSession != null){
+                mediaSession.release();
+                mediaSession = null;
+            }
             mExoPlayerView.setPlayer(null);
             mExoPlayer.release();
             mExoPlayer = null;
