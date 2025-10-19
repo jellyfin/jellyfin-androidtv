@@ -38,7 +38,6 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
 import androidx.media3.extractor.DefaultExtractorsFactory;
-import androidx.media3.extractor.ExtractorsFactory;
 import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.CaptionStyleCompat;
@@ -59,12 +58,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import io.github.peerless2012.ass.media.AssHandler;
-import io.github.peerless2012.ass.media.factory.AssRenderersFactory;
-import io.github.peerless2012.ass.media.kt.AssPlayerKt;
-import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory;
-import io.github.peerless2012.ass.media.type.AssRenderType;
-import io.github.peerless2012.ass.media.widget.AssSubtitleView;
 import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -94,10 +87,7 @@ public class VideoManager {
         _helper = helper;
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
-        boolean assDirectPlay = userPreferences.get(UserPreferences.Companion.getAssDirectPlay());
-        AssHandler assHandler = assDirectPlay ? new AssHandler(AssRenderType.OVERLAY) : null;
-
-        mExoPlayer = configureExoplayerBuilder(activity, assHandler).build();
+        mExoPlayer = configureExoplayerBuilder(activity).build();
 
         if (userPreferences.get(UserPreferences.Companion.getDebuggingEnabled())) {
             mExoPlayer.addAnalyticsListener(new EventLogger());
@@ -128,11 +118,6 @@ public class VideoManager {
         mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
         mExoPlayerView.getSubtitleView().setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
-
-        if (assHandler != null) {
-            assHandler.init(mExoPlayer);
-            mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
-        }
 
         mExoPlayer.addListener(new Player.Listener() {
             @Override
@@ -212,7 +197,7 @@ public class VideoManager {
      * @param context The associated context
      * @return A configured builder for Exoplayer
      */
-    private ExoPlayer.Builder configureExoplayerBuilder(Context context, AssHandler assHandler) {
+    private ExoPlayer.Builder configureExoplayerBuilder(Context context) {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
         DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
         defaultRendererFactory.setEnableDecoderFallback(true);
@@ -233,17 +218,8 @@ public class VideoManager {
         extractorsFactory.setConstantBitrateSeekingEnabled(true);
         extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
         DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
-        if (assHandler != null) {
-            AssSubtitleParserFactory assSubtitleParserFactory = new AssSubtitleParserFactory(assHandler);
-            ExtractorsFactory assExtractorsFactory = AssPlayerKt.withAssMkvSupport(extractorsFactory, assSubtitleParserFactory, assHandler);
-            DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory);
-            mediaSourceFactory.setSubtitleParserFactory(assSubtitleParserFactory);
-            exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
-            exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, defaultRendererFactory));
-        } else {
-            exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-            exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
-        }
+        exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+        exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
 
         return exoPlayerBuilder;
     }

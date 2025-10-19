@@ -63,7 +63,7 @@ fun createDeviceProfile(
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
-	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
+	assDirectPlay = false,
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
 	jellyfinTenEleven = serverVersion >= ServerVersion(10, 11, 0),
 )

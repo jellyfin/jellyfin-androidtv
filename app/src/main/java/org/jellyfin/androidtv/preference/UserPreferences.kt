@@ -249,11 +249,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
 
 		/**
-		 * Enable libass.
-		 */
-		var assDirectPlay = booleanPreference("libass_enabled", false)
-
-		/**
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
