@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.profile.createDeviceProfileReport
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.clientLogApi
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -149,7 +150,7 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 					lifecycleScope.launch {
 						runCatching {
 							withContext(Dispatchers.IO) {
-								api.clientLogApi.logFile(createDeviceProfileReport(context, userPreferences)).content
+								api.clientLogApi.logFile(createDeviceProfileReport(context, userPreferences, get())).content
 							}
 						}.fold(
 							onSuccess = { result ->
