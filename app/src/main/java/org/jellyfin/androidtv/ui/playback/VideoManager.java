@@ -27,6 +27,7 @@ import androidx.media3.common.TrackGroup;
 import androidx.media3.common.TrackSelectionOverride;
 import androidx.media3.common.TrackSelectionParameters;
 import androidx.media3.common.Tracks;
+import androidx.media3.common.VideoSize;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.HttpDataSource;
@@ -42,6 +43,7 @@ import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.CaptionStyleCompat;
 import androidx.media3.ui.PlayerView;
+import androidx.media3.ui.SubtitleView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
@@ -132,6 +134,40 @@ public class VideoManager {
             assHandler.init(mExoPlayer);
             mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
         }
+
+        // Subtitle position and size patch
+        mExoPlayer.addListener(new Player.Listener() {
+            /**
+             * This Listener will await VideoSize info in order to override SubtitleView
+             * layout parameters in case it is a widescreen video. It will fill the entire
+             * screen instead of just the video view.
+             * @param videoSize The new size of the video.
+             */
+            @Override
+            public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+                if (videoSize.height == 0 || videoSize.width == 0)
+                    return;
+                SubtitleView subtitleView = mExoPlayerView.getSubtitleView();
+                int videoHeight = videoSize.height;
+                int videoWidth = videoSize.width;
+                float aspectRatio = (float) videoWidth / videoHeight;
+                // We're changing wide aspect ratio video subtitle to match others, so return if lower AR
+                if (aspectRatio<1.78f)
+                    return;
+                // In case movie is not 1080p, transform videoHeight in its 1080p equivalent
+                // because display dimensions are 1080p conformant
+                if (videoHeight != mExoPlayerView.getHeight())
+                    videoHeight = (int) (mExoPlayerView.getWidth() / aspectRatio);
+                FrameLayout.LayoutParams subslp = (FrameLayout.LayoutParams) subtitleView.getLayoutParams();
+                int verticalMargins = mExoPlayerView.getHeight() - videoHeight;
+                subslp.height = mExoPlayerView.getHeight();
+                // Elevate SubtitleView by 1 vertical margin, otherwise it will start drawing below the top of the screen
+                subslp.topMargin = verticalMargins/(-2);
+                // Store new params and make the subs view visible despite being outside parent
+                subtitleView.setLayoutParams(subslp);
+                mExoPlayerView.setClipChildren(false);
+            }
+        });
 
         mExoPlayer.addListener(new Player.Listener() {
             @Override
