@@ -19,6 +19,7 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.isThemePlayback
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import org.jellyfin.playback.jellyfin.queue.baseItem
@@ -50,7 +51,9 @@ class RewriteMediaManager(
 		get() = playbackManager.queue.estimatedSize.toString()
 
 	override val currentAudioItem: BaseItemDto?
-		get() = playbackManager.queue.entry.value?.baseItem
+		get() = playbackManager.queue.entry.value
+			?.takeUnless { it.isThemePlayback }
+			?.baseItem
 			?.takeIf { it.mediaType == MediaType.AUDIO }
 
 	override fun toggleRepeat(): Boolean {
@@ -106,14 +109,38 @@ class RewriteMediaManager(
 		}
 
 		playbackManager.queue.entry.onEach { entry ->
-			val baseItem = entry?.baseItem
+			val baseItem = entry?.takeUnless { it.isThemePlayback }?.baseItem
 			notifyListeners {
 				onQueueStatusChanged(baseItem?.mediaType == MediaType.AUDIO)
 			}
 		}.launchIn(this)
 
-		playbackManager.queue.entry.onEach { notifyListeners { onQueueReplaced() } }.launchIn(this)
-		playbackManager.state.playbackOrder.onEach { notifyListeners { onQueueReplaced() } }.launchIn(this)
+		playbackManager.queue.entry.onEach { updateAdapter() }.launchIn(this)
+		playbackManager.state.playbackOrder.onEach { updateAdapter() }.launchIn(this)
+	}
+
+	private fun updateAdapter() {
+		val currentItem = playbackManager.queue.entry.value
+			?.takeUnless { it.isThemePlayback }
+			?.baseItem
+			?.let(::AudioQueueBaseRowItem)
+			?.apply { playing = true }
+		// It's safe to run this blocking as all items are prefetched via the [BaseItemQueueSupplier]
+		val upcomingItems = runBlocking { playbackManager.queue.peekNext(100) }
+			.filterNot { it.isThemePlayback }
+			.mapNotNull { item -> item.baseItem?.let(::AudioQueueBaseRowItem) }
+
+		val items = listOfNotNull(currentItem) + upcomingItems
+
+		// Update item row
+		currentAudioQueue.replaceAll(
+			items,
+			areItemsTheSame = { old, new -> (old as? AudioQueueBaseRowItem)?.baseItem?.id == (new as? AudioQueueBaseRowItem)?.baseItem?.id },
+			// The equals functions for BaseRowItem only compare by id
+			areContentsTheSame = { _, _ -> false },
+		)
+
+		notifyListeners { onQueueReplaced() }
 	}
 
 	private fun notifyListeners(body: AudioEventListener.() -> Unit) {
@@ -153,7 +180,12 @@ class RewriteMediaManager(
 	}
 
 	override val isPlayingAudio: Boolean
-		get() = playbackManager.state.playState.value == PlayState.PLAYING
+		get() {
+			if (playbackManager.state.playState.value != PlayState.PLAYING) return false
+
+			val entry = playbackManager.queue.entry.value
+			return entry?.isThemePlayback != true && entry?.baseItem?.mediaType == MediaType.AUDIO
+		}
 
 	override fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean) {
 		val filteredItems = items.drop(position)
