@@ -75,6 +75,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     int mLastIndex;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
+    private int mRepeatMode = 0; // 0 = none, 1 = repeat one, 2 = repeat all
 
     private StreamInfo mCurrentStreamInfo;
 
@@ -236,6 +237,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public boolean isPlaying() {
         // since playbackController is so closely tied to videoManager, check if it is playing too since they can fall out of sync
         return mPlaybackState == PlaybackState.PLAYING && hasInitializedVideoManager() && mVideoManager.isPlaying();
+    }
+
+    public void toggleRepeat() {
+        // Cycle through: none (0) -> repeat one (1) -> repeat all (2) -> none (0)
+        mRepeatMode = (mRepeatMode + 1) % 3;
+        Timber.d("Repeat mode changed to: %d", mRepeatMode);
+    }
+
+    public int getRepeatMode() {
+        return mRepeatMode;
     }
 
     public void playerErrorEncountered() {
@@ -1153,8 +1164,29 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         stop();
         resetPlayerErrors();
 
+        // Handle repeat one mode
+        if (mRepeatMode == 1) {
+            Timber.d("Repeat one enabled - replaying current item");
+            spinnerOff = false;
+            play(0);
+            return;
+        }
+
         BaseItemDto nextItem = getNextItem();
         BaseItemDto curItem = getCurrentlyPlayingItem();
+        
+        // Handle repeat all mode - loop back to first item
+        if (mRepeatMode == 2 && nextItem == null && mItems != null && mItems.size() > 0) {
+            Timber.d("Repeat all enabled - looping back to first item");
+            stop();
+            resetPlayerErrors();
+            mCurrentIndex = 0;
+            videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            spinnerOff = false;
+            play(0);
+            return;
+        }
+
         if (nextItem == null || curItem == null) {
             endPlayback(true);
             return;
@@ -1163,7 +1195,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Timber.d("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
         boolean stillWatchingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getStillWatchingBehavior()) != StillWatchingBehavior.DISABLED;
         boolean nextUpEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED;
-        if ((stillWatchingEnabled || nextUpEnabled) && curItem.getType() != BaseItemKind.TRAILER) {
+        
+        // Skip "Still Watching" and "Next Up" dialogs when repeat all is enabled
+        if ((stillWatchingEnabled || nextUpEnabled) && curItem.getType() != BaseItemKind.TRAILER && mRepeatMode != 2) {
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             spinnerOff = false;
