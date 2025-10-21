@@ -48,7 +48,7 @@ fun InfoRowItem(
 	ProvideTextStyle(
 		value = TextStyle(
 			color = foregroundColor,
-			fontSize = if (backgroundColor.alpha > 0f) 12.sp else 16.sp,
+			fontSize = if (backgroundColor.alpha > 0f) 10.sp else 16.sp,
 			fontWeight = if (backgroundColor.alpha > 0f) FontWeight.W600 else FontWeight.W500,
 		)
 	) {
