@@ -1,5 +1,5 @@
 [versions]
-aboutlibraries = "12.2.4"
+aboutlibraries = "13.1.0"
 accompanist = "0.37.3"
 acra = "5.13.1"
 android-compileSdk = "36"
