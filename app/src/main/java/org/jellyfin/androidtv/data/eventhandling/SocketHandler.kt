@@ -172,13 +172,14 @@ class SocketHandler(
 	}
 
 	private fun onPlayMessage(message: PlayMessage) {
-		val itemId = message.data?.itemIds?.firstOrNull() ?: return
+		val itemIds = message.data?.itemIds ?: return
 
 		runCatching {
 			playbackHelper.retrieveAndPlay(
-				itemId,
+				itemIds,
 				false,
 				message.data?.startPositionTicks,
+				message.data?.startIndex,
 				context
 			)
 		}.onFailure { Timber.w(it, "Failed to start playback") }
