@@ -174,4 +174,12 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         List<ChapterInfo> chapters = item.getChapters();
         return chapters != null && chapters.size() > 0;
     }
+
+    public void toggleRepeat() {
+        playbackController.toggleRepeat();
+    }
+
+    public int getRepeatMode() {
+        return playbackController.getRepeatMode();
+    }
 }
