@@ -430,6 +430,7 @@ fun createDeviceProfile(
 		}
 
 		if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug) {
+			add("DOVIWithHDR10")
 			add("DOVIWithHDR10Plus")
 			add("DOVIWithELHDR10Plus")
 		}
