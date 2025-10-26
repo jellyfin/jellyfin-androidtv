@@ -1150,6 +1150,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void itemComplete() {
+        interactionTracker.onEpisodeWatched();
         stop();
         resetPlayerErrors();
 
@@ -1249,7 +1250,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
-        interactionTracker.onEpisodeWatched();
         Timber.d("On Completion fired");
         itemComplete();
     }
