@@ -73,6 +73,10 @@ class InteractionTrackerViewModel(
 		}
 	}
 
+	fun notifyStillWatching() {
+		resetSession()
+	}
+
 	fun onEpisodeWatched() {
 		if (!episodeWasInterrupted) episodeCount++
 		calculateWatchTime()
