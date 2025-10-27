@@ -590,4 +590,5 @@
     <string name="lbl_still_watching_very_long">8 Folgen oder 240 Minuten</string>
     <string name="still_watching_label">Bist du noch am schauen?</string>
     <string name="pref_subtitles_position">Versatz von unten</string>
+    <string name="preference_disable_hdr10_playback">DolbyVision HDR10/HDR10+ Playback deaktivieren</string>
 </resources>
