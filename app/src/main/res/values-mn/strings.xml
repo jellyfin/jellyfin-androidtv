@@ -5,7 +5,7 @@
     <string name="btn_cancel">Цуцлах</string>
     <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОӨПРСТУҮФХЦЧШЩЫЭЮЯ</string>
     <string name="pref_playback">Тоглуулах</string>
-    <string name="pref_max_bitrate_title">Хамгийн их цацалт Bitrate</string>
+    <string name="pref_max_bitrate_title">Дамжуулалтын дээд битрэйт</string>
     <string name="settings_title">Тохиргоо</string>
     <string name="pref_authentication_cat">Гэрчлэлт</string>
     <string name="chapters">Тэмдэгтүүд</string>
@@ -146,4 +146,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_status">%1$s / %2$s</string>
+    <string name="state_disabled">Идэвхгүй</string>
+    <string name="lbl_home">Нүүр</string>
 </resources>
