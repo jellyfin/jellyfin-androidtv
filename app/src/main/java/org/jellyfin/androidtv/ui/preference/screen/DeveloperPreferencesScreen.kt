@@ -63,6 +63,13 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
 			}
 
+			// Experimental: play theme song on series details screen
+			checkbox {
+				setTitle(R.string.lbl_theme_song_preview)
+				setContent(R.string.desc_theme_song_preview)
+				bind(store = userPreferences, preference = UserPreferences.themeSongPreviewEnabled)
+			}
+
 			action {
 				setTitle(R.string.clear_image_cache)
 				content = getString(R.string.clear_image_cache_content, Formatter.formatFileSize(context, imageLoader.diskCache?.size ?: 0))

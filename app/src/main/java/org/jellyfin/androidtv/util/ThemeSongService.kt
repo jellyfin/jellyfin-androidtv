@@ -16,9 +16,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.ThemeSongSettings
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.util.profile.createDeviceProfile
 import org.jellyfin.playback.core.PlaybackManager
@@ -37,41 +35,40 @@ import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.DeviceProfile
 import timber.log.Timber
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * ThemeSongService
  *
- * - Tracks which library item is currently active in the details screen.
- * - When you enter, it looks up that item's theme.mp3 from Jellyfin.
- * - It builds/uses a tiny PlaybackManager dedicated to just that one track.
- * - When you leave, it clears playback (but does NOT destroy the manager).
+ * - Watches which series detail screen you're on
+ * - Fetches that series' theme song from the server
+ * - Plays it using a dedicated PlaybackManager that only handles preview audio
+ *
+ * We keep ONE shared PlaybackManager for all previews, so we don't
+ * recreate a MediaSession every time (that was the crash before).
  */
 class ThemeSongService(
-	private val settings: ThemeSongSettings,
 	private val apiClient: ApiClient,
 	private val userPreferences: UserPreferences,
 	private val serverVersion: ServerVersion,
 	private val httpDataSourceFactory: HttpDataSource.Factory,
-	private val userSettingPreferences: UserSettingPreferences,
 ) {
 	companion object {
 		/**
-		 * We keep ONE shared preview PlaybackManager for the entire app process.
-		 * We never throw it away, so we never try to create a second MediaSession.
+		 * Single shared preview player for the whole process.
+		 * This prevents "Session ID must be unique" crashes.
 		 */
 		private var sharedPreviewManager: PlaybackManager? = null
 	}
 
-	// which show/movie/etc we're previewing right now
+	// last itemId we started previewing
 	private var currentItemId: String? = null
 
-	// lightweight background scope for API + queue work
+	// light background scope
 	private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 	/**
-	 * Build the same DeviceProfile Jellyfin uses for playback negotiation.
-	 * This matches PlaybackModule.kt's `deviceProfileBuilder`.
+	 * Build the DeviceProfile used for playback negotiation with JellyFin.
+	 * Mirrors PlaybackModule.kt logic.
 	 */
 	private fun makeDeviceProfileBuilder(ctx: Context): () -> DeviceProfile {
 		val appCtx = ctx.applicationContext
@@ -88,27 +85,21 @@ class ThemeSongService(
 	}
 
 	/**
-	 * Build (or reuse) the mini PlaybackManager we use JUST for theme preview.
+	 * Create (or reuse) the tiny PlaybackManager we use just for theme previews.
 	 *
 	 * IMPORTANT:
-	 * - We only ever create this ONCE per process.
-	 * - We reuse it between shows.
-	 * - We DO NOT release() it when leaving a show.
-	 *
-	 * That prevents multiple MediaSession instances and fixes the
-	 * "Session ID must be unique" crash.
+	 * - We only build this once.
+	 * - We never release() it between shows.
+	 * - That way we never try to register a second MediaSession with the same ID.
 	 */
 	@Synchronized
 	private fun ensurePreviewManager(ctx: Context): PlaybackManager {
-		// 1. Reuse if we've already created it
 		sharedPreviewManager?.let { return it }
 
 		val appCtx = ctx.applicationContext
-
-		// We'll give this preview player its own notif channel / session identity.
 		val notificationChannelId = "theme-preview-session"
 
-		// Create a channel for the preview player's MediaSession notification
+		// Make sure the notification channel exists for the preview session.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			val channel = NotificationChannel(
 				notificationChannelId,
@@ -120,20 +111,18 @@ class ThemeSongService(
 			NotificationManagerCompat.from(appCtx).createNotificationChannel(channel)
 		}
 
-		// PendingIntent so tapping the (hidden/low-priority) notification knows where to go.
+		// PendingIntent used if Android shows a notification for this session.
 		val activityIntent = Intent(appCtx, MainActivity::class.java)
 		val pendingIntent = PendingIntent.getActivity(
 			appCtx,
-			/* requestCode = */ 0,
+			0,
 			activityIntent,
 			PendingIntent.FLAG_IMMUTABLE
 		)
 
-		// Actually build our tiny PlaybackManager.
-		// This mirrors createPlaybackManager() in PlaybackModule.kt,
-		// but it's dedicated to audio theme previews.
+		// Build the dedicated preview PlaybackManager.
 		val mgr = playbackManager(appCtx) {
-			// 1) ExoPlayer backend
+			// 1) ExoPlayer backend (audio playback)
 			val exoPlayerOptions = ExoPlayerOptions(
 				preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
 				enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
@@ -141,20 +130,16 @@ class ThemeSongService(
 			)
 			install(exoPlayerPlugin(appCtx, exoPlayerOptions))
 
-			// 2) Media3 session + notification plumbing
-			//
-			// NOTE: notificationId here just needs to be stable for *this* manager.
-			// The crash you were seeing wasn't about this int,
-			// it was about creating a brand new MediaSession twice.
+			// 2) MediaSession + notification
 			val mediaSessionOptions = MediaSessionOptions(
 				channelId = notificationChannelId,
-				notificationId = 2,
+				notificationId = 2, // just needs to be stable for this manager
 				iconSmall = R.drawable.app_icon_foreground,
 				openIntent = pendingIntent,
 			)
 			install(media3SessionPlugin(appCtx, mediaSessionOptions))
 
-			// 3) Jellyfin plugin (tells the server "we're playing this")
+			// 3) JellyFin integration (reports playback to server, resolves streams)
 			val deviceProfileBuilder = makeDeviceProfileBuilder(appCtx)
 			install(
 				jellyfinPlugin(
@@ -164,14 +149,8 @@ class ThemeSongService(
 				)
 			)
 
-			// 4) Optional skip amounts etc. We mirror PlaybackModule so ExoPlayer
-			//    doesn't freak out if something tries to seek.
-			defaultRewindAmount = {
-				userSettingPreferences[UserSettingPreferences.skipBackLength].milliseconds
-			}
-			defaultFastForwardAmount = {
-				userSettingPreferences[UserSettingPreferences.skipForwardLength].milliseconds
-			}
+			// We could also wire skip amounts etc if we really cared.
+			// For preview audio it's not important.
 		}
 
 		sharedPreviewManager = mgr
@@ -179,22 +158,23 @@ class ThemeSongService(
 	}
 
 	/**
-	 * Fragment calls this when the detail screen becomes visible.
-	 * We:
-	 *  - record which item we're previewing
-	 *  - look up its theme.mp3
-	 *  - enqueue it in the preview PlaybackManager
-	 *  - start playback
+	 * Call this when the series detail screen becomes visible.
+	 *
+	 * - Records which item we're on
+	 * - (if enabled) fetches theme media
+	 * - starts playback via the preview manager
 	 */
 	fun onEnterItem(ctx: Context, itemId: String?) {
 		currentItemId = itemId
 
-		if (!settings.themeSongsEnabled) {
-			Timber.d("ThemeSongService: entered item=$itemId but theme songs are disabled")
+		// Respect the user toggle
+		val previewEnabled = userPreferences[UserPreferences.themeSongPreviewEnabled]
+		if (!previewEnabled) {
+			Timber.d("ThemeSongService: entered item=$itemId but preview is disabled in settings")
 			return
 		}
 
-		Timber.d("ThemeSongService: entered item=$itemId (about to start theme preview logic)")
+		Timber.d("ThemeSongService: entered item=$itemId (attempting theme preview)")
 
 		if (itemId == null) {
 			Timber.d("ThemeSongService: no itemId -> can't look up theme song")
@@ -213,29 +193,20 @@ class ThemeSongService(
 	}
 
 	/**
-	 * Fragment calls this when you leave the detail screen.
-	 * We clear the preview queue and reset selection.
+	 * Call this when you leave that screen.
 	 *
-	 * CRUCIAL: we DO NOT destroy the preview PlaybackManager or null it out.
-	 * We just stop playback so that the next show can reuse the same manager
-	 * (and the same MediaSession) without crashing.
+	 * We STOP playback (clear queue), but we DO NOT destroy the shared
+	 * PlaybackManager or its MediaSession.
 	 */
 	fun onLeaveItem() {
 		val leavingId = currentItemId
-
-		if (leavingId != null && settings.themeSongsEnabled) {
-			Timber.d("ThemeSongService: leaving item=$leavingId (stopping theme preview)")
-		} else {
-			Timber.d("ThemeSongService: leaving item=$leavingId (no-op)")
-		}
+		Timber.d("ThemeSongService: leaving item=$leavingId (stopping theme preview)")
 
 		currentItemId = null
 
-		val mgr = sharedPreviewManager
-		if (mgr != null) {
+		sharedPreviewManager?.let { mgr ->
 			val q = mgr.queue
 			scope.launch {
-				// Stop playback by clearing and resetting queue state
 				q.clear()
 				q.setIndex(Queue.INDEX_NONE, saveHistory = false)
 			}
@@ -243,8 +214,8 @@ class ThemeSongService(
 	}
 
 	/**
-	 * Ask Jellyfin for this item's theme media (inheritFromParent = true).
-	 * Returns the first theme song BaseItemDto we find, or null.
+	 * Hit JellyFin for /Items/{id}/ThemeMedia?inheritFromParent=true
+	 * and return the first theme song item, or null.
 	 */
 	private suspend fun fetchThemeSongItemFor(itemId: String): BaseItemDto? {
 		return withContext(Dispatchers.IO) {
@@ -262,7 +233,6 @@ class ThemeSongService(
 					return@withContext null
 				}
 
-				// grab the first theme song item, if any
 				val firstThemeSongItem = payload
 					.themeSongsResult
 					?.items
@@ -286,20 +256,17 @@ class ThemeSongService(
 	}
 
 	/**
-	 * Full flow:
-	 *  - look up theme song BaseItemDto
-	 *  - build ThemePreviewQueueSupplier (one-track queue)
-	 *  - clear queue
-	 *  - add supplier
-	 *  - set index 0 (starts playback)
-	 *
-	 * Returns true if we successfully kicked off playback.
+	 * Full flow to actually start the preview audio:
+	 * - resolve theme item
+	 * - ensure preview manager exists
+	 * - build a 1-track queue supplier
+	 * - clear queue, add supplier, play index 0
 	 */
 	private suspend fun fetchThemeSongAndStartPreview(
 		ctx: Context,
 		showItemId: String,
 	): Boolean = withContext(Dispatchers.IO) {
-		// Step 1: Resolve which BaseItemDto represents the theme song
+		// 1. Which BaseItemDto is the theme song?
 		val themeSongItem = fetchThemeSongItemFor(showItemId)
 		if (themeSongItem == null) {
 			return@withContext false
@@ -309,33 +276,32 @@ class ThemeSongService(
 			"ThemeSongService: will try to preview theme ${themeSongItem.id} (${themeSongItem.name}) for $showItemId"
 		)
 
-		// Step 2: Build/reuse our mini playback manager w/ real backend
+		// 2. Our dedicated preview PlaybackManager
 		val mgr = ensurePreviewManager(ctx)
 
-		// Step 3: Create the tiny one-track queue supplier
+		// 3. Wrap that one theme item as a queue supplier
 		val supplier = ThemePreviewQueueSupplier(
 			item = themeSongItem,
 			api = apiClient,
 		)
 
-		// Step 4: Clear queue and enqueue ours
+		// 4. Clear queue + add ours
 		val q = mgr.queue
 		q.clear()
 		q.addSupplier(supplier)
 
-		// Step 5: tell queue "play the first (and only) entry"
+		// 5. Tell queue "play first (only) entry"
 		q.setIndex(index = 0, saveHistory = false)
 
 		true
 	}
 
 	/**
-	 * In case we ever want to permanently tear down this service (app exit, etc).
-	 * Right now we leave sharedPreviewManager alive until process death,
-	 * because destroying it is what caused the crash-on-next-show.
+	 * If we ever want a manual cleanup hook.
+	 * We intentionally do NOT release() sharedPreviewManager here,
+	 * because killing it and recreating it was what caused the crash loop.
 	 */
 	fun shutdown() {
 		scope.cancel()
-		// We intentionally do NOT release() sharedPreviewManager here.
 	}
 }

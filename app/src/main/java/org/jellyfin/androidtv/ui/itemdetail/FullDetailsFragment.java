@@ -92,7 +92,6 @@ import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 import org.jellyfin.androidtv.util.ThemeSongService;
-import org.jellyfin.androidtv.preference.ThemeSongSettings;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -157,7 +156,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<org.jellyfin.sdk.model.ServerVersion> serverVersion = inject(org.jellyfin.sdk.model.ServerVersion.class);
     private final Lazy<androidx.media3.datasource.HttpDataSource.Factory> httpFactory = inject(androidx.media3.datasource.HttpDataSource.Factory.class);
     private final Lazy<org.jellyfin.androidtv.preference.UserSettingPreferences> userSettingPreferences = inject(org.jellyfin.androidtv.preference.UserSettingPreferences.class);
-    private final ThemeSongService themeSongService = new ThemeSongService(new ThemeSongSettings(), api.getValue(), userPreferences.getValue(), serverVersion.getValue(), httpFactory.getValue(), userSettingPreferences.getValue());
+    private final ThemeSongService themeSongService = new ThemeSongService(api.getValue(), userPreferences.getValue(), serverVersion.getValue(), httpFactory.getValue());
 
 
     @Nullable

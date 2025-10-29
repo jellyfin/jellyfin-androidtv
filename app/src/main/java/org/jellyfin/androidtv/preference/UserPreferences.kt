@@ -226,6 +226,14 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Delay when starting video playback after loading the video player.
 		 */
 		var videoStartDelay = longPreference("video_start_delay", 0)
+		/**
+		 * Play series theme music on the details screen.
+		 */
+		var themeSongPreviewEnabled = booleanPreference(
+			"pref_enable_theme_song_preview",
+			false
+		)
+
 
 		/**
 		 * The actions to take for each media segment type. Managed by the [MediaSegmentRepository].
