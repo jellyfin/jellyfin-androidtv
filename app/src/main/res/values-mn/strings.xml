@@ -140,8 +140,8 @@
     <string name="lbl_now_playing">Одоо тоглуулж байна</string>
     <string name="lbl_play_from_here">Эндээс тоглуулаарай</string>
     <string name="lbl_remove_from_queue">Дарааллаас хасах</string>
-    <string name="lbl_goto_now_playing">Одоо тоглох дээр оч</string>
-    <string name="lbl_instant_mix">Шуурхай холимог</string>
+    <string name="lbl_goto_now_playing">Одоо тоглож буй дээр очих</string>
+    <string name="lbl_instant_mix">Шуурхай холих</string>
     <string name="login_authenticating">Гэрчлэлт…</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_sd">SD</string>
@@ -175,4 +175,7 @@
     <string name="lbl_programs">Хөтөлбөрүүд</string>
     <string name="lbl_enable_cinema_mode">Cinema горим</string>
     <string name="lbl_shuffle_queue">Санамсаргүйгээр тоглуулахыг унтраах/идэвхжүүлэх</string>
+    <string name="lbl_delete">Устгах</string>
+    <string name="msg_item_added">" нэмэгдлээ"</string>
+    <string name="desc_automatic_fav_songs">Дуртай дуунуудыг автоматаар тоглуулах жагсаалт</string>
 </resources>
