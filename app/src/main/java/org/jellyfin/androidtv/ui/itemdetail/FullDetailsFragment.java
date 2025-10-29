@@ -91,6 +91,8 @@ import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
+import org.jellyfin.androidtv.util.ThemeSongService;
+import org.jellyfin.androidtv.preference.ThemeSongSettings;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -152,6 +154,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
     private final Lazy<InteractionTrackerViewModel> interactionTracker = inject(InteractionTrackerViewModel.class);
+    private final Lazy<org.jellyfin.sdk.model.ServerVersion> serverVersion = inject(org.jellyfin.sdk.model.ServerVersion.class);
+    private final Lazy<androidx.media3.datasource.HttpDataSource.Factory> httpFactory = inject(androidx.media3.datasource.HttpDataSource.Factory.class);
+    private final Lazy<org.jellyfin.androidtv.preference.UserSettingPreferences> userSettingPreferences = inject(org.jellyfin.androidtv.preference.UserSettingPreferences.class);
+    private final ThemeSongService themeSongService = new ThemeSongService(new ThemeSongSettings(), api.getValue(), userPreferences.getValue(), serverVersion.getValue(), httpFactory.getValue(), userSettingPreferences.getValue());
+
 
     @Nullable
     @Override
@@ -288,7 +295,20 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     public void onStop() {
         super.onStop();
         stopClock();
+
+        // THEME SONG CHANGE:
+        // When the details screen is no longer visible, stop the preview audio.
+        themeSongService.onLeaveItem();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // THEME SONG CHANGE:
+        // Clean up our ThemeSongService coroutine scope when the fragment is destroyed.
+        themeSongService.shutdown();
+    }
+
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -489,6 +509,17 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         mBaseItem = item;
         backgroundService.getValue().setBackground(item);
+
+        // THEME SONG CHANGE:
+        // Old code:
+        //   themeSongService.onEnterItem(item.getId().toString());
+        // New code must pass a Context first (requireContext()).
+        if (item != null && item.getId() != null) {
+            themeSongService.onEnterItem(requireContext(), item.getId().toString());
+        } else {
+            themeSongService.onEnterItem(requireContext(), null);
+        }
+
         if (mBaseItem != null) {
             if (mChannelId != null) {
                 mBaseItem = JavaCompat.copyWithParentId(mBaseItem, mChannelId);
