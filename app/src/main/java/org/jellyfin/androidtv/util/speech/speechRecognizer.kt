@@ -112,7 +112,7 @@ fun rememberSpeechRecognizer(
 	}
 
 	fun startListening() {
-		val language = context.locale.language
+		val language = context.locale.toLanguageTag()
 		Timber.i("Starting to listen for $language speech")
 
 		val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
