@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +34,7 @@ import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.blurHashPainter
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
+import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
 import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
@@ -75,7 +77,12 @@ fun DreamContentNowPlaying(
 
 	// Lyrics overlay (on top of background)
 	if (lyrics != null) {
-		val playState by playbackManager.state.playState.collectAsState()
+		val playState by remember { playbackManager.state.playState }.collectAsState()
+
+		// Using the progress animation causes the layout to recompose, which we need for synced lyrics to work
+		// we don't actually use the animation value here
+		rememberPlayerProgress(playbackManager)
+
 		LyricsDtoBox(
 			lyricDto = lyrics,
 			currentTimestamp = playbackManager.state.positionInfo.active,
