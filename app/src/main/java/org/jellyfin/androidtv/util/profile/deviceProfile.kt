@@ -98,10 +98,6 @@ fun createDeviceProfile(
 	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
 
 	/// HDR capabilities
-	// Display
-	val supportsDolbyVisionDisplay = mediaTest.supportsDolbyVision()
-	val supportsHdr10Display = mediaTest.supportsHdr10()
-	val supportsHdr10PlusDisplay = mediaTest.supportsHdr10Plus()
 
 	// Codecs
 	// AV1
@@ -366,32 +362,8 @@ fun createDeviceProfile(
 	/// HDR exclude list
 
 	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
-	val unsupportedRangeTypes = buildSet {
-		if (jellyfinTenEleven) add("DOVIInvalid")
-
-		if (!supportsDolbyVisionDisplay) {
-			add(VideoRangeType.DOVI.serialName)
-
-			if (jellyfinTenEleven) {
-				add("DOVIWithEL")
-				if (!supportsHdr10PlusDisplay) {
-					add("DOVIWithHDR10Plus")
-					add("DOVIWithELHDR10Plus")
-				}
-			}
-
-			if (!supportsHdr10Display) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
-		}
-
-		if (!supportsHdr10PlusDisplay) {
-			add(VideoRangeType.HDR10_PLUS.serialName)
-			if (!supportsHdr10Display) add(VideoRangeType.HDR10.serialName)
-		}
-	}
-
 	val unsupportedRangeTypesAv1 = buildSet {
-		// Base of unsupported types for display
-		addAll(unsupportedRangeTypes)
+		if (jellyfinTenEleven) add("DOVIInvalid")
 
 		if (!supportsAV1DolbyVision) {
 			add(VideoRangeType.DOVI.serialName)
@@ -408,8 +380,7 @@ fun createDeviceProfile(
 
 	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
 	val unsupportedRangeTypesHevc = buildSet {
-		// Base of unsupported types for display
-		addAll(unsupportedRangeTypes)
+		if (jellyfinTenEleven) add("DOVIInvalid")
 
 		if (!supportsHevcDolbyVisionEL) {
 			if (jellyfinTenEleven) {
@@ -440,21 +411,10 @@ fun createDeviceProfile(
 	// The notEquals condition will always fail the ConditionProcessor test in the server so we use applyConditions to only have the codec
 	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
 	// notEquals in the StreamBuilder to create a correct transcode pipeline
-	if (unsupportedRangeTypes.isNotEmpty()) codecProfile {
-		type = CodecType.VIDEO
-
-		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString("|")
-		}
-
-		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypes
-		}
-	}
 
 	// Codecs
 	// AV1
-	if (unsupportedRangeTypesAv1.isNotEmpty() && unsupportedRangeTypesAv1 != unsupportedRangeTypes) codecProfile {
+	if (unsupportedRangeTypesAv1.isNotEmpty()) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.AV1
 
@@ -468,7 +428,7 @@ fun createDeviceProfile(
 	}
 
 	// HEVC
-	if (unsupportedRangeTypesHevc.isNotEmpty() && unsupportedRangeTypesHevc != unsupportedRangeTypes) codecProfile {
+	if (unsupportedRangeTypesHevc.isNotEmpty()) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.HEVC
 
