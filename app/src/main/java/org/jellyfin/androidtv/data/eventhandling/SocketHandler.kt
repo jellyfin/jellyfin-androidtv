@@ -126,7 +126,7 @@ class SocketHandler(
 				val index = message["index"]?.toIntOrNull() ?: return@onEach
 
 				withContext(Dispatchers.Main) {
-					playbackControllerContainer.playbackController?.switchAudioStream(index)
+					playbackControllerContainer.playbackController?.switchAudioStreamByUser(index)
 				}
 			}
 			.launchIn(coroutineScope)
