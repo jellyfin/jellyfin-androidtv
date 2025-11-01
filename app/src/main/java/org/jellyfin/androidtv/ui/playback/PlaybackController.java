@@ -72,6 +72,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     int mCurrentIndex;
+    int mLastIndex;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
@@ -611,8 +612,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // clear options on start of every item
-        clearPlaybackSessionOptions();
+        if (mCurrentIndex != mLastIndex) {
+            clearPlaybackSessionOptions();
+            mCurrentOptions.setAudioStreamIndex(null);
+            mLastIndex = mCurrentIndex;
+        }
 
         mStartPosition = position;
         mCurrentStreamInfo = response;
@@ -887,7 +891,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         wasSeeking = false;
         burningSubs = false;
         mCurrentStreamInfo = null;
-        mCurrentOptions.setAudioStreamIndex(null);
     }
 
     public void next() {
