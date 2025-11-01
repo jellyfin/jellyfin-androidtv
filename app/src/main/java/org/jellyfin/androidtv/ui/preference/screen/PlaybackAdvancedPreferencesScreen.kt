@@ -106,6 +106,11 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_external_player)
 				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
+
+			checkbox {
+				setTitle(R.string.preference_disable_hdr10_playback)
+				bind(userPreferences, UserPreferences.disableHDR10)
+			}
 		}
 
 		category {
