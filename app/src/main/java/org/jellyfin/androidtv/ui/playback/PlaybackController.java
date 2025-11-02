@@ -72,7 +72,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     int mCurrentIndex;
-    int mLastIndex;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
@@ -612,11 +611,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        if (mCurrentIndex != mLastIndex) {
-            clearPlaybackSessionOptions();
-            mCurrentOptions.setAudioStreamIndex(null);
-            mLastIndex = mCurrentIndex;
-        }
+        // Clear last set audio stream index on start of every item.
+        // We cannot clear all options because baking in subs during transcoding
+        // will restart playback and this will end in an infinite loop.
+        // see@[PlaybackController.setSubtitleIndex]
+        // Not nice but will do it until the new playback rewrite is also available for video
+        mCurrentOptions.setAudioStreamIndex(null);
 
         mStartPosition = position;
         mCurrentStreamInfo = response;
