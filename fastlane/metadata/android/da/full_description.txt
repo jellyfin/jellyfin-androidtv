@@ -1,14 +1,14 @@
 Dine medier, på dine vilkår.
 
-Jellyfin projektet er et open source, fri software medieserver. Ingen gebyrer, ingen sporing, ingen skjult agenda. Hent vores gratis server for at samle alt dit musik, film, billeder, og mere på et sted.
+Jellyfin-projektet er en open source-, fri software-medieserver. Ingen gebyrer, ingen sporing, ingen skjult agenda. Hent vores gratis server for at samle alt dit musik, video, billeder, og mere på et sted.
 
-For at bruge appen, skal du have adgang til en Jellyfin server. Læs mere på <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+For at bruge appen, skal du have adgang til en Jellyfin-server. Læs mere på <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
 
-Med en Jellyfin server, kan du:
+Med en Jellyfin-server, kan du:
 
-* Se live TV og optagelser fra din Jellyfin server (yderligere hardware/tjenester er nødvendige)
-* Afspille til en Chromecast enhed på dit netværk
-* Afspille dine medier på din Android enhed
-* Se din samling i et nemt at bruge grænseflade
+* Se live TV og optagelser fra din Jellyfin-server (yderligere hardware/tjenester er nødvendige)
+* Afspil til en Chromecast-enhed på dit netværk
+* Afspil dine medier på din Android-enhed
+* Se din samling i en nemt overskuelig brugergrænseflade
 
-Dette er den officielle Jellyfin app til Android TV. Tak fordi du bruger Jellyfin!
+Dette er den officielle Jellyfin-app til Android. Tak fordi du bruger Jellyfin!

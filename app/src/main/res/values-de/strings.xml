@@ -589,4 +589,5 @@
     <string name="lbl_still_watching_long">5 Folgen oder 150 Minuten</string>
     <string name="lbl_still_watching_very_long">8 Folgen oder 240 Minuten</string>
     <string name="still_watching_label">Bist du noch am schauen?</string>
+    <string name="pref_subtitles_position">Versatz von unten</string>
 </resources>

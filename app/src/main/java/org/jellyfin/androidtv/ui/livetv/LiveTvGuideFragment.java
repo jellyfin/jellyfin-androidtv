@@ -40,7 +40,7 @@ import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
-import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
@@ -50,6 +50,7 @@ import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
+import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.time.LocalDateTime;
@@ -101,9 +102,9 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private Handler mHandler = new Handler();
 
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
-    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<PlaybackLauncher> playbackLauncher = inject(PlaybackLauncher.class);
 
     @Nullable
     @Override
@@ -327,6 +328,16 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                         else
                             showProgramOptions();
                         return true;
+                    } else if (mSelectedProgramView instanceof GuideChannelHeader) {
+                        // Tuning directly to a channel
+                        GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
+                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
+                            @Override
+                            public void onResponse(List<BaseItemDto> response) {
+                                if (!isActive()) return;
+                                playbackLauncher.getValue().launch(requireContext(), response);
+                            }
+                        });
                     }
                 }
                 return false;
@@ -427,9 +438,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null) {
-            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, mSummary.getWidth()+20, new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, mSummary.getWidth()+20, new EmptyResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!isActive()) return;
                     playbackHelper.getValue().retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                 }
             });
@@ -474,9 +486,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mChannels.removeAllViews();
         mChannelStatus.setText("");
         mFilterStatus.setText("");
-        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!isActive()) return;
                 Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask();

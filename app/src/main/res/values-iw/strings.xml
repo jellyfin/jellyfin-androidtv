@@ -112,7 +112,7 @@
     <string name="lbl_people">אנשים</string>
     <string name="lbl_other_options">אפשרויות נוספות</string>
     <string name="lbl_last_played">"נצפה לאחרונה "</string>
-    <string name="lbl_directed_by">בוים על ידי</string>
+    <string name="lbl_directed_by">ביים</string>
     <string name="lbl_ends">מסתיים</string>
     <string name="lbl_runs">אורך</string>
     <string name="lbl_sd">SD</string>
@@ -123,7 +123,7 @@
     <string name="lbl_series">סדרה</string>
     <string name="lbl_trailers">קדימונים</string>
     <string name="lbl_specials">מיוחדים</string>
-    <string name="lbl_chapters">פרקים</string>
+    <string name="lbl_chapters">סצנות</string>
     <string name="lbl_cast_crew">שחקנים וצוות</string>
     <string name="msg_unable_to_cancel">לא ניתן לבטל את ההקלטה</string>
     <string name="msg_recording_cancelled">ההקלטה בוטלה</string>
@@ -154,12 +154,12 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">מומלץ</string>
     <string name="lbl_by_letter">לפי אות</string>
-    <string name="lbl_views">צפיות</string>
+    <string name="lbl_views">תצוגות</string>
     <string name="lbl_on_now">משודר כעת</string>
     <string name="lbl_next_up">הבא בתור</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
     <string name="lbl_settings">העדפות</string>
-    <string name="chapters">פרקים</string>
+    <string name="chapters">סצנות</string>
     <string name="pref_authentication_cat">אימות</string>
     <string name="settings_title">העדפות</string>
     <string name="pref_max_bitrate_title">קצב סיביות מרבי להזרמה</string>
@@ -178,7 +178,7 @@
     <string name="lbl_album_name">שם האלבום</string>
     <string name="lbl_previous_episode">הפרק הקודם</string>
     <string name="lbl_next_episode">הפרק הבא</string>
-    <string name="lbl_more_like_this">עוד כמו זה</string>
+    <string name="lbl_more_like_this">פריטים דומים</string>
     <string name="lbl_resume_from">המשך מ־%1$s</string>
     <string name="lbl_resume_preroll">הרצה אחורה בהמשך ניגון</string>
     <string name="lbl_guide_option_number">מספר ערוץ</string>
@@ -279,7 +279,7 @@
     <string name="no_network_permissions">Jellyfin צריכה הרשאות רשת כדי לפעול</string>
     <string name="pref_theme_muted_purple">סגול מעומעם</string>
     <string name="lbl_switch_user">החלף משתמש</string>
-    <string name="user_picker_last_user_summary">השתמש בחשבון הפעיל האחרון</string>
+    <string name="user_picker_last_user_summary">השתמש במשתמש הפעיל האחרון</string>
     <string name="user_picker_last_user_title">היה בשימוש לאחרונה</string>
     <string name="user_picker_disable_summary">הצג את מסך ההתחברות תמיד</string>
     <string name="user_picker_disable_title">כיבוי</string>
@@ -310,7 +310,7 @@
     <string name="lbl_user_last_used">היה בשימוש פעם אחרונה ב-%1$s בשעה %2$s</string>
     <string name="lbl_remove_server">מחק שרת</string>
     <string name="lbl_sign_out_content">דורש להתחבר שוב בפעם הבאה</string>
-    <string name="lbl_remove_user_content">הסר חשבון</string>
+    <string name="lbl_remove_user_content">הסר משתמש</string>
     <string name="lbl_remove_users">פעולה זו תמחק בנוסף את כל המשתמשים המקושרים</string>
     <string name="lbl_manage_servers">ניהול שרתים</string>
     <string name="lbl_community_rating">דירוג הקהילה</string>
@@ -324,10 +324,9 @@
     <string name="lbl_next_up_extended">עם תמונה ממוזערת</string>
     <string name="lbl_special">מיוחד</string>
     <string name="help">עזרה</string>
-    <string name="add_user">הוסף חשבון</string>
+    <string name="add_user">הוסף משתמש</string>
     <string name="who_is_watching">מי צופה\?</string>
-    <string name="no_user_warning">לא הצלחנו למצוא אף חשבון!
-\nהוסף חשבון חדש על ידי לחיצה על כפתור \"הוסף משתמש\".</string>
+    <string name="no_user_warning">לא הצלחנו למצוא אף משתמש!\nהוסף משתמש חדש על ידי לחיצה על כפתור \"הוסף משתמש\".</string>
     <string name="welcome_content">התחבר לשרת שלך בכדי להתחיל.</string>
     <string name="welcome_title">ברוכים הבאים ל-Jellyfin!</string>
     <string name="saved_servers">שרתים שמורים</string>
@@ -345,7 +344,7 @@
     <string name="pref_video">וידאו</string>
     <string name="pref_playback_description">וידאו, כתוביות, טלוויזיה חיה, הבא בתור</string>
     <string name="pref_customization_description">ערכת נושא, מסך הבית, הגדרות שליטה</string>
-    <string name="pref_login_description">שרתים, חשבונות, התחברות אוטומטית</string>
+    <string name="pref_login_description">שרתים, משתמשים, התחברות אוטומטית</string>
     <string name="pref_login">התחברות</string>
     <string name="pref_libraries_description">הגדר כיצד יוצגו הספריות</string>
     <string name="pref_libraries">ספריות</string>
@@ -353,7 +352,7 @@
     <string name="pref_theme">ערכת נושא</string>
     <string name="pref_browsing">דפדוף</string>
     <string name="pref_behavior">אופי פעולה</string>
-    <string name="pref_accounts">חשבונות</string>
+    <string name="pref_accounts">משתמשים</string>
     <string name="sort_accounts_by">מיין משתמשים לפי</string>
     <string name="pref_customization">התאמה אישית</string>
     <string name="server_issue_ssl_handshake">לחיצת היד של פרוטוקול SSL נכשלה</string>
@@ -378,20 +377,20 @@
     <string name="home_section_library">המדיה שלי</string>
     <string name="home_section_latest_media">מדיה שנוספה לאחרונה</string>
     <string name="home_sections">חלקות מסך הבית</string>
-    <string name="license_license">רשיון</string>
+    <string name="license_license">רישיון</string>
     <string name="license_author">יוצר</string>
     <string name="license_repository">מאגר</string>
     <string name="license_website">אתר</string>
     <string name="license_version">גרסה</string>
     <string name="license_description">תיאור</string>
     <string name="licenses_link_description">הצג את רישיונות הספריות שבשימוש ע\"י אפליקציית Jellyfin</string>
-    <string name="licenses_link">רשיונות</string>
+    <string name="licenses_link">רישיונות</string>
     <string name="select_version">גרסה</string>
     <string name="advanced_settings">הגדרות מתקדמות</string>
-    <string name="always_authenticate_description">הפעלת אפשרות זו תבטל את התחברות החשבון האוטומטית</string>
+    <string name="always_authenticate_description">הפעלת אפשרות זו תבטל את ההתחברות האוטומטית</string>
     <string name="always_authenticate">תמיד בקש נתוני הזדהות</string>
-    <string name="alphabetical">אלפביתי</string>
-    <string name="last_use">שומש לאחרונה</string>
+    <string name="alphabetical">אלף ביתי</string>
+    <string name="last_use">היה בשימוש לאחרונה</string>
     <string name="enable_playback_module_description">זוהי תכולה נסיונית. לא תסופק תמיכה.</string>
     <string name="lbl_on_any_channel">בכל ערוץ</string>
     <string name="lbl_record_all">יקליט את כל הפרקים</string>
@@ -495,7 +494,7 @@
         <item quantity="many">%1$s דקות</item>
         <item quantity="other">%1$s דקות</item>
     </plurals>
-    <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
+    <string name="lbl_latest_in">נוסף לאחרונה ב־%1$s</string>
     <string name="disable_ui_mode_warning">השבתה של אזהרת סוג התקן</string>
     <string name="because_you_watched">כיוון שצפית ב־%1$s</string>
     <string name="channels">ערוצים</string>
@@ -561,7 +560,7 @@
     <string name="lbl_subtitle_text_color">צבע הטקסט של הכתוביות</string>
     <string name="prefer_exoplayer_ffmpeg_content">השתמש ב-FFmpeg לפיענוח שמע, גם אם זמינים מקודדים של הפלטפורמה.</string>
     <string name="video_start_delay">עיכוב בתחילת הוידיאו</string>
-    <string name="segment_action_nothing">לא לעשות כלום</string>
+    <string name="segment_action_nothing">אל תעשה דבר</string>
     <string name="segment_type_outro">סיומות</string>
     <string name="segment_type_commercial">פרסומות</string>
     <string name="segment_type_intro">פתיחים</string>
@@ -572,7 +571,7 @@
     <string name="scheduled_in_next_24_hours">מתוכנן ב-24 השעות הקרובות</string>
     <string name="past_24_hours">24 שעות אחרונות</string>
     <string name="pref_mediasegment_actions">פעולות בהגעה למקטעי מדיה</string>
-    <string name="segment_action_skip">דלג אוטומטית</string>
+    <string name="segment_action_skip">דלג</string>
     <string name="default_video_zoom">מצב זום ברירת מחדל</string>
     <string name="segment_action_ask_to_skip">הצע לדלג</string>
     <string name="preference_enable_trickplay">הפעלת Trickplay בנגן הוידאו</string>
@@ -588,7 +587,7 @@
     <string name="pref_report_device_profile_success">מסמך נשלח כ-%1$s</string>
     <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה-Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">אפשר רינדור בצד לקוח של כתוביות בפורמט Advanced SubStation Alpha</string>
+    <string name="preference_enable_libass">אפשר ציור בצד לקוח של כתוביות בפורמט Advanced SubStation Alpha</string>
     <string name="lbl_from_beginning">נגן מההתחלה</string>
     <string name="speech_error_unavailable">זיהוי דיבור אינו זמין במכשיר זה.</string>
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
@@ -602,4 +601,5 @@
     <string name="lbl_still_watching_long">5 פרקים או 150 דקות</string>
     <string name="lbl_still_watching_very_long">8 פרקים או 240 דקות</string>
     <string name="still_watching_label">עדיין צופה?</string>
+    <string name="pref_subtitles_position">היסט מלמטה</string>
 </resources>

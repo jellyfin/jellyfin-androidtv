@@ -113,7 +113,7 @@
     <string name="lbl_today">Ma</string>
     <string name="lbl_load_channels">"Csatornák betöltése "</string>
     <string name="lbl_unwatched">Nem lejátszott</string>
-    <string name="msg_no_playable_items">Nince lejátszható elem</string>
+    <string name="msg_no_playable_items">Nincs lejátszható elem</string>
     <string name="lbl_now_playing_album">%1$s -tól</string>
     <string name="lbl_starting_with">Kezdve azokkal, amelyeknek a neve ezzel kezdődik</string>
     <string name="lbl_on">Ekkor</string>
@@ -127,7 +127,7 @@
     <string name="pref_about_title">Rólunk</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
     <string name="pref_theme_dark">Sötét (alapértelmezett)</string>
-    <string name="lbl_my_media">Én médiám</string>
+    <string name="lbl_my_media">Saját média</string>
     <string name="lbl_image_size">Képméret</string>
     <string name="lbl_image_type">Képtípus</string>
     <string name="lbl_start_favorites">Tegye előre a kedvenceket</string>
@@ -315,7 +315,7 @@
     <string name="pref_theme_muted_purple">Tompa lila</string>
     <string name="press_to_close">Nyomja meg a bezáráshoz</string>
     <string name="add_user">Felhasználó hozzáadása</string>
-    <string name="who_is_watching">Ki figyel\?</string>
+    <string name="who_is_watching">Ki van itt?</string>
     <string name="no_user_warning">Nem találtunk felhasználói fiókot!
 \nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gombbal.</string>
     <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
@@ -475,7 +475,7 @@
         <item quantity="one">%1$s másodperc</item>
         <item quantity="other">%1$s másodpercek</item>
     </plurals>
-    <string name="lbl_latest_in">Hozzáadva %1$s</string>
+    <string name="lbl_latest_in">Nemrég hozzáadott %1$s</string>
     <string name="pref_screensaver_inapp_enabled_description">Jellyfin képernyővédő használata, amíg az alkalmazás nyitva van</string>
     <string name="lbl_album_artists">Album szerzői</string>
     <plurals name="episodes">
@@ -572,4 +572,22 @@
     <string name="pref_report_device_profile_failure">A dokumentum benyújtása sikertelen. Lehetséges, hogy a Jellyfin szerver tiltja a kliensnaplókat.</string>
     <string name="pref_report_device_profile_title">Lejátszási képességek jelentése a szervernek</string>
     <string name="pref_report_device_profile_summary">Hibakeresési dokumentum feltöltése a Jellyfin szerverre a lejátszási képességekről</string>
+    <string name="preference_enable_pgs">PGS feliratok közvetlen lejátszása</string>
+    <string name="pref_subtitles_bold">Félkövér szöveg</string>
+    <string name="speech_error_unavailable">A készülékén nem érhető el a beszédfelismerés.</string>
+    <string name="speech_error_no_permission">Nincs engedély a mikrofon használatára. Kérjük, engedélyezze a rendszerbeállításokban.</string>
+    <string name="lbl_from_beginning">Lejátszás az elejétől</string>
+    <string name="rewind">Visszatekerés</string>
+    <string name="speech_error_unknown">Váratlan hiba történt a beszédfelismerés során.</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="lbl_exit">Kilépés</string>
+    <string name="pref_still_watching_behavior_title">Inaktivitási felugró ablak megjelenítése</string>
+    <string name="lbl_still_watching_default">3 epizód vagy 90 perc</string>
+    <string name="lbl_still_watching_short">2 epizód vagy 60 perc</string>
+    <string name="lbl_still_watching_long">5 epizód vagy 150 perc</string>
+    <string name="lbl_still_watching_very_long">8 epizód vagy 240 perc</string>
+    <string name="fast_forward">Gyors előretekerés</string>
+    <string name="preference_enable_libass">Az Advancedt SubStation Alpha kliens renderelés aktiválása</string>
+    <string name="still_watching_label">Még mindig figyel?</string>
+    <string name="pref_subtitles_position">Alsó eltolás</string>
 </resources>

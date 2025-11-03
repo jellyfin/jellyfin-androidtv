@@ -22,15 +22,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
@@ -76,7 +79,7 @@ private fun ConnectHelpAlert(
 						onClick = onClose,
 					) {
 						Icon(
-							painter = painterResource(R.drawable.ic_check),
+							imageVector = ImageVector.vectorResource(R.drawable.ic_check),
 							contentDescription = null,
 							modifier = Modifier.size(20.dp),
 						)
@@ -110,8 +113,10 @@ class ConnectHelpAlertFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	) = content {
-		ConnectHelpAlert(
-			onClose = { parentFragmentManager.popBackStack() },
-		)
+		JellyfinTheme {
+			ConnectHelpAlert(
+				onClose = { parentFragmentManager.popBackStack() },
+			)
+		}
 	}
 }

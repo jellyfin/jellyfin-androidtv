@@ -24,9 +24,20 @@ interface Queue {
 	val entry: StateFlow<QueueEntry?>
 
 	/**
+	 * The currently loaded queue entries in their original order. This contains at least the currently playing entry and previous
+	 * (unremoved) entries. Any upcoming entries are only added when they are at least peaked into using [peekNext] first.
+	 */
+	val entries: StateFlow<List<QueueEntry>>
+
+	/**
 	 * Add a supplier of queue items to the end of the queue. Will automatically fetch the first item if there is no current entry.
 	 */
 	fun addSupplier(supplier: QueueSupplier)
+
+	/**
+	 * Get all current suppliers of this queue.
+	 */
+	fun getSuppliers(): Collection<QueueSupplier>
 
 	/**
 	 * Clear all queue state, including suppliers, entries and currently playing entry.
@@ -53,6 +64,21 @@ interface Queue {
 	 * @param saveHistory Whether to save the current entry to the play history
 	 */
 	suspend fun setIndex(index: Int, saveHistory: Boolean = false): QueueEntry?
+
+	/**
+	 * Find the index of a given entry.
+	 *
+	 * @param entry The entry to find the index for
+	 */
+	fun indexOf(entry: QueueEntry): Int?
+
+
+	/**
+	 * Remove a given queue entry.
+	 *
+	 * @param entry The entry to remove
+	 */
+	suspend fun removeEntry(entry: QueueEntry)
 
 	/**
 	 * Get the previously playing entry or null if none.

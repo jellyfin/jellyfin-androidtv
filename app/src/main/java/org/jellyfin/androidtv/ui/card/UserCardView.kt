@@ -5,8 +5,8 @@ import android.graphics.Rect
 import android.os.Build
 import android.util.AttributeSet
 import android.view.KeyEvent
+import android.widget.ImageView
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,10 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.AbstractComposeView
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
@@ -157,12 +159,13 @@ class UserCardView @JvmOverloads constructor(
 				if (image != null) {
 					AsyncImage(
 						modifier = Modifier.fillMaxSize(),
+						scaleType = ImageView.ScaleType.CENTER_CROP,
 						url = image,
 					)
 				} else {
 					Box(modifier = Modifier.fillMaxSize()) {
-						Image(
-							painter = painterResource(R.drawable.ic_user),
+						Icon(
+							imageVector = ImageVector.vectorResource(R.drawable.ic_user),
 							contentDescription = name,
 							modifier = Modifier
 								.size(48.dp)

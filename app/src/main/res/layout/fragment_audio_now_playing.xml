@@ -36,12 +36,13 @@
         android:layout_marginStart="4dp"
         android:minHeight="22sp" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/mainScroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/genreRow"
         android:layout_marginTop="10dp"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -118,17 +119,11 @@
                         android:textSize="16sp"
                         tools:text="0:00" />
 
-                    <ProgressBar
+                    <androidx.compose.ui.platform.ComposeView
                         android:id="@+id/playerProgress"
-                        style="@style/player_progress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_weight="1"
-                        android:maxHeight="5sp" />
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/remainingTime"
@@ -250,5 +245,5 @@
 
         </RelativeLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

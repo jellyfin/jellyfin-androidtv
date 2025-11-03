@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing.composable.inforow
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 
 /**
@@ -26,7 +27,8 @@ import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 @Composable
 fun InfoRowItem(
 	// Icon options
-	icon: Painter? = null,
+	icon: ImageVector? = null,
+	iconTint: Color? = null,
 	contentDescription: String?,
 	// Styling
 	colors: Pair<Color, Color> = InfoRowColors.Transparent,
@@ -56,10 +58,11 @@ fun InfoRowItem(
 			modifier = modifier.fillMaxHeight(),
 		) {
 			if (icon != null) {
-				Image(
-					painter = icon,
+				Icon(
+					imageVector = icon,
 					contentDescription = contentDescription,
 					modifier = Modifier.size(if (backgroundColor.alpha > 0f) 16.dp else 18.dp),
+					tint = iconTint ?: LocalTextStyle.current.color,
 				)
 			}
 

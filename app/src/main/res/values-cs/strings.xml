@@ -48,7 +48,7 @@
     <string name="lbl_seasons">Sezóny</string>
     <string name="lbl_upcoming">Nadcházející</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">Spuštěno</string>
+    <string name="lbl_runs">Délka</string>
     <string name="lbl_ends">Končí</string>
     <string name="lbl_directed_by">Režie</string>
     <string name="lbl_last_played">"Naposledy přehráno "</string>
@@ -57,14 +57,14 @@
     <string name="lbl_videos">Videa</string>
     <string name="lbl_recordings">Nahrávky</string>
     <string name="lbl_none">Žádné</string>
-    <string name="msg_video_playback_error">"Chyba při přehrávání videa - "</string>
+    <string name="msg_video_playback_error">"Chyba při přehrávání videa – "</string>
     <string name="lbl_bracket_unknown">Neznámý</string>
     <string name="lbl_trailer">"Upoutávka "</string>
     <string name="lbl_play_trailers">Přehrát upoutávky</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_yes">Ano</string>
-    <string name="lbl_enter_server_address">Zadat adresu serveru</string>
-    <string name="lbl_valid_server_address">Zadejte prosím adresu serveru (IP nebo doména/název stroje)</string>
+    <string name="lbl_enter_server_address">Zadejte adresu serveru</string>
+    <string name="lbl_valid_server_address">Zadejte prosím adresu serveru (IP nebo název domény/zařízení)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Narozen "</string>
     <string name="lbl_loading_elipses">Načítání…</string>
@@ -574,8 +574,8 @@
     <string name="segment_action_ask_to_skip">Zeptat se na přeskočení</string>
     <string name="lbl_subtitle_text_stroke_color">Barva obrysu titulků</string>
     <string name="pref_mediasegment_actions">Akce mediálních segmentů</string>
-    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
-    <string name="runtime_minutes">%1$dm</string>
+    <string name="runtime_hours_minutes">%1$d h %2$d min</string>
+    <string name="runtime_minutes">%1$d min</string>
     <string name="pref_troubleshooting">Řešení chyb</string>
     <string name="pref_report_device_profile_success">Dokument odeslán jako %1$s</string>
     <string name="pref_report_device_profile_title">Hlásit možnosti přehrávání na server</string>
@@ -599,4 +599,5 @@
     <string name="lbl_still_watching_long">5 epizod nebo 150 minut</string>
     <string name="lbl_still_watching_very_long">8 epizod nebo 240 minut</string>
     <string name="still_watching_label">Stále se díváte?</string>
+    <string name="pref_subtitles_position">Odsazení odspodu</string>
 </resources>

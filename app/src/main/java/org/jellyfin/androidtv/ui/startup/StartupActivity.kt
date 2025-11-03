@@ -148,12 +148,14 @@ class StartupActivity : FragmentActivity() {
 				query = intent.getStringExtra(SearchManager.QUERY)
 			)
 			// User view item is requested
-			itemId != null && itemIsUserView -> {
+			itemId != null && itemIsUserView -> runCatching {
 				val item = withContext(Dispatchers.IO) {
 					api.userLibraryApi.getItem(itemId = itemId).content
 				}
 				itemLauncher.getUserViewDestination(item)
-			}
+			}.onFailure { throwable ->
+				Timber.w(throwable, "Failed to retrieve item $itemId from server.")
+			}.getOrNull()
 			// Other item is requested
 			itemId != null -> Destinations.itemDetails(itemId)
 			// No destination requested, use default

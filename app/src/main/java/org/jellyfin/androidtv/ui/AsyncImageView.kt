@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.ui
 
+import android.app.ActivityManager
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -17,6 +19,7 @@ import coil3.request.target
 import coil3.request.transformations
 import coil3.transform.CircleCropTransformation
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
@@ -39,6 +42,7 @@ class AsyncImageView @JvmOverloads constructor(
 	private val lifeCycleOwner get() = findViewTreeLifecycleOwner()
 	private val styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.AsyncImageView, defStyleAttr, 0)
 	private val imageLoader by inject<ImageLoader>()
+	private var loadJob: Job? = null
 
 	/**
 	 * The duration of the crossfade when changing switching the images of the url, blurhash and
@@ -64,11 +68,15 @@ class AsyncImageView @JvmOverloads constructor(
 		aspectRatio: Double = 1.0,
 		blurHashResolution: Int = 32,
 	) = doOnAttach {
-		lifeCycleOwner?.lifecycleScope?.launch(Dispatchers.IO) {
+		// Cancel the previous load if still running
+		loadJob?.cancel()
+
+		loadJob = lifeCycleOwner?.lifecycleScope?.launch(Dispatchers.IO) {
 			var placeholderOrBlurHash = placeholder
 
 			// Only show blurhash if an image is going to be loaded from the network
-			if (url != null && blurHash != null) withContext(Dispatchers.IO) {
+			val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+			if (url != null && blurHash != null && !isLowRamDevice) withContext(Dispatchers.IO) {
 				val blurHashBitmap = BlurHashDecoder.decode(
 					blurHash,
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,
@@ -78,14 +86,14 @@ class AsyncImageView @JvmOverloads constructor(
 			}
 
 			// Start loading image or placeholder
-			if (url == null) {
-				imageLoader.enqueue(ImageRequest.Builder(context).apply {
+			val request = if (url == null) {
+				ImageRequest.Builder(context).apply {
 					target(this@AsyncImageView)
 					data(placeholder)
 					if (circleCrop) transformations(CircleCropTransformation())
-				}.build())
+				}.build()
 			} else {
-				imageLoader.enqueue(ImageRequest.Builder(context).apply {
+				ImageRequest.Builder(context).apply {
 					val crossFadeDurationMs = crossFadeDuration.inWholeMilliseconds.toInt()
 					if (crossFadeDurationMs > 0) crossfade(crossFadeDurationMs)
 					else crossfade(false)
@@ -95,8 +103,10 @@ class AsyncImageView @JvmOverloads constructor(
 					placeholder(placeholderOrBlurHash?.asImage())
 					if (circleCrop) transformations(CircleCropTransformation())
 					error(placeholder?.asImage())
-				}.build())
+				}.build()
 			}
+
+			imageLoader.enqueue(request).job.await()
 		}
 	}
 }

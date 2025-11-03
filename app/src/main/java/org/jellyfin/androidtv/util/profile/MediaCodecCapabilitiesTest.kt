@@ -1,14 +1,47 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
 import android.os.Build
 import android.util.Size
+import android.view.Display
+import androidx.core.content.ContextCompat
 import timber.log.Timber
 
-class MediaCodecCapabilitiesTest {
+class MediaCodecCapabilitiesTest(
+	private val context: Context,
+) {
+	private val display by lazy { ContextCompat.getDisplayOrDefault(context) }
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
+
+	@Suppress("DEPRECATION")
+	private val supportedHdrTypes by lazy {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) display.mode.supportedHdrTypes.toList()
+		else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) display.hdrCapabilities.supportedHdrTypes.toList()
+		else emptyList()
+	}
+
+	// Map common Dolby Vision Profiles to their corresponding CodecProfileLevel constant
+	private object DolbyVisionProfiles {
+		val Profile5: Int by lazy {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+				CodecProfileLevel.DolbyVisionProfileDvheStn else -1
+		}
+		val Profile7: Int by lazy {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+				CodecProfileLevel.DolbyVisionProfileDvheDtb else -1
+		}
+		val Profile8: Int by lazy {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+				CodecProfileLevel.DolbyVisionProfileDvheSt else -1
+		}
+		val Profile10: Int by lazy {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+				CodecProfileLevel.DolbyVisionProfileDvav110 else -1
+		}
+	}
 
 	// AVC levels as reported by ffprobe are multiplied by 10, e.g. level 4.1 is 41. Level 1b is set to 9
 	private val avcLevels = listOf(
@@ -58,6 +91,27 @@ class MediaCodecCapabilitiesTest {
 			CodecProfileLevel.AV1Level5
 		)
 
+	fun supportsAV1DolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+		hasDecoder(
+			MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION,
+			DolbyVisionProfiles.Profile10,
+			CodecProfileLevel.DolbyVisionLevelHd24
+		)
+
+	fun supportsAV1HDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+		hasDecoder(
+			MediaFormat.MIMETYPE_VIDEO_AV1,
+			CodecProfileLevel.AV1ProfileMain10HDR10,
+			CodecProfileLevel.AV1Level5
+		)
+
+	fun supportsAV1HDR10Plus(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+		hasDecoder(
+			MediaFormat.MIMETYPE_VIDEO_AV1,
+			CodecProfileLevel.AV1ProfileMain10HDR10Plus,
+			CodecProfileLevel.AV1Level5
+		)
+
 	fun supportsAVC(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AVC)
 
 	fun supportsAVCHigh10(): Boolean = hasDecoder(
@@ -89,6 +143,34 @@ class MediaCodecCapabilitiesTest {
 		CodecProfileLevel.HEVCProfileMain10,
 		CodecProfileLevel.HEVCMainTierLevel4
 	)
+
+	// Can safely assume Dolby Vision decoders support single-layer HEVC profiles
+	fun supportsHevcDolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+		hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION)
+
+	// Checks for Dolby Vision Profile 7 (Enhancement Layer) and multi-instance HEVC support
+	fun supportsHevcDolbyVisionEL(): Boolean =
+		Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+			hasDecoder(
+				MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION,
+				DolbyVisionProfiles.Profile7,
+				CodecProfileLevel.DolbyVisionLevelHd24
+			) &&
+			supportsMultiInstance(MediaFormat.MIMETYPE_VIDEO_HEVC)
+
+	fun supportsHevcHDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+		hasDecoder(
+			MediaFormat.MIMETYPE_VIDEO_HEVC,
+			CodecProfileLevel.HEVCProfileMain10HDR10,
+			CodecProfileLevel.HEVCMainTierLevel4
+		)
+
+	fun supportsHevcHDR10Plus(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+		hasDecoder(
+			MediaFormat.MIMETYPE_VIDEO_HEVC,
+			CodecProfileLevel.HEVCProfileMain10HDR10Plus,
+			CodecProfileLevel.HEVCMainTierLevel4
+		)
 
 	fun getHevcMainLevel(): Int = getHevcLevel(
 		CodecProfileLevel.HEVCProfileMain
@@ -167,6 +249,26 @@ class MediaCodecCapabilitiesTest {
 		return false
 	}
 
+	private fun supportsMultiInstance(mime: String): Boolean {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
+
+		for (info in mediaCodecList.codecInfos) {
+			if (info.isEncoder) continue
+
+			try {
+				val types = info.getSupportedTypes()
+				if (!types.contains(mime)) continue
+
+				val capabilities = info.getCapabilitiesForType(mime)
+				if (capabilities.maxSupportedInstances > 1) return true
+			} catch (_: IllegalArgumentException) {
+				// Decoder not supported - ignore
+			}
+		}
+
+		return false
+	}
+
 	fun getMaxResolution(mime: String): Size {
 		var maxWidth = 0
 		var maxHeight = 0
@@ -193,4 +295,15 @@ class MediaCodecCapabilitiesTest {
 		return Size(maxWidth, maxHeight)
 	}
 
+	fun supportsDolbyVision(): Boolean {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)
+	}
+
+	fun supportsHdr10(): Boolean {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)
+	}
+
+	fun supportsHdr10Plus(): Boolean {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)
+	}
 }

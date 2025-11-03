@@ -576,4 +576,18 @@
     <string name="rewind">Rewind</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
+    <string name="pref_subtitles_bold">Bold text</string>
+    <string name="lbl_from_beginning">Play from beginning</string>
+    <string name="lbl_exit">Exit</string>
+    <string name="pref_still_watching_behavior_title">Show inactivity timeout popup</string>
+    <string name="lbl_still_watching_default">3 episodes or 90 minutes</string>
+    <string name="lbl_still_watching_short">2 episodes or 60 minutes</string>
+    <string name="lbl_still_watching_long">5 episodes or 150 minutes</string>
+    <string name="lbl_still_watching_very_long">8 episodes or 240 minutes</string>
+    <string name="speech_error_unavailable">Speech recognition is unavailable on your device.</string>
+    <string name="still_watching_label">Are you still watching?</string>
+    <string name="preference_enable_pgs">Direct play PGS subtitles</string>
+    <string name="speech_error_no_permission">No permission to use the microphone. Please enable it in system settings.</string>
+    <string name="speech_error_unknown">An unexpected error occurred during speech recognition.</string>
+    <string name="pref_subtitles_position">Offset from bottom</string>
 </resources>

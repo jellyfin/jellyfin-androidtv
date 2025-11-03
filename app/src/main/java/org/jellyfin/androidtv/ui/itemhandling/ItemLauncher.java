@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.Response;
@@ -65,7 +66,7 @@ public class ItemLauncher {
         }
     }
 
-    public void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, final Context context) {
+    public void launch(final BaseRowItem rowItem, MutableObjectAdapter<Object> adapter, final Context context) {
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
@@ -100,8 +101,8 @@ public class ItemLauncher {
                             navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
                         } else if (mediaManager.getValue().hasAudioQueueItems() && rowItem instanceof AudioQueueBaseRowItem && adapter.indexOf(rowItem) < mediaManager.getValue().getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
-                            mediaManager.getValue().playFrom(rowItem.getBaseItem());
-                        } else if (adapter.getQueryType() == QueryType.Search) {
+                            mediaManager.getValue().playFrom(((AudioQueueBaseRowItem) rowItem).getQueueEntry());
+                        } else if (adapter instanceof ItemRowAdapter && ((ItemRowAdapter)adapter).getQueryType() == QueryType.Search) {
                             playbackLauncher.getValue().launch(context, Arrays.asList(rowItem.getBaseItem()));
                         } else {
                             Timber.d("playing audio item");
@@ -125,12 +126,14 @@ public class ItemLauncher {
                         return;
 
                     case PHOTO:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.pictureViewer(
-                                baseItem.getId(),
-                                false,
-                                adapter.getSortBy(),
-                                adapter.getSortOrder()
-                        ));
+                        if (adapter instanceof ItemRowAdapter) {
+                            navigationRepository.getValue().navigate(Destinations.INSTANCE.photoPlayer(
+                                    baseItem.getId(),
+                                    false,
+                                    ((ItemRowAdapter) adapter).getSortBy(),
+                                    ((ItemRowAdapter) adapter).getSortOrder()
+                            ));
+                        }
                         return;
 
                 }
@@ -156,6 +159,7 @@ public class ItemLauncher {
                             playbackHelper.getValue().getItemsToPlay(context, baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
                                 @Override
                                 public void onResponse(List<BaseItemDto> response) {
+                                    if (!isActive()) return;
                                     playbackLauncher.getValue().launch(context, response);
                                 }
                             });
@@ -173,6 +177,7 @@ public class ItemLauncher {
                 ItemLauncherHelper.getItem(rowItem.getItemId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
+                        if (!isActive()) return;
                         List<BaseItemDto> items = new ArrayList<>(1);
                         items.add(response);
                         Long start = chapter.getStartPositionTicks() / 10000;
@@ -194,6 +199,7 @@ public class ItemLauncher {
                         ItemLauncherHelper.getItem(program.getChannelId(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
+                                if (!isActive()) return;
                                 List<BaseItemDto> items = new ArrayList<>(1);
                                 items.add(response);
                                 playbackLauncher.getValue().launch(context, items);
@@ -209,9 +215,11 @@ public class ItemLauncher {
                 ItemLauncherHelper.getItem(channel.getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
+                        if (!isActive()) return;
                         playbackHelper.getValue().getItemsToPlay(context, response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
+                                if (!isActive()) return;
                                 playbackLauncher.getValue().launch(context, response);
                             }
                         });
@@ -230,6 +238,7 @@ public class ItemLauncher {
                         ItemLauncherHelper.getItem(rowItem.getBaseItem().getId(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
+                                if (!isActive()) return;
                                 List<BaseItemDto> items = new ArrayList<>(1);
                                 items.add(response);
                                 playbackLauncher.getValue().launch(context, items);

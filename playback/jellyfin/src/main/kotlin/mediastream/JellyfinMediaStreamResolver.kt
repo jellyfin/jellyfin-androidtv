@@ -1,14 +1,13 @@
 package org.jellyfin.playback.jellyfin.mediastream
 
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
-import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.queue.QueueEntry
-import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.audioApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -25,18 +24,30 @@ class JellyfinMediaStreamResolver(
 		private val supportedMediaTypes = arrayOf(MediaType.VIDEO, MediaType.AUDIO)
 	}
 
-	override suspend fun getStream(queueEntry: QueueEntry, testStream: (stream: MediaStream) -> PlaySupportReport): PlayableMediaStream? {
+	override suspend fun getStream(queueEntry: QueueEntry): PlayableMediaStream? {
 		val baseItem = queueEntry.baseItem
 		if (baseItem == null || !supportedMediaTypes.contains(baseItem.mediaType)) return null
 
 		val mediaInfo = getPlaybackInfo(baseItem, queueEntry.mediaSourceId)
 
 		return when {
-			// Direct play
-			mediaInfo.mediaSource.supportsDirectPlay -> mediaInfo.toStream(
+			// Direct play video
+			mediaInfo.mediaSource.supportsDirectPlay && baseItem.mediaType == MediaType.VIDEO -> mediaInfo.toStream(
 				queueEntry = queueEntry,
 				conversionMethod = MediaConversionMethod.None,
 				url = api.videosApi.getVideoStreamUrl(
+					itemId = baseItem.id,
+					mediaSourceId = mediaInfo.mediaSource.id,
+					static = true,
+					tag = mediaInfo.mediaSource.eTag,
+				)
+			)
+
+			// Direct play audio
+			mediaInfo.mediaSource.supportsDirectPlay && baseItem.mediaType == MediaType.AUDIO -> mediaInfo.toStream(
+				queueEntry = queueEntry,
+				conversionMethod = MediaConversionMethod.None,
+				url = api.audioApi.getAudioStreamUrl(
 					itemId = baseItem.id,
 					mediaSourceId = mediaInfo.mediaSource.id,
 					static = true,

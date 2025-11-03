@@ -244,7 +244,7 @@
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactiva aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
-    <string name="msg_no_items">No hi ha elements per reproduir</string>
+    <string name="msg_no_items">No hi ha elements per a reproduir</string>
     <string name="subtitle_error">No es pot seleccionar el subtítol</string>
     <string name="too_many_errors">Hi ha massa errors. S\'ha aturat la reproducció</string>
     <string name="player_error">S\'ha trobat un error del reproductor. Es tornarà a intentar…</string>
@@ -333,9 +333,9 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">Especial</string>
     <string name="help">Ajuda</string>
-    <string name="add_user">Afegeix compte</string>
+    <string name="add_user">Afegiu-hi un compte</string>
     <string name="who_is_watching">Qui ho està mirant\?</string>
-    <string name="no_user_warning">No s\'ha trobat cap compte! \nAfegiu un nou compte pitjant el botó \"Afegeix compte\".</string>
+    <string name="no_user_warning">No s\'ha trobat cap compte! \nAfegiu un nou compte pitjant el botó \"Afegiu-hi un compte\".</string>
     <string name="welcome_content">Connecteu-vos al vostre servidor per a començar.</string>
     <string name="welcome_title">Us donem la benvinguda a Jellyfin!</string>
     <string name="saved_servers">Servidors desats</string>
@@ -354,7 +354,7 @@
     <string name="pref_watched_indicator">Marca els elements ja visualitzats</string>
     <string name="login_help_description">Jellyfin necessita un servidor on connectar-se. Visiteu la documentació a docs.jellyfin.org o escanegeu el codi QR per a començar.</string>
     <string name="login_help_title">Us cal ajuda?</string>
-    <string name="connect_manually_by_address">Introdueix l\'adreça del servidor</string>
+    <string name="connect_manually_by_address">Introduïu l\'adreça del servidor</string>
     <string name="discovered_servers_empty">No s\'han trobat servidors a la xarxa local.</string>
     <string name="discovered_servers_title">Servidors a la xarxa</string>
     <string name="lbl_hidden">Amagat</string>
@@ -536,7 +536,7 @@
         <item quantity="other">%1$s cançons</item>
     </plurals>
     <string name="random">Aleatori</string>
-    <string name="unreleased">Encara no s\'ha publicat</string>
+    <string name="unreleased">Encara no s\'ha estrenat</string>
     <string name="lbl_home">Inici</string>
     <string name="pref_screensaver_ageratingmax">Classificació d\'edat màxima</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Només es mostren elements amb una classificació per edat indicada</string>
@@ -598,4 +598,5 @@
     <string name="lbl_still_watching_long">5 episodis o 150 minuts</string>
     <string name="lbl_still_watching_very_long">8 episodis o 240 minuts</string>
     <string name="still_watching_label">Encara ho esteu mirant?</string>
+    <string name="pref_subtitles_position">Desplaçament des de baix</string>
 </resources>

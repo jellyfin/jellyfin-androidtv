@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Falló la carga del vídeo</string>
+    <string name="video_error_unknown_error">No se pudo cargar el video</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_playback">Reproducir</string>
@@ -244,7 +244,7 @@
     <string name="too_many_errors">Demasiados errores. Deteniendo la reproducción</string>
     <string name="player_error">Se ha encontrado un error en el reproductor. Re-intentando…</string>
     <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores?</string>
-    <string name="msg_live_tv_next">¿Desea cargar las siguientes %1$d horas?\"</string>
+    <string name="msg_live_tv_next">¿Cargar las próximas %1$d horas?</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo\?</string>
     <string name="episode_missing">Episodio faltante</string>
@@ -589,4 +589,15 @@
     <string name="lbl_still_watching_short">2 episodios o 60 minutos</string>
     <string name="lbl_still_watching_long">5 episodios o 150 minutos</string>
     <string name="lbl_still_watching_very_long">8 episodios o 240 minutos</string>
+    <string name="fast_forward">Avance rápido</string>
+    <string name="rewind">Retroceder</string>
+    <string name="preference_enable_libass">Activar la representación avanzada del cliente de subtítulos de SubStation Alpha</string>
+    <string name="preference_enable_pgs">Reproducir directamente los subtítulos PGS</string>
+    <string name="speech_error_unavailable">El reconocimiento de voz no está disponible en tu dispositivo.</string>
+    <string name="speech_error_no_permission">Sin permiso para usar el micrófono. Puedes activarlo en los ajustes del sistema.</string>
+    <string name="indicator_subtitles_hearing_impaired">Subtítulos para sordos</string>
+    <string name="pref_still_watching_behavior_title">Mostrar aviso por inactividad</string>
+    <string name="speech_error_unknown">Se produjo un error inesperado durante el reconocimiento de voz.</string>
+    <string name="still_watching_label">¿Aún sigues ahí?</string>
+    <string name="pref_subtitles_position">Posición desde abajo</string>
 </resources>

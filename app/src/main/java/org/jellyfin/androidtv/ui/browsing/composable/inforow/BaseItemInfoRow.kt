@@ -8,11 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
@@ -118,7 +119,7 @@ fun BaseItemInfoRowRuntime(
 	runTime: Duration,
 ) {
 	InfoRowItem(
-		icon = painterResource(id = R.drawable.ic_time),
+		icon = ImageVector.vectorResource(id = R.drawable.ic_time),
 		contentDescription = null,
 	) {
 		Text(TimeUtils.formatMillis(runTime.inWholeMilliseconds))

@@ -16,12 +16,12 @@ import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment
 import org.jellyfin.androidtv.ui.itemdetail.MusicFavoritesListFragment
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
-import org.jellyfin.androidtv.ui.picture.PictureViewerFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
-import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackRewriteFragment
 import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
+import org.jellyfin.androidtv.ui.player.photo.PhotoPlayerFragment
+import org.jellyfin.androidtv.ui.player.video.VideoPlayerFragment
 import org.jellyfin.androidtv.ui.search.SearchFragment
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -122,20 +122,24 @@ object Destinations {
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
 
-	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: ItemSortBy?, albumSortOrder: SortOrder?) =
-		fragmentDestination<PictureViewerFragment>(
-			PictureViewerFragment.ARGUMENT_ITEM_ID to item.toString(),
-			PictureViewerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy?.serialName,
-			PictureViewerFragment.ARGUMENT_ALBUM_SORT_ORDER to albumSortOrder?.serialName,
-			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
-		)
+	fun photoPlayer(
+		item: UUID,
+		autoPlay: Boolean,
+		albumSortBy: ItemSortBy?,
+		albumSortOrder: SortOrder?,
+	) = fragmentDestination<PhotoPlayerFragment>(
+		PhotoPlayerFragment.ARGUMENT_ITEM_ID to item.toString(),
+		PhotoPlayerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy?.serialName,
+		PhotoPlayerFragment.ARGUMENT_ALBUM_SORT_ORDER to albumSortOrder?.serialName,
+		PhotoPlayerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
+	)
 
 	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(
 		"Position" to (position ?: 0)
 	)
 
-	fun playbackRewritePlayer(position: Int?) = fragmentDestination<PlaybackRewriteFragment>(
-		PlaybackRewriteFragment.EXTRA_POSITION to position
+	fun videoPlayerNew(position: Int?) = fragmentDestination<VideoPlayerFragment>(
+		VideoPlayerFragment.EXTRA_POSITION to position
 	)
 
 	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(

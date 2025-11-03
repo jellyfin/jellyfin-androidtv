@@ -179,7 +179,7 @@
         <LinearLayout
             android:id="@+id/fdButtonRow"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:divider="@drawable/blank10x10"
             android:orientation="horizontal"

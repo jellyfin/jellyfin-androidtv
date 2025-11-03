@@ -414,7 +414,7 @@
     <string name="login_connect_to">Подключение к %1$s</string>
     <string name="input_password">Пароль</string>
     <string name="input_username">Имя пользователя</string>
-    <string name="action_use_quickconnect">Использовать Быстрое подключение</string>
+    <string name="action_use_quickconnect">Использовать быстрое подключение</string>
     <string name="action_use_password">Использовать пароль</string>
     <string name="action_login">Вход</string>
     <string name="pref_refresh_rate_scale_on_device">Масштабирование на устройстве</string>
@@ -609,4 +609,5 @@
     <string name="lbl_still_watching_short">2 эпизода или 60 минут</string>
     <string name="still_watching_label">Вы всё ещё смотрите?</string>
     <string name="lbl_still_watching_default">3 эпизода или 90 минут</string>
+    <string name="pref_subtitles_position">Отступ снизу</string>
 </resources>

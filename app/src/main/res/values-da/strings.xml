@@ -514,7 +514,7 @@
     </plurals>
     <plurals name="movies">
         <item quantity="one">%1$s film</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s film</item>
     </plurals>
     <plurals name="albums">
         <item quantity="one">%1$s album</item>
@@ -589,4 +589,5 @@
     <string name="pref_report_device_profile_title">Rapporter afspilningsmuligheder til server</string>
     <string name="pref_report_device_profile_success">Dokument indsendt som %1$s</string>
     <string name="pref_report_device_profile_failure">Det lykkedes ikke at sende dokumentet. Din Jellyfin-server tillader måske ikke indsendelse af klientlogge.</string>
+    <string name="pref_subtitles_position">Afstand fra bunden</string>
 </resources>

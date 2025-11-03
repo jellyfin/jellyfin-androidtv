@@ -8,15 +8,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,15 +23,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.ButtonBase
@@ -56,6 +54,7 @@ import org.koin.compose.koinInject
 
 @Composable
 fun NowPlayingComposable(
+	modifier: Modifier = Modifier,
 	onFocusableChange: (focusable: Boolean) -> Unit,
 ) {
 	val api = koinInject<ApiClient>()
@@ -69,39 +68,26 @@ fun NowPlayingComposable(
 	LaunchedEffect(item == null) { onFocusableChange(item != null) }
 
 	AnimatedContent(
+		modifier = modifier,
 		targetState = item,
 		transitionSpec = { fadeIn() togetherWith fadeOut() },
 	) { item ->
 		if (item != null) {
 			ButtonBase(
 				onClick = { navigationRepository.navigate(Destinations.nowPlaying) },
-				shape = JellyfinTheme.shapes.extraSmall,
 				modifier = Modifier
-					.widthIn(0.dp, 250.dp)
+					.widthIn(100.dp, 250.dp)
 			) {
-				Box(
-					modifier = Modifier
-						.align(Alignment.BottomStart)
-						.fillMaxWidth()
-						.height(1.dp)
-						.drawWithContent {
-							// Background
-							drawRect(Color.White, alpha = 0.4f)
-							// Foreground
-							drawRect(Color.White, size = size.copy(width = progress * size.width))
-						}
-				)
-
 				ProvideTextStyle(
 					value = TextStyle.Default.copy(
 						fontSize = 12.sp,
 					)
 				) {
 					Row(
-						horizontalArrangement = Arrangement.spacedBy(10.dp),
+						horizontalArrangement = Arrangement.spacedBy(6.dp),
 						verticalAlignment = Alignment.CenterVertically,
 						modifier = Modifier
-							.padding(5.dp)
+							.padding(3.dp)
 					) {
 						val image = item.itemImages[ImageType.PRIMARY] ?: item.albumPrimaryImage ?: item.parentImages[ImageType.PRIMARY]
 
@@ -112,15 +98,35 @@ fun NowPlayingComposable(
 							aspectRatio = image?.aspectRatio ?: 1f,
 							modifier = Modifier
 								.size(35.dp)
-								.clip(RoundedCornerShape(4.dp)),
+								.clip(CircleShape)
+								.drawWithContent {
+									drawContent()
+
+									// Background
+									drawCircle(
+										style = Stroke(width = 3.dp.toPx()),
+										color = Color.Black,
+										alpha = 0.4f,
+									)
+									// Foreground
+									drawArc(
+										style = Stroke(width = 3.dp.toPx()),
+										color = Color.White,
+										useCenter = false,
+										startAngle = -90f,
+										sweepAngle = 360f * progress,
+									)
+								},
 							scaleType = ImageView.ScaleType.CENTER_CROP,
 						)
 
 						Column(
 							verticalArrangement = Arrangement.SpaceAround,
+							modifier = Modifier
+								.padding(start = 2.dp, end = 8.dp)
 						) {
 							// Name
-							Text(text = item.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+							Text(text = item.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis, fontWeight = FontWeight.Bold)
 							val artists = item.artists ?: item.albumArtists ?: item.albumArtist?.let(::listOf)
 							Text(text = artists?.joinToString(", ").orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
 						}

@@ -580,4 +580,12 @@
     <string name="pref_report_device_profile_title">Reportar las capacidades de reproducción al servidor</string>
     <string name="pref_troubleshooting">Resolución de problemas</string>
     <string name="indicator_subtitles_hearing_impaired">D/H</string>
+    <string name="lbl_exit">Salir</string>
+    <string name="pref_still_watching_behavior_title">Mostrar aviso de inactividad</string>
+    <string name="lbl_still_watching_default">3 episodios o 90 minutos</string>
+    <string name="lbl_still_watching_long">5 episodios o 150 minutos</string>
+    <string name="lbl_from_beginning">Reproducir desde el inicio</string>
+    <string name="lbl_still_watching_short">2 episodios o 60 minutos</string>
+    <string name="lbl_still_watching_very_long">8 episodios o 240 minutos</string>
+    <string name="pref_subtitles_bold">Texto ancho</string>
 </resources>

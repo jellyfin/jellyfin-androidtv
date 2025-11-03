@@ -573,4 +573,13 @@
     <string name="pref_screensaver_ageratingmax">Najviša dobna skupina</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Prikaži sve sadržaje</string>
     <string name="preference_enable_trickplay">Omogući trickplay u video playeru</string>
+    <string name="lbl_exit">Izlaz</string>
+    <string name="runtime_hours_minutes">%1$dh %2$dm</string>
+    <string name="runtime_minutes">%1$dm</string>
+    <string name="lbl_from_beginning">Reproduciraj od početka</string>
+    <string name="pref_subtitles_bold">Podebljani tekst</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="lbl_still_watching_long">5 epizoda ili 150 minuta</string>
+    <string name="lbl_still_watching_very_long">8 epizoda ili 240 minuta</string>
+    <string name="pref_subtitles_position">Pomak od dna</string>
 </resources>
