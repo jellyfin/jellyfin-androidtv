@@ -123,7 +123,7 @@
     <string name="chapters">الفصول</string>
     <string name="settings_title">الإعدادات</string>
     <string name="pref_max_bitrate_title">أقصى معدل بت التدفق</string>
-    <string name="pref_playback">تشغيل</string>
+    <string name="pref_playback">إعادة تشغيل</string>
     <string name="byletter_letters">أ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي</string>
     <string name="btn_cancel">إلغاء</string>
     <string name="loading">جاري التحميل…</string>
@@ -416,7 +416,7 @@
     <string name="color_yellow">أصفر</string>
     <string name="color_blue">أزرق</string>
     <string name="color_cyan">سماوي</string>
-    <string name="action_use_quickconnect">استخدم خاصية الاتصال السريع</string>
+    <string name="action_use_quickconnect">استخدم الاتصال السريع</string>
     <string name="login_quickconnect_step_3">3. أكتب الرمز التالي:</string>
     <string name="pref_telemetry_category">تقارير الأخطاء</string>
     <string name="pref_telemetry_description">ارسل تقارير الأخطاء والمستندات</string>
@@ -618,4 +618,6 @@
         <item quantity="many">%1$s متعددة</item>
         <item quantity="other">%1$s اخرى</item>
     </plurals>
+    <string name="indicator_subtitles_hearing_impaired">د ص ت</string>
+    <string name="preference_enable_pgs">ترجمة PGS</string>
 </resources>
