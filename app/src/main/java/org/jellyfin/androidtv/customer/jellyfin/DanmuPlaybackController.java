@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import org.jellyfin.androidtv.BuildConfig;
-import org.jellyfin.androidtv.customer.ByteReadChannelInputStream;
 import org.jellyfin.androidtv.customer.CustomerUserPreferences;
 import org.jellyfin.androidtv.customer.common.CustomerCommonUtils;
 import org.jellyfin.androidtv.customer.danmu.BiliDanmukuParser;
@@ -19,15 +18,13 @@ import org.jellyfin.sdk.api.client.Response;
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import io.ktor.utils.io.ByteReadChannel;
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.loader.ILoader;
 import master.flame.danmaku.danmaku.loader.IllegalDataException;
@@ -41,7 +38,6 @@ import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
 
 public class DanmuPlaybackController extends PlaybackController {
-    private static final Logger log = LoggerFactory.getLogger(DanmuPlaybackController.class);
     private DanmuApi danmuApi;
     private CustomerUserPreferences customerUserPreferences;
 
@@ -222,7 +218,7 @@ public class DanmuPlaybackController extends PlaybackController {
             return null;
         }
 
-        Response<ByteReadChannel> danmuXmlFileById = null;
+        Response<byte[]> danmuXmlFileById = null;
         try {
             danmuXmlFileById = danmuApi.getDanmuXmlFileById(currentlyPlayingItem.getId(), new HashSet<>());
         } catch (Exception e) {
@@ -248,8 +244,7 @@ public class DanmuPlaybackController extends PlaybackController {
         }
 
         danmuItem = currentlyPlayingItem;
-        ByteReadChannel content = danmuXmlFileById.getContent();
-        return new ByteReadChannelInputStream(content);
+        return new ByteArrayInputStream(danmuXmlFileById.getContent());
     }
 
     public boolean isShowDanmu() {

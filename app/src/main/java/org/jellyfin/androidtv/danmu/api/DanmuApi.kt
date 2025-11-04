@@ -1,18 +1,14 @@
 package org.jellyfin.androidtv.danmu.api
 
-import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.danmu.model.DanmuParams
 import org.jellyfin.androidtv.danmu.model.DanmuResult
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.Response
 import org.jellyfin.sdk.api.client.extensions.get
-import org.jellyfin.sdk.api.client.extensions.post
 import org.jellyfin.sdk.api.operations.Api
 import org.jellyfin.sdk.model.UUID
 import timber.log.Timber
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 //import org.jellyfin.apiclient.interaction.ApiClient;
 // 注入
@@ -21,7 +17,7 @@ import java.io.InputStream
 
 class DanmuApi(private val api: ApiClient) : Api {
 
-	fun getDanmuXmlFileById(itemId: UUID, sites: Collection<String>): Response<ByteReadChannel> {
+	fun getDanmuXmlFileById(itemId: UUID, sites: Collection<String>): Response<ByteArray> {
 		return runBlocking{getSDanmuXmlFileById(itemId, sites)}
 	}
 
@@ -29,11 +25,11 @@ class DanmuApi(private val api: ApiClient) : Api {
 		return runBlocking{getSSupportSites()}
 	}
 
-	suspend fun getSDanmuXmlFileById(itemId: UUID, sites: Collection<String>): Response<ByteReadChannel> {
+	suspend fun getSDanmuXmlFileById(itemId: UUID, sites: Collection<String>): Response<ByteArray> {
 		// org.jellyfin.sdk.api.operations.VideosApi
 		val body = DanmuParams(needSites = sites)
 
-		val response = api.get<ByteReadChannel>("/api/danmu/$itemId/raw", requestBody = body)
+		val response = api.get<ByteArray>("/api/danmu/$itemId/raw", requestBody = body)
 		return response;
 	}
 

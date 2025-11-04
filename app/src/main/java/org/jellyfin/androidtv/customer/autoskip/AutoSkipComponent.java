@@ -59,6 +59,19 @@ public class AutoSkipComponent {
         };
     }
 
+    public void seekTo(long start, long end) {
+        if (autoSkipModel == null) {
+            return;
+        }
+//        Timber.d("设置 执行跳过操作: start=%s, end=%s", start, end);
+        if (teTime >= start && tsTime <= end) {
+            setTouSkipped(true);
+        }
+        if (weTime >= start && wsTime <= end) {
+            setWeiSkipped(true);
+        }
+    }
+
     public void setTouSkipped(boolean touSkipped) {
         this.touSkipped = touSkipped;
     }

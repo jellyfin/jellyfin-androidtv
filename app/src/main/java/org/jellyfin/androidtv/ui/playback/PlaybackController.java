@@ -50,8 +50,6 @@ import org.jellyfin.sdk.model.api.PlayMethod;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -67,7 +65,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
-    private static final Logger log = LoggerFactory.getLogger(PlaybackController.class);
 
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -647,12 +644,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         AutoSkipModel autoSkipModel = customerUserPreferences.getAutoSkipModel(item);
         setAutoSkip(autoSkipModel);
-        if (position <= 0) {
-            if (autoSkipModel != null && autoSkipModel.getTsTime() <= 0 && autoSkipModel.getTeTime() > 0) {
-                position = autoSkipModel.getTeTime() * 1000L;
-            }
-        } else {
-            autoSkipComponent.setTouSkipped(true);
+        if (position > 0) {
+            autoSkipComponent.seekTo(0, position);
         }
 
         mStartPosition = position;
@@ -931,6 +924,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private void clearPlaybackSessionOptions() {
         mDefaultAudioIndex = -1;
         mSeekPosition = -1;
+        currentSkipPos = 0;
         finishedInitialSeek = false;
         wasSeeking = false;
         burningSubs = false;
@@ -1003,20 +997,23 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
         wasSeeking = true;
 
-        // Stop playback when the requested seek position is at the end of the video
         long duration = getDuration();
+//        Timber.e(new Exception(), "执行跳过操作: skipToNext=%s, 偏移=%s, currentSkipPos=%s, mSeekPosition=%s, mCurrentPosition=%s, result=%s", skipToNext, pos, currentSkipPos, mSeekPosition, mCurrentPosition, pos >= (duration - 100));
+        // Stop playback when the requested seek position is at the end of the video
         if (skipToNext && pos >= (duration - 100)) {
             // Since we've skipped ahead, set the current position so the PlaybackStopInfo will report the correct end time
             mCurrentPosition = duration;
             // Make sure we also set the seek positions so mCurrentPosition won't get overwritten in refreshCurrentPosition()
-//            currentSkipPos = mCurrentPosition;
-//            mSeekPosition = mCurrentPosition;
+            currentSkipPos = mCurrentPosition;
+            mSeekPosition = mCurrentPosition;
             // Finalize item playback
             itemComplete();
             return;
         }
 
         if (pos >= duration) pos = duration;
+        // 标记自动跳过
+        autoSkipComponent.seekTo(mCurrentPosition, pos);
 
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
@@ -1076,6 +1073,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private final Runnable skipRunnable = () -> {
         if (!(isPlaying() || isPaused())) return; // in case we completed since this was requested
 
+        Timber.d("skipRunnable 执行跳过操作: currentSkipPos=%s", currentSkipPos);
         seek(currentSkipPos);
         currentSkipPos = 0;
     };

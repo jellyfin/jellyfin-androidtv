@@ -8,13 +8,11 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import kotlin.Lazy;
+import timber.log.Timber;
 
 public class CustomerCommonUtils {
-    private static final Logger log = LoggerFactory.getLogger(CustomerCommonUtils.class);
     private static volatile Handler mainThreadHandler;
 
     private static final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -47,7 +45,7 @@ public class CustomerCommonUtils {
 
     public static void show(Context context, String message, int time) {
         if (context == null) {
-            log.error("CustomerCommonUtils.show context must not null");
+            Timber.e("CustomerCommonUtils.show context must not null");
             return;
         }
         getMainHandler().post(() -> Toast.makeText(context, message, time).show());
