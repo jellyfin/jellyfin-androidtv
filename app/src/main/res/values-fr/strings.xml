@@ -8,7 +8,7 @@
     <string name="settings_title">Préférences</string>
     <string name="chapters">Chapitres</string>
     <string name="lbl_settings">Préférences</string>
-    <string name="lbl_continue_watching">Continuer à regarder</string>
+    <string name="lbl_continue_watching">Continuer de regarder</string>
     <string name="lbl_next_up">À suivre</string>
     <string name="lbl_on_now">En cours</string>
     <string name="lbl_views">Vues</string>
@@ -582,7 +582,7 @@
     <string name="pref_report_device_profile_summary">Transmettre un fichier de diagnostic au serveur Jellyfin contenant les capacités de lecture</string>
     <string name="pref_report_device_profile_failure">Échec de la transmission du fichier de diagnostic. Votre serveur Jellyfin peut interdire l’envoi des journaux clients.</string>
     <string name="pref_report_device_profile_success">Fichier de diagnostic transmis sous le nom %1$s</string>
-    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="indicator_subtitles_hearing_impaired">SME</string>
     <string name="rewind">Rembobiner</string>
     <string name="fast_forward">Avance rapide</string>
     <string name="preference_enable_libass">Activer le rendu client des sous-titres Advanced SubStation Alpha</string>
