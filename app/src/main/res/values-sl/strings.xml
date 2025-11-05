@@ -609,4 +609,5 @@
     <string name="speech_error_unknown">Med prepoznavo govora je prišlo do nepričakovane napake.</string>
     <string name="preference_enable_libass">Omogoči napredni prikaz podnapisov SubStation Alpha na odjemalcu</string>
     <string name="still_watching_label">Še vedno gledaš?</string>
+    <string name="pref_subtitles_position">Spodnji odmik</string>
 </resources>

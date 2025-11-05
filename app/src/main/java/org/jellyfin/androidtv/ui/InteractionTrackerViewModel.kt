@@ -11,36 +11,33 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
-import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingPresetConfigs
-import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingStates
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 class InteractionTrackerViewModel(
 	private val userPreferences: UserPreferences,
 	private val playbackControllerContainer: PlaybackControllerContainer
 ) : ViewModel() {
-	// Screensaver vars
+	// Screensaver
 
 	private var timer: Job? = null
 	private var locks = 0
 
-	// Still Watching vars
+	// Still Watching
 
 	private var isWatchingEpisodes = false
 	private var episodeCount = 0
 	private var watchTime = 0L
-	private var episodeInteractMs = 0L
 	private var episodeWasInterrupted: Boolean = false
-	private var showStillWatching: Boolean = false
 
 	// Preferences
 
 	private val inAppEnabled get() = userPreferences[UserPreferences.screensaverInAppEnabled]
 	private val timeout get() = userPreferences[UserPreferences.screensaverInAppTimeout].milliseconds
+	private val stillWatchingBehavior get() = userPreferences[UserPreferences.stillWatchingBehavior]
 
 	// State
 
@@ -61,42 +58,34 @@ class InteractionTrackerViewModel(
 	}
 
 	fun getShowStillWatching(): Boolean {
-		return showStillWatching
+		if (!stillWatchingBehavior.enabled) return false
+
+		if (stillWatchingBehavior.episodeCount > 0 && episodeCount >= stillWatchingBehavior.episodeCount) return true
+		if (stillWatchingBehavior.minDuration > Duration.ZERO && watchTime.milliseconds >= stillWatchingBehavior.minDuration) return true
+
+		return false
 	}
 
 	fun notifyStartSession(item: BaseItemDto, items: List<BaseItemDto>) {
 		// No need to track when only watching 1 episode
-		if (itemIsEpisode(item) && items.size > 1) {
+		if (item.type == BaseItemKind.EPISODE && items.size > 1) {
 			resetSession()
 			episodeWasInterrupted = false
-			showStillWatching = false
 		}
+	}
+
+	fun notifyStillWatching() {
+		resetSession()
 	}
 
 	fun onEpisodeWatched() {
 		if (!episodeWasInterrupted) episodeCount++
-		calculateWatchTime()
+		watchTime += playbackControllerContainer.playbackController?.duration ?: 0
 		episodeWasInterrupted = false
-		checkStillWatchingStatus()
 	}
 
 	fun notifyStart(item: BaseItemDto) {
-		if (itemIsEpisode(item)) {
-			isWatchingEpisodes = true
-		}
-	}
-
-	private fun checkStillWatchingStatus() {
-		val presetName = userPreferences[UserPreferences.stillWatchingBehavior].toString().uppercase()
-		val preset = runCatching { StillWatchingPresetConfigs.valueOf(presetName) }.getOrDefault(StillWatchingPresetConfigs.DISABLED)
-
-		val stillWatchingSetting = StillWatchingStates.getSetting(preset)
-		val episodeRequirementMet = episodeCount == stillWatchingSetting.episodeCount
-		val watchTimeRequirementMet = watchTime >= stillWatchingSetting.minDuration.inWholeMilliseconds
-
-		if (episodeRequirementMet || watchTimeRequirementMet) {
-			showStillWatching = true
-		}
+		if (item.type == BaseItemKind.EPISODE) isWatchingEpisodes = true
 	}
 
 	fun notifyInteraction(canCancel: Boolean, userInitiated: Boolean) {
@@ -106,10 +95,6 @@ class InteractionTrackerViewModel(
 		// If watching episodes, reset episode count and watch time
 		if (isWatchingEpisodes && userInitiated) {
 			resetSession()
-
-			val playbackController: PlaybackController = playbackControllerContainer.playbackController!!
-
-			episodeInteractMs = playbackController.currentPosition
 			episodeWasInterrupted = true
 		}
 
@@ -168,25 +153,8 @@ class InteractionTrackerViewModel(
 		}
 	}
 
-	private fun itemIsEpisode(item: BaseItemDto? = null): Boolean {
-		if (item != null) {
-			return item.type == BaseItemKind.EPISODE
-		}
-
-		val playbackController = playbackControllerContainer.playbackController
-
-		return playbackController?.currentlyPlayingItem?.type == BaseItemKind.EPISODE
-	}
-
 	private fun resetSession() {
 		watchTime = 0L
 		episodeCount = 0
-		episodeInteractMs = 0L
-	}
-
-	private fun calculateWatchTime() {
-		val duration = playbackControllerContainer.playbackController!!.duration
-		val durationWatchedUninterrupted = if (episodeWasInterrupted) duration - episodeInteractMs else duration
-		watchTime += durationWatchedUninterrupted
 	}
 }

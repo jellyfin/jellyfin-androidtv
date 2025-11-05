@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.sdk.getDisplayName
@@ -22,6 +23,7 @@ class StillWatchingViewModel(
 	private val context: Context,
 	private val api: ApiClient,
 	private val userPreferences: UserPreferences,
+	private val interactionTrackerViewModel: InteractionTrackerViewModel,
 ) : ViewModel() {
 	private val _item = MutableStateFlow<StillWatchingItemData?>(null)
 	val item: StateFlow<StillWatchingItemData?> = _item
@@ -38,6 +40,7 @@ class StillWatchingViewModel(
 	}
 
 	fun stillWatching() {
+		interactionTrackerViewModel.notifyStillWatching()
 		_state.value = StillWatchingState.STILL_WATCHING
 	}
 
