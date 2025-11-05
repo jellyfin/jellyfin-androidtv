@@ -115,32 +115,8 @@ class RewriteMediaManager(
 			}
 		}.launchIn(this)
 
-		playbackManager.queue.entry.onEach { updateAdapter() }.launchIn(this)
-		playbackManager.state.playbackOrder.onEach { updateAdapter() }.launchIn(this)
-	}
-
-	private fun updateAdapter() {
-		val currentItem = playbackManager.queue.entry.value
-			?.takeUnless { it.isThemePlayback }
-			?.baseItem
-			?.let(::AudioQueueBaseRowItem)
-			?.apply { playing = true }
-		// It's safe to run this blocking as all items are prefetched via the [BaseItemQueueSupplier]
-		val upcomingItems = runBlocking { playbackManager.queue.peekNext(100) }
-			.filterNot { it.isThemePlayback }
-			.mapNotNull { item -> item.baseItem?.let(::AudioQueueBaseRowItem) }
-
-		val items = listOfNotNull(currentItem) + upcomingItems
-
-		// Update item row
-		currentAudioQueue.replaceAll(
-			items,
-			areItemsTheSame = { old, new -> (old as? AudioQueueBaseRowItem)?.baseItem?.id == (new as? AudioQueueBaseRowItem)?.baseItem?.id },
-			// The equals functions for BaseRowItem only compare by id
-			areContentsTheSame = { _, _ -> false },
-		)
-
-		notifyListeners { onQueueReplaced() }
+		playbackManager.queue.entry.onEach { notifyListeners { onQueueReplaced() } }.launchIn(this)
+		playbackManager.state.playbackOrder.onEach { notifyListeners { onQueueReplaced() } }.launchIn(this)
 	}
 
 	private fun notifyListeners(body: AudioEventListener.() -> Unit) {
