@@ -67,7 +67,7 @@ fun Seekbar(
 	enabled: Boolean = true,
 	colors: SeekbarColors = SeekbarDefaults.colors(),
 ) {
-	val durationMs = duration.inWholeMilliseconds.toFloat()
+	val durationMs = duration.inWholeMilliseconds.toFloat().coerceAtLeast(1f)
 	val progressPercentage = progress.inWholeMilliseconds.toFloat() / durationMs
 	val bufferPercentage = buffer.inWholeMilliseconds.toFloat() / durationMs
 	val seekForwardPercentage = seekForwardAmount.inWholeMilliseconds.toFloat() / durationMs
