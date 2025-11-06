@@ -17,11 +17,6 @@ import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Handles theme song playing on notification from navigation in various item pages.
- *
- * - When an item page is requested, cancels any previous delayed playback stop requests.
- * - When an item page is displayed, fetches and caches the theme song, then passes it to [ThemeSongPlayer].
- * - When an item page is closed, first ensures we're not waiting for a item page to be displayed. If not, schedules a delayed playback
- * stop job. If a new item details opens in the meanwhile, the stop request is cancelled.
  */
 class ThemeSongService(
 	private val api: ApiClient,
@@ -34,9 +29,9 @@ class ThemeSongService(
 	 * Keeps track of the state of the current item page.
 	 */
 	enum class ItemPageState {
-		REQUESTED, // Item page was requested to launch, but it hasn't been displayed yet.
-		DISPLAYED, // Item page is being displayed.
-		HIDDEN // Item page was closed.
+		REQUESTED,
+		DISPLAYED, 
+		HIDDEN 
 	}
 
 	private val scope = MainScope()
@@ -50,8 +45,6 @@ class ThemeSongService(
 	 */
 	fun itemPageRequested() {
 		itemPageState = ItemPageState.REQUESTED
-		// Cancel any previously scheduled stops. If needed, we will stop when [itemPageDisplayed] is called.
-		// This is mainly to continue playing when navigating between items with same theme songs.
 		delayedThemeSongStopJob?.cancel()
 	}
 
@@ -60,14 +53,11 @@ class ThemeSongService(
 	 */
 	fun itemPageDisplayed(baseItem: BaseItemDto?) {
 		itemPageState = ItemPageState.DISPLAYED
-		// Cancel any previously scheduled stops. If needed, we will stop further down.
-		// This is mainly to continue playing when navigating between items with same theme songs.
 		delayedThemeSongStopJob?.cancel()
 		val currentUserId = userRepository.currentUser.value?.id
 		if (currentUserId == null || !userPreferences[UserPreferences.themeSongsEnabled]) return themeSongPlayer.stopThemeSong()
 
 		if (baseItem?.type == BaseItemKind.PERSON) {
-			// No need to interrupt the playback if a person page is showed.
 			return
 		}
 
@@ -84,8 +74,6 @@ class ThemeSongService(
 	 */
 	fun itemPageHidden() {
 		if (itemPageState == ItemPageState.REQUESTED) {
-			// [itemPageHidden] was called because a newly requested item page is going to be displayed on top.
-			// Don't take any action now. We'll decide what to do when the new item page is displayed.
 			return
 		}
 		itemPageState = ItemPageState.HIDDEN
