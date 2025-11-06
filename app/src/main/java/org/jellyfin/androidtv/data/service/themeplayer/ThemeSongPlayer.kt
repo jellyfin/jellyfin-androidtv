@@ -19,12 +19,8 @@ import org.jellyfin.sdk.model.api.MediaType
 import java.util.UUID
 
 /**
- * Handles playing and stopping theme songs upon request. Not all play requests result in actual playback. Specifically, there will be no
- * playback if:
- * - Another audio media (that doesn't have the [ExtraType.THEME_SONG] type) is queued or currently playing.
- * - There are multiple sequential play requests for the same theme. Only the first request is honoured. Subsequent play requests for the
- *   same theme song will only work if a different theme song is played next, or if [stopThemeSong] is called.
- */
+ * Handles playing and stopping theme songs upon request. 
+ * */
 class ThemeSongPlayer(
 	private val playbackManager: PlaybackManager,
 	private val api: ApiClient,
