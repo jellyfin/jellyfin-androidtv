@@ -1,6 +1,6 @@
 Vaše média, vaše podmínky.
 
-Jellyfin projekt je open source, bezplatný media server. Žádné poplatky, žádné sledování, žádná skrytá agenda. Získejte náš bezplatný server a užívejte si svoji kolekci audia, videa, fotografií, a dalších souborů na jednom místě.
+Jellyfin projekt je open source, bezplatný media server. Žádné poplatky, žádné sledování, žádná skrytá agenda. Získejte náš bezplatný server a užívejte si svoji kolekci audia, videa, fotografií a dalších souborů na jednom místě.
 
 Abyste mohli používat tuto aplikaci, musíte mít nastavený a spuštěný Jellyfin server. Zjistěte více na <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
 
