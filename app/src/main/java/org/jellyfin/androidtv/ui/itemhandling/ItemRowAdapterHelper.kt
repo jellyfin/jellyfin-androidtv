@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.LiveTvOption
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
 import org.jellyfin.androidtv.data.querying.GetTrailersRequest
@@ -25,6 +26,7 @@ import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
@@ -40,8 +42,13 @@ import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
+import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.min
+
+private val userPreferences: UserPreferences by inject(UserPreferences::class.java)
 
 fun <T : Any> ItemRowAdapter.setItems(
 	items: Collection<T>,
@@ -136,8 +143,16 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 
 				if (items.isEmpty()) removeRow()
 			} else {
+				val retentionDays = userPreferences[UserPreferences.nextUpRetentionDays]
+				val itemsToDisplay = if (retentionDays > 0) {
+					val now = LocalDateTime.now()
+					response.items.filter { item -> item.shouldKeepInNextUp(retentionDays, now) }
+				} else {
+					response.items
+				}
+
 				setItems(
-					items = response.items,
+					items = itemsToDisplay,
 					transform = { item, _ ->
 						BaseItemDtoBaseRowItem(
 							item,
@@ -147,7 +162,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 					}
 				)
 
-				if (response.items.isEmpty()) removeRow()
+				if (itemsToDisplay.isEmpty()) removeRow()
 			}
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
@@ -248,6 +263,24 @@ fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserVi
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
 		)
 	}
+}
+
+fun BaseItemDto.shouldKeepInNextUp(retentionDays: Int, now: LocalDateTime): Boolean {
+	if (retentionDays <= 0) return true
+
+	val recentlyAired = premiereDate?.let { premiere ->
+		if (premiere.isAfter(now)) {
+			false
+		} else {
+			ChronoUnit.DAYS.between(premiere, now) <= retentionDays.toLong()
+		}
+	} ?: false
+
+	val recentlyWatched = userData?.lastPlayedDate?.let { lastPlayed ->
+		ChronoUnit.DAYS.between(lastPlayed, now) <= retentionDays.toLong()
+	} ?: false
+
+	return recentlyAired || recentlyWatched
 }
 
 fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {

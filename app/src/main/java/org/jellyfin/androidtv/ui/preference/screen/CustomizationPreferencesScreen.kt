@@ -88,6 +88,25 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				icon = R.drawable.ic_grid
 				withFragment<LibrariesPreferencesScreen>()
 			}
+
+			list {
+				setTitle(R.string.pref_next_up_retention_days)
+
+				val daysOptions = listOf(7, 14, 30, 60, 90, 180, 365)
+
+				entries = buildMap {
+					put("0", getString(R.string.pref_next_up_retention_days_unlimited))
+					daysOptions.forEach { days ->
+						put(days.toString(), context.getQuantityString(R.plurals.days, days, days))
+					}
+				}
+
+				bind {
+					get { userPreferences[UserPreferences.nextUpRetentionDays].toString() }
+					set { value -> userPreferences[UserPreferences.nextUpRetentionDays] = value.toInt() }
+					default { UserPreferences.nextUpRetentionDays.defaultValue.toString() }
+				}
+			}
 		}
 
 		category {
