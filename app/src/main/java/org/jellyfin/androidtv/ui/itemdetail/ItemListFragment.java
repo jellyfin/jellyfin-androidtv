@@ -439,6 +439,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             }
 
             updateBackdrop();
+
+            // Add Continue button after items are loaded for playlists (non-paginated)
+            if (!mIsPaginationEnabled && !items.isEmpty() && mBaseItem.getType() == BaseItemKind.PLAYLIST) {
+                addContinueButton();
+            }
         }
         return null;
     };
@@ -481,6 +486,12 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
         // Update pagination UI
         updatePaginationUI();
+
+        // Add Continue button after items are loaded for playlists
+        if (mIsPaginationEnabled && !result.getItems().isEmpty()) {
+            addContinueButton();
+        }
+
         return null;
     };
 
@@ -560,6 +571,64 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
     }
 
+    private int findFirstUnwatchedItemIndex() {
+        if (mItems == null || mItems.isEmpty()) {
+            return 0;
+        }
+
+        // First, look for a partially watched item (has some playback progress but not completed)
+        for (int i = 0; i < mItems.size(); i++) {
+            BaseItemDto item = mItems.get(i);
+            if (item.getUserData() != null &&
+                !item.getUserData().getPlayed() &&
+                item.getUserData().getPlaybackPositionTicks() > 0) {
+                Timber.d("Found partially watched item at index %d: %s (position: %d ticks)",
+                    i, item.getName(), item.getUserData().getPlaybackPositionTicks());
+                return i;
+            }
+        }
+
+        // If no partially watched items, look for first completely unwatched item
+        for (int i = 0; i < mItems.size(); i++) {
+            BaseItemDto item = mItems.get(i);
+            if (item.getUserData() != null && !item.getUserData().getPlayed()) {
+                Timber.d("Found unwatched item at index %d: %s", i, item.getName());
+                return i;
+            }
+        }
+
+        // If all items are watched or no user data, return first item
+        Timber.d("No unwatched items found in current page, defaulting to first item");
+        return 0;
+    }
+
+    private void addContinueButton() {
+        if (mBaseItem.getType() != BaseItemKind.PLAYLIST || mItems == null || mItems.isEmpty()) {
+            return;
+        }
+
+        Timber.d("Adding Continue button for playlist with %d items", mItems.size());
+
+        int buttonSize = Utils.convertDpToPixel(requireContext(), 35);
+        TextUnderButton continueButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(R.string.lbl_continue), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItems != null && mItems.size() > 0) {
+                    int unwatchedIndex = findFirstUnwatchedItemIndex();
+                    Timber.d("Continue button clicked - starting from index %d", unwatchedIndex);
+                    play(mItems, unwatchedIndex, false);
+                } else {
+                    Utils.showToast(requireContext(), R.string.msg_no_playable_items);
+                }
+            }
+        });
+        continueButton.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) mScrollView.smoothScrollTo(0, 0);
+        });
+        mButtonRow.addView(continueButton);
+        Timber.d("Continue button added to button row");
+    }
+
     private void addGenres(TextView textView) {
         List<String> genres = mBaseItem.getGenres();
         if (genres != null) textView.setText(TextUtils.join(" / ", genres));
@@ -599,6 +668,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
             mButtonRow.addView(play);
 
+            
             boolean hidePlayButton = false;
             TextUnderButton queueButton = null;
             // add to queue if a queue exists and mBaseItem is a MusicAlbum

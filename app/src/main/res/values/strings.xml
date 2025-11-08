@@ -38,6 +38,7 @@
     <string name="lbl_other">Other</string>
     <string name="because_you_watched">Because you watched %1$s</string>
     <string name="lbl_play_all">Play all</string>
+    <string name="lbl_continue">Continue</string>
     <string name="lbl_shuffle_all">Shuffle all</string>
     <string name="lbl_play">Play</string>
     <string name="lbl_pause">Pause</string>
