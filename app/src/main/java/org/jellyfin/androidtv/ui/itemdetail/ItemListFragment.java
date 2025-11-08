@@ -85,6 +85,13 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     // Pagination fields
     private PlaylistPaginationState mPaginationState;
     private boolean mIsPaginationEnabled = false;
+
+    // Top pagination controls
+    private TextView mPaginationInfoTop;
+    private LinearLayout mPaginationControlsTop;
+    private View mPaginationContainerTop;
+
+    // Bottom pagination controls
     private TextView mPaginationInfo;
     private LinearLayout mPaginationControls;
     private View mPaginationContainer;
@@ -120,14 +127,26 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mScrollView = binding.scrollView;
 
         // Initialize pagination UI components
+        // Top pagination controls
+        mPaginationContainerTop = binding.paginationContainerTop;
+        mPaginationInfoTop = binding.paginationContainerTop.findViewById(R.id.paginationInfoTop);
+        mPaginationControlsTop = binding.paginationContainerTop.findViewById(R.id.paginationControlsTop);
+
+        // Bottom pagination controls
         mPaginationContainer = binding.paginationContainer;
         mPaginationInfo = binding.paginationContainer.findViewById(R.id.paginationInfo);
         mPaginationControls = binding.paginationContainer.findViewById(R.id.paginationControls);
 
         // Set pagination container visibility if pagination was already enabled
-        if (mIsPaginationEnabled && mPaginationContainer != null) {
-            mPaginationContainer.setVisibility(View.VISIBLE);
-            Timber.d("Set pagination container visibility to VISIBLE after view creation");
+        if (mIsPaginationEnabled) {
+            if (mPaginationContainerTop != null) {
+                mPaginationContainerTop.setVisibility(View.VISIBLE);
+                Timber.d("Set top pagination container visibility to VISIBLE after view creation");
+            }
+            if (mPaginationContainer != null) {
+                mPaginationContainer.setVisibility(View.VISIBLE);
+                Timber.d("Set bottom pagination container visibility to VISIBLE after view creation");
+            }
         }
 
         mMetrics = new DisplayMetrics();
@@ -157,20 +176,38 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             }
         });
 
-        // Set up pagination button listeners
+        // Set up pagination button listeners for both top and bottom controls
+        // Bottom controls
         TextView previousButton = mPaginationContainer.findViewById(R.id.previousPageBtn);
         TextView nextButton = mPaginationContainer.findViewById(R.id.nextPageBtn);
 
-        Timber.d("Setting up pagination button listeners - previous: %s, next: %s",
-            previousButton != null ? "found" : "not found",
-            nextButton != null ? "found" : "not found");
+        // Top controls
+        TextView previousButtonTop = mPaginationContainerTop.findViewById(R.id.previousPageBtnTop);
+        TextView nextButtonTop = mPaginationContainerTop.findViewById(R.id.nextPageBtnTop);
 
+        Timber.d("Setting up pagination button listeners - bottom: %s/%s, top: %s/%s",
+            previousButton != null ? "found" : "not found",
+            nextButton != null ? "found" : "not found",
+            previousButtonTop != null ? "found" : "not found",
+            nextButtonTop != null ? "found" : "not found");
+
+        // Bottom button listeners
         previousButton.setOnClickListener(v -> {
-            Timber.d("Previous button clicked");
+            Timber.d("Bottom Previous button clicked");
             goToPreviousPage();
         });
         nextButton.setOnClickListener(v -> {
-            Timber.d("Next button clicked");
+            Timber.d("Bottom Next button clicked");
+            goToNextPage();
+        });
+
+        // Top button listeners
+        previousButtonTop.setOnClickListener(v -> {
+            Timber.d("Top Previous button clicked");
+            goToPreviousPage();
+        });
+        nextButtonTop.setOnClickListener(v -> {
+            Timber.d("Top Next button clicked");
             goToNextPage();
         });
 
@@ -348,12 +385,19 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             Timber.d("Pagination not enabled for item type: %s", item.getType());
         }
 
-        // Show/hide pagination container - check if view is ready
+        // Show/hide pagination containers - check if view is ready
+        if (mPaginationContainerTop != null) {
+            mPaginationContainerTop.setVisibility(mIsPaginationEnabled ? View.VISIBLE : View.GONE);
+            Timber.d("Top pagination container visibility set to: %s", mIsPaginationEnabled ? "VISIBLE" : "GONE");
+        } else {
+            Timber.d("Top pagination container is null - will set visibility after view creation");
+        }
+
         if (mPaginationContainer != null) {
             mPaginationContainer.setVisibility(mIsPaginationEnabled ? View.VISIBLE : View.GONE);
-            Timber.d("Pagination container visibility set to: %s", mIsPaginationEnabled ? "VISIBLE" : "GONE");
+            Timber.d("Bottom pagination container visibility set to: %s", mIsPaginationEnabled ? "VISIBLE" : "GONE");
         } else {
-            Timber.d("Pagination container is null - will set visibility after view creation");
+            Timber.d("Bottom pagination container is null - will set visibility after view creation");
         }
 
         LinearLayout mainInfoRow = requireActivity().findViewById(R.id.fdMainInfoRow);
@@ -420,7 +464,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             mItems = new ArrayList<>();
             mItemList.clear();
 
-            int i = 0;
+            // Use the correct start index for proper item numbering
+            int i = mPaginationState.getStartIndex();
             for (BaseItemDto item : result.getItems()) {
                 mItemList.addItem(item, i++);
                 mItems.add(item);
@@ -478,20 +523,30 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void updatePaginationUI() {
-        if (!mIsPaginationEnabled || mPaginationInfo == null || mPaginationControls == null) return;
+        if (!mIsPaginationEnabled) return;
+
+        // Update top pagination controls
+        updatePaginationControls(mPaginationInfoTop, mPaginationControlsTop);
+
+        // Update bottom pagination controls
+        updatePaginationControls(mPaginationInfo, mPaginationControls);
+    }
+
+    private void updatePaginationControls(TextView infoView, LinearLayout controlsView) {
+        if (infoView == null || controlsView == null) return;
 
         if (mPaginationState.getIsLoading()) {
-            mPaginationInfo.setText("Loading...");
-            // Hide pagination controls during loading
-            for (int i = 0; i < mPaginationControls.getChildCount(); i++) {
-                mPaginationControls.getChildAt(i).setEnabled(false);
+            infoView.setText("Loading...");
+            // Disable pagination controls during loading
+            for (int i = 0; i < controlsView.getChildCount(); i++) {
+                controlsView.getChildAt(i).setEnabled(false);
             }
         } else {
-            mPaginationInfo.setText(mPaginationState.getPageDisplayText());
+            infoView.setText(mPaginationState.getPageDisplayText());
 
             // Enable/disable navigation buttons
-            for (int i = 0; i < mPaginationControls.getChildCount(); i++) {
-                View child = mPaginationControls.getChildAt(i);
+            for (int i = 0; i < controlsView.getChildCount(); i++) {
+                View child = controlsView.getChildAt(i);
                 boolean enabled = true;
 
                 if (i == 0) { // Previous button
