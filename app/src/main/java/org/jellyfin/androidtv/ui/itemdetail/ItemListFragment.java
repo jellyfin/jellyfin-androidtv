@@ -613,13 +613,36 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         TextUnderButton continueButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(R.string.lbl_continue), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mItems != null && mItems.size() > 0) {
-                    int unwatchedIndex = findFirstUnwatchedItemIndex();
-                    Timber.d("Continue button clicked - starting from index %d", unwatchedIndex);
-                    play(mItems, unwatchedIndex, false);
-                } else {
-                    Utils.showToast(requireContext(), R.string.msg_no_playable_items);
-                }
+                Timber.d("Continue button clicked - searching for first unwatched item in playlist");
+
+                // Show loading state
+                Utils.showToast(requireContext(), "Searching for unwatched items...");
+
+                // Search for first unwatched item across entire playlist
+                ItemListFragmentHelperKt.findFirstUnwatchedItemInPlaylist(ItemListFragment.this, mBaseItem.getId(), (firstUnwatchedItem) -> {
+                    if (firstUnwatchedItem != null) {
+                        Timber.d("Found unwatched item: %s", firstUnwatchedItem.getName());
+
+                        // Check if the item is on the current page
+                        int currentItemIndex = findItemInCurrentPage(firstUnwatchedItem.getId());
+
+                        if (currentItemIndex != -1) {
+                            // Item is on current page, play it directly
+                            Timber.d("Unwatched item found on current page at index %d", currentItemIndex);
+                            play(mItems, currentItemIndex, false);
+                        } else {
+                            // Item is on a different page, navigate to the correct page first
+                            Timber.d("Unwatched item not on current page, need to navigate to correct page");
+                            navigateToItemAndPlay(firstUnwatchedItem);
+                        }
+                    } else {
+                        // No unwatched items found, fall back to first item
+                        Timber.d("No unwatched items found, playing from beginning");
+                        Utils.showToast(requireContext(), "No unwatched items found, playing from beginning");
+                        play(mItems, 0, false);
+                    }
+                    return null;
+                });
             }
         });
         continueButton.setOnFocusChangeListener((v, hasFocus) -> {
@@ -627,6 +650,74 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         });
         mButtonRow.addView(continueButton);
         Timber.d("Continue button added to button row");
+    }
+
+    private int findItemInCurrentPage(UUID itemId) {
+        if (mItems == null || mItems.isEmpty()) {
+            return -1;
+        }
+
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId().equals(itemId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void navigateToItemAndPlay(BaseItemDto targetItem) {
+        Timber.d("Navigating to item and playing: %s", targetItem.getName());
+        Utils.showToast(requireContext(), "Loading item page...");
+
+        // Get full playlist items to find target position
+        // Use the playlist API with a very high limit to get all items
+        ItemListFragmentHelperKt.getPlaylistPaginated(this, mBaseItem,
+            new org.jellyfin.androidtv.data.model.PlaylistPaginationState(1, 0, 5000, false),
+            (result) -> {
+            int targetIndex = -1;
+            for (int i = 0; i < result.getItems().size(); i++) {
+                if (result.getItems().get(i).getId().equals(targetItem.getId())) {
+                    targetIndex = i;
+                    break;
+                }
+            }
+
+            if (targetIndex != -1) {
+                // Calculate which page the target is on (using 100 items per page)
+                int pageSize = 100;
+                int targetPage = (targetIndex / pageSize) + 1;
+                int startIndex = (targetPage - 1) * pageSize;
+
+                Timber.d("Target item is on page %d (global index %d, startIndex %d)", targetPage, targetIndex, startIndex);
+
+                // Navigate to the correct page if pagination is enabled
+                if (mIsPaginationEnabled && mPaginationState != null) {
+                    PlaylistPaginationState newState = mPaginationState.withPage(targetPage);
+                    loadPlaylistPage(newState);
+
+                    // Wait for page to load, then find and play the target item
+                    new android.os.Handler().postDelayed(() -> {
+                        int pageItemIndex = findItemInCurrentPage(targetItem.getId());
+                        if (pageItemIndex != -1) {
+                            Timber.d("Playing target item at page index %d", pageItemIndex);
+                            Utils.showToast(requireContext(), "Playing: " + targetItem.getName());
+                            play(mItems, pageItemIndex, false);
+                        } else {
+                            Timber.d("Target item not found on loaded page");
+                            Utils.showToast(requireContext(), "Error loading item page");
+                        }
+                    }, 1500); // Give more time for page to load
+                } else {
+                    // Play directly if not paginated
+                    Utils.showToast(requireContext(), "Playing: " + targetItem.getName());
+                    play(result.getItems(), targetIndex, false);
+                }
+            } else {
+                Timber.d("Target item not found in full playlist of %d items", result.getItems().size());
+                Utils.showToast(requireContext(), "Item not found in playlist");
+            }
+            return null;
+        });
     }
 
     private void addGenres(TextView textView) {

@@ -14,7 +14,9 @@ import org.jellyfin.sdk.api.client.extensions.playlistsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.SortOrder
 import org.koin.android.ext.android.inject
 import java.util.UUID
 
@@ -145,5 +147,32 @@ fun ItemListFragment.toggleFavorite(item: BaseItemDto, callback: (item: BaseItem
 			favorite = !(item.userData?.isFavorite ?: false)
 		)
 		callback(item.copy(userData = userData))
+	}
+}
+
+fun ItemListFragment.findFirstUnwatchedItemInPlaylist(
+	playlistId: UUID,
+	callback: (firstUnwatchedItem: BaseItemDto?) -> Unit
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		val result = withContext(Dispatchers.IO) {
+			runCatching {
+				api.itemsApi.getItems(
+					parentId = playlistId,
+					recursive = true,
+					filters = setOf(ItemFilter.IS_UNPLAYED),
+					sortBy = setOf(ItemSortBy.SORT_NAME),
+					sortOrder = setOf(SortOrder.ASCENDING),
+					limit = 1,
+					fields = ItemRepository.itemFields
+				).content.items?.firstOrNull()
+			}.getOrNull()
+		}
+
+		if (isActive) {
+			callback(result)
+		}
 	}
 }
