@@ -79,6 +79,14 @@ fun SettingsDeveloperScreen() {
 				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
 				onClick = { playbackRewriteVideoEnabled = !playbackRewriteVideoEnabled }
 			)
+
+			var assDirectPlay by rememberPreference(userPreferences, UserPreferences.assDirectPlay)
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_enable_libass)) },
+				trailingContent = { RadioButton(checked = assDirectPlay) },
+				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
+				onClick = { assDirectPlay = !assDirectPlay }
+			)
 		}
 
 		// Trick play
