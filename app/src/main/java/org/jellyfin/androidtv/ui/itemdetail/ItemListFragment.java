@@ -25,6 +25,7 @@ import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.data.model.PlaylistPaginationState;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentItemListBinding;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
@@ -81,6 +82,13 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private int mBottomScrollThreshold;
 
+    // Pagination fields
+    private PlaylistPaginationState mPaginationState;
+    private boolean mIsPaginationEnabled = false;
+    private TextView mPaginationInfo;
+    private LinearLayout mPaginationControls;
+    private View mPaginationContainer;
+
     private DisplayMetrics mMetrics;
 
     private boolean firstTime = true;
@@ -111,6 +119,17 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mItemList = binding.songs;
         mScrollView = binding.scrollView;
 
+        // Initialize pagination UI components
+        mPaginationContainer = binding.paginationContainer;
+        mPaginationInfo = binding.paginationContainer.findViewById(R.id.paginationInfo);
+        mPaginationControls = binding.paginationContainer.findViewById(R.id.paginationControls);
+
+        // Set pagination container visibility if pagination was already enabled
+        if (mIsPaginationEnabled && mPaginationContainer != null) {
+            mPaginationContainer.setVisibility(View.VISIBLE);
+            Timber.d("Set pagination container visibility to VISIBLE after view creation");
+        }
+
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
         mBottomScrollThreshold = (int) (mMetrics.heightPixels * .6);
@@ -136,6 +155,23 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             public void onRowClicked(ItemRowView row) {
                 showMenu(row, row.getItem().getType() != BaseItemKind.AUDIO);
             }
+        });
+
+        // Set up pagination button listeners
+        TextView previousButton = mPaginationContainer.findViewById(R.id.previousPageBtn);
+        TextView nextButton = mPaginationContainer.findViewById(R.id.nextPageBtn);
+
+        Timber.d("Setting up pagination button listeners - previous: %s, next: %s",
+            previousButton != null ? "found" : "not found",
+            nextButton != null ? "found" : "not found");
+
+        previousButton.setOnClickListener(v -> {
+            Timber.d("Previous button clicked");
+            goToPreviousPage();
+        });
+        nextButton.setOnClickListener(v -> {
+            Timber.d("Next button clicked");
+            goToNextPage();
         });
 
         return binding.getRoot();
@@ -302,6 +338,24 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
 
+        // Initialize pagination for playlists
+        mIsPaginationEnabled = (item.getType() == BaseItemKind.PLAYLIST);
+        if (mIsPaginationEnabled) {
+            mPaginationState = new PlaylistPaginationState(1, 0, 100, false);
+            Timber.d("Pagination enabled for playlist %s - initial state: page=%d, total=%d, loading=%b",
+                item.getName(), mPaginationState.getCurrentPage(), mPaginationState.getTotalItems(), mPaginationState.getIsLoading());
+        } else {
+            Timber.d("Pagination not enabled for item type: %s", item.getType());
+        }
+
+        // Show/hide pagination container - check if view is ready
+        if (mPaginationContainer != null) {
+            mPaginationContainer.setVisibility(mIsPaginationEnabled ? View.VISIBLE : View.GONE);
+            Timber.d("Pagination container visibility set to: %s", mIsPaginationEnabled ? "VISIBLE" : "GONE");
+        } else {
+            Timber.d("Pagination container is null - will set visibility after view creation");
+        }
+
         LinearLayout mainInfoRow = requireActivity().findViewById(R.id.fdMainInfoRow);
 
         InfoLayoutHelper.addInfoRow(requireContext(), item, mainInfoRow, false);
@@ -314,7 +368,12 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mPoster.setPadding(0, 0, 0, 0);
         mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
 
-        ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
+        // Load items with pagination if enabled
+        if (mIsPaginationEnabled) {
+            loadPlaylistPage(mPaginationState);
+        } else {
+            ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
+        }
     }
 
     private Function1<List<BaseItemDto>, Unit> itemResponse = (List<BaseItemDto> items) -> {
@@ -339,6 +398,112 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
         return null;
     };
+
+    private Function1<PlaylistResult, Unit> paginatedItemResponse = (PlaylistResult result) -> {
+        Timber.d("Received paginated response with %d items, total: %d", result.getItems().size(), result.getTotalItems());
+
+        mTitle.setText(mBaseItem.getName());
+        if (mBaseItem.getName().length() > 32) {
+            // scale down the title so more will fit
+            mTitle.setTextSize(32);
+        }
+
+        // Update pagination state with total items count
+        mPaginationState = mPaginationState.withTotalItems(result.getTotalItems())
+            .withLoading(false); // Reset loading state
+
+        Timber.d("Updated pagination state - current page: %d, total items: %d, loading: %b",
+            mPaginationState.getCurrentPage(), mPaginationState.getTotalItems(), mPaginationState.getIsLoading());
+
+        if (!result.getItems().isEmpty()) {
+            // Clear existing items and add new page items
+            mItems = new ArrayList<>();
+            mItemList.clear();
+
+            int i = 0;
+            for (BaseItemDto item : result.getItems()) {
+                mItemList.addItem(item, i++);
+                mItems.add(item);
+            }
+
+            if (mediaManager.getValue().isPlayingAudio()) {
+                //update our status
+                mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mediaManager.getValue().getCurrentAudioItem());
+            }
+
+            updateBackdrop();
+        }
+
+        // Update pagination UI
+        updatePaginationUI();
+        return null;
+    };
+
+    private void loadPlaylistPage(PlaylistPaginationState state) {
+        if (state.getIsLoading()) return; // Prevent multiple simultaneous loads
+
+        mPaginationState = state.withLoading(true);
+        updatePaginationUI();
+
+        ItemListFragmentHelperKt.getPlaylistPaginated(this, mBaseItem, state, paginatedItemResponse);
+    }
+
+    private void goToPage(int page) {
+        if (!mIsPaginationEnabled || mPaginationState == null) return;
+
+        PlaylistPaginationState newState = mPaginationState.withPage(page);
+        loadPlaylistPage(newState);
+    }
+
+    private void goToNextPage() {
+        Timber.d("goToNextPage called - enabled: %b, state: %s, hasNextPage: %b",
+            mIsPaginationEnabled, mPaginationState != null, mPaginationState != null ? mPaginationState.hasNextPage() : false);
+
+        if (!mIsPaginationEnabled || mPaginationState == null || !mPaginationState.hasNextPage()) {
+            Timber.d("Cannot go to next page - returning");
+            return;
+        }
+        goToPage(mPaginationState.getCurrentPage() + 1);
+    }
+
+    private void goToPreviousPage() {
+        Timber.d("goToPreviousPage called - enabled: %b, state: %s, hasPreviousPage: %b",
+            mIsPaginationEnabled, mPaginationState != null, mPaginationState != null ? mPaginationState.hasPreviousPage() : false);
+
+        if (!mIsPaginationEnabled || mPaginationState == null || !mPaginationState.hasPreviousPage()) {
+            Timber.d("Cannot go to previous page - returning");
+            return;
+        }
+        goToPage(mPaginationState.getCurrentPage() - 1);
+    }
+
+    private void updatePaginationUI() {
+        if (!mIsPaginationEnabled || mPaginationInfo == null || mPaginationControls == null) return;
+
+        if (mPaginationState.getIsLoading()) {
+            mPaginationInfo.setText("Loading...");
+            // Hide pagination controls during loading
+            for (int i = 0; i < mPaginationControls.getChildCount(); i++) {
+                mPaginationControls.getChildAt(i).setEnabled(false);
+            }
+        } else {
+            mPaginationInfo.setText(mPaginationState.getPageDisplayText());
+
+            // Enable/disable navigation buttons
+            for (int i = 0; i < mPaginationControls.getChildCount(); i++) {
+                View child = mPaginationControls.getChildAt(i);
+                boolean enabled = true;
+
+                if (i == 0) { // Previous button
+                    enabled = mPaginationState.hasPreviousPage();
+                } else if (i == 2) { // Next button
+                    enabled = mPaginationState.hasNextPage();
+                }
+
+                child.setEnabled(enabled);
+            }
+        }
+    }
 
     private void addGenres(TextView textView) {
         List<String> genres = mBaseItem.getGenres();

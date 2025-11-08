@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.data.model.PlaylistPaginationState
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
@@ -51,6 +52,12 @@ fun MusicFavoritesListFragment.getFavoritePlaylist(
 	}
 }
 
+data class PlaylistResult(
+	val items: List<BaseItemDto>,
+	val totalItems: Int,
+	val startIndex: Int
+)
+
 fun ItemListFragment.getPlaylist(
 	item: BaseItemDto,
 	callback: (items: List<BaseItemDto>) -> Unit
@@ -78,6 +85,54 @@ fun ItemListFragment.getPlaylist(
 		}
 
 		callback(result.items)
+	}
+}
+
+fun ItemListFragment.getPlaylistPaginated(
+	item: BaseItemDto,
+	paginationState: PlaylistPaginationState,
+	callback: (result: PlaylistResult) -> Unit
+) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		val result = withContext(Dispatchers.IO) {
+			when {
+				item.type == BaseItemKind.PLAYLIST -> {
+					val playlistResult = api.playlistsApi.getPlaylistItems(
+						playlistId = item.id,
+						startIndex = paginationState.startIndex,
+						limit = paginationState.pageSize,
+						fields = ItemRepository.itemFields,
+					).content
+
+					PlaylistResult(
+						items = playlistResult.items,
+						totalItems = playlistResult.totalRecordCount ?: playlistResult.items.size,
+						startIndex = paginationState.startIndex
+					)
+				}
+
+				else -> {
+					val itemsResult = api.itemsApi.getItems(
+						parentId = item.id,
+						includeItemTypes = setOf(BaseItemKind.AUDIO),
+						recursive = true,
+						sortBy = setOf(ItemSortBy.SORT_NAME),
+						limit = 200, // Keep existing limit for non-playlist items
+						fields = ItemRepository.itemFields,
+					).content
+
+					PlaylistResult(
+						items = itemsResult.items,
+						totalItems = itemsResult.totalRecordCount ?: itemsResult.items.size,
+						startIndex = 0
+					)
+				}
+			}
+		}
+
+		callback(result)
 	}
 }
 
