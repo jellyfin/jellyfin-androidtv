@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.settings.screen
 
 import android.text.format.Formatter
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -69,6 +70,19 @@ fun SettingsDeveloperScreen() {
 				trailingContent = { Checkbox(checked = playbackRewriteVideoEnabled) },
 				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
 				onClick = { playbackRewriteVideoEnabled = !playbackRewriteVideoEnabled }
+			)
+
+			var assDirectPlay by rememberPreference(userPreferences, UserPreferences.assDirectPlay)
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_enable_libass)) },
+				trailingContent = {
+					AnimatedContent(assDirectPlay) { assDirectPlay ->
+						if (assDirectPlay) Text("\uD83C\uDF51")
+						else Checkbox(checked = false)
+					}
+				},
+				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
+				onClick = { assDirectPlay = !assDirectPlay }
 			)
 		}
 
