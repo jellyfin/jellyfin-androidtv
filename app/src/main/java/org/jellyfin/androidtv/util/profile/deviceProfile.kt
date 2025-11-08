@@ -65,6 +65,7 @@ fun createDeviceProfile(
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = false,
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
+	dolbyVisionELDirectPlay = userPreferences[UserPreferences.dolbyVisionELDirectPlay],
 )
 
 fun createDeviceProfile(
@@ -74,6 +75,7 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
+	dolbyVisionELDirectPlay: Boolean,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -379,8 +381,10 @@ fun createDeviceProfile(
 		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
-			add(VideoRangeType.DOVI_WITH_EL)
-			if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
+			if(!dolbyVisionELDirectPlay) {
+				add(VideoRangeType.DOVI_WITH_EL)
+				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
+			}
 
 			if (!supportsHevcDolbyVision) {
 				add(VideoRangeType.DOVI)
