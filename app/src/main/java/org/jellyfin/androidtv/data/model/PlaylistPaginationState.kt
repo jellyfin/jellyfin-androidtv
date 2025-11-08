@@ -1,3 +1,16 @@
+/**
+ * Playlist Pagination State Management
+ *
+ * This file was added as part of the playlist pagination enhancement to support
+ * browsing large playlists with proper item numbering (1-100, 101-200, etc.)
+ * and traditional page navigation with Previous/Next buttons.
+ *
+ * Key features:
+ * - 100 items per page with 1-based indexing
+ * - Proper item numbering across pages
+ * - Loading state management
+ * - Page calculation helpers
+ */
 package org.jellyfin.androidtv.data.model
 
 import kotlin.jvm.JvmName

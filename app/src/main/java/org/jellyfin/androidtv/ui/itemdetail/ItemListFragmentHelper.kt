@@ -150,6 +150,13 @@ fun ItemListFragment.toggleFavorite(item: BaseItemDto, callback: (item: BaseItem
 	}
 }
 
+/**
+ * Finds the first unwatched item in a playlist across all pages.
+ * Uses ItemFilter.IS_UNPLAYED for efficient searching with a single API call.
+ *
+ * @param playlistId The UUID of the playlist to search
+ * @param callback Callback function that receives the first unwatched BaseItemDto or null if none found
+ */
 fun ItemListFragment.findFirstUnwatchedItemInPlaylist(
 	playlistId: UUID,
 	callback: (firstUnwatchedItem: BaseItemDto?) -> Unit
@@ -159,18 +166,20 @@ fun ItemListFragment.findFirstUnwatchedItemInPlaylist(
 	lifecycleScope.launch {
 		val result = withContext(Dispatchers.IO) {
 			runCatching {
+				// API call to get first unwatched item efficiently
 				api.itemsApi.getItems(
 					parentId = playlistId,
 					recursive = true,
 					filters = setOf(ItemFilter.IS_UNPLAYED),
 					sortBy = setOf(ItemSortBy.SORT_NAME),
 					sortOrder = setOf(SortOrder.ASCENDING),
-					limit = 1,
+					limit = 1, // Only need the first result
 					fields = ItemRepository.itemFields
 				).content.items?.firstOrNull()
 			}.getOrNull()
 		}
 
+		// Only execute callback if fragment is still active
 		if (isActive) {
 			callback(result)
 		}
