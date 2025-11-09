@@ -119,6 +119,9 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			// Actually add the sections
 			for (section in homesections) when (section) {
 				HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(userViewsRepository.views.first()))
+				HomeSectionType.RECENTLY_RELEASED -> rows.add(helper.loadRecentlyReleased(userViewsRepository.views.first()))
+				HomeSectionType.RECENTLY_RELEASED_ADDED -> rows.add(helper.loadRecentlyReleasedAdded(userViewsRepository.views.first()))
+				HomeSectionType.RECENTLY_ADDED_RELEASED -> rows.add(helper.loadRecentlyAddedReleased(userViewsRepository.views.first()))
 				HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(HomeFragmentViewsRow(small = false))
 				HomeSectionType.LIBRARY_BUTTONS -> rows.add(HomeFragmentViewsRow(small = true))
 				HomeSectionType.RESUME -> rows.add(helper.loadResumeVideo())
