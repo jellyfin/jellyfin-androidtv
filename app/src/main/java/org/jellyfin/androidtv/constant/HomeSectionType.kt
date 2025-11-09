@@ -23,6 +23,6 @@ enum class HomeSectionType(
 	LIVE_TV("livetv", R.string.home_section_livetv),
 	RECENTLY_RELEASED("recentlyreleased", R.string.home_section_recently_released),
 	RECENTLY_RELEASED_ADDED("recentlyreleasedadded", R.string.home_section_recently_released_added),
-	RECENTLY_ADDED_RELEASED("recentlyaddedrealeased", R.string.home_section_recently_added_released),
+	RECENTLY_ADDED_RELEASED("recentlyaddedreleased", R.string.home_section_recently_added_released),
 	NONE("none", R.string.home_section_none),
 }
