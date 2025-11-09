@@ -100,6 +100,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var useExternalPlayer = booleanPreference("external_player", false)
 
 		/**
+		 * Allows the user to manually disable HDR10/HDR10+ Playback
+		 */
+		var disableHDR10 = booleanPreference("disable_hdr10", false)
+
+		/**
 		 * Change refresh rate to match media when device supports it
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
