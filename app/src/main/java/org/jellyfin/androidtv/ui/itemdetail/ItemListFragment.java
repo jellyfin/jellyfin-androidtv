@@ -23,8 +23,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
+import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.data.model.PlaylistPaginationState;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentItemListBinding;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
@@ -32,6 +34,7 @@ import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemListViewHelperKt;
 import org.jellyfin.androidtv.ui.ItemRowView;
+import org.jellyfin.androidtv.ui.PaginationView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
@@ -81,6 +84,12 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private int mBottomScrollThreshold;
 
+    // Pagination Views
+    private PlaylistPaginationState mPaginationState;
+    private boolean mIsPaginationEnabled = false;
+    private PaginationView mPaginationViewTop;
+    private PaginationView mPaginationViewBottom;
+
     private DisplayMetrics mMetrics;
 
     private boolean firstTime = true;
@@ -110,6 +119,32 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mSummary = detailsBinding.fdSummaryText;
         mItemList = binding.songs;
         mScrollView = binding.scrollView;
+
+        // Initialize pagination views
+        mPaginationViewTop = binding.paginationViewTop;
+        mPaginationViewBottom = binding.paginationViewBottom;
+
+        // Set pagination listener
+        PaginationView.OnPaginationListener paginationListener = new PaginationView.OnPaginationListener() {
+            @Override
+            public void onPreviousPage() {
+                goToPreviousPage();
+            }
+
+            @Override
+            public void onNextPage() {
+                goToNextPage();
+            }
+        };
+
+        mPaginationViewTop.setOnPaginationListener(paginationListener);
+        mPaginationViewBottom.setOnPaginationListener(paginationListener);
+
+        // Set pagination view visibility if pagination was enabled before view creation
+        if (mIsPaginationEnabled) {
+            mPaginationViewTop.setPaginationVisible(true);
+            mPaginationViewBottom.setPaginationVisible(true);
+        }
 
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -302,6 +337,24 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
 
+        // Initialize pagination for playlists only (not for music albums or other types)
+        mIsPaginationEnabled = (item.getType() == BaseItemKind.PLAYLIST);
+        if (mIsPaginationEnabled) {
+            mPaginationState = new PlaylistPaginationState(1, 0, 100, false);
+            if (BuildConfig.DEBUG) {
+                Timber.d("Pagination enabled for playlist: %s", item.getName());
+            }
+        }
+
+        // Set visibility of pagination views if views are ready
+        if (mPaginationViewTop != null) {
+            mPaginationViewTop.setPaginationVisible(mIsPaginationEnabled);
+        }
+
+        if (mPaginationViewBottom != null) {
+            mPaginationViewBottom.setPaginationVisible(mIsPaginationEnabled);
+        }
+
         LinearLayout mainInfoRow = requireActivity().findViewById(R.id.fdMainInfoRow);
 
         InfoLayoutHelper.addInfoRow(requireContext(), item, mainInfoRow, false);
@@ -314,7 +367,12 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mPoster.setPadding(0, 0, 0, 0);
         mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
 
-        ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
+        // Load items with pagination if enabled
+        if (mIsPaginationEnabled) {
+            loadPlaylistPage(mPaginationState);
+        } else {
+            ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
+        }
     }
 
     private Function1<List<BaseItemDto>, Unit> itemResponse = (List<BaseItemDto> items) -> {
@@ -336,9 +394,184 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             }
 
             updateBackdrop();
-        }
+
+                    }
         return null;
     };
+
+private Function1<PlaylistResult, Unit> paginatedItemResponse = (PlaylistResult result) -> {
+
+        // Update UI elements
+        mTitle.setText(mBaseItem.getName());
+        if (mBaseItem.getName().length() > 32) {
+            mTitle.setTextSize(32); // Scale down title for longer names
+        }
+
+        // Update pagination state with total item count and reset loading state
+        mPaginationState = mPaginationState.withTotalItems(result.getTotalItems())
+            .withLoading(false);
+
+        if (!result.getItems().isEmpty()) {
+            // Clear and repopulate the current page items
+            mItems = new ArrayList<>();
+            mItemList.clear();
+
+            // Use correct start index for proper item numbering (1-100, 101-200, etc.)
+            int globalIndex = mPaginationState.getStartIndex();
+            for (BaseItemDto item : result.getItems()) {
+                mItemList.addItem(item, globalIndex++);
+                mItems.add(item);
+            }
+
+            // Update audio playback status if needed
+            if (mediaManager.getValue().isPlayingAudio()) {
+                mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING,
+                    mediaManager.getValue().getCurrentAudioItem());
+            }
+
+            updateBackdrop();
+        }
+
+        // Update pagination controls and add Continue button for playlists
+        updatePaginationUI();
+
+        return null;
+    };
+
+    private void loadPlaylistPage(PlaylistPaginationState state) {
+        if (state.getIsLoading()) return; // Prevent multiple simultaneous loads
+
+        mPaginationState = state.withLoading(true);
+        updatePaginationUI();
+
+        ItemListFragmentHelperKt.getPlaylistPaginated(this, mBaseItem, state, paginatedItemResponse);
+    }
+
+private void goToPage(int page) {
+        if (!mIsPaginationEnabled || mPaginationState == null) return;
+
+        PlaylistPaginationState newState = mPaginationState.withPage(page);
+        loadPlaylistPage(newState);
+    }
+
+private void goToNextPage() {
+        if (!mIsPaginationEnabled || mPaginationState == null || !mPaginationState.hasNextPage()) {
+            return;
+        }
+        goToPage(mPaginationState.getCurrentPage() + 1);
+    }
+
+    private void goToPreviousPage() {
+        if (!mIsPaginationEnabled || mPaginationState == null || !mPaginationState.hasPreviousPage()) {
+            return;
+        }
+        goToPage(mPaginationState.getCurrentPage() - 1);
+    }
+
+    private void updatePaginationUI() {
+        if (!mIsPaginationEnabled) return;
+
+        // Update both pagination views with the current state
+        mPaginationViewTop.updatePaginationState(mPaginationState);
+        mPaginationViewBottom.updatePaginationState(mPaginationState);
+    }
+
+    private int findFirstUnwatchedItemIndex() {
+        if (mItems == null || mItems.isEmpty()) {
+            return 0;
+        }
+
+        // First, look for a partially watched item (has some playback progress but not completed)
+        for (int i = 0; i < mItems.size(); i++) {
+            BaseItemDto item = mItems.get(i);
+            if (item.getUserData() != null &&
+                !item.getUserData().getPlayed() &&
+                item.getUserData().getPlaybackPositionTicks() > 0) {
+                Timber.d("Found partially watched item at index %d: %s (position: %d ticks)",
+                    i, item.getName(), item.getUserData().getPlaybackPositionTicks());
+                return i;
+            }
+        }
+
+        // If no partially watched items, look for first completely unwatched item
+        for (int i = 0; i < mItems.size(); i++) {
+            BaseItemDto item = mItems.get(i);
+            if (item.getUserData() != null && !item.getUserData().getPlayed()) {
+                Timber.d("Found unwatched item at index %d: %s", i, item.getName());
+                return i;
+            }
+        }
+
+        // If all items are watched or no user data, return first item
+        Timber.d("No unwatched items found in current page, defaulting to first item");
+        return 0;
+    }
+
+    
+private int findItemInCurrentPage(UUID itemId) {
+        if (mItems == null || mItems.isEmpty()) {
+            return -1;
+        }
+
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId().equals(itemId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+private void navigateToItemAndPlay(BaseItemDto targetItem) {
+
+        Utils.showToast(requireContext(), getString(R.string.msg_loading_item_page));
+
+        // Load full playlist items to determine target item's page
+        // Use high limit (5000) to ensure we get all items for accurate page calculation
+        org.jellyfin.androidtv.data.model.PlaylistPaginationState searchState =
+            new org.jellyfin.androidtv.data.model.PlaylistPaginationState(1, 0, 5000, false);
+
+        ItemListFragmentHelperKt.getPlaylistPaginated(this, mBaseItem, searchState, (result) -> {
+            int targetIndex = -1;
+
+            // Find the target item's global index in the full playlist
+            for (int i = 0; i < result.getItems().size(); i++) {
+                if (result.getItems().get(i).getId().equals(targetItem.getId())) {
+                    targetIndex = i;
+                    break;
+                }
+            }
+
+            if (targetIndex != -1) {
+                // Calculate which page contains the target item (100 items per page)
+                int pageSize = 100;
+                int targetPage = (targetIndex / pageSize) + 1;
+
+                // Navigate to the correct page if pagination is enabled
+                if (mIsPaginationEnabled && mPaginationState != null) {
+                    PlaylistPaginationState newState = mPaginationState.withPage(targetPage);
+                    loadPlaylistPage(newState);
+
+                    // Wait for page to load, then find and play the target item
+                    new android.os.Handler().postDelayed(() -> {
+                        int pageItemIndex = findItemInCurrentPage(targetItem.getId());
+                        if (pageItemIndex != -1) {
+                            Utils.showToast(requireContext(), getString(R.string.msg_playing_item, targetItem.getName()));
+                            play(mItems, pageItemIndex, false);
+                        } else {
+                            Utils.showToast(requireContext(), getString(R.string.msg_error_loading_item_page));
+                        }
+                    }, 1500); // Allow time for page loading
+                } else {
+                    // Play directly if pagination is not enabled
+                    Utils.showToast(requireContext(), getString(R.string.msg_playing_item, targetItem.getName()));
+                    play(result.getItems(), targetIndex, false);
+                }
+            } else {
+                Utils.showToast(requireContext(), getString(R.string.msg_item_not_found_in_playlist));
+            }
+            return null;
+        });
+    }
 
     private void addGenres(TextView textView) {
         List<String> genres = mBaseItem.getGenres();
@@ -363,6 +596,65 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private void addButtons(int buttonSize) {
         if (BaseItemExtensionsKt.canPlay(mBaseItem)) {
+            TextUnderButton continueButton = null;
+
+            // Add Continue button first for playlists
+            if (mBaseItem.getType() == BaseItemKind.PLAYLIST) {
+                continueButton = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2,
+                    getString(R.string.lbl_continue), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (BuildConfig.DEBUG) {
+                            Timber.d("Continue button clicked - searching for first unwatched item");
+                        }
+
+                        // Show user feedback while searching
+                        Utils.showToast(requireContext(), getString(R.string.msg_searching_unwatched_items));
+
+                        // Search for first unwatched item across entire playlist using efficient API filter
+                        ItemListFragmentHelperKt.findFirstUnwatchedItemInPlaylist(ItemListFragment.this, mBaseItem.getId(), (firstUnwatchedItem) -> {
+                            if (firstUnwatchedItem != null) {
+                                if (BuildConfig.DEBUG) {
+                                    Timber.d("Found unwatched item: %s", firstUnwatchedItem.getName());
+                                }
+
+                                // Check if the unwatched item is on the current page
+                                int currentItemIndex = findItemInCurrentPage(firstUnwatchedItem.getId());
+
+                                if (currentItemIndex != -1) {
+                                    // Item is on current page, play it directly
+                                    if (BuildConfig.DEBUG) {
+                                        Timber.d("Unwatched item found on current page at index %d", currentItemIndex);
+                                    }
+                                    play(mItems, currentItemIndex, false);
+                                } else {
+                                    // Item is on a different page, navigate to the correct page first
+                                    if (BuildConfig.DEBUG) {
+                                        Timber.d("Unwatched item on different page - navigating");
+                                    }
+                                    navigateToItemAndPlay(firstUnwatchedItem);
+                                }
+                            } else {
+                                // No unwatched items found, fall back to playing from beginning
+                                if (BuildConfig.DEBUG) {
+                                    Timber.d("No unwatched items found, playing from beginning");
+                                }
+                                Utils.showToast(requireContext(), getString(R.string.msg_no_unwatched_items_playing_from_beginning));
+                                play(mItems, 0, false);
+                            }
+                            return null;
+                        });
+                    }
+                });
+
+                // Add focus handling for TV navigation
+                continueButton.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
+                });
+
+                mButtonRow.addView(continueButton);
+            }
+
             // add play button but don't show and focus yet
             TextUnderButton play = TextUnderButton.create(requireContext(), R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.isFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
@@ -379,6 +671,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
             mButtonRow.addView(play);
 
+            
             boolean hidePlayButton = false;
             TextUnderButton queueButton = null;
             // add to queue if a queue exists and mBaseItem is a MusicAlbum
@@ -396,8 +689,10 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 });
             }
 
-            // hide the play button and show add to queue if eligible
-            if (hidePlayButton) {
+            // Set focus priority: Continue button first (if exists), then play/queue
+            if (continueButton != null) {
+                continueButton.requestFocus();
+            } else if (hidePlayButton) {
                 play.setVisibility(View.GONE);
                 queueButton.requestFocus();
             } else {
