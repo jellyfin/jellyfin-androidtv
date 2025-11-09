@@ -27,6 +27,7 @@
     <string name="msg_not_implemented">" not implemented"</string>
     <string name="lbl_latest">Recently added</string>
     <string name="lbl_latest_in">Recently added in %1$s</string>
+    <string name="lbl_recently_released_in">Recently released in %1$s</string>
     <string name="lbl_by_name">By name</string>
     <string name="lbl_favorites">Favorites</string>
     <string name="lbl_coming_up">Coming up</string>
@@ -403,6 +404,9 @@
     <string name="home_section_next_up">Next up</string>
     <string name="home_section_livetv">Live TV</string>
     <string name="home_section_none">None</string>
+    <string name="home_section_recently_released">Recently released media</string>
+    <string name="home_section_recently_released_added">Recently Released / Added</string>
+    <string name="home_section_recently_added_released">Recently Added / Released</string>
     <string name="home_section_i">Home section %1$d</string>
     <string name="searchable_hint">Search Jellyfin</string>
     <string name="searchable_settings_description">Media</string>

@@ -22,6 +22,18 @@ class HomeFragmentHelper(
 		return HomeFragmentLatestRow(userRepository, userViews)
 	}
 
+	fun loadRecentlyReleased(userViews: Collection<BaseItemDto>): HomeFragmentRow {
+		return HomeFragmentRecentlyReleasedRow(userRepository, userViews)
+	}
+
+	fun loadRecentlyReleasedAdded(userViews: Collection<BaseItemDto>): HomeFragmentRow {
+		return HomeFragmentDoubledRow(userRepository, userViews, releasedFirst = true)
+	}
+
+	fun loadRecentlyAddedReleased(userViews: Collection<BaseItemDto>): HomeFragmentRow {
+		return HomeFragmentDoubledRow(userRepository, userViews, releasedFirst = false)
+	}
+
 	fun loadResume(title: String, includeMediaTypes: Collection<MediaType>): HomeFragmentRow {
 		val query = GetResumeItemsRequest(
 			limit = ITEM_LIMIT_RESUME,
