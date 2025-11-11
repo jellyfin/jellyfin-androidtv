@@ -119,12 +119,16 @@ class ExternalPlayerActivity : FragmentActivity() {
 			?.sortedWith(compareBy<MediaStream> { it.isDefault }.thenBy { it.index })
 			.orEmpty()
 
-		val subtitleUrls = externalSubtitles.map {
+		val subtitleUrls = externalSubtitles.map { mediaStream ->
+			// We cannot use the DeliveryUrl as that is only populated when using the playback info API, which we skip as we'll always direct
+			// play when using external players. We need to infer the subtitle format based on its path (similar to how the server
+			// calculates it)
+			val format = mediaStream.path?.substringAfterLast('.', missingDelimiterValue = mediaStream.codec.orEmpty()) ?: "srt"
 			api.subtitleApi.getSubtitleUrl(
 				routeItemId = item.id,
 				routeMediaSourceId = mediaSource.id.toString(),
-				routeIndex = it.index,
-				routeFormat = it.codec.orEmpty(),
+				routeIndex = mediaStream.index,
+				routeFormat = format,
 			)
 		}.toTypedArray()
 		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()

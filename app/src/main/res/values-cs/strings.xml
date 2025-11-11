@@ -575,7 +575,7 @@
     <string name="lbl_subtitle_text_stroke_color">Barva obrysu titulků</string>
     <string name="pref_mediasegment_actions">Akce mediálních segmentů</string>
     <string name="runtime_hours_minutes">%1$d h %2$d min</string>
-    <string name="runtime_minutes">%1$d min</string>
+    <string name="runtime_minutes">%1$d min.</string>
     <string name="pref_troubleshooting">Řešení chyb</string>
     <string name="pref_report_device_profile_success">Dokument odeslán jako %1$s</string>
     <string name="pref_report_device_profile_title">Hlásit možnosti přehrávání na server</string>

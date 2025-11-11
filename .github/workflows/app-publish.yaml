@@ -70,7 +70,7 @@ jobs:
           remote_user: ${{ secrets.REPO_USER }}
           remote_key: ${{ secrets.REPO_KEY }}
       - name: Update repo.jellyfin.org symlinks
-        uses: appleboy/ssh-action@2ead5e36573f08b82fbfce1504f1a4b05a647c6f # v1.2.2
+        uses: appleboy/ssh-action@91f3272fc5907f4699dcf59761eb622a07342f5a # v1.2.3
         with:
           host: ${{ secrets.REPO_HOST }}
           username: ${{ secrets.REPO_USER }}

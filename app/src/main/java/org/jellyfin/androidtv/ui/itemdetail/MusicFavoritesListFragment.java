@@ -197,7 +197,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
         }
 
         @Override
-        public void onProgress(long pos) {
+        public void onProgress(long pos, long duration) {
             if (mCurrentlyPlayingRow != null) {
                 mCurrentlyPlayingRow.updateCurrentTime(pos);
             }

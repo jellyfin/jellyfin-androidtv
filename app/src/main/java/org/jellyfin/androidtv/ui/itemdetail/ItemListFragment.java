@@ -230,7 +230,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
 
         @Override
-        public void onProgress(long pos) {
+        public void onProgress(long pos, long duration) {
             if (mCurrentlyPlayingRow != null) {
                 mCurrentlyPlayingRow.updateCurrentTime(pos);
             }
