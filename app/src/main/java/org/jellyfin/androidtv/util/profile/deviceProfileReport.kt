@@ -117,7 +117,8 @@ fun createDeviceProfileReport(
 						appendLine("    - inputChannelCountRanges: ${it.joinToString(", ") { it.prettyFormat() }}")
 					}
 					audio.bitrateRange?.let { appendLine("    - bitrateRange: ${it.prettyFormat()}") }
-					audio.supportedSampleRates?.takeIf { it.isNotEmpty() }?.let {
+					// Note: Fire OS has a bug in the getter for supportedSampleRates that throws NullPointerException
+					runCatching { audio.supportedSampleRates }.getOrNull()?.takeIf { it.isNotEmpty() }?.let {
 						appendLine("    - supportedSampleRates: ${it.joinToString(", ")}")
 					}
 					audio.supportedSampleRateRanges?.takeIf { it.isNotEmpty() }?.let {
@@ -183,20 +184,24 @@ fun createDeviceProfileReport(
 		val mediaTest = MediaCodecCapabilitiesTest(context)
 
 		val codecHDRSupport = buildMap<String, Map<HdrFormats, Boolean>> {
-			if(mediaTest.supportsAV1()) {
-				put(Codec.Video.AV1, mapOf(
-					HdrFormats.DOLBY_VISION to mediaTest.supportsAV1DolbyVision(),
-					HdrFormats.HDR10 to mediaTest.supportsAV1HDR10(),
-					HdrFormats.HDR10_PLUS to mediaTest.supportsAV1HDR10Plus()
-				))
+			if (mediaTest.supportsAV1()) {
+				put(
+					Codec.Video.AV1, mapOf(
+						HdrFormats.DOLBY_VISION to mediaTest.supportsAV1DolbyVision(),
+						HdrFormats.HDR10 to mediaTest.supportsAV1HDR10(),
+						HdrFormats.HDR10_PLUS to mediaTest.supportsAV1HDR10Plus()
+					)
+				)
 			}
-			if(mediaTest.supportsHevc()) {
-				put(Codec.Video.HEVC, mapOf(
-					HdrFormats.DOLBY_VISION to mediaTest.supportsHevcDolbyVision(),
-					HdrFormats.DOLBY_VISION_EL to mediaTest.supportsHevcDolbyVisionEL(),
-					HdrFormats.HDR10 to mediaTest.supportsHevcHDR10(),
-					HdrFormats.HDR10_PLUS to mediaTest.supportsHevcHDR10Plus()
-				))
+			if (mediaTest.supportsHevc()) {
+				put(
+					Codec.Video.HEVC, mapOf(
+						HdrFormats.DOLBY_VISION to mediaTest.supportsHevcDolbyVision(),
+						HdrFormats.DOLBY_VISION_EL to mediaTest.supportsHevcDolbyVisionEL(),
+						HdrFormats.HDR10 to mediaTest.supportsHevcHDR10(),
+						HdrFormats.HDR10_PLUS to mediaTest.supportsHevcHDR10Plus()
+					)
+				)
 			}
 		}
 
