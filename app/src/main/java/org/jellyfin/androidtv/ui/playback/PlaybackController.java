@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback;
 import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -262,7 +261,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
-    @TargetApi(23)
     private void getDisplayModes() {
         if (mFragment == null)
             return;
@@ -274,7 +272,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
-    @TargetApi(23)
     private Display.Mode findBestDisplayMode(MediaStream videoStream) {
         if (mFragment == null || mDisplayModes == null || videoStream.getRealFrameRate() == null)
             return null;
@@ -331,7 +328,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return bestMode;
     }
 
-    @TargetApi(23)
     private void setRefreshRate(MediaStream videoStream) {
         if (videoStream == null || mFragment == null) {
             Timber.e("Null video stream attempting to set refresh rate");
