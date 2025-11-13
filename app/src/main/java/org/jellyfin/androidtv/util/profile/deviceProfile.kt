@@ -381,7 +381,7 @@ fun createDeviceProfile(
 		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
-			if(!dolbyVisionELDirectPlay) {
+			if (!dolbyVisionELDirectPlay) {
 				add(VideoRangeType.DOVI_WITH_EL)
 				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 			}
