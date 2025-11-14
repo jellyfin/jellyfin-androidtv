@@ -56,6 +56,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var mediaManagementEnabled = booleanPreference("enable_media_management", false)
 
+		/**
+		 * Jellyseerr base URL.
+		 */
+		var jellyseerrUrl = stringPreference("jellyseerr_url", "")
+
+		/**
+		 * Jellyseerr API key for requests.
+		 */
+		var jellyseerrApiKey = stringPreference("jellyseerr_api_key", "")
+
 		/* Playback - General*/
 		/**
 		 * Maximum bitrate in megabit for playback.

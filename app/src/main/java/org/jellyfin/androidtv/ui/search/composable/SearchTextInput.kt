@@ -35,6 +35,7 @@ fun SearchTextInput(
 	onQueryChange: (query: String) -> Unit,
 	onQuerySubmit: () -> Unit,
 	modifier: Modifier = Modifier,
+	showKeyboardOnFocus: Boolean = true,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
 	val focused by interactionSource.collectIsFocusedAsState()
@@ -60,10 +61,7 @@ fun SearchTextInput(
 				keyboardType = KeyboardType.Text,
 				imeAction = ImeAction.Search,
 				autoCorrectEnabled = true,
-				// Note: Compose does not support a press to open functionality (yet?) or programmatic keyboard activation so we can only
-				// use the show on focus behavior. Unfortunately this does not work great with some vendors like Amazon.
-				// In addition, this boolean cannot be unset with the (stateless) BasicTextField implementation we're using
-				showKeyboardOnFocus = true,
+				showKeyboardOnFocus = showKeyboardOnFocus,
 			),
 			textStyle = LocalTextStyle.current,
 			cursorBrush = SolidColor(color.first),

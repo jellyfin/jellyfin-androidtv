@@ -1,5 +1,13 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
@@ -7,12 +15,14 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
+import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.shortcut
+import org.jellyfin.androidtv.ui.preference.dsl.text
 import org.jellyfin.androidtv.util.getQuantityString
 import org.koin.android.ext.android.inject
 import kotlin.time.Duration.Companion.minutes
@@ -69,6 +79,75 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_enable_media_management)
 				setContent(R.string.pref_enable_media_management_description)
 				bind(userPreferences, UserPreferences.mediaManagementEnabled)
+			}
+		}
+
+		category {
+			setTitle(R.string.pref_jellyseerr)
+
+			text {
+				setTitle(R.string.pref_jellyseerr_url)
+				preferenceKey = UserPreferences.jellyseerrUrl.key
+			}
+
+			text {
+				setTitle(R.string.pref_jellyseerr_api_key)
+				preferenceKey = UserPreferences.jellyseerrApiKey.key
+			}
+
+			action {
+				setTitle(R.string.pref_jellyseerr_test_connection)
+
+				onActivate = {
+					val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+					val url = sharedPreferences.getString(UserPreferences.jellyseerrUrl.key, "").orEmpty().trim()
+					val apiKey = sharedPreferences.getString(UserPreferences.jellyseerrApiKey.key, "").orEmpty().trim()
+
+					if (url.isBlank() || apiKey.isBlank()) {
+						Toast.makeText(
+							context,
+							R.string.pref_jellyseerr_test_connection_missing,
+							Toast.LENGTH_LONG,
+						).show()
+					} else {
+						lifecycleScope.launch {
+							val result = withContext(Dispatchers.IO) {
+								runCatching {
+									val baseUrl = url.trimEnd('/')
+									val request = Request.Builder()
+										.url("$baseUrl/api/v1/auth/me")
+										.header("X-API-Key", apiKey)
+										.build()
+
+									OkHttpClient().newCall(request).execute().use { response ->
+										if (!response.isSuccessful) {
+											throw IllegalStateException("HTTP ${response.code}")
+										}
+									}
+								}
+							}
+
+							result
+								.onSuccess {
+									Toast.makeText(
+										context,
+										R.string.pref_jellyseerr_test_connection_success,
+										Toast.LENGTH_LONG,
+									).show()
+								}
+								.onFailure { error ->
+									Toast.makeText(
+										context,
+										getString(
+											R.string.pref_jellyseerr_test_connection_failure,
+											error.message ?: "Unknown error",
+										),
+										Toast.LENGTH_LONG,
+									).show()
+								}
+						}
+					}
+				}
 			}
 		}
 

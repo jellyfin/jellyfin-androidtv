@@ -49,6 +49,7 @@ enum class MainToolbarActiveButton {
 	User,
 	Home,
 	Search,
+	Requests,
 
 	None,
 }
@@ -134,7 +135,7 @@ private fun MainToolbar(
 						onClick = {
 							if (activeButton != MainToolbarActiveButton.Home) {
 								navigationRepository.navigate(
-									Destinations.home,
+									destination = Destinations.home,
 									replace = true,
 								)
 							}
@@ -150,6 +151,15 @@ private fun MainToolbar(
 						},
 						colors = if (activeButton == MainToolbarActiveButton.Search) activeButtonColors else ButtonDefaults.colors(),
 						content = { Text(stringResource(R.string.lbl_search)) }
+					)
+					Button(
+						onClick = {
+							if (activeButton != MainToolbarActiveButton.Requests) {
+								navigationRepository.navigate(Destinations.jellyseerr)
+							}
+						},
+						colors = if (activeButton == MainToolbarActiveButton.Requests) activeButtonColors else ButtonDefaults.colors(),
+						content = { Text(stringResource(R.string.lbl_requests)) }
 					)
 				}
 			}
