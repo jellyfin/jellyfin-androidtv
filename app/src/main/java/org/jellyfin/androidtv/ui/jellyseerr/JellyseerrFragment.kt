@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -107,7 +108,6 @@ private fun JellyseerrContent(
 				Box(
 					modifier = Modifier
 						.weight(1f)
-						.focusRequester(searchFocusRequester)
 						.clickable {
 							searchFocusRequester.requestFocus()
 							keyboardController?.show()
@@ -116,8 +116,13 @@ private fun JellyseerrContent(
 					SearchTextInput(
 						query = state.query,
 						onQueryChange = { viewModel.updateQuery(it) },
-						onQuerySubmit = { viewModel.search() },
-						modifier = Modifier.fillMaxWidth(),
+						onQuerySubmit = {
+							viewModel.search()
+							keyboardController?.hide()
+						},
+						modifier = Modifier
+							.fillMaxWidth()
+							.focusRequester(searchFocusRequester),
 						showKeyboardOnFocus = false,
 					)
 				}
@@ -186,7 +191,10 @@ private fun JellyseerrContent(
 			} else {
 				R.string.jellyseerr_search_results_title
 			}
-			Text(text = stringResource(titleRes))
+			Text(
+				text = stringResource(titleRes),
+				color = JellyfinTheme.colorScheme.onBackground,
+			)
 
 			if (state.results.isEmpty() && !state.isLoading) {
 				Text(
@@ -199,6 +207,7 @@ private fun JellyseerrContent(
 
 				LazyRow(
 					horizontalArrangement = Arrangement.spacedBy(12.dp),
+					contentPadding = PaddingValues(horizontal = 24.dp),
 					modifier = Modifier
 						.fillMaxWidth()
 						.height(260.dp)
@@ -284,16 +293,16 @@ private fun JellyseerrSearchCard(
 			.fillMaxSize()
 			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
 			.focusable(interactionSource = interactionSource)
+			.graphicsLayer(
+				scaleX = scale,
+				scaleY = scale,
+			)
 			.padding(vertical = 4.dp),
 	) {
 		AsyncImage(
 			modifier = Modifier
 				.fillMaxWidth()
-				.height(200.dp)
-				.graphicsLayer(
-					scaleX = scale,
-					scaleY = scale,
-				),
+				.height(200.dp),
 			url = item.posterPath,
 			aspectRatio = 2f / 3f,
 		)
@@ -302,12 +311,16 @@ private fun JellyseerrSearchCard(
 
 		Text(
 			text = item.title,
+			color = JellyfinTheme.colorScheme.onBackground,
+			maxLines = 2,
+			overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
 			modifier = Modifier.padding(horizontal = 4.dp),
 		)
 
 		if (item.isRequested) {
 			Text(
 				text = stringResource(R.string.jellyseerr_requested_label),
+				color = JellyfinTheme.colorScheme.onBackground,
 				modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
 			)
 		}
@@ -329,7 +342,11 @@ private fun JellyseerrRequestRow(
 			.fillMaxHeight()
 			.padding(vertical = 4.dp)
 			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-			.focusable(interactionSource = interactionSource),
+			.focusable(interactionSource = interactionSource)
+			.graphicsLayer(
+				scaleX = scale,
+				scaleY = scale,
+			),
 	) {
 		AsyncImage(
 			modifier = Modifier
@@ -347,6 +364,7 @@ private fun JellyseerrRequestRow(
 
 		Text(
 			text = request.title,
+			color = JellyfinTheme.colorScheme.onBackground,
 			modifier = Modifier.padding(horizontal = 4.dp),
 		)
 		request.mediaType?.let {
@@ -355,7 +373,10 @@ private fun JellyseerrRequestRow(
 				"tv" -> stringResource(R.string.lbl_tv_series)
 				else -> it
 			}
-			Text(text = typeText)
+			Text(
+				text = typeText,
+				color = JellyfinTheme.colorScheme.onBackground,
+			)
 		}
 	}
 }
@@ -368,6 +389,18 @@ private fun JellyseerrDetail(
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
 
+Box(
+    modifier = Modifier
+        .fillMaxSize()
+) {
+    // Hintergrund
+    AsyncImage(
+        modifier = Modifier
+            .fillMaxSize()
+            .graphicsLayer(alpha = 0.4f), // leicht abdunkeln, falls nötig
+        url = details?.backdropPath ?: item.backdropPath,
+        aspectRatio = 16f / 9f,
+    )
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
@@ -447,7 +480,7 @@ private fun JellyseerrDetail(
 			}
 		}
 	}
-
+}
 	LaunchedEffect(item.id, details?.id) {
 		requestButtonFocusRequester.requestFocus()
 	}

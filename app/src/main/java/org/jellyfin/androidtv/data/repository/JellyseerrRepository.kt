@@ -19,7 +19,7 @@ interface JellyseerrRepository {
 	suspend fun search(query: String): Result<List<JellyseerrSearchItem>>
 	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
 	suspend fun createRequest(item: JellyseerrSearchItem): Result<Unit>
-	suspend fun discoverMovies(): Result<List<JellyseerrSearchItem>>
+	suspend fun discoverMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 }
 
@@ -323,13 +323,13 @@ class JellyseerrRepositoryImpl(
 		}
 	}
 
-	override suspend fun discoverMovies(): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
+	override suspend fun discoverMovies(page: Int): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
 		val config = getConfig()
 			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
 
 		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
 
-		val url = "${config.baseUrl}/api/v1/discover/movies?page=1"
+		val url = "${config.baseUrl}/api/v1/discover/movies?page=$page"
 		val request = Request.Builder()
 			.url(url)
 			.header("X-API-Key", config.apiKey)

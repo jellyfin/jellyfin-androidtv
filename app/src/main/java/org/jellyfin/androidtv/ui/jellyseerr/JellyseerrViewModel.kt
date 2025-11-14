@@ -21,6 +21,7 @@ data class JellyseerrUiState(
 	val selectedItem: JellyseerrSearchItem? = null,
 	val selectedMovie: JellyseerrMovieDetails? = null,
 	val showAllTrendsGrid: Boolean = false,
+	val requestStatusMessage: String? = null,
 )
 
 class JellyseerrViewModel(
@@ -124,7 +125,40 @@ class JellyseerrViewModel(
 	}
 
 	fun showAllTrends() {
-		_uiState.update { it.copy(showAllTrendsGrid = true) }
+		viewModelScope.launch {
+			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+
+			val currentRequests = _uiState.value.ownRequests
+			val allItems = mutableListOf<JellyseerrSearchItem>()
+
+			var page = 1
+			val maxPages = 5 // z.B. bis zu 5 Seiten laden
+
+			while (page <= maxPages) {
+				val result = repository.discoverMovies(page)
+				val items = result.getOrElse { error ->
+					_uiState.update { it.copy(isLoading = false, errorMessage = error.message) }
+					return@launch
+				}
+
+				if (items.isEmpty()) break
+
+				allItems += items
+				page++
+			}
+
+			val marked = allItems.map { item ->
+				val requested = currentRequests.any { it.tmdbId == item.id }
+				item.copy(isRequested = requested)
+			}
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+				)
+			}
+		}
 	}
 
 	fun closeAllTrends() {
@@ -135,16 +169,19 @@ class JellyseerrViewModel(
 		if (item.isRequested) return
 
 		viewModelScope.launch {
-			_uiState.update { it.copy(errorMessage = null) }
+			_uiState.update { it.copy(errorMessage = null, requestStatusMessage = null) }
 
 			repository.createRequest(item)
 				.onSuccess {
-					// Reload own requests and mark search results accordingly
+					// Reload own requests und markiere Suchergebnisse
 					refreshOwnRequests()
+					_uiState.update {
+						it.copy(requestStatusMessage = "Anfrage gesendet")
+					}
 				}
 				.onFailure { error ->
 					_uiState.update {
-						it.copy(errorMessage = error.message)
+						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage fehlgeschlagen")
 					}
 				}
 		}
@@ -223,6 +260,7 @@ class JellyseerrViewModel(
 			it.copy(
 				selectedItem = null,
 				selectedMovie = null,
+				requestStatusMessage = null,
 			)
 		}
 	}
