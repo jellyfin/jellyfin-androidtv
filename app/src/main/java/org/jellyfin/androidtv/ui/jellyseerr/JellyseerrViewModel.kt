@@ -22,6 +22,8 @@ data class JellyseerrUiState(
 	val selectedMovie: JellyseerrMovieDetails? = null,
 	val showAllTrendsGrid: Boolean = false,
 	val requestStatusMessage: String? = null,
+	val discoverCurrentPage: Int = 1,
+	val discoverHasMore: Boolean = true,
 )
 
 class JellyseerrViewModel(
@@ -110,6 +112,8 @@ class JellyseerrViewModel(
 						it.copy(
 							isLoading = false,
 							results = marked,
+							discoverCurrentPage = 1,
+							discoverHasMore = results.isNotEmpty(),
 						)
 					}
 				}
@@ -129,35 +133,80 @@ class JellyseerrViewModel(
 			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
 
 			val currentRequests = _uiState.value.ownRequests
-			val allItems = mutableListOf<JellyseerrSearchItem>()
 
-			var page = 1
-			val maxPages = 5 // z.B. bis zu 5 Seiten laden
+			repository.discoverMovies(page = 1)
+				.onSuccess { results ->
+					val marked = results.map { item ->
+						val requested = currentRequests.any { it.tmdbId == item.id }
+						item.copy(isRequested = requested)
+					}
 
-			while (page <= maxPages) {
-				val result = repository.discoverMovies(page)
-				val items = result.getOrElse { error ->
-					_uiState.update { it.copy(isLoading = false, errorMessage = error.message) }
-					return@launch
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							results = marked,
+							discoverCurrentPage = 1,
+							discoverHasMore = results.isNotEmpty(),
+						)
+					}
 				}
+				.onFailure { error ->
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							errorMessage = error.message,
+							showAllTrendsGrid = true,
+						)
+					}
+				}
+		}
+	}
 
-				if (items.isEmpty()) break
+	fun loadMoreTrends() {
+		val state = _uiState.value
+		if (!state.showAllTrendsGrid || state.isLoading || !state.discoverHasMore) return
 
-				allItems += items
-				page++
-			}
+		val nextPage = state.discoverCurrentPage + 1
 
-			val marked = allItems.map { item ->
-				val requested = currentRequests.any { it.tmdbId == item.id }
-				item.copy(isRequested = requested)
-			}
+		viewModelScope.launch {
+			_uiState.update { it.copy(isLoading = true, errorMessage = null) }
 
-			_uiState.update {
-				it.copy(
-					isLoading = false,
-					results = marked,
-				)
-			}
+			val currentRequests = _uiState.value.ownRequests
+
+			repository.discoverMovies(page = nextPage)
+				.onSuccess { results ->
+					if (results.isEmpty()) {
+						_uiState.update {
+							it.copy(
+								isLoading = false,
+								discoverCurrentPage = nextPage,
+								discoverHasMore = false,
+							)
+						}
+					} else {
+						val marked = results.map { item ->
+							val requested = currentRequests.any { it.tmdbId == item.id }
+							item.copy(isRequested = requested)
+						}
+
+						_uiState.update {
+							it.copy(
+								isLoading = false,
+								results = it.results + marked,
+								discoverCurrentPage = nextPage,
+								discoverHasMore = true,
+							)
+						}
+					}
+				}
+				.onFailure { error ->
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							errorMessage = error.message,
+						)
+					}
+				}
 		}
 	}
 

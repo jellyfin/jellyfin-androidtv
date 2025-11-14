@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.jellyseerr
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,7 +30,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -36,7 +40,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clip
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import org.jellyfin.androidtv.R
@@ -68,22 +74,42 @@ class JellyseerrFragment : Fragment() {
 }
 
 @Composable
-private fun JellyseerrScreen() {
+private fun JellyseerrScreen(
+	viewModel: JellyseerrViewModel = koinViewModel(),
+) {
 	val userPreferences = koinInject<UserPreferences>()
 	val url = userPreferences[UserPreferences.jellyseerrUrl]
 	val apiKey = userPreferences[UserPreferences.jellyseerrApiKey]
+	val state by viewModel.uiState.collectAsState()
 
-	Column(modifier = Modifier.fillMaxSize()) {
-		MainToolbar(MainToolbarActiveButton.Requests)
+	Box(modifier = Modifier.fillMaxSize()) {
+		val selectedItem = state.selectedItem
+		if (selectedItem != null) {
+			val backdropUrl = state.selectedMovie?.backdropPath ?: selectedItem.backdropPath
 
-		if (url.isBlank() || apiKey.isBlank()) {
-			Text(
-				text = stringResource(R.string.pref_jellyseerr_url_missing),
-				modifier = Modifier
-					.padding(32.dp),
-			)
-		} else {
-			JellyseerrContent()
+			if (!backdropUrl.isNullOrBlank()) {
+				AsyncImage(
+					modifier = Modifier
+						.fillMaxSize()
+						.graphicsLayer(alpha = 0.4f),
+					url = backdropUrl,
+					aspectRatio = 16f / 9f,
+				)
+			}
+		}
+
+		Column(modifier = Modifier.fillMaxSize()) {
+			MainToolbar(MainToolbarActiveButton.Requests)
+
+			if (url.isBlank() || apiKey.isBlank()) {
+				Text(
+					text = stringResource(R.string.pref_jellyseerr_url_missing),
+					modifier = Modifier
+						.padding(32.dp),
+				)
+			} else {
+				JellyseerrContent(viewModel = viewModel)
+			}
 		}
 	}
 }
@@ -95,155 +121,175 @@ private fun JellyseerrContent(
 	val state by viewModel.uiState.collectAsState()
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val searchFocusRequester = remember { FocusRequester() }
+	val allTrendsListState = rememberLazyListState()
 
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-			.padding(24.dp),
-	) {
-		if (state.selectedItem == null && !state.showAllTrendsGrid) {
-			Row(
-				horizontalArrangement = Arrangement.spacedBy(12.dp),
-			) {
-				Box(
-					modifier = Modifier
-						.weight(1f)
-						.clickable {
-							searchFocusRequester.requestFocus()
-							keyboardController?.show()
-						},
+	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid) {
+		when {
+			state.selectedItem != null -> viewModel.closeDetails()
+			state.showAllTrendsGrid -> viewModel.closeAllTrends()
+		}
+	}
+
+	val selectedItem = state.selectedItem
+	if (selectedItem != null) {
+		// Detailansicht im Vollbild mit Backdrop über den gesamten Bildschirm
+		JellyseerrDetail(
+			item = selectedItem,
+			details = state.selectedMovie,
+			requestStatusMessage = state.requestStatusMessage,
+			onRequestClick = { viewModel.request(selectedItem) },
+		)
+	} else {
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(24.dp),
+		) {
+			if (!state.showAllTrendsGrid) {
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(12.dp),
 				) {
-					SearchTextInput(
-						query = state.query,
-						onQueryChange = { viewModel.updateQuery(it) },
-						onQuerySubmit = {
-							viewModel.search()
-							keyboardController?.hide()
-						},
+					Box(
+						modifier = Modifier
+							.weight(1f)
+							.clickable {
+								searchFocusRequester.requestFocus()
+								keyboardController?.show()
+							},
+					) {
+						SearchTextInput(
+							query = state.query,
+							onQueryChange = { viewModel.updateQuery(it) },
+							onQuerySubmit = {
+								viewModel.search()
+								keyboardController?.hide()
+							},
+							modifier = Modifier
+								.fillMaxWidth()
+								.focusRequester(searchFocusRequester),
+							showKeyboardOnFocus = false,
+						)
+					}
+				}
+
+				Spacer(modifier = Modifier.size(16.dp))
+			}
+
+			if (state.errorMessage != null) {
+				Text(
+					text = stringResource(R.string.jellyseerr_error_prefix, state.errorMessage ?: ""),
+					color = Color.Red,
+					modifier = Modifier.padding(bottom = 16.dp),
+				)
+			}
+
+			if (state.showAllTrendsGrid) {
+				Text(
+					text = stringResource(R.string.jellyseerr_discover_title),
+					color = Color.White,
+				)
+
+				if (state.results.isEmpty() && !state.isLoading) {
+					Text(
+						text = stringResource(R.string.jellyseerr_no_results),
+						modifier = Modifier.padding(vertical = 8.dp),
+					)
+				} else {
+					val rows = state.results.chunked(5)
+
+					LazyColumn(
+						state = allTrendsListState,
+						modifier = Modifier
+							.fillMaxSize()
+							.padding(top = 8.dp),
+					) {
+						items(rows.size) { rowIndex ->
+							val rowItems = rows[rowIndex]
+
+							Row(
+								horizontalArrangement = Arrangement.spacedBy(12.dp),
+								modifier = Modifier.padding(vertical = 4.dp),
+							) {
+								for (item in rowItems) {
+									JellyseerrSearchCard(
+										item = item,
+										onClick = { viewModel.showDetailsForItem(item) },
+									)
+								}
+							}
+
+							if (rowIndex == rows.lastIndex && state.discoverHasMore && !state.isLoading) {
+								LaunchedEffect(key1 = rows.size) {
+									viewModel.loadMoreTrends()
+								}
+							}
+						}
+					}
+				}
+			} else {
+				val titleRes = if (state.query.isBlank()) {
+					R.string.jellyseerr_discover_title
+				} else {
+					R.string.jellyseerr_search_results_title
+				}
+				Text(
+					text = stringResource(titleRes),
+					color = JellyfinTheme.colorScheme.onBackground,
+				)
+
+				if (state.results.isEmpty() && !state.isLoading) {
+					Text(
+						text = stringResource(R.string.jellyseerr_no_results),
+						modifier = Modifier.padding(vertical = 8.dp),
+					)
+				} else {
+					// Fokus zuerst auf dem ersten Element der Discover-Slides setzen
+					val focusRequester = FocusRequester()
+
+					LazyRow(
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
+						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.focusRequester(searchFocusRequester),
-						showKeyboardOnFocus = false,
-					)
-				}
-			}
+							.height(260.dp)
+							.padding(top = 8.dp),
+					) {
+						val maxIndex = state.results.lastIndex
 
-			Spacer(modifier = Modifier.size(16.dp))
-		}
+						// Zeige "Alle Trends" nur, wenn keine Suche aktiv ist
+						val extraItems = if (state.query.isBlank()) 1 else 0
 
-		BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid) {
-			when {
-				state.selectedItem != null -> viewModel.closeDetails()
-				state.showAllTrendsGrid -> viewModel.closeAllTrends()
-			}
-		}
+						items(maxIndex + 1 + extraItems) { index ->
+							when {
+								index in 0..maxIndex -> {
+									val item = state.results[index]
+									val cardModifier = if (index == 0) {
+										Modifier.focusRequester(focusRequester)
+									} else {
+										Modifier
+									}
 
-		if (state.errorMessage != null) {
-			Text(
-				text = stringResource(R.string.jellyseerr_error_prefix, state.errorMessage ?: ""),
-				color = Color.Red,
-				modifier = Modifier.padding(bottom = 16.dp),
-			)
-		}
-
-		// Detailansicht
-		val selectedItem = state.selectedItem
-		if (selectedItem != null) {
-			JellyseerrDetail(
-				item = selectedItem,
-				details = state.selectedMovie,
-				onRequestClick = { viewModel.request(selectedItem) },
-				// onClose brauchst du nicht mehr, wenn du BackHandler benutzt
-			)
-		} else if (state.showAllTrendsGrid) {
-			// HIER kommt dein gepostetes Snippet hin:
-			Text(text = stringResource(R.string.jellyseerr_discover_title))
-
-			if (state.results.isEmpty() && !state.isLoading) {
-				Text(
-					text = stringResource(R.string.jellyseerr_no_results),
-					modifier = Modifier.padding(vertical = 8.dp),
-				)
-			} else {
-				LazyColumn(
-					modifier = Modifier
-						.fillMaxSize()
-						.padding(top = 8.dp),
-				) {
-					items(state.results.chunked(5)) { rowItems ->
-						Row(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							modifier = Modifier.padding(vertical = 4.dp),
-						) {
-							for (item in rowItems) {
-								JellyseerrSearchCard(
-									item = item,
-									onClick = { viewModel.showDetailsForItem(item) },
-								)
-							}
-						}
-					}
-				}
-			}
-		} else {
-			val titleRes = if (state.query.isBlank()) {
-				R.string.jellyseerr_discover_title
-			} else {
-				R.string.jellyseerr_search_results_title
-			}
-			Text(
-				text = stringResource(titleRes),
-				color = JellyfinTheme.colorScheme.onBackground,
-			)
-
-			if (state.results.isEmpty() && !state.isLoading) {
-				Text(
-					text = stringResource(R.string.jellyseerr_no_results),
-					modifier = Modifier.padding(vertical = 8.dp),
-				)
-			} else {
-				// Fokus zuerst auf dem ersten Element der Discover-Slides setzen
-				val focusRequester = FocusRequester()
-
-				LazyRow(
-					horizontalArrangement = Arrangement.spacedBy(12.dp),
-					contentPadding = PaddingValues(horizontal = 24.dp),
-					modifier = Modifier
-						.fillMaxWidth()
-						.height(260.dp)
-						.padding(top = 8.dp),
-				) {
-					val maxIndex = state.results.lastIndex
-
-					items(maxIndex + 2) { index ->
-						when {
-							index in 0..maxIndex -> {
-								val item = state.results[index]
-								val cardModifier = if (index == 0) {
-									Modifier.focusRequester(focusRequester)
-								} else {
-									Modifier
+									JellyseerrSearchCard(
+										item = item,
+										onClick = { viewModel.showDetailsForItem(item) },
+										modifier = cardModifier,
+									)
 								}
 
-								JellyseerrSearchCard(
-									item = item,
-									onClick = { viewModel.showDetailsForItem(item) },
-									modifier = cardModifier,
-								)
-							}
-							index == maxIndex + 1 -> {
-								JellyseerrViewAllCard(
-									onClick = { viewModel.showAllTrends() },
-								)
+								state.query.isBlank() && index == maxIndex + 1 -> {
+									JellyseerrViewAllCard(
+										onClick = { viewModel.showAllTrends() },
+									)
+								}
 							}
 						}
 					}
-				}
 
-				if (state.query.isBlank() && state.selectedItem == null) {
-					LaunchedEffect(state.results) {
-						if (state.results.isNotEmpty()) {
-							focusRequester.requestFocus()
+					if (state.query.isBlank() && state.selectedItem == null) {
+						LaunchedEffect(state.results) {
+							if (state.results.isNotEmpty()) {
+								focusRequester.requestFocus()
+							}
 						}
 					}
 				}
@@ -256,22 +302,20 @@ private fun JellyseerrContent(
 private fun JellyseerrViewAllCard(
     onClick: () -> Unit,
 ) {
-    Column(
+    Box(
         modifier = Modifier
-            .width(150.dp)
-            .fillMaxSize()
-            .clickable(onClick = onClick)
-            .padding(vertical = 4.dp),
+            .width(80.dp)
+            .height(80.dp)
+            .clickable(onClick = onClick),
     ) {
-        Box(
+        Button(
+            onClick = onClick,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
+                .align(Alignment.Center),
         ) {
             Text(
-                text = stringResource(R.string.jellyseerr_view_all_trends),
-                modifier = Modifier
-                    .align(androidx.compose.ui.Alignment.Center),
+                text = "➜",
+                color = JellyfinTheme.colorScheme.onButton,
             )
         }
     }
@@ -299,13 +343,23 @@ private fun JellyseerrSearchCard(
 			)
 			.padding(vertical = 4.dp),
 	) {
-		AsyncImage(
+		Box(
 			modifier = Modifier
 				.fillMaxWidth()
-				.height(200.dp),
-			url = item.posterPath,
-			aspectRatio = 2f / 3f,
-		)
+				.height(200.dp)
+				.clip(RoundedCornerShape(12.dp))
+				.border(
+					width = if (isFocused) 2.dp else 1.dp,
+					color = Color.White,
+					shape = RoundedCornerShape(12.dp),
+				),
+		) {
+			AsyncImage(
+				modifier = Modifier.fillMaxSize(),
+				url = item.posterPath,
+				aspectRatio = 2f / 3f,
+			)
+		}
 
 		Spacer(modifier = Modifier.size(4.dp))
 
@@ -313,7 +367,7 @@ private fun JellyseerrSearchCard(
 			text = item.title,
 			color = JellyfinTheme.colorScheme.onBackground,
 			maxLines = 2,
-			overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+			overflow = TextOverflow.Ellipsis,
 			modifier = Modifier.padding(horizontal = 4.dp),
 		)
 
@@ -348,17 +402,23 @@ private fun JellyseerrRequestRow(
 				scaleY = scale,
 			),
 	) {
-		AsyncImage(
+		Box(
 			modifier = Modifier
 				.fillMaxWidth()
 				.height(160.dp)
-				.graphicsLayer(
-					scaleX = scale,
-					scaleY = scale,
+				.clip(RoundedCornerShape(12.dp))
+				.border(
+					width = if (isFocused) 2.dp else 1.dp,
+					color = Color.White,
+					shape = RoundedCornerShape(12.dp),
 				),
-			url = request.posterPath,
-			aspectRatio = 2f / 3f,
-		)
+		) {
+			AsyncImage(
+				modifier = Modifier.fillMaxSize(),
+				url = request.posterPath,
+				aspectRatio = 2f / 3f,
+			)
+		}
 
 		Spacer(modifier = Modifier.size(4.dp))
 
@@ -385,7 +445,8 @@ private fun JellyseerrRequestRow(
 private fun JellyseerrDetail(
 	item: JellyseerrSearchItem,
 	details: JellyseerrMovieDetails?,
-	onRequestClick: () -> Unit
+	requestStatusMessage: String?,
+	onRequestClick: () -> Unit,
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
 
@@ -404,18 +465,55 @@ Box(
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
-			.padding(top = 16.dp),
+			.padding(24.dp),
 	) {
 		Row(
-			horizontalArrangement = Arrangement.spacedBy(16.dp),
+			horizontalArrangement = Arrangement.spacedBy(24.dp),
 		) {
-			AsyncImage(
-				modifier = Modifier
-					.width(200.dp)
-					.height(300.dp),
-				url = details?.posterPath ?: item.posterPath,
-				aspectRatio = 2f / 3f,
-			)
+			Column(
+				verticalArrangement = Arrangement.spacedBy(12.dp),
+			) {
+				Box(
+					modifier = Modifier
+						.width(200.dp)
+						.height(300.dp)
+						.clip(RoundedCornerShape(16.dp))
+						.border(
+							width = 2.dp,
+							color = Color.White,
+							shape = RoundedCornerShape(16.dp),
+						),
+				) {
+					AsyncImage(
+						modifier = Modifier.fillMaxSize(),
+						url = details?.posterPath ?: item.posterPath,
+						aspectRatio = 2f / 3f,
+					)
+				}
+
+				Button(
+					onClick = onRequestClick,
+					colors = ButtonDefaults.colors(
+						containerColor = Color(0xFFAA5CC3),
+						contentColor = Color.White,
+						focusedContainerColor = Color(0xFFBB86FC),
+						focusedContentColor = Color.White,
+					),
+					modifier = Modifier
+						.focusRequester(requestButtonFocusRequester)
+						.focusable(),
+				) {
+					Text(text = stringResource(R.string.jellyseerr_request_button))
+				}
+
+				if (!requestStatusMessage.isNullOrBlank()) {
+					Spacer(modifier = Modifier.size(4.dp))
+					Text(
+						text = requestStatusMessage,
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+				}
+			}
 
 			Column(
 				modifier = Modifier.weight(1f),
@@ -465,17 +563,26 @@ Box(
 				) {
 					Button(
 						onClick = onRequestClick,
-						colors = ButtonDefaults.colors(),
+						colors = ButtonDefaults.colors(
+							containerColor = Color(0xFFAA5CC3),
+							contentColor = Color.White,
+							focusedContainerColor = Color(0xFFBB86FC),
+							focusedContentColor = Color.White,
+						),
 						modifier = Modifier
 							.focusRequester(requestButtonFocusRequester)
 							.focusable(),
 					) {
 						Text(text = stringResource(R.string.jellyseerr_request_button))
 					}
+				}
 
-					LaunchedEffect(item.id, details?.id) {
-						requestButtonFocusRequester.requestFocus()
-					}
+				if (!requestStatusMessage.isNullOrBlank()) {
+					Spacer(modifier = Modifier.size(4.dp))
+					Text(
+						text = requestStatusMessage,
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
 				}
 			}
 		}
