@@ -154,7 +154,9 @@ class SdkPlaybackHelper(
 					mediaTypes = listOf(MediaType.AUDIO),
 					filters = listOf(ItemFilter.IS_NOT_FOLDER),
 					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(
-						ItemSortBy.ALBUM_ARTIST,
+						ItemSortBy.ALBUM,
+						ItemSortBy.PARENT_INDEX_NUMBER,
+						ItemSortBy.INDEX_NUMBER,
 						ItemSortBy.SORT_NAME
 					),
 					recursive = true,
@@ -171,7 +173,12 @@ class SdkPlaybackHelper(
 					isMissing = false,
 					mediaTypes = listOf(MediaType.AUDIO),
 					filters = listOf(ItemFilter.IS_NOT_FOLDER),
-					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(ItemSortBy.SORT_NAME),
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(
+						ItemSortBy.ALBUM,
+						ItemSortBy.PARENT_INDEX_NUMBER,
+						ItemSortBy.INDEX_NUMBER,
+						ItemSortBy.SORT_NAME
+					),
 					recursive = true,
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields,
