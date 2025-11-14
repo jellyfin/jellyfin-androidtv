@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 fun colorScheme(): ColorScheme = ColorScheme(
 	background = Color(0xFF101010),
 	onBackground = Color(0xFFFFFFFF),
+	itemFill = Color(0xFF033860),
 	button = Color(0xB3747474),
 	onButton = Color(0xFFDDDDDD),
 	buttonFocused = Color(0xE6CCCCCC),
@@ -30,6 +31,7 @@ fun colorScheme(): ColorScheme = ColorScheme(
 data class ColorScheme(
 	val background: Color,
 	val onBackground: Color,
+	val itemFill: Color,
 
 	val button: Color,
 	val onButton: Color,
