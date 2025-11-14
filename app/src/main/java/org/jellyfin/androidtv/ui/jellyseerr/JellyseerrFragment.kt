@@ -1,10 +1,11 @@
-package org.jellyfin.androidtv.ui.jellyseerr
+﻿package org.jellyfin.androidtv.ui.jellyseerr
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -111,6 +112,42 @@ private fun JellyseerrScreen(
 				JellyseerrContent(viewModel = viewModel)
 			}
 		}
+
+		if (!state.requestStatusMessage.isNullOrBlank()) {
+			val isError = state.requestStatusMessage!!.contains("fehlgeschlagen", ignoreCase = true)
+
+			Box(
+				modifier = Modifier.fillMaxSize(),
+				contentAlignment = Alignment.Center,
+			) {
+				Box(
+					modifier = Modifier
+						.graphicsLayer(alpha = 0.95f)
+						.padding(horizontal = 24.dp)
+						.border(
+							width = 2.dp,
+							color = Color.White,
+							shape = RoundedCornerShape(12.dp),
+						)
+						.padding(horizontal = 16.dp, vertical = 12.dp)
+						.graphicsLayer(),
+				) {
+					Box(
+						modifier = Modifier
+							.fillMaxSize()
+							.graphicsLayer(alpha = 0.9f)
+							.background(
+								color = if (isError) Color(0xCCB00020) else Color(0xCC00A060),
+								shape = RoundedCornerShape(12.dp),
+							),
+					)
+					Text(
+						text = state.requestStatusMessage!!,
+						color = Color.White,
+					)
+				}
+			}
+		}
 	}
 }
 
@@ -207,8 +244,10 @@ private fun JellyseerrContent(
 							val rowItems = rows[rowIndex]
 
 							Row(
-								horizontalArrangement = Arrangement.spacedBy(12.dp),
-								modifier = Modifier.padding(vertical = 4.dp),
+								horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+								modifier = Modifier
+									.fillMaxWidth()
+									.padding(vertical = 4.dp),
 							) {
 								for (item in rowItems) {
 									JellyseerrSearchCard(
@@ -251,7 +290,7 @@ private fun JellyseerrContent(
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(260.dp)
+							.height(300.dp)
 							.padding(top = 8.dp),
 					) {
 						val maxIndex = state.results.lastIndex
@@ -305,18 +344,19 @@ private fun JellyseerrViewAllCard(
     Box(
         modifier = Modifier
             .width(80.dp)
-            .height(80.dp)
-            .clickable(onClick = onClick),
+            .fillMaxHeight(),
+        contentAlignment = Alignment.Center,
     ) {
         Button(
             onClick = onClick,
-            modifier = Modifier
-                .align(Alignment.Center),
+            colors = ButtonDefaults.colors(
+                containerColor = Color.Transparent,
+                contentColor = Color.White,
+                focusedContainerColor = Color.White,
+                focusedContentColor = Color.Black,
+            ),
         ) {
-            Text(
-                text = "➜",
-                color = JellyfinTheme.colorScheme.onButton,
-            )
+            Text(text = "➜")
         }
     }
 }
@@ -557,33 +597,6 @@ Box(
 				}
 
 				Spacer(modifier = Modifier.size(16.dp))
-
-				Row(
-					horizontalArrangement = Arrangement.spacedBy(12.dp),
-				) {
-					Button(
-						onClick = onRequestClick,
-						colors = ButtonDefaults.colors(
-							containerColor = Color(0xFFAA5CC3),
-							contentColor = Color.White,
-							focusedContainerColor = Color(0xFFBB86FC),
-							focusedContentColor = Color.White,
-						),
-						modifier = Modifier
-							.focusRequester(requestButtonFocusRequester)
-							.focusable(),
-					) {
-						Text(text = stringResource(R.string.jellyseerr_request_button))
-					}
-				}
-
-				if (!requestStatusMessage.isNullOrBlank()) {
-					Spacer(modifier = Modifier.size(4.dp))
-					Text(
-						text = requestStatusMessage,
-						color = JellyfinTheme.colorScheme.onBackground,
-					)
-				}
 			}
 		}
 	}
@@ -592,3 +605,4 @@ Box(
 		requestButtonFocusRequester.requestFocus()
 	}
 }
+

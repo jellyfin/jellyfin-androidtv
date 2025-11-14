@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -66,9 +67,16 @@ fun SearchTextInput(
 			textStyle = LocalTextStyle.current,
 			cursorBrush = SolidColor(color.first),
 			decorationBox = { innerTextField ->
+				val scale = if (focused) 1.05f else 1f
+
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
 					modifier = Modifier
+						.graphicsLayer(
+							scaleX = scale,
+							scaleY = scale,
+							shadowElevation = if (focused) 16f else 0f,
+						)
 						.border(2.dp, color.first, RoundedCornerShape(percent = 30))
 						.padding(12.dp)
 				) {
