@@ -61,6 +61,13 @@ import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
+import android.widget.ImageView
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import kotlinx.coroutines.delay
+
 
 class JellyseerrFragment : Fragment() {
 	override fun onCreateView(
@@ -82,6 +89,42 @@ private fun JellyseerrScreen(
 	val url = userPreferences[UserPreferences.jellyseerrUrl]
 	val apiKey = userPreferences[UserPreferences.jellyseerrApiKey]
 	val state by viewModel.uiState.collectAsState()
+
+	val toastMessage = state.requestStatusMessage
+	val isError = toastMessage?.contains("fehlgeschlagen", ignoreCase = true) == true
+
+	LaunchedEffect(toastMessage) {
+		if (toastMessage != null) {
+			delay(3000)
+			viewModel.clearRequestStatus() // siehe unten
+		}
+	}
+
+	val toastAlpha by animateFloatAsState(
+		targetValue = if (toastMessage != null) 1f else 0f,
+		animationSpec = tween(durationMillis = 300),
+	)
+
+	if (toastAlpha > 0f && toastMessage != null) {
+		Box(
+			modifier = Modifier.fillMaxSize(),
+			contentAlignment = Alignment.Center,
+		) {
+			Box(
+				modifier = Modifier
+					.graphicsLayer(alpha = toastAlpha)
+					.padding(horizontal = 24.dp)
+					.background(
+						color = if (isError) Color(0xCCB00020) else Color(0xCC00A060),
+						shape = RoundedCornerShape(12.dp),
+					)
+					.border(2.dp, Color.White, RoundedCornerShape(12.dp))
+					.padding(horizontal = 16.dp, vertical = 12.dp),
+			) {
+				Text(text = toastMessage, color = Color.White)
+			}
+		}
+	}
 
 	Box(modifier = Modifier.fillMaxSize()) {
 		val selectedItem = state.selectedItem
@@ -110,42 +153,6 @@ private fun JellyseerrScreen(
 				)
 			} else {
 				JellyseerrContent(viewModel = viewModel)
-			}
-		}
-
-		if (!state.requestStatusMessage.isNullOrBlank()) {
-			val isError = state.requestStatusMessage!!.contains("fehlgeschlagen", ignoreCase = true)
-
-			Box(
-				modifier = Modifier.fillMaxSize(),
-				contentAlignment = Alignment.Center,
-			) {
-				Box(
-					modifier = Modifier
-						.graphicsLayer(alpha = 0.95f)
-						.padding(horizontal = 24.dp)
-						.border(
-							width = 2.dp,
-							color = Color.White,
-							shape = RoundedCornerShape(12.dp),
-						)
-						.padding(horizontal = 16.dp, vertical = 12.dp)
-						.graphicsLayer(),
-				) {
-					Box(
-						modifier = Modifier
-							.fillMaxSize()
-							.graphicsLayer(alpha = 0.9f)
-							.background(
-								color = if (isError) Color(0xCCB00020) else Color(0xCC00A060),
-								shape = RoundedCornerShape(12.dp),
-							),
-					)
-					Text(
-						text = state.requestStatusMessage!!,
-						color = Color.White,
-					)
-				}
 			}
 		}
 	}
@@ -186,10 +193,22 @@ private fun JellyseerrContent(
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(12.dp),
 				) {
+					val searchInteraction = remember { MutableInteractionSource() }
+					val searchFocused by searchInteraction.collectIsFocusedAsState()
+					val scale = if (searchFocused) 1.05f else 1f
+
 					Box(
 						modifier = Modifier
 							.weight(1f)
-							.clickable {
+							.focusable(interactionSource = searchInteraction)
+							.graphicsLayer(
+								scaleX = scale,
+								scaleY = scale,
+							)
+							.clickable(
+								interactionSource = searchInteraction,
+								indication = null,
+							) {
 								searchFocusRequester.requestFocus()
 								keyboardController?.show()
 							},
@@ -344,7 +363,8 @@ private fun JellyseerrViewAllCard(
     Box(
         modifier = Modifier
             .width(80.dp)
-            .fillMaxHeight(),
+            .height(200.dp) // gleiche Höhe wie Poster
+            .padding(vertical = 4.dp),
         contentAlignment = Alignment.Center,
     ) {
         Button(
@@ -356,7 +376,7 @@ private fun JellyseerrViewAllCard(
                 focusedContentColor = Color.Black,
             ),
         ) {
-            Text(text = "➜")
+            Text(text = ">")
         }
     }
 }
@@ -398,7 +418,26 @@ private fun JellyseerrSearchCard(
 				modifier = Modifier.fillMaxSize(),
 				url = item.posterPath,
 				aspectRatio = 2f / 3f,
+				scaleType = ImageView.ScaleType.CENTER_CROP,
 			)
+
+			if (item.isRequested) {
+				Box(
+					modifier = Modifier
+						.align(Alignment.TopEnd)
+						.padding(6.dp)
+						.clip(RoundedCornerShape(999.dp))
+						.background(Color(0xFFAA5CC3)),
+				) {
+					androidx.compose.foundation.Image(
+						imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
+						contentDescription = null,
+						modifier = Modifier
+							.padding(4.dp)
+							.size(16.dp),
+					)
+				}
+			}
 		}
 
 		Spacer(modifier = Modifier.size(4.dp))
@@ -411,13 +450,6 @@ private fun JellyseerrSearchCard(
 			modifier = Modifier.padding(horizontal = 4.dp),
 		)
 
-		if (item.isRequested) {
-			Text(
-				text = stringResource(R.string.jellyseerr_requested_label),
-				color = JellyfinTheme.colorScheme.onBackground,
-				modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
-			)
-		}
 	}
 }
 
@@ -457,6 +489,7 @@ private fun JellyseerrRequestRow(
 				modifier = Modifier.fillMaxSize(),
 				url = request.posterPath,
 				aspectRatio = 2f / 3f,
+				scaleType = ImageView.ScaleType.CENTER_CROP,
 			)
 		}
 
@@ -490,119 +523,101 @@ private fun JellyseerrDetail(
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
 
-Box(
-    modifier = Modifier
-        .fillMaxSize()
-) {
-    // Hintergrund
-    AsyncImage(
-        modifier = Modifier
-            .fillMaxSize()
-            .graphicsLayer(alpha = 0.4f), // leicht abdunkeln, falls nötig
-        url = details?.backdropPath ?: item.backdropPath,
-        aspectRatio = 16f / 9f,
-    )
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-			.padding(24.dp),
-	) {
-		Row(
-			horizontalArrangement = Arrangement.spacedBy(24.dp),
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(24.dp),
 		) {
-			Column(
-				verticalArrangement = Arrangement.spacedBy(12.dp),
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(24.dp),
 			) {
-				Box(
-					modifier = Modifier
-						.width(200.dp)
-						.height(300.dp)
-						.clip(RoundedCornerShape(16.dp))
-						.border(
-							width = 2.dp,
-							color = Color.White,
-							shape = RoundedCornerShape(16.dp),
+				Column(
+					verticalArrangement = Arrangement.spacedBy(12.dp),
+				) {
+					Box(
+						modifier = Modifier
+							.width(200.dp)
+							.height(300.dp)
+							.clip(RoundedCornerShape(16.dp))
+							.border(
+								width = 2.dp,
+								color = Color.White,
+								shape = RoundedCornerShape(16.dp),
+							),
+					) {
+						AsyncImage(
+							modifier = Modifier.fillMaxSize(),
+							url = details?.posterPath ?: item.posterPath,
+							aspectRatio = 2f / 3f,
+							scaleType = ImageView.ScaleType.CENTER_CROP,
+						)
+					}
+
+					Button(
+						onClick = onRequestClick,
+						colors = ButtonDefaults.colors(
+							containerColor = Color(0xFFAA5CC3),
+							contentColor = Color.White,
+							focusedContainerColor = Color(0xFFBB86FC),
+							focusedContentColor = Color.White,
 						),
+						modifier = Modifier
+							.focusRequester(requestButtonFocusRequester)
+							.focusable(),
+					) {
+						Text(text = stringResource(R.string.jellyseerr_request_button))
+					}
+				}
+
+				Column(
+					modifier = Modifier.weight(1f),
 				) {
-					AsyncImage(
-						modifier = Modifier.fillMaxSize(),
-						url = details?.posterPath ?: item.posterPath,
-						aspectRatio = 2f / 3f,
-					)
-				}
+					Text(text = details?.title ?: item.title, color = JellyfinTheme.colorScheme.onBackground)
 
-				Button(
-					onClick = onRequestClick,
-					colors = ButtonDefaults.colors(
-						containerColor = Color(0xFFAA5CC3),
-						contentColor = Color.White,
-						focusedContainerColor = Color(0xFFBB86FC),
-						focusedContentColor = Color.White,
-					),
-					modifier = Modifier
-						.focusRequester(requestButtonFocusRequester)
-						.focusable(),
-				) {
-					Text(text = stringResource(R.string.jellyseerr_request_button))
-				}
-
-				if (!requestStatusMessage.isNullOrBlank()) {
 					Spacer(modifier = Modifier.size(4.dp))
-					Text(
-						text = requestStatusMessage,
-						color = JellyfinTheme.colorScheme.onBackground,
-					)
+
+					val year = details?.releaseDate?.take(4)
+					val runtime = details?.runtime
+					val rating = details?.voteAverage
+
+					val metaParts = buildList {
+						year?.let { add(it) }
+						runtime?.let { add("${it} min") }
+						rating?.let { add(String.format("%.1f/10", it)) }
+					}
+
+					if (metaParts.isNotEmpty()) {
+						Text(
+							text = metaParts.joinToString(" • "),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					}
+
+					val genres = details?.genres?.joinToString(", ") { it.name }.orEmpty()
+					if (genres.isNotBlank()) {
+						Spacer(modifier = Modifier.size(4.dp))
+						Text(
+							text = genres,
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					}
+
+					Spacer(modifier = Modifier.size(8.dp))
+
+					if (!details?.overview.isNullOrBlank()) {
+						Text(text = details.overview!!, color = JellyfinTheme.colorScheme.onBackground)
+					} else if (!item.overview.isNullOrBlank()) {
+						Text(text = item.overview!!, color = JellyfinTheme.colorScheme.onBackground)
+					}
+
+					Spacer(modifier = Modifier.size(16.dp))
 				}
-			}
-
-			Column(
-				modifier = Modifier.weight(1f),
-			) {
-				Text(text = details?.title ?: item.title, color = JellyfinTheme.colorScheme.onBackground)
-
-				Spacer(modifier = Modifier.size(4.dp))
-
-				val year = details?.releaseDate?.take(4)
-				val runtime = details?.runtime
-				val rating = details?.voteAverage
-
-				val metaParts = buildList {
-					year?.let { add(it) }
-					runtime?.let { add("${it} min") }
-					rating?.let { add(String.format("%.1f/10", it)) }
-				}
-
-				if (metaParts.isNotEmpty()) {
-					Text(
-						text = metaParts.joinToString(" • "),
-						color = JellyfinTheme.colorScheme.onBackground,
-					)
-				}
-
-				val genres = details?.genres?.joinToString(", ") { it.name }.orEmpty()
-				if (genres.isNotBlank()) {
-					Spacer(modifier = Modifier.size(4.dp))
-					Text(
-						text = genres,
-						color = JellyfinTheme.colorScheme.onBackground,
-					)
-				}
-
-				Spacer(modifier = Modifier.size(8.dp))
-
-				if (!details?.overview.isNullOrBlank()) {
-					Text(text = details.overview!!, color = JellyfinTheme.colorScheme.onBackground)
-				} else if (!item.overview.isNullOrBlank()) {
-					Text(text = item.overview!!, color = JellyfinTheme.colorScheme.onBackground)
-				}
-
-				Spacer(modifier = Modifier.size(16.dp))
 			}
 		}
-	}
-}
 	LaunchedEffect(item.id, details?.id) {
 		requestButtonFocusRequester.requestFocus()
 	}
 }
+
+
 

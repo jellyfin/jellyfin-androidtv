@@ -313,4 +313,9 @@ class JellyseerrViewModel(
 			)
 		}
 	}
+
+	fun clearRequestStatus() {
+		_uiState.update { it.copy(requestStatusMessage = null) }
+	}
+
 }

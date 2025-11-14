@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.search.composable
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +27,7 @@ import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
+import androidx.compose.foundation.focusable
 
 @Composable
 fun SearchTextInput(
@@ -39,12 +38,8 @@ fun SearchTextInput(
 	showKeyboardOnFocus: Boolean = true,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
-	val focused by interactionSource.collectIsFocusedAsState()
-
-	val color = when {
-		focused -> JellyfinTheme.colorScheme.inputFocused to JellyfinTheme.colorScheme.onInputFocused
-		else -> JellyfinTheme.colorScheme.input to JellyfinTheme.colorScheme.onInput
-	}
+	val color =
+		JellyfinTheme.colorScheme.input to JellyfinTheme.colorScheme.onInput
 
 	ProvideTextStyle(
 		LocalTextStyle.current.copy(
@@ -67,24 +62,17 @@ fun SearchTextInput(
 			textStyle = LocalTextStyle.current,
 			cursorBrush = SolidColor(color.first),
 			decorationBox = { innerTextField ->
-				val scale = if (focused) 1.05f else 1f
-
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
 					modifier = Modifier
-						.graphicsLayer(
-							scaleX = scale,
-							scaleY = scale,
-							shadowElevation = if (focused) 16f else 0f,
-						)
 						.border(2.dp, color.first, RoundedCornerShape(percent = 30))
-						.padding(12.dp)
+						.padding(12.dp),
 				) {
 					Icon(ImageVector.vectorResource(R.drawable.ic_search), contentDescription = null)
 					Spacer(Modifier.width(12.dp))
 					innerTextField()
 				}
-			}
+			},
 		)
 	}
 }
