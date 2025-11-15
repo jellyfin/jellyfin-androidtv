@@ -21,6 +21,7 @@ interface JellyseerrRepository {
 	suspend fun createRequest(item: JellyseerrSearchItem): Result<Unit>
 	suspend fun discoverMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
+	suspend fun cancelRequest(requestId: Int): Result<Unit>
 }
 
 data class JellyseerrSearchItem(
@@ -31,6 +32,8 @@ data class JellyseerrSearchItem(
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
 	val isRequested: Boolean = false,
+	val isAvailable: Boolean = false,
+	val requestId: Int? = null,
 )
 
 @Serializable
@@ -320,6 +323,29 @@ class JellyseerrRepositoryImpl(
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to create Jellyseerr request")
+		}
+	}
+
+	override suspend fun cancelRequest(requestId: Int): Result<Unit> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/request/$requestId"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.delete()
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to cancel Jellyseerr request")
 		}
 	}
 

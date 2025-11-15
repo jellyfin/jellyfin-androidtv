@@ -52,8 +52,14 @@ class JellyseerrViewModel(
 				.onSuccess { results ->
 					val currentRequests = _uiState.value.ownRequests
 					val marked = results.map { item ->
-						val requested = currentRequests.any { it.tmdbId == item.id }
-						item.copy(isRequested = requested)
+						val match = currentRequests.firstOrNull { it.tmdbId == item.id }
+						val requested = match != null
+						val available = match?.status == 5
+						item.copy(
+							isRequested = requested,
+							isAvailable = available,
+							requestId = match?.id,
+						)
 					}
 					_uiState.update {
 						it.copy(
@@ -79,8 +85,14 @@ class JellyseerrViewModel(
 				.onSuccess { requests ->
 					_uiState.update { state ->
 						val updatedResults = state.results.map { item ->
-							val requested = requests.any { it.tmdbId == item.id }
-							item.copy(isRequested = requested)
+							val match = requests.firstOrNull { it.tmdbId == item.id }
+							val requested = match != null
+							val available = match?.status == 5
+							item.copy(
+								isRequested = requested,
+								isAvailable = available,
+								requestId = match?.id,
+							)
 						}
 						state.copy(
 							ownRequests = requests,
@@ -105,8 +117,14 @@ class JellyseerrViewModel(
 			repository.discoverMovies()
 				.onSuccess { results ->
 					val marked = results.map { item ->
-						val requested = currentRequests.any { it.tmdbId == item.id }
-						item.copy(isRequested = requested)
+						val match = currentRequests.firstOrNull { it.tmdbId == item.id }
+						val requested = match != null
+						val available = match?.status == 5
+						item.copy(
+							isRequested = requested,
+							isAvailable = available,
+							requestId = match?.id,
+						)
 					}
 					_uiState.update {
 						it.copy(
@@ -137,8 +155,14 @@ class JellyseerrViewModel(
 			repository.discoverMovies(page = 1)
 				.onSuccess { results ->
 					val marked = results.map { item ->
-						val requested = currentRequests.any { it.tmdbId == item.id }
-						item.copy(isRequested = requested)
+						val match = currentRequests.firstOrNull { it.tmdbId == item.id }
+						val requested = match != null
+						val available = match?.status == 5
+						item.copy(
+							isRequested = requested,
+							isAvailable = available,
+							requestId = match?.id,
+						)
 					}
 
 					_uiState.update {
@@ -185,8 +209,14 @@ class JellyseerrViewModel(
 						}
 					} else {
 						val marked = results.map { item ->
-							val requested = currentRequests.any { it.tmdbId == item.id }
-							item.copy(isRequested = requested)
+							val match = currentRequests.firstOrNull { it.tmdbId == item.id }
+							val requested = match != null
+							val available = match?.status == 5
+							item.copy(
+								isRequested = requested,
+								isAvailable = available,
+								requestId = match?.id,
+							)
 						}
 
 						_uiState.update {
@@ -231,6 +261,27 @@ class JellyseerrViewModel(
 				.onFailure { error ->
 					_uiState.update {
 						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage fehlgeschlagen")
+					}
+				}
+		}
+	}
+
+	fun cancelRequest(item: JellyseerrSearchItem) {
+		val requestId = item.requestId ?: return
+
+		viewModelScope.launch {
+			_uiState.update { it.copy(errorMessage = null, requestStatusMessage = null) }
+
+			repository.cancelRequest(requestId)
+				.onSuccess {
+					refreshOwnRequests()
+					_uiState.update {
+						it.copy(requestStatusMessage = "Anfrage zurückgezogen")
+					}
+				}
+				.onFailure { error ->
+					_uiState.update {
+						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage konnte nicht zurückgezogen werden")
 					}
 				}
 		}

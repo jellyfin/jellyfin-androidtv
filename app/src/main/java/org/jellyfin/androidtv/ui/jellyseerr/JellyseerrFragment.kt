@@ -90,43 +90,21 @@ private fun JellyseerrScreen(
 	val apiKey = userPreferences[UserPreferences.jellyseerrApiKey]
 	val state by viewModel.uiState.collectAsState()
 
-	val toastMessage = state.requestStatusMessage
-	val isError = toastMessage?.contains("fehlgeschlagen", ignoreCase = true) == true
+	Box(modifier = Modifier.fillMaxSize()) {
+		val toastMessage = state.requestStatusMessage
+		val isError = toastMessage?.contains("fehlgeschlagen", ignoreCase = true) == true
 
-	LaunchedEffect(toastMessage) {
-		if (toastMessage != null) {
-			delay(3000)
-			viewModel.clearRequestStatus() // siehe unten
-		}
-	}
-
-	val toastAlpha by animateFloatAsState(
-		targetValue = if (toastMessage != null) 1f else 0f,
-		animationSpec = tween(durationMillis = 300),
-	)
-
-	if (toastAlpha > 0f && toastMessage != null) {
-		Box(
-			modifier = Modifier.fillMaxSize(),
-			contentAlignment = Alignment.Center,
-		) {
-			Box(
-				modifier = Modifier
-					.graphicsLayer(alpha = toastAlpha)
-					.padding(horizontal = 24.dp)
-					.background(
-						color = if (isError) Color(0xCCB00020) else Color(0xCC00A060),
-						shape = RoundedCornerShape(12.dp),
-					)
-					.border(2.dp, Color.White, RoundedCornerShape(12.dp))
-					.padding(horizontal = 16.dp, vertical = 12.dp),
-			) {
-				Text(text = toastMessage, color = Color.White)
+		LaunchedEffect(toastMessage) {
+			if (toastMessage != null) {
+				delay(3000)
+				viewModel.clearRequestStatus()
 			}
 		}
-	}
 
-	Box(modifier = Modifier.fillMaxSize()) {
+		val toastAlpha by animateFloatAsState(
+			targetValue = if (toastMessage != null) 1f else 0f,
+			animationSpec = tween(durationMillis = 300),
+		)
 		val selectedItem = state.selectedItem
 		if (selectedItem != null) {
 			val backdropUrl = state.selectedMovie?.backdropPath ?: selectedItem.backdropPath
@@ -153,6 +131,27 @@ private fun JellyseerrScreen(
 				)
 			} else {
 				JellyseerrContent(viewModel = viewModel)
+			}
+		}
+
+		if (toastAlpha > 0f && toastMessage != null) {
+			Box(
+				modifier = Modifier.fillMaxSize(),
+				contentAlignment = Alignment.Center,
+			) {
+				Box(
+					modifier = Modifier
+						.graphicsLayer(alpha = toastAlpha)
+						.padding(horizontal = 24.dp)
+						.background(
+							color = if (isError) Color(0xCCB00020) else Color(0xCC00A060),
+							shape = RoundedCornerShape(12.dp),
+						)
+						.border(2.dp, Color.White, RoundedCornerShape(12.dp))
+						.padding(horizontal = 16.dp, vertical = 12.dp),
+				) {
+					Text(text = toastMessage, color = Color.White)
+				}
 			}
 		}
 	}
@@ -182,6 +181,7 @@ private fun JellyseerrContent(
 			details = state.selectedMovie,
 			requestStatusMessage = state.requestStatusMessage,
 			onRequestClick = { viewModel.request(selectedItem) },
+			onCancelRequestClick = { viewModel.cancelRequest(selectedItem) },
 		)
 	} else {
 		Column(
@@ -193,25 +193,9 @@ private fun JellyseerrContent(
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(12.dp),
 				) {
-					val searchInteraction = remember { MutableInteractionSource() }
-					val searchFocused by searchInteraction.collectIsFocusedAsState()
-					val scale = if (searchFocused) 1.05f else 1f
-
 					Box(
 						modifier = Modifier
-							.weight(1f)
-							.focusable(interactionSource = searchInteraction)
-							.graphicsLayer(
-								scaleX = scale,
-								scaleY = scale,
-							)
-							.clickable(
-								interactionSource = searchInteraction,
-								indication = null,
-							) {
-								searchFocusRequester.requestFocus()
-								keyboardController?.show()
-							},
+							.weight(1f),
 					) {
 						SearchTextInput(
 							query = state.query,
@@ -223,7 +207,7 @@ private fun JellyseerrContent(
 							modifier = Modifier
 								.fillMaxWidth()
 								.focusRequester(searchFocusRequester),
-							showKeyboardOnFocus = false,
+							showKeyboardOnFocus = true,
 						)
 					}
 				}
@@ -315,7 +299,7 @@ private fun JellyseerrContent(
 						val maxIndex = state.results.lastIndex
 
 						// Zeige "Alle Trends" nur, wenn keine Suche aktiv ist
-						val extraItems = if (state.query.isBlank()) 1 else 0
+						val extraItems = 1
 
 						items(maxIndex + 1 + extraItems) { index ->
 							when {
@@ -334,7 +318,7 @@ private fun JellyseerrContent(
 									)
 								}
 
-								state.query.isBlank() && index == maxIndex + 1 -> {
+								index == maxIndex + 1 -> {
 									JellyseerrViewAllCard(
 										onClick = { viewModel.showAllTrends() },
 									)
@@ -421,21 +405,40 @@ private fun JellyseerrSearchCard(
 				scaleType = ImageView.ScaleType.CENTER_CROP,
 			)
 
-			if (item.isRequested) {
-				Box(
-					modifier = Modifier
-						.align(Alignment.TopEnd)
-						.padding(6.dp)
-						.clip(RoundedCornerShape(999.dp))
-						.background(Color(0xFFAA5CC3)),
-				) {
-					androidx.compose.foundation.Image(
-						imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
-						contentDescription = null,
+			when {
+				item.isAvailable -> {
+					Box(
 						modifier = Modifier
-							.padding(4.dp)
-							.size(16.dp),
-					)
+							.align(Alignment.TopEnd)
+							.padding(6.dp)
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFF00C800)),
+					) {
+						androidx.compose.foundation.Image(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
+							contentDescription = null,
+							modifier = Modifier
+								.padding(4.dp)
+								.size(16.dp),
+						)
+					}
+				}
+				item.isRequested -> {
+					Box(
+						modifier = Modifier
+							.align(Alignment.TopEnd)
+							.padding(6.dp)
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFFAA5CC3)),
+					) {
+						androidx.compose.foundation.Image(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
+							contentDescription = null,
+							modifier = Modifier
+								.padding(4.dp)
+								.size(16.dp),
+						)
+					}
 				}
 			}
 		}
@@ -520,8 +523,11 @@ private fun JellyseerrDetail(
 	details: JellyseerrMovieDetails?,
 	requestStatusMessage: String?,
 	onRequestClick: () -> Unit,
+	onCancelRequestClick: () -> Unit,
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
+	val showCancelDialog = remember { androidx.compose.runtime.mutableStateOf(false) }
+	val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
 
 		Column(
 			modifier = Modifier
@@ -553,19 +559,55 @@ private fun JellyseerrDetail(
 						)
 					}
 
-					Button(
-						onClick = onRequestClick,
-						colors = ButtonDefaults.colors(
+					val isRequested = item.isRequested
+					val isAvailable = item.isAvailable
+
+					val buttonColors = when {
+						isAvailable -> ButtonDefaults.colors(
+							containerColor = Color(0xFF00C800),
+							contentColor = Color.White,
+							focusedContainerColor = Color(0xFF00E000),
+							focusedContentColor = Color.White,
+						)
+						isRequested -> ButtonDefaults.colors(
+							containerColor = Color(0xFFFFA000),
+							contentColor = Color.Black,
+							focusedContainerColor = Color(0xFFFFC107),
+							focusedContentColor = Color.Black,
+						)
+						else -> ButtonDefaults.colors(
 							containerColor = Color(0xFFAA5CC3),
 							contentColor = Color.White,
 							focusedContainerColor = Color(0xFFBB86FC),
 							focusedContentColor = Color.White,
-						),
+						)
+					}
+
+					val buttonText = when {
+						isAvailable -> "Abspielen"
+						isRequested -> "Bereits angefragt"
+						else -> stringResource(R.string.jellyseerr_request_button)
+					}
+
+					Button(
+						onClick = {
+							when {
+								isAvailable -> {
+									navigationRepository.navigate(org.jellyfin.androidtv.ui.navigation.Destinations.search(item.title))
+								}
+								isRequested -> {
+									// Bestätigungsdialog wird inhaltlich darunter angezeigt
+									showCancelDialog.value = true
+								}
+								else -> onRequestClick()
+							}
+						},
+						colors = buttonColors,
 						modifier = Modifier
 							.focusRequester(requestButtonFocusRequester)
 							.focusable(),
 					) {
-						Text(text = stringResource(R.string.jellyseerr_request_button))
+						Text(text = buttonText)
 					}
 				}
 
@@ -614,10 +656,53 @@ private fun JellyseerrDetail(
 				}
 			}
 		}
+
+	if (showCancelDialog.value) {
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.background(Color(0xC0000000)),
+			contentAlignment = Alignment.Center,
+		) {
+			Column(
+				modifier = Modifier
+					.padding(24.dp)
+					.background(Color.Black, RoundedCornerShape(12.dp))
+					.padding(16.dp),
+				verticalArrangement = Arrangement.spacedBy(12.dp),
+			) {
+				Text(
+					text = "Anfrage zurückziehen?",
+					color = JellyfinTheme.colorScheme.onBackground,
+				)
+
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(12.dp),
+				) {
+					Button(
+						onClick = {
+							onCancelRequestClick()
+							showCancelDialog.value = false
+						},
+					) {
+						Text("Ja")
+					}
+					Button(
+						onClick = { showCancelDialog.value = false },
+					) {
+						Text("Nein")
+					}
+				}
+			}
+		}
+	}
+
 	LaunchedEffect(item.id, details?.id) {
 		requestButtonFocusRequester.requestFocus()
 	}
 }
+
+
 
 
 
