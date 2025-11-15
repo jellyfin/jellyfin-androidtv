@@ -24,6 +24,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -202,12 +204,13 @@ private fun JellyseerrContent(
 			credits = state.personCredits,
 			onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
 		)
-	} else {
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(24.dp),
-		) {
+  	} else {
+  		Column(
+  			modifier = Modifier
+  				.fillMaxSize()
+  				.verticalScroll(rememberScrollState())
+  				.padding(24.dp),
+  		) {
 			if (!state.showAllTrendsGrid) {
 				Row(
 					horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -367,8 +370,8 @@ private fun JellyseerrContent(
 					}
 				}
 
-				// Zweite Reihe: Beliebte Filme
-				if (state.popularResults.isNotEmpty() && state.selectedItem == null && state.selectedPerson == null) {
+				// Beliebte Filme
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(32.dp))
 
 					Text(
@@ -376,20 +379,173 @@ private fun JellyseerrContent(
 						color = JellyfinTheme.colorScheme.onBackground,
 					)
 
-					Spacer(modifier = Modifier.size(8.dp))
+					if (state.popularResults.isEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(8.dp))
 
-					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
-						contentPadding = PaddingValues(horizontal = 24.dp),
-						modifier = Modifier
-							.fillMaxWidth()
-							.height(300.dp),
-					) {
-						items(state.popularResults) { item ->
-							JellyseerrSearchCard(
-								item = item,
-								onClick = { viewModel.showDetailsForItem(item) },
-							)
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(300.dp),
+						) {
+							items(state.popularResults) { item ->
+								JellyseerrSearchCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+								)
+							}
+						}
+					}
+				}
+
+				// Beliebte Serien
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					Spacer(modifier = Modifier.size(32.dp))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_popular_tv_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+
+					if (state.popularTvResults.isEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(8.dp))
+
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(300.dp),
+						) {
+							items(state.popularTvResults) { item ->
+								JellyseerrSearchCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+								)
+							}
+						}
+					}
+				}
+
+				// Demnächst erscheinende Filme
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					Spacer(modifier = Modifier.size(32.dp))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_upcoming_movies_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+
+					if (state.upcomingMovieResults.isEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(8.dp))
+
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(300.dp),
+						) {
+							items(state.upcomingMovieResults) { item ->
+								JellyseerrSearchCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+								)
+							}
+						}
+					}
+				}
+
+				// Demnächst erscheinende Serien
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					Spacer(modifier = Modifier.size(32.dp))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_upcoming_tv_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+
+					if (state.upcomingTvResults.isEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(8.dp))
+
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(300.dp),
+						) {
+							items(state.upcomingTvResults) { item ->
+								JellyseerrSearchCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+								)
+							}
+						}
+					}
+				}
+
+				// Bisherige Anfragen (globale Liste)
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					Spacer(modifier = Modifier.size(32.dp))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_recent_requests_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+
+					if (state.recentRequests.isEmpty()) {
+						Spacer(modifier = Modifier.size(8.dp))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(8.dp))
+
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(220.dp),
+						) {
+							items(state.recentRequests) { request ->
+								JellyseerrRequestRow(
+									request = request,
+									onClick = { viewModel.showDetailsForRequest(request) },
+								)
+							}
 						}
 					}
 				}

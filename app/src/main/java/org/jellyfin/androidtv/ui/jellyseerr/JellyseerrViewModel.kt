@@ -29,7 +29,11 @@ data class JellyseerrUiState(
 	val selectedPerson: JellyseerrPersonDetails? = null,
 	val personCredits: List<JellyseerrSearchItem> = emptyList(),
 	val originDetailItem: JellyseerrSearchItem? = null,
-	val popularResults: List<JellyseerrSearchItem> = emptyList()
+	val popularResults: List<JellyseerrSearchItem> = emptyList(),
+	val recentRequests: List<JellyseerrRequest> = emptyList(),
+	val popularTvResults: List<JellyseerrSearchItem> = emptyList(),
+	val upcomingMovieResults: List<JellyseerrSearchItem> = emptyList(),
+	val upcomingTvResults: List<JellyseerrSearchItem> = emptyList(),
 )
 
 class JellyseerrViewModel(
@@ -43,6 +47,10 @@ class JellyseerrViewModel(
 			refreshOwnRequestsInternal()
 			loadDiscoverInternal()
 			loadPopular()
+			loadPopularTv()
+			loadUpcomingMovies()
+			loadUpcomingTv()
+			loadRecentRequests()
 		}
 	}
 
@@ -127,7 +135,7 @@ class JellyseerrViewModel(
 
 		val currentRequests = _uiState.value.ownRequests
 
-		val popularResult = repository.discoverMovies(page = 2)
+		val popularResult = repository.discoverMovies(page = 1)
 
 		if (popularResult.isFailure) {
 			val error = popularResult.exceptionOrNull()
@@ -152,6 +160,114 @@ class JellyseerrViewModel(
 		}
 	}
 
+	private suspend fun loadPopularTv() {
+		_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+		val currentRequests = _uiState.value.ownRequests
+
+		val popularResult = repository.discoverTv(page = 1)
+
+		if (popularResult.isFailure) {
+			val error = popularResult.exceptionOrNull()
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					errorMessage = error?.message,
+				)
+			}
+			return
+		}
+
+		val results = popularResult.getOrThrow()
+		val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+		val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+		_uiState.update {
+			it.copy(
+				isLoading = false,
+				popularTvResults = marked,
+			)
+		}
+	}
+
+	private suspend fun loadUpcomingMovies() {
+		_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+		val currentRequests = _uiState.value.ownRequests
+
+		val upcomingResult = repository.discoverUpcomingMovies(page = 1)
+
+		if (upcomingResult.isFailure) {
+			val error = upcomingResult.exceptionOrNull()
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					errorMessage = error?.message,
+				)
+			}
+			return
+		}
+
+		val results = upcomingResult.getOrThrow()
+		val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+		val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+		_uiState.update {
+			it.copy(
+				isLoading = false,
+				upcomingMovieResults = marked,
+			)
+		}
+	}
+
+	private suspend fun loadUpcomingTv() {
+		_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+		val currentRequests = _uiState.value.ownRequests
+
+		val upcomingResult = repository.discoverUpcomingTv(page = 1)
+
+		if (upcomingResult.isFailure) {
+			val error = upcomingResult.exceptionOrNull()
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					errorMessage = error?.message,
+				)
+			}
+			return
+		}
+
+		val results = upcomingResult.getOrThrow()
+		val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+		val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+		_uiState.update {
+			it.copy(
+				isLoading = false,
+				upcomingTvResults = marked,
+			)
+		}
+	}
+
+	private suspend fun loadRecentRequests() {
+		val result = repository.getRecentRequests()
+
+		if (result.isFailure) {
+			val error = result.exceptionOrNull()
+			_uiState.update {
+				it.copy(errorMessage = error?.message)
+			}
+			return
+		}
+
+		val requests = result.getOrThrow()
+
+		_uiState.update {
+			it.copy(recentRequests = requests)
+		}
+	}
+
 	private suspend fun refreshOwnRequestsInternal() {
 		val result = repository.getOwnRequests()
 
@@ -167,11 +283,19 @@ class JellyseerrViewModel(
 
 		_uiState.update { state ->
 			val updatedResults = markItemsWithRequests(state.results, requests)
+			val updatedPopular = markItemsWithRequests(state.popularResults, requests)
+			val updatedPopularTv = markItemsWithRequests(state.popularTvResults, requests)
+			val updatedUpcomingMovies = markItemsWithRequests(state.upcomingMovieResults, requests)
+			val updatedUpcomingTv = markItemsWithRequests(state.upcomingTvResults, requests)
 			val updatedSelectedItem = markSelectedItemWithRequests(state.selectedItem, requests)
 
 			state.copy(
 				ownRequests = requests,
 				results = updatedResults,
+				popularResults = updatedPopular,
+				popularTvResults = updatedPopularTv,
+				upcomingMovieResults = updatedUpcomingMovies,
+				upcomingTvResults = updatedUpcomingTv,
 				selectedItem = updatedSelectedItem ?: state.selectedItem,
 			)
 		}
@@ -182,7 +306,7 @@ class JellyseerrViewModel(
 
 		val currentRequests = _uiState.value.ownRequests
 
-		val discoverResult = repository.discoverMovies()
+		val discoverResult = repository.discoverTrending()
 
 		if (discoverResult.isFailure) {
 			val error = discoverResult.exceptionOrNull()
@@ -215,7 +339,7 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
-			val discoverResult = repository.discoverMovies(page = 1)
+			val discoverResult = repository.discoverTrending(page = 1)
 
 			if (discoverResult.isFailure) {
 				val error = discoverResult.exceptionOrNull()
@@ -255,7 +379,7 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
-			val discoverResult = repository.discoverMovies(page = nextPage)
+			val discoverResult = repository.discoverTrending(page = nextPage)
 
 			if (discoverResult.isFailure) {
 				val error = discoverResult.exceptionOrNull()

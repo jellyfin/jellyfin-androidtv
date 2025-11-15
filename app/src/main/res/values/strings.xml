@@ -459,6 +459,10 @@
     <string name="jellyseerr_cast_title">Cast</string>
     <string name="jellyseerr_error_prefix">Error: %1$s</string>
     <string name="jellyseerr_view_all_trends">View all</string>
+    <string name="jellyseerr_recent_requests_title">Recent requests</string>
+    <string name="jellyseerr_popular_tv_title">Popular series</string>
+    <string name="jellyseerr_upcoming_movies_title">Upcoming movies</string>
+    <string name="jellyseerr_upcoming_tv_title">Upcoming series</string>
     <string name="pref_playback_description">Video, subtitles, live tv, next up</string>
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Subtitles</string>

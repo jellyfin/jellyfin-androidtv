@@ -23,8 +23,13 @@ import timber.log.Timber
 interface JellyseerrRepository {
 	suspend fun search(query: String): Result<List<JellyseerrSearchItem>>
 	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
+	suspend fun getRecentRequests(): Result<List<JellyseerrRequest>>
 	suspend fun createRequest(item: JellyseerrSearchItem): Result<Unit>
+	suspend fun discoverTrending(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun discoverMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
+	suspend fun discoverTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
+	suspend fun discoverUpcomingMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
+	suspend fun discoverUpcomingTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun cancelRequest(requestId: Int): Result<Unit>
 	suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>>
@@ -398,6 +403,47 @@ class JellyseerrRepositoryImpl(
 		}
 	}
 
+	override suspend fun getRecentRequests(): Result<List<JellyseerrRequest>> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+		val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+		val url = "${config.baseUrl}/api/v1/request?filter=all&take=10&sort=modified&skip=0"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val page = json.decodeFromString(JellyseerrRequestPage.serializer(), body)
+
+				page.results.map { dto ->
+					val title = dto.media?.title ?: dto.media?.name ?: ""
+					val posterUrl = dto.media?.posterPath?.let { path -> "$baseImageUrl$path" }
+					val backdropUrl = dto.media?.backdropPath?.let { path -> "$baseImageUrl$path" }
+					JellyseerrRequest(
+						id = dto.id,
+						status = dto.status,
+						mediaType = dto.media?.mediaType,
+						title = title,
+						tmdbId = dto.media?.tmdbId,
+						posterPath = posterUrl,
+						backdropPath = backdropUrl,
+					)
+				}
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr recent requests")
+		}
+	}
+
 	override suspend fun createRequest(item: JellyseerrSearchItem): Result<Unit> = withContext(Dispatchers.IO) {
 		val config = getConfig()
 			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
@@ -453,6 +499,48 @@ class JellyseerrRepositoryImpl(
 		}
 	}
 
+	override suspend fun discoverTrending(page: Int): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/trending?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
+
+				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+				result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map {
+						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
+						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						JellyseerrSearchItem(
+							id = it.id,
+							mediaType = it.mediaType,
+							title = (it.title ?: it.name).orEmpty(),
+							overview = it.overview,
+							posterPath = posterUrl,
+							backdropPath = backdropUrl,
+						)
+					}
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr trending titles")
+		}
+	}
+
 	override suspend fun discoverMovies(page: Int): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
 		val config = getConfig()
 			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
@@ -492,6 +580,132 @@ class JellyseerrRepositoryImpl(
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr discover movies")
+		}
+	}
+
+	override suspend fun discoverTv(page: Int): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/tv?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
+
+				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+				result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map {
+						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
+						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						JellyseerrSearchItem(
+							id = it.id,
+							mediaType = it.mediaType,
+							title = (it.title ?: it.name).orEmpty(),
+							overview = it.overview,
+							posterPath = posterUrl,
+							backdropPath = backdropUrl,
+						)
+					}
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr discover tv")
+		}
+	}
+
+	override suspend fun discoverUpcomingMovies(page: Int): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/movies/upcoming?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
+
+				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+				result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map {
+						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
+						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						JellyseerrSearchItem(
+							id = it.id,
+							mediaType = it.mediaType,
+							title = (it.title ?: it.name).orEmpty(),
+							overview = it.overview,
+							posterPath = posterUrl,
+							backdropPath = backdropUrl,
+						)
+					}
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr upcoming movies")
+		}
+	}
+
+	override suspend fun discoverUpcomingTv(page: Int): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/tv/upcoming?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
+
+				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+				result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map {
+						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
+						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						JellyseerrSearchItem(
+							id = it.id,
+							mediaType = it.mediaType,
+							title = (it.title ?: it.name).orEmpty(),
+							overview = it.overview,
+							posterPath = posterUrl,
+							backdropPath = backdropUrl,
+						)
+					}
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr upcoming tv")
 		}
 	}
 
