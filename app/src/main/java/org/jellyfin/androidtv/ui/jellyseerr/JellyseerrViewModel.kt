@@ -33,8 +33,10 @@ class JellyseerrViewModel(
 	val uiState: StateFlow<JellyseerrUiState> = _uiState.asStateFlow()
 
 	init {
-		refreshOwnRequests()
-		loadDiscover()
+		viewModelScope.launch {
+			refreshOwnRequestsInternal()
+			loadDiscoverInternal()
+		}
 	}
 
 	private fun markItemsWithRequests(
@@ -109,62 +111,64 @@ class JellyseerrViewModel(
 
 	fun refreshOwnRequests() {
 		viewModelScope.launch {
-			val result = repository.getOwnRequests()
-
-			if (result.isFailure) {
-				val error = result.exceptionOrNull()
-				_uiState.update {
-					it.copy(errorMessage = error?.message)
-				}
-				return@launch
-			}
-
-			val requests = result.getOrThrow()
-
-			_uiState.update { state ->
-				val updatedResults = markItemsWithRequests(state.results, requests)
-				val updatedSelectedItem = markSelectedItemWithRequests(state.selectedItem, requests)
-
-				state.copy(
-					ownRequests = requests,
-					results = updatedResults,
-					selectedItem = updatedSelectedItem ?: state.selectedItem,
-				)
-			}
+			refreshOwnRequestsInternal()
 		}
 	}
 
-	private fun loadDiscover() {
-		viewModelScope.launch {
-			_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+	private suspend fun refreshOwnRequestsInternal() {
+		val result = repository.getOwnRequests()
 
-			val currentRequests = _uiState.value.ownRequests
-
-			val discoverResult = repository.discoverMovies()
-
-			if (discoverResult.isFailure) {
-				val error = discoverResult.exceptionOrNull()
-				_uiState.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-					)
-				}
-				return@launch
+		if (result.isFailure) {
+			val error = result.exceptionOrNull()
+			_uiState.update {
+				it.copy(errorMessage = error?.message)
 			}
+			return
+		}
 
-			val results = discoverResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+		val requests = result.getOrThrow()
 
+		_uiState.update { state ->
+			val updatedResults = markItemsWithRequests(state.results, requests)
+			val updatedSelectedItem = markSelectedItemWithRequests(state.selectedItem, requests)
+
+			state.copy(
+				ownRequests = requests,
+				results = updatedResults,
+				selectedItem = updatedSelectedItem ?: state.selectedItem,
+			)
+		}
+	}
+
+	private suspend fun loadDiscoverInternal() {
+		_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+		val currentRequests = _uiState.value.ownRequests
+
+		val discoverResult = repository.discoverMovies()
+
+		if (discoverResult.isFailure) {
+			val error = discoverResult.exceptionOrNull()
 			_uiState.update {
 				it.copy(
 					isLoading = false,
-					results = marked,
-					discoverCurrentPage = 1,
-					discoverHasMore = results.isNotEmpty(),
+					errorMessage = error?.message,
 				)
 			}
+			return
+		}
+
+		val results = discoverResult.getOrThrow()
+		val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+		val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+		_uiState.update {
+			it.copy(
+				isLoading = false,
+				results = marked,
+				discoverCurrentPage = 1,
+				discoverHasMore = results.isNotEmpty(),
+			)
 		}
 	}
 

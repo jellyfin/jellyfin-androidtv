@@ -122,6 +122,23 @@ data class JellyseerrGenre(
 )
 
 @Serializable
+data class JellyseerrCast(
+	val id: Int,
+	val castId: Int? = null,
+	val character: String? = null,
+	val creditId: String? = null,
+	val gender: Int? = null,
+	val name: String,
+	val order: Int? = null,
+	val profilePath: String? = null,
+)
+
+@Serializable
+data class JellyseerrCredits(
+	val cast: List<JellyseerrCast> = emptyList(),
+)
+
+@Serializable
 data class JellyseerrMovieDetails(
 	val id: Int,
 	val title: String? = null,
@@ -133,6 +150,7 @@ data class JellyseerrMovieDetails(
 	val runtime: Int? = null,
 	val voteAverage: Double? = null,
 	val genres: List<JellyseerrGenre> = emptyList(),
+	val credits: JellyseerrCredits? = null,
 )
 
 class JellyseerrRepositoryImpl(
@@ -459,9 +477,18 @@ class JellyseerrRepositoryImpl(
 				val raw = json.decodeFromString(JellyseerrMovieDetails.serializer(), body)
 				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
+				val mappedCredits = raw.credits?.let { credits ->
+					val mappedCast = credits.cast.map { castMember ->
+						val profile = castMember.profilePath?.let { path -> baseImageUrl + path }
+						castMember.copy(profilePath = profile)
+					}
+					credits.copy(cast = mappedCast)
+				}
+
 				raw.copy(
 					posterPath = raw.posterPath?.let { baseImageUrl + it },
 					backdropPath = raw.backdropPath?.let { baseImageUrl + it },
+					credits = mappedCredits ?: raw.credits,
 				)
 			}
 		}.onFailure {

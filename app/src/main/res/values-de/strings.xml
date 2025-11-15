@@ -400,6 +400,7 @@
     <string name="jellyseerr_no_requests">Noch keine Wünsche vorhanden.</string>
     <string name="jellyseerr_request_button">Anfragen</string>
     <string name="jellyseerr_requested_label">Bereits angefragt</string>
+    <string name="jellyseerr_cast_title">Besetzung</string>
     <string name="jellyseerr_error_prefix">Fehler: %1$s</string>
     <string name="jellyseerr_view_all_trends">Alle Trends</string>
     <string name="pref_login_description">Server, Konten, automatische Anmeldung</string>

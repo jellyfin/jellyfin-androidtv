@@ -44,12 +44,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.CircleShape
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.JellyseerrMovieDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
+import org.jellyfin.androidtv.data.repository.JellyseerrCast
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
@@ -229,7 +231,13 @@ private fun JellyseerrContent(
 					color = Color.White,
 				)
 
-				if (state.results.isEmpty() && !state.isLoading) {
+				val baseResults = if (state.query.isBlank()) {
+					state.results.take(20)
+				} else {
+					state.results
+				}
+
+				if (baseResults.isEmpty() && !state.isLoading) {
 					Text(
 						text = stringResource(R.string.jellyseerr_no_results),
 						modifier = Modifier.padding(vertical = 8.dp),
@@ -279,7 +287,13 @@ private fun JellyseerrContent(
 					color = JellyfinTheme.colorScheme.onBackground,
 				)
 
-				if (state.results.isEmpty() && !state.isLoading) {
+				val baseResults = if (state.query.isBlank()) {
+					state.results.take(20)
+				} else {
+					state.results
+				}
+
+				if (baseResults.isEmpty() && !state.isLoading) {
 					Text(
 						text = stringResource(R.string.jellyseerr_no_results),
 						modifier = Modifier.padding(vertical = 8.dp),
@@ -296,7 +310,7 @@ private fun JellyseerrContent(
 							.height(300.dp)
 							.padding(top = 8.dp),
 					) {
-						val maxIndex = state.results.lastIndex
+						val maxIndex = baseResults.lastIndex
 
 						// Zeige "Alle Trends" nur, wenn keine Suche aktiv ist
 						val extraItems = 1
@@ -304,7 +318,7 @@ private fun JellyseerrContent(
 						items(maxIndex + 1 + extraItems) { index ->
 							when {
 								index in 0..maxIndex -> {
-									val item = state.results[index]
+									val item = baseResults[index]
 									val cardModifier = if (index == 0) {
 										Modifier.focusRequester(focusRequester)
 									} else {
@@ -328,8 +342,8 @@ private fun JellyseerrContent(
 					}
 
 					if (state.query.isBlank() && state.selectedItem == null) {
-						LaunchedEffect(state.results) {
-							if (state.results.isNotEmpty()) {
+						LaunchedEffect(baseResults) {
+							if (baseResults.isNotEmpty()) {
 								focusRequester.requestFocus()
 							}
 						}
@@ -518,6 +532,87 @@ private fun JellyseerrRequestRow(
 }
 
 @Composable
+private fun JellyseerrCastRow(
+	cast: List<JellyseerrCast>,
+	onCastClick: (JellyseerrCast) -> Unit,
+) {
+	val displayCast = cast.take(10)
+
+	LazyRow(
+		horizontalArrangement = Arrangement.spacedBy(12.dp),
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(top = 4.dp),
+	) {
+		items(displayCast) { person ->
+			JellyseerrCastCard(
+				person = person,
+				onClick = { onCastClick(person) },
+			)
+		}
+	}
+}
+
+@Composable
+private fun JellyseerrCastCard(
+	person: JellyseerrCast,
+	onClick: () -> Unit,
+) {
+	val interactionSource = remember { MutableInteractionSource() }
+	val isFocused by interactionSource.collectIsFocusedAsState()
+	val scale = if (isFocused) 1.05f else 1f
+
+	Column(
+		horizontalAlignment = Alignment.CenterHorizontally,
+		modifier = Modifier
+			.width(120.dp)
+			.padding(vertical = 4.dp)
+			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
+			.focusable(interactionSource = interactionSource)
+			.graphicsLayer(
+				scaleX = scale,
+				scaleY = scale,
+			),
+	) {
+		Box(
+			modifier = Modifier
+				.size(80.dp)
+				.clip(CircleShape)
+				.border(
+					width = if (isFocused) 2.dp else 1.dp,
+					color = Color.White,
+					shape = CircleShape,
+				),
+		) {
+			AsyncImage(
+				modifier = Modifier.fillMaxSize(),
+				url = person.profilePath,
+				aspectRatio = 1f,
+				scaleType = ImageView.ScaleType.CENTER_CROP,
+			)
+		}
+
+		Spacer(modifier = Modifier.size(4.dp))
+
+		Text(
+			text = person.name,
+			color = JellyfinTheme.colorScheme.onBackground,
+			maxLines = 1,
+			overflow = TextOverflow.Ellipsis,
+		)
+
+		person.character?.takeIf { it.isNotBlank() }?.let { role ->
+			Text(
+				text = role,
+				color = JellyfinTheme.colorScheme.onBackground,
+				maxLines = 1,
+				overflow = TextOverflow.Ellipsis,
+			)
+		}
+	}
+}
+
+@Composable
 private fun JellyseerrDetail(
 	item: JellyseerrSearchItem,
 	details: JellyseerrMovieDetails?,
@@ -597,7 +692,7 @@ private fun JellyseerrDetail(
 								}
 								isRequested -> {
 									// Bestätigungsdialog wird inhaltlich darunter angezeigt
-									showCancelDialog.value = true
+									// showCancelDialog.value = true
 								}
 								else -> onRequestClick()
 							}
@@ -650,6 +745,27 @@ private fun JellyseerrDetail(
 						Text(text = details.overview!!, color = JellyfinTheme.colorScheme.onBackground)
 					} else if (!item.overview.isNullOrBlank()) {
 						Text(text = item.overview!!, color = JellyfinTheme.colorScheme.onBackground)
+					}
+
+					val cast = details?.credits?.cast.orEmpty()
+					if (cast.isNotEmpty()) {
+						Spacer(modifier = Modifier.size(16.dp))
+
+						Text(
+							text = stringResource(id = R.string.jellyseerr_cast_title),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+
+						Spacer(modifier = Modifier.size(8.dp))
+
+						JellyseerrCastRow(
+							cast = cast,
+							onCastClick = { person ->
+								navigationRepository.navigate(
+									org.jellyfin.androidtv.ui.navigation.Destinations.search(person.name),
+								)
+							},
+						)
 					}
 
 					Spacer(modifier = Modifier.size(16.dp))
