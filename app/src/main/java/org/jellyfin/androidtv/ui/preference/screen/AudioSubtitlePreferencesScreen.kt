@@ -61,9 +61,7 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 					).show()
 				}
 			} catch (e: IllegalStateException) {
-				Timber.tag(TAG).e(e, "Unexpected error loading languages")
-			} catch (e: RuntimeException) {
-				Timber.tag(TAG).e(e, "Unexpected error loading languages")
+				Timber.tag(TAG).e(e, "Fragment not attached while loading languages")
 			}
 		}
 	}
