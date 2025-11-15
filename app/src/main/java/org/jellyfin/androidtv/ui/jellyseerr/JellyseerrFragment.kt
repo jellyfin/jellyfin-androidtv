@@ -585,7 +585,7 @@ private fun JellyseerrDetail(
 
 					val buttonText = when {
 						isAvailable -> "Abspielen"
-						isRequested -> "Bereits angefragt"
+						isRequested -> stringResource(R.string.jellyseerr_requested_label)
 						else -> stringResource(R.string.jellyseerr_request_button)
 					}
 
@@ -698,6 +698,7 @@ private fun JellyseerrDetail(
 	}
 
 	LaunchedEffect(item.id, details?.id) {
+		kotlinx.coroutines.delay(100)
 		requestButtonFocusRequester.requestFocus()
 	}
 }

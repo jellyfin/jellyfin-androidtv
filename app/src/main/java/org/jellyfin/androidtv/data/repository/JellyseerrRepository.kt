@@ -13,6 +13,11 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import timber.log.Timber
 
 interface JellyseerrRepository {
@@ -22,6 +27,7 @@ interface JellyseerrRepository {
 	suspend fun discoverMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun cancelRequest(requestId: Int): Result<Unit>
+	suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>>
 }
 
 data class JellyseerrSearchItem(
@@ -133,6 +139,7 @@ class JellyseerrRepositoryImpl(
 	private val userPreferences: UserPreferences,
 	private val sessionRepository: SessionRepository,
 	private val userRepository: UserRepository,
+	private val apiClient: ApiClient,
 ) : JellyseerrRepository {
 	private data class Config(val baseUrl: String, val apiKey: String)
 
@@ -209,6 +216,46 @@ class JellyseerrRepositoryImpl(
 			}
 		}
 	}
+
+	override suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>> =
+		withContext(Dispatchers.IO) {
+			if (items.isEmpty()) return@withContext Result.success(emptyList())
+
+			runCatching {
+				items.map { item ->
+					if (item.isAvailable || item.mediaType != "movie") return@map item
+
+					val title = item.title.trim()
+					if (title.isEmpty()) return@map item
+
+					val request = GetItemsRequest(
+						searchTerm = title,
+						limit = 5,
+						includeItemTypes = setOf(BaseItemKind.MOVIE),
+						recursive = true,
+						enableTotalRecordCount = false,
+					)
+
+					val resultItems = try {
+						apiClient.itemsApi.getItems(request).content.items
+					} catch (error: ApiClientException) {
+						Timber.w(error, "Failed to query Jellyfin for availability of \"%s\"", title)
+						return@map item
+					}
+
+					val matches = resultItems?.any { baseItem ->
+						val name = baseItem.name?.trim().orEmpty()
+						val original = baseItem.originalTitle?.trim().orEmpty()
+						name.equals(title, ignoreCase = true) ||
+							original.equals(title, ignoreCase = true)
+					} == true
+
+					if (matches) item.copy(isAvailable = true) else item
+				}
+			}.onFailure {
+				Timber.e(it, "Failed to mark Jellyseerr items as available in Jellyfin")
+			}
+		}
 
 	override suspend fun search(query: String): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
 		val config = getConfig()

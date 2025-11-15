@@ -37,6 +37,38 @@ class JellyseerrViewModel(
 		loadDiscover()
 	}
 
+	private fun markItemsWithRequests(
+		items: List<JellyseerrSearchItem>,
+		requests: List<JellyseerrRequest>,
+	): List<JellyseerrSearchItem> = items.map { item ->
+		val match = requests.firstOrNull { it.tmdbId == item.id }
+		val requested = match != null
+		val availableFromRequest = match?.status == 5
+
+		item.copy(
+			isRequested = requested,
+			isAvailable = item.isAvailable || availableFromRequest,
+			requestId = match?.id ?: item.requestId,
+		)
+	}
+
+	private fun markSelectedItemWithRequests(
+		selectedItem: JellyseerrSearchItem?,
+		requests: List<JellyseerrRequest>,
+	): JellyseerrSearchItem? {
+		selectedItem ?: return null
+
+		val match = requests.firstOrNull { it.tmdbId == selectedItem.id }
+		val requested = match != null
+		val availableFromRequest = match?.status == 5
+
+		return selectedItem.copy(
+			isRequested = requested,
+			isAvailable = selectedItem.isAvailable || availableFromRequest,
+			requestId = match?.id ?: selectedItem.requestId,
+		)
+	}
+
 	fun updateQuery(query: String) {
 		_uiState.update { it.copy(query = query) }
 	}
@@ -48,63 +80,57 @@ class JellyseerrViewModel(
 		viewModelScope.launch {
 			_uiState.update { it.copy(isLoading = true, errorMessage = null) }
 
-			repository.search(term)
-				.onSuccess { results ->
-					val currentRequests = _uiState.value.ownRequests
-					val marked = results.map { item ->
-						val match = currentRequests.firstOrNull { it.tmdbId == item.id }
-						val requested = match != null
-						val available = match?.status == 5
-						item.copy(
-							isRequested = requested,
-							isAvailable = available,
-							requestId = match?.id,
-						)
-					}
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							results = marked,
-						)
-					}
+			val searchResult = repository.search(term)
+
+			if (searchResult.isFailure) {
+				val error = searchResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+					)
 				}
-				.onFailure { error ->
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							errorMessage = error.message,
-						)
-					}
-				}
+				return@launch
+			}
+
+			val results = searchResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val currentRequests = _uiState.value.ownRequests
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+				)
+			}
 		}
 	}
 
 	fun refreshOwnRequests() {
 		viewModelScope.launch {
-			repository.getOwnRequests()
-				.onSuccess { requests ->
-					_uiState.update { state ->
-						val updatedResults = state.results.map { item ->
-							val match = requests.firstOrNull { it.tmdbId == item.id }
-							val requested = match != null
-							val available = match?.status == 5
-							item.copy(
-								isRequested = requested,
-								isAvailable = available,
-								requestId = match?.id,
-							)
-						}
-						state.copy(
-							ownRequests = requests,
-							results = updatedResults,
-						)
-					}
+			val result = repository.getOwnRequests()
+
+			if (result.isFailure) {
+				val error = result.exceptionOrNull()
+				_uiState.update {
+					it.copy(errorMessage = error?.message)
 				}
-				.onFailure { error ->
-					_uiState.update {
-						it.copy(errorMessage = error.message)
-					}
-				}
+				return@launch
+			}
+
+			val requests = result.getOrThrow()
+
+			_uiState.update { state ->
+				val updatedResults = markItemsWithRequests(state.results, requests)
+				val updatedSelectedItem = markSelectedItemWithRequests(state.selectedItem, requests)
+
+				state.copy(
+					ownRequests = requests,
+					results = updatedResults,
+					selectedItem = updatedSelectedItem ?: state.selectedItem,
+				)
+			}
 		}
 	}
 
@@ -114,35 +140,31 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
-			repository.discoverMovies()
-				.onSuccess { results ->
-					val marked = results.map { item ->
-						val match = currentRequests.firstOrNull { it.tmdbId == item.id }
-						val requested = match != null
-						val available = match?.status == 5
-						item.copy(
-							isRequested = requested,
-							isAvailable = available,
-							requestId = match?.id,
-						)
-					}
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							results = marked,
-							discoverCurrentPage = 1,
-							discoverHasMore = results.isNotEmpty(),
-						)
-					}
+			val discoverResult = repository.discoverMovies()
+
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+					)
 				}
-				.onFailure { error ->
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							errorMessage = error.message,
-						)
-					}
-				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = results.isNotEmpty(),
+				)
+			}
 		}
 	}
 
@@ -152,37 +174,32 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
-			repository.discoverMovies(page = 1)
-				.onSuccess { results ->
-					val marked = results.map { item ->
-						val match = currentRequests.firstOrNull { it.tmdbId == item.id }
-						val requested = match != null
-						val available = match?.status == 5
-						item.copy(
-							isRequested = requested,
-							isAvailable = available,
-							requestId = match?.id,
-						)
-					}
+			val discoverResult = repository.discoverMovies(page = 1)
 
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							results = marked,
-							discoverCurrentPage = 1,
-							discoverHasMore = results.isNotEmpty(),
-						)
-					}
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+						showAllTrendsGrid = true,
+					)
 				}
-				.onFailure { error ->
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							errorMessage = error.message,
-							showAllTrendsGrid = true,
-						)
-					}
-				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = results.isNotEmpty(),
+				)
+			}
 		}
 	}
 
@@ -197,46 +214,42 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
-			repository.discoverMovies(page = nextPage)
-				.onSuccess { results ->
-					if (results.isEmpty()) {
-						_uiState.update {
-							it.copy(
-								isLoading = false,
-								discoverCurrentPage = nextPage,
-								discoverHasMore = false,
-							)
-						}
-					} else {
-						val marked = results.map { item ->
-							val match = currentRequests.firstOrNull { it.tmdbId == item.id }
-							val requested = match != null
-							val available = match?.status == 5
-							item.copy(
-								isRequested = requested,
-								isAvailable = available,
-								requestId = match?.id,
-							)
-						}
+			val discoverResult = repository.discoverMovies(page = nextPage)
 
-						_uiState.update {
-							it.copy(
-								isLoading = false,
-								results = it.results + marked,
-								discoverCurrentPage = nextPage,
-								discoverHasMore = true,
-							)
-						}
-					}
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+					)
 				}
-				.onFailure { error ->
-					_uiState.update {
-						it.copy(
-							isLoading = false,
-							errorMessage = error.message,
-						)
-					}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+
+			if (results.isEmpty()) {
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						discoverCurrentPage = nextPage,
+						discoverHasMore = false,
+					)
 				}
+			} else {
+				val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+				val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						results = it.results + marked,
+						discoverCurrentPage = nextPage,
+						discoverHasMore = true,
+					)
+				}
+			}
 		}
 	}
 
@@ -329,6 +342,9 @@ class JellyseerrViewModel(
 					mediaType = request.mediaType ?: "movie",
 					title = request.title,
 					overview = null,
+					isRequested = true,
+					isAvailable = request.status == 5,
+					requestId = request.id,
 				),
 				selectedMovie = null,
 			)
