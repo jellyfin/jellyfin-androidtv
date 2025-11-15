@@ -14,6 +14,14 @@ import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
 
+enum class JellyseerrDiscoverCategory {
+	TRENDING,
+	POPULAR_MOVIES,
+	UPCOMING_MOVIES,
+	POPULAR_TV,
+	UPCOMING_TV,
+}
+
 data class JellyseerrUiState(
 	val isLoading: Boolean = false,
 	val query: String = "",
@@ -34,6 +42,7 @@ data class JellyseerrUiState(
 	val popularTvResults: List<JellyseerrSearchItem> = emptyList(),
 	val upcomingMovieResults: List<JellyseerrSearchItem> = emptyList(),
 	val upcomingTvResults: List<JellyseerrSearchItem> = emptyList(),
+	val discoverCategory: JellyseerrDiscoverCategory = JellyseerrDiscoverCategory.TRENDING,
 )
 
 class JellyseerrViewModel(
@@ -329,6 +338,7 @@ class JellyseerrViewModel(
 				results = marked,
 				discoverCurrentPage = 1,
 				discoverHasMore = results.isNotEmpty(),
+				discoverCategory = JellyseerrDiscoverCategory.TRENDING,
 			)
 		}
 	}
@@ -363,6 +373,148 @@ class JellyseerrViewModel(
 					results = marked,
 					discoverCurrentPage = 1,
 					discoverHasMore = results.isNotEmpty(),
+					discoverCategory = JellyseerrDiscoverCategory.TRENDING,
+				)
+			}
+		}
+	}
+
+	fun showAllPopularMovies() {
+		viewModelScope.launch {
+			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+
+			val currentRequests = _uiState.value.ownRequests
+
+			val discoverResult = repository.discoverMovies(page = 1)
+
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+						showAllTrendsGrid = true,
+					)
+				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					// Paging nur für Trending
+					discoverHasMore = false,
+				)
+			}
+		}
+	}
+
+	fun showAllUpcomingMovies() {
+		viewModelScope.launch {
+			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+
+			val currentRequests = _uiState.value.ownRequests
+
+			val discoverResult = repository.discoverUpcomingMovies(page = 1)
+
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+						showAllTrendsGrid = true,
+					)
+				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = results.isNotEmpty(),
+				)
+			}
+		}
+	}
+
+	fun showAllPopularTv() {
+		viewModelScope.launch {
+			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+
+			val currentRequests = _uiState.value.ownRequests
+
+			val discoverResult = repository.discoverTv(page = 1)
+
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+						showAllTrendsGrid = true,
+					)
+				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = false,
+				)
+			}
+		}
+	}
+
+	fun showAllUpcomingTv() {
+		viewModelScope.launch {
+			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+
+			val currentRequests = _uiState.value.ownRequests
+
+			val discoverResult = repository.discoverUpcomingTv(page = 1)
+
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+						showAllTrendsGrid = true,
+					)
+				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = false,
 				)
 			}
 		}
@@ -370,6 +522,7 @@ class JellyseerrViewModel(
 
 	fun loadMoreTrends() {
 		val state = _uiState.value
+		// Paging weiterhin nur für Trending aktiv lassen
 		if (!state.showAllTrendsGrid || state.isLoading || !state.discoverHasMore) return
 
 		val nextPage = state.discoverCurrentPage + 1
@@ -422,13 +575,13 @@ class JellyseerrViewModel(
 		_uiState.update { it.copy(showAllTrendsGrid = false) }
 	}
 
-	fun request(item: JellyseerrSearchItem) {
+	fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
 		if (item.isRequested) return
 
 		viewModelScope.launch {
 			_uiState.update { it.copy(errorMessage = null, requestStatusMessage = null) }
 
-			repository.createRequest(item)
+			repository.createRequest(item, seasons)
 				.onSuccess {
 					// Reload own requests und markiere Suchergebnisse
 					refreshOwnRequests()
@@ -439,27 +592,6 @@ class JellyseerrViewModel(
 				.onFailure { error ->
 					_uiState.update {
 						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage fehlgeschlagen")
-					}
-				}
-		}
-	}
-
-	fun cancelRequest(item: JellyseerrSearchItem) {
-		val requestId = item.requestId ?: return
-
-		viewModelScope.launch {
-			_uiState.update { it.copy(errorMessage = null, requestStatusMessage = null) }
-
-			repository.cancelRequest(requestId)
-				.onSuccess {
-					refreshOwnRequests()
-					_uiState.update {
-						it.copy(requestStatusMessage = "Anfrage zurückgezogen")
-					}
-				}
-				.onFailure { error ->
-					_uiState.update {
-						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage konnte nicht zurückgezogen werden")
 					}
 				}
 		}
@@ -478,13 +610,17 @@ class JellyseerrViewModel(
 			)
 		}
 
-		if (item.mediaType != "movie") {
-			_uiState.update { it.copy(isLoading = false) }
-			return
-		}
-
 		viewModelScope.launch {
-			repository.getMovieDetails(item.id)
+			val result = when (item.mediaType) {
+				"movie" -> repository.getMovieDetails(item.id)
+				"tv" -> repository.getTvDetails(item.id)
+				else -> {
+					_uiState.update { it.copy(isLoading = false) }
+					return@launch
+				}
+			}
+
+			result
 				.onSuccess { details ->
 					_uiState.update {
 						it.copy(
@@ -516,13 +652,17 @@ class JellyseerrViewModel(
 			)
 		}
 
-		if (item.mediaType != "movie") {
-			_uiState.update { it.copy(isLoading = false) }
-			return
-		}
-
 		viewModelScope.launch {
-			repository.getMovieDetails(item.id)
+			val result = when (item.mediaType) {
+				"movie" -> repository.getMovieDetails(item.id)
+				"tv" -> repository.getTvDetails(item.id)
+				else -> {
+					_uiState.update { it.copy(isLoading = false) }
+					return@launch
+				}
+			}
+
+			result
 				.onSuccess { details ->
 					_uiState.update {
 						it.copy(
@@ -564,7 +704,18 @@ class JellyseerrViewModel(
 		}
 
 		viewModelScope.launch {
-			repository.getMovieDetails(tmdbId)
+			val mediaType = request.mediaType ?: "movie"
+
+			val result = when (mediaType) {
+				"movie" -> repository.getMovieDetails(tmdbId)
+				"tv" -> repository.getTvDetails(tmdbId)
+				else -> {
+					_uiState.update { it.copy(isLoading = false) }
+					return@launch
+				}
+			}
+
+			result
 				.onSuccess { details ->
 					_uiState.update {
 						it.copy(
