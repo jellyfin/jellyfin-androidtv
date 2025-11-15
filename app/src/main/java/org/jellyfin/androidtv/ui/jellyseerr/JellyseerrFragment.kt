@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.jellyseerr
+﻿package org.jellyfin.androidtv.ui.jellyseerr
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.rememberScrollState
@@ -97,6 +98,32 @@ private fun JellyseerrScreen(
 	val url = userPreferences[UserPreferences.jellyseerrUrl]
 	val apiKey = userPreferences[UserPreferences.jellyseerrApiKey]
 	val state by viewModel.uiState.collectAsState()
+	var showSeasonDialog by remember { mutableStateOf(false) }
+	val firstCastFocusRequester = remember { FocusRequester() }
+
+	// Dialog schließen wenn selectedItem sich ändert (z.B. beim Zurücknavigieren)
+	LaunchedEffect(state.selectedItem) {
+		if (state.selectedItem == null) {
+			showSeasonDialog = false
+		}
+	}
+
+	// Fokussiere ersten Cast-Eintrag wenn Dialog geschlossen wird
+	LaunchedEffect(showSeasonDialog) {
+		if (!showSeasonDialog && state.selectedItem != null) {
+			kotlinx.coroutines.delay(100)
+			try {
+				firstCastFocusRequester.requestFocus()
+			} catch (e: IllegalStateException) {
+				// Ignore if no focusable found
+			}
+		}
+	}
+
+	// BackHandler für Dialog
+	BackHandler(enabled = showSeasonDialog) {
+		showSeasonDialog = false
+	}
 
 	Box(modifier = Modifier.fillMaxSize()) {
 		val toastMessage = state.requestStatusMessage
@@ -143,7 +170,11 @@ private fun JellyseerrScreen(
 					modifier = Modifier.padding(24.dp),
 				)
 			} else {
-				JellyseerrContent(viewModel = viewModel)
+				JellyseerrContent(
+					viewModel = viewModel,
+					onShowSeasonDialog = { showSeasonDialog = true },
+					firstCastFocusRequester = firstCastFocusRequester,
+				)
 			}
 		}
 
@@ -167,24 +198,281 @@ private fun JellyseerrScreen(
 				}
 			}
 		}
+		
+		// Season Dialog auf oberster Ebene (über allem anderen)
+		if (showSeasonDialog && state.selectedItem != null) {
+			val selectedItem = state.selectedItem!!
+			val details = state.selectedMovie
+			val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
+			val availableSeasons = details?.seasons
+				?.filter { it.seasonNumber > 0 }
+				?.sortedBy { it.seasonNumber }
+				.orEmpty()
+
+			// Focus Requester für ersten Button im Dialog
+			val firstButtonFocusRequester = remember { FocusRequester() }
+
+			Box(
+				modifier = Modifier
+					.fillMaxSize()
+					.background(Color(0xCC000000)),
+				contentAlignment = Alignment.Center,
+			) {
+				Box(
+					modifier = Modifier
+						.fillMaxWidth(0.8f)
+						.fillMaxHeight(0.8f)
+						.background(JellyfinTheme.colorScheme.popover, RoundedCornerShape(16.dp))
+						.border(2.dp, Color.White, RoundedCornerShape(16.dp))
+						.padding(16.dp),
+				) {
+					Column(
+						modifier = Modifier.fillMaxSize(),
+						verticalArrangement = Arrangement.spacedBy(12.dp),
+					) {
+						Text(
+							text = stringResource(R.string.jellyseerr_seasons_label),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+
+						Spacer(modifier = Modifier.size(8.dp))
+
+						LazyColumn(
+							modifier = Modifier.weight(1f),
+						) {
+							items(availableSeasons.size) { index ->
+								val season = availableSeasons[index]
+								val number = season.seasonNumber
+								val episodeCount = season.episodeCount
+
+								// Jellyseerr Status Codes:
+								// null = Nicht angefragt
+								// 1 = Pending approval, 2 = Approved, 3 = Declined, 4 = Processing, 5 = Available
+								val jellyseerrStatus = season.status
+
+								// Staffel ist verfügbar wenn status = 5 (Available in Jellyseerr)
+								val isAvailable = jellyseerrStatus == 5
+
+								// Staffel ist angefragt wenn status vorhanden ist (1-4) aber nicht verfügbar
+								val seasonRequested = jellyseerrStatus != null && jellyseerrStatus != 5
+
+								Row(
+									modifier = Modifier
+										.fillMaxWidth()
+										.padding(vertical = 6.dp),
+									horizontalArrangement = Arrangement.SpaceBetween,
+									verticalAlignment = Alignment.CenterVertically,
+								) {
+									Row(
+										horizontalArrangement = Arrangement.spacedBy(8.dp),
+										verticalAlignment = Alignment.CenterVertically,
+									) {
+										// Always use "Staffel X" format, ignore API name field
+										val seasonLabel = "Staffel $number"
+										Text(
+											text = seasonLabel,
+											color = JellyfinTheme.colorScheme.onBackground,
+										)
+
+										if (episodeCount != null && episodeCount > 0) {
+											Box(
+												modifier = Modifier
+													.clip(RoundedCornerShape(999.dp))
+													.background(JellyfinTheme.colorScheme.badge)
+													.padding(horizontal = 8.dp, vertical = 4.dp),
+											) {
+												Text(
+													text = stringResource(
+														R.string.jellyseerr_episodes_count,
+														episodeCount,
+													),
+													color = JellyfinTheme.colorScheme.onBadge,
+												)
+											}
+										}
+									}
+
+									val buttonInteraction = remember { MutableInteractionSource() }
+									val buttonFocused by buttonInteraction.collectIsFocusedAsState()
+
+									val buttonColors = when {
+										isAvailable -> ButtonDefaults.colors(
+											containerColor = Color(0xFF00A800),
+											contentColor = Color.White,
+											focusedContainerColor = Color(0xFF00FF00),
+											focusedContentColor = Color.Black,
+										)
+										seasonRequested -> ButtonDefaults.colors(
+											containerColor = Color(0xFFDD8800),
+											contentColor = Color.Black,
+											focusedContainerColor = Color(0xFFFFBB00),
+											focusedContentColor = Color.Black,
+										)
+										else -> ButtonDefaults.colors(
+											containerColor = Color(0xFF9933CC),
+											contentColor = Color.White,
+											focusedContainerColor = Color(0xFFDD66FF),
+											focusedContentColor = Color.Black,
+										)
+									}
+
+									val buttonText = when {
+										isAvailable -> stringResource(R.string.lbl_play)
+										seasonRequested -> stringResource(R.string.jellyseerr_requested_label)
+										else -> stringResource(R.string.jellyseerr_request_button)
+									}
+
+									val buttonModifier = if (index == 0) {
+										Modifier.focusRequester(firstButtonFocusRequester)
+									} else {
+										Modifier
+									}
+
+									Box {
+										Button(
+											onClick = {
+												when {
+													isAvailable -> {
+														navigationRepository.navigate(
+															org.jellyfin.androidtv.ui.navigation.Destinations.search(
+																selectedItem.title,
+															),
+														)
+														showSeasonDialog = false
+													}
+													seasonRequested -> {
+														// Bereits angefragt - keine Aktion (disabled)
+													}
+													else -> {
+														viewModel.request(selectedItem, listOf(number))
+														showSeasonDialog = false
+													}
+												}
+											},
+											enabled = !seasonRequested, // Disable only if requested (not available and not new)
+											colors = buttonColors,
+											interactionSource = buttonInteraction,
+											modifier = buttonModifier
+												.border(
+													width = if (buttonFocused) 3.dp else 0.dp,
+													color = Color.White,
+													shape = CircleShape
+												),
+										) {
+											Text(text = buttonText)
+										}
+									}
+								}
+							}
+						}
+
+						Row(
+							modifier = Modifier.fillMaxWidth(),
+							horizontalArrangement = Arrangement.SpaceBetween,
+						) {
+							val exitInteraction = remember { MutableInteractionSource() }
+							val exitFocused by exitInteraction.collectIsFocusedAsState()
+
+							Button(
+								onClick = { showSeasonDialog = false },
+								interactionSource = exitInteraction,
+								modifier = Modifier.border(
+									width = if (exitFocused) 3.dp else 0.dp,
+									color = Color.White,
+									shape = CircleShape
+								),
+							) {
+								Text(text = stringResource(R.string.lbl_exit))
+							}
+
+							// "Alle anfragen" Button nur anzeigen wenn nicht alle Staffeln verfügbar/angefragt sind
+							val allSeasonsAvailableOrRequested = availableSeasons.all { season ->
+								val jellyseerrStatus = season.status
+								// Verfügbar (5) oder angefragt (1-4)
+								jellyseerrStatus != null
+							}
+
+							if (!allSeasonsAvailableOrRequested) {
+								val requestAllInteraction = remember { MutableInteractionSource() }
+								val requestAllFocused by requestAllInteraction.collectIsFocusedAsState()
+
+								Button(
+									onClick = {
+										// Filtere nur Staffeln die noch nicht angefragt wurden (status = null)
+										val seasonsToRequest = availableSeasons
+											.filter { it.status == null }
+											.map { it.seasonNumber }
+
+										if (seasonsToRequest.isNotEmpty()) {
+											viewModel.request(selectedItem, seasonsToRequest)
+										}
+										showSeasonDialog = false
+									},
+									colors = ButtonDefaults.colors(
+										containerColor = Color(0xFF9933CC),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFFDD66FF),
+										focusedContentColor = Color.Black,
+									),
+									interactionSource = requestAllInteraction,
+									modifier = Modifier.border(
+										width = if (requestAllFocused) 3.dp else 0.dp,
+										color = Color.White,
+										shape = CircleShape
+									),
+								) {
+									Text(text = stringResource(R.string.jellyseerr_request_all_seasons))
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// Fokus auf ersten Button setzen wenn Dialog geöffnet wird
+			LaunchedEffect(Unit) {
+				kotlinx.coroutines.delay(100)
+				firstButtonFocusRequester.requestFocus()
+			}
+		}
 	}
 }
 
 @Composable
 private fun JellyseerrContent(
 	viewModel: JellyseerrViewModel = koinViewModel(),
+	onShowSeasonDialog: () -> Unit,
+	firstCastFocusRequester: FocusRequester,
 ) {
 	val state by viewModel.uiState.collectAsState()
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val searchFocusRequester = remember { FocusRequester() }
 	val allTrendsListState = rememberLazyListState()
 	val sectionSpacing = 10.dp
-	val sectionInnerSpacing = 12.dp //Spacer �berschriften zu Inhalten
+	val sectionInnerSpacing = 12.dp
 	val sectionTitleFontSize = 26.sp
+
+	// Backdrop Rotation State
+	var currentBackdropUrl by remember { mutableStateOf<String?>(null) }
+
+	// Rotiere Backdrop alle 10 Sekunden
+	LaunchedEffect(state.results) {
+		while (true) {
+			val itemsWithBackdrop = state.results
+				.take(20)
+				.mapNotNull { it.backdropPath }
+				.filter { it.isNotBlank() }
+
+			if (itemsWithBackdrop.isNotEmpty()) {
+				currentBackdropUrl = itemsWithBackdrop.random()
+			}
+
+			delay(10000)
+		}
+	}
 
 	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
 		when {
-			// Wenn ein Detail ge�ffnet ist, zuerst Detail schlie�en
 			state.selectedItem != null -> viewModel.closeDetails()
 			state.selectedPerson != null -> viewModel.closePerson()
 			state.showAllTrendsGrid -> viewModel.closeAllTrends()
@@ -195,21 +483,45 @@ private fun JellyseerrContent(
 	val selectedItem = state.selectedItem
 	val selectedPerson = state.selectedPerson
 
-	if (selectedItem != null) {
-		JellyseerrDetail(
-			item = selectedItem,
-			details = state.selectedMovie,
-			requestStatusMessage = state.requestStatusMessage,
-			onRequestClick = { seasons -> viewModel.request(selectedItem, seasons) },
-			onCastClick = { castMember -> viewModel.showPerson(castMember) },
-		)
-	} else if (selectedPerson != null) {
-		JellyseerrPersonScreen(
-			person = selectedPerson,
-			credits = state.personCredits,
-			onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
-		)
-  	} else {
+	// Backdrop nur im Hauptbereich, nicht in Details
+	Box(modifier = Modifier.fillMaxSize()) {
+		if (selectedItem == null && selectedPerson == null) {
+			// Crossfade für weichen Übergang zwischen Backdrops
+			androidx.compose.animation.Crossfade(
+				targetState = currentBackdropUrl,
+				animationSpec = androidx.compose.animation.core.tween(durationMillis = 1000),
+				label = "backdrop_crossfade"
+			) { backdropUrl ->
+				if (backdropUrl != null) {
+					AsyncImage(
+						modifier = Modifier
+							.fillMaxSize()
+							.graphicsLayer(alpha = 0.4f),
+						url = backdropUrl,
+						aspectRatio = 16f / 9f,
+						scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
+					)
+				}
+			}
+		}
+
+		if (selectedItem != null) {
+			JellyseerrDetail(
+				item = selectedItem,
+				details = state.selectedMovie,
+				requestStatusMessage = state.requestStatusMessage,
+				onRequestClick = { seasons -> viewModel.request(selectedItem, seasons) },
+				onCastClick = { castMember -> viewModel.showPerson(castMember) },
+				onShowSeasonDialog = onShowSeasonDialog,
+				firstCastFocusRequester = firstCastFocusRequester,
+			)
+		} else if (selectedPerson != null) {
+			JellyseerrPersonScreen(
+				person = selectedPerson,
+				credits = state.personCredits,
+				onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
+			)
+	  	} else {
 		val scrollState = rememberScrollState()
 		val columnModifier = if (state.showAllTrendsGrid) {
 			Modifier
@@ -260,7 +572,7 @@ private fun JellyseerrContent(
 			}
 
 			if (state.showAllTrendsGrid) {
-				Text(text = stringResource(R.string.jellyseerr_discover_title), color = Color.White, fontSize = sectionTitleFontSize)
+				Text(text = stringResource(state.discoverCategory.titleResId), color = Color.White, fontSize = sectionTitleFontSize)
 
 				val baseResults = if (state.query.isBlank()) {
 					state.results.take(20)
@@ -289,7 +601,7 @@ private fun JellyseerrContent(
 								horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
 								modifier = Modifier
 									.fillMaxWidth()
-									.padding(vertical = 15.dp), // Abstand zwischen den Reihen
+									.padding(vertical = 15.dp),
 							) {
 								for (item in rowItems) {
 									JellyseerrSearchCard(
@@ -327,20 +639,33 @@ private fun JellyseerrContent(
 						modifier = Modifier.padding(vertical = 8.dp),
 					)
 				} else {
-					// Fokus zuerst auf dem ersten Element der Discover-Slides setzen
 					val focusRequester = FocusRequester()
+					val listState = rememberLazyListState(
+						initialFirstVisibleItemIndex = state.scrollPositions["discover"]?.index ?: 0,
+						initialFirstVisibleItemScrollOffset = state.scrollPositions["discover"]?.offset ?: 0,
+					)
+
+					// Speichere Scroll-Position wenn sich der Zustand ändert
+					LaunchedEffect(listState.firstVisibleItemIndex, listState.firstVisibleItemScrollOffset) {
+						if (listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0) {
+							viewModel.saveScrollPosition(
+								"discover",
+								listState.firstVisibleItemIndex,
+								listState.firstVisibleItemScrollOffset
+							)
+						}
+					}
 
 					LazyRow(
+						state = listState,
 						horizontalArrangement = Arrangement.spacedBy(12.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
 							.height(300.dp)
-							.padding(top = 15.dp), // Abstand Label zu Karten
+							.padding(top = 15.dp),
 					) {
 						val maxIndex = baseResults.lastIndex
-
-						// Zeige "Alle Trends" nur, wenn keine Suche aktiv ist
 						val extraItems = 1
 
 						items(maxIndex + 1 + extraItems) { index ->
@@ -398,7 +723,23 @@ private fun JellyseerrContent(
 					} else {
 						Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
+						val popularListState = rememberLazyListState(
+							initialFirstVisibleItemIndex = state.scrollPositions["popular"]?.index ?: 0,
+							initialFirstVisibleItemScrollOffset = state.scrollPositions["popular"]?.offset ?: 0,
+						)
+
+						LaunchedEffect(popularListState.firstVisibleItemIndex, popularListState.firstVisibleItemScrollOffset) {
+							if (popularListState.firstVisibleItemIndex > 0 || popularListState.firstVisibleItemScrollOffset > 0) {
+								viewModel.saveScrollPosition(
+									"popular",
+									popularListState.firstVisibleItemIndex,
+									popularListState.firstVisibleItemScrollOffset
+								)
+							}
+						}
+
 						LazyRow(
+							state = popularListState,
 							horizontalArrangement = Arrangement.spacedBy(12.dp),
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
@@ -479,7 +820,7 @@ private fun JellyseerrContent(
 				}
 
 
-				// Demn�chst erscheinende Filme
+				// Demnächst erscheinende Filme
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(sectionSpacing))
 
@@ -529,7 +870,7 @@ private fun JellyseerrContent(
 					}
 				}
 
-				// Demn�chst erscheinende Serien
+				// Demnächst erscheinende Serien
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(sectionSpacing))
 
@@ -617,6 +958,7 @@ private fun JellyseerrContent(
 				}
 			}
 		}
+		}
 	}
 }
 
@@ -657,7 +999,6 @@ private fun JellyseerrPersonScreen(
             }
         }
 
-        // Zus�tzlicher Abstand, damit Karten nicht abgeschnitten werden
         Spacer(modifier = Modifier.size(32.dp))
 
         LazyColumn {
@@ -668,7 +1009,7 @@ private fun JellyseerrPersonScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 20.dp), // Abstand zwischen den Reihen
+                        .padding(vertical = 20.dp),
                 ) {
                     rowItems.forEach { item ->
                         JellyseerrSearchCard(
@@ -690,7 +1031,7 @@ private fun JellyseerrViewAllCard(
     Box(
         modifier = Modifier
             .width(80.dp)
-            .height(200.dp) // gleiche H�he wie Poster
+            .height(200.dp)
             .padding(vertical = 4.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -736,17 +1077,34 @@ private fun JellyseerrSearchCard(
 				.height(200.dp)
 				.clip(RoundedCornerShape(12.dp))
 				.border(
-					width = if (isFocused) 2.dp else 1.dp,
-					color = Color.White,
+					width = if (isFocused) 4.dp else 1.dp,
+					color = if (isFocused) Color.White else Color(0xFF888888),
 					shape = RoundedCornerShape(12.dp),
 				),
 		) {
-			AsyncImage(
-				modifier = Modifier.fillMaxSize(),
-				url = item.posterPath,
-				aspectRatio = 2f / 3f,
-				scaleType = ImageView.ScaleType.CENTER_CROP,
-			)
+			if (item.posterPath.isNullOrBlank()) {
+				// Placeholder wenn kein Poster verfügbar
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.background(Color(0xFF333333)),
+					contentAlignment = Alignment.Center,
+				) {
+					androidx.compose.foundation.Image(
+						imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+						contentDescription = null,
+						modifier = Modifier.size(48.dp),
+						colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
+					)
+				}
+			} else {
+				AsyncImage(
+					modifier = Modifier.fillMaxSize(),
+					url = item.posterPath,
+					aspectRatio = 2f / 3f,
+					scaleType = ImageView.ScaleType.CENTER_CROP,
+				)
+			}
 
 			when {
 				item.isAvailable -> {
@@ -759,6 +1117,23 @@ private fun JellyseerrSearchCard(
 					) {
 						androidx.compose.foundation.Image(
 							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
+							contentDescription = null,
+							modifier = Modifier
+								.padding(4.dp)
+								.size(16.dp),
+						)
+					}
+				}
+				item.isPartiallyAvailable -> {
+					Box(
+						modifier = Modifier
+							.align(Alignment.TopEnd)
+							.padding(6.dp)
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFF00C800)),
+					) {
+						androidx.compose.foundation.Image(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_decrease),
 							contentDescription = null,
 							modifier = Modifier
 								.padding(4.dp)
@@ -826,19 +1201,35 @@ private fun JellyseerrRequestRow(
 				.height(160.dp)
 				.clip(RoundedCornerShape(12.dp))
 				.border(
-					width = if (isFocused) 2.dp else 1.dp,
-					color = Color.White,
+					width = if (isFocused) 4.dp else 1.dp,
+					color = if (isFocused) Color.White else Color(0xFF888888),
 					shape = RoundedCornerShape(12.dp),
 				),
 		) {
-			AsyncImage(
-				modifier = Modifier.fillMaxSize(),
-				url = request.posterPath,
-				aspectRatio = 2f / 3f,
-				scaleType = ImageView.ScaleType.CENTER_CROP,
-			)
+			if (request.posterPath.isNullOrBlank()) {
+				// Placeholder wenn kein Poster verfügbar
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.background(Color(0xFF333333)),
+					contentAlignment = Alignment.Center,
+				) {
+					androidx.compose.foundation.Image(
+						imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+						contentDescription = null,
+						modifier = Modifier.size(48.dp),
+						colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
+					)
+				}
+			} else {
+				AsyncImage(
+					modifier = Modifier.fillMaxSize(),
+					url = request.posterPath,
+					aspectRatio = 2f / 3f,
+					scaleType = ImageView.ScaleType.CENTER_CROP,
+				)
+			}
 
-			// Verf�gbar / angefragt Badges anhand request.status
 			when {
 				request.status == 5 -> {
 					Box(
@@ -902,6 +1293,7 @@ private fun JellyseerrRequestRow(
 private fun JellyseerrCastRow(
 	cast: List<JellyseerrCast>,
 	onCastClick: (JellyseerrCast) -> Unit,
+	firstCastFocusRequester: FocusRequester? = null,
 ) {
 	val displayCast = cast.take(10)
 
@@ -911,10 +1303,11 @@ private fun JellyseerrCastRow(
 			.fillMaxWidth()
 			.padding(top = 4.dp),
 	) {
-		items(displayCast) { person ->
+		itemsIndexed(displayCast) { index, person ->
 			JellyseerrCastCard(
 				person = person,
 				onClick = { onCastClick(person) },
+				focusRequester = if (index == 0) firstCastFocusRequester else null,
 			)
 		}
 	}
@@ -924,30 +1317,39 @@ private fun JellyseerrCastRow(
 private fun JellyseerrCastCard(
 	person: JellyseerrCast,
 	onClick: () -> Unit,
+	focusRequester: FocusRequester? = null,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
 	val isFocused by interactionSource.collectIsFocusedAsState()
 	val scale = if (isFocused) 1.05f else 1f
 
+	val modifier = Modifier
+		.width(120.dp)
+		.padding(vertical = 4.dp)
+		.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
+		.focusable(interactionSource = interactionSource)
+		.graphicsLayer(
+			scaleX = scale,
+			scaleY = scale,
+		)
+
+	val modifierWithFocus = if (focusRequester != null) {
+		modifier.focusRequester(focusRequester)
+	} else {
+		modifier
+	}
+
 	Column(
 		horizontalAlignment = Alignment.CenterHorizontally,
-		modifier = Modifier
-			.width(120.dp)
-			.padding(vertical = 4.dp)
-			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-			.focusable(interactionSource = interactionSource)
-			.graphicsLayer(
-				scaleX = scale,
-				scaleY = scale,
-			),
+		modifier = modifierWithFocus,
 	) {
 		Box(
 			modifier = Modifier
 				.size(80.dp)
 				.clip(CircleShape)
 				.border(
-					width = if (isFocused) 2.dp else 1.dp,
-					color = Color.White,
+					width = if (isFocused) 4.dp else 1.dp,
+					color = if (isFocused) Color.White else Color(0xFF888888),
 					shape = CircleShape,
 				),
 		) {
@@ -986,79 +1388,97 @@ private fun JellyseerrDetail(
 	requestStatusMessage: String?,
 	onRequestClick: (List<Int>?) -> Unit,
 	onCastClick: (JellyseerrCast) -> Unit,
+	onShowSeasonDialog: () -> Unit,
+	firstCastFocusRequester: FocusRequester = remember { FocusRequester() },
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
-	val requestButtonInteractionSource = remember { MutableInteractionSource() }
-	val requestButtonFocused by requestButtonInteractionSource.collectIsFocusedAsState()
-	val requestButtonScale = if (requestButtonFocused) 1.05f else 1f
 	val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
 	val isTv = item.mediaType == "tv"
-	val availableSeasons = details?.seasons
-		?.filter { it.seasonNumber > 0 }
-		?.sortedBy { it.seasonNumber }
-		.orEmpty()
-	var showSeasonDialog by remember { mutableStateOf(false) }
 
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(24.dp),
+	Column(
+		modifier = Modifier
+			.fillMaxSize()
+			.padding(24.dp),
+	) {
+		Row(
+			horizontalArrangement = Arrangement.spacedBy(24.dp),
 		) {
-			Row(
-				horizontalArrangement = Arrangement.spacedBy(24.dp),
+			Column(
+				verticalArrangement = Arrangement.spacedBy(12.dp),
 			) {
-				Column(
-					verticalArrangement = Arrangement.spacedBy(12.dp),
+				Box(
+					modifier = Modifier
+						.width(200.dp)
+						.height(300.dp)
+						.clip(RoundedCornerShape(16.dp))
+						.border(
+							width = 2.dp,
+							color = Color.White,
+							shape = RoundedCornerShape(16.dp),
+						),
 				) {
-					Box(
-						modifier = Modifier
-							.width(200.dp)
-							.height(300.dp)
-							.clip(RoundedCornerShape(16.dp))
-							.border(
-								width = 2.dp,
-								color = Color.White,
-								shape = RoundedCornerShape(16.dp),
-							),
-					) {
+					val posterUrl = details?.posterPath ?: item.posterPath
+					if (posterUrl.isNullOrBlank()) {
+						// Placeholder wenn kein Poster verfügbar
+						Box(
+							modifier = Modifier
+								.fillMaxSize()
+								.background(Color(0xFF333333)),
+							contentAlignment = Alignment.Center,
+						) {
+							androidx.compose.foundation.Image(
+								imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+								contentDescription = null,
+								modifier = Modifier.size(64.dp),
+								colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
+							)
+						}
+					} else {
 						AsyncImage(
 							modifier = Modifier.fillMaxSize(),
-							url = details?.posterPath ?: item.posterPath,
+							url = posterUrl,
 							aspectRatio = 2f / 3f,
 							scaleType = ImageView.ScaleType.CENTER_CROP,
 						)
 					}
+				}
 
-					val isRequested = item.isRequested
-					val isAvailable = item.isAvailable
+				val isRequested = item.isRequested
+				val isAvailable = item.isAvailable
 
-					val buttonColors = when {
-						isAvailable -> ButtonDefaults.colors(
-							containerColor = Color(0xFF00C800),
-							contentColor = Color.White,
-							focusedContainerColor = Color(0xFF00E000),
-							focusedContentColor = Color.White,
-						)
-						isRequested -> ButtonDefaults.colors(
-							containerColor = Color(0xFFFFA000),
-							contentColor = Color.Black,
-							focusedContainerColor = Color(0xFFFFC107),
-							focusedContentColor = Color.Black,
-						)
-						else -> ButtonDefaults.colors(
-							containerColor = Color(0xFFAA5CC3),
-							contentColor = Color.White,
-							focusedContainerColor = Color(0xFFBB86FC),
-							focusedContentColor = Color.White,
-						)
-					}
+				val requestButtonInteraction = remember { MutableInteractionSource() }
+				val requestButtonFocused by requestButtonInteraction.collectIsFocusedAsState()
 
-					val buttonText = when {
-						isAvailable -> stringResource(R.string.lbl_play)
-						isRequested -> stringResource(R.string.jellyseerr_requested_label)
-						else -> stringResource(R.string.jellyseerr_request_button)
-					}
+				val buttonColors = when {
+					isAvailable -> ButtonDefaults.colors(
+						containerColor = Color(0xFF00A800),
+						contentColor = Color.White,
+						focusedContainerColor = Color(0xFF00FF00),
+						focusedContentColor = Color.Black,
+					)
+					isRequested -> ButtonDefaults.colors(
+						containerColor = Color(0xFFDD8800),
+						contentColor = Color.Black,
+						focusedContainerColor = Color(0xFFFFBB00),
+						focusedContentColor = Color.Black,
+					)
+					else -> ButtonDefaults.colors(
+						containerColor = Color(0xFF9933CC),
+						contentColor = Color.White,
+						focusedContainerColor = Color(0xFFDD66FF),
+						focusedContentColor = Color.Black,
+					)
+				}
 
+				val buttonText = when {
+					isAvailable -> stringResource(R.string.lbl_play)
+					isRequested -> stringResource(R.string.jellyseerr_requested_label)
+					else -> stringResource(R.string.jellyseerr_request_button)
+				}
+
+				Box(
+					contentAlignment = Alignment.Center,
+				) {
 					Button(
 						onClick = {
 							when {
@@ -1067,255 +1487,100 @@ private fun JellyseerrDetail(
 										org.jellyfin.androidtv.ui.navigation.Destinations.search(item.title),
 									)
 								}
+								isTv -> {
+									// Serie: Dialog öffnen
+									onShowSeasonDialog()
+								}
 								else -> {
-									if (isTv && availableSeasons.isNotEmpty()) {
-										showSeasonDialog = true
-									} else {
-										onRequestClick(null)
-									}
+									// Film: direkte Anfrage
+									onRequestClick(null)
 								}
 							}
 						},
-						enabled = !isRequested,
+						enabled = !isRequested || isTv || isAvailable,
 						colors = buttonColors,
-						interactionSource = requestButtonInteractionSource,
+						interactionSource = requestButtonInteraction,
 						modifier = Modifier
+							.width(200.dp)
 							.focusRequester(requestButtonFocusRequester)
-							.focusable(interactionSource = requestButtonInteractionSource)
-							.graphicsLayer(
-								scaleX = requestButtonScale,
-								scaleY = requestButtonScale,
+							.border(
+								width = if (requestButtonFocused) 3.dp else 0.dp,
+								color = Color.White,
+								shape = CircleShape
 							),
 					) {
 						Text(text = buttonText)
 					}
-
 				}
 
-				Column(
-					modifier = Modifier.weight(1f),
-				) {
-					Text(text = details?.title ?: item.title, color = JellyfinTheme.colorScheme.onBackground)
-
-					Spacer(modifier = Modifier.size(4.dp))
-
-					val year = details?.releaseDate?.take(4)
-					val runtime = details?.runtime
-					val rating = details?.voteAverage
-
-					val metaParts = buildList {
-						year?.let { add(it) }
-						runtime?.let { add("${it} min") }
-						rating?.let { add(String.format("%.1f/10", it)) }
-					}
-
-					if (metaParts.isNotEmpty()) {
-						Text(
-							text = metaParts.joinToString(" � "),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					}
-
-					val genres = details?.genres?.joinToString(", ") { it.name }.orEmpty()
-					if (genres.isNotBlank()) {
-						Spacer(modifier = Modifier.size(4.dp))
-						Text(
-							text = genres,
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					}
-
-					Spacer(modifier = Modifier.size(8.dp))
-
-					if (!details?.overview.isNullOrBlank()) {
-						Text(text = details.overview!!, color = JellyfinTheme.colorScheme.onBackground)
-					} else if (!item.overview.isNullOrBlank()) {
-						Text(text = item.overview!!, color = JellyfinTheme.colorScheme.onBackground)
-					}
-
-					val cast = details?.credits?.cast.orEmpty()
-					if (cast.isNotEmpty()) {
-						Spacer(modifier = Modifier.size(16.dp))
-
-						Text(
-							text = stringResource(id = R.string.jellyseerr_cast_title),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-
-						Spacer(modifier = Modifier.size(8.dp))
-
-						JellyseerrCastRow(
-							cast = cast,
-							onCastClick = onCastClick,
-						)
-					}
-
-					Spacer(modifier = Modifier.size(16.dp))
-				}
 			}
-		}
 
-	if (isTv && availableSeasons.isNotEmpty() && showSeasonDialog) {
-		Box(
-			modifier = Modifier
-				.fillMaxSize()
-				.background(Color(0xCC000000)),
-			contentAlignment = Alignment.Center,
-		) {
-			Box(
-				modifier = Modifier
-					.fillMaxWidth(0.8f)
-					.fillMaxHeight(0.8f)
-					.background(JellyfinTheme.colorScheme.popover, RoundedCornerShape(16.dp))
-					.border(2.dp, Color.White, RoundedCornerShape(16.dp))
-					.padding(16.dp),
+			Column(
+				modifier = Modifier.weight(1f),
 			) {
-				Column(
-					modifier = Modifier.fillMaxSize(),
-					verticalArrangement = Arrangement.spacedBy(12.dp),
-				) {
+				Text(text = details?.title ?: item.title, color = JellyfinTheme.colorScheme.onBackground)
+
+				Spacer(modifier = Modifier.size(4.dp))
+
+				val year = details?.releaseDate?.take(4)
+				val runtime = details?.runtime
+				val rating = details?.voteAverage
+
+				val metaParts = buildList {
+					year?.let { add(it) }
+					runtime?.let { add("${it} min") }
+					rating?.let { add(String.format("%.1f/10", it)) }
+				}
+
+				if (metaParts.isNotEmpty()) {
 					Text(
-						text = stringResource(R.string.jellyseerr_seasons_label),
+						text = metaParts.joinToString(" • "),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+				}
+
+				val genres = details?.genres?.joinToString(", ") { it.name }.orEmpty()
+				if (genres.isNotBlank()) {
+					Spacer(modifier = Modifier.size(4.dp))
+					Text(
+						text = genres,
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+				}
+
+				Spacer(modifier = Modifier.size(8.dp))
+
+				if (!details?.overview.isNullOrBlank()) {
+					Text(text = details.overview!!, color = JellyfinTheme.colorScheme.onBackground)
+				} else if (!item.overview.isNullOrBlank()) {
+					Text(text = item.overview!!, color = JellyfinTheme.colorScheme.onBackground)
+				}
+
+				val cast = details?.credits?.cast.orEmpty()
+				if (cast.isNotEmpty()) {
+					Spacer(modifier = Modifier.size(16.dp))
+
+					Text(
+						text = stringResource(id = R.string.jellyseerr_cast_title),
 						color = JellyfinTheme.colorScheme.onBackground,
 					)
 
 					Spacer(modifier = Modifier.size(8.dp))
 
-					LazyColumn(
-						modifier = Modifier.weight(1f),
-					) {
-						items(availableSeasons) { season ->
-							val number = season.seasonNumber
-							val episodeCount = season.episodeCount
-
-							Row(
-								modifier = Modifier
-									.fillMaxWidth()
-									.padding(vertical = 6.dp),
-								horizontalArrangement = Arrangement.SpaceBetween,
-								verticalAlignment = Alignment.CenterVertically,
-							) {
-								Column(
-									verticalArrangement = Arrangement.spacedBy(4.dp),
-								) {
-									val seasonLabel = season.name?.takeIf { it.isNotBlank() }
-										?: "Staffel $number"
-									Text(
-										text = seasonLabel,
-										color = JellyfinTheme.colorScheme.onBackground,
-									)
-
-									if (episodeCount != null && episodeCount > 0) {
-										Box(
-											modifier = Modifier
-												.clip(RoundedCornerShape(999.dp))
-												.background(JellyfinTheme.colorScheme.badge)
-												.padding(horizontal = 8.dp, vertical = 4.dp),
-										) {
-											Text(
-												text = stringResource(
-													R.string.jellyseerr_episodes_count,
-													episodeCount,
-												),
-												color = JellyfinTheme.colorScheme.onBadge,
-											)
-										}
-									}
-								}
-
-								val isRequested = item.isRequested
-								val isAvailable = item.isAvailable
-
-								val buttonColors = when {
-									isAvailable -> ButtonDefaults.colors(
-										containerColor = Color(0xFF00C800),
-										contentColor = Color.White,
-										focusedContainerColor = Color(0xFF00E000),
-										focusedContentColor = Color.White,
-									)
-									isRequested -> ButtonDefaults.colors(
-										containerColor = Color(0xFFFFA000),
-										contentColor = Color.Black,
-										focusedContainerColor = Color(0xFFFFC107),
-										focusedContentColor = Color.Black,
-									)
-									else -> ButtonDefaults.colors(
-										containerColor = Color(0xFFAA5CC3),
-										contentColor = Color.White,
-										focusedContainerColor = Color(0xFFBB86FC),
-										focusedContentColor = Color.White,
-									)
-								}
-
-								val buttonText = when {
-									isAvailable -> stringResource(R.string.lbl_play)
-									isRequested -> stringResource(R.string.jellyseerr_requested_label)
-									else -> stringResource(R.string.jellyseerr_request_button)
-								}
-
-								Button(
-									onClick = {
-										when {
-											isAvailable -> {
-												navigationRepository.navigate(
-													org.jellyfin.androidtv.ui.navigation.Destinations.search(
-														item.title,
-													),
-												)
-											}
-											isRequested -> {
-												// keine neue Anfrage senden
-											}
-											else -> {
-												onRequestClick(listOf(number))
-												showSeasonDialog = false
-											}
-										}
-									},
-									colors = buttonColors,
-								) {
-									Text(text = buttonText)
-								}
-							}
-						}
-					}
-
-					Row(
-						modifier = Modifier.fillMaxWidth(),
-						horizontalArrangement = Arrangement.SpaceBetween,
-					) {
-						Button(
-							onClick = { showSeasonDialog = false },
-						) {
-							Text(text = stringResource(R.string.lbl_exit))
-						}
-
-						Button(
-							onClick = {
-								val seasonsToRequest = availableSeasons.map { it.seasonNumber }
-								if (seasonsToRequest.isNotEmpty()) {
-									onRequestClick(seasonsToRequest)
-								}
-								showSeasonDialog = false
-							},
-							enabled = !item.isRequested,
-						) {
-							Text(text = stringResource(R.string.jellyseerr_request_all_seasons))
-						}
-					}
+					JellyseerrCastRow(
+						cast = cast,
+						onCastClick = onCastClick,
+						firstCastFocusRequester = firstCastFocusRequester,
+					)
 				}
+
+				Spacer(modifier = Modifier.size(16.dp))
 			}
 		}
 	}
 
 	LaunchedEffect(Unit) {
-		kotlinx.coroutines.delay(150)
+		kotlinx.coroutines.delay(100)
 		requestButtonFocusRequester.requestFocus()
 	}
 }
-
-
-
-
-
-

@@ -47,6 +47,7 @@ data class JellyseerrSearchItem(
 	val backdropPath: String? = null,
 	val isRequested: Boolean = false,
 	val isAvailable: Boolean = false,
+	val isPartiallyAvailable: Boolean = false,
 	val requestId: Int? = null,
 )
 
@@ -193,6 +194,7 @@ data class JellyseerrSeason(
 	val seasonNumber: Int,
 	val episodeCount: Int? = null,
 	val airDate: String? = null,
+	val status: Int? = null,
 )
 
 @Serializable
@@ -424,7 +426,8 @@ class JellyseerrRepositoryImpl(
 		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
 		val baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
-		val url = "${config.baseUrl}/api/v1/request?filter=all&take=10&sort=modified&skip=0"
+		// Nur Anfragen vom aktuellen User anzeigen
+		val url = "${config.baseUrl}/api/v1/request?filter=requestedby&take=10&sort=modified&skip=0"
 		val request = Request.Builder()
 			.url(url)
 			.header("X-API-Key", config.apiKey)
@@ -725,6 +728,17 @@ class JellyseerrRepositoryImpl(
 	}
 
 	@Serializable
+	private data class MediaInfo(
+		val seasons: List<MediaInfoSeason> = emptyList(),
+	)
+
+	@Serializable
+	private data class MediaInfoSeason(
+		val seasonNumber: Int,
+		val status: Int? = null,
+	)
+
+	@Serializable
 	private data class JellyseerrTvDetailsRaw(
 		val id: Int,
 		val name: String? = null,
@@ -737,6 +751,7 @@ class JellyseerrRepositoryImpl(
 		val genres: List<JellyseerrGenre> = emptyList(),
 		val credits: JellyseerrCredits? = null,
 		val seasons: List<JellyseerrSeason> = emptyList(),
+		val mediaInfo: MediaInfo? = null,
 	)
 
 	override suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails> = withContext(Dispatchers.IO) {
@@ -808,9 +823,12 @@ class JellyseerrRepositoryImpl(
 					credits.copy(cast = mappedCast)
 				}
 
+				// Merge status from mediaInfo into seasons
+				val statusMap = raw.mediaInfo?.seasons?.associate { it.seasonNumber to it.status } ?: emptyMap()
 				val mappedSeasons = raw.seasons.map { season ->
 					season.copy(
 						posterPath = season.posterPath?.let { path -> baseImageUrl + path },
+						status = statusMap[season.seasonNumber] ?: season.status,
 					)
 				}
 

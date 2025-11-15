@@ -14,12 +14,12 @@ import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
 
-enum class JellyseerrDiscoverCategory {
-	TRENDING,
-	POPULAR_MOVIES,
-	UPCOMING_MOVIES,
-	POPULAR_TV,
-	UPCOMING_TV,
+enum class JellyseerrDiscoverCategory(val titleResId: Int) {
+	TRENDING(org.jellyfin.androidtv.R.string.jellyseerr_discover_title),
+	POPULAR_MOVIES(org.jellyfin.androidtv.R.string.jellyseerr_popular_title),
+	UPCOMING_MOVIES(org.jellyfin.androidtv.R.string.jellyseerr_upcoming_movies_title),
+	POPULAR_TV(org.jellyfin.androidtv.R.string.jellyseerr_popular_tv_title),
+	UPCOMING_TV(org.jellyfin.androidtv.R.string.jellyseerr_upcoming_tv_title),
 }
 
 data class JellyseerrUiState(
@@ -43,6 +43,12 @@ data class JellyseerrUiState(
 	val upcomingMovieResults: List<JellyseerrSearchItem> = emptyList(),
 	val upcomingTvResults: List<JellyseerrSearchItem> = emptyList(),
 	val discoverCategory: JellyseerrDiscoverCategory = JellyseerrDiscoverCategory.TRENDING,
+	val scrollPositions: Map<String, ScrollPosition> = emptyMap(),
+)
+
+data class ScrollPosition(
+	val index: Int = 0,
+	val offset: Int = 0,
 )
 
 class JellyseerrViewModel(
@@ -408,8 +414,8 @@ class JellyseerrViewModel(
 					isLoading = false,
 					results = marked,
 					discoverCurrentPage = 1,
-					// Paging nur für Trending
-					discoverHasMore = false,
+					discoverHasMore = results.isNotEmpty(),
+					discoverCategory = JellyseerrDiscoverCategory.POPULAR_MOVIES,
 				)
 			}
 		}
@@ -445,6 +451,7 @@ class JellyseerrViewModel(
 					results = marked,
 					discoverCurrentPage = 1,
 					discoverHasMore = results.isNotEmpty(),
+					discoverCategory = JellyseerrDiscoverCategory.UPCOMING_MOVIES,
 				)
 			}
 		}
@@ -479,7 +486,8 @@ class JellyseerrViewModel(
 					isLoading = false,
 					results = marked,
 					discoverCurrentPage = 1,
-					discoverHasMore = false,
+					discoverHasMore = results.isNotEmpty(),
+					discoverCategory = JellyseerrDiscoverCategory.POPULAR_TV,
 				)
 			}
 		}
@@ -514,7 +522,8 @@ class JellyseerrViewModel(
 					isLoading = false,
 					results = marked,
 					discoverCurrentPage = 1,
-					discoverHasMore = false,
+					discoverHasMore = results.isNotEmpty(),
+					discoverCategory = JellyseerrDiscoverCategory.UPCOMING_TV,
 				)
 			}
 		}
@@ -522,7 +531,7 @@ class JellyseerrViewModel(
 
 	fun loadMoreTrends() {
 		val state = _uiState.value
-		// Paging weiterhin nur für Trending aktiv lassen
+		// Lazy loading für alle Kategorien
 		if (!state.showAllTrendsGrid || state.isLoading || !state.discoverHasMore) return
 
 		val nextPage = state.discoverCurrentPage + 1
@@ -532,7 +541,14 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
-			val discoverResult = repository.discoverTrending(page = nextPage)
+			// Wähle die richtige API-Funktion basierend auf der Kategorie
+			val discoverResult = when (state.discoverCategory) {
+				JellyseerrDiscoverCategory.TRENDING -> repository.discoverTrending(page = nextPage)
+				JellyseerrDiscoverCategory.POPULAR_MOVIES -> repository.discoverMovies(page = nextPage)
+				JellyseerrDiscoverCategory.UPCOMING_MOVIES -> repository.discoverUpcomingMovies(page = nextPage)
+				JellyseerrDiscoverCategory.POPULAR_TV -> repository.discoverTv(page = nextPage)
+				JellyseerrDiscoverCategory.UPCOMING_TV -> repository.discoverUpcomingTv(page = nextPage)
+			}
 
 			if (discoverResult.isFailure) {
 				val error = discoverResult.exceptionOrNull()
@@ -622,10 +638,29 @@ class JellyseerrViewModel(
 
 			result
 				.onSuccess { details ->
+					// Für TV-Serien prüfen ob teilweise verfügbar
+					val updatedItem = if (item.mediaType == "tv") {
+						val seasons = details.seasons.filter { it.seasonNumber > 0 }
+						// Zähle nur Staffeln mit status = 5 (Available)
+						val availableSeasons = seasons.count { it.status == 5 }
+						val totalSeasons = seasons.size
+
+						val isPartiallyAvailable = availableSeasons > 0 && availableSeasons < totalSeasons
+						val isFullyAvailable = availableSeasons == totalSeasons && totalSeasons > 0
+
+						item.copy(
+							isPartiallyAvailable = isPartiallyAvailable,
+							isAvailable = isFullyAvailable
+						)
+					} else {
+						item
+					}
+
 					_uiState.update {
 						it.copy(
 							isLoading = false,
 							selectedMovie = details,
+							selectedItem = updatedItem,
 						)
 					}
 				}
@@ -742,6 +777,14 @@ class JellyseerrViewModel(
 				selectedMovie = null,
 				requestStatusMessage = null,
 			)
+		}
+	}
+
+	fun saveScrollPosition(key: String, index: Int, offset: Int) {
+		_uiState.update {
+			val newPositions = it.scrollPositions.toMutableMap()
+			newPositions[key] = ScrollPosition(index, offset)
+			it.copy(scrollPositions = newPositions)
 		}
 	}
 
