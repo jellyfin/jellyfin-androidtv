@@ -45,6 +45,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -246,15 +247,9 @@ private fun JellyseerrScreen(
 				?.sortedBy { it.seasonNumber }
 				.orEmpty()
 
-			// Focus Requester für ersten Button im Dialog
-			val firstButtonFocusRequester = remember { FocusRequester() }
+			Dialog(onDismissRequest = { showSeasonDialog = false }) {
+				val firstButtonFocusRequester = remember { FocusRequester() }
 
-			Box(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(Color(0xCC000000)),
-				contentAlignment = Alignment.Center,
-			) {
 				Box(
 					modifier = Modifier
 						.fillMaxWidth(0.8f)
@@ -405,23 +400,8 @@ private fun JellyseerrScreen(
 
 						Row(
 							modifier = Modifier.fillMaxWidth(),
-							horizontalArrangement = Arrangement.SpaceBetween,
+							horizontalArrangement = Arrangement.End,
 						) {
-							val exitInteraction = remember { MutableInteractionSource() }
-							val exitFocused by exitInteraction.collectIsFocusedAsState()
-
-							Button(
-								onClick = { showSeasonDialog = false },
-								interactionSource = exitInteraction,
-								modifier = Modifier.border(
-									width = if (exitFocused) 3.dp else 0.dp,
-									color = Color.White,
-									shape = CircleShape
-								),
-							) {
-								Text(text = stringResource(R.string.lbl_exit))
-							}
-
 							// "Alle anfragen" Button nur anzeigen wenn nicht alle Staffeln verfügbar/angefragt sind
 							val allSeasonsAvailableOrRequested = availableSeasons.all { season ->
 								val jellyseerrStatus = season.status
@@ -464,12 +444,12 @@ private fun JellyseerrScreen(
 						}
 					}
 				}
-			}
 
-			// Fokus auf ersten Button setzen wenn Dialog geöffnet wird
-			LaunchedEffect(Unit) {
-				kotlinx.coroutines.delay(100)
-				firstButtonFocusRequester.requestFocus()
+				// Fokus auf ersten Button setzen wenn Dialog geöffnet wird
+				LaunchedEffect(Unit) {
+					kotlinx.coroutines.delay(100)
+					firstButtonFocusRequester.requestFocus()
+				}
 			}
 		}
 	}
