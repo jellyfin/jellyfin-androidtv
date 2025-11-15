@@ -82,10 +82,17 @@ class LeanbackChannelWorker(
 		// Check for "android.media.tv" provider to workaround a false-positive in the previous check
 		&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null
 
+	private val isHomeRecommendationsEnabled = userPreferences[UserPreferences.homeRecommendationsEnabled]
+
 	/**
 	 * Update all channels for the currently authenticated user.
 	 */
 	override suspend fun doWork(): Result = when {
+		// Check if home recommendations are disabled
+		!isHomeRecommendationsEnabled -> {
+			removeExistingItems()
+			Result.success()
+		}
 		// Fail when not supported
 		!isSupported -> Result.failure()
 		// Retry later if no authenticated user is found
@@ -238,6 +245,18 @@ class LeanbackChannelWorker(
 		// Add new items
 		return response.items
 			.filter { userViewsRepository.isSupported(it.collectionType) }
+	}
+
+	/**
+	 * Removes all existing recommendations and channels from Android TV home.
+	 */
+	private fun removeExistingItems() {
+		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
+		context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
+		context.contentResolver.delete(TvContractCompat.Programs.CONTENT_URI, null, null)
+		context.contentResolver.delete(TvContractCompat.Channels.CONTENT_URI, null, null)
+
+		context.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE).edit { clear() }
 	}
 
 	/**

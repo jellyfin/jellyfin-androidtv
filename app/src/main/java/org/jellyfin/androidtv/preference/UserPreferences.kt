@@ -35,6 +35,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
+		/**
+		 * Show recommendations in Android TV's home
+		 */
+		var homeRecommendationsEnabled = booleanPreference("pref_show_home_recommendations", true)
+
 		/* Display */
 		/**
 		 * Select the app theme

@@ -25,6 +25,16 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 		setTitle(R.string.pref_customization)
 
 		category {
+			setTitle(R.string.pref_android_tv)
+
+			checkbox {
+				setTitle(R.string.pref_android_tv_home_recommendations_title)
+				setContent(R.string.pref_android_tv_home_recommendations_description)
+				bind(userPreferences, UserPreferences.homeRecommendationsEnabled)
+			}
+		}
+
+		category {
 			setTitle(R.string.pref_theme)
 
 			enum<AppTheme> {
