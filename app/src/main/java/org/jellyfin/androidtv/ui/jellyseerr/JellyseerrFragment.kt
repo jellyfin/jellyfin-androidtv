@@ -101,6 +101,25 @@ private fun JellyseerrScreen(
 	var showSeasonDialog by remember { mutableStateOf(false) }
 	val firstCastFocusRequester = remember { FocusRequester() }
 
+	// Backdrop Rotation State
+	var currentBackdropUrl by remember { mutableStateOf<String?>(null) }
+
+	// Rotiere Backdrop alle 10 Sekunden
+	LaunchedEffect(state.results) {
+		while (true) {
+			val itemsWithBackdrop = state.results
+				.take(20)
+				.mapNotNull { it.backdropPath }
+				.filter { it.isNotBlank() }
+
+			if (itemsWithBackdrop.isNotEmpty()) {
+				currentBackdropUrl = itemsWithBackdrop.random()
+			}
+
+			delay(10000)
+		}
+	}
+
 	// Dialog schließen wenn selectedItem sich ändert (z.B. beim Zurücknavigieren)
 	LaunchedEffect(state.selectedItem) {
 		if (state.selectedItem == null) {
@@ -152,6 +171,24 @@ private fun JellyseerrScreen(
 					url = backdropUrl,
 					aspectRatio = 16f / 9f,
 				)
+			}
+		} else if (state.selectedPerson == null) {
+			// Crossfade für weichen Übergang zwischen Backdrops
+			androidx.compose.animation.Crossfade(
+				targetState = currentBackdropUrl,
+				animationSpec = androidx.compose.animation.core.tween(durationMillis = 1000),
+				label = "backdrop_crossfade"
+			) { backdropUrl ->
+				if (backdropUrl != null) {
+					AsyncImage(
+						modifier = Modifier
+							.fillMaxSize()
+							.graphicsLayer(alpha = 0.4f),
+						url = backdropUrl,
+						aspectRatio = 16f / 9f,
+						scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
+					)
+				}
 			}
 		}
 
@@ -452,25 +489,6 @@ private fun JellyseerrContent(
 	val sectionInnerSpacing = 12.dp
 	val sectionTitleFontSize = 26.sp
 
-	// Backdrop Rotation State
-	var currentBackdropUrl by remember { mutableStateOf<String?>(null) }
-
-	// Rotiere Backdrop alle 10 Sekunden
-	LaunchedEffect(state.results) {
-		while (true) {
-			val itemsWithBackdrop = state.results
-				.take(20)
-				.mapNotNull { it.backdropPath }
-				.filter { it.isNotBlank() }
-
-			if (itemsWithBackdrop.isNotEmpty()) {
-				currentBackdropUrl = itemsWithBackdrop.random()
-			}
-
-			delay(10000)
-		}
-	}
-
 	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
 		when {
 			state.selectedItem != null -> viewModel.closeDetails()
@@ -483,45 +501,23 @@ private fun JellyseerrContent(
 	val selectedItem = state.selectedItem
 	val selectedPerson = state.selectedPerson
 
-	// Backdrop nur im Hauptbereich, nicht in Details
-	Box(modifier = Modifier.fillMaxSize()) {
-		if (selectedItem == null && selectedPerson == null) {
-			// Crossfade für weichen Übergang zwischen Backdrops
-			androidx.compose.animation.Crossfade(
-				targetState = currentBackdropUrl,
-				animationSpec = androidx.compose.animation.core.tween(durationMillis = 1000),
-				label = "backdrop_crossfade"
-			) { backdropUrl ->
-				if (backdropUrl != null) {
-					AsyncImage(
-						modifier = Modifier
-							.fillMaxSize()
-							.graphicsLayer(alpha = 0.4f),
-						url = backdropUrl,
-						aspectRatio = 16f / 9f,
-						scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
-					)
-				}
-			}
-		}
-
-		if (selectedItem != null) {
-			JellyseerrDetail(
-				item = selectedItem,
-				details = state.selectedMovie,
-				requestStatusMessage = state.requestStatusMessage,
-				onRequestClick = { seasons -> viewModel.request(selectedItem, seasons) },
-				onCastClick = { castMember -> viewModel.showPerson(castMember) },
-				onShowSeasonDialog = onShowSeasonDialog,
-				firstCastFocusRequester = firstCastFocusRequester,
-			)
-		} else if (selectedPerson != null) {
-			JellyseerrPersonScreen(
-				person = selectedPerson,
-				credits = state.personCredits,
-				onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
-			)
-	  	} else {
+	if (selectedItem != null) {
+		JellyseerrDetail(
+			item = selectedItem,
+			details = state.selectedMovie,
+			requestStatusMessage = state.requestStatusMessage,
+			onRequestClick = { seasons -> viewModel.request(selectedItem, seasons) },
+			onCastClick = { castMember -> viewModel.showPerson(castMember) },
+			onShowSeasonDialog = onShowSeasonDialog,
+			firstCastFocusRequester = firstCastFocusRequester,
+		)
+	} else if (selectedPerson != null) {
+		JellyseerrPersonScreen(
+			person = selectedPerson,
+			credits = state.personCredits,
+			onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
+		)
+	} else {
 		val scrollState = rememberScrollState()
 		val columnModifier = if (state.showAllTrendsGrid) {
 			Modifier
@@ -830,6 +826,7 @@ private fun JellyseerrContent(
 					fontSize = sectionTitleFontSize,
 					)
 
+
 					if (state.upcomingMovieResults.isEmpty()) {
 						Spacer(modifier = Modifier.size(sectionInnerSpacing))
 						Text(
@@ -957,7 +954,6 @@ private fun JellyseerrContent(
 					}
 				}
 			}
-		}
 		}
 	}
 }
@@ -1451,10 +1447,10 @@ private fun JellyseerrDetail(
 
 				val buttonColors = when {
 					isAvailable -> ButtonDefaults.colors(
-						containerColor = Color(0xFF00A800),
+						containerColor = Color(0xFF00C853),
 						contentColor = Color.White,
-						focusedContainerColor = Color(0xFF00FF00),
-						focusedContentColor = Color.Black,
+						focusedContainerColor = Color(0xFF64DD17),
+						focusedContentColor = Color.White,
 					)
 					isRequested -> ButtonDefaults.colors(
 						containerColor = Color(0xFFDD8800),
@@ -1509,7 +1505,20 @@ private fun JellyseerrDetail(
 								shape = CircleShape
 							),
 					) {
-						Text(text = buttonText)
+						Box(
+							modifier = Modifier.fillMaxWidth(),
+							contentAlignment = Alignment.Center
+						) {
+							if (isAvailable) {
+								androidx.compose.foundation.Image(
+									imageVector = ImageVector.vectorResource(id = R.drawable.ic_play),
+									contentDescription = buttonText,
+									modifier = Modifier.size(24.dp)
+								)
+							} else {
+								Text(text = buttonText)
+							}
+						}
 					}
 				}
 
