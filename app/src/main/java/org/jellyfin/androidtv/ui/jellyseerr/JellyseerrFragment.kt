@@ -52,6 +52,7 @@ import org.jellyfin.androidtv.data.repository.JellyseerrMovieDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
+import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
@@ -123,13 +124,18 @@ private fun JellyseerrScreen(
 		}
 
 		Column(modifier = Modifier.fillMaxSize()) {
-			MainToolbar(MainToolbarActiveButton.Requests)
+			val state by viewModel.uiState.collectAsState()
+
+			val showToolbar = !state.showAllTrendsGrid && state.selectedPerson == null
+
+			if (showToolbar) {
+				MainToolbar(MainToolbarActiveButton.Requests)
+			}
 
 			if (url.isBlank() || apiKey.isBlank()) {
 				Text(
 					text = stringResource(R.string.pref_jellyseerr_url_missing),
-					modifier = Modifier
-						.padding(32.dp),
+					modifier = Modifier.padding(24.dp),
 				)
 			} else {
 				JellyseerrContent(viewModel = viewModel)
@@ -168,14 +174,25 @@ private fun JellyseerrContent(
 	val searchFocusRequester = remember { FocusRequester() }
 	val allTrendsListState = rememberLazyListState()
 
-	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid) {
+	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
 		when {
+			state.selectedPerson != null -> viewModel.closePerson()
 			state.selectedItem != null -> viewModel.closeDetails()
 			state.showAllTrendsGrid -> viewModel.closeAllTrends()
 		}
 	}
 
+
 	val selectedItem = state.selectedItem
+	val selectedPerson = state.selectedPerson
+	if (selectedPerson != null) {
+		JellyseerrPersonScreen(
+			person = selectedPerson,
+			credits = state.personCredits,
+			onCreditClick = { viewModel.showDetailsForItem(it) },
+		)
+		return
+	}
 	if (selectedItem != null) {
 		// Detailansicht im Vollbild mit Backdrop über den gesamten Bildschirm
 		JellyseerrDetail(
@@ -184,6 +201,7 @@ private fun JellyseerrContent(
 			requestStatusMessage = state.requestStatusMessage,
 			onRequestClick = { viewModel.request(selectedItem) },
 			onCancelRequestClick = { viewModel.cancelRequest(selectedItem) },
+			onCastClick = { castMember -> viewModel.showPerson(castMember) },
 		)
 	} else {
 		Column(
@@ -353,6 +371,68 @@ private fun JellyseerrContent(
 		}
 	}
 }
+
+@Composable
+private fun JellyseerrPersonScreen(
+    person: JellyseerrPersonDetails,
+    credits: List<JellyseerrSearchItem>,
+    onCreditClick: (JellyseerrSearchItem) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Box(
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, Color.White, CircleShape),
+            ) {
+                AsyncImage(
+                    modifier = Modifier.fillMaxSize(),
+                    url = person.profilePath,
+                    aspectRatio = 1f,
+                    scaleType = ImageView.ScaleType.CENTER_CROP,
+                )
+            }
+
+            Column {
+                Text(person.name, color = JellyfinTheme.colorScheme.onBackground)
+                person.knownForDepartment.takeIf { !it.isNullOrBlank() }?.let {
+                    Text(it, color = JellyfinTheme.colorScheme.onBackground)
+                }
+                person.placeOfBirth.takeIf { !it.isNullOrBlank() }?.let {
+                    Text(it, color = JellyfinTheme.colorScheme.onBackground)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+        LazyColumn {
+            val rows = credits.chunked(5)
+            items(rows.size) { rowIndex ->
+                val rowItems = rows[rowIndex]
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                ) {
+                    rowItems.forEach { item ->
+                        JellyseerrSearchCard(
+                            item = item,
+                            onClick = { onCreditClick(item) },
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 private fun JellyseerrViewAllCard(
@@ -619,9 +699,12 @@ private fun JellyseerrDetail(
 	requestStatusMessage: String?,
 	onRequestClick: () -> Unit,
 	onCancelRequestClick: () -> Unit,
+	onCastClick: (JellyseerrCast) -> Unit,
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
-	val showCancelDialog = remember { androidx.compose.runtime.mutableStateOf(false) }
+	val requestButtonInteractionSource = remember { MutableInteractionSource() }
+	val requestButtonFocused by requestButtonInteractionSource.collectIsFocusedAsState()
+	val requestButtonScale = if (requestButtonFocused) 1.05f else 1f
 	val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
 
 		Column(
@@ -679,7 +762,7 @@ private fun JellyseerrDetail(
 					}
 
 					val buttonText = when {
-						isAvailable -> "Abspielen"
+						isAvailable -> stringResource(R.string.lbl_play)
 						isRequested -> stringResource(R.string.jellyseerr_requested_label)
 						else -> stringResource(R.string.jellyseerr_request_button)
 					}
@@ -688,22 +771,27 @@ private fun JellyseerrDetail(
 						onClick = {
 							when {
 								isAvailable -> {
-									navigationRepository.navigate(org.jellyfin.androidtv.ui.navigation.Destinations.search(item.title))
-								}
-								isRequested -> {
-									// Bestätigungsdialog wird inhaltlich darunter angezeigt
-									// showCancelDialog.value = true
+									navigationRepository.navigate(
+										org.jellyfin.androidtv.ui.navigation.Destinations.search(item.title),
+									)
 								}
 								else -> onRequestClick()
 							}
 						},
+						enabled = !isRequested,
 						colors = buttonColors,
+						interactionSource = requestButtonInteractionSource,
 						modifier = Modifier
 							.focusRequester(requestButtonFocusRequester)
-							.focusable(),
+							.focusable(interactionSource = requestButtonInteractionSource)
+							.graphicsLayer(
+								scaleX = requestButtonScale,
+								scaleY = requestButtonScale,
+							),
 					) {
 						Text(text = buttonText)
 					}
+
 				}
 
 				Column(
@@ -760,11 +848,7 @@ private fun JellyseerrDetail(
 
 						JellyseerrCastRow(
 							cast = cast,
-							onCastClick = { person ->
-								navigationRepository.navigate(
-									org.jellyfin.androidtv.ui.navigation.Destinations.search(person.name),
-								)
-							},
+							onCastClick = onCastClick,
 						)
 					}
 
@@ -773,53 +857,8 @@ private fun JellyseerrDetail(
 			}
 		}
 
-	if (showCancelDialog.value) {
-		Box(
-			modifier = Modifier
-				.fillMaxSize()
-				.background(Color(0xC0000000)),
-			contentAlignment = Alignment.Center,
-		) {
-			Column(
-				modifier = Modifier
-					.padding(24.dp)
-					.background(Color.Black, RoundedCornerShape(12.dp))
-					.padding(16.dp),
-				verticalArrangement = Arrangement.spacedBy(12.dp),
-			) {
-				Text(
-					text = "Anfrage zurückziehen?",
-					color = JellyfinTheme.colorScheme.onBackground,
-				)
-
-				Row(
-					horizontalArrangement = Arrangement.spacedBy(12.dp),
-				) {
-					Button(
-						onClick = {
-							onCancelRequestClick()
-							showCancelDialog.value = false
-						},
-					) {
-						Text("Ja")
-					}
-					Button(
-						onClick = { showCancelDialog.value = false },
-					) {
-						Text("Nein")
-					}
-				}
-			}
-		}
-	}
-
-	LaunchedEffect(item.id, details?.id) {
-		kotlinx.coroutines.delay(100)
+	LaunchedEffect(Unit) {
+		kotlinx.coroutines.delay(150)
 		requestButtonFocusRequester.requestFocus()
 	}
 }
-
-
-
-
-

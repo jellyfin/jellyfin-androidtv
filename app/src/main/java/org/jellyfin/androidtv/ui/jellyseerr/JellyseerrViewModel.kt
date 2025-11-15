@@ -11,6 +11,8 @@ import org.jellyfin.androidtv.data.repository.JellyseerrMovieDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrRepository
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
+import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
+import org.jellyfin.androidtv.data.repository.JellyseerrCast
 
 data class JellyseerrUiState(
 	val isLoading: Boolean = false,
@@ -24,6 +26,8 @@ data class JellyseerrUiState(
 	val requestStatusMessage: String? = null,
 	val discoverCurrentPage: Int = 1,
 	val discoverHasMore: Boolean = true,
+	val selectedPerson: JellyseerrPersonDetails? = null,
+	val personCredits: List<JellyseerrSearchItem> = emptyList(),
 )
 
 class JellyseerrViewModel(
@@ -305,10 +309,19 @@ class JellyseerrViewModel(
 	}
 
 	fun showDetailsForItem(item: JellyseerrSearchItem) {
-		_uiState.update { it.copy(isLoading = true, errorMessage = null, selectedItem = item, selectedMovie = null) }
+		_uiState.update {
+			it.copy(
+				isLoading = true,
+				errorMessage = null,
+				selectedItem = item,
+				selectedMovie = null,
+				// Personen-Ansicht schließen, damit Details im Vordergrund sind
+				selectedPerson = null,
+				personCredits = emptyList(),
+			)
+		}
 
 		if (item.mediaType != "movie") {
-			// For now only movie details are loaded from Jellyseerr; for TV we just show basic info.
 			_uiState.update { it.copy(isLoading = false) }
 			return
 		}
@@ -333,6 +346,7 @@ class JellyseerrViewModel(
 				}
 		}
 	}
+
 
 	fun showDetailsForRequest(request: JellyseerrRequest) {
 		val tmdbId = request.tmdbId ?: return
@@ -389,4 +403,43 @@ class JellyseerrViewModel(
 		_uiState.update { it.copy(requestStatusMessage = null) }
 	}
 
+	fun showPerson(person: JellyseerrCast) {
+		viewModelScope.launch {
+			_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+			val detailsResult = repository.getPersonDetails(person.id)
+			val creditsResult = repository.getPersonCredits(person.id)
+
+			if (detailsResult.isFailure || creditsResult.isFailure) {
+				val error = detailsResult.exceptionOrNull() ?: creditsResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(isLoading = false, errorMessage = error?.message)
+				}
+				return@launch
+			}
+
+			val details = detailsResult.getOrThrow()
+			val credits = creditsResult.getOrThrow()
+			val withAvailability = repository.markAvailableInJellyfin(credits).getOrElse { credits }
+			val marked = markItemsWithRequests(withAvailability, _uiState.value.ownRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					selectedPerson = details,
+					personCredits = marked,
+				)
+			}
+		}
+	}
+
+
+	fun closePerson() {
+		_uiState.update {
+			it.copy(
+				selectedPerson = null,
+				personCredits = emptyList(),
+			)
+		}
+	}
 }

@@ -28,6 +28,8 @@ interface JellyseerrRepository {
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun cancelRequest(requestId: Int): Result<Unit>
 	suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>>
+	suspend fun getPersonDetails(personId: Int): Result<JellyseerrPersonDetails>
+    suspend fun getPersonCredits(personId: Int): Result<List<JellyseerrSearchItem>>
 }
 
 data class JellyseerrSearchItem(
@@ -95,6 +97,43 @@ data class JellyseerrMediaDto(
 	val name: String? = null,
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
+)
+
+@Serializable
+data class JellyseerrPersonDetails(
+    val id: Int,
+    val name: String,
+    val birthday: String? = null,
+    val deathday: String? = null,
+    val knownForDepartment: String? = null,
+    val alsoKnownAs: List<String> = emptyList(),
+    val gender: Int? = null,
+    val biography: String? = null,
+    val popularity: Double? = null,
+    val placeOfBirth: String? = null,
+    val profilePath: String? = null,
+    val adult: Boolean? = null,
+    val imdbId: String? = null,
+    val homepage: String? = null,
+)
+
+@Serializable
+private data class JellyseerrPersonCredit(
+    val id: Int,
+    val mediaType: String? = null,
+    val overview: String? = null,
+    val posterPath: String? = null,
+    val backdropPath: String? = null,
+    val title: String? = null,
+    val name: String? = null,
+    val adult: Boolean? = null,
+)
+
+@Serializable
+private data class JellyseerrCombinedCredits(
+    val id: Int,
+    val cast: List<JellyseerrPersonCredit> = emptyList(),
+    val crew: List<JellyseerrPersonCredit> = emptyList(),
 )
 
 data class JellyseerrRequest(
@@ -495,4 +534,70 @@ class JellyseerrRepositoryImpl(
 			Timber.e(it, "Failed to load Jellyseerr movie details")
 		}
 	}
+
+	override suspend fun getPersonDetails(personId: Int): Result<JellyseerrPersonDetails> =
+    withContext(Dispatchers.IO) {
+        val config = getConfig()
+            ?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+        val url = "${config.baseUrl}/api/v1/person/$personId"
+        val request = Request.Builder()
+            .url(url)
+            .header("X-API-Key", config.apiKey)
+            .build()
+
+        runCatching {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+                val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+                val raw = json.decodeFromString(JellyseerrPersonDetails.serializer(), body)
+                val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+                raw.copy(
+                    profilePath = raw.profilePath?.let { baseImageUrl + it },
+                )
+            }
+        }.onFailure {
+            Timber.e(it, "Failed to load Jellyseerr person details")
+        }
+    }
+
+	override suspend fun getPersonCredits(personId: Int): Result<List<JellyseerrSearchItem>> =
+		withContext(Dispatchers.IO) {
+			val config = getConfig()
+				?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+			val url = "${config.baseUrl}/api/v1/person/$personId/combined_credits"
+			val request = Request.Builder()
+				.url(url)
+				.header("X-API-Key", config.apiKey)
+				.build()
+
+			runCatching {
+				client.newCall(request).execute().use { response ->
+					if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+					val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+					val combined = json.decodeFromString(JellyseerrCombinedCredits.serializer(), body)
+
+					val baseImageUrl = "https://image.tmdb.org/t/p/w500"
+
+					combined.cast
+						.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+						.map { credit ->
+							val posterUrl = credit.posterPath?.let { path -> baseImageUrl + path }
+							val backdropUrl = credit.backdropPath?.let { path -> baseImageUrl + path }
+							JellyseerrSearchItem(
+								id = credit.id,
+								mediaType = credit.mediaType ?: "movie",
+								title = (credit.title ?: credit.name).orEmpty(),
+								overview = credit.overview,
+								posterPath = posterUrl,
+								backdropPath = backdropUrl,
+							)
+						}
+				}
+			}.onFailure {
+				Timber.e(it, "Failed to load Jellyseerr person credits")
+			}
+		}
 }
