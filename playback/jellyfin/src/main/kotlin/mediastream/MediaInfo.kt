@@ -5,4 +5,6 @@ import org.jellyfin.sdk.model.api.MediaSourceInfo
 data class MediaInfo(
 	val playSessionId: String,
 	val mediaSource: MediaSourceInfo,
+	val defaultAudioStreamIndex: Int?,
+	val defaultSubtitleStreamIndex: Int?,
 )
