@@ -275,7 +275,7 @@ private fun JellyseerrContent(
 								horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
 								modifier = Modifier
 									.fillMaxWidth()
-									.padding(vertical = 4.dp),
+									.padding(vertical = 20.dp), // Abstand zwischen den Reihen
 							) {
 								for (item in rowItems) {
 									JellyseerrSearchCard(
@@ -325,7 +325,7 @@ private fun JellyseerrContent(
 						modifier = Modifier
 							.fillMaxWidth()
 							.height(300.dp)
-							.padding(top = 8.dp),
+							.padding(top = 15.dp), // Abstand Label zu Karten
 					) {
 						val maxIndex = baseResults.lastIndex
 
@@ -446,7 +446,7 @@ private fun JellyseerrPersonScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(vertical = 20.dp), // Abstand zwischen den Reihen
                 ) {
                     rowItems.forEach { item ->
                         JellyseerrSearchCard(

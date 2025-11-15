@@ -28,7 +28,6 @@ data class JellyseerrUiState(
 	val discoverHasMore: Boolean = true,
 	val selectedPerson: JellyseerrPersonDetails? = null,
 	val personCredits: List<JellyseerrSearchItem> = emptyList(),
-	val detailFromPerson: Boolean = false,
 	val originDetailItem: JellyseerrSearchItem? = null,
 	val popularResults: List<JellyseerrSearchItem> = emptyList()
 )
@@ -477,7 +476,16 @@ class JellyseerrViewModel(
 
 	fun showPerson(person: JellyseerrCast) {
 		viewModelScope.launch {
-			_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+			val current = _uiState.value
+			val origin = current.originDetailItem ?: current.selectedItem
+
+			_uiState.update {
+				it.copy(
+					isLoading = true,
+					errorMessage = null,
+					originDetailItem = origin,
+				)
+			}
 
 			val detailsResult = repository.getPersonDetails(person.id)
 			val creditsResult = repository.getPersonCredits(person.id)
@@ -510,11 +518,26 @@ class JellyseerrViewModel(
 
 
 	fun closePerson() {
-		_uiState.update {
-			it.copy(
-				selectedPerson = null,
-				personCredits = emptyList(),
-			)
+		val origin = _uiState.value.originDetailItem
+
+		if (origin != null) {
+			// Person schließen und danach zum ursprünglichen Film zurückkehren
+			_uiState.update {
+				it.copy(
+					selectedPerson = null,
+					personCredits = emptyList(),
+					originDetailItem = null,
+				)
+			}
+
+			showDetailsForItem(origin)
+		} else {
+			_uiState.update {
+				it.copy(
+					selectedPerson = null,
+					personCredits = emptyList(),
+				)
+			}
 		}
 	}
 }
