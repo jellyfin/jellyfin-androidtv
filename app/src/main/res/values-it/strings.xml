@@ -405,6 +405,7 @@
     <string name="pref_customization_description">Tema, home, rimappatura</string>
     <string name="pref_home_description">Configura sezioni mostrate</string>
     <string name="pref_behavior">Comportamento</string>
+    <string name="pref_android_tv">Android TV</string>
     <string name="home_section_resume_book">Continua a leggere</string>
     <string name="lbl_shuffle_queue">Riproduzione casuale</string>
     <string name="login_quickconnect_step_3">3. Inserisci il seguente codice:</string>
@@ -433,6 +434,8 @@
     <string name="pref_crash_reports_disabled">Le segnalazioni di crash non saranno inviate</string>
     <string name="pref_crash_reports_enabled">Le segnalazioni di crash saranno inviate all\'ultimo server utilizzato</string>
     <string name="pref_crash_reports">Invia le segnalazioni dei crash al server</string>
+    <string name="pref_android_tv_home_recommendations_title">Raccomandazioni nella home di Android TV</string>
+    <string name="pref_android_tv_home_recommendations_description">Mostra raccomandazioni di contenuti nella schermata home di Android TV</string>
     <string name="pref_telemetry_description">Invia segnalazioni di crash, log inclusi</string>
     <string name="pref_telemetry_category">Invio segnalazioni di Crash</string>
     <string name="app_notification_uimode_invalid">Questa app è ottimizzata per le televisioni. Si consiglia di usare l\'app mobile su altri dispositivi.</string>

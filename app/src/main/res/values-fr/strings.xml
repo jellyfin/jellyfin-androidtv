@@ -400,6 +400,7 @@
     <string name="pref_theme">Thème</string>
     <string name="pref_browsing">Navigation</string>
     <string name="pref_behavior">Comportement</string>
+    <string name="pref_android_tv">Android TV</string>
     <string name="pref_accounts">Comptes</string>
     <string name="sort_accounts_by">Trier les comptes par</string>
     <string name="pref_customization">Personnalisation</string>
@@ -433,6 +434,8 @@
     <string name="pref_crash_reports_disabled">Les rapports de plantage ne seront pas envoyés</string>
     <string name="pref_crash_reports_enabled">Les rapports de plantage seront envoyés à votre dernier serveur utilisé</string>
     <string name="pref_crash_reports">Envoyer les rapports de plantage au serveur</string>
+    <string name="pref_android_tv_home_recommendations_title">Recommandations sur l\'écran d\'accueil Android TV</string>
+    <string name="pref_android_tv_home_recommendations_description">Afficher les recommandations de contenu sur l\'écran d\'accueil Android TV</string>
     <string name="pref_telemetry_description">Envoyer les rapports de plantage, inclus les journaux</string>
     <string name="pref_telemetry_category">Rapport de plantage</string>
     <string name="image_size_xlarge">Très grand</string>

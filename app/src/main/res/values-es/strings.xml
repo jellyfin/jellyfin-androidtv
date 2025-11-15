@@ -404,6 +404,7 @@
     <string name="pref_theme">Tema</string>
     <string name="pref_browsing">Navegación</string>
     <string name="pref_behavior">Comportamiento</string>
+    <string name="pref_android_tv">Android TV</string>
     <string name="pref_accounts">Cuentas</string>
     <string name="sort_accounts_by">Ordenar cuentas por</string>
     <string name="pref_customization">Personalización</string>
@@ -440,6 +441,8 @@
     <string name="pref_crash_reports_disabled">Los informes de fallos no serán enviados</string>
     <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
     <string name="pref_crash_reports">Enviar informes de fallos al servidor</string>
+    <string name="pref_android_tv_home_recommendations_title">Recomendaciones en el inicio de Android TV</string>
+    <string name="pref_android_tv_home_recommendations_description">Mostrar recomendaciones de contenido en la pantalla de inicio de Android TV</string>
     <string name="lbl_quality_profile">Perfil de calidad</string>
     <string name="desc_audio_night_mode">Nivela el volumen de audio automáticamente</string>
     <string name="pref_audio_night_mode">Modo nocturno de audio (experimental)</string>

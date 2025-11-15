@@ -401,6 +401,7 @@
     <string name="pref_theme">Tema</string>
     <string name="pref_browsing">Navegando</string>
     <string name="pref_behavior">Comportamento</string>
+    <string name="pref_android_tv">Android TV</string>
     <string name="pref_accounts">Contas</string>
     <string name="sort_accounts_by">Ordenar contas por</string>
     <string name="pref_customization">Customização</string>
@@ -432,6 +433,8 @@
     <string name="pref_telemetry_description">Enviar relatórios de falhas, incluindo registros</string>
     <string name="pref_crash_reports">Enviar relatórios de falhas para o servidor</string>
     <string name="pref_crash_reports_disabled">Relatórios de falhas não serão enviados</string>
+    <string name="pref_android_tv_home_recommendations_title">Recomendações na tela inicial do Android TV</string>
+    <string name="pref_android_tv_home_recommendations_description">Mostrar recomendações de conteúdo na tela inicial do Android TV</string>
     <string name="pref_crash_report_logs_enabled">Registros serão incluídos nos relatórios de falhas</string>
     <string name="lbl_quality_profile">Perfis de qualidade</string>
     <string name="pref_telemetry_category">Reportar falha</string>
