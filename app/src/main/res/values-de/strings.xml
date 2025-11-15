@@ -403,6 +403,7 @@
     <string name="jellyseerr_cast_title">Besetzung</string>
     <string name="jellyseerr_error_prefix">Fehler: %1$s</string>
     <string name="jellyseerr_view_all_trends">Alle Trends</string>
+    <string name="jellyseerr_popular_title">Beliebte Filme</string>
     <string name="pref_login_description">Server, Konten, automatische Anmeldung</string>
     <string name="pref_login">Anmeldung</string>
     <string name="pref_libraries_description">Ändern der Anzeige von Bibliotheken</string>

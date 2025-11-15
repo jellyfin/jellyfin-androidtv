@@ -28,6 +28,9 @@ data class JellyseerrUiState(
 	val discoverHasMore: Boolean = true,
 	val selectedPerson: JellyseerrPersonDetails? = null,
 	val personCredits: List<JellyseerrSearchItem> = emptyList(),
+	val detailFromPerson: Boolean = false,
+	val originDetailItem: JellyseerrSearchItem? = null,
+	val popularResults: List<JellyseerrSearchItem> = emptyList()
 )
 
 class JellyseerrViewModel(
@@ -40,6 +43,7 @@ class JellyseerrViewModel(
 		viewModelScope.launch {
 			refreshOwnRequestsInternal()
 			loadDiscoverInternal()
+			loadPopular()
 		}
 	}
 
@@ -116,6 +120,36 @@ class JellyseerrViewModel(
 	fun refreshOwnRequests() {
 		viewModelScope.launch {
 			refreshOwnRequestsInternal()
+		}
+	}
+
+	private suspend fun loadPopular() {
+		_uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+		val currentRequests = _uiState.value.ownRequests
+
+		val popularResult = repository.discoverMovies(page = 2)
+
+		if (popularResult.isFailure) {
+			val error = popularResult.exceptionOrNull()
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					errorMessage = error?.message,
+				)
+			}
+			return
+		}
+
+		val results = popularResult.getOrThrow()
+		val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+		val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+		_uiState.update {
+			it.copy(
+				isLoading = false,
+				popularResults = marked,
+			)
 		}
 	}
 
@@ -348,6 +382,44 @@ class JellyseerrViewModel(
 	}
 
 
+	fun showDetailsForItemFromPerson(item: JellyseerrSearchItem) {
+		_uiState.update {
+			it.copy(
+				isLoading = true,
+				errorMessage = null,
+				selectedItem = item,
+				selectedMovie = null,
+				// selectedPerson und personCredits bleiben gesetzt
+			)
+		}
+
+		if (item.mediaType != "movie") {
+			_uiState.update { it.copy(isLoading = false) }
+			return
+		}
+
+		viewModelScope.launch {
+			repository.getMovieDetails(item.id)
+				.onSuccess { details ->
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							selectedMovie = details,
+						)
+					}
+				}
+				.onFailure { error ->
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							errorMessage = error.message,
+						)
+					}
+				}
+		}
+	}
+
+
 	fun showDetailsForRequest(request: JellyseerrRequest) {
 		val tmdbId = request.tmdbId ?: return
 
@@ -428,6 +500,9 @@ class JellyseerrViewModel(
 					isLoading = false,
 					selectedPerson = details,
 					personCredits = marked,
+					// Detailansicht ausblenden, Person-Ansicht im Vordergrund
+					selectedItem = null,
+					selectedMovie = null,
 				)
 			}
 		}

@@ -176,8 +176,9 @@ private fun JellyseerrContent(
 
 	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
 		when {
-			state.selectedPerson != null -> viewModel.closePerson()
+			// Wenn ein Detail geöffnet ist, zuerst Detail schließen
 			state.selectedItem != null -> viewModel.closeDetails()
+			state.selectedPerson != null -> viewModel.closePerson()
 			state.showAllTrendsGrid -> viewModel.closeAllTrends()
 		}
 	}
@@ -185,16 +186,8 @@ private fun JellyseerrContent(
 
 	val selectedItem = state.selectedItem
 	val selectedPerson = state.selectedPerson
-	if (selectedPerson != null) {
-		JellyseerrPersonScreen(
-			person = selectedPerson,
-			credits = state.personCredits,
-			onCreditClick = { viewModel.showDetailsForItem(it) },
-		)
-		return
-	}
+
 	if (selectedItem != null) {
-		// Detailansicht im Vollbild mit Backdrop über den gesamten Bildschirm
 		JellyseerrDetail(
 			item = selectedItem,
 			details = state.selectedMovie,
@@ -202,6 +195,12 @@ private fun JellyseerrContent(
 			onRequestClick = { viewModel.request(selectedItem) },
 			onCancelRequestClick = { viewModel.cancelRequest(selectedItem) },
 			onCastClick = { castMember -> viewModel.showPerson(castMember) },
+		)
+	} else if (selectedPerson != null) {
+		JellyseerrPersonScreen(
+			person = selectedPerson,
+			credits = state.personCredits,
+			onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
 		)
 	} else {
 		Column(
@@ -232,7 +231,7 @@ private fun JellyseerrContent(
 					}
 				}
 
-				Spacer(modifier = Modifier.size(16.dp))
+				Spacer(modifier = Modifier.size(32.dp))
 			}
 
 			if (state.errorMessage != null) {
@@ -367,6 +366,33 @@ private fun JellyseerrContent(
 						}
 					}
 				}
+
+				// Zweite Reihe: Beliebte Filme
+				if (state.popularResults.isNotEmpty() && state.selectedItem == null && state.selectedPerson == null) {
+					Spacer(modifier = Modifier.size(32.dp))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_popular_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+
+					Spacer(modifier = Modifier.size(8.dp))
+
+					LazyRow(
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
+						contentPadding = PaddingValues(horizontal = 24.dp),
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(300.dp),
+					) {
+						items(state.popularResults) { item ->
+							JellyseerrSearchCard(
+								item = item,
+								onClick = { viewModel.showDetailsForItem(item) },
+							)
+						}
+					}
+				}
 			}
 		}
 	}
@@ -409,7 +435,8 @@ private fun JellyseerrPersonScreen(
             }
         }
 
-        Spacer(modifier = Modifier.size(16.dp))
+        // Zusätzlicher Abstand, damit Karten nicht abgeschnitten werden
+        Spacer(modifier = Modifier.size(32.dp))
 
         LazyColumn {
             val rows = credits.chunked(5)

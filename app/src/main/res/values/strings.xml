@@ -455,6 +455,7 @@
     <string name="jellyseerr_no_requests">No requests yet.</string>
     <string name="jellyseerr_request_button">Request</string>
     <string name="jellyseerr_requested_label">Requested</string>
+    <string name="jellyseerr_popular_title">Popular movies</string>
     <string name="jellyseerr_cast_title">Cast</string>
     <string name="jellyseerr_error_prefix">Error: %1$s</string>
     <string name="jellyseerr_view_all_trends">View all</string>
