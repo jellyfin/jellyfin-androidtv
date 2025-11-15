@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,6 +62,7 @@ import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
 import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.Button
@@ -391,7 +393,18 @@ private fun JellyseerrScreen(
 													shape = CircleShape
 												),
 										) {
-											Text(text = buttonText)
+											if (isAvailable) {
+												Icon(
+													imageVector = ImageVector.vectorResource(id = R.drawable.ic_play),
+													contentDescription = stringResource(R.string.lbl_play),
+												)
+											} else {
+												Text(
+													text = buttonText,
+													textAlign = TextAlign.Center,
+													modifier = Modifier.fillMaxWidth(),
+												)
+											}
 										}
 									}
 								}
