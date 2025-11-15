@@ -609,7 +609,7 @@
     <string name="jellyseerr_request_sended">Anfrage gesendet</string>
     <string name="jellyseerr_request_error">Anfrage fehlgeschlagen</string>
     <string name="jellyseerr_seasons_label">Staffeln auswählen</string>
-    <string name="jellyseerr_seasons_all">Alle Staffeln</string>
+    <string name="jellyseerr_seasons_all">Alle Staffeln</string>`n    <string name="jellyseerr_request_all_seasons">Alle Staffeln anfragen</string>`n    <string name="jellyseerr_episodes_count">%1$d Episoden</string>
     <string name="pref_jellyseerr">Jellyseerr</string>
     <string name="pref_jellyseerr_url">Jellyseerr URL</string>
     <string name="pref_jellyseerr_api_key">Jellyseerr API-Schlüssel</string>

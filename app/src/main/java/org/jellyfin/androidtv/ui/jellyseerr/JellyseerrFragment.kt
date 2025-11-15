@@ -1,4 +1,4 @@
-﻿package org.jellyfin.androidtv.ui.jellyseerr
+package org.jellyfin.androidtv.ui.jellyseerr
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.CircleShape
 import androidx.fragment.app.Fragment
@@ -177,12 +178,13 @@ private fun JellyseerrContent(
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val searchFocusRequester = remember { FocusRequester() }
 	val allTrendsListState = rememberLazyListState()
-	val sectionSpacing = 16.dp
-	val sectionInnerSpacing = 12.dp //Spacer Überschriften zu Inhalten
+	val sectionSpacing = 10.dp
+	val sectionInnerSpacing = 12.dp //Spacer �berschriften zu Inhalten
+	val sectionTitleFontSize = 26.sp
 
 	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
 		when {
-			// Wenn ein Detail geöffnet ist, zuerst Detail schließen
+			// Wenn ein Detail ge�ffnet ist, zuerst Detail schlie�en
 			state.selectedItem != null -> viewModel.closeDetails()
 			state.selectedPerson != null -> viewModel.closePerson()
 			state.showAllTrendsGrid -> viewModel.closeAllTrends()
@@ -258,10 +260,7 @@ private fun JellyseerrContent(
 			}
 
 			if (state.showAllTrendsGrid) {
-				Text(
-					text = stringResource(R.string.jellyseerr_discover_title),
-					color = Color.White,
-				)
+				Text(text = stringResource(R.string.jellyseerr_discover_title), color = Color.White, fontSize = sectionTitleFontSize)
 
 				val baseResults = if (state.query.isBlank()) {
 					state.results.take(20)
@@ -314,10 +313,7 @@ private fun JellyseerrContent(
 				} else {
 					R.string.jellyseerr_search_results_title
 				}
-				Text(
-					text = stringResource(titleRes),
-					color = JellyfinTheme.colorScheme.onBackground,
-				)
+				Text(text = stringResource(titleRes), color = JellyfinTheme.colorScheme.onBackground, fontSize = sectionTitleFontSize)
 
 				val baseResults = if (state.query.isBlank()) {
 					state.results.take(20)
@@ -388,7 +384,8 @@ private fun JellyseerrContent(
 
 					Text(
 						text = stringResource(R.string.jellyseerr_popular_title),
-						color = JellyfinTheme.colorScheme.onBackground,
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = sectionTitleFontSize,
 					)
 
 					if (state.popularResults.isEmpty()) {
@@ -437,7 +434,8 @@ private fun JellyseerrContent(
 
 					Text(
 						text = stringResource(R.string.jellyseerr_popular_tv_title),
-						color = JellyfinTheme.colorScheme.onBackground,
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = sectionTitleFontSize,
 					)
 
 					if (state.popularTvResults.isEmpty()) {
@@ -481,13 +479,14 @@ private fun JellyseerrContent(
 				}
 
 
-				// Demnächst erscheinende Filme
+				// Demn�chst erscheinende Filme
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(sectionSpacing))
 
 					Text(
 						text = stringResource(R.string.jellyseerr_upcoming_movies_title),
-						color = JellyfinTheme.colorScheme.onBackground,
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = sectionTitleFontSize,
 					)
 
 					if (state.upcomingMovieResults.isEmpty()) {
@@ -530,13 +529,14 @@ private fun JellyseerrContent(
 					}
 				}
 
-				// Demnächst erscheinende Serien
+				// Demn�chst erscheinende Serien
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(sectionSpacing))
 
 					Text(
 						text = stringResource(R.string.jellyseerr_upcoming_tv_title),
-						color = JellyfinTheme.colorScheme.onBackground,
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = sectionTitleFontSize,
 					)
 
 					if (state.upcomingTvResults.isEmpty()) {
@@ -585,7 +585,8 @@ private fun JellyseerrContent(
 
 					Text(
 						text = stringResource(R.string.jellyseerr_recent_requests_title),
-						color = JellyfinTheme.colorScheme.onBackground,
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = sectionTitleFontSize,
 					)
 
 					if (state.recentRequests.isEmpty()) {
@@ -656,7 +657,7 @@ private fun JellyseerrPersonScreen(
             }
         }
 
-        // Zusätzlicher Abstand, damit Karten nicht abgeschnitten werden
+        // Zus�tzlicher Abstand, damit Karten nicht abgeschnitten werden
         Spacer(modifier = Modifier.size(32.dp))
 
         LazyColumn {
@@ -689,7 +690,7 @@ private fun JellyseerrViewAllCard(
     Box(
         modifier = Modifier
             .width(80.dp)
-            .height(200.dp) // gleiche Höhe wie Poster
+            .height(200.dp) // gleiche H�he wie Poster
             .padding(vertical = 4.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -837,7 +838,7 @@ private fun JellyseerrRequestRow(
 				scaleType = ImageView.ScaleType.CENTER_CROP,
 			)
 
-			// Verfügbar / angefragt Badges anhand request.status
+			// Verf�gbar / angefragt Badges anhand request.status
 			when {
 				request.status == 5 -> {
 					Box(
@@ -996,7 +997,7 @@ private fun JellyseerrDetail(
 		?.filter { it.seasonNumber > 0 }
 		?.sortedBy { it.seasonNumber }
 		.orEmpty()
-	var selectedSeasons by remember(item.id) { mutableStateOf<Set<Int>>(emptySet()) }
+	var showSeasonDialog by remember { mutableStateOf(false) }
 
 		Column(
 			modifier = Modifier
@@ -1026,77 +1027,6 @@ private fun JellyseerrDetail(
 							aspectRatio = 2f / 3f,
 							scaleType = ImageView.ScaleType.CENTER_CROP,
 						)
-					}
-
-					if (isTv && availableSeasons.isNotEmpty()) {
-						Spacer(modifier = Modifier.size(12.dp))
-
-						Text(
-							text = stringResource(R.string.jellyseerr_seasons_label),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-
-						Spacer(modifier = Modifier.size(8.dp))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(8.dp),
-							modifier = Modifier.fillMaxWidth(),
-						) {
-							item {
-								val allSelected = selectedSeasons.size == availableSeasons.size && availableSeasons.isNotEmpty()
-								Button(
-									onClick = {
-										selectedSeasons = if (allSelected) {
-											emptySet()
-										} else {
-											availableSeasons.map { it.seasonNumber }.toSet()
-										}
-									},
-									colors = if (allSelected) {
-										ButtonDefaults.colors(
-											containerColor = JellyfinTheme.colorScheme.buttonFocused,
-											contentColor = JellyfinTheme.colorScheme.onButtonFocused,
-										)
-									} else {
-										ButtonDefaults.colors(
-											containerColor = Color.Transparent,
-											contentColor = JellyfinTheme.colorScheme.onBackground,
-										)
-									},
-								) {
-									Text(text = stringResource(R.string.jellyseerr_seasons_all))
-								}
-							}
-
-							items(availableSeasons) { season ->
-								val number = season.seasonNumber
-								val selected = selectedSeasons.contains(number)
-								val label = season.name?.takeIf { it.isNotBlank() } ?: "S$number"
-
-								Button(
-									onClick = {
-										selectedSeasons = if (selected) {
-											selectedSeasons - number
-										} else {
-											selectedSeasons + number
-										}
-									},
-									colors = if (selected) {
-										ButtonDefaults.colors(
-											containerColor = JellyfinTheme.colorScheme.buttonFocused,
-											contentColor = JellyfinTheme.colorScheme.onButtonFocused,
-										)
-									} else {
-										ButtonDefaults.colors(
-											containerColor = Color.Transparent,
-											contentColor = JellyfinTheme.colorScheme.onBackground,
-										)
-									},
-								) {
-									Text(text = label)
-								}
-							}
-						}
 					}
 
 					val isRequested = item.isRequested
@@ -1138,12 +1068,11 @@ private fun JellyseerrDetail(
 									)
 								}
 								else -> {
-									val seasonsParam = if (isTv) {
-										selectedSeasons.toList().sorted().takeIf { it.isNotEmpty() }
+									if (isTv && availableSeasons.isNotEmpty()) {
+										showSeasonDialog = true
 									} else {
-										null
+										onRequestClick(null)
 									}
-									onRequestClick(seasonsParam)
 								}
 							}
 						},
@@ -1182,7 +1111,7 @@ private fun JellyseerrDetail(
 
 					if (metaParts.isNotEmpty()) {
 						Text(
-							text = metaParts.joinToString(" • "),
+							text = metaParts.joinToString(" � "),
 							color = JellyfinTheme.colorScheme.onBackground,
 						)
 					}
@@ -1226,8 +1155,167 @@ private fun JellyseerrDetail(
 			}
 		}
 
+	if (isTv && availableSeasons.isNotEmpty() && showSeasonDialog) {
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.background(Color(0xCC000000)),
+			contentAlignment = Alignment.Center,
+		) {
+			Box(
+				modifier = Modifier
+					.fillMaxWidth(0.8f)
+					.fillMaxHeight(0.8f)
+					.background(JellyfinTheme.colorScheme.popover, RoundedCornerShape(16.dp))
+					.border(2.dp, Color.White, RoundedCornerShape(16.dp))
+					.padding(16.dp),
+			) {
+				Column(
+					modifier = Modifier.fillMaxSize(),
+					verticalArrangement = Arrangement.spacedBy(12.dp),
+				) {
+					Text(
+						text = stringResource(R.string.jellyseerr_seasons_label),
+						color = JellyfinTheme.colorScheme.onBackground,
+					)
+
+					Spacer(modifier = Modifier.size(8.dp))
+
+					LazyColumn(
+						modifier = Modifier.weight(1f),
+					) {
+						items(availableSeasons) { season ->
+							val number = season.seasonNumber
+							val episodeCount = season.episodeCount
+
+							Row(
+								modifier = Modifier
+									.fillMaxWidth()
+									.padding(vertical = 6.dp),
+								horizontalArrangement = Arrangement.SpaceBetween,
+								verticalAlignment = Alignment.CenterVertically,
+							) {
+								Column(
+									verticalArrangement = Arrangement.spacedBy(4.dp),
+								) {
+									val seasonLabel = season.name?.takeIf { it.isNotBlank() }
+										?: "Staffel $number"
+									Text(
+										text = seasonLabel,
+										color = JellyfinTheme.colorScheme.onBackground,
+									)
+
+									if (episodeCount != null && episodeCount > 0) {
+										Box(
+											modifier = Modifier
+												.clip(RoundedCornerShape(999.dp))
+												.background(JellyfinTheme.colorScheme.badge)
+												.padding(horizontal = 8.dp, vertical = 4.dp),
+										) {
+											Text(
+												text = stringResource(
+													R.string.jellyseerr_episodes_count,
+													episodeCount,
+												),
+												color = JellyfinTheme.colorScheme.onBadge,
+											)
+										}
+									}
+								}
+
+								val isRequested = item.isRequested
+								val isAvailable = item.isAvailable
+
+								val buttonColors = when {
+									isAvailable -> ButtonDefaults.colors(
+										containerColor = Color(0xFF00C800),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFF00E000),
+										focusedContentColor = Color.White,
+									)
+									isRequested -> ButtonDefaults.colors(
+										containerColor = Color(0xFFFFA000),
+										contentColor = Color.Black,
+										focusedContainerColor = Color(0xFFFFC107),
+										focusedContentColor = Color.Black,
+									)
+									else -> ButtonDefaults.colors(
+										containerColor = Color(0xFFAA5CC3),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFFBB86FC),
+										focusedContentColor = Color.White,
+									)
+								}
+
+								val buttonText = when {
+									isAvailable -> stringResource(R.string.lbl_play)
+									isRequested -> stringResource(R.string.jellyseerr_requested_label)
+									else -> stringResource(R.string.jellyseerr_request_button)
+								}
+
+								Button(
+									onClick = {
+										when {
+											isAvailable -> {
+												navigationRepository.navigate(
+													org.jellyfin.androidtv.ui.navigation.Destinations.search(
+														item.title,
+													),
+												)
+											}
+											isRequested -> {
+												// keine neue Anfrage senden
+											}
+											else -> {
+												onRequestClick(listOf(number))
+												showSeasonDialog = false
+											}
+										}
+									},
+									colors = buttonColors,
+								) {
+									Text(text = buttonText)
+								}
+							}
+						}
+					}
+
+					Row(
+						modifier = Modifier.fillMaxWidth(),
+						horizontalArrangement = Arrangement.SpaceBetween,
+					) {
+						Button(
+							onClick = { showSeasonDialog = false },
+						) {
+							Text(text = stringResource(R.string.lbl_exit))
+						}
+
+						Button(
+							onClick = {
+								val seasonsToRequest = availableSeasons.map { it.seasonNumber }
+								if (seasonsToRequest.isNotEmpty()) {
+									onRequestClick(seasonsToRequest)
+								}
+								showSeasonDialog = false
+							},
+							enabled = !item.isRequested,
+						) {
+							Text(text = stringResource(R.string.jellyseerr_request_all_seasons))
+						}
+					}
+				}
+			}
+		}
+	}
+
 	LaunchedEffect(Unit) {
 		kotlinx.coroutines.delay(150)
 		requestButtonFocusRequester.requestFocus()
 	}
 }
+
+
+
+
+
+

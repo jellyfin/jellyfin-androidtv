@@ -610,6 +610,8 @@
     <string name="jellyseerr_request_error">Request failed</string>
     <string name="jellyseerr_seasons_label">Select seasons</string>
     <string name="jellyseerr_seasons_all">All seasons</string>
+    <string name="jellyseerr_request_all_seasons">Request all seasons</string>
+    <string name="jellyseerr_episodes_count">%1$d episodes</string>
     <string name="pref_jellyseerr">Jellyseerr</string>
     <string name="pref_jellyseerr_url">Jellyseerr URL</string>
     <string name="pref_jellyseerr_api_key">Jellyseerr API key</string>
