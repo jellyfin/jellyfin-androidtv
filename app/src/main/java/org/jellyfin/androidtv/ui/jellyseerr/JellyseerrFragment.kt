@@ -1526,6 +1526,7 @@ private fun JellyseerrDetail(
 
 				val isRequested = item.isRequested
 				val isAvailable = item.isAvailable
+				val isPartiallyAvailable = item.isPartiallyAvailable && !isAvailable
 
 				val requestButtonInteraction = remember { MutableInteractionSource() }
 				val requestButtonFocused by requestButtonInteraction.collectIsFocusedAsState()
@@ -1535,6 +1536,12 @@ private fun JellyseerrDetail(
 						containerColor = Color(0xFF00C853),
 						contentColor = Color.White,
 						focusedContainerColor = Color(0xFF64DD17),
+						focusedContentColor = Color.White,
+					)
+					isPartiallyAvailable -> ButtonDefaults.colors(
+						containerColor = Color(0xFF0097A7),
+						contentColor = Color.White,
+						focusedContainerColor = Color(0xFF00ACC1),
 						focusedContentColor = Color.White,
 					)
 					isRequested -> ButtonDefaults.colors(
@@ -1553,6 +1560,7 @@ private fun JellyseerrDetail(
 
 				val buttonText = when {
 					isAvailable -> stringResource(R.string.lbl_play)
+					isPartiallyAvailable -> stringResource(R.string.jellyseerr_partially_available_label)
 					isRequested -> stringResource(R.string.jellyseerr_requested_label)
 					else -> stringResource(R.string.jellyseerr_request_button)
 				}
