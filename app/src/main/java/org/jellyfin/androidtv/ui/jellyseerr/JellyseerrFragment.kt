@@ -491,6 +491,7 @@ private fun JellyseerrContent(
 	val sectionTitleFontSize = 26.sp
 	val itemFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
 	val viewAllFocusRequesters = remember { mutableStateMapOf<String, FocusRequester>() }
+	val recentRequestsFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
 
 	LaunchedEffect(
 		state.selectedItem,
@@ -976,7 +977,7 @@ private fun JellyseerrContent(
 					}
 				}
 
-				// Bisherige Anfragen (globale Liste)
+				// Bisherige Anfragen (nur eigene Anfragen)
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(sectionSpacing))
 
@@ -1001,12 +1002,15 @@ private fun JellyseerrContent(
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(220.dp),
+								.height(300.dp),
 						) {
-							items(state.recentRequests) { request ->
-								JellyseerrRequestRow(
-									request = request,
-									onClick = { viewModel.showDetailsForRequest(request) },
+							items(state.recentRequests) { item ->
+								val focusRequester = recentRequestsFocusRequesters.getOrPut(item.id) { FocusRequester() }
+								JellyseerrSearchCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+									focusRequester = focusRequester,
+									onFocus = { }, // Kein lastFocusedItem Update für Recent Requests
 								)
 							}
 						}
@@ -1360,19 +1364,10 @@ private fun JellyseerrRequestRow(
 		Text(
 			text = request.title,
 			color = JellyfinTheme.colorScheme.onBackground,
+			maxLines = 2,
+			overflow = TextOverflow.Ellipsis,
 			modifier = Modifier.padding(horizontal = 4.dp),
 		)
-		request.mediaType?.let {
-			val typeText = when (it) {
-				"movie" -> stringResource(R.string.lbl_movies)
-				"tv" -> stringResource(R.string.lbl_tv_series)
-				else -> it
-			}
-			Text(
-				text = typeText,
-				color = JellyfinTheme.colorScheme.onBackground,
-			)
-		}
 	}
 }
 

@@ -13,6 +13,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
@@ -23,7 +25,7 @@ import timber.log.Timber
 interface JellyseerrRepository {
 	suspend fun search(query: String): Result<List<JellyseerrSearchItem>>
 	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
-	suspend fun getRecentRequests(): Result<List<JellyseerrRequest>>
+	suspend fun getRecentRequests(): Result<List<JellyseerrSearchItem>>
 	suspend fun createRequest(item: JellyseerrSearchItem, seasons: List<Int>? = null): Result<Unit>
 	suspend fun discoverTrending(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun discoverMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
@@ -301,15 +303,20 @@ class JellyseerrRepositoryImpl(
 
 			runCatching {
 				items.map { item ->
-					if (item.isAvailable || item.mediaType != "movie") return@map item
-
 					val title = item.title.trim()
 					if (title.isEmpty()) return@map item
+
+					// Bestimme den Item-Typ basierend auf mediaType
+					val itemKind = when (item.mediaType) {
+						"movie" -> BaseItemKind.MOVIE
+						"tv" -> BaseItemKind.SERIES
+						else -> return@map item
+					}
 
 					val request = GetItemsRequest(
 						searchTerm = title,
 						limit = 5,
-						includeItemTypes = setOf(BaseItemKind.MOVIE),
+						includeItemTypes = setOf(itemKind),
 						recursive = true,
 						enableTotalRecordCount = false,
 					)
@@ -321,14 +328,26 @@ class JellyseerrRepositoryImpl(
 						return@map item
 					}
 
-					val matches = resultItems?.any { baseItem ->
+					// Finde exakten Match
+					val matchedItem = resultItems?.firstOrNull { baseItem ->
 						val name = baseItem.name?.trim().orEmpty()
 						val original = baseItem.originalTitle?.trim().orEmpty()
 						name.equals(title, ignoreCase = true) ||
 							original.equals(title, ignoreCase = true)
-					} == true
+					}
 
-					if (matches) item.copy(isAvailable = true) else item
+					if (matchedItem != null) {
+						// Verwende Poster von Jellyfin wenn vorhanden
+						val posterUrl = matchedItem.itemImages[org.jellyfin.sdk.model.api.ImageType.PRIMARY]?.getUrl(apiClient)
+							?: item.posterPath
+
+						item.copy(
+							isAvailable = true,
+							posterPath = posterUrl,
+						)
+					} else {
+						item
+					}
 				}
 			}.onFailure {
 				Timber.e(it, "Failed to mark Jellyseerr items as available in Jellyfin")
@@ -419,15 +438,15 @@ class JellyseerrRepositoryImpl(
 		}
 	}
 
-	override suspend fun getRecentRequests(): Result<List<JellyseerrRequest>> = withContext(Dispatchers.IO) {
+	override suspend fun getRecentRequests(): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
 		val config = getConfig()
 			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
 
 		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
 		val baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
-		// Nur Anfragen vom aktuellen User anzeigen
-		val url = "${config.baseUrl}/api/v1/request?filter=requestedby&take=10&sort=modified&skip=0"
+		// Alle Anfragen vom aktuellen User anzeigen - verwende requestedBy Parameter, take=100 für alle
+		val url = "${config.baseUrl}/api/v1/request?requestedBy=${userId}&take=100&sort=modified&skip=0"
 		val request = Request.Builder()
 			.url(url)
 			.header("X-API-Key", config.apiKey)
@@ -441,19 +460,60 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val page = json.decodeFromString(JellyseerrRequestPage.serializer(), body)
 
-				page.results.map { dto ->
-					val title = dto.media?.title ?: dto.media?.name ?: ""
-					val posterUrl = dto.media?.posterPath?.let { path -> "$baseImageUrl$path" }
-					val backdropUrl = dto.media?.backdropPath?.let { path -> "$baseImageUrl$path" }
-					JellyseerrRequest(
-						id = dto.id,
-						status = dto.status,
-						mediaType = dto.media?.mediaType,
-						title = title,
-						tmdbId = dto.media?.tmdbId,
-						posterPath = posterUrl,
-						backdropPath = backdropUrl,
-					)
+				Timber.d("Jellyseerr recent requests: found ${page.results.size} requests")
+
+				// Für jeden Request holen wir die vollständigen Details von Jellyseerr, um Poster zu bekommen
+				page.results.mapNotNull { dto ->
+					val tmdbId = dto.media?.tmdbId ?: return@mapNotNull null
+					val mediaType = dto.media?.mediaType ?: return@mapNotNull null
+
+					// Hole die vollständigen Details von Jellyseerr (enthält Poster-Daten)
+					val detailsUrl = if (mediaType == "movie") {
+						"${config.baseUrl}/api/v1/movie/$tmdbId"
+					} else {
+						"${config.baseUrl}/api/v1/tv/$tmdbId"
+					}
+
+					val detailsRequest = Request.Builder()
+						.url(detailsUrl)
+						.header("X-API-Key", config.apiKey)
+						.header("X-API-User", userId.toString())
+						.build()
+
+					try {
+						client.newCall(detailsRequest).execute().use { detailsResponse ->
+							if (!detailsResponse.isSuccessful) {
+								Timber.w("Failed to load details for $mediaType $tmdbId: HTTP ${detailsResponse.code}")
+								return@mapNotNull null
+							}
+
+							val detailsBody = detailsResponse.body?.string() ?: return@mapNotNull null
+							val details = json.decodeFromString(JellyseerrMovieDetails.serializer(), detailsBody)
+
+							val posterUrl = details.posterPath?.let { path ->
+								if (path.isNotBlank()) "$baseImageUrl$path" else null
+							}
+							val backdropUrl = details.backdropPath?.let { path ->
+								if (path.isNotBlank()) "$baseImageUrl$path" else null
+							}
+
+							JellyseerrSearchItem(
+								id = tmdbId,
+								mediaType = mediaType,
+								title = details.title ?: "",
+								overview = details.overview,
+								posterPath = posterUrl,
+								backdropPath = backdropUrl,
+								isRequested = dto.status != null && dto.status != 5,
+								isAvailable = dto.status == 5,
+								isPartiallyAvailable = false,
+								requestId = dto.id,
+							)
+						}
+					} catch (e: Exception) {
+						Timber.e(e, "Failed to load details for $mediaType $tmdbId")
+						null
+					}
 				}
 			}
 		}.onFailure {

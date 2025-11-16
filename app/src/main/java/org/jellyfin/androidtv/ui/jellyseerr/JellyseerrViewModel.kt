@@ -38,7 +38,7 @@ data class JellyseerrUiState(
 	val personCredits: List<JellyseerrSearchItem> = emptyList(),
 	val originDetailItem: JellyseerrSearchItem? = null,
 	val popularResults: List<JellyseerrSearchItem> = emptyList(),
-	val recentRequests: List<JellyseerrRequest> = emptyList(),
+	val recentRequests: List<JellyseerrSearchItem> = emptyList(),
 	val popularTvResults: List<JellyseerrSearchItem> = emptyList(),
 	val upcomingMovieResults: List<JellyseerrSearchItem> = emptyList(),
 	val upcomingTvResults: List<JellyseerrSearchItem> = emptyList(),
@@ -287,9 +287,11 @@ class JellyseerrViewModel(
 		}
 
 		val requests = result.getOrThrow()
+		// Lade Poster und Verfügbarkeit von Jellyfin wie bei den anderen Kategorien
+		val requestsWithAvailability = repository.markAvailableInJellyfin(requests).getOrElse { requests }
 
 		_uiState.update {
-			it.copy(recentRequests = requests)
+			it.copy(recentRequests = requestsWithAvailability)
 		}
 	}
 
