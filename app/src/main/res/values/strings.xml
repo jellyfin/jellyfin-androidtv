@@ -603,10 +603,14 @@
     <string name="jellyseerr_cast_title">Cast</string>
     <string name="jellyseerr_error_prefix">Error: %1$s</string>
     <string name="jellyseerr_view_all_trends">View all</string>
+    <string name="jellyseerr_recently_added_title">Recently added</string>
     <string name="jellyseerr_recent_requests_title">Recent requests</string>
     <string name="jellyseerr_popular_tv_title">Popular series</string>
     <string name="jellyseerr_upcoming_movies_title">Upcoming movies</string>
     <string name="jellyseerr_upcoming_tv_title">Upcoming series</string>
+    <string name="jellyseerr_movie_genres_title">Movie genres</string>
+    <string name="jellyseerr_movie_studios_title">Movie studios</string>
+    <string name="jellyseerr_tv_networks_title">Networks</string>
     <string name="jellyseerr_request_sended">Request sent</string>
     <string name="jellyseerr_request_error">Request failed</string>
     <string name="jellyseerr_seasons_label">Select seasons</string>

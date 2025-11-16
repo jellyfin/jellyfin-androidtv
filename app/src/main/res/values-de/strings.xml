@@ -602,11 +602,15 @@
     <string name="jellyseerr_cast_title">Besetzung</string>
     <string name="jellyseerr_error_prefix">Fehler: %1$s</string>
     <string name="jellyseerr_view_all_trends">Alle Trends</string>
+    <string name="jellyseerr_recently_added_title">Kürzlich hinzugefügt</string>
     <string name="jellyseerr_popular_title">Beliebte Filme</string>
     <string name="jellyseerr_recent_requests_title">Bisherige Anfragen</string>
     <string name="jellyseerr_popular_tv_title">Beliebte Serien</string>
     <string name="jellyseerr_upcoming_movies_title">Demnächst erscheinende Filme</string>
     <string name="jellyseerr_upcoming_tv_title">Demnächst erscheinende Serien</string>
+    <string name="jellyseerr_movie_genres_title">Film-Genres</string>
+    <string name="jellyseerr_movie_studios_title">Filmstudios</string>
+    <string name="jellyseerr_tv_networks_title">Sender</string>
     <string name="jellyseerr_request_sended">Anfrage gesendet</string>
     <string name="jellyseerr_request_error">Anfrage fehlgeschlagen</string>
     <string name="jellyseerr_seasons_label">Staffeln auswählen</string>

@@ -272,6 +272,7 @@ private fun JellyseerrScreen(
 				properties = DialogProperties(usePlatformDefaultWidth = false),
 			) {
 				val firstButtonFocusRequester = remember { FocusRequester() }
+				val seasonListState = rememberLazyListState()
 				val dialogBackdropUrl = details?.backdropPath ?: selectedItem.backdropPath
 				val overlayBrush = Brush.verticalGradient(
 					colors = listOf(
@@ -360,8 +361,9 @@ private fun JellyseerrScreen(
 						val expandedSeasons = remember { mutableStateMapOf<Int, Boolean>() }
 
 						LazyColumn(
+							state = seasonListState,
 							modifier = Modifier.weight(1f),
-							contentPadding = PaddingValues(vertical = 8.dp),
+							contentPadding = PaddingValues(top = 0.dp, bottom = 8.dp),
 						) {
 							itemsIndexed(
 								items = availableSeasons,
@@ -714,6 +716,8 @@ private fun JellyseerrScreen(
 
 				// Fokus auf ersten Button setzen wenn Dialog geöffnet wird
 				LaunchedEffect(Unit) {
+					// Stelle sicher, dass die Liste am Anfang ist
+					seasonListState.scrollToItem(0)
 					kotlinx.coroutines.delay(100)
 					firstButtonFocusRequester.requestFocus()
 				}
@@ -989,6 +993,46 @@ private fun JellyseerrContent(
 					}
 				}
 
+				// Bisherige Anfragen (nur eigene Anfragen) - MOVED UP
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					Spacer(modifier = Modifier.size(sectionSpacing))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_recent_requests_title),
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = sectionTitleFontSize,
+					)
+
+					if (state.recentRequests.isEmpty()) {
+						Spacer(modifier = Modifier.size(sectionInnerSpacing))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(sectionInnerSpacing))
+
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(300.dp),
+						) {
+							items(state.recentRequests) { item ->
+								val focusRequester = recentRequestsFocusRequesters.getOrPut(item.id) { FocusRequester() }
+								JellyseerrSearchCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+									focusRequester = focusRequester,
+									onFocus = { }, // Kein lastFocusedItem Update für Recent Requests
+								)
+							}
+						}
+					}
+				}
+
 				// Beliebte Filme
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
 					Spacer(modifier = Modifier.size(sectionSpacing))
@@ -1218,46 +1262,6 @@ private fun JellyseerrContent(
 										)
 									}
 								}
-							}
-						}
-					}
-				}
-
-				// Bisherige Anfragen (nur eigene Anfragen)
-				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_recent_requests_title),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = sectionTitleFontSize,
-					)
-
-					if (state.recentRequests.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(300.dp),
-						) {
-							items(state.recentRequests) { item ->
-								val focusRequester = recentRequestsFocusRequesters.getOrPut(item.id) { FocusRequester() }
-								JellyseerrSearchCard(
-									item = item,
-									onClick = { viewModel.showDetailsForItem(item) },
-									focusRequester = focusRequester,
-									onFocus = { }, // Kein lastFocusedItem Update für Recent Requests
-								)
 							}
 						}
 					}
