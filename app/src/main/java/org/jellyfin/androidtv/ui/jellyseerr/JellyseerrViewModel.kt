@@ -76,13 +76,15 @@ class JellyseerrViewModel(
 		requests: List<JellyseerrRequest>,
 	): List<JellyseerrSearchItem> = items.map { item ->
 		val match = requests.firstOrNull { it.tmdbId == item.id }
-		val requested = match != null
-		val availableFromRequest = match?.status == 5
+		val requestStatus = match?.status
+		val hasPendingRequest = requestStatus != null && requestStatus != 5
+		val availableFromRequest = requestStatus == 5
 
 		item.copy(
-			isRequested = requested,
+			isRequested = hasPendingRequest,
 			isAvailable = item.isAvailable || availableFromRequest,
 			requestId = match?.id ?: item.requestId,
+			requestStatus = requestStatus ?: item.requestStatus,
 		)
 	}
 
@@ -93,13 +95,15 @@ class JellyseerrViewModel(
 		selectedItem ?: return null
 
 		val match = requests.firstOrNull { it.tmdbId == selectedItem.id }
-		val requested = match != null
-		val availableFromRequest = match?.status == 5
+		val requestStatus = match?.status
+		val hasPendingRequest = requestStatus != null && requestStatus != 5
+		val availableFromRequest = requestStatus == 5
 
 		return selectedItem.copy(
-			isRequested = requested,
+			isRequested = hasPendingRequest,
 			isAvailable = selectedItem.isAvailable || availableFromRequest,
 			requestId = match?.id ?: selectedItem.requestId,
+			requestStatus = requestStatus ?: selectedItem.requestStatus,
 		)
 	}
 
@@ -683,10 +687,13 @@ class JellyseerrViewModel(
 			val updatedMovie = state.selectedMovie?.copy(
 				seasons = state.selectedMovie.seasons.map { season ->
 					if (season.seasonNumber in requestedSeasonNumbers) season.copy(status = 1) else season
-				}
+				},
 			)
 
-			val updatedItem = state.selectedItem?.takeIf { it.id == item.id }?.copy(isRequested = true)
+			val updatedItem = state.selectedItem?.takeIf { it.id == item.id }?.copy(
+				isRequested = true,
+				requestStatus = 1,
+			)
 
 			state.copy(
 				selectedMovie = updatedMovie ?: state.selectedMovie,
@@ -803,22 +810,25 @@ class JellyseerrViewModel(
 	fun showDetailsForRequest(request: JellyseerrRequest) {
 		val tmdbId = request.tmdbId ?: return
 
-		_uiState.update {
-			it.copy(
-				isLoading = true,
-				errorMessage = null,
-				selectedItem = JellyseerrSearchItem(
-					id = tmdbId,
-					mediaType = request.mediaType ?: "movie",
-					title = request.title,
-					overview = null,
-					isRequested = true,
-					isAvailable = request.status == 5,
-					requestId = request.id,
-				),
-				selectedMovie = null,
-			)
-		}
+				_uiState.update {
+					val hasPendingRequest = request.status != null && request.status != 5
+
+					it.copy(
+						isLoading = true,
+						errorMessage = null,
+						selectedItem = JellyseerrSearchItem(
+							id = tmdbId,
+							mediaType = request.mediaType ?: "movie",
+							title = request.title,
+							overview = null,
+							isRequested = hasPendingRequest,
+							isAvailable = request.status == 5,
+							requestStatus = request.status,
+							requestId = request.id,
+						),
+						selectedMovie = null,
+					)
+				}
 
 		viewModelScope.launch {
 			val mediaType = request.mediaType ?: "movie"

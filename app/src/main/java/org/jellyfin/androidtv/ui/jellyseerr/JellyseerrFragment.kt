@@ -1194,7 +1194,26 @@ private fun JellyseerrSearchCard(
 				)
 			}
 
+			val hasPendingRequest = item.requestStatus != null && item.requestStatus != 5
+
 			when {
+				hasPendingRequest -> {
+					Box(
+						modifier = Modifier
+							.align(Alignment.TopEnd)
+							.padding(6.dp)
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFFAA5CC3)),
+					) {
+						androidx.compose.foundation.Image(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
+							contentDescription = null,
+							modifier = Modifier
+								.padding(4.dp)
+								.size(16.dp),
+						)
+					}
+				}
 				item.isAvailable -> {
 					Box(
 						modifier = Modifier
@@ -1222,23 +1241,6 @@ private fun JellyseerrSearchCard(
 					) {
 						androidx.compose.foundation.Image(
 							imageVector = ImageVector.vectorResource(id = R.drawable.ic_decrease),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
-				item.isRequested -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFFAA5CC3)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
 							contentDescription = null,
 							modifier = Modifier
 								.padding(4.dp)

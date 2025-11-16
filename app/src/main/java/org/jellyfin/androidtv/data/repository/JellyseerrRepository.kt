@@ -22,6 +22,14 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import timber.log.Timber
 
+private const val TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
+private const val TMDB_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780"
+private const val TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300"
+
+private fun posterImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_POSTER_BASE_URL$it" }
+private fun backdropImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_BACKDROP_BASE_URL$it" }
+private fun profileImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_PROFILE_BASE_URL$it" }
+
 interface JellyseerrRepository {
 	suspend fun search(query: String): Result<List<JellyseerrSearchItem>>
 	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
@@ -51,6 +59,7 @@ data class JellyseerrSearchItem(
 	val isAvailable: Boolean = false,
 	val isPartiallyAvailable: Boolean = false,
 	val requestId: Int? = null,
+	val requestStatus: Int? = null,
 )
 
 @Serializable
@@ -375,13 +384,11 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 					.map {
-						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
-						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						val posterUrl = posterImageUrl(it.posterPath)
+						val backdropUrl = backdropImageUrl(it.backdropPath)
 						JellyseerrSearchItem(
 							id = it.id,
 							mediaType = it.mediaType,
@@ -402,8 +409,6 @@ class JellyseerrRepositoryImpl(
 			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
 
 		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
-		val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 		val url = "${config.baseUrl}/api/v1/request?take=50&requestedBy=$userId&sort=modified&sortDirection=desc"
 		val request = Request.Builder()
 			.url(url)
@@ -420,8 +425,8 @@ class JellyseerrRepositoryImpl(
 
 				page.results.map { dto ->
 					val title = dto.media?.title ?: dto.media?.name ?: ""
-					val posterUrl = dto.media?.posterPath?.let { path -> "$baseImageUrl$path" }
-					val backdropUrl = dto.media?.backdropPath?.let { path -> "$baseImageUrl$path" }
+					val posterUrl = posterImageUrl(dto.media?.posterPath)
+					val backdropUrl = backdropImageUrl(dto.media?.backdropPath)
 					JellyseerrRequest(
 						id = dto.id,
 						status = dto.status,
@@ -443,8 +448,6 @@ class JellyseerrRepositoryImpl(
 			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
 
 		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
-		val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 		// Alle Anfragen vom aktuellen User anzeigen - verwende requestedBy Parameter, take=100 für alle
 		val url = "${config.baseUrl}/api/v1/request?requestedBy=${userId}&take=100&sort=modified&skip=0"
 		val request = Request.Builder()
@@ -490,12 +493,8 @@ class JellyseerrRepositoryImpl(
 							val detailsBody = detailsResponse.body?.string() ?: return@mapNotNull null
 							val details = json.decodeFromString(JellyseerrMovieDetails.serializer(), detailsBody)
 
-							val posterUrl = details.posterPath?.let { path ->
-								if (path.isNotBlank()) "$baseImageUrl$path" else null
-							}
-							val backdropUrl = details.backdropPath?.let { path ->
-								if (path.isNotBlank()) "$baseImageUrl$path" else null
-							}
+							val posterUrl = posterImageUrl(details.posterPath)
+							val backdropUrl = backdropImageUrl(details.backdropPath)
 
 							JellyseerrSearchItem(
 								id = tmdbId,
@@ -508,6 +507,7 @@ class JellyseerrRepositoryImpl(
 								isAvailable = dto.status == 5,
 								isPartiallyAvailable = false,
 								requestId = dto.id,
+								requestStatus = dto.status,
 							)
 						}
 					} catch (e: Exception) {
@@ -597,13 +597,11 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 					.map {
-						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
-						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						val posterUrl = posterImageUrl(it.posterPath)
+						val backdropUrl = backdropImageUrl(it.backdropPath)
 						JellyseerrSearchItem(
 							id = it.id,
 							mediaType = it.mediaType,
@@ -639,13 +637,11 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 					.map {
-						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
-						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						val posterUrl = posterImageUrl(it.posterPath)
+						val backdropUrl = backdropImageUrl(it.backdropPath)
 						JellyseerrSearchItem(
 							id = it.id,
 							mediaType = it.mediaType,
@@ -681,13 +677,11 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 					.map {
-						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
-						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						val posterUrl = posterImageUrl(it.posterPath)
+						val backdropUrl = backdropImageUrl(it.backdropPath)
 						JellyseerrSearchItem(
 							id = it.id,
 							mediaType = it.mediaType,
@@ -723,13 +717,11 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 					.map {
-						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
-						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						val posterUrl = posterImageUrl(it.posterPath)
+						val backdropUrl = backdropImageUrl(it.backdropPath)
 						JellyseerrSearchItem(
 							id = it.id,
 							mediaType = it.mediaType,
@@ -765,13 +757,11 @@ class JellyseerrRepositoryImpl(
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 					.map {
-						val posterUrl = it.posterPath?.let { path -> "$baseImageUrl$path" }
-						val backdropUrl = it.backdropPath?.let { path -> "$baseImageUrl$path" }
+						val posterUrl = posterImageUrl(it.posterPath)
+						val backdropUrl = backdropImageUrl(it.backdropPath)
 						JellyseerrSearchItem(
 							id = it.id,
 							mediaType = it.mediaType,
@@ -849,19 +839,18 @@ class JellyseerrRepositoryImpl(
 
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val raw = json.decodeFromString(JellyseerrMovieDetails.serializer(), body)
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
 				val mappedCredits = raw.credits?.let { credits ->
 					val mappedCast = credits.cast.map { castMember ->
-						val profile = castMember.profilePath?.let { path -> baseImageUrl + path }
+						val profile = profileImageUrl(castMember.profilePath)
 						castMember.copy(profilePath = profile)
 					}
 					credits.copy(cast = mappedCast)
 				}
 
 				raw.copy(
-					posterPath = raw.posterPath?.let { baseImageUrl + it },
-					backdropPath = raw.backdropPath?.let { baseImageUrl + it },
+					posterPath = posterImageUrl(raw.posterPath),
+					backdropPath = backdropImageUrl(raw.backdropPath),
 					credits = mappedCredits ?: raw.credits,
 				)
 			}
@@ -889,11 +878,10 @@ class JellyseerrRepositoryImpl(
 
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val raw = json.decodeFromString(JellyseerrTvDetailsRaw.serializer(), body)
-				val baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
 				val mappedCredits = raw.credits?.let { credits ->
 					val mappedCast = credits.cast.map { castMember ->
-						val profile = castMember.profilePath?.let { path -> baseImageUrl + path }
+						val profile = profileImageUrl(castMember.profilePath)
 						castMember.copy(profilePath = profile)
 					}
 					credits.copy(cast = mappedCast)
@@ -928,7 +916,7 @@ class JellyseerrRepositoryImpl(
 					}
 
 					season.copy(
-						posterPath = season.posterPath?.let { path -> baseImageUrl + path },
+						posterPath = posterImageUrl(season.posterPath),
 						status = finalStatus,
 					)
 				}
@@ -938,8 +926,8 @@ class JellyseerrRepositoryImpl(
 					title = raw.name,
 					originalTitle = null,
 					overview = raw.overview,
-					posterPath = raw.posterPath?.let { baseImageUrl + it },
-					backdropPath = raw.backdropPath?.let { baseImageUrl + it },
+					posterPath = posterImageUrl(raw.posterPath),
+					backdropPath = backdropImageUrl(raw.backdropPath),
 					releaseDate = raw.firstAirDate,
 					runtime = raw.episodeRunTime.firstOrNull(),
 					voteAverage = raw.voteAverage,
@@ -969,10 +957,9 @@ class JellyseerrRepositoryImpl(
                 if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
                 val body = response.body?.string() ?: throw IllegalStateException("Empty body")
                 val raw = json.decodeFromString(JellyseerrPersonDetails.serializer(), body)
-                val baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
                 raw.copy(
-                    profilePath = raw.profilePath?.let { baseImageUrl + it },
+                    profilePath = profileImageUrl(raw.profilePath),
                 )
             }
         }.onFailure {
@@ -997,13 +984,11 @@ class JellyseerrRepositoryImpl(
 					val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 					val combined = json.decodeFromString(JellyseerrCombinedCredits.serializer(), body)
 
-					val baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
 					combined.cast
 						.filter { it.mediaType == "movie" || it.mediaType == "tv" }
 						.map { credit ->
-							val posterUrl = credit.posterPath?.let { path -> baseImageUrl + path }
-							val backdropUrl = credit.backdropPath?.let { path -> baseImageUrl + path }
+							val posterUrl = posterImageUrl(credit.posterPath)
+							val backdropUrl = backdropImageUrl(credit.backdropPath)
 							JellyseerrSearchItem(
 								id = credit.id,
 								mediaType = credit.mediaType ?: "movie",
