@@ -89,6 +89,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import kotlinx.coroutines.delay
+import androidx.compose.material.Icon as MaterialIcon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+
 
 private const val VIEW_ALL_TRENDING = "view_all_trending"
 private const val VIEW_ALL_POPULAR_MOVIES = "view_all_popular_movies"
@@ -570,7 +574,16 @@ private fun JellyseerrScreen(
 											Button(
 												onClick = {
 													when {
+														isAvailable && selectedItem.jellyfinId != null -> {
+															// Direkt zum Jellyfin Content navigieren
+															val uuid = java.util.UUID.fromString(selectedItem.jellyfinId)
+															navigationRepository.navigate(
+																org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
+															)
+															showSeasonDialog = false
+														}
 														isAvailable -> {
+															// Fallback: Suche öffnen
 															navigationRepository.navigate(
 																org.jellyfin.androidtv.ui.navigation.Destinations.search(
 																	selectedItem.title,
@@ -598,7 +611,7 @@ private fun JellyseerrScreen(
 													),
 											) {
 												if (isAvailable) {
-													Icon(
+													MaterialIcon(
 														imageVector = ImageVector.vectorResource(id = R.drawable.ic_play),
 														contentDescription = stringResource(R.string.lbl_play),
 													)
@@ -738,8 +751,8 @@ private fun JellyseerrContent(
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val searchFocusRequester = remember { FocusRequester() }
 	val allTrendsListState = rememberLazyListState()
-	val sectionSpacing = 5.dp
-	val sectionInnerSpacing = 6.dp
+	val sectionSpacing = 5.dp // Abstand zwischen Sektionen
+	val sectionInnerSpacing = 6.dp // Abstand innerhalb einer Sektion (label + Inhalt)
 	val sectionTitleFontSize = 26.sp
 	val itemFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
 	val viewAllFocusRequesters = remember { mutableStateMapOf<String, FocusRequester>() }
@@ -946,7 +959,7 @@ private fun JellyseerrContent(
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(300.dp)
+							.height(250.dp)
 							.padding(top = 15.dp),
 					) {
 						val maxIndex = baseResults.lastIndex
@@ -1040,7 +1053,7 @@ private fun JellyseerrContent(
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(300.dp),
+								.height(250.dp),
 						) {
 							val maxIndex = state.popularResults.lastIndex
 							val extraItems = 1
@@ -1098,7 +1111,7 @@ private fun JellyseerrContent(
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(300.dp),
+								.height(250.dp),
 						) {
 							val maxIndex = state.popularTvResults.lastIndex
 							val extraItems = 1
@@ -1158,7 +1171,7 @@ private fun JellyseerrContent(
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(300.dp),
+								.height(250.dp),
 						) {
 							val maxIndex = state.upcomingMovieResults.lastIndex
 							val extraItems = 1
@@ -1216,7 +1229,7 @@ private fun JellyseerrContent(
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(300.dp),
+								.height(250.dp),
 						) {
 							val maxIndex = state.upcomingTvResults.lastIndex
 							val extraItems = 1
@@ -1589,15 +1602,16 @@ private fun JellyseerrViewAllCard(
 			) {
 				Box(
 					modifier = Modifier
-						.size(60.dp)
-						.background(Color.White, CircleShape),
+						.size(32.dp)
+						.clip(CircleShape)
+						.background(Color.White),
 					contentAlignment = Alignment.Center,
 				) {
-					Text(
-						text = "→",
-						color = Color.Black,
-						fontSize = 32.sp,
-						fontWeight = FontWeight.Bold,
+					MaterialIcon(
+						imageVector = Icons.Filled.ArrowForward,
+						contentDescription = null,
+						tint = Color.Black,
+						modifier = Modifier.size(20.dp),
 					)
 				}
 
@@ -2183,7 +2197,7 @@ private fun JellyseerrDetail(
 				Box(
 					modifier = Modifier
 						.width(200.dp)
-						.height(300.dp)
+						.height(250.dp)
 						.clip(RoundedCornerShape(16.dp))
 						.border(
 							width = 2.dp,
@@ -2264,7 +2278,15 @@ private fun JellyseerrDetail(
 					Button(
 						onClick = {
 							when {
+								isAvailable && item.jellyfinId != null -> {
+									// Direkt zum Jellyfin Content navigieren
+									val uuid = java.util.UUID.fromString(item.jellyfinId)
+									navigationRepository.navigate(
+										org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
+									)
+								}
 								isAvailable -> {
+									// Fallback: Suche öffnen wenn keine Jellyfin ID vorhanden
 									navigationRepository.navigate(
 										org.jellyfin.androidtv.ui.navigation.Destinations.search(item.title),
 									)

@@ -62,6 +62,7 @@ data class JellyseerrSearchItem(
 	val isPartiallyAvailable: Boolean = false,
 	val requestId: Int? = null,
 	val requestStatus: Int? = null,
+	val jellyfinId: String? = null,
 )
 
 @Serializable
@@ -408,6 +409,7 @@ class JellyseerrRepositoryImpl(
 							isAvailable = isFullyAvailable,
 							isPartiallyAvailable = isPartiallyAvailable,
 							posterPath = posterUrl,
+							jellyfinId = matchedItem.id.toString(),
 						)
 					} else {
 						item
