@@ -607,13 +607,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // Clear last set audio stream index on start of every item.
-        // We cannot clear all options because baking in subs during transcoding
-        // will restart playback and this will end in an infinite loop.
-        // see@[PlaybackController.setSubtitleIndex]
-        // Not nice but will do it until the new playback rewrite is also available for video
-        mCurrentOptions.setAudioStreamIndex(null);
-
         mStartPosition = position;
         mCurrentStreamInfo = response;
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
