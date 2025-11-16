@@ -40,6 +40,7 @@ data class JellyseerrUiState(
 	val selectedPerson: JellyseerrPersonDetails? = null,
 	val personCredits: List<JellyseerrSearchItem> = emptyList(),
 	val originDetailItem: JellyseerrSearchItem? = null,
+	val trendingResults: List<JellyseerrSearchItem> = emptyList(),
 	val popularResults: List<JellyseerrSearchItem> = emptyList(),
 	val recentRequests: List<JellyseerrSearchItem> = emptyList(),
 	val popularTvResults: List<JellyseerrSearchItem> = emptyList(),
@@ -402,6 +403,7 @@ class JellyseerrViewModel(
 			it.copy(
 				isLoading = false,
 				results = marked,
+				trendingResults = marked,
 				discoverCurrentPage = 1,
 				discoverHasMore = results.isNotEmpty(),
 				discoverCategory = JellyseerrDiscoverCategory.TRENDING,

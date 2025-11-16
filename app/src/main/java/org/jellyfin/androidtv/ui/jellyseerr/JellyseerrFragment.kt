@@ -738,8 +738,8 @@ private fun JellyseerrContent(
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val searchFocusRequester = remember { FocusRequester() }
 	val allTrendsListState = rememberLazyListState()
-	val sectionSpacing = 10.dp
-	val sectionInnerSpacing = 12.dp
+	val sectionSpacing = 5.dp
+	val sectionInnerSpacing = 6.dp
 	val sectionTitleFontSize = 26.sp
 	val itemFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
 	val viewAllFocusRequesters = remember { mutableStateMapOf<String, FocusRequester>() }
@@ -912,7 +912,7 @@ private fun JellyseerrContent(
 				Text(text = stringResource(titleRes), color = JellyfinTheme.colorScheme.onBackground, fontSize = sectionTitleFontSize)
 
 				val baseResults = if (state.query.isBlank()) {
-					state.results.take(20)
+					state.trendingResults.take(20)
 				} else {
 					state.results
 				}
@@ -1589,21 +1589,20 @@ private fun JellyseerrViewAllCard(
 			) {
 				Box(
 					modifier = Modifier
-						.size(48.dp) // smaller circle
-						.clip(CircleShape)
-						.background(Color.White),
+						.size(60.dp)
+						.background(Color.White, CircleShape),
 					contentAlignment = Alignment.Center,
 				) {
 					Text(
 						text = "→",
 						color = Color.Black,
-						fontSize = 24.sp, // smaller icon text
+						fontSize = 32.sp,
 						fontWeight = FontWeight.Bold,
-						textAlign = TextAlign.Center,
-						lineHeight = 24.sp, // ensure vertical centering
 					)
 				}
+
 				Spacer(modifier = Modifier.height(8.dp))
+
 				Text(
 					text = stringResource(R.string.jellyseerr_view_more),
 					color = Color.White,
@@ -1980,7 +1979,7 @@ private fun JellyseerrRecentRequestCard(
 						verticalAlignment = Alignment.CenterVertically,
 					) {
 						// Media type badge
-						val mediaTypeText = if (item.mediaType == "tv") "Serie" else "Film"
+						val mediaTypeText = if (item.mediaType == "tv") stringResource(R.string.lbl_tv_series) else stringResource(R.string.lbl_movies)
 						Box(
 							modifier = Modifier
 								.clip(RoundedCornerShape(4.dp))
