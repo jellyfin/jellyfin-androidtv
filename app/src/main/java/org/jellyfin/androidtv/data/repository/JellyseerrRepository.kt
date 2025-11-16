@@ -230,6 +230,38 @@ class JellyseerrRepositoryImpl(
 	private val userRepository: UserRepository,
 	private val apiClient: ApiClient,
 ) : JellyseerrRepository {
+	private data class TvAvailability(
+		val isFullyAvailable: Boolean,
+		val isPartiallyAvailable: Boolean,
+	)
+
+	private val tvAvailabilityCache = mutableMapOf<Int, TvAvailability>()
+
+	private fun clearTvAvailabilityCache() {
+		tvAvailabilityCache.clear()
+	}
+
+	private suspend fun lookupTvAvailability(tmdbId: Int): TvAvailability? {
+		tvAvailabilityCache[tmdbId]?.let { return it }
+		val result = getTvDetails(tmdbId)
+		if (result.isFailure) return null
+
+		val details = result.getOrNull() ?: return null
+		val seasons = details.seasons.filter { it.seasonNumber > 0 }
+		if (seasons.isEmpty()) return null
+
+		val totalSeasons = seasons.size
+		val availableSeasons = seasons.count { it.status == 5 }
+		if (availableSeasons == 0) return null
+
+		val availability = TvAvailability(
+			isFullyAvailable = availableSeasons == totalSeasons,
+			isPartiallyAvailable = availableSeasons < totalSeasons,
+		)
+		tvAvailabilityCache[tmdbId] = availability
+		return availability
+	}
+
 	private data class Config(val baseUrl: String, val apiKey: String)
 
 	private val client = OkHttpClient()
@@ -350,8 +382,16 @@ class JellyseerrRepositoryImpl(
 						val posterUrl = matchedItem.itemImages[org.jellyfin.sdk.model.api.ImageType.PRIMARY]?.getUrl(apiClient)
 							?: item.posterPath
 
+						val availability = if (item.mediaType == "tv") {
+							lookupTvAvailability(item.id)
+						} else null
+
+						val isFullyAvailable = availability?.isFullyAvailable ?: true
+						val isPartiallyAvailable = availability?.isPartiallyAvailable ?: false
+
 						item.copy(
-							isAvailable = true,
+							isAvailable = isFullyAvailable,
+							isPartiallyAvailable = isPartiallyAvailable,
 							posterPath = posterUrl,
 						)
 					} else {
@@ -549,6 +589,8 @@ class JellyseerrRepositoryImpl(
 			client.newCall(request).execute().use { response ->
 				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
 			}
+		}.onSuccess {
+			clearTvAvailabilityCache()
 		}.onFailure {
 			Timber.e(it, "Failed to create Jellyseerr request")
 		}
@@ -572,6 +614,8 @@ class JellyseerrRepositoryImpl(
 			client.newCall(request).execute().use { response ->
 				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
 			}
+		}.onSuccess {
+			clearTvAvailabilityCache()
 		}.onFailure {
 			Timber.e(it, "Failed to cancel Jellyseerr request")
 		}

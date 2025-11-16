@@ -85,6 +85,7 @@ class JellyseerrViewModel(
 			isAvailable = item.isAvailable || availableFromRequest,
 			requestId = match?.id ?: item.requestId,
 			requestStatus = requestStatus ?: item.requestStatus,
+			isPartiallyAvailable = item.isPartiallyAvailable,
 		)
 	}
 
@@ -104,6 +105,7 @@ class JellyseerrViewModel(
 			isAvailable = selectedItem.isAvailable || availableFromRequest,
 			requestId = match?.id ?: selectedItem.requestId,
 			requestStatus = requestStatus ?: selectedItem.requestStatus,
+			isPartiallyAvailable = selectedItem.isPartiallyAvailable,
 		)
 	}
 

@@ -1214,23 +1214,6 @@ private fun JellyseerrSearchCard(
 						)
 					}
 				}
-				item.isAvailable -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF00C800)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
 				item.isPartiallyAvailable -> {
 					Box(
 						modifier = Modifier
@@ -1241,6 +1224,23 @@ private fun JellyseerrSearchCard(
 					) {
 						androidx.compose.foundation.Image(
 							imageVector = ImageVector.vectorResource(id = R.drawable.ic_decrease),
+							contentDescription = null,
+							modifier = Modifier
+								.padding(4.dp)
+								.size(16.dp),
+						)
+					}
+				}
+				item.isAvailable -> {
+					Box(
+						modifier = Modifier
+							.align(Alignment.TopEnd)
+							.padding(6.dp)
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFF00C800)),
+					) {
+						androidx.compose.foundation.Image(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
 							contentDescription = null,
 							modifier = Modifier
 								.padding(4.dp)
