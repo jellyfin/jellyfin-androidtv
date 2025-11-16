@@ -25,10 +25,48 @@ import timber.log.Timber
 private const val TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 private const val TMDB_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780"
 private const val TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300"
+private const val TMDB_GENRE_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w1280"
 
 private fun posterImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_POSTER_BASE_URL$it" }
 private fun backdropImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_BACKDROP_BASE_URL$it" }
 private fun profileImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_PROFILE_BASE_URL$it" }
+private fun genreBackdropImageUrl(path: String?, genreId: Int): String? {
+	if (path.isNullOrBlank()) return null
+	val colors = genreColorMap[genreId] ?: genreColorMap[0]!!
+	return "${TMDB_GENRE_BACKDROP_BASE_URL}_filter(duotone,${colors.first},${colors.second})$path"
+}
+
+// Genre color mapping (dark, light) - matches Jellyseerr
+private val genreColorMap: Map<Int, Pair<String, String>> = mapOf(
+	0 to Pair("030712", "6B7280"),     // Default (black/gray)
+	28 to Pair("991B1B", "FCA5A5"),    // Action (red)
+	12 to Pair("581C87", "D8B4FE"),    // Adventure (dark purple)
+	16 to Pair("1E3A8A", "93C5FD"),    // Animation (blue)
+	35 to Pair("9A3412", "FDBA74"),    // Comedy (orange)
+	80 to Pair("1E3A8A", "93C5FD"),    // Crime (dark blue)
+	99 to Pair("166534", "86EFAC"),    // Documentary (light green)
+	18 to Pair("831843", "FBCFE8"),    // Drama (pink)
+	10751 to Pair("854D0E", "FDE047"), // Family (yellow)
+	14 to Pair("0E7490", "67E8F9"),    // Fantasy (light blue)
+	36 to Pair("9A3412", "FDBA74"),    // History (orange)
+	27 to Pair("030712", "6B7280"),    // Horror (black)
+	10402 to Pair("1E3A8A", "93C5FD"), // Music (blue)
+	9648 to Pair("6B21A8", "C4B5FD"),  // Mystery (purple)
+	10749 to Pair("831843", "FBCFE8"), // Romance (pink)
+	878 to Pair("0E7490", "67E8F9"),   // Science Fiction (light blue)
+	10770 to Pair("991B1B", "FCA5A5"), // TV Movie (red)
+	53 to Pair("030712", "6B7280"),    // Thriller (black)
+	10752 to Pair("7F1D1D", "FCA5A5"), // War (dark red)
+	37 to Pair("9A3412", "FDBA74"),    // Western (orange)
+	10759 to Pair("581C87", "D8B4FE"), // Action & Adventure (dark purple)
+	10762 to Pair("1E3A8A", "93C5FD"), // Kids (blue)
+	10763 to Pair("030712", "6B7280"), // News (black)
+	10764 to Pair("7C2D12", "FED7AA"), // Reality (dark orange)
+	10765 to Pair("0E7490", "67E8F9"), // Sci-Fi & Fantasy (light blue)
+	10766 to Pair("831843", "FBCFE8"), // Soap (pink)
+	10767 to Pair("166534", "86EFAC"), // Talk (light green)
+	10768 to Pair("7F1D1D", "FCA5A5"), // War & Politics (dark red)
+)
 
 interface JellyseerrRepository {
 	suspend fun search(query: String): Result<List<JellyseerrSearchItem>>
@@ -47,7 +85,16 @@ interface JellyseerrRepository {
 	suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>>
 	suspend fun getPersonDetails(personId: Int): Result<JellyseerrPersonDetails>
     suspend fun getPersonCredits(personId: Int): Result<List<JellyseerrSearchItem>>
+	suspend fun getMovieGenres(): Result<List<JellyseerrGenreSlider>>
+	suspend fun getTvGenres(): Result<List<JellyseerrGenreSlider>>
 }
+
+// Genre für Slider/Cards mit Backdrop-Bild
+data class JellyseerrGenreSlider(
+	val id: Int,
+	val name: String,
+	val backdropUrl: String?,
+)
 
 data class JellyseerrSearchItem(
 	val id: Int,
@@ -164,6 +211,13 @@ private data class JellyseerrCombinedCredits(
     val id: Int,
     val cast: List<JellyseerrPersonCredit> = emptyList(),
     val crew: List<JellyseerrPersonCredit> = emptyList(),
+)
+
+@Serializable
+private data class JellyseerrGenreSliderItem(
+	val id: Int,
+	val name: String,
+	val backdrops: List<String> = emptyList(),
 )
 
 data class JellyseerrRequest(
@@ -1183,6 +1237,72 @@ private data class JellyseerrEpisodeRaw(
 				}
 			}.onFailure {
 				Timber.e(it, "Failed to load Jellyseerr person credits")
+			}
+		}
+
+	override suspend fun getMovieGenres(): Result<List<JellyseerrGenreSlider>> =
+		withContext(Dispatchers.IO) {
+			val config = getConfig()
+				?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+			val url = "${config.baseUrl}/api/v1/discover/genreslider/movie"
+			val request = Request.Builder()
+				.url(url)
+				.header("X-API-Key", config.apiKey)
+				.build()
+
+			runCatching {
+				client.newCall(request).execute().use { response ->
+					if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+					val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+					val genres = json.decodeFromString<List<JellyseerrGenreSliderItem>>(body)
+
+					genres.map { genre ->
+						// Verwende das 5. Backdrop (Index 4) wie in Jellyseerr, oder das erste verfügbare
+						val backdropPath = genre.backdrops.getOrNull(4)
+							?: genre.backdrops.getOrNull(0)
+						JellyseerrGenreSlider(
+							id = genre.id,
+							name = genre.name,
+							backdropUrl = genreBackdropImageUrl(backdropPath, genre.id),
+						)
+					}
+				}
+			}.onFailure {
+				Timber.e(it, "Failed to load Jellyseerr movie genres")
+			}
+		}
+
+	override suspend fun getTvGenres(): Result<List<JellyseerrGenreSlider>> =
+		withContext(Dispatchers.IO) {
+			val config = getConfig()
+				?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+			val url = "${config.baseUrl}/api/v1/discover/genreslider/tv"
+			val request = Request.Builder()
+				.url(url)
+				.header("X-API-Key", config.apiKey)
+				.build()
+
+			runCatching {
+				client.newCall(request).execute().use { response ->
+					if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+					val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+					val genres = json.decodeFromString<List<JellyseerrGenreSliderItem>>(body)
+
+					genres.map { genre ->
+						// Verwende das 5. Backdrop (Index 4) wie in Jellyseerr, oder das erste verfügbare
+						val backdropPath = genre.backdrops.getOrNull(4)
+							?: genre.backdrops.getOrNull(0)
+						JellyseerrGenreSlider(
+							id = genre.id,
+							name = genre.name,
+							backdropUrl = genreBackdropImageUrl(backdropPath, genre.id),
+						)
+					}
+				}
+			}.onFailure {
+				Timber.e(it, "Failed to load Jellyseerr TV genres")
 			}
 		}
 }

@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
+import org.jellyfin.androidtv.data.repository.JellyseerrGenreSlider
 
 enum class JellyseerrDiscoverCategory(val titleResId: Int) {
 	TRENDING(org.jellyfin.androidtv.R.string.jellyseerr_discover_title),
@@ -53,6 +54,8 @@ data class JellyseerrUiState(
 	val seasonEpisodes: Map<SeasonKey, List<JellyseerrEpisode>> = emptyMap(),
 	val loadingSeasonKeys: Set<SeasonKey> = emptySet(),
 	val seasonErrors: Map<SeasonKey, String> = emptyMap(),
+	val movieGenres: List<JellyseerrGenreSlider> = emptyList(),
+	val tvGenres: List<JellyseerrGenreSlider> = emptyList(),
 )
 
 data class ScrollPosition(
@@ -75,6 +78,8 @@ class JellyseerrViewModel(
 			loadUpcomingMovies()
 			loadUpcomingTv()
 			loadRecentRequests()
+			loadMovieGenres()
+			loadTvGenres()
 		}
 	}
 
@@ -1043,5 +1048,25 @@ class JellyseerrViewModel(
 				loadRecentRequests()
 			}
 		}
+	}
+
+	private suspend fun loadMovieGenres() {
+		repository.getMovieGenres()
+			.onSuccess { genres ->
+				_uiState.update { it.copy(movieGenres = genres) }
+			}
+			.onFailure { error ->
+				// Stille Fehlerbehandlung - Genres sind optional
+			}
+	}
+
+	private suspend fun loadTvGenres() {
+		repository.getTvGenres()
+			.onSuccess { genres ->
+				_uiState.update { it.copy(tvGenres = genres) }
+			}
+			.onFailure { error ->
+				// Stille Fehlerbehandlung - Genres sind optional
+			}
 	}
 }

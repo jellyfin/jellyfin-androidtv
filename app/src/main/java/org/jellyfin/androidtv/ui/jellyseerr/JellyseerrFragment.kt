@@ -76,6 +76,7 @@ import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
 import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
+import org.jellyfin.androidtv.data.repository.JellyseerrGenreSlider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
@@ -1344,6 +1345,62 @@ private fun JellyseerrContent(
 									}
 								}
 							}
+						}
+					}
+				}
+
+				// Film-Genres
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank() && state.movieGenres.isNotEmpty()) {
+					Spacer(modifier = Modifier.size(sectionSpacing))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_movie_genres_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+						fontSize = sectionTitleFontSize,
+					)
+
+					Spacer(modifier = Modifier.size(sectionInnerSpacing))
+
+					LazyRow(
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
+						contentPadding = PaddingValues(horizontal = 24.dp),
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(160.dp),
+					) {
+						items(state.movieGenres) { genre ->
+							JellyseerrGenreCard(
+								genre = genre,
+								onClick = { /* TODO: Navigate to genre discovery */ },
+							)
+						}
+					}
+				}
+
+				// Serien-Genres
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank() && state.tvGenres.isNotEmpty()) {
+					Spacer(modifier = Modifier.size(sectionSpacing))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_tv_genres_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+						fontSize = sectionTitleFontSize,
+					)
+
+					Spacer(modifier = Modifier.size(sectionInnerSpacing))
+
+					LazyRow(
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
+						contentPadding = PaddingValues(horizontal = 24.dp),
+						modifier = Modifier
+							.fillMaxWidth()
+							.height(160.dp),
+					) {
+						items(state.tvGenres) { genre ->
+							JellyseerrGenreCard(
+								genre = genre,
+								onClick = { /* TODO: Navigate to genre discovery */ },
+							)
 						}
 					}
 				}
@@ -2704,5 +2761,93 @@ private fun launchYouTubeSearch(context: Context, title: String) {
 			context.getString(R.string.no_player_message),
 			Toast.LENGTH_LONG
 		).show()
+	}
+}
+
+@Composable
+private fun JellyseerrGenreCard(
+	genre: JellyseerrGenreSlider,
+	onClick: () -> Unit,
+	modifier: Modifier = Modifier,
+) {
+	val interactionSource = remember { MutableInteractionSource() }
+	val isFocused by interactionSource.collectIsFocusedAsState()
+	val view = LocalView.current
+
+	// Sound beim Fokussieren
+	LaunchedEffect(isFocused) {
+		if (isFocused) {
+			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
+		}
+	}
+
+	val scale by animateFloatAsState(
+		targetValue = if (isFocused) 1.05f else 1f,
+		animationSpec = tween(durationMillis = 150),
+		label = "genre_card_scale"
+	)
+
+	Box(
+		modifier = modifier
+			.width(280.dp)
+			.height(140.dp)
+			.graphicsLayer(
+				scaleX = scale,
+				scaleY = scale,
+			)
+			.clip(RoundedCornerShape(12.dp))
+			.border(
+				width = if (isFocused) 3.dp else 1.dp,
+				color = if (isFocused) Color.White else Color(0xFF444444),
+				shape = RoundedCornerShape(12.dp),
+			)
+			.clickable(
+				interactionSource = interactionSource,
+				indication = null,
+				onClick = onClick,
+			),
+		contentAlignment = Alignment.Center,
+	) {
+		// Backdrop Image mit Duotone-Filter
+		if (!genre.backdropUrl.isNullOrBlank()) {
+			AsyncImage(
+				modifier = Modifier
+					.fillMaxSize()
+					.graphicsLayer(alpha = 0.7f),
+				url = genre.backdropUrl,
+				aspectRatio = 16f / 9f,
+				scaleType = ImageView.ScaleType.CENTER_CROP,
+			)
+		} else {
+			Box(
+				modifier = Modifier
+					.fillMaxSize()
+					.background(Color(0xFF2A2A2A)),
+			)
+		}
+
+		// Gradient Overlay für bessere Textlesbarkeit
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.background(
+					Brush.verticalGradient(
+						colors = listOf(
+							Color.Black.copy(alpha = 0.3f),
+							Color.Black.copy(alpha = 0.6f),
+						)
+					)
+				),
+		)
+
+		// Genre Name zentriert
+		Text(
+			text = genre.name,
+			color = Color.White,
+			fontSize = 20.sp,
+			fontWeight = FontWeight.Bold,
+			textAlign = TextAlign.Center,
+			modifier = Modifier.padding(16.dp),
+		)
 	}
 }
