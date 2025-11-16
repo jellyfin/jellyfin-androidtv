@@ -361,6 +361,7 @@ private fun JellyseerrScreen(
 
 						LazyColumn(
 							modifier = Modifier.weight(1f),
+							contentPadding = PaddingValues(vertical = 8.dp),
 						) {
 							itemsIndexed(
 								items = availableSeasons,
@@ -388,10 +389,10 @@ private fun JellyseerrScreen(
 
 								val buttonColors = when {
 									isAvailable -> ButtonDefaults.colors(
-										containerColor = Color(0xFF00A800),
+										containerColor = Color(0xFF2E7D32),
 										contentColor = Color.White,
-										focusedContainerColor = Color(0xFF00FF00),
-										focusedContentColor = Color.Black,
+										focusedContainerColor = Color(0xFF4CAF50),
+										focusedContentColor = Color.White,
 									)
 									seasonRequested -> ButtonDefaults.colors(
 										containerColor = Color(0xFFDD8800),
@@ -471,7 +472,7 @@ private fun JellyseerrScreen(
 															.align(Alignment.TopEnd)
 															.padding(4.dp)
 															.clip(RoundedCornerShape(999.dp))
-															.background(Color(0xFF00A800)),
+															.background(Color(0xFF2E7D32)),
 													) {
 														androidx.compose.foundation.Image(
 															imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
@@ -1553,7 +1554,7 @@ private fun JellyseerrSearchCard(
 							.align(Alignment.TopEnd)
 							.padding(6.dp)
 							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF00C800)),
+							.background(Color(0xFF2E7D32)),
 					) {
 						androidx.compose.foundation.Image(
 							imageVector = ImageVector.vectorResource(id = R.drawable.ic_decrease),
@@ -1570,7 +1571,7 @@ private fun JellyseerrSearchCard(
 							.align(Alignment.TopEnd)
 							.padding(6.dp)
 							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF00C800)),
+							.background(Color(0xFF2E7D32)),
 					) {
 						androidx.compose.foundation.Image(
 							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
@@ -1660,7 +1661,7 @@ private fun JellyseerrRequestRow(
 							.align(Alignment.TopEnd)
 							.padding(6.dp)
 							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF00C800)),
+							.background(Color(0xFF2E7D32)),
 					) {
 						androidx.compose.foundation.Image(
 							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
@@ -1873,9 +1874,9 @@ private fun JellyseerrDetail(
 
 				val buttonColors = when {
 					isAvailable -> ButtonDefaults.colors(
-						containerColor = Color(0xFF00C853),
+						containerColor = Color(0xFF2E7D32),
 						contentColor = Color.White,
-						focusedContainerColor = Color(0xFF64DD17),
+						focusedContainerColor = Color(0xFF4CAF50),
 						focusedContentColor = Color.White,
 					)
 					isPartiallyAvailable -> ButtonDefaults.colors(
