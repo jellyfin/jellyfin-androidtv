@@ -763,15 +763,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (!(isPlaying() || isPaused()) || index < 0)
             return;
 
-        BaseItemDto currentItem = getCurrentlyPlayingItem();
-        if (currentItem == null
-                || currentItem.getMediaStreams() == null
-                || index >= currentItem.getMediaStreams().size()) {
+        MediaSourceInfo currentMediaSource = getCurrentMediaSource();
+        if (currentMediaSource == null
+                || currentMediaSource.getMediaStreams() == null
+                || index >= currentMediaSource.getMediaStreams().size()) {
             return;
         }
 
         String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
-        String currentAudioIsoCode = currentItem.getMediaStreams().get(index).getLanguage();
+        String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
 
         if (currentAudioIsoCode != null
                 && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
@@ -794,12 +794,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // get current timestamp first
         refreshCurrentPosition();
 
-        if (!isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams())) {
-            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+        if (!isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, currentMediaSource.getMediaStreams())) {
+            mCurrentOptions.setMediaSourceId(currentMediaSource.getId());
             mCurrentOptions.setAudioStreamIndex(index);
         } else {
             startSpinner();
-            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            mCurrentOptions.setMediaSourceId(currentMediaSource.getId());
             mCurrentOptions.setAudioStreamIndex(index);
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
@@ -1277,6 +1277,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         if (hasInitializedVideoManager()) {
             duration = mVideoManager.getDuration();
+        } else if (getCurrentMediaSource() != null && getCurrentMediaSource().getRunTimeTicks() != null) {
+            duration = getCurrentMediaSource().getRunTimeTicks() / 10000;
         } else if (getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null) {
             duration = getCurrentlyPlayingItem().getRunTimeTicks() / 10000;
         }
