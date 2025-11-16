@@ -790,10 +790,26 @@ class JellyseerrRepositoryImpl(
 	@Serializable
 	private data class MediaInfo(
 		val seasons: List<MediaInfoSeason> = emptyList(),
+		val requests: List<MediaInfoRequest> = emptyList(),
 	)
 
 	@Serializable
 	private data class MediaInfoSeason(
+		val seasonNumber: Int,
+		val status: Int? = null,
+	)
+
+	@Serializable
+	private data class MediaInfoRequest(
+		val id: Int,
+		val status: Int? = null,
+		val is4k: Boolean = false,
+		val seasons: List<MediaInfoRequestSeason> = emptyList(),
+	)
+
+	@Serializable
+	private data class MediaInfoRequestSeason(
+		val id: Int,
 		val seasonNumber: Int,
 		val status: Int? = null,
 	)
@@ -884,11 +900,36 @@ class JellyseerrRepositoryImpl(
 				}
 
 				// Merge status from mediaInfo into seasons
-				val statusMap = raw.mediaInfo?.seasons?.associate { it.seasonNumber to it.status } ?: emptyMap()
+				// Wie Jellyseerr: Extrahiere angefragte Seasons aus requests
+				val requestedSeasonNumbers = (raw.mediaInfo?.requests ?: emptyList())
+					.filter { request ->
+						request.is4k == false &&
+						request.status != null &&
+						request.status != 3 // 3 = DECLINED
+					}
+					.flatMap { request -> request.seasons.map { it.seasonNumber } }
+					.toSet()
+
+				// Status map für verfügbare Seasons
+				val availableStatusMap = raw.mediaInfo?.seasons?.associate { it.seasonNumber to it.status } ?: emptyMap()
+
 				val mappedSeasons = raw.seasons.map { season ->
+					val availabilityStatus = availableStatusMap[season.seasonNumber]
+					val isRequested = requestedSeasonNumbers.contains(season.seasonNumber)
+
+					// Status-Logik wie in Jellyseerr:
+					// - Wenn verfügbar (5), verwende 5
+					// - Wenn angefragt und nicht verfügbar, verwende Request-Status (z.B. 2 = Approved)
+					// - Sonst null (nicht angefragt, nicht verfügbar)
+					val finalStatus = when {
+						availabilityStatus == 5 -> 5 // Available
+						isRequested -> 2 // Requested/Approved (wird als "angefragt" angezeigt)
+						else -> availabilityStatus // kann null sein
+					}
+
 					season.copy(
 						posterPath = season.posterPath?.let { path -> baseImageUrl + path },
-						status = statusMap[season.seasonNumber] ?: season.status,
+						status = finalStatus,
 					)
 				}
 
