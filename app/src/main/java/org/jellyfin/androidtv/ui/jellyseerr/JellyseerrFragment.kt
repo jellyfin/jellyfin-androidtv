@@ -96,11 +96,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import org.jellyfin.androidtv.util.sdk.TrailerUtils
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import java.net.URLEncoder
-import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -2241,6 +2241,7 @@ private fun JellyseerrCastCard(
 		val coroutineScope = rememberCoroutineScope()
 		val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
 		val apiClient = koinInject<ApiClient>()
+		val playbackLauncher = koinInject<PlaybackLauncher>()
 		val context = LocalContext.current
 		val availableTitle = (details?.title ?: details?.name ?: item.title).trim()
 		val trailerButtonText = stringResource(R.string.jellyseerr_watch_trailer_button)
@@ -2408,7 +2409,7 @@ private fun JellyseerrCastCard(
 				Button(
 					onClick = {
 						coroutineScope.launch {
-							playJellyseerrTrailer(context, apiClient, item, availableTitle)
+							playJellyseerrTrailer(context, apiClient, playbackLauncher, item, availableTitle)
 						}
 					},
 					enabled = trailerButtonEnabled,
@@ -2424,7 +2425,7 @@ private fun JellyseerrCastCard(
 				) {
 					Row(
 						verticalAlignment = Alignment.CenterVertically,
-						horizontalArrangement = Arrangement.spacedBy(8.dp),
+						horizontalArrangement = Arrangement.Center,
 						modifier = Modifier.fillMaxWidth(),
 					) {
 						MaterialIcon(
@@ -2434,6 +2435,7 @@ private fun JellyseerrCastCard(
 							tint = JellyfinTheme.colorScheme.onButton,
 						)
 
+						Spacer(modifier = Modifier.width(8.dp))
 						Text(text = trailerButtonText)
 					}
 				}
@@ -2513,49 +2515,76 @@ private fun JellyseerrCastCard(
 private suspend fun playJellyseerrTrailer(
 	context: Context,
 	apiClient: ApiClient,
+	playbackLauncher: PlaybackLauncher,
 	item: JellyseerrSearchItem,
 	searchTitle: String,
 ) {
 	val trimmedSearchTitle = searchTitle.trim()
+
 	val jellyfinId = item.jellyfinId?.takeIf { it.isNotBlank() }
+	if (jellyfinId == null) {
+		launchYouTubeSearch(context, trimmedSearchTitle)
+		return
+	}
 
-	if (jellyfinId != null) {
-		val uuid = runCatching { UUID.fromString(jellyfinId) }.getOrNull()
-		if (uuid != null) {
-			val baseItemResult = runCatching {
-				withContext(Dispatchers.IO) {
-					apiClient.userLibraryApi.getItem(uuid).content
-				}
-			}
-			val baseItem = baseItemResult.getOrNull()
-			val baseItemException = baseItemResult.exceptionOrNull()
+	val uuid = jellyfinId.toUUIDOrNull()
+	if (uuid == null) {
+		Toast.makeText(
+			context,
+			context.getString(R.string.jellyseerr_trailer_error),
+			Toast.LENGTH_LONG
+		).show()
+		launchYouTubeSearch(context, trimmedSearchTitle)
+		return
+	}
 
-			if (baseItem != null) {
-				val intent = TrailerUtils.getExternalTrailerIntent(context, baseItem)
-				if (intent != null) {
-					try {
-						context.startActivity(intent)
-						return
-					} catch (exception: ActivityNotFoundException) {
-						Toast.makeText(
-							context,
-							context.getString(R.string.no_player_message),
-							Toast.LENGTH_LONG
-						).show()
-						return
-					}
-				}
-			} else if (baseItemException is ApiClientException) {
-				Toast.makeText(
-					context,
-					context.getString(R.string.jellyseerr_trailer_error),
-					Toast.LENGTH_LONG
-				).show()
-			}
+	val baseItem = runCatching {
+		withContext(Dispatchers.IO) {
+			apiClient.userLibraryApi.getItem(uuid).content
+		}
+	}.getOrNull()
+
+	if (baseItem == null) {
+		Toast.makeText(
+			context,
+			context.getString(R.string.jellyseerr_trailer_error),
+			Toast.LENGTH_LONG
+		).show()
+		launchYouTubeSearch(context, trimmedSearchTitle)
+		return
+	}
+
+	val trailersResult = runCatching {
+		withContext(Dispatchers.IO) {
+			apiClient.userLibraryApi.getLocalTrailers(itemId = uuid).content
+		}
+	}.getOrNull()
+
+	if (!trailersResult.isNullOrEmpty()) {
+		playbackLauncher.launch(context, trailersResult, position = 0)
+		return
+	}
+
+	val externalIntent = TrailerUtils.getExternalTrailerIntent(context, baseItem)
+	if (externalIntent != null) {
+		try {
+			context.startActivity(externalIntent)
+			return
+		} catch (exception: ActivityNotFoundException) {
+			Toast.makeText(
+				context,
+				context.getString(R.string.no_player_message),
+				Toast.LENGTH_LONG
+			).show()
 		}
 	}
 
-	if (trimmedSearchTitle.isBlank()) {
+	launchYouTubeSearch(context, trimmedSearchTitle)
+}
+
+private fun launchYouTubeSearch(context: Context, title: String) {
+	val trimmedTitle = title.trim()
+	if (trimmedTitle.isBlank()) {
 		Toast.makeText(
 			context,
 			context.getString(R.string.jellyseerr_trailer_unavailable),
@@ -2564,7 +2593,7 @@ private suspend fun playJellyseerrTrailer(
 		return
 	}
 
-	val query = URLEncoder.encode("$trimmedSearchTitle trailer", Charsets.UTF_8.name())
+	val query = URLEncoder.encode("$trimmedTitle trailer", Charsets.UTF_8.name())
 	val searchIntent = Intent(
 		Intent.ACTION_VIEW,
 		Uri.parse("https://www.youtube.com/results?search_query=$query")
