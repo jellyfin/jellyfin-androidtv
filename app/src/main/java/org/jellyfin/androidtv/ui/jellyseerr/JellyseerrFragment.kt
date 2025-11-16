@@ -427,23 +427,16 @@ private fun JellyseerrScreen(
 							modifier = Modifier.fillMaxWidth(),
 							horizontalArrangement = Arrangement.End,
 						) {
-							// "Alle anfragen" Button nur anzeigen wenn nicht alle Staffeln verfügbar/angefragt sind
-							val allSeasonsAvailableOrRequested = availableSeasons.all { season ->
-								val jellyseerrStatus = season.status
-								// Verfügbar (5) oder angefragt (1-4)
-								jellyseerrStatus != null
-							}
+							// "Alle anfragen" Button nur anzeigen wenn es noch nicht angefragte Staffeln gibt
+							val unrequestedSeasons = availableSeasons.filter { it.status == null }
 
-							if (!allSeasonsAvailableOrRequested) {
+							if (unrequestedSeasons.isNotEmpty()) {
 								val requestAllInteraction = remember { MutableInteractionSource() }
 								val requestAllFocused by requestAllInteraction.collectIsFocusedAsState()
 
 								Button(
 									onClick = {
-										// Filtere nur Staffeln die noch nicht angefragt wurden (status = null)
-										val seasonsToRequest = availableSeasons
-											.filter { it.status == null }
-											.map { it.seasonNumber }
+										val seasonsToRequest = unrequestedSeasons.map { it.seasonNumber }
 
 										if (seasonsToRequest.isNotEmpty()) {
 											viewModel.request(selectedItem, seasonsToRequest)

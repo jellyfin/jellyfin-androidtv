@@ -647,10 +647,10 @@ class JellyseerrViewModel(
 		}
 	}
 
-	fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
-		if (item.isRequested) return
+fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
+	if (seasons.isNullOrEmpty() && item.isRequested) return
 
-		viewModelScope.launch {
+	viewModelScope.launch {
 			_uiState.update { it.copy(errorMessage = null, requestStatusMessage = null) }
 
 			repository.createRequest(item, seasons)
