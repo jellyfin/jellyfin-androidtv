@@ -640,6 +640,11 @@ class JellyseerrViewModel(
 
 	fun closeAllTrends() {
 		_uiState.update { it.copy(showAllTrendsGrid = false) }
+		// Refresh data when returning to main menu to sync with Jellyseerr server
+		viewModelScope.launch {
+			refreshOwnRequestsInternal()
+			loadRecentRequests()
+		}
 	}
 
 	fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
@@ -652,6 +657,8 @@ class JellyseerrViewModel(
 				.onSuccess {
 					// Reload own requests und markiere Suchergebnisse
 					refreshOwnRequests()
+					// Refresh current details to update season status immediately
+					refreshCurrentDetails()
 					_uiState.update {
 						it.copy(requestStatusMessage = "Anfrage gesendet")
 					}
@@ -821,6 +828,44 @@ class JellyseerrViewModel(
 		}
 	}
 
+	fun refreshCurrentDetails() {
+		val currentItem = _uiState.value.selectedItem ?: return
+
+		viewModelScope.launch {
+			val result = when (currentItem.mediaType) {
+				"movie" -> repository.getMovieDetails(currentItem.id)
+				"tv" -> repository.getTvDetails(currentItem.id)
+				else -> return@launch
+			}
+
+			result.onSuccess { details ->
+				// Für TV-Serien prüfen ob teilweise verfügbar
+				val updatedItem = if (currentItem.mediaType == "tv") {
+					val seasons = details.seasons.filter { it.seasonNumber > 0 }
+					val availableSeasons = seasons.count { it.status == 5 }
+					val totalSeasons = seasons.size
+
+					val isPartiallyAvailable = availableSeasons > 0 && availableSeasons < totalSeasons
+					val isFullyAvailable = availableSeasons == totalSeasons && totalSeasons > 0
+
+					currentItem.copy(
+						isPartiallyAvailable = isPartiallyAvailable,
+						isAvailable = isFullyAvailable
+					)
+				} else {
+					currentItem
+				}
+
+				_uiState.update {
+					it.copy(
+						selectedMovie = details,
+						selectedItem = updatedItem,
+					)
+				}
+			}
+		}
+	}
+
 	fun closeDetails() {
 		_uiState.update {
 			it.copy(
@@ -828,6 +873,11 @@ class JellyseerrViewModel(
 				selectedMovie = null,
 				requestStatusMessage = null,
 			)
+		}
+		// Refresh data when returning to main menu to sync with Jellyseerr server
+		viewModelScope.launch {
+			refreshOwnRequestsInternal()
+			loadRecentRequests()
 		}
 	}
 
@@ -906,6 +956,11 @@ class JellyseerrViewModel(
 					selectedPerson = null,
 					personCredits = emptyList(),
 				)
+			}
+			// Refresh data when returning to main menu to sync with Jellyseerr server
+			viewModelScope.launch {
+				refreshOwnRequestsInternal()
+				loadRecentRequests()
 			}
 		}
 	}

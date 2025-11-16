@@ -257,7 +257,11 @@ private fun JellyseerrScreen(
 				?.sortedBy { it.seasonNumber }
 				.orEmpty()
 
-			Dialog(onDismissRequest = { showSeasonDialog = false }) {
+			Dialog(onDismissRequest = {
+				showSeasonDialog = false
+				// Refresh details to sync with Jellyseerr server when dialog closes
+				viewModel.refreshCurrentDetails()
+			}) {
 				val firstButtonFocusRequester = remember { FocusRequester() }
 
 				Box(

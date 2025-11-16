@@ -924,7 +924,7 @@ class JellyseerrRepositoryImpl(
 					val finalStatus = when {
 						availabilityStatus == 5 -> 5 // Available
 						isRequested -> 2 // Requested/Approved (wird als "angefragt" angezeigt)
-						else -> availabilityStatus // kann null sein
+						else -> null // Nicht angefragt - ignoriere den alten mediaInfo.seasons Status
 					}
 
 					season.copy(
