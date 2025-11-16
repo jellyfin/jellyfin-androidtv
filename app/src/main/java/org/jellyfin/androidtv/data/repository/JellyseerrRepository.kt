@@ -82,6 +82,15 @@ private data class JellyseerrSearchItemDto(
 	val overview: String? = null,
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
+	val mediaInfo: JellyseerrMediaInfoDto? = null,
+)
+
+@Serializable
+private data class JellyseerrMediaInfoDto(
+	val id: Int? = null,
+	val status: Int? = null,
+	val status4k: Int? = null,
+	val jellyfinMediaId: String? = null,
 )
 
 @Serializable
@@ -285,6 +294,30 @@ class JellyseerrRepositoryImpl(
 		ignoreUnknownKeys = true
 	}
 
+	private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSearchItem {
+		val posterUrl = posterImageUrl(dto.posterPath)
+		val backdropUrl = backdropImageUrl(dto.backdropPath)
+
+		// Status aus mediaInfo extrahieren (von Jellyseerr)
+		// Status 5 = Available, Status 4 = Partially Available
+		val status = dto.mediaInfo?.status
+		val isAvailable = status == 5
+		val isPartiallyAvailable = status == 4
+		val jellyfinId = dto.mediaInfo?.jellyfinMediaId
+
+		return JellyseerrSearchItem(
+			id = dto.id,
+			mediaType = dto.mediaType,
+			title = (dto.title ?: dto.name).orEmpty(),
+			overview = dto.overview,
+			posterPath = posterUrl,
+			backdropPath = backdropUrl,
+			isAvailable = isAvailable,
+			isPartiallyAvailable = isPartiallyAvailable,
+			jellyfinId = jellyfinId,
+		)
+	}
+
 	// Cached mapping between current Jellyfin user and Jellyseerr user id
 	@Volatile
 	private var cachedUserId: Int? = null
@@ -360,8 +393,14 @@ class JellyseerrRepositoryImpl(
 
 			runCatching {
 				items.map { item ->
+					// Wenn bereits eine JellyfinId von Jellyseerr vorhanden ist, behalte alle Daten
+					if (item.jellyfinId != null) return@map item
+
 					val title = item.title.trim()
 					if (title.isEmpty()) return@map item
+
+					// Nur für verfügbare Items suchen wir die Jellyfin-ID für Navigation
+					if (!item.isAvailable && !item.isPartiallyAvailable) return@map item
 
 					// Bestimme den Item-Typ basierend auf mediaType
 					val itemKind = when (item.mediaType) {
@@ -381,7 +420,7 @@ class JellyseerrRepositoryImpl(
 					val resultItems = try {
 						apiClient.itemsApi.getItems(request).content.items
 					} catch (error: ApiClientException) {
-						Timber.w(error, "Failed to query Jellyfin for availability of \"%s\"", title)
+						Timber.w(error, "Failed to query Jellyfin for Jellyfin ID of \"%s\"", title)
 						return@map item
 					}
 
@@ -394,21 +433,9 @@ class JellyseerrRepositoryImpl(
 					}
 
 					if (matchedItem != null) {
-						// Verwende Poster von Jellyfin wenn vorhanden
-						val posterUrl = matchedItem.itemImages[org.jellyfin.sdk.model.api.ImageType.PRIMARY]?.getUrl(apiClient)
-							?: item.posterPath
-
-						val availability = if (item.mediaType == "tv") {
-							lookupTvAvailability(item.id)
-						} else null
-
-						val isFullyAvailable = availability?.isFullyAvailable ?: true
-						val isPartiallyAvailable = availability?.isPartiallyAvailable ?: false
-
+						// Nur die Jellyfin-ID für Navigation ergänzen
+						// Verfügbarkeitsinformationen bleiben aus Jellyseerr
 						item.copy(
-							isAvailable = isFullyAvailable,
-							isPartiallyAvailable = isPartiallyAvailable,
-							posterPath = posterUrl,
 							jellyfinId = matchedItem.id.toString(),
 						)
 					} else {
@@ -416,7 +443,7 @@ class JellyseerrRepositoryImpl(
 					}
 				}
 			}.onFailure {
-				Timber.e(it, "Failed to mark Jellyseerr items as available in Jellyfin")
+				Timber.e(it, "Failed to lookup Jellyfin IDs for Jellyseerr items")
 			}
 		}
 
@@ -443,18 +470,7 @@ class JellyseerrRepositoryImpl(
 
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
-					.map {
-						val posterUrl = posterImageUrl(it.posterPath)
-						val backdropUrl = backdropImageUrl(it.backdropPath)
-						JellyseerrSearchItem(
-							id = it.id,
-							mediaType = it.mediaType,
-							title = (it.title ?: it.name).orEmpty(),
-							overview = it.overview,
-							posterPath = posterUrl,
-							backdropPath = backdropUrl,
-						)
-					}
+					.map { mapSearchItemDtoToModel(it) }
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to search Jellyseerr")
@@ -663,18 +679,7 @@ class JellyseerrRepositoryImpl(
 
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
-					.map {
-						val posterUrl = posterImageUrl(it.posterPath)
-						val backdropUrl = backdropImageUrl(it.backdropPath)
-						JellyseerrSearchItem(
-							id = it.id,
-							mediaType = it.mediaType,
-							title = (it.title ?: it.name).orEmpty(),
-							overview = it.overview,
-							posterPath = posterUrl,
-							backdropPath = backdropUrl,
-						)
-					}
+					.map { mapSearchItemDtoToModel(it) }
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr trending titles")
@@ -703,18 +708,7 @@ class JellyseerrRepositoryImpl(
 
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
-					.map {
-						val posterUrl = posterImageUrl(it.posterPath)
-						val backdropUrl = backdropImageUrl(it.backdropPath)
-						JellyseerrSearchItem(
-							id = it.id,
-							mediaType = it.mediaType,
-							title = (it.title ?: it.name).orEmpty(),
-							overview = it.overview,
-							posterPath = posterUrl,
-							backdropPath = backdropUrl,
-						)
-					}
+					.map { mapSearchItemDtoToModel(it) }
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr discover movies")
@@ -743,18 +737,7 @@ class JellyseerrRepositoryImpl(
 
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
-					.map {
-						val posterUrl = posterImageUrl(it.posterPath)
-						val backdropUrl = backdropImageUrl(it.backdropPath)
-						JellyseerrSearchItem(
-							id = it.id,
-							mediaType = it.mediaType,
-							title = (it.title ?: it.name).orEmpty(),
-							overview = it.overview,
-							posterPath = posterUrl,
-							backdropPath = backdropUrl,
-						)
-					}
+					.map { mapSearchItemDtoToModel(it) }
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr discover tv")
@@ -783,18 +766,7 @@ class JellyseerrRepositoryImpl(
 
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
-					.map {
-						val posterUrl = posterImageUrl(it.posterPath)
-						val backdropUrl = backdropImageUrl(it.backdropPath)
-						JellyseerrSearchItem(
-							id = it.id,
-							mediaType = it.mediaType,
-							title = (it.title ?: it.name).orEmpty(),
-							overview = it.overview,
-							posterPath = posterUrl,
-							backdropPath = backdropUrl,
-						)
-					}
+					.map { mapSearchItemDtoToModel(it) }
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr upcoming movies")
@@ -823,18 +795,7 @@ class JellyseerrRepositoryImpl(
 
 				result.results
 					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
-					.map {
-						val posterUrl = posterImageUrl(it.posterPath)
-						val backdropUrl = backdropImageUrl(it.backdropPath)
-						JellyseerrSearchItem(
-							id = it.id,
-							mediaType = it.mediaType,
-							title = (it.title ?: it.name).orEmpty(),
-							overview = it.overview,
-							posterPath = posterUrl,
-							backdropPath = backdropUrl,
-						)
-					}
+					.map { mapSearchItemDtoToModel(it) }
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr upcoming tv")
