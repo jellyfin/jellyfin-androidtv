@@ -44,6 +44,8 @@ data class JellyseerrUiState(
 	val upcomingTvResults: List<JellyseerrSearchItem> = emptyList(),
 	val discoverCategory: JellyseerrDiscoverCategory = JellyseerrDiscoverCategory.TRENDING,
 	val scrollPositions: Map<String, ScrollPosition> = emptyMap(),
+	val lastFocusedItemId: Int? = null,
+	val lastFocusedViewAllKey: String? = null,
 )
 
 data class ScrollPosition(
@@ -103,6 +105,14 @@ class JellyseerrViewModel(
 
 	fun updateQuery(query: String) {
 		_uiState.update { it.copy(query = query) }
+	}
+
+	fun updateLastFocusedItem(itemId: Int?) {
+		_uiState.update { it.copy(lastFocusedItemId = itemId, lastFocusedViewAllKey = null) }
+	}
+
+	fun updateLastFocusedViewAll(key: String?) {
+		_uiState.update { it.copy(lastFocusedViewAllKey = key, lastFocusedItemId = null) }
 	}
 
 	fun search() {
@@ -351,7 +361,14 @@ class JellyseerrViewModel(
 
 	fun showAllTrends() {
 		viewModelScope.launch {
-			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+			_uiState.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+				)
+			}
 
 			val currentRequests = _uiState.value.ownRequests
 
@@ -364,6 +381,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						lastFocusedItemId = null,
 					)
 				}
 				return@launch
@@ -387,7 +405,14 @@ class JellyseerrViewModel(
 
 	fun showAllPopularMovies() {
 		viewModelScope.launch {
-			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+			_uiState.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+				)
+			}
 
 			val currentRequests = _uiState.value.ownRequests
 
@@ -400,6 +425,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						lastFocusedItemId = null,
 					)
 				}
 				return@launch
@@ -423,7 +449,14 @@ class JellyseerrViewModel(
 
 	fun showAllUpcomingMovies() {
 		viewModelScope.launch {
-			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+			_uiState.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+				)
+			}
 
 			val currentRequests = _uiState.value.ownRequests
 
@@ -459,7 +492,14 @@ class JellyseerrViewModel(
 
 	fun showAllPopularTv() {
 		viewModelScope.launch {
-			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+			_uiState.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+				)
+			}
 
 			val currentRequests = _uiState.value.ownRequests
 
@@ -472,6 +512,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						lastFocusedItemId = null,
 					)
 				}
 				return@launch
@@ -495,7 +536,14 @@ class JellyseerrViewModel(
 
 	fun showAllUpcomingTv() {
 		viewModelScope.launch {
-			_uiState.update { it.copy(showAllTrendsGrid = true, isLoading = true, errorMessage = null) }
+			_uiState.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+				)
+			}
 
 			val currentRequests = _uiState.value.ownRequests
 
@@ -508,6 +556,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						lastFocusedItemId = null,
 					)
 				}
 				return@launch

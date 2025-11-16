@@ -32,6 +32,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -79,6 +81,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import kotlinx.coroutines.delay
+
+private const val VIEW_ALL_TRENDING = "view_all_trending"
+private const val VIEW_ALL_POPULAR_MOVIES = "view_all_popular_movies"
+private const val VIEW_ALL_POPULAR_TV = "view_all_popular_tv"
+private const val VIEW_ALL_UPCOMING_MOVIES = "view_all_upcoming_movies"
+private const val VIEW_ALL_UPCOMING_TV = "view_all_upcoming_tv"
 
 
 class JellyseerrFragment : Fragment() {
@@ -481,6 +489,37 @@ private fun JellyseerrContent(
 	val sectionSpacing = 10.dp
 	val sectionInnerSpacing = 12.dp
 	val sectionTitleFontSize = 26.sp
+	val itemFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
+	val viewAllFocusRequesters = remember { mutableStateMapOf<String, FocusRequester>() }
+
+	LaunchedEffect(
+		state.selectedItem,
+		state.showAllTrendsGrid,
+		state.lastFocusedItemId,
+		state.lastFocusedViewAllKey,
+	) {
+		if (state.selectedItem == null && !state.showAllTrendsGrid) {
+			val itemId = state.lastFocusedItemId
+			if (itemId != null) {
+				delay(100)
+				itemFocusRequesters[itemId]?.requestFocus()
+			} else {
+				val viewAllKey = state.lastFocusedViewAllKey
+				if (viewAllKey != null) {
+					delay(100)
+					viewAllFocusRequesters[viewAllKey]?.requestFocus()
+				}
+			}
+		}
+	}
+
+	val focusRequesterForItem: (Int) -> FocusRequester = { id ->
+		itemFocusRequesters.getOrPut(id) { FocusRequester() }
+	}
+
+	val focusRequesterForViewAll: (String) -> FocusRequester = { key ->
+		viewAllFocusRequesters.getOrPut(key) { FocusRequester() }
+	}
 
 	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
 		when {
@@ -552,7 +591,8 @@ private fun JellyseerrContent(
 				Spacer(modifier = Modifier.size(sectionSpacing))
 			}
 
-			if (state.errorMessage != null) {
+			val shouldShowError = state.errorMessage?.contains("HTTP 400", ignoreCase = true) != true
+			if (state.errorMessage != null && shouldShowError) {
 				Text(
 					text = stringResource(R.string.jellyseerr_error_prefix, state.errorMessage ?: ""),
 					color = Color.Red,
@@ -596,6 +636,8 @@ private fun JellyseerrContent(
 									JellyseerrSearchCard(
 										item = item,
 										onClick = { viewModel.showDetailsForItem(item) },
+										focusRequester = focusRequesterForItem(item.id),
+										onFocus = { viewModel.updateLastFocusedItem(item.id) },
 									)
 								}
 							}
@@ -677,18 +719,26 @@ private fun JellyseerrContent(
 								index == maxIndex + 1 -> {
 									JellyseerrViewAllCard(
 										onClick = { viewModel.showAllTrends() },
+										focusRequester = focusRequesterForViewAll(VIEW_ALL_TRENDING),
+										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_TRENDING) },
 									)
 								}
 							}
 						}
 					}
 
-					if (state.query.isBlank() && state.selectedItem == null) {
-						LaunchedEffect(baseResults) {
-							if (baseResults.isNotEmpty()) {
-								focusRequester.requestFocus()
-							}
+				if (
+					state.query.isBlank() &&
+					state.selectedItem == null &&
+					state.lastFocusedItemId == null &&
+					state.lastFocusedViewAllKey == null &&
+					!state.showAllTrendsGrid
+				) {
+					LaunchedEffect(baseResults) {
+						if (baseResults.isNotEmpty()) {
+							focusRequester.requestFocus()
 						}
+					}
 					}
 				}
 
@@ -742,16 +792,20 @@ private fun JellyseerrContent(
 								when {
 									index in 0..maxIndex -> {
 										val item = state.popularResults[index]
-										JellyseerrSearchCard(
-											item = item,
-											onClick = { viewModel.showDetailsForItem(item) },
-										)
+									JellyseerrSearchCard(
+										item = item,
+										onClick = { viewModel.showDetailsForItem(item) },
+										focusRequester = focusRequesterForItem(item.id),
+										onFocus = { viewModel.updateLastFocusedItem(item.id) },
+									)
 									}
-									index == maxIndex + 1 -> {
-										JellyseerrViewAllCard(
-											onClick = { viewModel.showAllPopularMovies() },
-										)
-									}
+								index == maxIndex + 1 -> {
+									JellyseerrViewAllCard(
+										onClick = { viewModel.showAllPopularMovies() },
+										focusRequester = focusRequesterForViewAll(VIEW_ALL_POPULAR_MOVIES),
+										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_POPULAR_MOVIES) },
+									)
+								}
 								}
 							}
 						}
@@ -795,13 +849,17 @@ private fun JellyseerrContent(
 										JellyseerrSearchCard(
 											item = item,
 											onClick = { viewModel.showDetailsForItem(item) },
+											focusRequester = focusRequesterForItem(item.id),
+											onFocus = { viewModel.updateLastFocusedItem(item.id) },
 										)
 									}
-									index == maxIndex + 1 -> {
-										JellyseerrViewAllCard(
-											onClick = { viewModel.showAllPopularTv() },
-										)
-									}
+								index == maxIndex + 1 -> {
+									JellyseerrViewAllCard(
+										onClick = { viewModel.showAllPopularTv() },
+										focusRequester = focusRequesterForViewAll(VIEW_ALL_POPULAR_TV),
+										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_POPULAR_TV) },
+									)
+								}
 								}
 							}
 						}
@@ -847,13 +905,17 @@ private fun JellyseerrContent(
 										JellyseerrSearchCard(
 											item = item,
 											onClick = { viewModel.showDetailsForItem(item) },
+											focusRequester = focusRequesterForItem(item.id),
+											onFocus = { viewModel.updateLastFocusedItem(item.id) },
 										)
 									}
-									index == maxIndex + 1 -> {
-										JellyseerrViewAllCard(
-											onClick = { viewModel.showAllUpcomingMovies() },
-										)
-									}
+								index == maxIndex + 1 -> {
+									JellyseerrViewAllCard(
+										onClick = { viewModel.showAllUpcomingMovies() },
+										focusRequester = focusRequesterForViewAll(VIEW_ALL_UPCOMING_MOVIES),
+										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_UPCOMING_MOVIES) },
+									)
+								}
 								}
 							}
 						}
@@ -897,11 +959,15 @@ private fun JellyseerrContent(
 										JellyseerrSearchCard(
 											item = item,
 											onClick = { viewModel.showDetailsForItem(item) },
+											focusRequester = focusRequesterForItem(item.id),
+											onFocus = { viewModel.updateLastFocusedItem(item.id) },
 										)
 									}
 									index == maxIndex + 1 -> {
 										JellyseerrViewAllCard(
 											onClick = { viewModel.showAllUpcomingTv() },
+											focusRequester = focusRequesterForViewAll(VIEW_ALL_UPCOMING_TV),
+											onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_UPCOMING_TV) },
 										)
 									}
 								}
@@ -1015,27 +1081,44 @@ private fun JellyseerrPersonScreen(
 
 @Composable
 private fun JellyseerrViewAllCard(
-    onClick: () -> Unit,
+	onClick: () -> Unit,
+	focusRequester: FocusRequester? = null,
+	onFocus: (() -> Unit)? = null,
 ) {
-    Box(
-        modifier = Modifier
-            .width(80.dp)
-            .height(200.dp)
-            .padding(vertical = 4.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Button(
-            onClick = onClick,
-            colors = ButtonDefaults.colors(
-                containerColor = Color.Transparent,
-                contentColor = Color.White,
-                focusedContainerColor = Color.White,
-                focusedContentColor = Color.Black,
-            ),
-        ) {
-            Text(text = ">")
-        }
-    }
+	val interactionSource = remember { MutableInteractionSource() }
+	val isFocused by interactionSource.collectIsFocusedAsState()
+
+	LaunchedEffect(isFocused) {
+		if (isFocused) {
+			onFocus?.invoke()
+		}
+	}
+
+	Box(
+		modifier = Modifier
+			.width(80.dp)
+			.height(200.dp)
+			.padding(vertical = 4.dp),
+		contentAlignment = Alignment.Center,
+	) {
+		Button(
+			onClick = onClick,
+			interactionSource = interactionSource,
+			colors = ButtonDefaults.colors(
+				containerColor = Color.Transparent,
+				contentColor = Color.White,
+				focusedContainerColor = Color.White,
+				focusedContentColor = Color.Black,
+			),
+			modifier = if (focusRequester != null) {
+				Modifier.focusRequester(focusRequester)
+			} else {
+				Modifier
+			},
+		) {
+			Text(text = ">")
+		}
+	}
 }
 
 @Composable
@@ -1043,16 +1126,31 @@ private fun JellyseerrSearchCard(
 	item: JellyseerrSearchItem,
 	onClick: () -> Unit,
 	modifier: Modifier = Modifier,
+	focusRequester: FocusRequester? = null,
+	onFocus: (() -> Unit)? = null,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
 	val isFocused by interactionSource.collectIsFocusedAsState()
 	val scale = if (isFocused) 1.1f else 1f
+
+	LaunchedEffect(isFocused) {
+		if (isFocused) {
+			onFocus?.invoke()
+		}
+	}
 
 	Column(
 		modifier = modifier
 			.width(150.dp)
 			.fillMaxSize()
 			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
+			.then(
+				if (focusRequester != null) {
+					Modifier.focusRequester(focusRequester)
+				} else {
+					Modifier
+				}
+			)
 			.focusable(interactionSource = interactionSource)
 			.graphicsLayer(
 				scaleX = scale,
