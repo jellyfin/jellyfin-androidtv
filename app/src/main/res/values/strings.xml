@@ -603,6 +603,9 @@
     <string name="jellyseerr_not_available_label">Not available</string>
     <string name="jellyseerr_popular_title">Popular movies</string>
     <string name="jellyseerr_cast_title">Cast</string>
+    <string name="jellyseerr_watch_trailer_button">Watch trailer</string>
+    <string name="jellyseerr_trailer_unavailable">Trailer is not available right now.</string>
+    <string name="jellyseerr_trailer_error">Unable to load the trailer.</string>
     <string name="jellyseerr_error_prefix">Error: %1$s</string>
     <string name="jellyseerr_view_all_trends">View all</string>
     <string name="jellyseerr_recently_added_title">Recently added</string>

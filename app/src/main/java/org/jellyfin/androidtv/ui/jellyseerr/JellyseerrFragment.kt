@@ -1,7 +1,12 @@
 ﻿package org.jellyfin.androidtv.ui.jellyseerr
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.SoundEffectConstants
 import android.view.ViewGroup
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -41,6 +46,7 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -49,6 +55,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -82,13 +89,22 @@ import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import android.widget.ImageView
-import android.view.SoundEffectConstants
+import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
+import org.jellyfin.androidtv.util.sdk.TrailerUtils
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import java.net.URLEncoder
+import java.util.UUID
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.material.Icon as MaterialIcon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -2212,18 +2228,23 @@ private fun JellyseerrCastCard(
 }
 
 @Composable
-private fun JellyseerrDetail(
-	item: JellyseerrSearchItem,
-	details: JellyseerrMovieDetails?,
-	requestStatusMessage: String?,
-	onRequestClick: (List<Int>?) -> Unit,
-	onCastClick: (JellyseerrCast) -> Unit,
-	onShowSeasonDialog: () -> Unit,
-	firstCastFocusRequester: FocusRequester = remember { FocusRequester() },
-) {
-	val requestButtonFocusRequester = remember { FocusRequester() }
-	val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
-	val isTv = item.mediaType == "tv"
+	private fun JellyseerrDetail(
+		item: JellyseerrSearchItem,
+		details: JellyseerrMovieDetails?,
+		requestStatusMessage: String?,
+		onRequestClick: (List<Int>?) -> Unit,
+		onCastClick: (JellyseerrCast) -> Unit,
+		onShowSeasonDialog: () -> Unit,
+		firstCastFocusRequester: FocusRequester = remember { FocusRequester() },
+	) {
+		val requestButtonFocusRequester = remember { FocusRequester() }
+		val coroutineScope = rememberCoroutineScope()
+		val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
+		val apiClient = koinInject<ApiClient>()
+		val context = LocalContext.current
+		val availableTitle = (details?.title ?: details?.name ?: item.title).trim()
+		val trailerButtonText = stringResource(R.string.jellyseerr_watch_trailer_button)
+		val isTv = item.mediaType == "tv"
 
 	Column(
 		modifier = Modifier
@@ -2372,6 +2393,51 @@ private fun JellyseerrDetail(
 					}
 				}
 
+				Spacer(modifier = Modifier.size(8.dp))
+
+				val trailerButtonEnabled = availableTitle.isNotBlank()
+				val trailerButtonInteraction = remember { MutableInteractionSource() }
+				val trailerButtonFocused by trailerButtonInteraction.collectIsFocusedAsState()
+				val trailerButtonColors = ButtonDefaults.colors(
+					containerColor = Color(0xFF1565C0),
+					contentColor = Color.White,
+					focusedContainerColor = Color(0xFF1976D2),
+					focusedContentColor = Color.White,
+				)
+
+				Button(
+					onClick = {
+						coroutineScope.launch {
+							playJellyseerrTrailer(context, apiClient, item, availableTitle)
+						}
+					},
+					enabled = trailerButtonEnabled,
+					colors = trailerButtonColors,
+					interactionSource = trailerButtonInteraction,
+					modifier = Modifier
+						.width(200.dp)
+						.border(
+							width = if (trailerButtonFocused) 3.dp else 0.dp,
+							color = Color.White,
+							shape = CircleShape
+						),
+				) {
+					Row(
+						verticalAlignment = Alignment.CenterVertically,
+						horizontalArrangement = Arrangement.spacedBy(8.dp),
+						modifier = Modifier.fillMaxWidth(),
+					) {
+						MaterialIcon(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_trailer),
+							contentDescription = trailerButtonText,
+							modifier = Modifier.size(24.dp),
+							tint = JellyfinTheme.colorScheme.onButton,
+						)
+
+						Text(text = trailerButtonText)
+					}
+				}
+
 			}
 
 			Column(
@@ -2441,5 +2507,76 @@ private fun JellyseerrDetail(
 	LaunchedEffect(Unit) {
 		kotlinx.coroutines.delay(100)
 		requestButtonFocusRequester.requestFocus()
+	}
+}
+
+private suspend fun playJellyseerrTrailer(
+	context: Context,
+	apiClient: ApiClient,
+	item: JellyseerrSearchItem,
+	searchTitle: String,
+) {
+	val trimmedSearchTitle = searchTitle.trim()
+	val jellyfinId = item.jellyfinId?.takeIf { it.isNotBlank() }
+
+	if (jellyfinId != null) {
+		val uuid = runCatching { UUID.fromString(jellyfinId) }.getOrNull()
+		if (uuid != null) {
+			val baseItemResult = runCatching {
+				withContext(Dispatchers.IO) {
+					apiClient.userLibraryApi.getItem(uuid).content
+				}
+			}
+			val baseItem = baseItemResult.getOrNull()
+			val baseItemException = baseItemResult.exceptionOrNull()
+
+			if (baseItem != null) {
+				val intent = TrailerUtils.getExternalTrailerIntent(context, baseItem)
+				if (intent != null) {
+					try {
+						context.startActivity(intent)
+						return
+					} catch (exception: ActivityNotFoundException) {
+						Toast.makeText(
+							context,
+							context.getString(R.string.no_player_message),
+							Toast.LENGTH_LONG
+						).show()
+						return
+					}
+				}
+			} else if (baseItemException is ApiClientException) {
+				Toast.makeText(
+					context,
+					context.getString(R.string.jellyseerr_trailer_error),
+					Toast.LENGTH_LONG
+				).show()
+			}
+		}
+	}
+
+	if (trimmedSearchTitle.isBlank()) {
+		Toast.makeText(
+			context,
+			context.getString(R.string.jellyseerr_trailer_unavailable),
+			Toast.LENGTH_LONG
+		).show()
+		return
+	}
+
+	val query = URLEncoder.encode("$trimmedSearchTitle trailer", Charsets.UTF_8.name())
+	val searchIntent = Intent(
+		Intent.ACTION_VIEW,
+		Uri.parse("https://www.youtube.com/results?search_query=$query")
+	)
+
+	try {
+		context.startActivity(searchIntent)
+	} catch (exception: ActivityNotFoundException) {
+		Toast.makeText(
+			context,
+			context.getString(R.string.no_player_message),
+			Toast.LENGTH_LONG
+		).show()
 	}
 }

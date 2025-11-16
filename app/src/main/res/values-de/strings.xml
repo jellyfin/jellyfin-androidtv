@@ -602,6 +602,9 @@
     <string name="jellyseerr_partially_available_label">Teilweise verfügbar</string>
     <string name="jellyseerr_not_available_label">Nicht verfügbar</string>
     <string name="jellyseerr_cast_title">Besetzung</string>
+    <string name="jellyseerr_watch_trailer_button">Trailer ansehen</string>
+    <string name="jellyseerr_trailer_unavailable">Der Trailer ist derzeit nicht verfügbar.</string>
+    <string name="jellyseerr_trailer_error">Der Trailer konnte nicht geladen werden.</string>
     <string name="jellyseerr_error_prefix">Fehler: %1$s</string>
     <string name="jellyseerr_view_all_trends">Alle Trends</string>
     <string name="jellyseerr_recently_added_title">Kürzlich hinzugefügt</string>
