@@ -342,24 +342,245 @@ private fun JellyseerrScreen(
 
 								val expanded = expandedSeasons[number] == true
 								val seasonKey = SeasonKey(selectedItem.id, number)
-								val rowInteractionSource = remember { MutableInteractionSource() }
-								var rowFocused by remember { mutableStateOf(false) }
-								val seasonRowBackground = if (rowFocused) {
-									JellyfinTheme.colorScheme.buttonFocused.copy(alpha = 0.5f)
-								} else {
-									Color.Transparent
+
+								val buttonInteraction = remember { MutableInteractionSource() }
+								val buttonFocused by buttonInteraction.collectIsFocusedAsState()
+
+								val buttonColors = when {
+									isAvailable -> ButtonDefaults.colors(
+										containerColor = Color(0xFF00A800),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFF00FF00),
+										focusedContentColor = Color.Black,
+									)
+									seasonRequested -> ButtonDefaults.colors(
+										containerColor = Color(0xFFDD8800),
+										contentColor = Color.Black,
+										focusedContainerColor = Color(0xFFFFBB00),
+										focusedContentColor = Color.Black,
+									)
+									else -> ButtonDefaults.colors(
+										containerColor = Color(0xFF9933CC),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFFDD66FF),
+										focusedContentColor = Color.Black,
+									)
 								}
 
-								Row(
+								val buttonText = when {
+									isAvailable -> stringResource(R.string.lbl_play)
+									seasonRequested -> stringResource(R.string.jellyseerr_requested_label)
+									else -> stringResource(R.string.jellyseerr_request_button)
+								}
+
+								val buttonModifier = if (index == 0) {
+									Modifier.focusRequester(firstButtonFocusRequester)
+								} else {
+									Modifier
+								}
+
+								// Season Card mit vollem Layout
+								Column(
 									modifier = Modifier
 										.fillMaxWidth()
-										.padding(vertical = 6.dp),
-									horizontalArrangement = Arrangement.SpaceBetween,
-									verticalAlignment = Alignment.CenterVertically,
+										.padding(vertical = 8.dp)
+										.background(
+											Color.Black.copy(alpha = 0.4f),
+											RoundedCornerShape(12.dp)
+										)
+										.padding(12.dp),
 								) {
 									Row(
+										modifier = Modifier.fillMaxWidth(),
+										horizontalArrangement = Arrangement.spacedBy(16.dp),
+									) {
+										// Season Poster
+										Box(
+											modifier = Modifier
+												.width(100.dp)
+												.height(150.dp)
+												.clip(RoundedCornerShape(8.dp))
+												.background(Color.Gray.copy(alpha = 0.3f)),
+										) {
+											if (!season.posterPath.isNullOrBlank()) {
+												AsyncImage(
+													modifier = Modifier.fillMaxSize(),
+													url = season.posterPath,
+													aspectRatio = 2f / 3f,
+													scaleType = ImageView.ScaleType.CENTER_CROP,
+												)
+											} else {
+												Box(
+													modifier = Modifier.fillMaxSize(),
+													contentAlignment = Alignment.Center,
+												) {
+													androidx.compose.foundation.Image(
+														imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+														contentDescription = null,
+														modifier = Modifier.size(40.dp),
+														colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
+													)
+												}
+											}
+
+											// Status Badge
+											when {
+												isAvailable -> {
+													Box(
+														modifier = Modifier
+															.align(Alignment.TopEnd)
+															.padding(4.dp)
+															.clip(RoundedCornerShape(999.dp))
+															.background(Color(0xFF00A800)),
+													) {
+														androidx.compose.foundation.Image(
+															imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
+															contentDescription = null,
+															modifier = Modifier
+																.padding(4.dp)
+																.size(16.dp),
+														)
+													}
+												}
+												seasonRequested -> {
+													Box(
+														modifier = Modifier
+															.align(Alignment.TopEnd)
+															.padding(4.dp)
+															.clip(RoundedCornerShape(999.dp))
+															.background(Color(0xFFDD8800)),
+													) {
+														androidx.compose.foundation.Image(
+															imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
+															contentDescription = null,
+															modifier = Modifier
+																.padding(4.dp)
+																.size(16.dp),
+														)
+													}
+												}
+											}
+										}
+
+										// Season Details
+										Column(
+											modifier = Modifier.weight(1f),
+											verticalArrangement = Arrangement.spacedBy(6.dp),
+										) {
+											// Season Title
+											Text(
+												text = season.name ?: "Staffel $number",
+												color = JellyfinTheme.colorScheme.onBackground,
+												fontSize = 18.sp,
+												maxLines = 1,
+												overflow = TextOverflow.Ellipsis,
+											)
+
+											// Meta Info Row
+											Row(
+												horizontalArrangement = Arrangement.spacedBy(8.dp),
+												verticalAlignment = Alignment.CenterVertically,
+											) {
+												if (episodeCount != null && episodeCount > 0) {
+													Box(
+														modifier = Modifier
+															.clip(RoundedCornerShape(999.dp))
+															.background(JellyfinTheme.colorScheme.badge)
+															.padding(horizontal = 8.dp, vertical = 4.dp),
+													) {
+														Text(
+															text = stringResource(
+																R.string.jellyseerr_episodes_count,
+																episodeCount,
+															),
+															color = JellyfinTheme.colorScheme.onBadge,
+															fontSize = 12.sp,
+														)
+													}
+												}
+
+												if (!season.airDate.isNullOrBlank()) {
+													Text(
+														text = season.airDate.take(10),
+														color = JellyfinTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+														fontSize = 12.sp,
+													)
+												}
+											}
+
+											// Overview
+											if (!season.overview.isNullOrBlank()) {
+												Text(
+													text = season.overview,
+													color = JellyfinTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+													fontSize = 12.sp,
+													maxLines = 3,
+													overflow = TextOverflow.Ellipsis,
+												)
+											}
+
+											Spacer(modifier = Modifier.weight(1f))
+
+											// Action Button
+											Button(
+												onClick = {
+													when {
+														isAvailable -> {
+															navigationRepository.navigate(
+																org.jellyfin.androidtv.ui.navigation.Destinations.search(
+																	selectedItem.title,
+																),
+															)
+															showSeasonDialog = false
+														}
+														seasonRequested -> {
+															// Bereits angefragt - keine Aktion (disabled)
+														}
+														else -> {
+															viewModel.request(selectedItem, listOf(number))
+															showSeasonDialog = false
+														}
+													}
+												},
+												enabled = !seasonRequested,
+												colors = buttonColors,
+												interactionSource = buttonInteraction,
+												modifier = buttonModifier
+													.border(
+														width = if (buttonFocused) 3.dp else 0.dp,
+														color = Color.White,
+														shape = CircleShape
+													),
+											) {
+												if (isAvailable) {
+													Icon(
+														imageVector = ImageVector.vectorResource(id = R.drawable.ic_play),
+														contentDescription = stringResource(R.string.lbl_play),
+													)
+												} else {
+													Text(
+														text = buttonText,
+														textAlign = TextAlign.Center,
+													)
+												}
+											}
+										}
+									}
+
+									// Expandable Episodes Toggle
+									val rowInteractionSource = remember { MutableInteractionSource() }
+									var rowFocused by remember { mutableStateOf(false) }
+									val expandRowBackground = if (rowFocused) {
+										JellyfinTheme.colorScheme.buttonFocused.copy(alpha = 0.5f)
+									} else {
+										Color.Transparent
+									}
+
+									Spacer(modifier = Modifier.height(8.dp))
+
+									Row(
 										modifier = Modifier
-											.weight(1f)
+											.fillMaxWidth()
 											.onFocusChanged { rowFocused = it.isFocused }
 											.clickable(
 												interactionSource = rowInteractionSource,
@@ -367,7 +588,7 @@ private fun JellyseerrScreen(
 											) {
 												expandedSeasons[number] = !expanded
 											}
-											.background(seasonRowBackground, RoundedCornerShape(8.dp))
+											.background(expandRowBackground, RoundedCornerShape(8.dp))
 											.padding(horizontal = 8.dp, vertical = 6.dp),
 										horizontalArrangement = Arrangement.spacedBy(8.dp),
 										verticalAlignment = Alignment.CenterVertically,
@@ -376,114 +597,13 @@ private fun JellyseerrScreen(
 										Text(
 											text = indicatorText,
 											color = JellyfinTheme.colorScheme.onBackground,
-											fontSize = 20.sp,
-											modifier = Modifier.padding(end = 4.dp),
+											fontSize = 16.sp,
 										)
-
-										val seasonLabel = "Staffel $number"
 										Text(
-											text = seasonLabel,
+											text = if (expanded) "Episoden ausblenden" else "Episoden anzeigen",
 											color = JellyfinTheme.colorScheme.onBackground,
+											fontSize = 14.sp,
 										)
-
-										if (episodeCount != null && episodeCount > 0) {
-											Box(
-												modifier = Modifier
-													.clip(RoundedCornerShape(999.dp))
-													.background(JellyfinTheme.colorScheme.badge)
-													.padding(horizontal = 8.dp, vertical = 4.dp),
-											) {
-												Text(
-													text = stringResource(
-														R.string.jellyseerr_episodes_count,
-														episodeCount,
-													),
-													color = JellyfinTheme.colorScheme.onBadge,
-												)
-											}
-										}
-									}
-
-									val buttonInteraction = remember { MutableInteractionSource() }
-									val buttonFocused by buttonInteraction.collectIsFocusedAsState()
-
-									val buttonColors = when {
-										isAvailable -> ButtonDefaults.colors(
-											containerColor = Color(0xFF00A800),
-											contentColor = Color.White,
-											focusedContainerColor = Color(0xFF00FF00),
-											focusedContentColor = Color.Black,
-										)
-										seasonRequested -> ButtonDefaults.colors(
-											containerColor = Color(0xFFDD8800),
-											contentColor = Color.Black,
-											focusedContainerColor = Color(0xFFFFBB00),
-											focusedContentColor = Color.Black,
-										)
-										else -> ButtonDefaults.colors(
-											containerColor = Color(0xFF9933CC),
-											contentColor = Color.White,
-											focusedContainerColor = Color(0xFFDD66FF),
-											focusedContentColor = Color.Black,
-										)
-									}
-
-									val buttonText = when {
-										isAvailable -> stringResource(R.string.lbl_play)
-										seasonRequested -> stringResource(R.string.jellyseerr_requested_label)
-										else -> stringResource(R.string.jellyseerr_request_button)
-									}
-
-									val buttonModifier = if (index == 0) {
-										Modifier.focusRequester(firstButtonFocusRequester)
-									} else {
-										Modifier
-									}
-
-									Box {
-										Button(
-											onClick = {
-												when {
-													isAvailable -> {
-														navigationRepository.navigate(
-															org.jellyfin.androidtv.ui.navigation.Destinations.search(
-																selectedItem.title,
-															),
-														)
-														showSeasonDialog = false
-													}
-													seasonRequested -> {
-														// Bereits angefragt - keine Aktion (disabled)
-													}
-													else -> {
-														viewModel.request(selectedItem, listOf(number))
-														showSeasonDialog = false
-													}
-												}
-											},
-											enabled = !seasonRequested,
-											colors = buttonColors,
-											interactionSource = buttonInteraction,
-											modifier = buttonModifier
-												.border(
-													width = if (buttonFocused) 3.dp else 0.dp,
-													color = Color.White,
-													shape = CircleShape
-												),
-										) {
-											if (isAvailable) {
-												Icon(
-													imageVector = ImageVector.vectorResource(id = R.drawable.ic_play),
-													contentDescription = stringResource(R.string.lbl_play),
-												)
-											} else {
-												Text(
-													text = buttonText,
-													textAlign = TextAlign.Center,
-													modifier = Modifier.fillMaxWidth(),
-												)
-											}
-										}
 									}
 								}
 
