@@ -285,6 +285,16 @@ private fun JellyseerrScreen(
 				?.sortedBy { it.seasonNumber }
 				.orEmpty()
 
+			// Automatisch alle Staffel-Episoden laden um Verfügbarkeit zu prüfen
+			LaunchedEffect(selectedItem.id, availableSeasons) {
+				availableSeasons.forEach { season ->
+					val seasonKey = SeasonKey(selectedItem.id, season.seasonNumber)
+					if (!state.seasonEpisodes.containsKey(seasonKey)) {
+						viewModel.loadSeasonEpisodes(selectedItem.id, season.seasonNumber)
+					}
+				}
+			}
+
 			Dialog(
 				onDismissRequest = {
 					showSeasonDialog = false
@@ -399,17 +409,26 @@ private fun JellyseerrScreen(
 								// 1 = Pending approval, 2 = Approved, 3 = Declined, 4 = Partially Available, 5 = Available
 								val jellyseerrStatus = season.status
 
-								// Staffel ist verfügbar wenn status = 5 (Available in Jellyseerr)
-								val isAvailable = jellyseerrStatus == 5
-
-								// Staffel ist teilweise verfügbar wenn status = 4
-								val isPartiallyAvailable = jellyseerrStatus == 4
-
-								// Staffel ist angefragt wenn status vorhanden ist (1-3) aber nicht verfügbar
-								val seasonRequested = jellyseerrStatus != null && jellyseerrStatus != 5 && jellyseerrStatus != 4 && jellyseerrStatus != 3
-
 								val expanded = expandedSeasons[number] == true
 								val seasonKey = SeasonKey(selectedItem.id, number)
+
+								// Prüfe tatsächliche Episoden-Verfügbarkeit aus Jellyfin
+								val loadedEpisodes = state.seasonEpisodes[seasonKey]
+								val availableEpisodesCount = loadedEpisodes?.count { it.isAvailable } ?: 0
+								val totalEpisodesCount = loadedEpisodes?.size ?: (episodeCount ?: 0)
+
+								// Verfügbarkeit basierend auf tatsächlichen Episoden aus Jellyfin
+								val hasAvailableEpisodes = availableEpisodesCount > 0
+								val allEpisodesAvailable = availableEpisodesCount == totalEpisodesCount && totalEpisodesCount > 0
+
+								// Staffel ist verfügbar wenn alle Episoden verfügbar sind
+								val isAvailable = allEpisodesAvailable || jellyseerrStatus == 5
+
+								// Staffel ist teilweise verfügbar wenn mindestens eine Episode verfügbar ist
+								val isPartiallyAvailable = !isAvailable && (hasAvailableEpisodes || jellyseerrStatus == 4)
+
+								// Staffel ist angefragt wenn status vorhanden ist (1-3) aber nicht verfügbar
+								val seasonRequested = !isAvailable && !isPartiallyAvailable && jellyseerrStatus != null && jellyseerrStatus != 5 && jellyseerrStatus != 4 && jellyseerrStatus != 3
 
 								val buttonInteraction = remember { MutableInteractionSource() }
 								val buttonFocused by buttonInteraction.collectIsFocusedAsState()
@@ -617,8 +636,8 @@ private fun JellyseerrScreen(
 															)
 															showSeasonDialog = false
 														}
-														seasonRequested -> {
-															// Bereits angefragt - keine Aktion (disabled)
+														seasonRequested || isPartiallyAvailable -> {
+															// Bereits angefragt oder teilweise verfügbar - keine Aktion (disabled)
 														}
 														else -> {
 															viewModel.request(selectedItem, listOf(number))
@@ -626,7 +645,7 @@ private fun JellyseerrScreen(
 														}
 													}
 												},
-												enabled = !seasonRequested,
+												enabled = !seasonRequested && !isPartiallyAvailable,
 												colors = buttonColors,
 												interactionSource = buttonInteraction,
 												modifier = buttonModifier
@@ -728,6 +747,7 @@ private fun JellyseerrScreen(
 												)
 											}
 											else -> {
+												val episodeView = LocalView.current
 												episodes.forEach { episode ->
 													val episodeInteraction = remember(episode.id) { MutableInteractionSource() }
 													val episodeFocused by episodeInteraction.collectIsFocusedAsState()
@@ -737,13 +757,36 @@ private fun JellyseerrScreen(
 														Color.Transparent
 													}
 
+													// Sound beim Fokussieren
+													LaunchedEffect(episodeFocused) {
+														if (episodeFocused) {
+															episodeView.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
+														}
+													}
+
+													val episodeClickHandler = if (episode.isAvailable && episode.jellyfinId != null) {
+														{
+															val uuid = java.util.UUID.fromString(episode.jellyfinId)
+															navigationRepository.navigate(
+																org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
+															)
+														}
+													} else {
+														{ /* Nicht klickbar */ }
+													}
+
 													JellyseerrEpisodeRow(
 														episode = episode,
 														modifier = Modifier
 															.fillMaxWidth()
 															.padding(vertical = 4.dp)
-															.focusable(interactionSource = episodeInteraction),
+															.clickable(
+																interactionSource = episodeInteraction,
+																indication = null,
+																onClick = episodeClickHandler,
+															),
 														backgroundColor = episodeBackground,
+														onClick = null, // onClick wird jetzt über Modifier gesteuert
 													)
 												}
 											}
@@ -826,9 +869,23 @@ private fun JellyseerrContent(
 	val selectedPerson = state.selectedPerson
 
 	if (selectedItem != null) {
+		// Automatisch alle Staffel-Episoden laden um Verfügbarkeit für den Haupt-Button zu prüfen
+		val availableSeasons = state.selectedMovie?.seasons?.filter { it.seasonNumber > 0 } ?: emptyList()
+		LaunchedEffect(selectedItem.id, availableSeasons) {
+			if (selectedItem.mediaType == "tv") {
+				availableSeasons.forEach { season ->
+					val seasonKey = SeasonKey(selectedItem.id, season.seasonNumber)
+					if (!state.seasonEpisodes.containsKey(seasonKey)) {
+						viewModel.loadSeasonEpisodes(selectedItem.id, season.seasonNumber)
+					}
+				}
+			}
+		}
+
 		JellyseerrDetail(
 			item = selectedItem,
 			details = state.selectedMovie,
+			seasonEpisodes = state.seasonEpisodes,
 			requestStatusMessage = state.requestStatusMessage,
 			onRequestClick = { seasons -> viewModel.request(selectedItem, seasons) },
 			onCastClick = { castMember -> viewModel.showPerson(castMember) },
@@ -1336,6 +1393,7 @@ private fun JellyseerrContent(
 		episode: JellyseerrEpisode,
 		modifier: Modifier = Modifier,
 		backgroundColor: Color = Color.Transparent,
+		onClick: (() -> Unit)? = null,
 	) {
 	val titleParts = buildList {
 		episode.episodeNumber?.let { add(stringResource(R.string.lbl_episode_number, it)) }
@@ -1343,10 +1401,19 @@ private fun JellyseerrContent(
 	}
 	val titleText = titleParts.joinToString(" – ").ifBlank { stringResource(R.string.jellyseerr_episode_title_missing) }
 
-	Row(
-		modifier = modifier
+	val rowModifier = if (onClick != null) {
+		modifier
+			.clickable { onClick() }
 			.background(backgroundColor, RoundedCornerShape(8.dp))
-			.padding(8.dp),
+			.padding(8.dp)
+	} else {
+		modifier
+			.background(backgroundColor, RoundedCornerShape(8.dp))
+			.padding(8.dp)
+	}
+
+	Row(
+		modifier = rowModifier,
 		verticalAlignment = Alignment.Top,
 		horizontalArrangement = Arrangement.Start,
 	) {
@@ -1364,14 +1431,14 @@ private fun JellyseerrContent(
 		} else {
 			Box(
 				modifier = thumbnailModifier
-					.background(JellyfinTheme.colorScheme.popover),
+					.background(Color(0xFF333333)),
 				contentAlignment = Alignment.Center,
 			) {
-				Text(
-					text = stringResource(R.string.jellyseerr_episode_title_missing),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = 12.sp,
-					textAlign = TextAlign.Center,
+				androidx.compose.foundation.Image(
+					imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+					contentDescription = null,
+					modifier = Modifier.size(40.dp),
+					colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
 				)
 			}
 		}
@@ -1431,7 +1498,7 @@ private fun JellyseerrContent(
 					Box(
 						modifier = Modifier
 							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF757575))
+							.background(Color(0xFFD32F2F))
 							.padding(horizontal = 8.dp, vertical = 2.dp),
 					) {
 						Text(
@@ -2231,6 +2298,7 @@ private fun JellyseerrCastCard(
 	private fun JellyseerrDetail(
 		item: JellyseerrSearchItem,
 		details: JellyseerrMovieDetails?,
+		seasonEpisodes: Map<SeasonKey, List<JellyseerrEpisode>> = emptyMap(),
 		requestStatusMessage: String?,
 		onRequestClick: (List<Int>?) -> Unit,
 		onCastClick: (JellyseerrCast) -> Unit,
@@ -2296,8 +2364,26 @@ private fun JellyseerrCastCard(
 				}
 
 				val isRequested = item.isRequested
-				val isAvailable = item.isAvailable
-				val isPartiallyAvailable = item.isPartiallyAvailable && !isAvailable
+
+				// Berechne Verfügbarkeit basierend auf tatsächlich geladenen Episoden (für TV-Serien)
+				val (isAvailable, isPartiallyAvailable) = if (isTv && seasonEpisodes.isNotEmpty()) {
+					// Zähle alle verfügbaren Episoden aus allen geladenen Staffeln
+					val allLoadedEpisodes = seasonEpisodes.values.flatten()
+					val availableEpisodesCount = allLoadedEpisodes.count { it.isAvailable }
+					val totalEpisodesCount = allLoadedEpisodes.size
+
+					val allAvailable = availableEpisodesCount == totalEpisodesCount && totalEpisodesCount > 0
+					val someAvailable = availableEpisodesCount > 0 && !allAvailable
+
+					// Kombiniere mit Jellyseerr-Status
+					val finalAvailable = allAvailable || item.isAvailable
+					val finalPartial = !finalAvailable && (someAvailable || item.isPartiallyAvailable)
+
+					Pair(finalAvailable, finalPartial)
+				} else {
+					// Fallback: Verwende Jellyseerr-Status
+					Pair(item.isAvailable, item.isPartiallyAvailable && !item.isAvailable)
+				}
 
 				val requestButtonInteraction = remember { MutableInteractionSource() }
 				val requestButtonFocused by requestButtonInteraction.collectIsFocusedAsState()
@@ -2393,8 +2479,6 @@ private fun JellyseerrCastCard(
 						}
 					}
 				}
-
-				Spacer(modifier = Modifier.size(2.dp))
 
 				val trailerButtonEnabled = availableTitle.isNotBlank()
 				val trailerButtonInteraction = remember { MutableInteractionSource() }

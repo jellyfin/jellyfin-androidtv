@@ -230,6 +230,7 @@ data class JellyseerrEpisode(
 	val airDate: String? = null,
 	val isMissing: Boolean = false,
 	val isAvailable: Boolean = false,
+	val jellyfinId: String? = null,
 )
 
 @Serializable
@@ -1042,7 +1043,7 @@ private data class JellyseerrEpisodeRaw(
  			}
 
  			// Prüfe Episode-Verfügbarkeit direkt in Jellyfin
- 			val availableEpisodeNumbers = mutableSetOf<Int>()
+ 			val availableEpisodeMap = mutableMapOf<Int, String>() // episodeNumber -> jellyfinId
  			if (!seriesName.isNullOrBlank()) {
  				try {
  					// Suche Serie in Jellyfin
@@ -1072,7 +1073,7 @@ private data class JellyseerrEpisodeRaw(
 
  						jellyfinEpisodes?.forEach { ep ->
  							if (ep.parentIndexNumber == seasonNumber && ep.indexNumber != null) {
- 								availableEpisodeNumbers.add(ep.indexNumber!!)
+ 								availableEpisodeMap[ep.indexNumber!!] = ep.id.toString()
  							}
  						}
  					}
@@ -1100,7 +1101,8 @@ private data class JellyseerrEpisodeRaw(
  							?: episode.posterPath?.let(::posterImageUrl)
 
  						val epNumber = episode.episodeNumber ?: 0
- 						val isEpisodeAvailable = availableEpisodeNumbers.contains(epNumber)
+ 						val jellyfinEpisodeId = availableEpisodeMap[epNumber]
+ 						val isEpisodeAvailable = jellyfinEpisodeId != null
 
  						JellyseerrEpisode(
  							id = episode.id,
@@ -1112,6 +1114,7 @@ private data class JellyseerrEpisodeRaw(
  							airDate = episode.airDate,
  							isMissing = episode.missing,
  							isAvailable = isEpisodeAvailable,
+ 							jellyfinId = jellyfinEpisodeId,
  						)
  					}
  				}
