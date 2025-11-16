@@ -2394,7 +2394,7 @@ private fun JellyseerrCastCard(
 					}
 				}
 
-				Spacer(modifier = Modifier.size(8.dp))
+				Spacer(modifier = Modifier.size(2.dp))
 
 				val trailerButtonEnabled = availableTitle.isNotBlank()
 				val trailerButtonInteraction = remember { MutableInteractionSource() }

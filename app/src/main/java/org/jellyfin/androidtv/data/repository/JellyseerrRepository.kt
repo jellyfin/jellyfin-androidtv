@@ -1018,7 +1018,7 @@ private data class JellyseerrEpisodeRaw(
 
  			val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
 
- 			// Erst TV-Details laden um Episode-Verfügbarkeit zu bekommen
+ 			// Erst TV-Details laden um den Seriennamen zu bekommen
  			val tvDetailsUrl = "${config.baseUrl}/api/v1/tv/$tmdbId"
  			val tvDetailsRequest = Request.Builder()
  				.url(tvDetailsUrl)
@@ -1026,23 +1026,59 @@ private data class JellyseerrEpisodeRaw(
  				.header("X-API-User", userId.toString())
  				.build()
 
- 			val episodeStatusMap = mutableMapOf<Int, Int>()
+ 			var seriesName: String? = null
  			try {
  				client.newCall(tvDetailsRequest).execute().use { response ->
  					if (response.isSuccessful) {
  						val body = response.body?.string()
  						if (body != null) {
  							val tvDetails = json.decodeFromString(JellyseerrTvDetailsRaw.serializer(), body)
- 							// Extrahiere Episode-Status aus mediaInfo
- 							val mediaInfoSeason = tvDetails.mediaInfo?.seasons?.find { it.seasonNumber == seasonNumber }
- 							mediaInfoSeason?.episodes?.forEach { ep ->
- 								episodeStatusMap[ep.episodeNumber] = ep.status ?: 0
- 							}
+ 							seriesName = tvDetails.name
  						}
  					}
  				}
  			} catch (e: Exception) {
- 				Timber.w(e, "Failed to load TV details for episode availability")
+ 				Timber.w(e, "Failed to load TV details for series name")
+ 			}
+
+ 			// Prüfe Episode-Verfügbarkeit direkt in Jellyfin
+ 			val availableEpisodeNumbers = mutableSetOf<Int>()
+ 			if (!seriesName.isNullOrBlank()) {
+ 				try {
+ 					// Suche Serie in Jellyfin
+ 					val seriesRequest = GetItemsRequest(
+ 						searchTerm = seriesName,
+ 						limit = 5,
+ 						includeItemTypes = setOf(BaseItemKind.SERIES),
+ 						recursive = true,
+ 						enableTotalRecordCount = false,
+ 					)
+ 					val seriesItems = apiClient.itemsApi.getItems(seriesRequest).content.items
+
+ 					val matchedSeries = seriesItems?.firstOrNull { baseItem ->
+ 						val name = baseItem.name?.trim().orEmpty()
+ 						name.equals(seriesName, ignoreCase = true)
+ 					}
+
+ 					if (matchedSeries != null) {
+ 						// Lade Episoden für diese Staffel aus Jellyfin
+ 						val episodesRequest = GetItemsRequest(
+ 							parentId = matchedSeries.id,
+ 							includeItemTypes = setOf(BaseItemKind.EPISODE),
+ 							recursive = true,
+ 							enableTotalRecordCount = false,
+ 						)
+ 						val jellyfinEpisodes = apiClient.itemsApi.getItems(episodesRequest).content.items
+
+ 						jellyfinEpisodes?.forEach { ep ->
+ 							if (ep.parentIndexNumber == seasonNumber && ep.indexNumber != null) {
+ 								availableEpisodeNumbers.add(ep.indexNumber!!)
+ 							}
+ 						}
+ 					}
+ 				} catch (e: Exception) {
+ 					Timber.w(e, "Failed to check episode availability in Jellyfin")
+ 				}
  			}
 
  			val url = "${config.baseUrl}/api/v1/tv/$tmdbId/season/$seasonNumber"
@@ -1064,8 +1100,7 @@ private data class JellyseerrEpisodeRaw(
  							?: episode.posterPath?.let(::posterImageUrl)
 
  						val epNumber = episode.episodeNumber ?: 0
- 						val epStatus = episodeStatusMap[epNumber]
- 						val isEpisodeAvailable = epStatus == 5
+ 						val isEpisodeAvailable = availableEpisodeNumbers.contains(epNumber)
 
  						JellyseerrEpisode(
  							id = episode.id,
