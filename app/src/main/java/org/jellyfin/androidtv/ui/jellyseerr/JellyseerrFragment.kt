@@ -395,7 +395,7 @@ private fun JellyseerrScreen(
 						LazyColumn(
 							state = seasonListState,
 							modifier = Modifier.weight(1f),
-							contentPadding = PaddingValues(top = 0.dp, bottom = 8.dp),
+							contentPadding = PaddingValues(top = 8.dp, bottom = 16.dp),
 						) {
 							itemsIndexed(
 								items = availableSeasons,
@@ -804,6 +804,9 @@ private fun JellyseerrScreen(
 					seasonListState.scrollToItem(0)
 					kotlinx.coroutines.delay(100)
 					firstButtonFocusRequester.requestFocus()
+					// Nach Fokus nochmals zum Anfang scrollen um sicherzustellen, dass erste Staffel sichtbar ist
+					kotlinx.coroutines.delay(50)
+					seasonListState.animateScrollToItem(0)
 				}
 			}
 		}
@@ -2377,12 +2380,13 @@ private fun JellyseerrCastCard(
 
 					// Kombiniere mit Jellyseerr-Status
 					val finalAvailable = allAvailable || item.isAvailable
-					val finalPartial = !finalAvailable && (someAvailable || item.isPartiallyAvailable)
+					// Nur "Teilweise verfügbar" wenn tatsächlich Episoden verfügbar sind, NICHT wenn nur angefragt
+					val finalPartial = !finalAvailable && someAvailable && !isRequested
 
 					Pair(finalAvailable, finalPartial)
 				} else {
 					// Fallback: Verwende Jellyseerr-Status
-					Pair(item.isAvailable, item.isPartiallyAvailable && !item.isAvailable)
+					Pair(item.isAvailable, item.isPartiallyAvailable && !item.isAvailable && !isRequested)
 				}
 
 				val requestButtonInteraction = remember { MutableInteractionSource() }
