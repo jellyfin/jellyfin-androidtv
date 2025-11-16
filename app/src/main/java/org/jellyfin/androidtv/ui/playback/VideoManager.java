@@ -161,7 +161,7 @@ public class VideoManager {
             public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
                 // discontinuity for reason internal usually indicates an error, and that the player will reset to its default timestamp
                 if (reason == Player.DISCONTINUITY_REASON_INTERNAL) {
-                    Timber.d("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s", oldPosition.positionMs, newPosition.positionMs);
+                    Timber.i("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s", oldPosition.positionMs, newPosition.positionMs);
                 }
             }
 
@@ -431,7 +431,7 @@ public class VideoManager {
                                     id = Integer.parseInt(trackFormat.id);
                                 }
                             } catch (NumberFormatException e) {
-                                Timber.d("failed to parse track ID [%s]", trackFormat.id);
+                                Timber.w("failed to parse track ID [%s]", trackFormat.id);
                                 break;
                             }
                             matchedIndex = id;
@@ -489,7 +489,7 @@ public class VideoManager {
                 boolean isSelected = groupInfo.isTrackSelected(i);
                 Format trackFormat = group.getFormat(i);
 
-                Timber.d("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
+                Timber.i("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
                         trackFormat.id, i + 1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
 
                 if (trackType != chosenTrackType || trackFormat.id == null)
@@ -505,7 +505,7 @@ public class VideoManager {
                     if (id != exoTrackID)
                         continue;
                 } catch (NumberFormatException e) {
-                    Timber.d("failed to parse track ID [%s]", trackFormat.id);
+                    Timber.w("failed to parse track ID [%s]", trackFormat.id);
                     continue;
                 }
 
@@ -519,7 +519,7 @@ public class VideoManager {
                     return true;
                 }
 
-                Timber.d("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
+                Timber.i("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
                 matchedGroup = group;
             }
         }
@@ -532,7 +532,7 @@ public class VideoManager {
             mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
             mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
         } catch (Exception e) {
-            Timber.d("Error setting track selection");
+            Timber.w("Error setting track selection");
             return false;
         }
         return true;

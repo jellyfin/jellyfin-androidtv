@@ -240,7 +240,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void playerErrorEncountered() {
         // reset the retry count if it's been more than 30s since previous error
         if (playbackRetries > 0 && Instant.now().toEpochMilli() - lastPlaybackError > 30000) {
-            Timber.d("playback stabilized - retry count reset to 0 from %s", playbackRetries);
+            Timber.i("playback stabilized - retry count reset to 0 from %s", playbackRetries);
             playbackRetries = 0;
         }
 
@@ -270,7 +270,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mDisplayModes = display.getSupportedModes();
         Timber.i("** Available display refresh rates:");
         for (Display.Mode mDisplayMode : mDisplayModes) {
-            Timber.d("display mode %s - %dx%d@%f", mDisplayMode.getModeId(), mDisplayMode.getPhysicalWidth(), mDisplayMode.getPhysicalHeight(), mDisplayMode.getRefreshRate());
+            Timber.i("display mode %s - %dx%d@%f", mDisplayMode.getModeId(), mDisplayMode.getPhysicalWidth(), mDisplayMode.getPhysicalHeight(), mDisplayMode.getRefreshRate());
         }
     }
 
@@ -301,7 +301,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             if (rate != sourceRate && rate != sourceRate * 2 && rate != Math.round(sourceRate * 2.5)) // Skip inappropriate rates
                 continue;
 
-            Timber.d("qualifying display mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
+            Timber.i("qualifying display mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
 
             // if scaling on-device, keep native resolution modes at diff 0 (best score)
             // for other resolutions when scaling on device, or if scaling on tv, score based on distance from media resolution
@@ -435,7 +435,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 BaseItemDto item = getCurrentlyPlayingItem();
 
                 if (item == null) {
-                    Timber.d("item is null - aborting play");
+                    Timber.w("item is null - aborting play");
                     Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
                     mFragment.closePlayer();
                     return;
@@ -607,7 +607,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void startItem(BaseItemDto item, long position, StreamInfo response) {
         if (!hasInitializedVideoManager() || !hasFragment()) {
-            Timber.d("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
+            Timber.w("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
             return;
         }
 
@@ -637,8 +637,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // get subtitle info
         mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : null);
         setDefaultAudioIndex(response);
-        Timber.d("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
-        Timber.d("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
+        Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
+        Timber.i("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
 
         Long mbPos = position * 10000;
 
@@ -781,11 +781,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         int currAudioIndex = getAudioStreamIndex();
-        Timber.d("trying to switch audio stream from %s to %s", currAudioIndex, index);
+        Timber.i("trying to switch audio stream from %s to %s", currAudioIndex, index);
         if (currAudioIndex == index) {
             Timber.d("skipping setting audio stream, already set to requested index %s", index);
             if (mCurrentOptions.getAudioStreamIndex() == null || mCurrentOptions.getAudioStreamIndex() != index) {
-                Timber.d("setting mCurrentOptions audio stream index from %s to %s", mCurrentOptions.getAudioStreamIndex(), index);
+                Timber.i("setting mCurrentOptions audio stream index from %s to %s", mCurrentOptions.getAudioStreamIndex(), index);
                 mCurrentOptions.setAudioStreamIndex(index);
             }
             return;
@@ -808,7 +808,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void pause() {
-        Timber.d("pause called at %s", mCurrentPosition);
+        Timber.i("pause called at %s", mCurrentPosition);
         // if playback is paused and the seekbar is scrubbed, it will call pause even if already paused
         if (mPlaybackState == PlaybackState.PAUSED) {
             Timber.d("already paused, ignoring");
@@ -842,7 +842,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public void stop() {
         refreshCurrentPosition();
-        Timber.d("stop called at %s", mCurrentPosition);
+        Timber.i("stop called at %s", mCurrentPosition);
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
@@ -900,7 +900,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             resetPlayerErrors();
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
-            Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
+            Timber.i("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
         }
@@ -913,7 +913,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             resetPlayerErrors();
             mCurrentIndex--;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
-            Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
+            Timber.i("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
         }
@@ -936,7 +936,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void seek(long pos, boolean skipToNext) {
         if (pos <= 0) pos = 0;
 
-        Timber.d("Trying to seek from %s to %d", mCurrentPosition, pos);
+        Timber.i("Trying to seek from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo == null ? "unknown" : mCurrentStreamInfo.getContainer());
 
         if (!hasInitializedVideoManager()) {
@@ -1035,8 +1035,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             refreshCurrentPosition();
             currentSkipPos = Utils.getSafeSeekPosition((currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec, getDuration());
 
-            Timber.d("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
-            Timber.d("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
+            Timber.i("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
+            Timber.i("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
             mHandler.postDelayed(skipRunnable, 800);
@@ -1161,7 +1161,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        Timber.d("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
+        Timber.i("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
         boolean stillWatchingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getStillWatchingBehavior()) != StillWatchingBehavior.DISABLED;
         boolean nextUpEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED;
         if ((stillWatchingEnabled || nextUpEnabled) && curItem.getType() != BaseItemKind.TRAILER) {
@@ -1250,7 +1250,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
-        Timber.d("On Completion fired");
+        Timber.i("On Completion fired");
         itemComplete();
     }
 

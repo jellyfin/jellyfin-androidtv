@@ -68,7 +68,7 @@ class NavigationRepositoryImpl(
 	override val currentAction = _currentAction.asSharedFlow()
 
 	override fun navigate(destination: Destination, replace: Boolean) {
-		Timber.d("Navigating to $destination (via navigate function)")
+		Timber.i("Navigating to $destination (via navigate function)")
 		val action = when (destination) {
 			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true, replace, false)
 		}
@@ -84,7 +84,7 @@ class NavigationRepositoryImpl(
 	override fun goBack(): Boolean {
 		if (fragmentHistory.empty()) return false
 
-		Timber.d("Navigating back")
+		Timber.i("Navigating back")
 		fragmentHistory.pop()
 		_currentAction.tryEmit(NavigationAction.GoBack)
 		return true
@@ -94,7 +94,7 @@ class NavigationRepositoryImpl(
 		fragmentHistory.clear()
 		val actualDestination = destination ?: defaultDestination
 		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, true, false, clearHistory))
-		Timber.d("Navigating to $actualDestination (via reset, clearHistory=$clearHistory)")
+		Timber.i("Navigating to $actualDestination (via reset, clearHistory=$clearHistory)")
 	}
 }
 
