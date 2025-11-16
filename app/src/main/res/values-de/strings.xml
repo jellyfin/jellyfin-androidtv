@@ -613,6 +613,9 @@
     <string name="jellyseerr_seasons_all">Alle Staffeln</string>
     <string name="jellyseerr_request_all_seasons">Alle Staffeln anfragen</string>
     <string name="jellyseerr_episodes_count">%1$d Episoden</string>
+    <string name="jellyseerr_episode_missing_badge">Fehlt</string>
+    <string name="jellyseerr_no_episodes">Keine Episoden verfügbar.</string>
+    <string name="jellyseerr_episode_title_missing">Folge</string>
     <string name="pref_jellyseerr">Jellyseerr</string>
     <string name="pref_jellyseerr_url">Jellyseerr URL</string>
     <string name="pref_jellyseerr_api_key">Jellyseerr API-Schlüssel</string>

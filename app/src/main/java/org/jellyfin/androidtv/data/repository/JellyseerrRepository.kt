@@ -42,6 +42,7 @@ interface JellyseerrRepository {
 	suspend fun discoverUpcomingTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun getTvDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
+	suspend fun getSeasonEpisodes(tmdbId: Int, seasonNumber: Int): Result<List<JellyseerrEpisode>>
 	suspend fun cancelRequest(requestId: Int): Result<Unit>
 	suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>>
 	suspend fun getPersonDetails(personId: Int): Result<JellyseerrPersonDetails>
@@ -206,6 +207,17 @@ data class JellyseerrSeason(
 	val episodeCount: Int? = null,
 	val airDate: String? = null,
 	val status: Int? = null,
+)
+
+data class JellyseerrEpisode(
+	val id: Int,
+	val name: String? = null,
+	val overview: String? = null,
+	val imageUrl: String? = null,
+	val episodeNumber: Int? = null,
+	val seasonNumber: Int? = null,
+	val airDate: String? = null,
+	val isMissing: Boolean = false,
 )
 
 @Serializable
@@ -821,11 +833,11 @@ class JellyseerrRepositoryImpl(
 		}
 	}
 
-	@Serializable
-	private data class MediaInfo(
-		val seasons: List<MediaInfoSeason> = emptyList(),
-		val requests: List<MediaInfoRequest> = emptyList(),
-	)
+@Serializable
+private data class MediaInfo(
+	val seasons: List<MediaInfoSeason> = emptyList(),
+	val requests: List<MediaInfoRequest> = emptyList(),
+)
 
 	@Serializable
 	private data class MediaInfoSeason(
@@ -848,21 +860,47 @@ class JellyseerrRepositoryImpl(
 		val status: Int? = null,
 	)
 
-	@Serializable
-	private data class JellyseerrTvDetailsRaw(
-		val id: Int,
-		val name: String? = null,
-		val overview: String? = null,
-		val posterPath: String? = null,
-		val backdropPath: String? = null,
-		val firstAirDate: String? = null,
-		val episodeRunTime: List<Int> = emptyList(),
-		val voteAverage: Double? = null,
-		val genres: List<JellyseerrGenre> = emptyList(),
-		val credits: JellyseerrCredits? = null,
-		val seasons: List<JellyseerrSeason> = emptyList(),
-		val mediaInfo: MediaInfo? = null,
-	)
+@Serializable
+private data class JellyseerrTvDetailsRaw(
+	val id: Int,
+	val name: String? = null,
+	val overview: String? = null,
+	val posterPath: String? = null,
+	val backdropPath: String? = null,
+	val firstAirDate: String? = null,
+	val episodeRunTime: List<Int> = emptyList(),
+	val voteAverage: Double? = null,
+	val genres: List<JellyseerrGenre> = emptyList(),
+	val credits: JellyseerrCredits? = null,
+	val seasons: List<JellyseerrSeason> = emptyList(),
+	val mediaInfo: MediaInfo? = null,
+)
+
+@Serializable
+private data class JellyseerrSeasonDetailsRaw(
+	val id: Int,
+	val name: String? = null,
+	val overview: String? = null,
+	val posterPath: String? = null,
+	val seasonNumber: Int,
+	val episodeCount: Int? = null,
+	val airDate: String? = null,
+	val status: Int? = null,
+	val episodes: List<JellyseerrEpisodeRaw> = emptyList(),
+)
+
+@Serializable
+private data class JellyseerrEpisodeRaw(
+	val id: Int,
+	val name: String? = null,
+	val overview: String? = null,
+	val stillPath: String? = null,
+	val posterPath: String? = null,
+	val episodeNumber: Int? = null,
+	val seasonNumber: Int? = null,
+	val airDate: String? = null,
+	val missing: Boolean = false,
+)
 
 	override suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails> = withContext(Dispatchers.IO) {
 		val config = getConfig()
@@ -984,6 +1022,48 @@ class JellyseerrRepositoryImpl(
 			Timber.e(it, "Failed to load Jellyseerr tv details")
 		}
 	}
+
+	override suspend fun getSeasonEpisodes(tmdbId: Int, seasonNumber: Int): Result<List<JellyseerrEpisode>> =
+ 		withContext(Dispatchers.IO) {
+ 			val config = getConfig()
+ 				?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+ 			val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+ 			val url = "${config.baseUrl}/api/v1/tv/$tmdbId/season/$seasonNumber"
+ 			val request = Request.Builder()
+ 				.url(url)
+ 				.header("X-API-Key", config.apiKey)
+ 				.header("X-API-User", userId.toString())
+ 				.build()
+
+ 			runCatching {
+ 				client.newCall(request).execute().use { response ->
+ 					if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+ 					val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+ 					val raw = json.decodeFromString(JellyseerrSeasonDetailsRaw.serializer(), body)
+
+ 					raw.episodes.map { episode ->
+ 						val imageUrl = episode.stillPath?.let(::posterImageUrl)
+ 							?: episode.posterPath?.let(::posterImageUrl)
+
+ 						JellyseerrEpisode(
+ 							id = episode.id,
+ 							name = episode.name,
+ 							overview = episode.overview,
+ 							imageUrl = imageUrl,
+ 							episodeNumber = episode.episodeNumber,
+ 							seasonNumber = episode.seasonNumber,
+ 							airDate = episode.airDate,
+ 							isMissing = episode.missing,
+ 						)
+ 					}
+ 				}
+ 			}.onFailure {
+ 				Timber.e(it, "Failed to load Jellyseerr episodes for tv $tmdbId season $seasonNumber")
+ 			}
+ 		}
 
 	override suspend fun getPersonDetails(personId: Int): Result<JellyseerrPersonDetails> =
     withContext(Dispatchers.IO) {

@@ -59,6 +59,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.JellyseerrMovieDetails
+import org.jellyfin.androidtv.data.repository.JellyseerrEpisode
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
@@ -283,11 +284,15 @@ private fun JellyseerrScreen(
 
 						Spacer(modifier = Modifier.size(8.dp))
 
+						val expandedSeasons = remember { mutableStateMapOf<Int, Boolean>() }
+
 						LazyColumn(
 							modifier = Modifier.weight(1f),
 						) {
-							items(availableSeasons.size) { index ->
-								val season = availableSeasons[index]
+							itemsIndexed(
+								items = availableSeasons,
+								key = { _, season -> season.seasonNumber },
+							) { index, season ->
 								val number = season.seasonNumber
 								val episodeCount = season.episodeCount
 
@@ -302,6 +307,10 @@ private fun JellyseerrScreen(
 								// Staffel ist angefragt wenn status vorhanden ist (1-4) aber nicht verfügbar
 								val seasonRequested = jellyseerrStatus != null && jellyseerrStatus != 5
 
+								val expanded = expandedSeasons[number] == true
+								val seasonKey = SeasonKey(selectedItem.id, number)
+								val rowInteractionSource = remember { MutableInteractionSource() }
+
 								Row(
 									modifier = Modifier
 										.fillMaxWidth()
@@ -310,10 +319,25 @@ private fun JellyseerrScreen(
 									verticalAlignment = Alignment.CenterVertically,
 								) {
 									Row(
+										modifier = Modifier
+											.weight(1f)
+											.clickable(
+												interactionSource = rowInteractionSource,
+												indication = null,
+											) {
+												expandedSeasons[number] = !expanded
+											},
 										horizontalArrangement = Arrangement.spacedBy(8.dp),
 										verticalAlignment = Alignment.CenterVertically,
 									) {
-										// Always use "Staffel X" format, ignore API name field
+										val indicatorText = if (expanded) "▾" else "▸"
+										Text(
+											text = indicatorText,
+											color = JellyfinTheme.colorScheme.onBackground,
+											fontSize = 20.sp,
+											modifier = Modifier.padding(end = 4.dp),
+										)
+
 										val seasonLabel = "Staffel $number"
 										Text(
 											text = seasonLabel,
@@ -395,7 +419,7 @@ private fun JellyseerrScreen(
 													}
 												}
 											},
-											enabled = !seasonRequested, // Disable only if requested (not available and not new)
+											enabled = !seasonRequested,
 											colors = buttonColors,
 											interactionSource = buttonInteraction,
 											modifier = buttonModifier
@@ -416,6 +440,56 @@ private fun JellyseerrScreen(
 													textAlign = TextAlign.Center,
 													modifier = Modifier.fillMaxWidth(),
 												)
+											}
+										}
+									}
+								}
+
+								if (expanded) {
+									LaunchedEffect(expanded, seasonKey) {
+										if (expanded) {
+											viewModel.loadSeasonEpisodes(selectedItem.id, number)
+										}
+									}
+
+									val episodes = state.seasonEpisodes[seasonKey]
+									val isLoadingEpisodes = state.loadingSeasonKeys.contains(seasonKey)
+									val seasonError = state.seasonErrors[seasonKey]
+
+									Column(
+										modifier = Modifier
+											.fillMaxWidth()
+											.padding(start = 32.dp, end = 4.dp),
+										verticalArrangement = Arrangement.spacedBy(8.dp),
+									) {
+										when {
+											isLoadingEpisodes -> {
+												Text(
+													text = stringResource(R.string.loading),
+													color = JellyfinTheme.colorScheme.onBackground,
+												)
+											}
+											!seasonError.isNullOrBlank() -> {
+												Text(
+													text = seasonError,
+													color = Color.Red,
+												)
+											}
+											episodes.isNullOrEmpty() -> {
+												Text(
+													text = stringResource(R.string.jellyseerr_no_episodes),
+													color = JellyfinTheme.colorScheme.onBackground,
+												)
+											}
+											else -> {
+												episodes.forEachIndexed { episodeIndex, episode ->
+													JellyseerrEpisodeRow(
+														episode = episode,
+														modifier = Modifier
+															.fillMaxWidth()
+															.padding(vertical = 4.dp),
+													)
+												}
 											}
 										}
 									}
@@ -1012,6 +1086,86 @@ private fun JellyseerrContent(
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+@Composable
+private fun JellyseerrEpisodeRow(
+	episode: JellyseerrEpisode,
+	modifier: Modifier = Modifier,
+) {
+	val titleParts = buildList {
+		episode.episodeNumber?.let { add(stringResource(R.string.lbl_episode_number, it)) }
+		if (!episode.name.isNullOrBlank()) add(episode.name)
+	}
+	val titleText = titleParts.joinToString(" – ").ifBlank { stringResource(R.string.jellyseerr_episode_title_missing) }
+
+	Row(
+		modifier = modifier,
+		verticalAlignment = Alignment.Top,
+		horizontalArrangement = Arrangement.Start,
+	) {
+		val thumbnailModifier = Modifier
+			.size(110.dp)
+			.clip(RoundedCornerShape(8.dp))
+
+		if (!episode.imageUrl.isNullOrBlank()) {
+			AsyncImage(
+				modifier = thumbnailModifier,
+				url = episode.imageUrl,
+				aspectRatio = 16f / 9f,
+				scaleType = ImageView.ScaleType.CENTER_CROP,
+			)
+		} else {
+			Box(
+				modifier = thumbnailModifier
+					.background(JellyfinTheme.colorScheme.popover),
+				contentAlignment = Alignment.Center,
+			) {
+				Text(
+					text = stringResource(R.string.jellyseerr_episode_title_missing),
+					color = JellyfinTheme.colorScheme.onBackground,
+					fontSize = 12.sp,
+					textAlign = TextAlign.Center,
+				)
+			}
+		}
+
+		Spacer(modifier = Modifier.size(12.dp))
+
+		Column(
+			modifier = Modifier.weight(1f),
+			verticalArrangement = Arrangement.spacedBy(6.dp),
+		) {
+			Text(
+				text = titleText,
+				color = JellyfinTheme.colorScheme.onBackground,
+			)
+
+			if (!episode.overview.isNullOrBlank()) {
+				Text(
+					text = episode.overview,
+					color = JellyfinTheme.colorScheme.onBackground,
+					maxLines = 3,
+					overflow = TextOverflow.Ellipsis,
+				)
+			}
+
+			if (episode.isMissing) {
+				Box(
+					modifier = Modifier
+						.clip(RoundedCornerShape(999.dp))
+						.background(JellyfinTheme.colorScheme.badge)
+						.padding(horizontal = 8.dp, vertical = 2.dp),
+				) {
+					Text(
+						text = stringResource(R.string.jellyseerr_episode_missing_badge),
+						color = JellyfinTheme.colorScheme.onBadge,
+						fontSize = 12.sp,
+					)
 				}
 			}
 		}

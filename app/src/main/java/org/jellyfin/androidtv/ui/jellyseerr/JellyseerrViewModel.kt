@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.data.repository.JellyseerrEpisode
 import org.jellyfin.androidtv.data.repository.JellyseerrMovieDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrRepository
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
@@ -21,6 +22,8 @@ enum class JellyseerrDiscoverCategory(val titleResId: Int) {
 	POPULAR_TV(org.jellyfin.androidtv.R.string.jellyseerr_popular_tv_title),
 	UPCOMING_TV(org.jellyfin.androidtv.R.string.jellyseerr_upcoming_tv_title),
 }
+
+data class SeasonKey(val tmdbId: Int, val seasonNumber: Int)
 
 data class JellyseerrUiState(
 	val isLoading: Boolean = false,
@@ -46,6 +49,9 @@ data class JellyseerrUiState(
 	val scrollPositions: Map<String, ScrollPosition> = emptyMap(),
 	val lastFocusedItemId: Int? = null,
 	val lastFocusedViewAllKey: String? = null,
+	val seasonEpisodes: Map<SeasonKey, List<JellyseerrEpisode>> = emptyMap(),
+	val loadingSeasonKeys: Set<SeasonKey> = emptySet(),
+	val seasonErrors: Map<SeasonKey, String> = emptyMap(),
 )
 
 data class ScrollPosition(
@@ -150,6 +156,42 @@ class JellyseerrViewModel(
 				it.copy(
 					isLoading = false,
 					results = marked,
+				)
+			}
+		}
+	}
+
+	fun loadSeasonEpisodes(tmdbId: Int, seasonNumber: Int) {
+		val key = SeasonKey(tmdbId, seasonNumber)
+		val current = _uiState.value
+
+		if (current.seasonEpisodes.containsKey(key) || current.loadingSeasonKeys.contains(key)) {
+			return
+		}
+
+		viewModelScope.launch {
+			_uiState.update {
+				it.copy(
+					loadingSeasonKeys = it.loadingSeasonKeys + key,
+					seasonErrors = it.seasonErrors - key,
+				)
+			}
+
+			val result = repository.getSeasonEpisodes(tmdbId, seasonNumber)
+
+			_uiState.update { state ->
+				val updatedLoading = state.loadingSeasonKeys - key
+				val updatedEpisodes = result.getOrNull()?.let { state.seasonEpisodes + (key to it) } ?: state.seasonEpisodes
+				val updatedErrors = if (result.isFailure) {
+					state.seasonErrors + (key to (result.exceptionOrNull()?.message.orEmpty()))
+				} else {
+					state.seasonErrors - key
+				}
+
+				state.copy(
+					loadingSeasonKeys = updatedLoading,
+					seasonEpisodes = updatedEpisodes,
+					seasonErrors = updatedErrors,
 				)
 			}
 		}
