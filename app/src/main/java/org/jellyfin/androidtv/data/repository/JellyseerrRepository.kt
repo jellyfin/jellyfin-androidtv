@@ -229,6 +229,7 @@ data class JellyseerrEpisode(
 	val seasonNumber: Int? = null,
 	val airDate: String? = null,
 	val isMissing: Boolean = false,
+	val isAvailable: Boolean = false,
 )
 
 @Serializable
@@ -812,6 +813,14 @@ private data class MediaInfo(
 	private data class MediaInfoSeason(
 		val seasonNumber: Int,
 		val status: Int? = null,
+		val episodes: List<MediaInfoEpisode> = emptyList(),
+	)
+
+	@Serializable
+	private data class MediaInfoEpisode(
+		val id: Int,
+		val episodeNumber: Int,
+		val status: Int? = null,
 	)
 
 	@Serializable
@@ -949,19 +958,29 @@ private data class JellyseerrEpisodeRaw(
 					.flatMap { request -> request.seasons.map { it.seasonNumber } }
 					.toSet()
 
-				// Status map für verfügbare Seasons
-				val availableStatusMap = raw.mediaInfo?.seasons?.associate { it.seasonNumber to it.status } ?: emptyMap()
+				// Status map für verfügbare Seasons (mit Episode-Details)
+				val mediaInfoSeasons = raw.mediaInfo?.seasons ?: emptyList()
+				val availableStatusMap = mediaInfoSeasons.associate { it.seasonNumber to it }
 
 				val mappedSeasons = raw.seasons.map { season ->
-					val availabilityStatus = availableStatusMap[season.seasonNumber]
+					val mediaInfoSeason = availableStatusMap[season.seasonNumber]
+					val availabilityStatus = mediaInfoSeason?.status
 					val isRequested = requestedSeasonNumbers.contains(season.seasonNumber)
 
+					// Prüfe Episode-Level-Verfügbarkeit
+					val episodes = mediaInfoSeason?.episodes ?: emptyList()
+					val availableEpisodes = episodes.count { it.status == 5 }
+					val totalEpisodes = season.episodeCount ?: episodes.size
+					val hasPartialEpisodes = availableEpisodes > 0 && availableEpisodes < totalEpisodes
+
 					// Status-Logik wie in Jellyseerr:
-					// - Wenn verfügbar (5), verwende 5
+					// - Wenn alle Episoden verfügbar (5), verwende 5
+					// - Wenn teilweise verfügbar (mindestens eine Episode), verwende 4
 					// - Wenn angefragt und nicht verfügbar, verwende Request-Status (z.B. 2 = Approved)
 					// - Sonst null (nicht angefragt, nicht verfügbar)
 					val finalStatus = when {
-						availabilityStatus == 5 -> 5 // Available
+						availabilityStatus == 5 -> 5 // Fully Available
+						hasPartialEpisodes -> 4 // Partially Available (some episodes available)
 						isRequested -> 2 // Requested/Approved (wird als "angefragt" angezeigt)
 						else -> null // Nicht angefragt - ignoriere den alten mediaInfo.seasons Status
 					}
@@ -999,6 +1018,33 @@ private data class JellyseerrEpisodeRaw(
 
  			val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
 
+ 			// Erst TV-Details laden um Episode-Verfügbarkeit zu bekommen
+ 			val tvDetailsUrl = "${config.baseUrl}/api/v1/tv/$tmdbId"
+ 			val tvDetailsRequest = Request.Builder()
+ 				.url(tvDetailsUrl)
+ 				.header("X-API-Key", config.apiKey)
+ 				.header("X-API-User", userId.toString())
+ 				.build()
+
+ 			val episodeStatusMap = mutableMapOf<Int, Int>()
+ 			try {
+ 				client.newCall(tvDetailsRequest).execute().use { response ->
+ 					if (response.isSuccessful) {
+ 						val body = response.body?.string()
+ 						if (body != null) {
+ 							val tvDetails = json.decodeFromString(JellyseerrTvDetailsRaw.serializer(), body)
+ 							// Extrahiere Episode-Status aus mediaInfo
+ 							val mediaInfoSeason = tvDetails.mediaInfo?.seasons?.find { it.seasonNumber == seasonNumber }
+ 							mediaInfoSeason?.episodes?.forEach { ep ->
+ 								episodeStatusMap[ep.episodeNumber] = ep.status ?: 0
+ 							}
+ 						}
+ 					}
+ 				}
+ 			} catch (e: Exception) {
+ 				Timber.w(e, "Failed to load TV details for episode availability")
+ 			}
+
  			val url = "${config.baseUrl}/api/v1/tv/$tmdbId/season/$seasonNumber"
  			val request = Request.Builder()
  				.url(url)
@@ -1017,6 +1063,10 @@ private data class JellyseerrEpisodeRaw(
  						val imageUrl = episode.stillPath?.let(::posterImageUrl)
  							?: episode.posterPath?.let(::posterImageUrl)
 
+ 						val epNumber = episode.episodeNumber ?: 0
+ 						val epStatus = episodeStatusMap[epNumber]
+ 						val isEpisodeAvailable = epStatus == 5
+
  						JellyseerrEpisode(
  							id = episode.id,
  							name = episode.name,
@@ -1026,6 +1076,7 @@ private data class JellyseerrEpisodeRaw(
  							seasonNumber = episode.seasonNumber,
  							airDate = episode.airDate,
  							isMissing = episode.missing,
+ 							isAvailable = isEpisodeAvailable,
  						)
  					}
  				}

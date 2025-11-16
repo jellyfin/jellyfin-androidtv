@@ -600,6 +600,7 @@
     <string name="jellyseerr_requested_label">Requested</string>
     <string name="jellyseerr_available_label">Available</string>
     <string name="jellyseerr_partially_available_label">Partially available</string>
+    <string name="jellyseerr_not_available_label">Not available</string>
     <string name="jellyseerr_popular_title">Popular movies</string>
     <string name="jellyseerr_cast_title">Cast</string>
     <string name="jellyseerr_error_prefix">Error: %1$s</string>

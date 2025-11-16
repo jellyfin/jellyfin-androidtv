@@ -380,14 +380,17 @@ private fun JellyseerrScreen(
 
 								// Jellyseerr Status Codes:
 								// null = Nicht angefragt
-								// 1 = Pending approval, 2 = Approved, 3 = Declined, 4 = Processing, 5 = Available
+								// 1 = Pending approval, 2 = Approved, 3 = Declined, 4 = Partially Available, 5 = Available
 								val jellyseerrStatus = season.status
 
 								// Staffel ist verfügbar wenn status = 5 (Available in Jellyseerr)
 								val isAvailable = jellyseerrStatus == 5
 
-								// Staffel ist angefragt wenn status vorhanden ist (1-4) aber nicht verfügbar
-								val seasonRequested = jellyseerrStatus != null && jellyseerrStatus != 5
+								// Staffel ist teilweise verfügbar wenn status = 4
+								val isPartiallyAvailable = jellyseerrStatus == 4
+
+								// Staffel ist angefragt wenn status vorhanden ist (1-3) aber nicht verfügbar
+								val seasonRequested = jellyseerrStatus != null && jellyseerrStatus != 5 && jellyseerrStatus != 4 && jellyseerrStatus != 3
 
 								val expanded = expandedSeasons[number] == true
 								val seasonKey = SeasonKey(selectedItem.id, number)
@@ -400,6 +403,12 @@ private fun JellyseerrScreen(
 										containerColor = Color(0xFF2E7D32),
 										contentColor = Color.White,
 										focusedContainerColor = Color(0xFF4CAF50),
+										focusedContentColor = Color.White,
+									)
+									isPartiallyAvailable -> ButtonDefaults.colors(
+										containerColor = Color(0xFF0097A7),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFF00BCD4),
 										focusedContentColor = Color.White,
 									)
 									seasonRequested -> ButtonDefaults.colors(
@@ -418,6 +427,7 @@ private fun JellyseerrScreen(
 
 								val buttonText = when {
 									isAvailable -> stringResource(R.string.lbl_play)
+									isPartiallyAvailable -> stringResource(R.string.jellyseerr_partially_available_label)
 									seasonRequested -> stringResource(R.string.jellyseerr_requested_label)
 									else -> stringResource(R.string.jellyseerr_request_button)
 								}
@@ -1370,18 +1380,50 @@ private fun JellyseerrContent(
 				)
 			}
 
-			if (episode.isMissing) {
-				Box(
-					modifier = Modifier
-						.clip(RoundedCornerShape(999.dp))
-						.background(JellyfinTheme.colorScheme.badge)
-						.padding(horizontal = 8.dp, vertical = 2.dp),
-				) {
-					Text(
-						text = stringResource(R.string.jellyseerr_episode_missing_badge),
-						color = JellyfinTheme.colorScheme.onBadge,
-						fontSize = 12.sp,
-					)
+			// Status Badge: Available oder Missing
+			when {
+				episode.isAvailable -> {
+					Box(
+						modifier = Modifier
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFF2E7D32))
+							.padding(horizontal = 8.dp, vertical = 2.dp),
+					) {
+						Text(
+							text = stringResource(R.string.jellyseerr_available_label),
+							color = Color.White,
+							fontSize = 12.sp,
+						)
+					}
+				}
+				episode.isMissing -> {
+					Box(
+						modifier = Modifier
+							.clip(RoundedCornerShape(999.dp))
+							.background(JellyfinTheme.colorScheme.badge)
+							.padding(horizontal = 8.dp, vertical = 2.dp),
+					) {
+						Text(
+							text = stringResource(R.string.jellyseerr_episode_missing_badge),
+							color = JellyfinTheme.colorScheme.onBadge,
+							fontSize = 12.sp,
+						)
+					}
+				}
+				else -> {
+					// Nicht verfügbar und nicht explizit als missing markiert
+					Box(
+						modifier = Modifier
+							.clip(RoundedCornerShape(999.dp))
+							.background(Color(0xFF757575))
+							.padding(horizontal = 8.dp, vertical = 2.dp),
+					) {
+						Text(
+							text = stringResource(R.string.jellyseerr_not_available_label),
+							color = Color.White,
+							fontSize = 12.sp,
+						)
+					}
 				}
 			}
 		}
