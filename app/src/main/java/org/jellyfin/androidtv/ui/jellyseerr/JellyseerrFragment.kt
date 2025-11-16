@@ -447,9 +447,9 @@ private fun JellyseerrScreen(
 										focusedContentColor = Color.White,
 									)
 									seasonRequested -> ButtonDefaults.colors(
-										containerColor = Color(0xFFDD8800),
-										contentColor = Color.Black,
-										focusedContainerColor = Color(0xFFFFBB00),
+										containerColor = Color(0xFF9933CC),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFFDD66FF),
 										focusedContentColor = Color.Black,
 									)
 									else -> ButtonDefaults.colors(
@@ -542,7 +542,7 @@ private fun JellyseerrScreen(
 															.align(Alignment.TopEnd)
 															.padding(4.dp)
 															.clip(RoundedCornerShape(999.dp))
-															.background(Color(0xFFDD8800)),
+															.background(Color(0xFF9933CC)),
 													) {
 														androidx.compose.foundation.Image(
 															imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
@@ -2381,12 +2381,21 @@ private fun JellyseerrCastCard(
 					// Kombiniere mit Jellyseerr-Status
 					val finalAvailable = allAvailable || item.isAvailable
 					// Nur "Teilweise verfügbar" wenn tatsächlich Episoden verfügbar sind, NICHT wenn nur angefragt
+					// WICHTIG: someAvailable muss true sein (mindestens eine Episode verfügbar)
 					val finalPartial = !finalAvailable && someAvailable && !isRequested
 
 					Pair(finalAvailable, finalPartial)
 				} else {
-					// Fallback: Verwende Jellyseerr-Status
-					Pair(item.isAvailable, item.isPartiallyAvailable && !item.isAvailable && !isRequested)
+					// Fallback: Verwende Jellyseerr-Status, aber NUR wenn nicht angefragt
+					// WICHTIG: Wenn Serie als "Teilweise verfügbar" markiert ist, aber keine Episoden geladen wurden,
+					// zeige NICHT "Teilweise verfügbar" an - warte bis Episoden geladen sind
+					val fallbackPartial = if (isTv) {
+						// Für TV-Serien: Warte auf Episode-Laden bevor "Teilweise verfügbar" angezeigt wird
+						false
+					} else {
+						item.isPartiallyAvailable && !item.isAvailable && !isRequested
+					}
+					Pair(item.isAvailable, fallbackPartial)
 				}
 
 				val requestButtonInteraction = remember { MutableInteractionSource() }
