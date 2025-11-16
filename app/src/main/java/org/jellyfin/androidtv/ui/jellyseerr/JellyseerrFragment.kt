@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -258,17 +259,20 @@ private fun JellyseerrScreen(
 				?.sortedBy { it.seasonNumber }
 				.orEmpty()
 
-			Dialog(onDismissRequest = {
-				showSeasonDialog = false
-				// Refresh details to sync with Jellyseerr server when dialog closes
-				viewModel.refreshCurrentDetails()
-			}) {
+			Dialog(
+				onDismissRequest = {
+					showSeasonDialog = false
+					// Refresh details to sync with Jellyseerr server when dialog closes
+					viewModel.refreshCurrentDetails()
+				},
+				properties = DialogProperties(usePlatformDefaultWidth = false),
+			) {
 				val firstButtonFocusRequester = remember { FocusRequester() }
 
 				Box(
 					modifier = Modifier
-						.fillMaxWidth(0.8f)
-						.fillMaxHeight(0.8f)
+						.fillMaxWidth()
+						.fillMaxHeight()
 						.background(JellyfinTheme.colorScheme.popover, RoundedCornerShape(16.dp))
 						.border(2.dp, Color.White, RoundedCornerShape(16.dp))
 						.padding(16.dp),
@@ -310,6 +314,12 @@ private fun JellyseerrScreen(
 								val expanded = expandedSeasons[number] == true
 								val seasonKey = SeasonKey(selectedItem.id, number)
 								val rowInteractionSource = remember { MutableInteractionSource() }
+								val rowFocused by rowInteractionSource.collectIsFocusedAsState()
+								val seasonRowBackground = if (rowFocused) {
+									JellyfinTheme.colorScheme.buttonFocused.copy(alpha = 0.5f)
+								} else {
+									Color.Transparent
+								}
 
 								Row(
 									modifier = Modifier
@@ -321,12 +331,15 @@ private fun JellyseerrScreen(
 									Row(
 										modifier = Modifier
 											.weight(1f)
+											.focusable(interactionSource = rowInteractionSource)
 											.clickable(
 												interactionSource = rowInteractionSource,
 												indication = null,
 											) {
 												expandedSeasons[number] = !expanded
-											},
+											}
+											.background(seasonRowBackground, RoundedCornerShape(8.dp))
+											.padding(horizontal = 8.dp, vertical = 6.dp),
 										horizontalArrangement = Arrangement.spacedBy(8.dp),
 										verticalAlignment = Alignment.CenterVertically,
 									) {
@@ -482,12 +495,22 @@ private fun JellyseerrScreen(
 												)
 											}
 											else -> {
-												episodes.forEachIndexed { episodeIndex, episode ->
+												episodes.forEach { episode ->
+													val episodeInteraction = remember(episode.id) { MutableInteractionSource() }
+													val episodeFocused by episodeInteraction.collectIsFocusedAsState()
+													val episodeBackground = if (episodeFocused) {
+														JellyfinTheme.colorScheme.buttonFocused.copy(alpha = 0.3f)
+													} else {
+														Color.Transparent
+													}
+
 													JellyseerrEpisodeRow(
 														episode = episode,
 														modifier = Modifier
 															.fillMaxWidth()
-															.padding(vertical = 4.dp),
+															.padding(vertical = 4.dp)
+															.focusable(interactionSource = episodeInteraction),
+														backgroundColor = episodeBackground,
 													)
 												}
 											}
@@ -1093,10 +1116,11 @@ private fun JellyseerrContent(
 }
 
 @Composable
-private fun JellyseerrEpisodeRow(
-	episode: JellyseerrEpisode,
-	modifier: Modifier = Modifier,
-) {
+	private fun JellyseerrEpisodeRow(
+		episode: JellyseerrEpisode,
+		modifier: Modifier = Modifier,
+		backgroundColor: Color = Color.Transparent,
+	) {
 	val titleParts = buildList {
 		episode.episodeNumber?.let { add(stringResource(R.string.lbl_episode_number, it)) }
 		if (!episode.name.isNullOrBlank()) add(episode.name)
@@ -1104,7 +1128,9 @@ private fun JellyseerrEpisodeRow(
 	val titleText = titleParts.joinToString(" – ").ifBlank { stringResource(R.string.jellyseerr_episode_title_missing) }
 
 	Row(
-		modifier = modifier,
+		modifier = modifier
+			.background(backgroundColor, RoundedCornerShape(8.dp))
+			.padding(8.dp),
 		verticalAlignment = Alignment.Top,
 		horizontalArrangement = Arrangement.Start,
 	) {
