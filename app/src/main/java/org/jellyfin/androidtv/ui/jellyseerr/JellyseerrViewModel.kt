@@ -647,14 +647,17 @@ class JellyseerrViewModel(
 		}
 	}
 
-fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
-	if (seasons.isNullOrEmpty() && item.isRequested) return
+	fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
+		if (seasons.isNullOrEmpty() && item.isRequested) return
 
-	viewModelScope.launch {
+		viewModelScope.launch {
 			_uiState.update { it.copy(errorMessage = null, requestStatusMessage = null) }
 
 			repository.createRequest(item, seasons)
 				.onSuccess {
+					if (!seasons.isNullOrEmpty()) {
+						markSelectedSeasonsAsRequested(item, seasons)
+					}
 					// Reload own requests und markiere Suchergebnisse
 					refreshOwnRequests()
 					// Refresh current details to update season status immediately
@@ -668,6 +671,27 @@ fun request(item: JellyseerrSearchItem, seasons: List<Int>? = null) {
 						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage fehlgeschlagen")
 					}
 				}
+		}
+	}
+
+	private fun markSelectedSeasonsAsRequested(item: JellyseerrSearchItem, seasons: List<Int>) {
+		if (seasons.isEmpty()) return
+
+		val requestedSeasonNumbers = seasons.toSet()
+
+		_uiState.update { state ->
+			val updatedMovie = state.selectedMovie?.copy(
+				seasons = state.selectedMovie.seasons.map { season ->
+					if (season.seasonNumber in requestedSeasonNumbers) season.copy(status = 1) else season
+				}
+			)
+
+			val updatedItem = state.selectedItem?.takeIf { it.id == item.id }?.copy(isRequested = true)
+
+			state.copy(
+				selectedMovie = updatedMovie ?: state.selectedMovie,
+				selectedItem = updatedItem ?: state.selectedItem,
+			)
 		}
 	}
 
