@@ -44,6 +44,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -268,17 +270,44 @@ private fun JellyseerrScreen(
 				properties = DialogProperties(usePlatformDefaultWidth = false),
 			) {
 				val firstButtonFocusRequester = remember { FocusRequester() }
+				val dialogBackdropUrl = details?.backdropPath ?: selectedItem.backdropPath
+				val overlayBrush = Brush.verticalGradient(
+					colors = listOf(
+						JellyfinTheme.colorScheme.popover.copy(alpha = 0.85f),
+						JellyfinTheme.colorScheme.popover.copy(alpha = 0.95f),
+					),
+				)
 
 				Box(
 					modifier = Modifier
 						.fillMaxWidth()
-						.fillMaxHeight()
-						.background(JellyfinTheme.colorScheme.popover, RoundedCornerShape(16.dp))
-						.border(2.dp, Color.White, RoundedCornerShape(16.dp))
-						.padding(16.dp),
+						.fillMaxHeight(),
 				) {
+					if (!dialogBackdropUrl.isNullOrBlank()) {
+						AsyncImage(
+							modifier = Modifier.matchParentSize(),
+							url = dialogBackdropUrl,
+							aspectRatio = 16f / 9f,
+							scaleType = ImageView.ScaleType.CENTER_CROP,
+						)
+					} else {
+						Box(
+							modifier = Modifier
+								.matchParentSize()
+								.background(JellyfinTheme.colorScheme.popover),
+						)
+					}
+
+					Box(
+						modifier = Modifier
+							.matchParentSize()
+							.background(overlayBrush),
+					)
+
 					Column(
-						modifier = Modifier.fillMaxSize(),
+						modifier = Modifier
+							.fillMaxSize()
+							.padding(16.dp),
 						verticalArrangement = Arrangement.spacedBy(12.dp),
 					) {
 						Text(
@@ -314,7 +343,7 @@ private fun JellyseerrScreen(
 								val expanded = expandedSeasons[number] == true
 								val seasonKey = SeasonKey(selectedItem.id, number)
 								val rowInteractionSource = remember { MutableInteractionSource() }
-								val rowFocused by rowInteractionSource.collectIsFocusedAsState()
+								var rowFocused by remember { mutableStateOf(false) }
 								val seasonRowBackground = if (rowFocused) {
 									JellyfinTheme.colorScheme.buttonFocused.copy(alpha = 0.5f)
 								} else {
@@ -331,7 +360,7 @@ private fun JellyseerrScreen(
 									Row(
 										modifier = Modifier
 											.weight(1f)
-											.focusable(interactionSource = rowInteractionSource)
+											.onFocusChanged { rowFocused = it.isFocused }
 											.clickable(
 												interactionSource = rowInteractionSource,
 												indication = null,
