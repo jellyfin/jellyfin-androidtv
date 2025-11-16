@@ -878,7 +878,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     private void refreshCurrentItem() {
         if (mCurrentItem == null) return;
-        Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
+        Timber.i("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
         ItemRowAdapterHelperKt.refreshItem(mAdapter, api.getValue(), this, mCurrentItem, () -> {
             //Now - if filtered make sure we still pass
             if (mAdapter.getFilters() == null) return null;
