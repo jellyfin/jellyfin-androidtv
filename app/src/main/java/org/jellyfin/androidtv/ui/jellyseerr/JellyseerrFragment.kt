@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -52,6 +53,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -968,8 +970,12 @@ private fun JellyseerrContent(
 								}
 
 								index == maxIndex + 1 -> {
+									val posterUrls = remember(baseResults) {
+										baseResults.shuffled().take(4).mapNotNull { it.posterPath }
+									}
 									JellyseerrViewAllCard(
 										onClick = { viewModel.showAllTrends() },
+										posterUrls = posterUrls,
 										focusRequester = focusRequesterForViewAll(VIEW_ALL_TRENDING),
 										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_TRENDING) },
 									)
@@ -990,46 +996,6 @@ private fun JellyseerrContent(
 							focusRequester.requestFocus()
 						}
 					}
-					}
-				}
-
-				// Bisherige Anfragen (nur eigene Anfragen) - MOVED UP
-				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_recent_requests_title),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = sectionTitleFontSize,
-					)
-
-					if (state.recentRequests.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(300.dp),
-						) {
-							items(state.recentRequests) { item ->
-								val focusRequester = recentRequestsFocusRequesters.getOrPut(item.id) { FocusRequester() }
-								JellyseerrSearchCard(
-									item = item,
-									onClick = { viewModel.showDetailsForItem(item) },
-									focusRequester = focusRequester,
-									onFocus = { }, // Kein lastFocusedItem Update für Recent Requests
-								)
-							}
-						}
 					}
 				}
 
@@ -1091,8 +1057,12 @@ private fun JellyseerrContent(
 									)
 									}
 								index == maxIndex + 1 -> {
+									val posterUrls = remember(state.popularResults) {
+										state.popularResults.shuffled().take(4).mapNotNull { it.posterPath }
+									}
 									JellyseerrViewAllCard(
 										onClick = { viewModel.showAllPopularMovies() },
+										posterUrls = posterUrls,
 										focusRequester = focusRequesterForViewAll(VIEW_ALL_POPULAR_MOVIES),
 										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_POPULAR_MOVIES) },
 									)
@@ -1145,8 +1115,12 @@ private fun JellyseerrContent(
 										)
 									}
 								index == maxIndex + 1 -> {
+									val posterUrls = remember(state.popularTvResults) {
+										state.popularTvResults.shuffled().take(4).mapNotNull { it.posterPath }
+									}
 									JellyseerrViewAllCard(
 										onClick = { viewModel.showAllPopularTv() },
+										posterUrls = posterUrls,
 										focusRequester = focusRequesterForViewAll(VIEW_ALL_POPULAR_TV),
 										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_POPULAR_TV) },
 									)
@@ -1201,8 +1175,12 @@ private fun JellyseerrContent(
 										)
 									}
 								index == maxIndex + 1 -> {
+									val posterUrls = remember(state.upcomingMovieResults) {
+										state.upcomingMovieResults.shuffled().take(4).mapNotNull { it.posterPath }
+									}
 									JellyseerrViewAllCard(
 										onClick = { viewModel.showAllUpcomingMovies() },
+										posterUrls = posterUrls,
 										focusRequester = focusRequesterForViewAll(VIEW_ALL_UPCOMING_MOVIES),
 										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_UPCOMING_MOVIES) },
 									)
@@ -1255,13 +1233,56 @@ private fun JellyseerrContent(
 										)
 									}
 									index == maxIndex + 1 -> {
+										val posterUrls = remember(state.upcomingTvResults) {
+											state.upcomingTvResults.shuffled().take(4).mapNotNull { it.posterPath }
+										}
 										JellyseerrViewAllCard(
 											onClick = { viewModel.showAllUpcomingTv() },
+											posterUrls = posterUrls,
 											focusRequester = focusRequesterForViewAll(VIEW_ALL_UPCOMING_TV),
 											onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_UPCOMING_TV) },
 										)
 									}
 								}
+							}
+						}
+					}
+				}
+
+				// Bisherige Anfragen (eigene Anfragen)
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					Spacer(modifier = Modifier.size(sectionSpacing))
+
+					Text(
+						text = stringResource(R.string.jellyseerr_recent_requests_title),
+						color = JellyfinTheme.colorScheme.onBackground,
+						fontSize = sectionTitleFontSize,
+					)
+
+					if (state.recentRequests.isEmpty()) {
+						Spacer(modifier = Modifier.size(sectionInnerSpacing))
+						Text(
+							text = stringResource(R.string.jellyseerr_no_results),
+							modifier = Modifier.padding(horizontal = 24.dp),
+							color = JellyfinTheme.colorScheme.onBackground,
+						)
+					} else {
+						Spacer(modifier = Modifier.size(sectionInnerSpacing))
+
+						LazyRow(
+							horizontalArrangement = Arrangement.spacedBy(16.dp),
+							contentPadding = PaddingValues(horizontal = 24.dp),
+							modifier = Modifier
+								.fillMaxWidth()
+								.height(200.dp),
+						) {
+							items(state.recentRequests) { item ->
+								val focusRequester = recentRequestsFocusRequesters.getOrPut(item.id) { FocusRequester() }
+								JellyseerrRecentRequestCard(
+									item = item,
+									onClick = { viewModel.showDetailsForItem(item) },
+									focusRequester = focusRequester,
+								)
 							}
 						}
 					}
@@ -1419,41 +1440,177 @@ private fun JellyseerrPersonScreen(
 @Composable
 private fun JellyseerrViewAllCard(
 	onClick: () -> Unit,
+	posterUrls: List<String?> = emptyList(),
 	focusRequester: FocusRequester? = null,
 	onFocus: (() -> Unit)? = null,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
 	val isFocused by interactionSource.collectIsFocusedAsState()
+	val scale = if (isFocused) 1.1f else 1f
+	val view = LocalView.current
 
 	LaunchedEffect(isFocused) {
 		if (isFocused) {
+			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
 			onFocus?.invoke()
 		}
 	}
 
-	Box(
+	Column(
 		modifier = Modifier
-			.width(80.dp)
-			.height(200.dp)
+			.width(150.dp)
+			.fillMaxSize()
+			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
+			.then(
+				if (focusRequester != null) {
+					Modifier.focusRequester(focusRequester)
+				} else {
+					Modifier
+				}
+			)
+			.focusable(interactionSource = interactionSource)
+			.graphicsLayer(
+				scaleX = scale,
+				scaleY = scale,
+			)
 			.padding(vertical = 4.dp),
-		contentAlignment = Alignment.Center,
+		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
-		Button(
-			onClick = onClick,
-			interactionSource = interactionSource,
-			colors = ButtonDefaults.colors(
-				containerColor = Color.Transparent,
-				contentColor = Color.White,
-				focusedContainerColor = Color.White,
-				focusedContentColor = Color.Black,
-			),
-			modifier = if (focusRequester != null) {
-				Modifier.focusRequester(focusRequester)
-			} else {
-				Modifier
-			},
+		Box(
+			modifier = Modifier
+				.fillMaxWidth()
+				.height(200.dp)
+				.clip(RoundedCornerShape(12.dp))
+				.border(
+					width = if (isFocused) 4.dp else 1.dp,
+					color = if (isFocused) Color.White else Color(0xFF888888),
+					shape = RoundedCornerShape(12.dp),
+				),
 		) {
-			Text(text = ">")
+			// 2x2 Grid of posters with outer padding
+			Column(
+				modifier = Modifier
+					.fillMaxSize()
+					.padding(4.dp),
+				verticalArrangement = Arrangement.spacedBy(4.dp),
+			) {
+				Row(
+					modifier = Modifier
+						.fillMaxWidth()
+						.weight(1f),
+					horizontalArrangement = Arrangement.spacedBy(4.dp),
+				) {
+					posterUrls.getOrNull(0)?.let { posterUrl ->
+						AsyncImage(
+							url = posterUrl,
+							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
+							modifier = Modifier
+								.weight(1f)
+								.fillMaxHeight()
+								.clip(RoundedCornerShape(4.dp)),
+						)
+					} ?: Box(
+						modifier = Modifier
+							.weight(1f)
+							.fillMaxHeight()
+							.clip(RoundedCornerShape(4.dp))
+							.background(Color(0xFF2A2A2A)),
+					)
+					posterUrls.getOrNull(1)?.let { posterUrl ->
+						AsyncImage(
+							url = posterUrl,
+							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
+							modifier = Modifier
+								.weight(1f)
+								.fillMaxHeight()
+								.clip(RoundedCornerShape(4.dp)),
+						)
+					} ?: Box(
+						modifier = Modifier
+							.weight(1f)
+							.fillMaxHeight()
+							.clip(RoundedCornerShape(4.dp))
+							.background(Color(0xFF2A2A2A)),
+					)
+				}
+				Row(
+					modifier = Modifier
+						.fillMaxWidth()
+						.weight(1f),
+					horizontalArrangement = Arrangement.spacedBy(4.dp),
+				) {
+					posterUrls.getOrNull(2)?.let { posterUrl ->
+						AsyncImage(
+							url = posterUrl,
+							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
+							modifier = Modifier
+								.weight(1f)
+								.fillMaxHeight()
+								.clip(RoundedCornerShape(4.dp)),
+						)
+					} ?: Box(
+						modifier = Modifier
+							.weight(1f)
+							.fillMaxHeight()
+							.clip(RoundedCornerShape(4.dp))
+							.background(Color(0xFF2A2A2A)),
+					)
+					posterUrls.getOrNull(3)?.let { posterUrl ->
+						AsyncImage(
+							url = posterUrl,
+							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
+							modifier = Modifier
+								.weight(1f)
+								.fillMaxHeight()
+								.clip(RoundedCornerShape(4.dp)),
+						)
+					} ?: Box(
+						modifier = Modifier
+							.weight(1f)
+							.fillMaxHeight()
+							.clip(RoundedCornerShape(4.dp))
+							.background(Color(0xFF2A2A2A)),
+					)
+				}
+			}
+
+			// Dimmer overlay
+			Box(
+				modifier = Modifier
+					.fillMaxSize()
+					.background(Color.Black.copy(alpha = 0.5f)),
+			)
+
+			// Arrow icon in white circle and label inside card
+			Column(
+				modifier = Modifier.fillMaxSize(),
+				horizontalAlignment = Alignment.CenterHorizontally,
+				verticalArrangement = Arrangement.Center,
+			) {
+				Box(
+					modifier = Modifier
+						.size(48.dp) // smaller circle
+						.clip(CircleShape)
+						.background(Color.White),
+					contentAlignment = Alignment.Center,
+				) {
+					Text(
+						text = "→",
+						color = Color.Black,
+						fontSize = 24.sp, // smaller icon text
+						fontWeight = FontWeight.Bold,
+						textAlign = TextAlign.Center,
+						lineHeight = 24.sp, // ensure vertical centering
+					)
+				}
+				Spacer(modifier = Modifier.height(8.dp))
+				Text(
+					text = stringResource(R.string.jellyseerr_view_more),
+					color = Color.White,
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Medium,
+				)
+			}
 		}
 	}
 }
@@ -1728,6 +1885,198 @@ private fun JellyseerrCastRow(
 				onClick = { onCastClick(person) },
 				focusRequester = if (index == 0) firstCastFocusRequester else null,
 			)
+		}
+	}
+}
+
+@Composable
+private fun JellyseerrRecentRequestCard(
+	item: JellyseerrSearchItem,
+	onClick: () -> Unit,
+	focusRequester: FocusRequester? = null,
+) {
+	val interactionSource = remember { MutableInteractionSource() }
+	val isFocused by interactionSource.collectIsFocusedAsState()
+	val scale = if (isFocused) 1.05f else 1f
+	val view = LocalView.current
+
+	LaunchedEffect(isFocused) {
+		if (isFocused) {
+			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
+		}
+	}
+
+	Box(
+		modifier = Modifier
+			.width(350.dp)
+			.height(180.dp)
+			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
+			.then(
+				if (focusRequester != null) {
+					Modifier.focusRequester(focusRequester)
+				} else {
+					Modifier
+				}
+			)
+			.focusable(interactionSource = interactionSource)
+			.graphicsLayer(
+				scaleX = scale,
+				scaleY = scale,
+			)
+			.clip(RoundedCornerShape(12.dp))
+			.border(
+				width = if (isFocused) 3.dp else 1.dp,
+				color = if (isFocused) Color.White else Color(0xFF555555),
+				shape = RoundedCornerShape(12.dp),
+			),
+	) {
+		// Backdrop Image
+		if (!item.backdropPath.isNullOrBlank()) {
+			AsyncImage(
+				modifier = Modifier.fillMaxSize(),
+				url = item.backdropPath,
+				aspectRatio = 16f / 9f,
+				scaleType = ImageView.ScaleType.CENTER_CROP,
+			)
+		} else {
+			Box(
+				modifier = Modifier
+					.fillMaxSize()
+					.background(Color(0xFF1A1A1A)),
+			)
+		}
+
+		// Dimmer overlay
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.background(
+					Brush.horizontalGradient(
+						colors = listOf(
+							Color.Black.copy(alpha = 0.85f),
+							Color.Black.copy(alpha = 0.4f),
+						),
+					),
+				),
+		)
+
+		Row(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(12.dp),
+			horizontalArrangement = Arrangement.SpaceBetween,
+		) {
+			// Left side - Text content
+			Column(
+				modifier = Modifier
+					.weight(1f)
+					.fillMaxHeight(),
+				verticalArrangement = Arrangement.SpaceBetween,
+			) {
+				Column {
+					// Media type badge and year row
+					Row(
+						horizontalArrangement = Arrangement.spacedBy(8.dp),
+						verticalAlignment = Alignment.CenterVertically,
+					) {
+						// Media type badge
+						val mediaTypeText = if (item.mediaType == "tv") "Serie" else "Film"
+						Box(
+							modifier = Modifier
+								.clip(RoundedCornerShape(4.dp))
+								.background(Color(0xFF424242))
+								.padding(horizontal = 6.dp, vertical = 2.dp),
+						) {
+							Text(
+								text = mediaTypeText,
+								color = Color.White,
+								fontSize = 10.sp,
+							)
+						}
+
+						// Year
+						val year = item.releaseDate?.take(4) ?: ""
+						if (year.isNotBlank()) {
+							Text(
+								text = year,
+								color = Color.White.copy(alpha = 0.7f),
+								fontSize = 14.sp,
+							)
+						}
+					}
+
+					Spacer(modifier = Modifier.height(4.dp))
+
+					// Title
+					Text(
+						text = item.title,
+						color = Color.White,
+						fontSize = 18.sp,
+						maxLines = 2,
+						overflow = TextOverflow.Ellipsis,
+					)
+				}
+
+				// Status Badge
+				val statusText = when {
+					item.isAvailable -> stringResource(R.string.jellyseerr_available_label)
+					item.isPartiallyAvailable -> stringResource(R.string.jellyseerr_partially_available_label)
+					item.requestStatus != null -> stringResource(R.string.jellyseerr_requested_label)
+					else -> ""
+				}
+
+				val statusColor = when {
+					item.isAvailable -> Color(0xFF2E7D32)
+					item.isPartiallyAvailable -> Color(0xFF0097A7)
+					item.requestStatus != null -> Color(0xFFDD8800)
+					else -> Color.Transparent
+				}
+
+				if (statusText.isNotBlank()) {
+					Box(
+						modifier = Modifier
+							.clip(RoundedCornerShape(6.dp))
+							.background(statusColor)
+							.padding(horizontal = 10.dp, vertical = 4.dp),
+					) {
+						Text(
+							text = statusText,
+							color = Color.White,
+							fontSize = 12.sp,
+						)
+					}
+				}
+			}
+
+			// Right side - Poster
+			Box(
+				modifier = Modifier
+					.width(85.dp)
+					.fillMaxHeight()
+					.clip(RoundedCornerShape(8.dp))
+					.background(Color.Gray.copy(alpha = 0.3f)),
+			) {
+				if (!item.posterPath.isNullOrBlank()) {
+					AsyncImage(
+						modifier = Modifier.fillMaxSize(),
+						url = item.posterPath,
+						aspectRatio = 2f / 3f,
+						scaleType = ImageView.ScaleType.CENTER_CROP,
+					)
+				} else {
+					Box(
+						modifier = Modifier.fillMaxSize(),
+						contentAlignment = Alignment.Center,
+					) {
+						androidx.compose.foundation.Image(
+							imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+							contentDescription = null,
+							modifier = Modifier.size(32.dp),
+							colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
+						)
+					}
+				}
+			}
 		}
 	}
 }

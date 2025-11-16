@@ -590,14 +590,15 @@
     <string name="lbl_still_watching_very_long">8 Folgen oder 240 Minuten</string>
     <string name="still_watching_label">Bist du noch am schauen?</string>
     <string name="pref_subtitles_position">Versatz von unten</string>
-    <string name="lbl_requests">Wünsche</string>
+    <string name="lbl_requests">Entdecken</string>
     <string name="jellyseerr_search_results_title">Suchergebnisse</string>
-    <string name="jellyseerr_discover_title">Entdecken</string>
+    <string name="jellyseerr_discover_title">Trends</string>
     <string name="jellyseerr_my_requests_title">Meine Wünsche</string>
     <string name="jellyseerr_no_results">Keine Ergebnisse.</string>
     <string name="jellyseerr_no_requests">Noch keine Wünsche vorhanden.</string>
     <string name="jellyseerr_request_button">Anfragen</string>
     <string name="jellyseerr_requested_label">Angefragt</string>
+    <string name="jellyseerr_available_label">Verfügbar</string>
     <string name="jellyseerr_partially_available_label">Teilweise verfügbar</string>
     <string name="jellyseerr_cast_title">Besetzung</string>
     <string name="jellyseerr_error_prefix">Fehler: %1$s</string>
@@ -611,6 +612,7 @@
     <string name="jellyseerr_movie_genres_title">Film-Genres</string>
     <string name="jellyseerr_movie_studios_title">Filmstudios</string>
     <string name="jellyseerr_tv_networks_title">Sender</string>
+    <string name="jellyseerr_view_more">Mehr anschauen</string>
     <string name="jellyseerr_request_sended">Anfrage gesendet</string>
     <string name="jellyseerr_request_error">Anfrage fehlgeschlagen</string>
     <string name="jellyseerr_seasons_label">Staffeln auswählen</string>

@@ -56,6 +56,7 @@ data class JellyseerrSearchItem(
 	val overview: String?,
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
+	val releaseDate: String? = null,
 	val isRequested: Boolean = false,
 	val isAvailable: Boolean = false,
 	val isPartiallyAvailable: Boolean = false,
@@ -224,11 +225,13 @@ data class JellyseerrEpisode(
 data class JellyseerrMovieDetails(
 	val id: Int,
 	val title: String? = null,
+	val name: String? = null,
 	val originalTitle: String? = null,
 	val overview: String? = null,
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
 	val releaseDate: String? = null,
+	val firstAirDate: String? = null,
 	val runtime: Int? = null,
 	val voteAverage: Double? = null,
 	val genres: List<JellyseerrGenre> = emptyList(),
@@ -547,14 +550,17 @@ class JellyseerrRepositoryImpl(
 
 							val posterUrl = posterImageUrl(details.posterPath)
 							val backdropUrl = backdropImageUrl(details.backdropPath)
+							val dateValue = details.releaseDate ?: details.firstAirDate
+							val titleValue = details.title ?: details.name ?: ""
 
 							JellyseerrSearchItem(
 								id = tmdbId,
 								mediaType = mediaType,
-								title = details.title ?: "",
+								title = titleValue,
 								overview = details.overview,
 								posterPath = posterUrl,
 								backdropPath = backdropUrl,
+								releaseDate = dateValue,
 								isRequested = dto.status != null && dto.status != 5,
 								isAvailable = dto.status == 5,
 								isPartiallyAvailable = false,
