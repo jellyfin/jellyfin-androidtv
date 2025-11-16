@@ -80,9 +80,11 @@ import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import android.widget.ImageView
+import android.view.SoundEffectConstants
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import kotlinx.coroutines.delay
 
@@ -310,10 +312,48 @@ private fun JellyseerrScreen(
 							.padding(16.dp),
 						verticalArrangement = Arrangement.spacedBy(12.dp),
 					) {
-						Text(
-							text = stringResource(R.string.jellyseerr_seasons_label),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
+						// Header Row mit Titel und "Alle anfragen" Button
+						Row(
+							modifier = Modifier.fillMaxWidth(),
+							horizontalArrangement = Arrangement.SpaceBetween,
+							verticalAlignment = Alignment.CenterVertically,
+						) {
+							Text(
+								text = stringResource(R.string.jellyseerr_seasons_label),
+								color = JellyfinTheme.colorScheme.onBackground,
+							)
+
+							// "Alle anfragen" Button im Header
+							val unrequestedSeasons = availableSeasons.filter { it.status == null }
+							if (unrequestedSeasons.isNotEmpty()) {
+								val requestAllInteraction = remember { MutableInteractionSource() }
+								val requestAllFocused by requestAllInteraction.collectIsFocusedAsState()
+
+								Button(
+									onClick = {
+										val seasonsToRequest = unrequestedSeasons.map { it.seasonNumber }
+										if (seasonsToRequest.isNotEmpty()) {
+											viewModel.request(selectedItem, seasonsToRequest)
+										}
+										showSeasonDialog = false
+									},
+									colors = ButtonDefaults.colors(
+										containerColor = Color(0xFF9933CC),
+										contentColor = Color.White,
+										focusedContainerColor = Color(0xFFDD66FF),
+										focusedContentColor = Color.Black,
+									),
+									interactionSource = requestAllInteraction,
+									modifier = Modifier.border(
+										width = if (requestAllFocused) 3.dp else 0.dp,
+										color = Color.White,
+										shape = CircleShape
+									),
+								) {
+									Text(text = stringResource(R.string.jellyseerr_request_all_seasons))
+								}
+							}
+						}
 
 						Spacer(modifier = Modifier.size(8.dp))
 
@@ -665,44 +705,6 @@ private fun JellyseerrScreen(
 											}
 										}
 									}
-								}
-							}
-						}
-
-						Row(
-							modifier = Modifier.fillMaxWidth(),
-							horizontalArrangement = Arrangement.End,
-						) {
-							// "Alle anfragen" Button nur anzeigen wenn es noch nicht angefragte Staffeln gibt
-							val unrequestedSeasons = availableSeasons.filter { it.status == null }
-
-							if (unrequestedSeasons.isNotEmpty()) {
-								val requestAllInteraction = remember { MutableInteractionSource() }
-								val requestAllFocused by requestAllInteraction.collectIsFocusedAsState()
-
-								Button(
-									onClick = {
-										val seasonsToRequest = unrequestedSeasons.map { it.seasonNumber }
-
-										if (seasonsToRequest.isNotEmpty()) {
-											viewModel.request(selectedItem, seasonsToRequest)
-										}
-										showSeasonDialog = false
-									},
-									colors = ButtonDefaults.colors(
-										containerColor = Color(0xFF9933CC),
-										contentColor = Color.White,
-										focusedContainerColor = Color(0xFFDD66FF),
-										focusedContentColor = Color.Black,
-									),
-									interactionSource = requestAllInteraction,
-									modifier = Modifier.border(
-										width = if (requestAllFocused) 3.dp else 0.dp,
-										color = Color.White,
-										shape = CircleShape
-									),
-								) {
-									Text(text = stringResource(R.string.jellyseerr_request_all_seasons))
 								}
 							}
 						}
@@ -1462,9 +1464,11 @@ private fun JellyseerrSearchCard(
 	val interactionSource = remember { MutableInteractionSource() }
 	val isFocused by interactionSource.collectIsFocusedAsState()
 	val scale = if (isFocused) 1.1f else 1f
+	val view = LocalView.current
 
 	LaunchedEffect(isFocused) {
 		if (isFocused) {
+			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
 			onFocus?.invoke()
 		}
 	}
@@ -1732,6 +1736,13 @@ private fun JellyseerrCastCard(
 	val interactionSource = remember { MutableInteractionSource() }
 	val isFocused by interactionSource.collectIsFocusedAsState()
 	val scale = if (isFocused) 1.05f else 1f
+	val view = LocalView.current
+
+	LaunchedEffect(isFocused) {
+		if (isFocused) {
+			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
+		}
+	}
 
 	val modifier = Modifier
 		.width(120.dp)
