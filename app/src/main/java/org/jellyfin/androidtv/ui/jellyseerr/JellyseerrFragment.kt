@@ -3093,87 +3093,78 @@ private val JellyseerrNetworkCards = listOf(
 	) {
 		val interactionSource = remember { MutableInteractionSource() }
 		val isFocused by interactionSource.collectIsFocusedAsState()
+		val scale = if (isFocused) 1.05f else 1f
 		val view = LocalView.current
 
 		LaunchedEffect(isFocused) {
-		if (isFocused) {
-			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
-		}
-	}
-
-	val scale by animateFloatAsState(
-		targetValue = if (isFocused) 1.05f else 1f,
-		animationSpec = tween(durationMillis = 150),
-		label = "company_card_scale",
-	)
-
-	Box(
-		modifier = modifier
-			.width(350.dp)
-			.height(180.dp)
-			.graphicsLayer(
-				scaleX = scale,
-				scaleY = scale,
-			)
-			.clip(RoundedCornerShape(12.dp))
-			.border(
-				width = if (isFocused) 3.dp else 1.dp,
-				color = if (isFocused) Color.White else Color(0xFF444444),
-				shape = RoundedCornerShape(12.dp),
-			)
-			.clickable(
-				interactionSource = interactionSource,
-				indication = null,
-				onClick = onClick,
-			)
-			.focusable(interactionSource = interactionSource),
-		contentAlignment = Alignment.Center,
-	) {
-		val logoAreaModifier = Modifier
-			.fillMaxWidth()
-			.height(120.dp)
-			.align(Alignment.TopCenter)
-		Box(
-			modifier = logoAreaModifier
-				.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-				.background(Color(0xFF1A1A1A)),
-			contentAlignment = Alignment.Center,
-		) {
-			if (!logoUrl.isNullOrBlank()) {
-				AsyncImage(
-					modifier = Modifier
-						.fillMaxWidth()
-						.height(100.dp),
-					url = logoUrl,
-					aspectRatio = 3f / 2f,
-					scaleType = ImageView.ScaleType.CENTER_INSIDE,
-				)
+			if (isFocused) {
+				view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
 			}
 		}
 
 		Box(
-			modifier = Modifier
-				.fillMaxWidth()
-				.height(40.dp)
-				.align(Alignment.BottomCenter)
-				.background(
-					Brush.verticalGradient(
-						colors = listOf(Color.Black.copy(alpha = 0.75f), Color.Transparent),
-					),
+			modifier = modifier
+				.width(350.dp)
+				.height(180.dp)
+				.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
+				.focusable(interactionSource = interactionSource)
+				.graphicsLayer(
+					scaleX = scale,
+					scaleY = scale,
+				)
+				.clip(RoundedCornerShape(12.dp))
+				.border(
+					width = if (isFocused) 3.dp else 1.dp,
+					color = if (isFocused) Color.White else Color(0xFF444444),
+					shape = RoundedCornerShape(12.dp),
 				),
-		)
+			contentAlignment = Alignment.Center,
+		) {
+			if (!logoUrl.isNullOrBlank()) {
+				AsyncImage(
+					modifier = Modifier.fillMaxSize(),
+					url = logoUrl,
+					aspectRatio = 16f / 9f,
+					scaleType = ImageView.ScaleType.CENTER_INSIDE,
+				)
+			} else {
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.background(Color(0xFF1A1A1A)),
+				)
+			}
 
-		Text(
-			text = name,
-			color = Color.White,
-			fontSize = 12.sp,
-			fontWeight = FontWeight.Medium,
-			modifier = Modifier
-				.align(Alignment.BottomCenter)
-				.padding(bottom = 12.dp),
-			textAlign = TextAlign.Center,
-			maxLines = 1,
-			overflow = TextOverflow.Ellipsis,
-		)
+			Box(
+				modifier = Modifier
+					.fillMaxSize()
+					.background(
+						Brush.horizontalGradient(
+							colors = listOf(
+								Color.Black.copy(alpha = 0.85f),
+								Color.Black.copy(alpha = 0.4f),
+							),
+						)
+					),
+			)
+
+			Column(
+				modifier = Modifier
+					.fillMaxSize()
+					.padding(12.dp),
+				verticalArrangement = Arrangement.Bottom,
+				horizontalAlignment = Alignment.CenterHorizontally,
+			) {
+				Text(
+					text = name,
+					color = Color.White,
+					fontSize = 18.sp,
+					fontWeight = FontWeight.Medium,
+					textAlign = TextAlign.Center,
+					maxLines = 2,
+					overflow = TextOverflow.Ellipsis,
+					modifier = Modifier.padding(bottom = 4.dp),
+				)
+			}
+		}
 	}
-}
