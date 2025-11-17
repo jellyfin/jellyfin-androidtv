@@ -2887,25 +2887,25 @@ private fun JellyseerrGenreCard(
 			)
 		}
 
-		// Gradient Overlay für bessere Textlesbarkeit
+		// Gradient Overlay für bessere Textlesbarkeit (stärkerer Dimmer)
 		Box(
 			modifier = Modifier
 				.fillMaxSize()
 				.background(
 					Brush.verticalGradient(
 						colors = listOf(
-							Color.Black.copy(alpha = 0.3f),
-							Color.Black.copy(alpha = 0.6f),
+							Color.Black.copy(alpha = 0.5f), // <-- Stärkerer Dimmer
+							Color.Black.copy(alpha = 0.8f), // <-- Stärkerer Dimmer
 						)
 					)
 				),
 		)
 
-		// Genre Name zentriert
+		// Genre Name zentriert (größere Schrift)
 		Text(
 			text = genre.name,
 			color = Color.White,
-			fontSize = 20.sp,
+			fontSize = 24.sp, // <-- Größere Schrift
 			fontWeight = FontWeight.Bold,
 			textAlign = TextAlign.Center,
 			modifier = Modifier.padding(16.dp),
@@ -3122,7 +3122,9 @@ private val JellyseerrNetworkCards = listOf(
 		) {
 			if (!logoUrl.isNullOrBlank()) {
 				AsyncImage(
-					modifier = Modifier.fillMaxSize(),
+					modifier = Modifier
+						.fillMaxSize()
+						.padding(16.dp), // <-- Padding für das Logo
 					url = logoUrl,
 					aspectRatio = 16f / 9f,
 					scaleType = ImageView.ScaleType.CENTER_INSIDE,
@@ -3135,19 +3137,21 @@ private val JellyseerrNetworkCards = listOf(
 				)
 			}
 
+			// Vertikaler Dimmer (stärker am unteren Rand)
 			Box(
 				modifier = Modifier
 					.fillMaxSize()
 					.background(
-						Brush.horizontalGradient(
+						Brush.verticalGradient(
 							colors = listOf(
-								Color.Black.copy(alpha = 0.85f),
-								Color.Black.copy(alpha = 0.4f),
+								Color.Black.copy(alpha = 0.2f),
+								Color.Black.copy(alpha = 0.8f),
 							),
 						)
 					),
 			)
 
+			// Label unten zentriert (größere Schrift)
 			Column(
 				modifier = Modifier
 					.fillMaxSize()
@@ -3158,7 +3162,7 @@ private val JellyseerrNetworkCards = listOf(
 				Text(
 					text = name,
 					color = Color.White,
-					fontSize = 18.sp,
+					fontSize = 22.sp, // <-- Größere Schrift
 					fontWeight = FontWeight.Medium,
 					textAlign = TextAlign.Center,
 					maxLines = 2,
