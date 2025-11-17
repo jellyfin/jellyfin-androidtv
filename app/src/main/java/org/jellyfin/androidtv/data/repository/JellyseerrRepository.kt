@@ -26,6 +26,8 @@ private const val TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 private const val TMDB_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780"
 private const val TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300"
 private const val TMDB_GENRE_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w1280"
+private const val TMDB_COMPANY_LOGO_BASE_URL = "https://image.tmdb.org/t/p/w780"
+private const val TMDB_COMPANY_LOGO_FILTER = "_filter(duotone,ffffff,bababa)"
 
 private fun posterImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_POSTER_BASE_URL$it" }
 private fun backdropImageUrl(path: String?): String? = path?.takeIf { it.isNotBlank() }?.let { "$TMDB_BACKDROP_BASE_URL$it" }
@@ -35,6 +37,9 @@ private fun genreBackdropImageUrl(path: String?, genreId: Int): String? {
 	val colors = genreColorMap[genreId] ?: genreColorMap[0]!!
 	return "${TMDB_GENRE_BACKDROP_BASE_URL}_filter(duotone,${colors.first},${colors.second})$path"
 }
+
+private fun companyLogoImageUrl(path: String?): String? =
+	path?.takeIf { it.isNotBlank() }?.let { "$TMDB_COMPANY_LOGO_BASE_URL$TMDB_COMPANY_LOGO_FILTER$it" }
 
 // Genre color mapping (dark, light) - matches Jellyseerr
 private val genreColorMap: Map<Int, Pair<String, String>> = mapOf(
@@ -80,6 +85,8 @@ interface JellyseerrRepository {
 	suspend fun discoverUpcomingTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun discoverMoviesByGenre(genreId: Int, page: Int = 1): Result<JellyseerrGenreDiscovery>
 	suspend fun discoverTvByGenre(genreId: Int, page: Int = 1): Result<JellyseerrGenreDiscovery>
+	suspend fun discoverMoviesByStudio(studioId: Int, page: Int = 1): Result<JellyseerrCompanyDiscovery>
+	suspend fun discoverTvByNetwork(networkId: Int, page: Int = 1): Result<JellyseerrCompanyDiscovery>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun getTvDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun getSeasonEpisodes(tmdbId: Int, seasonNumber: Int): Result<List<JellyseerrEpisode>>
@@ -96,6 +103,14 @@ data class JellyseerrGenreSlider(
 	val id: Int,
 	val name: String,
 	val backdropUrl: String?,
+)
+
+data class JellyseerrCompany(
+	val id: Int,
+	val name: String,
+	val logoUrl: String? = null,
+	val homepage: String? = null,
+	val description: String? = null,
 )
 
 data class JellyseerrSearchItem(
@@ -128,6 +143,33 @@ private data class JellyseerrGenreDiscoveryDto(
 	val totalPages: Int,
 	val totalResults: Int,
 	val genre: JellyseerrGenre,
+	val results: List<JellyseerrSearchItemDto>,
+)
+
+@Serializable
+private data class JellyseerrCompanyDto(
+	val id: Int,
+	val name: String,
+	val logoPath: String? = null,
+	val homepage: String? = null,
+	val description: String? = null,
+)
+
+@Serializable
+private data class JellyseerrStudioDiscoveryDto(
+	val page: Int,
+	val totalPages: Int,
+	val totalResults: Int,
+	val studio: JellyseerrCompanyDto,
+	val results: List<JellyseerrSearchItemDto>,
+)
+
+@Serializable
+private data class JellyseerrNetworkDiscoveryDto(
+	val page: Int,
+	val totalPages: Int,
+	val totalResults: Int,
+	val network: JellyseerrCompanyDto,
 	val results: List<JellyseerrSearchItemDto>,
 )
 
@@ -264,6 +306,14 @@ data class JellyseerrGenreDiscovery(
 	val totalResults: Int,
 )
 
+data class JellyseerrCompanyDiscovery(
+	val company: JellyseerrCompany,
+	val results: List<JellyseerrSearchItem>,
+	val page: Int,
+	val totalPages: Int,
+	val totalResults: Int,
+)
+
 @Serializable
 data class JellyseerrCast(
 	val id: Int,
@@ -369,9 +419,9 @@ class JellyseerrRepositoryImpl(
 		ignoreUnknownKeys = true
 	}
 
-	private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSearchItem {
-		val posterUrl = posterImageUrl(dto.posterPath)
-		val backdropUrl = backdropImageUrl(dto.backdropPath)
+private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSearchItem {
+	val posterUrl = posterImageUrl(dto.posterPath)
+	val backdropUrl = backdropImageUrl(dto.backdropPath)
 
 		// Status aus mediaInfo extrahieren (von Jellyseerr)
 		// Status 5 = Available, Status 4 = Partially Available
@@ -390,8 +440,17 @@ class JellyseerrRepositoryImpl(
 			isAvailable = isAvailable,
 			isPartiallyAvailable = isPartiallyAvailable,
 			jellyfinId = jellyfinId,
-		)
-	}
+	)
+}
+
+private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
+	JellyseerrCompany(
+		id = dto.id,
+		name = dto.name,
+		logoUrl = companyLogoImageUrl(dto.logoPath),
+		homepage = dto.homepage,
+		description = dto.description,
+	)
 
 	// Cached mapping between current Jellyfin user and Jellyseerr user id
 	@Volatile
@@ -948,6 +1007,80 @@ class JellyseerrRepositoryImpl(
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr series by genre $genreId")
+		}
+	}
+
+	override suspend fun discoverMoviesByStudio(studioId: Int, page: Int): Result<JellyseerrCompanyDiscovery> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/movies/studio/$studioId?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrStudioDiscoveryDto.serializer(), body)
+
+				val mappedResults = result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map { mapSearchItemDtoToModel(it) }
+
+				JellyseerrCompanyDiscovery(
+					company = mapCompanyDtoToModel(result.studio),
+					results = mappedResults,
+					page = result.page,
+					totalPages = result.totalPages,
+					totalResults = result.totalResults,
+				)
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr movies by studio $studioId")
+		}
+	}
+
+	override suspend fun discoverTvByNetwork(networkId: Int, page: Int): Result<JellyseerrCompanyDiscovery> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/tv/network/$networkId?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrNetworkDiscoveryDto.serializer(), body)
+
+				val mappedResults = result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map { mapSearchItemDtoToModel(it) }
+
+				JellyseerrCompanyDiscovery(
+					company = mapCompanyDtoToModel(result.network),
+					results = mappedResults,
+					page = result.page,
+					totalPages = result.totalPages,
+					totalResults = result.totalResults,
+				)
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr series by network $networkId")
 		}
 	}
 
