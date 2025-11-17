@@ -954,7 +954,9 @@ private fun JellyseerrContent(
 			}
 
 			if (state.showAllTrendsGrid) {
-				Text(text = stringResource(state.discoverCategory.titleResId), color = Color.White, fontSize = sectionTitleFontSize)
+				val headerText = state.discoverTitle?.takeIf { it.isNotBlank() }
+					?: stringResource(state.discoverCategory.titleResId)
+				Text(text = headerText, color = Color.White, fontSize = sectionTitleFontSize)
 
 				val baseResults = if (state.query.isBlank()) {
 					state.results.take(20)
@@ -1362,16 +1364,16 @@ private fun JellyseerrContent(
 					Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
+						horizontalArrangement = Arrangement.spacedBy(16.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(160.dp),
+							.height(200.dp),
 					) {
 						items(state.movieGenres) { genre ->
 							JellyseerrGenreCard(
 								genre = genre,
-								onClick = { /* TODO: Navigate to genre discovery */ },
+								onClick = { viewModel.showMovieGenre(genre) },
 							)
 						}
 					}
@@ -1390,16 +1392,16 @@ private fun JellyseerrContent(
 					Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
+						horizontalArrangement = Arrangement.spacedBy(16.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(160.dp),
+							.height(200.dp),
 					) {
 						items(state.tvGenres) { genre ->
 							JellyseerrGenreCard(
 								genre = genre,
-								onClick = { /* TODO: Navigate to genre discovery */ },
+								onClick = { viewModel.showTvGenre(genre) },
 							)
 						}
 					}

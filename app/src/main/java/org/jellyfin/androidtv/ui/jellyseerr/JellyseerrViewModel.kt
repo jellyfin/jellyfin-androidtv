@@ -15,6 +15,7 @@ import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 import org.jellyfin.androidtv.data.repository.JellyseerrPersonDetails
 import org.jellyfin.androidtv.data.repository.JellyseerrCast
 import org.jellyfin.androidtv.data.repository.JellyseerrGenreSlider
+import org.jellyfin.androidtv.data.repository.JellyseerrGenre
 
 enum class JellyseerrDiscoverCategory(val titleResId: Int) {
 	TRENDING(org.jellyfin.androidtv.R.string.jellyseerr_discover_title),
@@ -22,6 +23,8 @@ enum class JellyseerrDiscoverCategory(val titleResId: Int) {
 	UPCOMING_MOVIES(org.jellyfin.androidtv.R.string.jellyseerr_upcoming_movies_title),
 	POPULAR_TV(org.jellyfin.androidtv.R.string.jellyseerr_popular_tv_title),
 	UPCOMING_TV(org.jellyfin.androidtv.R.string.jellyseerr_upcoming_tv_title),
+	MOVIE_GENRE(org.jellyfin.androidtv.R.string.jellyseerr_movie_genres_title),
+	TV_GENRE(org.jellyfin.androidtv.R.string.jellyseerr_tv_genres_title),
 }
 
 data class SeasonKey(val tmdbId: Int, val seasonNumber: Int)
@@ -48,6 +51,9 @@ data class JellyseerrUiState(
 	val upcomingMovieResults: List<JellyseerrSearchItem> = emptyList(),
 	val upcomingTvResults: List<JellyseerrSearchItem> = emptyList(),
 	val discoverCategory: JellyseerrDiscoverCategory = JellyseerrDiscoverCategory.TRENDING,
+	val discoverTitle: String? = null,
+	val discoverGenre: JellyseerrGenre? = null,
+	val discoverGenreMediaType: String? = null,
 	val scrollPositions: Map<String, ScrollPosition> = emptyMap(),
 	val lastFocusedItemId: Int? = null,
 	val lastFocusedViewAllKey: String? = null,
@@ -424,6 +430,9 @@ class JellyseerrViewModel(
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
+					discoverTitle = null,
+					discoverGenre = null,
+					discoverGenreMediaType = null,
 				)
 			}
 
@@ -468,6 +477,9 @@ class JellyseerrViewModel(
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
+					discoverTitle = null,
+					discoverGenre = null,
+					discoverGenreMediaType = null,
 				)
 			}
 
@@ -512,6 +524,9 @@ class JellyseerrViewModel(
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
+					discoverTitle = null,
+					discoverGenre = null,
+					discoverGenreMediaType = null,
 				)
 			}
 
@@ -555,6 +570,9 @@ class JellyseerrViewModel(
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
+					discoverTitle = null,
+					discoverGenre = null,
+					discoverGenreMediaType = null,
 				)
 			}
 
@@ -599,6 +617,9 @@ class JellyseerrViewModel(
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
+					discoverTitle = null,
+					discoverGenre = null,
+					discoverGenreMediaType = null,
 				)
 			}
 
@@ -635,6 +656,66 @@ class JellyseerrViewModel(
 		}
 	}
 
+	fun showMovieGenre(genre: JellyseerrGenreSlider) {
+		showGenre(genre, isTv = false)
+	}
+
+	fun showTvGenre(genre: JellyseerrGenreSlider) {
+		showGenre(genre, isTv = true)
+	}
+
+	private fun showGenre(genre: JellyseerrGenreSlider, isTv: Boolean) {
+		val category = if (isTv) JellyseerrDiscoverCategory.TV_GENRE else JellyseerrDiscoverCategory.MOVIE_GENRE
+
+		viewModelScope.launch {
+			_uiState.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+					discoverCategory = category,
+					discoverTitle = genre.name,
+					discoverGenre = JellyseerrGenre(genre.id, genre.name),
+					discoverGenreMediaType = if (isTv) "tv" else "movie",
+				)
+			}
+
+			val currentRequests = _uiState.value.ownRequests
+			val discoveryResult = if (isTv) {
+				repository.discoverTvByGenre(genre.id, page = 1)
+			} else {
+				repository.discoverMoviesByGenre(genre.id, page = 1)
+			}
+
+			if (discoveryResult.isFailure) {
+				val error = discoveryResult.exceptionOrNull()
+				_uiState.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+					)
+				}
+				return@launch
+			}
+
+			val discovery = discoveryResult.getOrThrow()
+			val marked = markItemsWithRequests(discovery.results, currentRequests)
+
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = discovery.results.isNotEmpty(),
+					discoverGenre = discovery.genre,
+					discoverTitle = discovery.genre.name,
+					discoverGenreMediaType = if (isTv) "tv" else "movie",
+				)
+			}
+		}
+	}
+
 	fun loadMoreTrends() {
 		val state = _uiState.value
 		// Lazy loading für alle Kategorien
@@ -647,6 +728,62 @@ class JellyseerrViewModel(
 
 			val currentRequests = _uiState.value.ownRequests
 
+			if (state.discoverCategory == JellyseerrDiscoverCategory.MOVIE_GENRE ||
+				state.discoverCategory == JellyseerrDiscoverCategory.TV_GENRE
+			) {
+				val genre = state.discoverGenre
+				if (genre == null) {
+					_uiState.update { it.copy(isLoading = false) }
+					return@launch
+				}
+
+				val discoveryResult = if (state.discoverCategory == JellyseerrDiscoverCategory.MOVIE_GENRE) {
+					repository.discoverMoviesByGenre(genre.id, page = nextPage)
+				} else {
+					repository.discoverTvByGenre(genre.id, page = nextPage)
+				}
+
+				if (discoveryResult.isFailure) {
+					val error = discoveryResult.exceptionOrNull()
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							errorMessage = error?.message,
+						)
+					}
+					return@launch
+				}
+
+				val discovery = discoveryResult.getOrThrow()
+				if (discovery.results.isEmpty()) {
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							discoverCurrentPage = nextPage,
+							discoverHasMore = false,
+							discoverGenre = discovery.genre,
+							discoverTitle = discovery.genre.name,
+						)
+					}
+				} else {
+					val resultsWithAvailability = repository.markAvailableInJellyfin(discovery.results)
+						.getOrElse { discovery.results }
+					val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+					_uiState.update {
+						it.copy(
+							isLoading = false,
+							results = it.results + marked,
+							discoverCurrentPage = nextPage,
+							discoverHasMore = true,
+							discoverGenre = discovery.genre,
+							discoverTitle = discovery.genre.name,
+						)
+					}
+				}
+				return@launch
+			}
+
 			// Wähle die richtige API-Funktion basierend auf der Kategorie
 			val discoverResult = when (state.discoverCategory) {
 				JellyseerrDiscoverCategory.TRENDING -> repository.discoverTrending(page = nextPage)
@@ -654,6 +791,7 @@ class JellyseerrViewModel(
 				JellyseerrDiscoverCategory.UPCOMING_MOVIES -> repository.discoverUpcomingMovies(page = nextPage)
 				JellyseerrDiscoverCategory.POPULAR_TV -> repository.discoverTv(page = nextPage)
 				JellyseerrDiscoverCategory.UPCOMING_TV -> repository.discoverUpcomingTv(page = nextPage)
+				else -> return@launch
 			}
 
 			if (discoverResult.isFailure) {
@@ -694,7 +832,14 @@ class JellyseerrViewModel(
 	}
 
 	fun closeAllTrends() {
-		_uiState.update { it.copy(showAllTrendsGrid = false) }
+		_uiState.update {
+			it.copy(
+				showAllTrendsGrid = false,
+				discoverTitle = null,
+				discoverGenre = null,
+				discoverGenreMediaType = null,
+			)
+		}
 		// Refresh data when returning to main menu to sync with Jellyseerr server
 		viewModelScope.launch {
 			refreshOwnRequestsInternal()

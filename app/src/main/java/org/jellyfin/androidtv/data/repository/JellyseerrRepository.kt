@@ -78,6 +78,8 @@ interface JellyseerrRepository {
 	suspend fun discoverTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun discoverUpcomingMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
 	suspend fun discoverUpcomingTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
+	suspend fun discoverMoviesByGenre(genreId: Int, page: Int = 1): Result<JellyseerrGenreDiscovery>
+	suspend fun discoverTvByGenre(genreId: Int, page: Int = 1): Result<JellyseerrGenreDiscovery>
 	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun getTvDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
 	suspend fun getSeasonEpisodes(tmdbId: Int, seasonNumber: Int): Result<List<JellyseerrEpisode>>
@@ -117,6 +119,15 @@ private data class JellyseerrSearchResponse(
 	val page: Int,
 	val totalPages: Int,
 	val totalResults: Int,
+	val results: List<JellyseerrSearchItemDto>,
+)
+
+@Serializable
+private data class JellyseerrGenreDiscoveryDto(
+	val page: Int,
+	val totalPages: Int,
+	val totalResults: Int,
+	val genre: JellyseerrGenre,
 	val results: List<JellyseerrSearchItemDto>,
 )
 
@@ -243,6 +254,14 @@ private data class JellyseerrCreateRequestBody(
 data class JellyseerrGenre(
 	val id: Int,
 	val name: String,
+)
+
+data class JellyseerrGenreDiscovery(
+	val genre: JellyseerrGenre,
+	val results: List<JellyseerrSearchItem>,
+	val page: Int,
+	val totalPages: Int,
+	val totalResults: Int,
 )
 
 @Serializable
@@ -855,6 +874,80 @@ class JellyseerrRepositoryImpl(
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to load Jellyseerr upcoming tv")
+		}
+	}
+
+	override suspend fun discoverMoviesByGenre(genreId: Int, page: Int): Result<JellyseerrGenreDiscovery> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/movies/genre/$genreId?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrGenreDiscoveryDto.serializer(), body)
+
+				val mappedResults = result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map { mapSearchItemDtoToModel(it) }
+
+				JellyseerrGenreDiscovery(
+					genre = result.genre,
+					results = mappedResults,
+					page = result.page,
+					totalPages = result.totalPages,
+					totalResults = result.totalResults,
+				)
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr movies by genre $genreId")
+		}
+	}
+
+	override suspend fun discoverTvByGenre(genreId: Int, page: Int): Result<JellyseerrGenreDiscovery> = withContext(Dispatchers.IO) {
+		val config = getConfig()
+			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+
+		val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+
+		val url = "${config.baseUrl}/api/v1/discover/tv/genre/$genreId?page=$page"
+		val request = Request.Builder()
+			.url(url)
+			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
+			.build()
+
+		runCatching {
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val result = json.decodeFromString(JellyseerrGenreDiscoveryDto.serializer(), body)
+
+				val mappedResults = result.results
+					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+					.map { mapSearchItemDtoToModel(it) }
+
+				JellyseerrGenreDiscovery(
+					genre = result.genre,
+					results = mappedResults,
+					page = result.page,
+					totalPages = result.totalPages,
+					totalResults = result.totalResults,
+				)
+			}
+		}.onFailure {
+			Timber.e(it, "Failed to load Jellyseerr series by genre $genreId")
 		}
 	}
 
