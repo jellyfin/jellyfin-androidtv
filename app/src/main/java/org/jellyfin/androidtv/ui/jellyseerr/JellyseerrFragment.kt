@@ -1425,7 +1425,7 @@ private fun JellyseerrContent(
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(220.dp),
+							.height(200.dp),
 					) {
 						items(JellyseerrStudioCards) { studio ->
 							JellyseerrCompanyCard(
@@ -1454,7 +1454,7 @@ private fun JellyseerrContent(
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(220.dp),
+							.height(200.dp),
 					) {
 						items(JellyseerrNetworkCards) { network ->
 							JellyseerrCompanyCard(
@@ -3085,17 +3085,17 @@ private val JellyseerrNetworkCards = listOf(
 )
 
 @Composable
-private fun JellyseerrCompanyCard(
-	name: String,
-	logoUrl: String?,
-	onClick: () -> Unit,
-	modifier: Modifier = Modifier,
-) {
-	val interactionSource = remember { MutableInteractionSource() }
-	val isFocused by interactionSource.collectIsFocusedAsState()
-	val view = LocalView.current
+	private fun JellyseerrCompanyCard(
+		name: String,
+		logoUrl: String?,
+		onClick: () -> Unit,
+		modifier: Modifier = Modifier,
+	) {
+		val interactionSource = remember { MutableInteractionSource() }
+		val isFocused by interactionSource.collectIsFocusedAsState()
+		val view = LocalView.current
 
-	LaunchedEffect(isFocused) {
+		LaunchedEffect(isFocused) {
 		if (isFocused) {
 			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
 		}
@@ -3129,27 +3129,32 @@ private fun JellyseerrCompanyCard(
 			.focusable(interactionSource = interactionSource),
 		contentAlignment = Alignment.Center,
 	) {
-		if (!logoUrl.isNullOrBlank()) {
-			AsyncImage(
-				modifier = Modifier
-					.fillMaxSize()
-					.clip(RoundedCornerShape(12.dp)),
-				url = logoUrl,
-				aspectRatio = 3f / 2f,
-				scaleType = ImageView.ScaleType.CENTER_INSIDE,
-			)
-		} else {
-			Box(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(Color(0xFF1A1A1A)),
-			)
+		val logoAreaModifier = Modifier
+			.fillMaxWidth()
+			.height(120.dp)
+			.align(Alignment.TopCenter)
+		Box(
+			modifier = logoAreaModifier
+				.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+				.background(Color(0xFF1A1A1A)),
+			contentAlignment = Alignment.Center,
+		) {
+			if (!logoUrl.isNullOrBlank()) {
+				AsyncImage(
+					modifier = Modifier
+						.fillMaxWidth()
+						.height(100.dp),
+					url = logoUrl,
+					aspectRatio = 3f / 2f,
+					scaleType = ImageView.ScaleType.CENTER_INSIDE,
+				)
+			}
 		}
 
 		Box(
 			modifier = Modifier
 				.fillMaxWidth()
-				.height(48.dp)
+				.height(40.dp)
 				.align(Alignment.BottomCenter)
 				.background(
 					Brush.verticalGradient(
