@@ -3124,7 +3124,7 @@ private val JellyseerrNetworkCards = listOf(
 				AsyncImage(
 					modifier = Modifier
 						.fillMaxSize()
-						.padding(16.dp), // <-- Padding für das Logo
+						.padding(30.dp), // <-- Padding für das Logo
 					url = logoUrl,
 					aspectRatio = 16f / 9f,
 					scaleType = ImageView.ScaleType.CENTER_INSIDE,
@@ -3150,25 +3150,5 @@ private val JellyseerrNetworkCards = listOf(
 						)
 					),
 			)
-
-			// Label unten zentriert (größere Schrift)
-			Column(
-				modifier = Modifier
-					.fillMaxSize()
-					.padding(12.dp),
-				verticalArrangement = Arrangement.Bottom,
-				horizontalAlignment = Alignment.CenterHorizontally,
-			) {
-				Text(
-					text = name,
-					color = Color.White,
-					fontSize = 22.sp, // <-- Größere Schrift
-					fontWeight = FontWeight.Medium,
-					textAlign = TextAlign.Center,
-					maxLines = 2,
-					overflow = TextOverflow.Ellipsis,
-					modifier = Modifier.padding(bottom = 4.dp),
-				)
-			}
 		}
 	}
