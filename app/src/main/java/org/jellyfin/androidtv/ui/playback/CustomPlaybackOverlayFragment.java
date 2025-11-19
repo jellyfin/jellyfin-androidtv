@@ -697,7 +697,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public void onStop() {
         super.onStop();
-        Timber.d("Stopping!");
+        Timber.i("Stopping!");
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
@@ -705,7 +705,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // end playback from here if this fragment belongs to the current session.
         // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
         if (playbackControllerContainer.getValue().getPlaybackController() != null && playbackControllerContainer.getValue().getPlaybackController().getFragment() == this) {
-            Timber.d("this fragment belongs to the current session, ending it");
+            Timber.i("this fragment belongs to the current session, ending it");
             playbackControllerContainer.getValue().getPlaybackController().endPlayback();
         }
 

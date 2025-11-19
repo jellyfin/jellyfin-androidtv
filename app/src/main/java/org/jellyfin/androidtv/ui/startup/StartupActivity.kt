@@ -136,7 +136,7 @@ class StartupActivity : FragmentActivity() {
 		}?.toUUIDOrNull()
 		val itemIsUserView = intent.getBooleanExtra(EXTRA_ITEM_IS_USER_VIEW, false)
 
-		Timber.d("Determining next activity (action=${intent.action}, itemId=$itemId, itemIsUserView=$itemIsUserView)")
+		Timber.i("Determining next activity (action=${intent.action}, itemId=$itemId, itemIsUserView=$itemIsUserView)")
 
 		// Start session
 		(application as? JellyfinApplication)?.onSessionStart()
@@ -167,7 +167,7 @@ class StartupActivity : FragmentActivity() {
 		val intent = Intent(this, MainActivity::class.java)
 		// Clear navigation history
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME)
-		Timber.d("Opening next activity $intent")
+		Timber.i("Opening next activity $intent")
 		startActivity(intent)
 		finishAfterTransition()
 	}
