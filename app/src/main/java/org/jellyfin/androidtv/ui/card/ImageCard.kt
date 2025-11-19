@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -177,7 +178,7 @@ fun ImageCard(
                             modifier = Modifier
 								.fillMaxHeight()
 								.fillMaxWidth(progress / 100f)
-								.background(Color.White)
+								.background(JellyfinTheme.colorScheme.accent)
                         )
                     }
                 }
@@ -204,11 +205,16 @@ fun ImageCard(
 									.padding(4.dp)
                             )
                         } else if (unwatchedCount == 0) {
-                            Image(
-                                painter = painterResource(R.drawable.ic_check),
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp)
-                            )
+							Image(
+								painter = painterResource(R.drawable.ic_check),
+								contentDescription = null,
+								modifier = Modifier
+									.size(18.dp)
+									.clip(CircleShape)
+									.background(JellyfinTheme.colorScheme.accent)
+									.padding(2.dp)
+
+							)
                         }
                     }
                 }

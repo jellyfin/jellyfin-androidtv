@@ -51,7 +51,6 @@ fun BrowseGridToolbar(
 	onSortSelected: (SortOption) -> Unit,
 	onUnwatchedToggle: () -> Unit,
 	onFavoriteToggle: () -> Unit,
-	onLetterJumpClick: () -> Unit,
 	onSettingsClick: () -> Unit
 ) {
 	var showSortDialog by remember { mutableStateOf(false) }
@@ -87,15 +86,6 @@ fun BrowseGridToolbar(
 			isActive = filterFavoritesOnly,
 			onClick = onFavoriteToggle
 		)
-
-		// Letter Jump Button
-		if (showLetterJump) {
-			ToolbarButton(
-				iconRes = R.drawable.ic_jump_letter,
-				contentDescription = stringResource(R.string.lbl_by_letter),
-				onClick = onLetterJumpClick
-			)
-		}
 
 		// Settings Button
 		ToolbarButton(

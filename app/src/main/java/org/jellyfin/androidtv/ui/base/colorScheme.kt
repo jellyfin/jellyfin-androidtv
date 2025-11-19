@@ -25,6 +25,7 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	popover = Color(0xFF212225),
 	badge = Color(0xFF62676F),
 	onBadge = Color(0xFFE8EAED),
+	accent = Color(0xFF00A4DC),
 )
 
 @Immutable
@@ -54,6 +55,7 @@ data class ColorScheme(
 
 	val badge: Color,
 	val onBadge: Color,
+	val accent: Color
 )
 
 val LocalColorScheme = staticCompositionLocalOf { colorScheme() }

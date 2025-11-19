@@ -121,7 +121,6 @@ fun BrowseGrid(
 					onFavoriteToggle = {
 						viewModel.toggleFavoriteFilter()
 					},
-					onLetterJumpClick = { /* Handle letter jump */ },
 					onSettingsClick = {
 						settingsLauncher.launch(
 							ActivityDestinations.displayPreferences(
@@ -134,33 +133,43 @@ fun BrowseGrid(
 				)
 			}
 
-			when (gridDirection) {
-				GridDirection.VERTICAL -> {
-					VerticalBrowseGrid(
-						items = items,
-						posterSize = posterSize,
-						imageType = imageType,
-						focusRequester = focusRequester,
-						onItemSelected = { index ->
-							viewModel.setSelectedIndex(index)
-						},
-						viewModel = viewModel
-					)
-				}
+			Row() {
+				BrowseGridAlphabetPanel(
+					modifier = Modifier,
+					selectedLetter = startLetter,
+					onLetterSelected = { letter ->
+						viewModel.setStartLetter(letter)
+					}
+				)
+				when (gridDirection) {
+					GridDirection.VERTICAL -> {
+						VerticalBrowseGrid(
+							items = items,
+							posterSize = posterSize,
+							imageType = imageType,
+							focusRequester = focusRequester,
+							onItemSelected = { index ->
+								viewModel.setSelectedIndex(index)
+							},
+							viewModel = viewModel
+						)
+					}
 
-				GridDirection.HORIZONTAL -> {
-					HorizontalBrowseGrid(
-						items = items,
-						posterSize = posterSize,
-						imageType = imageType,
-						focusRequester = focusRequester,
-						onItemSelected = { index ->
-							viewModel.setSelectedIndex(index)
-						},
-						viewModel = viewModel
-					)
+					GridDirection.HORIZONTAL -> {
+						HorizontalBrowseGrid(
+							items = items,
+							posterSize = posterSize,
+							imageType = imageType,
+							focusRequester = focusRequester,
+							onItemSelected = { index ->
+								viewModel.setSelectedIndex(index)
+							},
+							viewModel = viewModel
+						)
+					}
 				}
 			}
+
 		}
 
         StatusBar(

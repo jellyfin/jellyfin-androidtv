@@ -232,6 +232,13 @@ class BrowseGridViewModel(
 		}
 	}
 
+	fun setStartLetter(letter: String?) {
+		viewModelScope.launch {
+			adapterWrapper?.setStartLetter(letter)
+			adapterWrapper?.retrieve()
+		}
+	}
+
 	fun loadMoreItemsIfNeeded(position: Int) {
 		Timber.d("loadMoreItemsIfNeeded called for position $position")
 		adapterWrapper?.loadMoreItemsIfNeeded(position)

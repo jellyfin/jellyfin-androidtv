@@ -51,6 +51,7 @@ class ItemRowAdapterWrapper(
 				_error.value = null
 				_filters.value = adapter.filters
 				_sortBy.value = adapter.sortBy
+				_startLetter.value = adapter.startLetter
 				updateItems()
 				Timber.d("Retrieve finished: itemsLoaded=${adapter.itemsLoaded}, total=${adapter.totalItems}")
 			}
@@ -99,13 +100,8 @@ class ItemRowAdapterWrapper(
 
 	fun setStartLetter(letter: String?) {
 		adapter.startLetter = letter
+		_startLetter.value= letter
 	}
-
-	fun getFilters(): FilterOptions? = filters.value
-
-	fun getSortBy(): ItemSortBy? = sortBy.value
-
-	fun getStartLetter(): String? = adapter.startLetter
 
 	fun reRetrieveIfNeeded(): Boolean {
 		return adapter.ReRetrieveIfNeeded()
