@@ -73,8 +73,15 @@ private val genreColorMap: Map<Int, Pair<String, String>> = mapOf(
 	10768 to Pair("7F1D1D", "FCA5A5"), // War & Politics (dark red)
 )
 
+data class JellyseerrSearchResult(
+	val results: List<JellyseerrSearchItem>,
+	val page: Int,
+	val totalPages: Int,
+	val totalResults: Int,
+)
+
 interface JellyseerrRepository {
-	suspend fun search(query: String): Result<List<JellyseerrSearchItem>>
+	suspend fun search(query: String, page: Int = 1): Result<JellyseerrSearchResult>
 	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
 	suspend fun getRecentRequests(): Result<List<JellyseerrSearchItem>>
 	suspend fun createRequest(item: JellyseerrSearchItem, seasons: List<Int>? = null): Result<Unit>
@@ -120,6 +127,7 @@ data class JellyseerrSearchItem(
 	val overview: String?,
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
+	val profilePath: String? = null,
 	val releaseDate: String? = null,
 	val isRequested: Boolean = false,
 	val isAvailable: Boolean = false,
@@ -182,6 +190,9 @@ private data class JellyseerrSearchItemDto(
 	val overview: String? = null,
 	val posterPath: String? = null,
 	val backdropPath: String? = null,
+	val profilePath: String? = null,
+	val releaseDate: String? = null,
+	val firstAirDate: String? = null,
 	val mediaInfo: JellyseerrMediaInfoDto? = null,
 )
 
@@ -191,6 +202,7 @@ private data class JellyseerrMediaInfoDto(
 	val status: Int? = null,
 	val status4k: Int? = null,
 	val jellyfinMediaId: String? = null,
+	val jellyfinMediaId4k: String? = null,
 )
 
 @Serializable
@@ -420,15 +432,17 @@ class JellyseerrRepositoryImpl(
 	}
 
 private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSearchItem {
-	val posterUrl = posterImageUrl(dto.posterPath)
+	val posterUrl = posterImageUrl(dto.posterPath) ?: profileImageUrl(dto.profilePath)
 	val backdropUrl = backdropImageUrl(dto.backdropPath)
+	val profileUrl = profileImageUrl(dto.profilePath)
+	val releaseDate = dto.releaseDate ?: dto.firstAirDate
 
 		// Status aus mediaInfo extrahieren (von Jellyseerr)
 		// Status 5 = Available, Status 4 = Partially Available
 		val status = dto.mediaInfo?.status
 		val isAvailable = status == 5
 		val isPartiallyAvailable = status == 4
-		val jellyfinId = dto.mediaInfo?.jellyfinMediaId
+		val jellyfinId = dto.mediaInfo?.jellyfinMediaId ?: dto.mediaInfo?.jellyfinMediaId4k
 
 		return JellyseerrSearchItem(
 			id = dto.id,
@@ -437,6 +451,8 @@ private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSea
 			overview = dto.overview,
 			posterPath = posterUrl,
 			backdropPath = backdropUrl,
+			profilePath = profileUrl,
+			releaseDate = releaseDate,
 			isAvailable = isAvailable,
 			isPartiallyAvailable = isPartiallyAvailable,
 			jellyfinId = jellyfinId,
@@ -581,18 +597,20 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 			}
 		}
 
-	override suspend fun search(query: String): Result<List<JellyseerrSearchItem>> = withContext(Dispatchers.IO) {
-		val config = getConfig()
-			?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
+override suspend fun search(query: String, page: Int): Result<JellyseerrSearchResult> = withContext(Dispatchers.IO) {
+	val config = getConfig()
+		?: return@withContext Result.failure(IllegalStateException("Jellyseerr not configured"))
 
-		if (query.isBlank()) return@withContext Result.success(emptyList())
+	if (query.isBlank()) return@withContext Result.success(JellyseerrSearchResult(emptyList(), 1, 1, 0))
 
-		val encodedQuery = java.net.URLEncoder.encode(query, Charsets.UTF_8.name())
-		val url = "${config.baseUrl}/api/v1/search?query=$encodedQuery&page=1"
+	val encodedQuery = java.net.URLEncoder.encode(query, Charsets.UTF_8.name())
+	val userId = resolveCurrentUserId(config).getOrElse { return@withContext Result.failure(it) }
+	val url = "${config.baseUrl}/api/v1/search?query=$encodedQuery&page=$page"
 
 		val request = Request.Builder()
 			.url(url)
 			.header("X-API-Key", config.apiKey)
+			.header("X-API-User", userId.toString())
 			.build()
 
 		runCatching {
@@ -602,9 +620,16 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
 				val result = json.decodeFromString(JellyseerrSearchResponse.serializer(), body)
 
-				result.results
-					.filter { it.mediaType == "movie" || it.mediaType == "tv" }
+				val supportedTypes = setOf("movie", "tv", "person", "collection")
+				val mappedResults = result.results
+					.filter { it.mediaType in supportedTypes }
 					.map { mapSearchItemDtoToModel(it) }
+				JellyseerrSearchResult(
+					results = mappedResults,
+					page = result.page,
+					totalPages = result.totalPages,
+					totalResults = result.totalResults,
+				)
 			}
 		}.onFailure {
 			Timber.e(it, "Failed to search Jellyseerr")

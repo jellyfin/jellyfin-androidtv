@@ -43,6 +43,7 @@ data class JellyseerrUiState(
 	val selectedItem: JellyseerrSearchItem? = null,
 	val selectedMovie: JellyseerrMovieDetails? = null,
 	val showAllTrendsGrid: Boolean = false,
+	val showSearchResultsGrid: Boolean = false,
 	val requestStatusMessage: String? = null,
 	val discoverCurrentPage: Int = 1,
 	val discoverHasMore: Boolean = true,
@@ -68,6 +69,9 @@ data class JellyseerrUiState(
 	val seasonErrors: Map<SeasonKey, String> = emptyMap(),
 	val movieGenres: List<JellyseerrGenreSlider> = emptyList(),
 	val tvGenres: List<JellyseerrGenreSlider> = emptyList(),
+	val searchCurrentPage: Int = 0,
+	val searchTotalPages: Int = 0,
+	val searchHasMore: Boolean = false,
 )
 
 data class ScrollPosition(
@@ -145,39 +149,64 @@ class JellyseerrViewModel(
 		_uiState.update { it.copy(lastFocusedViewAllKey = key, lastFocusedItemId = null) }
 	}
 
-	fun search() {
-		val term = _uiState.value.query.trim()
-		if (term.isBlank()) return
+fun search(page: Int = 1) {
+	val term = _uiState.value.query.trim()
+	if (term.isBlank()) {
+		_uiState.update {
+			it.copy(
+				showSearchResultsGrid = false,
+				searchHasMore = false,
+			)
+		}
+		return
+	}
 
-		viewModelScope.launch {
-			_uiState.update { it.copy(isLoading = true, errorMessage = null) }
-
-			val searchResult = repository.search(term)
-
-			if (searchResult.isFailure) {
-				val error = searchResult.exceptionOrNull()
-				_uiState.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-					)
-				}
-				return@launch
-			}
-
-			val results = searchResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val currentRequests = _uiState.value.ownRequests
-			val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
-
+	viewModelScope.launch {
+		if (page == 1) {
 			_uiState.update {
 				it.copy(
-					isLoading = false,
-					results = marked,
+					isLoading = true,
+					errorMessage = null,
+					showAllTrendsGrid = false,
+					showSearchResultsGrid = false,
 				)
 			}
 		}
+
+		val searchResult = repository.search(term, page)
+
+		if (searchResult.isFailure) {
+			val error = searchResult.exceptionOrNull()
+			_uiState.update {
+				it.copy(
+					isLoading = false,
+					errorMessage = error?.message,
+					showSearchResultsGrid = false,
+					searchHasMore = false,
+				)
+			}
+			return@launch
+		}
+
+		val result = searchResult.getOrThrow()
+		val resultsWithAvailability = repository.markAvailableInJellyfin(result.results).getOrElse { result.results }
+		val currentRequests = _uiState.value.ownRequests
+		val marked = markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+		_uiState.update { state ->
+			val combined = if (page == 1) marked else state.results + marked
+			state.copy(
+				isLoading = false,
+				results = combined,
+				showSearchResultsGrid = true,
+				showAllTrendsGrid = false,
+				searchCurrentPage = page,
+				searchTotalPages = result.totalPages,
+				searchHasMore = page < result.totalPages,
+			)
+		}
 	}
+}
 
 	fun loadSeasonEpisodes(tmdbId: Int, seasonNumber: Int) {
 		val key = SeasonKey(tmdbId, seasonNumber)
@@ -433,6 +462,7 @@ class JellyseerrViewModel(
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -454,6 +484,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						showSearchResultsGrid = false,
 						lastFocusedItemId = null,
 					)
 				}
@@ -476,11 +507,30 @@ class JellyseerrViewModel(
 		}
 	}
 
+	fun showAllSearchResults() {
+		_uiState.update {
+			it.copy(
+				showSearchResultsGrid = true,
+				showAllTrendsGrid = false,
+			)
+		}
+	}
+
+	fun closeSearchResultsGrid() {
+		_uiState.update {
+			it.copy(
+				showSearchResultsGrid = false,
+				showAllTrendsGrid = false,
+			)
+		}
+	}
+
 	fun showAllPopularMovies() {
 		viewModelScope.launch {
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -502,6 +552,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						showSearchResultsGrid = false,
 						lastFocusedItemId = null,
 					)
 				}
@@ -529,6 +580,7 @@ class JellyseerrViewModel(
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -576,6 +628,7 @@ class JellyseerrViewModel(
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -597,6 +650,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						showSearchResultsGrid = false,
 						lastFocusedItemId = null,
 					)
 				}
@@ -624,6 +678,7 @@ class JellyseerrViewModel(
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -645,6 +700,7 @@ class JellyseerrViewModel(
 						isLoading = false,
 						errorMessage = error?.message,
 						showAllTrendsGrid = true,
+						showSearchResultsGrid = false,
 						lastFocusedItemId = null,
 					)
 				}
@@ -682,6 +738,7 @@ class JellyseerrViewModel(
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -743,6 +800,7 @@ class JellyseerrViewModel(
 			_uiState.update {
 				it.copy(
 					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
 					isLoading = true,
 					errorMessage = null,
 					lastFocusedItemId = null,
@@ -963,10 +1021,17 @@ class JellyseerrViewModel(
 		}
 	}
 
+	fun loadMoreSearchResults() {
+		val state = _uiState.value
+		if (!state.showSearchResultsGrid || state.isLoading || !state.searchHasMore) return
+		search(page = state.searchCurrentPage + 1)
+	}
+
 	fun closeAllTrends() {
 		_uiState.update {
 			it.copy(
 				showAllTrendsGrid = false,
+				showSearchResultsGrid = false,
 				discoverTitle = null,
 				discoverGenre = null,
 				discoverGenreMediaType = null,
@@ -1296,6 +1361,16 @@ class JellyseerrViewModel(
 				)
 			}
 		}
+	}
+
+	fun showPersonFromSearchItem(item: JellyseerrSearchItem) {
+		showPerson(
+			JellyseerrCast(
+				id = item.id,
+				name = item.title,
+				profilePath = item.profilePath,
+			),
+		)
 	}
 
 

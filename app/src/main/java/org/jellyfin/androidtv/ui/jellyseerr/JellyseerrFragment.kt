@@ -107,6 +107,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.material.Icon as MaterialIcon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -117,6 +121,7 @@ private const val VIEW_ALL_POPULAR_MOVIES = "view_all_popular_movies"
 private const val VIEW_ALL_POPULAR_TV = "view_all_popular_tv"
 private const val VIEW_ALL_UPCOMING_MOVIES = "view_all_upcoming_movies"
 private const val VIEW_ALL_UPCOMING_TV = "view_all_upcoming_tv"
+private const val VIEW_ALL_SEARCH_RESULTS = "view_all_search_results"
 
 
 class JellyseerrFragment : Fragment() {
@@ -838,7 +843,7 @@ private fun JellyseerrContent(
 		state.lastFocusedItemId,
 		state.lastFocusedViewAllKey,
 	) {
-		if (state.selectedItem == null && !state.showAllTrendsGrid) {
+	if (state.selectedItem == null && !state.showAllTrendsGrid && !state.showSearchResultsGrid) {
 			val itemId = state.lastFocusedItemId
 			if (itemId != null) {
 				delay(100)
@@ -861,12 +866,32 @@ private fun JellyseerrContent(
 		viewAllFocusRequesters.getOrPut(key) { FocusRequester() }
 	}
 
-	BackHandler(enabled = state.selectedItem != null || state.showAllTrendsGrid || state.selectedPerson != null) {
+	BackHandler(
+		enabled =
+			state.selectedItem != null ||
+				state.selectedPerson != null ||
+				state.showAllTrendsGrid ||
+				state.showSearchResultsGrid,
+	) {
 		when {
 			state.selectedItem != null -> viewModel.closeDetails()
 			state.selectedPerson != null -> viewModel.closePerson()
 			state.showAllTrendsGrid -> viewModel.closeAllTrends()
+				state.showSearchResultsGrid -> viewModel.closeSearchResultsGrid()
 		}
+	}
+
+	@OptIn(FlowPreview::class)
+	LaunchedEffect(Unit) {
+		snapshotFlow { state.query.trim() }
+			.debounce(450)
+			.collectLatest { trimmed ->
+				if (trimmed.isBlank()) {
+					viewModel.closeSearchResultsGrid()
+					return@collectLatest
+				}
+				viewModel.search()
+			}
 	}
 
 
@@ -905,7 +930,8 @@ private fun JellyseerrContent(
 		)
 	} else {
 		val scrollState = rememberScrollState()
-		val columnModifier = if (state.showAllTrendsGrid) {
+		val isShowingGrid = state.showAllTrendsGrid || state.showSearchResultsGrid
+		val columnModifier = if (isShowingGrid) {
 			Modifier
 				.fillMaxSize()
 				.padding(24.dp)
@@ -919,31 +945,29 @@ private fun JellyseerrContent(
 		Column(
 			modifier = columnModifier,
 		) {
-			if (!state.showAllTrendsGrid) {
-				Row(
-					horizontalArrangement = Arrangement.spacedBy(12.dp),
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(12.dp),
+			) {
+				Box(
+					modifier = Modifier
+						.weight(1f),
 				) {
-					Box(
+					SearchTextInput(
+						query = state.query,
+						onQueryChange = { viewModel.updateQuery(it) },
+						onQuerySubmit = {
+							viewModel.search()
+							keyboardController?.hide()
+						},
 						modifier = Modifier
-							.weight(1f),
-					) {
-						SearchTextInput(
-							query = state.query,
-							onQueryChange = { viewModel.updateQuery(it) },
-							onQuerySubmit = {
-								viewModel.search()
-								keyboardController?.hide()
-							},
-							modifier = Modifier
-								.fillMaxWidth()
-								.focusRequester(searchFocusRequester),
-							showKeyboardOnFocus = true,
-						)
-					}
+							.fillMaxWidth()
+							.focusRequester(searchFocusRequester),
+						showKeyboardOnFocus = true,
+					)
 				}
-
-				Spacer(modifier = Modifier.size(sectionSpacing))
 			}
+
+			Spacer(modifier = Modifier.size(sectionSpacing))
 
 			val shouldShowError = state.errorMessage?.contains("HTTP 400", ignoreCase = true) != true
 			if (state.errorMessage != null && shouldShowError) {
@@ -954,24 +978,28 @@ private fun JellyseerrContent(
 				)
 			}
 
-			if (state.showAllTrendsGrid) {
-				val headerText = state.discoverTitle?.takeIf { it.isNotBlank() }
-					?: stringResource(state.discoverCategory.titleResId)
+			if (isShowingGrid) {
+				val headerText = if (state.showSearchResultsGrid) {
+					stringResource(R.string.jellyseerr_search_results_title)
+				} else {
+					state.discoverTitle?.takeIf { it.isNotBlank() }
+						?: stringResource(state.discoverCategory.titleResId)
+				}
 				Text(text = headerText, color = Color.White, fontSize = sectionTitleFontSize)
 
-				val baseResults = if (state.query.isBlank()) {
-					state.results.take(20)
-				} else {
-					state.results
+				val gridResults = when {
+					state.showSearchResultsGrid -> state.results
+					state.query.isBlank() -> state.results.take(20)
+					else -> state.results
 				}
 
-				if (baseResults.isEmpty() && !state.isLoading) {
+				if (gridResults.isEmpty() && !state.isLoading) {
 					Text(
 						text = stringResource(R.string.jellyseerr_no_results),
 						modifier = Modifier.padding(vertical = 8.dp),
 					)
 				} else {
-					val rows = state.results.chunked(5)
+					val rows = gridResults.chunked(5)
 
 					LazyColumn(
 						state = allTrendsListState,
@@ -991,16 +1019,25 @@ private fun JellyseerrContent(
 								for (item in rowItems) {
 									JellyseerrSearchCard(
 										item = item,
-										onClick = { viewModel.showDetailsForItem(item) },
+										onClick = onSearchItemClick(viewModel, item),
 										focusRequester = focusRequesterForItem(item.id),
 										onFocus = { viewModel.updateLastFocusedItem(item.id) },
 									)
 								}
 							}
 
-							if (rowIndex == rows.lastIndex && state.discoverHasMore && !state.isLoading) {
-								LaunchedEffect(key1 = rows.size) {
-									viewModel.loadMoreTrends()
+							if (rowIndex == rows.lastIndex && !state.isLoading) {
+								when {
+									state.showAllTrendsGrid && state.discoverHasMore -> {
+										LaunchedEffect(key1 = rows.size) {
+											viewModel.loadMoreTrends()
+										}
+									}
+									state.showSearchResultsGrid && state.searchHasMore -> {
+										LaunchedEffect(key1 = rows.size) {
+											viewModel.loadMoreSearchResults()
+										}
+									}
 								}
 							}
 						}
@@ -1052,8 +1089,9 @@ private fun JellyseerrContent(
 							.height(250.dp)
 							.padding(top = 15.dp),
 					) {
+						val showViewAllCard = !state.showSearchResultsGrid
 						val maxIndex = baseResults.lastIndex
-						val extraItems = 1
+						val extraItems = if (showViewAllCard) 1 else 0
 
 						items(maxIndex + 1 + extraItems) { index ->
 							when {
@@ -1067,20 +1105,30 @@ private fun JellyseerrContent(
 
 									JellyseerrSearchCard(
 										item = item,
-										onClick = { viewModel.showDetailsForItem(item) },
+										onClick = onSearchItemClick(viewModel, item),
 										modifier = cardModifier,
 									)
 								}
 
-								index == maxIndex + 1 -> {
+								showViewAllCard && index == maxIndex + 1 -> {
 									val posterUrls = remember(baseResults) {
 										baseResults.shuffled().take(4).mapNotNull { it.posterPath }
 									}
+									val viewAllKey = if (state.query.isBlank()) {
+										VIEW_ALL_TRENDING
+									} else {
+										VIEW_ALL_SEARCH_RESULTS
+									}
+									val onViewAllClick = if (state.query.isBlank()) {
+										{ viewModel.showAllTrends() }
+									} else {
+										{ viewModel.showAllSearchResults() }
+									}
 									JellyseerrViewAllCard(
-										onClick = { viewModel.showAllTrends() },
+										onClick = onViewAllClick,
 										posterUrls = posterUrls,
-										focusRequester = focusRequesterForViewAll(VIEW_ALL_TRENDING),
-										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_TRENDING) },
+										focusRequester = focusRequesterForViewAll(viewAllKey),
+										onFocus = { viewModel.updateLastFocusedViewAll(viewAllKey) },
 									)
 								}
 							}
@@ -1873,6 +1921,13 @@ private fun JellyseerrViewAllCard(
 		}
 	}
 }
+
+private fun onSearchItemClick(viewModel: JellyseerrViewModel, item: JellyseerrSearchItem): () -> Unit =
+	if (item.mediaType == "person") {
+		{ viewModel.showPersonFromSearchItem(item) }
+	} else {
+		{ viewModel.showDetailsForItem(item) }
+	}
 
 @Composable
 private fun JellyseerrSearchCard(
