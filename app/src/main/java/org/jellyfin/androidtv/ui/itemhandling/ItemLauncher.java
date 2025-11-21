@@ -71,7 +71,7 @@ public class ItemLauncher {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    Timber.d("Item selected: %s (%s)", baseItem.getName(), baseItem.getType().toString());
+                    Timber.i("Item selected: %s (%s)", baseItem.getName(), baseItem.getType().toString());
                 } catch (Exception e) {
                     //swallow it
                 }
