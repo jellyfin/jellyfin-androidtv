@@ -123,7 +123,7 @@ class ServerRepositoryImpl(
 			}
 		}
 
-		Timber.d(buildString {
+		Timber.i(buildString {
 			append("Recommendations: ")
 			if (greatRecommendation == null) append(0)
 			else append(1)
