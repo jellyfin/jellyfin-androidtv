@@ -24,6 +24,7 @@ import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.extensions.ticks
@@ -151,8 +152,11 @@ class SdkPlaybackHelper(
 				val response by api.itemsApi.getItems(
 					isMissing = false,
 					mediaTypes = listOf(MediaType.AUDIO),
+					filters = listOf(ItemFilter.IS_NOT_FOLDER),
 					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(
-						ItemSortBy.ALBUM_ARTIST,
+						ItemSortBy.ALBUM,
+						ItemSortBy.PARENT_INDEX_NUMBER,
+						ItemSortBy.INDEX_NUMBER,
 						ItemSortBy.SORT_NAME
 					),
 					recursive = true,
@@ -168,7 +172,13 @@ class SdkPlaybackHelper(
 				val response by api.itemsApi.getItems(
 					isMissing = false,
 					mediaTypes = listOf(MediaType.AUDIO),
-					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(ItemSortBy.SORT_NAME),
+					filters = listOf(ItemFilter.IS_NOT_FOLDER),
+					sortBy = if (shuffle) listOf(ItemSortBy.RANDOM) else listOf(
+						ItemSortBy.ALBUM,
+						ItemSortBy.PARENT_INDEX_NUMBER,
+						ItemSortBy.INDEX_NUMBER,
+						ItemSortBy.SORT_NAME
+					),
 					recursive = true,
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields,

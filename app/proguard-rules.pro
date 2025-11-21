@@ -1,0 +1,1 @@
+-dontwarn org.commonmark.ext.gfm.strikethrough.Strikethrough

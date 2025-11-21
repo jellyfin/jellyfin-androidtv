@@ -32,7 +32,7 @@ android {
 
 	buildTypes {
 		release {
-			isMinifyEnabled = false
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
 			// Set package names used in various XML files
 			resValue("string", "app_id", namespace!!)
@@ -136,7 +136,6 @@ dependencies {
 	implementation(libs.androidx.media3.exoplayer.hls)
 	implementation(libs.androidx.media3.ui)
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
-	implementation(libs.libass.media3)
 
 	// Markdown
 	implementation(libs.bundles.markwon)

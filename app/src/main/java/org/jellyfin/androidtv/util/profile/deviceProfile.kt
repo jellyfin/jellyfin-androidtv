@@ -63,9 +63,8 @@ fun createDeviceProfile(
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
-	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
+	assDirectPlay = false,
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
-	jellyfinTenEleven = serverVersion >= ServerVersion(10, 11, 0),
 )
 
 fun createDeviceProfile(
@@ -75,7 +74,6 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
-	jellyfinTenEleven: Boolean,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -98,10 +96,6 @@ fun createDeviceProfile(
 	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
 
 	/// HDR capabilities
-	// Display
-	val supportsDolbyVisionDisplay = mediaTest.supportsDolbyVision()
-	val supportsHdr10Display = mediaTest.supportsHdr10()
-	val supportsHdr10PlusDisplay = mediaTest.supportsHdr10Plus()
 
 	// Codecs
 	// AV1
@@ -365,119 +359,78 @@ fun createDeviceProfile(
 
 	/// HDR exclude list
 
-	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
-	val unsupportedRangeTypes = buildSet {
-		if (jellyfinTenEleven) add("DOVIInvalid")
-
-		if (!supportsDolbyVisionDisplay) {
-			add(VideoRangeType.DOVI.serialName)
-
-			if (jellyfinTenEleven) {
-				add("DOVIWithEL")
-				if (!supportsHdr10PlusDisplay) {
-					add("DOVIWithHDR10Plus")
-					add("DOVIWithELHDR10Plus")
-				}
-			}
-
-			if (!supportsHdr10Display) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
-		}
-
-		if (!supportsHdr10PlusDisplay) {
-			add(VideoRangeType.HDR10_PLUS.serialName)
-			if (!supportsHdr10Display) add(VideoRangeType.HDR10.serialName)
-		}
-	}
-
 	val unsupportedRangeTypesAv1 = buildSet {
-		// Base of unsupported types for display
-		addAll(unsupportedRangeTypes)
+		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsAV1DolbyVision) {
-			add(VideoRangeType.DOVI.serialName)
-			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
-			if (jellyfinTenEleven && !supportsAV1HDR10Plus) add("DOVIWithHDR10Plus")
+			add(VideoRangeType.DOVI)
+			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10)
+			if (!supportsAV1HDR10Plus) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 		}
 
 		if (!supportsAV1HDR10Plus) {
-			add(VideoRangeType.HDR10_PLUS.serialName)
+			add(VideoRangeType.HDR10_PLUS)
 
-			if (!mediaTest.supportsAV1HDR10()) add(VideoRangeType.HDR10.serialName)
+			if (!mediaTest.supportsAV1HDR10()) add(VideoRangeType.HDR10)
 		}
 	}
 
-	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
 	val unsupportedRangeTypesHevc = buildSet {
-		// Base of unsupported types for display
-		addAll(unsupportedRangeTypes)
+		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
-			if (jellyfinTenEleven) {
-				add("DOVIWithEL")
-				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add("DOVIWithELHDR10Plus")
-			}
+			add(VideoRangeType.DOVI_WITH_EL)
+			if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 
 			if (!supportsHevcDolbyVision) {
-				add(VideoRangeType.DOVI.serialName)
-				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
-				if (jellyfinTenEleven && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add("DOVIWithHDR10Plus")
+				add(VideoRangeType.DOVI)
+				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10)
+				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 			}
 		}
 
 		if (!supportsHevcHDR10Plus) {
-			add(VideoRangeType.HDR10_PLUS.serialName)
-			if (!supportsHevcHDR10) add(VideoRangeType.HDR10.serialName)
+			add(VideoRangeType.HDR10_PLUS)
+			if (!supportsHevcHDR10) add(VideoRangeType.HDR10)
 		}
 
-		if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug) {
-			add("DOVIWithHDR10Plus")
-			add("DOVIWithELHDR10Plus")
+		if (KnownDefects.hevcDoviHdr10PlusBug) {
+			add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
+			add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 		}
 	}
 
-	// Display
 	// Note: The codec profiles use a workaround to create correct behavior
 	// The notEquals condition will always fail the ConditionProcessor test in the server so we use applyConditions to only have the codec
 	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
 	// notEquals in the StreamBuilder to create a correct transcode pipeline
-	if (unsupportedRangeTypes.isNotEmpty()) codecProfile {
-		type = CodecType.VIDEO
-
-		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString("|")
-		}
-
-		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypes
-		}
-	}
 
 	// Codecs
 	// AV1
-	if (unsupportedRangeTypesAv1.isNotEmpty() && unsupportedRangeTypesAv1 != unsupportedRangeTypes) codecProfile {
+	if (unsupportedRangeTypesAv1.isNotEmpty()) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.AV1
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|") { it.serialName }
 		}
 
 		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1.map { it.serialName }
 		}
 	}
 
 	// HEVC
-	if (unsupportedRangeTypesHevc.isNotEmpty() && unsupportedRangeTypesHevc != unsupportedRangeTypes) codecProfile {
+	if (unsupportedRangeTypesHevc.isNotEmpty()) codecProfile {
 		type = CodecType.VIDEO
 		codec = Codec.Video.HEVC
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|") { it.serialName }
 		}
 
 		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc.map { it.serialName }
 		}
 	}
 
