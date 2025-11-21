@@ -2852,6 +2852,12 @@ private fun JellyseerrGenreCard(
 		modifier = modifier
 			.width(350.dp)
 			.height(180.dp)
+			.clickable(
+				interactionSource = interactionSource,
+				indication = null,
+				onClick = onClick,
+			)
+			.focusable(interactionSource = interactionSource)
 			.graphicsLayer(
 				scaleX = scale,
 				scaleY = scale,
@@ -2861,11 +2867,6 @@ private fun JellyseerrGenreCard(
 				width = if (isFocused) 3.dp else 1.dp,
 				color = if (isFocused) Color.White else Color(0xFF444444),
 				shape = RoundedCornerShape(12.dp),
-			)
-			.clickable(
-				interactionSource = interactionSource,
-				indication = null,
-				onClick = onClick,
 			),
 		contentAlignment = Alignment.Center,
 	) {
