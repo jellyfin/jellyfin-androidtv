@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment
 import org.jellyfin.androidtv.ui.itemdetail.MusicFavoritesListFragment
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
+import org.jellyfin.androidtv.ui.jellyseerr.JellyseerrFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
@@ -36,6 +37,7 @@ object Destinations {
 	fun search(query: String? = null) = fragmentDestination<SearchFragment>(
 		SearchFragment.EXTRA_QUERY to query,
 	)
+	val jellyseerr = fragmentDestination<JellyseerrFragment>()
 
 	// Browsing
 	// TODO only pass item id instead of complete JSON to browsing destinations

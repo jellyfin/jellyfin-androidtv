@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.base.button
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -9,11 +10,13 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.sp
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
@@ -35,6 +38,14 @@ fun ButtonBase(
 	val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
 	val focused by interactionSource.collectIsFocusedAsState()
 	val pressed by interactionSource.collectIsPressedAsState()
+	val view = LocalView.current
+
+	// Play navigation sound when button receives focus
+	LaunchedEffect(focused) {
+		if (focused) {
+			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
+		}
+	}
 
 	val colors = when {
 		!enabled -> colors.disabledContainerColor to colors.disabledContentColor

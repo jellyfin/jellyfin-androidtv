@@ -1,0 +1,7 @@
+﻿private fun JellyseerrDetail(
+	item: JellyseerrSearchItem,
+	details: JellyseerrMovieDetails?,
+	requestStatusMessage: String?,
+	onRequestClick: () -> Unit,
+) {
+	val requestButtonFocusRequester = remember { FocusRequester() }

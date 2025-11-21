@@ -10,8 +10,9 @@ android-targetSdk = "36"
 androidx-activity = "1.12.0"
 androidx-appcompat = "1.7.1"
 androidx-cardview = "1.0.0"
-androidx-compose-foundation = "1.9.5"
-androidx-compose-ui = "1.9.5"
+androidx-compose-foundation = "1.9.4"
+androidx-compose-material = "1.7.8"
+androidx-compose-ui = "1.9.4"
 androidx-constraintlayout = "2.2.1"
 androidx-core = "1.17.0"
 androidx-fragment = "1.8.9"
@@ -64,6 +65,8 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material" }
+androidx-compose-material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-compose-material" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -133,6 +136,8 @@ acra = [
 ]
 androidx-compose = [
     "androidx-compose-foundation",
+    "androidx-compose-material",
+    "androidx-compose-material-icons",
     "androidx-compose-ui-tooling",
 ]
 androidx-lifecycle = [
