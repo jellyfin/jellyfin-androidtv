@@ -249,8 +249,9 @@ private fun JellyseerrScreen(
 
 			if (url.isBlank() || apiKey.isBlank()) {
 				Text(
-					text = stringResource(R.string.pref_jellyseerr_url_missing),
+					text = stringResource(R.string.jellyseerr_pref_url_missing),
 					modifier = Modifier.padding(24.dp),
+					color = Color.White,
 				)
 			} else {
 				JellyseerrContent(

@@ -159,7 +159,7 @@ private fun MainToolbar(
 							}
 						},
 						colors = if (activeButton == MainToolbarActiveButton.Requests) activeButtonColors else ButtonDefaults.colors(),
-						content = { Text(stringResource(R.string.lbl_requests)) }
+						content = { Text(stringResource(R.string.jellyseerr_lbl_requests)) }
 					)
 				}
 			}
