@@ -627,19 +627,5 @@
     <string name="jellyseerr_episode_missing_badge">Missing</string>
     <string name="jellyseerr_no_episodes">No episodes available.</string>
     <string name="jellyseerr_episode_title_missing">Episode</string>
-    <string name="jellyseerr_pref">Jellyseerr</string>
-    <string name="jellyseerr_pref_url">Jellyseerr URL</string>
-    <string name="jellyseerr_pref_api_key">Jellyseerr API key</string>
-    <string name="jellyseerr_pref_url_missing">Not Configured. Go to Settings → Personalize → Jellyseerr, enter the Jellyfin URL and fetch or enter the API key and test the connection.</string>
-    <string name="jellyseerr_pref_test_connection">Test connection</string>
-    <string name="jellyseerr_pref_test_connection_missing">Set URL and API key first.</string>
-    <string name="jellyseerr_pref_test_connection_success">Connection to Jellyseerr successful.</string>
-    <string name="jellyseerr_pref_test_connection_failure">Connection failed: %1$s</string>
-    <string name="jellyseerr_pref_fetch_api_key">Fetch Jellyseerr API key</string>
-    <string name="jellyseerr_pref_fetch_api_key_missing">In the Discover section follow Settings → Personalize → Jellyseerr to enter the Jellyfin URL, then you can fetch the API key, fill it manually, or test the connection.</string>
-    <string name="jellyseerr_pref_fetch_api_key_not_authenticated">Sign into Jellyfin first so the plugin can return a key.</string>
-    <string name="jellyseerr_pref_fetch_api_key_success">API key retrieved and saved.</string>
-    <string name="jellyseerr_pref_fetch_api_key_failure">Unable to fetch API key: %1$s</string>
-    <string name="jellyseerr_pref_fetch_api_key_plugin_disabled">Plugin did not return a key.</string>
-    <string name="jellyseerr_pref_fetch_api_key_unknown_error">Unknown error occurred.</string>
+    <string name="jellyseerr_pref_url_missing">Not configured. Ask your admin to set up the Jellyseerr Requests Bridge plugin on the server (https://github.com/Serekay/jellyfin-requests-bridge).</string>
 </resources>

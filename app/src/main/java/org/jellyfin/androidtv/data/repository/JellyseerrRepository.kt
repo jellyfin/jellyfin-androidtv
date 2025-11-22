@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.data.repository
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -18,8 +19,10 @@ import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.util.AuthorizationHeaderBuilder
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
+import org.json.JSONObject
 import timber.log.Timber
 
 private const val TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
@@ -81,6 +84,7 @@ data class JellyseerrSearchResult(
 )
 
 interface JellyseerrRepository {
+	suspend fun ensureConfig(): Result<Unit>
 	suspend fun search(query: String, page: Int = 1): Result<JellyseerrSearchResult>
 	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
 	suspend fun getRecentRequests(): Result<List<JellyseerrSearchItem>>
@@ -430,6 +434,8 @@ class JellyseerrRepositoryImpl(
 	private val json = Json {
 		ignoreUnknownKeys = true
 	}
+	@Volatile
+	private var cachedConfig: Config? = null
 
 private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSearchItem {
 	val posterUrl = posterImageUrl(dto.posterPath) ?: profileImageUrl(dto.profilePath)
@@ -473,13 +479,94 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 	private var cachedUserId: Int? = null
 
 	private fun getConfig(): Config? {
+		cachedConfig?.let { return it }
+
 		val url = userPreferences[UserPreferences.jellyseerrUrl].trim()
 		val apiKey = userPreferences[UserPreferences.jellyseerrApiKey].trim()
 
-		if (url.isBlank() || apiKey.isBlank()) return null
+		if (url.isNotBlank() && apiKey.isNotBlank()) {
+			return Config(url.trimEnd('/'), apiKey).also { cachedConfig = it }
+		}
 
-		val baseUrl = url.trimEnd('/')
-		return Config(baseUrl, apiKey)
+		// Fallback: try to fetch config from Jellyfin via the Requests Bridge plugin
+		val fetched = runBlocking { fetchBridgeConfig().getOrNull() }
+		if (fetched != null) {
+			userPreferences[UserPreferences.jellyseerrUrl] = fetched.baseUrl
+			userPreferences[UserPreferences.jellyseerrApiKey] = fetched.apiKey
+			cachedConfig = fetched
+		}
+
+		return cachedConfig
+	}
+
+	override suspend fun ensureConfig(): Result<Unit> = withContext(Dispatchers.IO) {
+		if (getConfig() != null) return@withContext Result.success(Unit)
+		fetchBridgeConfig().map { Unit }
+	}
+
+	private suspend fun fetchBridgeConfig(): Result<Config> = withContext(Dispatchers.IO) {
+		val jellyfinBase = apiClient.baseUrl?.trimEnd('/')
+			?: return@withContext Result.failure(IllegalStateException("No Jellyfin server configured"))
+		val token = apiClient.accessToken?.takeIf { it.isNotBlank() }
+			?: return@withContext Result.failure(IllegalStateException("No Jellyfin access token"))
+
+		val authorization = AuthorizationHeaderBuilder.buildHeader(
+			apiClient.clientInfo.name,
+			apiClient.clientInfo.version,
+			apiClient.deviceInfo.id,
+			apiClient.deviceInfo.name,
+			token,
+		)
+
+		fun Request.Builder.addAuth(): Request.Builder = header("Authorization", authorization)
+
+		val baseResult = runCatching {
+			val request = Request.Builder()
+				.url("$jellyfinBase/plugins/requests/apibase")
+				.addAuth()
+				.build()
+
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val normalized = body.trimStart().removePrefix("\uFEFF")
+				val jsonObj = JSONObject(normalized)
+				val success = jsonObj.optBoolean("success", false)
+				val apiBase = jsonObj.optString("apiBase").trim()
+				if (!success || apiBase.isBlank()) {
+					throw IllegalStateException("Jellyseerr base URL not configured in Requests Bridge")
+				}
+				apiBase.trimEnd('/')
+			}
+		}
+
+		if (baseResult.isFailure) return@withContext Result.failure(baseResult.exceptionOrNull()!!)
+
+		val apiBase = baseResult.getOrThrow()
+
+		val keyResult = runCatching {
+			val request = Request.Builder()
+				.url("$jellyfinBase/plugins/requests/apikey")
+				.addAuth()
+				.build()
+
+			client.newCall(request).execute().use { response ->
+				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
+				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
+				val normalized = body.trimStart().removePrefix("\uFEFF")
+				val jsonObj = JSONObject(normalized)
+				val success = jsonObj.optBoolean("success", false)
+				val apiKey = jsonObj.optString("apiKey").trim()
+				if (!success || apiKey.isBlank()) {
+					throw IllegalStateException("Jellyseerr API key not configured in Requests Bridge")
+				}
+				apiKey
+			}
+		}
+
+		if (keyResult.isFailure) return@withContext Result.failure(keyResult.exceptionOrNull()!!)
+
+		Result.success(Config(apiBase, keyResult.getOrThrow()))
 	}
 
 	private suspend fun resolveCurrentUserId(config: Config): Result<Int> = withContext(Dispatchers.IO) {
