@@ -150,7 +150,7 @@ class AudioSubtitlePreferencesRepositoryImpl(
 
     /**
      * Update the user configuration on the server with a new configuration.
-     * Uses the current user configuration from the server as base.
+     * Fetches the fresh configuration from the server first to avoid using stale cached data.
      * Protected by mutex to prevent race conditions.
      */
     private suspend fun updateConfiguration(
@@ -162,31 +162,31 @@ class AudioSubtitlePreferencesRepositoryImpl(
                 error("No user logged in")
             }
 
-            val serverConfig = currentUser.configuration ?: run {
-                Timber.tag(TAG).w("Cannot update configuration: user has no configuration")
-                error("User configuration not available")
-            }
-
-            // Apply transform directly to server config
-            // The transform contains the specific change requested
-            val updatedConfig = transform(serverConfig)
-
             try {
+                // Fetch the fresh user configuration from the server
+                // This ensures we're working with the latest server state, not stale cached data
+                val freshUser by api.userApi.getCurrentUser()
+                val serverConfig = freshUser.configuration ?: run {
+                    Timber.tag(TAG).w("Cannot update configuration: user has no configuration")
+                    error("User configuration not available")
+                }
+
+                // Apply transform to the fresh server config
+                val updatedConfig = transform(serverConfig)
+
+                // Send updated configuration back to server
                 userConfigurationUpdater.updateUserConfiguration(api, currentUser.id, updatedConfig)
                 Timber.tag(TAG).d("Successfully updated user configuration on server")
 
-                // Note: We don't refresh immediately after update because:
-                // 1. The optimistic local update already shows the correct value
-                // 2. Refreshing too quickly can overwrite the optimistic update with stale server data
-                // 3. The user change subscription (init block) will refresh when needed
+                // Refresh local state with the updated configuration
+                // This ensures UI reflects the actual server state
+                refreshFromUser(freshUser.copy(configuration = updatedConfig))
             } catch (e: UserConfigurationUpdateException) {
                 Timber.tag(TAG).e(e, "Failed to update user configuration on server")
-                // Rethrow so caller can handle (will be caught in update methods above)
                 throw e
-            } catch (e: IllegalStateException) {
-                Timber.tag(TAG).e(e, "Failed to update user configuration on server")
-                // Rethrow so caller can handle (will be caught in update methods above)
-                throw e
+            } catch (e: ApiClientException) {
+                Timber.tag(TAG).e(e, "Failed to fetch current user configuration from server")
+                throw UserConfigurationUpdateException("Failed to fetch current configuration", e)
             }
         }
     }

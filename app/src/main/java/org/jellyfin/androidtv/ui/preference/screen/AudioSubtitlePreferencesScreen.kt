@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.R
@@ -87,19 +85,12 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 				setOnEntriesUpdated {
 					Timber.d("Audio language entries updated")
 				}
-
 				bind {
 					get { audioSubtitlePreferencesRepository.preferences.value.audioLanguagePreference ?: "" }
 					set { value ->
 						// Call repository update which does optimistic update + server sync
-						// Repository methods use withContext(Dispatchers.IO) so this blocks on IO thread, not main thread
-						// This ensures the optimistic update completes before get() is called
 						runBlocking {
-							try {
-								audioSubtitlePreferencesRepository.updateAudioLanguage(value.ifEmpty { null })
-							} catch (e: Exception) {
-								Timber.tag(TAG).e(e, "Error updating audio language")
-							}
+							audioSubtitlePreferencesRepository.updateAudioLanguage(value.ifEmpty { null })
 						}
 					}
 					default { "" }
@@ -123,14 +114,8 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 					get { audioSubtitlePreferencesRepository.preferences.value.subtitleLanguagePreference ?: "" }
 					set { value ->
 						// Call repository update which does optimistic update + server sync
-						// Repository methods use withContext(Dispatchers.IO) so this blocks on IO thread, not main thread
-						// This ensures the optimistic update completes before get() is called
 						runBlocking {
-							try {
-								audioSubtitlePreferencesRepository.updateSubtitleLanguage(value.ifEmpty { null })
-							} catch (e: Exception) {
-								Timber.tag(TAG).e(e, "Error updating subtitle language")
-							}
+							audioSubtitlePreferencesRepository.updateSubtitleLanguage(value.ifEmpty { null })
 						}
 					}
 					default { "" }
@@ -145,14 +130,8 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 					get { audioSubtitlePreferencesRepository.preferences.value.subtitleMode }
 					set { value ->
 						// Call repository update which does optimistic update + server sync
-						// Repository methods use withContext(Dispatchers.IO) so this blocks on IO thread, not main thread
-						// This ensures the optimistic update completes before get() is called
 						runBlocking {
-							try {
-								audioSubtitlePreferencesRepository.updateSubtitleMode(value)
-							} catch (e: Exception) {
-								Timber.tag(TAG).e(e, "Error updating subtitle mode")
-							}
+							audioSubtitlePreferencesRepository.updateSubtitleMode(value)
 						}
 					}
 					default { SubtitlePlaybackMode.DEFAULT }
