@@ -84,4 +84,17 @@
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
     <string name="lbl_recordings">Gravacións</string>
+    <string name="lbl_play_next_up">Reproducir seguinte</string>
+    <string name="lbl_open">Abrir</string>
+    <string name="lbl_repeat_episodes">Repetir episodios</string>
+    <string name="welcome_title">Benvido a Jellyfin!</string>
+    <string name="advanced_settings">Avanzado</string>
+    <string name="select_version">Versión</string>
+    <string name="licenses_link">Licenzas</string>
+    <string name="pref_video">Vídeo</string>
+    <string name="pref_subtitles">Subtítulos</string>
+    <string name="pref_audio">Audio</string>
+    <string name="action_connect">Conectar</string>
+    <string name="item_deleted">%1$s borrado</string>
+    <string name="photos">Fotos</string>
 </resources>
