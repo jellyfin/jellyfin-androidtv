@@ -629,11 +629,20 @@ private fun JellyseerrScreen(
 													when {
 														isAvailable && selectedItem.jellyfinId != null -> {
 															// Direkt zum Jellyfin Content navigieren
-															val uuid = java.util.UUID.fromString(selectedItem.jellyfinId)
-															navigationRepository.navigate(
-																org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
-															)
-															showSeasonDialog = false
+															val uuid = selectedItem.jellyfinId.toUUIDOrNull()
+															if (uuid != null) {
+																navigationRepository.navigate(
+																	org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
+																)
+																showSeasonDialog = false
+															} else {
+																navigationRepository.navigate(
+																	org.jellyfin.androidtv.ui.navigation.Destinations.search(
+																		selectedItem.title,
+																	),
+																)
+																showSeasonDialog = false
+															}
 														}
 														isAvailable -> {
 															// Fallback: Suche öffnen
@@ -774,10 +783,18 @@ private fun JellyseerrScreen(
 
 													val episodeClickHandler = if (episode.isAvailable && episode.jellyfinId != null) {
 														{
-															val uuid = java.util.UUID.fromString(episode.jellyfinId)
-															navigationRepository.navigate(
-																org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
-															)
+															val uuid = episode.jellyfinId.toUUIDOrNull()
+															if (uuid != null) {
+																navigationRepository.navigate(
+																	org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
+																)
+															} else {
+																navigationRepository.navigate(
+																	org.jellyfin.androidtv.ui.navigation.Destinations.search(
+																		"${selectedItem.title} ${episode.name.orEmpty()}",
+																	),
+																)
+															}
 														}
 													} else {
 														{ /* Nicht klickbar */ }
@@ -2626,10 +2643,16 @@ private fun JellyseerrCastCard(
 							when {
 								isAvailable && item.jellyfinId != null -> {
 									// Direkt zum Jellyfin Content navigieren
-									val uuid = java.util.UUID.fromString(item.jellyfinId)
-									navigationRepository.navigate(
-										org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
-									)
+									val uuid = item.jellyfinId.toUUIDOrNull()
+									if (uuid != null) {
+										navigationRepository.navigate(
+											org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(uuid),
+										)
+									} else {
+										navigationRepository.navigate(
+											org.jellyfin.androidtv.ui.navigation.Destinations.search(item.title),
+										)
+									}
 								}
 								isAvailable -> {
 									// Fallback: Suche öffnen wenn keine Jellyfin ID vorhanden

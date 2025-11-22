@@ -46,99 +46,34 @@ private fun companyLogoImageUrl(path: String?): String? =
 
 // Genre color mapping (dark, light) - matches Jellyseerr
 private val genreColorMap: Map<Int, Pair<String, String>> = mapOf(
-	0 to Pair("030712", "6B7280"),     // Default (black/gray)
-	28 to Pair("991B1B", "FCA5A5"),    // Action (red)
-	12 to Pair("581C87", "D8B4FE"),    // Adventure (dark purple)
-	16 to Pair("1E3A8A", "93C5FD"),    // Animation (blue)
-	35 to Pair("9A3412", "FDBA74"),    // Comedy (orange)
-	80 to Pair("1E3A8A", "93C5FD"),    // Crime (dark blue)
-	99 to Pair("166534", "86EFAC"),    // Documentary (light green)
-	18 to Pair("831843", "FBCFE8"),    // Drama (pink)
-	10751 to Pair("854D0E", "FDE047"), // Family (yellow)
-	14 to Pair("0E7490", "67E8F9"),    // Fantasy (light blue)
-	36 to Pair("9A3412", "FDBA74"),    // History (orange)
-	27 to Pair("030712", "6B7280"),    // Horror (black)
-	10402 to Pair("1E3A8A", "93C5FD"), // Music (blue)
-	9648 to Pair("6B21A8", "C4B5FD"),  // Mystery (purple)
-	10749 to Pair("831843", "FBCFE8"), // Romance (pink)
-	878 to Pair("0E7490", "67E8F9"),   // Science Fiction (light blue)
-	10770 to Pair("991B1B", "FCA5A5"), // TV Movie (red)
-	53 to Pair("030712", "6B7280"),    // Thriller (black)
-	10752 to Pair("7F1D1D", "FCA5A5"), // War (dark red)
-	37 to Pair("9A3412", "FDBA74"),    // Western (orange)
-	10759 to Pair("581C87", "D8B4FE"), // Action & Adventure (dark purple)
-	10762 to Pair("1E3A8A", "93C5FD"), // Kids (blue)
-	10763 to Pair("030712", "6B7280"), // News (black)
-	10764 to Pair("7C2D12", "FED7AA"), // Reality (dark orange)
-	10765 to Pair("0E7490", "67E8F9"), // Sci-Fi & Fantasy (light blue)
-	10766 to Pair("831843", "FBCFE8"), // Soap (pink)
-	10767 to Pair("166534", "86EFAC"), // Talk (light green)
-	10768 to Pair("7F1D1D", "FCA5A5"), // War & Politics (dark red)
-)
-
-data class JellyseerrSearchResult(
-	val results: List<JellyseerrSearchItem>,
-	val page: Int,
-	val totalPages: Int,
-	val totalResults: Int,
-)
-
-interface JellyseerrRepository {
-	suspend fun ensureConfig(): Result<Unit>
-	suspend fun search(query: String, page: Int = 1): Result<JellyseerrSearchResult>
-	suspend fun getOwnRequests(): Result<List<JellyseerrRequest>>
-	suspend fun getRecentRequests(): Result<List<JellyseerrSearchItem>>
-	suspend fun createRequest(item: JellyseerrSearchItem, seasons: List<Int>? = null): Result<Unit>
-	suspend fun discoverTrending(page: Int = 1): Result<List<JellyseerrSearchItem>>
-	suspend fun discoverMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
-	suspend fun discoverTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
-	suspend fun discoverUpcomingMovies(page: Int = 1): Result<List<JellyseerrSearchItem>>
-	suspend fun discoverUpcomingTv(page: Int = 1): Result<List<JellyseerrSearchItem>>
-	suspend fun discoverMoviesByGenre(genreId: Int, page: Int = 1): Result<JellyseerrGenreDiscovery>
-	suspend fun discoverTvByGenre(genreId: Int, page: Int = 1): Result<JellyseerrGenreDiscovery>
-	suspend fun discoverMoviesByStudio(studioId: Int, page: Int = 1): Result<JellyseerrCompanyDiscovery>
-	suspend fun discoverTvByNetwork(networkId: Int, page: Int = 1): Result<JellyseerrCompanyDiscovery>
-	suspend fun getMovieDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
-	suspend fun getTvDetails(tmdbId: Int): Result<JellyseerrMovieDetails>
-	suspend fun getSeasonEpisodes(tmdbId: Int, seasonNumber: Int): Result<List<JellyseerrEpisode>>
-	suspend fun cancelRequest(requestId: Int): Result<Unit>
-	suspend fun markAvailableInJellyfin(items: List<JellyseerrSearchItem>): Result<List<JellyseerrSearchItem>>
-	suspend fun getPersonDetails(personId: Int): Result<JellyseerrPersonDetails>
-    suspend fun getPersonCredits(personId: Int): Result<List<JellyseerrSearchItem>>
-	suspend fun getMovieGenres(): Result<List<JellyseerrGenreSlider>>
-	suspend fun getTvGenres(): Result<List<JellyseerrGenreSlider>>
-}
-
-// Genre für Slider/Cards mit Backdrop-Bild
-data class JellyseerrGenreSlider(
-	val id: Int,
-	val name: String,
-	val backdropUrl: String?,
-)
-
-data class JellyseerrCompany(
-	val id: Int,
-	val name: String,
-	val logoUrl: String? = null,
-	val homepage: String? = null,
-	val description: String? = null,
-)
-
-data class JellyseerrSearchItem(
-	val id: Int,
-	val mediaType: String,
-	val title: String,
-	val overview: String?,
-	val posterPath: String? = null,
-	val backdropPath: String? = null,
-	val profilePath: String? = null,
-	val releaseDate: String? = null,
-	val isRequested: Boolean = false,
-	val isAvailable: Boolean = false,
-	val isPartiallyAvailable: Boolean = false,
-	val requestId: Int? = null,
-	val requestStatus: Int? = null,
-	val jellyfinId: String? = null,
+	0 to Pair("030712", "6B7280"),
+	28 to Pair("991B1B", "FCA5A5"),
+	12 to Pair("581C87", "D8B4FE"),
+	16 to Pair("1E3A8A", "93C5FD"),
+	35 to Pair("9A3412", "FDBA74"),
+	80 to Pair("1E3A8A", "93C5FD"),
+	99 to Pair("166534", "86EFAC"),
+	18 to Pair("831843", "FBCFE8"),
+	10751 to Pair("854D0E", "FDE047"),
+	14 to Pair("0E7490", "67E8F9"),
+	36 to Pair("9A3412", "FDBA74"),
+	27 to Pair("030712", "6B7280"),
+	10402 to Pair("1E3A8A", "93C5FD"),
+	9648 to Pair("6B21A8", "C4B5FD"),
+	10749 to Pair("831843", "FBCFE8"),
+	878 to Pair("0E7490", "67E8F9"),
+	10770 to Pair("991B1B", "FCA5A5"),
+	53 to Pair("030712", "6B7280"),
+	10752 to Pair("7F1D1D", "FCA5A5"),
+	37 to Pair("9A3412", "FDBA74"),
+	10759 to Pair("581C87", "D8B4FE"),
+	10762 to Pair("1E3A8A", "93C5FD"),
+	10763 to Pair("030712", "6B7280"),
+	10764 to Pair("7C2D12", "FED7AA"),
+	10765 to Pair("0E7490", "67E8F9"),
+	10766 to Pair("831843", "FBCFE8"),
+	10767 to Pair("166534", "86EFAC"),
+	10768 to Pair("7F1D1D", "FCA5A5"),
 )
 
 @Serializable
@@ -220,174 +155,6 @@ private data class JellyseerrUser(
 	val username: String? = null,
 	val jellyfinUsername: String? = null,
 	val jellyfinUserId: String? = null,
-)
-
-@Serializable
-data class JellyseerrRequestPage(
-	val results: List<JellyseerrRequestDto>,
-)
-
-@Serializable
-data class JellyseerrRequestDto(
-	val id: Int,
-	val status: Int? = null,
-	val type: String? = null,
-	val media: JellyseerrMediaDto? = null,
-)
-
-@Serializable
-data class JellyseerrMediaDto(
-	val tmdbId: Int? = null,
-	val mediaType: String? = null,
-	val title: String? = null,
-	val name: String? = null,
-	val posterPath: String? = null,
-	val backdropPath: String? = null,
-)
-
-@Serializable
-data class JellyseerrPersonDetails(
-    val id: Int,
-    val name: String,
-    val birthday: String? = null,
-    val deathday: String? = null,
-    val knownForDepartment: String? = null,
-    val alsoKnownAs: List<String> = emptyList(),
-    val gender: Int? = null,
-    val biography: String? = null,
-    val popularity: Double? = null,
-    val placeOfBirth: String? = null,
-    val profilePath: String? = null,
-    val adult: Boolean? = null,
-    val imdbId: String? = null,
-    val homepage: String? = null,
-)
-
-@Serializable
-private data class JellyseerrPersonCredit(
-    val id: Int,
-    val mediaType: String? = null,
-    val overview: String? = null,
-    val posterPath: String? = null,
-    val backdropPath: String? = null,
-    val title: String? = null,
-    val name: String? = null,
-    val adult: Boolean? = null,
-)
-
-@Serializable
-private data class JellyseerrCombinedCredits(
-    val id: Int,
-    val cast: List<JellyseerrPersonCredit> = emptyList(),
-    val crew: List<JellyseerrPersonCredit> = emptyList(),
-)
-
-@Serializable
-private data class JellyseerrGenreSliderItem(
-	val id: Int,
-	val name: String,
-	val backdrops: List<String> = emptyList(),
-)
-
-data class JellyseerrRequest(
-	val id: Int,
-	val status: Int?,
-	val mediaType: String?,
-	val title: String,
-	val tmdbId: Int?,
-	val posterPath: String? = null,
-	val backdropPath: String? = null,
-)
-
-@Serializable
-private data class JellyseerrCreateRequestBody(
-	val mediaType: String,
-	@SerialName("mediaId")
-	val mediaId: Int,
-	val userId: Int,
-	val seasons: List<Int>? = null,
-)
-
-@Serializable
-data class JellyseerrGenre(
-	val id: Int,
-	val name: String,
-)
-
-data class JellyseerrGenreDiscovery(
-	val genre: JellyseerrGenre,
-	val results: List<JellyseerrSearchItem>,
-	val page: Int,
-	val totalPages: Int,
-	val totalResults: Int,
-)
-
-data class JellyseerrCompanyDiscovery(
-	val company: JellyseerrCompany,
-	val results: List<JellyseerrSearchItem>,
-	val page: Int,
-	val totalPages: Int,
-	val totalResults: Int,
-)
-
-@Serializable
-data class JellyseerrCast(
-	val id: Int,
-	val castId: Int? = null,
-	val character: String? = null,
-	val creditId: String? = null,
-	val gender: Int? = null,
-	val name: String,
-	val order: Int? = null,
-	val profilePath: String? = null,
-)
-
-@Serializable
-data class JellyseerrCredits(
-	val cast: List<JellyseerrCast> = emptyList(),
-)
-
-@Serializable
-data class JellyseerrSeason(
-	val id: Int,
-	val name: String? = null,
-	val overview: String? = null,
-	val posterPath: String? = null,
-	val seasonNumber: Int,
-	val episodeCount: Int? = null,
-	val airDate: String? = null,
-	val status: Int? = null,
-)
-
-data class JellyseerrEpisode(
-	val id: Int,
-	val name: String? = null,
-	val overview: String? = null,
-	val imageUrl: String? = null,
-	val episodeNumber: Int? = null,
-	val seasonNumber: Int? = null,
-	val airDate: String? = null,
-	val isMissing: Boolean = false,
-	val isAvailable: Boolean = false,
-	val jellyfinId: String? = null,
-)
-
-@Serializable
-data class JellyseerrMovieDetails(
-	val id: Int,
-	val title: String? = null,
-	val name: String? = null,
-	val originalTitle: String? = null,
-	val overview: String? = null,
-	val posterPath: String? = null,
-	val backdropPath: String? = null,
-	val releaseDate: String? = null,
-	val firstAirDate: String? = null,
-	val runtime: Int? = null,
-	val voteAverage: Double? = null,
-	val genres: List<JellyseerrGenre> = emptyList(),
-	val credits: JellyseerrCredits? = null,
-	val seasons: List<JellyseerrSeason> = emptyList(),
 )
 
 class JellyseerrRepositoryImpl(
