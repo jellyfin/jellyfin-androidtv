@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.AudioSubtitlePreferencesRepository
 import org.jellyfin.androidtv.data.repository.LanguageCacheRepository
@@ -88,9 +91,15 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 				bind {
 					get { audioSubtitlePreferencesRepository.preferences.value.audioLanguagePreference ?: "" }
 					set { value ->
-						// Update repository (optimistic update + background sync)
-						lifecycleScope.launch {
-							audioSubtitlePreferencesRepository.updateAudioLanguage(value.ifEmpty { null })
+						// Call repository update which does optimistic update + server sync
+						// Repository methods use withContext(Dispatchers.IO) so this blocks on IO thread, not main thread
+						// This ensures the optimistic update completes before get() is called
+						runBlocking {
+							try {
+								audioSubtitlePreferencesRepository.updateAudioLanguage(value.ifEmpty { null })
+							} catch (e: Exception) {
+								Timber.tag(TAG).e(e, "Error updating audio language")
+							}
 						}
 					}
 					default { "" }
@@ -113,9 +122,15 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 				bind {
 					get { audioSubtitlePreferencesRepository.preferences.value.subtitleLanguagePreference ?: "" }
 					set { value ->
-						// Update repository (optimistic update + background sync)
-						lifecycleScope.launch {
-							audioSubtitlePreferencesRepository.updateSubtitleLanguage(value.ifEmpty { null })
+						// Call repository update which does optimistic update + server sync
+						// Repository methods use withContext(Dispatchers.IO) so this blocks on IO thread, not main thread
+						// This ensures the optimistic update completes before get() is called
+						runBlocking {
+							try {
+								audioSubtitlePreferencesRepository.updateSubtitleLanguage(value.ifEmpty { null })
+							} catch (e: Exception) {
+								Timber.tag(TAG).e(e, "Error updating subtitle language")
+							}
 						}
 					}
 					default { "" }
@@ -129,9 +144,15 @@ class AudioSubtitlePreferencesScreen : OptionsFragment() {
 				bind {
 					get { audioSubtitlePreferencesRepository.preferences.value.subtitleMode }
 					set { value ->
-						// Update repository (optimistic update + background sync)
-						lifecycleScope.launch {
-							audioSubtitlePreferencesRepository.updateSubtitleMode(value)
+						// Call repository update which does optimistic update + server sync
+						// Repository methods use withContext(Dispatchers.IO) so this blocks on IO thread, not main thread
+						// This ensures the optimistic update completes before get() is called
+						runBlocking {
+							try {
+								audioSubtitlePreferencesRepository.updateSubtitleMode(value)
+							} catch (e: Exception) {
+								Timber.tag(TAG).e(e, "Error updating subtitle mode")
+							}
 						}
 					}
 					default { SubtitlePlaybackMode.DEFAULT }

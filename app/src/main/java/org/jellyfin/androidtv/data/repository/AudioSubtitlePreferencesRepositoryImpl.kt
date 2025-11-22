@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -76,8 +75,8 @@ class AudioSubtitlePreferencesRepositoryImpl(
         }
     }
 
-    override suspend fun updateAudioLanguage(language: String?) {
-        // Update local state immediately for UI responsiveness
+    override suspend fun updateAudioLanguage(language: String?) = withContext(Dispatchers.IO) {
+        // Update local state immediately for UI responsiveness (synchronous)
         _preferences.value = _preferences.value.copy(audioLanguagePreference = language)
 
         // Then update server in background
@@ -94,8 +93,8 @@ class AudioSubtitlePreferencesRepositoryImpl(
         }
     }
 
-    override suspend fun updateSubtitleLanguage(language: String?) {
-        // Update local state immediately for UI responsiveness
+    override suspend fun updateSubtitleLanguage(language: String?) = withContext(Dispatchers.IO) {
+        // Update local state immediately for UI responsiveness (synchronous)
         _preferences.value = _preferences.value.copy(subtitleLanguagePreference = language)
 
         // Then update server in background
@@ -112,8 +111,8 @@ class AudioSubtitlePreferencesRepositoryImpl(
         }
     }
 
-    override suspend fun updateSubtitleMode(mode: SubtitlePlaybackMode) {
-        // Update local state immediately for UI responsiveness
+    override suspend fun updateSubtitleMode(mode: SubtitlePlaybackMode) = withContext(Dispatchers.IO) {
+        // Update local state immediately for UI responsiveness (synchronous)
         _preferences.value = _preferences.value.copy(subtitleMode = mode)
 
         // Then update server in background
@@ -151,8 +150,7 @@ class AudioSubtitlePreferencesRepositoryImpl(
 
     /**
      * Update the user configuration on the server with a new configuration.
-     * Uses the current user configuration from the server as base, but applies
-     * all local preference changes to avoid losing concurrent updates.
+     * Uses the current user configuration from the server as base.
      * Protected by mutex to prevent race conditions.
      */
     private suspend fun updateConfiguration(
@@ -169,29 +167,18 @@ class AudioSubtitlePreferencesRepositoryImpl(
                 error("User configuration not available")
             }
 
-            // Apply all current local preferences to avoid race conditions
-            // when multiple preferences are changed quickly
-            val localPrefs = _preferences.value
-            val baseConfig = serverConfig.copy(
-                audioLanguagePreference = localPrefs.audioLanguagePreference,
-                subtitleLanguagePreference = localPrefs.subtitleLanguagePreference,
-                subtitleMode = localPrefs.subtitleMode,
-            )
-
-            val updatedConfig = transform(baseConfig)
+            // Apply transform directly to server config
+            // The transform contains the specific change requested
+            val updatedConfig = transform(serverConfig)
 
             try {
                 userConfigurationUpdater.updateUserConfiguration(api, currentUser.id, updatedConfig)
                 Timber.tag(TAG).d("Successfully updated user configuration on server")
 
-                // Refresh to get the updated configuration from the server
-                scope.launch {
-                    try {
-                        refreshPreferences()
-                    } catch (e: ApiClientException) {
-                        Timber.tag(TAG).w(e, "Failed to refresh preferences after update")
-                    }
-                }
+                // Note: We don't refresh immediately after update because:
+                // 1. The optimistic local update already shows the correct value
+                // 2. Refreshing too quickly can overwrite the optimistic update with stale server data
+                // 3. The user change subscription (init block) will refresh when needed
             } catch (e: UserConfigurationUpdateException) {
                 Timber.tag(TAG).e(e, "Failed to update user configuration on server")
                 // Rethrow so caller can handle (will be caught in update methods above)
