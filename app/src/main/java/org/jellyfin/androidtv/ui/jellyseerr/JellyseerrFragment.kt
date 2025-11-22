@@ -988,8 +988,17 @@ private fun JellyseerrContent(
 				}
 				Text(text = headerText, color = Color.White, fontSize = sectionTitleFontSize)
 
+				val isCategoryScreen = state.discoverCategory in setOf(
+					JellyseerrDiscoverCategory.MOVIE_GENRE,
+					JellyseerrDiscoverCategory.TV_GENRE,
+					JellyseerrDiscoverCategory.MOVIE_STUDIOS,
+					JellyseerrDiscoverCategory.TV_NETWORKS,
+				)
+
 				val gridResults = when {
 					state.showSearchResultsGrid -> state.results
+					state.showAllTrendsGrid -> state.results
+					isCategoryScreen -> state.results
 					state.query.isBlank() -> state.results.take(20)
 					else -> state.results
 				}
