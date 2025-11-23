@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 fun colorScheme(): ColorScheme = ColorScheme(
 	background = Color(0xFF101010),
 	onBackground = Color(0xFFFFFFFF),
+	itemFill = Color(0xFF033860),
 	button = Color(0xB3747474),
 	onButton = Color(0xFFDDDDDD),
 	buttonFocused = Color(0xE6CCCCCC),
@@ -24,12 +25,14 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	popover = Color(0xFF212225),
 	badge = Color(0xFF62676F),
 	onBadge = Color(0xFFE8EAED),
+	accent = Color(0xFF00A4DC),
 )
 
 @Immutable
 data class ColorScheme(
 	val background: Color,
 	val onBackground: Color,
+	val itemFill: Color,
 
 	val button: Color,
 	val onButton: Color,
@@ -52,6 +55,7 @@ data class ColorScheme(
 
 	val badge: Color,
 	val onBadge: Color,
+	val accent: Color
 )
 
 val LocalColorScheme = staticCompositionLocalOf { colorScheme() }
