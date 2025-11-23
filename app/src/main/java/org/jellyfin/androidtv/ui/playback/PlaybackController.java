@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.data.repository.AudioSubtitlePreferencesRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
@@ -55,6 +56,8 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class PlaybackController implements PlaybackControllerNotifiable {
+    private static final String TAG = "PlaybackController";
+
     // Frequency to report playback progress
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
     // Frequency to report paused state
@@ -209,8 +212,39 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return isLiveTv;
     }
 
+    /**
+     * Get the currently selected subtitle stream index.
+     *
+     * Priority order:
+     * 1. Manual user selection (mCurrentOptions.getSubtitleStreamIndex())
+     * 2. For transcoding: server default (defaultSubtitleStreamIndex)
+     * 3. For direct play: ExoPlayer's actual selection based on user preferences
+     *
+     * ExoPlayer subtitle selection behavior:
+     * - When subtitleMode == NONE: No subtitles selected
+     * - When subtitleMode == ALWAYS: Selects based on preferredSubtitleLanguage
+     * - When subtitleMode == DEFAULT: Follows container DEFAULT flag
+     * - When subtitleMode == ONLY_FORCED: Only forced subtitles
+     *
+     * @return Index of selected subtitle stream, or -1 if none selected
+     */
     public int getSubtitleStreamIndex() {
-        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1;
+        int currIndex = -1;
+
+        // Use stream index from mCurrentOptions if it's set (manual selection)
+        if (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) {
+            currIndex = mCurrentOptions.getSubtitleStreamIndex();
+        }
+        // For transcoding, use the default subtitle stream index
+        else if (isTranscoding() && getCurrentMediaSource() != null && getCurrentMediaSource().getDefaultSubtitleStreamIndex() != null) {
+            currIndex = getCurrentMediaSource().getDefaultSubtitleStreamIndex();
+        }
+        // Otherwise, query ExoPlayer for the actually selected track
+        else if (hasInitializedVideoManager() && !isTranscoding() && getCurrentlyPlayingItem() != null) {
+            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.SUBTITLE, getCurrentlyPlayingItem().getMediaStreams());
+        }
+
+        return currIndex;
     }
 
     public boolean isTranscoding() {
@@ -623,8 +657,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info
-        mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : null);
+        // NOTE: We intentionally do NOT set defaultSubtitleStreamIndex into mCurrentOptions here.
+        // ExoPlayer will automatically select subtitle tracks based on user preferences configured
+        // in ExoPlayerBackend (preferredSubtitleLanguage and subtitleMode).
+        // Only set if user has explicitly selected a track (mCurrentOptions already contains a value)
+        if (mCurrentOptions.getSubtitleStreamIndex() == null) {
+            // No user selection - let ExoPlayer choose based on preferences
+            // Don't set mCurrentOptions.setSubtitleStreamIndex(server default)
+            Timber.d("No explicit subtitle selection - letting ExoPlayer choose based on user preferences");
+        }
         setDefaultAudioIndex(response);
         Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
         Timber.i("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
@@ -731,16 +772,70 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return null;
     }
 
+    private Integer preferredAudioLanguageTrack(MediaSourceInfo info) {
+        if (info == null) {
+            return null;
+        }
+
+        try {
+            AudioSubtitlePreferencesRepository audioSubtitlePrefsRepo =
+                KoinJavaComponent.<AudioSubtitlePreferencesRepository>get(AudioSubtitlePreferencesRepository.class);
+
+            if (audioSubtitlePrefsRepo == null) {
+                Timber.tag(TAG).w("AudioSubtitlePreferencesRepository not available");
+                return null;
+            }
+
+            org.jellyfin.androidtv.data.model.AudioSubtitlePreferences prefs =
+                audioSubtitlePrefsRepo.getPreferences().getValue();
+            if (prefs == null) {
+                Timber.tag(TAG).w("AudioSubtitlePreferences not available");
+                return null;
+            }
+
+            String preferredLanguage = prefs.getAudioLanguagePreference();
+
+            Timber.tag(TAG).d("Preferred audio language from repository: %s", preferredLanguage);
+
+            if (preferredLanguage == null || preferredLanguage.isEmpty()) {
+                Timber.tag(TAG).d("No preferred audio language set");
+                return null;
+            }
+
+            for (MediaStream track : info.getMediaStreams()) {
+                if (track.getType() == MediaStreamType.AUDIO) {
+                    Timber.tag(TAG).d("Comparing track %d language '%s' with preferred '%s'",
+                        track.getIndex(), track.getLanguage(), preferredLanguage);
+                    if (track.getLanguage() != null && track.getLanguage().equals(preferredLanguage)) {
+                        Timber.tag(TAG).d("Found matching preferred audio track: %d (%s)", track.getIndex(), track.getLanguage());
+                        return track.getIndex();
+                    }
+                }
+            }
+            Timber.tag(TAG).d("No matching audio track found for preferred language: %s", preferredLanguage);
+            return null;
+        } catch (Exception e) {
+            Timber.tag(TAG).w(e, "Failed to get audio language preference, using defaults");
+            return null;
+        }
+    }
+
     private void setDefaultAudioIndex(StreamInfo info) {
         if (mDefaultAudioIndex != -1)
             return;
 
         Integer lastChosenLanguage = lastChosenLanguageAudioTrack(info.getMediaSource());
+        Integer preferredLanguage = preferredAudioLanguageTrack(info.getMediaSource());
         Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
         Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
 
+        Timber.d("Audio track selection: lastChosen=%s, preferred=%s, remoteDefault=%s, bestGuess=%s",
+            lastChosenLanguage, preferredLanguage, remoteDefault, bestGuess);
+
         if (lastChosenLanguage != null)
             mDefaultAudioIndex = lastChosenLanguage;
+        else if (preferredLanguage != null)
+            mDefaultAudioIndex = preferredLanguage;
         else if (remoteDefault != null)
             mDefaultAudioIndex = remoteDefault;
         else if (bestGuess != null)
@@ -748,7 +843,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Timber.d("default audio index set to %s", mDefaultAudioIndex);
     }
 
-    public void switchAudioStream(int index) {
+    public void switchAudioStreamByUser(int index) {
+        switchAudioStreamInternal(index, true);
+    }
+
+    public void switchAudioStreamAutomatically(int index) {
+        switchAudioStreamInternal(index, false);
+    }
+
+    private void switchAudioStreamInternal(int index, boolean isManualSelection) {
         if (!(isPlaying() || isPaused()) || index < 0)
             return;
 
@@ -762,7 +865,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
         String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
 
-        if (currentAudioIsoCode != null
+        // Only save the language preference if this is a manual selection by the user
+        if (isManualSelection && currentAudioIsoCode != null
                 && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
             videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
                     currentAudioIsoCode
@@ -770,7 +874,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         int currAudioIndex = getAudioStreamIndex();
-        Timber.i("trying to switch audio stream from %s to %s", currAudioIndex, index);
+        Timber.tag(TAG).i("trying to switch audio stream from %s to %s (manual: %s)", currAudioIndex, index, isManualSelection);
         if (currAudioIndex == index) {
             Timber.d("skipping setting audio stream, already set to requested index %s", index);
             if (mCurrentOptions.getAudioStreamIndex() == null || mCurrentOptions.getAudioStreamIndex() != index) {
@@ -1198,10 +1302,26 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mPlaybackState = PlaybackState.PLAYING;
         } else {
             if (!burningSubs) {
-                // Make sure the requested subtitles are enabled when external/embedded
+                // NOTE: We intentionally do NOT force subtitle index here when using the new
+                // ExoPlayerBackend with preferredSubtitleLanguage configured. ExoPlayer will
+                // automatically select the correct subtitle track based on user preferences.
+                // Only override if a specific index was manually selected.
+                //
+                // The old behavior of forcing defaultSubtitleStreamIndex from the server
+                // would ignore user's language preferences configured in ExoPlayerBackend.
+                //
+                // Subtitle selection priority:
+                // 1. Manual user selection (via UI) - highest priority
+                // 2. ExoPlayer automatic selection based on:
+                //    - preferredSubtitleLanguage from AudioSubtitlePreferencesRepository
+                //    - subtitleMode (NONE, ALWAYS, DEFAULT, ONLY_FORCED, SMART)
+                // 3. Server default (only for transcoding where ExoPlayer can't switch tracks)
                 Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
-                if (currentSubtitleIndex == null) currentSubtitleIndex = -1;
-                PlaybackControllerHelperKt.setSubtitleIndex(this, currentSubtitleIndex, true);
+                if (currentSubtitleIndex != null && currentSubtitleIndex >= 0) {
+                    // User manually selected a subtitle track - honor it
+                    PlaybackControllerHelperKt.setSubtitleIndex(this, currentSubtitleIndex, true);
+                }
+                // Otherwise, let ExoPlayer handle subtitle selection based on preferences
             } else {
                 PlaybackControllerHelperKt.disableDefaultSubtitles(this);
             }
@@ -1209,14 +1329,16 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             // select an audio track
             int eligibleAudioTrack = mDefaultAudioIndex;
 
-            // if track switching is done without rebuilding the stream, mCurrentOptions is updated
-            // otherwise, use the server default
-            if (mCurrentOptions.getAudioStreamIndex() != null) {
+            // Prioritize mDefaultAudioIndex (which includes user preferences)
+            // over server defaults or current options
+            if (mDefaultAudioIndex != -1) {
+                eligibleAudioTrack = mDefaultAudioIndex;
+            } else if (mCurrentOptions.getAudioStreamIndex() != null) {
                 eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
             } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
                 eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
             }
-            switchAudioStream(eligibleAudioTrack);
+            switchAudioStreamAutomatically(eligibleAudioTrack);
         }
     }
 

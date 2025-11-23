@@ -16,9 +16,13 @@ import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.auth.repository.UserRepositoryImpl
+import org.jellyfin.androidtv.util.sdk.UserConfigurationUpdater
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.data.repository.AudioSubtitlePreferencesRepository
+import org.jellyfin.androidtv.data.repository.AudioSubtitlePreferencesRepositoryImpl
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository
+import org.jellyfin.androidtv.data.repository.LanguageCacheRepository
 import org.jellyfin.androidtv.data.repository.CustomMessageRepositoryImpl
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemMutationRepositoryImpl
@@ -71,6 +75,7 @@ val appModule = module {
 	single(defaultDeviceInfo) { androidDevice(get()) }
 	single { OkHttpFactory() }
 	single { HttpClientOptions() }
+	single { UserConfigurationUpdater(get(), get()) }
 	single {
 		createJellyfin {
 			context = androidContext()
@@ -139,6 +144,8 @@ val appModule = module {
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
 	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
+	single<AudioSubtitlePreferencesRepository> { AudioSubtitlePreferencesRepositoryImpl(get(), get(), get()) }
+	single<LanguageCacheRepository> { LanguageCacheRepository(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }
