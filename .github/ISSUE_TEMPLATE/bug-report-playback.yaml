@@ -10,6 +10,8 @@ body:
       label: "This issue respects the following points:"
       description: All conditions are **required**.
       options:
+        - label: I have discussed this issue in the [Jellyfin forum](https://forum.jellyfin.org/) and/or [troubleshooting chat](https://jellyfin.org/contact) before opening this issue.
+          required: true
         - label: This issue is **not** already reported on [GitHub](https://github.com/jellyfin/jellyfin-androidtv/issues?q=is%3Aopen+is%3Aissue) _(I've searched it)_.
           required: true
         - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
@@ -46,6 +48,20 @@ body:
         - Copy the media info from the web interface
       placeholder: Paste media info…
       render: shell
+  - type: textarea
+    id: mediacapabilitiesreport
+    attributes:
+      label: Media capabilities report
+      description: |
+        Please share the media capability report generated from within the app. To do some follow these steps:
+        1. Open the Jellyfin for Android TV app
+        2. Connect to a server **that you have admin access to**
+        3. Go to Preferences -> Playback -> Advanced playback preferences
+        4. On the bottom, press the "Report playback capabilities to server" button
+        5. Go to the logs in your Jellyfin dashboard (in your browser)
+        6. Open the newest log file, it should be named similar to `upload_Jellyfin Android TV[...].log`
+        7. Press the "Download" button and paste the file contents
+      placeholder: Paste capability report contents…
   - type: markdown
     attributes:
       value: |
@@ -121,7 +137,7 @@ body:
     id: other-sources
     attributes:
       label: Other sources
-      description: If this topic has been discussed outside of GitHub, please link it.
+      description: Please link the related forum topics or chat messages that prompted you open this issue.
       placeholder: https://forum.jellyfin.org/…
     validations:
       required: false
