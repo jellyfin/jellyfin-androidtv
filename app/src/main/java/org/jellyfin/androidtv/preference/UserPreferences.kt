@@ -47,6 +47,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
 
 		/**
+		 * Enable theme songs while browsing
+		 */
+		var themeSongsEnabled = booleanPreference("pref_play_theme_songs", true)
+
+		/**
 		 * Show premieres on home screen
 		 */
 		var premieresEnabled = booleanPreference("pref_enable_premieres", false)

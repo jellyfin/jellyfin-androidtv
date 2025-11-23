@@ -3,13 +3,16 @@ package org.jellyfin.androidtv.ui.browsing
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.data.service.themeplayer.ThemeSongService
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
+import org.koin.android.ext.android.inject
 
 class GenericFolderFragment : EnhancedBrowseFragment() {
+	private val themeSongService: ThemeSongService by inject()
 	companion object {
 		private val showSpecialViewTypes = setOf(
 			BaseItemKind.COLLECTION_FOLDER,
@@ -17,6 +20,11 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 			BaseItemKind.USER_VIEW,
 			BaseItemKind.CHANNEL_FOLDER_ITEM,
 		)
+	}
+
+	override fun onStop() {
+		super.onStop()
+		themeSongService.itemPageHidden()
 	}
 
 	override fun setupQueries(rowLoader: RowLoader) {
@@ -66,6 +74,7 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 		if (mFolder.type == BaseItemKind.SEASON) {
 			val specials = GetSpecialsRequest(mFolder.id)
 			mRows.add(BrowseRowDef(getString(R.string.lbl_specials), specials))
+			themeSongService.itemPageDisplayed(mFolder)
 		}
 
 		rowLoader.loadRows(mRows)
