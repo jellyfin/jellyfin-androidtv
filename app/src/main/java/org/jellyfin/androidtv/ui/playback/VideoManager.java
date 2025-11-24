@@ -377,7 +377,7 @@ public class VideoManager {
         }
     }
 
-    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
+    private int offsetStreamIndex(int index, boolean adjustByAdding, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (index < 0 || allStreams == null)
             return -1;
 
@@ -394,7 +394,6 @@ public class VideoManager {
                 break;
             index += adjustByAdding ? 1 : -1;
         }
-        index += indexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
 
         return index < 0 || index > allStreams.size() ? -1 : index;
     }
@@ -416,26 +415,22 @@ public class VideoManager {
             @C.TrackType int trackType = groupInfo.getType();
             TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
-                // Individual track information.
-                Format trackFormat = group.getFormat(i);
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
                         // we found the track, set to -1 first to handle failed int parsing
                         matchedIndex = -1;
-                        if (trackFormat.id != null) {
-                            int id;
-                            try {
-                                if (trackFormat.id.contains(":")) {
-                                    id = Integer.parseInt(trackFormat.id.split(":")[1]);
-                                } else {
-                                    id = Integer.parseInt(trackFormat.id);
-                                }
-                            } catch (NumberFormatException e) {
-                                Timber.w("failed to parse track ID [%s]", trackFormat.id);
-                                break;
+                        int id;
+                        try {
+                            if (group.id.contains(":")) {
+                                id = Integer.parseInt(group.id.split(":")[1]);
+                            } else {
+                                id = Integer.parseInt(group.id);
                             }
-                            matchedIndex = id;
+                        } catch (NumberFormatException e) {
+                            Timber.w("failed to parse group ID [%s]", group.id);
+                            break;
                         }
+                        matchedIndex = id;
                         break;
                     }
                 }
@@ -443,7 +438,7 @@ public class VideoManager {
         }
 
         // offset the stream index to account for external streams
-        int exoTrackID = offsetStreamIndex(matchedIndex, true, true, allStreams);
+        int exoTrackID = offsetStreamIndex(matchedIndex, true, allStreams);
         if (exoTrackID < 0)
             return -1;
 
@@ -461,7 +456,7 @@ public class VideoManager {
         Optional<MediaStream> candidateOptional = allStreams.stream().filter(stream -> stream.getIndex() == index && !stream.isExternal() && stream.getType() == streamType).findFirst();
         if (!candidateOptional.isPresent()) return false;
 
-        int exoTrackID = offsetStreamIndex(index, false, true, allStreams);
+        int exoTrackID = offsetStreamIndex(index, false, allStreams);
         if (exoTrackID < 0)
             return false;
 
@@ -492,20 +487,20 @@ public class VideoManager {
                 Timber.i("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
                         trackFormat.id, i + 1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
 
-                if (trackType != chosenTrackType || trackFormat.id == null)
+                if (trackType != chosenTrackType)
                     continue;
 
                 int id;
                 try {
-                    if (trackFormat.id.contains(":")) {
-                        id = Integer.parseInt(trackFormat.id.split(":")[1]);
+                    if (group.id.contains(":")) {
+                        id = Integer.parseInt(group.id.split(":")[1]);
                     } else {
-                        id = Integer.parseInt(trackFormat.id);
+                        id = Integer.parseInt(group.id);
                     }
                     if (id != exoTrackID)
                         continue;
                 } catch (NumberFormatException e) {
-                    Timber.w("failed to parse track ID [%s]", trackFormat.id);
+                    Timber.w("failed to parse group ID [%s]", group.id);
                     continue;
                 }
 
