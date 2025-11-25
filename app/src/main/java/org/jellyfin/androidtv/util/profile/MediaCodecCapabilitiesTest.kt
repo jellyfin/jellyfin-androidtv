@@ -7,6 +7,7 @@ import android.media.MediaFormat
 import android.os.Build
 import android.util.Size
 import androidx.core.content.ContextCompat
+import androidx.media3.common.MimeTypes
 import timber.log.Timber
 
 class MediaCodecCapabilitiesTest(
@@ -29,9 +30,34 @@ class MediaCodecCapabilitiesTest(
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
 				CodecProfileLevel.DolbyVisionProfileDvheSt else -1
 		}
-		val Profile10: Int by lazy {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-				CodecProfileLevel.DolbyVisionProfileDvav110 else -1
+	}
+
+	// Some AV1 profile/level constants may be backported and aren't guaranteed by API level (e.g., FireOS).
+	// Retrieve them via reflection if available, otherwise fall back to literal value.
+	private object AV1ProfileLevel {
+		val ProfileMain10: Int by lazy {
+			constantOrFallback("AV1ProfileMain10", 2)
+		}
+		val ProfileMain10HDR10: Int by lazy {
+			constantOrFallback("AV1ProfileMain10HDR10", 4096)
+		}
+		val ProfileMain10HDR10Plus: Int by lazy {
+			constantOrFallback("AV1ProfileMain10HDR10Plus", 8192)
+		}
+		val ProfileDolbyVision10: Int by lazy {
+			constantOrFallback("DolbyVisionProfileDvav110", 1024)
+		}
+		val Level5: Int by lazy {
+			constantOrFallback("AV1Level5", 4096)
+		}
+
+		private fun constantOrFallback(name: String, fallback: Int): Int {
+			try {
+				val constant = CodecProfileLevel::class.java.getField(name)
+				return constant.getInt(null)
+			} catch (_: NoSuchFieldException) {
+				return fallback
+			}
 		}
 	}
 
@@ -73,36 +99,31 @@ class MediaCodecCapabilitiesTest(
 		CodecProfileLevel.HEVCMainTierLevel62 to 186,
 	)
 
-	fun supportsAV1(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-		hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AV1)
+	fun supportsAV1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_AV1)
 
-	fun supportsAV1Main10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-		hasDecoder(
-			MediaFormat.MIMETYPE_VIDEO_AV1,
-			CodecProfileLevel.AV1ProfileMain10,
-			CodecProfileLevel.AV1Level5
-		)
+	fun supportsAV1Main10(): Boolean = hasDecoder(
+		MimeTypes.VIDEO_AV1,
+		AV1ProfileLevel.ProfileMain10,
+		AV1ProfileLevel.Level5
+	)
 
-	fun supportsAV1DolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
-		hasDecoder(
-			MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION,
-			DolbyVisionProfiles.Profile10,
-			CodecProfileLevel.DolbyVisionLevelHd24
-		)
+	fun supportsAV1DolbyVision(): Boolean = hasDecoder(
+		MimeTypes.VIDEO_DOLBY_VISION,
+		AV1ProfileLevel.ProfileDolbyVision10,
+		CodecProfileLevel.DolbyVisionLevelHd24
+	)
 
-	fun supportsAV1HDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-		hasDecoder(
-			MediaFormat.MIMETYPE_VIDEO_AV1,
-			CodecProfileLevel.AV1ProfileMain10HDR10,
-			CodecProfileLevel.AV1Level5
-		)
+	fun supportsAV1HDR10(): Boolean = hasDecoder(
+		MimeTypes.VIDEO_AV1,
+		AV1ProfileLevel.ProfileMain10HDR10,
+		AV1ProfileLevel.Level5
+	)
 
-	fun supportsAV1HDR10Plus(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-		hasDecoder(
-			MediaFormat.MIMETYPE_VIDEO_AV1,
-			CodecProfileLevel.AV1ProfileMain10HDR10Plus,
-			CodecProfileLevel.AV1Level5
-		)
+	fun supportsAV1HDR10Plus(): Boolean = hasDecoder(
+		MimeTypes.VIDEO_AV1,
+		AV1ProfileLevel.ProfileMain10HDR10Plus,
+		AV1ProfileLevel.Level5
+	)
 
 	fun supportsAVC(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AVC)
 
