@@ -6,16 +6,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.GridDirection
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.constant.PosterSize
 import org.jellyfin.androidtv.data.model.FilterOptions
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
+import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.preference.LibraryPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment
@@ -66,11 +69,17 @@ class BrowseGridViewModel(
     private val preferencesRepository: PreferencesRepository by inject()
 	private val userViewsRepository: UserViewsRepository by inject()
 	private val itemLauncher: ItemLauncher by inject()
+	private val backgroundService: BackgroundService by inject()
 
 	private var adapterWrapper: ItemRowAdapterWrapper? = null
 	private lateinit var adapter: ItemRowAdapter
 
 	private val libraryPreferences = preferencesRepository.getLibraryPreferences(folder.displayPreferencesId ?: "empty_preferences")
+
+	private var backgroundUpdateJob: Job? = null
+	companion object {
+		private const val VIEW_SELECT_UPDATE_DELAY = 250L
+	}
 
 	private val _allowViewSelection = MutableStateFlow(userViewsRepository.allowViewSelection(folder.collectionType))
 	val allowViewSelection: StateFlow<Boolean> = _allowViewSelection.asStateFlow()
@@ -223,6 +232,13 @@ class BrowseGridViewModel(
 
 	fun setSelectedIndex(index: Int) {
         _selectedIndex.value = index
+
+		if (index >= 0 && index < items.value.size) {
+			val selectedItem = items.value[index]
+			onItemSelected(selectedItem)
+		} else {
+			onItemDeselected()
+		}
     }
 
 	fun setSortBy(option: SortOption) {
@@ -274,6 +290,25 @@ class BrowseGridViewModel(
 		}
 
 		_sortOptions.value = sortOptions
+	}
+
+	private fun onItemSelected(item: BaseRowItem) {
+		backgroundUpdateJob?.cancel()
+		backgroundUpdateJob = viewModelScope.launch {
+			delay(VIEW_SELECT_UPDATE_DELAY)
+			backgroundService.setBackground(item.baseItem)
+		}
+	}
+
+	private fun onItemDeselected() {
+		backgroundUpdateJob?.cancel()
+		backgroundService.clearBackgrounds()
+	}
+
+	override fun onCleared() {
+		super.onCleared()
+		backgroundUpdateJob?.cancel()
+		backgroundService.clearBackgrounds()
 	}
 }
 
