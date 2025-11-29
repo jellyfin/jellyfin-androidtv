@@ -85,7 +85,7 @@
     <string name="msg_no_playable_items">Esitatavaid pole</string>
     <string name="lbl__continuing">JÄTKUB</string>
     <string name="lbl_filters">Otse-TV filtrid</string>
-    <string name="msg_unable_load_subs">Subtiitrite laadimine ebaõnnestus</string>
+    <string name="msg_unable_load_subs">Subtiitrite laadimine nurjus</string>
     <string name="lbl_songs">Lood</string>
     <string name="lbl_episodes">Episoodid</string>
     <string name="lbl_enable_cinema_mode">Kino režiim</string>
@@ -107,7 +107,7 @@
     <string name="lbl_series_settings">Saate eelistused</string>
     <string name="lbl_series_recordings">Sarja salvestused</string>
     <string name="lbl_guide_option_number">Kanali number</string>
-    <string name="lbl_subtitle_delay">Subtiitrite viivitus</string>
+    <string name="lbl_subtitle_delay">Subtiitrite nihe</string>
     <string name="lbl_repeat_episodes">Korda episoodid</string>
     <string name="lbl_live_broadcasts">Otsesaated</string>
     <string name="lbl_hd_programs">HD-saated</string>
@@ -221,7 +221,7 @@
     <string name="pref_button_remapping_description">Selle määramiseks vajutage teleri kaugjuhtimispuldil mis tahes nuppu</string>
     <string name="pref_subtitle_track_button">Subtiitriteriba nupp</string>
     <string name="episode_missing">Episood puudub</string>
-    <string name="subtitle_error">Subtiitrite valimine ebaõnnestus</string>
+    <string name="subtitle_error">Subtiitrite valimine nurjus</string>
     <string name="state_disabled">Keelatud</string>
     <string name="lbl_items">Üksused</string>
     <string name="lbl_item">Üksus</string>
