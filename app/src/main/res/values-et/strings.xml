@@ -477,8 +477,8 @@
     <string name="pref_login_description">Serverid, kontod, automaatne sisselogimine</string>
     <string name="pref_audio">Heli</string>
     <string name="login_other_options">Muud sätted:</string>
-    <string name="pref_refresh_rate_scale_on_tv">Skaala teleris</string>
-    <string name="pref_refresh_rate_scale_on_device">Skaala seadmes</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skaleeri teleris</string>
+    <string name="pref_refresh_rate_scale_on_device">Skaleeri seadmes</string>
     <string name="lbl_refresh_switching">Värskendussageduse ümberlülitamine</string>
     <string name="action_connect">Ühenda</string>
     <string name="live_tv_preferences">Otse TV valikud</string>
