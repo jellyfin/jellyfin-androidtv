@@ -550,6 +550,17 @@
     <string name="speech_error_unavailable">Speech recognition is unavailable on your device.</string>
     <string name="speech_error_unknown">An unexpected error occurred during speech recognition.</string>
     <string name="still_watching_label">Are you still watching?</string>
+    <string name="pref_audio_subtitle_preferences">Audio &amp; Subtitle Languages</string>
+    <string name="pref_audio_subtitle_preferences_description">Set your preferred audio and subtitle languages</string>
+    <string name="pref_languages">Languages</string>
+    <string name="pref_audio_language">Preferred Audio Language</string>
+    <string name="pref_audio_language_description">Default language for audio tracks</string>
+    <string name="pref_subtitle_language">Preferred Subtitle Language</string>
+    <string name="pref_subtitle_language_description">Default language for subtitle tracks</string>
+    <string name="pref_subtitle_mode">Subtitle Mode</string>
+    <string name="pref_subtitle_mode_description">When to display subtitles</string>
+    <string name="pref_language_automatic">Automatic (Server decides)</string>
+    <string name="pref_language_none">None</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
