@@ -23,7 +23,7 @@
     <string name="lbl_suggested">Soovitatud</string>
     <string name="lbl_on_now">Praegu</string>
     <string name="lbl_next_up">Järgmisena</string>
-    <string name="pref_max_bitrate_title">Maksimaalne voogesituse bitikiirus</string>
+    <string name="pref_max_bitrate_title">Voogesituse maksimaalne bitikiirus</string>
     <string name="pref_playback">Taasesitus</string>
     <string name="btn_cancel">Tühista</string>
     <string name="loading">Laadimine…</string>
@@ -53,7 +53,7 @@
     <string name="lbl_artists">Esitajad</string>
     <string name="lbl_playlists">Esitusloendid</string>
     <string name="msg_items_added">" -üksused lisati"</string>
-    <string name="lbl_now_playing">Nüüd mängib</string>
+    <string name="lbl_now_playing">Esitamisel</string>
     <string name="desc_audio_night_mode">Tasandab helitugevust automaatselt</string>
     <string name="lbl_quality_profile">Kvaliteedi profiil</string>
     <string name="lbl_show_backdrop">Kuva taustadekoratsioonid</string>
@@ -61,7 +61,7 @@
     <string name="lbl_episode_not_record">Seda saadet EI salvestata</string>
     <string name="lbl_save">Salvesta</string>
     <string name="lbl_sort_by">Järjesta</string>
-    <string name="lbl_resume_preroll">Jätka reklaamiga</string>
+    <string name="lbl_resume_preroll">Tagasihüpe taasesituse jätkamisel</string>
     <string name="lbl_premieres">Esilinastused</string>
     <string name="grid_direction_horizontal">Horisontaalne</string>
     <string name="lbl_upcoming">Tulemas</string>
@@ -76,7 +76,7 @@
     <string name="lbl_favorite">Lemmik</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Jookseb</string>
-    <string name="lbl_last_played">"Viimasena mängitud- "</string>
+    <string name="lbl_last_played">"Viimati esitatud "</string>
     <string name="lbl_people">Inimesed</string>
     <string name="lbl_recordings">Salvestised</string>
     <string name="lbl_trailer">"Treiler- "</string>
@@ -85,17 +85,17 @@
     <string name="msg_no_playable_items">Esitatavaid pole</string>
     <string name="lbl__continuing">JÄTKUB</string>
     <string name="lbl_filters">Otse-TV filtrid</string>
-    <string name="msg_unable_load_subs">Subtiitrite laadimine ebaõnnestus</string>
+    <string name="msg_unable_load_subs">Subtiitrite laadimine nurjus</string>
     <string name="lbl_songs">Lood</string>
     <string name="lbl_episodes">Episoodid</string>
     <string name="lbl_enable_cinema_mode">Kino režiim</string>
-    <string name="sum_enable_cinema_mode">Enne filmi alustamist esitage saadaolevaid sissejuhatusi ja eelvaateid</string>
+    <string name="sum_enable_cinema_mode">Esita enne filmi alustamist saadaolevaid sissejuhatusi ja treilereid</string>
     <string name="lbl_next_item">Järgmine üksus</string>
     <string name="lbl_goto_now_playing">Mine hetkel mängitava juurde</string>
     <string name="lbl_prev_item">Eelmine üksus</string>
-    <string name="lbl_play_from_here">Mängi siit</string>
+    <string name="lbl_play_from_here">Esita siit</string>
     <string name="desc_automatic_fav_songs">Lemmiklaulude automaatne esitusloend</string>
-    <string name="desc_bitstream_ac3">Nõuab võimekat riistvara</string>
+    <string name="desc_bitstream_ac3">Nõuab seadme tuge</string>
     <string name="lbl_sports">Sport</string>
     <string name="lbl_fit">Normaalne</string>
     <string name="lbl_subtitle_track">Vali subtiitririba</string>
@@ -107,7 +107,7 @@
     <string name="lbl_series_settings">Saate eelistused</string>
     <string name="lbl_series_recordings">Sarja salvestused</string>
     <string name="lbl_guide_option_number">Kanali number</string>
-    <string name="lbl_subtitle_delay">Subtiitrite viivitus</string>
+    <string name="lbl_subtitle_delay">Subtiitrite nihe</string>
     <string name="lbl_repeat_episodes">Korda episoodid</string>
     <string name="lbl_live_broadcasts">Otsesaated</string>
     <string name="lbl_hd_programs">HD-saated</string>
@@ -119,11 +119,11 @@
     <string name="no_player_message">Näib, et teil pole installitud videot toetavat rakendust. See suvand eeldab, et installite videosisu esitamiseks kolmanda osapoole rakenduse.</string>
     <string name="pref_next_up_timeout_title">Järgmisena taimeri kestus</string>
     <string name="player_error">Tekkis mängija viga. Proovin uuesti…</string>
-    <string name="lbl_guide_option_played">Viimasena mängitud</string>
+    <string name="lbl_guide_option_played">Viimati esitatud</string>
     <string name="lbl_kids">Lapsed</string>
     <string name="msg_playback_restricted">Administraator on keelanud selle taasesituse hetkel</string>
     <string name="lbl_never">Mitte kunagi</string>
-    <string name="lbl_tv_queuing">Mängi järgmine osa automaatselt</string>
+    <string name="lbl_tv_queuing">Esita järgmine osa automaatselt</string>
     <string name="lbl_unwatched">Vaatamata</string>
     <string name="lbl_tomorrow">Homme</string>
     <string name="lbl_record_any_time">Salvestage igal ajal</string>
@@ -140,7 +140,7 @@
     <string name="pref_audio_direct">Otsene</string>
     <string name="lbl_name">Nimi</string>
     <string name="lbl_starting_with">alustades nendega, kelle nimi algab</string>
-    <string name="mark_watched_message">Paistis, et üksust ei mängita nii kaua kui on selle kestus. Märgi vaadatuks\?</string>
+    <string name="mark_watched_message">Paistab, et üksust ei esitatud lõpuni. Kas märkida vaadatuks?</string>
     <string name="msg_playback_not_allowed">Taasesitus pole hetkel lubatud</string>
     <string name="msg_playback_incompatible">See video formaat ei ole toetatud</string>
     <string name="lbl_now_playing_album">%1$s -st</string>
@@ -199,7 +199,7 @@
     <string name="lbl_add_to_queue">Lisa järjekorda</string>
     <string name="lbl_open_artist">Ava esitaja</string>
     <string name="lbl_open_album">Ava album</string>
-    <string name="lbl_direct_stream_live">Striimi otse TV</string>
+    <string name="lbl_direct_stream_live">Telesaadete otseesitus</string>
     <string name="lbl_shuffle_queue">Juhusliku esituse sisse- ja väljalülitamine</string>
     <string name="lbl_remove_from_queue">Eemalda järjekorrast</string>
     <string name="lbl_instant_mix">Kiirmiks</string>
@@ -221,7 +221,7 @@
     <string name="pref_button_remapping_description">Selle määramiseks vajutage teleri kaugjuhtimispuldil mis tahes nuppu</string>
     <string name="pref_subtitle_track_button">Subtiitriteriba nupp</string>
     <string name="episode_missing">Episood puudub</string>
-    <string name="subtitle_error">Subtiitrite valimine ebaõnnestus</string>
+    <string name="subtitle_error">Subtiitrite valimine nurjus</string>
     <string name="state_disabled">Keelatud</string>
     <string name="lbl_items">Üksused</string>
     <string name="lbl_item">Üksus</string>
@@ -239,7 +239,7 @@
     <string name="lbl_end_padding">Lõpeta polsterdus</string>
     <string name="lbl_repeat_options">Korduse valikud</string>
     <string name="msg_cancel_entire_series">Kas olete kindel, et soovite selle KOGU SARJA tühistada\?</string>
-    <string name="pref_audio_compat">Mikserda alla stereoks</string>
+    <string name="pref_audio_compat">Taanda stereoks</string>
     <string name="lbl_audio_output">Heliväljund</string>
     <string name="lbl_date_added">Lisatud</string>
     <string name="lbl_premier_date">Linastuse kuupäev</string>
@@ -306,7 +306,7 @@
     <string name="image_size_xlarge">Väga-Suur</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="add_user">Lisa konto</string>
-    <string name="lbl_next_up_minimal">Ilma pisipildita</string>
+    <string name="lbl_next_up_minimal">Pisipildita</string>
     <string name="lbl_start_end_on_schedule">Algab ajakava järgi ja lõpetab ajakava järgi</string>
     <string name="lbl_record_all">Salvestab kõik episoodid</string>
     <string name="advanced_settings">Täpsem</string>
@@ -382,7 +382,7 @@
     <string name="image_size_small">Väike</string>
     <string name="enable_smart_view_description">Nutikas ekraan näitab ruudustiku asemel asjakohaseid üksusi</string>
     <string name="pref_developer_link">Arendaja valikud</string>
-    <string name="pref_watched_indicator">Kuva vaadatud indikaatorid</string>
+    <string name="pref_watched_indicator">Kuva vaatamise oleku tähised</string>
     <string name="lbl_hide_unwatched_count">Kui üksust vaadatakse</string>
     <string name="image_size_large">Suur</string>
     <string name="lbl_use_series_thumbnails_description">Kasutage jagude kuvamisel seeria pisipilte</string>
@@ -477,8 +477,8 @@
     <string name="pref_login_description">Serverid, kontod, automaatne sisselogimine</string>
     <string name="pref_audio">Heli</string>
     <string name="login_other_options">Muud sätted:</string>
-    <string name="pref_refresh_rate_scale_on_tv">Skaala teleris</string>
-    <string name="pref_refresh_rate_scale_on_device">Skaala seadmes</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skaleeri teleris</string>
+    <string name="pref_refresh_rate_scale_on_device">Skaleeri seadmes</string>
     <string name="lbl_refresh_switching">Värskendussageduse ümberlülitamine</string>
     <string name="action_connect">Ühenda</string>
     <string name="live_tv_preferences">Otse TV valikud</string>
@@ -511,7 +511,7 @@
     <string name="lbl_subtitle_text_stroke_color">Subtiitrite piirjoone värv</string>
     <string name="indicator_subtitles">CC Subtiitrid</string>
     <string name="clear_image_cache">Puhasta pildi vahemälu</string>
-    <string name="pref_screensaver_ageratingmax_unlimited">Keela maksimaalne</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Keela ülempiir</string>
     <string name="all_channels">Kõik kanalid</string>
     <plurals name="movies">
         <item quantity="one">%1$s film</item>
@@ -546,7 +546,7 @@
         <item quantity="other">%1$s Telesarjad</item>
     </plurals>
     <string name="pref_screensaver_ageratingmax_zero">Kõik vanused</string>
-    <string name="pref_screensaver_ageratingmax">Maksimaalne vanusepiirang</string>
+    <string name="pref_screensaver_ageratingmax">Suurim vanusepiirang</string>
     <string name="pref_screensaver_ageratingmax_entry">Kuni vanusele %1$d</string>
     <string name="prefer_exoplayer_ffmpeg">Eelista heli taasesituseks FFmpeg\'i</string>
     <string name="prefer_exoplayer_ffmpeg_content">Kasuta FFmpeg\'i heli dekodeerimiseks isegi kui platvormile on saadaolevad koodekid.</string>

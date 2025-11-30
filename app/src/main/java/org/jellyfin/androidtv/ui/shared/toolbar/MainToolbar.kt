@@ -15,7 +15,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -109,14 +108,21 @@ private fun MainToolbar(
 					colors = if (activeButton == MainToolbarActiveButton.User) activeButtonColors else ButtonDefaults.colors(),
 					contentPadding = if (userImageVisible) PaddingValues(3.dp) else IconButtonDefaults.ContentPadding,
 				) {
-					Image(
-						painter = if (userImageVisible) userImagePainter else rememberVectorPainter(ImageVector.vectorResource(R.drawable.ic_user)),
-						contentDescription = stringResource(R.string.lbl_switch_user),
-						contentScale = ContentScale.Crop,
-						modifier = Modifier
-							.aspectRatio(1f)
-							.clip(IconButtonDefaults.Shape)
-					)
+					if (!userImageVisible) {
+						Icon(
+							imageVector = ImageVector.vectorResource(R.drawable.ic_user),
+							contentDescription = stringResource(R.string.lbl_switch_user),
+						)
+					} else {
+						Image(
+							painter = userImagePainter,
+							contentDescription = stringResource(R.string.lbl_switch_user),
+							contentScale = ContentScale.Crop,
+							modifier = Modifier
+								.aspectRatio(1f)
+								.clip(IconButtonDefaults.Shape)
+						)
+					}
 				}
 
 				NowPlayingComposable(

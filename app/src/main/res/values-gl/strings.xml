@@ -1,2 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="loading">Cargando…</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="byletter_letters">ABCDEFGHILMNÑOPQRSTUVXZ</string>
+    <string name="settings_title">Preferencias</string>
+    <string name="pref_authentication_cat">Autenticación</string>
+    <string name="chapters">Capítulos</string>
+    <string name="lbl_settings">Preferencias</string>
+    <string name="lbl_home">Inicio</string>
+    <string name="lbl_continue_watching">Continuar vendo</string>
+    <string name="continue_listening">Continuar escoitando</string>
+    <string name="lbl_next_up">Seguinte</string>
+    <string name="lbl_suggested">Suxerencias</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_genres">Xéneros</string>
+    <string name="msg_not_implemented">" non implementado"</string>
+    <string name="lbl_latest">Novidades</string>
+    <string name="lbl_favorites">Favoritos</string>
+    <string name="lbl_collections">Coleccións</string>
+    <string name="lbl_other">Outro</string>
+    <string name="lbl_play_all">Reproducir todo</string>
+    <string name="lbl_play">Reproducir</string>
+    <string name="lbl_pause">Pausar</string>
+    <string name="lbl_exit">Saír</string>
+    <string name="lbl_cancel">Cancelar</string>
+    <string name="lbl_record">Gravar</string>
+    <string name="lbl_chapters">Capítulos</string>
+    <string name="lbl_specials">Especiais</string>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s serie de televisión</item>
+        <item quantity="other">%1$s series de televisión</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s canción</item>
+        <item quantity="other">%1$s cancións</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s episodio</item>
+        <item quantity="other">%1$s episodios</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%1$s segundo</item>
+        <item quantity="other">%1$s segundos</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="other">%1$s minutos</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s hora</item>
+        <item quantity="other">%1$s horas</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s pista</item>
+        <item quantity="other">%1$s pistas</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s elemento</item>
+        <item quantity="other">%1$s elementos</item>
+    </plurals>
+    <string name="lbl_series">Series</string>
+    <string name="msg_subtitles_loading">Cargando subtítulos…</string>
+    <string name="lbl_enable_cinema_mode">Modo cine</string>
+    <string name="lbl_repeat">Repetir</string>
+    <string name="lbl_new">Novo</string>
+    <string name="lbl_user_server">%1$s en %2$s</string>
+    <string name="lbl_server">Servidor</string>
+    <string name="lbl_remove">Eliminar</string>
+    <string name="license_license">Licenza</string>
+    <string name="home_prefs">Inicio</string>
+    <string name="color_white">Branco</string>
+    <string name="color_black">Negro</string>
+    <string name="color_darkgrey">Gris escuro</string>
+    <string name="color_red">Vermello</string>
+    <string name="color_green">Verde</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_yellow">Amarelo</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_cyan">Ciano</string>
+    <string name="login_other_options">Outras opcións:</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="lbl_recordings">Gravacións</string>
+    <string name="lbl_play_next_up">Reproducir seguinte</string>
+    <string name="lbl_open">Abrir</string>
+    <string name="lbl_repeat_episodes">Repetir episodios</string>
+    <string name="welcome_title">Benvido a Jellyfin!</string>
+    <string name="advanced_settings">Avanzado</string>
+    <string name="select_version">Versión</string>
+    <string name="licenses_link">Licenzas</string>
+    <string name="pref_video">Vídeo</string>
+    <string name="pref_subtitles">Subtítulos</string>
+    <string name="pref_audio">Audio</string>
+    <string name="action_connect">Conectar</string>
+    <string name="item_deleted">%1$s borrado</string>
+    <string name="photos">Fotos</string>
+</resources>
