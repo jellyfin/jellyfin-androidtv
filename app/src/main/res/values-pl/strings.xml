@@ -611,4 +611,5 @@
     <string name="still_watching_label">Czy nadal oglądasz?</string>
     <string name="pref_subtitles_position">Przesunięcie od dołu</string>
     <string name="settings">Ustawienia</string>
+    <string name="settings_description">Zmień aplikację według własnych upodobań</string>
 </resources>
