@@ -95,7 +95,7 @@
     <string name="lbl_prev_item">Eelmine üksus</string>
     <string name="lbl_play_from_here">Esita siit</string>
     <string name="desc_automatic_fav_songs">Lemmiklaulude automaatne esitusloend</string>
-    <string name="desc_bitstream_ac3">Nõuab võimekat riistvara</string>
+    <string name="desc_bitstream_ac3">Nõuab seadme tuge</string>
     <string name="lbl_sports">Sport</string>
     <string name="lbl_fit">Normaalne</string>
     <string name="lbl_subtitle_track">Vali subtiitririba</string>
@@ -199,7 +199,7 @@
     <string name="lbl_add_to_queue">Lisa järjekorda</string>
     <string name="lbl_open_artist">Ava esitaja</string>
     <string name="lbl_open_album">Ava album</string>
-    <string name="lbl_direct_stream_live">Striimi otse TV</string>
+    <string name="lbl_direct_stream_live">Telesaadete otseesitus</string>
     <string name="lbl_shuffle_queue">Juhusliku esituse sisse- ja väljalülitamine</string>
     <string name="lbl_remove_from_queue">Eemalda järjekorrast</string>
     <string name="lbl_instant_mix">Kiirmiks</string>
@@ -382,7 +382,7 @@
     <string name="image_size_small">Väike</string>
     <string name="enable_smart_view_description">Nutikas ekraan näitab ruudustiku asemel asjakohaseid üksusi</string>
     <string name="pref_developer_link">Arendaja valikud</string>
-    <string name="pref_watched_indicator">Kuva vaadatud indikaatorid</string>
+    <string name="pref_watched_indicator">Kuva vaatamise oleku tähised</string>
     <string name="lbl_hide_unwatched_count">Kui üksust vaadatakse</string>
     <string name="image_size_large">Suur</string>
     <string name="lbl_use_series_thumbnails_description">Kasutage jagude kuvamisel seeria pisipilte</string>
