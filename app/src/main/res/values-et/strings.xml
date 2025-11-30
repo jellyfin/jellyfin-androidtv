@@ -35,10 +35,10 @@
     <string name="settings_title">Eelistused</string>
     <string name="pref_authentication_cat">Autentimine</string>
     <string name="msg_unable_to_create_recording">Salvestust ei saa luua</string>
-    <string name="lbl_cancel_series">Tühista seeria</string>
+    <string name="lbl_cancel_series">Tühista sari</string>
     <string name="lbl_record">Salvesta</string>
     <string name="lbl_additional_parts">Lisaosad</string>
-    <string name="lbl_record_series">Salvesta seeria</string>
+    <string name="lbl_record_series">Salvesta sari</string>
     <string name="lbl_cast_crew">Näitlejad ja meeskond</string>
     <string name="lbl_views">Vaatamised</string>
     <string name="msg_unable_to_cancel">Pole võimalik salvestamist tühistada</string>
@@ -160,7 +160,7 @@
     <string name="lbl_delete">Kustuta</string>
     <string name="msg_settings_updated">Eelistused uuendatud</string>
     <string name="lbl_tv_channel_status">%1$d / %2$d kanalist</string>
-    <string name="episode_missing_message">See episood puudub teie kogust. Kas soovite selle vahele jätta ja jätkata järgmisega\?</string>
+    <string name="episode_missing_message">See episood puudub su meediakogust. Kas soovid selle vahele jätta ja jätkata järgmisega?</string>
     <string name="pref_next_up_timeout_summary">Kui kaua oodata enne järgmise üksuse esitamist</string>
     <string name="pref_app_theme">Rakenduse teema</string>
     <string name="lbl_Reset">Lähtesta</string>
@@ -203,14 +203,14 @@
     <string name="lbl_shuffle_queue">Juhusliku esituse sisse- ja väljalülitamine</string>
     <string name="lbl_remove_from_queue">Eemalda järjekorrast</string>
     <string name="lbl_instant_mix">Kiirmiks</string>
-    <string name="lbl_new_premieres">Uued linastused</string>
+    <string name="lbl_new_premieres">Uued esilinastused</string>
     <string name="lbl_playback_speed">Taasesituse kiirus</string>
     <string name="lbl_play_next_up">Esita järgmine</string>
     <string name="no_program_data">Saateinfo pole saadaval</string>
     <string name="lbl_select_date">Vali kuupäev</string>
     <string name="lbl_on_schedule">Õigeaegselt</string>
     <string name="lbl_guest_stars">Külalistähed</string>
-    <string name="lbl_show_indicators">Näita indikaatoreid</string>
+    <string name="lbl_show_indicators">Kuva indikaatoreid</string>
     <string name="lbl_my_media">Minu meedia</string>
     <string name="lbl_image_type">Pildi tüüp</string>
     <string name="lbl_bitstream_ac3">Dolby Digital heli bitivoog</string>
@@ -252,13 +252,13 @@
     <string name="lbl_specials">Eriepisoodid</string>
     <string name="lbl_series">Seriaal</string>
     <string name="lbl_enable_debug">Silumise valikud</string>
-    <string name="desc_debug">Andke silumiseks lisateavet</string>
+    <string name="desc_debug">Esita silumiseks lisateavet</string>
     <string name="lbl_showing">Kuvamine</string>
     <string name="lbl_stretch">Venita</string>
     <string name="lbl_open">Ava</string>
     <string name="pref_show_backdrop_description">Muuda taustapilt valitud üksusteks</string>
-    <string name="lbl_show_premieres">Kuva hooaja linastused</string>
-    <string name="desc_premieres">Kuva rida uusi jagude pilootversioone iga vaadatava sarja jaoks</string>
+    <string name="lbl_show_premieres">Kuva hooaja pilootosad</string>
+    <string name="desc_premieres">Kuva kõigi vaadatavate sarjade jaoks uute pilootosade rida</string>
     <string name="lbl_in_x_days">%d päeva jooksul</string>
     <string name="lbl_premiere">Esilinastus</string>
     <string name="lbl_tv_filter_status">järgmised %1$d tundi</string>
@@ -266,7 +266,7 @@
     <string name="pref_device_model">Seadme mudel</string>
     <string name="grid_direction">Ruudustiku suund</string>
     <string name="grid_direction_vertical">Vertikaalne</string>
-    <string name="episode_missing_message_2">See jagu puudub teie kogust. Esitamine peatub.</string>
+    <string name="episode_missing_message_2">See episood puudub su meediakogust. Taasesitus peatub.</string>
     <string name="lbl_load_guide_data">Lae kava andmed</string>
     <string name="msg_no_items">Puuduvad üksused</string>
     <string name="lbl_latest_in">Uusimad %1$s</string>
@@ -298,7 +298,7 @@
     </plurals>
     <string name="server_connection_failed_candidates">Serveriga ei saa ühendust luua, proovisin järgmisi aadresse: %1$s</string>
     <string name="login_server_unavailable">Serveriga ei saa ühendust</string>
-    <string name="lbl_manage_servers">Hallake servereid</string>
+    <string name="lbl_manage_servers">Halda servereid</string>
     <string name="lbl_user_server">%1$s / %2$s</string>
     <string name="image_type_poster">Poster</string>
     <string name="image_size_smallest">Väikseim</string>
@@ -310,11 +310,11 @@
     <string name="lbl_start_end_on_schedule">Algab ajakava järgi ja lõpetab ajakava järgi</string>
     <string name="lbl_record_all">Salvestab kõik episoodid</string>
     <string name="advanced_settings">Täpsem</string>
-    <string name="always_authenticate">Küsige alati volitusi</string>
+    <string name="always_authenticate">Küsi alati volitusi</string>
     <string name="license_website">Veebisait</string>
     <string name="license_repository">Hoidla</string>
     <string name="home_section_livetv">Otse TV</string>
-    <string name="home_section_i">Avalehe sektsioon %1$d</string>
+    <string name="home_section_i">Avalehe jaotis %1$d</string>
     <string name="pref_subtitles_background_title">Luba taust</string>
     <string name="color_green">Roheline</string>
     <string name="pref_subtitles_background_summary">Kuva subtiitrite taga must taust</string>
@@ -340,7 +340,7 @@
         <item quantity="other">%1$s rada</item>
     </plurals>
     <string name="login_quickconnect_step_3">3. Sisestage järgmine kood:</string>
-    <string name="pref_default_rating">Vaikimisi hinnangutüüp</string>
+    <string name="pref_default_rating">Vaikimisi hinnang</string>
     <string name="color_black">Must</string>
     <string name="home_section_latest_media">Hiljuti lisatud meedia</string>
     <string name="home_section_active_recordings">Aktiivsed salvestused</string>
@@ -350,12 +350,12 @@
     <string name="pref_customization_description">Teema, kodu, ümberkaardistamine</string>
     <string name="home_section_resume_book">Jätka lugemist</string>
     <string name="action_login">Logi sisse</string>
-    <string name="action_use_password">Kasutage parooli</string>
+    <string name="action_use_password">Kasuta parooli</string>
     <string name="pref_crash_report_logs_disabled">Logisid krahhiaruannetesse ei kaasata</string>
     <string name="lbl_special">Eriepisoodid</string>
     <string name="welcome_title">Jellyfin tervitab!</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_clock_display">Näita kella</string>
+    <string name="pref_clock_display">Kuva kell</string>
     <string name="enable_smart_view">Luba nutikas ekraan</string>
     <string name="lbl_user_last_used">Viimati kasutatud %1$s kell %2$s</string>
     <string name="discovered_servers_title">Avastatud serverid</string>
@@ -364,7 +364,7 @@
     <string name="connect_manually_by_address">Sisesta serveri aadress</string>
     <string name="pref_clock_display_browsing">Sirvimise ajal</string>
     <string name="user_picker_last_user_title">Viimati kasutatud</string>
-    <string name="home_sections">Avalehe sektsioonid</string>
+    <string name="home_sections">Avalehe jaotised</string>
     <string name="home_section_library_small">Minu meedia (väike)</string>
     <string name="color_yellow">Kollane</string>
     <string name="pref_home_description">Seadistage näidatud jaotised</string>
@@ -385,7 +385,7 @@
     <string name="pref_watched_indicator">Kuva vaatamise oleku tähised</string>
     <string name="lbl_hide_unwatched_count">Kui üksust vaadatakse</string>
     <string name="image_size_large">Suur</string>
-    <string name="lbl_use_series_thumbnails_description">Kasutage jagude kuvamisel seeria pisipilte</string>
+    <string name="lbl_use_series_thumbnails_description">Kasuta episoodide kuvamisel sarja pisipilte</string>
     <string name="auto_sign_in">Automaatne sisselogimine</string>
     <string name="user_picker_disable_title">Keela</string>
     <string name="who_is_watching">Kes vaatab\?</string>
@@ -400,7 +400,7 @@
     <string name="color_pink">Roosa</string>
     <string name="color_cyan">Tsüaan</string>
     <string name="server_issue_unsupported_version">Server kasutab versiooni %1$s, mida ei toetata</string>
-    <string name="sort_accounts_by">Sorteeri kontod</string>
+    <string name="sort_accounts_by">Järjesta kontod</string>
     <string name="pref_playback_description">Video, subtiitrid, otse tv, järgmine</string>
     <string name="pref_login">Sisselogimine</string>
     <string name="pref_video">Video</string>
@@ -417,10 +417,10 @@
     <string name="pref_crash_reports">Saada serverisse krahhiaruanded</string>
     <string name="not_set">Pole määratud</string>
     <string name="pref_crash_report_logs_enabled">Logid kaasatakse krahhiaruannetesse</string>
-    <string name="crash_report_toast">Oih! Midagi läks valesti, teie Jellyfini serverisse saadeti krahhiaruanne.</string>
+    <string name="crash_report_toast">Oih! Midagi läks valesti, sinu Jellyfini serverisse saadeti krahhiaruanne.</string>
     <string name="server_setup_incomplete">Selle serveri seadistamine pole lõpetatud. Avage Jellyfin veebibrauseris, et enne sisselogimist seadistamine lõpule viia.</string>
     <string name="pref_enable_media_management">Luba meediahaldus</string>
-    <string name="pref_screensaver_inapp_timeout">Pärast seda käivitage ekraanisäästja</string>
+    <string name="pref_screensaver_inapp_timeout">Käivita ekraanisäästja pärast</string>
     <string name="lbl_hidden">Peidetud</string>
     <string name="pref_theme_muted_purple">Summutatud lilla</string>
     <string name="lbl_starting_early_ending_after">Algab %1$s varem ja lõpeb %2$s pärast ajakava</string>
@@ -437,11 +437,11 @@
     <string name="lbl_stars">Hinnang</string>
     <string name="lbl_always">Alati</string>
     <string name="login_authenticating">Autentimine…</string>
-    <string name="lbl_use_series_thumbnails">Eelista seeria pisipilte</string>
+    <string name="lbl_use_series_thumbnails">Eelista sarja pisipilte</string>
     <string name="discovered_servers_empty">Kohalikus võrgus ei leitud ühtegi serverit.</string>
     <string name="login_help_title">Vajad abi\?</string>
     <string name="user_picker_disable_summary">Kuva alati sisselogimiskuva</string>
-    <string name="user_picker_last_user_summary">Kasutage viimast aktiivset kontot</string>
+    <string name="user_picker_last_user_summary">Kasuta viimast aktiivset kontot</string>
     <string name="lbl_switch_user">Vaheta kontot</string>
     <string name="no_network_permissions">Jellyfin vajab töötamiseks võrgulubasid</string>
     <string name="press_to_close">Vajutage sulgemiseks</string>
@@ -458,7 +458,7 @@
     <string name="searchable_hint">Otsige Jellyfinist</string>
     <string name="color_darkgrey">Tumehall</string>
     <string name="input_password">Parool</string>
-    <string name="pref_telemetry_description">Saatke krahhiaruandeid, kaasake logisid</string>
+    <string name="pref_telemetry_description">Saada krahhiaruandeid, kaasa logisid</string>
     <string name="app_notification_beta">Rakendus värskendati versioonile %1$s
 \nTäname, et osalesite Jellyfini beetaprogrammis.</string>
     <string name="select_version">Versioon</string>
@@ -473,7 +473,7 @@
     <string name="server_issue_invalid_product">Serveritarkvara ei ühildu</string>
     <string name="server_issue_ssl_handshake">SSL-käepigistus ebaõnnestus</string>
     <string name="pref_libraries">Meediakogud</string>
-    <string name="pref_libraries_description">Muutke meediakogude kuvamise viisi</string>
+    <string name="pref_libraries_description">Muuda meediakogude kuvamise viisi</string>
     <string name="pref_login_description">Serverid, kontod, automaatne sisselogimine</string>
     <string name="pref_audio">Heli</string>
     <string name="login_other_options">Muud sätted:</string>
@@ -483,17 +483,17 @@
     <string name="action_connect">Ühenda</string>
     <string name="live_tv_preferences">Otse TV valikud</string>
     <string name="pref_telemetry_category">Ootamatust sulgemisest teatamine</string>
-    <string name="pref_crash_reports_enabled">Krahhiaruanded saadetakse teie viimati kasutatud serverisse</string>
+    <string name="pref_crash_reports_enabled">Krahhiaruanded saadetakse viimati kasutatud serverisse</string>
     <string name="item_deleted">%1$s on kustutatud</string>
     <string name="episode_name_special">eriosa</string>
     <string name="item_deletion_failed">%1$s ei saa kustutada</string>
     <string name="pref_enable_media_management_description">Kuva sirvimise ajal meedia haldamise suvand</string>
-    <string name="pref_screensaver_inapp_enabled_description">Kuvage Jellyfini ekraanisäästja, kui rakendus on avatud</string>
+    <string name="pref_screensaver_inapp_enabled_description">Kuva Jellyfini ekraanisäästja, kui rakendus on avatud</string>
     <plurals name="minutes">
         <item quantity="one">%1$s minut</item>
         <item quantity="other">%1$s minutit</item>
     </plurals>
-    <string name="pref_screensaver_inapp_enabled">Kasutage rakendusesisest ekraanisäästjat</string>
+    <string name="pref_screensaver_inapp_enabled">Kasuta rakendusesisest ekraanisäästjat</string>
     <string name="lbl_runtime">Kestus</string>
     <string name="lbl_home">Kodu</string>
     <string name="dolby_atmos">Dolby Atmos</string>
@@ -510,7 +510,7 @@
     <string name="lbl_subtitle_background_color">Subtiitrite tausta värv</string>
     <string name="lbl_subtitle_text_stroke_color">Subtiitrite piirjoone värv</string>
     <string name="indicator_subtitles">CC Subtiitrid</string>
-    <string name="clear_image_cache">Puhasta pildi vahemälu</string>
+    <string name="clear_image_cache">Puhasta piltide vahemälu</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Keela ülempiir</string>
     <string name="all_channels">Kõik kanalid</string>
     <plurals name="movies">
