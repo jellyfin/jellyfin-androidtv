@@ -100,6 +100,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var useExternalPlayer = booleanPreference("external_player", false)
 
 		/**
+		 * Component name for the external playback application.
+		 */
+		var externalPlayerComponentName = stringPreference("external_player_component", "")
+
+		/**
 		 * Change refresh rate to match media when device supports it
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)

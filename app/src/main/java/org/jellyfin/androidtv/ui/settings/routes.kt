@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.Settings
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicenseScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicensesScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackInactivityPromptScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPlayerScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPrerollsScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.mediasegment.SettingsPlaybackMediaSegmentScreen
@@ -39,6 +40,7 @@ object Routes {
 	const val CUSTOMIZATION_SUBTITLES_BACKGROUND_COLOR = "/customization/subtitles/background-color"
 	const val CUSTOMIZATION_SUBTITLES_EDGE_COLOR = "/customization/subtitles/edge-color"
 	const val PLAYBACK = "/playback"
+	const val PLAYBACK_PLAYER = "/playback/player"
 	const val PLAYBACK_NEXT_UP = "/playback/next-up"
 	const val PLAYBACK_NEXT_UP_BEHAVIOR = "/playback/next-up/behavior"
 	const val PLAYBACK_INACTIVITY_PROMPT = "/playback/inactivity-prompt"
@@ -93,6 +95,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.PLAYBACK to {
 		SettingsPlaybackScreen()
+	},
+	Routes.PLAYBACK_PLAYER to {
+		SettingsPlaybackPlayerScreen()
 	},
 	Routes.PLAYBACK_NEXT_UP to {
 		SettingsPlaybackNextUpScreen()

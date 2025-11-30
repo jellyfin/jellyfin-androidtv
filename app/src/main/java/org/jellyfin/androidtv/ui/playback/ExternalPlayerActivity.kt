@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.data.repository.ExternalAppRepository
+import org.jellyfin.androidtv.util.componentName
 import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
@@ -72,6 +74,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 
 	private val videoQueueManager by inject<VideoQueueManager>()
 	private val dataRefreshService by inject<DataRefreshService>()
+	private val externalAppRepository by inject<ExternalAppRepository>()
 	private val api by inject<ApiClient>()
 
 	private val playVideoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -154,6 +157,12 @@ class ExternalPlayerActivity : FragmentActivity() {
 				MediaType.AUDIO -> "audio/*"
 				else -> null
 			}
+
+			// Set configured app to launch
+			externalAppRepository
+				.getCurrentExternalPlayerApp(this@ExternalPlayerActivity)
+				?.componentName
+				?.let(::setComponent)
 
 			setDataAndTypeAndNormalize(url.toUri(), mediaType)
 
