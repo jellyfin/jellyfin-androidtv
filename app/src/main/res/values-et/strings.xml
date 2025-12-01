@@ -126,7 +126,7 @@
     <string name="lbl_tv_queuing">Esita järgmine osa automaatselt</string>
     <string name="lbl_unwatched">Vaatamata</string>
     <string name="lbl_tomorrow">Homme</string>
-    <string name="lbl_record_any_time">Salvestage igal ajal</string>
+    <string name="lbl_record_any_time">Salvesta igal ajal</string>
     <string name="lbl_song">Lugu</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_zoom">Suumi</string>
@@ -145,7 +145,7 @@
     <string name="msg_playback_incompatible">See video formaat ei ole toetatud</string>
     <string name="lbl_now_playing_album">%1$s -st</string>
     <string name="msg_will_record">Salvestab</string>
-    <string name="lbl_record_any_channel">Salvestage mis tahes kanalil</string>
+    <string name="lbl_record_any_channel">Salvesta mis tahes kanalil</string>
     <string name="lbl_from">alates</string>
     <string name="lbl_rating">Hinne</string>
     <string name="lbl_album_name">Albumi nimi</string>
@@ -183,12 +183,12 @@
     <string name="lbl_directed_by">Lavastaja</string>
     <string name="lbl_other_options">Muud sätted</string>
     <string name="lbl_no_items">Puuduvad</string>
-    <string name="lbl_play_first_unwatched">Esita esimesena vaatamata</string>
+    <string name="lbl_play_first_unwatched">Esita esimene vaatamata</string>
     <string name="lbl_mark_played">Märgi esitatuks</string>
     <string name="lbl_remove_favorite">Eemalda lemmik</string>
     <string name="lbl_add_favorite">Lisa lemmikutesse</string>
     <string name="lbl_load_channels">"Lae kanalid- "</string>
-    <string name="lbl_begin_padding">Alusta polsterdamist</string>
+    <string name="lbl_begin_padding">Alguse nihe</string>
     <string name="lbl_program_ended">Saade lõppes</string>
     <string name="lbl_similar_items_library">Sarnased üksused sinu meediakogus</string>
     <string name="lbl_no_recordings">Salvestised pole saadaval</string>
@@ -236,9 +236,9 @@
     <string name="lbl_on">Sees</string>
     <string name="lbl_tune_to_channel">Vaata kanalit</string>
     <string name="msg_recording_now">Hetkel salvestamas</string>
-    <string name="lbl_end_padding">Lõpeta polsterdus</string>
+    <string name="lbl_end_padding">Lõpu nihe</string>
     <string name="lbl_repeat_options">Korduse valikud</string>
-    <string name="msg_cancel_entire_series">Kas olete kindel, et soovite selle KOGU SARJA tühistada\?</string>
+    <string name="msg_cancel_entire_series">Kas oled kindel, et soovid KOGU SARJA tühistada?</string>
     <string name="pref_audio_compat">Taanda stereoks</string>
     <string name="lbl_audio_output">Heliväljund</string>
     <string name="lbl_date_added">Lisatud</string>
