@@ -610,4 +610,6 @@
     <string name="still_watching_label">Вы всё ещё смотрите?</string>
     <string name="lbl_still_watching_default">3 эпизода или 90 минут</string>
     <string name="pref_subtitles_position">Отступ снизу</string>
+    <string name="settings_description">Настройте приложение под свои желания</string>
+    <string name="settings">Настройки</string>
 </resources>
