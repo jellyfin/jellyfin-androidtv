@@ -193,7 +193,7 @@
     <string name="lbl_similar_items_library">Sarnased üksused sinu meediakogus</string>
     <string name="lbl_no_recordings">Salvestised pole saadaval</string>
     <string name="lbl_only_new_episodes">Ainult uued episoodid</string>
-    <string name="lbl_goto_series">Ava seriaal</string>
+    <string name="lbl_goto_series">Ava sari</string>
     <string name="lbl_critic_rating">Kriitikute hinne</string>
     <string name="lbl_display_preferences">Kuva eelistused</string>
     <string name="lbl_add_to_queue">Lisa järjekorda</string>
