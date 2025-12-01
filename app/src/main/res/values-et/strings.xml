@@ -9,9 +9,9 @@
     <string name="lbl_other">Muud</string>
     <string name="lbl_tv_series">Telesarjad</string>
     <string name="lbl_movies">Filmid</string>
-    <string name="lbl_collections">Kollektsioonid</string>
+    <string name="lbl_collections">Kogumikud</string>
     <string name="lbl_other_channels">Muud kanalid</string>
-    <string name="lbl_favorite_channels">Lemmikud kanalid</string>
+    <string name="lbl_favorite_channels">Lemmikkanalid</string>
     <string name="lbl_coming_up">Tulekul</string>
     <string name="lbl_favorites">Lemmikud</string>
     <string name="lbl_by_name">Nime järgi</string>
@@ -44,7 +44,7 @@
     <string name="msg_unable_to_cancel">Pole võimalik salvestamist tühistada</string>
     <string name="lbl_chapters">Peatükid</string>
     <string name="msg_set_to_record">Saade on seatud salvestama</string>
-    <string name="msg_recording_cancelled">Salvestus tühistatud</string>
+    <string name="msg_recording_cancelled">Salvestus tühistati</string>
     <string name="lbl_ended">LÕPPENUD</string>
     <string name="msg_subtitles_loading">Subtiitrite laadimine…</string>
     <string name="msg_burn_sub_warning">Subtiitrite sissepõletamine. See võib võtta mõne sekundi…</string>
@@ -66,7 +66,7 @@
     <string name="grid_direction_horizontal">Horisontaalne</string>
     <string name="lbl_upcoming">Tulemas</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="lbl_ends">Lõppeb</string>
+    <string name="lbl_ends">Lõpeb</string>
     <string name="lbl_videos">Videod</string>
     <string name="lbl_none">Puudub</string>
     <string name="msg_video_playback_error">"Video esituse viga - "</string>
@@ -75,7 +75,7 @@
     <string name="lbl_seasons">Hooajad</string>
     <string name="lbl_favorite">Lemmik</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">Jookseb</string>
+    <string name="lbl_runs">Kestus</string>
     <string name="lbl_last_played">"Viimati esitatud "</string>
     <string name="lbl_people">Inimesed</string>
     <string name="lbl_recordings">Salvestised</string>
@@ -133,7 +133,7 @@
     <string name="lbl_recent_recordings">Hiljutised salvestised</string>
     <string name="lbl_valid_server_address">Palun sisesta serveri aadress (IP või domeeni/masina nimi)</string>
     <string name="lbl_ok">Ok</string>
-    <string name="lbl_born">"Sündinud- "</string>
+    <string name="lbl_born">"Sündinud "</string>
     <string name="lbl_loading_elipses">Laadimine…</string>
     <string name="msg_cannot_play">Ei saa esitada</string>
     <string name="pref_audio_night_mode">Heli öörežiim (eksperimentaalne)</string>
@@ -250,7 +250,7 @@
     <string name="lbl_more_like_this">Veel sarnaseid</string>
     <string name="lbl_previous_episode">Eelmine episood</string>
     <string name="lbl_specials">Eriepisoodid</string>
-    <string name="lbl_series">Seriaal</string>
+    <string name="lbl_series">Sarjad</string>
     <string name="lbl_enable_debug">Silumise valikud</string>
     <string name="desc_debug">Esita silumiseks lisateavet</string>
     <string name="lbl_showing">Kuvamine</string>
@@ -269,7 +269,7 @@
     <string name="episode_missing_message_2">See episood puudub su meediakogust. Taasesitus peatub.</string>
     <string name="lbl_load_guide_data">Lae kava andmed</string>
     <string name="msg_no_items">Puuduvad üksused</string>
-    <string name="lbl_latest_in">Uusimad %1$s</string>
+    <string name="lbl_latest_in">Uusimad: %1$s</string>
     <string name="because_you_watched">Sest sa vaatasid %1$s</string>
     <string name="pref_clock_display_playback">Esitamise ajal</string>
     <string name="server_connection_failed">Serveriga ei saa ühendust</string>
