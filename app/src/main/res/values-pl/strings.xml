@@ -57,10 +57,10 @@
     <string name="lbl_on_now">Teraz</string>
     <string name="lbl_next_up">Następne</string>
     <string name="lbl_continue_watching">Kontynuuj oglądanie</string>
-    <string name="lbl_settings">Ustawienia</string>
+    <string name="lbl_settings">Preferencje</string>
     <string name="chapters">Rozdziały</string>
     <string name="pref_authentication_cat">Autoryzacja</string>
-    <string name="settings_title">Ustawienia</string>
+    <string name="settings_title">Preferencje</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Anuluj</string>
     <string name="loading">Ładowanie…</string>
@@ -610,4 +610,6 @@
     <string name="lbl_still_watching_very_long">8 odcinków lub 240 minut</string>
     <string name="still_watching_label">Czy nadal oglądasz?</string>
     <string name="pref_subtitles_position">Przesunięcie od dołu</string>
+    <string name="settings">Ustawienia</string>
+    <string name="settings_description">Zmień aplikację według własnych upodobań</string>
 </resources>

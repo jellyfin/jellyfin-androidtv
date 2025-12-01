@@ -607,6 +607,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
+        mCurrentOptions.setAudioStreamIndex(null); // reset audio stream index to allow auto selection on new item
+
         mStartPosition = position;
         mCurrentStreamInfo = response;
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());

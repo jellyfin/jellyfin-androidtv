@@ -599,4 +599,6 @@
     <string name="lbl_still_watching_very_long">8 episodis o 240 minuts</string>
     <string name="still_watching_label">Encara ho esteu mirant?</string>
     <string name="pref_subtitles_position">Desplaçament des de baix</string>
+    <string name="settings_description">Canvieu l\'aplicació al vostre gust</string>
+    <string name="settings">Preferències</string>
 </resources>

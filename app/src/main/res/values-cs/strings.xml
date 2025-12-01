@@ -600,4 +600,6 @@
     <string name="lbl_still_watching_very_long">8 epizod nebo 240 minut</string>
     <string name="still_watching_label">Stále se díváte?</string>
     <string name="pref_subtitles_position">Odsazení odspodu</string>
+    <string name="settings">Nastavení</string>
+    <string name="settings_description">Upravte si aplikaci podle svých představ</string>
 </resources>

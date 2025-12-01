@@ -599,4 +599,6 @@
         <item quantity="other">%1$s минута</item>
     </plurals>
     <string name="episode_name_special">специјал</string>
+    <string name="settings_description">Промени апликацију према свом укусу</string>
+    <string name="settings">Подешавања</string>
 </resources>

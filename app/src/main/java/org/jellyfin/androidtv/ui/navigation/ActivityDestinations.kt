@@ -9,7 +9,12 @@ import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.AuthPreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.CrashReportingPreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.CustomizationPreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.DeveloperPreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.LicensesScreen
+import org.jellyfin.androidtv.ui.preference.screen.PlaybackPreferencesScreen
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import kotlin.time.Duration
 
@@ -26,7 +31,13 @@ object ActivityDestinations {
 		)
 	}
 
-	fun userPreferences(context: Context) = preferenceIntent<UserPreferencesScreen>(context)
+	fun authPreferences(context: Context) = preferenceIntent<AuthPreferencesScreen>(context)
+	fun customizationPreferences(context: Context) = preferenceIntent<CustomizationPreferencesScreen>(context)
+	fun playbackPreferences(context: Context) = preferenceIntent<PlaybackPreferencesScreen>(context)
+	fun crashReportingPreferences(context: Context) = preferenceIntent<CrashReportingPreferencesScreen>(context)
+	fun developerPreferences(context: Context) = preferenceIntent<DeveloperPreferencesScreen>(context)
+	fun licenses(context: Context) = preferenceIntent<LicensesScreen>(context)
+
 	fun displayPreferences(context: Context, displayPreferencesId: String, allowViewSelection: Boolean) =
 		preferenceIntent<DisplayPreferencesScreen>(
 			context,

@@ -39,11 +39,10 @@ fun Popover(
 	alignment: Alignment = Alignment.TopStart,
 	offset: DpOffset = DpOffset.Zero,
 	shape: Shape = PopoverDefaults.Shape,
-	backgroundColor: Color = JellyfinTheme.colorScheme.popover,
+	backgroundColor: Color = JellyfinTheme.colorScheme.surface,
 	content: @Composable BoxScope.() -> Unit,
 ) {
 	val density = LocalDensity.current
-	val focusRequester = remember { FocusRequester() }
 	val popupPositionProvider = remember(alignment, density, offset) {
 		PopoverMenuPositionProvider(
 			alignment = alignment,
@@ -60,6 +59,8 @@ fun Popover(
 	)
 
 	if (alpha != 0f) {
+		val focusRequester = remember { FocusRequester() }
+
 		Popup(
 			onDismissRequest = onDismissRequest,
 			properties = PopupProperties(

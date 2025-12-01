@@ -4,13 +4,12 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
 
 class PreferencesActivity : FragmentActivity(R.layout.fragment_content_view) {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		val screen = intent.extras?.getString(EXTRA_SCREEN) ?: UserPreferencesScreen::class.qualifiedName
+		val screen = requireNotNull(intent.extras?.getString(EXTRA_SCREEN))
 		val screenArgs = intent.extras?.getBundle(EXTRA_SCREEN_ARGS) ?: bundleOf()
 
 		supportFragmentManager
