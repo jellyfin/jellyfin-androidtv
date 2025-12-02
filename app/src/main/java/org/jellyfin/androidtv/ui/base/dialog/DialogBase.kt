@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 
 @Composable
@@ -26,8 +26,6 @@ fun DialogBase(
 	modifier: Modifier = Modifier,
 	content: @Composable BoxScope.() -> Unit,
 ) {
-	val popupPositionProvider = remember { DialogPositionProvider() }
-
 	val transition = updateTransition(visible)
 	val alpha by transition.animateFloat(
 		targetValueByState = { visible -> if (visible) 1f else 0f }
@@ -36,14 +34,14 @@ fun DialogBase(
 	if (alpha != 0f) {
 		val focusRequester = remember { FocusRequester() }
 
-		Popup(
+		Dialog(
 			onDismissRequest = onDismissRequest,
-			properties = PopupProperties(
-				focusable = true,
+			properties = DialogProperties(
 				dismissOnBackPress = true,
 				dismissOnClickOutside = true,
+				usePlatformDefaultWidth = false,
+				decorFitsSystemWindows = false
 			),
-			popupPositionProvider = popupPositionProvider,
 		) {
 			val scrimColor = JellyfinTheme.colorScheme.scrim
 			Box(
