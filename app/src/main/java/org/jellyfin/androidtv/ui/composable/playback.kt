@@ -43,7 +43,7 @@ fun rememberPlayerProgress(
 	active: Duration,
 	duration: Duration,
 ): Float {
-	val animatable = remember { Animatable(0f) }
+	val animatable = remember { Animatable(0f, 0f) }
 
 	LaunchedEffect(playing, duration) {
 		val activeMs = active.inWholeMilliseconds.toFloat()

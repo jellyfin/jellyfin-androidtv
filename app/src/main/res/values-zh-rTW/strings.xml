@@ -579,4 +579,5 @@
     <string name="preference_enable_libass">啟用高級 SubStation Alpha 字幕用戶端渲染</string>
     <string name="preference_enable_pgs">直接播放 PGS 字幕</string>
     <string name="still_watching_label">你還在觀看嗎？</string>
+    <string name="pref_subtitles_position">從底部偏移</string>
 </resources>

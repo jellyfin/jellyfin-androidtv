@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
@@ -62,6 +63,8 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_VIMU_TITLE = "forcename"
 		private const val API_VIMU_SEEK_POSITION = "startfrom"
 		private const val API_VIMU_RESUME = "forceresume"
+		private const val API_VIMU_RESULT_ID = "net.gtvbox.videoplayer.result"
+		private const val API_VIMU_RESULT_ERROR = 4
 
 		// The extra keys used by various video players to read the end position
 		private val resultPositionExtras = arrayOf(API_MX_RESULT_POSITION, API_VLC_RESULT_POSITION)
@@ -75,12 +78,17 @@ class ExternalPlayerActivity : FragmentActivity() {
 		Timber.i("Playback finished with result code ${result.resultCode}")
 		videoQueueManager.setCurrentMediaPosition(videoQueueManager.getCurrentMediaPosition() + 1)
 
-		if (result.resultCode != RESULT_OK) {
+		if (result.isError) {
 			Toast.makeText(this, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
 			finish()
 		} else {
 			onItemFinished(result.data)
 		}
+	}
+
+	private val ActivityResult.isError get() = when (data?.action) {
+		API_VIMU_RESULT_ID -> resultCode == API_VIMU_RESULT_ERROR
+		else -> resultCode != RESULT_OK
 	}
 
 	private var currentItem: Pair<BaseItemDto, MediaSourceInfo>? = null
@@ -119,12 +127,16 @@ class ExternalPlayerActivity : FragmentActivity() {
 			?.sortedWith(compareBy<MediaStream> { it.isDefault }.thenBy { it.index })
 			.orEmpty()
 
-		val subtitleUrls = externalSubtitles.map {
+		val subtitleUrls = externalSubtitles.map { mediaStream ->
+			// We cannot use the DeliveryUrl as that is only populated when using the playback info API, which we skip as we'll always direct
+			// play when using external players. We need to infer the subtitle format based on its path (similar to how the server
+			// calculates it)
+			val format = mediaStream.path?.substringAfterLast('.', missingDelimiterValue = mediaStream.codec.orEmpty()) ?: "srt"
 			api.subtitleApi.getSubtitleUrl(
 				routeItemId = item.id,
 				routeMediaSourceId = mediaSource.id.toString(),
-				routeIndex = it.index,
-				routeFormat = it.codec.orEmpty(),
+				routeIndex = mediaStream.index,
+				routeFormat = format,
 			)
 		}.toTypedArray()
 		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()

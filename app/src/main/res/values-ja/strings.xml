@@ -579,4 +579,6 @@
     <string name="pref_refresh_rate_scale_on_tv">TVスケール</string>
     <string name="lbl_latest_in">%1$sに最近追加</string>
     <string name="because_you_watched">%1$sを視聴したので</string>
+    <string name="settings_description">アプリを好みに合わせて変更してください</string>
+    <string name="settings">設定</string>
 </resources>

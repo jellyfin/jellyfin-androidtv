@@ -534,4 +534,6 @@
     <string name="prefer_exoplayer_ffmpeg_content">Χρησιμοποίησε FFmpeg για την αποκωδικοποίησή του ήχου, ακόμα και αν οι κωδικοποιητές δεν είναι διαθέσιμοι.</string>
     <string name="default_video_zoom">Προεπιλεγμένη λειτουργία Ζουμ</string>
     <string name="video_start_delay">Καθυστέρηση εκκίνησής βίντεο</string>
+    <string name="settings_description">Αλλάξτε την εφαρμογή σύμφωνα με τις προτιμήσεις σας</string>
+    <string name="settings">Ρυθμίσεις</string>
 </resources>

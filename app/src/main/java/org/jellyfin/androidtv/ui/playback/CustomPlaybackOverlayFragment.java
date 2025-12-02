@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -698,7 +697,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public void onStop() {
         super.onStop();
-        Timber.d("Stopping!");
+        Timber.i("Stopping!");
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
@@ -706,7 +705,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // end playback from here if this fragment belongs to the current session.
         // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
         if (playbackControllerContainer.getValue().getPlaybackController() != null && playbackControllerContainer.getValue().getPlaybackController().getFragment() == this) {
-            Timber.d("this fragment belongs to the current session, ending it");
+            Timber.i("this fragment belongs to the current session, ending it");
             playbackControllerContainer.getValue().getPlaybackController().endPlayback();
         }
 
@@ -808,9 +807,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.channelsStatus.setText("");
         tvGuideBinding.filterStatus.setText("");
         final CustomPlaybackOverlayFragment self = this;
-        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!isActive()) return;
                 Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask(self);
@@ -1087,9 +1087,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null)
-            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, Utils.convertDpToPixel(requireContext(), 600), new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, Utils.convertDpToPixel(requireContext(), 600), new EmptyResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!isActive()) return;
                     switchChannel(mSelectedProgram.getChannelId());
                 }
             });
@@ -1338,10 +1339,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).show(WindowInsetsCompat.Type.systemBars());
 
         // Reset display mode
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
-            params.preferredDisplayModeId = 0;
-            getActivity().getWindow().setAttributes(params);
-        }
+        WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
+        params.preferredDisplayModeId = 0;
+        getActivity().getWindow().setAttributes(params);
     }
 }

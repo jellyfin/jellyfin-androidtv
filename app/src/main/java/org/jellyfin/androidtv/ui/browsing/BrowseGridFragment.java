@@ -659,9 +659,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         filters.setFavoriteOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterFavoritesOnly()));
         filters.setUnwatchedOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterUnwatchedOnly()));
 
-        mAdapter.setRetrieveFinishedListener(new EmptyResponse() {
+        mAdapter.setRetrieveFinishedListener(new EmptyResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!isActive()) return;
                 setStatusText(mFolder.getName());
                 if (mCurrentItem == null) { // don't mess-up pos via loadMoreItemsIfNeeded
                     setItem(null);
@@ -877,7 +878,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     private void refreshCurrentItem() {
         if (mCurrentItem == null) return;
-        Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
+        Timber.i("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
         ItemRowAdapterHelperKt.refreshItem(mAdapter, api.getValue(), this, mCurrentItem, () -> {
             //Now - if filtered make sure we still pass
             if (mAdapter.getFilters() == null) return null;

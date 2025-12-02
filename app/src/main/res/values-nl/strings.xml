@@ -111,12 +111,12 @@
     <string name="lbl_all_items">Alle items</string>
     <string name="lbl_sorted_by">gesorteerd op</string>
     <string name="lbl_from">van</string>
-    <string name="lbl_name">Naam</string>
+    <string name="lbl_name">Titel</string>
     <string name="lbl_date_added">Datum toegevoegd</string>
     <string name="lbl_premier_date">Premièredatum</string>
     <string name="lbl_critic_rating">Beoordeling critici</string>
     <string name="lbl_rating">Kijkwijzer</string>
-    <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
+    <string name="lbl_starting_with">met titel beginnend met</string>
     <string name="lbl_display_preferences">Weergavevoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
@@ -176,7 +176,7 @@
     <string name="lbl_now_playing_track">%1$s van %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_news">Nieuws</string>
-    <string name="lbl_album_name">Albumnaam</string>
+    <string name="lbl_album_name">Albumtitel</string>
     <string name="lbl_next_episode">Volgende aflevering</string>
     <string name="lbl_previous_episode">Vorige aflevering</string>
     <string name="lbl_sort_by">Sorteren op</string>
@@ -527,7 +527,7 @@
     <string name="clear_image_cache_content">Gebruikt: %1$s</string>
     <string name="clear_image_cache">Afbeeldingscache wissen</string>
     <string name="random">Willekeurig</string>
-    <string name="unreleased">Nog niet uitgebracht</string>
+    <string name="unreleased">Nog niet verschenen</string>
     <string name="pref_playback_advanced">Geavanceerde afspeelvoorkeuren</string>
     <string name="lbl_home">Startscherm</string>
     <string name="pref_screensaver_ageratingmax_zero">Alle leeftijden</string>
@@ -590,4 +590,6 @@
     <string name="still_watching_label">Ben je er nog?</string>
     <string name="lbl_exit">Afsluiten</string>
     <string name="pref_subtitles_position">Afstand vanaf onderzijde</string>
+    <string name="settings">Instellingen</string>
+    <string name="settings_description">Pas de app naar wens aan</string>
 </resources>
