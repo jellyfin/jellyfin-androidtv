@@ -112,7 +112,7 @@ class MainActivity : FragmentActivity() {
 		workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
 
 		lifecycleScope.launch(Dispatchers.IO) {
-			Timber.d("MainActivity stopped")
+			Timber.i("MainActivity stopped")
 			sessionRepository.restoreSession(destroyOnly = true)
 		}
 	}
