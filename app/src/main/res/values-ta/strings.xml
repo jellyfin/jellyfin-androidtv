@@ -485,8 +485,8 @@
         <item quantity="other">%1$s வினாடிகள்</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%1$s மணிநேரம்</item>
-        <item quantity="other">%1$s மணிநேரம்</item>
+        <item quantity="one">%1$s மணி</item>
+        <item quantity="other">%1$s மணிகள்</item>
     </plurals>
     <string name="episode_name_special">பிரத்யேகமான</string>
     <string name="channels">சேனல்கள்</string>
@@ -589,4 +589,6 @@
     <string name="fast_forward">முன்னோக்கி செல்</string>
     <string name="still_watching_label">நீங்க இன்னும் பார்த்துட்டு இருக்கீங்களா?</string>
     <string name="pref_subtitles_position">கீழிருந்து ஆஃப்செட்</string>
+    <string name="settings">அமைப்பு</string>
+    <string name="settings_description">உங்கள் விருப்பப்படி பயன்பாட்டை மாற்றவும்</string>
 </resources>
