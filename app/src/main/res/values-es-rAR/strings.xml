@@ -563,7 +563,6 @@
     <string name="pref_subtitles_bold">Texto en negrita</string>
     <string name="indicator_subtitles">CC</string>
     <string name="indicator_subtitles_hearing_impaired">Subtítulos (SDH)</string>
-    <string name="dolby_atmos"></string>
     <string name="prefer_exoplayer_ffmpeg_content">Utiliza FFmpeg para decodificar audio, incluso si hay códecs de la plataforma disponibles.</string>
     <string name="default_video_zoom">Modo de zoom predeterminado</string>
     <string name="video_start_delay">Retraso en el inicio del vídeo</string>
