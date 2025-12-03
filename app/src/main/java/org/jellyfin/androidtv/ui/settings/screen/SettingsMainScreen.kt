@@ -19,10 +19,13 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
+import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.settings.Routes
 
 @Composable
 fun SettingsMainScreen() {
 	val context = LocalContext.current
+	val router = LocalRouter.current
 
 	Column(
 		modifier = Modifier
@@ -89,7 +92,7 @@ fun SettingsMainScreen() {
 			headingContent = { Text(stringResource(R.string.pref_telemetry_category)) },
 			captionContent = { Text(stringResource(R.string.pref_telemetry_description)) },
 			onClick = {
-				context.startActivity(ActivityDestinations.crashReportingPreferences(context))
+				router.push(Routes.TELEMETRY)
 			}
 		)
 
