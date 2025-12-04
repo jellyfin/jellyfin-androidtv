@@ -551,4 +551,26 @@
     <string name="pref_screensaver_ageratingmax">Edad máxima calificada</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Desactivar el máximo</string>
     <string name="pref_screensaver_ageratingmax_entry">Hasta los %1$d</string>
+    <string name="lbl_exit">Salir</string>
+    <string name="lbl_runtime">Tiempo de ejecución</string>
+    <string name="lbl_from_beginning">Reproduce desde el inicio</string>
+    <string name="pref_still_watching_behavior_title">Mostrar ventana emergente de tiempo de espera por inactividad</string>
+    <string name="lbl_still_watching_default">3 episodios o 90 minutos</string>
+    <string name="lbl_still_watching_short">2 episodios o 60 minutos</string>
+    <string name="lbl_still_watching_long">5 episodios o 150 minutos</string>
+    <string name="lbl_still_watching_very_long">8 episodios o 240 minutos</string>
+    <string name="pref_subtitles_position">Desplazamiento desde la parte inferior</string>
+    <string name="pref_subtitles_bold">Texto en negrita</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="indicator_subtitles_hearing_impaired">Subtítulos (SDH)</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Utiliza FFmpeg para decodificar audio, incluso si hay códecs de la plataforma disponibles.</string>
+    <string name="default_video_zoom">Modo de zoom predeterminado</string>
+    <string name="video_start_delay">Retraso en el inicio del vídeo</string>
+    <string name="pref_mediasegment_actions">Acciones sobre segmentos de medios</string>
+    <string name="skip_forward_length">Longitud del salteo hacia adelante</string>
+    <string name="preference_enable_trickplay">Habilitar trickplay en el reproductor de vídeo</string>
+    <string name="pref_subtitles_background_opacity">Opacidad del fondo de los subtítulos</string>
+    <string name="pref_troubleshooting">Solución de problemas</string>
+    <string name="pref_report_device_profile_title">Informar sobre las capacidades de reproducción al servidor</string>
+    <string name="pref_report_device_profile_summary">Carga un documento al servidor de Jellyfin con información sobre las capacidades de reproducción</string>
 </resources>

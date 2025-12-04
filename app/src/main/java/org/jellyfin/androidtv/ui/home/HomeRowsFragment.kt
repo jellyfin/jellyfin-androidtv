@@ -231,7 +231,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		val adapter = currentRow?.adapter as? ItemRowAdapter ?: return
 		val item = currentItem ?: return
 
-		Timber.d("Refresh item ${item.getFullName(requireContext())}")
+		Timber.i("Refresh item ${item.getFullName(requireContext())}")
 		adapter.refreshItem(api, this, item)
 	}
 

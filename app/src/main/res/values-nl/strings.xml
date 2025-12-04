@@ -590,4 +590,6 @@
     <string name="still_watching_label">Ben je er nog?</string>
     <string name="lbl_exit">Afsluiten</string>
     <string name="pref_subtitles_position">Afstand vanaf onderzijde</string>
+    <string name="settings">Instellingen</string>
+    <string name="settings_description">Pas de app naar wens aan</string>
 </resources>

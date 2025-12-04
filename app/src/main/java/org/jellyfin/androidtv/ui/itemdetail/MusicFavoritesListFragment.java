@@ -197,7 +197,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
         }
 
         @Override
-        public void onProgress(long pos) {
+        public void onProgress(long pos, long duration) {
             if (mCurrentlyPlayingRow != null) {
                 mCurrentlyPlayingRow.updateCurrentTime(pos);
             }
@@ -283,7 +283,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
     };
 
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
-        Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
+        Timber.i("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
         playbackLauncher.getValue().launch(requireContext(), items, 0, false, ndx, shuffle);
     }

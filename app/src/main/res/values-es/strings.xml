@@ -600,4 +600,6 @@
     <string name="speech_error_unknown">Se produjo un error inesperado durante el reconocimiento de voz.</string>
     <string name="still_watching_label">¿Aún sigues ahí?</string>
     <string name="pref_subtitles_position">Posición desde abajo</string>
+    <string name="settings">Ajustes</string>
+    <string name="settings_description">Configura la app a tu propio gusto</string>
 </resources>
