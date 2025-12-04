@@ -152,7 +152,7 @@
     <string name="msg_no_playable_items">Sense elements a reproduïr</string>
     <string name="lbl_now_playing_album">des de %1$s</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
-    <string name="lbl_add_favorite">Afegeix el preferit</string>
+    <string name="lbl_add_favorite">Afegeix a preferits</string>
     <string name="lbl_remove_favorite">Elimina el preferit</string>
     <string name="lbl_mark_played">Marca com a reproduït</string>
     <string name="lbl_mark_unplayed">Marca com a no reproduït</string>
