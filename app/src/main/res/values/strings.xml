@@ -196,6 +196,8 @@
     <string name="lbl_open">Open</string>
     <string name="lbl_show_backdrop">Show backdrops</string>
     <string name="pref_show_backdrop_description">Change background image to selected items</string>
+    <string name="lbl_enable_backdrop_blur">Enable backdrop blur</string>
+    <string name="pref_enable_backdrop_blur_description">Toggle between background image to be blurred when supported</string>
     <string name="lbl_show_premieres">Show season premieres</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
     <string name="lbl_in_x_days">In %d days</string>
