@@ -181,6 +181,8 @@
     <string name="lbl_new_premieres">New premieres</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
+    <string name="lbl_force_dovi_profile_7">Direct play Dolby Vision Profile 7</string>
+    <string name="desc_force_dovi_profile_7">Ignores device compatibility checks</string>
     <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_auto_crop">Auto crop</string>

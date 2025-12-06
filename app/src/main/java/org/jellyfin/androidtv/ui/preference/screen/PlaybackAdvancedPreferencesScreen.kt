@@ -103,6 +103,13 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.lbl_force_dovi_profile_7)
+				setContent(R.string.desc_force_dovi_profile_7)
+
+				bind(userPreferences, UserPreferences.dolbyVisionELDirectPlay)
+			}
+
+			checkbox {
 				setTitle(R.string.pref_external_player)
 				bind(userPreferences, UserPreferences.useExternalPlayer)
 			}
