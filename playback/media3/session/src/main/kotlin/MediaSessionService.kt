@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.guava.await
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.isThemePlayback
 import org.jellyfin.playback.core.queue.metadata
 import org.jellyfin.playback.core.queue.queue
 import timber.log.Timber
@@ -38,7 +39,7 @@ class MediaSessionService(
 		}.build()
 
 		manager.queue.entry.onEach { item ->
-			if (item != null) updateNotification(session, item)
+			if (item != null && !item.isThemePlayback) updateNotification(session, item)
 			else if (notifiedNotificationId != null) {
 				notificationManager.cancel(notifiedNotificationId!!)
 				notifiedNotificationId = null

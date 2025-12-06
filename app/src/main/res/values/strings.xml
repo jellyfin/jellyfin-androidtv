@@ -195,6 +195,8 @@
     <string name="lbl_play_next_up">Play next up</string>
     <string name="lbl_open">Open</string>
     <string name="lbl_show_backdrop">Show backdrops</string>
+    <string name="lbl_play_theme_songs">Play theme songs</string>
+    <string name="pref_play_theme_songs_description">Play theme songs in background while browsing the library</string>
     <string name="pref_show_backdrop_description">Change background image to selected items</string>
     <string name="lbl_show_premieres">Show season premieres</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
