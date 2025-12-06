@@ -38,6 +38,7 @@
     <string name="lbl_other">Other</string>
     <string name="because_you_watched">Because you watched %1$s</string>
     <string name="lbl_play_all">Play all</string>
+    <string name="lbl_continue">Continue</string>
     <string name="lbl_shuffle_all">Shuffle all</string>
     <string name="lbl_play">Play</string>
     <string name="lbl_pause">Pause</string>
@@ -77,6 +78,12 @@
     <string name="lbl_recordings">Recordings</string>
     <string name="lbl_none">None</string>
     <string name="msg_video_playback_error">"Video playback error - "</string>
+    <string name="msg_searching_unwatched_items">Searching for unwatched items...</string>
+    <string name="msg_loading_item_page">Loading item page...</string>
+    <string name="msg_playing_item">Playing: %1$s</string>
+    <string name="msg_error_loading_item_page">Error loading item page</string>
+    <string name="msg_item_not_found_in_playlist">Item not found in playlist</string>
+    <string name="msg_no_unwatched_items_playing_from_beginning">No unwatched items found, playing from beginning</string>
     <string name="lbl_bracket_unknown">Unknown</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Play trailer(s)</string>
