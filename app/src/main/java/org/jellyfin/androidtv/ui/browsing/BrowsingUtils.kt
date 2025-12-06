@@ -6,6 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.nextUpDateCutoff
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
@@ -26,10 +28,14 @@ import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
 import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
 import java.util.UUID
 
-object BrowsingUtils {
+object BrowsingUtils : KoinComponent {
+	private val userPreferences by inject<UserPreferences>()
+
 	@JvmStatic
 	fun getRandomItem(
 		api: ApiClient,
@@ -66,7 +72,8 @@ object BrowsingUtils {
 		limit = 50,
 		parentId = parentId,
 		imageTypeLimit = 1,
-		fields = ItemRepository.itemFields
+		fields = ItemRepository.itemFields,
+		nextUpDateCutoff = userPreferences.nextUpDateCutoff()
 	)
 
 	@JvmStatic
