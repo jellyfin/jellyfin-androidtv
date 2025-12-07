@@ -8,7 +8,6 @@ import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.datasource.HttpDataSource
-import androidx.media3.datasource.okhttp.OkHttpDataSource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
@@ -24,8 +23,6 @@ import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
 import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.media3.session.MediaSessionOptions
 import org.jellyfin.playback.media3.session.media3SessionPlugin
-import org.jellyfin.sdk.api.client.HttpClientOptions
-import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -39,12 +36,11 @@ val playbackModule = module {
 
 	single { PlaybackLauncher(get(), get(), get(), get()) }
 
-	// OkHttp data source using OkHttpFactory from SDK
 	single<HttpDataSource.Factory> {
-		val okHttpFactory = get<OkHttpFactory>()
-		val httpClientOptions = get<HttpClientOptions>()
-
-		OkHttpDataSource.Factory(okHttpFactory.createClient(httpClientOptions))
+		androidx.media3.datasource.DefaultHttpDataSource.Factory()
+			.setConnectTimeoutMs(6_000)
+			.setReadTimeoutMs(30_000)
+			.setAllowCrossProtocolRedirects(true)
 	}
 
 	single { createPlaybackManager() }

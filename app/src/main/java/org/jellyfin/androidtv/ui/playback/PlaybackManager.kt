@@ -13,6 +13,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.MediaSourceInfo
 import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 import org.jellyfin.sdk.model.api.PlaybackInfoResponse
@@ -21,8 +22,9 @@ private fun createStreamInfo(
 	api: ApiClient,
 	options: VideoOptions,
 	response: PlaybackInfoResponse,
+	openedMediaSource: MediaSourceInfo? = null,
 ): StreamInfo = StreamInfo().apply {
-	val source = response.mediaSources.firstOrNull {
+	val source = openedMediaSource ?: response.mediaSources.firstOrNull {
 		options.mediaSourceId != null && it.id == options.mediaSourceId
 	} ?: response.mediaSources.firstOrNull()
 
@@ -38,11 +40,14 @@ private fun createStreamInfo(
 		container = source.container
 		mediaUrl = when {
 			source.isRemote && source.path != null -> source.path
-			else -> api.videosApi.getVideoStreamUrl(
+			else -> api.videosApi.getVideoStreamByContainerUrl(
 				itemId = itemId,
+				container = source.container ?: "ts",
 				mediaSourceId = source.id,
 				static = true,
 				tag = source.eTag,
+				liveStreamId = source.liveStreamId,
+				playSessionId = response.playSessionId,
 			)
 		}
 	} else if (options.enableDirectStream && source.supportsDirectStream) {
@@ -108,7 +113,7 @@ class PlaybackManager(
 					subtitleStreamIndex = options.subtitleStreamIndex,
 					allowVideoStreamCopy = true,
 					allowAudioStreamCopy = true,
-					autoOpenLiveStream = true,
+					autoOpenLiveStream = false,
 				)
 			).content
 		}
@@ -119,6 +124,28 @@ class PlaybackManager(
 			}
 		}
 
-		createStreamInfo(api, options, response)
+		val mediaSource = response.mediaSources.firstOrNull {
+			options.mediaSourceId != null && it.id == options.mediaSourceId
+		} ?: response.mediaSources.firstOrNull()
+
+		// For Live TV: explicitly open the stream to get the liveStreamId
+		val openedMediaSource = if (mediaSource?.requiresOpening == true) {
+			withContext(Dispatchers.IO) {
+				api.mediaInfoApi.openLiveStream(
+					openToken = mediaSource.openToken,
+					playSessionId = response.playSessionId,
+					itemId = options.itemId,
+					enableDirectPlay = options.enableDirectPlay,
+					enableDirectStream = options.enableDirectStream,
+					maxAudioChannels = options.maxAudioChannels,
+					audioStreamIndex = options.audioStreamIndex?.takeIf { it >= 0 },
+					subtitleStreamIndex = options.subtitleStreamIndex,
+				).content.mediaSource
+			}
+		} else {
+			null
+		}
+
+		createStreamInfo(api, options, response, openedMediaSource)
 	}
 }
