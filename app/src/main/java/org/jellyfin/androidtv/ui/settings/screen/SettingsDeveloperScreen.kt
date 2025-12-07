@@ -8,7 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -101,7 +101,7 @@ fun SettingsDeveloperScreen() {
 
 		// Image cache
 		val imageLoader = koinInject<ImageLoader>()
-		var imageCacheSize by remember { mutableStateOf(imageLoader.diskCache?.size ?: 0) }
+		var imageCacheSize by remember { mutableLongStateOf(imageLoader.diskCache?.size ?: 0L) }
 		ListButton(
 			headingContent = { Text(stringResource(R.string.clear_image_cache)) },
 			captionContent = {
@@ -115,7 +115,7 @@ fun SettingsDeveloperScreen() {
 			onClick = {
 				imageLoader.memoryCache?.clear()
 				imageLoader.diskCache?.clear()
-				imageCacheSize = imageLoader.diskCache?.size ?: 0
+				imageCacheSize = imageLoader.diskCache?.size ?: 0L
 			}
 		)
 	}
