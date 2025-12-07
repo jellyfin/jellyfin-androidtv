@@ -9,10 +9,11 @@ import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.screen.AuthPreferencesScreen
 import org.jellyfin.androidtv.ui.preference.screen.CustomizationPreferencesScreen
 import org.jellyfin.androidtv.ui.preference.screen.PlaybackPreferencesScreen
 import org.jellyfin.androidtv.ui.startup.StartupActivity
+import org.jellyfin.androidtv.ui.startup.preference.EditServerScreen
+import java.util.UUID
 import kotlin.time.Duration
 
 object ActivityDestinations {
@@ -28,7 +29,11 @@ object ActivityDestinations {
 		)
 	}
 
-	fun authPreferences(context: Context) = preferenceIntent<AuthPreferencesScreen>(context)
+	fun editServerPreferences(context: Context, serverId: UUID) = preferenceIntent<EditServerScreen>(
+		context,
+		EditServerScreen.ARG_SERVER_UUID to serverId,
+	)
+
 	fun customizationPreferences(context: Context) = preferenceIntent<CustomizationPreferencesScreen>(context)
 	fun playbackPreferences(context: Context) = preferenceIntent<PlaybackPreferencesScreen>(context)
 

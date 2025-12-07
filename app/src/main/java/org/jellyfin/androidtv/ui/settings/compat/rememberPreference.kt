@@ -20,3 +20,16 @@ fun <ME, MV, T : Any> rememberPreference(store: PreferenceStore<ME, MV>, prefere
 	}
 	return mutableState
 }
+
+@Composable
+@JvmName("rememberEnumPreference")
+fun <ME, MV, T : Enum<T>> rememberPreference(
+	store: PreferenceStore<ME, MV>,
+	preference: Preference<T>
+): MutableState<T> {
+	val mutableState = remember { mutableStateOf(store[preference]) }
+	LaunchedEffect(mutableState.value) {
+		if (store[preference] != mutableState.value) store[preference] = mutableState.value
+	}
+	return mutableState
+}

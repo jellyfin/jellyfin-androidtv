@@ -49,9 +49,7 @@ fun SettingsMainScreen() {
 			},
 			headingContent = { Text(stringResource(R.string.pref_login)) },
 			captionContent = { Text(stringResource(R.string.pref_login_description)) },
-			onClick = {
-				context.startActivity(ActivityDestinations.authPreferences(context))
-			}
+			onClick = { router.push(Routes.AUTHENTICATION) }
 		)
 
 		ListButton(
