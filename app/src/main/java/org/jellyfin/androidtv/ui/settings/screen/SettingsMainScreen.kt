@@ -142,9 +142,7 @@ fun SettingsMainScreen() {
 			},
 			headingContent = { Text(stringResource(R.string.licenses_link)) },
 			captionContent = { Text(stringResource(R.string.licenses_link_description)) },
-			onClick = {
-				context.startActivity(ActivityDestinations.licenses(context))
-			}
+			onClick = { router.push(Routes.LICENSES) }
 		)
 	}
 }
