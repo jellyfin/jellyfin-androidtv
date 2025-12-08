@@ -592,4 +592,5 @@
     <string name="pref_subtitles_position">Afstand vanaf onderzijde</string>
     <string name="settings">Instellingen</string>
     <string name="settings_description">Pas de app naar wens aan</string>
+    <string name="copied_to_clipboard">Gekopieerd naar klembord</string>
 </resources>

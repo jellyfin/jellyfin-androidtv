@@ -611,4 +611,6 @@
     <string name="still_watching_label">Все ще дивитеся?</string>
     <string name="pref_subtitles_position">Зсув від низу</string>
     <string name="settings">Налаштування</string>
+    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
+    <string name="settings_description">Змініть додаток на свій смак</string>
 </resources>
