@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,7 +25,6 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RadioButton
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
-import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
@@ -35,7 +33,6 @@ import org.koin.compose.koinInject
 
 @Composable
 fun SettingsAuthenticationScreen() {
-	val context = LocalContext.current
 	val router = LocalRouter.current
 	val serverRepository = koinInject<ServerRepository>()
 	val serverUserRepository = koinInject<ServerUserRepository>()
@@ -109,7 +106,12 @@ fun SettingsAuthenticationScreen() {
 					headingContent = { Text(server.name) },
 					captionContent = { Text(server.address) },
 					onClick = {
-						context.startActivity(ActivityDestinations.editServerPreferences(context, server.id))
+						router.push(
+							route = Routes.AUTHENTICATION_SERVER,
+							parameters = mapOf(
+								"serverId" to server.id.toString(),
+							),
+						)
 					}
 				)
 			}
