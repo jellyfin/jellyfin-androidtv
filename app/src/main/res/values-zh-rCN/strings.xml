@@ -582,4 +582,5 @@
     <string name="pref_subtitles_position">从底部偏移</string>
     <string name="settings_description">根据个人喜好调整应用设置</string>
     <string name="settings">设置</string>
+    <string name="copied_to_clipboard">已复制到剪贴板</string>
 </resources>
