@@ -13,7 +13,6 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
-import org.jellyfin.sdk.model.api.MediaSourceInfo
 import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 import org.jellyfin.sdk.model.api.PlaybackInfoResponse
@@ -22,9 +21,8 @@ private fun createStreamInfo(
 	api: ApiClient,
 	options: VideoOptions,
 	response: PlaybackInfoResponse,
-	openedMediaSource: MediaSourceInfo? = null,
 ): StreamInfo = StreamInfo().apply {
-	val source = openedMediaSource ?: response.mediaSources.firstOrNull {
+	val source = response.mediaSources.firstOrNull {
 		options.mediaSourceId != null && it.id == options.mediaSourceId
 	} ?: response.mediaSources.firstOrNull()
 
@@ -113,7 +111,7 @@ class PlaybackManager(
 					subtitleStreamIndex = options.subtitleStreamIndex,
 					allowVideoStreamCopy = true,
 					allowAudioStreamCopy = true,
-					autoOpenLiveStream = false,
+					autoOpenLiveStream = true,
 				)
 			).content
 		}
@@ -124,28 +122,6 @@ class PlaybackManager(
 			}
 		}
 
-		val mediaSource = response.mediaSources.firstOrNull {
-			options.mediaSourceId != null && it.id == options.mediaSourceId
-		} ?: response.mediaSources.firstOrNull()
-
-		// For Live TV: explicitly open the stream to get the liveStreamId
-		val openedMediaSource = if (mediaSource?.requiresOpening == true) {
-			withContext(Dispatchers.IO) {
-				api.mediaInfoApi.openLiveStream(
-					openToken = mediaSource.openToken,
-					playSessionId = response.playSessionId,
-					itemId = options.itemId,
-					enableDirectPlay = options.enableDirectPlay,
-					enableDirectStream = options.enableDirectStream,
-					maxAudioChannels = options.maxAudioChannels,
-					audioStreamIndex = options.audioStreamIndex?.takeIf { it >= 0 },
-					subtitleStreamIndex = options.subtitleStreamIndex,
-				).content.mediaSource
-			}
-		} else {
-			null
-		}
-
-		createStreamInfo(api, options, response, openedMediaSource)
+		createStreamInfo(api, options, response)
 	}
 }

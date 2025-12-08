@@ -8,7 +8,10 @@ import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.datasource.HttpDataSource
+import androidx.media3.datasource.okhttp.OkHttpDataSource
+import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.R
+import java.util.concurrent.TimeUnit
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
@@ -37,10 +40,13 @@ val playbackModule = module {
 	single { PlaybackLauncher(get(), get(), get(), get()) }
 
 	single<HttpDataSource.Factory> {
-		androidx.media3.datasource.DefaultHttpDataSource.Factory()
-			.setConnectTimeoutMs(6_000)
-			.setReadTimeoutMs(30_000)
-			.setAllowCrossProtocolRedirects(true)
+		val okHttpClient = OkHttpClient.Builder()
+			.connectTimeout(6, TimeUnit.SECONDS)
+			.readTimeout(30, TimeUnit.SECONDS)
+			.followRedirects(true)
+			.followSslRedirects(true)
+			.build()
+		OkHttpDataSource.Factory(okHttpClient)
 	}
 
 	single { createPlaybackManager() }
