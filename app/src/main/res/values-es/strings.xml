@@ -602,4 +602,5 @@
     <string name="pref_subtitles_position">Posición desde abajo</string>
     <string name="settings">Ajustes</string>
     <string name="settings_description">Configura la app a tu propio gusto</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
 </resources>
