@@ -612,4 +612,5 @@
     <string name="pref_subtitles_position">Przesunięcie od dołu</string>
     <string name="settings">Ustawienia</string>
     <string name="settings_description">Zmień aplikację według własnych upodobań</string>
+    <string name="copied_to_clipboard">Skopiowano do schowka</string>
 </resources>
