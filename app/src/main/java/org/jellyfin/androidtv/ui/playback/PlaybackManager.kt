@@ -45,7 +45,6 @@ private fun createStreamInfo(
 				static = true,
 				tag = source.eTag,
 				liveStreamId = source.liveStreamId,
-				playSessionId = response.playSessionId,
 			)
 		}
 	} else if (options.enableDirectStream && source.supportsDirectStream) {
