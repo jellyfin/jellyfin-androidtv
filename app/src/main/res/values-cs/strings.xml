@@ -602,4 +602,5 @@
     <string name="pref_subtitles_position">Odsazení odspodu</string>
     <string name="settings">Nastavení</string>
     <string name="settings_description">Upravte si aplikaci podle svých představ</string>
+    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
 </resources>

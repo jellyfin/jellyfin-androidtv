@@ -57,7 +57,7 @@
     <string name="lbl_valid_server_address">Introduzca la dirección del servidor (IP o nombre de dominio/equipo)</string>
     <string name="lbl_play_trailers">Reproducir avance</string>
     <string name="lbl_bracket_unknown">Desconocido</string>
-    <string name="lbl_videos">Videos</string>
+    <string name="lbl_videos">Vídeos</string>
     <string name="lbl_people">Personas</string>
     <string name="lbl_directed_by">Dirigido por</string>
     <string name="lbl_ends">Termina</string>
@@ -95,8 +95,8 @@
     <string name="no_player">No hay reproductor de contenido</string>
     <string name="mark_watched_message">Este elemento no parece haberse reproducido completo. ¿Desea marcarlo como visto de todas formas\?</string>
     <string name="mark_watched">Marcar como visto</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
-    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbps</string>
+    <string name="bitrate_mbit">%1$,.0f Mbps</string>
     <string name="lbl_Reset">Reiniciar</string>
     <string name="pref_button_remapping_description">Aprieta cualquier botón del control remoto para asignarlo</string>
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
@@ -289,7 +289,7 @@
     <string name="image_size_small">Pequeño</string>
     <string name="image_type_banner">Bandera</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="enable_smart_view_description">La Pantalla Inteligente muestra items relevantes en lugar de una grilla</string>
+    <string name="enable_smart_view_description">La Pantalla Inteligente muestra elementos relevantes en lugar de una grilla</string>
     <string name="enable_smart_view">Habilitar Pantalla Inteligente</string>
     <string name="lbl_sign_out">Desconectarse</string>
     <string name="lbl_remove">Eliminar</string>
@@ -301,7 +301,7 @@
     <string name="lbl_remove_user_content">Eliminar Cuenta</string>
     <string name="lbl_remove_users">Esta acción también eliminara todas las cuentas asociadas</string>
     <string name="lbl_manage_servers">Administrar Servidores</string>
-    <string name="lbl_hide_unwatched_count">Ocultar contador de No Visto</string>
+    <string name="lbl_hide_unwatched_count">Cuando el item es visto</string>
     <string name="pref_watched_indicator">Mostrar Indicadores de Ya Visto</string>
     <string name="lbl_use_series_thumbnails_description">Utilizar serie de miniaturas cuando se muestran episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir Series de Miniaturas</string>
@@ -341,7 +341,7 @@
     <string name="lbl_starting_early_ending_after">Comienza %1$s antes y finaliza %2$s después del horario previsto</string>
     <string name="server_connection_failed_candidates">No se pudo conectar al servidor: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según los items seleccionados</string>
+    <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según los elementos seleccionados</string>
     <string name="lbl_playback_speed">Velocidad de reproducción</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Estirar</string>
@@ -417,7 +417,7 @@
     <string name="action_use_quickconnect">Usar conexión rápida “Quick Connect”</string>
     <string name="action_use_password">Usar una contraseña</string>
     <string name="color_black">Negro</string>
-    <string name="image_type_poster">Poster</string>
+    <string name="image_type_poster">Póster</string>
     <string name="image_size_smallest">Más pequeño</string>
     <string name="image_size_xlarge">Extra grande</string>
     <string name="color_cyan">Cian</string>
@@ -426,7 +426,7 @@
     <plurals name="episodes">
         <item quantity="one">%1$s episodio</item>
         <item quantity="many">%1$s episodios</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s episodios</item>
     </plurals>
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="lbl_subtitle_delay">Retraso en los subtitulos</string>
@@ -455,12 +455,12 @@
     <plurals name="seconds">
         <item quantity="one">%1$s segundo</item>
         <item quantity="many">%1$s segundos</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s segundos</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">%1$s hora</item>
         <item quantity="many">%1$s horas</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s horas</item>
     </plurals>
     <string name="lbl_album_artists">Artistas del álbum</string>
     <string name="login_quickconnect_step_2">2. Abrí el menú de usuario y andá a la página Conexión Rápida</string>
@@ -487,12 +487,12 @@
     <plurals name="minutes">
         <item quantity="one">%1$s minuto</item>
         <item quantity="many">%1$s minutos</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s minutos</item>
     </plurals>
     <plurals name="tracks">
         <item quantity="one">%1$s pista</item>
         <item quantity="many">%1$s pistas</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s pistas</item>
     </plurals>
     <string name="because_you_watched">Porque viste %1$s</string>
     <string name="lbl_subtitle_text_stroke_color">Color de los bordes de los subtítulos</string>
@@ -513,20 +513,20 @@
     <string name="pref_playback_advanced">Preferencias avanzadas de reproducción</string>
     <string name="segment_action_skip">Omitir</string>
     <string name="unreleased">No se ha publicado aún</string>
-    <string name="pref_screensaver_ageratingrequired_enabled">Mostrando solo items con una calificación de edad establecida</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Mostrando solo elementos con una calificación de edad establecida</string>
     <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
     <string name="segment_action_ask_to_skip">Preguntar para saltear</string>
     <string name="segment_action_nothing">No hacer nada</string>
     <string name="segment_type_intro">Intros</string>
     <string name="photos">Fotos</string>
-    <string name="pref_screensaver_ageratingrequired_disabled">Mostrando todos los items</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrando todos los elementos</string>
     <string name="all_channels">Todos los canales</string>
     <string name="past_week">La semana anterior</string>
     <string name="past_24_hours">Después de 24 horas</string>
     <plurals name="movies">
         <item quantity="one">%1$s película</item>
         <item quantity="many">%1$s películas</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s películas</item>
     </plurals>
     <string name="lbl_home">Inicio</string>
     <string name="segment_type_preview">Previsualizaciones</string>
@@ -536,14 +536,14 @@
     <string name="pref_screensaver_ageratingrequired_title">Requerir calificación de edad</string>
     <string name="app_notification_update_soon">Actualiza tu servidor de la %1$s hasta por lo menos la %2$s para seguir usando la app después de la próxima actualización.</string>
     <plurals name="tv_series">
-        <item quantity="one">%1$s Serie de TV</item>
-        <item quantity="many">%1$s Series de TV</item>
-        <item quantity="other"/>
+        <item quantity="one">%1$s serie de TV</item>
+        <item quantity="many">%1$s series de TV</item>
+        <item quantity="other">%1$s series de TV</item>
     </plurals>
     <plurals name="songs">
         <item quantity="one">%1$s canción</item>
         <item quantity="many">%1$s canciones</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s canciones</item>
     </plurals>
     <string name="clear_image_cache">Limpiar cache de imágenes</string>
     <string name="clear_image_cache_content">Usado: %1$s</string>
@@ -573,4 +573,34 @@
     <string name="pref_troubleshooting">Solución de problemas</string>
     <string name="pref_report_device_profile_title">Informar sobre las capacidades de reproducción al servidor</string>
     <string name="pref_report_device_profile_summary">Carga un documento al servidor de Jellyfin con información sobre las capacidades de reproducción</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS:HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="segment_type_outro">Créditos</string>
+    <string name="pref_report_device_profile_success">Documento subido como %1$s</string>
+    <string name="pref_report_device_profile_failure">Error al subir el documento. Puede que tu servidor de Jellyfin no admita registros del cliente.</string>
+    <string name="fast_forward">Adelantar</string>
+    <string name="rewind">Rebobinar</string>
+    <string name="preference_enable_libass">Habilitar el renderizado en el cliente para subtítulos Advanced SubStation Alpha (ASS)</string>
+    <string name="preference_enable_pgs">Reproducir directamente los subtítulos PGS</string>
+    <string name="speech_error_no_permission">No hay permiso para usar el micrófono. Habilitalo en los ajustes del sistema, por favor.</string>
+    <string name="speech_error_unavailable">El reconocimiento de voz no está disponible en tu dispositivo.</string>
+    <string name="speech_error_unknown">Ocurrió un error inesperado durante el reconocimiento de voz.</string>
+    <string name="still_watching_label">¿Todavía estás mirando?</string>
+    <string name="settings">Ajustes</string>
+    <string name="settings_description">Configura la aplicación a tu gusto</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
+    <plurals name="items">
+        <item quantity="one">%1$s elemento</item>
+        <item quantity="many">%1$s elementos</item>
+        <item quantity="other">%1$s elementos</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s álbum</item>
+        <item quantity="many">%1$s álbumes</item>
+        <item quantity="other">%1$s álbumes</item>
+    </plurals>
 </resources>

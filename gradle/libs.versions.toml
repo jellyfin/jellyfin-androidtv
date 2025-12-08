@@ -37,7 +37,7 @@ kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 markwon = "4.6.2"
-mockk = "1.14.6"
+mockk = "1.14.7"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
 

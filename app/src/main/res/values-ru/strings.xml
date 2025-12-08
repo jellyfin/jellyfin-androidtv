@@ -612,4 +612,5 @@
     <string name="pref_subtitles_position">Отступ снизу</string>
     <string name="settings_description">Настройте приложение под свои желания</string>
     <string name="settings">Настройки</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
 </resources>
