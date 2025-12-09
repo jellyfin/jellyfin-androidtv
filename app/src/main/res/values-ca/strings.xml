@@ -601,4 +601,5 @@
     <string name="pref_subtitles_position">Desplaçament des de baix</string>
     <string name="settings_description">Canvieu l\'aplicació al vostre gust</string>
     <string name="settings">Preferències</string>
+    <string name="copied_to_clipboard">Copiat al porta-retalls</string>
 </resources>
