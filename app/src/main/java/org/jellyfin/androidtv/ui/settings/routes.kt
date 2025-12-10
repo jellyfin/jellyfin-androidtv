@@ -16,6 +16,7 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 object Routes {
 	const val MAIN = "/"
 	const val AUTHENTICATION = "/authentication"
+	const val AUTHENTICATION_FROM_LOGIN = "/authentication+login"
 	const val AUTHENTICATION_SERVER = "/authentication/server/{serverId}"
 	const val AUTHENTICATION_SERVER_USER = "/authentication/server/{serverId}/user/{userId}"
 	const val AUTHENTICATION_SORT_BY = "/authentication/sort-by"
@@ -31,7 +32,10 @@ val routes = mapOf<String, RouteComposable>(
 		SettingsMainScreen()
 	},
 	Routes.AUTHENTICATION to {
-		SettingsAuthenticationScreen()
+		SettingsAuthenticationScreen(false)
+	},
+	Routes.AUTHENTICATION_FROM_LOGIN to {
+		SettingsAuthenticationScreen(true)
 	},
 	Routes.AUTHENTICATION_SERVER to { context ->
 		SettingsAuthenticationServerScreen(

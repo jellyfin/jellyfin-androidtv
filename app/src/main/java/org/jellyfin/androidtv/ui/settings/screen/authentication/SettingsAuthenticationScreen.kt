@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.ServerUserRepository
-import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.base.Icon
@@ -28,16 +27,16 @@ import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
+import org.jellyfin.androidtv.ui.settings.screen.SettingsMainScreenAbout
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.compose.koinInject
 
 @Composable
-fun SettingsAuthenticationScreen() {
+fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 	val router = LocalRouter.current
 	val serverRepository = koinInject<ServerRepository>()
 	val serverUserRepository = koinInject<ServerUserRepository>()
 	val authenticationPreferences = koinInject<AuthenticationPreferences>()
-	val sessionRepository = koinInject<SessionRepository>()
 
 	LaunchedEffect(serverRepository) {
 		serverRepository.loadStoredServers()
@@ -50,7 +49,13 @@ fun SettingsAuthenticationScreen() {
 			.padding(6.dp),
 		verticalArrangement = Arrangement.spacedBy(4.dp),
 	) {
-		item {
+		if (launchedFromLogin) item {
+			ListSection(
+				overlineContent = { Text(stringResource(R.string.app_name).uppercase()) },
+				headingContent = { Text(stringResource(R.string.pref_login)) },
+				captionContent = { Text(stringResource(R.string.pref_login_description)) },
+			)
+		} else item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
 				headingContent = { Text(stringResource(R.string.pref_login)) },
@@ -118,8 +123,8 @@ fun SettingsAuthenticationScreen() {
 		}
 
 		// Disallow changing the "always authenticate" option from the login screen
-		// because that would allow a kid to disable the function to access a parent's account
-		if (sessionRepository.currentSession.value != null) {
+		// because that could allow a kid to disable the function to access a parent's account
+		if (!launchedFromLogin) {
 			item {
 				ListSection(
 					modifier = Modifier,
@@ -136,6 +141,10 @@ fun SettingsAuthenticationScreen() {
 					onClick = { alwaysAuthenticate = !alwaysAuthenticate }
 				)
 			}
+		}
+
+		if (launchedFromLogin) item {
+			SettingsMainScreenAbout()
 		}
 	}
 }
