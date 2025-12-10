@@ -52,18 +52,6 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <!-- Legacy service required for AccountManagerMigration -->
-        <service
-            android:name=".auth.service.AuthenticatorService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-
         <!-- Screensaver -->
         <service
             android:name=".integration.dream.LibraryDreamService"
