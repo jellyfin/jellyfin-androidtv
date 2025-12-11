@@ -142,9 +142,10 @@ fun createDeviceProfile(
 		type = DlnaProfileType.AUDIO
 		context = EncodingContext.STREAMING
 
-		container = Codec.Container.MP3
+		container = Codec.Container.TS
+		protocol = MediaStreamProtocol.HLS
 
-		audioCodec(Codec.Audio.MP3)
+		audioCodec(Codec.Audio.AAC)
 	}
 
 	/// Direct play profiles
