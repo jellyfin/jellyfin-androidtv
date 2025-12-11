@@ -26,12 +26,12 @@ import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
 import org.jellyfin.sdk.model.ServerVersion
+import org.jellyfin.sdk.model.api.BrandingOptionsDto
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.time.Instant
 import java.util.UUID
-import org.jellyfin.sdk.model.api.BrandingOptions as BrandingOptionsDto
 
 /**
  * Repository to maintain servers.
@@ -55,7 +55,7 @@ interface ServerRepository {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
 		val recommendedServerVersion = Jellyfin.apiVersion.copy(build = null)
 
-		val upcomingMinimumServerVersion = ServerVersion(10, 10, 0)
+		val upcomingMinimumServerVersion = ServerVersion(10, 11, 0)
 	}
 }
 

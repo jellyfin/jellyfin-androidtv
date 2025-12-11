@@ -32,7 +32,7 @@ android {
 
 	buildTypes {
 		release {
-			isMinifyEnabled = false
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
 			// Set package names used in various XML files
 			resValue("string", "app_id", namespace!!)

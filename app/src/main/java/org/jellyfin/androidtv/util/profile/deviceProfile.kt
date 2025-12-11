@@ -65,7 +65,7 @@ fun createDeviceProfile(
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = false,
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
-	jellyfinTenEleven = serverVersion >= ServerVersion(10, 11, 0),
+	dolbyVisionELDirectPlay = userPreferences[UserPreferences.dolbyVisionELDirectPlay],
 )
 
 fun createDeviceProfile(
@@ -75,7 +75,7 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
-	jellyfinTenEleven: Boolean,
+	dolbyVisionELDirectPlay: Boolean,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -361,52 +361,50 @@ fun createDeviceProfile(
 
 	/// HDR exclude list
 
-	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
+
 	val unsupportedRangeTypesAv1 = buildSet {
-		if (jellyfinTenEleven) add("DOVIInvalid")
+		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsAV1DolbyVision) {
-			add(VideoRangeType.DOVI.serialName)
-			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
-			if (jellyfinTenEleven && !supportsAV1HDR10Plus) add("DOVIWithHDR10Plus")
+			add(VideoRangeType.DOVI)
+			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10)
+			if (!supportsAV1HDR10Plus) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 		}
 
 		if (!supportsAV1HDR10Plus) {
-			add(VideoRangeType.HDR10_PLUS.serialName)
+			add(VideoRangeType.HDR10_PLUS)
 
-			if (!mediaTest.supportsAV1HDR10()) add(VideoRangeType.HDR10.serialName)
+			if (!mediaTest.supportsAV1HDR10()) add(VideoRangeType.HDR10)
 		}
 	}
 
-	// TODO Use VideoRangeType enum with Jellyfin 10.11 based SDK
 	val unsupportedRangeTypesHevc = buildSet {
-		if (jellyfinTenEleven) add("DOVIInvalid")
+		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
-			if (jellyfinTenEleven) {
-				add("DOVIWithEL")
-				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add("DOVIWithELHDR10Plus")
+			if (!dolbyVisionELDirectPlay) {
+				add(VideoRangeType.DOVI_WITH_EL)
+				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 			}
 
 			if (!supportsHevcDolbyVision) {
-				add(VideoRangeType.DOVI.serialName)
-				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10.serialName)
-				if (jellyfinTenEleven && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add("DOVIWithHDR10Plus")
+				add(VideoRangeType.DOVI)
+				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10)
+				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 			}
 		}
 
 		if (!supportsHevcHDR10Plus) {
-			add(VideoRangeType.HDR10_PLUS.serialName)
-			if (!supportsHevcHDR10) add(VideoRangeType.HDR10.serialName)
+			add(VideoRangeType.HDR10_PLUS)
+			if (!supportsHevcHDR10) add(VideoRangeType.HDR10)
 		}
 
-		if (jellyfinTenEleven && KnownDefects.hevcDoviHdr10PlusBug) {
-			add("DOVIWithHDR10Plus")
-			add("DOVIWithELHDR10Plus")
+		if (KnownDefects.hevcDoviHdr10PlusBug) {
+			add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
+			add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 		}
 	}
 
-	// Display
 	// Note: The codec profiles use a workaround to create correct behavior
 	// The notEquals condition will always fail the ConditionProcessor test in the server so we use applyConditions to only have the codec
 	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
@@ -419,11 +417,11 @@ fun createDeviceProfile(
 		codec = Codec.Video.AV1
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|") { it.serialName }
 		}
 
 		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1.map { it.serialName }
 		}
 	}
 
@@ -433,11 +431,11 @@ fun createDeviceProfile(
 		codec = Codec.Video.HEVC
 
 		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|")
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|") { it.serialName }
 		}
 
 		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc.map { it.serialName }
 		}
 	}
 
