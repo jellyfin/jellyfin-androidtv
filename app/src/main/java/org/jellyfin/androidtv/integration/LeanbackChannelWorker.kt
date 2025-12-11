@@ -247,7 +247,7 @@ class LeanbackChannelWorker(
 	private fun BaseItemDto.getPosterArtImageUrl(
 		preferParentThumb: Boolean
 	): Uri = when {
-		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages[ImageType.PRIMARY]
+		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages[ImageType.THUMB]
 		(preferParentThumb || !itemImages.contains(ImageType.PRIMARY)) && parentImages.contains(ImageType.THUMB) -> parentImages[ImageType.THUMB]
 		else -> itemImages[ImageType.PRIMARY]
 	}.let { image ->
