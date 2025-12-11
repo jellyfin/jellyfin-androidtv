@@ -363,7 +363,9 @@ public class AudioNowPlayingFragment extends Fragment {
         time = Math.round(time / 1000L) * 1000L;
 
         mCurrentPos.setText(TimeUtils.formatMillis(time));
-        mRemainingTime.setText("-" + TimeUtils.formatMillis(duration - time));
+
+        if (duration == 0L) mRemainingTime.setText(null);
+        else mRemainingTime.setText("-" + TimeUtils.formatMillis(duration - time));
     }
 
     private void addGenres(TextView textView) {
