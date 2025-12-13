@@ -17,6 +17,7 @@ class MyDetailsOverviewRow @JvmOverloads constructor(
 ) : Row() {
 	private val _actions = mutableListOf<TextUnderButton>()
 	val actions get() = _actions.toList()
+
 	val visibleActions get() = _actions.count { it.isVisible }
 
 	fun clearActions() = _actions.clear()

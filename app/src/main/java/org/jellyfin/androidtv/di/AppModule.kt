@@ -27,6 +27,8 @@ import org.jellyfin.androidtv.data.repository.NotificationsRepositoryImpl
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.data.service.themeplayer.ThemeSongPlayer
+import org.jellyfin.androidtv.data.service.themeplayer.ThemeSongService
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -152,6 +154,8 @@ val appModule = module {
 	viewModel { SettingsViewModel() }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
+	single { ThemeSongPlayer(get(), get()) }
+	single { ThemeSongService(get(), get(), get(), get()) }
 
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }

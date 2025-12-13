@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.queue.isThemePlayback
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 
@@ -31,13 +32,19 @@ class AudioQueueBaseRowAdapter(
 	}
 
 	private fun updateAdapter() {
-		val currentItem = playbackManager.queue.entry.value?.let(::AudioQueueBaseRowItem)?.apply {
-			playing = true
-		}
+		val currentItem = playbackManager.queue.entry.value
+			?.takeUnless { it.isThemePlayback }
+			?.let(::AudioQueueBaseRowItem)
+			?.apply { playing = true }
 
 		// It's safe to run this blocking as all items are prefetched via the [BaseItemQueueSupplier]
 		val upcomingItems = runBlocking { playbackManager.queue.peekNext(100) }
-			.mapIndexedNotNull { index, item -> item.takeIf { it.baseItem != null }?.let(::AudioQueueBaseRowItem) }
+			.mapNotNull { item ->
+				item
+					.takeUnless { it.isThemePlayback }
+					?.takeIf { it.baseItem != null }
+					?.let(::AudioQueueBaseRowItem)
+			}
 
 		val items = listOfNotNull(currentItem) + upcomingItems
 

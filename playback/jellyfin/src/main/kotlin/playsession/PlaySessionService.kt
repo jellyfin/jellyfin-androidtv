@@ -10,6 +10,7 @@ import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
+import org.jellyfin.playback.core.queue.isThemePlayback
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
@@ -62,12 +63,15 @@ class PlaySessionService(
 		// backend.
 		return manager.queue
 			.peekNext(15)
+			.filterNot { it.isThemePlayback }
 			.mapNotNull { it.baseItem }
 			.map { QueueItem(id = it.id, playlistItemId = it.playlistItemId) }
 	}
 
 	private suspend fun sendStreamStart() {
 		val entry = manager.queue.entry.value ?: return
+		if (entry.isThemePlayback) return
+
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
@@ -98,6 +102,8 @@ class PlaySessionService(
 
 	private suspend fun sendStreamUpdate() {
 		val entry = manager.queue.entry.value ?: return
+		if (entry.isThemePlayback) return
+
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
@@ -128,6 +134,8 @@ class PlaySessionService(
 
 	private suspend fun sendStreamStop() {
 		val entry = manager.queue.entry.value ?: return
+		if (entry.isThemePlayback) return
+
 		val stream = entry.mediaStream ?: return
 		val item = entry.baseItem ?: return
 
