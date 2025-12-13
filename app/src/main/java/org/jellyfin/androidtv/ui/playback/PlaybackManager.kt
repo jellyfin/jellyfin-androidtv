@@ -38,11 +38,20 @@ private fun createStreamInfo(
 		container = source.container
 		mediaUrl = when {
 			source.isRemote && source.path != null -> source.path
+			container != null -> api.videosApi.getVideoStreamByContainerUrl(
+				itemId = itemId,
+				container = container,
+				mediaSourceId = source.id,
+				static = true,
+				tag = source.eTag,
+				liveStreamId = source.liveStreamId,
+			)
 			else -> api.videosApi.getVideoStreamUrl(
 				itemId = itemId,
 				mediaSourceId = source.id,
 				static = true,
 				tag = source.eTag,
+				liveStreamId = source.liveStreamId,
 			)
 		}
 	} else if (options.enableDirectStream && source.supportsDirectStream) {

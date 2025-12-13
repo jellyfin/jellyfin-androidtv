@@ -9,7 +9,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
+import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.R
+import java.util.concurrent.TimeUnit
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
@@ -24,8 +26,6 @@ import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
 import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.media3.session.MediaSessionOptions
 import org.jellyfin.playback.media3.session.media3SessionPlugin
-import org.jellyfin.sdk.api.client.HttpClientOptions
-import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -39,12 +39,14 @@ val playbackModule = module {
 
 	single { PlaybackLauncher(get(), get(), get(), get()) }
 
-	// OkHttp data source using OkHttpFactory from SDK
 	single<HttpDataSource.Factory> {
-		val okHttpFactory = get<OkHttpFactory>()
-		val httpClientOptions = get<HttpClientOptions>()
-
-		OkHttpDataSource.Factory(okHttpFactory.createClient(httpClientOptions))
+		val okHttpClient = OkHttpClient.Builder()
+			.connectTimeout(6, TimeUnit.SECONDS)
+			.readTimeout(30, TimeUnit.SECONDS)
+			.followRedirects(true)
+			.followSslRedirects(true)
+			.build()
+		OkHttpDataSource.Factory(okHttpClient)
 	}
 
 	single { createPlaybackManager() }
