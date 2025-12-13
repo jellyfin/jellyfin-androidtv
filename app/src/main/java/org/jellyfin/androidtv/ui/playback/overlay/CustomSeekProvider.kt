@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.playback.overlay
 
 import android.content.Context
+import android.graphics.Bitmap
+import androidx.core.content.ContextCompat
 import androidx.leanback.widget.PlaybackSeekDataProvider
 import coil3.ImageLoader
 import coil3.network.NetworkHeaders
@@ -12,6 +14,7 @@ import coil3.request.transformations
 import coil3.size.Dimension
 import coil3.size.Size
 import coil3.toBitmap
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.util.coil.SubsetTransformation
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.trickplayApi
@@ -29,6 +32,8 @@ class CustomSeekProvider(
 	private val forwardTime: Long
 ) : PlaybackSeekDataProvider() {
 	private val imageRequests = mutableMapOf<Int, Disposable>()
+
+	private var cachedPlaceholderThumbnail: Bitmap? = null
 
 	override fun getSeekPositions(): LongArray {
 		if (!videoPlayerAdapter.canSeek()) return LongArray(0)
@@ -72,6 +77,8 @@ class CustomSeekProvider(
 			mediaSourceId = mediaSourceId,
 		)
 
+		val placeholderThumbnail = getPlaceholderThumbnail(trickPlayInfo.width, trickPlayInfo.height)
+
 		imageRequests[index] = imageLoader.enqueue(ImageRequest.Builder(context).apply {
 			data(url)
 			size(Size.ORIGINAL)
@@ -92,8 +99,8 @@ class CustomSeekProvider(
 			transformations(SubsetTransformation(offsetX, offsetY, trickPlayInfo.width, trickPlayInfo.height))
 
 			target(
-				onStart = { _ -> callback.onThumbnailLoaded(null, index) },
-				onError = { _ -> callback.onThumbnailLoaded(null, index) },
+				onStart = { _ -> callback.onThumbnailLoaded(placeholderThumbnail, index) },
+				onError = { _ -> callback.onThumbnailLoaded(placeholderThumbnail, index) },
 				onSuccess = { image ->
 					val bitmap = image.toBitmap()
 					callback.onThumbnailLoaded(bitmap, index)
@@ -107,5 +114,17 @@ class CustomSeekProvider(
 			if (!request.isDisposed) request.dispose()
 		}
 		imageRequests.clear()
+	}
+
+	fun getPlaceholderThumbnail(width: Int, height: Int): Bitmap {
+		if (cachedPlaceholderThumbnail?.width == width && cachedPlaceholderThumbnail?.height == height) {
+			return cachedPlaceholderThumbnail!!
+		}
+
+		val color = ContextCompat.getColor(context, R.color.black_transparent_light)
+		val result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+		result.eraseColor(color)
+		cachedPlaceholderThumbnail = result
+		return result
 	}
 }
