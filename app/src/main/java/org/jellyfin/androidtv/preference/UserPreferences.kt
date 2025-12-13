@@ -47,6 +47,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
 
 		/**
+		 * Enable background blur
+		 */
+		var backdropBlurEnabled = booleanPreference("pref_enable_backdrop_blur", true)
+
+		/**
 		 * Show premieres on home screen
 		 */
 		var premieresEnabled = booleanPreference("pref_enable_premieres", false)
