@@ -24,13 +24,29 @@
                 android:id="@+id/details"
                 android:layout_marginBottom="10sp" />
 
+            <!-- Top Pagination Controls -->
+            <org.jellyfin.androidtv.ui.PaginationView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/paginationViewTop"
+                android:layout_below="@+id/details"
+                android:visibility="gone" />
+
             <org.jellyfin.androidtv.ui.ItemListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/songs"
-                android:layout_below="@+id/details"
+                android:layout_below="@+id/paginationViewTop"
                 android:paddingTop="20dp"
-                android:paddingBottom="40dp" />
+                android:paddingBottom="20dp" />
+
+            <!-- Bottom Pagination Controls -->
+            <org.jellyfin.androidtv.ui.PaginationView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/paginationViewBottom"
+                android:layout_below="@+id/songs"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
