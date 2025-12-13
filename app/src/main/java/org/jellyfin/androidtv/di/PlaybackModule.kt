@@ -10,6 +10,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.data.repository.AudioSubtitlePreferencesRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
@@ -21,7 +22,9 @@ import org.jellyfin.androidtv.util.profile.createDeviceProfile
 import org.jellyfin.playback.core.playbackManager
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
 import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
+import org.jellyfin.playback.media3.exoplayer.SubtitleMode
 import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
+import org.jellyfin.sdk.model.api.SubtitlePlaybackMode
 import org.jellyfin.playback.media3.session.MediaSessionOptions
 import org.jellyfin.playback.media3.session.media3SessionPlugin
 import org.jellyfin.sdk.api.client.HttpClientOptions
@@ -66,10 +69,30 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	}
 
 	val userPreferences = get<UserPreferences>()
+	val audioSubtitlePreferences = get<AudioSubtitlePreferencesRepository>().preferences.value
+
+	// Log audio/subtitle preferences for debugging
+	timber.log.Timber.d("Creating PlaybackManager with audio/subtitle preferences:")
+	timber.log.Timber.d("  - Audio language: ${audioSubtitlePreferences.audioLanguagePreference}")
+	timber.log.Timber.d("  - Subtitle language: ${audioSubtitlePreferences.subtitleLanguagePreference}")
+	timber.log.Timber.d("  - Subtitle mode: ${audioSubtitlePreferences.subtitleMode}")
+
+	// Convert SDK SubtitlePlaybackMode to ExoPlayer SubtitleMode
+	val subtitleMode = when (audioSubtitlePreferences.subtitleMode) {
+		SubtitlePlaybackMode.DEFAULT -> SubtitleMode.DEFAULT
+		SubtitlePlaybackMode.ALWAYS -> SubtitleMode.ALWAYS
+		SubtitlePlaybackMode.ONLY_FORCED -> SubtitleMode.ONLY_FORCED
+		SubtitlePlaybackMode.NONE -> SubtitleMode.NONE
+		SubtitlePlaybackMode.SMART -> SubtitleMode.SMART
+	}
+
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
+		preferredAudioLanguage = audioSubtitlePreferences.audioLanguagePreference,
+		preferredSubtitleLanguage = audioSubtitlePreferences.subtitleLanguagePreference,
+		subtitleMode = subtitleMode,
 	)
 	install(exoPlayerPlugin(get(), exoPlayerOptions))
 

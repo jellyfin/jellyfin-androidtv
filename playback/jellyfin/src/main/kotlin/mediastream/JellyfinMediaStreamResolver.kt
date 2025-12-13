@@ -73,12 +73,12 @@ class JellyfinMediaStreamResolver(
 			else -> null
 		}
 	}
-
 	private suspend fun getPlaybackInfo(
 		item: BaseItemDto,
 		mediaSourceId: String? = null,
 	): MediaInfo {
 		val profile = deviceProfileBuilder()
+
 		val response by api.mediaInfoApi.getPostedPlaybackInfo(
 			itemId = item.id,
 			data = PlaybackInfoDto(
@@ -90,39 +90,45 @@ class JellyfinMediaStreamResolver(
 				allowVideoStreamCopy = true,
 				allowAudioStreamCopy = true,
 				autoOpenLiveStream = false,
+				// Note: audioStreamIndex and subtitleStreamIndex are intentionally null
+				// The server will automatically select streams based on the user's
+				// UserConfiguration (audioLanguagePreference, subtitleLanguagePreference, subtitleMode)
+				// and return them in defaultAudioStreamIndex and defaultSubtitleStreamIndex
 			)
 		)
 
-		if (response.errorCode != null) {
-			error("Failed to get media info for item ${item.id} source ${mediaSourceId}: ${response.errorCode}")
+			if (response.errorCode != null) {
+				error("Failed to get media info for item ${item.id} source ${mediaSourceId}: ${response.errorCode}")
+			}
+
+			val mediaSource = response.mediaSources
+				// Filter out invalid streams (like strm files)
+				.filter { it.protocol == MediaProtocol.FILE && !it.isRemote }
+				// Select first media source
+				.firstOrNull { mediaSourceId == null || it.id == mediaSourceId }
+
+			requireNotNull(mediaSource) {
+				"Failed to get media info for item ${item.id} source ${mediaSourceId}: media source missing in response"
+			}
+
+			return MediaInfo(
+				playSessionId = response.playSessionId.orEmpty(),
+				mediaSource = mediaSource,
+				defaultAudioStreamIndex = mediaSource.defaultAudioStreamIndex,
+				defaultSubtitleStreamIndex = mediaSource.defaultSubtitleStreamIndex,
+			)
 		}
 
-		val mediaSource = response.mediaSources
-			// Filter out invalid streams (like strm files)
-			.filter { it.protocol == MediaProtocol.FILE && !it.isRemote }
-			// Select first media source
-			.firstOrNull { mediaSourceId == null || it.id == mediaSourceId }
-
-		requireNotNull(mediaSource) {
-			"Failed to get media info for item ${item.id} source ${mediaSourceId}: media source missing in response"
-		}
-
-		return MediaInfo(
-			playSessionId = response.playSessionId.orEmpty(),
-			mediaSource = mediaSource
+		private fun MediaInfo.toStream(
+			queueEntry: QueueEntry,
+			conversionMethod: MediaConversionMethod,
+			url: String,
+		) = PlayableMediaStream(
+			identifier = playSessionId,
+			conversionMethod = conversionMethod,
+			container = getMediaStreamContainer(),
+			tracks = getTracks(),
+			queueEntry = queueEntry,
+			url = url,
 		)
 	}
-
-	private fun MediaInfo.toStream(
-		queueEntry: QueueEntry,
-		conversionMethod: MediaConversionMethod,
-		url: String,
-	) = PlayableMediaStream(
-		identifier = playSessionId,
-		conversionMethod = conversionMethod,
-		container = getMediaStreamContainer(),
-		tracks = getTracks(),
-		queueEntry = queueEntry,
-		url = url,
-	)
-}

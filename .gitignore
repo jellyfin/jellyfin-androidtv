@@ -7,3 +7,5 @@ local.properties
 .kotlin/
 build/
 captures/
+.kilocode
+.vscode

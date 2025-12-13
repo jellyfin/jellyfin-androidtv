@@ -44,12 +44,14 @@ import androidx.media3.ui.PlayerView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
+import org.jellyfin.androidtv.data.repository.AudioSubtitlePreferencesRepository;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
+import org.jellyfin.sdk.model.api.SubtitlePlaybackMode;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -80,6 +82,7 @@ public class VideoManager {
 
     private final UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
     private final HttpDataSource.Factory exoPlayerHttpDataSourceFactory = KoinJavaComponent.get(HttpDataSource.Factory.class);
+    private final AudioSubtitlePreferencesRepository audioSubtitlePrefsRepo = KoinJavaComponent.get(AudioSubtitlePreferencesRepository.class);
 
     public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
@@ -203,14 +206,57 @@ public class VideoManager {
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
 
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
-        trackSelector.setParameters(trackSelector.buildUponParameters()
+
+        // Get user's audio/subtitle preferences
+        String audioLang = audioSubtitlePrefsRepo.getPreferences().getValue().getAudioLanguagePreference();
+        String subtitleLang = audioSubtitlePrefsRepo.getPreferences().getValue().getSubtitleLanguagePreference();
+        SubtitlePlaybackMode subtitleMode = audioSubtitlePrefsRepo.getPreferences().getValue().getSubtitleMode();
+
+        Timber.d("Configuring ExoPlayer with audio=%s, subtitle=%s, mode=%s", audioLang, subtitleLang, subtitleMode);
+
+        TrackSelectionParameters.Builder parametersBuilder = trackSelector.buildUponParameters()
                 .setAudioOffloadPreferences(new TrackSelectionParameters.AudioOffloadPreferences.Builder()
                         .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
                         .build()
                 )
-                .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
-                .build()
-        );
+                .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true);
+
+        // Configure preferred audio language
+        if (audioLang != null && !audioLang.isEmpty()) {
+            Timber.d("Setting preferred audio language: %s", audioLang);
+            parametersBuilder.setPreferredAudioLanguages(audioLang);
+        }
+
+        // Configure subtitle behavior based on mode
+        if (subtitleMode == SubtitlePlaybackMode.NONE) {
+            // User explicitly disabled subtitles
+            Timber.d("Subtitle mode: NONE - disabling all subtitles");
+            parametersBuilder.setIgnoredTextSelectionFlags(C.SELECTION_FLAG_DEFAULT);
+        } else if (subtitleMode == SubtitlePlaybackMode.ALWAYS) {
+            // Always show subtitles, ignore container's DEFAULT flag
+            Timber.d("Subtitle mode: ALWAYS - enabling subtitles");
+            parametersBuilder.setIgnoredTextSelectionFlags(C.SELECTION_FLAG_DEFAULT);
+            if (subtitleLang != null && !subtitleLang.isEmpty()) {
+                Timber.d("Setting preferred subtitle language: %s", subtitleLang);
+                parametersBuilder.setPreferredTextLanguages(subtitleLang);
+            }
+        } else if (subtitleMode == SubtitlePlaybackMode.ONLY_FORCED) {
+            // Only show forced subtitles
+            Timber.d("Subtitle mode: ONLY_FORCED - showing only forced subtitles");
+            parametersBuilder.setIgnoredTextSelectionFlags(C.SELECTION_FLAG_DEFAULT);
+            parametersBuilder.setSelectUndeterminedTextLanguage(true);
+            if (subtitleLang != null && !subtitleLang.isEmpty()) {
+                parametersBuilder.setPreferredTextLanguages(subtitleLang);
+            }
+        } else {
+            // DEFAULT or SMART - let server decide
+            Timber.d("Subtitle mode: DEFAULT/SMART - using server defaults");
+            if (subtitleLang != null && !subtitleLang.isEmpty()) {
+                parametersBuilder.setPreferredTextLanguages(subtitleLang);
+            }
+        }
+
+        trackSelector.setParameters(parametersBuilder.build());
         exoPlayerBuilder.setTrackSelector(trackSelector);
 
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory().setTsExtractorTimestampSearchBytes(TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3);
