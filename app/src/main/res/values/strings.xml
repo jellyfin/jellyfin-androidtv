@@ -190,6 +190,9 @@
     <string name="lbl_playback_speed">Playback speed</string>
     <string name="lbl_quality_profile">Quality profile</string>
     <string name="lbl_subtitle_track">Select subtitle track</string>
+    <string name="lbl_audio">Audio</string>
+    <string name="lbl_subtitles">Subtitles</string>
+    <string name="lbl_audio_track_off">Off</string>
     <string name="btn_got_it">Got it</string>
     <string name="lbl_clear_queue">Clear queue</string>
     <string name="lbl_play_next_up">Play next up</string>
