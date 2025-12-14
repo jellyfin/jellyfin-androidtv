@@ -40,13 +40,13 @@ val playbackModule = module {
 	single { PlaybackLauncher(get(), get(), get(), get()) }
 
 	single<HttpDataSource.Factory> {
-		val okHttpClient = OkHttpClient.Builder()
-			.connectTimeout(6, TimeUnit.SECONDS)
-			.readTimeout(30, TimeUnit.SECONDS)
-			.followRedirects(true)
-			.followSslRedirects(true)
-			.build()
-		OkHttpDataSource.Factory(okHttpClient)
+		val okHttpFactory = get<OkHttpFactory>()
+		val httpClientOptions = get<HttpClientOptions>().copy(
+			// Disable request timeout for media playback as this causes issues with Live TV
+			requestTimeout = Duration.ZERO
+		)
+
+		OkHttpDataSource.Factory(okHttpFactory.createClient(httpClientOptions))
 	}
 
 	single { createPlaybackManager() }
