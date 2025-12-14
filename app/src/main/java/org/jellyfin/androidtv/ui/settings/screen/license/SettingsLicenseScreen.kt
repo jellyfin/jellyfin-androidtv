@@ -3,18 +3,13 @@ package org.jellyfin.androidtv.ui.settings.screen.license
 import android.content.ClipData
 import android.os.Build
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.mikepenz.aboutlibraries.Libs
@@ -24,6 +19,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
+import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 
 @Composable
 fun SettingsLicenseScreen(artifactId: String) {
@@ -53,14 +49,10 @@ fun SettingsLicenseScreen(artifactId: String) {
 		library.developers.forEach { developer -> add(stringResource(R.string.license_author) to developer.name) }
 		library.licenses.forEach { license -> add(stringResource(R.string.license_license) to license.name) }
 	}
-	LazyColumn(
-		modifier = Modifier
-			.padding(6.dp),
-		verticalArrangement = Arrangement.spacedBy(4.dp),
-	) {
+
+	SettingsColumn {
 		item {
 			ListSection(
-				modifier = Modifier,
 				overlineContent = { Text(stringResource(R.string.licenses_link).uppercase()) },
 				headingContent = { Text(library.name) },
 				captionContent = { Text(library.artifactVersion.orEmpty()) },

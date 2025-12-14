@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.auth.store
 
 import android.content.Context
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -13,7 +12,6 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
-import org.jellyfin.androidtv.auth.AccountManagerMigration
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.sdk.model.serializer.UUIDSerializer
@@ -28,7 +26,6 @@ import java.util.UUID
  */
 class AuthenticationStore(
 	private val context: Context,
-	private val accountManagerMigration: AccountManagerMigration,
 ) {
 	private val storePath
 		get() = context.filesDir.resolve("authentication_store.json")
@@ -59,11 +56,13 @@ class AuthenticationStore(
 
 		// Check for version
 		return when (root["version"]?.jsonPrimitive?.intOrNull) {
-			1 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
-				// Add access tokens from account manager to stored users and save the migrated data
-				.let { servers -> accountManagerMigration.migrate(servers) }
-				.also { servers -> write(servers) }
+			// Migration was removed, clear stored servers
+			1 -> {
+				Timber.e("Migrating from version 1 is no longer possible")
+				emptyMap()
+			}
 
+			// Current version, return as-is
 			2 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
 
 			null -> {
