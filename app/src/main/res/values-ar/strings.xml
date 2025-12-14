@@ -621,4 +621,15 @@
     <string name="indicator_subtitles_hearing_impaired">د ص ت</string>
     <string name="preference_enable_pgs">ترجمة PGS</string>
     <string name="preference_enable_libass">تفعيل عميل ترجمة المحطة الفرعية المتقدم</string>
+    <string name="settings">إعدادات</string>
+    <string name="settings_description">غيّر التطبيق حسب رغبتك</string>
+    <string name="copied_to_clipboard">منسوخ الحافظة</string>
+    <plurals name="albums">
+        <item quantity="zero">صفر (0)</item>
+        <item quantity="one">واحد (1)</item>
+        <item quantity="two">اثنان (2)</item>
+        <item quantity="few">قلة (3 4, 5, 6,7, 8, 9,1 0, 103, 104 , ...)</item>
+        <item quantity="many">عدة (11, 12, 13, 14, 15, 16, 17, 18, 19, 20, …)</item>
+        <item quantity="other">اخرى (100, 101, 102, 200, 201, 202, 300, 301, 302, 400, …)</item>
+    </plurals>
 </resources>
