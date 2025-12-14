@@ -9,6 +9,8 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.UserSettingPreferences
+import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
@@ -21,6 +23,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.profile.createDeviceProfileReport
+import org.jellyfin.preference.store.PreferenceStore
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.koin.android.ext.android.get
@@ -30,7 +33,11 @@ import timber.log.Timber
 class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 	private val api: ApiClient by inject()
 	private val userPreferences: UserPreferences by inject()
+	private val userSettingPreferences: UserSettingPreferences by inject()
 	private var deviceProfileReported = false
+
+	override val stores: Array<PreferenceStore<*, *>>
+		get() = arrayOf(userSettingPreferences)
 
 	override val screen by optionsScreen {
 		setTitle(R.string.pref_playback)
@@ -55,9 +62,17 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.resumeSubtractDuration)
 			}
 
-			checkbox {
-				setTitle(R.string.lbl_tv_queuing)
-				bind(userPreferences, UserPreferences.mediaQueuingEnabled)
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.skip_forward_length)
+				setContent(R.string.skip_forward_length)
+				min = 5_000
+				max = 30_000
+				increment = 5_000
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int) = "${value / 1000}s"
+				}
+				bind(userSettingPreferences, UserSettingPreferences.skipForwardLength)
 			}
 		}
 
@@ -120,6 +135,15 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 
 		category {
 			setTitle(R.string.pref_audio)
+
+			category {
+				setTitle(R.string.pref_audio)
+
+				enum<AudioBehavior> {
+					setTitle(R.string.lbl_audio_output)
+					bind(userPreferences, UserPreferences.audioBehaviour)
+				}
+			}
 
 			checkbox {
 				setTitle(R.string.pref_audio_night_mode)

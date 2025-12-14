@@ -48,7 +48,7 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_next), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_playback)) },
-				onClick = { context.startActivity(ActivityDestinations.playbackPreferences(context)) }
+				onClick = { router.push(Routes.PLAYBACK) }
 			)
 		}
 
