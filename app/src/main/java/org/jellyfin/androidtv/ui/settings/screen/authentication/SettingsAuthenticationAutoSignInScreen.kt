@@ -1,11 +1,8 @@
 package org.jellyfin.androidtv.ui.settings.screen.authentication
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +32,7 @@ import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
+import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
 
 @Composable
@@ -54,11 +52,7 @@ fun SettingsAuthenticationAutoSignInScreen() {
 
 	val storedServers by serverRepository.storedServers.collectAsState()
 
-	LazyColumn(
-		modifier = Modifier
-			.padding(6.dp),
-		verticalArrangement = Arrangement.spacedBy(4.dp),
-	) {
+	SettingsColumn {
 		item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.pref_login).uppercase()) },
@@ -91,11 +85,7 @@ fun SettingsAuthenticationAutoSignInScreen() {
 		}
 
 		for (server in storedServers) {
-			item {
-				ListSection(
-					headingContent = { Text(server.name) },
-				)
-			}
+			item { ListSection(headingContent = { Text(server.name) }) }
 
 			val users = serverUserRepository.getStoredServerUsers(server)
 			val serverId = server.id.toString()
@@ -108,10 +98,7 @@ fun SettingsAuthenticationAutoSignInScreen() {
 				ListButton(
 					leadingContent = {
 						if (!userImageVisible) {
-							Icon(
-								imageVector = ImageVector.vectorResource(R.drawable.ic_user),
-								contentDescription = null,
-							)
+							Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_user), contentDescription = null)
 						} else {
 							Image(
 								painter = userImagePainter,
