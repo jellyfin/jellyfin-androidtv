@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.ui.settings.screen.authentication
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,16 +9,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import coil3.compose.AsyncImagePainter
-import coil3.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
@@ -28,6 +21,7 @@ import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.ProfilePicture
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.IconButtonDefaults
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -72,25 +66,14 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 			item { ListSection(headingContent = { Text(stringResource(R.string.pref_accounts)) }) }
 
 			items(users) { user ->
-				val userImagePainter = rememberAsyncImagePainter(authenticationRepository.getUserImageUrl(server!!, user))
-				val userImageState by userImagePainter.state.collectAsState()
-				val userImageVisible = userImageState is AsyncImagePainter.State.Success
-
 				ListButton(
 					leadingContent = {
-						if (!userImageVisible) {
-							Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_user), contentDescription = null)
-						} else {
-							Image(
-								painter = userImagePainter,
-								contentDescription = null,
-								contentScale = ContentScale.Crop,
-								modifier = Modifier
-									.width(24.dp)
-									.aspectRatio(1f)
-									.clip(IconButtonDefaults.Shape)
-							)
-						}
+						ProfilePicture(
+							url = authenticationRepository.getUserImageUrl(requireNotNull(server), user),
+							modifier = Modifier
+								.size(24.dp)
+								.clip(IconButtonDefaults.Shape)
+						)
 					},
 					headingContent = { Text(user.name) },
 					captionContent = {

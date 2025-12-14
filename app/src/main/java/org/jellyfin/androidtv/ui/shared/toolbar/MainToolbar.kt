@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.shared.toolbar
 
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -15,7 +14,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +27,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.ui.NowPlayingComposable
 import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.ProfilePicture
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.Button
@@ -111,21 +110,13 @@ private fun MainToolbar(
 					colors = if (activeButton == MainToolbarActiveButton.User) activeButtonColors else ButtonDefaults.colors(),
 					contentPadding = if (userImageVisible) PaddingValues(3.dp) else IconButtonDefaults.ContentPadding,
 				) {
-					if (!userImageVisible) {
-						Icon(
-							imageVector = ImageVector.vectorResource(R.drawable.ic_user),
-							contentDescription = stringResource(R.string.lbl_switch_user),
-						)
-					} else {
-						Image(
-							painter = userImagePainter,
-							contentDescription = stringResource(R.string.lbl_switch_user),
-							contentScale = ContentScale.Crop,
-							modifier = Modifier
-								.aspectRatio(1f)
-								.clip(IconButtonDefaults.Shape)
-						)
-					}
+					ProfilePicture(
+						url = userImage,
+						contentDescription = stringResource(R.string.lbl_switch_user),
+						modifier = Modifier
+							.aspectRatio(1f)
+							.clip(IconButtonDefaults.Shape)
+					)
 				}
 
 				NowPlayingComposable(
