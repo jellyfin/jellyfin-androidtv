@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.settings.screen
 
 import android.os.Build
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.BuildConfig
@@ -19,7 +18,6 @@ fun SettingsMainScreenAbout() {
 	val router = LocalRouter.current
 
 	ListSection(
-		modifier = Modifier,
 		headingContent = { Text(stringResource(R.string.pref_about_title)) },
 	)
 

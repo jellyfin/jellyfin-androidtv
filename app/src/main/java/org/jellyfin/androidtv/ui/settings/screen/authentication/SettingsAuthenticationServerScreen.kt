@@ -81,7 +81,6 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 		if (!users.isNullOrEmpty()) {
 			item {
 				ListSection(
-					modifier = Modifier,
 					headingContent = { Text(stringResource(R.string.pref_accounts)) },
 				)
 			}
@@ -139,7 +138,6 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 
 		item {
 			ListSection(
-				modifier = Modifier,
 				headingContent = { Text(stringResource(R.string.lbl_server)) },
 			)
 		}

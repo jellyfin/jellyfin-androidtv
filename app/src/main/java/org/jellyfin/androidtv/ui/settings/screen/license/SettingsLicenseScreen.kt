@@ -60,7 +60,6 @@ fun SettingsLicenseScreen(artifactId: String) {
 	) {
 		item {
 			ListSection(
-				modifier = Modifier,
 				overlineContent = { Text(stringResource(R.string.licenses_link).uppercase()) },
 				headingContent = { Text(library.name) },
 				captionContent = { Text(library.artifactVersion.orEmpty()) },

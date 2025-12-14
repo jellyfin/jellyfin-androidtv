@@ -39,7 +39,6 @@ fun SettingsLicensesScreen() {
 	) {
 		item {
 			ListSection(
-				modifier = Modifier,
 				overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
 				headingContent = { Text(stringResource(R.string.licenses_link)) },
 				captionContent = { Text(stringResource(R.string.licenses_link_description)) },
