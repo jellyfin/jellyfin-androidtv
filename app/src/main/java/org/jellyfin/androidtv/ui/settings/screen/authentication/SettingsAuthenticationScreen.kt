@@ -21,7 +21,7 @@ import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.base.form.RadioButton
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
@@ -100,7 +100,6 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 		if (storedServers.isNotEmpty()) {
 			item {
 				ListSection(
-					modifier = Modifier,
 					headingContent = { Text(stringResource(R.string.lbl_manage_servers)) },
 				)
 			}
@@ -127,7 +126,6 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 		if (!launchedFromLogin) {
 			item {
 				ListSection(
-					modifier = Modifier,
 					headingContent = { Text(stringResource(R.string.advanced_settings)) },
 				)
 			}
@@ -136,7 +134,7 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 				var alwaysAuthenticate by rememberPreference(authenticationPreferences, AuthenticationPreferences.alwaysAuthenticate)
 				ListButton(
 					headingContent = { Text(stringResource(R.string.always_authenticate)) },
-					trailingContent = { RadioButton(checked = alwaysAuthenticate) },
+					trailingContent = { Checkbox(checked = alwaysAuthenticate) },
 					captionContent = { Text(stringResource(R.string.always_authenticate_description)) },
 					onClick = { alwaysAuthenticate = !alwaysAuthenticate }
 				)

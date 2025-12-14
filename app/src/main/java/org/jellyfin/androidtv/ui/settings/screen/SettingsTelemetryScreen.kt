@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.TelemetryPreferences
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.base.form.RadioButton
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
@@ -31,7 +31,6 @@ fun SettingsTelemetryScreen() {
 		verticalArrangement = Arrangement.spacedBy(4.dp),
 	) {
 		ListSection(
-			modifier = Modifier,
 			overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
 			headingContent = { Text(stringResource(R.string.pref_telemetry_category)) },
 			captionContent = { Text(stringResource(R.string.pref_telemetry_description)) },
@@ -41,7 +40,7 @@ fun SettingsTelemetryScreen() {
 		ListButton(
 			headingContent = { Text(stringResource(R.string.pref_crash_reports)) },
 			trailingContent = {
-				RadioButton(
+				Checkbox(
 					checked = crashReportEnabled,
 				)
 			},
@@ -60,11 +59,7 @@ fun SettingsTelemetryScreen() {
 		var crashReportIncludeLogs by rememberPreference(telemetryPreferences, TelemetryPreferences.crashReportIncludeLogs)
 		ListButton(
 			headingContent = { Text(stringResource(R.string.pref_crash_report_logs)) },
-			trailingContent = {
-				RadioButton(
-					checked = crashReportIncludeLogs,
-				)
-			},
+			trailingContent = { Checkbox(checked = crashReportIncludeLogs) },
 			captionContent = {
 				if (crashReportIncludeLogs) {
 					Text(stringResource(R.string.pref_crash_report_logs_enabled))

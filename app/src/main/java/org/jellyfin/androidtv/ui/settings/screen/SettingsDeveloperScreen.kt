@@ -21,7 +21,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.base.form.RadioButton
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
@@ -43,7 +43,6 @@ fun SettingsDeveloperScreen() {
 		verticalArrangement = Arrangement.spacedBy(4.dp),
 	) {
 		ListSection(
-			modifier = Modifier,
 			overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
 			headingContent = { Text(stringResource(R.string.pref_developer_link)) },
 			captionContent = { Text(stringResource(R.string.pref_developer_link_description)) },
@@ -54,7 +53,7 @@ fun SettingsDeveloperScreen() {
 		var debuggingEnabled by rememberPreference(userPreferences, UserPreferences.debuggingEnabled)
 		ListButton(
 			headingContent = { Text(stringResource(R.string.lbl_enable_debug)) },
-			trailingContent = { RadioButton(checked = debuggingEnabled) },
+			trailingContent = { Checkbox(checked = debuggingEnabled) },
 			captionContent = { Text(stringResource(R.string.desc_debug)) },
 			onClick = { debuggingEnabled = !debuggingEnabled }
 		)
@@ -64,7 +63,7 @@ fun SettingsDeveloperScreen() {
 			var disableUiModeWarning by rememberPreference(systemPreferences, SystemPreferences.disableUiModeWarning)
 			ListButton(
 				headingContent = { Text(stringResource(R.string.disable_ui_mode_warning)) },
-				trailingContent = { RadioButton(checked = disableUiModeWarning) },
+				trailingContent = { Checkbox(checked = disableUiModeWarning) },
 				onClick = { disableUiModeWarning = !disableUiModeWarning }
 			)
 		}
@@ -75,7 +74,7 @@ fun SettingsDeveloperScreen() {
 			ListButton(
 				// String is hardcoded because it's for development only
 				headingContent = { Text("Enable new playback module for video") },
-				trailingContent = { RadioButton(checked = playbackRewriteVideoEnabled) },
+				trailingContent = { Checkbox(checked = playbackRewriteVideoEnabled) },
 				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
 				onClick = { playbackRewriteVideoEnabled = !playbackRewriteVideoEnabled }
 			)
@@ -85,7 +84,7 @@ fun SettingsDeveloperScreen() {
 		var trickPlayEnabled by rememberPreference(userPreferences, UserPreferences.trickPlayEnabled)
 		ListButton(
 			headingContent = { Text(stringResource(R.string.preference_enable_trickplay)) },
-			trailingContent = { RadioButton(checked = trickPlayEnabled) },
+			trailingContent = { Checkbox(checked = trickPlayEnabled) },
 			captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
 			onClick = { trickPlayEnabled = !trickPlayEnabled }
 		)
@@ -94,7 +93,7 @@ fun SettingsDeveloperScreen() {
 		var preferExoPlayerFfmpeg by rememberPreference(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
 		ListButton(
 			headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },
-			trailingContent = { RadioButton(checked = preferExoPlayerFfmpeg) },
+			trailingContent = { Checkbox(checked = preferExoPlayerFfmpeg) },
 			captionContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg_content)) },
 			onClick = { preferExoPlayerFfmpeg = !preferExoPlayerFfmpeg }
 		)

@@ -32,7 +32,6 @@ fun SettingsMainScreen() {
 		verticalArrangement = Arrangement.spacedBy(4.dp),
 	) {
 		ListSection(
-			modifier = Modifier,
 			overlineContent = { Text(stringResource(R.string.app_name).uppercase()) },
 			headingContent = { Text(stringResource(R.string.settings)) },
 			captionContent = { Text(stringResource(R.string.settings_description)) },
