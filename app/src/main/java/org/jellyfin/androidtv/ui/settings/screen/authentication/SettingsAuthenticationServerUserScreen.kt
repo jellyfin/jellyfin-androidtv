@@ -1,17 +1,12 @@
 package org.jellyfin.androidtv.ui.settings.screen.authentication
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.map
@@ -25,6 +20,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
 import java.util.UUID
 
@@ -36,23 +32,15 @@ fun SettingsAuthenticationServerUserScreen(serverId: UUID, userId: UUID) {
 	val serverUserRepository = koinInject<ServerUserRepository>()
 	val authenticationRepository = koinInject<AuthenticationRepository>()
 
-	LaunchedEffect(serverRepository) {
-		serverRepository.loadStoredServers()
-	}
+	LaunchedEffect(serverRepository) { serverRepository.loadStoredServers() }
 
 	val server by remember(serverRepository.storedServers) {
 		serverRepository.storedServers.map { it.find { server -> server.id == serverId } }
 	}.collectAsState(null)
 
-	val user = remember(server) {
-		server?.let(serverUserRepository::getStoredServerUsers)?.find { user -> user.id == userId }
-	}
+	val user = remember(server) { server?.let(serverUserRepository::getStoredServerUsers)?.find { user -> user.id == userId } }
 
-	LazyColumn(
-		modifier = Modifier
-			.padding(6.dp),
-		verticalArrangement = Arrangement.spacedBy(4.dp),
-	) {
+	SettingsColumn {
 		item {
 			ListSection(
 				overlineContent = { Text(server?.name?.uppercase().orEmpty()) },
@@ -62,12 +50,7 @@ fun SettingsAuthenticationServerUserScreen(serverId: UUID, userId: UUID) {
 
 		item {
 			ListButton(
-				leadingContent = {
-					Icon(
-						painterResource(R.drawable.ic_logout),
-						contentDescription = stringResource(R.string.lbl_sign_out)
-					)
-				},
+				leadingContent = { Icon(painterResource(R.drawable.ic_logout), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.lbl_sign_out)) },
 				captionContent = { Text(stringResource(R.string.lbl_sign_out_content)) },
 				onClick = {
@@ -81,12 +64,7 @@ fun SettingsAuthenticationServerUserScreen(serverId: UUID, userId: UUID) {
 
 		item {
 			ListButton(
-				leadingContent = {
-					Icon(
-						painterResource(R.drawable.ic_delete),
-						contentDescription = stringResource(R.string.lbl_remove)
-					)
-				},
+				leadingContent = { Icon(painterResource(R.drawable.ic_delete), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.lbl_remove)) },
 				captionContent = { Text(stringResource(R.string.lbl_remove_user_content)) },
 				onClick = {

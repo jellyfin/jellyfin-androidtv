@@ -1,11 +1,8 @@
 package org.jellyfin.androidtv.ui.settings.screen.authentication
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,6 +34,7 @@ import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
+import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
 import java.time.Instant
 import java.time.LocalDateTime
@@ -53,23 +51,15 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 	val serverUserRepository = koinInject<ServerUserRepository>()
 	val authenticationRepository = koinInject<AuthenticationRepository>()
 
-	LaunchedEffect(serverRepository) {
-		serverRepository.loadStoredServers()
-	}
+	LaunchedEffect(serverRepository) { serverRepository.loadStoredServers() }
 
 	val server by remember(serverRepository.storedServers) {
 		serverRepository.storedServers.map { it.find { server -> server.id == serverId } }
 	}.collectAsState(null)
 
-	val users = remember(server) {
-		server?.let(serverUserRepository::getStoredServerUsers)
-	}
+	val users = remember(server) { server?.let(serverUserRepository::getStoredServerUsers) }
 
-	LazyColumn(
-		modifier = Modifier
-			.padding(6.dp),
-		verticalArrangement = Arrangement.spacedBy(4.dp),
-	) {
+	SettingsColumn {
 		item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.pref_login).uppercase()) },
@@ -79,11 +69,7 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 		}
 
 		if (!users.isNullOrEmpty()) {
-			item {
-				ListSection(
-					headingContent = { Text(stringResource(R.string.pref_accounts)) },
-				)
-			}
+			item { ListSection(headingContent = { Text(stringResource(R.string.pref_accounts)) }) }
 
 			items(users) { user ->
 				val userImagePainter = rememberAsyncImagePainter(authenticationRepository.getUserImageUrl(server!!, user))
@@ -93,10 +79,7 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 				ListButton(
 					leadingContent = {
 						if (!userImageVisible) {
-							Icon(
-								imageVector = ImageVector.vectorResource(R.drawable.ic_user),
-								contentDescription = null,
-							)
+							Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_user), contentDescription = null)
 						} else {
 							Image(
 								painter = userImagePainter,
@@ -136,20 +119,11 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 			}
 		}
 
-		item {
-			ListSection(
-				headingContent = { Text(stringResource(R.string.lbl_server)) },
-			)
-		}
+		item { ListSection(headingContent = { Text(stringResource(R.string.lbl_server)) }) }
 
 		item {
 			ListButton(
-				leadingContent = {
-					Icon(
-						painterResource(R.drawable.ic_delete),
-						contentDescription = stringResource(R.string.lbl_remove_server)
-					)
-				},
+				leadingContent = { Icon(painterResource(R.drawable.ic_delete), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.lbl_remove_server)) },
 				captionContent = { Text(stringResource(R.string.lbl_remove_users)) },
 				onClick = {

@@ -1,8 +1,5 @@
 package org.jellyfin.androidtv.ui.settings.screen.authentication
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,10 +7,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.ServerUserRepository
@@ -27,7 +22,8 @@ import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
-import org.jellyfin.androidtv.ui.settings.screen.SettingsMainScreenAbout
+import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
+import org.jellyfin.androidtv.ui.settings.screen.settingsAboutItems
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.compose.koinInject
 
@@ -38,17 +34,11 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 	val serverUserRepository = koinInject<ServerUserRepository>()
 	val authenticationPreferences = koinInject<AuthenticationPreferences>()
 
-	LaunchedEffect(serverRepository) {
-		serverRepository.loadStoredServers()
-	}
+	LaunchedEffect(serverRepository) { serverRepository.loadStoredServers() }
 
 	val storedServers by serverRepository.storedServers.collectAsState()
 
-	LazyColumn(
-		modifier = Modifier
-			.padding(6.dp),
-		verticalArrangement = Arrangement.spacedBy(4.dp),
-	) {
+	SettingsColumn {
 		if (launchedFromLogin) item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.app_name).uppercase()) },
@@ -98,15 +88,11 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 		}
 
 		if (storedServers.isNotEmpty()) {
-			item {
-				ListSection(
-					headingContent = { Text(stringResource(R.string.lbl_manage_servers)) },
-				)
-			}
+			item { ListSection(headingContent = { Text(stringResource(R.string.lbl_manage_servers)) }) }
 
 			items(storedServers) { server ->
 				ListButton(
-					leadingContent = { Icon(painterResource(R.drawable.ic_house), contentDescription = server.name) },
+					leadingContent = { Icon(painterResource(R.drawable.ic_house), contentDescription = null) },
 					headingContent = { Text(server.name) },
 					captionContent = { Text(server.address) },
 					onClick = {
@@ -124,11 +110,7 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 		// Disallow changing the "always authenticate" option from the login screen
 		// because that could allow a kid to disable the function to access a parent's account
 		if (!launchedFromLogin) {
-			item {
-				ListSection(
-					headingContent = { Text(stringResource(R.string.advanced_settings)) },
-				)
-			}
+			item { ListSection(headingContent = { Text(stringResource(R.string.advanced_settings)) }) }
 
 			item {
 				var alwaysAuthenticate by rememberPreference(authenticationPreferences, AuthenticationPreferences.alwaysAuthenticate)
@@ -141,8 +123,8 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 			}
 		}
 
-		if (launchedFromLogin) item {
-			SettingsMainScreenAbout()
-		}
+		if (launchedFromLogin) settingsAboutItems(
+			openLicenses = { router.push(Routes.LICENSES) }
+		)
 	}
 }
