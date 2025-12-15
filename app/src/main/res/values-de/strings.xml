@@ -592,4 +592,5 @@
     <string name="pref_subtitles_position">Versatz von unten</string>
     <string name="settings">Einstellungen</string>
     <string name="settings_description">Passe die App an deine Vorlieben an</string>
+    <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
 </resources>
