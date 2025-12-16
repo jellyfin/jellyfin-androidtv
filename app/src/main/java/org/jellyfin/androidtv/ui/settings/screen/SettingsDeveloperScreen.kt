@@ -35,7 +35,6 @@ fun SettingsDeveloperScreen() {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
 				headingContent = { Text(stringResource(R.string.pref_developer_link)) },
-				captionContent = { Text(stringResource(R.string.pref_developer_link_description)) },
 			)
 		}
 

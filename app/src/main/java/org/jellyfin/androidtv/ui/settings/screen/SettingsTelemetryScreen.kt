@@ -23,7 +23,6 @@ fun SettingsTelemetryScreen() {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
 				headingContent = { Text(stringResource(R.string.pref_telemetry_category)) },
-				captionContent = { Text(stringResource(R.string.pref_telemetry_description)) },
 			)
 		}
 

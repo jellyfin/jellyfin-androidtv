@@ -32,7 +32,6 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_users), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_login)) },
-				captionContent = { Text(stringResource(R.string.pref_login_description)) },
 				onClick = { router.push(Routes.AUTHENTICATION) }
 			)
 		}
@@ -41,7 +40,6 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_adjust), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_customization)) },
-				captionContent = { Text(stringResource(R.string.pref_customization_description)) },
 				onClick = { context.startActivity(ActivityDestinations.customizationPreferences(context)) }
 			)
 		}
@@ -50,7 +48,6 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_next), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_playback)) },
-				captionContent = { Text(stringResource(R.string.pref_playback_description)) },
 				onClick = { context.startActivity(ActivityDestinations.playbackPreferences(context)) }
 			)
 		}
@@ -59,7 +56,6 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_error), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_telemetry_category)) },
-				captionContent = { Text(stringResource(R.string.pref_telemetry_description)) },
 				onClick = { router.push(Routes.TELEMETRY) }
 			)
 
@@ -69,7 +65,6 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_flask), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_developer_link)) },
-				captionContent = { Text(stringResource(R.string.pref_developer_link_description)) },
 				onClick = { router.push(Routes.DEVELOPER) }
 			)
 		}
