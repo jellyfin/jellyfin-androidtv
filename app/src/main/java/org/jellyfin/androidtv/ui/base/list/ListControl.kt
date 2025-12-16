@@ -42,6 +42,7 @@ fun ListControl(
 	captionContent: (@Composable () -> Unit)? = null,
 	leadingContent: (@Composable () -> Unit)? = null,
 	trailingContent: (@Composable () -> Unit)? = null,
+	footerContent: (@Composable () -> Unit)? = null,
 ) {
 	@Suppress("NAME_SHADOWING")
 	val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
@@ -67,6 +68,7 @@ fun ListControl(
 			captionContent = captionContent,
 			leadingContent = leadingContent,
 			trailingContent = trailingContent,
+			footerContent = footerContent,
 			headingStyle = JellyfinTheme.typography.listHeadline
 				.copy(color = JellyfinTheme.colorScheme.listHeadline),
 		)

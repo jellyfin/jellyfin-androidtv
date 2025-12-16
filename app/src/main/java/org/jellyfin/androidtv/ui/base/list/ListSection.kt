@@ -12,6 +12,7 @@ fun ListSection(
 	captionContent: (@Composable () -> Unit)? = null,
 	leadingContent: (@Composable () -> Unit)? = null,
 	trailingContent: (@Composable () -> Unit)? = null,
+	footerContent: (@Composable () -> Unit)? = null,
 ) {
 	ListItemContent(
 		headingContent = headingContent,
@@ -19,6 +20,7 @@ fun ListSection(
 		captionContent = captionContent,
 		leadingContent = leadingContent,
 		trailingContent = trailingContent,
+		footerContent = footerContent,
 		headingStyle = JellyfinTheme.typography.listHeader
 			.copy(color = JellyfinTheme.colorScheme.listHeader),
 		modifier = modifier,
