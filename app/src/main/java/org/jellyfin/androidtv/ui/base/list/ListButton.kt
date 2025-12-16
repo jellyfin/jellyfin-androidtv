@@ -19,6 +19,7 @@ fun ListButton(
 	captionContent: (@Composable () -> Unit)? = null,
 	leadingContent: (@Composable () -> Unit)? = null,
 	trailingContent: (@Composable () -> Unit)? = null,
+	footerContent: (@Composable () -> Unit)? = null,
 ) {
 	@Suppress("NAME_SHADOWING")
 	val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
@@ -39,5 +40,6 @@ fun ListButton(
 		captionContent = captionContent,
 		leadingContent = leadingContent,
 		trailingContent = trailingContent,
+		footerContent = footerContent,
 	)
 }
