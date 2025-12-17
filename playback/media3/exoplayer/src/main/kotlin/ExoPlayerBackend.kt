@@ -91,6 +91,52 @@ class ExoPlayerBackend(
 						}.build()
 					)
 					setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
+
+					// Configure preferred audio language from user preferences
+					// Note: Empty string means "Automatic" - don't set any preference
+					exoPlayerOptions.preferredAudioLanguage?.takeIf { it.isNotBlank() }?.let { audioLang ->
+						Timber.d("Setting preferred audio language: $audioLang")
+						setPreferredAudioLanguages(audioLang)  // vararg: single language code
+					}
+
+					// Configure subtitle behavior based on both subtitleMode and preferred language
+					when (exoPlayerOptions.subtitleMode) {
+						SubtitleMode.NONE -> {
+							// User explicitly disabled subtitles
+							Timber.d("Subtitle mode: NONE - disabling all subtitles")
+							setIgnoredTextSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+						}
+						SubtitleMode.ALWAYS -> {
+						// Always show subtitles, prefer user's language if set
+						Timber.d("Subtitle mode: ALWAYS - enabling subtitles")
+						// CRITICAL: Ignore container's DEFAULT flag to respect user preferences
+						setIgnoredTextSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+						exoPlayerOptions.preferredSubtitleLanguage?.takeIf { it.isNotBlank() }?.let { subtitleLang ->
+							Timber.d("Setting preferred subtitle language: $subtitleLang")
+							setPreferredTextLanguages(subtitleLang)
+							}
+						}
+						SubtitleMode.ONLY_FORCED -> {
+							// Only show forced subtitles
+							Timber.d("Subtitle mode: ONLY_FORCED - showing only forced subtitles")
+							// Ignore container DEFAULT flag, only show forced
+							setIgnoredTextSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+							setSelectUndeterminedTextLanguage(true)
+							exoPlayerOptions.preferredSubtitleLanguage?.takeIf { it.isNotBlank() }?.let { subtitleLang ->
+								setPreferredTextLanguages(subtitleLang)
+							}
+						}
+						SubtitleMode.DEFAULT,
+						SubtitleMode.SMART -> {
+							// Let the server/ExoPlayer decide based on audio vs subtitle language match
+							Timber.d("Subtitle mode: DEFAULT/SMART - using server defaults")
+							exoPlayerOptions.preferredSubtitleLanguage?.takeIf { it.isNotBlank() }?.let { subtitleLang ->
+								Timber.d("Setting preferred subtitle language: $subtitleLang")
+								setPreferredTextLanguages(subtitleLang)
+							}
+							// Server will return defaultSubtitleStreamIndex based on user config
+						}
+					}
 				})
 			})
 			.setMediaSourceFactory(mediaSourceFactory)

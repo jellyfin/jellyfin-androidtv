@@ -91,6 +91,16 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 		}
 
 		category {
+			setTitle(R.string.pref_languages)
+
+			link {
+				setTitle(R.string.pref_audio_subtitle_preferences)
+				setContent(R.string.pref_audio_subtitle_preferences_description)
+				withFragment<AudioSubtitlePreferencesScreen>()
+			}
+		}
+
+		category {
 			setTitle(R.string.pref_audio)
 
 			enum<AudioBehavior> {

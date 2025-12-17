@@ -13,8 +13,14 @@ class OptionsItemEnum<T : Enum<T>>(
 	private val context: Context,
 	private val clazz: Class<T>
 ) : OptionsItemMutable<T>() {
+	private var content: String? = null
+
 	fun setTitle(@StringRes resId: Int) {
 		title = context.getString(resId)
+	}
+
+	fun setContent(@StringRes resId: Int) {
+		content = context.getString(resId)
 	}
 
 	// Add exact copy of the OptionsItemMutable.bind function so the correct
@@ -46,7 +52,13 @@ class OptionsItemEnum<T : Enum<T>>(
 			it.isVisible = visible
 			it.title = title
 			it.dialogTitle = title
-			it.summaryProvider = RichListPreference.SimpleSummaryProvider.instance
+			// Use description if available, otherwise use SimpleSummaryProvider
+			if (content != null) {
+				it.summary = content
+				it.summaryProvider = null
+			} else {
+				it.summaryProvider = RichListPreference.SimpleSummaryProvider.instance
+			}
 			it.setItems(entries)
 			it.value = binder.get()
 			it.setOnPreferenceChangeListener { _, newValue ->
