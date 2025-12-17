@@ -583,4 +583,13 @@
     <string name="settings_description">根据个人喜好调整应用设置</string>
     <string name="settings">设置</string>
     <string name="copied_to_clipboard">已复制到剪贴板</string>
+    <string name="pref_playback_next_up">接下来</string>
+    <string name="pref_playback_media_segments">媒体片段</string>
+    <string name="pref_customization_subtitles">字幕</string>
+    <string name="pref_prerolls_enabled">启用影院模式</string>
+    <string name="pref_prerolls_enabled_description">在电影放映前播放自定义片头</string>
+    <string name="pref_media_queueing">将所有剧集加入播放队列</string>
+    <string name="pref_media_queueing_description">播放电视节目时，将后续剧集添加到播放队列中</string>
+    <string name="pref_playback_inactivity_prompt">不活动提示</string>
+    <string name="pref_playback_prerolls">前置贴片广告</string>
 </resources>
