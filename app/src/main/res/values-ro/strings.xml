@@ -599,4 +599,16 @@
     <string name="lbl_still_watching_long">5 episoade sau 150 de minute</string>
     <string name="lbl_still_watching_very_long">8 episoade sau 240 de minute</string>
     <string name="pref_subtitles_position">Distanța de jos</string>
+    <string name="settings_description">Personalizează aplicația după preferințele tale</string>
+    <string name="copied_to_clipboard">Copiat în clipboard</string>
+    <string name="pref_playback_next_up">Urmează</string>
+    <string name="pref_playback_media_segments">Segmente media</string>
+    <string name="pref_customization_subtitles">Subtitrări</string>
+    <string name="pref_playback_prerolls">Clipuri introductive</string>
+    <string name="pref_playback_inactivity_prompt">Notificare de inactivitate</string>
+    <string name="pref_prerolls_enabled">Activează modul cinema</string>
+    <string name="pref_prerolls_enabled_description">Redă intro-uri personalizate înainte de filme</string>
+    <string name="pref_media_queueing">Adaugă toate episoadele în coadă</string>
+    <string name="pref_media_queueing_description">Adaugă episoadele următoare în coadă atunci când sunt redate seriale</string>
+    <string name="settings">Setări</string>
 </resources>
