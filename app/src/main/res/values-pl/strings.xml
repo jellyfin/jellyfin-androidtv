@@ -582,7 +582,7 @@
     <string name="segment_type_preview">Zapowiedzi</string>
     <string name="segment_action_ask_to_skip">Pytaj o pominięcie</string>
     <string name="default_video_zoom">Domyślny tryb powiększenia</string>
-    <string name="preference_enable_trickplay">Włącz trickplay w odtwarzaczu wideo</string>
+    <string name="preference_enable_trickplay">Włącz podglądy Trickplay w odtwarzaczu wideo</string>
     <string name="skip_forward_length">Długość pomijania do przodu</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
@@ -613,4 +613,13 @@
     <string name="settings">Ustawienia</string>
     <string name="settings_description">Zmień aplikację według własnych upodobań</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
+    <string name="pref_playback_next_up">Następne</string>
+    <string name="pref_playback_media_segments">Segmenty mediów</string>
+    <string name="pref_customization_subtitles">Napisy</string>
+    <string name="pref_playback_inactivity_prompt">Monit o brak aktywności</string>
+    <string name="pref_prerolls_enabled">Włącz tryb kinowy</string>
+    <string name="pref_prerolls_enabled_description">Odtwarzaj niestandardowe intra przed filmami</string>
+    <string name="pref_media_queueing">Dodaj wszystkie odcinki do kolejki</string>
+    <string name="pref_media_queueing_description">Dodawaj kolejne odcinki do kolejki podczas odtwarzania seriali telewizyjnych</string>
+    <string name="pref_playback_prerolls">Reklamy pre-roll</string>
 </resources>
