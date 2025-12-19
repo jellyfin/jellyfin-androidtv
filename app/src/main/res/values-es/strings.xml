@@ -603,4 +603,11 @@
     <string name="settings">Ajustes</string>
     <string name="settings_description">Configura la app a tu propio gusto</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
+    <string name="pref_playback_next_up">A continuación</string>
+    <string name="pref_customization_subtitles">Subtítulos</string>
+    <string name="pref_playback_inactivity_prompt">Aviso de inactividad</string>
+    <string name="pref_prerolls_enabled">Activar modo cine</string>
+    <string name="pref_prerolls_enabled_description">Reproducir intros personalizadas antes de las películas</string>
+    <string name="pref_media_queueing">Agregar todos los episodios a la cola de reproducción</string>
+    <string name="pref_media_queueing_description">Añade episodios posteriores a la cola al reproducir series</string>
 </resources>
