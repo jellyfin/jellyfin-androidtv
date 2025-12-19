@@ -593,4 +593,9 @@
     <string name="settings">Einstellungen</string>
     <string name="settings_description">Passe die App an deine Vorlieben an</string>
     <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
+    <string name="pref_customization_subtitles">Untertitel</string>
+    <string name="pref_prerolls_enabled">Kinomodus aktivieren</string>
+    <string name="pref_media_queueing_description">Bei Serienwiedergabe nachfolgende Folgen zur Warteschlange hinzufügen</string>
+    <string name="pref_playback_next_up">Als Nächstes</string>
+    <string name="pref_playback_media_segments">Medienabschnitte</string>
 </resources>
