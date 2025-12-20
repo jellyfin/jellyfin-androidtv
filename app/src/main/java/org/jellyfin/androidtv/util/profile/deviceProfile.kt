@@ -123,7 +123,7 @@ fun createDeviceProfile(
 		type = DlnaProfileType.VIDEO
 		context = EncodingContext.STREAMING
 
-		container = Codec.Container.TS
+		container = Codec.Container.MP4
 		protocol = MediaStreamProtocol.HLS
 
 		if (supportsHevc) videoCodec(Codec.Video.HEVC)
