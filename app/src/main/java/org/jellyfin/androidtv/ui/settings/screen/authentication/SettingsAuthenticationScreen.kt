@@ -23,7 +23,6 @@ import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
-import org.jellyfin.androidtv.ui.settings.screen.settingsAboutItems
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.compose.koinInject
 
@@ -121,8 +120,12 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 			}
 		}
 
-		if (launchedFromLogin) settingsAboutItems(
-			openLicenses = { router.push(Routes.LICENSES) }
-		)
+		if (launchedFromLogin) item {
+			ListButton(
+				leadingContent = { Icon(painterResource(R.drawable.ic_jellyfin), contentDescription = null) },
+				headingContent = { Text(stringResource(R.string.pref_about_title)) },
+				onClick = { router.push(Routes.ABOUT, mapOf("fromLogin" to "true")) }
+			)
+		}
 	}
 }

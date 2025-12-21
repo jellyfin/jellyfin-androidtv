@@ -1,31 +1,23 @@
 package org.jellyfin.androidtv.ui.settings.screen.license
 
 import android.content.ClipData
-import android.os.Build
-import android.widget.Toast
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.ClipEntry
-import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.util.withContext
-import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
+import org.jellyfin.androidtv.ui.settings.util.copyAction
 
 @Composable
 fun SettingsLicenseScreen(artifactId: String) {
 	val context = LocalContext.current
-	val clipboard = LocalClipboard.current
-	val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
 
 	val library = remember(context, artifactId) {
 		val libs = Libs.Builder()
@@ -63,14 +55,7 @@ fun SettingsLicenseScreen(artifactId: String) {
 			ListButton(
 				headingContent = { Text(title) },
 				captionContent = { Text(value.orEmpty()) },
-				onClick = {
-					lifecycleScope.launch {
-						clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(title, value)))
-						if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-							Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
-						}
-					}
-				}
+				onClick = copyAction(ClipData.newPlainText(title, value)),
 			)
 		}
 	}

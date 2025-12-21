@@ -4,6 +4,7 @@ import org.jellyfin.androidtv.ui.navigation.RouteComposable
 import org.jellyfin.androidtv.ui.settings.screen.SettingsDeveloperScreen
 import org.jellyfin.androidtv.ui.settings.screen.SettingsMainScreen
 import org.jellyfin.androidtv.ui.settings.screen.SettingsTelemetryScreen
+import org.jellyfin.androidtv.ui.settings.screen.about.SettingsAboutScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationAutoSignInScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationServerScreen
@@ -38,6 +39,7 @@ object Routes {
 	const val PLAYBACK_MEDIA_SEGMENT = "/playback/media-segments/{segmentType}"
 	const val TELEMETRY = "/telemetry"
 	const val DEVELOPER = "/developer"
+	const val ABOUT = "/about"
 	const val LICENSES = "/licenses"
 	const val LICENSE = "/license/{artifactId}"
 }
@@ -97,6 +99,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.DEVELOPER to {
 		SettingsDeveloperScreen()
+	},
+	Routes.ABOUT to { context ->
+		SettingsAboutScreen(context.parameters["fromLogin"] == "true")
 	},
 	Routes.LICENSES to {
 		SettingsLicensesScreen()
