@@ -195,7 +195,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Subtitles font size
 		 */
-		var subtitlesTextSize = floatPreference("subtitles_text_size", 1f)
+		var subtitlesTextSize = floatPreference("subtitles_text_size", 24f)
 
 		/**
 		 * Subtitles offset
@@ -274,6 +274,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				// Set subtitle text stroke color to black if it was enabled in a previous version
 				val subtitleStrokeSize = it.getInt("subtitles_stroke_size", 0)
 				putLong("subtitles_text_stroke_color", if (subtitleStrokeSize > 0) 0XFF000000L else 0X00FFFFFFL)
+			}
+
+			// v0.19.0 to v0.20.0
+			migration(toVersion = 9) {
+				// Reset subtitle text size as we changed from fractional sizing to absolute sizing
+				remove("subtitles_text_size")
 			}
 		}
 	}

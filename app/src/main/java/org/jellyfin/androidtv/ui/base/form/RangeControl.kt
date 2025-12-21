@@ -56,7 +56,7 @@ fun RangeControl(
 	colors: RangeControlColors = RangeControlDefaults.colors(),
 ) {
 	val focused by interactionSource.collectIsFocusedAsState()
-	val knobAlpha by animateFloatAsState(if (focused) 1f else 0f)
+	val knobSize by animateFloatAsState(if (focused) 1.75f else 1f)
 
 	Box(
 		modifier = modifier
@@ -105,11 +105,10 @@ fun RangeControl(
 				// Progress knob
 				drawCircle(
 					color = colors.knobColor,
-					alpha = knobAlpha,
 					center = center.copy(
 						x = valuePercentage * size.width,
 					),
-					radius = size.minDimension * 2,
+					radius = size.minDimension * knobSize,
 				)
 			}
 	)
