@@ -63,7 +63,7 @@ fun SettingsPlaybackScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_subtitles), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_customization_subtitles)) },
-				onClick = { context.startActivity(ActivityDestinations.subtitlePreferences(context)) }
+				onClick = { router.push(Routes.CUSTOMIZATION_SUBTITLES) }
 			)
 		}
 
