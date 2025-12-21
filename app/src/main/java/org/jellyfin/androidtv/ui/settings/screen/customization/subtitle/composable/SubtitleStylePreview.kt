@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,6 +23,7 @@ import androidx.media3.ui.SubtitleView
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.design.Tokens
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -36,8 +36,6 @@ fun SubtitleStylePreview(
 	subtitlesTextSize: Float = userPreferences[UserPreferences.subtitlesTextSize],
 ) {
 	val context = LocalContext.current
-	// TODO: Use design token when merged
-	val jfColorNeutralDark = Color(0xff151515)
 	SubtitleStylePreview(
 		text = stringResource(R.string.subtitle_preview_text),
 		textColor = subtitlesTextColor.toInt(),
@@ -47,7 +45,7 @@ fun SubtitleStylePreview(
 		edgeColor = subtitleTextStrokeColor.toInt(),
 		typeface = TypefaceCompat.create(context, Typeface.DEFAULT, subtitlesTextWeight, false),
 		modifier = Modifier
-			.background(jfColorNeutralDark, JellyfinTheme.shapes.large)
+			.background(Tokens.Color.colorNeutralDark, JellyfinTheme.shapes.large)
 			.fillMaxWidth()
 			.height(75.dp)
 			.clip(JellyfinTheme.shapes.large)

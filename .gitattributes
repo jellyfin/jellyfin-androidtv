@@ -5,3 +5,5 @@
 
 CONTRIBUTORS.md merge=union
 app/src/main/res/values*/strings.xml merge=union
+
+design/src/main/kotlin/token/* linguist-generated
