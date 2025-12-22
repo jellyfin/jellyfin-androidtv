@@ -10,7 +10,7 @@
     <string name="chapters">Разделы</string>
     <string name="lbl_settings">Предпочтения</string>
     <string name="lbl_continue_watching">Продолжить просмотр</string>
-    <string name="lbl_next_up">Следующее</string>
+    <string name="lbl_next_up">Очередное</string>
     <string name="lbl_on_now">В эфире</string>
     <string name="lbl_views">Вид</string>
     <string name="lbl_by_letter">По буквам</string>
@@ -218,7 +218,7 @@
     <string name="lbl_news">Новости</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
     <string name="lbl_my_media">Мои медиафайлы</string>
-    <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
+    <string name="pref_next_up_timeout_title">Длительность таймера \"Очередное\"</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_about_title">О приложении</string>
@@ -613,4 +613,13 @@
     <string name="settings_description">Настройте приложение под свои желания</string>
     <string name="settings">Настройки</string>
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="pref_media_queueing_description">Добавлять последующие серии в очередь при воспроизведении сериалов</string>
+    <string name="pref_media_queueing">Добавлять в очередь все серии</string>
+    <string name="pref_playback_next_up">Очередное</string>
+    <string name="pref_playback_media_segments">Медиасегменты</string>
+    <string name="pref_customization_subtitles">Субтитры</string>
+    <string name="pref_playback_inactivity_prompt">Сообщение о неактивности</string>
+    <string name="pref_prerolls_enabled">Включить режим кинотеатра</string>
+    <string name="pref_prerolls_enabled_description">Воспроизводить пользовательские заставки перед фильмами</string>
+    <string name="pref_playback_prerolls">Преролл</string>
 </resources>
