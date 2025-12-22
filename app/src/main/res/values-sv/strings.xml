@@ -593,4 +593,7 @@
     <string name="settings">Inställningar</string>
     <string name="settings_description">Anpassa appen efter dina egna preferenser</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
+    <string name="pref_prerolls_enabled_description">Spela valfria intros före filmer</string>
+    <string name="pref_media_queueing">Köa alla avsnitt</string>
+    <string name="pref_media_queueing_description">Lägg till följande avsnitt till kön när TV-serier spelas</string>
 </resources>
