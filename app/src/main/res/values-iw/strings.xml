@@ -602,4 +602,7 @@
     <string name="lbl_still_watching_very_long">8 פרקים או 240 דקות</string>
     <string name="still_watching_label">עדיין צופה?</string>
     <string name="pref_subtitles_position">היסט מלמטה</string>
+    <string name="settings">הגדרות</string>
+    <string name="settings_description">שנה את האפליקציה לפי טעמך האישי</string>
+    <string name="copied_to_clipboard">העתק ללוח</string>
 </resources>

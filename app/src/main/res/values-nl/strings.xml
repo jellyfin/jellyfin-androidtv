@@ -582,7 +582,7 @@
     <string name="speech_error_unavailable">Spraakherkenning is niet beschikbaar op jouw apparaat.</string>
     <string name="pref_subtitles_bold">Vetgedrukte tekst</string>
     <string name="preference_enable_pgs">PGS-ondertiteling direct afspelen</string>
-    <string name="pref_still_watching_behavior_title">Pop-up tonen bij inactiviteit</string>
+    <string name="pref_still_watching_behavior_title">Melding tonen bij inactiviteit</string>
     <string name="lbl_still_watching_default">3 afleveringen of 90 minuten</string>
     <string name="lbl_still_watching_short">2 afleveringen of 60 minuten</string>
     <string name="lbl_still_watching_long">5 afleveringen of 150 minuten</string>
@@ -590,4 +590,16 @@
     <string name="still_watching_label">Ben je er nog?</string>
     <string name="lbl_exit">Afsluiten</string>
     <string name="pref_subtitles_position">Afstand vanaf onderzijde</string>
+    <string name="settings">Instellingen</string>
+    <string name="settings_description">Pas de app naar wens aan</string>
+    <string name="copied_to_clipboard">Gekopieerd naar klembord</string>
+    <string name="pref_customization_subtitles">Ondertiteling</string>
+    <string name="pref_prerolls_enabled">Bioscoopmodus inschakelen</string>
+    <string name="pref_prerolls_enabled_description">Aangepaste intro\'s afspelen voor de film start</string>
+    <string name="pref_media_queueing">Alle afleveringen in wachtrij plaatsen</string>
+    <string name="pref_media_queueing_description">Komende afleveringen aan de wachtrij toevoegen bij het kijken van tv-series</string>
+    <string name="pref_playback_media_segments">Mediasegmenten</string>
+    <string name="pref_playback_prerolls">Voorfilmpjes</string>
+    <string name="pref_playback_inactivity_prompt">Melding bij inactiviteit</string>
+    <string name="pref_playback_next_up">Als volgende</string>
 </resources>

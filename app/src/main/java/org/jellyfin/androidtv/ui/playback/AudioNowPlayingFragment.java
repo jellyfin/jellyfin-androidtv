@@ -65,7 +65,6 @@ public class AudioNowPlayingFragment extends Fragment {
     private TextView mCurrentNdx;
     private TextView mCurrentPos;
     private TextView mRemainingTime;
-    private int mCurrentDuration;
     private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
     private PositionableListRowPresenter mAudioQueuePresenter;
@@ -239,7 +238,7 @@ public class AudioNowPlayingFragment extends Fragment {
 
         // load the item duration and set the position to 0 since it won't be set elsewhere until playback is initialized
         if (!mediaManager.getValue().isAudioPlayerInitialized())
-            setCurrentTime(0);
+            setCurrentTime(0, 0);
     }
 
     @Override
@@ -258,8 +257,8 @@ public class AudioNowPlayingFragment extends Fragment {
         }
 
         @Override
-        public void onProgress(long pos) {
-            setCurrentTime(pos);
+        public void onProgress(long pos, long duration) {
+            setCurrentTime(pos, duration);
         }
 
         @Override
@@ -354,17 +353,19 @@ public class AudioNowPlayingFragment extends Fragment {
                 mAlbumTitle.setText(null);
             }
             mCurrentNdx.setText(getString(R.string.lbl_now_playing_track, mediaManager.getValue().getCurrentAudioQueueDisplayPosition(), mediaManager.getValue().getCurrentAudioQueueDisplaySize()));
-            mCurrentDuration = ((Long) ((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
             addGenres(mGenreRow);
             backgroundService.getValue().setBackground(item);
         }
     }
 
-    public void setCurrentTime(long time) {
-        // Round the current time as otherwise the time played and time remaining will not be in sync
+    public void setCurrentTime(long time, long duration) {
+        // Round the time to seconds so both the position and remaining times are in sync
         time = Math.round(time / 1000L) * 1000L;
+
         mCurrentPos.setText(TimeUtils.formatMillis(time));
-        mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
+
+        if (duration == 0L) mRemainingTime.setText(null);
+        else mRemainingTime.setText("-" + TimeUtils.formatMillis(duration - time));
     }
 
     private void addGenres(TextView textView) {

@@ -19,9 +19,23 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	onInput = Color(0xE6CCCCCC),
 	inputFocused = Color(0xE6CCCCCC),
 	onInputFocused = Color(0xFFDDDDDD),
+	rangeControlBackground = Color(0xCC4B4B4B),
+	rangeControlFill = Color(0xFF00A4DC),
+	rangeControlKnob = Color(0xFFFFFFFF),
+	seekbarBuffer = Color(0x40FFFFFF),
 	recording = Color(0xB3FF7474),
 	onRecording = Color(0xFFDDDDDD),
-	popover = Color(0xFF212225),
+	badge = Color(0xFF62676F),
+	onBadge = Color(0xFFE8EAED),
+	listHeader = Color(0xFFE0E0E0),
+	listOverline = Color(0x66FFFFFF),
+	listHeadline = Color(0xFFFFFFFF),
+	listCaption = Color(0x99FFFFFF),
+	listButton = Color(0x00000000),
+	listButtonFocused = Color(0xFF36363B),
+	listButtonDisabled = Color(0x33747474),
+	surface = Color(0xFF212225),
+	scrim = Color(0xAB000000),
 )
 
 @Immutable
@@ -43,10 +57,27 @@ data class ColorScheme(
 	val inputFocused: Color,
 	val onInputFocused: Color,
 
+	val rangeControlBackground: Color,
+	val rangeControlFill: Color,
+	val rangeControlKnob: Color,
+	val seekbarBuffer: Color,
+
 	val recording: Color,
 	val onRecording: Color,
 
-	val popover: Color,
+	val badge: Color,
+	val onBadge: Color,
+
+	val listHeader: Color,
+	val listOverline: Color,
+	val listHeadline: Color,
+	val listCaption: Color,
+	val listButton: Color,
+	val listButtonFocused: Color,
+	val listButtonDisabled: Color,
+
+	val surface: Color,
+	val scrim: Color,
 )
 
 val LocalColorScheme = staticCompositionLocalOf { colorScheme() }
