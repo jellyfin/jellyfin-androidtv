@@ -96,7 +96,7 @@ fun RangeControl(
 				)
 
 				// Get percental value based on min/max options
-				val valuePercentage = (visibleValue - min) / max
+				val valuePercentage = (visibleValue - min) / (max - min)
 
 				// Value fill bar
 				if (visibleValue > 0f) {
