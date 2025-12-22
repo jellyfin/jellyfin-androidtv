@@ -537,4 +537,13 @@
     <string name="settings_description">Αλλάξτε την εφαρμογή σύμφωνα με τις προτιμήσεις σας</string>
     <string name="settings">Ρυθμίσεις</string>
     <string name="copied_to_clipboard">Αντιγράφτηκε στο πρόχειρο</string>
+    <string name="pref_media_queueing_description">Προσθήκη επόμενων επεισοδίων στην ουρά κατά την αναπαραγωγή τηλεοπτικών σειρών</string>
+    <string name="pref_media_queueing">Προσθήκη όλων των επεισοδίων στην ουρά</string>
+    <string name="pref_prerolls_enabled_description">Αναπαραγωγή προσαρμοσμένων εισαγωγών (intros) πριν από ταινίες</string>
+    <string name="pref_prerolls_enabled">Ενεργοποίηση λειτουργίας κινηματογράφου</string>
+    <string name="pref_playback_inactivity_prompt">Προτροπή αδράνειας</string>
+    <string name="pref_playback_prerolls">Prerolls</string>
+    <string name="pref_customization_subtitles">Υπότιτλοι</string>
+    <string name="pref_playback_media_segments">Τμήματα πολυμέσων</string>
+    <string name="pref_playback_next_up">Επόμενο</string>
 </resources>
