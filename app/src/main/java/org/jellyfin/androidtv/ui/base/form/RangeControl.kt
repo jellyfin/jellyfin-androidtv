@@ -9,9 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
@@ -58,8 +56,6 @@ fun RangeControl(
 	colors: RangeControlColors = RangeControlDefaults.colors(),
 ) {
 	val focused by interactionSource.collectIsFocusedAsState()
-	var valueOverride by remember { mutableStateOf<Float?>(null) }
-	val visibleValue = valueOverride ?: value
 	val knobAlpha by animateFloatAsState(if (focused) 1f else 0f)
 
 	Box(
@@ -73,15 +69,12 @@ fun RangeControl(
 				val isKeyDown = it.type == KeyEventType.KeyDown
 
 				val newValue = when {
-					isKeyDown && isForward -> (visibleValue + stepForward).coerceAtMost(max)
-					isKeyDown && isRewind -> (visibleValue - stepBackward).coerceAtLeast(min)
-					else -> visibleValue
+					isKeyDown && isForward -> (value + stepForward).coerceAtMost(max)
+					isKeyDown && isRewind -> (value - stepBackward).coerceAtLeast(min)
+					else -> value
 				}
 
-				if (visibleValue != newValue) {
-					valueOverride = newValue
-					if (onValueChange != null) onValueChange(newValue)
-				}
+				if (value != newValue && onValueChange != null) onValueChange(newValue)
 
 				return@onKeyEvent isScrubbing
 			}
@@ -96,10 +89,10 @@ fun RangeControl(
 				)
 
 				// Get percental value based on min/max options
-				val valuePercentage = (visibleValue - min) / (max - min)
+				val valuePercentage = (value - min) / (max - min)
 
 				// Value fill bar
-				if (visibleValue > 0f) {
+				if (valuePercentage > 0) {
 					drawRoundRect(
 						color = colors.fillColor,
 						size = size.copy(
