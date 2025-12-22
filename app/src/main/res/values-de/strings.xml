@@ -20,7 +20,7 @@
     <string name="lbl_latest">Kürzlich hinzugefügt</string>
     <string name="lbl_by_name">Nach Name</string>
     <string name="lbl_favorites">Favoriten</string>
-    <string name="lbl_coming_up">Als Nächstes</string>
+    <string name="lbl_coming_up">Als nächstes</string>
     <string name="lbl_favorite_channels">Favorisierte Kanäle</string>
     <string name="lbl_other_channels">Andere Kanäle</string>
     <string name="lbl_collections">Sammlungen</string>
@@ -46,7 +46,7 @@
     <string name="lbl_items">Einträge</string>
     <string name="lbl_item">Eintrag</string>
     <string name="lbl_seasons">Staffeln</string>
-    <string name="lbl_upcoming">Als Nächstes</string>
+    <string name="lbl_upcoming">Als nächstes</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Laufzeit</string>
     <string name="lbl_ends">Endet</string>
@@ -598,4 +598,8 @@
     <string name="pref_media_queueing_description">Bei Serienwiedergabe nachfolgende Folgen zur Warteschlange hinzufügen</string>
     <string name="pref_playback_next_up">Als Nächstes</string>
     <string name="pref_playback_media_segments">Medienabschnitte</string>
+    <string name="pref_media_queueing">Alle Folgen einreihen</string>
+    <string name="pref_prerolls_enabled_description">Benutzerdefinierte Intros vor Filmen abspielen</string>
+    <string name="pref_playback_inactivity_prompt">Inaktivitätsauforderung</string>
+    <string name="pref_playback_prerolls">Pre-Rolls</string>
 </resources>
