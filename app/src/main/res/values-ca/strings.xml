@@ -602,4 +602,13 @@
     <string name="settings_description">Canvieu l\'aplicació al vostre gust</string>
     <string name="settings">Preferències</string>
     <string name="copied_to_clipboard">Copiat al porta-retalls</string>
+    <string name="pref_prerolls_enabled_description">Reprodueix introduccions personalitzades abans de les pel·lícules</string>
+    <string name="pref_media_queueing">Posa tots els episodis a la cua</string>
+    <string name="pref_customization_subtitles">Subtítols</string>
+    <string name="pref_prerolls_enabled">Habilita el mode cinema</string>
+    <string name="pref_playback_next_up">A continuació</string>
+    <string name="pref_playback_media_segments">Segments multimèdia</string>
+    <string name="pref_playback_prerolls">Prefets</string>
+    <string name="pref_playback_inactivity_prompt">Indicació d\'inactivitat</string>
+    <string name="pref_media_queueing_description">Afegeix els subseqüents episodis a la cua en reproduir sèries de televisió</string>
 </resources>
