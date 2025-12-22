@@ -601,4 +601,14 @@
     <string name="episode_name_special">специјал</string>
     <string name="settings_description">Промени апликацију према свом укусу</string>
     <string name="settings">Подешавања</string>
+    <string name="pref_media_queueing_description">Додај наредне епизоде у ред кад се гледају серије</string>
+    <string name="copied_to_clipboard">Ископирано у привремену меморију</string>
+    <string name="pref_playback_next_up">Следи</string>
+    <string name="pref_playback_media_segments">Делови медија</string>
+    <string name="pref_customization_subtitles">Титлови</string>
+    <string name="pref_playback_prerolls">Уводни снимци</string>
+    <string name="pref_playback_inactivity_prompt">Обавештење о мировању</string>
+    <string name="pref_prerolls_enabled">Омогући биоскопски режим</string>
+    <string name="pref_prerolls_enabled_description">Пусти прилагођени увод пре филмова</string>
+    <string name="pref_media_queueing">Стави све епизоде у ред</string>
 </resources>
