@@ -632,4 +632,10 @@
         <item quantity="many">عدة (11, 12, 13, 14, 15, 16, 17, 18, 19, 20, …)</item>
         <item quantity="other">اخرى (100, 101, 102, 200, 201, 202, 300, 301, 302, 400, …)</item>
     </plurals>
+    <string name="pref_prerolls_enabled">تفعيل نمط السينما</string>
+    <string name="pref_prerolls_enabled_description">تشغيل المقدمات المخصصة قبل الافلام</string>
+    <string name="pref_media_queueing">رصف كل الحلقات</string>
+    <string name="pref_playback_next_up">القادم</string>
+    <string name="pref_playback_media_segments">فواصل الوسائط</string>
+    <string name="pref_media_queueing_description">اضافة حلقات متتالية إلى الرصف عند تشغيل مسلسلات التلفاز</string>
 </resources>
