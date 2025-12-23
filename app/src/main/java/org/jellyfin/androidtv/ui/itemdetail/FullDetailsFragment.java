@@ -1072,7 +1072,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         boolean isSeries = mBaseItem.getType() == BaseItemKind.SERIES;
         boolean isFinished = mBaseItem.getUserData().getPlayed();
         boolean isStarted = mBaseItem.getUserData().getPlayedPercentage() != null && mBaseItem.getUserData().getPlayedPercentage() > 0;
-        if (!isStarted && nextUpEpisode != null) {
+        if (!isStarted && nextUpEpisode != null && nextUpEpisode.getUserData() != null) {
             isStarted = nextUpEpisode.getUserData().getPlaybackPositionTicks() > 0;
         }
 
