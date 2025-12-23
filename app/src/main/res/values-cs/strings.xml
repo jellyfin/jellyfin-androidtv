@@ -603,4 +603,13 @@
     <string name="settings">Nastavení</string>
     <string name="settings_description">Upravte si aplikaci podle svých představ</string>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
+    <string name="pref_playback_next_up">Další na řadě</string>
+    <string name="pref_playback_media_segments">Segmenty média</string>
+    <string name="pref_customization_subtitles">Titulky</string>
+    <string name="pref_playback_prerolls">Prerolly</string>
+    <string name="pref_playback_inactivity_prompt">Dotaz na neaktivitu</string>
+    <string name="pref_prerolls_enabled">Povolit režim kina</string>
+    <string name="pref_prerolls_enabled_description">Přehrát vlastní znělky před filmy</string>
+    <string name="pref_media_queueing">Všechny epizody do fronty</string>
+    <string name="pref_media_queueing_description">Při přehrávání televizních seriálů přidat další epizody do fronty</string>
 </resources>
