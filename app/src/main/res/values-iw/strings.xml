@@ -159,7 +159,7 @@
     <string name="lbl_next_up">הבא בתור</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
     <string name="lbl_settings">העדפות</string>
-    <string name="chapters">סצנות</string>
+    <string name="chapters">פרקים</string>
     <string name="pref_authentication_cat">אימות</string>
     <string name="settings_title">העדפות</string>
     <string name="pref_max_bitrate_title">קצב סיביות מרבי להזרמה</string>
@@ -605,4 +605,13 @@
     <string name="settings">הגדרות</string>
     <string name="settings_description">שנה את האפליקציה לפי טעמך האישי</string>
     <string name="copied_to_clipboard">העתק ללוח</string>
+    <string name="pref_media_queueing_description">הוספת פרקים נוספים לתור בעת הפעלת סדרות טלוויזיה</string>
+    <string name="pref_playback_next_up">הבא בתור</string>
+    <string name="pref_playback_media_segments">פלחי מדיה</string>
+    <string name="pref_customization_subtitles">כתוביות</string>
+    <string name="pref_playback_prerolls">סרטונים מוקדמים</string>
+    <string name="pref_playback_inactivity_prompt">הנחיית חוסר פעילות</string>
+    <string name="pref_prerolls_enabled">הפעלת מצב קולנוע</string>
+    <string name="pref_prerolls_enabled_description">הפעלת פתיחה מותאמת אישית לפני סרטים</string>
+    <string name="pref_media_queueing">תור כל הפרקים</string>
 </resources>
