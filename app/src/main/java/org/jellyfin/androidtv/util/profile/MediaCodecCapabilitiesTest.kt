@@ -200,6 +200,8 @@ class MediaCodecCapabilitiesTest(
 		}?.second ?: 0
 	}
 
+	fun supportsVc1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_VC1)
+
 	private fun getDecoderLevel(mime: String, profile: Int): Int {
 		var maxLevel = 0
 
