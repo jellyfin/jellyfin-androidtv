@@ -545,9 +545,9 @@
     <string name="past_24_hours">Afgelopen 24 uur</string>
     <string name="past_week">Afgelopen week</string>
     <string name="scheduled_in_next_24_hours">Komende 24 uur ingepland</string>
-    <string name="lbl_subtitle_text_color">Tekstkleur ondertiteling</string>
-    <string name="lbl_subtitle_text_stroke_color">Randkleur ondertiteling</string>
-    <string name="lbl_subtitle_background_color">Achtergrondkleur ondertiteling</string>
+    <string name="lbl_subtitle_text_color">Tekstkleur</string>
+    <string name="lbl_subtitle_text_stroke_color">Randkleur</string>
+    <string name="lbl_subtitle_background_color">Achtergrondkleur</string>
     <string name="prefer_exoplayer_ffmpeg">FFmpeg verkiezen voor afspelen geluid</string>
     <string name="prefer_exoplayer_ffmpeg_content">Gebruik FFmpeg om geluid te decoderen, zelfs als er platformcodecs beschikbaar zijn.</string>
     <string name="video_start_delay">Startvertraging video</string>
@@ -602,4 +602,18 @@
     <string name="pref_playback_prerolls">Voorfilmpjes</string>
     <string name="pref_playback_inactivity_prompt">Melding bij inactiviteit</string>
     <string name="pref_playback_next_up">Als volgende</string>
+    <string name="color_alpha">Transparantie</string>
+    <string name="color_presets">Voorinstellingen</string>
+    <string name="color_custom">Kleur aanpassen</string>
+    <string name="subtitle_preview_text">Ondertiteling zal er zo uitzien</string>
+    <string name="pref_subtitles_weight">Letterdikte</string>
+    <string name="font_weight_100">Zeer dun</string>
+    <string name="font_weight_200">Extra licht</string>
+    <string name="font_weight_300">Licht</string>
+    <string name="font_weight_400">Normaal</string>
+    <string name="font_weight_500">Medium</string>
+    <string name="font_weight_600">Halfvet</string>
+    <string name="font_weight_700">Vet</string>
+    <string name="font_weight_800">Extra vet</string>
+    <string name="font_weight_900">Zwaar</string>
 </resources>
