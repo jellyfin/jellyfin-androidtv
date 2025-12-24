@@ -202,7 +202,7 @@ fun createDeviceProfile(
 					"main",
 					"baseline",
 					"constrained baseline",
-					if (supportsAVCHigh10) "main 10" else null
+					if (supportsAVCHigh10) "high 10" else null
 				)
 			}
 		}
