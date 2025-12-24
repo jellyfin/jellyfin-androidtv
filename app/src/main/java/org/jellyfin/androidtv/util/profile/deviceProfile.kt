@@ -44,6 +44,25 @@ private val supportedAudioCodecs = arrayOf(
 	Codec.Audio.VORBIS,
 )
 
+private val hlsMpegTsAudioCodecs = arrayOf(
+	Codec.Audio.AAC,
+	Codec.Audio.AC3,
+	Codec.Audio.EAC3,
+	Codec.Audio.MP3
+)
+
+private val hlsFmp4AudioCodecs = arrayOf(
+	Codec.Audio.AAC,
+	Codec.Audio.AC3,
+	Codec.Audio.EAC3,
+	Codec.Audio.MP3,
+	Codec.Audio.ALAC,
+	Codec.Audio.FLAC,
+	Codec.Audio.OPUS,
+	Codec.Audio.DTS,
+	Codec.Audio.TRUEHD
+)
+
 private fun UserPreferences.getMaxBitrate(): Int {
 	var maxBitrate = this[UserPreferences.maxBitrate].toIntOrNull()
 
@@ -119,6 +138,11 @@ fun createDeviceProfile(
 
 	/// Transcoding profiles
 	// Video
+	val hlsVideoCodecs = listOfNotNull(
+		if (supportsHevc) Codec.Video.HEVC else null,
+		Codec.Video.H264
+	).toTypedArray()
+
 	transcodingProfile {
 		type = DlnaProfileType.VIDEO
 		context = EncodingContext.STREAMING
@@ -126,10 +150,22 @@ fun createDeviceProfile(
 		container = Codec.Container.TS
 		protocol = MediaStreamProtocol.HLS
 
-		if (supportsHevc) videoCodec(Codec.Video.HEVC)
-		videoCodec(Codec.Video.H264)
+		videoCodec(*hlsVideoCodecs)
+		audioCodec(*hlsMpegTsAudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
 
-		audioCodec(*allowedAudioCodecs)
+		copyTimestamps = false
+		enableSubtitlesInManifest = true
+	}
+
+	transcodingProfile {
+		type = DlnaProfileType.VIDEO
+		context = EncodingContext.STREAMING
+
+		container = Codec.Container.MP4
+		protocol = MediaStreamProtocol.HLS
+
+		videoCodec(*hlsVideoCodecs)
+		audioCodec(*hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
 
 		copyTimestamps = false
 		enableSubtitlesInManifest = true
