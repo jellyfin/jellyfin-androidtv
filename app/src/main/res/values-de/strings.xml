@@ -545,9 +545,9 @@
     <string name="scheduled_in_next_24_hours">Geplant in den nächsten 24 Stunden</string>
     <string name="past_24_hours">Letzte 24 Stunden</string>
     <string name="continue_listening">Weiterhören</string>
-    <string name="lbl_subtitle_text_color">Farbe des Untertiteltextes</string>
-    <string name="lbl_subtitle_background_color">Hintergrundfarbe des Untertitels</string>
-    <string name="lbl_subtitle_text_stroke_color">Farbe des Untertitelstrichs</string>
+    <string name="lbl_subtitle_text_color">Textfarbe</string>
+    <string name="lbl_subtitle_background_color">Hintergrundfarbe</string>
+    <string name="lbl_subtitle_text_stroke_color">Umrandungsfarbe</string>
     <string name="prefer_exoplayer_ffmpeg">Bevorzuge FFmpeg für Audio Wiedergabe</string>
     <string name="prefer_exoplayer_ffmpeg_content">Nutze FFmpeg um Audio zu dekodieren, auch wenn System Codecs vorhanden sind.</string>
     <string name="video_start_delay">Video-Startverzögerung</string>
@@ -602,4 +602,18 @@
     <string name="pref_prerolls_enabled_description">Benutzerdefinierte Intros vor Filmen abspielen</string>
     <string name="pref_playback_inactivity_prompt">Inaktivitätsauforderung</string>
     <string name="pref_playback_prerolls">Pre-Rolls</string>
+    <string name="pref_subtitles_weight">Textstärke</string>
+    <string name="font_weight_100">Dünn</string>
+    <string name="font_weight_200">sehr Dünn</string>
+    <string name="font_weight_300">Gering</string>
+    <string name="font_weight_400">Normal</string>
+    <string name="font_weight_500">Mittel</string>
+    <string name="font_weight_700">Fett</string>
+    <string name="font_weight_800">sehr Fett</string>
+    <string name="font_weight_600">Dicker</string>
+    <string name="font_weight_900">Schwarz</string>
+    <string name="subtitle_preview_text">Untertitel sehen so aus</string>
+    <string name="color_presets">Voreinstellungen</string>
+    <string name="color_custom">Farbeinstellungen</string>
+    <string name="color_alpha">Transparenz</string>
 </resources>
