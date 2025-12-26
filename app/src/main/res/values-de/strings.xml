@@ -646,4 +646,5 @@
     <string name="playback_buffer_extra_large">Sehr groß</string>
     <string name="pref_burn_subtitles_when_transcoding">Untertitel beim Transkodieren einbrennen</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Untertitel beim Transkodieren immer einbrennen. Dies kann Fehler bei der Untertitel-Synchronisation beheben, aber verhindert individualisierte Untertitel.</string>
+    <string name="pref_use_software_codecs">Software-Codecs verwenden</string>
 </resources>

@@ -87,6 +87,7 @@ fun createDeviceProfile(
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
 	userAVCLevel = userPreferences[UserPreferences.userAVCLevel].level,
 	userHEVCLevel = userPreferences[UserPreferences.userHEVCLevel].level,
+	useSoftwareCodecs = userPreferences[UserPreferences.useSoftwareCodecs],
 )
 
 fun createDeviceProfile(
@@ -98,7 +99,10 @@ fun createDeviceProfile(
 	pgsDirectPlay: Boolean,
 	userAVCLevel: Int?,
 	userHEVCLevel: Int?,
+	useSoftwareCodecs: Boolean,
 ) = buildDeviceProfile {
+	mediaTest.useSoftwareCodecs = useSoftwareCodecs
+
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
 		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()

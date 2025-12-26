@@ -646,4 +646,5 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="pref_use_software_codecs">Use software codecs</string>
 </resources>
