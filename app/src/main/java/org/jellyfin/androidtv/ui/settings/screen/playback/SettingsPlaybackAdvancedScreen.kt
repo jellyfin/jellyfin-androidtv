@@ -185,6 +185,16 @@ fun SettingsPlaybackAdvancedScreen() {
 			)
 		}
 
+		item {
+			var useSoftwareCodecs by rememberPreference(userPreferences, UserPreferences.useSoftwareCodecs)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_use_software_codecs)) },
+				trailingContent = { Checkbox(checked = useSoftwareCodecs) },
+				onClick = { useSoftwareCodecs = !useSoftwareCodecs }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_live_tv_cat)) }) }
 
 		item {
