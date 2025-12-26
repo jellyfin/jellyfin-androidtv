@@ -535,9 +535,9 @@
     <string name="scheduled_in_next_24_hours">预计在接下来的 24 小时内</string>
     <string name="past_24_hours">过去 24 小时</string>
     <string name="continue_listening">继续收听</string>
-    <string name="lbl_subtitle_text_color">字幕文字颜色</string>
-    <string name="lbl_subtitle_background_color">字幕背景颜色</string>
-    <string name="lbl_subtitle_text_stroke_color">字幕描边颜色</string>
+    <string name="lbl_subtitle_text_color">文本颜色</string>
+    <string name="lbl_subtitle_background_color">背景颜色</string>
+    <string name="lbl_subtitle_text_stroke_color">描边颜色</string>
     <string name="prefer_exoplayer_ffmpeg_content">使用 FFmpeg 解码音频，即使平台编解码器可用。</string>
     <string name="prefer_exoplayer_ffmpeg">首选 FFmpeg 进行音频播放</string>
     <string name="video_start_delay">视频启动延迟</string>
@@ -592,4 +592,18 @@
     <string name="pref_media_queueing_description">播放电视节目时，将后续剧集添加到播放队列中</string>
     <string name="pref_playback_inactivity_prompt">无活动提示</string>
     <string name="pref_playback_prerolls">前置贴片广告</string>
+    <string name="color_alpha">透明度</string>
+    <string name="subtitle_preview_text">字幕看起来会像这样</string>
+    <string name="color_presets">预设</string>
+    <string name="color_custom">自定义颜色</string>
+    <string name="pref_subtitles_weight">文本粗细</string>
+    <string name="font_weight_100">瘦体</string>
+    <string name="font_weight_400">正常</string>
+    <string name="font_weight_600">半粗体</string>
+    <string name="font_weight_700">粗体</string>
+    <string name="font_weight_800">特粗体</string>
+    <string name="font_weight_900">黑体</string>
+    <string name="font_weight_200">特细体</string>
+    <string name="font_weight_300">细体</string>
+    <string name="font_weight_500">中等</string>
 </resources>
