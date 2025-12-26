@@ -67,6 +67,9 @@ class PlaybackLauncher(
 								index, acc, it ->
 							if (it.mediaType == MediaType.VIDEO || index >= finalItemsPosition) acc else acc + 1
 						})
+						if (finalItemsPosition < 0) {
+							finalItemsPosition = 0
+						}
 					}
 				}
 			}
