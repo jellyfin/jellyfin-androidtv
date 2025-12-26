@@ -622,4 +622,18 @@
     <string name="pref_prerolls_enabled">Включить режим кинотеатра</string>
     <string name="pref_prerolls_enabled_description">Воспроизводить пользовательские заставки перед фильмами</string>
     <string name="pref_playback_prerolls">Преролл</string>
+    <string name="pref_subtitles_weight">Ширина текста</string>
+    <string name="font_weight_100">Тонкий</string>
+    <string name="font_weight_200">Сверхсветлый</string>
+    <string name="font_weight_300">Светный</string>
+    <string name="font_weight_400">Обычный</string>
+    <string name="font_weight_500">Средный</string>
+    <string name="font_weight_600">Полужирный</string>
+    <string name="font_weight_700">Жирный</string>
+    <string name="font_weight_800">Экстражирный</string>
+    <string name="font_weight_900">Черный</string>
+    <string name="subtitle_preview_text">Субтитры будут выглядеть так</string>
+    <string name="color_presets">Пресеты</string>
+    <string name="color_custom">Изменить цвет</string>
+    <string name="color_alpha">Прозрачность</string>
 </resources>
