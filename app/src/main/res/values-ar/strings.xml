@@ -123,7 +123,7 @@
     <string name="chapters">الفصول</string>
     <string name="settings_title">الإعدادات</string>
     <string name="pref_max_bitrate_title">أقصى معدل بت التدفق</string>
-    <string name="pref_playback">إعادة تشغيل</string>
+    <string name="pref_playback">إعادة التشغيل</string>
     <string name="byletter_letters">أ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي</string>
     <string name="btn_cancel">إلغاء</string>
     <string name="loading">جاري التحميل…</string>
@@ -544,8 +544,8 @@
     <string name="lbl_exit">خروج</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
-    <string name="lbl_subtitle_text_color">لون نص التعليق</string>
-    <string name="lbl_subtitle_background_color">لون خلفية التعليق</string>
+    <string name="lbl_subtitle_text_color">لون النص</string>
+    <string name="lbl_subtitle_background_color">لون خلفية الترجمة</string>
     <plurals name="items">
         <item quantity="zero">صفر %1$s</item>
         <item quantity="one">واحد %1$s</item>
@@ -554,7 +554,7 @@
         <item quantity="many">متعدد %1$s</item>
         <item quantity="other">اخرى %1$s</item>
     </plurals>
-    <string name="lbl_subtitle_text_stroke_color">لون تبيان التعليق</string>
+    <string name="lbl_subtitle_text_stroke_color">لون تبيان الترجمة</string>
     <string name="lbl_from_beginning">التشغيل من البداية</string>
     <string name="pref_still_watching_behavior_title">إظهار رسائل انتهاء وقت الخمول القافزة</string>
     <string name="lbl_still_watching_default">3 حلقات أو 90 دقيقة</string>
@@ -623,7 +623,7 @@
     <string name="preference_enable_libass">تفعيل عميل ترجمة المحطة الفرعية المتقدم</string>
     <string name="settings">إعدادات</string>
     <string name="settings_description">غيّر التطبيق حسب رغبتك</string>
-    <string name="copied_to_clipboard">منسوخ الحافظة</string>
+    <string name="copied_to_clipboard">منسوخ للحافظة</string>
     <plurals name="albums">
         <item quantity="zero">صفر (0)</item>
         <item quantity="one">واحد (1)</item>
@@ -638,4 +638,21 @@
     <string name="pref_playback_next_up">القادم</string>
     <string name="pref_playback_media_segments">فواصل الوسائط</string>
     <string name="pref_media_queueing_description">اضافة حلقات متتالية إلى الرصف عند تشغيل مسلسلات التلفاز</string>
+    <string name="pref_customization_subtitles">ترجمات</string>
+    <string name="pref_playback_prerolls">قوائم مسبقة</string>
+    <string name="pref_playback_inactivity_prompt">موجه عدم النشاط</string>
+    <string name="pref_subtitles_weight">وزن النص</string>
+    <string name="font_weight_100">رفيع</string>
+    <string name="font_weight_200">اضاءة اضافية</string>
+    <string name="font_weight_300">اضاءة</string>
+    <string name="font_weight_400">طبيعي</string>
+    <string name="font_weight_500">متوسط</string>
+    <string name="font_weight_600">شبه غامق</string>
+    <string name="font_weight_700">غامق</string>
+    <string name="font_weight_800">غامق اضافي</string>
+    <string name="font_weight_900">أسود</string>
+    <string name="subtitle_preview_text">ستبدو الترجمات هكذا</string>
+    <string name="color_presets">إعدادات مسبقة</string>
+    <string name="color_custom">تخصيص ألوان</string>
+    <string name="color_alpha">شفافية</string>
 </resources>
