@@ -506,9 +506,9 @@
         <item quantity="one">%1$s laul</item>
         <item quantity="other">%1$s laulu</item>
     </plurals>
-    <string name="lbl_subtitle_text_color">Subtiitrite teksti värv</string>
-    <string name="lbl_subtitle_background_color">Subtiitrite tausta värv</string>
-    <string name="lbl_subtitle_text_stroke_color">Subtiitrite piirjoone värv</string>
+    <string name="lbl_subtitle_text_color">Teksti värv</string>
+    <string name="lbl_subtitle_background_color">Tausta värv</string>
+    <string name="lbl_subtitle_text_stroke_color">Serva värv</string>
     <string name="indicator_subtitles">CC Subtiitrid</string>
     <string name="clear_image_cache">Puhasta piltide vahemälu</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Keela ülempiir</string>
@@ -593,4 +593,22 @@
     <string name="settings">Seaded</string>
     <string name="settings_description">Muuda rakendust oma maitse järgi</string>
     <string name="copied_to_clipboard">Kopeeriti lõikelauale</string>
+    <string name="pref_customization_subtitles">Subtiitrid</string>
+    <string name="pref_playback_inactivity_prompt">Tegevusetuse teade</string>
+    <string name="pref_prerolls_enabled">Luba kinorežiim</string>
+    <string name="pref_media_queueing">Lisa kõik episoodid järjekorda</string>
+    <string name="pref_media_queueing_description">Lisa telesarja esitamisel järgnevad episoodid järjekorda</string>
+    <string name="pref_subtitles_weight">Teksti paksus</string>
+    <string name="font_weight_100">Õhuke</string>
+    <string name="font_weight_200">Väga õhuke</string>
+    <string name="font_weight_400">Tavaline</string>
+    <string name="font_weight_500">Keskmine</string>
+    <string name="font_weight_600">Poolpaks</string>
+    <string name="font_weight_700">Paks</string>
+    <string name="font_weight_800">Väga paks</string>
+    <string name="subtitle_preview_text">Subtiitrid näevad välja sellised</string>
+    <string name="color_presets">Eelseadistused</string>
+    <string name="color_custom">Kohanda värvi</string>
+    <string name="color_alpha">Läbipaistvus</string>
+    <string name="pref_playback_media_segments">Meediasegmendid</string>
 </resources>
