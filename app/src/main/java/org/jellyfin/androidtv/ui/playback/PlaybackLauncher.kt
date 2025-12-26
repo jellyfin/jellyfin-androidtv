@@ -10,6 +10,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaType
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import timber.log.Timber
 
 /**
  * Utility class to launch the playback UI for an item.
@@ -43,21 +44,49 @@ class PlaybackLauncher(
 		replace: Boolean = false,
 		itemsPosition: Int = 0,
 		shuffle: Boolean = false,
+		baseItem: BaseItemDto? = null,
 	) {
-		val isAudio = items.any { it.mediaType == MediaType.AUDIO }
+
+		var finalItems = items
+		var finalItemsPosition = itemsPosition
+		if (baseItem != null) {
+			Timber.i("Base item name = ${baseItem.name}, mediaType = ${baseItem.mediaType}")
+			if (baseItem.mediaType == MediaType.VIDEO) {
+				// The parent collection asserts it's only for videos, so
+				// remove any non-videos
+				val initialSize = items.size
+				finalItems = items.filter { it.mediaType == MediaType.VIDEO }
+				if (initialSize != finalItems.size) {
+					Timber.e("Collection of videos has non-video items!")
+					finalItems.forEach { Timber.w("Collection item, name = ${it.name}, path = '${it.path}', mediaType = ${it.mediaType}, id = ${it.id}, serverId = ${it.serverId}, playlistItemId = ${it.playlistItemId}, container = ${it.container}, ") }
+
+					// Now we need to adjust the itemsPosition by the number
+					// of non-videos items removed below it.
+					if (finalItemsPosition > 0) {
+						finalItemsPosition -= items.foldIndexed(0, {
+								index, acc, it ->
+							if (it.mediaType == MediaType.VIDEO || index >= finalItemsPosition) acc else acc + 1
+						})
+					}
+				}
+			}
+		}
+
+		val isAudio = finalItems.any { it.mediaType == MediaType.AUDIO }
+		Timber.i("launch ${finalItems.size} items; isAudio = $isAudio")
 
 		if (isAudio) {
-			mediaManager.playNow(context, items, itemsPosition, shuffle)
+			mediaManager.playNow(context, finalItems, finalItemsPosition, shuffle)
 			navigationRepository.navigate(Destinations.nowPlaying)
 		} else {
-			val items = if (shuffle) items.shuffled() else items
+			val finalItems = if (shuffle) finalItems.shuffled() else finalItems
 
-			videoQueueManager.setCurrentVideoQueue(items.toList())
-			videoQueueManager.setCurrentMediaPosition(itemsPosition)
+			videoQueueManager.setCurrentVideoQueue(finalItems.toList())
+			videoQueueManager.setCurrentMediaPosition(finalItemsPosition)
 
-			if (items.isEmpty()) return
+			if (finalItems.isEmpty()) return
 
-			if (userPreferences[UserPreferences.useExternalPlayer] && items.all { it.supportsExternalPlayer }) {
+			if (userPreferences[UserPreferences.useExternalPlayer] && finalItems.all { it.supportsExternalPlayer }) {
 				context.startActivity(ActivityDestinations.externalPlayer(context, position?.milliseconds ?: Duration.ZERO))
 			} else if (userPreferences[UserPreferences.playbackRewriteVideoEnabled]) {
 				val destination = Destinations.videoPlayerNew(position)

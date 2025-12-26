@@ -1224,6 +1224,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
 
                 interactionTracker.getValue().notifyStartSession(item, response);
+                Timber.i("Launching due to play single item");
                 KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), response, pos, false, 0, shuffle);
             }
         });
@@ -1232,6 +1233,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     void play(final List<BaseItemDto> items, final int pos, final boolean shuffle) {
         if (items.isEmpty()) return;
         if (shuffle) Collections.shuffle(items);
+        Timber.i("Launching due to play multiple item");
         KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos);
     }
 }
