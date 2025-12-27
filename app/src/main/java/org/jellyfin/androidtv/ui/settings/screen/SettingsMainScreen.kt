@@ -44,6 +44,15 @@ fun SettingsMainScreen() {
 			)
 		}
 
+		// TODO: Temporarily added to root - should be accessed via customization screen instead
+		item {
+			ListButton(
+				leadingContent = { Icon(painterResource(R.drawable.ic_photos), contentDescription = null) },
+				headingContent = { Text(stringResource(R.string.pref_screensaver)) },
+				onClick = { router.push(Routes.CUSTOMIZATION_SCREENSAVER) }
+			)
+		}
+
 		item {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_next), contentDescription = null) },
