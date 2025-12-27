@@ -250,8 +250,8 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		) {
 			if (item !is BaseRowItem) return
 			if (row !is ListRow) return
-			@Suppress("UNCHECKED_CAST")
-			itemLauncher.launch(item, row.adapter as MutableObjectAdapter<Any>, requireContext())
+			val rowAdapter = row.adapter as? ItemRowAdapter ?: return
+			itemLauncher.launch(item, rowAdapter, requireContext())
 		}
 	}
 
