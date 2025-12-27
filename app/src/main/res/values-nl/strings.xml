@@ -616,4 +616,8 @@
     <string name="font_weight_700">Vet</string>
     <string name="font_weight_800">Extra vet</string>
     <string name="font_weight_900">Zwaar</string>
+    <string name="video_player_external">Externe app</string>
+    <string name="playback_video_player">Videospeler</string>
+    <string name="video_player_internal">Ingebouwde videospeler</string>
+    <string name="playback_video_player_external_empty">Je hebt geen apps op je apparaat staan die video\'s van Jellyfin kunnen afspelen.</string>
 </resources>
