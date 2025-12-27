@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
-import org.jellyfin.androidtv.ui.preference.dsl.shortcut
 import org.jellyfin.androidtv.util.getQuantityString
 import org.koin.android.ext.android.inject
 import kotlin.time.Duration.Companion.minutes
@@ -151,20 +150,6 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 					set { value -> userPreferences[UserPreferences.screensaverAgeRatingMax] = value.toInt() }
 					default { UserPreferences.screensaverAgeRatingMax.defaultValue.toString() }
 				}
-			}
-		}
-
-		category {
-			setTitle(R.string.pref_behavior)
-
-			shortcut {
-				setTitle(R.string.pref_audio_track_button)
-				bind(userPreferences, UserPreferences.shortcutAudioTrack)
-			}
-
-			shortcut {
-				setTitle(R.string.pref_subtitle_track_button)
-				bind(userPreferences, UserPreferences.shortcutSubtitleTrack)
 			}
 		}
 	}
