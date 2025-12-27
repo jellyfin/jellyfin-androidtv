@@ -198,6 +198,8 @@
     <string name="pref_show_backdrop_description">Change background image to selected items</string>
     <string name="lbl_show_premieres">Show season premieres</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
+    <string name="pref_next_up_retention_days">Next Up retention</string>
+    <string name="pref_next_up_retention_days_unlimited">Always show</string>
     <string name="lbl_in_x_days">In %d days</string>
     <string name="lbl_select_date">Select date</string>
     <string name="lbl_just_this_once">Just this once</string>
@@ -587,6 +589,10 @@
     <plurals name="minutes">
         <item quantity="one">%1$s minute</item>
         <item quantity="other">%1$s minutes</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%1$s day</item>
+        <item quantity="other">%1$s days</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">%1$s hour</item>
