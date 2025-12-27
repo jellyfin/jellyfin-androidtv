@@ -257,6 +257,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
+
+		/**
+		 * Enable the use of software-based codecs.
+		 */
+		var useSoftwareCodecs = booleanPreference("use_software_codecs", true)
 	}
 
 	init {

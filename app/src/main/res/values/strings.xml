@@ -620,4 +620,5 @@
         <item quantity="one">%1$s album</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+    <string name="pref_use_software_codecs">Use software codecs</string>
 </resources>
