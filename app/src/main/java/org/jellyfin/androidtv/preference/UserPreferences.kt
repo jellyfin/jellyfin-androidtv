@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.preference
 
 import android.content.Context
-import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
 import org.jellyfin.androidtv.preference.constant.AppTheme
@@ -135,16 +134,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Use direct play
 		 */
 		var liveTvDirectPlayEnabled = booleanPreference("pref_live_direct", true)
-
-		/**
-		 * Shortcut used for changing the audio track
-		 */
-		var shortcutAudioTrack = intPreference("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
-
-		/**
-		 * Shortcut used for changing the subtitle track
-		 */
-		var shortcutSubtitleTrack = intPreference("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
 
 		/* Developer options */
 		/**
