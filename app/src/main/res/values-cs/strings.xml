@@ -567,12 +567,12 @@
     <string name="segment_type_preview">Ukázky</string>
     <string name="preference_enable_trickplay">Povolit trickplay v přehrávači videa</string>
     <string name="video_start_delay">Zpoždění začátku videa</string>
-    <string name="lbl_subtitle_text_color">Barva textu titulků</string>
-    <string name="lbl_subtitle_background_color">Barva pozadí titulků</string>
+    <string name="lbl_subtitle_text_color">Barva textu</string>
+    <string name="lbl_subtitle_background_color">Barva pozadí</string>
     <string name="segment_type_unknown">Neznámé segmenty</string>
     <string name="prefer_exoplayer_ffmpeg_content">Pro dekódování zvuku použít FFmpeg, i když jsou dostupné kodeky pro danou platformu.</string>
     <string name="segment_action_ask_to_skip">Zeptat se na přeskočení</string>
-    <string name="lbl_subtitle_text_stroke_color">Barva obrysu titulků</string>
+    <string name="lbl_subtitle_text_stroke_color">Barva obrysu</string>
     <string name="pref_mediasegment_actions">Akce mediálních segmentů</string>
     <string name="runtime_hours_minutes">%1$d h %2$d min</string>
     <string name="runtime_minutes">%1$d min.</string>
@@ -612,4 +612,18 @@
     <string name="pref_prerolls_enabled_description">Přehrát vlastní znělky před filmy</string>
     <string name="pref_media_queueing">Všechny epizody do fronty</string>
     <string name="pref_media_queueing_description">Při přehrávání televizních seriálů přidat další epizody do fronty</string>
+    <string name="pref_subtitles_weight">Tloušťka textu</string>
+    <string name="font_weight_100">Tenká</string>
+    <string name="font_weight_200">Extra slabá</string>
+    <string name="font_weight_300">Slabá</string>
+    <string name="font_weight_400">Normální</string>
+    <string name="font_weight_500">Střední</string>
+    <string name="font_weight_600">Polotučné</string>
+    <string name="font_weight_700">Tučné</string>
+    <string name="font_weight_800">Extra tučné</string>
+    <string name="font_weight_900">Černé</string>
+    <string name="subtitle_preview_text">Titulky budou vypadat takto</string>
+    <string name="color_presets">Předvolby</string>
+    <string name="color_custom">Přizpůsobit barvu</string>
+    <string name="color_alpha">Průhlednost</string>
 </resources>
