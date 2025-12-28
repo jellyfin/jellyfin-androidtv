@@ -53,18 +53,6 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_default_rating)
 				bind(userPreferences, UserPreferences.defaultRatingType)
 			}
-
-			checkbox {
-				setTitle(R.string.lbl_show_premieres)
-				setContent(R.string.desc_premieres)
-				bind(userPreferences, UserPreferences.premieresEnabled)
-			}
-
-			checkbox {
-				setTitle(R.string.pref_enable_media_management)
-				setContent(R.string.pref_enable_media_management_description)
-				bind(userPreferences, UserPreferences.mediaManagementEnabled)
-			}
 		}
 
 		category {

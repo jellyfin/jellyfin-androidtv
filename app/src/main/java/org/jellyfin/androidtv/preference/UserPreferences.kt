@@ -45,16 +45,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
 
-		/**
-		 * Show premieres on home screen
-		 */
-		var premieresEnabled = booleanPreference("pref_enable_premieres", false)
-
-		/**
-		 * Enable management of media like deleting items when the user has sufficient permissions.
-		 */
-		var mediaManagementEnabled = booleanPreference("enable_media_management", false)
-
 		/* Playback - General*/
 		/**
 		 * Maximum bitrate in megabit for playback.
