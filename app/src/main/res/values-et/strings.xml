@@ -611,4 +611,10 @@
     <string name="color_custom">Kohanda värvi</string>
     <string name="color_alpha">Läbipaistvus</string>
     <string name="pref_playback_media_segments">Meediasegmendid</string>
+    <string name="playback_video_player_external_empty">Selles seadmes pole rakendust, millega saaks Jellyfini videoid esitada.</string>
+    <string name="video_player_external">Väline rakendus</string>
+    <string name="video_player_internal">Sisseehitatud videopleier</string>
+    <string name="playback_video_player">Videopleier</string>
+    <string name="pref_prerolls_enabled_description">Esita enne filmi oma sissejuhatus</string>
+    <string name="pref_playback_next_up">Järgmisena</string>
 </resources>
