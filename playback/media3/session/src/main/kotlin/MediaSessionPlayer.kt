@@ -22,6 +22,7 @@ import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
+import org.jellyfin.playback.core.queue.isThemePlayback
 import org.jellyfin.playback.core.queue.metadata
 import org.jellyfin.playback.core.queue.queue
 import timber.log.Timber
@@ -89,11 +90,12 @@ internal class MediaSessionPlayer(
 		}.build())
 
 		runBlocking {
-			val current = manager.queue.entry.value
+			val currentEntry = manager.queue.entry.value
+			val current = currentEntry?.takeUnless { it.isThemePlayback }
 
 			if (current != null) {
-				val previous = manager.queue.peekPrevious()
-				val next = manager.queue.peekNext()
+				val previous = manager.queue.peekPrevious()?.takeUnless { it.isThemePlayback }
+				val next = manager.queue.peekNext()?.takeUnless { it.isThemePlayback }
 
 				val playlist = listOfNotNull(previous, current, next)
 					.distinctBy { it.metadata.mediaId }
