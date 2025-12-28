@@ -655,4 +655,8 @@
     <string name="color_presets">إعدادات مسبقة</string>
     <string name="color_custom">تخصيص ألوان</string>
     <string name="color_alpha">شفافية</string>
+    <string name="playback_video_player">مشغّل فيديو</string>
+    <string name="video_player_internal">مشغّل فيديو مضمّن</string>
+    <string name="video_player_external">تطبيق خارجي</string>
+    <string name="playback_video_player_external_empty">لا تملك أي تطبيق تشغيل فيديو مٌنصّب على جهازك لفتح فيديوات Jellyfin.</string>
 </resources>
