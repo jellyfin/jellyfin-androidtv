@@ -606,4 +606,8 @@
     <string name="font_weight_200">特细体</string>
     <string name="font_weight_300">细体</string>
     <string name="font_weight_500">中等</string>
+    <string name="playback_video_player">视频播放器</string>
+    <string name="video_player_internal">内置视频播放器</string>
+    <string name="video_player_external">外部应用程序</string>
+    <string name="playback_video_player_external_empty">您的设备上没有安装任何可以播放 Jellyfin 视频的播放器应用程序。</string>
 </resources>
