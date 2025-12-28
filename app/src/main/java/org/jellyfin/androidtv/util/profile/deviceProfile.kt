@@ -84,6 +84,7 @@ fun createDeviceProfile(
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = false,
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
+	useSoftwareCodecs = userPreferences[UserPreferences.useSoftwareCodecs],
 )
 
 fun createDeviceProfile(
@@ -93,7 +94,10 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
+	useSoftwareCodecs: Boolean,
 ) = buildDeviceProfile {
+	mediaTest.useSoftwareCodecs = useSoftwareCodecs
+
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
 		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()

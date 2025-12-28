@@ -602,4 +602,5 @@
     <string name="pref_prerolls_enabled_description">Play custom intros before films</string>
     <string name="pref_media_queueing">Queue all episodes</string>
     <string name="pref_media_queueing_description">Add subsequent episodes to the queue when playing TV series</string>
+    <string name="pref_use_software_codecs">Use software codecs</string>
 </resources>
