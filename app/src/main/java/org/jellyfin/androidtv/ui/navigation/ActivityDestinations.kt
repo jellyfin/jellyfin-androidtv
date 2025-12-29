@@ -9,7 +9,8 @@ import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.screen.CustomizationPreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.HomePreferencesScreen
+import org.jellyfin.androidtv.ui.preference.screen.LibrariesPreferencesScreen
 import org.jellyfin.androidtv.ui.preference.screen.PlaybackAdvancedPreferencesScreen
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import kotlin.time.Duration
@@ -27,7 +28,8 @@ object ActivityDestinations {
 		)
 	}
 
-	fun customizationPreferences(context: Context) = preferenceIntent<CustomizationPreferencesScreen>(context)
+	fun librariesPreferences(context: Context) = preferenceIntent<LibrariesPreferencesScreen>(context)
+	fun homePreferences(context: Context) = preferenceIntent<HomePreferencesScreen>(context)
 	fun playbackAdvancedPreferences(context: Context) = preferenceIntent<PlaybackAdvancedPreferencesScreen>(context)
 
 	fun displayPreferences(context: Context, displayPreferencesId: String, allowViewSelection: Boolean) =

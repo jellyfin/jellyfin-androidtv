@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.settings.screen
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
@@ -9,14 +8,12 @@ import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
-import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 
 @Composable
 fun SettingsMainScreen() {
-	val context = LocalContext.current
 	val router = LocalRouter.current
 
 	SettingsColumn {
@@ -40,7 +37,7 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_adjust), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_customization)) },
-				onClick = { context.startActivity(ActivityDestinations.customizationPreferences(context)) }
+				onClick = { router.push(Routes.CUSTOMIZATION) }
 			)
 		}
 

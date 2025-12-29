@@ -10,6 +10,11 @@ import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenti
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationServerScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationServerUserScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationSortByScreen
+import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationClockScreen
+import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationRatingTypeScreen
+import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationScreen
+import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationThemeScreen
+import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationWatchedIndicatorScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitleTextStrokeColorScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitlesBackgroundColorScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitlesScreen
@@ -38,6 +43,11 @@ object Routes {
 	const val AUTHENTICATION_SERVER_USER = "/authentication/server/{serverId}/user/{userId}"
 	const val AUTHENTICATION_SORT_BY = "/authentication/sort-by"
 	const val AUTHENTICATION_AUTO_SIGN_IN = "/authentication/auto-sign-in"
+	const val CUSTOMIZATION = "/customization"
+	const val CUSTOMIZATION_THEME = "/customization/theme"
+	const val CUSTOMIZATION_CLOCK = "/customization/clock"
+	const val CUSTOMIZATION_WATCHED_INDICATOR = "/customization/watch-indicators"
+	const val CUSTOMIZATION_RATING_TYPE = "/customization/rating-type"
 	const val CUSTOMIZATION_SCREENSAVER = "/customization/screensaver"
 	const val CUSTOMIZATION_SCREENSAVER_TIMEOUT = "/customization/screensaver/timeout"
 	const val CUSTOMIZATION_SCREENSAVER_AGE_RATING = "/customization/screensaver/age-rating"
@@ -86,6 +96,21 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.AUTHENTICATION_AUTO_SIGN_IN to {
 		SettingsAuthenticationAutoSignInScreen()
+	},
+	Routes.CUSTOMIZATION to {
+		SettingsCustomizationScreen()
+	},
+	Routes.CUSTOMIZATION_THEME to {
+		SettingsCustomizationThemeScreen()
+	},
+	Routes.CUSTOMIZATION_CLOCK to {
+		SettingsCustomizationClockScreen()
+	},
+	Routes.CUSTOMIZATION_WATCHED_INDICATOR to {
+		SettingsCustomizationWatchedIndicatorScreen()
+	},
+	Routes.CUSTOMIZATION_RATING_TYPE to {
+		SettingsCustomizationRatingTypeScreen()
 	},
 	Routes.CUSTOMIZATION_SCREENSAVER to {
 		SettingsScreensaverScreen()
