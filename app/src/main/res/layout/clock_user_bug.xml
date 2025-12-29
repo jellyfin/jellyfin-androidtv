@@ -17,18 +17,6 @@
         android:contentDescription="@string/lbl_home"
         android:src="@drawable/ic_house" />
 
-    <Space
-        android:layout_width="8dp"
-        android:layout_height="0dp" />
-
-    <org.jellyfin.androidtv.ui.AsyncImageView
-        android:id="@+id/clock_user_image"
-        android:layout_width="41dp"
-        android:layout_height="41dp"
-        android:padding="4dp"
-        app:circleCrop="true"
-        tools:src="@drawable/ic_user" />
-
     <TextClock
         android:id="@+id/clock"
         android:layout_width="wrap_content"

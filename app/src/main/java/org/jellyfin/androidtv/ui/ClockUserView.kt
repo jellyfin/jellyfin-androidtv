@@ -4,16 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.util.ImageHelper
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -25,9 +21,7 @@ class ClockUserView @JvmOverloads constructor(
 ) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes), KoinComponent {
 	private val binding: ClockUserBugBinding = ClockUserBugBinding.inflate(LayoutInflater.from(context), this, true)
 	private val userPreferences by inject<UserPreferences>()
-	private val userRepository by inject<UserRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
-	private val imageHelper by inject<ImageHelper>()
 
 	var isVideoPlayer = false
 		set(value) {
@@ -39,15 +33,6 @@ class ClockUserView @JvmOverloads constructor(
 
 	init {
 		updateClockVisibility()
-
-		val currentUser = userRepository.currentUser.value
-
-		binding.clockUserImage.load(
-			url = currentUser?.let(imageHelper::getPrimaryImageUrl),
-			placeholder = ContextCompat.getDrawable(context, R.drawable.ic_user)
-		)
-
-		binding.clockUserImage.isVisible = currentUser != null
 
 		binding.home.setOnClickListener {
 			navigationRepository.reset(Destinations.home, clearHistory = true)
