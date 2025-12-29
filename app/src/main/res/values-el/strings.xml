@@ -494,10 +494,10 @@
     <string name="photo_albums">Άλμπουμ φωτογραφιών</string>
     <string name="photos">Φωτογραφίες</string>
     <string name="random">Τυχαίο</string>
-    <string name="lbl_subtitle_text_color">Χρώμα κειμένου υποτίτλων</string>
+    <string name="lbl_subtitle_text_color">Χρώμα κειμένου</string>
     <string name="continue_listening">Συνέχισε την ακρόαση</string>
-    <string name="lbl_subtitle_background_color">Χρώμα φόντου υποτίτλων</string>
-    <string name="lbl_subtitle_text_stroke_color">Χρώμα περιγράμματος υποτίτλων</string>
+    <string name="lbl_subtitle_background_color">Χρώμα φόντου</string>
+    <string name="lbl_subtitle_text_stroke_color">Χρώμα περιγράμματος</string>
     <string name="pref_external_player">Χρήση εξωτερικού προγράμματος αναπαραγωγής</string>
     <string name="pref_playback_advanced">Προχωρημένες ρυθμίσεις αναπαραγωγής</string>
     <string name="unreleased">Δεν έχει κυκλοφορήσει ακόμα</string>
@@ -546,4 +546,22 @@
     <string name="pref_customization_subtitles">Υπότιτλοι</string>
     <string name="pref_playback_media_segments">Τμήματα πολυμέσων</string>
     <string name="pref_playback_next_up">Επόμενο</string>
+    <string name="playback_video_player_external_empty">Δεν έχετε εγκατεστημένες εφαρμογές αναπαραγωγής βίντεο στη συσκευή σας που να μπορούν να ανοίξουν βίντεο Jellyfin.</string>
+    <string name="video_player_external">Εξωτερική εφαρμογή</string>
+    <string name="font_weight_300">Σχετικά λεπτό</string>
+    <string name="font_weight_400">Κανονικό</string>
+    <string name="font_weight_500">Μέτριο</string>
+    <string name="font_weight_600">Ημι-έντονο</string>
+    <string name="font_weight_700">Εντονο</string>
+    <string name="font_weight_800">Πολύ έντονο</string>
+    <string name="font_weight_900">Μαύρο</string>
+    <string name="subtitle_preview_text">Οι υπότιτλοι θα μοιάζουν κάπως έτσι</string>
+    <string name="color_presets">Προκαθορισμένες ρυθμίσεις</string>
+    <string name="color_custom">Προσαρμογή χρώματος</string>
+    <string name="color_alpha">Διαφάνεια</string>
+    <string name="playback_video_player">Εφαρμογή αναπαραγωγής βίντεο</string>
+    <string name="video_player_internal">Ενσωματωμένο πρόγραμμα αναπαραγωγής βίντεο</string>
+    <string name="pref_subtitles_weight">Πάχος κειμένου</string>
+    <string name="font_weight_100">Λεπτό</string>
+    <string name="font_weight_200">Πολύ λεπτό</string>
 </resources>
