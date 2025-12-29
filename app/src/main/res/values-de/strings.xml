@@ -612,8 +612,12 @@
     <string name="font_weight_800">sehr Fett</string>
     <string name="font_weight_600">Dicker</string>
     <string name="font_weight_900">Schwarz</string>
-    <string name="subtitle_preview_text">Untertitel sehen so aus</string>
+    <string name="subtitle_preview_text">Untertitel werden so aussehen</string>
     <string name="color_presets">Voreinstellungen</string>
-    <string name="color_custom">Farbeinstellungen</string>
+    <string name="color_custom">Farbe anpassen</string>
     <string name="color_alpha">Transparenz</string>
+    <string name="playback_video_player_external_empty">Du hast keine Videoplayer-Apps auf deinem Gerät installiert, welche Videos von Jellyfin öffnen können.</string>
+    <string name="playback_video_player">Videoplayer</string>
+    <string name="video_player_internal">Eingebauter Videoplayer</string>
+    <string name="video_player_external">Externe App</string>
 </resources>
