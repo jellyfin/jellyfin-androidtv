@@ -554,9 +554,9 @@
     <string name="past_week">Darrera setmana</string>
     <string name="scheduled_in_next_24_hours">Programat per d\'aquí a 24 hores</string>
     <string name="past_24_hours">Darreres 24 hores</string>
-    <string name="lbl_subtitle_text_color">Color del text dels subtítols</string>
-    <string name="lbl_subtitle_background_color">Color del fons dels subtítols</string>
-    <string name="lbl_subtitle_text_stroke_color">Color del contorn dels subtítols</string>
+    <string name="lbl_subtitle_text_color">Color del text</string>
+    <string name="lbl_subtitle_background_color">Color del fons</string>
+    <string name="lbl_subtitle_text_stroke_color">Color del contorn</string>
     <string name="prefer_exoplayer_ffmpeg">Prefereix FFmpeg per a la reproducció d\'àudio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Fes servir FFmpeg per a descodificar l\'àudio, encara que els còdecs de plataforma estiguin disponibles.</string>
     <string name="default_video_zoom">Configuració per defecte dels augments</string>
@@ -611,4 +611,22 @@
     <string name="pref_playback_prerolls">Prefets</string>
     <string name="pref_playback_inactivity_prompt">Indicació d\'inactivitat</string>
     <string name="pref_media_queueing_description">Afegeix els subseqüents episodis a la cua en reproduir sèries de televisió</string>
+    <string name="playback_video_player_external_empty">No teniu cap aplicació de reproducció de vídeo instal·lada al dispositiu que pugui obrir vídeos de Jellyfin.</string>
+    <string name="video_player_external">Aplicació externa</string>
+    <string name="video_player_internal">Reproducció integrat de vídeo</string>
+    <string name="playback_video_player">Reproductor de vídeo</string>
+    <string name="color_alpha">Transparència</string>
+    <string name="color_custom">Color personalitzat</string>
+    <string name="color_presets">Colors per defecte</string>
+    <string name="subtitle_preview_text">Els subtítols tindran aquest aspecte</string>
+    <string name="font_weight_900">Negre</string>
+    <string name="font_weight_800">Extra negreta</string>
+    <string name="font_weight_700">Negreta</string>
+    <string name="font_weight_600">Semi negreta</string>
+    <string name="font_weight_500">Intermèdia</string>
+    <string name="font_weight_400">Normal</string>
+    <string name="font_weight_300">Lleugera</string>
+    <string name="font_weight_200">Extra lleugera</string>
+    <string name="font_weight_100">Prima</string>
+    <string name="pref_subtitles_weight">Gruix del text</string>
 </resources>
