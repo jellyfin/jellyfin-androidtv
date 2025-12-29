@@ -33,7 +33,7 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	listCaption = Color(0x99FFFFFF),
 	listButton = Color(0x00000000),
 	listButtonFocused = Color(0xFF36363B),
-	listButtonDisabled = Color(0x33747474),
+	listButtonDisabled = Color(0xFF1B1B1E),
 	surface = Color(0xFF212225),
 	scrim = Color(0xAB000000),
 )

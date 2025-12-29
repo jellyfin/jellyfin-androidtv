@@ -102,7 +102,7 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_grid), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_libraries)) },
-				onClick = { context.startActivity(ActivityDestinations.librariesPreferences(context)) }
+				onClick = { router.push(Routes.LIBRARIES) }
 			)
 		}
 
