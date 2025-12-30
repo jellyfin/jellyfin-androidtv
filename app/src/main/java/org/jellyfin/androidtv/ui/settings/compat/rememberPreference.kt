@@ -6,6 +6,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import org.jellyfin.preference.Preference
+import org.jellyfin.preference.store.AsyncPreferenceStore
 import org.jellyfin.preference.store.PreferenceStore
 
 /**
@@ -29,7 +30,10 @@ fun <ME, MV, T : Enum<T>> rememberPreference(
 ): MutableState<T> {
 	val mutableState = remember { mutableStateOf(store[preference]) }
 	LaunchedEffect(mutableState.value) {
-		if (store[preference] != mutableState.value) store[preference] = mutableState.value
+		if (store[preference] != mutableState.value) {
+			store[preference] = mutableState.value
+			if (store is AsyncPreferenceStore) store.commit()
+		}
 	}
 	return mutableState
 }
