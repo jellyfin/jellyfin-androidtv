@@ -21,6 +21,10 @@ import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.Settings
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitlesTextColorScreen
 import org.jellyfin.androidtv.ui.settings.screen.home.SettingsHomeScreen
 import org.jellyfin.androidtv.ui.settings.screen.home.SettingsHomeSectionScreen
+import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesDisplayGridScreen
+import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesDisplayImageSizeScreen
+import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesDisplayImageTypeScreen
+import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesDisplayScreen
 import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicenseScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicensesScreen
@@ -59,6 +63,10 @@ object Routes {
 	const val CUSTOMIZATION_SUBTITLES_BACKGROUND_COLOR = "/customization/subtitles/background-color"
 	const val CUSTOMIZATION_SUBTITLES_EDGE_COLOR = "/customization/subtitles/edge-color"
 	const val LIBRARIES = "/libraries"
+	const val LIBRARIES_DISPLAY = "/libraries/display/{itemId}/{displayPreferencesId}"
+	const val LIBRARIES_DISPLAY_IMAGE_SIZE = "/libraries/display/{itemId}/{displayPreferencesId}/image-size"
+	const val LIBRARIES_DISPLAY_IMAGE_TYPE = "/libraries/display/{itemId}/{displayPreferencesId}/image-type"
+	const val LIBRARIES_DISPLAY_GRID = "/libraries/display/{itemId}/{displayPreferencesId}/grid"
 	const val HOME = "/home"
 	const val HOME_SECTION = "/home/section/{index}"
 	const val PLAYBACK = "/playback"
@@ -141,6 +149,18 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.LIBRARIES to {
 		SettingsLibrariesScreen()
+	},
+	Routes.LIBRARIES_DISPLAY to { context ->
+		SettingsLibrariesDisplayScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
+	},
+	Routes.LIBRARIES_DISPLAY_IMAGE_SIZE to { context ->
+		SettingsLibrariesDisplayImageSizeScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
+	},
+	Routes.LIBRARIES_DISPLAY_IMAGE_TYPE to { context ->
+		SettingsLibrariesDisplayImageTypeScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
+	},
+	Routes.LIBRARIES_DISPLAY_GRID to { context ->
+		SettingsLibrariesDisplayGridScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
 	},
 	Routes.HOME to {
 		SettingsHomeScreen()
