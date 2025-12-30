@@ -32,6 +32,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.CompositeClickedListener
 import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener
@@ -64,6 +65,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val notificationsRepository by inject<NotificationsRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val userSettingPreferences by inject<UserSettingPreferences>()
+	private val userPreferences by inject<UserPreferences>()
 	private val userViewsRepository by inject<UserViewsRepository>()
 	private val dataRefreshService by inject<DataRefreshService>()
 	private val customMessageRepository by inject<CustomMessageRepository>()
@@ -71,7 +73,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val itemLauncher by inject<ItemLauncher>()
 	private val keyProcessor by inject<KeyProcessor>()
 
-	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository) }
+	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userPreferences) }
 
 	// Data
 	private var currentItem: BaseRowItem? = null

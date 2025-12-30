@@ -71,6 +71,45 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				icon = R.drawable.ic_grid
 				withFragment<LibrariesPreferencesScreen>()
 			}
+
+			list {
+				setTitle(R.string.pref_next_up_retention_days)
+
+				val daysOptions = NEXT_UP_RETENTION_DAYS_OPTIONS
+
+				entries = buildMap {
+					put("0", getString(R.string.pref_next_up_retention_days_unlimited))
+					daysOptions.forEach { days ->
+						put(days.toString(), context.getQuantityString(R.plurals.days, days, days))
+					}
+				}
+
+				bind {
+					get { userPreferences[UserPreferences.nextUpRetentionDays].toString() }
+					set { value -> userPreferences[UserPreferences.nextUpRetentionDays] = value.toInt() }
+					default { UserPreferences.nextUpRetentionDays.defaultValue.toString() }
+				}
+			}
 		}
+	}
+
+	private companion object {
+		private const val RETENTION_ONE_WEEK_DAYS = 7
+		private const val RETENTION_TWO_WEEKS_DAYS = 14
+		private const val RETENTION_ONE_MONTH_DAYS = 30
+		private const val RETENTION_TWO_MONTHS_DAYS = 60
+		private const val RETENTION_THREE_MONTHS_DAYS = 90
+		private const val RETENTION_SIX_MONTHS_DAYS = 180
+		private const val RETENTION_ONE_YEAR_DAYS = 365
+
+		private val NEXT_UP_RETENTION_DAYS_OPTIONS = listOf(
+			RETENTION_ONE_WEEK_DAYS,
+			RETENTION_TWO_WEEKS_DAYS,
+			RETENTION_ONE_MONTH_DAYS,
+			RETENTION_TWO_MONTHS_DAYS,
+			RETENTION_THREE_MONTHS_DAYS,
+			RETENTION_SIX_MONTHS_DAYS,
+			RETENTION_ONE_YEAR_DAYS,
+		)
 	}
 }

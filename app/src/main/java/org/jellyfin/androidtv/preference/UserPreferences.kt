@@ -62,6 +62,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var nextUpBehavior = enumPreference("next_up_behavior", NextUpBehavior.EXTENDED)
 
 		/**
+		 * Maximum number of days to keep an item in Next Up without interaction.
+		 */
+		var nextUpRetentionDays = intPreference("next_up_retention_days", 60)
+
+		/**
 		 * Next up timeout before playing next item
 		 * Stored in milliseconds
 		 */

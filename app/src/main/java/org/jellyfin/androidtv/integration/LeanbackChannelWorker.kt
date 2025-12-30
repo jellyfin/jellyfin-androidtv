@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageHelper
+import org.jellyfin.androidtv.util.nextUpDateCutoff
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.apiclient.parentImages
@@ -278,6 +279,7 @@ class LeanbackChannelWorker(
 					limit = 10,
 					enableResumable = false,
 					fields = ItemRepository.itemFields,
+					nextUpDateCutoff = userPreferences.nextUpDateCutoff(),
 				).content.items
 			}
 
