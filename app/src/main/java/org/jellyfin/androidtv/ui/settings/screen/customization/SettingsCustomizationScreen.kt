@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.settings.screen.customization
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
@@ -13,7 +12,6 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
-import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
@@ -22,7 +20,6 @@ import org.koin.compose.koinInject
 
 @Composable
 fun SettingsCustomizationScreen() {
-	val context = LocalContext.current
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
 
@@ -110,7 +107,7 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_house), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.home_prefs)) },
-				onClick = { context.startActivity(ActivityDestinations.homePreferences(context)) }
+				onClick = { router.push(Routes.HOME) }
 			)
 		}
 	}
