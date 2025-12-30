@@ -19,6 +19,8 @@ import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.Settings
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitlesBackgroundColorScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitlesScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.subtitle.SettingsSubtitlesTextColorScreen
+import org.jellyfin.androidtv.ui.settings.screen.home.SettingsHomeScreen
+import org.jellyfin.androidtv.ui.settings.screen.home.SettingsHomeSectionScreen
 import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicenseScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicensesScreen
@@ -57,6 +59,8 @@ object Routes {
 	const val CUSTOMIZATION_SUBTITLES_BACKGROUND_COLOR = "/customization/subtitles/background-color"
 	const val CUSTOMIZATION_SUBTITLES_EDGE_COLOR = "/customization/subtitles/edge-color"
 	const val LIBRARIES = "/libraries"
+	const val HOME = "/home"
+	const val HOME_SECTION = "/home/section/{index}"
 	const val PLAYBACK = "/playback"
 	const val PLAYBACK_PLAYER = "/playback/player"
 	const val PLAYBACK_NEXT_UP = "/playback/next-up"
@@ -137,6 +141,12 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.LIBRARIES to {
 		SettingsLibrariesScreen()
+	},
+	Routes.HOME to {
+		SettingsHomeScreen()
+	},
+	Routes.HOME_SECTION to { context ->
+		SettingsHomeSectionScreen(context.parameters["index"]?.toInt()!!)
 	},
 	Routes.PLAYBACK to {
 		SettingsPlaybackScreen()
