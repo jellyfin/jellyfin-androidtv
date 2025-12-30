@@ -55,9 +55,10 @@ val LocalRouter = compositionLocalOf<Router> { error("No router provided") }
 fun ProvideRouter(
 	routes: Map<String, RouteComposable>,
 	defaultRoute: String,
+	defaultRouteParameters: RouteParameters = emptyMap(),
 	content: @Composable () -> Unit,
 ) {
-	val backStack = remember { mutableStateListOf(RouteContext(defaultRoute, emptyMap())) }
+	val backStack = remember { mutableStateListOf(RouteContext(defaultRoute, defaultRouteParameters)) }
 	val router = remember(routes, backStack) {
 		Router(
 			routes = routes,
