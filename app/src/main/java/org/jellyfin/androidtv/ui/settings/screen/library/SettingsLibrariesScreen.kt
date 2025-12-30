@@ -16,6 +16,8 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
+import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.jellyfin.sdk.model.api.CollectionType
 import org.koin.compose.koinInject
@@ -23,6 +25,7 @@ import org.koin.compose.koinInject
 @Composable
 fun SettingsLibrariesScreen() {
 	val context = LocalContext.current
+	val router = LocalRouter.current
 	val userViewsRepository = koinInject<UserViewsRepository>()
 	val userViews by remember {
 		userViewsRepository.views.map { it.toList() }
@@ -37,7 +40,6 @@ fun SettingsLibrariesScreen() {
 		}
 
 		items(userViews) { userView ->
-			val allowViewSelection = userViewsRepository.allowViewSelection(userView.collectionType)
 			val allowGridView = userViewsRepository.allowGridView(userView.collectionType)
 			val displayPreferencesId = userView.displayPreferencesId
 
@@ -56,12 +58,9 @@ fun SettingsLibrariesScreen() {
 					enabled = canOpen,
 					onClick = {
 						if (canOpen) {
-							context.startActivity(
-								ActivityDestinations.displayPreferences(
-									context = context,
-									displayPreferencesId = displayPreferencesId,
-									allowViewSelection = allowViewSelection
-								)
+							router.push(
+								Routes.LIBRARIES_DISPLAY,
+								mapOf("itemId" to userView.id.toString(), "displayPreferencesId" to userView.displayPreferencesId!!)
 							)
 						}
 					}
