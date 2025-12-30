@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RadioButton
 import org.jellyfin.androidtv.ui.base.list.ListButton
+import org.jellyfin.androidtv.ui.base.list.ListMessage
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
@@ -24,7 +25,10 @@ fun SettingsHomeSectionScreen(index: Int) {
 	val sectionPreference = userSettingPreferences.homesections.getOrNull(index)
 
 	if (sectionPreference == null) {
-		Text("Unknown section $index")
+		ListMessage {
+			Text("Unknown section $index")
+		}
+
 		return
 	}
 
