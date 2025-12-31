@@ -630,4 +630,5 @@
     <string name="video_player_internal">Lecteur vidéo intégré</string>
     <string name="video_player_external">Lecteur vidéo externe</string>
     <string name="playback_video_player_external_empty">Vous n\'avez aucune application de lecture vidéo installée sur votre appareil qui peut lire les vidéos de Jellyfin.</string>
+    <string name="filters">Filtres</string>
 </resources>
