@@ -640,4 +640,5 @@
     <string name="video_player_internal">Wbudowany odtwarzacz wideo</string>
     <string name="video_player_external">Zewnętrzna aplikacja</string>
     <string name="playback_video_player_external_empty">Na tym urządzeniu nie ma zainstalowanej żadnej aplikacji do odtwarzania wideo, która mogłaby otwierać pliki wideo Jellyfin.</string>
+    <string name="filters">Filtry</string>
 </resources>
