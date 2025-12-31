@@ -28,6 +28,9 @@ import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesDispla
 import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicenseScreen
 import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicensesScreen
+import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideChannelOrderScreen
+import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideFiltersScreen
+import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideOptionsScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackInactivityPromptScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPlayerScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPrerollsScreen
@@ -69,6 +72,9 @@ object Routes {
 	const val LIBRARIES_DISPLAY_GRID = "/libraries/display/{itemId}/{displayPreferencesId}/grid"
 	const val HOME = "/home"
 	const val HOME_SECTION = "/home/section/{index}"
+	const val LIVETV_GUIDE_FILTERS = "/livetv/guide/filters"
+	const val LIVETV_GUIDE_OPTIONS = "/livetv/guide/options"
+	const val LIVETV_GUIDE_CHANNEL_ORDER = "/livetv/guide/channel-order"
 	const val PLAYBACK = "/playback"
 	const val PLAYBACK_PLAYER = "/playback/player"
 	const val PLAYBACK_NEXT_UP = "/playback/next-up"
@@ -167,6 +173,15 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.HOME_SECTION to { context ->
 		SettingsHomeSectionScreen(context.parameters["index"]?.toInt()!!)
+	},
+	Routes.LIVETV_GUIDE_FILTERS to {
+		SettingsLiveTvGuideFiltersScreen()
+	},
+	Routes.LIVETV_GUIDE_OPTIONS to {
+		SettingsLiveTvGuideOptionsScreen()
+	},
+	Routes.LIVETV_GUIDE_CHANNEL_ORDER to {
+		SettingsLiveTvGuideChannelOrderScreen()
 	},
 	Routes.PLAYBACK to {
 		SettingsPlaybackScreen()

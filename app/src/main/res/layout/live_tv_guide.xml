@@ -247,4 +247,14 @@
             android:layout_marginTop="10sp" />
 
     </RelativeLayout>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/settingsFilters"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/settingsOptions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>
