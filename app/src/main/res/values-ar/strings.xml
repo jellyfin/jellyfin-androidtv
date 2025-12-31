@@ -228,7 +228,7 @@
     <string name="lbl_programs">البرامج</string>
     <string name="lbl_direct_stream_live">البث التلفزيوني المباشر</string>
     <string name="lbl_recorded_tv">التسجيلات التلفزيونية</string>
-    <string name="lbl_live_tv_guide">دليل البث التلفزيوني المباشر</string>
+    <string name="lbl_live_tv_guide">مرشد التلفزيون المباشر</string>
     <string name="lbl__continuing">مستمر</string>
     <string name="pref_audio_compat">Downmix إلى ستيريو</string>
     <string name="lbl_end_padding">أنهي الحشو</string>
@@ -659,4 +659,5 @@
     <string name="video_player_internal">مشغّل فيديو مضمّن</string>
     <string name="video_player_external">تطبيق خارجي</string>
     <string name="playback_video_player_external_empty">لا تملك أي تطبيق تشغيل فيديو مٌنصّب على جهازك لفتح فيديوات Jellyfin.</string>
+    <string name="filters">مرشحات</string>
 </resources>
