@@ -55,6 +55,15 @@ PATH, then use the Gradle wrapper (`./gradlew`) to build the project with the `a
 The task will create an APK file in the `/app/build/outputs/apk/debug` directory. This APK file uses a different app-id from our stable
 builds and can be manually installed to your device.
 
+## Branching
+
+The `master` branch is the primary development branch and the target for all pull requests. It is **unstable** and may contain breaking
+changes or unresolved bugs. For production deployments and forks, always use the latest `release-x.y.z` branch. Do not base production work
+or long-lived forks on `master`.
+
+Release branches are created at the start of a beta cycle and are kept up to date with each published release. Maintainers will cherry-pick
+selected changes into release branches as needed for backports. These branches are reused for subsequent patch releases.
+
 ## Translating
 
 Translations can be improved very easily from our [Weblate](https://translate.jellyfin.org/projects/jellyfin-android/jellyfin-androidtv)
