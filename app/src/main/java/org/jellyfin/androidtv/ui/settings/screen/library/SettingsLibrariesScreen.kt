@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.map
@@ -15,7 +14,6 @@ import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
-import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -24,7 +22,6 @@ import org.koin.compose.koinInject
 
 @Composable
 fun SettingsLibrariesScreen() {
-	val context = LocalContext.current
 	val router = LocalRouter.current
 	val userViewsRepository = koinInject<UserViewsRepository>()
 	val userViews by remember {
@@ -47,7 +44,7 @@ fun SettingsLibrariesScreen() {
 				ListButton(
 					leadingContent = { Icon(painterResource(R.drawable.ic_guide), contentDescription = null) },
 					headingContent = { Text(userView.name.orEmpty()) },
-					onClick = { context.startActivity(ActivityDestinations.liveTvGuideOptionPreferences(context = context)) }
+					onClick = { router.push(Routes.LIVETV_GUIDE_OPTIONS) }
 				)
 			} else {
 				val canOpen = allowGridView && displayPreferencesId != null
