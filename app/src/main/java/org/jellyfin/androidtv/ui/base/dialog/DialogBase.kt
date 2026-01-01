@@ -72,11 +72,11 @@ fun DialogBase(
 					exit = exitTransition,
 				) {
 					content()
+					LaunchedEffect(focusRequester) { focusRequester.requestFocus() }
 				}
 			}
 		}
 
-		LaunchedEffect(focusRequester) { focusRequester.requestFocus() }
 		LaunchedEffect(contentVisible) { contentVisible = true }
 	}
 }
