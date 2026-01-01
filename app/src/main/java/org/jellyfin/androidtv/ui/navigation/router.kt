@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -8,7 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.defaultPopTransitionSpec
+import androidx.navigation3.ui.defaultTransitionSpec
+import androidx.navigationevent.NavigationEvent
 
 typealias RouteParameters = Map<String, String>
 typealias RouteComposable = @Composable ((context: RouteContext) -> Unit)
@@ -75,7 +81,10 @@ fun ProvideRouter(
 @Composable
 fun RouterContent(
 	router: Router = LocalRouter.current,
-	fallbackRoute: String = "/"
+	fallbackRoute: String = "/",
+	transitionSpec: AnimatedContentTransitionScope<Scene<RouteContext>>.() -> ContentTransform = defaultTransitionSpec(),
+	popTransitionSpec: AnimatedContentTransitionScope<Scene<RouteContext>>.() -> ContentTransform = defaultPopTransitionSpec(),
+	predictivePopTransitionSpec: AnimatedContentTransitionScope<Scene<RouteContext>>.(@NavigationEvent.SwipeEdge Int) -> ContentTransform = { popTransitionSpec() },
 ) {
 	NavDisplay(
 		backStack = router.backStack,
@@ -83,6 +92,9 @@ fun RouterContent(
 		entryDecorators = listOf(
 			rememberSaveableStateHolderNavEntryDecorator(),
 		),
+		transitionSpec = transitionSpec,
+		popTransitionSpec = popTransitionSpec,
+		predictivePopTransitionSpec = predictivePopTransitionSpec,
 		entryProvider = { backStackEntry ->
 			NavEntry(backStackEntry) {
 				val route = backStackEntry.route

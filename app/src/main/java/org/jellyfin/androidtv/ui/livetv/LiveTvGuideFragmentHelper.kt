@@ -17,9 +17,9 @@ import org.jellyfin.androidtv.databinding.LiveTvGuideBinding
 import org.jellyfin.androidtv.ui.GuideChannelHeader
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.navigation.ProvideRouter
-import org.jellyfin.androidtv.ui.navigation.RouterContent
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsDialog
+import org.jellyfin.androidtv.ui.settings.composable.SettingsRouterContent
 import org.jellyfin.androidtv.ui.settings.routes
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -104,7 +104,7 @@ fun LiveTvGuideFragment.addSettingsOptions(binding: LiveTvGuideBinding): Mutable
 						doLoad()
 					}
 				) {
-					RouterContent()
+					SettingsRouterContent()
 				}
 			}
 		}
@@ -132,7 +132,7 @@ fun LiveTvGuideFragment.addSettingsFilters(binding: LiveTvGuideBinding): Mutable
 						doLoad()
 					}
 				) {
-					RouterContent()
+					SettingsRouterContent()
 				}
 			}
 		}
