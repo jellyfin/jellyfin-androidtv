@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.ui.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -56,6 +58,7 @@ class Router(
 }
 
 val LocalRouter = compositionLocalOf<Router> { error("No router provided") }
+val LocalRouterTransitionScope = compositionLocalOf<SharedTransitionScope> { error("No router transition scope provided") }
 
 @Composable
 fun ProvideRouter(
@@ -86,28 +89,32 @@ fun RouterContent(
 	popTransitionSpec: AnimatedContentTransitionScope<Scene<RouteContext>>.() -> ContentTransform = defaultPopTransitionSpec(),
 	predictivePopTransitionSpec: AnimatedContentTransitionScope<Scene<RouteContext>>.(@NavigationEvent.SwipeEdge Int) -> ContentTransform = { popTransitionSpec() },
 ) {
-	NavDisplay(
-		backStack = router.backStack,
-		onBack = { router.back() },
-		entryDecorators = listOf(
-			rememberSaveableStateHolderNavEntryDecorator(),
-		),
-		transitionSpec = transitionSpec,
-		popTransitionSpec = popTransitionSpec,
-		predictivePopTransitionSpec = predictivePopTransitionSpec,
-		entryProvider = { backStackEntry ->
-			NavEntry(backStackEntry) {
-				val route = backStackEntry.route
-				val composable = router.resolve(route)
-				if (composable == null) {
-					val fallbackComposable = router.resolve(fallbackRoute)
-						?: error("Unknown route $route, fallback $fallbackRoute is invalid")
-					val context = backStackEntry.copy(route = fallbackRoute)
-					fallbackComposable(context)
-				} else {
-					composable(backStackEntry)
+	SharedTransitionLayout {
+		CompositionLocalProvider(LocalRouterTransitionScope provides this@SharedTransitionLayout) {
+			NavDisplay(
+				backStack = router.backStack,
+				onBack = { router.back() },
+				entryDecorators = listOf(
+					rememberSaveableStateHolderNavEntryDecorator(),
+				),
+				transitionSpec = transitionSpec,
+				popTransitionSpec = popTransitionSpec,
+				predictivePopTransitionSpec = predictivePopTransitionSpec,
+				entryProvider = { backStackEntry ->
+					NavEntry(backStackEntry) {
+						val route = backStackEntry.route
+						val composable = router.resolve(route)
+						if (composable == null) {
+							val fallbackComposable = router.resolve(fallbackRoute)
+								?: error("Unknown route $route, fallback $fallbackRoute is invalid")
+							val context = backStackEntry.copy(route = fallbackRoute)
+							fallbackComposable(context)
+						} else {
+							composable(backStackEntry)
+						}
+					}
 				}
-			}
+			)
 		}
-	)
+	}
 }
