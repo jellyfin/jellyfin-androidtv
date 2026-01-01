@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
@@ -32,6 +33,7 @@ fun DialogBase(
 	visible: Boolean,
 	onDismissRequest: () -> Unit,
 	modifier: Modifier = Modifier,
+	scrimColor: Color = JellyfinTheme.colorScheme.scrim,
 	enterTransition: EnterTransition = fadeIn(tween(300)),
 	exitTransition: ExitTransition = fadeOut(tween(300)),
 	contentAlignment: Alignment = Alignment.Center,
@@ -56,7 +58,6 @@ fun DialogBase(
 				decorFitsSystemWindows = false
 			),
 		) {
-			val scrimColor = JellyfinTheme.colorScheme.scrim
 			Box(
 				modifier = modifier
 					.fillMaxSize()
