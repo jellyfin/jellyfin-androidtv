@@ -6,9 +6,9 @@ import androidx.compose.ui.platform.ComposeView
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.navigation.ProvideRouter
-import org.jellyfin.androidtv.ui.navigation.RouterContent
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsDialog
+import org.jellyfin.androidtv.ui.settings.composable.SettingsRouterContent
 import org.jellyfin.androidtv.ui.settings.routes
 import java.util.UUID
 
@@ -32,7 +32,7 @@ fun BrowseGridFragment.addSettings(
 						onResume()
 					}
 				) {
-					RouterContent()
+					SettingsRouterContent()
 				}
 			}
 		}
