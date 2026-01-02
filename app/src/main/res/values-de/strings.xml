@@ -620,4 +620,5 @@
     <string name="playback_video_player">Videoplayer</string>
     <string name="video_player_internal">Eingebauter Videoplayer</string>
     <string name="video_player_external">Externe App</string>
+    <string name="filters">Filter</string>
 </resources>
