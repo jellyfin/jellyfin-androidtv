@@ -116,6 +116,13 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.preference_enable_pgs)
 				bind(userPreferences, UserPreferences.pgsDirectPlay)
 			}
+
+			checkbox {
+				setTitle(R.string.lbl_force_dovi_profile_7)
+				setContent(R.string.desc_force_dovi_profile_7)
+
+				bind(userPreferences, UserPreferences.dolbyVisionELDirectPlay)
+			}
 		}
 
 		category {
