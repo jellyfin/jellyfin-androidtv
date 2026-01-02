@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 
 @Composable
 fun CircularProgressIndicator(
-	color: Color = LocalTextStyle.current.color,
 	modifier: Modifier = Modifier,
+	color: Color = LocalTextStyle.current.color,
 ) {
 	val infiniteTransition = rememberInfiniteTransition()
 	val rotation by infiniteTransition.animateFloat(
