@@ -15,6 +15,7 @@ import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.deviceprofile.DeviceProfileBuilder
 import org.jellyfin.sdk.model.deviceprofile.buildDeviceProfile
+import kotlin.math.roundToInt
 
 private val downmixSupportedAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
@@ -64,13 +65,13 @@ private val hlsFmp4AudioCodecs = arrayOf(
 )
 
 private fun UserPreferences.getMaxBitrate(): Int {
-	var maxBitrate = this[UserPreferences.maxBitrate].toIntOrNull()
+	var maxBitrate = this[UserPreferences.maxBitrate].toFloatOrNull()
 
 	// The value "0" was used in an older release, make sure we prevent that from being used to avoid video not playing
-	if (maxBitrate == null || maxBitrate < 1) maxBitrate = UserPreferences.maxBitrate.defaultValue.toInt()
+	if (maxBitrate == null || maxBitrate < 0.01f) maxBitrate = UserPreferences.maxBitrate.defaultValue.toFloat()
 
 	// Convert megabit to bit
-	return maxBitrate * 1_000_000
+	return (maxBitrate * 1_000_000).roundToInt()
 }
 
 fun createDeviceProfile(
