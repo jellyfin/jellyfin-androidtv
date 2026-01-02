@@ -31,10 +31,16 @@ import org.jellyfin.androidtv.ui.settings.screen.license.SettingsLicensesScreen
 import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideChannelOrderScreen
 import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideFiltersScreen
 import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideOptionsScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAdvancedScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAudioBehaviorScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackInactivityPromptScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackMaxBitrateScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPlayerScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPrerollsScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackRefreshRateSwitchingBehaviorScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackResumeSubtractDurationScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackZoomModeScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.mediasegment.SettingsPlaybackMediaSegmentScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.mediasegment.SettingsPlaybackMediaSegmentsScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.nextup.SettingsPlaybackNextUpBehaviorScreen
@@ -83,6 +89,12 @@ object Routes {
 	const val PLAYBACK_PREROLLS = "/playback/prerolls"
 	const val PLAYBACK_MEDIA_SEGMENTS = "/playback/media-segments"
 	const val PLAYBACK_MEDIA_SEGMENT = "/playback/media-segments/{segmentType}"
+	const val PLAYBACK_ADVANCED = "/playback/advanced"
+	const val PLAYBACK_RESUME_SUBTRACT_DURATION = "/playback/resume-subtract-duration"
+	const val PLAYBACK_MAX_BITRATE = "/playback/max-bitrate"
+	const val PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR = "/playback/refresh-rate-switching-behavior"
+	const val PLAYBACK_ZOOM_MODE = "/playback/zoom-mode"
+	const val PLAYBACK_AUDIO_BEHAVIOR = "/playback/audio-behavior"
 	const val TELEMETRY = "/telemetry"
 	const val DEVELOPER = "/developer"
 	const val ABOUT = "/about"
@@ -160,10 +172,16 @@ val routes = mapOf<String, RouteComposable>(
 		SettingsLibrariesDisplayScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
 	},
 	Routes.LIBRARIES_DISPLAY_IMAGE_SIZE to { context ->
-		SettingsLibrariesDisplayImageSizeScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
+		SettingsLibrariesDisplayImageSizeScreen(
+			context.parameters["itemId"]?.toUUIDOrNull()!!,
+			context.parameters["displayPreferencesId"]!!
+		)
 	},
 	Routes.LIBRARIES_DISPLAY_IMAGE_TYPE to { context ->
-		SettingsLibrariesDisplayImageTypeScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
+		SettingsLibrariesDisplayImageTypeScreen(
+			context.parameters["itemId"]?.toUUIDOrNull()!!,
+			context.parameters["displayPreferencesId"]!!
+		)
 	},
 	Routes.LIBRARIES_DISPLAY_GRID to { context ->
 		SettingsLibrariesDisplayGridScreen(context.parameters["itemId"]?.toUUIDOrNull()!!, context.parameters["displayPreferencesId"]!!)
@@ -208,6 +226,24 @@ val routes = mapOf<String, RouteComposable>(
 		SettingsPlaybackMediaSegmentScreen(
 			segmentType = context.parameters["segmentType"]?.let(MediaSegmentType::fromNameOrNull)!!,
 		)
+	},
+	Routes.PLAYBACK_ADVANCED to {
+		SettingsPlaybackAdvancedScreen()
+	},
+	Routes.PLAYBACK_RESUME_SUBTRACT_DURATION to {
+		SettingsPlaybackResumeSubtractDurationScreen()
+	},
+	Routes.PLAYBACK_MAX_BITRATE to {
+		SettingsPlaybackMaxBitrateScreen()
+	},
+	Routes.PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR to {
+		SettingsPlaybackRefreshRateSwitchingBehaviorScreen()
+	},
+	Routes.PLAYBACK_ZOOM_MODE to {
+		SettingsPlaybackZoomModeScreen()
+	},
+	Routes.PLAYBACK_AUDIO_BEHAVIOR to {
+		SettingsPlaybackAudioBehaviorScreen()
 	},
 	Routes.TELEMETRY to {
 		SettingsTelemetryScreen()
