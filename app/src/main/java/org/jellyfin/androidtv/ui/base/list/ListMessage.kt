@@ -16,6 +16,7 @@ fun ListMessage(
 ) {
 	Box(
 		modifier = modifier
+			// TODO: Add suitable space token for this padding
 			.padding(12.dp),
 	) {
 		ProvideTextStyle(LocalTextStyle.current.copy(color = JellyfinTheme.colorScheme.listCaption)) {

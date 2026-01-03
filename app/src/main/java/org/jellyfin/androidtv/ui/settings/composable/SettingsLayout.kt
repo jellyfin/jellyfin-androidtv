@@ -13,6 +13,7 @@ import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalShapes
+import org.jellyfin.design.Tokens
 
 @Composable
 fun SettingsLayout(
@@ -21,7 +22,7 @@ fun SettingsLayout(
 ) {
 	Box(
 		modifier = modifier
-			.padding(12.dp)
+			.padding(Tokens.Space.spaceMd)
 			.clip(LocalShapes.current.large)
 			.background(JellyfinTheme.colorScheme.surface)
 			.width(350.dp)

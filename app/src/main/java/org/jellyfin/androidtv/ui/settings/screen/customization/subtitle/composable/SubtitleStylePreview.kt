@@ -50,7 +50,7 @@ fun SubtitleStylePreview(
 			.height(75.dp)
 			.clip(JellyfinTheme.shapes.large)
 	)
-	Spacer(Modifier.height(8.dp))
+	Spacer(Modifier.height(Tokens.Space.spaceSm))
 }
 
 @OptIn(UnstableApi::class)
