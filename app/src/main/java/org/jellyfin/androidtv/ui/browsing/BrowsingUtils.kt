@@ -249,22 +249,6 @@ object BrowsingUtils {
 	)
 
 	@JvmStatic
-	fun createPremieresRequest(parentId: UUID) = GetItemsRequest(
-		fields = ItemRepository.itemFields,
-		includeItemTypes = setOf(BaseItemKind.EPISODE),
-		parentId = parentId,
-		indexNumber = 1,
-		recursive = true,
-		isMissing = false,
-		imageTypeLimit = 1,
-		filters = setOf(ItemFilter.IS_UNPLAYED),
-		sortBy = setOf(ItemSortBy.DATE_CREATED),
-		sortOrder = setOf(SortOrder.DESCENDING),
-		enableTotalRecordCount = false,
-		limit = 300,
-	)
-
-	@JvmStatic
 	fun createLastPlayedRequest(parentId: UUID) = GetItemsRequest(
 		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(BaseItemKind.AUDIO),

@@ -17,7 +17,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.api.UserDto
 
 class ImageHelper(
 	private val api: ApiClient,
@@ -53,10 +52,6 @@ class ImageHelper(
 		item: BaseItemPerson,
 		maxHeight: Int? = null,
 	): String? = item.primaryImage?.getUrl(api, maxHeight = maxHeight)
-
-	fun getPrimaryImageUrl(
-		item: UserDto,
-	): String? = item.primaryImage?.getUrl(api)
 
 	fun getPrimaryImageUrl(
 		item: BaseItemDto,
