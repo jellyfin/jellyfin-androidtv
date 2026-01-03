@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
+import org.jellyfin.design.Tokens
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 
@@ -90,7 +91,7 @@ fun SettingsPlaybackNextUpScreen() {
 						onValueChange = { nextUpTimeout = it.roundToInt() }
 					)
 
-					Spacer(Modifier.width(8.dp))
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
 
 					Box(
 						modifier = Modifier.sizeIn(minWidth = 32.dp),

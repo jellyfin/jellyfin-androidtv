@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.ui.base.form.ColorSwatch
+import org.jellyfin.design.Tokens
 
 @Composable
 fun SubtitleColorPresetsControl(
@@ -28,7 +29,7 @@ fun SubtitleColorPresetsControl(
 	onValueChange: (color: Color) -> Unit,
 ) {
 	Row(
-		horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+		horizontalArrangement = Arrangement.spacedBy(Tokens.Space.spaceSm, Alignment.CenterHorizontally),
 		modifier = Modifier.fillMaxWidth()
 	) {
 		for (color in presets) {
@@ -50,5 +51,5 @@ fun SubtitleColorPresetsControl(
 			)
 		}
 	}
-	Spacer(Modifier.height(8.dp))
+	Spacer(Modifier.height(Tokens.Space.spaceSm))
 }

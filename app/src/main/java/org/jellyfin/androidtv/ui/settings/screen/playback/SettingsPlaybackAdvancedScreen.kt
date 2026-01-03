@@ -34,6 +34,7 @@ import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsAsyncActionListButton
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.jellyfin.androidtv.util.profile.createDeviceProfileReport
+import org.jellyfin.design.Tokens
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.model.ServerVersion
@@ -93,7 +94,7 @@ fun SettingsPlaybackAdvancedScreen() {
 						onValueChange = { skipForwardLength = it.roundToInt() }
 					)
 
-					Spacer(Modifier.width(8.dp))
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
 
 					Box(
 						modifier = Modifier.sizeIn(minWidth = 32.dp),
@@ -152,7 +153,7 @@ fun SettingsPlaybackAdvancedScreen() {
 						onValueChange = { videoStartDelay = it.roundToLong() }
 					)
 
-					Spacer(Modifier.width(8.dp))
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
 
 					Box(
 						modifier = Modifier.sizeIn(minWidth = 32.dp),

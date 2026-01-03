@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RangeControl
 import org.jellyfin.androidtv.ui.base.form.RangeControlDefaults
 import org.jellyfin.androidtv.ui.base.list.ListControl
+import org.jellyfin.design.Tokens
 import kotlin.math.roundToInt
 
 @Composable
@@ -85,7 +86,7 @@ fun ListColorChannelRangeControl(
 				)
 			)
 
-			Spacer(Modifier.width(8.dp))
+			Spacer(Modifier.width(Tokens.Space.spaceSm))
 
 			Box(
 				modifier = Modifier.sizeIn(minWidth = 32.dp),

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
+import org.jellyfin.design.Tokens
 
 @Composable
 fun ListItemContent(
@@ -30,6 +31,7 @@ fun ListItemContent(
 ) {
 	Column(
 		modifier = modifier
+			// TODO: Add suitable space token for this padding
 			.padding(12.dp),
 	) {
 		Row(
@@ -46,7 +48,7 @@ fun ListItemContent(
 						}
 					}
 				)
-				Spacer(Modifier.width(14.dp))
+				Spacer(Modifier.width(Tokens.Space.spaceMd))
 			}
 
 			Column(
@@ -57,7 +59,7 @@ fun ListItemContent(
 					ProvideTextStyle(JellyfinTheme.typography.listOverline.copy(color = JellyfinTheme.colorScheme.listOverline)) {
 						content()
 					}
-					Spacer(Modifier.height(2.dp))
+					Spacer(Modifier.height(Tokens.Space.space2xs))
 				}
 
 				ProvideTextStyle(headingStyle) {
@@ -65,7 +67,7 @@ fun ListItemContent(
 				}
 
 				captionContent?.let { content ->
-					Spacer(Modifier.height(4.dp))
+					Spacer(Modifier.height(Tokens.Space.spaceXs))
 					ProvideTextStyle(JellyfinTheme.typography.listCaption.copy(color = JellyfinTheme.colorScheme.listCaption)) {
 						content()
 					}
@@ -73,7 +75,7 @@ fun ListItemContent(
 			}
 
 			trailingContent?.let { content ->
-				Spacer(Modifier.width(16.dp))
+				Spacer(Modifier.width(Tokens.Space.spaceMd))
 
 				Box(
 					modifier = Modifier
@@ -85,7 +87,7 @@ fun ListItemContent(
 		}
 
 		footerContent?.let { content ->
-			Spacer(Modifier.height(4.dp))
+			Spacer(Modifier.height(Tokens.Space.spaceXs))
 
 			ProvideTextStyle(LocalTextStyle.current.copy(color = JellyfinTheme.colorScheme.listCaption)) {
 				content()
