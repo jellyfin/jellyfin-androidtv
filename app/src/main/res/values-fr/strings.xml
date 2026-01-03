@@ -125,7 +125,7 @@
     <string name="msg_unable_load_subs">Impossible de charger les sous-titres</string>
     <string name="msg_burn_sub_warning">L\'incrustation des sous-titres peut prendre quelques minutes. Merci de patienter…</string>
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
-    <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
+    <string name="lbl_live_tv_guide">Guide des programmes TV</string>
     <string name="lbl_recorded_tv">TV enregistrée</string>
     <string name="pref_live_tv_cat">TV EN DIRECT</string>
     <string name="msg_error_live_stream">Erreur du flux TV en direct. Nouvel essai en cours…</string>
@@ -166,7 +166,7 @@
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds</string>
-    <string name="lbl_show_premieres">Afficher le pilote des séries</string>
+    <string name="lbl_show_premieres">Afficher les épisodes de début de saison</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="loading">Chargement …</string>
     <string name="lbl_at_any_time">Tout le temps</string>
