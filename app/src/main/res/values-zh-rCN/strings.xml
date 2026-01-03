@@ -170,7 +170,7 @@
     <string name="msg_error_live_stream">无法获取电视直播流。将会重试……</string>
     <string name="pref_live_tv_cat">电视直播</string>
     <string name="lbl_recorded_tv">录制电视</string>
-    <string name="lbl_live_tv_guide">电视直播指南</string>
+    <string name="lbl_live_tv_guide">电视节目指南</string>
     <string name="lbl_no_recordings">没有可用的录制</string>
     <string name="msg_unable_load_subs">字幕加载失败</string>
     <string name="msg_subtitles_loading">加载字幕中……</string>
@@ -610,4 +610,5 @@
     <string name="video_player_internal">内置视频播放器</string>
     <string name="video_player_external">外部应用程序</string>
     <string name="playback_video_player_external_empty">您的设备上没有安装任何可以播放 Jellyfin 视频的播放器应用程序。</string>
+    <string name="filters">筛选器</string>
 </resources>
