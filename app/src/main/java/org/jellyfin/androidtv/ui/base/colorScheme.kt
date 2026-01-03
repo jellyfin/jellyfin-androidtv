@@ -3,10 +3,11 @@ package org.jellyfin.androidtv.ui.base
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import org.jellyfin.design.Tokens
 
 fun colorScheme(): ColorScheme = ColorScheme(
-	background = Color(0xFF101010),
-	onBackground = Color(0xFFFFFFFF),
+	background = Tokens.Color.colorGrey975,
+	onBackground = Tokens.Color.colorBluegrey25,
 	button = Color(0xB3747474),
 	onButton = Color(0xFFDDDDDD),
 	buttonFocused = Color(0xE6CCCCCC),
@@ -19,23 +20,22 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	onInput = Color(0xE6CCCCCC),
 	inputFocused = Color(0xE6CCCCCC),
 	onInputFocused = Color(0xFFDDDDDD),
-	rangeControlBackground = Color(0xCC4B4B4B),
-	rangeControlFill = Color(0xFF00A4DC),
-	rangeControlKnob = Color(0xFFFFFFFF),
-	seekbarBuffer = Color(0x40FFFFFF),
-	recording = Color(0xB3FF7474),
-	onRecording = Color(0xFFDDDDDD),
-	badge = Color(0xFF62676F),
-	onBadge = Color(0xFFE8EAED),
-	listHeader = Color(0xFFE0E0E0),
-	listOverline = Color(0x66FFFFFF),
-	listHeadline = Color(0xFFFFFFFF),
-	listCaption = Color(0x99FFFFFF),
-	listButton = Color(0x00000000),
-	listButtonFocused = Color(0xFF36363B),
-	listButtonDisabled = Color(0xFF1B1B1E),
-	surface = Color(0xFF212225),
-	scrim = Color(0xAB000000),
+	rangeControlBackground = Tokens.Color.colorBluegrey700,
+	rangeControlFill = Tokens.Color.colorCyan500,
+	rangeControlKnob = Tokens.Color.colorBluegrey100,
+	seekbarBuffer = Tokens.Color.colorBluegrey300,
+	recording = Tokens.Color.colorRed300,
+	onRecording = Tokens.Color.colorRed25,
+	badge = Tokens.Color.colorCyan500,
+	onBadge = Tokens.Color.colorBluegrey100,
+	listHeader = Tokens.Color.colorGrey50,
+	listOverline = Tokens.Color.colorGrey500,
+	listHeadline = Tokens.Color.colorGrey25,
+	listCaption = Tokens.Color.colorGrey200,
+	listButton = Color.Transparent,
+	listButtonFocused = Tokens.Color.colorBluegrey800,
+	surface = Tokens.Color.colorBluegrey900,
+	scrim = Tokens.Color.colorBlack.copy(alpha = 0.67f),
 )
 
 @Immutable
@@ -74,7 +74,6 @@ data class ColorScheme(
 	val listCaption: Color,
 	val listButton: Color,
 	val listButtonFocused: Color,
-	val listButtonDisabled: Color,
 
 	val surface: Color,
 	val scrim: Color,

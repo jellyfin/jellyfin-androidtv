@@ -12,6 +12,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
@@ -23,11 +24,9 @@ object ListControlDefaults {
 	fun colors(
 		containerColor: Color = JellyfinTheme.colorScheme.listButton,
 		focusedContainerColor: Color = JellyfinTheme.colorScheme.listButtonFocused,
-		disabledContainerColor: Color = JellyfinTheme.colorScheme.listButtonDisabled,
 	) = ListControlColors(
 		containerColor = containerColor,
 		focusedContainerColor = focusedContainerColor,
-		disabledContainerColor = disabledContainerColor,
 	)
 }
 
@@ -50,7 +49,7 @@ fun ListControl(
 	val pressed by interactionSource.collectIsPressedAsState()
 
 	val backgroundColor = when {
-		!enabled -> colors.disabledContainerColor
+		!enabled -> colors.containerColor
 		pressed -> colors.focusedContainerColor
 		focused -> colors.focusedContainerColor
 		else -> colors.containerColor
@@ -60,7 +59,8 @@ fun ListControl(
 		modifier = modifier
 			.fillMaxWidth()
 			.background(backgroundColor, LocalShapes.current.large)
-			.clip(LocalShapes.current.large),
+			.clip(LocalShapes.current.large)
+			.alpha(if (enabled) 1f else 0.4f),
 	) {
 		ListItemContent(
 			headingContent = headingContent,

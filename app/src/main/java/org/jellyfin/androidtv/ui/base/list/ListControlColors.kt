@@ -7,5 +7,4 @@ import androidx.compose.ui.graphics.Color
 data class ListControlColors(
 	val containerColor: Color,
 	val focusedContainerColor: Color,
-	val disabledContainerColor: Color,
 )
