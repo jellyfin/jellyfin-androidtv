@@ -29,7 +29,7 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_users), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_login)) },
-				onClick = { router.push(Routes.AUTHENTICATION) }
+				onClick = { router.push(Routes.AUTHENTICATION) },
 			)
 		}
 

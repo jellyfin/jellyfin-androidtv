@@ -45,7 +45,7 @@ fun SubtitleStylePreview(
 		edgeColor = subtitleTextStrokeColor.toInt(),
 		typeface = TypefaceCompat.create(context, Typeface.DEFAULT, subtitlesTextWeight, false),
 		modifier = Modifier
-			.background(Tokens.Color.colorNeutralDark, JellyfinTheme.shapes.large)
+			.background(Tokens.Color.colorBluegrey800, JellyfinTheme.shapes.large)
 			.fillMaxWidth()
 			.height(75.dp)
 			.clip(JellyfinTheme.shapes.large)
