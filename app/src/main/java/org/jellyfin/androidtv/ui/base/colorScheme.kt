@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 fun colorScheme(): ColorScheme = ColorScheme(
 	background = Color(0xFF101010),
 	onBackground = Color(0xFFFFFFFF),
+	itemFill = Color(0xFF033860),
 	button = Color(0xB3747474),
 	onButton = Color(0xFFDDDDDD),
 	buttonFocused = Color(0xE6CCCCCC),
@@ -27,6 +28,7 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	onRecording = Color(0xFFDDDDDD),
 	badge = Color(0xFF62676F),
 	onBadge = Color(0xFFE8EAED),
+	accent = Color(0xFF00A4DC),
 	listHeader = Color(0xFFE0E0E0),
 	listOverline = Color(0x66FFFFFF),
 	listHeadline = Color(0xFFFFFFFF),
@@ -42,6 +44,7 @@ fun colorScheme(): ColorScheme = ColorScheme(
 data class ColorScheme(
 	val background: Color,
 	val onBackground: Color,
+	val itemFill: Color,
 
 	val button: Color,
 	val onButton: Color,
@@ -67,6 +70,7 @@ data class ColorScheme(
 
 	val badge: Color,
 	val onBadge: Color,
+	val accent: Color,
 
 	val listHeader: Color,
 	val listOverline: Color,

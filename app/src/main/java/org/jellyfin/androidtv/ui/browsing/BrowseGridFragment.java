@@ -277,7 +277,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         }
     }
 
-    public class SortOption {
+    public static class SortOption {
         public String name;
         public ItemSortBy value;
         public SortOrder order;
