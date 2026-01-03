@@ -89,9 +89,9 @@ fun ToolbarLayout(
 	).maxOrNull() ?: 0
 
 	layout(constraints.maxWidth, height) {
-		startPlaceables.forEach { it.place(0, (height - it.height) / 2) }
+		startPlaceables.forEach { it.placeRelative(0, (height - it.height) / 2) }
 		centerPlaceables.forEach { it.place((constraints.maxWidth - it.width) / 2, (height - it.height) / 2) }
-		endPlaceables.forEach { it.place(constraints.maxWidth - it.width, (height - it.height) / 2) }
+		endPlaceables.forEach { it.placeRelative(constraints.maxWidth - it.width, (height - it.height) / 2) }
 	}
 }
 
