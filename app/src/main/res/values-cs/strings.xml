@@ -630,4 +630,5 @@
     <string name="video_player_internal">Vestavěný videopřehrávač</string>
     <string name="video_player_external">Externí aplikace</string>
     <string name="playback_video_player_external_empty">Na vašem zařízení nemáte nainstalované žádné videopřehrávače, které dokáží otevřít videa Jellyfin.</string>
+    <string name="filters">Filtry</string>
 </resources>
