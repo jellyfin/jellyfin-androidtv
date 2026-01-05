@@ -636,4 +636,5 @@
     <string name="color_presets">Пресеты</string>
     <string name="color_custom">Изменить цвет</string>
     <string name="color_alpha">Прозрачность</string>
+    <string name="filters">Фильтры</string>
 </resources>
