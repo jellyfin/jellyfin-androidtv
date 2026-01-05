@@ -395,8 +395,17 @@ fun createDeviceProfile(
 		codec = Codec.Video.HEVC
 
 		conditions {
-			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionHevc.width
-			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionHevc.height
+			when {
+				KnownDefects.hevcMax1080 -> {
+					ProfileConditionValue.WIDTH lowerThanOrEquals 1920
+					ProfileConditionValue.HEIGHT lowerThanOrEquals 1080
+				}
+				else -> {
+					ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionHevc.width
+					ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionHevc.height
+				}
+			}
+
 		}
 	}
 
