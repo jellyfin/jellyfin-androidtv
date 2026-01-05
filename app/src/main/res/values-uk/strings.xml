@@ -640,4 +640,5 @@
     <string name="video_player_internal">Вбудований відеопрогравач</string>
     <string name="video_player_external">Зовнішній додаток</string>
     <string name="playback_video_player_external_empty">На вашому пристрої не встановлено програми відеопрогравача, які можуть відкривати відео Jellyfin.</string>
+    <string name="filters">Фільтри</string>
 </resources>
