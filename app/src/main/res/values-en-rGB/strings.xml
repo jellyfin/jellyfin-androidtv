@@ -602,4 +602,23 @@
     <string name="pref_prerolls_enabled_description">Play custom intros before films</string>
     <string name="pref_media_queueing">Queue all episodes</string>
     <string name="pref_media_queueing_description">Add subsequent episodes to the queue when playing TV series</string>
+    <string name="pref_subtitles_weight">Text weight</string>
+    <string name="font_weight_100">Thin</string>
+    <string name="font_weight_200">Extra light</string>
+    <string name="font_weight_300">Light</string>
+    <string name="font_weight_400">Normal</string>
+    <string name="font_weight_500">Medium</string>
+    <string name="font_weight_600">Semi bold</string>
+    <string name="font_weight_700">Bold</string>
+    <string name="font_weight_800">Extra bold</string>
+    <string name="font_weight_900">Black</string>
+    <string name="subtitle_preview_text">Subtitles will look like this</string>
+    <string name="color_presets">Presets</string>
+    <string name="color_custom">Customize color</string>
+    <string name="color_alpha">Transparency</string>
+    <string name="playback_video_player">Video player</string>
+    <string name="video_player_internal">Built-in video player</string>
+    <string name="video_player_external">External app</string>
+    <string name="playback_video_player_external_empty">You don\'t have any video player apps installed on your device that can open Jellyfin videos.</string>
+    <string name="filters">Filters</string>
 </resources>
