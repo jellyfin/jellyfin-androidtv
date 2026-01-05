@@ -583,4 +583,5 @@
     <string name="settings">設定</string>
     <string name="copied_to_clipboard">クリップボードにコピー</string>
     <string name="pref_media_queueing_description">TV番組再生中に次のエピソードをキューに加える</string>
+    <string name="filters">フィルター</string>
 </resources>
