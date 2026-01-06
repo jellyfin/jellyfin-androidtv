@@ -629,4 +629,5 @@
     <string name="font_weight_200">Extra lleugera</string>
     <string name="font_weight_100">Prima</string>
     <string name="pref_subtitles_weight">Gruix del text</string>
+    <string name="filters">Filtres</string>
 </resources>

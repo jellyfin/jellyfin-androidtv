@@ -611,4 +611,23 @@
     <string name="pref_media_queueing">Adaugă toate episoadele în coadă</string>
     <string name="pref_media_queueing_description">Adaugă episoadele următoare în coadă atunci când sunt redate seriale</string>
     <string name="settings">Setări</string>
+    <string name="filters">Filtre</string>
+    <string name="pref_subtitles_weight">Grosime de text</string>
+    <string name="font_weight_100">subtire</string>
+    <string name="font_weight_200">foarte subtire</string>
+    <string name="font_weight_300">usor</string>
+    <string name="font_weight_400">Normal</string>
+    <string name="font_weight_500">mediu</string>
+    <string name="font_weight_600">semi gros</string>
+    <string name="font_weight_700">gros</string>
+    <string name="font_weight_800">foarte gros</string>
+    <string name="font_weight_900">Negru</string>
+    <string name="subtitle_preview_text">Sutbitrari arata asa</string>
+    <string name="color_presets">Presetari</string>
+    <string name="color_custom">Schimbati Culoarea</string>
+    <string name="color_alpha">Transparenta</string>
+    <string name="playback_video_player">Player de Video</string>
+    <string name="video_player_internal">Playyer de Video inclus</string>
+    <string name="video_player_external">Aplicatie Externa</string>
+    <string name="playback_video_player_external_empty">Nu ai o aplicatie de redare de video care poate sa deschida videouri din Jellyfin.</string>
 </resources>
