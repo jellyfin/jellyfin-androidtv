@@ -118,10 +118,10 @@ class WatchNextPlaybackHelper(
         val subtitle = when (item.type) {
             BaseItemKind.EPISODE -> {
                 val seasonEpisode = buildString {
-                    if (item.parentIndexNumber != null) append(String.format("S%02d", item.parentIndexNumber))
+                    if (item.parentIndexNumber != null) append("S%02d".format(item.parentIndexNumber))
                     if (item.indexNumber != null) {
                         if (isNotEmpty()) append(" ")
-                        append(String.format("E%02d", item.indexNumber))
+                        append("E%02d".format(item.indexNumber))
                     }
                     if (item.name != null) {
                         if (isNotEmpty()) append(": ")
