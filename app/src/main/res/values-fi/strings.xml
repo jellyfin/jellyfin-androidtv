@@ -596,7 +596,6 @@
     <string name="pref_playback_next_up">Seuraavaksi</string>
     <string name="pref_customization_subtitles">Tekstitykset</string>
     <string name="pref_playback_inactivity_prompt">Toimettomuuskehote</string>
-    <string name="pref_prerolls_enabled"></string>
     <string name="pref_prerolls_enabled_description">Toista omia introja videoiden alussa</string>
     <string name="pref_media_queueing">Lisää kaikki jaksot jonoon</string>
     <string name="pref_media_queueing_description">Lisää seuraavat jaksot jonoon toistettaessa sarjoja</string>
