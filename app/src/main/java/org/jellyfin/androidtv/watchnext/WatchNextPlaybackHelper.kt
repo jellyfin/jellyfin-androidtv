@@ -19,14 +19,20 @@ class WatchNextPlaybackHelper(
     private val api: ApiClient
 ) {
     companion object {
-        private const val TAG = "WatchNextPlayback"
         // Threshold for considering an item "completed" (95%)
         private const val COMPLETION_THRESHOLD = 0.95
+        // Minimum time change (in ms) to trigger an update
+        private const val UPDATE_THRESHOLD_MS = 30_000L
     }
+    
+    // Track last update time to throttle database operations
+    private var lastUpdateTimeMs: Long = 0
+    private var lastUpdatePositionMs: Long = 0
 
     /**
      * Update or create a Watch Next program for the current item.
      * Called during playback to keep the Watch Next row updated.
+     * Throttles updates to avoid excessive database writes.
      */
     fun updateProgress(item: BaseItemDto, positionMs: Long, durationMs: Long) {
         if (!WatchNextManager.isSupported()) return
@@ -42,10 +48,21 @@ class WatchNextPlaybackHelper(
 
         // Only update if there's meaningful progress (more than 1 minute)
         if (positionMs < 60_000L) return
+        
+        // Throttle updates: only update if enough time has passed or position changed significantly
+        val currentTime = System.currentTimeMillis()
+        val timeSinceLastUpdate = currentTime - lastUpdateTimeMs
+        val positionChange = kotlin.math.abs(positionMs - lastUpdatePositionMs)
+        
+        if (timeSinceLastUpdate < UPDATE_THRESHOLD_MS && positionChange < UPDATE_THRESHOLD_MS) {
+            return
+        }
 
         try {
             val program = createWatchNextProgram(item, positionMs, durationMs)
             WatchNextManager.publish(context, program)
+            lastUpdateTimeMs = currentTime
+            lastUpdatePositionMs = positionMs
         } catch (e: Exception) {
             Timber.w(e, "Failed to update Watch Next program for item ${item.id}")
         }
@@ -84,6 +101,10 @@ class WatchNextPlaybackHelper(
         positionMs: Long,
         durationMs: Long
     ): WatchNextProgram {
+        // Note: Using baseUrl as serverId. This is not ideal as baseUrl can change
+        // (e.g., IP or port changes), but the SDK's ApiClient doesn't expose a proper
+        // server ID. In a multi-server setup, server switching should be handled before
+        // Watch Next entries are created.
         val serverId = api.baseUrl ?: "unknown"
         val itemId = item.id.toString()
         val internalId = createInternalId(item)
@@ -97,10 +118,10 @@ class WatchNextPlaybackHelper(
         val subtitle = when (item.type) {
             BaseItemKind.EPISODE -> {
                 val seasonEpisode = buildString {
-                    if (item.parentIndexNumber != null) append("S${item.parentIndexNumber}")
+                    if (item.parentIndexNumber != null) append(String.format("S%02d", item.parentIndexNumber))
                     if (item.indexNumber != null) {
                         if (isNotEmpty()) append(" ")
-                        append("E${item.indexNumber}")
+                        append(String.format("E%02d", item.indexNumber))
                     }
                     if (item.name != null) {
                         if (isNotEmpty()) append(": ")
