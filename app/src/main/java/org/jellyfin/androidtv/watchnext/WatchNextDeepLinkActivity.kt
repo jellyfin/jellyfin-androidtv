@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import org.jellyfin.androidtv.ui.playback.PlaybackManager
+import androidx.lifecycle.lifecycleScope
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
+import org.koin.android.ext.android.inject
 
 /**
  * Handles deep links from Android TV Watch Next into playback.
@@ -18,6 +20,8 @@ class WatchNextDeepLinkActivity : Activity() {
     companion object {
         private const val TAG = "WatchNextDeepLink"
     }
+
+    private val playbackLauncher by inject<PlaybackLauncher>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +55,8 @@ class WatchNextDeepLinkActivity : Activity() {
                 finish(); return
             }
 
-            // Delegate to existing playback stack.
-            PlaybackManager.getInstance(this).playFromWatchNext(serverId, itemId, positionMs)
+            // Delegate to PlaybackLauncher
+            playbackLauncher.playFromWatchNext(this, this, serverId, itemId, positionMs)
         } catch (t: Throwable) {
             Log.w(TAG, "Failed to handle Watch Next deep link", t)
         } finally {
