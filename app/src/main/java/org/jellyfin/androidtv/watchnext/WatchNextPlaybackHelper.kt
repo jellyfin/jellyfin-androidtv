@@ -25,9 +25,9 @@ class WatchNextPlaybackHelper(
         private const val UPDATE_THRESHOLD_MS = 30_000L
     }
     
-    // Track last update time to throttle database operations
-    private var lastUpdateTimeMs: Long = 0
-    private var lastUpdatePositionMs: Long = 0
+    // Track last update time per item to throttle database operations
+    // Key: item ID string, Value: Pair(lastUpdateTimeMs, lastUpdatePositionMs)
+    private val throttleState = mutableMapOf<String, Pair<Long, Long>>()
 
     /**
      * Update or create a Watch Next program for the current item.
@@ -49,6 +49,10 @@ class WatchNextPlaybackHelper(
         // Only update if there's meaningful progress (more than 1 minute)
         if (positionMs < 60_000L) return
         
+        // Get throttling state for this specific item
+        val itemIdStr = item.id.toString()
+        val (lastUpdateTimeMs, lastUpdatePositionMs) = throttleState[itemIdStr] ?: (0L to 0L)
+        
         // Throttle updates: only update if enough time has passed or position changed significantly
         val currentTime = System.currentTimeMillis()
         val timeSinceLastUpdate = currentTime - lastUpdateTimeMs
@@ -61,8 +65,8 @@ class WatchNextPlaybackHelper(
         try {
             val program = createWatchNextProgram(item, positionMs, durationMs)
             WatchNextManager.publish(context, program)
-            lastUpdateTimeMs = currentTime
-            lastUpdatePositionMs = positionMs
+            // Update throttling state for this item
+            throttleState[itemIdStr] = currentTime to positionMs
         } catch (e: Exception) {
             Timber.w(e, "Failed to update Watch Next program for item ${item.id}")
         }
@@ -77,6 +81,8 @@ class WatchNextPlaybackHelper(
         try {
             val internalId = createInternalId(item)
             WatchNextManager.remove(context, internalId)
+            // Clean up throttling state for this item
+            throttleState.remove(item.id.toString())
         } catch (e: Exception) {
             Timber.w(e, "Failed to remove Watch Next program for item ${item.id}")
         }

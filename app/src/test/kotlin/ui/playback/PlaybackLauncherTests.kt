@@ -8,8 +8,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.verify
-import kotlinx.coroutines.test.TestScope
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.sdk.api.client.ApiClient
@@ -31,7 +31,7 @@ class PlaybackLauncherTests : FunSpec({
 		val userLibraryApi = mockk<UserLibraryApi>(relaxed = true)
 		
 		val lifecycleOwner = mockk<LifecycleOwner>(relaxed = true)
-		val lifecycleScope = TestScope()
+		val lifecycleScope = mockk<LifecycleCoroutineScope>(relaxed = true)
 		val context = mockk<Context>(relaxed = true)
 		
 		val itemId = UUID.randomUUID()
@@ -43,7 +43,7 @@ class PlaybackLauncherTests : FunSpec({
 			every { type } returns BaseItemKind.MOVIE
 		}
 		
-		every { lifecycleOwner.lifecycleScope } returns lifecycleScope as LifecycleCoroutineScope
+		every { lifecycleOwner.lifecycleScope } returns lifecycleScope
 		every { apiClient.userLibraryApi } returns userLibraryApi
 		coEvery { userLibraryApi.getItem(itemId) } returns Response(item, 200, emptyMap())
 		
@@ -57,7 +57,6 @@ class PlaybackLauncherTests : FunSpec({
 		
 		// Act
 		launcher.playFromWatchNext(lifecycleOwner, context, serverId, itemId.toString(), positionMs)
-		lifecycleScope.testScheduler.advanceUntilIdle()
 		
 		// Assert
 		coVerify { userLibraryApi.getItem(itemId) }
@@ -74,14 +73,14 @@ class PlaybackLauncherTests : FunSpec({
 		val userLibraryApi = mockk<UserLibraryApi>(relaxed = true)
 		
 		val lifecycleOwner = mockk<LifecycleOwner>(relaxed = true)
-		val lifecycleScope = TestScope()
+		val lifecycleScope = mockk<LifecycleCoroutineScope>(relaxed = true)
 		val context = mockk<Context>(relaxed = true)
 		
 		val itemId = UUID.randomUUID()
 		val serverId = "test-server-id"
 		val positionMs = 60000L
 		
-		every { lifecycleOwner.lifecycleScope } returns lifecycleScope as LifecycleCoroutineScope
+		every { lifecycleOwner.lifecycleScope } returns lifecycleScope
 		every { apiClient.userLibraryApi } returns userLibraryApi
 		coEvery { userLibraryApi.getItem(itemId) } throws ApiClientException("Network error")
 		
@@ -95,7 +94,6 @@ class PlaybackLauncherTests : FunSpec({
 		
 		// Act
 		launcher.playFromWatchNext(lifecycleOwner, context, serverId, itemId.toString(), positionMs)
-		lifecycleScope.testScheduler.advanceUntilIdle()
 		
 		// Assert - should not throw, should handle gracefully
 		coVerify { userLibraryApi.getItem(itemId) }
@@ -112,14 +110,14 @@ class PlaybackLauncherTests : FunSpec({
 		val userLibraryApi = mockk<UserLibraryApi>(relaxed = true)
 		
 		val lifecycleOwner = mockk<LifecycleOwner>(relaxed = true)
-		val lifecycleScope = TestScope()
+		val lifecycleScope = mockk<LifecycleCoroutineScope>(relaxed = true)
 		val context = mockk<Context>(relaxed = true)
 		
 		val itemId = UUID.randomUUID()
 		val serverId = "test-server-id"
 		val positionMs = 60000L
 		
-		every { lifecycleOwner.lifecycleScope } returns lifecycleScope as LifecycleCoroutineScope
+		every { lifecycleOwner.lifecycleScope } returns lifecycleScope
 		every { apiClient.userLibraryApi } returns userLibraryApi
 		coEvery { userLibraryApi.getItem(itemId) } throws RuntimeException("Unexpected error")
 		
@@ -133,7 +131,6 @@ class PlaybackLauncherTests : FunSpec({
 		
 		// Act
 		launcher.playFromWatchNext(lifecycleOwner, context, serverId, itemId.toString(), positionMs)
-		lifecycleScope.testScheduler.advanceUntilIdle()
 		
 		// Assert - should not throw, should handle gracefully
 		coVerify { userLibraryApi.getItem(itemId) }
@@ -150,7 +147,7 @@ class PlaybackLauncherTests : FunSpec({
 		val userLibraryApi = mockk<UserLibraryApi>(relaxed = true)
 		
 		val lifecycleOwner = mockk<LifecycleOwner>(relaxed = true)
-		val lifecycleScope = TestScope()
+		val lifecycleScope = mockk<LifecycleCoroutineScope>(relaxed = true)
 		val context = mockk<Context>(relaxed = true)
 		
 		val itemId = UUID.randomUUID()
@@ -162,7 +159,7 @@ class PlaybackLauncherTests : FunSpec({
 			every { type } returns BaseItemKind.EPISODE
 		}
 		
-		every { lifecycleOwner.lifecycleScope } returns lifecycleScope as LifecycleCoroutineScope
+		every { lifecycleOwner.lifecycleScope } returns lifecycleScope
 		every { apiClient.userLibraryApi } returns userLibraryApi
 		coEvery { userLibraryApi.getItem(itemId) } returns Response(item, 200, emptyMap())
 		
@@ -174,12 +171,28 @@ class PlaybackLauncherTests : FunSpec({
 			apiClient
 		)
 		
+		// Capture the launch parameters to verify position
+		val contextSlot = slot<Context>()
+		val itemsSlot = slot<List<BaseItemDto>>()
+		val positionSlot = slot<Int>()
+		every { 
+			launcher.launch(
+				capture(contextSlot), 
+				capture(itemsSlot), 
+				capture(positionSlot),
+				any(),
+				any(),
+				any()
+			)
+		} returns Unit
+		
 		// Act
 		launcher.playFromWatchNext(lifecycleOwner, context, serverId, itemId.toString(), positionMs)
-		lifecycleScope.testScheduler.advanceUntilIdle()
 		
 		// Assert - position should be converted directly to Int
 		coVerify { userLibraryApi.getItem(itemId) }
 		verify { videoQueueManager.setCurrentVideoQueue(listOf(item)) }
+		// Verify position is correctly converted from Long to Int
+		assert(positionSlot.captured == positionMs.toInt())
 	}
 })
