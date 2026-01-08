@@ -27,7 +27,8 @@ class WatchNextPlaybackHelper(
     
     // Track last update time per item to throttle database operations
     // Key: item ID string, Value: Pair(lastUpdateTimeMs, lastUpdatePositionMs)
-    private val throttleState = mutableMapOf<String, Pair<Long, Long>>()
+    // Using ConcurrentHashMap for thread-safety
+    private val throttleState = java.util.concurrent.ConcurrentHashMap<String, Pair<Long, Long>>()
 
     /**
      * Update or create a Watch Next program for the current item.
