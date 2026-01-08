@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.playback
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -84,6 +83,10 @@ class PlaybackLauncher(
 	/**
 	 * Launch playback from Watch Next deep link.
 	 * Fetches the item from the server and starts playback at the specified position.
+	 * 
+	 * Note: serverId is received but not validated against the current API client.
+	 * This assumes the app is already connected to the correct server when the deep link is invoked.
+	 * Multi-server setups should handle server switching at a higher level before calling this method.
 	 */
 	fun playFromWatchNext(
 		lifecycleOwner: LifecycleOwner,
@@ -100,8 +103,7 @@ class PlaybackLauncher(
 				}
 
 				// Launch playback with the specified position
-				val positionDuration = positionMs.milliseconds
-				launch(context, listOf(item), position = positionDuration.inWholeMilliseconds.toInt())
+				launch(context, listOf(item), position = positionMs.toInt())
 			} catch (e: ApiClientException) {
 				Timber.e(e, "Failed to fetch item for Watch Next playback: itemId=$itemId")
 			} catch (e: Exception) {

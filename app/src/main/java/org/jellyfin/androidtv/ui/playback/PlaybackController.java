@@ -1160,6 +1160,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         interactionTracker.onEpisodeWatched();
         
         // Remove from Watch Next when completed
+        // Note: This may be redundant with the automatic removal in updateProgress()
+        // when the completion threshold (95%) is reached. However, this ensures removal
+        // even if playback stops before reaching the threshold, or if the user manually
+        // marks the item as watched. The second call is a no-op if already removed.
         if (watchNextHelper != null) {
             BaseItemDto curItem = getCurrentlyPlayingItem();
             if (curItem != null) {
