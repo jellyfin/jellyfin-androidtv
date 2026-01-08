@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.profile.DeviceProfileKt;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
+import org.jellyfin.androidtv.watchnext.WatchNextPlaybackHelper;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.ServerVersion;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -67,6 +68,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
     private final Lazy<InteractionTrackerViewModel> lazyInteractionTracker = inject(InteractionTrackerViewModel.class);
+    private WatchNextPlaybackHelper watchNextHelper;
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -122,6 +124,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mHandler = new Handler();
 
         interactionTracker = lazyInteractionTracker.getValue();
+        
+        // Initialize Watch Next helper
+        if (fragment != null && fragment.getContext() != null) {
+            watchNextHelper = new WatchNextPlaybackHelper(fragment.getContext(), api.getValue());
+        }
 
         refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
         if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
@@ -1075,6 +1082,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
 
                     reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
+                    
+                    // Update Watch Next progress
+                    if (watchNextHelper != null && mVideoManager != null) {
+                        BaseItemDto currentItem = getCurrentlyPlayingItem();
+                        if (currentItem != null) {
+                            long durationMs = mVideoManager.getDuration();
+                            watchNextHelper.updateProgress(currentItem, mCurrentPosition, durationMs);
+                        }
+                    }
                 }
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
                     mHandler.postDelayed(this, PROGRESS_REPORTING_INTERVAL);
@@ -1142,6 +1158,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void itemComplete() {
         interactionTracker.onEpisodeWatched();
+        
+        // Remove from Watch Next when completed
+        if (watchNextHelper != null) {
+            BaseItemDto curItem = getCurrentlyPlayingItem();
+            if (curItem != null) {
+                watchNextHelper.removeFromWatchNext(curItem);
+            }
+        }
+        
         stop();
         resetPlayerErrors();
 
