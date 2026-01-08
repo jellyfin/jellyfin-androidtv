@@ -1,11 +1,10 @@
 package org.jellyfin.androidtv.watchnext
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.FragmentActivity
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.koin.android.ext.android.inject
 
@@ -15,7 +14,7 @@ import org.koin.android.ext.android.inject
  * URI format:
  * jellyfin://watchnext/play?serverId=...&itemId=...&positionMs=...
  */
-class WatchNextDeepLinkActivity : Activity() {
+class WatchNextDeepLinkActivity : FragmentActivity() {
 
     companion object {
         private const val TAG = "WatchNextDeepLink"
