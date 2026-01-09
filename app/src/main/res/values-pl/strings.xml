@@ -328,7 +328,7 @@
     <string name="lbl_record_only_new">Nagrywaj tylko nowe</string>
     <string name="lbl_next_up_minimal">Bez miniaturek</string>
     <string name="lbl_next_up_extended">Z miniaturkami</string>
-    <string name="lbl_special">Specjalne</string>
+    <string name="lbl_special">Specjalny</string>
     <string name="help">Pomoc</string>
     <string name="add_user">Dodaj konto</string>
     <string name="who_is_watching">Kto ogląda\?</string>
@@ -443,7 +443,7 @@
     <string name="pref_crash_reports_disabled">Raporty o błędach nie będą wysyłane</string>
     <string name="pref_crash_report_logs_disabled">Logi nie będą dołączane do raportów o błędach</string>
     <string name="server_setup_incomplete">Konfiguracja tego serwera nie została ukończona. Otwórz Jellyfin w przeglądarce i dokończ konfigurację przed logowaniem.</string>
-    <string name="episode_name_special">specjalne</string>
+    <string name="episode_name_special">specjalny</string>
     <string name="action_connect">Połącz</string>
     <string name="pref_telemetry_description">Wysyłaj raporty o błędach, dołączaj logi</string>
     <string name="pref_crash_reports">Wysyłaj raporty o błędach do serwera</string>
