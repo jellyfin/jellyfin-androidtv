@@ -523,8 +523,8 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Показывать только товары с установленным возрастным рейтингом</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показать все товары</string>
     <string name="lbl_runtime">Среда выполнения</string>
-    <string name="lbl_subtitle_background_color">Цвет фона субтитров</string>
-    <string name="lbl_subtitle_text_color">Цвет текста субтитров</string>
+    <string name="lbl_subtitle_background_color">Цвет фона</string>
+    <string name="lbl_subtitle_text_color">Цвет текста</string>
     <string name="default_video_zoom">Режим масштабирования по умолчанию</string>
     <plurals name="movies">
         <item quantity="one">%1$s фильм</item>
@@ -566,7 +566,7 @@
     </plurals>
     <string name="segment_type_outro">Аутро</string>
     <string name="segment_type_preview">Предпросмотр</string>
-    <string name="lbl_subtitle_text_stroke_color">Цвет штриха субтитров</string>
+    <string name="lbl_subtitle_text_stroke_color">Цвет штриха</string>
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
@@ -637,4 +637,8 @@
     <string name="color_custom">Изменить цвет</string>
     <string name="color_alpha">Прозрачность</string>
     <string name="filters">Фильтры</string>
+    <string name="playback_video_player">Видео проигрыватель</string>
+    <string name="video_player_internal">Встроенный видео проигрыватель</string>
+    <string name="video_player_external">Внешнее приложение</string>
+    <string name="playback_video_player_external_empty">У вас не установлено ни одного приложения для проигрывания видео, которое может открывать видео Jellyfin.</string>
 </resources>
