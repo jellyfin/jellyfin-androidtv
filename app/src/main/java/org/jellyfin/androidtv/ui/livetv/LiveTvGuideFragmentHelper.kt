@@ -2,15 +2,25 @@ package org.jellyfin.androidtv.ui.livetv
 
 import android.content.Context
 import android.view.View
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
+import org.jellyfin.androidtv.databinding.LiveTvGuideBinding
 import org.jellyfin.androidtv.ui.GuideChannelHeader
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.navigation.ProvideRouter
+import org.jellyfin.androidtv.ui.settings.Routes
+import org.jellyfin.androidtv.ui.settings.composable.SettingsDialog
+import org.jellyfin.androidtv.ui.settings.composable.SettingsRouterContent
+import org.jellyfin.androidtv.ui.settings.routes
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -73,4 +83,60 @@ fun LiveTvGuideFragment.refreshSelectedProgram() {
 
 		detailUpdateInternal();
 	}
+}
+
+fun LiveTvGuideFragment.addSettingsOptions(binding: LiveTvGuideBinding): MutableStateFlow<Boolean> {
+	val visible = MutableStateFlow(false)
+
+	binding.settingsOptions.setContent {
+		val isVisible by visible.collectAsState(false)
+
+		JellyfinTheme {
+			ProvideRouter(
+				routes,
+				Routes.LIVETV_GUIDE_OPTIONS
+			) {
+				SettingsDialog(
+					visible = isVisible,
+					onDismissRequest = {
+						visible.value = false
+						TvManager.forceReload()
+						doLoad()
+					}
+				) {
+					SettingsRouterContent()
+				}
+			}
+		}
+	}
+
+	return visible
+}
+
+fun LiveTvGuideFragment.addSettingsFilters(binding: LiveTvGuideBinding): MutableStateFlow<Boolean> {
+	val visible = MutableStateFlow(false)
+
+	binding.settingsFilters.setContent {
+		val isVisible by visible.collectAsState(false)
+
+		JellyfinTheme {
+			ProvideRouter(
+				routes,
+				Routes.LIVETV_GUIDE_FILTERS
+			) {
+				SettingsDialog(
+					visible = isVisible,
+					onDismissRequest = {
+						visible.value = false
+						TvManager.forceReload()
+						doLoad()
+					}
+				) {
+					SettingsRouterContent()
+				}
+			}
+		}
+	}
+
+	return visible
 }

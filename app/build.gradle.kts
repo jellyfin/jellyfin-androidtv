@@ -32,7 +32,7 @@ android {
 
 	buildTypes {
 		release {
-			isMinifyEnabled = false
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
 			// Set package names used in various XML files
 			resValue("string", "app_id", namespace!!)
@@ -87,6 +87,7 @@ tasks.register("versionTxt") {
 
 dependencies {
 	// Jellyfin
+	implementation(projects.design)
 	implementation(projects.playback.core)
 	implementation(projects.playback.jellyfin)
 	implementation(projects.playback.media3.exoplayer)
@@ -114,6 +115,7 @@ dependencies {
 	implementation(libs.androidx.fragment.compose)
 	implementation(libs.androidx.leanback.core)
 	implementation(libs.androidx.leanback.preference)
+	implementation(libs.androidx.navigation3.ui)
 	implementation(libs.androidx.preference)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.androidx.tvprovider)
@@ -136,7 +138,6 @@ dependencies {
 	implementation(libs.androidx.media3.exoplayer.hls)
 	implementation(libs.androidx.media3.ui)
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
-	implementation(libs.libass.media3)
 
 	// Markdown
 	implementation(libs.bundles.markwon)

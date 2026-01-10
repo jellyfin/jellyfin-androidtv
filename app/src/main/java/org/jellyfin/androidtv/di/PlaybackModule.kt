@@ -27,6 +27,7 @@ import org.jellyfin.playback.media3.session.media3SessionPlugin
 import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.koin.android.ext.koin.androidContext
+import kotlin.time.Duration
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import kotlin.time.Duration.Companion.milliseconds
@@ -39,10 +40,12 @@ val playbackModule = module {
 
 	single { PlaybackLauncher(get(), get(), get(), get()) }
 
-	// OkHttp data source using OkHttpFactory from SDK
 	single<HttpDataSource.Factory> {
 		val okHttpFactory = get<OkHttpFactory>()
-		val httpClientOptions = get<HttpClientOptions>()
+		val httpClientOptions = get<HttpClientOptions>().copy(
+			// Disable request timeout for media playback as this causes issues with Live TV
+			requestTimeout = Duration.ZERO
+		)
 
 		OkHttpDataSource.Factory(okHttpFactory.createClient(httpClientOptions))
 	}
@@ -68,7 +71,6 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	val userPreferences = get<UserPreferences>()
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
-		enableLibass = userPreferences[UserPreferences.assDirectPlay],
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
 	)

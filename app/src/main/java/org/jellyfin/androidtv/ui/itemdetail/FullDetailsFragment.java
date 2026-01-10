@@ -250,7 +250,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         loadItem(lastPlayedItem.getId());
                         dataRefreshService.getValue().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
-                        Timber.d("Updating info after playback");
+                        Timber.i("Updating info after playback");
                         FullDetailsFragmentHelperKt.getItem(FullDetailsFragment.this, mBaseItem.getId(), item -> {
                             if (item == null) return null;
 
@@ -713,9 +713,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         BaseItemDto baseItem = mBaseItem;
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<List<BaseItemDto>>() {
+                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
                     @Override
                     public void onResponse(List<BaseItemDto> response) {
+                        if (!isActive()) return;
                         mediaManager.getValue().addToAudioQueue(response);
                     }
                 });
@@ -995,22 +996,20 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             mDetailsOverviewRow.addAction(goToSeriesButton);
         }
 
-        if (userPreferences.getValue().get(UserPreferences.Companion.getMediaManagementEnabled())) {
-            boolean deletableItem = false;
-            UserDto currentUser = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
-            if (mBaseItem.getType() == BaseItemKind.RECORDING && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete() != null)
-                deletableItem = mBaseItem.getCanDelete();
-            else if (mBaseItem.getCanDelete() != null) deletableItem = mBaseItem.getCanDelete();
+        boolean deletableItem = false;
+        UserDto currentUser = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
+        if (mBaseItem.getType() == BaseItemKind.RECORDING && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete() != null)
+            deletableItem = mBaseItem.getCanDelete();
+        else if (mBaseItem.getCanDelete() != null) deletableItem = mBaseItem.getCanDelete();
 
-            if (deletableItem) {
-                deleteButton = TextUnderButton.create(requireContext(), R.drawable.ic_delete, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteItem();
-                    }
-                });
-                mDetailsOverviewRow.addAction(deleteButton);
-            }
+        if (deletableItem) {
+            deleteButton = TextUnderButton.create(requireContext(), R.drawable.ic_delete, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteItem();
+                }
+            });
+            mDetailsOverviewRow.addAction(deleteButton);
         }
 
         if (mSeriesTimerInfo != null) {
@@ -1213,9 +1212,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
+        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>(getLifecycle()) {
             @Override
             public void onResponse(List<BaseItemDto> response) {
+                if (!isActive()) return;
                 if (response.isEmpty()) {
                     Timber.e("No items to play - ignoring play request.");
                     return;

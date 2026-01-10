@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.preference
 
 import android.content.Context
-import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
 import org.jellyfin.androidtv.preference.constant.AppTheme
@@ -45,16 +44,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable background images while browsing
 		 */
 		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
-
-		/**
-		 * Show premieres on home screen
-		 */
-		var premieresEnabled = booleanPreference("pref_enable_premieres", false)
-
-		/**
-		 * Enable management of media like deleting items when the user has sufficient permissions.
-		 */
-		var mediaManagementEnabled = booleanPreference("enable_media_management", false)
 
 		/* Playback - General*/
 		/**
@@ -100,6 +89,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var useExternalPlayer = booleanPreference("external_player", false)
 
 		/**
+		 * Component name for the external playback application.
+		 */
+		var externalPlayerComponentName = stringPreference("external_player_component", "")
+
+		/**
 		 * Change refresh rate to match media when device supports it
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
@@ -130,16 +124,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Use direct play
 		 */
 		var liveTvDirectPlayEnabled = booleanPreference("pref_live_direct", true)
-
-		/**
-		 * Shortcut used for changing the audio track
-		 */
-		var shortcutAudioTrack = intPreference("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
-
-		/**
-		 * Shortcut used for changing the subtitle track
-		 */
-		var shortcutSubtitleTrack = intPreference("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
 
 		/* Developer options */
 		/**
@@ -195,7 +179,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Subtitles font size
 		 */
-		var subtitlesTextSize = floatPreference("subtitles_text_size", 1f)
+		var subtitlesTextSize = floatPreference("subtitles_text_size", 24f)
 
 		/**
 		 * Subtitles offset
@@ -249,11 +233,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
 
 		/**
-		 * Enable libass.
-		 */
-		var assDirectPlay = booleanPreference("libass_enabled", false)
-
-		/**
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
@@ -279,6 +258,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				// Set subtitle text stroke color to black if it was enabled in a previous version
 				val subtitleStrokeSize = it.getInt("subtitles_stroke_size", 0)
 				putLong("subtitles_text_stroke_color", if (subtitleStrokeSize > 0) 0XFF000000L else 0X00FFFFFFL)
+			}
+
+			// v0.19.0 to v0.20.0
+			migration(toVersion = 9) {
+				// Reset subtitle text size as we changed from fractional sizing to absolute sizing
+				remove("subtitles_text_size")
 			}
 		}
 	}

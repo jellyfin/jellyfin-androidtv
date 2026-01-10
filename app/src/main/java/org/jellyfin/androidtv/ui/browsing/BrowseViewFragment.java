@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
@@ -28,6 +27,8 @@ import org.koin.java.KoinJavaComponent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class BrowseViewFragment extends EnhancedBrowseFragment {
     private boolean isLiveTvLibrary;
@@ -62,11 +63,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //Next up
                 GetNextUpRequest getNextUpRequest = BrowsingUtils.createGetNextUpRequest(mFolder.getId());
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_next_up), getNextUpRequest, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
-
-                //Premieres
-                if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getPremieresEnabled())) {
-                    mRows.add(new BrowseRowDef(getString(R.string.lbl_new_premieres), BrowsingUtils.createPremieresRequest(mFolder.getId()), 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}, QueryType.Premieres));
-                }
 
                 //Latest content added
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), BrowsingUtils.createLatestMediaRequest(mFolder.getId(), BaseItemKind.EPISODE, true), new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
@@ -175,7 +171,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                     return null;
                 }, exception -> {
-                    Utils.showToast(getContext(), exception.getLocalizedMessage());
+                    Timber.e(exception, "Failed to get Live TV recordings / timers");
                     return null;
                 });
 

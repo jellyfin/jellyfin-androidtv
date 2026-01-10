@@ -53,6 +53,7 @@ fun SearchTextInput(
 		BasicTextField(
 			modifier = modifier,
 			value = query,
+			singleLine = true,
 			interactionSource = interactionSource,
 			onValueChange = { onQueryChange(it) },
 			keyboardActions = KeyboardActions { onQuerySubmit() },

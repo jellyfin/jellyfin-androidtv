@@ -10,7 +10,7 @@
     <string name="chapters">Разделы</string>
     <string name="lbl_settings">Предпочтения</string>
     <string name="lbl_continue_watching">Продолжить просмотр</string>
-    <string name="lbl_next_up">Следующее</string>
+    <string name="lbl_next_up">Очередное</string>
     <string name="lbl_on_now">В эфире</string>
     <string name="lbl_views">Вид</string>
     <string name="lbl_by_letter">По буквам</string>
@@ -218,7 +218,7 @@
     <string name="lbl_news">Новости</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
     <string name="lbl_my_media">Мои медиафайлы</string>
-    <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
+    <string name="pref_next_up_timeout_title">Длительность таймера \"Очередное\"</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_about_title">О приложении</string>
@@ -523,8 +523,8 @@
     <string name="pref_screensaver_ageratingrequired_enabled">Показывать только товары с установленным возрастным рейтингом</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показать все товары</string>
     <string name="lbl_runtime">Среда выполнения</string>
-    <string name="lbl_subtitle_background_color">Цвет фона субтитров</string>
-    <string name="lbl_subtitle_text_color">Цвет текста субтитров</string>
+    <string name="lbl_subtitle_background_color">Цвет фона</string>
+    <string name="lbl_subtitle_text_color">Цвет текста</string>
     <string name="default_video_zoom">Режим масштабирования по умолчанию</string>
     <plurals name="movies">
         <item quantity="one">%1$s фильм</item>
@@ -566,7 +566,7 @@
     </plurals>
     <string name="segment_type_outro">Аутро</string>
     <string name="segment_type_preview">Предпросмотр</string>
-    <string name="lbl_subtitle_text_stroke_color">Цвет штриха субтитров</string>
+    <string name="lbl_subtitle_text_stroke_color">Цвет штриха</string>
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
@@ -610,4 +610,35 @@
     <string name="still_watching_label">Вы всё ещё смотрите?</string>
     <string name="lbl_still_watching_default">3 эпизода или 90 минут</string>
     <string name="pref_subtitles_position">Отступ снизу</string>
+    <string name="settings_description">Настройте приложение под свои желания</string>
+    <string name="settings">Настройки</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="pref_media_queueing_description">Добавлять последующие серии в очередь при воспроизведении сериалов</string>
+    <string name="pref_media_queueing">Добавлять в очередь все серии</string>
+    <string name="pref_playback_next_up">Очередное</string>
+    <string name="pref_playback_media_segments">Медиасегменты</string>
+    <string name="pref_customization_subtitles">Субтитры</string>
+    <string name="pref_playback_inactivity_prompt">Сообщение о неактивности</string>
+    <string name="pref_prerolls_enabled">Включить режим кинотеатра</string>
+    <string name="pref_prerolls_enabled_description">Воспроизводить пользовательские заставки перед фильмами</string>
+    <string name="pref_playback_prerolls">Преролл</string>
+    <string name="pref_subtitles_weight">Ширина текста</string>
+    <string name="font_weight_100">Тонкий</string>
+    <string name="font_weight_200">Сверхсветлый</string>
+    <string name="font_weight_300">Светный</string>
+    <string name="font_weight_400">Обычный</string>
+    <string name="font_weight_500">Средный</string>
+    <string name="font_weight_600">Полужирный</string>
+    <string name="font_weight_700">Жирный</string>
+    <string name="font_weight_800">Экстражирный</string>
+    <string name="font_weight_900">Черный</string>
+    <string name="subtitle_preview_text">Субтитры будут выглядеть так</string>
+    <string name="color_presets">Пресеты</string>
+    <string name="color_custom">Изменить цвет</string>
+    <string name="color_alpha">Прозрачность</string>
+    <string name="filters">Фильтры</string>
+    <string name="playback_video_player">Видео проигрыватель</string>
+    <string name="video_player_internal">Встроенный видео проигрыватель</string>
+    <string name="video_player_external">Внешнее приложение</string>
+    <string name="playback_video_player_external_empty">У вас не установлено ни одного приложения для проигрывания видео, которое может открывать видео Jellyfin.</string>
 </resources>

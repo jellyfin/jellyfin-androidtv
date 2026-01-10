@@ -41,10 +41,10 @@ object SeekbarDefaults {
 	@ReadOnlyComposable
 	@Composable
 	fun colors(
-		backgroundColor: Color = Color(0xCC4B4B4B),
-		bufferColor: Color = Color(0x40FFFFFF),
-		progressColor: Color = Color(0xFF00A4DC),
-		knobColor: Color = Color.White,
+		backgroundColor: Color = JellyfinTheme.colorScheme.rangeControlBackground,
+		bufferColor: Color = JellyfinTheme.colorScheme.seekbarBuffer,
+		progressColor: Color = JellyfinTheme.colorScheme.rangeControlFill,
+		knobColor: Color = JellyfinTheme.colorScheme.rangeControlKnob,
 	) = SeekbarColors(
 		backgroundColor = backgroundColor,
 		bufferColor = bufferColor,
@@ -67,7 +67,7 @@ fun Seekbar(
 	enabled: Boolean = true,
 	colors: SeekbarColors = SeekbarDefaults.colors(),
 ) {
-	val durationMs = duration.inWholeMilliseconds.toFloat()
+	val durationMs = duration.inWholeMilliseconds.toFloat().coerceAtLeast(1f)
 	val progressPercentage = progress.inWholeMilliseconds.toFloat() / durationMs
 	val bufferPercentage = buffer.inWholeMilliseconds.toFloat() / durationMs
 	val seekForwardPercentage = seekForwardAmount.inWholeMilliseconds.toFloat() / durationMs

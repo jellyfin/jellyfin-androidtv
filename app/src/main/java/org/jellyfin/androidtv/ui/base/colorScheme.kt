@@ -3,10 +3,11 @@ package org.jellyfin.androidtv.ui.base
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import org.jellyfin.design.Tokens
 
 fun colorScheme(): ColorScheme = ColorScheme(
-	background = Color(0xFF101010),
-	onBackground = Color(0xFFFFFFFF),
+	background = Tokens.Color.colorGrey975,
+	onBackground = Tokens.Color.colorBluegrey25,
 	button = Color(0xB3747474),
 	onButton = Color(0xFFDDDDDD),
 	buttonFocused = Color(0xE6CCCCCC),
@@ -19,9 +20,22 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	onInput = Color(0xE6CCCCCC),
 	inputFocused = Color(0xE6CCCCCC),
 	onInputFocused = Color(0xFFDDDDDD),
-	recording = Color(0xB3FF7474),
-	onRecording = Color(0xFFDDDDDD),
-	popover = Color(0xFF212225),
+	rangeControlBackground = Tokens.Color.colorBluegrey700,
+	rangeControlFill = Tokens.Color.colorCyan500,
+	rangeControlKnob = Tokens.Color.colorBluegrey100,
+	seekbarBuffer = Tokens.Color.colorBluegrey300,
+	recording = Tokens.Color.colorRed300,
+	onRecording = Tokens.Color.colorRed25,
+	badge = Tokens.Color.colorCyan500,
+	onBadge = Tokens.Color.colorBluegrey100,
+	listHeader = Tokens.Color.colorGrey50,
+	listOverline = Tokens.Color.colorGrey500,
+	listHeadline = Tokens.Color.colorGrey25,
+	listCaption = Tokens.Color.colorGrey200,
+	listButton = Color.Transparent,
+	listButtonFocused = Tokens.Color.colorBluegrey800,
+	surface = Tokens.Color.colorBluegrey900,
+	scrim = Tokens.Color.colorBlack.copy(alpha = 0.67f),
 )
 
 @Immutable
@@ -43,10 +57,26 @@ data class ColorScheme(
 	val inputFocused: Color,
 	val onInputFocused: Color,
 
+	val rangeControlBackground: Color,
+	val rangeControlFill: Color,
+	val rangeControlKnob: Color,
+	val seekbarBuffer: Color,
+
 	val recording: Color,
 	val onRecording: Color,
 
-	val popover: Color,
+	val badge: Color,
+	val onBadge: Color,
+
+	val listHeader: Color,
+	val listOverline: Color,
+	val listHeadline: Color,
+	val listCaption: Color,
+	val listButton: Color,
+	val listButtonFocused: Color,
+
+	val surface: Color,
+	val scrim: Color,
 )
 
 val LocalColorScheme = staticCompositionLocalOf { colorScheme() }

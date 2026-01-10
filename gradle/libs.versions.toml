@@ -1,48 +1,48 @@
 [versions]
-aboutlibraries = "12.2.4"
+aboutlibraries = "13.2.1"
 accompanist = "0.37.3"
 acra = "5.13.1"
 android-compileSdk = "36"
 android-desugar = "2.1.5"
-android-gradle = "8.13.0"
-android-minSdk = "21"
+android-gradle = "8.13.2"
+android-minSdk = "23"
 android-targetSdk = "36"
-androidx-activity = "1.11.0"
+androidx-activity = "1.12.2"
 androidx-appcompat = "1.7.1"
 androidx-cardview = "1.0.0"
-androidx-compose-foundation = "1.9.3"
-androidx-compose-ui = "1.9.3"
+androidx-compose-foundation = "1.10.0"
+androidx-compose-ui = "1.10.0"
 androidx-constraintlayout = "2.2.1"
 androidx-core = "1.17.0"
 androidx-fragment = "1.8.9"
 androidx-leanback = "1.2.0"
-androidx-lifecycle = "2.9.4"
-androidx-media3 = "1.8.0"
+androidx-lifecycle = "2.10.0"
+androidx-media3 = "1.9.0"
+androidx-navigation3 = "1.0.0"
 androidx-preference = "1.2.1"
 androidx-recyclerview = "1.4.0"
 androidx-startup = "1.2.0"
 androidx-tvprovider = "1.1.0"
-androidx-window = "1.4.0"
-androidx-work = "2.10.5"
+androidx-window = "1.5.1"
+androidx-work = "2.11.0"
 coil = "3.3.0"
 detekt = "1.23.8"
 java-jdk = "21"
-jellyfin-androidx-media = "1.8.0+1"
-jellyfin-sdk = "1.7.1"
+jellyfin-androidx-media = "1.9.0+1"
+jellyfin-sdk = "1.8.5"
 koin = "4.1.1"
 koin-compose = "4.1.1"
-kotest = "6.0.3"
-kotlin = "2.2.20"
+kotest = "6.0.7"
+kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
-libass-android = "0.3.0-rc03"
 markwon = "4.6.2"
-mockk = "1.14.6"
+mockk = "1.14.7"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
 [plugins]
-aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
+aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutlibraries" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -66,6 +66,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "androidx-compose-ui" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
@@ -76,6 +77,7 @@ androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", 
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
 androidx-preference = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
@@ -96,7 +98,6 @@ androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "androidx-media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
 jellyfin-androidx-media3-ffmpeg-decoder = { module = "org.jellyfin.media3:media3-ffmpeg-decoder", version.ref = "jellyfin-androidx-media" }
-libass-media3 = { module = "io.github.peerless2012:ass-media", version.ref = "libass-android" }
 
 # Markwon
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
@@ -135,6 +136,7 @@ acra = [
 ]
 androidx-compose = [
     "androidx-compose-foundation",
+    "androidx-compose-ui-graphics",
     "androidx-compose-ui-tooling",
 ]
 androidx-lifecycle = [

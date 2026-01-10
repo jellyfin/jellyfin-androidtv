@@ -39,7 +39,6 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
-import org.jellyfin.androidtv.ui.navigation.ActivityDestinations;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
@@ -59,6 +58,7 @@ import java.util.List;
 import java.util.UUID;
 
 import kotlin.Lazy;
+import kotlinx.coroutines.flow.MutableStateFlow;
 import timber.log.Timber;
 
 public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
@@ -105,6 +105,8 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
     private final Lazy<PlaybackLauncher> playbackLauncher = inject(PlaybackLauncher.class);
+    private MutableStateFlow<Boolean> showOptions;
+    private MutableStateFlow<Boolean> showFilterOptions;
 
     @Nullable
     @Override
@@ -129,20 +131,22 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mSpinner = binding.spinner;
         mSpinner.setVisibility(View.VISIBLE);
 
+        showFilterOptions = LiveTvGuideFragmentHelperKt.addSettingsFilters(this, binding);
         View mFilterButton = binding.filterButton;
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFilterOptions();
+                showFilterOptions.setValue(true);
             }
         });
         mFilterButton.setContentDescription(getString(R.string.lbl_filters));
 
+        showOptions = LiveTvGuideFragmentHelperKt.addSettingsOptions(this, binding);
         View mOptionsButton = binding.optionsButton;
         mOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showOptions();
+                showOptions.setValue(true);
             }
         });
         mOptionsButton.setContentDescription(getString(R.string.lbl_other_options));
@@ -317,7 +321,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 // bring up filter selection
-                showFilterOptions();
+                showFilterOptions.setValue(true);
                 break;
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
@@ -331,9 +335,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     } else if (mSelectedProgramView instanceof GuideChannelHeader) {
                         // Tuning directly to a channel
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
-                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>() {
+                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
+                                if (!isActive()) return;
                                 playbackLauncher.getValue().launch(requireContext(), response);
                             }
                         });
@@ -437,9 +442,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null) {
-            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, mSummary.getWidth()+20, new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, this, mSummary.getWidth()+20, new EmptyResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!isActive()) return;
                     playbackHelper.getValue().retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                 }
             });
@@ -447,16 +453,6 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
         mDetailPopup.setContent(mSelectedProgram, ((ProgramGridCell)mSelectedProgramView));
         mDetailPopup.show(mImage, mTitle.getLeft(), mTitle.getTop() - 10);
-    }
-
-    public void showFilterOptions() {
-        startActivity(ActivityDestinations.INSTANCE.liveTvGuideFilterPreferences(getContext()));
-        TvManager.forceReload();
-    }
-
-    public void showOptions() {
-        startActivity(ActivityDestinations.INSTANCE.liveTvGuideOptionPreferences(getContext()));
-        TvManager.forceReload();
     }
 
     public void displayChannels(int start, int max) {
@@ -484,9 +480,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mChannels.removeAllViews();
         mChannelStatus.setText("");
         mFilterStatus.setText("");
-        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(this, mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!isActive()) return;
                 Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask();

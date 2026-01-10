@@ -230,7 +230,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
 
         @Override
-        public void onProgress(long pos) {
+        public void onProgress(long pos, long duration) {
             if (mCurrentlyPlayingRow != null) {
                 mCurrentlyPlayingRow.updateCurrentTime(pos);
             }
@@ -351,7 +351,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
-        Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
+        Timber.i("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
         int pos = 0;
         BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;

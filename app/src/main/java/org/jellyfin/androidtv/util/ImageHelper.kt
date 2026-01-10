@@ -17,7 +17,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.api.UserDto
 
 class ImageHelper(
 	private val api: ApiClient,
@@ -31,7 +30,8 @@ class ImageHelper(
 		const val MAX_PRIMARY_IMAGE_HEIGHT: Int = 370
 	}
 
-	fun getImageUrl(image: JellyfinImage): String = image.getUrl(api)
+	fun getImageUrl(image: JellyfinImage, fillWidth: Int, fillHeight: Int): String =
+		image.getUrl(api, null, null, fillWidth, fillHeight)
 
 	fun getImageAspectRatio(item: BaseItemDto, preferParentThumb: Boolean): Double {
 		if (preferParentThumb && (item.parentThumbItemId != null || item.seriesThumbImageTag != null)) {
@@ -52,10 +52,6 @@ class ImageHelper(
 		item: BaseItemPerson,
 		maxHeight: Int? = null,
 	): String? = item.primaryImage?.getUrl(api, maxHeight = maxHeight)
-
-	fun getPrimaryImageUrl(
-		item: UserDto,
-	): String? = item.primaryImage?.getUrl(api)
 
 	fun getPrimaryImageUrl(
 		item: BaseItemDto,

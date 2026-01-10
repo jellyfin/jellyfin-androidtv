@@ -1,3 +1,3 @@
-Android TV'de Jellyfin kullandığınız için teşekkür ederiz! En son yayınlanan Jellyfin Sunucusunun kullanılması her zaman tavsiye edilir.
+Android TV'de Jellyfin'i kullandığınız için teşekkür ederiz! Her zaman en son sürüm Jellyfin Sunucusu'nu kullanmanız önerilir.
 
-Daha fazla bilgi için lütfen jellyfin.org adresindeki blogumuza bakın veya GitHub'daki değişiklik günlüğünün tamamını okuyun.
+Daha fazla bilgi için jellyfin.org adresindeki blogumuzu ziyaret edin veya GitHub'daki tam değişiklik günlüğünü okuyun.

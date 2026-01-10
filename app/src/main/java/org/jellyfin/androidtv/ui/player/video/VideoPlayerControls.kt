@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.res.stringResource
@@ -31,13 +33,19 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.LocalTextStyle
+import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.jellyfin.androidtv.ui.base.popover.Popover
+import org.jellyfin.androidtv.ui.composable.rememberPlayerPositionInfo
 import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.queue.queue
 import org.koin.compose.koinInject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
 
 @Composable
 fun VideoPlayerControls(
@@ -72,6 +80,16 @@ fun VideoPlayerControls(
 				.fillMaxWidth()
 				.height(4.dp)
 		)
+
+		Row(
+			horizontalArrangement = Arrangement.spacedBy(12.dp),
+			modifier = Modifier
+				.focusRestorer()
+				.focusGroup()
+		) {
+			Spacer(Modifier.weight(1f))
+			PositionText(playbackManager)
+		}
 	}
 }
 
@@ -185,6 +203,39 @@ private fun NextEntryButton(
 			contentDescription = stringResource(R.string.lbl_next_item),
 		)
 	}
+}
+
+private fun Duration.formatted(includeHours: Boolean): String {
+	val totalSeconds = toInt(DurationUnit.SECONDS)
+	val hours = totalSeconds / 3600
+	val minutes = (totalSeconds % 3600) / 60
+	val seconds = totalSeconds % 60
+
+	return if (includeHours) "%02d:%02d:%02d".format(hours, minutes, seconds)
+	else "%02d:%02d".format(minutes, seconds)
+}
+
+@Composable
+private fun PositionText(
+	playbackManager: PlaybackManager,
+) {
+	val positionInfo by rememberPlayerPositionInfo(playbackManager, precision = 1.seconds)
+	if (positionInfo.duration == Duration.ZERO) return
+
+	val text by remember {
+		derivedStateOf {
+			val includeHours = positionInfo.duration.inWholeMinutes >= 60
+			val activeFormatted = positionInfo.active.formatted(includeHours)
+			val durationFormatted = positionInfo.duration.formatted(includeHours)
+
+			"$activeFormatted / $durationFormatted"
+		}
+	}
+
+	Text(
+		text = text,
+		style = LocalTextStyle.current.copy(color = Color.White)
+	)
 }
 
 @Composable
