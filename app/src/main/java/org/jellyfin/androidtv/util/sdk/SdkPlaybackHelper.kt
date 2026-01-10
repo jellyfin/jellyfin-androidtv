@@ -258,20 +258,20 @@ class SdkPlaybackHelper(
 		}
 	}
 
-	override fun retrieveAndPlay(id: UUID, shuffle: Boolean, position: Long?, context: Context) {
+	override fun retrieveAndPlay(itemId: UUID, shuffle: Boolean, context: Context) {
 		getScope(context).launch {
 			val resumeSubtractDuration =
 				userPreferences[UserPreferences.resumeSubtractDuration].toIntOrNull()?.seconds
 					?: Duration.ZERO
 
 			val item = withContext(Dispatchers.IO) {
-				api.userLibraryApi.getItem(id).content
+				val response by api.userLibraryApi.getItem(itemId)
+				response
 			}
-			val pos = position?.ticks ?: item.userData?.playbackPositionTicks?.ticks?.minus(
-				resumeSubtractDuration
-			) ?: Duration.ZERO
-			val allowIntros = pos == Duration.ZERO && item.type == BaseItemKind.MOVIE
 
+			val pos = item.userData?.playbackPositionTicks?.ticks?.minus(resumeSubtractDuration) ?: Duration.ZERO
+
+			val allowIntros = pos == Duration.ZERO && item.type == BaseItemKind.MOVIE
 			val items = getItems(item, allowIntros, shuffle)
 
 			playbackLauncher.launch(
@@ -280,6 +280,34 @@ class SdkPlaybackHelper(
 				pos.inWholeMilliseconds.toInt(),
 				playbackControllerContainer.playbackController?.hasFragment() == true,
 				0,
+				shuffle,
+			)
+		}
+	}
+
+	override fun retrieveAndPlay(itemIds: List<UUID>, shuffle: Boolean, position: Long?, index: Int?, context: Context) {
+		getScope(context).launch {
+			val resumeSubtractDuration =
+				userPreferences[UserPreferences.resumeSubtractDuration].toIntOrNull()?.seconds
+					?: Duration.ZERO
+
+			val items = withContext(Dispatchers.IO) {
+				val response by api.itemsApi.getItems(
+					ids = itemIds,
+				)
+				response.items
+			}
+
+			val pos = position?.ticks ?: items[0].userData?.playbackPositionTicks?.ticks?.minus(
+				resumeSubtractDuration
+			) ?: Duration.ZERO
+
+			playbackLauncher.launch(
+				context,
+				items,
+				pos.inWholeMilliseconds.toInt(),
+				playbackControllerContainer.playbackController?.hasFragment() == true,
+				index ?: 0,
 				shuffle,
 			)
 		}

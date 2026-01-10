@@ -14,10 +14,9 @@ interface PlaybackHelper {
 		outerResponse: Response<List<BaseItemDto>>,
 	)
 
-	fun retrieveAndPlay(id: UUID, shuffle: Boolean, position: Long?, context: Context)
+	fun retrieveAndPlay(itemId: UUID, shuffle: Boolean, context: Context)
 
-	fun retrieveAndPlay(id: UUID, shuffle: Boolean, context: Context) =
-		retrieveAndPlay(id, shuffle, null, context)
+	fun retrieveAndPlay(itemIds: List<UUID>, shuffle: Boolean, position: Long?, index: Int?, context: Context)
 
 	fun playInstantMix(context: Context, item: BaseItemDto)
 }
