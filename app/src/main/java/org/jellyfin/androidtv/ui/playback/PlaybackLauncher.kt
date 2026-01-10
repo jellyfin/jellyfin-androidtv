@@ -20,20 +20,19 @@ class PlaybackLauncher(
 	private val navigationRepository: NavigationRepository,
 	private val userPreferences: UserPreferences,
 ) {
-	private val BaseItemDto.supportsExternalPlayer
-		get() = when (type) {
-			BaseItemKind.MOVIE,
-			BaseItemKind.EPISODE,
-			BaseItemKind.VIDEO,
-			BaseItemKind.SERIES,
-			BaseItemKind.SEASON,
-			BaseItemKind.RECORDING,
-			BaseItemKind.TV_CHANNEL,
-			BaseItemKind.PROGRAM,
-				-> true
+	fun supportsExternalPlayer(dto: BaseItemDto) = when (dto.type) {
+		BaseItemKind.MOVIE,
+		BaseItemKind.EPISODE,
+		BaseItemKind.VIDEO,
+		BaseItemKind.SERIES,
+		BaseItemKind.SEASON,
+		BaseItemKind.RECORDING,
+		BaseItemKind.TV_CHANNEL,
+		BaseItemKind.PROGRAM,
+			-> true
 
-			else -> false
-		}
+		else -> false
+	}
 
 	@JvmOverloads
 	fun launch(
@@ -43,6 +42,7 @@ class PlaybackLauncher(
 		replace: Boolean = false,
 		itemsPosition: Int = 0,
 		shuffle: Boolean = false,
+		forceExternalPlayer: Boolean = false,
 	) {
 		val isAudio = items.any { it.mediaType == MediaType.AUDIO }
 
@@ -57,7 +57,7 @@ class PlaybackLauncher(
 
 			if (items.isEmpty()) return
 
-			if (userPreferences[UserPreferences.useExternalPlayer] && items.all { it.supportsExternalPlayer }) {
+			if ((userPreferences[UserPreferences.useExternalPlayer] || forceExternalPlayer) && items.all { supportsExternalPlayer(it) }) {
 				context.startActivity(ActivityDestinations.externalPlayer(context, position?.milliseconds ?: Duration.ZERO))
 			} else if (userPreferences[UserPreferences.playbackRewriteVideoEnabled]) {
 				val destination = Destinations.videoPlayerNew(position)
