@@ -640,5 +640,5 @@
     <string name="playback_video_player">Видео проигрыватель</string>
     <string name="video_player_internal">Встроенный видео проигрыватель</string>
     <string name="video_player_external">Внешнее приложение</string>
-    <string name="playback_video_player_external_empty">У вас не установлено ни одного приложения для проигрывания видео, которое может открывать видео Jellyfin.</string>
+    <string name="playback_video_player_external_empty">У вас нет ни одного приложения для воспроизведения видео, которое может открывать видео из Jellyfin.</string>
 </resources>
