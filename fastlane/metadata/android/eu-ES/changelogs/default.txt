@@ -1,0 +1,3 @@
+Eskerrik asko Jellyfin Android TV-n erabiltzeagatik! Beti gomendatzen da kaleratutako Jellyfin zerbitzari berriena erabiltzea.
+
+Informazio gehiago nahi izanez gero, ikus gure bloga jellyfin.org helbidean, edo irakurri aldaketa-erregistro osoa GitHub-en.

@@ -1,0 +1,14 @@
+Zure multimedia, zure baldintzetan.
+
+Jellyfin proiektua software libreko multimedia zerbitzari bat da, kode irekikoa. Ez dago tasarik, ez jarraipenik, ezta agenda ezkuturik ere. Eskuratu gure doako zerbitzaria zure audio, bideo, argazki eta gehiago leku bakarrean biltzeko.
+
+Aplikazioa erabiltzeko, Jellyfin zerbitzari bat konfiguratuta eta martxan izan behar duzu. Informazio gehiago lortzeko, bisitatu <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Jellyfin zerbitzari batekin, hau egin dezakezu:
+
+* Ikusi zuzeneko telebista eta grabatutako saioak zure Jellyfin zerbitzaritik (hardware/zerbitzu gehigarriak behar dira)
+* Zure sareko Chromecast gailu batera erreproduzitu
+* Zure multimedia erreproduzitu zure Android gailura
+* Ikusi zure bilduma erabiltzeko erraza den interfaze batean
+
+Hau da Android TVrako Jellyfin-en aplikazio ofiziala. Eskerrik asko Jellyfin erabiltzeagatik!
