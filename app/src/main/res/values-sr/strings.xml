@@ -199,7 +199,7 @@
     <string name="msg_error_live_stream">Грешка при стримовању ТВ-а уживо. Покушаћу поново…</string>
     <string name="pref_live_tv_cat">ТВ уживо</string>
     <string name="lbl_recorded_tv">Снимљен ТВ програм</string>
-    <string name="lbl_live_tv_guide">ТВ водич уживо</string>
+    <string name="lbl_live_tv_guide">Телевизијски водич</string>
     <string name="lbl_no_recordings">Нема доступних снимака</string>
     <string name="msg_burn_sub_warning">Спајање титлова са видеом. Ово може потрајати неколико секунди…</string>
     <string name="msg_unable_load_subs">Није могуће учитати титл</string>
@@ -392,9 +392,9 @@
         <item quantity="few">%1$s албума</item>
         <item quantity="other">%1$s албума</item>
     </plurals>
-    <string name="lbl_subtitle_text_color">Боја титла</string>
-    <string name="lbl_subtitle_background_color">Боја позадине титла</string>
-    <string name="lbl_subtitle_text_stroke_color">Боја ивице титла</string>
+    <string name="lbl_subtitle_text_color">Боја текста</string>
+    <string name="lbl_subtitle_background_color">Боја позадине</string>
+    <string name="lbl_subtitle_text_stroke_color">Боја ивице</string>
     <string name="image_type_poster">Постер</string>
     <string name="image_size_smallest">Најмање</string>
     <string name="pref_external_player">Користи екстерни плејер</string>
@@ -611,4 +611,23 @@
     <string name="pref_prerolls_enabled">Омогући биоскопски режим</string>
     <string name="pref_prerolls_enabled_description">Пусти прилагођени увод пре филмова</string>
     <string name="pref_media_queueing">Стави све епизоде у ред</string>
+    <string name="pref_subtitles_weight">Дебљина текста</string>
+    <string name="font_weight_100">Најтање</string>
+    <string name="font_weight_200">Тање</string>
+    <string name="font_weight_300">Танко</string>
+    <string name="font_weight_400">Нормално</string>
+    <string name="font_weight_500">Средње</string>
+    <string name="font_weight_600">Полуподебљано</string>
+    <string name="font_weight_700">Подебљано</string>
+    <string name="font_weight_800">Врло подебљно</string>
+    <string name="font_weight_900">Најподебљније</string>
+    <string name="subtitle_preview_text">Титлови ће изгледати овако</string>
+    <string name="color_presets">Предефинисане шеме</string>
+    <string name="color_custom">Подеси боју</string>
+    <string name="color_alpha">Провидност</string>
+    <string name="playback_video_player">Видео плејер</string>
+    <string name="video_player_internal">Уграђени видео плејер</string>
+    <string name="video_player_external">Спољна апликација</string>
+    <string name="playback_video_player_external_empty">На вашем уређају нема ниједне апликације која може да отвори видео снимке из Jellyfin-а.</string>
+    <string name="filters">Филтери</string>
 </resources>
