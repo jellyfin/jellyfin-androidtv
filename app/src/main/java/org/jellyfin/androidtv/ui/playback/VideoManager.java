@@ -81,7 +81,8 @@ public class VideoManager {
     public boolean isContracted = false;
 
     private final UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
-    private final HttpDataSource.Factory exoPlayerHttpDataSourceFactory = KoinJavaComponent.get(HttpDataSource.Factory.class);
+    private final HttpDataSource.Factory exoPlayerHttpDataSourceFactory = KoinJavaComponent
+            .get(HttpDataSource.Factory.class);
 
     public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
@@ -112,26 +113,30 @@ public class VideoManager {
                 userPreferences.get(UserPreferences.Companion.getSubtitlesTextColor()).intValue(),
                 userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundColor()).intValue(),
                 Color.TRANSPARENT,
-                Color.alpha(strokeColor) == 0 ? CaptionStyleCompat.EDGE_TYPE_NONE : CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                Color.alpha(strokeColor) == 0 ? CaptionStyleCompat.EDGE_TYPE_NONE
+                        : CaptionStyleCompat.EDGE_TYPE_OUTLINE,
                 strokeColor,
-                TypefaceCompat.create(activity, Typeface.DEFAULT, textWeight, false)
-        );
-        mExoPlayerView.getSubtitleView().setFixedTextSize(TypedValue.COMPLEX_UNIT_DIP, userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
-        mExoPlayerView.getSubtitleView().setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
+                TypefaceCompat.create(activity, Typeface.DEFAULT, textWeight, false));
+        mExoPlayerView.getSubtitleView().setFixedTextSize(TypedValue.COMPLEX_UNIT_DIP,
+                userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
+        mExoPlayerView.getSubtitleView()
+                .setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
 
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
                 Timber.e("***** Got error from player");
-                if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
+                if (mPlaybackControllerNotifiable != null)
+                    mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
             }
 
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if (isPlaying) {
-                    if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
+                    if (mPlaybackControllerNotifiable != null)
+                        mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
                     _helper.setScreensaverLock(true);
                 } else {
@@ -147,7 +152,8 @@ public class VideoManager {
                 }
 
                 if (playbackState == Player.STATE_ENDED) {
-                    if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onCompletion();
+                    if (mPlaybackControllerNotifiable != null)
+                        mPlaybackControllerNotifiable.onCompletion();
                     stopProgressLoop();
                 }
             }
@@ -160,16 +166,21 @@ public class VideoManager {
             }
 
             @Override
-            public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
-                // discontinuity for reason internal usually indicates an error, and that the player will reset to its default timestamp
+            public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition,
+                    @NonNull Player.PositionInfo newPosition, int reason) {
+                // discontinuity for reason internal usually indicates an error, and that the
+                // player will reset to its default timestamp
                 if (reason == Player.DISCONTINUITY_REASON_INTERNAL) {
-                    Timber.i("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s", oldPosition.positionMs, newPosition.positionMs);
+                    Timber.i("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s",
+                            oldPosition.positionMs, newPosition.positionMs);
                 }
             }
 
             @Override
             public void onTimelineChanged(@NonNull Timeline timeline, int reason) {
-                Timber.d("Caught player timeline change - reason: %s", reason == Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
+                Timber.d("Caught player timeline change - reason: %s",
+                        reason == Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED ? "PLAYLIST_CHANGED"
+                                : "SOURCE_UPDATE");
             }
 
             @Override
@@ -192,7 +203,8 @@ public class VideoManager {
     }
 
     /**
-     * Configures Exoplayer for video playback. Initially we try with core decoders, but allow
+     * Configures Exoplayer for video playback. Initially we try with core decoders,
+     * but allow
      * ExoPlayer to silently fallback to software renderers.
      *
      * @param context The associated context
@@ -207,24 +219,21 @@ public class VideoManager {
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
         trackSelector.setParameters(trackSelector.buildUponParameters()
                 .setAudioOffloadPreferences(new TrackSelectionParameters.AudioOffloadPreferences.Builder()
-                        .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
-                        .build()
-                )
+                        .setAudioOffloadMode(
+                                TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+                        .build())
                 .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
-                .build()
-        );
+                .build());
         exoPlayerBuilder.setTrackSelector(trackSelector);
 
-        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory().setTsExtractorTimestampSearchBytes(TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3);
+        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory()
+                .setTsExtractorTimestampSearchBytes(TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3);
         extractorsFactory.setConstantBitrateSeekingEnabled(true);
         extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
-        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
+        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context,
+                exoPlayerHttpDataSourceFactory);
         exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
         exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
-        exoPlayerBuilder.setAudioAttributes(new AudioAttributes.Builder()
-                .setUsage(C.USAGE_MEDIA)
-                .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
-                .build(), true);
 
         return exoPlayerBuilder;
     }
@@ -338,8 +347,10 @@ public class VideoManager {
 
     private int getSubtitleSelectionFlags(MediaStream mediaStream) {
         int flags = 0;
-        if (mediaStream.isDefault()) flags &= C.SELECTION_FLAG_DEFAULT;
-        if (mediaStream.isForced()) flags &= C.SELECTION_FLAG_FORCED;
+        if (mediaStream.isDefault())
+            flags &= C.SELECTION_FLAG_DEFAULT;
+        if (mediaStream.isForced())
+            flags &= C.SELECTION_FLAG_FORCED;
         return flags;
     }
 
@@ -351,22 +362,39 @@ public class VideoManager {
         }
         Timber.i("Video path set to: %s", path);
 
+        boolean hasVideo = false;
+        for (MediaStream mediaStream : streamInfo.getMediaSource().getMediaStreams()) {
+            if (mediaStream.getType() == MediaStreamType.VIDEO) {
+                hasVideo = true;
+                break;
+            }
+        }
+
+        mExoPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                .setUsage(C.USAGE_MEDIA)
+                .setContentType(hasVideo ? C.AUDIO_CONTENT_TYPE_MOVIE : C.AUDIO_CONTENT_TYPE_MUSIC)
+                .build(), true);
+
         try {
             // Add external subtitles
             List<MediaItem.SubtitleConfiguration> subtitleConfigurations = new ArrayList<>();
             for (MediaStream mediaStream : streamInfo.getMediaSource().getMediaStreams()) {
-                if (mediaStream.getType() != MediaStreamType.SUBTITLE) continue;
+                if (mediaStream.getType() != MediaStreamType.SUBTITLE)
+                    continue;
 
                 if (mediaStream.getDeliveryMethod() == SubtitleDeliveryMethod.EXTERNAL) {
-                    Uri subtitleUri = Uri.parse(api.createUrl(mediaStream.getDeliveryUrl(), Collections.emptyMap(), Collections.emptyMap(), true));
-                    MediaItem.SubtitleConfiguration subtitleConfiguration = new MediaItem.SubtitleConfiguration.Builder(subtitleUri)
+                    Uri subtitleUri = Uri.parse(api.createUrl(mediaStream.getDeliveryUrl(), Collections.emptyMap(),
+                            Collections.emptyMap(), true));
+                    MediaItem.SubtitleConfiguration subtitleConfiguration = new MediaItem.SubtitleConfiguration.Builder(
+                            subtitleUri)
                             .setId("JF_EXTERNAL:" + String.valueOf(mediaStream.getIndex()))
                             .setMimeType(VideoManagerHelperKt.getSubtitleMediaStreamCodec(mediaStream))
                             .setLanguage(mediaStream.getLanguage())
                             .setLabel(mediaStream.getDisplayTitle())
                             .setSelectionFlags(getSubtitleSelectionFlags(mediaStream))
                             .build();
-                    Timber.i("Adding subtitle track %s of type %s", subtitleConfiguration.uri, subtitleConfiguration.mimeType);
+                    Timber.i("Adding subtitle track %s of type %s", subtitleConfiguration.uri,
+                            subtitleConfiguration.mimeType);
                     subtitleConfigurations.add(subtitleConfiguration);
                 }
             }
@@ -383,16 +411,20 @@ public class VideoManager {
         }
     }
 
-    private int offsetStreamIndex(int index, boolean adjustByAdding, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
+    private int offsetStreamIndex(int index, boolean adjustByAdding,
+            @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (index < 0 || allStreams == null)
             return -1;
 
-        // translate player track index to/from Jellyfin MediaStream index to account for external tracks
+        // translate player track index to/from Jellyfin MediaStream index to account
+        // for external tracks
         // being in the MediaStream tracks list but not in a player's track list
         //
-        // use adjustByAdding=true to translate player-id -> MediaStream-id, false for the other direction
+        // use adjustByAdding=true to translate player-id -> MediaStream-id, false for
+        // the other direction
         //
-        // use indexStartsAtOne=true when the player's tracks list uses indexes/IDs starting at 1
+        // use indexStartsAtOne=true when the player's tracks list uses indexes/IDs
+        // starting at 1
         // MediaStream indexes/IDs start at 0
 
         for (org.jellyfin.sdk.model.api.MediaStream stream : allStreams) {
@@ -404,13 +436,16 @@ public class VideoManager {
         return index < 0 || index > allStreams.size() ? -1 : index;
     }
 
-    public int getExoPlayerTrack(@Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
+    public int getExoPlayerTrack(@Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType,
+            @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (!isInitialized() || streamType == null || allStreams == null)
             return -1;
-        if (streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
+        if (streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE
+                && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
             return -1;
 
-        int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+        int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT
+                : C.TRACK_TYPE_AUDIO;
 
         int matchedIndex = -2;
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
@@ -418,7 +453,8 @@ public class VideoManager {
             if (matchedIndex > -2)
                 break;
             // Group level information.
-            @C.TrackType int trackType = groupInfo.getType();
+            @C.TrackType
+            int trackType = groupInfo.getType();
             TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 if (trackType == chosenTrackType) {
@@ -452,15 +488,22 @@ public class VideoManager {
         return exoTrackID;
     }
 
-    public boolean setExoPlayerTrack(int index, @Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
-        if (!isInitialized() || allStreams == null || allStreams.isEmpty() || streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
+    public boolean setExoPlayerTrack(int index, @Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType,
+            @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
+        if (!isInitialized() || allStreams == null || allStreams.isEmpty()
+                || streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE
+                        && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
             return false;
 
-        int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+        int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT
+                : C.TRACK_TYPE_AUDIO;
 
         // Make sure the index is present
-        Optional<MediaStream> candidateOptional = allStreams.stream().filter(stream -> stream.getIndex() == index && !stream.isExternal() && stream.getType() == streamType).findFirst();
-        if (!candidateOptional.isPresent()) return false;
+        Optional<MediaStream> candidateOptional = allStreams.stream()
+                .filter(stream -> stream.getIndex() == index && !stream.isExternal() && stream.getType() == streamType)
+                .findFirst();
+        if (!candidateOptional.isPresent())
+            return false;
 
         int exoTrackID = offsetStreamIndex(index, false, allStreams);
         if (exoTrackID < 0)
@@ -468,21 +511,27 @@ public class VideoManager {
 
         // print the streams for debugging
         for (MediaStream stream : allStreams) {
-            Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.isExternal());
+            Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(),
+                    stream.getType(), stream.getTitle(), stream.getCodec(), stream.isExternal());
         }
 
         // design choices for exoplayer track selection overrides:
-        // * build upon the prior parameters so we can mix overrides of different track types without erasing priors
+        // * build upon the prior parameters so we can mix overrides of different track
+        // types without erasing priors
         //
-        // * for subtitles (not currently used) - use setDisabledTrackTypes to disable or enable exoplayer handing subtitles
-        //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
-        //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
+        // * for subtitles (not currently used) - use setDisabledTrackTypes to disable
+        // or enable exoplayer handing subtitles
+        // if we want most formats to be handled by the external subtitle handler (which
+        // has adjustable size, background), we leave sub track selection disabled
+        // if we decide to use exoplayer to render a specific subtitle format, allow
+        // subtitle track selection and restrict selection to the chosen group
 
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         TrackGroup matchedGroup = null;
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
             // Group level information.
-            @C.TrackType int trackType = groupInfo.getType();
+            @C.TrackType
+            int trackType = groupInfo.getType();
             TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
@@ -491,7 +540,8 @@ public class VideoManager {
                 Format trackFormat = group.getFormat(i);
 
                 Timber.i("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
-                        trackFormat.id, i + 1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
+                        trackFormat.id, i + 1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType,
+                        isSelected, isSupported);
 
                 if (trackType != chosenTrackType)
                     continue;
@@ -529,7 +579,8 @@ public class VideoManager {
             return false;
 
         try {
-            TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
+            TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters()
+                    .buildUpon();
             mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
             mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
         } catch (Exception e) {
@@ -576,7 +627,8 @@ public class VideoManager {
 
     public void contractVideo(int height) {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mExoPlayerView.getLayoutParams();
-        if (isContracted) return;
+        if (isContracted)
+            return;
 
         int sw = mActivity.getWindow().getDecorView().getWidth();
         int sh = mActivity.getWindow().getDecorView().getHeight();
@@ -593,7 +645,8 @@ public class VideoManager {
     }
 
     public void setVideoFullSize(boolean force) {
-        if (normalHeight == 0) return;
+        if (normalHeight == 0)
+            return;
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mExoPlayerView.getLayoutParams();
         if (force) {
             lp.height = -1;
@@ -618,7 +671,8 @@ public class VideoManager {
         progressLoop = new Runnable() {
             @Override
             public void run() {
-                if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onProgress();
+                if (mPlaybackControllerNotifiable != null)
+                    mPlaybackControllerNotifiable.onProgress();
                 mHandler.postDelayed(this, 500);
             }
         };
