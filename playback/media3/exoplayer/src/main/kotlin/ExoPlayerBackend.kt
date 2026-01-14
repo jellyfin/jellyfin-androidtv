@@ -25,6 +25,7 @@ import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.mediastream.normalizationGain
@@ -94,9 +95,6 @@ class ExoPlayerBackend(
 				})
 			})
 			.setMediaSourceFactory(mediaSourceFactory)
-			.setAudioAttributes(AudioAttributes.Builder().apply {
-				setUsage(C.USAGE_MEDIA)
-			}.build(), true)
 			.setPauseAtEndOfMediaItems(true)
 			.build()
 			.also { player ->
@@ -191,6 +189,17 @@ class ExoPlayerBackend(
 
 	override fun playItem(item: QueueEntry) {
 		val stream = requireNotNull(item.mediaStream)
+
+		val hasVideo = stream.tracks.any { it is MediaStreamVideoTrack }
+		val contentType = if (hasVideo) C.AUDIO_CONTENT_TYPE_MOVIE else C.AUDIO_CONTENT_TYPE_MUSIC
+		exoPlayer.setAudioAttributes(
+			AudioAttributes.Builder().apply {
+				setUsage(C.USAGE_MEDIA)
+				setContentType(contentType)
+			}.build(),
+			true
+		)
+
 		if (currentStream == stream) return
 
 		currentStream = stream
