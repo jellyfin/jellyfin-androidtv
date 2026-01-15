@@ -95,4 +95,9 @@
     <string name="lbl_empty">Tupu</string>
     <string name="lbl_tv_queuing">Cheza kipindi kinachofuata kiotomatiki</string>
     <string name="lbl_search_hint">Tafuta (bonyeza ili kuandika)</string>
+    <string name="lbl_play_first_unwatched">Cheza kwanza ambayo haijatazamwa</string>
+    <string name="lbl_mark_unplayed">Badili kuwa haijachezwa</string>
+    <string name="lbl_mark_played">Badili kuwa imechezwa</string>
+    <string name="lbl_remove_favorite">Ondoa kipendwa</string>
+    <string name="lbl_add_favorite">Ongeza kipendwa</string>
 </resources>
