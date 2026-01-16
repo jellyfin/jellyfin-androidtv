@@ -555,9 +555,9 @@
     <string name="pref_screensaver_ageratingrequired_disabled">מציג את כל הפריטים</string>
     <string name="pref_screensaver_ageratingmax">הגבלת גיל מרבית</string>
     <string name="prefer_exoplayer_ffmpeg">העדף FFmpeg לניגון שמע</string>
-    <string name="lbl_subtitle_background_color">צבע הרקע של הכתוביות</string>
-    <string name="lbl_subtitle_text_stroke_color">צבע קו המתאר של הכתוביות</string>
-    <string name="lbl_subtitle_text_color">צבע הטקסט של הכתוביות</string>
+    <string name="lbl_subtitle_background_color">צבע הרקע</string>
+    <string name="lbl_subtitle_text_stroke_color">צבע קו המתאר</string>
+    <string name="lbl_subtitle_text_color">צבע הטקסט</string>
     <string name="prefer_exoplayer_ffmpeg_content">השתמש ב-FFmpeg לפיענוח שמע, גם אם זמינים מקודדים של הפלטפורמה.</string>
     <string name="video_start_delay">עיכוב בתחילת הוידיאו</string>
     <string name="segment_action_nothing">אל תעשה דבר</string>
@@ -614,4 +614,23 @@
     <string name="pref_prerolls_enabled">הפעלת מצב קולנוע</string>
     <string name="pref_prerolls_enabled_description">הפעלת פתיחה מותאמת אישית לפני סרטים</string>
     <string name="pref_media_queueing">תור כל הפרקים</string>
+    <string name="pref_subtitles_weight">עובי הטקסט</string>
+    <string name="font_weight_100">דק מאוד</string>
+    <string name="font_weight_200">קל במיוחד</string>
+    <string name="font_weight_300">קל</string>
+    <string name="font_weight_400">רגיל</string>
+    <string name="font_weight_500">בינוני</string>
+    <string name="font_weight_600">חצי מודגש</string>
+    <string name="font_weight_700">מודגש</string>
+    <string name="font_weight_800">מודגש במיוחד</string>
+    <string name="font_weight_900">שחור</string>
+    <string name="subtitle_preview_text">הכתוביות יראו כך</string>
+    <string name="color_presets">ערכות צבע</string>
+    <string name="color_custom">התאמת צבע אישית</string>
+    <string name="color_alpha">שקיפות</string>
+    <string name="playback_video_player">נגן וידאו</string>
+    <string name="video_player_internal">נגן וידאו מובנה</string>
+    <string name="video_player_external">אפליקציה חיצונית</string>
+    <string name="playback_video_player_external_empty">אין לך אפליקציות נגן מותקנות על מכשירך שיודעות לנגן וידאו מ-Jellyfin.</string>
+    <string name="filters">מסננים</string>
 </resources>
