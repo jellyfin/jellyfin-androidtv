@@ -141,4 +141,5 @@
     <string name="lbl_goto_now_playing">Fungua inayocheza sasa</string>
     <string name="lbl_instant_mix">Mseto wa sasa hivi</string>
     <string name="lbl_delete">Futa</string>
+    <string name="msg_item_added">" Kitu kimeongezwa"</string>
 </resources>
