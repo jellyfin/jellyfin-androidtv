@@ -37,7 +37,6 @@
         <item name="rowHeaderStyle">@style/Widget.Jellyfin.Row.Header</item>
         <item name="browseTitleViewLayout">@layout/view_lb_browse_title</item>
 
-        <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:popupWindowStyle">@style/PopupWindow</item>
 
@@ -83,11 +82,12 @@
         <item name="tile_port_guide_bg">@color/spanish_blue</item>
         <item name="tile_port_series_timer_bg">@color/midnight_blue</item>
         <item name="tile_port_time_bg">@color/spanish_blue</item>
+
+        <item name="android:dialogTheme">@style/Theme.Jellyfin.Dialog</item>
     </style>
 
-    <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowAnimationStyle">@style/WindowAnimation.SlideRight</item>
+    <style name="Theme.Jellyfin.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 </resources>

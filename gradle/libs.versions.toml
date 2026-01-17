@@ -1,23 +1,23 @@
 [versions]
-aboutlibraries = "13.1.0"
+aboutlibraries = "13.2.1"
 accompanist = "0.37.3"
 acra = "5.13.1"
 android-compileSdk = "36"
 android-desugar = "2.1.5"
-android-gradle = "8.13.1"
+android-gradle = "8.13.2"
 android-minSdk = "23"
 android-targetSdk = "36"
-androidx-activity = "1.12.1"
+androidx-activity = "1.12.2"
 androidx-appcompat = "1.7.1"
 androidx-cardview = "1.0.0"
-androidx-compose-foundation = "1.10.0"
-androidx-compose-ui = "1.10.0"
+androidx-compose-foundation = "1.10.1"
+androidx-compose-ui = "1.10.1"
 androidx-constraintlayout = "2.2.1"
 androidx-core = "1.17.0"
 androidx-fragment = "1.8.9"
 androidx-leanback = "1.2.0"
 androidx-lifecycle = "2.10.0"
-androidx-media3 = "1.8.0"
+androidx-media3 = "1.9.0"
 androidx-navigation3 = "1.0.0"
 androidx-preference = "1.2.1"
 androidx-recyclerview = "1.4.0"
@@ -28,16 +28,16 @@ androidx-work = "2.11.0"
 coil = "3.3.0"
 detekt = "1.23.8"
 java-jdk = "21"
-jellyfin-androidx-media = "1.8.0+1"
-jellyfin-sdk = "1.8.4"
+jellyfin-androidx-media = "1.9.0+1"
+jellyfin-sdk = "1.8.5"
 koin = "4.1.1"
 koin-compose = "4.1.1"
 kotest = "6.0.7"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 markwon = "4.6.2"
-mockk = "1.14.6"
+mockk = "1.14.7"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
@@ -66,6 +66,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "androidx-compose-ui" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
@@ -135,6 +136,7 @@ acra = [
 ]
 androidx-compose = [
     "androidx-compose-foundation",
+    "androidx-compose-ui-graphics",
     "androidx-compose-ui-tooling",
 ]
 androidx-lifecycle = [

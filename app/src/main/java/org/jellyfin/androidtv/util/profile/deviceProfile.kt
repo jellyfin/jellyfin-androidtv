@@ -15,6 +15,7 @@ import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.deviceprofile.DeviceProfileBuilder
 import org.jellyfin.sdk.model.deviceprofile.buildDeviceProfile
+import kotlin.math.roundToInt
 
 private val downmixSupportedAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
@@ -44,14 +45,33 @@ private val supportedAudioCodecs = arrayOf(
 	Codec.Audio.VORBIS,
 )
 
+private val hlsMpegTsAudioCodecs = arrayOf(
+	Codec.Audio.AAC,
+	Codec.Audio.AC3,
+	Codec.Audio.EAC3,
+	Codec.Audio.MP3
+)
+
+private val hlsFmp4AudioCodecs = arrayOf(
+	Codec.Audio.AAC,
+	Codec.Audio.AC3,
+	Codec.Audio.EAC3,
+	Codec.Audio.MP3,
+	Codec.Audio.ALAC,
+	Codec.Audio.FLAC,
+	Codec.Audio.OPUS,
+	Codec.Audio.DTS,
+	Codec.Audio.TRUEHD
+)
+
 private fun UserPreferences.getMaxBitrate(): Int {
-	var maxBitrate = this[UserPreferences.maxBitrate].toIntOrNull()
+	var maxBitrate = this[UserPreferences.maxBitrate].toFloatOrNull()
 
 	// The value "0" was used in an older release, make sure we prevent that from being used to avoid video not playing
-	if (maxBitrate == null || maxBitrate < 1) maxBitrate = UserPreferences.maxBitrate.defaultValue.toInt()
+	if (maxBitrate == null || maxBitrate < 0.01f) maxBitrate = UserPreferences.maxBitrate.defaultValue.toFloat()
 
 	// Convert megabit to bit
-	return maxBitrate * 1_000_000
+	return (maxBitrate * 1_000_000).roundToInt()
 }
 
 fun createDeviceProfile(
@@ -119,6 +139,11 @@ fun createDeviceProfile(
 
 	/// Transcoding profiles
 	// Video
+	val hlsVideoCodecs = listOfNotNull(
+		if (supportsHevc) Codec.Video.HEVC else null,
+		Codec.Video.H264
+	).toTypedArray()
+
 	transcodingProfile {
 		type = DlnaProfileType.VIDEO
 		context = EncodingContext.STREAMING
@@ -126,10 +151,22 @@ fun createDeviceProfile(
 		container = Codec.Container.TS
 		protocol = MediaStreamProtocol.HLS
 
-		if (supportsHevc) videoCodec(Codec.Video.HEVC)
-		videoCodec(Codec.Video.H264)
+		videoCodec(*hlsVideoCodecs)
+		audioCodec(*hlsMpegTsAudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
 
-		audioCodec(*allowedAudioCodecs)
+		copyTimestamps = false
+		enableSubtitlesInManifest = true
+	}
+
+	transcodingProfile {
+		type = DlnaProfileType.VIDEO
+		context = EncodingContext.STREAMING
+
+		container = Codec.Container.MP4
+		protocol = MediaStreamProtocol.HLS
+
+		videoCodec(*hlsVideoCodecs)
+		audioCodec(*hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
 
 		copyTimestamps = false
 		enableSubtitlesInManifest = true
@@ -140,9 +177,10 @@ fun createDeviceProfile(
 		type = DlnaProfileType.AUDIO
 		context = EncodingContext.STREAMING
 
-		container = Codec.Container.MP3
+		container = Codec.Container.TS
+		protocol = MediaStreamProtocol.HLS
 
-		audioCodec(Codec.Audio.MP3)
+		audioCodec(Codec.Audio.AAC)
 	}
 
 	/// Direct play profiles
@@ -201,7 +239,7 @@ fun createDeviceProfile(
 					"main",
 					"baseline",
 					"constrained baseline",
-					if (supportsAVCHigh10) "main 10" else null
+					if (supportsAVCHigh10) "high 10" else null
 				)
 			}
 		}

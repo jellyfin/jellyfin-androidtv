@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProvideTextStyle
+import org.jellyfin.design.Tokens
 
 @Composable
 fun ListItemContent(
@@ -25,59 +26,72 @@ fun ListItemContent(
 	captionContent: (@Composable () -> Unit)? = null,
 	leadingContent: (@Composable () -> Unit)? = null,
 	trailingContent: (@Composable () -> Unit)? = null,
+	footerContent: (@Composable () -> Unit)? = null,
 	headingStyle: TextStyle,
 ) {
-	Row(
+	Column(
 		modifier = modifier
+			// TODO: Add suitable space token for this padding
 			.padding(12.dp),
-		verticalAlignment = Alignment.CenterVertically,
 	) {
-		leadingContent?.let { content ->
-			Box(
+		Row(
+			verticalAlignment = Alignment.CenterVertically,
+		) {
+			leadingContent?.let { content ->
+				Box(
+					modifier = Modifier
+						.sizeIn(minWidth = 24.dp),
+					contentAlignment = Alignment.Center,
+					content = {
+						ProvideTextStyle(LocalTextStyle.current.copy(color = JellyfinTheme.colorScheme.listCaption)) {
+							content()
+						}
+					}
+				)
+				Spacer(Modifier.width(Tokens.Space.spaceMd))
+			}
+
+			Column(
 				modifier = Modifier
-					.sizeIn(minWidth = 24.dp),
-				contentAlignment = Alignment.Center,
-				content = {
-					ProvideTextStyle(LocalTextStyle.current.copy(color = JellyfinTheme.colorScheme.listCaption)) {
+					.weight(1f),
+			) {
+				overlineContent?.let { content ->
+					ProvideTextStyle(JellyfinTheme.typography.listOverline.copy(color = JellyfinTheme.colorScheme.listOverline)) {
+						content()
+					}
+					Spacer(Modifier.height(Tokens.Space.space2xs))
+				}
+
+				ProvideTextStyle(headingStyle) {
+					headingContent()
+				}
+
+				captionContent?.let { content ->
+					Spacer(Modifier.height(Tokens.Space.spaceXs))
+					ProvideTextStyle(JellyfinTheme.typography.listCaption.copy(color = JellyfinTheme.colorScheme.listCaption)) {
 						content()
 					}
 				}
-			)
-			Spacer(Modifier.width(14.dp))
-		}
-
-		Column(
-			modifier = Modifier
-				.weight(1f),
-		) {
-			overlineContent?.let { content ->
-				ProvideTextStyle(JellyfinTheme.typography.listOverline.copy(color = JellyfinTheme.colorScheme.listOverline)) {
-					content()
-				}
-				Spacer(Modifier.height(2.dp))
 			}
 
-			ProvideTextStyle(headingStyle) {
-				headingContent()
-			}
+			trailingContent?.let { content ->
+				Spacer(Modifier.width(Tokens.Space.spaceMd))
 
-			captionContent?.let { content ->
-				Spacer(Modifier.height(4.dp))
-				ProvideTextStyle(JellyfinTheme.typography.listCaption.copy(color = JellyfinTheme.colorScheme.listCaption)) {
-					content()
-				}
+				Box(
+					modifier = Modifier
+						.sizeIn(minWidth = 24.dp),
+					contentAlignment = Alignment.Center,
+					content = { content() }
+				)
 			}
 		}
 
-		trailingContent?.let { content ->
-			Spacer(Modifier.width(16.dp))
+		footerContent?.let { content ->
+			Spacer(Modifier.height(Tokens.Space.spaceXs))
 
-			Box(
-				modifier = Modifier
-					.sizeIn(minWidth = 24.dp),
-				contentAlignment = Alignment.Center,
-				content = { content() }
-			)
+			ProvideTextStyle(LocalTextStyle.current.copy(color = JellyfinTheme.colorScheme.listCaption)) {
+				content()
+			}
 		}
 	}
 }
