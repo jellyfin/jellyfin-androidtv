@@ -208,7 +208,7 @@ private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Bo
 		aspectRatio = when (imageType) {
 			ImageType.BANNER -> ImageHelper.ASPECT_RATIO_BANNER.toFloat()
 			ImageType.THUMB -> ImageHelper.ASPECT_RATIO_16_9.toFloat()
-			else -> baseItem?.aspectRatio?.toFloatOrNull() ?: 1f
+			else -> baseItem?.primaryImageAspectRatio?.toFloat() ?: 1f
 		},
 		image = getImage(imageType),
 		scaleType = ImageView.ScaleType.FIT_CENTER,
@@ -216,7 +216,11 @@ private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Bo
 	)
 
 	BaseRowType.LiveTvProgram -> BaseRowItemDisplayConfig(
-		aspectRatio = ImageHelper.ASPECT_RATIO_7_9.toFloat(),
+		aspectRatio = when (imageType) {
+			ImageType.BANNER -> ImageHelper.ASPECT_RATIO_BANNER.toFloat()
+			ImageType.THUMB -> ImageHelper.ASPECT_RATIO_16_9.toFloat()
+			else -> baseItem?.primaryImageAspectRatio?.toFloat() ?: ImageHelper.ASPECT_RATIO_7_9.toFloat()
+		},
 		image = getImage(imageType),
 		scaleType = ImageView.ScaleType.CENTER_INSIDE,
 		iconRes = R.drawable.ic_tv,
@@ -227,7 +231,7 @@ private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Bo
 		aspectRatio = when (imageType) {
 			ImageType.BANNER -> ImageHelper.ASPECT_RATIO_BANNER.toFloat()
 			ImageType.THUMB -> ImageHelper.ASPECT_RATIO_16_9.toFloat()
-			else -> baseItem?.aspectRatio?.toFloatOrNull() ?: ImageHelper.ASPECT_RATIO_7_9.toFloat()
+			else -> baseItem?.primaryImageAspectRatio?.toFloat() ?: ImageHelper.ASPECT_RATIO_7_9.toFloat()
 		},
 		image = getImage(imageType),
 		iconRes = R.drawable.ic_tv,
