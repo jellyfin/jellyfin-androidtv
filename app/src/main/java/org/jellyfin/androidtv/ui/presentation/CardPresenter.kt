@@ -222,7 +222,6 @@ private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Bo
 			else -> baseItem?.primaryImageAspectRatio?.toFloat() ?: ImageHelper.ASPECT_RATIO_7_9.toFloat()
 		},
 		image = getImage(imageType),
-		scaleType = ImageView.ScaleType.CENTER_INSIDE,
 		iconRes = R.drawable.ic_tv,
 		overrideShowInfo = true,
 	)
