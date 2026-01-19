@@ -87,6 +87,11 @@ fun FullDetailsFragment.showDetailsMenu(
 		item(getString(R.string.lbl_play_trailers)) { playTrailers() }
 	}
 
+	// Add external player option for video items
+	if (playbackHelper.value.supportsExternalPlayer(baseItemDto) && !playbackHelper.value.userPrefersExternalPlayer) {
+		item(getString(R.string.lbl_play_external)) { playExternal(baseItemDto) }
+	}
+
 	if (favButton?.isVisible == false) {
 		val favoriteStringRes = when (baseItemDto.userData?.isFavorite) {
 			true -> R.string.lbl_remove_favorite

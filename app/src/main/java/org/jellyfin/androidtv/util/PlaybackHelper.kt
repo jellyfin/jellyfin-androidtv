@@ -14,6 +14,12 @@ interface PlaybackHelper {
 		outerResponse: Response<List<BaseItemDto>>,
 	)
 
+	val userPrefersExternalPlayer: Boolean
+
+	fun supportsExternalPlayer(item: BaseItemDto): Boolean
+
+	fun retrieveAndPlayExternal(itemId: UUID, shuffle: Boolean, context: Context)
+
 	fun retrieveAndPlay(itemId: UUID, shuffle: Boolean, context: Context)
 
 	fun retrieveAndPlay(itemIds: List<UUID>, shuffle: Boolean, position: Long?, index: Int?, context: Context)

@@ -40,6 +40,7 @@
     <string name="lbl_play_all">Play all</string>
     <string name="lbl_shuffle_all">Shuffle all</string>
     <string name="lbl_play">Play</string>
+    <string name="lbl_play_external">Open in external player</string>
     <string name="lbl_pause">Pause</string>
     <string name="lbl_exit">Exit</string>
     <string name="lbl_cancel">Cancel</string>
