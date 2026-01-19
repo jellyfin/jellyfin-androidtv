@@ -188,4 +188,18 @@
     <string name="lbl_from_beginning">Anza tangu mwanzo</string>
     <string name="lbl_more_like_this">Zinazofanana na hii</string>
     <string name="lbl_previous_episode">Kipindi kilichopita</string>
+    <string name="lbl_next_episode">Kipindi kinachofuata</string>
+    <string name="lbl_album_name">Jina la albamu</string>
+    <string name="lbl_song_title">Jina la wimbo</string>
+    <string name="lbl_tv_channel_status">Chaneli %1$d kati ya %2$d</string>
+    <string name="lbl_tv_filter_status">Kwa saa %1$d zijazo</string>
+    <string name="lbl_news">Habari</string>
+    <string name="lbl_new_only">Mapya pekee</string>
+    <string name="lbl_subtitle_delay">Kuchelewa kwa manukuu</string>
+    <string name="lbl_new_episodes">Vipindi vipya</string>
+    <string name="lbl_premieres">Maonyesho ya kwanza</string>
+    <string name="lbl_repeat_episodes">Vipindi vya marudio</string>
+    <string name="lbl_live_broadcasts">Matangazo mubashara</string>
+    <string name="lbl_hd_programs">Vipindi vya ubora wa juu</string>
+    <string name="lbl_colored_backgrounds">Mandhari yenye alama za rangi</string>
 </resources>
