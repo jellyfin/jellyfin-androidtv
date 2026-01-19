@@ -26,6 +26,7 @@ class SearchFragmentDelegate(
 		rowsAdapter.clear()
 		val adapters = mutableListOf<ItemRowAdapter>()
 		for ((labelRes, baseItems) in searchResultGroups) {
+			if (baseItems.isEmpty()) continue
 			val adapter = ItemRowAdapter(
 				context,
 				baseItems.toList(),
