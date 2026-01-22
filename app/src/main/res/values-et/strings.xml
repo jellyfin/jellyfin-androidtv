@@ -618,4 +618,6 @@
     <string name="pref_prerolls_enabled_description">Esita enne filmi oma sissejuhatus</string>
     <string name="pref_playback_next_up">Järgmisena</string>
     <string name="pref_playback_prerolls">Eelrullid</string>
+    <string name="font_weight_900">Must</string>
+    <string name="filters">Filtrid</string>
 </resources>
