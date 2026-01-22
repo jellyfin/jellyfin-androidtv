@@ -620,4 +620,5 @@
     <string name="font_weight_900">Siyah</string>
     <string name="color_presets">Ön ayarlar</string>
     <string name="color_custom">Rengi özelleştir</string>
+    <string name="filters">Filtreler</string>
 </resources>
