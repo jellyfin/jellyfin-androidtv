@@ -49,7 +49,9 @@ import kotlin.time.DurationUnit
 
 @Composable
 fun VideoPlayerControls(
-	playbackManager: PlaybackManager = koinInject()
+	playbackManager: PlaybackManager = koinInject(),
+	onStatsToggle: () -> Unit = {},
+	showStats: Boolean = false,
 ) {
 	val playState by playbackManager.state.playState.collectAsState()
 
@@ -67,6 +69,11 @@ fun VideoPlayerControls(
 			FastForwardButton(playbackManager)
 
 			Spacer(Modifier.weight(1f))
+
+			StatsInfoButton(
+				onClick = onStatsToggle,
+				showStats = showStats,
+			)
 
 			MoreOptionsButton {
 				PreviousEntryButton(playbackManager)
@@ -236,6 +243,21 @@ private fun PositionText(
 		text = text,
 		style = LocalTextStyle.current.copy(color = Color.White)
 	)
+}
+
+@Composable
+private fun StatsInfoButton(
+	onClick: () -> Unit,
+	showStats: Boolean,
+) {
+	IconButton(
+		onClick = onClick,
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_info),
+			contentDescription = if (showStats) stringResource(R.string.lbl_hide_stats) else stringResource(R.string.lbl_show_stats),
+		)
+	}
 }
 
 @Composable

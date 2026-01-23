@@ -19,6 +19,8 @@ fun VideoPlayerOverlay(
 	modifier: Modifier = Modifier,
 	playbackManager: PlaybackManager = koinInject(),
 	mediaToastRegistry: MediaToastRegistry,
+	onStatsToggle: () -> Unit = {},
+	showStats: Boolean = false,
 ) {
 	val visibilityState = rememberPlayerOverlayVisibility()
 
@@ -36,6 +38,8 @@ fun VideoPlayerOverlay(
 		controls = {
 			VideoPlayerControls(
 				playbackManager = playbackManager,
+				onStatsToggle = onStatsToggle,
+				showStats = showStats,
 			)
 		},
 	)

@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,6 +51,8 @@ fun VideoPlayerScreen() {
 	val mediaToastRegistry = remember { MediaToastRegistry(coroutineScope) }
 	rememberPlaybackManagerMediaToastEmitter(playbackManager, mediaToastRegistry)
 
+	var showStats by remember { mutableStateOf(false) }
+
 	Box(
 		modifier = Modifier
 			.background(Color.Black)
@@ -65,7 +69,16 @@ fun VideoPlayerScreen() {
 		VideoPlayerOverlay(
 			playbackManager = playbackManager,
 			mediaToastRegistry = mediaToastRegistry,
+			onStatsToggle = { showStats = !showStats },
+			showStats = showStats,
 		)
+
+		if (showStats) {
+			VideoPlayerStatsOverlay(
+				playbackManager = playbackManager,
+				modifier = Modifier.align(Alignment.TopStart),
+			)
+		}
 
 		PlayerSubtitles(
 			playbackManager = playbackManager,

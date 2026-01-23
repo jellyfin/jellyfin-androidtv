@@ -621,4 +621,6 @@
         <item quantity="one">%1$s album</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+    <string name="lbl_show_stats">Show stats</string>
+    <string name="lbl_hide_stats">Hide stats</string>
 </resources>

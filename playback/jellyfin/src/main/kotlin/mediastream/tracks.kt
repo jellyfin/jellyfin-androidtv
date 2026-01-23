@@ -35,6 +35,11 @@ private fun getAudioTrack(stream: MediaStream) = MediaStreamAudioTrack(
 
 private fun getVideoTrack(stream: MediaStream) = MediaStreamVideoTrack(
 	codec = requireNotNull(stream.codec),
+	videoRangeType = stream.videoRangeType?.serialName?.takeIf {
+		it.isNotBlank() && it.uppercase() != "SDR" && it.uppercase() != "UNKNOWN"
+	}?.uppercase(),
+	colorSpace = stream.colorSpace?.takeIf { it.isNotBlank() },
+	colorPrimaries = stream.colorPrimaries?.takeIf { it.isNotBlank() },
 )
 
 // TODO Implement Subtitle track type
