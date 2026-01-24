@@ -16,4 +16,6 @@ val preferenceModule = module {
 	single { UserPreferences(get()) }
 	single { SystemPreferences(get()) }
 	single { TelemetryPreferences(get()) }
+
+	single { org.jellyfin.androidtv.preference.repository.UserPinRepository(get()) }
 }

@@ -41,6 +41,8 @@ import org.jellyfin.androidtv.ui.card.UserCardView
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
+import org.jellyfin.androidtv.ui.startup.PinDialogFragment
+import org.jellyfin.androidtv.preference.repository.UserPinRepository
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -55,8 +57,10 @@ class ServerFragment : Fragment() {
 	private val authenticationRepository: AuthenticationRepository by inject()
 	private val serverUserRepository: ServerUserRepository by inject()
 	private val backgroundService: BackgroundService by inject()
+	private val userPinRepository: UserPinRepository by inject()
 	private var _binding: FragmentServerBinding? = null
 	private val binding get() = _binding!!
+	private var pendingLoginUser: User? = null
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
 
@@ -71,7 +75,8 @@ class ServerFragment : Fragment() {
 		_binding = FragmentServerBinding.inflate(inflater, container, false)
 
 		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
-		userAdapter.onItemPressed = { user ->
+
+		fun performLogin(server: Server, user: User) {
 			startupViewModel.authenticate(server, user).onEach { state ->
 				when (state) {
 					// Ignored states
@@ -97,6 +102,24 @@ class ServerFragment : Fragment() {
 					).show()
 				}
 			}.launchIn(lifecycleScope)
+		}
+
+		childFragmentManager.setFragmentResultListener(PinDialogFragment.RESULT_KEY_PIN_ENTERED, viewLifecycleOwner) { _, result ->
+			if (result.getBoolean(PinDialogFragment.RESULT_EXTRA_SUCCESS)) {
+				pendingLoginUser?.let { user ->
+					performLogin(server, user)
+				}
+				pendingLoginUser = null
+			}
+		}
+
+		userAdapter.onItemPressed = { user ->
+			if (userPinRepository.hasPin(user.id)) {
+				pendingLoginUser = user
+				PinDialogFragment.newInstance(user.id).show(childFragmentManager, "pin_dialog")
+			} else {
+				performLogin(server, user)
+			}
 		}
 		binding.users.adapter = userAdapter
 

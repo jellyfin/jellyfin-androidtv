@@ -7,3 +7,4 @@ local.properties
 .kotlin/
 build/
 captures/
+android-sdk/

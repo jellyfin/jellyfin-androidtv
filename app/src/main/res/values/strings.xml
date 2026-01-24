@@ -621,4 +621,13 @@
         <item quantity="one">%1$s album</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+    <string name="lbl_enter_pin">Enter PIN</string>
+    <string name="lbl_set_pin">Set PIN</string>
+    <string name="lbl_change_pin">Change PIN</string>
+    <string name="lbl_remove_pin">Remove PIN</string>
+    <string name="lbl_pin_removed">PIN removed</string>
+    <string name="lbl_pin_set">PIN set</string>
+    <string name="lbl_incorrect_pin">Incorrect PIN</string>
+    <string name="lbl_pin_mismatch">PINs do not match</string>
+    <string name="lbl_reenter_pin">Re-enter PIN</string>
 </resources>
