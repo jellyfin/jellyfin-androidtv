@@ -57,7 +57,7 @@
     <string name="lbl_recorded_tv">Kaydedilmiş TV</string>
     <string name="lbl_live_tv_guide">Canlı TV Rehberi</string>
     <string name="lbl_no_recordings">Mevcut kayıt yok</string>
-    <string name="msg_burn_sub_warning">Alt yazılar işleniyor. Bu işlem birkaç saniye sürebilir…</string>
+    <string name="msg_burn_sub_warning">Altyazılar gömülüyor. Bu işlem birkaç saniye sürebilir…</string>
     <string name="msg_unable_load_subs">Alt yazı yüklenemedi</string>
     <string name="msg_subtitles_loading">Alt yazılar yükleniyor…</string>
     <string name="lbl_filters">Canlı TV filtreleri</string>
@@ -562,7 +562,7 @@
     <string name="segment_type_commercial">Reklamlar</string>
     <string name="segment_type_intro">İntrolar</string>
     <string name="segment_type_outro">Kapanış jeneriği</string>
-    <string name="preference_enable_trickplay">Video oynatıcıda trickplay özelliğini etkinleştir</string>
+    <string name="preference_enable_trickplay">Video oynatıcıda hızlı önizleme özelliğini etkinleştir</string>
     <string name="skip_forward_length">İleri atlama uzunluğu</string>
     <string name="pref_subtitles_background_opacity">Alt yazı arka plan opaklığı</string>
     <string name="pref_troubleshooting">Sorun Giderme</string>
