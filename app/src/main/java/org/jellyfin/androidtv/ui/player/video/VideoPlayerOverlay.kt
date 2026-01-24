@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
 import org.jellyfin.androidtv.ui.player.base.PlayerOverlayLayout
 import org.jellyfin.androidtv.ui.player.base.rememberPlayerOverlayVisibility
+import org.jellyfin.androidtv.ui.player.base.toast.MediaToastRegistry
+import org.jellyfin.androidtv.ui.player.base.toast.MediaToasts
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.baseItemFlow
@@ -16,6 +18,7 @@ import org.koin.compose.koinInject
 fun VideoPlayerOverlay(
 	modifier: Modifier = Modifier,
 	playbackManager: PlaybackManager = koinInject(),
+	mediaToastRegistry: MediaToastRegistry,
 ) {
 	val visibilityState = rememberPlayerOverlayVisibility()
 
@@ -36,4 +39,6 @@ fun VideoPlayerOverlay(
 			)
 		},
 	)
+
+	MediaToasts(mediaToastRegistry)
 }

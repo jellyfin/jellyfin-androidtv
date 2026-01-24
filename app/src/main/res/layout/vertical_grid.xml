@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.leanback.widget.HorizontalGridView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.leanback.widget.VerticalGridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/horizontal_grid"
+    android:id="@+id/vertical_grid"
     android:layout_gravity="center"
 
     android:clipToPadding="false"
     focusOutFront="true"
     android:padding="20dp">
 
-</androidx.leanback.widget.HorizontalGridView>
+</androidx.leanback.widget.VerticalGridView>

@@ -118,7 +118,7 @@
     <string name="msg_error_live_stream">Error streaming live TV. Will re-try…</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
-    <string name="lbl_live_tv_guide">Live TV Guide</string>
+    <string name="lbl_live_tv_guide">Live TV guide</string>
     <string name="lbl_no_recordings">No recordings available</string>
     <string name="msg_burn_sub_warning">Burning in subtitles. This may take a few seconds…</string>
     <string name="msg_unable_load_subs">Unable to load subtitle</string>
@@ -545,9 +545,9 @@
     <string name="past_week">Past week</string>
     <string name="scheduled_in_next_24_hours">Scheduled in next 24 hours</string>
     <string name="past_24_hours">Past 24 hours</string>
-    <string name="lbl_subtitle_text_color">Subtitle text colour</string>
-    <string name="lbl_subtitle_background_color">Subtitle background colour</string>
-    <string name="lbl_subtitle_text_stroke_color">Subtitle stroke colour</string>
+    <string name="lbl_subtitle_text_color">Text colour</string>
+    <string name="lbl_subtitle_background_color">Background colour</string>
+    <string name="lbl_subtitle_text_stroke_color">Edge colour</string>
     <string name="prefer_exoplayer_ffmpeg">Prefer FFmpeg for audio playback</string>
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
     <string name="video_start_delay">Video start delay</string>
