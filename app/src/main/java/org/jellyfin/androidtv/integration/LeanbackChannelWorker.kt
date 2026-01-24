@@ -83,6 +83,19 @@ class LeanbackChannelWorker(
 		&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null
 
 	/**
+	 * Check if Google TV Launcher is the default launcher.
+	 */
+	private val isGoogleTVLauncherDefault = try {
+		val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+		val resolveInfo = context.packageManager.resolveActivity(intent, 0)
+		val launcherPackage = resolveInfo?.activityInfo?.packageName ?: ""
+		launcherPackage == "com.google.android.apps.tv.launcherx" ||
+			launcherPackage == "com.google.android.tungsten.setupwraith"
+	} catch (e: Exception) {
+		false
+	}
+
+	/**
 	 * Update all channels for the currently authenticated user.
 	 */
 	override suspend fun doWork(): Result = when {
@@ -246,12 +259,29 @@ class LeanbackChannelWorker(
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(
 		preferParentThumb: Boolean
-	): Uri = when {
-		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages[ImageType.PRIMARY]
-		(preferParentThumb || !itemImages.contains(ImageType.PRIMARY)) && parentImages.contains(ImageType.THUMB) -> parentImages[ImageType.THUMB]
-		else -> itemImages[ImageType.PRIMARY]
-	}.let { image ->
-		ImageProvider.getImageUri(image?.getUrl(api) ?: imageHelper.getResourceUrl(context, R.drawable.tile_land_tv))
+	): Uri {
+		val imageSource = when {
+			type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages
+			(preferParentThumb || (!itemImages.contains(ImageType.PRIMARY) && !itemImages.contains(ImageType.THUMB))) -> parentImages
+			else -> itemImages
+		}
+
+		// For Google TV, prefer THUMB (landscape) and for Android TV or others, prefer PRIMARY
+		val image = if (isGoogleTVLauncherDefault) {
+			imageSource[ImageType.THUMB] ?: imageSource[ImageType.PRIMARY]
+		} else {
+			imageSource[ImageType.PRIMARY] ?: imageSource[ImageType.THUMB]
+		}
+
+		val imageUrl = image?.getUrl(api) ?: imageHelper.getResourceUrl(context, R.drawable.tile_land_tv)
+
+		return if (isGoogleTVLauncherDefault) {
+			// For Google TV, use direct HTTPS URLs as ImageProvider are not supported
+			imageUrl.toUri()
+		} else {
+			// For Android TV or others, use ImageProvider which handles aspect ratio conversion if needed
+			ImageProvider.getImageUri(imageUrl)
+		}
 	}
 
 	/**
