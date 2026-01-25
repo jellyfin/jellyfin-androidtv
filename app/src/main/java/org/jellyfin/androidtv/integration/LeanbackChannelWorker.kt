@@ -257,31 +257,54 @@ class LeanbackChannelWorker(
 	 * Gets the poster art for an item. Uses the [preferParentThumb] parameter to fetch the series
 	 * image when preferred.
 	 */
-	private fun BaseItemDto.getPosterArtImageUrl(
+	/**
+	 * Data class to hold poster art info
+	 */
+	private data class PosterArtInfo(val uri: Uri, val imageType: ImageType?)
+
+	/**
+	 * Gets the poster art for an item. Uses the [preferParentThumb] parameter to fetch the series
+	 * image when preferred.
+	 */
+	private fun BaseItemDto.getPosterArtInfo(
 		preferParentThumb: Boolean
-	): Uri {
-		val imageSource = when {
-			type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> itemImages
-			(preferParentThumb || (!itemImages.contains(ImageType.PRIMARY) && !itemImages.contains(ImageType.THUMB))) -> parentImages
-			else -> itemImages
+	): PosterArtInfo {
+		// Define image priority list based on item type and user preference
+		val imagePriority = when {
+			preferParentThumb && (type != BaseItemKind.MOVIE && type != BaseItemKind.SERIES) ->
+				listOf(
+					parentImages[ImageType.THUMB] to ImageType.THUMB,
+					itemImages[ImageType.THUMB] to ImageType.THUMB,
+					itemImages[ImageType.PRIMARY] to ImageType.PRIMARY,
+					parentImages[ImageType.PRIMARY] to ImageType.PRIMARY,
+				)
+			else ->
+				if (isGoogleTVLauncherDefault) {
+					listOf(
+						itemImages[ImageType.THUMB] to ImageType.THUMB,
+						itemImages[ImageType.PRIMARY] to ImageType.PRIMARY,
+					)
+				} else {
+					listOf(
+						itemImages[ImageType.PRIMARY] to ImageType.PRIMARY,
+						itemImages[ImageType.THUMB] to ImageType.THUMB,
+					)
+				}
 		}
 
-		// For Google TV, prefer THUMB (landscape) and for Android TV or others, prefer PRIMARY
-		val image = if (isGoogleTVLauncherDefault) {
-			imageSource[ImageType.THUMB] ?: imageSource[ImageType.PRIMARY]
-		} else {
-			imageSource[ImageType.PRIMARY] ?: imageSource[ImageType.THUMB]
-		}
-
+		// Get first non-null image from priority list
+		val (image, imageType) = imagePriority.firstOrNull { (img, _) -> img != null } ?: (null to null)
 		val imageUrl = image?.getUrl(api) ?: imageHelper.getResourceUrl(context, R.drawable.tile_land_tv)
 
-		return if (isGoogleTVLauncherDefault) {
-			// For Google TV, use direct HTTPS URLs as ImageProvider are not supported
+		val uri = if (isGoogleTVLauncherDefault) {
+			// For Google TV, use direct HTTPS URLs as ImageProvider support is broken
 			imageUrl.toUri()
 		} else {
 			// For Android TV or others, use ImageProvider which handles aspect ratio conversion if needed
 			ImageProvider.getImageUri(imageUrl)
 		}
+
+		return PosterArtInfo(uri, imageType)
 	}
 
 	/**
@@ -354,7 +377,7 @@ class LeanbackChannelWorker(
 		item: BaseItemDto,
 		preferParentThumb: Boolean
 	): ContentValues {
-		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
+		val posterArtInfo = item.getPosterArtInfo(preferParentThumb)
 		val seasonString = item.parentIndexNumber?.toString().orEmpty()
 
 		val episodeString = when {
@@ -362,6 +385,13 @@ class LeanbackChannelWorker(
 				"${item.indexNumber}-${item.indexNumberEnd}"
 
 			else -> item.indexNumber?.toString().orEmpty()
+		}
+
+		// Determine aspect ratio based on item type and image type selected
+		val aspectRatio = when {
+			item.type == BaseItemKind.COLLECTION_FOLDER || item.type == BaseItemKind.EPISODE || posterArtInfo.imageType == ImageType.THUMB ->
+				TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9
+			else -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
 		}
 
 		return PreviewProgram.Builder()
@@ -383,15 +413,8 @@ class LeanbackChannelWorker(
 				if (item.premiereDate != null) DateTimeFormatter.ISO_DATE.format(item.premiereDate)
 				else null
 			)
-			.setPosterArtUri(imageUri)
-			.setPosterArtAspectRatio(
-				when (item.type) {
-					BaseItemKind.COLLECTION_FOLDER,
-					BaseItemKind.EPISODE -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9
-
-					else -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
-				}
-			)
+			.setPosterArtUri(posterArtInfo.uri)
+			.setPosterArtAspectRatio(aspectRatio)
 			.setIntent(Intent(context, StartupActivity::class.java).apply {
 				putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
 				putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, item.type == BaseItemKind.COLLECTION_FOLDER)
@@ -482,14 +505,21 @@ class LeanbackChannelWorker(
 
 			setInternalProviderId(item.id.toString())
 
-			// Poster size & type
+			// Set item type
 			if (item.type == BaseItemKind.EPISODE) {
 				setType(WatchNextPrograms.TYPE_TV_EPISODE)
-				setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
 			} else if (item.type == BaseItemKind.MOVIE) {
 				setType(WatchNextPrograms.TYPE_MOVIE)
-				setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER)
 			}
+
+			// Set aspect ratio based on item type and image type
+			val posterArtInfo = item.getPosterArtInfo(preferParentThumb)
+			val watchNextAspectRatio = when {
+				item.type == BaseItemKind.EPISODE || posterArtInfo.imageType == ImageType.THUMB ->
+					WatchNextPrograms.ASPECT_RATIO_16_9
+				else -> WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER
+			}
+			setPosterArtAspectRatio(watchNextAspectRatio)
 
 			// Name and episode details
 			if (item.seriesName != null) {
@@ -505,7 +535,7 @@ class LeanbackChannelWorker(
 			setDescription(item.overview?.stripHtml())
 
 			// Poster
-			setPosterArtUri(item.getPosterArtImageUrl(preferParentThumb))
+			setPosterArtUri(posterArtInfo.uri)
 
 			when {
 				// User has started playing the episode
