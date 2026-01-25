@@ -283,11 +283,15 @@ class LeanbackChannelWorker(
 					listOf(
 						itemImages[ImageType.THUMB] to ImageType.THUMB,
 						itemImages[ImageType.PRIMARY] to ImageType.PRIMARY,
+						parentImages[ImageType.THUMB] to ImageType.THUMB,
+						parentImages[ImageType.PRIMARY] to ImageType.PRIMARY,
 					)
 				} else {
 					listOf(
 						itemImages[ImageType.PRIMARY] to ImageType.PRIMARY,
 						itemImages[ImageType.THUMB] to ImageType.THUMB,
+						parentImages[ImageType.THUMB] to ImageType.THUMB,
+						parentImages[ImageType.PRIMARY] to ImageType.PRIMARY,
 					)
 				}
 		}
