@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
@@ -109,7 +110,8 @@ private fun WatchIndicator(
 
 	if (isPlayed) {
 		Badge(
-			modifier = modifier,
+			modifier = modifier
+				.size(24.dp),
 		) {
 			Icon(
 				imageVector = ImageVector.vectorResource(R.drawable.ic_watch),
@@ -121,7 +123,8 @@ private fun WatchIndicator(
 		if (watchedIndicatorBehavior == WatchedIndicatorBehavior.HIDE_UNWATCHED) return
 
 		Badge(
-			modifier = modifier,
+			modifier = modifier
+				.sizeIn(minWidth = 24.dp, minHeight = 24.dp),
 		) {
 			Text(
 				text = unplayedItems.toString(),
