@@ -188,7 +188,7 @@ public class HorizontalGridPresenter extends Presenter {
         }
         vh.getGridView().setFocusDrawingOrderEnabled(!isUsingZOrder());
         FocusHighlightHelper.setupBrowseItemFocusHighlight(vh.mItemBridgeAdapter,
-                mZoomFactor, true);
+                mZoomFactor, false);
 
         final ViewHolder gridViewHolder = vh;
         vh.getGridView().setOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
