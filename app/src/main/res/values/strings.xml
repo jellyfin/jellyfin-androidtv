@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+   <!-- View Mode -->
+    <string name="view_mode">View Mode</string>
+    <string name="view_mode_grid">Grid</string>
+    <string name="view_mode_list">List</string>
+    <string name="view_mode_description">Choose how to display items in the library</string>
+
+    <!-- List Item Height -->
+    <string name="list_item_height">List Item Size</string>
+    <string name="list_item_height_small">Small</string>
+    <string name="list_item_height_medium">Medium</string>
+    <string name="list_item_height_large">Large</string>
+    <string name="list_item_height_description">Adjust the size of items in list view</string>
+
     <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin</string>
     <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin Debug</string>
     <string name="video_error_unknown_error">Failed to load video</string>
