@@ -411,7 +411,7 @@
     <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
     <string name="pref_refresh_rate_scale_on_tv">Escala na TV</string>
     <string name="login_quickconnect_step_3">3. Digite o seguinte código:</string>
-    <string name="login_quickconnect_step_2">2. Abra o menu do usuário e vá para a página do Quick Connect</string>
+    <string name="login_quickconnect_step_2">2. Abra o menu do usuário e vá para a página do QuickConnect</string>
     <string name="login_quickconnect_step_1">1. Abra o aplicativo do Jellyfin no seu telefone ou navegador, e faça login com sua conta</string>
     <string name="login_other_options">Outras opções:</string>
     <string name="login_connect_to">Conectando a %1$s</string>
@@ -495,7 +495,7 @@
     <string name="disable_ui_mode_warning">Desativar avisos de tipo de dispositivos</string>
     <string name="because_you_watched">Por você ter assistido %1$s</string>
     <string name="lbl_hide_watched_checkmark">Quando houverem episódios restantes</string>
-    <string name="photo_albums">Albuns de fotos</string>
+    <string name="photo_albums">Álbuns de fotos</string>
     <string name="channels">Canais</string>
     <string name="photos">Fotos</string>
     <string name="lbl_runtime">Duração</string>
@@ -530,8 +530,8 @@
     </plurals>
     <plurals name="albums">
         <item quantity="one">Álbum %1$s</item>
-        <item quantity="many">Álbums %1$s</item>
-        <item quantity="other">Álbum %1$s</item>
+        <item quantity="many">Álbuns %1$s</item>
+        <item quantity="other">Álbuns %1$s</item>
     </plurals>
     <string name="clear_image_cache">Limpar cache de imagens</string>
     <string name="clear_image_cache_content">Usado: %1$s</string>
@@ -557,13 +557,13 @@
     <string name="lbl_subtitle_text_stroke_color">Cor da borda</string>
     <string name="continue_listening">Continuar reproduzindo</string>
     <string name="all_channels">Todos os canais</string>
-    <string name="past_week">Ultima semana</string>
+    <string name="past_week">Última semana</string>
     <string name="pref_external_player">Usar reprodutor externo</string>
     <string name="current_queue">Fila atual</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usar o FFmpeg para decodificar áudio, mesmo se codecs nativos estiverem disponíveis.</string>
-    <string name="segment_type_preview">Pré-visualizações</string>
+    <string name="segment_type_preview">Prévias</string>
     <string name="segment_type_unknown">Segmentos desconhecidos</string>
-    <string name="segment_type_recap">Recapitulações</string>
+    <string name="segment_type_recap">Resumos</string>
     <string name="segment_action_ask_to_skip">Pedir para pular</string>
     <string name="skip_forward_length">Quantidade de tempo do avançar</string>
     <string name="segment_action_nothing">Fazer nada</string>
@@ -606,7 +606,7 @@
     <string name="pref_customization_subtitles">Legendas</string>
     <string name="pref_prerolls_enabled">Ative o modo cinema</string>
     <string name="pref_playback_media_segments">Segmentos de mídia</string>
-    <string name="pref_prerolls_enabled_description">Reproduzir intros personalizadas antes de filmes</string>
+    <string name="pref_prerolls_enabled_description">Reproduzir aberturas personalizadas antes dos filmes</string>
     <string name="pref_media_queueing_description">Adicionar episódios seguintes à fila ao reproduzir séries de TV</string>
     <string name="pref_subtitles_weight">Espessura do texto</string>
     <string name="font_weight_100">Fino</string>
