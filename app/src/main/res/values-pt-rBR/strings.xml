@@ -509,7 +509,7 @@
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
     <plurals name="items">
-        <item quantity="one">Utilizados:%1$s</item>
+        <item quantity="one">Utilizado:%1$s</item>
         <item quantity="many">Utilizados:%1$s</item>
         <item quantity="other">Utilizados:%1$s</item>
     </plurals>
