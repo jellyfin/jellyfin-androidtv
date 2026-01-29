@@ -569,7 +569,7 @@
     <string name="segment_action_nothing">Fazer nada</string>
     <string name="segment_action_skip">Pular</string>
     <string name="segment_type_commercial">Comerciais</string>
-    <string name="segment_type_intro">Intros</string>
+    <string name="segment_type_intro">Aberturas</string>
     <string name="fast_forward">Avanço rápido</string>
     <string name="rewind">Retroceder</string>
     <string name="preference_enable_trickplay">Habilitar trickplay no player de vídeo</string>
