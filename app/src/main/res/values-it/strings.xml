@@ -555,8 +555,8 @@
     <string name="pref_screensaver_ageratingmax_zero">Qualsiasi età</string>
     <string name="pref_screensaver_ageratingrequired_title">Richiede la classificazione per età</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Mostra solo gli elementii con classificazione per età</string>
-    <string name="lbl_subtitle_text_color">Colore testo sottotitolo</string>
-    <string name="lbl_subtitle_background_color">Colore sfondo sottotitolo</string>
+    <string name="lbl_subtitle_text_color">Colore testo</string>
+    <string name="lbl_subtitle_background_color">Colore sfondo</string>
     <string name="prefer_exoplayer_ffmpeg">Preferisci FFmpeg per la riproduzione audio</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg per la decodifica audia anche se il dispositivo fornisce il codec nativamente.</string>
     <string name="default_video_zoom">Modalità di zoom predefinita</string>
@@ -565,7 +565,7 @@
     <string name="segment_type_commercial">Pubblicità</string>
     <string name="segment_type_recap">Riepiloghi</string>
     <string name="preference_enable_trickplay">Abilita trickplay nel lettore video</string>
-    <string name="lbl_subtitle_text_stroke_color">Colore cornice dei sottotitoli</string>
+    <string name="lbl_subtitle_text_stroke_color">Colore contorno</string>
     <string name="segment_type_intro">Introduzioni</string>
     <string name="segment_type_unknown">Segmenti sconosciuti</string>
     <string name="skip_forward_length">Dimensione salta avanti</string>
@@ -601,4 +601,26 @@
     <string name="still_watching_label">Stai ancora guardando?</string>
     <string name="pref_subtitles_position">Distanza dal basso</string>
     <string name="copied_to_clipboard">Copiato negli appunti</string>
+    <string name="settings">Impostazioni</string>
+    <string name="settings_description">Personalizza l\'app come ti piace</string>
+    <string name="pref_playback_next_up">Prossimo</string>
+    <string name="pref_playback_media_segments">Segmenti</string>
+    <string name="pref_customization_subtitles">Sottotitoli</string>
+    <string name="pref_playback_prerolls">Intro</string>
+    <string name="pref_playback_inactivity_prompt">Avviso di inattività</string>
+    <string name="pref_prerolls_enabled">Abilita la modalità cinema</string>
+    <string name="pref_prerolls_enabled_description">Riproduci intro personalizzai prima dei film</string>
+    <string name="pref_media_queueing">Accoda tutti gli episodi</string>
+    <string name="pref_media_queueing_description">Aggiungi gli episodi successivi alla coda quando riproduci le serie TV</string>
+    <string name="pref_subtitles_weight">Grandezza testo</string>
+    <string name="font_weight_100">Fino</string>
+    <string name="font_weight_200">Extra fino</string>
+    <string name="font_weight_300">Leggero</string>
+    <string name="font_weight_400">Normale</string>
+    <string name="font_weight_500">Medio</string>
+    <string name="font_weight_600">Semi grassetto</string>
+    <string name="font_weight_700">Grassetto</string>
+    <string name="font_weight_800">Extra grassetto</string>
+    <string name="font_weight_900">Nero</string>
+    <string name="subtitle_preview_text">I sottotitoli appariranno così</string>
 </resources>
