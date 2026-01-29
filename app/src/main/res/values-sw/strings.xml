@@ -304,4 +304,16 @@
     <string name="login_authenticating">Inahakiki…</string>
     <string name="login_invalid_credentials">Jina la mtumiaji na/au nywila si sahihi</string>
     <string name="login_server_unavailable">Imeshindikana kuunganisha kwenye seva</string>
+    <string name="login_username_field_empty">Jina la mtumiaji haiwezi kuwa tupu</string>
+    <string name="lbl_manage_servers">Simamia seva</string>
+    <string name="lbl_remove_users">Hii itaondoa pia akaunti zote zinazohusiana</string>
+    <string name="lbl_remove_user_content">Ondoa akaunti</string>
+    <string name="lbl_sign_out_content">Lazima uingie utakapofungua tena</string>
+    <string name="lbl_remove_server">Ondoa seva</string>
+    <string name="lbl_user_last_used">Ilitumiwa mwisho tarehe %1$s saa %2$s</string>
+    <string name="lbl_user_server">%1$s kwenye %2$s</string>
+    <string name="lbl_server">Seva</string>
+    <string name="lbl_remove">Ondoa</string>
+    <string name="lbl_sign_out">Ondoka</string>
+    <string name="enable_smart_view">Wezesha skrini erevu</string>
 </resources>
