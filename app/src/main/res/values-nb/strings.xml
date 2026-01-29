@@ -620,4 +620,5 @@
     <string name="video_player_internal">Innebygd videospiller</string>
     <string name="video_player_external">Ekstern app</string>
     <string name="playback_video_player_external_empty">Du har ingen videospillere installert på enheten din som kan åpne videoer fra Jellyfin.</string>
+    <string name="filters">Filtere</string>
 </resources>
