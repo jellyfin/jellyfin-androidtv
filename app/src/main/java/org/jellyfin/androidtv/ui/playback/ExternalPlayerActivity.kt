@@ -54,6 +54,13 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_MX_SUBS = "subs"
 		private const val API_MX_SUBS_NAME = "subs.name"
 		private const val API_MX_SUBS_FILENAME = "subs.filename"
+		private const val API_MX_RESULT_ID = "com.mxtech.intent.result.VIEW"
+    	private const val API_MX_RESULT_END_BY = "end_by"
+    	private const val API_MX_RESULT_END_BY_PLAYBACK_COMPLETION = "playback_completion"
+
+		// https://mpv-android.github.io/mpv-android/intent.html
+		private const val API_MPV_RESULT_ID = "is.xyz.mpv.MPVActivity.result"
+		private const val API_MPV_RESULT_POSITION = "position"
 
 		// https://wiki.videolan.org/Android_Player_Intents/
 		private const val API_VLC_SUBTITLES = "subtitles_location"
@@ -193,13 +200,31 @@ class ExternalPlayerActivity : FragmentActivity() {
 		val (item, mediaSource) = currentItem!!
 		val extras = result?.extras ?: Bundle.EMPTY
 
-		val endPosition = resultPositionExtras.firstNotNullOfOrNull { key ->
+		var endPosition = resultPositionExtras.firstNotNullOfOrNull { key ->
 			@Suppress("DEPRECATION") val value = extras.get(key)
 			if (value is Number) value.toLong().milliseconds
 			else null
 		}
 
 		val runtime = (mediaSource.runTimeTicks ?: item.runTimeTicks)?.ticks
+
+        if (endPosition == null && runtime != null) {
+            when (result?.action) {
+                API_MX_RESULT_ID -> {
+                    if (extras.getString(API_MX_RESULT_END_BY) == API_MX_RESULT_END_BY_PLAYBACK_COMPLETION) {
+                        Timber.i("MX Player indicated playback completion")
+                        endPosition = runtime
+                    }
+                }
+                API_MPV_RESULT_ID -> {
+                    if (!extras.containsKey(API_MPV_RESULT_POSITION)) {
+                        Timber.i("MPV returned result without position so assuming playback completion")
+                        endPosition = runtime
+                    }
+                }
+            }
+        }
+
 		val shouldPlayNext = runtime != null && endPosition != null && endPosition >= (runtime * 0.9)
 
 		lifecycleScope.launch {
