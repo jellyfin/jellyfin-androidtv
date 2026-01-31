@@ -83,16 +83,6 @@ fun SettingsCustomizationScreen() {
 			)
 		}
 
-		item {
-			var defaultRatingType by rememberPreference(userPreferences, UserPreferences.defaultRatingType)
-
-			ListButton(
-				headingContent = { Text(stringResource(R.string.pref_default_rating)) },
-				captionContent = { Text(stringResource(defaultRatingType.nameRes)) },
-				onClick = { router.push(Routes.CUSTOMIZATION_RATING_TYPE) }
-			)
-		}
-
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_browsing)) }) }
 
 		item {
