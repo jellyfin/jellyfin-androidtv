@@ -279,9 +279,6 @@
     <string name="just_one">Hanya ini saja</string>
     <string name="lbl_playback_control_ends">Berakhir pada %1$s</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_stars">Bintang</string>
-    <string name="lbl_tomatoes">Tomat</string>
-    <string name="pref_default_rating">Jenis nilai bawaan</string>
     <string name="lbl_always">Selalu</string>
     <string name="pref_clock_display_browsing">Saat menelusuri</string>
     <string name="pref_clock_display_playback">Saat pemutaran</string>

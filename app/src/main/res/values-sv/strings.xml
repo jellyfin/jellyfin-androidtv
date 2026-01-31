@@ -272,9 +272,6 @@
     <string name="pref_clock_display_browsing">Vid bläddring</string>
     <string name="lbl_always">Alltid</string>
     <string name="pref_clock_display">Visa klocka</string>
-    <string name="pref_default_rating">Förvald betygstyp</string>
-    <string name="lbl_tomatoes">Tomater</string>
-    <string name="lbl_stars">Stjärnor</string>
     <string name="lbl_playback_control_ends">Slutar vid %1$s</string>
     <string name="image_type_thumbnail">Miniatyr</string>
     <string name="pref_watched_indicator">Visa indikator för antal tittade</string>

@@ -290,9 +290,6 @@
     <string name="lbl_sign_in">Tafadhali ingia kwenye akaunti yak</string>
     <string name="lbl_playback_control_ends">Tamati ni saa %1$s</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_stars">Waigizaji</string>
-    <string name="lbl_tomatoes">Uhakiki wa Rotten Tomatoes</string>
-    <string name="pref_default_rating">Mfumo mkuu wa tathmini</string>
     <string name="pref_clock_display">Onyesha saa</string>
     <string name="lbl_always">Daima</string>
     <string name="pref_clock_display_browsing">Wakati unatafuta maudhui</string>

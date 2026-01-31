@@ -273,9 +273,6 @@
     <string name="pref_clock_display_browsing">Imens du søger</string>
     <string name="lbl_always">Altid</string>
     <string name="pref_clock_display">Vis ur</string>
-    <string name="pref_default_rating">Standardvurderingstype</string>
-    <string name="lbl_tomatoes">Tomater</string>
-    <string name="lbl_stars">Stjerner</string>
     <string name="lbl_use_series_thumbnails">Foretræk miniaturebilleder fra serie</string>
     <string name="lbl_hide_unwatched_count">Når emnet er afspillet</string>
     <string name="pref_watched_indicator">Vis indikator for afspillet</string>

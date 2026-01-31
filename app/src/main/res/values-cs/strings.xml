@@ -262,9 +262,6 @@
     <string name="lbl_playback_control_ends">Končí v %1$s</string>
     <string name="lbl_sign_in">Přihlaste se, prosím</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_default_rating">Výchozí typ hodnocení</string>
-    <string name="lbl_tomatoes">Rajčata</string>
-    <string name="lbl_stars">Hvězdičky</string>
     <string name="pref_clock_display_playback">Během přehrávání</string>
     <string name="pref_clock_display_browsing">Při prohlížení</string>
     <string name="lbl_always">Vždy</string>
