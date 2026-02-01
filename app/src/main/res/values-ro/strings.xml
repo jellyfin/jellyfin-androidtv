@@ -273,9 +273,6 @@
     <string name="pref_clock_display_browsing">În timpul navigării</string>
     <string name="lbl_always">Mereu</string>
     <string name="pref_clock_display">Afișează ceasul</string>
-    <string name="pref_default_rating">Tipul de evaluare implicit</string>
-    <string name="lbl_tomatoes">Rotten Tomatoes</string>
-    <string name="lbl_stars">Stele</string>
     <string name="user_picker_last_user_summary">Folosiți ultimul cont activ</string>
     <string name="user_picker_last_user_title">Cel mai recent utilizat</string>
     <string name="user_picker_disable_summary">Afișează întotdeauna ecranul de autentificare</string>

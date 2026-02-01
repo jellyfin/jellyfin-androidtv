@@ -314,8 +314,6 @@
     <string name="pref_clock_display_browsing">خلال التصفح</string>
     <string name="lbl_always">دائما</string>
     <string name="pref_clock_display">إظهار الساعة</string>
-    <string name="pref_default_rating">نوع التقييم التلقائي</string>
-    <string name="lbl_stars">نجوم</string>
     <string name="lbl_playback_control_ends">ينتهي عند %1$s</string>
     <string name="lbl_sign_in">من فضلك، سجيل الدخول</string>
     <string name="just_one">لهاته المرة فقط</string>
@@ -330,7 +328,6 @@
     <string name="license_description">وصف</string>
     <string name="licenses_link_description">عرض تراخيص المكتبات التي يستخدمها تطبيق Jellyfin</string>
     <string name="licenses_link">التراخيص</string>
-    <string name="lbl_tomatoes">طماطم</string>
     <string name="player_error">واجهت مشكلة. سأعيد المحاولة …</string>
     <string name="bitrate_kbit">%1$,.0f كيلوبت في الثانية</string>
     <string name="bitrate_mbit">%1$,.0f ميݠابت في الثانية</string>

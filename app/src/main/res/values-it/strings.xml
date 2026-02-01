@@ -266,7 +266,6 @@
     <string name="pref_clock_display_browsing">Durante la navigazione</string>
     <string name="lbl_always">Sempre</string>
     <string name="pref_clock_display">Mostra orologio</string>
-    <string name="lbl_stars">Stelle</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>
@@ -291,7 +290,6 @@
     <string name="lbl_remove_user_content">Rimuovi account</string>
     <string name="lbl_remove_users">Questo rimuoverà anche tutti gli utenti associati</string>
     <string name="lbl_manage_servers">Gestisci i server</string>
-    <string name="pref_default_rating">Tipo di rating preferito</string>
     <string name="login_help_description">Jellyfin ha bisogno di un server a cui connettersi. Visita la nostra documentazione su docs.jellyfin.org o scansiona il codice QR per iniziare con Jellyfin.</string>
     <string name="login_help_title">Hai bisogno d\'aiuto\?</string>
     <string name="connect_manually_by_address">Inserisci l\'indirizzo del server</string>
@@ -304,7 +302,6 @@
     <string name="lbl_use_series_thumbnails">Preferisci etichette di serie</string>
     <string name="lbl_hide_unwatched_count">Quando l\'elemento è stato visto</string>
     <string name="pref_watched_indicator">Mostra indicatori di avvenuta visione</string>
-    <string name="lbl_tomatoes">Pomodori</string>
     <string name="user_picker_last_user_summary">Utilizza l\'ultimo utente attivo</string>
     <string name="user_picker_last_user_title">Utilizzati di recente</string>
     <string name="user_picker_disable_summary">Mostra sempre la schermata di login</string>

@@ -292,7 +292,6 @@
     <string name="pref_clock_display_browsing">閲覧中</string>
     <string name="lbl_always">常に</string>
     <string name="pref_clock_display">時計を表示する</string>
-    <string name="lbl_stars">スター</string>
     <string name="lbl_playback_control_ends">%1$sに終了</string>
     <string name="lbl_sign_in">サインインして下さい</string>
     <string name="turn_off">このオプションをオフにする</string>
@@ -338,7 +337,6 @@
     <string name="lbl_unknown_key">不明(%1s)</string>
     <string name="license_repository">リポジトリ</string>
     <string name="input_password">パスワード</string>
-    <string name="lbl_tomatoes">RottenTomatoes.com</string>
     <string name="color_red">赤</string>
     <string name="color_green">緑</string>
     <string name="color_white">白</string>
@@ -476,7 +474,6 @@
     <string name="pref_external_player">外部プレーヤーを使用</string>
     <string name="lbl_subtitle_text_color">字幕テキスト色</string>
     <string name="lbl_user_last_used">%1$s で%2$sに最後に使用</string>
-    <string name="pref_default_rating">デフォルトレーティング</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_hide_watched_checkmark">残りエピソードあり</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>

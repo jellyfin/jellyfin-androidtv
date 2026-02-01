@@ -264,9 +264,6 @@
     <string name="pref_clock_display_browsing">Durante a navegação</string>
     <string name="lbl_always">Sempre</string>
     <string name="pref_clock_display">Mostrar relógio</string>
-    <string name="pref_default_rating">Tipo de classificação predefinida</string>
-    <string name="lbl_tomatoes">Tomates</string>
-    <string name="lbl_stars">Estrelas</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina às %1$s</string>
     <string name="lbl_sign_in">Por Favor autentique-se</string>

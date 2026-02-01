@@ -312,9 +312,6 @@
     <string name="pref_clock_display_playback">Toiston aikana</string>
     <string name="lbl_always">Aina</string>
     <string name="pref_clock_display">Näytä kello</string>
-    <string name="pref_default_rating">Oletusarvoinen arvio</string>
-    <string name="lbl_tomatoes">Tomaatit</string>
-    <string name="lbl_stars">Tähdet</string>
     <string name="lbl_playback_control_ends">Päättyy %1$s</string>
     <string name="lbl_sign_in">Kirjaudu sisään</string>
     <string name="just_one">Vain tämä kappale</string>

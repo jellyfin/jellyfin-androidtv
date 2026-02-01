@@ -266,9 +266,6 @@
     <string name="pref_clock_display_browsing">Tijdens bladeren</string>
     <string name="lbl_always">Altijd</string>
     <string name="pref_clock_display">Klok tonen</string>
-    <string name="pref_default_rating">Standaard beoordelingstype</string>
-    <string name="lbl_tomatoes">Tomaten</string>
-    <string name="lbl_stars">Sterren</string>
     <string name="login_authenticating">Authenticeren…</string>
     <string name="server_connecting">Verbinden met %1$s</string>
     <string name="login_username_field_empty">Gebruikersnaam mag niet leeg zijn</string>

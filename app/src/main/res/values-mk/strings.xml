@@ -87,7 +87,6 @@
     <string name="lbl_album_artists">Изведувачи на албум</string>
     <string name="bitrate_mbit">%1$,.0f Мбит/с</string>
     <string name="bitrate_kbit">%1$,.0f Кбит/с</string>
-    <string name="lbl_tomatoes">Домати</string>
     <string name="server_connecting">Поврзување со %1$s</string>
     <string name="image_type_thumbnail">Сликичка</string>
     <string name="add_user">Додај сметка</string>
@@ -347,7 +346,6 @@
     <string name="pref_subtitle_track_button">Копче за превод</string>
     <string name="lbl_load_guide_data">Вчитај информации од водич</string>
     <string name="msg_no_items">Нема ставки за репродукција</string>
-    <string name="pref_default_rating">Зададен тип на оценка</string>
     <string name="lbl_always">Секогаш</string>
     <string name="login_invalid_credentials">Невалидно корисничко име и/или лозинка</string>
     <string name="lbl_remove_user_content">Отстрани сметка</string>
@@ -459,7 +457,6 @@
     <string name="no_player_message">Изгледа немате инсталирано апликација за видео. Оваа опција бара да инсталирате независна апликација за пуштање на видео содржини.</string>
     <string name="mark_watched">Означи како гледано</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_stars">Sвезди</string>
     <string name="server_connection_failed">Неуспешно поврзување со серверот</string>
     <string name="pref_clock_display_browsing">Додека се пребарува</string>
     <string name="server_connection_failed_candidates">Неуспешно поврзување со серверот, пробано со следните адреси: %1$s</string>

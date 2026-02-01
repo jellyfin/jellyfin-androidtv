@@ -219,9 +219,6 @@
     <string name="pref_clock_display_browsing">Κατά την περιήγηση</string>
     <string name="lbl_always">Πάντα</string>
     <string name="pref_clock_display">Δείξε το ρολόι</string>
-    <string name="pref_default_rating">Προεπιλεγμένος τύπος βαθμολογίας</string>
-    <string name="lbl_tomatoes">Ντομάτες</string>
-    <string name="lbl_stars">Αστέρια</string>
     <string name="lbl_sign_in">Παρακαλώ συνδεθείτε</string>
     <string name="pref_theme_emerald">Κλασσικό σμαραγδί</string>
     <string name="lbl_image_size">Μέγεθος εικόνας</string>

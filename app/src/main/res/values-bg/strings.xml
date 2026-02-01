@@ -259,8 +259,6 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="subtitle_error">Не можа да избере субтитри</string>
-    <string name="lbl_stars">Звезди</string>
-    <string name="lbl_tomatoes">Домати</string>
     <string name="login_server_unavailable">Не можа да се свърже със сървъра</string>
     <string name="lbl_manage_servers">Управление на сървърите</string>
     <string name="lbl_sign_out_content">Изисква вписване следващия път</string>

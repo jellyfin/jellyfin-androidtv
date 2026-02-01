@@ -289,7 +289,6 @@
     <string name="lbl_server">Serveris</string>
     <string name="no_player">Nav atskaņotāja</string>
     <string name="episode_missing">Trūkstoša epizode</string>
-    <string name="pref_default_rating">Noklusējuma reitinga veids</string>
     <string name="pref_developer_link_description">Paplašinātas un eksperimentālas funkcijas</string>
     <string name="no_user_warning">Mēs nevarējām atrast nevienu kontu!\nPievienojiet jaunu kontu, nospiežot pogu “Pievienot kontu”.</string>
     <string name="pref_playback_description">Video, subtitri, tiešraides tv, tālāk gaidāms</string>
@@ -385,7 +384,6 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="mark_watched_message">Šķiet, ka vienums netika atskaņots visā tā garumā. Atzīmēt skatītos?</string>
     <string name="episode_missing_message_2">Šī epizode nav iekļauta jūsu bibliotēkā. Atskaņošana tiks pārtraukta.</string>
-    <string name="lbl_stars">Zvaigznes</string>
     <string name="lbl_manage_servers">Pārvaldīt serverus</string>
     <string name="pref_developer_link">Izstrādātāja iestatījumi</string>
     <string name="welcome_content">Lai sāktu darbu, izveidojiet savienojumu ar serveri.</string>
@@ -421,7 +419,6 @@
     <string name="pref_crash_report_logs_disabled">Pieraksti netiks iekļauti avāriju ziņojumos</string>
     <string name="lbl_latest_in">Nesen pievienots %1$s</string>
     <string name="audio_error">Nav iespējams atskaņot audio %1$s</string>
-    <string name="lbl_tomatoes">Tomāti</string>
     <string name="lbl_use_series_thumbnails_description">Izmantot sērijas miniatūru attēlojot epizodes</string>
     <string name="server_issue_invalid_product">Servera programmatūra nav saderīga</string>
     <string name="subtitle_error">Nevar atlasīt subtitrus</string>

@@ -7,7 +7,6 @@ import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
-import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
@@ -140,11 +139,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * When to show the clock.
 		 */
 		var clockBehavior = enumPreference("pref_clock_behavior", ClockBehavior.ALWAYS)
-
-		/**
-		 * Set which ratings provider should show on MyImageCardViews
-		 */
-		var defaultRatingType = enumPreference("pref_rating_type", RatingType.RATING_TOMATOES)
 
 		/**
 		 * Set when watched indicators should show on MyImageCardViews

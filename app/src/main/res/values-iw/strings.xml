@@ -262,9 +262,6 @@
     <string name="pref_clock_display_browsing">בזמן הדפדוף</string>
     <string name="lbl_always">תמיד</string>
     <string name="pref_clock_display">הצג שעון</string>
-    <string name="pref_default_rating">סוג דירוג ברירת מחדל</string>
-    <string name="lbl_tomatoes">עגבניות</string>
-    <string name="lbl_stars">כוכבים</string>
     <string name="watch_count_overflow">99+</string>
     <string name="bitrate_kbit">%1$,.0f קילו-ביט לשנייה</string>
     <string name="bitrate_mbit">%1$,.0f מגה-ביט לשנייה</string>

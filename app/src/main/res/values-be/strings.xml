@@ -181,10 +181,8 @@
     <string name="lbl_next_item">Наступны элемент</string>
     <string name="lbl_auto_crop">Аўтаматычнае кадраванне</string>
     <string name="lbl_quality_profile">Профіль якасці</string>
-    <string name="lbl_stars">Зоркі</string>
     <string name="login_username_field_empty">Імя карыстальніка не можа быць пустым</string>
     <string name="lbl_remove_server">Выдаліць сервер</string>
-    <string name="lbl_tomatoes">Памідоры</string>
     <string name="licenses_link">Ліцэнзіі</string>
     <string name="licenses_link_description">Праглядзіце ліцэнзіі бібліятэк, якія выкарыстоўваюцца Jellyfin</string>
     <string name="enable_playback_module_description">Гэта эксперыментальная функцыя. Падтрымка не аказваецца.</string>
@@ -212,7 +210,6 @@
     <string name="lbl_album_name">Назва альбома</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_default_rating">Тып рэйтынгу па змаўчанні</string>
     <string name="pref_clock_display_playback">Падчас прайгравання</string>
     <string name="server_connecting">Падлучэнне да %1$s</string>
     <string name="server_connection_failed">Немагчыма падлучыцца да сервера</string>
