@@ -118,6 +118,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
 
+		/**
+		 * Enable Dolby Vision Profile 7 Direct Play
+		 */
+		var dolbyVisionELDirectPlay = booleanPreference("pref_dolby_vision_profile_7_direct", false)
+
 		/* Live TV */
 		/**
 		 * Use direct play
