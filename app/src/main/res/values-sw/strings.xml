@@ -101,7 +101,7 @@
     <string name="lbl_remove_favorite">Ondoa kipendwa</string>
     <string name="lbl_add_favorite">Ongeza kipendwa</string>
     <string name="lbl_now_playing_track">%1$s kati ya %2$s</string>
-    <string name="lbl_now_playing_album">"kutoka  %1$s"</string>
+    <string name="lbl_now_playing_album">kutoka %1$s</string>
     <string name="msg_no_playable_items">Hakuna viliyomo vya kucheza</string>
     <string name="lbl_unwatched">Haijatazamwa</string>
     <string name="lbl_load_channels">"Pakia chaneli "</string>
@@ -506,4 +506,114 @@
     <string name="pref_screensaver_ageratingmax_zero">Umri wote</string>
     <string name="pref_screensaver_ageratingmax_entry">Mpaka umri wa %1$d</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Lemaza ukomo</string>
+    <string name="pref_screensaver_ageratingrequired_title">Lazimisha ukadiriaji wa umri</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Inaonyesha tu vitu vyenye ukadiriaji wa umri</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Inaonyesha vitu vyote</string>
+    <string name="all_channels">Chaneli zote</string>
+    <string name="app_notification_update_soon">Boresha seva yako kutoka %1$s hadi angalau %2$s ili uendelee kutumia programu baada ya sasisho lijalo.</string>
+    <string name="current_queue">Foleni ya sasa</string>
+    <string name="past_week">Juma lililopita</string>
+    <string name="scheduled_in_next_24_hours">Zilizopangwa ndani ya saa 24 zijazo</string>
+    <string name="past_24_hours">Saa 24 zilizopita</string>
+    <string name="prefer_exoplayer_ffmpeg">Pendelea FFmpeg kwa uchezaji wa sauti</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Tumia FFmpeg kusimbua sauti, hata kama kichezeshi cha mfumo kinapatikana.</string>
+    <string name="default_video_zoom">Hali msingi ya kukuza picha</string>
+    <string name="video_start_delay">Ucheleweshaji wa kuanza video</string>
+    <string name="pref_mediasegment_actions">Hatua za sehemu za maudhui</string>
+    <string name="segment_action_ask_to_skip">Uliza kabla ya kuruka</string>
+    <string name="segment_action_nothing">Usifanye chochote</string>
+    <string name="segment_action_skip">Ruka</string>
+    <string name="segment_type_commercial">Matangazo ya biashara</string>
+    <string name="segment_type_intro">Utangulizi</string>
+    <string name="segment_type_outro">Hitimisho</string>
+    <string name="segment_type_preview">Viunzi</string>
+    <string name="segment_type_recap">Muhtasari</string>
+    <string name="segment_type_unknown">Sehemu zisizojulikana</string>
+    <string name="skip_forward_length">Urefu wa ruko la mbele</string>
+    <string name="preference_enable_trickplay">Washa utafutaji kwa picha kwenye kicheza video</string>
+    <string name="pref_subtitles_background_opacity">Ufifishaji wa kashfa ya maneno ya tafsiri</string>
+    <string name="pref_troubleshooting">Utatuzi wa matatizo</string>
+    <string name="pref_report_device_profile_title">Toa ripoti ya uwezo wa uchezaji kwa seva</string>
+    <string name="pref_report_device_profile_summary">Pakia nyaraka ya utatuzi wa matatizo kwenye seva ya Jellyfin yenye taarifa za uwezo wa uchezaji</string>
+    <string name="pref_report_device_profile_success">Nyaraka imewasilishwa kama %1$s</string>
+    <string name="pref_report_device_profile_failure">Imeshindwa kuwasilisha nyaraka. Huenda seva yako ya Jellyfin imezuia kumbukumbu za vifaa.</string>
+    <string name="fast_forward">Kimbiza mbele</string>
+    <string name="rewind">Rudisha nyuma</string>
+    <string name="preference_enable_libass">Washa uandaji wa tafsiri za Advanced SubStation Alpha kwenye kifaa</string>
+    <string name="preference_enable_pgs">Cheza tafsiri za PGS moja kwa moja</string>
+    <string name="speech_error_no_permission">Huna ruhusa ya kutumia maikrofoni. Tafadhali iwashe kwenye mipangilio ya mfumo.</string>
+    <string name="speech_error_unavailable">Utambuzi wa sauti haupatikani kwenye kifaa chako.</string>
+    <string name="speech_error_unknown">Hitilafu isiyotarajiwa imetokea wakati wa utambuzi wa sauti.</string>
+    <string name="still_watching_label">Je, bado unatazama?</string>
+    <string name="settings">Mipangilio</string>
+    <string name="settings_description">Rekebisha programu kulingana na upendeleo wako</string>
+    <string name="copied_to_clipboard">Imekiliwa kwenye ubao wa kunakili</string>
+    <string name="pref_playback_next_up">Inayofuata</string>
+    <string name="pref_playback_media_segments">Sehemu za maudhui</string>
+    <string name="pref_customization_subtitles">Tafsiri</string>
+    <string name="pref_playback_prerolls">Vionjo vya ufunguzi</string>
+    <string name="pref_playback_inactivity_prompt">Ilani ya kutokuwa na shughuli</string>
+    <string name="pref_prerolls_enabled">Washa hali ya sinema</string>
+    <string name="pref_prerolls_enabled_description">Cheza utangulizi maalum kabla ya filamu</string>
+    <string name="pref_media_queueing">Panga vipindi vyote vicheze kwa mfululizo</string>
+    <string name="pref_media_queueing_description">Panga vipindi vinavyofuata kwenye foleni wakati wa kucheza tamthilia</string>
+    <string name="pref_subtitles_weight">Unene wa maandishi</string>
+    <string name="font_weight_100">Nyembamba sana</string>
+    <string name="font_weight_200">Nyembamba kiasi</string>
+    <string name="font_weight_300">Nyembamba</string>
+    <string name="font_weight_400">Kawaida</string>
+    <string name="font_weight_500">Wastani</string>
+    <string name="font_weight_600">Nene kiasi</string>
+    <string name="font_weight_700">Nene</string>
+    <string name="font_weight_800">Nene sana</string>
+    <string name="font_weight_900">Nzito kupitiliza</string>
+    <string name="subtitle_preview_text">Manukuu yataonekana hivi</string>
+    <string name="color_presets">Mipangilio ya awali</string>
+    <string name="color_custom">Badilisha rangi upendavyo</string>
+    <string name="color_alpha">Uwazi</string>
+    <string name="playback_video_player">Kicheza video</string>
+    <string name="video_player_internal">Kicheza video asilia</string>
+    <string name="video_player_external">Programu mbadala</string>
+    <string name="playback_video_player_external_empty">Huna programu yoyote ya kicheza video kwenye kifaa chako inayoweza kufungua video za Jellyfin.</string>
+    <string name="filters">Vichujio</string>
+    <plurals name="seconds">
+        <item quantity="one">Sekunde %1$s</item>
+        <item quantity="other">Sekunde %1$s</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">Dakika %1$s</item>
+        <item quantity="other">Dakika %1$s</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Saa %1$s</item>
+        <item quantity="other">Saa %1$s</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">Mkondo %1$s</item>
+        <item quantity="other">Mikondo %1$s</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">Kipindi %1$s</item>
+        <item quantity="other">Vipindi %1$s</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">Kipengele %1$s</item>
+        <item quantity="other">Vipengele %1$s</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">Filamu %1$s</item>
+        <item quantity="other">Filamu %1$s</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">Mfululizo wa TV %1$s</item>
+        <item quantity="other">Mifululizo ya TV %1$s</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">Wimbo %1$s</item>
+        <item quantity="other">Nyimbo %1$s</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">Albamu %1$s</item>
+        <item quantity="other">Albamu %1$s</item>
+    </plurals>
 </resources>
