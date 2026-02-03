@@ -48,6 +48,7 @@ class ExoPlayerBackend(
 	companion object {
 		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
 		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
+		const val MEDIA_ITEM_COUNT_MAX = 10
 	}
 
 	private var currentStream: PlayableMediaStream? = null
@@ -181,11 +182,13 @@ class ExoPlayerBackend(
 			setUri(stream.url)
 		}.build()
 
-		// Remove any old preloaded items (skips the first which is the playing item)
-		while (exoPlayer.mediaItemCount > 1) exoPlayer.removeMediaItem(0)
-		// Add new item
+		// Remove any excessive items from the start
+		while (exoPlayer.mediaItemCount > MEDIA_ITEM_COUNT_MAX - 1) exoPlayer.removeMediaItem(0)
+
+		// Add new item to the end of the media item list
 		exoPlayer.addMediaItem(mediaItem)
 
+		// Instruct exoplayer to prepare
 		exoPlayer.prepare()
 	}
 
@@ -195,14 +198,27 @@ class ExoPlayerBackend(
 
 		currentStream = stream
 
-		val streamIsPrepared = (0 until exoPlayer.mediaItemCount).any { index ->
+		var preparedItemIndex = (0 until exoPlayer.mediaItemCount).firstOrNull { index ->
 			exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
 		}
 
-		if (!streamIsPrepared) prepareItem(item)
+		// Prepare the item now if it doesn't exist yet
+		if (preparedItemIndex == null) {
+			prepareItem(item)
+			preparedItemIndex = exoPlayer.mediaItemCount - 1
+		}
 
 		Timber.i("Playing ${item.mediaStream?.url}")
-		exoPlayer.seekToNextMediaItem()
+
+		// Seek to prepared media item
+		when (preparedItemIndex) {
+			exoPlayer.currentMediaItemIndex - 1 -> exoPlayer.seekToPreviousMediaItem()
+			exoPlayer.currentMediaItemIndex + 1 -> exoPlayer.seekToNextMediaItem()
+			exoPlayer.currentMediaItemIndex -> Unit
+			else -> exoPlayer.seekTo(preparedItemIndex, 0)
+		}
+
+		// Enjoy!
 		exoPlayer.play()
 	}
 
