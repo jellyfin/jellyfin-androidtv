@@ -208,15 +208,13 @@ class ExoPlayerBackend(
 			preparedItemIndex = exoPlayer.mediaItemCount - 1
 		}
 
-		// Determine how to play item
-		if (preparedItemIndex == exoPlayer.currentMediaItemIndex) return
-
 		Timber.i("Playing ${item.mediaStream?.url}")
 
 		// Seek to prepared media item
 		when (preparedItemIndex) {
 			exoPlayer.currentMediaItemIndex - 1 -> exoPlayer.seekToPreviousMediaItem()
 			exoPlayer.currentMediaItemIndex + 1 -> exoPlayer.seekToNextMediaItem()
+			exoPlayer.currentMediaItemIndex -> Unit
 			else -> exoPlayer.seekTo(preparedItemIndex, 0)
 		}
 
