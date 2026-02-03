@@ -159,7 +159,7 @@ fun SettingsPlaybackAdvancedScreen() {
 						modifier = Modifier.sizeIn(minWidth = 32.dp),
 						contentAlignment = Alignment.CenterEnd
 					) {
-						Text("${videoStartDelay.toDouble() / 1000}s")
+						Text("${(videoStartDelay / 1000.0).toString().removeSuffix(".0")}s")
 					}
 				}
 			}
