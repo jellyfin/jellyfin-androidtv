@@ -39,6 +39,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.model.ServerVersion
 import org.koin.compose.koinInject
+import java.text.DecimalFormat
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -156,10 +157,11 @@ fun SettingsPlaybackAdvancedScreen() {
 					Spacer(Modifier.width(Tokens.Space.spaceSm))
 
 					Box(
-						modifier = Modifier.sizeIn(minWidth = 32.dp),
+						modifier = Modifier.sizeIn(minWidth = 48.dp),
 						contentAlignment = Alignment.CenterEnd
 					) {
-						Text("${(videoStartDelay / 1000.0).toString().removeSuffix(".0")}s")
+						val formatter = remember { DecimalFormat("0.##") }
+						Text("${formatter.format(videoStartDelay / 1000f)}s")
 					}
 				}
 			}
