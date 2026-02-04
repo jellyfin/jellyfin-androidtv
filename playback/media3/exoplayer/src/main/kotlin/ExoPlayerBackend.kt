@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
-import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -27,6 +26,8 @@ import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
+import org.jellyfin.playback.core.mediastream.mediatype.MediaType
+import org.jellyfin.playback.core.mediastream.mediatype.mediaType
 import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
@@ -53,7 +54,9 @@ class ExoPlayerBackend(
 
 	private var currentStream: PlayableMediaStream? = null
 	private var subtitleView: SubtitleView? = null
-	private var audioPipeline = ExoPlayerAudioPipeline()
+	private val audioPipeline = ExoPlayerAudioPipeline()
+	private val audioAttributeState = AudioAttributeState()
+
 	private val exoPlayer by lazy {
 		val dataSourceFactory = DefaultDataSource.Factory(
 			context,
@@ -95,9 +98,6 @@ class ExoPlayerBackend(
 				})
 			})
 			.setMediaSourceFactory(mediaSourceFactory)
-			.setAudioAttributes(AudioAttributes.Builder().apply {
-				setUsage(C.USAGE_MEDIA)
-			}.build(), true)
 			.setPauseAtEndOfMediaItems(true)
 			.build()
 			.also { player ->
@@ -208,19 +208,33 @@ class ExoPlayerBackend(
 			preparedItemIndex = exoPlayer.mediaItemCount - 1
 		}
 
-		// Determine how to play item
-		if (preparedItemIndex == exoPlayer.currentMediaItemIndex) return
-
-		Timber.i("Playing ${item.mediaStream?.url}")
-
 		// Seek to prepared media item
 		when (preparedItemIndex) {
 			exoPlayer.currentMediaItemIndex - 1 -> exoPlayer.seekToPreviousMediaItem()
 			exoPlayer.currentMediaItemIndex + 1 -> exoPlayer.seekToNextMediaItem()
+			exoPlayer.currentMediaItemIndex -> Unit
 			else -> exoPlayer.seekTo(preparedItemIndex, 0)
 		}
 
+		// Update audio attributes
+		val contentType = when (item.mediaType) {
+			MediaType.Video -> C.AUDIO_CONTENT_TYPE_MOVIE
+			MediaType.Audio -> C.AUDIO_CONTENT_TYPE_MUSIC
+			MediaType.Unknown -> C.AUDIO_CONTENT_TYPE_UNKNOWN
+		}
+
+		audioAttributeState.updateAudioAttributes(
+			builder = {
+				setContentType(contentType)
+				setUsage(C.USAGE_MEDIA)
+			},
+			onChange = { audioAttributes ->
+				exoPlayer.setAudioAttributes(audioAttributes, true)
+			}
+		)
+
 		// Enjoy!
+		Timber.i("Playing ${item.mediaStream?.url}")
 		exoPlayer.play()
 	}
 

@@ -1,5 +1,6 @@
 package org.jellyfin.playback.jellyfin.queue
 
+import org.jellyfin.playback.core.mediastream.mediatype.mediaType
 import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.QueueEntryMetadata
@@ -10,6 +11,8 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.extensions.ticks
 import java.util.UUID
+import org.jellyfin.playback.core.mediastream.mediatype.MediaType as PlayerMediaType
+import org.jellyfin.sdk.model.api.MediaType as SdkMediaType
 
 /**
  * Create a [QueueEntry] from a [BaseItemDto].
@@ -46,6 +49,13 @@ fun createBaseItemQueueEntry(api: ApiClient, baseItem: BaseItemDto): QueueEntry 
 	)
 	entry.baseItem = baseItem
 	entry.normalizationGain = baseItem.normalizationGain
+	entry.mediaType = when (baseItem.mediaType) {
+		SdkMediaType.VIDEO -> PlayerMediaType.Video
+		SdkMediaType.AUDIO -> PlayerMediaType.Audio
+		SdkMediaType.PHOTO,
+		SdkMediaType.BOOK,
+		SdkMediaType.UNKNOWN -> PlayerMediaType.Unknown
+	}
 	return entry
 }
 
