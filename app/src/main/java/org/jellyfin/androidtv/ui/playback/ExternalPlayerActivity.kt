@@ -54,6 +54,12 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_MX_SUBS = "subs"
 		private const val API_MX_SUBS_NAME = "subs.name"
 		private const val API_MX_SUBS_FILENAME = "subs.filename"
+		private const val API_MX_RESULT_ID = "com.mxtech.intent.result.VIEW"
+    	private const val API_MX_RESULT_END_BY = "end_by"
+    	private const val API_MX_RESULT_END_BY_PLAYBACK_COMPLETION = "playback_completion"
+
+		// https://mpv-android.github.io/mpv-android/intent.html
+		private const val API_MPV_RESULT_ID = "is.xyz.mpv.MPVActivity.result"
 
 		// https://wiki.videolan.org/Android_Player_Intents/
 		private const val API_VLC_SUBTITLES = "subtitles_location"
@@ -65,6 +71,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_VIMU_RESUME = "forceresume"
 		private const val API_VIMU_RESULT_ID = "net.gtvbox.videoplayer.result"
 		private const val API_VIMU_RESULT_ERROR = 4
+		private const val API_VIMU_RESULT_PLAYBACK_COMPLETED = 1;
 
 		// The extra keys used by various video players to read the end position
 		private val resultPositionExtras = arrayOf(API_MX_RESULT_POSITION, API_VLC_RESULT_POSITION)
@@ -199,8 +206,16 @@ class ExternalPlayerActivity : FragmentActivity() {
 			else null
 		}
 
+		val playbackCompleted = when (result?.action) {
+			API_MX_RESULT_ID -> extras.getString(API_MX_RESULT_END_BY) == API_MX_RESULT_END_BY_PLAYBACK_COMPLETION
+			API_MPV_RESULT_ID -> endPosition == null // in MPV playback is completed when 'position' extra is absent
+			API_VIMU_RESULT_ID -> result?.resultCode == API_VIMU_RESULT_PLAYBACK_COMPLETED
+			// in VLC is not possible to understand if playback is completed from resulting Intent
+			else -> null
+		}
+
 		val runtime = (mediaSource.runTimeTicks ?: item.runTimeTicks)?.ticks
-		val shouldPlayNext = runtime != null && endPosition != null && endPosition >= (runtime * 0.9)
+		val shouldPlayNext = (playbackCompleted) || (runtime != null && endPosition != null && endPosition >= (runtime * 0.9))
 
 		lifecycleScope.launch {
 			runCatching {
@@ -209,7 +224,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 						PlaybackStopInfo(
 							itemId = item.id,
 							mediaSourceId = mediaSource.id,
-							positionTicks = endPosition?.inWholeTicks,
+							positionTicks = if (playbackCompleted) runtime?.inWholeTicks else endPosition?.inWholeTicks,
 							failed = false,
 						)
 					)
