@@ -73,6 +73,17 @@ fun SettingsCustomizationScreen() {
 		}
 
 		item {
+			var backdropBlurEnabled by rememberPreference(userPreferences, UserPreferences.backdropBlurEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_enable_backdrop_blur)) },
+				trailingContent = { Checkbox(checked = backdropBlurEnabled) },
+				captionContent = { Text(stringResource(R.string.pref_enable_backdrop_blur_description)) },
+				onClick = { backdropBlurEnabled = !backdropBlurEnabled }
+			)
+		}
+
+		item {
 			var seriesThumbnailsEnabled by rememberPreference(userPreferences, UserPreferences.seriesThumbnailsEnabled)
 
 			ListButton(

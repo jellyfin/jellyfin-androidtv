@@ -64,7 +64,7 @@ class BackgroundService(
 			return clearBackgrounds()
 
 		// Enable blur for backdrops
-		_blurBackground.value = true
+		_blurBackground.value = userPreferences[UserPreferences.backdropBlurEnabled]
 
 		// Get all backdrop urls
 		val backdropUrls = (baseItem.itemBackdropImages + baseItem.parentBackdropImages)
