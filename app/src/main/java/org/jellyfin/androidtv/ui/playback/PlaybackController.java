@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
+import org.jellyfin.androidtv.util.TrackSelectionManager;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.Response;
@@ -507,6 +508,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mCurrentOptions != null) {
             internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
             internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
+        }
+        
+        // Check for stored track selections from detail screen
+        Integer storedAudioIndex = TrackSelectionManager.INSTANCE.getSelectedAudioTrack(item.getId());
+        Integer storedSubtitleIndex = TrackSelectionManager.INSTANCE.getSelectedSubtitleTrack(item.getId());
+
+        if (storedAudioIndex != null) {
+            internalOptions.setAudioStreamIndex(storedAudioIndex);
+        }
+        if (storedSubtitleIndex != null) {
+            internalOptions.setSubtitleStreamIndex(storedSubtitleIndex);
         }
         if (forcedSubtitleIndex != null) {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
