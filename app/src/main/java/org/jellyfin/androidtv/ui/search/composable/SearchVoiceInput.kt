@@ -65,7 +65,7 @@ fun SearchVoiceInput(
 		}
 	)
 
-	Box(modifier = modifier.wrapContentSize(), contentAlignment = Alignment.Center) {
+	Box(modifier = Modifier.wrapContentSize(), contentAlignment = Alignment.Center) {
 		// Draw pulsing background
 		if (recognizer.status is SpeechRecognizerStatus.Listening) {
 			val infiniteTransition = rememberInfiniteTransition()
@@ -103,9 +103,9 @@ fun SearchVoiceInput(
 			enabled = recognizer.status !is SpeechRecognizerStatus.Unavailable &&
 				recognizer.status != SpeechRecognizerStatus.PermissionDenied(false),
 			colors = colors,
-			modifier = Modifier.onFocusChanged {
+			modifier = modifier.onFocusChanged {
 				// Stop on blur
-				if (!it.isFocused && recognizer.status is SpeechRecognizerStatus.Listening) recognizer.stopListening()
+				if (!it.hasFocus && recognizer.status is SpeechRecognizerStatus.Listening) recognizer.stopListening()
 			}
 		) {
 			Icon(
