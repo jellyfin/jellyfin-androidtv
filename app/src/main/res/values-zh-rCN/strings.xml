@@ -490,7 +490,7 @@
     <string name="person_birthday_and_age">出生于 %1$s (%2$d)</string>
     <string name="dolby_vision">杜比视界</string>
     <plurals name="items">
-        <item quantity="other">%1$s 选项</item>
+        <item quantity="other">%1$s 项目</item>
     </plurals>
     <plurals name="movies">
         <item quantity="other">%1$s 电影</item>
@@ -499,7 +499,7 @@
         <item quantity="other">%1$s 歌曲</item>
     </plurals>
     <plurals name="albums">
-        <item quantity="other">%1$s 合集</item>
+        <item quantity="other">%1$s 专辑</item>
     </plurals>
     <string name="dolby_atmos">杜比全景声</string>
     <plurals name="tv_series">
