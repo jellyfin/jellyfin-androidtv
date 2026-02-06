@@ -187,6 +187,17 @@ fun SettingsPlaybackAdvancedScreen() {
 			)
 		}
 
+		item {
+			var dolbyVisionELDirectPlay by rememberPreference(userPreferences, UserPreferences.dolbyVisionELDirectPlay)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_force_dovi_profile_7)) },
+				captionContent = { Text(stringResource(R.string.desc_force_dovi_profile_7)) },
+				trailingContent = { Checkbox(checked = dolbyVisionELDirectPlay) },
+				onClick = { dolbyVisionELDirectPlay = !dolbyVisionELDirectPlay }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_live_tv_cat)) }) }
 
 		item {
