@@ -607,7 +607,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        mCurrentOptions.setAudioStreamIndex(null); // reset audio stream index to allow auto selection on new item
+        // Note: audioStreamIndex is already set by buildExoPlayerOptions() based on user's language preference
+        // Don't reset it here as it would override the user's audio track selection
 
         mStartPosition = position;
         mCurrentStreamInfo = response;
