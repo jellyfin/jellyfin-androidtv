@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util.profile
 
 import android.content.Context
+import android.media.MediaCodecInfo
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
@@ -15,6 +16,7 @@ class MediaCodecCapabilitiesTest(
 ) {
 	private val display by lazy { ContextCompat.getDisplayOrDefault(context) }
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
+	var useSoftwareCodecs = true
 
 	// Map common Dolby Vision Profiles to their corresponding CodecProfileLevel constant
 	private object DolbyVisionProfiles {
@@ -207,6 +209,7 @@ class MediaCodecCapabilitiesTest(
 
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!useSoftwareCodecs && info.isSoftwareCodec()) continue
 
 			try {
 				val capabilities = info.getCapabilitiesForType(mime)
@@ -226,6 +229,7 @@ class MediaCodecCapabilitiesTest(
 	private fun hasDecoder(mime: String, profile: Int, level: Int): Boolean {
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!useSoftwareCodecs && info.isSoftwareCodec()) continue
 
 			try {
 				val capabilities = info.getCapabilitiesForType(mime)
@@ -253,6 +257,7 @@ class MediaCodecCapabilitiesTest(
 	private fun hasCodecForMime(mime: String): Boolean {
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!useSoftwareCodecs && info.isSoftwareCodec()) continue
 
 			if (info.supportedTypes.any { it.equals(mime, ignoreCase = true) }) {
 				Timber.i("found codec %s for mime %s", info.name, mime)
@@ -268,6 +273,7 @@ class MediaCodecCapabilitiesTest(
 
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!useSoftwareCodecs && info.isSoftwareCodec()) continue
 
 			try {
 				val types = info.getSupportedTypes()
@@ -289,6 +295,7 @@ class MediaCodecCapabilitiesTest(
 
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!useSoftwareCodecs && info.isSoftwareCodec()) continue
 
 			try {
 				val capabilities = info.getCapabilitiesForType(mime)
@@ -307,5 +314,17 @@ class MediaCodecCapabilitiesTest(
 		Timber.d("Computed max resolution for %s: %dx%d", mime, maxWidth, maxHeight)
 
 		return Size(maxWidth, maxHeight)
+	}
+
+	private fun MediaCodecInfo.isSoftwareCodec(): Boolean {
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			this.isSoftwareOnly
+		} else {
+			val name = this.name
+
+			// detect software-based codecs by name; approach taken from here:
+			// https://android.googlesource.com/platform/frameworks/av/+/d5dbc2b31c492be23fc4d4a96619330b63499b06/media/libstagefright/MediaCodecList.cpp#364
+			name.startsWith("OMX.google.", ignoreCase = true) || name.startsWith("c2.android.", ignoreCase = true)
+		}
 	}
 }
