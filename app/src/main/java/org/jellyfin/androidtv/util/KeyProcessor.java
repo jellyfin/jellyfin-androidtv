@@ -48,6 +48,7 @@ public class KeyProcessor {
     public static final int MENU_INSTANT_MIX = 11;
     public static final int MENU_CLEAR_QUEUE = 12;
     public static final int MENU_TOGGLE_SHUFFLE = 13;
+    public static final int MENU_PLAY_EXTERNAL = 14;
 
     private final Lazy<MediaManager> mediaManager = KoinJavaComponent.<MediaManager>inject(MediaManager.class);
     private final Lazy<NavigationRepository> navigationRepository = KoinJavaComponent.<NavigationRepository>inject(NavigationRepository.class);
@@ -215,6 +216,11 @@ public class KeyProcessor {
                     menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 }
                 menu.getMenu().add(0, MENU_PLAY, order++, isFolder ? R.string.lbl_play_all : R.string.lbl_play);
+
+                // Add external player option for supported video items, but only if the user doesn't prefer to watch everything in an external player
+                if (playbackHelper.getValue().supportsExternalPlayer(item) && !playbackHelper.getValue().getUserPrefersExternalPlayer()) {
+                    menu.getMenu().add(0, MENU_PLAY_EXTERNAL, order++, R.string.lbl_play_external);
+                }
                 if (isFolder) {
                     menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
                 }
@@ -287,6 +293,9 @@ public class KeyProcessor {
             switch (menuItem.getItemId()) {
                 case MENU_PLAY:
                     playbackHelper.getValue().retrieveAndPlay(item.getId(), false, activity);
+                    return true;
+                case MENU_PLAY_EXTERNAL:
+                    playbackHelper.getValue().retrieveAndPlayExternal(item.getId(), false, activity);
                     return true;
                 case MENU_PLAY_SHUFFLE:
                     playbackHelper.getValue().retrieveAndPlay(item.getId(), true, activity);

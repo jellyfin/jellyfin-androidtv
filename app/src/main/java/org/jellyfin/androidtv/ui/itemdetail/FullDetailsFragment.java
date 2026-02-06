@@ -1227,6 +1227,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         });
     }
 
+    void playExternal(final BaseItemDto item) {
+        playbackHelper.getValue().retrieveAndPlayExternal(item.getId(), false, getContext());
+    }
+
     void play(final List<BaseItemDto> items, final int pos, final boolean shuffle) {
         if (items.isEmpty()) return;
         if (shuffle) Collections.shuffle(items);

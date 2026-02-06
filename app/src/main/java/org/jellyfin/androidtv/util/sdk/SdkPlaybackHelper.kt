@@ -66,6 +66,12 @@ class SdkPlaybackHelper(
 		}
 	}
 
+	override val userPrefersExternalPlayer: Boolean
+		get() = userPreferences[UserPreferences.useExternalPlayer]
+
+	override fun supportsExternalPlayer(item: BaseItemDto) =
+		playbackLauncher.supportsExternalPlayer(item)
+
 	private suspend fun getItems(
 		mainItem: BaseItemDto,
 		allowIntros: Boolean,
@@ -258,7 +264,13 @@ class SdkPlaybackHelper(
 		}
 	}
 
-	override fun retrieveAndPlay(itemId: UUID, shuffle: Boolean, context: Context) {
+	override fun retrieveAndPlay(itemId: UUID, shuffle: Boolean, context: Context) =
+		retrieveAndPlay(itemId, shuffle, context, false)
+
+	override fun retrieveAndPlayExternal(itemId: UUID, shuffle: Boolean, context: Context) =
+		retrieveAndPlay(itemId, shuffle, context, true)
+
+	fun retrieveAndPlay(itemId: UUID, shuffle: Boolean, context: Context, forceExternalPlayer: Boolean) {
 		getScope(context).launch {
 			val resumeSubtractDuration =
 				userPreferences[UserPreferences.resumeSubtractDuration].toIntOrNull()?.seconds
@@ -281,6 +293,7 @@ class SdkPlaybackHelper(
 				playbackControllerContainer.playbackController?.hasFragment() == true,
 				0,
 				shuffle,
+				forceExternalPlayer
 			)
 		}
 	}
