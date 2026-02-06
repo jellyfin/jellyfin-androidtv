@@ -41,9 +41,49 @@ public class ItemLauncher {
     public void launchUserView(@Nullable final BaseItemDto baseItem) {
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
 
-        Destination destination = getUserViewDestination(baseItem);
+        // Special handling for Live TV to check for default view preference
+        if (baseItem != null && baseItem.getCollectionType() == CollectionType.LIVETV) {
+            launchLiveTvWithUserPreferenceCheck(baseItem);
+            return;
+        }
 
+        Destination destination = getUserViewDestination(baseItem);
         navigationRepository.getValue().navigate(destination);
+    }
+
+    private void launchLiveTvWithUserPreferenceCheck(@Nullable final BaseItemDto baseItem) {
+        try {
+            org.jellyfin.sdk.api.client.ApiClient api = org.koin.java.KoinJavaComponent.get(org.jellyfin.sdk.api.client.ApiClient.class);
+            Integer defaultViewId = org.jellyfin.androidtv.util.LiveTvDefaultViewHelper.getDefaultLiveTvViewBlocking(api);
+
+            if (defaultViewId != null) {
+                // Navigate directly to the preferred view
+                switch (defaultViewId) {
+                    case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuide());
+                        break;
+                    case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSchedule());
+                        break;
+                    case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvRecordings());
+                        break;
+                    case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSeriesRecordings());
+                        break;
+                    default:
+                        // Fallback to the standard Live TV selection screen
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
+                        break;
+                }
+            } else {
+                // No preference set, show the standard Live TV selection screen
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
+            }
+        } catch (Exception e) {
+            // Fallback to the standard Live TV selection screen on error
+            navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
+        }
     }
 
     public Destination.Fragment getUserViewDestination(@Nullable final BaseItemDto baseItem) {
