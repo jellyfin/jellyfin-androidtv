@@ -30,11 +30,14 @@ import androidx.media3.common.TrackSelectionOverride;
 import androidx.media3.common.TrackSelectionParameters;
 import androidx.media3.common.Tracks;
 import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.HttpDataSource;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.analytics.AnalyticsListener;
+import androidx.media3.exoplayer.hls.HlsMediaSource;
+import androidx.media3.exoplayer.hls.playlist.HlsPlaylistParserFactory;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
@@ -72,6 +75,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private DataSource.Factory mExoPlayerDataSourceFactory;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -204,7 +208,7 @@ public class VideoManager {
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
 
-        DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
+        DefaultTrackSelector trackSelector = new DefaultTrackSelector(context, new AdaptiveHdrTrackSelection.Factory());
         trackSelector.setParameters(trackSelector.buildUponParameters()
                 .setAudioOffloadPreferences(new TrackSelectionParameters.AudioOffloadPreferences.Builder()
                         .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
@@ -218,9 +222,9 @@ public class VideoManager {
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory().setTsExtractorTimestampSearchBytes(TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3);
         extractorsFactory.setConstantBitrateSeekingEnabled(true);
         extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
-        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
+        mExoPlayerDataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
         exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-        exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+        exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(mExoPlayerDataSourceFactory, extractorsFactory));
 
         exoPlayerBuilder.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)
@@ -377,10 +381,29 @@ public class VideoManager {
                     .setSubtitleConfigurations(subtitleConfigurations)
                     .build();
 
-            mExoPlayer.setMediaItem(mediaItem);
+            setMediaItemOrSource(mediaItem);
             mExoPlayer.prepare();
         } catch (IllegalStateException e) {
             Timber.e(e, "Unable to set video path.  Probably backing out.");
+        }
+    }
+
+    private void setMediaItemOrSource(MediaItem mediaItem) {
+        String streamUrl = mediaItem.localConfiguration != null ? mediaItem.localConfiguration.uri.toString() : "";
+
+        // Media3 doesn't store the HLS VIDEO-RANGE attribute, so for master playlists we add
+        // an entry into each variant's Format metadata for use during track selection
+        if (streamUrl.contains("master.m3u8")) {
+            Timber.i("Trying to inject HLS VIDEO-RANGE into variant metadata");
+
+            HlsPlaylistParserFactory parserFactory = new VideoRangeHlsPlaylistParser.Factory();
+            HlsMediaSource.Factory hlsSourceFactory = new HlsMediaSource.Factory(mExoPlayerDataSourceFactory)
+                    .setPlaylistParserFactory(parserFactory);
+            HlsMediaSource hlsMediaSource = hlsSourceFactory.createMediaSource(mediaItem);
+
+            mExoPlayer.setMediaSource(hlsMediaSource);
+        } else {
+            mExoPlayer.setMediaItem(mediaItem);
         }
     }
 
