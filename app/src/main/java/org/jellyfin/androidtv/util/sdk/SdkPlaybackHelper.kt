@@ -31,6 +31,7 @@ import org.jellyfin.sdk.model.extensions.ticks
 import java.util.UUID
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import timber.log.Timber
 
 class SdkPlaybackHelper(
 	private val api: ApiClient,
@@ -274,6 +275,7 @@ class SdkPlaybackHelper(
 			val allowIntros = pos == Duration.ZERO && item.type == BaseItemKind.MOVIE
 			val items = getItems(item, allowIntros, shuffle)
 
+			Timber.i("Launching due to retrieveAndPlay")
 			playbackLauncher.launch(
 				context,
 				items,
@@ -281,6 +283,7 @@ class SdkPlaybackHelper(
 				playbackControllerContainer.playbackController?.hasFragment() == true,
 				0,
 				shuffle,
+				item,
 			)
 		}
 	}
@@ -324,6 +327,7 @@ class SdkPlaybackHelper(
 
 			val items = response.items
 			if (items.isNotEmpty()) {
+				Timber.i("Launching due to playInstantMix")
 				playbackLauncher.launch(context, items)
 			} else {
 				Toast.makeText(context, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()
