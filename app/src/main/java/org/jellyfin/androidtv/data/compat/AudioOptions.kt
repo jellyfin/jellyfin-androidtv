@@ -7,6 +7,13 @@ import java.util.UUID
 open class AudioOptions {
 	var enableDirectPlay = true
 	var enableDirectStream = true
+
+	/**
+	 * When true, the server may copy the audio stream into the output container (when compatible).
+	 * When false, the server should transcode audio, which can avoid device-specific decoder issues
+	 * with some AAC streams.
+	 */
+	var allowAudioStreamCopy = true
 	var itemId: UUID? = null
 	var mediaSources: List<MediaSourceInfo>? = null
 	var profile: DeviceProfile? = null
