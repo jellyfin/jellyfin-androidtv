@@ -618,4 +618,8 @@
         <item quantity="one">%1$s album</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+    <string name="enable_libass_subtitles">Enable libass subtitles</string>
+    <string name="enable_libass_subtitles_description">Use libass for advanced subtitle rendering</string>
+    <string name="libass_glyph_size">Libass glyph size</string>
+    <string name="libass_cache_size">Libass cache size (MB)</string>
 </resources>
