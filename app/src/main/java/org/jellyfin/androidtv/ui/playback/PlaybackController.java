@@ -247,9 +247,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         lastPlaybackError = Instant.now().toEpochMilli();
 
         if (playbackRetries < 3) {
-            if (mFragment != null)
+            // If we can immediately recover by changing the server playback request (e.g. disabling
+            // audio stream copy), avoid showing a scary toast that resolves itself within seconds.
+            boolean suppressToast = playbackRetries == 1 && mCurrentOptions != null && mCurrentOptions.getAllowAudioStreamCopy();
+            if (!suppressToast && mFragment != null) {
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.player_error));
-            Timber.i("Player error encountered - retrying");
+            }
+            Timber.i("Player error encountered - retrying (toast suppressed: %s)", suppressToast);
             stop();
             play(mCurrentPosition);
         } else {
@@ -504,6 +508,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setMediaSources(item.getMediaSources());
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
+
+        // Retry ladder: if playback fails at runtime (decoder/init issues that the server can't predict),
+        // re-request a more conservative playback plan from the server.
+        // 1) Force audio transcoding (disallow audio stream copy).
+        // 2) If still failing, request stereo downmix and force video transcoding (disallow video stream copy).
+        if (playbackRetries > 0) internalOptions.setAllowAudioStreamCopy(false);
+        if (playbackRetries > 1) internalOptions.setAllowVideoStreamCopy(false);
+        if (playbackRetries > 1 && internalOptions.getMaxAudioChannels() == null) internalOptions.setMaxAudioChannels(2);
+
         if (mCurrentOptions != null) {
             internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
             internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
