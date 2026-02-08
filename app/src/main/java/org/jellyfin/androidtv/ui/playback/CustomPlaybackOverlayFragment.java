@@ -1129,7 +1129,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     };
 
+    private boolean channelDataIsStale() {
+        List<BaseItemDto> channels = TvManager.getAllChannels();
+        if (channels == null || channels.isEmpty()) return true;
+        LocalDateTime now = LocalDateTime.now();
+        return channels.stream().anyMatch(channel ->
+            channel.getCurrentProgram() != null &&
+            channel.getCurrentProgram().getEndDate() != null &&
+            !channel.getCurrentProgram().getEndDate().isAfter(now)
+        );
+    }
+
     public void showQuickChannelChanger() {
+        if (channelDataIsStale()) {
+            prepareChannelAdapter();
+        }
         showChapterPanel();
         mHandler.postDelayed(() -> {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
