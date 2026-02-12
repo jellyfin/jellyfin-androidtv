@@ -6,9 +6,13 @@ import timber.log.Timber
 
 class PositionableListRowPresenter : CustomListRowPresenter {
 	private var viewHolder: ViewHolder? = null
+	private val trapFocusAtStart: Boolean
 
-	constructor() : super()
-	constructor(padding: Int?) : super(padding)
+	constructor() : this(padding = null, trapFocusAtStart = false)
+	constructor(padding: Int?) : this(padding, trapFocusAtStart = false)
+	constructor(padding: Int? = null, trapFocusAtStart: Boolean = false) : super(padding) {
+		this.trapFocusAtStart = trapFocusAtStart
+	}
 
 	init {
 		shadowEnabled = false
@@ -23,11 +27,13 @@ class PositionableListRowPresenter : CustomListRowPresenter {
 		if (holder !is ViewHolder) return
 
 		viewHolder = holder
-		// Prevent focus from escaping the grid at the left boundary so the user
-		// stays inside the popup (channel changer / chapter selector).
-		holder.gridView?.setOnKeyInterceptListener { event ->
-			event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT &&
-				(holder.gridView?.selectedPosition ?: -1) <= 0
+		if (trapFocusAtStart) {
+			// Prevent focus from escaping the grid at the left boundary so the user
+			// stays inside the popup (channel changer / chapter selector).
+			holder.gridView?.setOnKeyInterceptListener { event ->
+				event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT &&
+					(holder.gridView?.selectedPosition ?: -1) <= 0
+			}
 		}
 	}
 

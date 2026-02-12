@@ -187,7 +187,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     .findFragmentById(R.id.rows_area);
         }
 
-        mPopupRowPresenter = new PositionableListRowPresenter();
+        mPopupRowPresenter = new PositionableListRowPresenter(null, true);
         mPopupRowAdapter = new ArrayObjectAdapter(mPopupRowPresenter);
         mPopupRowsFragment.setAdapter(mPopupRowAdapter);
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
