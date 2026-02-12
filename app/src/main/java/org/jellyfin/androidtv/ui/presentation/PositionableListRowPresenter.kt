@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation
 
+import android.view.KeyEvent
 import androidx.leanback.widget.RowPresenter
 import timber.log.Timber
 
@@ -22,6 +23,12 @@ class PositionableListRowPresenter : CustomListRowPresenter {
 		if (holder !is ViewHolder) return
 
 		viewHolder = holder
+		// Prevent focus from escaping the grid at the left boundary so the user
+		// stays inside the popup (channel changer / chapter selector).
+		holder.gridView?.setOnKeyInterceptListener { event ->
+			event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT &&
+				(holder.gridView?.selectedPosition ?: -1) <= 0
+		}
 	}
 
 	var position: Int
