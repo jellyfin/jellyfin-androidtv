@@ -89,7 +89,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 			Toast.makeText(this, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
 			finish()
 		} else {
-			onItemFinished(result.data)
+			onItemFinished(result)
 		}
 	}
 
@@ -190,7 +190,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 	}
 
 
-	private fun onItemFinished(result: Intent?) {
+	private fun onItemFinished(activityResult: ActivityResult) {
 		if (currentItem == null) {
 			Toast.makeText(this@ExternalPlayerActivity, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
 			finish()
@@ -198,6 +198,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 		}
 
 		val (item, mediaSource) = currentItem!!
+		val result = activityResult.data
 		val extras = result?.extras ?: Bundle.EMPTY
 
 		val endPosition = resultPositionExtras.firstNotNullOfOrNull { key ->
@@ -209,13 +210,13 @@ class ExternalPlayerActivity : FragmentActivity() {
 		val playbackCompleted = when (result?.action) {
 			API_MX_RESULT_ID -> extras.getString(API_MX_RESULT_END_BY) == API_MX_RESULT_END_BY_PLAYBACK_COMPLETION
 			API_MPV_RESULT_ID -> endPosition == null // in MPV playback is completed when 'position' extra is absent
-			API_VIMU_RESULT_ID -> result?.resultCode == API_VIMU_RESULT_PLAYBACK_COMPLETED
+			API_VIMU_RESULT_ID -> activityResult.resultCode == API_VIMU_RESULT_PLAYBACK_COMPLETED
 			// in VLC is not possible to understand if playback is completed from resulting Intent
-			else -> null
+			else -> false
 		}
 
 		val runtime = (mediaSource.runTimeTicks ?: item.runTimeTicks)?.ticks
-		val shouldPlayNext = (playbackCompleted) || (runtime != null && endPosition != null && endPosition >= (runtime * 0.9))
+		val shouldPlayNext = playbackCompleted || (runtime != null && endPosition != null && endPosition >= (runtime * 0.9))
 
 		lifecycleScope.launch {
 			runCatching {
