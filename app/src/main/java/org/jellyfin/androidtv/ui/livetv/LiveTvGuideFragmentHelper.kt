@@ -1,7 +1,10 @@
 package org.jellyfin.androidtv.ui.livetv
 
+import android.app.Activity
 import android.content.Context
+import android.view.KeyEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.isVisible
@@ -31,6 +34,75 @@ import timber.log.Timber
 import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
+
+fun pageGuideChannels(
+	activity: Activity,
+	programRows: ViewGroup,
+	channels: ViewGroup,
+	visibleRows: Int,
+	forward: Boolean,
+): Boolean {
+	val focused = activity.currentFocus ?: return false
+
+	// Find which row currently has focus (check both program rows and channel headers)
+	var currentRowNdx = -1
+	var focusOnChannelHeader = false
+
+	for (i in 0 until programRows.childCount) {
+		val row = programRows.getChildAt(i)
+		if (row == focused || (row is ViewGroup && row.indexOfChild(focused) >= 0)) {
+			currentRowNdx = i
+			break
+		}
+	}
+
+	if (currentRowNdx < 0) {
+		// Check if focus is on a channel header
+		for (i in 0 until channels.childCount) {
+			if (focused == channels.getChildAt(i)) {
+				currentRowNdx = i
+				focusOnChannelHeader = true
+				break
+			}
+		}
+	}
+
+	if (currentRowNdx < 0) return false
+
+	// Calculate target row, clamped to valid range
+	val targetRowNdx = if (forward) {
+		minOf(currentRowNdx + visibleRows, programRows.childCount - 1)
+	} else {
+		maxOf(currentRowNdx - visibleRows, 0)
+	}
+
+	if (focusOnChannelHeader) {
+		channels.getChildAt(targetRowNdx)?.requestFocus()
+	} else {
+		val targetRow = programRows.getChildAt(targetRowNdx)
+		if (targetRow is ViewGroup) {
+			// Find the child at the same horizontal position to preserve time scroll position
+			val focusedLeft = focused.left
+			val best = (0 until targetRow.childCount)
+				.map { targetRow.getChildAt(it) }
+				.firstOrNull { it.left <= focusedLeft && it.right > focusedLeft }
+				?: targetRow
+			best.requestFocus()
+		} else {
+			targetRow?.requestFocus()
+		}
+	}
+
+	return true
+}
+
+fun isChannelPageKey(keyCode: Int): Boolean = keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_REWIND
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_NEXT
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS
+
+fun isChannelPageForward(keyCode: Int): Boolean =
+	keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_MEDIA_NEXT
 
 fun createNoProgramDataBaseItem(
 	context: Context,

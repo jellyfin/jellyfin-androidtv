@@ -107,6 +107,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private int mCurrentDisplayChannelEndNdx = 0;
     private List<BaseItemDto> mAllChannels;
     private UUID mFirstFocusChannelId;
+    private int guideRowHeightPx;
+    private int guideVisibleRows;
 
     private List<BaseItemDto> mItemsToPlay;
 
@@ -419,10 +421,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 event.startTracking();
                 return true;
             }
-            if (mGuideVisible && (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_REWIND
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_NEXT
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS)) {
+            if (mGuideVisible && LiveTvGuideFragmentHelperKt.isChannelPageKey(keyCode)) {
                 return true;
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
@@ -473,12 +472,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private boolean handleGuideChannelPageKey(int keyCode) {
         if (!mGuideVisible) return false;
-        if (keyCode != KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
-                && keyCode != KeyEvent.KEYCODE_MEDIA_REWIND
-                && keyCode != KeyEvent.KEYCODE_MEDIA_NEXT
-                && keyCode != KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
-            return false;
-        }
+        if (!LiveTvGuideFragmentHelperKt.isChannelPageKey(keyCode)) return false;
         if (mDetailPopup != null && mDetailPopup.isShowing()) {
             return true;
         }
@@ -486,66 +480,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return true;
         }
 
-        // Calculate how many rows are visible on screen
-        int guideRowHeightPx = Utils.convertDpToPixel(requireContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP);
-        int visibleRows = Math.max(1, tvGuideBinding.channelScroller.getHeight() / guideRowHeightPx);
-
-        // Find which row currently has focus (check both program rows and channel headers)
-        int currentRowNdx = -1;
-        boolean focusOnChannelHeader = false;
-        View focused = requireActivity().getCurrentFocus();
-        for (int i = 0; i < tvGuideBinding.programRows.getChildCount(); i++) {
-            View row = tvGuideBinding.programRows.getChildAt(i);
-            if (row == focused || (focused != null && row instanceof ViewGroup && ((ViewGroup) row).indexOfChild(focused) >= 0)) {
-                currentRowNdx = i;
-                break;
-            }
+        if (guideVisibleRows == 0) {
+            guideRowHeightPx = Utils.convertDpToPixel(requireContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP);
+            guideVisibleRows = Math.max(1, tvGuideBinding.channelScroller.getHeight() / guideRowHeightPx);
         }
-        if (currentRowNdx < 0) {
-            // Check if focus is on a channel header
-            for (int i = 0; i < tvGuideBinding.channels.getChildCount(); i++) {
-                if (focused == tvGuideBinding.channels.getChildAt(i)) {
-                    currentRowNdx = i;
-                    focusOnChannelHeader = true;
-                    break;
-                }
-            }
-        }
-        if (currentRowNdx < 0) return true;
-
-        // Calculate target row, clamped to valid range
-        int targetRowNdx;
-        if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_MEDIA_NEXT) {
-            targetRowNdx = Math.min(currentRowNdx + visibleRows, tvGuideBinding.programRows.getChildCount() - 1);
-        } else {
-            targetRowNdx = Math.max(currentRowNdx - visibleRows, 0);
-        }
-
-        if (focusOnChannelHeader) {
-            // Stay on channel headers when paging
-            View targetHeader = tvGuideBinding.channels.getChildAt(targetRowNdx);
-            if (targetHeader != null) {
-                targetHeader.requestFocus();
-            }
-        } else {
-            View targetRow = tvGuideBinding.programRows.getChildAt(targetRowNdx);
-            if (targetRow instanceof ViewGroup) {
-                // Find the child at the same horizontal position to preserve time scroll position
-                int focusedLeft = focused != null ? focused.getLeft() : 0;
-                ViewGroup targetGroup = (ViewGroup) targetRow;
-                View best = targetRow;
-                for (int i = 0; i < targetGroup.getChildCount(); i++) {
-                    View child = targetGroup.getChildAt(i);
-                    if (child.getLeft() <= focusedLeft && child.getRight() > focusedLeft) {
-                        best = child;
-                        break;
-                    }
-                }
-                best.requestFocus();
-            } else if (targetRow != null) {
-                targetRow.requestFocus();
-            }
-        }
+        LiveTvGuideFragmentHelperKt.pageGuideChannels(
+                requireActivity(), tvGuideBinding.programRows, tvGuideBinding.channels, guideVisibleRows,
+                LiveTvGuideFragmentHelperKt.isChannelPageForward(keyCode)
+        );
         return true;
     }
 
