@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -72,6 +73,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    @Nullable private ProgressBar mBufferingSpinner;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -106,6 +108,7 @@ public class VideoManager {
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
+        mBufferingSpinner = view.findViewById(R.id.bufferingSpinner);
         int strokeColor = userPreferences.get(UserPreferences.Companion.getSubtitleTextStrokeColor()).intValue();
         int textWeight = userPreferences.get(UserPreferences.Companion.getSubtitlesTextWeight());
         CaptionStyleCompat subtitleStyle = new CaptionStyleCompat(
@@ -131,6 +134,7 @@ public class VideoManager {
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if (isPlaying) {
+                    setBufferingSpinnerVisible(false);
                     if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
                     _helper.setScreensaverLock(true);
@@ -144,9 +148,11 @@ public class VideoManager {
             public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
-                }
-
-                if (playbackState == Player.STATE_ENDED) {
+                    setBufferingSpinnerVisible(true);
+                } else if (playbackState == Player.STATE_READY) {
+                    setBufferingSpinnerVisible(false);
+                } else if (playbackState == Player.STATE_ENDED) {
+                    setBufferingSpinnerVisible(false);
                     if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onCompletion();
                     stopProgressLoop();
                 }
@@ -181,6 +187,14 @@ public class VideoManager {
 
     public void subscribe(@NonNull PlaybackControllerNotifiable notifier) {
         mPlaybackControllerNotifiable = notifier;
+    }
+
+    private void setBufferingSpinnerVisible(boolean visible) {
+        if (mBufferingSpinner != null) {
+            mActivity.runOnUiThread(() ->
+                mBufferingSpinner.setVisibility(visible ? View.VISIBLE : View.GONE)
+            );
+        }
     }
 
     private int determineExoPlayerExtensionRendererMode() {
