@@ -446,11 +446,41 @@ public class VideoManager {
 
         // offset the stream index to account for external streams
         int exoTrackID = offsetStreamIndex(matchedIndex, true, allStreams);
-        if (exoTrackID < 0)
-            return -1;
+        if (exoTrackID >= 0) {
+            Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
+            return exoTrackID;
+        }
 
-        Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
-        return exoTrackID;
+        // Fallback for containers with non-sequential track IDs (e.g., MPEG-TS uses PIDs).
+        // Match by ordinal position: find which Nth track of this type is selected in ExoPlayer,
+        // then return the index of the Nth non-external stream of that type in the Jellyfin list.
+        Timber.d("offset-based track lookup failed for matched index %s, falling back to ordinal matching", matchedIndex);
+        int selectedOrdinal = 0;
+        boolean found = false;
+        for (Tracks.Group groupInfo : exoTracks.getGroups()) {
+            if (groupInfo.getType() != chosenTrackType) continue;
+            TrackGroup group = groupInfo.getMediaTrackGroup();
+            for (int i = 0; i < group.length; i++) {
+                if (groupInfo.isTrackSelected(i)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) break;
+            selectedOrdinal++;
+        }
+        if (!found) return -1;
+
+        int ordinal = 0;
+        for (org.jellyfin.sdk.model.api.MediaStream stream : allStreams) {
+            if (stream.isExternal() || stream.getType() != streamType) continue;
+            if (ordinal == selectedOrdinal) {
+                Timber.d("ordinal fallback matched exoplayer ordinal %s to jellyfin stream index %s", selectedOrdinal, stream.getIndex());
+                return stream.getIndex();
+            }
+            ordinal++;
+        }
+        return -1;
     }
 
     public boolean setExoPlayerTrack(int index, @Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
@@ -523,6 +553,45 @@ public class VideoManager {
 
                 Timber.i("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
                 matchedGroup = group;
+            }
+        }
+
+        // Fallback for containers with non-sequential track IDs (e.g., MPEG-TS uses PIDs).
+        // Match by ordinal position: find the Nth ExoPlayer track group of this type,
+        // where N is the ordinal position of the target stream among non-external streams of that type.
+        if (matchedGroup == null) {
+            Timber.d("offset-based track matching failed for index %s (exoTrackID %s), falling back to ordinal matching", index, exoTrackID);
+            int targetOrdinal = 0;
+            boolean targetFound = false;
+            for (MediaStream stream : allStreams) {
+                if (stream.isExternal() || stream.getType() != streamType) continue;
+                if (stream.getIndex() == index) {
+                    targetFound = true;
+                    break;
+                }
+                targetOrdinal++;
+            }
+            if (!targetFound) return false;
+
+            int currentOrdinal = 0;
+            for (Tracks.Group groupInfo : exoTracks.getGroups()) {
+                if (groupInfo.getType() != chosenTrackType) continue;
+                if (currentOrdinal == targetOrdinal) {
+                    for (int i = 0; i < groupInfo.getMediaTrackGroup().length; i++) {
+                        if (!groupInfo.isTrackSupported(i)) {
+                            Timber.d("track is not compatible (ordinal match)");
+                            return false;
+                        }
+                        if (groupInfo.isTrackSelected(i)) {
+                            Timber.d("track is already selected (ordinal match)");
+                            return true;
+                        }
+                    }
+                    Timber.i("ordinal fallback matched jellyfin stream index %s to exoplayer ordinal %s", index, targetOrdinal);
+                    matchedGroup = groupInfo.getMediaTrackGroup();
+                    break;
+                }
+                currentOrdinal++;
             }
         }
 
