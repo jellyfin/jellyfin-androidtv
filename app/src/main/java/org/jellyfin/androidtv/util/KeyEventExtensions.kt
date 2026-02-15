@@ -24,3 +24,18 @@ fun KeyEvent.isMediaSessionKeyEvent(): Boolean = when {
 		else -> false
 	}
 }
+
+/**
+ * Returns whether the given key code is a page key (FF/RW/Next/Previous).
+ * Used by grids and guides to page through items.
+ */
+fun isPageKey(keyCode: Int): Boolean = keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_REWIND
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_NEXT
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS
+
+/**
+ * Returns whether the given page key code represents a forward direction.
+ */
+fun isPageForward(keyCode: Int): Boolean = keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
+	|| keyCode == KeyEvent.KEYCODE_MEDIA_NEXT

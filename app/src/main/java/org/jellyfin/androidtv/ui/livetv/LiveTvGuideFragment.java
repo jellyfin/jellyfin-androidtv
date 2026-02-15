@@ -42,6 +42,7 @@ import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
+import org.jellyfin.androidtv.util.KeyEventExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.PlaybackHelper;
@@ -400,7 +401,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         }
         LiveTvGuideFragmentHelperKt.pageGuideChannels(
                 requireActivity(), mProgramRows, mChannels, guideVisibleRows,
-                LiveTvGuideFragmentHelperKt.isChannelPageForward(keyCode)
+                KeyEventExtensionsKt.isPageForward(keyCode)
         );
         return true;
     }

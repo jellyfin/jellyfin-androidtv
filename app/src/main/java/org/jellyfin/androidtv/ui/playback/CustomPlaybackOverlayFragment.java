@@ -56,6 +56,7 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragmentHelperKt;
+import org.jellyfin.androidtv.util.KeyEventExtensionsKt;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -421,7 +422,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 event.startTracking();
                 return true;
             }
-            if (mGuideVisible && LiveTvGuideFragmentHelperKt.isChannelPageKey(keyCode)) {
+            if (mGuideVisible && KeyEventExtensionsKt.isPageKey(keyCode)) {
                 return true;
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
@@ -472,7 +473,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private boolean handleGuideChannelPageKey(int keyCode) {
         if (!mGuideVisible) return false;
-        if (!LiveTvGuideFragmentHelperKt.isChannelPageKey(keyCode)) return false;
+        if (!KeyEventExtensionsKt.isPageKey(keyCode)) return false;
         if (mDetailPopup != null && mDetailPopup.isShowing()) {
             return true;
         }
@@ -486,7 +487,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
         LiveTvGuideFragmentHelperKt.pageGuideChannels(
                 requireActivity(), tvGuideBinding.programRows, tvGuideBinding.channels, guideVisibleRows,
-                LiveTvGuideFragmentHelperKt.isChannelPageForward(keyCode)
+                KeyEventExtensionsKt.isPageForward(keyCode)
         );
         return true;
     }

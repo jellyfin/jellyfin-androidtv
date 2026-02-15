@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.livetv
 
 import android.app.Activity
 import android.content.Context
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
@@ -95,14 +94,6 @@ fun pageGuideChannels(
 
 	return true
 }
-
-fun isChannelPageKey(keyCode: Int): Boolean = keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
-	|| keyCode == KeyEvent.KEYCODE_MEDIA_REWIND
-	|| keyCode == KeyEvent.KEYCODE_MEDIA_NEXT
-	|| keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS
-
-fun isChannelPageForward(keyCode: Int): Boolean =
-	keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_MEDIA_NEXT
 
 fun createNoProgramDataBaseItem(
 	context: Context,
