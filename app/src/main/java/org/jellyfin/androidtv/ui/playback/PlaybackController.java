@@ -1097,6 +1097,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     refreshCurrentPosition();
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
 
+                    // Detect live TV program transition and refresh channel/program data
+                    if (isLiveTv && mCurrentProgramEnd != null
+                            && LocalDateTime.now().isAfter(mCurrentProgramEnd)) {
+                        mCurrentProgramEnd = null;
+                        updateTvProgramInfo();
+                    }
+
                     reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
