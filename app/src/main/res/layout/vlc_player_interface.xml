@@ -60,11 +60,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topPanel"
         android:layout_width="fill_parent"
-        android:layout_height="155dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="20dp"
         android:clickable="false"
+        android:minHeight="155dp"
         android:visibility="gone">
 
         <org.jellyfin.androidtv.ui.AsyncImageView
@@ -107,6 +108,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_title"
             tools:text="Subtitle" />
+
+        <LinearLayout
+            android:id="@+id/program_info_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/textClock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_subtitle">
+
+            <LinearLayout
+                android:id="@+id/program_info_row"
+                android:layout_width="match_parent"
+                android:layout_height="20sp"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/program_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <org.jellyfin.androidtv.ui.ClockUserView
             android:id="@+id/textClock"
