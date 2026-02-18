@@ -34,9 +34,9 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.CustomAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.FastForwardAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.GuideAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PlayPauseAction;
-import org.jellyfin.androidtv.ui.playback.overlay.action.ProgramInfoAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.ProgramInfoAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RewindAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
@@ -256,7 +256,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
 
         if (playerAdapter.isLiveTv()) {
-            primaryActionsAdapter.add(programInfoAction);
             primaryActionsAdapter.add(channelBarChannelAction);
             primaryActionsAdapter.add(guideAction);
         }
@@ -288,6 +287,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
 
         secondaryActionsAdapter.add(zoomAction);
+        secondaryActionsAdapter.add(programInfoAction);
     }
 
     @Override

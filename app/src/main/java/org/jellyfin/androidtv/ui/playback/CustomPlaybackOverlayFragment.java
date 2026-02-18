@@ -121,6 +121,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private AudioManager mAudioManager;
 
     private boolean mFadeEnabled = false;
+    private boolean mFadeEnabledBeforeProgramInfo = false;
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
     private boolean mProgramInfoVisible = false;
@@ -404,6 +405,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 hideGuide();
             } else if (mIsVisible || leanbackOverlayFragment.isControlsOverlayVisible()) {
                 // overlay is showing — just dismiss it
+                hide();
                 leanbackOverlayFragment.hideOverlay();
             } else {
                 closePlayer();
@@ -511,7 +513,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
 
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    if (mPopupPanelVisible) {
+                    if (mProgramInfoVisible) {
+                        // back should just hide the program info panel
+                        hideProgramInfo();
+                        return true;
+                    } else if (mPopupPanelVisible) {
                         // back should just hide the popup panel
                         hidePopupPanel();
                         leanbackOverlayFragment.hideOverlay();
@@ -521,6 +527,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         return true;
                     } else if (mGuideVisible) {
                         hideGuide();
+                        return true;
+                    } else if (mIsVisible || leanbackOverlayFragment.isControlsOverlayVisible()) {
+                        // overlay is showing — just dismiss it
+                        hide();
+                        leanbackOverlayFragment.hideOverlay();
                         return true;
                     }
                 }
@@ -725,7 +736,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         binding.topPanel.startAnimation(slideDown);
         mIsVisible = true;
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     public void hide() {
@@ -740,20 +751,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         mIsVisible = false;
         binding.topPanel.startAnimation(fadeOut);
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     private void showChapterPanel() {
         setFadingEnabled(false);
         binding.popupArea.startAnimation(showPopup);
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     private void hidePopupPanel() {
         startFadeTimer();
         binding.popupArea.startAnimation(hidePopup);
         mPopupPanelVisible = false;
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     public void toggleProgramInfo() {
@@ -766,6 +777,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void showProgramInfo() {
         if (binding == null) return;
+
+        // Ensure the top panel overlay is visible so program info has a visible parent
+        show();
 
         PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
         BaseItemDto currentItem = controller.getCurrentlyPlayingItem();
@@ -789,8 +803,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         binding.programInfoContainer.setVisibility(View.VISIBLE);
         mProgramInfoVisible = true;
+        binding.skipOverlay.setSkipUiEnabled(false);
 
-        // Pause overlay auto-hide while info is showing
+        // Pause overlay auto-hide while info is showing, saving current state to restore later
+        mFadeEnabledBeforeProgramInfo = mFadeEnabled;
         setFadingEnabled(false);
     }
 
@@ -799,9 +815,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         binding.programInfoContainer.setVisibility(View.GONE);
         mProgramInfoVisible = false;
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
 
-        // Re-enable overlay auto-hide
-        setFadingEnabled(true);
+        // Restore the fading state that was active before program info was shown
+        setFadingEnabled(mFadeEnabledBeforeProgramInfo);
     }
 
     public void showGuide() {
