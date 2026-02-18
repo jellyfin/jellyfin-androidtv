@@ -690,10 +690,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // Otherwise, query the players
         if (mCurrentOptions.getAudioStreamIndex() != null) {
             currIndex = mCurrentOptions.getAudioStreamIndex();
-        } else if (isTranscoding() && getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
-            currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
-        } else if (hasInitializedVideoManager() && !isTranscoding()) {
-            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams());
+        } else if (isTranscoding()) {
+            MediaSourceInfo mediaSource = getCurrentMediaSource();
+            if (mediaSource != null && mediaSource.getDefaultAudioStreamIndex() != null)
+                currIndex = mediaSource.getDefaultAudioStreamIndex();
+        } else if (hasInitializedVideoManager()) {
+            MediaSourceInfo mediaSource = getCurrentMediaSource();
+            if (mediaSource != null && mediaSource.getMediaStreams() != null)
+                currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.AUDIO, mediaSource.getMediaStreams());
         }
         return currIndex;
     }
