@@ -211,6 +211,11 @@ public class VideoManager {
                         .build()
                 )
                 .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
+                // Disable audio track selection by default to prevent ExoPlayer from using system locale
+                // as a fallback. The app will explicitly enable and select the correct audio track
+                // in setExoPlayerTrack(), called from PlaybackController.switchAudioStream().
+                // See: https://github.com/jellyfin/jellyfin-androidtv/issues/5189
+                .setTrackTypeDisabled(C.TRACK_TYPE_AUDIO, true)
                 .build()
         );
         exoPlayerBuilder.setTrackSelector(trackSelector);
@@ -531,6 +536,8 @@ public class VideoManager {
 
         try {
             TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
+            // Re-enable the track type (especially audio) since we disabled it by default
+            mExoPlayerSelectionParams.setTrackTypeDisabled(chosenTrackType, false);
             mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
             mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
         } catch (Exception e) {
