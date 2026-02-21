@@ -3,8 +3,12 @@ package org.jellyfin.androidtv.ui.presentation
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -30,6 +34,7 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.item.ItemCard
@@ -42,6 +47,7 @@ import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.JellyfinImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.design.Tokens
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.compose.koinInject
@@ -290,6 +296,8 @@ private fun CardViewHolderContent(
 		else -> DpSize(150.dp * aspectRatio, 150.dp)
 	}
 
+	val usePreview = displayConfig.overrideShowInfo ?: showInfo
+
 	val card = @Composable {
 		ItemCard(
 			image = {
@@ -325,8 +333,36 @@ private fun CardViewHolderContent(
 				}
 			},
 			overlay = {
+				val showInfo = !usePreview && item.showCardInfoOverlay
 				item.baseItem?.let { baseItem ->
-					ItemCardBaseItemOverlay(baseItem)
+					ItemCardBaseItemOverlay(
+						item = baseItem,
+						footer = {
+							if (showInfo && title != null) {
+								val focusModifier = if (focused) Modifier.basicMarquee(
+									iterations = Int.MAX_VALUE,
+									initialDelayMillis = 0,
+								) else Modifier
+
+								Box(
+									modifier = Modifier
+										.fillMaxWidth()
+										.background(Tokens.Color.colorBluegrey900.copy(alpha = 0.6f), JellyfinTheme.shapes.extraSmall),
+								) {
+									Text(
+										text = title,
+										maxLines = 1,
+										overflow = TextOverflow.Ellipsis,
+										textAlign = TextAlign.Center,
+										color = Tokens.Color.colorWhite,
+										modifier = Modifier
+											.then(focusModifier)
+											.padding(Tokens.Space.spaceXs),
+									)
+								}
+							}
+						}
+					)
 				}
 			},
 			modifier = Modifier
@@ -334,7 +370,7 @@ private fun CardViewHolderContent(
 		)
 	}
 
-	if (displayConfig.overrideShowInfo ?: showInfo) {
+	if (usePreview) {
 		val focusModifier = if (focused) Modifier.basicMarquee(
 			iterations = Int.MAX_VALUE,
 			initialDelayMillis = 0,

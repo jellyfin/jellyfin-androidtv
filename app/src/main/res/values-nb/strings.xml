@@ -28,7 +28,7 @@
     <string name="lbl_tv_series">TV-serier</string>
     <string name="lbl_other">Annet</string>
     <string name="lbl_play_all">Spill alle</string>
-    <string name="lbl_shuffle_all">Spill av alt i tilfeldig rekkefølge</string>
+    <string name="lbl_shuffle_all">Tilfeldig avspilling</string>
     <string name="lbl_play">Spill av</string>
     <string name="lbl_cancel">Avbryt</string>
     <string name="lbl_cancel_recording">Avbryt opptak</string>
