@@ -91,9 +91,10 @@ class ExoPlayerBackend(
 				setParameters(buildUponParameters().apply {
 					setAudioOffloadPreferences(
 						TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
-							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED)
 						}.build()
 					)
+					setTunnelingEnabled(false)
 					setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
 				})
 			})
@@ -227,6 +228,7 @@ class ExoPlayerBackend(
 			builder = {
 				setContentType(contentType)
 				setUsage(C.USAGE_MEDIA)
+				setSpatializationBehavior(C.SPATIALIZATION_BEHAVIOR_NEVER)
 			},
 			onChange = { audioAttributes ->
 				exoPlayer.setAudioAttributes(audioAttributes, true)
