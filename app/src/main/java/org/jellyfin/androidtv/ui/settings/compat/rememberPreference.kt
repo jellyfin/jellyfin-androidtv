@@ -17,7 +17,10 @@ import org.jellyfin.preference.store.PreferenceStore
 fun <ME, MV, T : Any> rememberPreference(store: PreferenceStore<ME, MV>, preference: Preference<T>): MutableState<T> {
 	val mutableState = remember { mutableStateOf(store[preference]) }
 	LaunchedEffect(mutableState.value) {
-		if (store[preference] != mutableState.value) store[preference] = mutableState.value
+		if (store[preference] != mutableState.value) {
+			store[preference] = mutableState.value
+			if (store is AsyncPreferenceStore) store.commit()
+		}
 	}
 	return mutableState
 }

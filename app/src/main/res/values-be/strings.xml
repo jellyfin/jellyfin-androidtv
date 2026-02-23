@@ -89,7 +89,7 @@
     <string name="because_you_watched">Таму што вы глядзелі %1$s</string>
     <string name="lbl_mark_unplayed">Пазначыць непрайграваным</string>
     <string name="msg_recording_now">Запісваецца зараз</string>
-    <string name="lbl_runs">Працягвацца</string>
+    <string name="lbl_runs">Працягласць</string>
     <string name="lbl_search_hint">Пошук тэксту (выбраць для клавіятуры)</string>
     <string name="lbl_now_playing_track">%1$s з %2$s</string>
     <string name="lbl_now_playing_album">з %1$s</string>
@@ -237,7 +237,7 @@
     <string name="image_size_medium">Сярэдні</string>
     <string name="lbl__continuing">ПРАЦЯГ</string>
     <string name="lbl_ended">ЗАВЕРШАНА</string>
-    <string name="lbl_live_tv_guide">Тэлегід</string>
+    <string name="lbl_live_tv_guide">Гід па тэлеканалах</string>
     <string name="msg_error_live_stream">Памылка трансляцыі тэлеканала. Паспрабую яшчэ раз…</string>
     <string name="lbl_playlists">Плэйлісты</string>
     <string name="lbl_add_to_queue">Дадаць у чаргу</string>
@@ -610,4 +610,26 @@
     <string name="settings_description">Змяніце праграму на свой густ</string>
     <string name="copied_to_clipboard">Скапіравана ў буфер абмену</string>
     <string name="pref_customization_subtitles">Субцітры</string>
+    <string name="pref_playback_next_up">Далей</string>
+    <string name="pref_playback_media_segments">Медыясегменты</string>
+    <string name="pref_playback_prerolls">Інтро</string>
+    <string name="pref_prerolls_enabled">Уключыць рэжым кінатэатра</string>
+    <string name="pref_prerolls_enabled_description">Прайграваць карыстальніцкія застаўкі перад фільмамі</string>
+    <string name="pref_media_queueing">Дадаць у чаргу ўсе серыі</string>
+    <string name="pref_media_queueing_description">Дадаваць наступныя серыі пры прайграванні серыялаў</string>
+    <string name="font_weight_100">Тонкі</string>
+    <string name="font_weight_200">Экстратонкі</string>
+    <string name="font_weight_300">Лёгкі</string>
+    <string name="font_weight_400">Нармальны</string>
+    <string name="subtitle_preview_text">Вось так будуць выглядаць субцітры</string>
+    <string name="color_presets">Наборы налад</string>
+    <string name="color_custom">Дапасаваць колер</string>
+    <string name="color_alpha">Празрыстасць</string>
+    <string name="playback_video_player">Відэапрайгравальнік</string>
+    <string name="video_player_internal">Убудаваны відэапрайгравальнік</string>
+    <string name="video_player_external">Знешняя праграма</string>
+    <string name="playback_video_player_external_empty">На вашай прыладзе не ўсталявана праграм для прайгравання відэа, якія б змаглі адкрыць відэа з Jellyfin.</string>
+    <string name="filters">Фільтры</string>
+    <string name="pref_subtitles_position">Водступ знізу</string>
+    <string name="pref_playback_inactivity_prompt">Паведамленне пра неактыўнасць</string>
 </resources>
