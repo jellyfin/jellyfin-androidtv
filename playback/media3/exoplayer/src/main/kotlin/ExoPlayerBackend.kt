@@ -19,6 +19,9 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
+import androidx.media3.exoplayer.audio.AudioCapabilities
+import androidx.media3.exoplayer.audio.AudioSink
+import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
@@ -75,7 +78,36 @@ class ExoPlayerBackend(
 		}
 
 		val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
-		val renderersFactory = DefaultRenderersFactory(context).apply {
+		val renderersFactory = object : DefaultRenderersFactory(context) {
+			override fun buildAudioSink(
+				context: Context,
+				enableFloatOutput: Boolean,
+				enableAudioTrackPlaybackParams: Boolean
+			): AudioSink? {
+				if (!exoPlayerOptions.forceAudioPassthroughCodecs) {
+					return super.buildAudioSink(context, enableFloatOutput, enableAudioTrackPlaybackParams)
+				}
+
+				// Force passthrough codecs to bypass Android TV OS HDMI standby bugs
+				val forcedCapabilities = AudioCapabilities(
+					intArrayOf(
+						C.ENCODING_AC3,
+						C.ENCODING_E_AC3,
+						C.ENCODING_E_AC3_JOC,
+						C.ENCODING_DTS,
+						C.ENCODING_DTS_HD,
+						C.ENCODING_DOLBY_TRUEHD
+					),
+					8 // Max channels
+				)
+
+				return DefaultAudioSink.Builder(context)
+					.setEnableFloatOutput(enableFloatOutput)
+					.setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+					.setAudioCapabilities(forcedCapabilities)
+					.build()
+			}
+		}.apply {
 			setEnableDecoderFallback(true)
 			setExtensionRendererMode(
 				when (exoPlayerOptions.preferFfmpeg) {
@@ -91,9 +123,10 @@ class ExoPlayerBackend(
 				setParameters(buildUponParameters().apply {
 					setAudioOffloadPreferences(
 						TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
-							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED)
 						}.build()
 					)
+					setTunnelingEnabled(false)
 					setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
 				})
 			})
@@ -227,6 +260,7 @@ class ExoPlayerBackend(
 			builder = {
 				setContentType(contentType)
 				setUsage(C.USAGE_MEDIA)
+				setSpatializationBehavior(C.SPATIALIZATION_BEHAVIOR_NEVER)
 			},
 			onChange = { audioAttributes ->
 				exoPlayer.setAudioAttributes(audioAttributes, true)

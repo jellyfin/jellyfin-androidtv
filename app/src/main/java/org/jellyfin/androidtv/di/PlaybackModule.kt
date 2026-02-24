@@ -72,6 +72,7 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
+		forceAudioPassthroughCodecs = userPreferences[UserPreferences.audioBehaviour] != org.jellyfin.androidtv.preference.constant.AudioBehavior.DOWNMIX_TO_STEREO,
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
 	)
 	install(exoPlayerPlugin(get(), exoPlayerOptions))
