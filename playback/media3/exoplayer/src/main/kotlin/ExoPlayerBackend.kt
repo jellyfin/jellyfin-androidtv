@@ -16,6 +16,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.PlayerMessage
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
@@ -33,6 +34,7 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
+import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
@@ -56,6 +58,7 @@ class ExoPlayerBackend(
 	private var subtitleView: SubtitleView? = null
 	private val audioPipeline = ExoPlayerAudioPipeline()
 	private val audioAttributeState = AudioAttributeState()
+	private val messageHandler = ExoPlayerMessageHandler()
 
 	private val exoPlayer by lazy {
 		val dataSourceFactory = DefaultDataSource.Factory(
@@ -278,4 +281,26 @@ class ExoPlayerBackend(
 		buffer = exoPlayer.bufferedPosition.milliseconds,
 		duration = if (exoPlayer.duration == C.TIME_UNSET) Duration.ZERO else exoPlayer.duration.milliseconds,
 	)
+
+	private var _currentTimedEventMessages = listOf<PlayerMessage>()
+	override fun setTimedEvents(timedEvents: Collection<TimedEvent>) {
+		// Cancel any existing timed messages
+		for (message in _currentTimedEventMessages) {
+			message.cancel()
+		}
+
+		// Create new timed messages
+		_currentTimedEventMessages = timedEvents.map { timedEvent ->
+			val positionMs = timedEvent.position.inWholeMilliseconds
+				// Messages at position 0 will never be invoked by ExoPlayer
+				.coerceAtLeast(1L)
+
+			exoPlayer.createMessage(messageHandler).apply {
+				setType(ExoPlayerMessageHandler.TYPE_TIMED_EVENT)
+				setPosition(positionMs)
+				setPayload(timedEvent)
+				setDeleteAfterDelivery(false)
+			}.send()
+		}
+	}
 }

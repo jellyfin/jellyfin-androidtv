@@ -4,6 +4,7 @@ import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
+import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import kotlin.time.Duration
@@ -38,5 +39,7 @@ interface PlayerBackend {
 	fun setScrubbing(scrubbing: Boolean)
 
 	fun setSpeed(speed: Float)
+
+	fun setTimedEvents(timedEvents: Collection<TimedEvent>)
 }
 

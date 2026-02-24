@@ -3,6 +3,7 @@ package org.jellyfin.playback.jellyfin
 import androidx.lifecycle.Lifecycle
 import org.jellyfin.playback.core.plugin.playbackPlugin
 import org.jellyfin.playback.jellyfin.lyrics.LyricsPlayerService
+import org.jellyfin.playback.jellyfin.mediasegment.MediaSegmentService
 import org.jellyfin.playback.jellyfin.mediastream.JellyfinMediaStreamResolver
 import org.jellyfin.playback.jellyfin.playsession.PlaySessionService
 import org.jellyfin.playback.jellyfin.playsession.PlaySessionSocketService
@@ -21,4 +22,5 @@ fun jellyfinPlugin(
 	provide(PlaySessionSocketService(api, playSessionService, lifecycle))
 
 	provide(LyricsPlayerService(api))
+	provide(MediaSegmentService(api))
 }
