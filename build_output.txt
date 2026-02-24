@@ -1,0 +1,51 @@
+Type-safe project accessors is an incubating feature.
+Project accessors enabled, but root project name not explicitly set for 'buildSrc'. Checking out the project in different folders will impact the generated code and implicitly the buildscript classpath, breaking caching.
+> Task :buildSrc:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+
+> Configure project :app
+WARNING: The option setting 'android.newDsl=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+> Task :playback:core:preBuild UP-TO-DATE
+> Task :playback:core:preDebugBuild UP-TO-DATE
+> Task :playback:core:generateDebugResources UP-TO-DATE
+> Task :playback:core:packageDebugResources UP-TO-DATE
+> Task :playback:core:processDebugNavigationResources UP-TO-DATE
+> Task :playback:core:parseDebugLocalResources UP-TO-DATE
+> Task :playback:core:generateDebugRFile UP-TO-DATE
+> Task :playback:core:compileDebugKotlin UP-TO-DATE
+> Task :playback:core:javaPreCompileDebug UP-TO-DATE
+> Task :playback:core:compileDebugJavaWithJavac NO-SOURCE
+> Task :playback:core:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :playback:media3:exoplayer:preBuild UP-TO-DATE
+> Task :playback:media3:exoplayer:preDebugBuild UP-TO-DATE
+> Task :playback:media3:exoplayer:generateDebugResources UP-TO-DATE
+> Task :playback:media3:exoplayer:packageDebugResources UP-TO-DATE
+> Task :playback:media3:exoplayer:processDebugNavigationResources UP-TO-DATE
+> Task :playback:media3:exoplayer:parseDebugLocalResources UP-TO-DATE
+> Task :playback:media3:exoplayer:generateDebugRFile UP-TO-DATE
+
+> Task :playback:media3:exoplayer:compileDebugKotlin
+w: file:///C:/Users/fjuan/Desktop/fran/jellyfin-androidtv/playback/media3/exoplayer/src/main/kotlin/ExoPlayerBackend.kt:92:30 'constructor(p0: IntArray?, p1: Int): AudioCapabilities' is deprecated. Deprecated in Java.
+w: file:///C:/Users/fjuan/Desktop/fran/jellyfin-androidtv/playback/media3/exoplayer/src/main/kotlin/ExoPlayerBackend.kt:106:7 'fun setEnableAudioTrackPlaybackParams(p0: Boolean): DefaultAudioSink.Builder' is deprecated. Deprecated in Java.
+w: file:///C:/Users/fjuan/Desktop/fran/jellyfin-androidtv/playback/media3/exoplayer/src/main/kotlin/ExoPlayerBackend.kt:107:7 'fun setAudioCapabilities(p0: AudioCapabilities): DefaultAudioSink.Builder' is deprecated. Deprecated in Java.
+
+[Incubating] Problems report is available at: file:///C:/Users/fjuan/Desktop/fran/jellyfin-androidtv/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2s
+17 actionable tasks: 1 executed, 16 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.3.1/userguide/configuration_cache_enabling.html
