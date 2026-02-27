@@ -5,10 +5,10 @@ import org.jellyfin.playback.core.element.element
 import org.jellyfin.playback.core.element.elementFlow
 import org.jellyfin.playback.core.queue.QueueEntry
 
-private val timedEventsKey = ElementKey<Collection<TimedEvent>>("TimedEvents")
+private val timedEventsKey = ElementKey<List<TimedEvent>>("TimedEvents")
 
 /**
- * Get or set the [Collection<TimedEvent>] for this [QueueEntry].
+ * Get or set the list of [TimedEvent]s for this [QueueEntry].
  */
 var QueueEntry.timedEvents by element(timedEventsKey)
 val QueueEntry.timedEventsFlow by elementFlow(timedEventsKey)
