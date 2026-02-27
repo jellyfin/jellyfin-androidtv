@@ -9,6 +9,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
@@ -16,7 +17,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.PlayerMessage
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
@@ -58,7 +58,8 @@ class ExoPlayerBackend(
 	private var subtitleView: SubtitleView? = null
 	private val audioPipeline = ExoPlayerAudioPipeline()
 	private val audioAttributeState = AudioAttributeState()
-	private val messageHandler = ExoPlayerMessageHandler()
+	private val timedEventState = TimedEventState()
+	private var lastKnownDuration: Duration? = null
 
 	private val exoPlayer by lazy {
 		val dataSourceFactory = DefaultDataSource.Factory(
@@ -153,6 +154,17 @@ class ExoPlayerBackend(
 		override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
 			val queueEntry = mediaItem?.localConfiguration?.tag as? QueueEntry
 			audioPipeline.normalizationGain = queueEntry?.normalizationGain
+		}
+
+		override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+			val duration = exoPlayer.duration.takeUnless { it == C.TIME_UNSET }?.milliseconds
+			if (duration == lastKnownDuration) return
+			timedEventState.onDurationChange(exoPlayer, duration)
+			lastKnownDuration = duration
+		}
+
+		override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
+			timedEventState.onSeek(oldPosition.positionMs.milliseconds, newPosition.positionMs.milliseconds, lastKnownDuration ?: Duration.ZERO)
 		}
 	}
 
@@ -279,28 +291,10 @@ class ExoPlayerBackend(
 	override fun getPositionInfo(): PositionInfo = PositionInfo(
 		active = exoPlayer.currentPosition.milliseconds,
 		buffer = exoPlayer.bufferedPosition.milliseconds,
-		duration = if (exoPlayer.duration == C.TIME_UNSET) Duration.ZERO else exoPlayer.duration.milliseconds,
+		duration = lastKnownDuration ?: Duration.ZERO,
 	)
 
-	private var _currentTimedEventMessages = listOf<PlayerMessage>()
-	override fun setTimedEvents(timedEvents: Collection<TimedEvent>) {
-		// Cancel any existing timed messages
-		for (message in _currentTimedEventMessages) {
-			message.cancel()
-		}
-
-		// Create new timed messages
-		_currentTimedEventMessages = timedEvents.map { timedEvent ->
-			val positionMs = timedEvent.position.inWholeMilliseconds
-				// Messages at position 0 will never be invoked by ExoPlayer
-				.coerceAtLeast(1L)
-
-			exoPlayer.createMessage(messageHandler).apply {
-				setType(ExoPlayerMessageHandler.TYPE_TIMED_EVENT)
-				setPosition(positionMs)
-				setPayload(timedEvent)
-				setDeleteAfterDelivery(false)
-			}.send()
-		}
+	override fun setTimedEvents(timedEvents: List<TimedEvent>) {
+		timedEventState.setTimedEvents(exoPlayer, timedEvents)
 	}
 }

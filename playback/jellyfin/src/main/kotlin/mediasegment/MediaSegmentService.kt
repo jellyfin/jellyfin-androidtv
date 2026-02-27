@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.queue
+import org.jellyfin.playback.core.timedevent.BlockActivation
 import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.timedevent.timedEvents
 import org.jellyfin.playback.jellyfin.queue.baseItem
@@ -66,14 +67,17 @@ class MediaSegmentService(
 		entry.timedEvents = events.ifEmpty { null }
 	}
 
-	private fun MediaSegmentDto.asTimedEvents(): Collection<TimedEvent> {
+	private fun MediaSegmentDto.asTimedEvents(): List<TimedEvent> {
 		if (!skipTypes.contains(type)) return emptyList()
 
 		return listOf(
-			TimedEvent.Callback(
+			TimedEvent.Block(
 				key = "$TIMED_EVENT_PREFIX$id",
-				position = startTicks.ticks,
-				callback = {
+				start = startTicks.ticks,
+				end = endTicks.ticks,
+				onActivate = { metadata ->
+					if (metadata !is BlockActivation.Natural) return@Block
+
 					coroutineScope.launch(Dispatchers.Main) {
 						manager.state.seek(endTicks.ticks)
 					}

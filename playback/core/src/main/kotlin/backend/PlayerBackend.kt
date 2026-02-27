@@ -40,6 +40,6 @@ interface PlayerBackend {
 
 	fun setSpeed(speed: Float)
 
-	fun setTimedEvents(timedEvents: Collection<TimedEvent>)
+	fun setTimedEvents(timedEvents: List<TimedEvent>)
 }
 

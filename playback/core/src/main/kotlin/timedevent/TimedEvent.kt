@@ -2,6 +2,9 @@ package org.jellyfin.playback.core.timedevent
 
 import kotlin.time.Duration
 
+/**
+ * An event on the playback timeline.
+ */
 sealed interface TimedEvent {
 	/**
 	 * Optional key for identifying this timed event.
@@ -9,17 +12,26 @@ sealed interface TimedEvent {
 	val key: String?
 
 	/**
-	 * The position of this timed event.
+	 * An instantanious event activated when the player naturally progresses over the [position]. Invokes [onActivate] callback.
+	 * Manual seeks over this event will never invoke the callback.
 	 */
-	val position: Duration
+	data class Instant(
+		override val key: String? = null,
+		val position: Duration,
+
+		val onActivate: () -> Unit,
+	) : TimedEvent
 
 	/**
-	 * Function callback variant of a timed event.
+	 * A block event with a [start] and [end] position. The [onActivate] and [onDeactivate] callbacks will be invoked with [BlockActivation]
+	 * metadata.
 	 */
-	data class Callback(
+	data class Block(
 		override val key: String? = null,
-		override val position: Duration,
+		val start: Duration,
+		val end: Duration,
 
-		val callback: () -> Unit,
+		val onActivate: ((metadata: BlockActivation) -> Unit)? = null,
+		val onDeactivate: ((metadata: BlockActivation) -> Unit)? = null,
 	) : TimedEvent
 }
