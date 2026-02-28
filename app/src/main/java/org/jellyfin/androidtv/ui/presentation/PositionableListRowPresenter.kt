@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.presentation
 
 import android.view.KeyEvent
 import androidx.leanback.widget.RowPresenter
-import timber.log.Timber
 
 class PositionableListRowPresenter : CustomListRowPresenter {
 	private var viewHolder: ViewHolder? = null
@@ -40,7 +39,6 @@ class PositionableListRowPresenter : CustomListRowPresenter {
 	var position: Int
 		get() = viewHolder?.gridView?.selectedPosition ?: -1
 		set(value) {
-			Timber.d("Setting position to $value")
 			viewHolder?.gridView?.selectedPosition = value
 		}
 }

@@ -21,6 +21,7 @@ public class ChannelCardView extends FrameLayout {
     }
 
     public void setItem(final BaseItemDto channel) {
+        if (channel == null) return;
         if (channel.getNumber() != null) binding.name.setText(channel.getNumber() + " " + channel.getName());
         else binding.name.setText(channel.getName());
 

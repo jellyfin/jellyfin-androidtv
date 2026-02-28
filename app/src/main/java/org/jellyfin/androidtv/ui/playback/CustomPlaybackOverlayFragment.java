@@ -1174,6 +1174,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (ndx >= 0 && mCircularChannelAdapter != null) {
             mPopupRowPresenter.setPosition(mCircularChannelAdapter.centerPosition(ndx));
         }
+        mPopupPanelVisible = true;
         showChapterPanel();
         mHandler.postDelayed(() -> {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
@@ -1185,7 +1186,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     mPopupRowPresenter.setPosition(mCircularChannelAdapter.centerPosition(idx));
                     // Populate description for the initially focused channel since the
                     // selection listener may not fire when the overlay first opens.
-                    BaseItemDto channel = (BaseItemDto) mCircularChannelAdapter.get(mCircularChannelAdapter.centerPosition(idx));
+                    BaseItemDto channel = (BaseItemDto) mCircularChannelAdapter.get(
+                        mCircularChannelAdapter.centerPosition(idx));
                     if (channel != null) {
                         BaseItemDto program = channel.getCurrentProgram();
                         String overview = (program != null) ? program.getOverview() : null;
@@ -1195,7 +1197,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
                 }
             }
-            mPopupPanelVisible = true;
         }, 500);
     }
 
@@ -1205,10 +1206,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         binding.popupHeader.setVisibility(View.VISIBLE);
         binding.popupDescription.setVisibility(View.GONE);
         // Pre-position before the panel animates in to avoid a visible jerk
-        int ndx = getCurrentChapterIndex(playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem(), playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition() * 10000);
+        PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+        int ndx = getCurrentChapterIndex(controller.getCurrentlyPlayingItem(),
+            controller.getCurrentPosition() * 10000);
         if (ndx >= 0 && mCircularChapterAdapter != null) {
             mPopupRowPresenter.setPosition(mCircularChapterAdapter.centerPosition(ndx));
         }
+        mPopupPanelVisible = true;
         showChapterPanel();
         mHandler.postDelayed(() -> {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
@@ -1221,16 +1225,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     mPopupRowPresenter.setPosition(mCircularChapterAdapter.centerPosition(idx));
                 }
             }
-            mPopupPanelVisible = true;
         }, 500);
     }
 
     private int getCurrentChapterIndex(BaseItemDto item, long pos) {
         int ndx = 0;
-        Timber.d("*** looking for chapter at pos: %d", pos);
         if (item.getChapters() != null) {
             for (ChapterInfo chapter : item.getChapters()) {
-                Timber.d("*** chapter %d has pos: %d", ndx, chapter.getStartPositionTicks());
                 if (chapter.getStartPositionTicks() > pos) return ndx - 1;
                 ndx++;
             }
