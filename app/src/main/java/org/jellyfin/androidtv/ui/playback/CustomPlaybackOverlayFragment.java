@@ -1142,7 +1142,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mHandler.postDelayed(() -> {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-            int ndx = getCurrentChapterIndex(playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem(), playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition() * 10000);
+            PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+            int ndx = getCurrentChapterIndex(controller.getCurrentlyPlayingItem(),
+                controller.getCurrentPosition() * 10000);
             if (ndx > 0) {
                 mPopupRowPresenter.setPosition(ndx);
             }
