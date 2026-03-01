@@ -62,6 +62,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
+import org.jellyfin.androidtv.ui.presentation.CircularObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -93,6 +94,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private ListRow mChapterRow;
     private ArrayObjectAdapter mPopupRowAdapter;
     private PositionableListRowPresenter mPopupRowPresenter;
+    private CircularObjectAdapter mCircularChannelAdapter;
+    private CircularObjectAdapter mCircularChapterAdapter;
+    private Runnable mDescriptionUpdateTask;
 
     //Live guide items
     private static final int PAGE_SIZE = 75;
@@ -187,10 +191,31 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     .findFragmentById(R.id.rows_area);
         }
 
-        mPopupRowPresenter = new PositionableListRowPresenter();
+        mPopupRowPresenter = new PositionableListRowPresenter(null, true);
         mPopupRowAdapter = new ArrayObjectAdapter(mPopupRowPresenter);
         mPopupRowsFragment.setAdapter(mPopupRowAdapter);
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
+        mPopupRowsFragment.setOnItemViewSelectedListener((itemViewHolder, item, rowViewHolder, row) -> {
+            // Cancel any pending description update (user is still scrolling)
+            if (mDescriptionUpdateTask != null) {
+                mHandler.removeCallbacks(mDescriptionUpdateTask);
+            }
+            // Clear text immediately while scrolling (space stays reserved)
+            binding.popupDescription.setText("");
+
+            if (item instanceof BaseItemDto) {
+                BaseItemDto channel = (BaseItemDto) item;
+                BaseItemDto program = channel.getCurrentProgram();
+                String overview = (program != null) ? program.getOverview() : null;
+                if (overview != null && !overview.isEmpty()) {
+                    mDescriptionUpdateTask = () -> {
+                        if (binding == null) return;
+                        binding.popupDescription.setText(overview);
+                    };
+                    mHandler.postDelayed(mDescriptionUpdateTask, 400);
+                }
+            }
+        });
 
         // And the Live Guide element
         tvGuideBinding = OverlayTvGuideBinding.inflate(inflater, container, false);
@@ -229,6 +254,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onDestroyView() {
         super.onDestroyView();
 
+        if (mDescriptionUpdateTask != null) {
+            mHandler.removeCallbacks(mDescriptionUpdateTask);
+            mDescriptionUpdateTask = null;
+        }
         binding = null;
         // To fix race condition in hide timer
         mIsVisible = false;
@@ -344,6 +373,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                binding.popupHeader.setVisibility(View.GONE);
+                binding.popupDescription.setVisibility(View.GONE);
+                binding.popupDescription.setText("");
                 binding.popupArea.setVisibility(View.GONE);
             }
 
@@ -475,7 +507,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (!mGuideVisible)
+                if (!mGuideVisible && !mPopupPanelVisible)
                     leanbackOverlayFragment.setShouldShowOverlay(true);
                 else {
                     leanbackOverlayFragment.setShouldShowOverlay(false);
@@ -527,11 +559,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     }
                 }
 
-                if (mPopupPanelVisible && !mGuideVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
-                    mPopupRowsFragment.requireView().requestFocus();
-                    mPopupRowPresenter.setPosition(0);
-                    return true;
-                }
                 if (mGuideVisible) {
                     if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
                         // go back to normal
@@ -738,6 +765,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void hidePopupPanel() {
         startFadeTimer();
+        if (mDescriptionUpdateTask != null) {
+            mHandler.removeCallbacks(mDescriptionUpdateTask);
+        }
+        // Don't change visibility before the animation — let the whole panel fade out together.
+        // Header/description are reset in hidePopup's onAnimationEnd (which sets popupArea GONE).
         binding.popupArea.startAnimation(hidePopup);
         mPopupPanelVisible = false;
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
@@ -1130,26 +1162,64 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     };
 
     public void showQuickChannelChanger() {
+        // Show header and reserve description space for channels
+        binding.popupHeader.setText(R.string.channels);
+        binding.popupHeader.setVisibility(View.VISIBLE);
+        binding.popupDescription.setText("");
+        binding.popupDescription.setVisibility(View.VISIBLE);
+        // Pre-position before the panel animates in to avoid a visible jerk.
+        // If the adapter isn't ready yet (async load after stale data refresh),
+        // the delayed callback below will retry positioning once it's available.
+        int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
+        if (ndx >= 0 && mCircularChannelAdapter != null) {
+            mPopupRowPresenter.setPosition(mCircularChannelAdapter.centerPosition(ndx));
+        }
         showChapterPanel();
         mHandler.postDelayed(() -> {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-            int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
-            if (ndx > 0) {
-                mPopupRowPresenter.setPosition(ndx);
+            // Retry positioning if the adapter wasn't ready at pre-position time
+            if (mCircularChannelAdapter != null) {
+                int idx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
+                if (idx >= 0) {
+                    mPopupRowPresenter.setPosition(mCircularChannelAdapter.centerPosition(idx));
+                    // Populate description for the initially focused channel since the
+                    // selection listener may not fire when the overlay first opens.
+                    BaseItemDto channel = (BaseItemDto) mCircularChannelAdapter.get(mCircularChannelAdapter.centerPosition(idx));
+                    if (channel != null) {
+                        BaseItemDto program = channel.getCurrentProgram();
+                        String overview = (program != null) ? program.getOverview() : null;
+                        if (overview != null && !overview.isEmpty()) {
+                            binding.popupDescription.setText(overview);
+                        }
+                    }
+                }
             }
             mPopupPanelVisible = true;
         }, 500);
     }
 
     public void showChapterSelector() {
+        // Show header for chapters (no description area needed)
+        binding.popupHeader.setText(R.string.chapters);
+        binding.popupHeader.setVisibility(View.VISIBLE);
+        binding.popupDescription.setVisibility(View.GONE);
+        // Pre-position before the panel animates in to avoid a visible jerk
+        int ndx = getCurrentChapterIndex(playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem(), playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition() * 10000);
+        if (ndx >= 0 && mCircularChapterAdapter != null) {
+            mPopupRowPresenter.setPosition(mCircularChapterAdapter.centerPosition(ndx));
+        }
         showChapterPanel();
         mHandler.postDelayed(() -> {
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
-
-            int ndx = getCurrentChapterIndex(playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem(), playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition() * 10000);
-            if (ndx > 0) {
-                mPopupRowPresenter.setPosition(ndx);
+            // Retry positioning in case the viewHolder wasn't bound yet on first open
+            if (mCircularChapterAdapter != null) {
+                int idx = getCurrentChapterIndex(
+                    playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem(),
+                    playbackControllerContainer.getValue().getPlaybackController().getCurrentPosition() * 10000);
+                if (idx >= 0) {
+                    mPopupRowPresenter.setPosition(mCircularChapterAdapter.centerPosition(idx));
+                }
             }
             mPopupPanelVisible = true;
         }, 500);
@@ -1281,25 +1351,27 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         List<ChapterInfo> chapters = item.getChapters();
 
         if (chapters != null && !chapters.isEmpty()) {
-            // create chapter row for later use
+            // create chapter row with circular scrolling
             ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemExtensionsKt.buildChapterItems(item), new CardPresenter(true, 110), new MutableObjectAdapter<Row>());
             chapterAdapter.Retrieve();
+            mCircularChapterAdapter = new CircularObjectAdapter(chapterAdapter);
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-            mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.chapters)), chapterAdapter);
+            mChapterRow = new ListRow(mCircularChapterAdapter);
             mPopupRowAdapter.add(mChapterRow);
         }
 
     }
 
     private void prepareChannelAdapter() {
-        // create quick channel change row
+        // create quick channel change row with circular scrolling
         TvManager.loadAllChannels(this, response -> {
             List<BaseItemDto> channels = TvManager.getAllChannels();
             if (channels == null) return null;
-            ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
-            channelAdapter.addAll(0, channels);
+            ArrayObjectAdapter innerAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
+            innerAdapter.addAll(0, channels);
+            mCircularChannelAdapter = new CircularObjectAdapter(innerAdapter);
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-            mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.channels)), channelAdapter);
+            mChapterRow = new ListRow(mCircularChannelAdapter);
             mPopupRowAdapter.add(mChapterRow);
             return null;
         });
