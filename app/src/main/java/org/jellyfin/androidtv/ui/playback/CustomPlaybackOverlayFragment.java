@@ -1374,7 +1374,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         UUID focusedChannelId = null;
         if (mQuickChannelChangerVisible && mCircularChannelAdapter != null) {
             int focusedPosition = mPopupRowPresenter.getPosition();
-            if (focusedPosition >= 0 && mCircularChannelAdapter.getRealSize() > 0) {
+            if (focusedPosition > 0 && mCircularChannelAdapter.getRealSize() > 0) {
                 Object focusedItem = mCircularChannelAdapter.get(focusedPosition);
                 if (focusedItem instanceof BaseItemDto) {
                     focusedChannelId = ((BaseItemDto) focusedItem).getId();
