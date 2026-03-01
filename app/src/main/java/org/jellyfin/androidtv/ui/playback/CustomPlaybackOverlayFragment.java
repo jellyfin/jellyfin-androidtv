@@ -378,6 +378,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                if (binding == null || mPopupPanelVisible) return;
                 binding.popupHeader.setVisibility(View.GONE);
                 binding.popupDescription.setVisibility(View.GONE);
                 binding.popupDescription.setText("");
@@ -764,6 +765,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void showChapterPanel() {
         setFadingEnabled(false);
+        binding.popupArea.clearAnimation();
         binding.popupArea.startAnimation(showPopup);
         binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
     }
@@ -1221,7 +1223,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         PlaybackController controller =
             playbackControllerContainer.getValue().getPlaybackController();
         if (controller == null) return;
-        int ndx = getCurrentChapterIndex(controller.getCurrentlyPlayingItem(),
+        BaseItemDto currentItem = controller.getCurrentlyPlayingItem();
+        if (currentItem == null) return;
+        int ndx = getCurrentChapterIndex(currentItem,
             controller.getCurrentPosition() * TICKS_PER_MS);
         if (ndx >= 0 && mCircularChapterAdapter != null) {
             mPopupRowPresenter.setPosition(mCircularChapterAdapter.centerPosition(ndx));
@@ -1381,6 +1385,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // create quick channel change row with circular scrolling
         UUID finalFocusedChannelId = focusedChannelId;
         TvManager.loadAllChannels(this, response -> {
+            if (binding == null) return null;
             List<BaseItemDto> channels = TvManager.getAllChannels();
             if (channels == null) return null;
             ArrayObjectAdapter innerAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
