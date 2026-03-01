@@ -50,7 +50,7 @@ class PlaybackManagerBuilder(context: Context) {
 
 		// Add default services
 		services.add(QueueService())
-		services.add(MediaStreamService(mediaStreamResolvers))
+		services.add(MediaStreamService(mediaStreamResolvers, 15.seconds))
 		services.add(TimedEventService())
 
 		// Only support a single backend right now

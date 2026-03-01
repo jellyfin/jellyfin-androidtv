@@ -3,42 +3,38 @@ package org.jellyfin.playback.core.mediastream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
-import org.jellyfin.playback.core.backend.PlayerBackend
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.queue
+import org.jellyfin.playback.core.timedevent.TimedEvent
+import org.jellyfin.playback.core.timedevent.addTimedEvent
+import org.jellyfin.playback.core.timedevent.timedEvents
 import timber.log.Timber
+import kotlin.time.Duration
 
 internal class MediaStreamService(
 	private val mediaStreamResolvers: Collection<MediaStreamResolver>,
+	private val preloadDuration: Duration,
 ) : PlayerService() {
+	private companion object {
+		private const val TIMED_EVENT_PRELOAD = "MediaStreamServicePreloadNext"
+	}
+
 	override suspend fun onInitialize() {
 		manager.queue.entry.onEach { entry ->
 			Timber.d("Queue entry changed to $entry")
-			val backend = requireNotNull(manager.backend)
 
 			if (entry == null) {
-				backend.setCurrent(null)
+				val backend = requireNotNull(manager.backend)
+				backend.stop()
 			} else {
-				val hasMediaStream = entry.ensureMediaStream()
-
-				if (hasMediaStream) {
-					backend.setCurrent(entry)
-				} else {
-					Timber.e("Unable to resolve stream for entry $entry")
-
-					// TODO: Somehow notify the user that we skipped an unplayable entry
-					if (manager.queue.peekNext() != null) {
-						manager.queue.next(usePlaybackOrder = true, useRepeatMode = false)
-					} else {
-						backend.setCurrent(null)
-					}
-				}
+				playEntry(entry)
+				entry.ensurePreloadTimedEvent()
 			}
 		}.launchIn(coroutineScope + Dispatchers.Main)
-		// TODO Register some kind of event when $current item is at -30 seconds to setNext()
 	}
 
 	private suspend fun QueueEntry.ensureMediaStream(): Boolean {
@@ -55,10 +51,51 @@ internal class MediaStreamService(
 		return mediaStream != null
 	}
 
-	private fun PlayerBackend.setCurrent(item: QueueEntry?) {
-		Timber.d("Current item changed to $item")
+	private fun QueueEntry.ensurePreloadTimedEvent() {
+		if (preloadDuration <= Duration.ZERO) return
 
-		if (item == null) stop()
-		else playItem(item)
+		val hasEvent = timedEvents?.any { it.key == TIMED_EVENT_PRELOAD } == true
+		if (hasEvent) return
+
+		addTimedEvent(
+			TimedEvent.Block(
+				key = TIMED_EVENT_PRELOAD,
+				start = -preloadDuration,
+				end = Duration.INFINITE,
+				onActivate = { preloadNextEntry() }
+			)
+		)
+	}
+
+	private suspend fun playEntry(entry: QueueEntry) {
+		val backend = requireNotNull(manager.backend)
+		val hasMediaStream = entry.ensureMediaStream()
+
+		if (hasMediaStream) {
+			backend.playItem(entry)
+		} else {
+			Timber.e("Unable to resolve stream for entry $entry")
+
+			// TODO: Somehow notify the user that we skipped an unplayable entry
+			if (manager.queue.peekNext() != null) {
+				manager.queue.next(usePlaybackOrder = true, useRepeatMode = false)
+			} else {
+				backend.stop()
+			}
+		}
+	}
+
+	private fun preloadNextEntry() = coroutineScope.launch(Dispatchers.Main) {
+		// Peek into the next item to preload
+		val nextItem = manager.queue.peekNext() ?: return@launch
+
+		// Preload media stream information
+		val hasMediaStream = nextItem.ensureMediaStream()
+
+		if (hasMediaStream) {
+			// Preload media in backend
+			val backend = requireNotNull(manager.backend)
+			backend.prepareItem(nextItem)
+		}
 	}
 }
