@@ -227,6 +227,21 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
 
 		/**
+		 * Enable libass.
+		 */
+		var assDirectPlay = booleanPreference( "libass_enabled", false )
+
+		/**
+		 * The maximum amount of glyphs libass can cache.
+		 */
+		var libassGlyphSize = intPreference("libass_glyph_size", 10000)
+
+		/**
+		 * The cache size in MB for libass.
+		 */
+		var libassCacheSize = intPreference("libass_cache_size", 128)
+
+		/**
   		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)

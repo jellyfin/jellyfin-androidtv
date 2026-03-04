@@ -1,13 +1,23 @@
 package org.jellyfin.androidtv.ui.settings.screen
 
 import android.text.format.Formatter
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
@@ -15,12 +25,17 @@ import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
+import org.jellyfin.androidtv.ui.base.form.RangeControl
 import org.jellyfin.androidtv.ui.base.list.ListButton
+import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
+import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.isTvDevice
+import org.jellyfin.design.Tokens
 import org.koin.compose.koinInject
+import kotlin.math.roundToInt
 
 @Composable
 fun SettingsDeveloperScreen() {
@@ -29,6 +44,10 @@ fun SettingsDeveloperScreen() {
 	val context = LocalContext.current
 	val isTvDevice = remember(context) { context.isTvDevice() }
 	val isDeveloperBuild = BuildConfig.DEVELOPMENT
+	var libassEnabled by rememberPreference(
+		userPreferences,
+		UserPreferences.assDirectPlay
+	)
 
 	SettingsColumn {
 		item {
@@ -114,6 +133,96 @@ fun SettingsDeveloperScreen() {
 					imageCacheSize = imageLoader.diskCache?.size ?: 0L
 				}
 			)
+		}
+
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.enable_libass_subtitles)) },
+				trailingContent = { Checkbox(checked = libassEnabled) },
+				captionContent = { Text(stringResource(R.string.enable_libass_subtitles_description)) },
+				onClick = { libassEnabled = !libassEnabled }
+			)
+		}
+
+		if(libassEnabled) {
+			item {
+				var glyphSize by rememberPreference(
+					userPreferences,
+					UserPreferences.libassGlyphSize
+				)
+
+				val interactionSource = remember { MutableInteractionSource() }
+
+				ListControl(
+					headingContent = { Text(stringResource(R.string.libass_glyph_size)) },
+					interactionSource = interactionSource,
+				) {
+					Row(
+						verticalAlignment = Alignment.CenterVertically,
+					) {
+						RangeControl(
+							modifier = Modifier
+								.height(4.dp)
+								.weight(1f),
+							interactionSource = interactionSource,
+							min = 0f,
+							max = 20_000f,
+							stepForward = 100f,
+							value = glyphSize.toFloat(),
+							onValueChange = { glyphSize = it.roundToInt() }
+						)
+
+						Spacer(Modifier.width(Tokens.Space.spaceSm))
+
+						Box(
+							modifier = Modifier.sizeIn(minWidth = 56.dp),
+							contentAlignment = Alignment.CenterEnd
+						) {
+							Text(glyphSize.toString())
+						}
+					}
+				}
+			}
+
+			item {
+				var cacheSizeMb by rememberPreference(
+					userPreferences,
+					UserPreferences.libassCacheSize
+				)
+
+				val interactionSource = remember { MutableInteractionSource() }
+
+				ListControl(
+					headingContent = { Text(stringResource(R.string.libass_cache_size)) },
+					interactionSource = interactionSource,
+				) {
+					Row(
+						verticalAlignment = Alignment.CenterVertically,
+					) {
+						RangeControl(
+							modifier = Modifier
+								.height(4.dp)
+								.weight(1f),
+							interactionSource = interactionSource,
+							min = 0f,
+							max = 1024f,
+							stepForward = 16f,
+							value = cacheSizeMb.toFloat(),
+							onValueChange = { cacheSizeMb = it.roundToInt() }
+						)
+
+						Spacer(Modifier.width(Tokens.Space.spaceSm))
+
+						Box(
+							modifier = Modifier.sizeIn(minWidth = 56.dp),
+							contentAlignment = Alignment.CenterEnd
+						) {
+							Text("$cacheSizeMb")
+						}
+					}
+				}
+			}
+
 		}
 	}
 }
