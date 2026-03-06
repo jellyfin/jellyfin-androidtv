@@ -95,7 +95,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private PositionableListRowPresenter mPopupRowPresenter;
 
     //Live guide items
-    private static final int PAGE_SIZE = 75;
+    private static final int PAGE_SIZE = 150;
     private static final int GUIDE_HOURS = 9;
 
     BaseItemDto mSelectedProgram;
