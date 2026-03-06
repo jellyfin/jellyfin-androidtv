@@ -85,6 +85,7 @@ public class VideoManager {
     private long mMetaDuration = -1;
     private long lastExoPlayerPosition = -1;
     private boolean nightModeEnabled;
+    private boolean seekInProgress = false;
 
     public boolean isContracted = false;
 
@@ -160,6 +161,11 @@ public class VideoManager {
             public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
+                }
+
+                if (playbackState == Player.STATE_READY && seekInProgress) {
+                    seekInProgress = false;
+                    if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onSeekComplete();
                 }
 
                 if (playbackState == Player.STATE_ENDED) {
@@ -358,6 +364,7 @@ public class VideoManager {
             return -1;
 
         Timber.i("Exo length in seek is: %d", getDuration());
+        seekInProgress = true;
         mExoPlayer.seekTo(pos);
         return pos;
     }

@@ -66,6 +66,7 @@ class ExoPlayerBackend(
 	private val audioAttributeState = AudioAttributeState()
 	private val timedEventState = TimedEventState()
 	private var lastKnownDuration: Duration? = null
+	private var wasPlayingBeforeScrub = false
 
 	private val assHandler by lazy {
 		AssHandler(AssRenderType.OVERLAY_OPEN_GL)
@@ -305,7 +306,16 @@ class ExoPlayerBackend(
 	}
 
 	override fun setScrubbing(scrubbing: Boolean) {
+		if (scrubbing && !exoPlayer.isScrubbingModeEnabled) {
+			wasPlayingBeforeScrub = exoPlayer.isPlaying
+		}
+
 		exoPlayer.isScrubbingModeEnabled = scrubbing
+
+		if (!scrubbing && wasPlayingBeforeScrub) {
+			exoPlayer.play()
+			wasPlayingBeforeScrub = false
+		}
 	}
 
 	override fun setSpeed(speed: Float) {

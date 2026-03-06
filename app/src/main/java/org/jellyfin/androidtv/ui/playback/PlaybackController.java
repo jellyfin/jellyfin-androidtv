@@ -1223,6 +1223,18 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     @Override
+    public void onSeekComplete() {
+        Timber.d("Seek complete - resetting wasSeeking flag");
+        wasSeeking = false;
+
+        if (mPlaybackState == PlaybackState.PLAYING || mPlaybackState == PlaybackState.SEEKING) {
+            mPlaybackState = PlaybackState.PLAYING;
+            mVideoManager.play();
+            startReportLoop();
+        }
+    }
+
+    @Override
     public void onError() {
         if (mFragment == null) {
             playerErrorEncountered();
