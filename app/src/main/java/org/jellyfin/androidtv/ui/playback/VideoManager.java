@@ -85,6 +85,14 @@ public class VideoManager {
     private long mMetaDuration = -1;
     private long lastExoPlayerPosition = -1;
     private boolean nightModeEnabled;
+    private boolean seekInProgress = false;
+    private final Runnable seekTimeoutRunnable = () -> {
+        if (seekInProgress) {
+            Timber.w("Seek timed out - resetting seekInProgress");
+            seekInProgress = false;
+            if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onSeekComplete();
+        }
+    };
 
     public boolean isContracted = false;
 
@@ -147,12 +155,19 @@ public class VideoManager {
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if (isPlaying) {
+                    if (seekInProgress) {
+                        seekInProgress = false;
+                        mHandler.removeCallbacks(seekTimeoutRunnable);
+                        if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onSeekComplete();
+                    }
                     if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
                     _helper.setScreensaverLock(true);
                 } else {
-                    stopProgressLoop();
-                    _helper.setScreensaverLock(false);
+                    if (!seekInProgress) {
+                        stopProgressLoop();
+                        _helper.setScreensaverLock(false);
+                    }
                 }
             }
 
@@ -160,6 +175,12 @@ public class VideoManager {
             public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
+                }
+
+                if (playbackState == Player.STATE_READY && seekInProgress) {
+                    seekInProgress = false;
+                    mHandler.removeCallbacks(seekTimeoutRunnable);
+                    if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onSeekComplete();
                 }
 
                 if (playbackState == Player.STATE_ENDED) {
@@ -358,7 +379,10 @@ public class VideoManager {
             return -1;
 
         Timber.i("Exo length in seek is: %d", getDuration());
+        seekInProgress = true;
         mExoPlayer.seekTo(pos);
+        mHandler.removeCallbacks(seekTimeoutRunnable);
+        mHandler.postDelayed(seekTimeoutRunnable, 8000);
         return pos;
     }
 
