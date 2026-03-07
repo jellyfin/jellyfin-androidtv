@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -156,6 +160,35 @@ private fun MainToolbar(
 		},
 		end = {
 			ToolbarButtons {
+				var syncPlayMenuExpanded by remember { mutableStateOf(false) }
+				IconButton(
+					onClick = { syncPlayMenuExpanded = true },
+					contentPadding = IconButtonDefaults.ContentPadding,
+				) {
+					Icon(
+						imageVector = ImageVector.vectorResource(R.drawable.ic_users),
+						contentDescription = "SyncPlay",
+					)
+				}
+				DropdownMenu(
+					expanded = syncPlayMenuExpanded,
+					onDismissRequest = { syncPlayMenuExpanded = false }
+				) {
+					DropdownMenuItem(
+						text = { Text("Join SyncPlay Group") },
+						onClick = {
+							syncPlayMenuExpanded = false
+							// TODO: Implement navigation to SyncPlay join screen
+						}
+					)
+					DropdownMenuItem(
+						text = { Text("Create SyncPlay Group") },
+						onClick = {
+							syncPlayMenuExpanded = false
+							// TODO: Implement navigation to SyncPlay create screen
+						}
+					)
+				}
 				IconButton(
 					onClick = { settingsViewModel.show() },
 				) {
@@ -164,7 +197,6 @@ private fun MainToolbar(
 						contentDescription = stringResource(R.string.lbl_settings),
 					)
 				}
-
 				ToolbarClock()
 			}
 		}

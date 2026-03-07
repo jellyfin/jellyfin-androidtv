@@ -127,6 +127,7 @@ dependencies {
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.startup)
 	implementation(libs.bundles.androidx.compose)
+	implementation(libs.androidx.compose.material3)
 	implementation(libs.accompanist.permissions)
 
 	// Dependency Injection
