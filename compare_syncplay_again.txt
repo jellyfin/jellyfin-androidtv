@@ -1,0 +1,27 @@
+METRICS
+jellyfin_rows=360756
+working_rows=361754
+jellyfin_syncplay_rows=15
+working_syncplay_rows=95
+jellyfin_http_rows=254
+working_http_rows=436
+
+SYNCPLAY_CHECKS
+/SyncPlay/List	jellyfin=0	working=2	delta=2
+/SyncPlay/Join	jellyfin=0	working=2	delta=2
+/SyncPlay/Ready	jellyfin=9	working=90	delta=81
+/SyncPlay/SetPlaylistItem	jellyfin=2	working=0	delta=-2
+/SyncPlay/SetNewQueue	jellyfin=2	working=0	delta=-2
+
+TOP_SYNCPLAY_JELLYFIN
+/SyncPlay/Ready	9
+/SyncPlay/SetPlaylistItem	2
+/SyncPlay/SetNewQueue	2
+/SyncPlay/Stop	1
+/SyncPlay/Pause	1
+
+TOP_SYNCPLAY_WORKING
+/SyncPlay/Ready	90
+/SyncPlay/Join	2
+/SyncPlay/List	2
+/SyncPlay/Leave	1

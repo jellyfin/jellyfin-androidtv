@@ -1,0 +1,120 @@
+Git and GitHub Commands Reference Sheet
+=====================================
+
+Quick setup
+-----------
+- git config --global user.name "Your Name"
+  Sets your display name for commits.
+- git config --global user.email "you@example.com"
+  Sets your commit email.
+- git config --global init.defaultBranch main
+  Sets the default branch name for new repos.
+
+Starting and cloning
+--------------------
+- git init
+  Creates a new Git repository in the current folder.
+- git clone <repo-url>
+  Downloads a remote repository to your machine.
+
+Daily workflow (most common)
+----------------------------
+- git status
+  Shows changed, staged, and untracked files.
+- git add <file>
+  Stages one file for the next commit.
+- git add .
+  Stages all changed files in the current folder.
+- git commit -m "your message"
+  Creates a snapshot (commit) of staged changes.
+- git push
+  Uploads local commits to the remote branch.
+- git pull
+  Downloads and merges latest changes from remote.
+
+Branching
+---------
+- git branch
+  Lists local branches.
+- git branch <new-branch>
+  Creates a new branch.
+- git switch <branch>
+  Changes to an existing branch.
+- git switch -c <new-branch>
+  Creates and switches to a new branch.
+- git merge <branch>
+  Merges another branch into your current branch.
+
+Remote (GitHub) basics
+----------------------
+- git remote -v
+  Shows configured remotes (like origin).
+- git remote add origin <repo-url>
+  Connects local repo to a GitHub remote.
+- git push -u origin <branch>
+  Pushes branch and sets upstream tracking.
+- git fetch
+  Downloads remote updates without merging.
+
+Inspecting history and changes
+------------------------------
+- git log --oneline --graph --decorate --all
+  Compact visual view of commit history.
+- git diff
+  Shows unstaged changes.
+- git diff --staged
+  Shows staged changes.
+- git show <commit>
+  Shows details for a specific commit.
+
+Undo and recovery (use carefully)
+---------------------------------
+- git restore <file>
+  Discards unstaged changes in a file.
+- git restore --staged <file>
+  Unstages a file but keeps local edits.
+- git commit --amend
+  Replaces the most recent commit.
+- git reset --soft HEAD~1
+  Removes last commit, keeps changes staged.
+- git reset --mixed HEAD~1
+  Removes last commit, keeps changes unstaged.
+- git reset --hard HEAD~1
+  Removes last commit and discards changes.
+- git revert <commit>
+  Creates a new commit that reverses a previous commit.
+
+Stashing (temporary save)
+-------------------------
+- git stash
+  Temporarily stores uncommitted changes.
+- git stash list
+  Lists stashed entries.
+- git stash pop
+  Restores latest stash and removes it from stash list.
+
+Tags and releases
+-----------------
+- git tag
+  Lists tags.
+- git tag <tag-name>
+  Creates a lightweight tag.
+- git tag -a <tag-name> -m "message"
+  Creates an annotated tag.
+- git push origin <tag-name>
+  Pushes a specific tag to GitHub.
+
+Typical feature branch example
+------------------------------
+1. git switch -c feature/syncplay-logging
+2. git add .
+3. git commit -m "Add Syncplay diagnostic logging"
+4. git push -u origin feature/syncplay-logging
+5. Open a Pull Request on GitHub
+
+Tips
+----
+- Write clear commit messages: what changed and why.
+- Pull frequently to reduce merge conflicts.
+- Prefer git revert on shared branches instead of history rewriting.
+- Avoid git reset --hard unless you are sure you want to lose local work.
