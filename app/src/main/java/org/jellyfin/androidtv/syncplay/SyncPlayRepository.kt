@@ -52,6 +52,7 @@ interface SyncPlayRepository {
 	fun sendSeek(positionTicks: Long)
 	fun sendStop()
 	fun sendReady(playlistItemId: UUID, positionTicks: Long, isPlaying: Boolean)
+	fun markRemotePlaybackTransition(windowMs: Long = 3000L)
 
 	fun handleGroupUpdate(update: GroupUpdate)
 	fun handleCommand(command: SendCommand)
@@ -69,8 +70,20 @@ class SyncPlayRepositoryImpl(
 	private val suppressLocalCommands = AtomicBoolean(false)
 	private val _state = MutableStateFlow(SyncPlayState())
 	override val state: StateFlow<SyncPlayState> = _state
+	private val stateLock = Any()
 
-	private var pendingReady: PendingReady? = null
+	@Volatile
+	private var suppressLocalPublishUntilMs: Long = 0L
+	@Volatile
+	private var lastReadyEmitKey: ReadyEmitKey? = null
+	@Volatile
+	private var lastReadyEmitAtMs: Long = 0L
+	@Volatile
+	private var lastSetPlaylistItemId: UUID? = null
+	@Volatile
+	private var lastLocalPublishKey: LocalPublishKey? = null
+	@Volatile
+	private var lastLocalPublishAtMs: Long = 0L
 
 	override fun refreshGroups() {
 		Timber.d("%s refreshGroups requested", LOG_TAG)
@@ -153,6 +166,16 @@ class SyncPlayRepositoryImpl(
 		positionTicks: Long,
 		isPlaying: Boolean,
 	) {
+		if (!shouldSendLocalCommands()) {
+			Timber.d("%s syncCurrentPlayback skipped: local commands suppressed or no active group", LOG_TAG)
+			return
+		}
+
+		if (System.currentTimeMillis() < suppressLocalPublishUntilMs) {
+			Timber.d("%s syncCurrentPlayback skipped: within remote transition suppression window", LOG_TAG)
+			return
+		}
+
 		if (itemIds.isEmpty() || playingIndex !in itemIds.indices) {
 			Timber.w(
 				"%s syncCurrentPlayback rejected: itemCount=%s playingIndex=%s",
@@ -164,6 +187,22 @@ class SyncPlayRepositoryImpl(
 			return
 		}
 
+		val publishKey = LocalPublishKey(
+			itemId = itemIds[playingIndex],
+			index = playingIndex,
+			positionBucketTicks = bucketTicks(positionTicks),
+			isPlaying = isPlaying,
+		)
+		val nowMs = System.currentTimeMillis()
+		synchronized(stateLock) {
+			if (lastLocalPublishKey == publishKey && nowMs - lastLocalPublishAtMs < 2000L) {
+				Timber.d("%s syncCurrentPlayback skipped: duplicate publish key=%s", LOG_TAG, publishKey)
+				return
+			}
+			lastLocalPublishKey = publishKey
+			lastLocalPublishAtMs = nowMs
+		}
+
 		Timber.d(
 			"%s syncCurrentPlayback requested: itemCount=%s playingIndex=%s positionTicks=%s isPlaying=%s",
 			LOG_TAG,
@@ -171,12 +210,6 @@ class SyncPlayRepositoryImpl(
 			playingIndex,
 			positionTicks,
 			isPlaying,
-		)
-
-		pendingReady = PendingReady(
-			itemId = itemIds[playingIndex],
-			positionTicks = positionTicks,
-			isPlaying = isPlaying,
 		)
 
 		scope.launch {
@@ -193,7 +226,6 @@ class SyncPlayRepositoryImpl(
 			}.onFailure { err ->
 				Timber.w(err, "%s syncCurrentPlayback failed to set queue", LOG_TAG)
 				updateLastError(err.message ?: "SyncPlay queue update failed")
-				pendingReady = null
 			}
 		}
 	}
@@ -248,6 +280,26 @@ class SyncPlayRepositoryImpl(
 	}
 
 	override fun sendReady(playlistItemId: UUID, positionTicks: Long, isPlaying: Boolean) {
+		if (_state.value.activeGroup == null) {
+			Timber.d("%s sendReady skipped: no active group", LOG_TAG)
+			return
+		}
+
+		val nowMs = System.currentTimeMillis()
+		val readyKey = ReadyEmitKey(
+			playlistItemId = playlistItemId,
+			positionBucketTicks = bucketTicks(positionTicks),
+			isPlaying = isPlaying,
+		)
+		synchronized(stateLock) {
+			if (lastReadyEmitKey == readyKey && nowMs - lastReadyEmitAtMs < 1500L) {
+				Timber.d("%s sendReady skipped duplicate key=%s", LOG_TAG, readyKey)
+				return
+			}
+			lastReadyEmitKey = readyKey
+			lastReadyEmitAtMs = nowMs
+		}
+
 		Timber.d(
 			"%s sendReady requested: playlistItemId=%s positionTicks=%s isPlaying=%s",
 			LOG_TAG,
@@ -257,7 +309,10 @@ class SyncPlayRepositoryImpl(
 		)
 		scope.launch {
 			runCatching {
-				api.syncPlayApi.syncPlaySetPlaylistItem(SetPlaylistItemRequestDto(playlistItemId))
+				if (lastSetPlaylistItemId != playlistItemId) {
+					api.syncPlayApi.syncPlaySetPlaylistItem(SetPlaylistItemRequestDto(playlistItemId))
+					lastSetPlaylistItemId = playlistItemId
+				}
 				api.syncPlayApi.syncPlayReady(
 					ReadyRequestDto(
 						`when` = LocalDateTime.now(),
@@ -275,6 +330,12 @@ class SyncPlayRepositoryImpl(
 		}
 	}
 
+	override fun markRemotePlaybackTransition(windowMs: Long) {
+		val untilMs = System.currentTimeMillis() + windowMs.coerceAtLeast(0L)
+		suppressLocalPublishUntilMs = untilMs
+		Timber.v("%s markRemotePlaybackTransition untilMs=%s windowMs=%s", LOG_TAG, untilMs, windowMs)
+	}
+
 	override fun handleGroupUpdate(update: GroupUpdate) {
 		Timber.d("%s handleGroupUpdate type=%s", LOG_TAG, update.type)
 		when (update) {
@@ -286,7 +347,6 @@ class SyncPlayRepositoryImpl(
 			}
 			is SyncPlayPlayQueueUpdate -> {
 				_state.update { it.copy(queueUpdate = update.data, lastError = null) }
-				handlePendingReady(update.data)
 			}
 			is org.jellyfin.sdk.model.api.SyncPlayStateUpdate -> {
 				_state.update { it.copy(stateUpdate = update.data, lastError = null) }
@@ -351,52 +411,21 @@ class SyncPlayRepositoryImpl(
 		_state.update { it.copy(lastError = message) }
 	}
 
-	private fun handlePendingReady(queueUpdate: PlayQueueUpdate) {
-		val pending = pendingReady ?: return
-		Timber.d(
-			"%s handlePendingReady evaluating: pendingItemId=%s queueSize=%s",
-			LOG_TAG,
-			pending.itemId,
-			queueUpdate.playlist.size,
-		)
-		val playlistItemId = queueUpdate.playlist
-			.firstOrNull { it.itemId == pending.itemId }
-			?.playlistItemId
-			?: run {
-				Timber.d("%s handlePendingReady no match yet for pendingItemId=%s", LOG_TAG, pending.itemId)
-				return
-			}
-
-		pendingReady = null
-		scope.launch {
-			runCatching {
-				api.syncPlayApi.syncPlaySetPlaylistItem(SetPlaylistItemRequestDto(playlistItemId))
-				api.syncPlayApi.syncPlayReady(
-					ReadyRequestDto(
-						`when` = LocalDateTime.now(),
-						positionTicks = pending.positionTicks,
-						isPlaying = pending.isPlaying,
-						playlistItemId = playlistItemId,
-					)
-				)
-			}.onSuccess {
-				Timber.d(
-					"%s handlePendingReady sent ready: playlistItemId=%s positionTicks=%s isPlaying=%s",
-					LOG_TAG,
-					playlistItemId,
-					pending.positionTicks,
-					pending.isPlaying,
-				)
-			}.onFailure { err ->
-				Timber.w(err, "%s handlePendingReady failed: playlistItemId=%s", LOG_TAG, playlistItemId)
-				updateLastError(err.message ?: "SyncPlay ready failed")
-			}
-		}
+	private fun bucketTicks(positionTicks: Long): Long {
+		val bucketSize = 5_000_000L
+		return (positionTicks / bucketSize) * bucketSize
 	}
 
-	private data class PendingReady(
+	private data class ReadyEmitKey(
+		val playlistItemId: UUID,
+		val positionBucketTicks: Long,
+		val isPlaying: Boolean,
+	)
+
+	private data class LocalPublishKey(
 		val itemId: UUID,
-		val positionTicks: Long,
+		val index: Int,
+		val positionBucketTicks: Long,
 		val isPlaying: Boolean,
 	)
 }

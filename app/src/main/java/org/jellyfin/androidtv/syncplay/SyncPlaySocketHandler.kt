@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.syncplay
 import android.os.SystemClock
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.ArrayDeque
+import java.util.concurrent.atomic.AtomicInteger
 import androidx.lifecycle.Lifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,7 @@ import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.sdk.api.client.ApiClient
@@ -41,9 +44,24 @@ class SyncPlaySocketHandler(
 ) {
 	companion object {
 		private const val LOG_TAG = "SyncPlaySocket"
+		private const val MAX_ACCEPTED_STOP_AGE_MS = 10_000L
+		private const val MAX_ACCEPTED_CONTROL_COMMAND_AGE_MS = 15_000L
+		private val ZERO_UUID = java.util.UUID.fromString("00000000-0000-0000-0000-000000000000")
 	}
 
 	private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+	private val pendingCommands = ArrayDeque<PendingCommand>()
+	private val pendingCommandsLock = Any()
+	private val maxPendingCommands = 32
+	private val maxPendingCommandAgeMs = 5000L
+	private val ignoredStaleStopCount = AtomicInteger(0)
+	private val ignoredStaleControlCommandCount = AtomicInteger(0)
+	private val ignoredStopNoGroupCount = AtomicInteger(0)
+	private val ignoredStopGroupMismatchCount = AtomicInteger(0)
+	private val ignoredStopItemMismatchCount = AtomicInteger(0)
+	private val ignoredCommandNoGroupCount = AtomicInteger(0)
+	private val ignoredCommandGroupMismatchCount = AtomicInteger(0)
+	private val ignoredSeekItemMismatchCount = AtomicInteger(0)
 
 	init {
 		Timber.d("%s started (lifecycle=%s)", LOG_TAG, lifecycle.currentState)
@@ -87,36 +105,27 @@ class SyncPlaySocketHandler(
 	}
 
 	private fun applyCommand(command: SendCommand, coroutineScope: CoroutineScope) {
-		val controller = playbackControllerContainer.playbackController ?: run {
-			Timber.d("%s applyCommand ignored: no active playback controller", LOG_TAG)
+		if (shouldIgnoreStaleCommand(command)) {
+			return
+		}
+
+		val controller = playbackControllerContainer.playbackController
+		if (shouldIgnoreCommandForContext(command, controller)) {
+			return
+		}
+
+		if (controller == null) {
+			enqueuePendingCommand(command)
+			Timber.d("%s applyCommand queued: no active playback controller command=%s", LOG_TAG, command.command)
 			return
 		}
 		coroutineScope.launch(Dispatchers.Main) {
-			Timber.d(
-				"%s apply command=%s paused=%s item=%s",
-				LOG_TAG,
-				command.command,
-				controller.isPaused(),
-				controller.currentlyPlayingItem?.id,
-			)
-			repository.withRemoteCommand {
-				when (command.command) {
-					SendCommandType.PAUSE -> if (!controller.isPaused()) controller.pause()
-					SendCommandType.UNPAUSE -> if (controller.isPaused()) controller.playPause()
-					SendCommandType.SEEK -> {
-						val ticks = command.positionTicks ?: run {
-							Timber.w("%s applyCommand SEEK ignored: null ticks", LOG_TAG)
-							return@withRemoteCommand
-						}
-						controller.seek(ticks / 10000)
-					}
-					SendCommandType.STOP -> controller.stop()
-				}
-			}
+			applyCommandToController(controller, command)
 		}
 	}
 
 	private fun applyQueueUpdate(update: SyncPlayPlayQueueUpdate, coroutineScope: CoroutineScope) {
+		repository.markRemotePlaybackTransition(windowMs = 4000L)
 		val queue = update.data
 		if (queue.playlist.isEmpty()) {
 			Timber.d("%s queue update ignored: empty playlist", LOG_TAG)
@@ -198,6 +207,7 @@ class SyncPlaySocketHandler(
 						}
 					}
 				}
+				flushPendingCommands(existingController)
 				sendReady(queue, safeIndex)
 				return@launch
 			}
@@ -216,6 +226,7 @@ class SyncPlaySocketHandler(
 
 			val controller = awaitPlaybackController() ?: return@launch
 			Timber.d("%s controller ready for item=%s", LOG_TAG, targetItem.id)
+			flushPendingCommands(controller)
 			withContext(Dispatchers.Main) {
 				repository.withRemoteCommand {
 					controller.seek(positionMs.toLong())
@@ -302,6 +313,59 @@ class SyncPlaySocketHandler(
 		repository.sendReady(playlistItemId, queue.startPositionTicks, queue.isPlaying)
 	}
 
+	private fun applyCommandToController(
+		controller: org.jellyfin.androidtv.ui.playback.PlaybackController,
+		command: SendCommand,
+	) {
+		Timber.d(
+			"%s apply command=%s paused=%s item=%s",
+			LOG_TAG,
+			command.command,
+			controller.isPaused(),
+			controller.currentlyPlayingItem?.id,
+		)
+		repository.withRemoteCommand {
+			when (command.command) {
+				SendCommandType.PAUSE -> if (!controller.isPaused()) controller.pause()
+				SendCommandType.UNPAUSE -> if (controller.isPaused()) controller.playPause()
+				SendCommandType.SEEK -> {
+					val ticks = command.positionTicks ?: run {
+						Timber.w("%s applyCommand SEEK ignored: null ticks", LOG_TAG)
+						return@withRemoteCommand
+					}
+					controller.seek(ticks / 10000)
+				}
+				SendCommandType.STOP -> controller.stop()
+			}
+		}
+	}
+
+	private fun enqueuePendingCommand(command: SendCommand) {
+		synchronized(pendingCommandsLock) {
+			if (pendingCommands.size >= maxPendingCommands) pendingCommands.removeFirst()
+			pendingCommands.addLast(PendingCommand(command, SystemClock.elapsedRealtime()))
+		}
+	}
+
+	private fun flushPendingCommands(controller: org.jellyfin.androidtv.ui.playback.PlaybackController) {
+		val nowMs = SystemClock.elapsedRealtime()
+		val toApply = mutableListOf<SendCommand>()
+		synchronized(pendingCommandsLock) {
+			while (pendingCommands.isNotEmpty()) {
+				val pending = pendingCommands.removeFirst()
+				if (nowMs - pending.enqueuedAtMs <= maxPendingCommandAgeMs) {
+					toApply += pending.command
+				}
+			}
+		}
+		if (toApply.isNotEmpty()) {
+			Timber.d("%s flushing pending commands count=%s", LOG_TAG, toApply.size)
+			toApply.forEach { command ->
+				applyCommandToController(controller, command)
+			}
+		}
+	}
+
 	private fun logCommandTiming(command: SendCommand) {
 		val nowEpochMs = System.currentTimeMillis()
 		val commandWhenMs = command.`when`.toEpochMs()
@@ -322,4 +386,146 @@ class SyncPlaySocketHandler(
 
 	private fun LocalDateTime.toEpochMs(): Long =
 		atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+	private fun shouldIgnoreStaleCommand(command: SendCommand): Boolean {
+		val maxAgeMs = when (command.command) {
+			SendCommandType.STOP -> MAX_ACCEPTED_STOP_AGE_MS
+			SendCommandType.PAUSE,
+			SendCommandType.UNPAUSE,
+			SendCommandType.SEEK,
+			-> MAX_ACCEPTED_CONTROL_COMMAND_AGE_MS
+		}
+
+		val ageMs = System.currentTimeMillis() - command.`when`.toEpochMs()
+		if (ageMs <= maxAgeMs) {
+			return false
+		}
+
+		if (command.command == SendCommandType.STOP) {
+			Timber.w(
+				"%s applyCommand ignored stale STOP count=%s ageMs=%s when=%s emittedAt=%s",
+				LOG_TAG,
+				ignoredStaleStopCount.incrementAndGet(),
+				ageMs,
+				command.`when`,
+				command.emittedAt,
+			)
+			return true
+		}
+
+		Timber.w(
+			"%s applyCommand ignored stale command=%s count=%s ageMs=%s when=%s emittedAt=%s",
+			LOG_TAG,
+			command.command,
+			ignoredStaleControlCommandCount.incrementAndGet(),
+			ageMs,
+			command.`when`,
+			command.emittedAt,
+		)
+		return true
+	}
+
+	private fun shouldIgnoreCommandForContext(
+		command: SendCommand,
+		controller: PlaybackController?,
+	): Boolean {
+		if (command.command != SendCommandType.STOP &&
+			command.command != SendCommandType.PAUSE &&
+			command.command != SendCommandType.UNPAUSE &&
+			command.command != SendCommandType.SEEK
+		) {
+			return false
+		}
+
+		val activeGroupId = repository.state.value.activeGroup?.groupId
+		if (activeGroupId == null) {
+			if (command.command == SendCommandType.STOP) {
+				Timber.w(
+					"%s applyCommand ignored STOP: no active group count=%s",
+					LOG_TAG,
+					ignoredStopNoGroupCount.incrementAndGet(),
+				)
+			} else {
+				Timber.w(
+					"%s applyCommand ignored command=%s: no active group count=%s",
+					LOG_TAG,
+					command.command,
+					ignoredCommandNoGroupCount.incrementAndGet(),
+				)
+			}
+			return true
+		}
+
+		if (command.groupId != activeGroupId) {
+			if (command.command == SendCommandType.STOP) {
+				Timber.w(
+					"%s applyCommand ignored STOP: group mismatch count=%s commandGroupId=%s activeGroupId=%s",
+					LOG_TAG,
+					ignoredStopGroupMismatchCount.incrementAndGet(),
+					command.groupId,
+					activeGroupId,
+				)
+			} else {
+				Timber.w(
+					"%s applyCommand ignored command=%s: group mismatch count=%s commandGroupId=%s activeGroupId=%s",
+					LOG_TAG,
+					command.command,
+					ignoredCommandGroupMismatchCount.incrementAndGet(),
+					command.groupId,
+					activeGroupId,
+				)
+			}
+			return true
+		}
+
+		if (command.command != SendCommandType.STOP && command.command != SendCommandType.SEEK) {
+			return false
+		}
+
+		val playlistItemId = command.playlistItemId
+		if (playlistItemId == ZERO_UUID) {
+			return false
+		}
+
+		val queueUpdate = repository.state.value.queueUpdate
+		val currentPlaylistItemId = queueUpdate
+			?.playlist
+			?.getOrNull(queueUpdate.playingItemIndex)
+			?.playlistItemId
+
+		if (currentPlaylistItemId == null) {
+			return false
+		}
+
+		if (playlistItemId == currentPlaylistItemId) {
+			return false
+		}
+
+		if (command.command == SendCommandType.STOP) {
+			Timber.w(
+				"%s applyCommand ignored STOP: item mismatch count=%s playlistItemId=%s currentPlaylistItemId=%s currentItemId=%s",
+				LOG_TAG,
+				ignoredStopItemMismatchCount.incrementAndGet(),
+				playlistItemId,
+				currentPlaylistItemId,
+				controller?.currentlyPlayingItem?.id,
+			)
+			return true
+		}
+
+		Timber.w(
+			"%s applyCommand ignored SEEK: item mismatch count=%s playlistItemId=%s currentPlaylistItemId=%s currentItemId=%s",
+			LOG_TAG,
+			ignoredSeekItemMismatchCount.incrementAndGet(),
+			playlistItemId,
+			currentPlaylistItemId,
+			controller?.currentlyPlayingItem?.id,
+		)
+		return true
+	}
+
+	private data class PendingCommand(
+		val command: SendCommand,
+		val enqueuedAtMs: Long,
+	)
 }

@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.androidtv.syncplay.SyncPlayRepository;
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -49,7 +50,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -66,6 +69,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<ApiClient> api = inject(ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
+    private Lazy<SyncPlayRepository> syncPlayRepository = inject(SyncPlayRepository.class);
     private final Lazy<InteractionTrackerViewModel> lazyInteractionTracker = inject(InteractionTrackerViewModel.class);
 
     List<BaseItemDto> mItems;
@@ -666,6 +670,22 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             dataRefreshService.getValue().setLastPlayedItem(item);
             reportingHelper.getValue().reportStart(mFragment, PlaybackController.this, item, response, mbPos, false);
+            try {
+                List<UUID> syncItemIds = new ArrayList<>();
+                if (mItems != null) {
+                    for (BaseItemDto queueItem : mItems) {
+                        if (queueItem != null && queueItem.getId() != null) {
+                            syncItemIds.add(queueItem.getId());
+                        }
+                    }
+                }
+
+                if (!syncItemIds.isEmpty() && mCurrentIndex >= 0 && mCurrentIndex < syncItemIds.size()) {
+                    syncPlayRepository.getValue().syncCurrentPlayback(syncItemIds, mCurrentIndex, mbPos, true);
+                }
+            } catch (Exception error) {
+                Timber.w(error, "SyncPlay auto queue publish skipped");
+            }
 
             return null;
         });
@@ -805,6 +825,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             Timber.d("already paused, ignoring");
             return;
         }
+        syncPlayRepository.getValue().sendPause(getCurrentPosition() * 10000);
         mPlaybackState = PlaybackState.PAUSED;
         if (hasInitializedVideoManager()) mVideoManager.pause();
         if (mFragment != null) {
@@ -825,6 +846,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 break;
             case PAUSED:
             case IDLE:
+                syncPlayRepository.getValue().sendUnpause(getCurrentPosition() * 10000);
                 stopReportLoop();
                 play(getCurrentPosition());
                 break;
@@ -834,6 +856,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void stop() {
         refreshCurrentPosition();
         Timber.i("stop called at %s", mCurrentPosition);
+        syncPlayRepository.getValue().sendStop();
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
@@ -856,6 +879,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void endPlayback(Boolean closeActivity) {
+        Timber.i("endPlayback closeActivity=%s fragment=%s", closeActivity, mFragment);
         if (closeActivity && mFragment != null) {
             mFragment.closePlayer();
         }
@@ -921,6 +945,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void seek(long pos) {
+        syncPlayRepository.getValue().sendSeek(pos * 10000);
         seek(pos, false);
     }
 
@@ -1182,6 +1207,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onPrepared() {
+        StreamInfo currentStreamInfo = mCurrentStreamInfo;
+        if (currentStreamInfo == null) {
+            Timber.w("onPrepared ignored: current stream info was cleared");
+            return;
+        }
+
         if (mPlaybackState == PlaybackState.BUFFERING) {
             if (mFragment != null) {
                 mFragment.setFadingEnabled(true);
@@ -1190,11 +1221,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             mPlaybackState = PlaybackState.PLAYING;
             interactionTracker.notifyStart(getCurrentlyPlayingItem());
-            mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.TRANSCODE ? Instant.now().toEpochMilli() : 0;
+            mCurrentTranscodeStartTime = currentStreamInfo.getPlayMethod() == PlayMethod.TRANSCODE ? Instant.now().toEpochMilli() : 0;
             startReportLoop();
         }
 
-        Timber.i("Play method: %s", mCurrentStreamInfo.getPlayMethod() == PlayMethod.TRANSCODE ? "Trans" : "Direct");
+        Timber.i("Play method: %s", currentStreamInfo.getPlayMethod() == PlayMethod.TRANSCODE ? "Trans" : "Direct");
 
         if (mPlaybackState == PlaybackState.PAUSED) {
             mPlaybackState = PlaybackState.PLAYING;
