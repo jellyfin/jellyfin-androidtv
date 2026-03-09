@@ -306,7 +306,6 @@
     <string name="auto_sign_in">Автоматично вписване</string>
     <string name="image_size_medium">Среден</string>
     <string name="lbl_refresh_switching">Смяна на честота на опресняване</string>
-    <string name="lbl_resume_preroll"></string>
     <string name="lbl_colored_backgrounds">Цветно кодирани фонове</string>
     <string name="lbl_image_type">Тип изображение</string>
     <string name="lbl_image_size">Размер на изображението</string>
