@@ -200,7 +200,7 @@
     <string name="msg_error_live_stream">Chyba počas streamovania živej TV. Opakovanie pokusu…</string>
     <string name="pref_live_tv_cat">Živá TV</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
-    <string name="lbl_live_tv_guide">Programový sprievodca TV</string>
+    <string name="lbl_live_tv_guide">Programový sprievodca</string>
     <string name="lbl_no_recordings">Žiadne dostupné nahrávky</string>
     <string name="msg_burn_sub_warning">Vypaľovanie titulkov do obrazu. Môže to chvíľu trvať…</string>
     <string name="lbl_starting_with">začať s tými, ktorých meno začína s</string>
@@ -554,9 +554,9 @@
     <string name="continue_listening">Pokračovať v počúvaní</string>
     <string name="prefer_exoplayer_ffmpeg">Preferovať FFmpeg na prehrávanie zvuku</string>
     <string name="prefer_exoplayer_ffmpeg_content">Na dekódovanie zvuku sa použite FFmpeg, aj keď sú k dispozícii platformové kodeky.</string>
-    <string name="lbl_subtitle_text_color">Farba textu titulkov</string>
-    <string name="lbl_subtitle_background_color">Farba pozadia titulkov</string>
-    <string name="lbl_subtitle_text_stroke_color">Farba obrysu titulkov</string>
+    <string name="lbl_subtitle_text_color">Farba textu</string>
+    <string name="lbl_subtitle_background_color">Farba pozadia</string>
+    <string name="lbl_subtitle_text_stroke_color">Farba obrysu</string>
     <string name="video_start_delay">Oneskorenie začiatku videa</string>
     <string name="segment_action_nothing">Nič nerobiť</string>
     <string name="segment_action_skip">Preskočiť</string>
@@ -611,4 +611,21 @@
     <string name="pref_media_queueing_description">Pri prehrávaní seriálov pridať ďalšie epizódy do fronty</string>
     <string name="pref_subtitles_weight">Hrúbka textu</string>
     <string name="font_weight_100">Tenké</string>
+    <string name="font_weight_200">Extra ľahké</string>
+    <string name="font_weight_300">Ľahké</string>
+    <string name="font_weight_400">Normálne</string>
+    <string name="font_weight_500">Stredné</string>
+    <string name="font_weight_600">Polotučné</string>
+    <string name="font_weight_700">Tučné</string>
+    <string name="font_weight_800">Extra tučné</string>
+    <string name="font_weight_900">Čierne</string>
+    <string name="subtitle_preview_text">Titulky budú vyzerať takto</string>
+    <string name="color_presets">Predvoľby</string>
+    <string name="color_custom">Prispôsobiť farbu</string>
+    <string name="color_alpha">Priehľadnosť</string>
+    <string name="playback_video_player">Videoprehrávač</string>
+    <string name="video_player_internal">Vstavaný videoprehrávač</string>
+    <string name="video_player_external">Externá aplikácia</string>
+    <string name="playback_video_player_external_empty">Na vašom zariadení nemáte nainštalované žiadne videoprehrávače, ktoré dokážu otvárať videá z Jellyfinu.</string>
+    <string name="filters">Filtre</string>
 </resources>
