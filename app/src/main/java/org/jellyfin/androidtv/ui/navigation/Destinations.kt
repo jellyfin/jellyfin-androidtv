@@ -149,4 +149,7 @@ object Destinations {
 	fun stillWatching(item: UUID) = fragmentDestination<StillWatchingFragment>(
 		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
 	)
+
+	val syncPlayJoin = home
+	val syncPlayCreate = home
 }

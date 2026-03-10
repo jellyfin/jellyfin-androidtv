@@ -618,4 +618,17 @@
         <item quantity="one">%1$s album</item>
         <item quantity="other">%1$s albums</item>
     </plurals>
+    <string name="lbl_syncplay">SyncPlay</string>
+    <string name="syncplay_title">SyncPlay</string>
+    <string name="syncplay_description">Watch together in a shared group</string>
+    <string name="syncplay_refresh_groups">Refresh groups</string>
+    <string name="syncplay_create_group">Create group</string>
+    <string name="syncplay_leave_group">Leave group</string>
+    <string name="syncplay_join_group_named">Join %1$s</string>
+    <string name="syncplay_available_groups">Available groups</string>
+    <string name="syncplay_active_group">Active group</string>
+    <string name="syncplay_no_groups">No groups available</string>
+    <string name="syncplay_sync_current">Sync current playback</string>
+    <string name="syncplay_no_queue">No active playback to sync</string>
+    <string name="syncplay_default_group_name">Android TV SyncPlay</string>
 </resources>

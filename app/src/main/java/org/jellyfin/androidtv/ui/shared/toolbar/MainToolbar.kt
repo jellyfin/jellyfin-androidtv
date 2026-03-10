@@ -164,7 +164,6 @@ private fun MainToolbar(
 						contentDescription = stringResource(R.string.lbl_settings),
 					)
 				}
-
 				ToolbarClock()
 			}
 		}

@@ -29,6 +29,10 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
+import org.jellyfin.androidtv.syncplay.SyncPlayRepository
+import org.jellyfin.androidtv.syncplay.SyncPlayRepositoryImpl
+import org.jellyfin.androidtv.syncplay.SyncPlaySocketHandler
+import org.jellyfin.androidtv.syncplay.SyncPlayViewModel
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -100,6 +104,10 @@ val appModule = module {
 	}
 
 	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get(), get(), ProcessLifecycleOwner.get().lifecycle) }
+	single<SyncPlayRepository> { SyncPlayRepositoryImpl(get()) }
+	single(createdAtStart = true) {
+		SyncPlaySocketHandler(get(), get(), get(), get(), get(), get(), ProcessLifecycleOwner.get().lifecycle)
+	}
 
 	// Coil (images)
 	single {
@@ -152,6 +160,7 @@ val appModule = module {
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SettingsViewModel() }
+	viewModel { SyncPlayViewModel(get(), get(), get()) }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 

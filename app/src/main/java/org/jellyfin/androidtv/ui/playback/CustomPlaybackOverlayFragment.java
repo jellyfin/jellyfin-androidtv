@@ -64,6 +64,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.syncplay.SyncPlayRepository;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
@@ -135,6 +136,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<SyncPlayRepository> syncPlayRepository = inject(SyncPlayRepository.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -661,6 +663,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onResume() {
         super.onResume();
 
+        Timber.d("PlaybackOverlay onResume finishing=%s changingConfig=%s", requireActivity().isFinishing(), requireActivity().isChangingConfigurations());
+
         // Close player when resuming without a valid playback controller
         if (playbackControllerContainer.getValue().getPlaybackController() == null || !playbackControllerContainer.getValue().getPlaybackController().hasFragment()) {
             closePlayer();
@@ -688,6 +692,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         super.onPause();
         if (mItemsToPlay == null || mItemsToPlay.isEmpty()) return;
 
+        Timber.d("PlaybackOverlay onPause items=%s", mItemsToPlay.size());
+
         setPlayPauseActionState(0);
 
         // give back audio focus
@@ -698,6 +704,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onStop() {
         super.onStop();
         Timber.i("Stopping!");
+
+        Timber.d(
+            "PlaybackOverlay onStop finishing=%s changingConfig=%s controller=%s controllerFragmentMatch=%s",
+            requireActivity().isFinishing(),
+            requireActivity().isChangingConfigurations(),
+            playbackControllerContainer.getValue().getPlaybackController(),
+            playbackControllerContainer.getValue().getPlaybackController() != null
+                && playbackControllerContainer.getValue().getPlaybackController().getFragment() == this
+        );
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
@@ -1308,6 +1323,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void closePlayer() {
         if (navigating) return;
         navigating = true;
+
+        // Explicit user exit should leave the active SyncPlay group so incoming queue updates
+        // do not immediately navigate the user back into playback.
+        if (syncPlayRepository.getValue().getState().getValue().getActiveGroup() != null) {
+            syncPlayRepository.getValue().leaveGroup();
+        }
 
         if (navigationRepository.getValue().getCanGoBack()) {
             navigationRepository.getValue().goBack();

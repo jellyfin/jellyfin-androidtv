@@ -4,6 +4,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +39,7 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -50,6 +53,8 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.syncplay.SyncPlayRepository;
+import org.jellyfin.androidtv.syncplay.SyncPlayState;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -65,6 +70,7 @@ import java.util.List;
 
 import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
+import timber.log.Timber;
 
 public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.OnKeyListener {
     protected TextView mTitle;
@@ -82,6 +88,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected static final int SCHEDULE = 10;
     protected static final int SERIES = 11;
     protected static final int ALBUM_ARTISTS = 12;
+    protected static final int SYNCPLAY_MENU = 13;
+    private static final long SYNCPLAY_MENU_REFRESH_DELAY_MS = 500L;
     protected BaseItemDto mFolder;
     protected BaseItemKind itemType;
     protected boolean showViews = true;
@@ -103,6 +111,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final Lazy<ApiClient> api = inject(ApiClient.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
+    private final Lazy<SyncPlayRepository> syncPlayRepository = inject(SyncPlayRepository.class);
+    private final Lazy<UserRepository> userRepository = inject(UserRepository.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -314,6 +324,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 break;
         }
 
+        gridRowAdapter.add(new GridButton(SYNCPLAY_MENU, getString(R.string.syncplay_title)));
+
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -426,12 +438,116 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuide());
                         break;
 
+                    case SYNCPLAY_MENU:
+                        showSyncPlayMenu();
+                        break;
+
                     default:
                         Toast.makeText(requireContext(), item.toString() + getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         }
+    }
+
+    enum SyncPlayMenuActionType {
+        CREATE_GROUP,
+        REFRESH_GROUPS,
+        JOIN_GROUP,
+        LEAVE_GROUP,
+    }
+
+    static final class SyncPlayMenuAction {
+        final SyncPlayMenuActionType type;
+        final String groupName;
+        final java.util.UUID groupId;
+
+        SyncPlayMenuAction(SyncPlayMenuActionType type, String groupName, java.util.UUID groupId) {
+            this.type = type;
+            this.groupName = groupName;
+            this.groupId = groupId;
+        }
+    }
+
+    static List<SyncPlayMenuAction> buildSyncPlayMenuActions(SyncPlayState state) {
+        List<SyncPlayMenuAction> actions = new ArrayList<>();
+        if (state.getActiveGroup() == null) {
+            actions.add(new SyncPlayMenuAction(SyncPlayMenuActionType.CREATE_GROUP, null, null));
+            actions.add(new SyncPlayMenuAction(SyncPlayMenuActionType.REFRESH_GROUPS, null, null));
+
+            state.getGroups().forEach(group -> actions.add(
+                    new SyncPlayMenuAction(SyncPlayMenuActionType.JOIN_GROUP, group.getGroupName(), group.getGroupId())
+            ));
+        } else {
+            actions.add(new SyncPlayMenuAction(SyncPlayMenuActionType.LEAVE_GROUP, null, null));
+            actions.add(new SyncPlayMenuAction(SyncPlayMenuActionType.REFRESH_GROUPS, null, null));
+        }
+        return actions;
+    }
+
+    private void showSyncPlayMenu() {
+        showSyncPlayMenu(true);
+    }
+
+    private void showSyncPlayMenu(boolean refreshFirst) {
+        if (!isAdded()) return;
+
+        SyncPlayRepository repository = syncPlayRepository.getValue();
+        if (refreshFirst) {
+            repository.refreshGroups();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (isAdded()) showSyncPlayMenu(false);
+            }, SYNCPLAY_MENU_REFRESH_DELAY_MS);
+            return;
+        }
+
+        SyncPlayState state = repository.getState().getValue();
+        Timber.d(
+                "SyncPlay SmartScreen menu opened: activeGroup=%s availableGroups=%s",
+                state.getActiveGroup() != null ? state.getActiveGroup().getGroupId() : "none",
+                state.getGroups().size()
+        );
+
+        List<String> labels = new ArrayList<>();
+        List<Runnable> actions = new ArrayList<>();
+        for (SyncPlayMenuAction action : buildSyncPlayMenuActions(state)) {
+            switch (action.type) {
+                case CREATE_GROUP:
+                    labels.add(getString(R.string.syncplay_create_group));
+                    actions.add(() -> repository.createGroup(getSyncPlayCreateGroupName()));
+                    break;
+                case REFRESH_GROUPS:
+                    labels.add(getString(R.string.syncplay_refresh_groups));
+                    actions.add(() -> showSyncPlayMenu(true));
+                    break;
+                case JOIN_GROUP:
+                    labels.add(getString(R.string.syncplay_join_group_named, action.groupName));
+                    actions.add(() -> repository.joinGroup(action.groupId));
+                    break;
+                case LEAVE_GROUP:
+                    labels.add(getString(R.string.syncplay_leave_group));
+                    actions.add(repository::leaveGroup);
+                    break;
+            }
+        }
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.syncplay_title))
+                .setItems(labels.toArray(new String[0]), (dialog, which) -> actions.get(which).run())
+                .show();
+    }
+
+    private String getSyncPlayCreateGroupName() {
+        String username = null;
+        if (userRepository.getValue().getCurrentUser().getValue() != null) {
+            username = userRepository.getValue().getCurrentUser().getValue().getName();
+        }
+
+        if (username == null || username.trim().isEmpty()) {
+            return getString(R.string.syncplay_default_group_name);
+        }
+
+        return username;
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
