@@ -600,15 +600,15 @@
     <string name="settings">Nastavenia</string>
     <string name="settings_description">Upravte si aplikáciu podľa svojich predstáv</string>
     <string name="copied_to_clipboard">Skopírované do schránky</string>
-    <string name="pref_playback_next_up">Ďalej</string>
+    <string name="pref_playback_next_up">Nasleduje</string>
     <string name="pref_playback_media_segments">Mediálne segmenty</string>
     <string name="pref_customization_subtitles">Titulky</string>
-    <string name="pref_playback_prerolls">Predbežné reklamy</string>
+    <string name="pref_playback_prerolls">Prerolly</string>
     <string name="pref_playback_inactivity_prompt">Oznámenie o nečinnosti</string>
     <string name="pref_prerolls_enabled">Povoliť režim kina</string>
-    <string name="pref_prerolls_enabled_description">Prehrávanie vlastných úvodov pred filmami</string>
-    <string name="pref_media_queueing">Pridať všetky epizódy do poradia</string>
-    <string name="pref_media_queueing_description">Pridanie ďalších epizód do frontu pri prehrávaní televízneho seriálu</string>
+    <string name="pref_prerolls_enabled_description">Prehrať vlastné intrá pred filmom</string>
+    <string name="pref_media_queueing">Všetky epizódy do fronty</string>
+    <string name="pref_media_queueing_description">Pri prehrávaní seriálov pridať ďalšie epizódy do fronty</string>
     <string name="pref_subtitles_weight">Hrúbka textu</string>
-    <string name="font_weight_100">Tenký</string>
+    <string name="font_weight_100">Tenké</string>
 </resources>
