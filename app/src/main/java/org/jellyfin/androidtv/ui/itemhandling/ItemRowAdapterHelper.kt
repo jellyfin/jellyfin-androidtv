@@ -129,7 +129,8 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 						BaseItemDtoBaseRowItem(
 							item,
 							preferParentThumb,
-							false
+							false,
+							BaseRowItemSelectAction.Play
 						)
 					}
 				)
@@ -142,7 +143,8 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 						BaseItemDtoBaseRowItem(
 							item,
 							preferParentThumb,
-							isStaticHeight
+							isStaticHeight,
+							BaseRowItemSelectAction.Play
 						)
 					}
 				)
