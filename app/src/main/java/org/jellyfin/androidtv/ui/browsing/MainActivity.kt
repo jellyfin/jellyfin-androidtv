@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
+import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
@@ -44,9 +45,14 @@ class MainActivity : FragmentActivity() {
 
 	private lateinit var binding: ActivityMainBinding
 
-	private val backPressedCallback = object : OnBackPressedCallback(false) {
+	private val backPressedCallback = object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			if (navigationRepository.canGoBack) navigationRepository.goBack()
+			if (navigationRepository.canGoBack) {
+				navigationRepository.goBack()
+			} else {
+				// No back history - always go to home, never exit the app
+				navigationRepository.reset(Destinations.home, clearHistory = true)
+			}
 		}
 	}
 
@@ -70,7 +76,6 @@ class MainActivity : FragmentActivity() {
 			.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
 			.onEach { action ->
 				handleNavigationAction(action)
-				backPressedCallback.isEnabled = navigationRepository.canGoBack
 				interactionTrackerViewModel.notifyInteraction(canCancel = false, userInitiated = false)
 			}.launchIn(lifecycleScope)
 
