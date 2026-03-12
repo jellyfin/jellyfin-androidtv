@@ -9,6 +9,7 @@ import org.jellyfin.playback.core.mediastream.MediaStreamService
 import org.jellyfin.playback.core.plugin.PlaybackPlugin
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueService
+import org.jellyfin.playback.core.timedevent.TimedEventService
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -49,7 +50,8 @@ class PlaybackManagerBuilder(context: Context) {
 
 		// Add default services
 		services.add(QueueService())
-		services.add(MediaStreamService(mediaStreamResolvers))
+		services.add(MediaStreamService(mediaStreamResolvers, 15.seconds))
+		services.add(TimedEventService())
 
 		// Only support a single backend right now
 		require(backends.size == 1)

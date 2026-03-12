@@ -19,7 +19,7 @@
     <string name="lbl_continue_watching">Працягнуць прагляд</string>
     <string name="lbl_next_up">Наступны</string>
     <string name="lbl_on_now">У эфіры</string>
-    <string name="lbl_by_name">Па імені</string>
+    <string name="lbl_by_name">Па назве</string>
     <string name="lbl_other_channels">Іншыя каналы</string>
     <string name="lbl_tv_series">Серыялы</string>
     <string name="settings_title">Налады</string>
@@ -81,7 +81,7 @@
     <string name="lbl_last_played">"Апошняе прайграванне "</string>
     <string name="lbl_play_trailers">Прайграць трэйлер(ы)</string>
     <string name="lbl_enter_server_address">Увядзіце адрас сервера</string>
-    <string name="lbl_valid_server_address">Калі ласка, увядзіце адрас сервера (IP або імя дамена/імя кампутара)</string>
+    <string name="lbl_valid_server_address">Увядзіце адрас сервера (IP або дамен/назву камп\'ютара)</string>
     <string name="msg_playback_incompatible">Немагчыма прайграць гэты фармат відэа</string>
     <string name="msg_cannot_play">Гэты элемент не можа быць прайграны</string>
     <string name="lbl_no_items">Няма элементаў</string>
@@ -232,7 +232,7 @@
     <string name="past_week">Мінулы тыдзень</string>
     <string name="image_size_large">Вялікі</string>
     <string name="auto_sign_in">Аўтаматычны ўваход</string>
-    <string name="lbl_name">Імя</string>
+    <string name="lbl_name">Назва</string>
     <string name="lbl_date_added">Дата дабаўлення</string>
     <string name="image_size_medium">Сярэдні</string>
     <string name="lbl__continuing">ПРАЦЯГ</string>
@@ -242,7 +242,7 @@
     <string name="lbl_playlists">Плэй-лісты</string>
     <string name="lbl_add_to_queue">Дадаць у чаргу</string>
     <string name="lbl_open_artist">Адкрыць выканаўцу</string>
-    <string name="lbl_starting_with">пачынаючы з тых, чыё імя пачынаецца з</string>
+    <string name="lbl_starting_with">пачынаючы з тых, чыя назва пачынаецца з</string>
     <string name="msg_subtitles_loading">Загрузка субцітраў…</string>
     <string name="lbl_no_recordings">Няма даступных запісаў</string>
     <string name="lbl_programs">Праграмы</string>

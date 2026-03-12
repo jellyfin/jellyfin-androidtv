@@ -92,4 +92,10 @@
     <string name="lbl_continue_watching">Continuar viendo</string>
     <string name="lbl_settings">Ajustes</string>
     <string name="chapters">Capítulos</string>
+    <string name="state_disabled">Desactivado</string>
+    <string name="lbl_home">Página Principal</string>
+    <string name="lbl_latest_in">Recién agregado en %1$s</string>
+    <string name="continue_listening">Continuar escuchando</string>
+    <string name="lbl_genres">Géneros</string>
+    <string name="because_you_watched">Porque viste %1$s</string>
 </resources>
