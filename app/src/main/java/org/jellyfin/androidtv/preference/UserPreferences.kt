@@ -5,6 +5,7 @@ import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.PreferredAudioCodecs
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
@@ -114,9 +115,89 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var audioNightMode = enumPreference("audio_night_mode", false)
 
 		/**
+		 * Preferred Audio Codec
+		 */
+
+		var preferred_audio_codec = enumPreference("preferred_audio_codec", PreferredAudioCodecs.AAC)
+
+		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
+		var ac3Enabled = booleanPreference("enable_ac3", true)
+
+		/**
+		 * Enable EAC3
+		 */
+		var eac3Enabled = booleanPreference("enable_eac3", true)
+
+		/**
+		 * Disable AAC
+		 */
+		var disable_aac = booleanPreference("disable_aac", false)
+
+		/**
+		 * Disable AAC_LATM
+		 */
+		var disable_aac_latm = booleanPreference("disable_aac_latm", false)
+
+		/**
+		 * Disable ALAC
+		 */
+		var disable_alac = booleanPreference("disable_alac", false)
+
+		/**
+		 * Disable DCA
+		 */
+		var disable_dca = booleanPreference("disable_dca", false)
+
+		/**
+		 * Disable DTS
+		 */
+		var disable_dts = booleanPreference("disable_dts", false)
+
+		/**
+		 * Disable FLAC
+		 */
+		var disable_flac = booleanPreference("disable_flac", false)
+
+		/**
+		 * Disable MLP
+		 */
+		var disable_mlp = booleanPreference("disable_mlp", false)
+
+		/**
+		 * Disable MP2
+		 */
+		var disable_mp2 = booleanPreference("disable_mp2", false)
+
+		/**
+		 * Disable MP3
+		 */
+		var disable_mp3 = booleanPreference("disable_mp3", false)
+
+		/**
+		 * Disable OPUS
+		 */
+		var disable_opus = booleanPreference("disable_opus", false)
+
+		/**
+		 * Disable PCM
+		 */
+		var disable_pcm_alaw = booleanPreference("disable_pcm_alaw", false)
+		var disable_pcm_mulaw = booleanPreference("disable_pcm_mulaw", false)
+		var disable_pcm_s16le = booleanPreference("disable_pcm_s16le", false)
+		var disable_pcm_s20le = booleanPreference("disable_pcm_s20le", false)
+		var disable_pcm_s24le = booleanPreference("disable_pcm_s24le", false)
+
+		/**
+		 * Disable TRUEHD
+		 */
+		var disable_truehd = booleanPreference("disable_truehd", false)
+
+		/**
+		 * Disable VORBIS
+		 */
+		var disable_vorbis = booleanPreference("disable_vorbis", false)
 
 		/* Live TV */
 		/**

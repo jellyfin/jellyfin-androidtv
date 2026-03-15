@@ -5,6 +5,7 @@ import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.PreferredAudioCodecs
 import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
@@ -82,23 +83,340 @@ fun createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(context),
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
+	isEAC3Enabled = userPreferences[UserPreferences.eac3Enabled],
+	PreferredAudioTranscodeCodec = userPreferences[UserPreferences.preferred_audio_codec],
+	is_disable_aac = userPreferences[UserPreferences.disable_aac],
+	is_disable_aac_latm = userPreferences[UserPreferences.disable_aac_latm],
+	is_disable_alac = userPreferences[UserPreferences.disable_alac],
+	is_disable_dca = userPreferences[UserPreferences.disable_dca],
+	is_disable_dts = userPreferences[UserPreferences.disable_dts],
+	is_disable_flac = userPreferences[UserPreferences.disable_flac],
+	is_disable_mlp = userPreferences[UserPreferences.disable_mlp],
+	is_disable_mp2 = userPreferences[UserPreferences.disable_mp2],
+	is_disable_mp3 = userPreferences[UserPreferences.disable_mp3],
+	is_disable_opus = userPreferences[UserPreferences.disable_opus],
+	is_disable_pcm_alaw = userPreferences[UserPreferences.disable_pcm_alaw],
+	is_disable_pcm_mulaw = userPreferences[UserPreferences.disable_pcm_mulaw],
+	is_disable_pcm_s16le = userPreferences[UserPreferences.disable_pcm_s16le],
+	is_disable_pcm_s20le = userPreferences[UserPreferences.disable_pcm_s20le],
+	is_disable_pcm_s24le = userPreferences[UserPreferences.disable_pcm_s24le],
+	is_disable_truehd = userPreferences[UserPreferences.disable_truehd],
+	is_disable_vorbis = userPreferences[UserPreferences.disable_vorbis],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
 )
 
+private fun createSupportedAudioCodecs(
+	isAC3Enabled: Boolean,
+	isEAC3Enabled: Boolean,
+	PreferredAudioTranscodeCodec: PreferredAudioCodecs,
+	is_disable_aac: Boolean,
+	is_disable_aac_latm: Boolean,
+	is_disable_alac: Boolean,
+	is_disable_dca: Boolean,
+	is_disable_dts: Boolean,
+	is_disable_flac: Boolean,
+	is_disable_mlp: Boolean,
+	is_disable_mp2: Boolean,
+	is_disable_mp3: Boolean,
+	is_disable_opus: Boolean,
+	is_disable_pcm_alaw: Boolean,
+	is_disable_pcm_mulaw: Boolean,
+	is_disable_pcm_s16le: Boolean,
+	is_disable_pcm_s20le: Boolean,
+	is_disable_pcm_s24le: Boolean,
+	is_disable_truehd: Boolean,
+	is_disable_vorbis: Boolean
+): Array<String> {
+
+	var temparray = supportedAudioCodecs.copyOf()
+
+	if (!isAC3Enabled)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.AC3 }
+			.toTypedArray()
+
+	if (!isEAC3Enabled)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.EAC3 }
+			.toTypedArray()
+
+	if (is_disable_aac)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.AAC }
+		.toTypedArray()
+
+	if (is_disable_aac_latm)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.AAC_LATM }
+		.toTypedArray()
+
+	if (is_disable_alac)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.ALAC }
+		.toTypedArray()
+
+	if (is_disable_dca)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.DCA }
+		.toTypedArray()
+
+	if (is_disable_dts)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.DTS }
+		.toTypedArray()
+
+	if (is_disable_flac)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.FLAC }
+		.toTypedArray()
+
+	if (is_disable_mlp)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.MLP }
+		.toTypedArray()
+
+	if (is_disable_mp2)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.MP2 }
+		.toTypedArray()
+
+	if (is_disable_mp3)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.MP3 }
+		.toTypedArray()
+
+	if (is_disable_opus)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.OPUS }
+		.toTypedArray()
+
+	if (is_disable_pcm_alaw)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.PCM_ALAW }
+		.toTypedArray()
+
+	if (is_disable_pcm_mulaw)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_MULAW }
+			.toTypedArray()
+
+	if (is_disable_pcm_s16le)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_S16LE }
+			.toTypedArray()
+
+	if (is_disable_pcm_s20le)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_S20LE }
+			.toTypedArray()
+
+	if (is_disable_pcm_s24le)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_S24LE }
+			.toTypedArray()
+
+	if (is_disable_truehd)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.TRUEHD }
+		.toTypedArray()
+
+	if (is_disable_vorbis)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.VORBIS }
+		.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.AAC)
+		temparray = temparray
+		.filterNot { it == Codec.Audio.AAC }
+		.toMutableList()
+		.apply { add(0, Codec.Audio.AAC) }
+		.toTypedArray()
+/*
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.AAC_LATM)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.AAC_LATM }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.AAC_LATM) }
+			.toTypedArray()
+
+*/
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.AC3)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.AC3 }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.AC3) }
+			.toTypedArray()
+/*
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.ALAC)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.ALAC }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.ALAC) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.DCA)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.DCA }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.DCA) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.DTS)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.DTS }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.DTS) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.EAC3)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.EAC3 }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.EAC3) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.FLAC)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.FLAC }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.FLAC) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.MLP)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.MLP }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.MLP) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.MP2)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.MP2 }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.MP2) }
+			.toTypedArray()
+*/
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.MP3)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.MP3 }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.MP3) }
+			.toTypedArray()
+/*
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.OPUS)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.OPUS }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.OPUS) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.PCM_ALAW)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_ALAW }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.PCM_ALAW) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.PCM_MULAW)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_MULAW }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.PCM_MULAW) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.PCM_S16LE)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_S16LE }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.PCM_S16LE) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.PCM_S20LE)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_S20LE }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.PCM_S20LE) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.PCM_S24LE)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.PCM_S24LE }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.PCM_S24LE) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.TRUEHD)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.TRUEHD }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.TRUEHD) }
+			.toTypedArray()
+
+	if (PreferredAudioTranscodeCodec == PreferredAudioCodecs.VORBIS)
+		temparray = temparray
+			.filterNot { it == Codec.Audio.VORBIS }
+			.toMutableList()
+			.apply { add(0, Codec.Audio.VORBIS) }
+			.toTypedArray()
+
+*/
+	return temparray
+}
+
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
 	maxBitrate: Int,
 	isAC3Enabled: Boolean,
+	isEAC3Enabled: Boolean,
+	PreferredAudioTranscodeCodec: PreferredAudioCodecs,
+	is_disable_aac: Boolean,
+	is_disable_aac_latm: Boolean,
+	is_disable_alac: Boolean,
+	is_disable_dca: Boolean,
+	is_disable_dts: Boolean,
+	is_disable_flac: Boolean,
+	is_disable_mlp: Boolean,
+	is_disable_mp2: Boolean,
+	is_disable_mp3: Boolean,
+	is_disable_opus: Boolean,
+	is_disable_pcm_alaw: Boolean,
+	is_disable_pcm_mulaw: Boolean,
+	is_disable_pcm_s16le: Boolean,
+	is_disable_pcm_s20le: Boolean,
+	is_disable_pcm_s24le: Boolean,
+	is_disable_truehd: Boolean,
+	is_disable_vorbis: Boolean,
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
 ) = buildDeviceProfile {
-	val allowedAudioCodecs = when {
-		downMixAudio -> downmixSupportedAudioCodecs
-		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-		else -> supportedAudioCodecs
+	val allowedAudioCodecs = if (downMixAudio) downmixSupportedAudioCodecs else {
+		createSupportedAudioCodecs(
+		isAC3Enabled,
+		isEAC3Enabled,
+		PreferredAudioTranscodeCodec,
+		is_disable_aac,
+		is_disable_aac_latm,
+		is_disable_alac,
+		is_disable_dca,
+		is_disable_dts,
+		is_disable_flac,
+		is_disable_mlp,
+		is_disable_mp2,
+		is_disable_mp3,
+		is_disable_opus,
+		is_disable_pcm_alaw,
+		is_disable_pcm_mulaw,
+		is_disable_pcm_s16le,
+		is_disable_pcm_s20le,
+		is_disable_pcm_s24le,
+		is_disable_truehd,
+		is_disable_vorbis
+		)
 	}
 
 	val supportsHevc = mediaTest.supportsHevc()
