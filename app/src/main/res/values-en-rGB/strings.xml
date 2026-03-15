@@ -618,4 +618,5 @@
     <string name="video_player_external">External app</string>
     <string name="playback_video_player_external_empty">You don\'t have any video player apps installed on your device that can open Jellyfin videos.</string>
     <string name="filters">Filters</string>
+    <string name="pref_use_software_codecs">Use software codecs</string>
 </resources>
