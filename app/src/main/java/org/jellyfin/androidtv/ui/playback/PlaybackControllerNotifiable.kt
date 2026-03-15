@@ -6,4 +6,5 @@ interface PlaybackControllerNotifiable {
 	fun onPrepared()
 	fun onProgress()
 	fun onPlaybackSpeedChange(newSpeed: Float)
+	fun onSeekComplete()
 }

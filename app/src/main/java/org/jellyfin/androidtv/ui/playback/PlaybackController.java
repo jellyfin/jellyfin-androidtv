@@ -935,12 +935,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         if (wasSeeking) {
-            Timber.d("Previous seek has not finished - cancelling seek from %s to %d", mCurrentPosition, pos);
-            if (isPaused()) {
-                refreshCurrentPosition();
-                play(mCurrentPosition);
-            }
-            return;
+            Timber.d("Previous seek still in progress - overriding with new seek to %d", pos);
         }
         wasSeeking = true;
 
@@ -1219,6 +1214,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
             }
             switchAudioStream(eligibleAudioTrack);
+        }
+    }
+
+    @Override
+    public void onSeekComplete() {
+        Timber.d("Seek complete - resetting wasSeeking flag");
+        wasSeeking = false;
+        mSeekPosition = -1;
+
+        if (mPlaybackState == PlaybackState.PLAYING || mPlaybackState == PlaybackState.SEEKING) {
+            mPlaybackState = PlaybackState.PLAYING;
+            if (hasInitializedVideoManager()) mVideoManager.play();
+            startReportLoop();
         }
     }
 
