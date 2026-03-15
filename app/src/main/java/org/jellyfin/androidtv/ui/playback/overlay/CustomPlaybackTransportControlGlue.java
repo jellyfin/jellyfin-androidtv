@@ -36,6 +36,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.GuideAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PlayPauseAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.ProgramInfoAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RewindAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
@@ -68,6 +69,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PreviousLiveTvChannelAction previousLiveTvChannelAction;
     private ChannelBarChannelAction channelBarChannelAction;
     private GuideAction guideAction;
+    private ProgramInfoAction programInfoAction;
     private RecordAction recordAction;
 
     private final PlaybackController playbackController;
@@ -211,6 +213,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         channelBarChannelAction.setLabels(new String[]{context.getString(R.string.lbl_other_channels)});
         guideAction = new GuideAction(context, this);
         guideAction.setLabels(new String[]{context.getString(R.string.lbl_live_tv_guide)});
+        programInfoAction = new ProgramInfoAction(context, this);
+        programInfoAction.setLabels(new String[]{context.getString(R.string.lbl_program_info)});
         recordAction = new RecordAction(context, this);
         recordAction.setLabels(new String[]{
                 context.getString(R.string.lbl_record),
@@ -283,6 +287,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
 
         secondaryActionsAdapter.add(zoomAction);
+        secondaryActionsAdapter.add(programInfoAction);
     }
 
     @Override
