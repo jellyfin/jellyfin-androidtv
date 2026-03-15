@@ -12,6 +12,7 @@ import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.Logger
+import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -51,6 +52,7 @@ import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
+import org.jellyfin.androidtv.util.WebUserAgentInterceptor
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper
 import org.jellyfin.androidtv.util.coil.CoilTimberLogger
 import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
@@ -60,7 +62,9 @@ import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -71,7 +75,13 @@ val defaultDeviceInfo = named("defaultDeviceInfo")
 val appModule = module {
 	// SDK
 	single(defaultDeviceInfo) { androidDevice(get()) }
-	single { OkHttpFactory() }
+	single {
+		val interceptor = WebUserAgentInterceptor(androidApplication())
+		OkHttpClient.Builder()
+					.addInterceptor( interceptor )
+					.build()
+	}
+	singleOf(::OkHttpFactory)
 	single { HttpClientOptions() }
 	single {
 		createJellyfin {

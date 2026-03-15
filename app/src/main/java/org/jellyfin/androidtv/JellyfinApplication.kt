@@ -2,24 +2,32 @@ package org.jellyfin.androidtv
 
 import android.app.Application
 import android.content.Context
+import android.webkit.WebSettings
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttp
+import okhttp3.OkHttpClient
 import org.acra.ACRA
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.telemetry.TelemetryService
+import org.jellyfin.androidtv.util.WebUserAgentInterceptor
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
-class JellyfinApplication : Application() {
+class JellyfinApplication : Application(), SingletonImageLoader.Factory {
 	override fun onCreate() {
 		super.onCreate()
 
@@ -61,4 +69,12 @@ class JellyfinApplication : Application() {
 
 		TelemetryService.init(this)
 	}
+
+	override fun newImageLoader( context: PlatformContext ) =
+		ImageLoader.Builder( this )
+			.components {
+				val base by inject<OkHttpClient>()
+				add( OkHttpNetworkFetcherFactory(base) )
+			}
+			.build()
 }
