@@ -40,6 +40,11 @@ interface NavigationRepository {
 	val canGoBack: Boolean
 
 	/**
+	 * The current destination fragment, if any.
+	 */
+	val currentDestination: Destination.Fragment?
+
+	/**
 	 * Go back to the previous fragment. The back stack does not consider other destination types.
 	 *
 	 * @see [canGoBack]
@@ -63,6 +68,7 @@ class NavigationRepositoryImpl(
 	private val defaultDestination: Destination.Fragment,
 ) : NavigationRepository {
 	private val fragmentHistory = Stack<Destination.Fragment>()
+	private var _currentDestination: Destination.Fragment? = null
 
 	private val _currentAction = MutableSharedFlow<NavigationAction>(1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 	override val currentAction = _currentAction.asSharedFlow()
@@ -75,17 +81,21 @@ class NavigationRepositoryImpl(
 		if (destination is Destination.Fragment) {
 			if (replace && fragmentHistory.isNotEmpty()) fragmentHistory[fragmentHistory.lastIndex] = destination
 			else fragmentHistory.push(destination)
+			_currentDestination = destination
 		}
 		_currentAction.tryEmit(action)
 	}
 
 	override val canGoBack: Boolean get() = fragmentHistory.isNotEmpty()
 
+	override val currentDestination: Destination.Fragment? get() = _currentDestination
+
 	override fun goBack(): Boolean {
 		if (fragmentHistory.empty()) return false
 
 		Timber.i("Navigating back")
 		fragmentHistory.pop()
+		_currentDestination = fragmentHistory.lastOrNull()
 		_currentAction.tryEmit(NavigationAction.GoBack)
 		return true
 	}
@@ -93,6 +103,7 @@ class NavigationRepositoryImpl(
 	override fun reset(destination: Destination.Fragment?, clearHistory: Boolean) {
 		fragmentHistory.clear()
 		val actualDestination = destination ?: defaultDestination
+		_currentDestination = actualDestination
 		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, true, false, clearHistory))
 		Timber.i("Navigating to $actualDestination (via reset, clearHistory=$clearHistory)")
 	}

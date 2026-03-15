@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueBaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowItemSelectAction;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -139,8 +140,15 @@ public class KeyProcessor {
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
                         switch (item.getType()) {
-                            case MOVIE:
                             case EPISODE:
+                                // For episodes with Play action (e.g., Next Up), long-press goes to details
+                                if (rowItem.getSelectAction() == BaseRowItemSelectAction.Play) {
+                                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(item.getId()));
+                                } else {
+                                    createItemMenu(rowItem, item.getUserData(), activity);
+                                }
+                                break;
+                            case MOVIE:
                             case TV_CHANNEL:
                             case VIDEO:
                             case PROGRAM:

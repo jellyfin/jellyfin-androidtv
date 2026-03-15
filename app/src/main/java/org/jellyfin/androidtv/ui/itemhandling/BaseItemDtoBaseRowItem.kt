@@ -4,6 +4,7 @@ import android.content.Context
 import org.jellyfin.androidtv.util.apiclient.JellyfinImage
 import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.parentBackdropImages
 import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.seriesThumbImage
@@ -107,6 +108,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 				?: baseItem.seriesPrimaryImage
 
 			preferParentThumb && baseItem?.type == BaseItemKind.EPISODE -> baseItem.parentImages[ImageType.THUMB]
+				?: baseItem.parentBackdropImages.firstOrNull()
 				?: baseItem.seriesThumbImage
 
 			baseItem?.type == BaseItemKind.SEASON -> baseItem.seriesPrimaryImage
