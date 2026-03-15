@@ -444,13 +444,14 @@ fun createDeviceProfile(
 		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
-			add(VideoRangeType.DOVI_WITH_EL)
-			if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
+			// DV profile 7 uses an HDR base layer. If HDR10 is supported we can safely direct play and let the player fall back.
+			if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_EL)
+			if (!supportsHevcHDR10 && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 
 			if (!supportsHevcDolbyVision) {
 				add(VideoRangeType.DOVI)
 				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10)
-				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
+				if (!supportsHevcHDR10 && !supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 			}
 		}
 
