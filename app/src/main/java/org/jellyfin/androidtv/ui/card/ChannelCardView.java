@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.card;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import org.jellyfin.androidtv.R;
@@ -20,8 +21,12 @@ public class ChannelCardView extends FrameLayout {
     }
 
     public void setItem(final BaseItemDto channel) {
+        if (channel == null) return;
         if (channel.getNumber() != null) binding.name.setText(channel.getNumber() + " " + channel.getName());
         else binding.name.setText(channel.getName());
+
+        boolean isFavorite = channel.getUserData() != null && channel.getUserData().isFavorite();
+        binding.favImage.setVisibility(isFavorite ? View.VISIBLE : View.GONE);
 
         BaseItemDto program = channel.getCurrentProgram();
         if (program != null) {

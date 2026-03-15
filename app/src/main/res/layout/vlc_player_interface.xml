@@ -40,22 +40,46 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/popupArea"
         android:layout_width="fill_parent"
-        android:layout_height="225dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/black_transparent"
+        android:layout_marginBottom="16dp"
+        android:background="@color/black_opaque"
+        android:orientation="vertical"
         android:visibility="gone">
+
+        <TextView
+            android:id="@+id/popupHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="48dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/popupDescription"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingHorizontal="48dp"
+            android:paddingTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/rows_area"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="start|bottom"
-            android:layout_marginTop="16dp"
+            android:layout_height="130dp"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal" />
-    </FrameLayout>
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topPanel"
