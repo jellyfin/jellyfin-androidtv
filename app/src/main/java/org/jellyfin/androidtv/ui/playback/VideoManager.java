@@ -438,44 +438,62 @@ public class VideoManager {
 
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
-        int matchedIndex = -2;
+        boolean selectedGroupFound = false;
+        int parsedGroupId = -1;
+        Tracks.Group selectedGroupInfo = null;
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
-            if (matchedIndex > -2)
+            if (selectedGroupFound)
                 break;
-            // Group level information.
-            @C.TrackType int trackType = groupInfo.getType();
+            if (groupInfo.getType() != chosenTrackType)
+                continue;
             TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
-                if (trackType == chosenTrackType) {
-                    if (groupInfo.isTrackSelected(i)) {
-                        // we found the track, set to -1 first to handle failed int parsing
-                        matchedIndex = -1;
-                        int id;
-                        try {
-                            if (group.id.contains(":")) {
-                                id = Integer.parseInt(group.id.split(":")[1]);
-                            } else {
-                                id = Integer.parseInt(group.id);
-                            }
-                        } catch (NumberFormatException e) {
-                            Timber.w("failed to parse group ID [%s]", group.id);
-                            break;
+                if (groupInfo.isTrackSelected(i)) {
+                    selectedGroupFound = true;
+                    selectedGroupInfo = groupInfo;
+                    try {
+                        if (group.id.contains(":")) {
+                            parsedGroupId = Integer.parseInt(group.id.split(":")[1]);
+                        } else {
+                            parsedGroupId = Integer.parseInt(group.id);
                         }
-                        matchedIndex = id;
-                        break;
+                    } catch (NumberFormatException e) {
+                        Timber.w("failed to parse group ID [%s]", group.id);
                     }
+                    break;
                 }
             }
         }
 
         // offset the stream index to account for external streams
-        int exoTrackID = offsetStreamIndex(matchedIndex, true, allStreams);
-        if (exoTrackID < 0)
+        int exoTrackID = offsetStreamIndex(parsedGroupId, true, allStreams);
+        if (exoTrackID >= 0) {
+            Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
+            return exoTrackID;
+        }
+
+        if (selectedGroupInfo == null)
             return -1;
 
-        Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
-        return exoTrackID;
+        // Ordinal fallback for containers with non-sequential track IDs (e.g., MPEG-TS with PIDs).
+        // Find the ordinal of the selected ExoPlayer group, return the Jellyfin stream at that position.
+        int selectedOrdinal = 0;
+        for (Tracks.Group groupInfo : exoTracks.getGroups()) {
+            if (groupInfo.getType() != chosenTrackType) continue;
+            if (groupInfo == selectedGroupInfo) break;
+            selectedOrdinal++;
+        }
+        int ordinal = 0;
+        for (MediaStream stream : allStreams) {
+            if (stream.isExternal() || stream.getType() != streamType) continue;
+            if (ordinal == selectedOrdinal) {
+                Timber.d("ordinal fallback matched exoplayer group ordinal %s to jellyfin stream index %s", selectedOrdinal, stream.getIndex());
+                return stream.getIndex();
+            }
+            ordinal++;
+        }
+        return -1;
     }
 
     public boolean setExoPlayerTrack(int index, @Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
@@ -507,47 +525,77 @@ public class VideoManager {
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         TrackGroup matchedGroup = null;
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
-            // Group level information.
+            if (matchedGroup != null)
+                break;
+
+            // Group level information — filter and parse before entering the per-track loop.
             @C.TrackType int trackType = groupInfo.getType();
+            if (trackType != chosenTrackType)
+                continue;
+
             TrackGroup group = groupInfo.getMediaTrackGroup();
+            int id;
+            try {
+                if (group.id.contains(":")) {
+                    id = Integer.parseInt(group.id.split(":")[1]);
+                } else {
+                    id = Integer.parseInt(group.id);
+                }
+            } catch (NumberFormatException e) {
+                Timber.w("failed to parse group ID [%s]", group.id);
+                continue;
+            }
+            if (id != exoTrackID)
+                continue;
+
             for (int i = 0; i < group.length; i++) {
-                // Individual track information.
-                boolean isSupported = groupInfo.isTrackSupported(i);
-                boolean isSelected = groupInfo.isTrackSelected(i);
                 Format trackFormat = group.getFormat(i);
-
                 Timber.i("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
-                        trackFormat.id, i + 1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
+                        trackFormat.id, i + 1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType,
+                        groupInfo.isTrackSelected(i), groupInfo.isTrackSupported(i));
+            }
 
-                if (trackType != chosenTrackType)
-                    continue;
+            if (!hasSupportedTrack(groupInfo)) {
+                Timber.d("track group is not compatible");
+                return false;
+            }
 
-                int id;
-                try {
-                    if (group.id.contains(":")) {
-                        id = Integer.parseInt(group.id.split(":")[1]);
-                    } else {
-                        id = Integer.parseInt(group.id);
+            if (isTrackGroupSelected(groupInfo)) {
+                Timber.d("track group is already selected");
+                return true;
+            }
+
+            Timber.i("matched exoplayer group %s to mediaStream track %s", group.id, index);
+            matchedGroup = group;
+        }
+
+        if (matchedGroup == null) {
+            // Ordinal fallback for containers with non-sequential track IDs (e.g., MPEG-TS with PIDs).
+            // Find the ordinal of the target Jellyfin stream, select the ExoPlayer group at that position.
+            // Stream existence is guaranteed by the candidateOptional check above.
+            int targetOrdinal = 0;
+            for (MediaStream stream : allStreams) {
+                if (stream.isExternal() || stream.getType() != streamType) continue;
+                if (stream.getIndex() == index) break;
+                targetOrdinal++;
+            }
+            int currentOrdinal = 0;
+            for (Tracks.Group groupInfo : exoTracks.getGroups()) {
+                if (groupInfo.getType() != chosenTrackType) continue;
+                if (currentOrdinal == targetOrdinal) {
+                    if (!hasSupportedTrack(groupInfo)) {
+                        Timber.d("track group is not compatible (ordinal match)");
+                        return false;
                     }
-                    if (id != exoTrackID)
-                        continue;
-                } catch (NumberFormatException e) {
-                    Timber.w("failed to parse group ID [%s]", group.id);
-                    continue;
+                    if (isTrackGroupSelected(groupInfo)) {
+                        Timber.d("track group is already selected (ordinal match)");
+                        return true;
+                    }
+                    Timber.i("ordinal fallback matched jellyfin stream index %s to exoplayer group ordinal %s", index, targetOrdinal);
+                    matchedGroup = groupInfo.getMediaTrackGroup();
+                    break;
                 }
-
-                if (!groupInfo.isTrackSupported(i)) {
-                    Timber.d("track is not compatible");
-                    return false;
-                }
-
-                if (groupInfo.isTrackSelected(i)) {
-                    Timber.d("track is already selected");
-                    return true;
-                }
-
-                Timber.i("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
-                matchedGroup = group;
+                currentOrdinal++;
             }
         }
 
@@ -581,6 +629,24 @@ public class VideoManager {
         Timber.d("Setting playback speed: %f", speed);
 
         mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
+    }
+
+    private static boolean hasSupportedTrack(Tracks.Group groupInfo) {
+        TrackGroup group = groupInfo.getMediaTrackGroup();
+        for (int i = 0; i < group.length; i++) {
+            if (groupInfo.isTrackSupported(i))
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isTrackGroupSelected(Tracks.Group groupInfo) {
+        TrackGroup group = groupInfo.getMediaTrackGroup();
+        for (int i = 0; i < group.length; i++) {
+            if (groupInfo.isTrackSelected(i))
+                return true;
+        }
+        return false;
     }
 
     public void destroy() {

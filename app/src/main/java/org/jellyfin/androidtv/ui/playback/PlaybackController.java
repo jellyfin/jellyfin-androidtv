@@ -690,10 +690,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // Otherwise, query the players
         if (mCurrentOptions.getAudioStreamIndex() != null) {
             currIndex = mCurrentOptions.getAudioStreamIndex();
-        } else if (isTranscoding() && getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
-            currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
-        } else if (hasInitializedVideoManager() && !isTranscoding()) {
-            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.AUDIO, getCurrentlyPlayingItem().getMediaStreams());
+        } else if (isTranscoding()) {
+            MediaSourceInfo mediaSource = getCurrentMediaSource();
+            if (mediaSource != null && mediaSource.getDefaultAudioStreamIndex() != null)
+                currIndex = mediaSource.getDefaultAudioStreamIndex();
+        } else if (hasInitializedVideoManager()) {
+            MediaSourceInfo mediaSource = getCurrentMediaSource();
+            if (mediaSource != null && mediaSource.getMediaStreams() != null)
+                currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.AUDIO, mediaSource.getMediaStreams());
         }
         return currIndex;
     }
@@ -755,14 +759,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
 
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
-        if (currentMediaSource == null
-                || currentMediaSource.getMediaStreams() == null
-                || index >= currentMediaSource.getMediaStreams().size()) {
+        if (currentMediaSource == null || currentMediaSource.getMediaStreams() == null) {
+            return;
+        }
+
+        // Look up the requested stream by its Index key, not by list position
+        MediaStream requestedStream = findStreamByIndex(currentMediaSource.getMediaStreams(), MediaStreamType.AUDIO, index);
+        if (requestedStream == null) {
+            Timber.w("requested audio stream index %s not found in media source", index);
             return;
         }
 
         String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
-        String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
+        String currentAudioIsoCode = requestedStream.getLanguage();
 
         if (currentAudioIsoCode != null
                 && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
@@ -1304,6 +1313,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setZoom(@NonNull ZoomMode mode) {
         if (hasInitializedVideoManager())
             mVideoManager.setZoom(mode);
+    }
+
+    private static @Nullable MediaStream findStreamByIndex(@NonNull List<MediaStream> streams, @NonNull MediaStreamType type, int index) {
+        for (MediaStream stream : streams) {
+            if (stream.getType() == type && stream.getIndex() == index) {
+                return stream;
+            }
+        }
+        return null;
     }
 
     /**
