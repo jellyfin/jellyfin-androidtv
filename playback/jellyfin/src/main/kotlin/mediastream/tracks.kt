@@ -5,6 +5,7 @@ import org.jellyfin.playback.core.mediastream.MediaStreamContainer
 import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
 import org.jellyfin.sdk.model.api.MediaStream
 import org.jellyfin.sdk.model.api.MediaStreamType
+import org.jellyfin.sdk.model.api.VideoRangeType
 
 fun MediaInfo.getMediaStreamContainer() = MediaStreamContainer(
 	format = requireNotNull(mediaSource.container)
@@ -35,6 +36,8 @@ private fun getAudioTrack(stream: MediaStream) = MediaStreamAudioTrack(
 
 private fun getVideoTrack(stream: MediaStream) = MediaStreamVideoTrack(
 	codec = requireNotNull(stream.codec),
+	isDolbyVisionP7 = stream.videoRangeType == VideoRangeType.DOVI_WITH_EL ||
+		stream.videoRangeType == VideoRangeType.DOVI_WITH_ELHDR10_PLUS,
 )
 
 // TODO Implement Subtitle track type

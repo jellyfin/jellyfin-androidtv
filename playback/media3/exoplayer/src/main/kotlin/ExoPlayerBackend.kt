@@ -16,6 +16,7 @@ import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
+import org.jellyfin.playback.media3.exoplayer.compat.DvCompatRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
@@ -31,6 +32,7 @@ import io.github.peerless2012.ass.media.type.AssRenderType
 import io.github.peerless2012.ass.media.widget.AssSubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.mediastream.mediatype.MediaType
@@ -46,6 +48,7 @@ import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
 import org.jellyfin.playback.media3.exoplayer.support.toFormats
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -61,6 +64,7 @@ class ExoPlayerBackend(
 	}
 
 	private var currentStream: PlayableMediaStream? = null
+	private val currentStreamIsDvP7 = AtomicBoolean(false)
 	private var subtitleView: SubtitleView? = null
 	private val audioPipeline = ExoPlayerAudioPipeline()
 	private val audioAttributeState = AudioAttributeState()
@@ -96,7 +100,7 @@ class ExoPlayerBackend(
 			}
 		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
 
-		val renderersFactory = DefaultRenderersFactory(context).apply {
+		val renderersFactory = DvCompatRenderersFactory(context, exoPlayerOptions.dvForceCompatMode, currentStreamIsDvP7).apply {
 			setEnableDecoderFallback(true)
 			setExtensionRendererMode(
 				when (exoPlayerOptions.preferFfmpeg) {
@@ -240,6 +244,9 @@ class ExoPlayerBackend(
 		if (currentStream == stream) return
 
 		currentStream = stream
+		currentStreamIsDvP7.set(
+			stream.tracks.filterIsInstance<MediaStreamVideoTrack>().any { it.isDolbyVisionP7 }
+		)
 
 		var preparedItemIndex = (0 until exoPlayer.mediaItemCount).firstOrNull { index ->
 			exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
@@ -294,6 +301,7 @@ class ExoPlayerBackend(
 	override fun stop() {
 		exoPlayer.stop()
 		currentStream = null
+		currentStreamIsDvP7.set(false)
 	}
 
 	override fun seekTo(position: Duration) {

@@ -54,6 +54,7 @@ data class MediaStreamAudioTrack(
 
 data class MediaStreamVideoTrack(
 	override val codec: String,
+	val isDolbyVisionP7: Boolean = false,
 ) : MediaStreamTrack
 
 // TODO: Add subtitle track
