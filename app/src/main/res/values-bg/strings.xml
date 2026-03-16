@@ -202,9 +202,9 @@
     <string name="lbl_show_premieres">Премиери на сезона на сериала</string>
     <string name="lbl_select_date">Изберете дата</string>
     <string name="lbl_at_any_time">По всяко време</string>
-    <string name="lbl_subtitle_text_color">Цвят на субтитри</string>
-    <string name="lbl_subtitle_background_color">Цвят на фона на субтитрите</string>
-    <string name="lbl_subtitle_text_stroke_color">Цвят на контур на субтитри</string>
+    <string name="lbl_subtitle_text_color">Цвят на текста</string>
+    <string name="lbl_subtitle_background_color">Цвят на фона</string>
+    <string name="lbl_subtitle_text_stroke_color">Цвят на контурa</string>
     <string name="lbl_previous_episode">Предишен епизод</string>
     <string name="lbl_album_name">Име на албума</string>
     <string name="lbl_sports">Спорт</string>
@@ -249,7 +249,7 @@
     <string name="lbl_unknown_key">Непознат(a) (%1s)</string>
     <string name="pref_clock_display">Покажи часовника</string>
     <string name="enable_smart_view">Активирайте умен екран</string>
-    <string name="lbl_new_only">Само ново</string>
+    <string name="lbl_new_only">Само нови</string>
     <string name="lbl_exit">Изход</string>
     <string name="lbl_my_media">Моята медия</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -280,12 +280,12 @@
     <string name="lbl_user_server">%1$s в %2$s</string>
     <string name="lbl_hidden">Скрит</string>
     <string name="lbl_new_episodes">Нови епизоди</string>
-    <string name="lbl_live_broadcasts">Предаване на живо</string>
+    <string name="lbl_live_broadcasts">Предавания на живо</string>
     <string name="lbl_repeat_episodes">Повтори епизодите</string>
     <string name="pref_theme_dark">Тъмна (по подразбиране)</string>
     <string name="pref_next_up_behavior_title">Покажи информацията на следващото видео</string>
     <string name="grid_direction_vertical">Вертикално</string>
-    <string name="pref_button_remapping_description">Натисните който и да е бутон на дистанционното за да назначите</string>
+    <string name="pref_button_remapping_description">Натисните бутон на дистанционното за да го назначите</string>
     <string name="mark_watched">Маркирай гледаните</string>
     <string name="episode_missing_message">Този епизод липсва от вашата библеотека.Искате ли да го пропуснете, и да продължите със следващия?</string>
     <string name="msg_live_tv_next">Зареди следващите %1$d часа?</string>
@@ -475,4 +475,7 @@
     <string name="pref_screensaver_ageratingrequired_title">Изисквай възрастова оценка</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Показване на всички елементи</string>
     <string name="pref_external_player">Използвай външен плейър</string>
+    <string name="pref_next_up_timeout_summary">Колко време да се чака, преди визпорйзвеждане на следващия елемент</string>
+    <string name="pref_still_watching_behavior_title">Показване на прозорец за време на изчакване при неактивност</string>
+    <string name="grid_direction">Посока на решетката</string>
 </resources>
