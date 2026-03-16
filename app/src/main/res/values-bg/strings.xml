@@ -390,7 +390,7 @@
     <string name="segment_action_skip">Пропускане</string>
     <string name="segment_type_commercial">Реклами</string>
     <string name="segment_type_intro">Интрота</string>
-    <string name="segment_type_outro">Аутрота</string>
+    <string name="segment_type_outro">Финални сцени</string>
     <string name="segment_type_recap">Обобщения</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="rewind">Превъртане назад</string>
