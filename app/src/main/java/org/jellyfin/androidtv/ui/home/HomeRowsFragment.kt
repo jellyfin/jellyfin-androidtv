@@ -215,7 +215,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		nowPlaying.update(requireContext(), adapter as MutableObjectAdapter<Row>)
 	}
 
-	private fun refreshRows(force: Boolean = false, delayed: Boolean = true) {
+	private fun refreshRows(force: Boolean = false, delayed: Boolean = true, loadHiddenItems: Boolean = true) {
 		lifecycleScope.launch(Dispatchers.IO) {
 			if (delayed) delay(1.5.seconds)
 
@@ -223,6 +223,14 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				val rowAdapter = (adapter[i] as? ListRow)?.adapter as? ItemRowAdapter
 				if (force) rowAdapter?.Retrieve()
 				else rowAdapter?.ReRetrieveIfNeeded()
+			}
+			if(loadHiddenItems) {
+				val hiddenItems = (adapter as MutableObjectAdapter<Row>).getHiddenItems()
+				for (hiddenItem in hiddenItems) {
+					val rowAdapter = (hiddenItem as? ListRow)?.adapter as? ItemRowAdapter
+					if(force) rowAdapter?.Retrieve()
+					else rowAdapter?.ReRetrieveIfNeeded()
+				}
 			}
 		}
 	}

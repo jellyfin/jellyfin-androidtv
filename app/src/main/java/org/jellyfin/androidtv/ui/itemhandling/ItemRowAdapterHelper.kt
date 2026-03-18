@@ -88,8 +88,8 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 					)
 				}
 			)
-
-			if (response.items.isEmpty()) removeRow()
+			if (response.items.isEmpty()) hideRow()
+			else showRow()
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },
 			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
