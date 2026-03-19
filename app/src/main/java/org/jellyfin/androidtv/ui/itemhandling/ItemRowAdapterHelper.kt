@@ -134,7 +134,8 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 					}
 				)
 
-				if (items.isEmpty()) removeRow()
+				if (items.isEmpty()) hideRow()
+				else showRow()
 			} else {
 				setItems(
 					items = response.items,
@@ -147,7 +148,8 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 					}
 				)
 
-				if (response.items.isEmpty()) removeRow()
+				if (response.items.isEmpty()) hideRow()
+				else showRow()
 			}
 		}.fold(
 			onSuccess = { notifyRetrieveFinished() },

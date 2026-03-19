@@ -14,6 +14,19 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	private val data = mutableListOf<T>()
 	private val hiddenItems = mutableMapOf<Int, T>()
 
+	private fun visibleToAbsoluteIndex(visibleIndex: Int): Int {
+		var absoluteIndex = visibleIndex
+		for (hiddenIndex in hiddenItems.keys.sorted()) {
+			if (hiddenIndex <= absoluteIndex) absoluteIndex++
+		}
+		return absoluteIndex
+	}
+
+	private fun absoluteToVisibleIndex(absoluteIndex: Int): Int {
+		val hiddenBefore = hiddenItems.keys.count { it < absoluteIndex }
+		return absoluteIndex - hiddenBefore
+	}
+
 	// Constructors
 	constructor(presenterSelector: PresenterSelector) : super(presenterSelector)
 	constructor(presenter: Presenter) : super(presenter)
@@ -106,11 +119,13 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	fun hideAt(index: Int): Boolean {
 		if (index < 0 || index >= data.size) return false
 
-		hiddenItems[index] = data[index]
-		if(!removeAt(index)) {
-			hiddenItems.remove(index)
-			return false
-		}
+		val absoluteIndex = visibleToAbsoluteIndex(index)
+		val removed = data.removeAt(index)
+		hiddenItems[absoluteIndex] = removed
+
+		notifyItemRangeRemoved(index, 1)
+		val shiftedCount = data.size - index
+		if (shiftedCount > 0) notifyItemRangeChanged(index, shiftedCount)
 
 		return true
 	}
@@ -121,9 +136,12 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	}
 
 	fun showAt(index: Int): Boolean {
-		if (index < 0 || index >= data.size) return false
+		if (index < 0) return false
 
-		hiddenItems.remove(index)?.let { add(index, it) }
+		val item = hiddenItems.remove(index) ?: return false
+		val visibleIndex = absoluteToVisibleIndex(index)
+		data.add(visibleIndex, item)
+		notifyItemRangeInserted(visibleIndex, 1)
 
 		return true
 	}
