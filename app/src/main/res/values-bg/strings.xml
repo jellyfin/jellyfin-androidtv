@@ -272,7 +272,7 @@
     <string name="pref_clock_display_playback">По време на възпроизвеждане</string>
     <string name="login_help_title">Нужда от помощ?</string>
     <string name="lbl_remove">Премахни</string>
-    <string name="pref_about_title">Отностно</string>
+    <string name="pref_about_title">Относно</string>
     <string name="episode_missing">Епизода липсва</string>
     <string name="turn_off">Изключете тази опция</string>
     <string name="just_one">Само този</string>
