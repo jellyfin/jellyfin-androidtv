@@ -620,4 +620,12 @@
     <string name="font_weight_800">Extra grassetto</string>
     <string name="font_weight_900">Nero</string>
     <string name="subtitle_preview_text">I sottotitoli appariranno così</string>
+    <string name="color_presets">Predefiniti</string>
+    <string name="color_custom">Personalizza colore</string>
+    <string name="color_alpha">Trasparenza</string>
+    <string name="playback_video_player">Lettore video</string>
+    <string name="video_player_internal">Lettore video integrato</string>
+    <string name="video_player_external">App esterna</string>
+    <string name="playback_video_player_external_empty">Non hai installato sul tuo dispositivo nessun lettore video che possa aprire i video di Jellyfin.</string>
+    <string name="filters">Filtri</string>
 </resources>
