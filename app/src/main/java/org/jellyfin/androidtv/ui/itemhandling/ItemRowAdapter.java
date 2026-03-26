@@ -402,7 +402,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsFilter(mAlbumArtistsQuery, filters.getFilters());
                 break;
             default:
-                mQuery = ItemRowAdapterHelperKt.setItemsFilter(mQuery, filters.getFilters());
+                mQuery = ItemRowAdapterHelperKt.setItemsFilter(mQuery, filters);
         }
         removeRow();
     }

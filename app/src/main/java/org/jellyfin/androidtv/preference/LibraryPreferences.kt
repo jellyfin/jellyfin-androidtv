@@ -6,6 +6,7 @@ import org.jellyfin.androidtv.constant.PosterSize
 import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
+import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
@@ -26,6 +27,7 @@ class LibraryPreferences(
 		// Filters
 		val filterFavoritesOnly = booleanPreference("FilterFavoritesOnly", false)
 		val filterUnwatchedOnly = booleanPreference("FilterUnwatchedOnly", false)
+		val filterGenre = stringPreference("FilterGenre", "")
 
 		// Item sorting
 		val sortBy = enumPreference("SortBy", ItemSortBy.SORT_NAME)

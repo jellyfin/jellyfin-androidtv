@@ -66,7 +66,9 @@ import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -111,6 +113,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private int mGridItemSpacingVertical = 0;
     private int mGridPaddingLeft = 0;
     private int mGridPaddingTop = 0;
+    private List<String> mAvailableGenres;
+    private boolean mLoadingGenres = false;
 
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<PreferencesRepository> preferencesRepository = inject(PreferencesRepository.class);
@@ -305,11 +309,16 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     public void setStatusText(String folderName) {
         String text = getString(R.string.lbl_showing) + " ";
         FilterOptions filters = mAdapter.getFilters();
-        if (filters == null || (!filters.isFavoriteOnly() && !filters.isUnwatchedOnly())) {
+        if (filters == null || !filters.hasFilters()) {
             text += getString(R.string.lbl_all_items);
         } else {
-            text += (filters.isUnwatchedOnly() ? getString(R.string.lbl_unwatched) : "") + " " +
-                    (filters.isFavoriteOnly() ? getString(R.string.lbl_favorites) : "");
+            List<String> activeFilters = new ArrayList<>();
+            if (filters.hasGenre()) {
+                activeFilters.add(getString(R.string.lbl_genres) + ": " + filters.getSelectedGenre());
+            }
+            if (filters.isUnwatchedOnly()) activeFilters.add(getString(R.string.lbl_unwatched));
+            if (filters.isFavoriteOnly()) activeFilters.add(getString(R.string.lbl_favorites));
+            text += String.join(", ", activeFilters);
         }
 
         if (mAdapter.getStartLetter() != null) {
@@ -608,6 +617,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     private void buildAdapter() {
         mCardPresenter = new CardPresenter(false, mImageType, mCardHeight, true);
+        mAvailableGenres = null;
 
         Timber.d("buildAdapter cardHeight <%s> getCardWidthBy <%s> chunks <%s> type <%s>", mCardHeight, (int) getCardWidthBy(mCardHeight, mImageType, mFolder), mRowDef.getChunkSize(), mRowDef.getQueryType().toString());
 
@@ -656,6 +666,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         FilterOptions filters = new FilterOptions();
         filters.setFavoriteOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterFavoritesOnly()));
         filters.setUnwatchedOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterUnwatchedOnly()));
+        if (mRowDef.getQueryType() == QueryType.Items) {
+            String selectedGenre = libraryPreferences.get(LibraryPreferences.Companion.getFilterGenre());
+            filters.setSelectedGenre(selectedGenre.isEmpty() ? null : selectedGenre);
+        }
 
         mAdapter.setRetrieveFinishedListener(new EmptyResponse(getLifecycle()) {
             @Override
@@ -697,14 +711,98 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     private ImageButton mSortButton;
     private ImageButton mSettingsButton;
+    private ImageButton mGenreButton;
     private ImageButton mUnwatchedButton;
     private ImageButton mFavoriteButton;
     private ImageButton mLetterButton;
+
+    private void showGenreMenu() {
+        if (mGenreButton == null || mLoadingGenres) return;
+        if (mAvailableGenres != null) {
+            showGenreMenu(mAvailableGenres);
+            return;
+        }
+
+        mLoadingGenres = true;
+        BrowseGridFragmentHelperKt.loadGenreNames(
+                getLifecycle(),
+                api.getValue(),
+                mFolder != null ? mFolder.getId() : null,
+                genres -> {
+                    mLoadingGenres = false;
+                    if (!isAdded() || mGenreButton == null) return;
+                    mAvailableGenres = genres;
+                    showGenreMenu(genres);
+                },
+                error -> {
+                    mLoadingGenres = false;
+                    Timber.e(error, "Failed to load genres for browse filter");
+                }
+        );
+    }
+
+    private void showGenreMenu(List<String> genres) {
+        if (mGenreButton == null) return;
+
+        FilterOptions filters = mAdapter.getFilters();
+        String selectedGenre = filters != null ? filters.getSelectedGenre() : null;
+
+        PopupMenu genreMenu = new PopupMenu(getActivity(), mGenreButton, Gravity.END);
+        MenuItem allGenresItem = genreMenu.getMenu().add(0, 0, 0, getString(R.string.lbl_all_genres));
+        allGenresItem.setChecked(selectedGenre == null || selectedGenre.isEmpty());
+        for (int i = 0; i < genres.size(); i++) {
+            String genre = genres.get(i);
+            MenuItem item = genreMenu.getMenu().add(0, i + 1, i + 1, genre);
+            item.setChecked(genre.equals(selectedGenre));
+        }
+        genreMenu.getMenu().setGroupCheckable(0, true, true);
+        genreMenu.setOnMenuItemClickListener(item -> {
+            setSelectedGenre(item.getItemId() == 0 ? null : genres.get(item.getItemId() - 1));
+            item.setChecked(true);
+            return true;
+        });
+        genreMenu.show();
+    }
+
+    private void setSelectedGenre(@Nullable String genre) {
+        if (mAdapter == null) return;
+
+        FilterOptions filters = mAdapter.getFilters();
+        if (filters == null) filters = new FilterOptions();
+
+        String normalizedGenre = genre == null || genre.isEmpty() ? null : genre;
+        if (Objects.equals(filters.getSelectedGenre(), normalizedGenre)) return;
+
+        filters.setSelectedGenre(normalizedGenre);
+        if (mGenreButton != null) mGenreButton.setActivated(filters.hasGenre());
+        mAdapter.setFilters(filters);
+        mAdapter.Retrieve();
+        updateDisplayPrefs();
+    }
+
+    private boolean itemMatchesSelectedGenre(@Nullable FilterOptions filters, @Nullable BaseRowItem item) {
+        if (filters == null || !filters.hasGenre()) return true;
+        if (item == null || item.getBaseItem() == null || item.getBaseItem().getGenres() == null) return false;
+
+        for (String genre : item.getBaseItem().getGenres()) {
+            if (filters.getSelectedGenre() != null && filters.getSelectedGenre().equalsIgnoreCase(genre)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private void updateDisplayPrefs() {
         CoroutineUtils.runOnLifecycle(getLifecycle(), (coroutineScope, continuation) -> {
             libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
             libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
+            if (mAdapter.getQueryType() == QueryType.Items) {
+                libraryPreferences.set(
+                        LibraryPreferences.Companion.getFilterGenre(),
+                        mAdapter.getFilters().hasGenre() ? Objects.requireNonNull(mAdapter.getFilters().getSelectedGenre()) : ""
+                );
+            }
             libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
             libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
             return libraryPreferences.commit(continuation);
@@ -747,6 +845,20 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         binding.toolBar.addView(mSortButton);
 
         if (mRowDef.getQueryType() == QueryType.Items) {
+            mGenreButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+            mGenreButton.setImageResource(R.drawable.ic_filter);
+            mGenreButton.setActivated(mAdapter.getFilters().hasGenre());
+            mGenreButton.setMaxHeight(size);
+            mGenreButton.setAdjustViewBounds(true);
+            mGenreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showGenreMenu();
+                }
+            });
+            mGenreButton.setContentDescription(getString(R.string.lbl_genres));
+            binding.toolBar.addView(mGenreButton);
+
             mUnwatchedButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
             mUnwatchedButton.setImageResource(R.drawable.ic_unwatch);
             mUnwatchedButton.setActivated(mAdapter.getFilters().isUnwatchedOnly());
@@ -882,13 +994,21 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         Timber.i("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
         ItemRowAdapterHelperKt.refreshItem(mAdapter, api.getValue(), this, mCurrentItem, () -> {
             //Now - if filtered make sure we still pass
-            if (mAdapter.getFilters() == null) return null;
-            if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+            FilterOptions filters = mAdapter.getFilters();
+            if (filters == null) return null;
+
+            int currentIndex = mAdapter.indexOf(mCurrentItem);
+            BaseRowItem currentItem = currentIndex != -1 ? (BaseRowItem) mAdapter.get(currentIndex) : mCurrentItem;
+            mCurrentItem = currentItem;
+
+            if ((filters.isFavoriteOnly() && !currentItem.isFavorite())
+                    || (filters.isUnwatchedOnly() && currentItem.isPlayed())
+                    || !itemMatchesSelectedGenre(filters, currentItem)) {
                 // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
                 binding.toolBar.requestFocus();
-                mAdapter.remove(mCurrentItem);
+                mAdapter.remove(currentItem);
                 mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
-                updateCounter(mAdapter.indexOf(mCurrentItem));
+                updateCounter(mAdapter.indexOf(currentItem));
             }
             return null;
         });

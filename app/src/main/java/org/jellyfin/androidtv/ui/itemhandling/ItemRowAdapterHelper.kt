@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.LiveTvOption
+import org.jellyfin.androidtv.data.model.FilterOptions
 import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
 import org.jellyfin.androidtv.data.querying.GetTrailersRequest
@@ -666,9 +667,10 @@ fun setArtistsFilter(
 
 fun setItemsFilter(
 	request: GetItemsRequest,
-	filters: Collection<ItemFilter>?,
+	filterOptions: FilterOptions?,
 ) = request.copy(
-	filters = filters,
+	filters = filterOptions?.filters,
+	genres = filterOptions?.genres,
 )
 
 fun setAlbumArtistsStartLetter(
