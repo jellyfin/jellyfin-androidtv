@@ -56,6 +56,7 @@
     <string name="lbl_latest">Προστέθηκαν πρόσφατα</string>
     <string name="lbl_search">Αναζήτηση</string>
     <string name="lbl_genres">Είδη</string>
+    <string name="lbl_all_genres">Όλα τα είδη</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Προτεινόμενα</string>
     <string name="lbl_views">Προβολές</string>

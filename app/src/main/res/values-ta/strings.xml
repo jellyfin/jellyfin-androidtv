@@ -86,6 +86,7 @@
     <string name="msg_not_implemented">" செயல்படுத்தப்படவில்லை"</string>
     <string name="lbl_search">தேடு</string>
     <string name="lbl_genres">வகைகள்</string>
+    <string name="lbl_all_genres">அனைத்து வகைகளும்</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">பரிந்துரைக்கப்படுகிறது</string>
     <string name="lbl_by_letter">எழுத்தின் மூலம்</string>

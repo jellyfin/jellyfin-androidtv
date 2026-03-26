@@ -325,6 +325,7 @@
     <string name="continue_listening">കേൾക്കുന്നത് തുടരുക</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">വിഭാഗങ്ങൾ</string>
+    <string name="lbl_all_genres">എല്ലാ വിഭാഗങ്ങളും</string>
     <string name="lbl_home">വീട്</string>
     <string name="state_disabled">വികലാംഗം</string>
     <string name="lbl_latest_in">%1$s -ൽ അടുത്തിടെ ചേർത്തത്</string>

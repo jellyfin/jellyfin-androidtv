@@ -36,6 +36,7 @@
     <string name="state_disabled">Çaktivizuar</string>
     <string name="lbl_suggested">Sugjeruar</string>
     <string name="lbl_genres">Zhanret</string>
+    <string name="lbl_all_genres">Të gjitha zhanret</string>
     <string name="msg_not_implemented">" nuk është e mundur"</string>
     <string name="lbl_latest">Shtuar së fundi</string>
     <string name="lbl_play">Luaj</string>

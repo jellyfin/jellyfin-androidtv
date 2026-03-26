@@ -15,6 +15,7 @@
     <string name="lbl_by_letter">字母顺序</string>
     <string name="lbl_suggested">推荐欣赏</string>
     <string name="lbl_genres">风格类型</string>
+    <string name="lbl_all_genres">所有风格类型</string>
     <string name="msg_not_implemented">" 未实现"</string>
     <string name="lbl_latest">最近添加</string>
     <string name="lbl_by_name">按名称排序</string>

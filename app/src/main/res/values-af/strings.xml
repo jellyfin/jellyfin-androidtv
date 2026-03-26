@@ -19,6 +19,7 @@
     <string name="lbl_by_letter">Volgens letter</string>
     <string name="lbl_suggested">Voorgestel</string>
     <string name="lbl_genres">Genres</string>
+    <string name="lbl_all_genres">Alle genres</string>
     <string name="lbl_search">Soek</string>
     <string name="lbl_latest">Onlangs bygevoeg</string>
     <string name="lbl_latest_in">Onlangs bygevoeg in %1$s</string>

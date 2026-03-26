@@ -15,6 +15,7 @@
     <string name="lbl_by_letter">Por letra</string>
     <string name="lbl_suggested">Sugeridos</string>
     <string name="lbl_genres">Gêneros</string>
+    <string name="lbl_all_genres">Todos os gêneros</string>
     <string name="lbl_search">Busca</string>
     <string name="msg_not_implemented">" não implementado"</string>
     <string name="lbl_latest">Adicionado Recentemente</string>

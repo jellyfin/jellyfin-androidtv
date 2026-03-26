@@ -208,6 +208,7 @@
     <string name="msg_not_implemented">" stöds ännu inte"</string>
     <string name="lbl_search">Sök</string>
     <string name="lbl_genres">Genrer</string>
+    <string name="lbl_all_genres">Alla genrer</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Föreslagna</string>
     <string name="lbl_by_letter">I bokstavsordning</string>

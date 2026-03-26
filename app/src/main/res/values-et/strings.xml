@@ -19,6 +19,7 @@
     <string name="msg_not_implemented">" ei ole rakendatud"</string>
     <string name="lbl_search">Otsing</string>
     <string name="lbl_genres">Žanrid</string>
+    <string name="lbl_all_genres">Kõik žanrid</string>
     <string name="lbl_status">%1$s/%2$s</string>
     <string name="lbl_suggested">Soovitatud</string>
     <string name="lbl_on_now">Praegu</string>

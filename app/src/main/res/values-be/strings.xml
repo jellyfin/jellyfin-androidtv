@@ -11,6 +11,7 @@
     <string name="chapters">Раздзелы</string>
     <string name="lbl_settings">Налады</string>
     <string name="lbl_genres">Жанры</string>
+    <string name="lbl_all_genres">Усе жанры</string>
     <string name="lbl_favorites">Абранае</string>
     <string name="lbl_movies">Фільмы</string>
     <string name="lbl_pause">Паўза</string>

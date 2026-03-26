@@ -20,6 +20,7 @@
     <string name="lbl_by_letter">అక్షరం ద్వారా</string>
     <string name="lbl_suggested">సిఫార్సు చేయబడింది</string>
     <string name="lbl_genres">శైలులు</string>
+    <string name="lbl_all_genres">అన్ని శైలులు</string>
     <string name="lbl_search">వెతకండి</string>
     <string name="msg_not_implemented">" అమలు చేయలేదు"</string>
     <string name="lbl_latest">తాజా</string>

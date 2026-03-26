@@ -17,6 +17,7 @@
     <string name="lbl_by_letter">Үсгээр</string>
     <string name="lbl_suggested">Санал болгож буй</string>
     <string name="lbl_genres">Төрөл зүйл</string>
+    <string name="lbl_all_genres">Бүх төрөл зүйл</string>
     <string name="lbl_search">Хайх</string>
     <string name="msg_not_implemented">" хэрэгжүүлээгүй байна"</string>
     <string name="lbl_latest">Сүүлд нэмэгдсэн</string>

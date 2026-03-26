@@ -97,5 +97,6 @@
     <string name="lbl_latest_in">Recién agregado en %1$s</string>
     <string name="continue_listening">Continuar escuchando</string>
     <string name="lbl_genres">Géneros</string>
+    <string name="lbl_all_genres">Todos los géneros</string>
     <string name="because_you_watched">Porque viste %1$s</string>
 </resources>

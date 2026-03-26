@@ -148,6 +148,7 @@
     <string name="lbl_sd">SD</string>
     <string name="lbl_series">系列</string>
     <string name="lbl_genres">風格類型</string>
+    <string name="lbl_all_genres">所有風格類型</string>
     <string name="lbl_trailers">預告</string>
     <string name="lbl_cast_crew">卡司</string>
     <string name="msg_unable_to_cancel">無法取消錄製</string>

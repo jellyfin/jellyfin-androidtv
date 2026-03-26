@@ -51,6 +51,7 @@
     <string name="lbl_latest">Ostatnio dodane</string>
     <string name="lbl_search">Szukaj</string>
     <string name="lbl_genres">Gatunek</string>
+    <string name="lbl_all_genres">Wszystkie gatunki</string>
     <string name="lbl_suggested">Sugerowane</string>
     <string name="lbl_by_letter">Alfabetycznie</string>
     <string name="lbl_views">Odtworzeń</string>

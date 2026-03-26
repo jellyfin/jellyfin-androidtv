@@ -16,6 +16,7 @@
     <string name="lbl_by_letter">По буквам</string>
     <string name="lbl_suggested">Предлагаемое</string>
     <string name="lbl_genres">Жанры</string>
+    <string name="lbl_all_genres">Все жанры</string>
     <string name="lbl_search">Поиск</string>
     <string name="msg_not_implemented">" не реализовано"</string>
     <string name="lbl_latest">Недавно добавлено</string>

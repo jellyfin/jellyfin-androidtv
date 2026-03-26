@@ -124,6 +124,7 @@
     <string name="lbl_latest">Ychwanegwyd yn ddiweddar</string>
     <string name="lbl_search">Chwilio</string>
     <string name="lbl_genres">Genreau</string>
+    <string name="lbl_all_genres">Pob genre</string>
     <string name="lbl_settings">Gosodiadau</string>
     <string name="settings_title">Gosodiadau</string>
     <string name="pref_playback">Chwarae</string>

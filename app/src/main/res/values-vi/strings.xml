@@ -81,6 +81,7 @@
     <string name="msg_not_implemented">" không được thực hiện"</string>
     <string name="lbl_search">Tìm kiếm</string>
     <string name="lbl_genres">Thể loại</string>
+    <string name="lbl_all_genres">Tất cả thể loại</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Được Đề Xuất</string>
     <string name="lbl_by_letter">Theo ký tự</string>

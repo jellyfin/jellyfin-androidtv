@@ -348,6 +348,7 @@
     <string name="lbl_videos">فيديو</string>
     <string name="lbl_trailers">عروض قادمة</string>
     <string name="lbl_genres">أنواع</string>
+    <string name="lbl_all_genres">جميع الأنواع</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="license_version">اصدار</string>
     <string name="select_version">اصدار</string>

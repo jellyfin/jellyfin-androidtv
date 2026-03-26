@@ -35,6 +35,7 @@
     <string name="msg_not_implemented">" не е имплементирано"</string>
     <string name="lbl_search">Пребарај</string>
     <string name="lbl_genres">Жанрови</string>
+    <string name="lbl_all_genres">Сите жанрови</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Предложено</string>
     <string name="lbl_by_letter">По буква</string>

@@ -40,6 +40,7 @@
     <string name="msg_not_implemented">" није уграђено"</string>
     <string name="lbl_search">Претрага</string>
     <string name="lbl_genres">Жанрови</string>
+    <string name="lbl_all_genres">Сви жанрови</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Препоручено</string>
     <string name="lbl_by_letter">По слову</string>

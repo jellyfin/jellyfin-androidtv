@@ -21,6 +21,7 @@
     <string name="lbl_suggested">Iliyopendekezwa</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">Aina</string>
+    <string name="lbl_all_genres">Aina zote</string>
     <string name="lbl_search">Tafuta</string>
     <string name="msg_not_implemented">" Haijatekelezwa"</string>
     <string name="lbl_latest">Zilizoongezwa hivi karibuni</string>

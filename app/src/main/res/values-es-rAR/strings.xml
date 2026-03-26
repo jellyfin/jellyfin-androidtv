@@ -40,6 +40,7 @@
     <string name="lbl_favorites">Favoritos</string>
     <string name="lbl_search">Buscar</string>
     <string name="lbl_genres">Géneros</string>
+    <string name="lbl_all_genres">Todos los géneros</string>
     <string name="lbl_views">Vistas</string>
     <string name="lbl_on_now">Ahora</string>
     <string name="lbl_next_up">Siguiente</string>

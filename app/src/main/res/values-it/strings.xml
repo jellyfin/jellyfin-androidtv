@@ -15,6 +15,7 @@
     <string name="lbl_by_letter">Per lettera</string>
     <string name="lbl_suggested">Consigliati</string>
     <string name="lbl_genres">Generi</string>
+    <string name="lbl_all_genres">Tutti i generi</string>
     <string name="msg_not_implemented">" non implementato"</string>
     <string name="lbl_latest">Ultimi</string>
     <string name="lbl_by_name">Per nome</string>

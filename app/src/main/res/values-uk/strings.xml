@@ -30,6 +30,7 @@
     <string name="msg_not_implemented">" не реалізовано"</string>
     <string name="lbl_search">Пошук</string>
     <string name="lbl_genres">Жанри</string>
+    <string name="lbl_all_genres">Усі жанри</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Рекомендації</string>
     <string name="lbl_by_letter">За алфавітом</string>

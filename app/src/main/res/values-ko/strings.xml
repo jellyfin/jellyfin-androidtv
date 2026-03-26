@@ -14,6 +14,7 @@
     <string name="lbl_next_up">다음</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">장르</string>
+    <string name="lbl_all_genres">모든 장르</string>
     <string name="lbl_search">검색</string>
     <string name="lbl_favorites">즐겨찾기</string>
     <string name="lbl_coming_up">방송 예정</string>

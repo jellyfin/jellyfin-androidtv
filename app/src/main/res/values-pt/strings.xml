@@ -47,6 +47,7 @@
     <string name="lbl_on_now">Agora</string>
     <string name="lbl_views">Visualizações</string>
     <string name="lbl_genres">Gêneros</string>
+    <string name="lbl_all_genres">Todos os gêneros</string>
     <string name="lbl_search">Procurar</string>
     <string name="lbl_latest">Adicionado recentemente</string>
     <string name="lbl_latest_in">Adicionado recentemente em %1$s</string>

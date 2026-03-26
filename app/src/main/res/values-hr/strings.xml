@@ -50,6 +50,7 @@
     <string name="lbl_latest">Nedavno dodano</string>
     <string name="lbl_search">Traži</string>
     <string name="lbl_genres">Žanrovi</string>
+    <string name="lbl_all_genres">Svi žanrovi</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Preporučeno</string>
     <string name="lbl_by_letter">Prema slovu</string>

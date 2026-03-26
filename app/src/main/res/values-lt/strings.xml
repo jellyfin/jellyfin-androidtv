@@ -18,6 +18,7 @@
     <string name="lbl_latest">Nesenai pridėta</string>
     <string name="lbl_search">Paieška</string>
     <string name="lbl_genres">Žanrai</string>
+    <string name="lbl_all_genres">Visi žanrai</string>
     <string name="lbl_suggested">Rekomenduojami</string>
     <string name="lbl_by_letter">Pagal raidę</string>
     <string name="lbl_views">Peržiūros</string>

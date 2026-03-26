@@ -16,6 +16,7 @@
     <string name="lbl_suggested">おすすめ</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">ジャンル</string>
+    <string name="lbl_all_genres">すべてのジャンル</string>
     <string name="lbl_search">検索</string>
     <string name="msg_not_implemented">" 未実装"</string>
     <string name="lbl_latest">最近追加された項目</string>

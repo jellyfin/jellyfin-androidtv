@@ -15,4 +15,5 @@
     <string name="loading">Maghintay…</string>
     <string name="lbl_other_channels">Ibang channels</string>
     <string name="lbl_collections">Mga Koleksyon</string>
+    <string name="lbl_all_genres">Lahat ng genre</string>
 </resources>

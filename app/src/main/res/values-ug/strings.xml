@@ -31,6 +31,7 @@
     <string name="lbl_suggested">تەۋسىيەلەر</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">ئۇسلۇب شەكلى</string>
+    <string name="lbl_all_genres">بارلىق ئۇسلۇب شەكلى</string>
     <string name="lbl_search">ئىزدەش</string>
     <string name="msg_not_implemented">" قاچىلانمىغان"</string>
     <string name="lbl_favorites">ساقلىۋالغانلىرىم</string>

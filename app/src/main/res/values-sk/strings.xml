@@ -13,6 +13,7 @@
     <string name="lbl_latest">Nedávno pridané</string>
     <string name="lbl_search">Vyhľadávanie</string>
     <string name="lbl_genres">Žánre</string>
+    <string name="lbl_all_genres">Všetky žánre</string>
     <string name="lbl_next_up">Nasleduje</string>
     <string name="lbl_continue_watching">Pokračovať v pozeraní</string>
     <string name="lbl_settings">Nastavenia</string>

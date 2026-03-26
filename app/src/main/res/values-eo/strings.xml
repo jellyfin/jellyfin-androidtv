@@ -83,6 +83,7 @@
     <string name="lbl_latest">Plej novaj</string>
     <string name="lbl_search">Serĉu</string>
     <string name="lbl_genres">Ĝenroj</string>
+    <string name="lbl_all_genres">Ĉiuj ĝenroj</string>
     <string name="lbl_settings">Preferoj</string>
     <string name="settings_title">Preferoj</string>
     <string name="pref_playback">Ludado</string>

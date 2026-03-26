@@ -70,6 +70,7 @@
     <string name="lbl_latest">Последно добавени</string>
     <string name="lbl_search">Търсене</string>
     <string name="lbl_genres">Жанрове</string>
+    <string name="lbl_all_genres">Всички жанрове</string>
     <string name="lbl_suggested">Препоръчано</string>
     <string name="lbl_views">Гледания</string>
     <string name="lbl_on_now">В момента</string>

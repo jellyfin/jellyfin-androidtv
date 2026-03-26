@@ -15,6 +15,7 @@
     <string name="lbl_by_letter">Efter bogstav</string>
     <string name="lbl_suggested">Foreslået</string>
     <string name="lbl_genres">Genrer</string>
+    <string name="lbl_all_genres">Alle genrer</string>
     <string name="lbl_search">Søg</string>
     <string name="msg_not_implemented">" ikke implementeret"</string>
     <string name="lbl_latest">Senest tilføjede</string>

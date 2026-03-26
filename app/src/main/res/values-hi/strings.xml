@@ -31,6 +31,7 @@
     <string name="lbl_next_up">अगला</string>
     <string name="lbl_views">बार देखा गया</string>
     <string name="lbl_genres">शैलियां</string>
+    <string name="lbl_all_genres">सभी शैलियां</string>
     <string name="lbl_latest_in">हाल ही में %1$s पहले जोड़ा गया है</string>
     <string name="lbl_favorite_channels">पसंदीदा चैनल</string>
     <string name="lbl_collections">संग्रह</string>

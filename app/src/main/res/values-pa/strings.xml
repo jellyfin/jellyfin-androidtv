@@ -3,4 +3,5 @@
     <string name="btn_cancel">ਰੋਕੋ</string>
     <string name="loading">ਖੁਲ ਰਿਹਾ ਹੈ…</string>
     <string name="video_error_unknown_error">ਵੀਡੀਓ ਲੋਡ ਨਾਈ ਹੋ ਰਹੀ</string>
+    <string name="lbl_all_genres">ਸਾਰੀਆਂ ਸ਼ੈਲੀਆਂ</string>
 </resources>

@@ -188,6 +188,7 @@
     <string name="msg_not_implemented">" not implemented"</string>
     <string name="lbl_search">Search</string>
     <string name="lbl_genres">Genres</string>
+    <string name="lbl_all_genres">All genres</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Suggested</string>
     <string name="lbl_by_letter">By letter</string>

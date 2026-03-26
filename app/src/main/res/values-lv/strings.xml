@@ -156,6 +156,7 @@
     <string name="msg_not_implemented">" nav ieviests"</string>
     <string name="lbl_search">Meklēt</string>
     <string name="lbl_genres">Žanri</string>
+    <string name="lbl_all_genres">Visi žanri</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Ieteiktie</string>
     <string name="lbl_by_letter">Pēc Burta</string>

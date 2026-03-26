@@ -46,6 +46,7 @@
     <string name="msg_not_implemented">" اجرا نشده"</string>
     <string name="lbl_search">جست و جو</string>
     <string name="lbl_genres">ژانر ها</string>
+    <string name="lbl_all_genres">همه ژانرها</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">پیشنهادی</string>
     <string name="lbl_by_letter">براساس حروف</string>

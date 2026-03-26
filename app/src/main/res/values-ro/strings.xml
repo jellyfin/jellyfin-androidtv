@@ -72,6 +72,7 @@
     <string name="msg_not_implemented">" neimplementat"</string>
     <string name="lbl_search">Caută</string>
     <string name="lbl_genres">Genuri</string>
+    <string name="lbl_all_genres">Toate genurile</string>
     <string name="lbl_suggested">Recomandări</string>
     <string name="lbl_by_letter">Pe litere</string>
     <string name="lbl_views">Vizualizări</string>
