@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.onKeyEvent
 import org.jellyfin.androidtv.integration.dream.composable.DreamHost
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.base.dialog.DialogBase
@@ -37,6 +38,10 @@ fun InAppScreensaver() {
 				indication = null,
 			) {
 				interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = false)
+			}
+			.onKeyEvent {
+				interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = true)
+				false
 			}
 	) {
 		DreamHost()
