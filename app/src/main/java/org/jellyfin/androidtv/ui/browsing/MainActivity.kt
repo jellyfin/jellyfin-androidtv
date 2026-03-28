@@ -6,7 +6,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.setContent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -20,11 +20,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
-import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
-import org.jellyfin.androidtv.ui.navigation.NavigationAction
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.composable.compat.AppNavigationHost
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.ui.settings.compat.MainActivitySettings
@@ -42,14 +42,6 @@ class MainActivity : FragmentActivity() {
 	private val interactionTrackerViewModel by viewModel<InteractionTrackerViewModel>()
 	private val workManager by inject<WorkManager>()
 
-	private lateinit var binding: ActivityMainBinding
-
-	private val backPressedCallback = object : OnBackPressedCallback(false) {
-		override fun handleOnBackPressed() {
-			if (navigationRepository.canGoBack) navigationRepository.goBack()
-		}
-	}
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		applyTheme()
 
@@ -63,22 +55,24 @@ class MainActivity : FragmentActivity() {
 				else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 			}.launchIn(lifecycleScope)
 
-		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 		if (savedInstanceState == null && navigationRepository.canGoBack) navigationRepository.reset(clearHistory = true)
 
 		navigationRepository.currentAction
 			.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-			.onEach { action ->
-				handleNavigationAction(action)
-				backPressedCallback.isEnabled = navigationRepository.canGoBack
+			.onEach {
 				interactionTrackerViewModel.notifyInteraction(canCancel = false, userInitiated = false)
 			}.launchIn(lifecycleScope)
 
-		binding = ActivityMainBinding.inflate(layoutInflater)
-		binding.background.setContent { AppBackground() }
-		binding.settings.setContent { MainActivitySettings() }
-		binding.screensaver.setContent { InAppScreensaver() }
-		setContentView(binding.root)
+		setContent {
+			JellyfinTheme {
+				AppBackground()
+				AppNavigationHost(
+					navigationRepository = navigationRepository,
+				)
+				InAppScreensaver()
+				MainActivitySettings()
+			}
+		}
 	}
 
 	override fun onResume() {
@@ -116,17 +110,6 @@ class MainActivity : FragmentActivity() {
 		lifecycleScope.launch(Dispatchers.IO) {
 			Timber.i("MainActivity stopped")
 			sessionRepository.restoreSession(destroyOnly = true)
-		}
-	}
-
-	private fun handleNavigationAction(action: NavigationAction) {
-		interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = false)
-
-		when (action) {
-			is NavigationAction.NavigateFragment -> binding.contentView.navigate(action)
-			NavigationAction.GoBack -> binding.contentView.goBack()
-
-			NavigationAction.Nothing -> Unit
 		}
 	}
 
