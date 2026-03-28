@@ -3,9 +3,32 @@
     android:layout_width="200dp"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/lb_basic_card_info_bg_color"
+    android:background="@drawable/channel_card_background"
+    android:duplicateParentState="true"
     android:padding="14dp"
     android:gravity="center">
+
+    <ImageView
+        android:id="@+id/favImage"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="4dp"
+        android:layout_centerVertical="false"
+        android:src="@drawable/ic_heart_red"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/recIndicator"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="4dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        tools:src="@drawable/ic_record_series_red" />
 
     <TextView
         android:layout_width="match_parent"
@@ -14,7 +37,8 @@
         tools:text="WBTV 3.1"
         android:id="@+id/name"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_toEndOf="@+id/favImage"
+        android:layout_toStartOf="@+id/recIndicator"
         android:maxLines="1"
         android:ellipsize="end" />
 
