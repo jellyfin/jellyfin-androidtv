@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.shared.toolbar.StartupToolbar
 
 class StartupToolbarFragment : Fragment() {
@@ -21,16 +20,14 @@ class StartupToolbarFragment : Fragment() {
 	): View = ComposeView(requireContext()).apply {
 		setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 		setContent {
-			JellyfinTheme {
-				StartupToolbar(
-					openHelp = {
-						parentFragmentManager.commit {
-							addToBackStack(null)
-							replace<ConnectHelpAlertFragment>(R.id.content_view)
-						}
+			StartupToolbar(
+				openHelp = {
+					parentFragmentManager.commit {
+						addToBackStack(null)
+						replace<ConnectHelpAlertFragment>(R.id.content_view)
 					}
-				)
-			}
+				}
+			)
 		}
 	}
 }
