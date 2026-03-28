@@ -444,15 +444,21 @@ public class VideoManager {
         // offset the stream index to account for external streams
         int exoTrackID = offsetStreamIndex(parsedGroupId, true, allStreams);
         if (exoTrackID >= 0) {
-            Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
-            return exoTrackID;
+            MediaStream directMatch = findStreamByIndex(allStreams, streamType, exoTrackID);
+            if (directMatch != null) {
+                Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
+                return directMatch.getIndex();
+            }
+            Timber.w("translated exoplayer track index %s does not map to a non-external %s stream", exoTrackID, streamType);
         }
 
         if (selectedGroupInfo == null)
             return -1;
 
-        // Ordinal fallback for containers with non-sequential track IDs (e.g., MPEG-TS with PIDs).
-        // Find the ordinal of the selected ExoPlayer group, return the Jellyfin stream at that position.
+        // Best-effort fallback when we cannot map the selected ExoPlayer group back to a
+        // Jellyfin stream index directly. Match by ordinal position among nonexternal
+        // tracks of the same type. This covers cases such as composite group IDs like "0x65"
+        // as well as other ID mismatches.
         int selectedOrdinal = 0;
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
             if (groupInfo.getType() != chosenTrackType) continue;
@@ -545,9 +551,11 @@ public class VideoManager {
         }
 
         if (matchedGroup == null) {
-            // Ordinal fallback for containers with non-sequential track IDs (e.g., MPEG-TS with PIDs).
-            // Find the ordinal of the target Jellyfin stream, select the ExoPlayer group at that position.
-            // Stream existence is guaranteed by the candidateOptional check above.
+            // Best-effort fallback when direct ExoPlayer-group matching does not find the
+            // requested Jellyfin stream. Match by ordnial position among non-external
+            // tracks of the same type. This covers cases such as composite group IDs like
+            // "0x61" as well as other ID mismatches. Stream existence is guaranteed by the
+            // candidateOptional check above.
             int targetOrdinal = 0;
             for (MediaStream stream : allStreams) {
                 if (stream.isExternal() || stream.getType() != streamType) continue;
@@ -613,6 +621,19 @@ public class VideoManager {
                 return true;
         }
         return false;
+    }
+
+    private static @Nullable MediaStream findStreamByIndex(
+            @NonNull List<MediaStream> streams,
+            @NonNull MediaStreamType type,
+            int index
+    ) {
+        for (MediaStream stream : streams) {
+            if (!stream.isExternal() && stream.getType() == type && stream.getIndex() == index) {
+                return stream;
+            }
+        }
+        return null;
     }
 
     private static boolean isTrackGroupSelected(Tracks.Group groupInfo) {

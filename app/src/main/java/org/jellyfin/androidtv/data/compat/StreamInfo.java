@@ -9,6 +9,8 @@ import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import timber.log.Timber;
+
 public class StreamInfo {
     private UUID ItemId;
 
@@ -78,6 +80,7 @@ public class StreamInfo {
                 return stream.getDeliveryMethod();
             }
         }
+        Timber.w("Subtitle stream index %d not found in media streams", subtitleStreamIndex);
         return SubtitleDeliveryMethod.DROP;
     }
 

@@ -84,6 +84,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     protected VideoOptions mCurrentOptions;
     private int mDefaultAudioIndex = -1;
+    private int mAudioSwitchRestartIndex = -1;
     protected boolean burningSubs = false;
     private float mRequestedPlaybackSpeed = -1.0f;
 
@@ -784,6 +785,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Timber.i("trying to switch audio stream from %s to %s", currAudioIndex, index);
         if (currAudioIndex == index) {
             Timber.d("skipping setting audio stream, already set to requested index %s", index);
+            mAudioSwitchRestartIndex = -1;
             if (mCurrentOptions.getAudioStreamIndex() == null || mCurrentOptions.getAudioStreamIndex() != index) {
                 Timber.i("setting mCurrentOptions audio stream index from %s to %s", mCurrentOptions.getAudioStreamIndex(), index);
                 mCurrentOptions.setAudioStreamIndex(index);
@@ -797,13 +799,26 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (!isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, currentMediaSource.getMediaStreams())) {
             mCurrentOptions.setMediaSourceId(currentMediaSource.getId());
             mCurrentOptions.setAudioStreamIndex(index);
-        } else {
+            mAudioSwitchRestartIndex = -1;
+        } else if (index != mAudioSwitchRestartIndex) {
+            // In-player switch failed or we are transcoding — restart playback so the server
+            // can provide a stream with the requested audio track.
+            // Circuit breaker: allow only one automatic restart per requested index to prevent
+            // an infinite restart loop. If the restarted attempt still fails, the "give-up" else
+            // clears the guard so the user can try again manually.
+            Timber.i("restarting playback for audio stream index %d", index);
+            mAudioSwitchRestartIndex = index;
             startSpinner();
             mCurrentOptions.setMediaSourceId(currentMediaSource.getId());
             mCurrentOptions.setAudioStreamIndex(index);
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
+        } else {
+            Timber.w("audio track switch to index %d failed after restart, not retrying", index);
+            mAudioSwitchRestartIndex = -1;
+            if (mFragment != null && mFragment.getContext() != null)
+                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_audio_track_switch_failed));
         }
     }
 
@@ -882,6 +897,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void resetPlayerErrors() {
         playbackRetries = 0;
+        mAudioSwitchRestartIndex = -1;
     }
 
     private void clearPlaybackSessionOptions() {
