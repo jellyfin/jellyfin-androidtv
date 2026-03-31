@@ -99,7 +99,14 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 			return setSubtitleIndex(-1)
 		}
 
-		when (stream.deliveryMethod) {
+		// The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
+		// is set, so we treat all subtitles as burned in when transcoding with the option enabled.
+		val deliveryMethod = when {
+			shouldBurnInSubtitles(currentStreamInfo.playMethod) -> SubtitleDeliveryMethod.ENCODE
+			else -> stream.deliveryMethod
+		}
+
+		when (deliveryMethod) {
 			SubtitleDeliveryMethod.ENCODE -> {
 				Timber.i("Restarting playback for subtitle baking")
 
