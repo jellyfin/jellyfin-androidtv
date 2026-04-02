@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.ProvideLocalInteractionTracker
 import org.jellyfin.androidtv.ui.composable.compat.AppNavigationHost
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
@@ -65,12 +66,16 @@ class MainActivity : FragmentActivity() {
 
 		setContent {
 			JellyfinTheme {
-				AppBackground()
-				AppNavigationHost(
-					navigationRepository = navigationRepository,
-				)
-				InAppScreensaver()
-				MainActivitySettings()
+				ProvideLocalInteractionTracker(
+					interactionTracker = { interactionTrackerViewModel.notifyInteraction(false, userInitiated = true) }
+				) {
+					AppBackground()
+					AppNavigationHost(
+						navigationRepository = navigationRepository,
+					)
+					InAppScreensaver()
+					MainActivitySettings()
+				}
 			}
 		}
 	}
@@ -139,12 +144,6 @@ class MainActivity : FragmentActivity() {
 
 	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
-
-	override fun onUserInteraction() {
-		super.onUserInteraction()
-
-		interactionTrackerViewModel.notifyInteraction(false, userInitiated = true)
-	}
 
 	@Suppress("RestrictedApi") // False positive
 	override fun dispatchKeyEvent(event: KeyEvent): Boolean {
