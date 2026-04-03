@@ -1,0 +1,14 @@
+影音媒體，由你話事。
+
+Jellyfin 專案係一個開源、免費嘅媒體伺服器。冇收費、冇追蹤、亦都冇隱藏目的。只要裝咗我哋嘅免費伺服器，就可以將你所有音訊、影片、相片等等集中埋一齊。
+
+要用呢個 App，你必須先架設好並執行緊一個 Jellyfin 伺服器。想知多啲可以去 <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a> 睇睇。
+
+搭配 Jellyfin 伺服器，你可以：
+
+* 收睇直播電視同預錄節目（需額外硬體服務）
+* 投放去屋企網路入面嘅 Chromecast 裝置
+* 將媒體串流到你嘅 Android 裝置
+* 喺簡單易用嘅介面度瀏覽你嘅收藏
+
+呢個係 Android 官方嘅 Jellyfin 配套 App。多謝你支持 Jellyfin！
