@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.getResolutionName
 import org.jellyfin.androidtv.util.TimeUtils
@@ -246,16 +245,13 @@ fun BaseItemInfoRow(
 	includeRuntime: Boolean,
 ) {
 	val userPreferences = koinInject<UserPreferences>()
-	val ratingType = userPreferences[UserPreferences.defaultRatingType]
 
 	Row(
 		horizontalArrangement = Arrangement.spacedBy(8.dp),
 		verticalAlignment = Alignment.CenterVertically,
 	) {
-		if (ratingType != RatingType.RATING_HIDDEN) {
-			item.communityRating?.let { InfoRowCommunityRating(it / 10f) }
-			item.criticRating?.let { InfoRowCriticRating(it / 100f) }
-		}
+		item.communityRating?.let { InfoRowCommunityRating(it / 10f) }
+		item.criticRating?.let { InfoRowCriticRating(it / 100f) }
 
 		when (item.type) {
 			BaseItemKind.EPISODE -> {

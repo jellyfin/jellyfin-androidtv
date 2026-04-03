@@ -68,11 +68,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascimento "</string>
     <string name="lbl_loading_elipses">Carregando…</string>
-    <string name="msg_playback_not_allowed">Reprodução não permitida neste horário</string>
-    <string name="msg_playback_restricted">O administrador restringiu a reprodução deste item neste horário</string>
+    <string name="msg_playback_not_allowed">Reprodução não permitida neste momento</string>
+    <string name="msg_playback_restricted">O administrador restringiu a reprodução deste item neste momento</string>
     <string name="msg_playback_incompatible">Não foi possível reproduzir este formato de vídeo</string>
     <string name="lbl_never">Nunca</string>
-    <string name="msg_cannot_play_time">Não foi possível reproduzir este item no momento</string>
+    <string name="msg_cannot_play_time">Não é possível reproduzir este item no momento</string>
     <string name="msg_cannot_play">Este item não pode ser reproduzido</string>
     <string name="lbl_no_items">Sem itens</string>
     <string name="lbl_empty">Vazio</string>
@@ -102,7 +102,7 @@
     <string name="lbl_repeat_options">Repetir opções</string>
     <string name="msg_cancel_entire_series">Deseja realmente cancelar esta SÉRIE COMPLETA?</string>
     <string name="pref_audio_direct">Direto</string>
-    <string name="pref_audio_compat">Downmix para estéreo</string>
+    <string name="pref_audio_compat">Converter para estéreo</string>
     <string name="lbl_audio_output">Saída de áudio</string>
     <string name="lbl_goto_series">Ir para séries</string>
     <string name="lbl_enable_debug">Opções de depuração</string>
@@ -273,9 +273,6 @@
     <string name="pref_clock_display_browsing">Durante a navegação</string>
     <string name="lbl_always">Sempre</string>
     <string name="pref_clock_display">Mostrar relógio</string>
-    <string name="pref_default_rating">Tipo de classificação padrão</string>
-    <string name="lbl_tomatoes">Tomates</string>
-    <string name="lbl_stars">Estrelas</string>
     <string name="login_help_description">O Jellyfin requer um servidor para se conectar. Visite nossa documentação em docs.jellyfin.org ou escanei o QR code para começar a usar o Jellyfin.</string>
     <string name="login_help_title">Precisa de ajuda\?</string>
     <string name="connect_manually_by_address">Digite o endereço do servidor</string>
@@ -289,8 +286,8 @@
     <string name="image_size_small">Pequeno</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="enable_smart_view_description">Smart screen mostra itens relevantes em vez de uma grade</string>
-    <string name="enable_smart_view">Habilitar smart screen</string>
+    <string name="enable_smart_view_description">A tela inteligente mostra itens relevantes em vez de uma grade</string>
+    <string name="enable_smart_view">Habilitar tela inteligente</string>
     <string name="lbl_sign_out">Sair</string>
     <string name="lbl_remove">Remover</string>
     <string name="lbl_server">Servidor</string>
@@ -306,16 +303,16 @@
     <string name="lbl_hide_unwatched_count">Quando o item foi assistido</string>
     <string name="pref_watched_indicator">Mostrar indicadores assistidos</string>
     <string name="user_picker_last_user_summary">Usar a última conta ativa</string>
-    <string name="user_picker_last_user_title">Mais usado recentemente</string>
+    <string name="user_picker_last_user_title">Último usado</string>
     <string name="user_picker_disable_summary">Sempre mostrar tela de login</string>
     <string name="user_picker_disable_title">Desativar</string>
     <string name="auto_sign_in">Login automático</string>
     <string name="lbl_switch_user">Trocar conta</string>
     <string name="advanced_settings">Avançado</string>
     <string name="always_authenticate_description">Ativar esta função desativa o login automático</string>
-    <string name="always_authenticate">Sempre peça credenciais</string>
+    <string name="always_authenticate">Sempre solicitar credenciais</string>
     <string name="alphabetical">Alfabética</string>
-    <string name="last_use">Usado mais recentemente</string>
+    <string name="last_use">Último usado</string>
     <string name="enable_playback_module_description">Este é um recurso experimental. Nenhum suporte é fornecido.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
@@ -411,7 +408,7 @@
     <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
     <string name="pref_refresh_rate_scale_on_tv">Escala na TV</string>
     <string name="login_quickconnect_step_3">3. Digite o seguinte código:</string>
-    <string name="login_quickconnect_step_2">2. Abra o menu do usuário e vá para a página do Quick Connect</string>
+    <string name="login_quickconnect_step_2">2. Abra o menu do usuário e vá para a página do QuickConnect</string>
     <string name="login_quickconnect_step_1">1. Abra o aplicativo do Jellyfin no seu telefone ou navegador, e faça login com sua conta</string>
     <string name="login_other_options">Outras opções:</string>
     <string name="login_connect_to">Conectando a %1$s</string>
@@ -495,7 +492,7 @@
     <string name="disable_ui_mode_warning">Desativar avisos de tipo de dispositivos</string>
     <string name="because_you_watched">Por você ter assistido %1$s</string>
     <string name="lbl_hide_watched_checkmark">Quando houverem episódios restantes</string>
-    <string name="photo_albums">Albuns de fotos</string>
+    <string name="photo_albums">Álbuns de fotos</string>
     <string name="channels">Canais</string>
     <string name="photos">Fotos</string>
     <string name="lbl_runtime">Duração</string>
@@ -509,7 +506,7 @@
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
     <plurals name="items">
-        <item quantity="one">Utilizados:%1$s</item>
+        <item quantity="one">Utilizado:%1$s</item>
         <item quantity="many">Utilizados:%1$s</item>
         <item quantity="other">Utilizados:%1$s</item>
     </plurals>
@@ -530,8 +527,8 @@
     </plurals>
     <plurals name="albums">
         <item quantity="one">Álbum %1$s</item>
-        <item quantity="many">Álbums %1$s</item>
-        <item quantity="other">Álbum %1$s</item>
+        <item quantity="many">Álbuns %1$s</item>
+        <item quantity="other">Álbuns %1$s</item>
     </plurals>
     <string name="clear_image_cache">Limpar cache de imagens</string>
     <string name="clear_image_cache_content">Usado: %1$s</string>
@@ -557,19 +554,19 @@
     <string name="lbl_subtitle_text_stroke_color">Cor da borda</string>
     <string name="continue_listening">Continuar reproduzindo</string>
     <string name="all_channels">Todos os canais</string>
-    <string name="past_week">Ultima semana</string>
+    <string name="past_week">Última semana</string>
     <string name="pref_external_player">Usar reprodutor externo</string>
     <string name="current_queue">Fila atual</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usar o FFmpeg para decodificar áudio, mesmo se codecs nativos estiverem disponíveis.</string>
-    <string name="segment_type_preview">Pré-visualizações</string>
+    <string name="segment_type_preview">Prévias</string>
     <string name="segment_type_unknown">Segmentos desconhecidos</string>
-    <string name="segment_type_recap">Recapitulações</string>
+    <string name="segment_type_recap">Resumos</string>
     <string name="segment_action_ask_to_skip">Pedir para pular</string>
     <string name="skip_forward_length">Quantidade de tempo do avançar</string>
     <string name="segment_action_nothing">Fazer nada</string>
     <string name="segment_action_skip">Pular</string>
     <string name="segment_type_commercial">Comerciais</string>
-    <string name="segment_type_intro">Intros</string>
+    <string name="segment_type_intro">Aberturas</string>
     <string name="fast_forward">Avanço rápido</string>
     <string name="rewind">Retroceder</string>
     <string name="preference_enable_trickplay">Habilitar trickplay no player de vídeo</string>
@@ -606,7 +603,7 @@
     <string name="pref_customization_subtitles">Legendas</string>
     <string name="pref_prerolls_enabled">Ative o modo cinema</string>
     <string name="pref_playback_media_segments">Segmentos de mídia</string>
-    <string name="pref_prerolls_enabled_description">Reproduzir intros personalizadas antes de filmes</string>
+    <string name="pref_prerolls_enabled_description">Reproduzir aberturas personalizadas antes dos filmes</string>
     <string name="pref_media_queueing_description">Adicionar episódios seguintes à fila ao reproduzir séries de TV</string>
     <string name="pref_subtitles_weight">Espessura do texto</string>
     <string name="font_weight_100">Fino</string>

@@ -266,9 +266,6 @@
     <string name="pref_clock_display_browsing">Mientras Navega</string>
     <string name="lbl_always">Siempre</string>
     <string name="pref_clock_display">Mostrar Reloj</string>
-    <string name="pref_default_rating">Tipo de Puntuación por Defecto</string>
-    <string name="lbl_tomatoes">Tomates</string>
-    <string name="lbl_stars">Estrellas</string>
     <string name="login_username_field_empty">El nombre de usuario no puede estar vacío</string>
     <string name="login_server_unavailable">No se puede conectar al servidor</string>
     <string name="login_invalid_credentials">Nombre de usuario y/o contraseña inválido</string>
@@ -495,18 +492,18 @@
         <item quantity="other">%1$s pistas</item>
     </plurals>
     <string name="because_you_watched">Porque viste %1$s</string>
-    <string name="lbl_subtitle_text_stroke_color">Color de los bordes de los subtítulos</string>
+    <string name="lbl_subtitle_text_stroke_color">Color de contorno</string>
     <string name="current_queue">En cola</string>
     <string name="segment_type_commercial">Comerciales</string>
     <string name="channels">Canales</string>
     <string name="continue_listening">Seguir escuchando</string>
     <string name="runtime_hours_minutes">%1$dh%2$dm</string>
-    <string name="lbl_subtitle_text_color">Color del texto del subtitulo</string>
+    <string name="lbl_subtitle_text_color">Color del texto</string>
     <string name="person_birthday_and_age">Nació el %1$s (%2$d)</string>
     <string name="photo_albums">Álbumes de fotos</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="runtime_minutes">%1$dm</string>
-    <string name="lbl_subtitle_background_color">Color del fondo del subtitulo</string>
+    <string name="lbl_subtitle_background_color">Color del fondo</string>
     <string name="pref_external_player">Usar un reproductor externo</string>
     <string name="random">Aleatorio</string>
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para la reproducción de audio</string>
@@ -603,4 +600,32 @@
         <item quantity="many">%1$s álbumes</item>
         <item quantity="other">%1$s álbumes</item>
     </plurals>
+    <string name="pref_playback_next_up">A continuación</string>
+    <string name="pref_playback_media_segments">Segmentos de medios</string>
+    <string name="pref_customization_subtitles">Subtítulos</string>
+    <string name="pref_playback_prerolls">Intro</string>
+    <string name="pref_playback_inactivity_prompt">Aviso de inactividad</string>
+    <string name="pref_prerolls_enabled">Activar modo cine</string>
+    <string name="pref_prerolls_enabled_description">Reproducir intros personalizadas antes de las películas</string>
+    <string name="pref_media_queueing">Agregar todos los episodios a la cola de reproducción</string>
+    <string name="pref_media_queueing_description">Agregar episodios subsiguientes a la cola al reproducir series</string>
+    <string name="pref_subtitles_weight">Peso del texto</string>
+    <string name="font_weight_100">Fina</string>
+    <string name="font_weight_200">Extra liviana</string>
+    <string name="font_weight_300">Liviana</string>
+    <string name="font_weight_400">Regular</string>
+    <string name="font_weight_500">Mediana</string>
+    <string name="font_weight_600">Seminegrita</string>
+    <string name="font_weight_700">Negrita</string>
+    <string name="font_weight_800">Extra negrita</string>
+    <string name="font_weight_900">Negra</string>
+    <string name="subtitle_preview_text">Los subtítulos se van a ver así</string>
+    <string name="color_presets">Colores por defecto</string>
+    <string name="color_custom">Personalizar los colores</string>
+    <string name="color_alpha">Transparencia</string>
+    <string name="playback_video_player">Reproductor de video</string>
+    <string name="video_player_internal">Reproductor de video integrado</string>
+    <string name="video_player_external">Aplicación externa</string>
+    <string name="playback_video_player_external_empty">No tenés ninguna aplicación para reproducir video instalada en tu dispositivo que pueda abrir videos de Jellyfin.</string>
+    <string name="filters">Filtros</string>
 </resources>

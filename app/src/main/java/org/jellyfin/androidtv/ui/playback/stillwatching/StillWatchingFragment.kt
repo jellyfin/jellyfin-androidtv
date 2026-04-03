@@ -248,13 +248,11 @@ class StillWatchingFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	) = content {
-		JellyfinTheme {
-			val id = remember(arguments) { arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull() }
-			if (id != null) {
-				StillWatchingScreen(
-					itemId = id,
-				)
-			}
+		val id = remember(arguments) { arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull() }
+		if (id != null) {
+			StillWatchingScreen(
+				itemId = id,
+			)
 		}
 	}
 }

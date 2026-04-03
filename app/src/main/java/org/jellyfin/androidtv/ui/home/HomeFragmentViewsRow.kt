@@ -9,14 +9,13 @@ import org.jellyfin.androidtv.data.querying.GetUserViewsRequest
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
-import org.jellyfin.androidtv.ui.presentation.UserViewCardPresenter
 
 class HomeFragmentViewsRow(
 	val small: Boolean,
 ) : HomeFragmentRow {
 	private companion object {
-		val smallCardPresenter = UserViewCardPresenter(true)
-		val largeCardPresenter = UserViewCardPresenter(false)
+		val smallCardPresenter = CardPresenter(true, 75)
+		val largeCardPresenter = CardPresenter(true, 126)
 	}
 
 	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: MutableObjectAdapter<Row>) {

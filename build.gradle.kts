@@ -1,11 +1,12 @@
 plugins {
+	alias(libs.plugins.android.application) apply false
+	alias(libs.plugins.android.library) apply false
 	alias(libs.plugins.detekt)
 	java
 }
 
 buildscript {
 	dependencies {
-		classpath(libs.android.gradle)
 		classpath(libs.kotlin.gradle)
 	}
 }
@@ -31,25 +32,6 @@ detekt {
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
 	reports {
 		sarif.required.set(true)
-	}
-}
-
-subprojects {
-	// Configure default Kotlin compiler options
-	tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile> {
-		compilerOptions {
-			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-		}
-	}
-
-	// Configure default Android options
-	plugins.withType<com.android.build.gradle.BasePlugin> {
-		configure<com.android.build.gradle.BaseExtension> {
-			compileOptions {
-				sourceCompatibility = JavaVersion.VERSION_1_8
-				targetCompatibility = JavaVersion.VERSION_1_8
-			}
-		}
 	}
 }
 

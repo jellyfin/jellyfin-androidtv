@@ -5,11 +5,11 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
-import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
@@ -23,15 +23,24 @@ import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
+import io.github.peerless2012.ass.media.AssHandler
+import io.github.peerless2012.ass.media.factory.AssRenderersFactory
+import io.github.peerless2012.ass.media.kt.withAssMkvSupport
+import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
+import io.github.peerless2012.ass.media.type.AssRenderType
+import io.github.peerless2012.ass.media.widget.AssSubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
+import org.jellyfin.playback.core.mediastream.mediatype.MediaType
+import org.jellyfin.playback.core.mediastream.mediatype.mediaType
 import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
+import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
@@ -48,11 +57,20 @@ class ExoPlayerBackend(
 	companion object {
 		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
 		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
+		const val MEDIA_ITEM_COUNT_MAX = 10
 	}
 
 	private var currentStream: PlayableMediaStream? = null
 	private var subtitleView: SubtitleView? = null
-	private var audioPipeline = ExoPlayerAudioPipeline()
+	private val audioPipeline = ExoPlayerAudioPipeline()
+	private val audioAttributeState = AudioAttributeState()
+	private val timedEventState = TimedEventState()
+	private var lastKnownDuration: Duration? = null
+
+	private val assHandler by lazy {
+		AssHandler(AssRenderType.OVERLAY_OPEN_GL)
+	}
+
 	private val exoPlayer by lazy {
 		val dataSourceFactory = DefaultDataSource.Factory(
 			context,
@@ -70,7 +88,14 @@ class ExoPlayerBackend(
 			setConstantBitrateSeekingAlwaysEnabled(true)
 		}
 
-		val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
+		val mediaSourceFactory = if (exoPlayerOptions.enableLibass) {
+			val assSubtitleParserFactory = AssSubtitleParserFactory(assHandler)
+			val assExtractorsFactory = extractorsFactory.withAssMkvSupport(assSubtitleParserFactory, assHandler)
+			DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
+				setSubtitleParserFactory(assSubtitleParserFactory)
+			}
+		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
+
 		val renderersFactory = DefaultRenderersFactory(context).apply {
 			setEnableDecoderFallback(true)
 			setExtensionRendererMode(
@@ -79,6 +104,9 @@ class ExoPlayerBackend(
 					false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
 				}
 			)
+		}.let { renderersFactory ->
+			if (exoPlayerOptions.enableLibass) AssRenderersFactory(assHandler, renderersFactory)
+			else renderersFactory
 		}
 
 		ExoPlayer.Builder(context)
@@ -94,9 +122,6 @@ class ExoPlayerBackend(
 				})
 			})
 			.setMediaSourceFactory(mediaSourceFactory)
-			.setAudioAttributes(AudioAttributes.Builder().apply {
-				setUsage(C.USAGE_MEDIA)
-			}.build(), true)
 			.setPauseAtEndOfMediaItems(true)
 			.build()
 			.also { player ->
@@ -104,6 +129,10 @@ class ExoPlayerBackend(
 
 				if (exoPlayerOptions.enableDebugLogging) {
 					player.addAnalyticsListener(EventLogger())
+				}
+
+				if (exoPlayerOptions.enableLibass) {
+					assHandler.init(player)
 				}
 			}
 	}
@@ -150,6 +179,17 @@ class ExoPlayerBackend(
 			val queueEntry = mediaItem?.localConfiguration?.tag as? QueueEntry
 			audioPipeline.normalizationGain = queueEntry?.normalizationGain
 		}
+
+		override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+			val duration = exoPlayer.duration.takeUnless { it == C.TIME_UNSET }?.milliseconds
+			if (duration == lastKnownDuration) return
+			timedEventState.onDurationChange(exoPlayer, duration)
+			lastKnownDuration = duration
+		}
+
+		override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
+			timedEventState.onSeek(oldPosition.positionMs.milliseconds, newPosition.positionMs.milliseconds, lastKnownDuration ?: Duration.ZERO)
+		}
 	}
 
 	override fun supportsStream(
@@ -163,7 +203,11 @@ class ExoPlayerBackend(
 	override fun setSubtitleView(surfaceView: PlayerSubtitleView?) {
 		if (surfaceView != null) {
 			if (subtitleView == null) {
-				subtitleView = SubtitleView(surfaceView.context)
+				subtitleView = SubtitleView(surfaceView.context).apply {
+					if (exoPlayerOptions.enableLibass) {
+						addView(AssSubtitleView(surfaceView.context, assHandler))
+					}
+				}
 			}
 
 			surfaceView.addView(subtitleView)
@@ -181,11 +225,13 @@ class ExoPlayerBackend(
 			setUri(stream.url)
 		}.build()
 
-		// Remove any old preloaded items (skips the first which is the playing item)
-		while (exoPlayer.mediaItemCount > 1) exoPlayer.removeMediaItem(0)
-		// Add new item
+		// Remove any excessive items from the start
+		while (exoPlayer.mediaItemCount > MEDIA_ITEM_COUNT_MAX - 1) exoPlayer.removeMediaItem(0)
+
+		// Add new item to the end of the media item list
 		exoPlayer.addMediaItem(mediaItem)
 
+		// Instruct exoplayer to prepare
 		exoPlayer.prepare()
 	}
 
@@ -195,14 +241,43 @@ class ExoPlayerBackend(
 
 		currentStream = stream
 
-		val streamIsPrepared = (0 until exoPlayer.mediaItemCount).any { index ->
+		var preparedItemIndex = (0 until exoPlayer.mediaItemCount).firstOrNull { index ->
 			exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
 		}
 
-		if (!streamIsPrepared) prepareItem(item)
+		// Prepare the item now if it doesn't exist yet
+		if (preparedItemIndex == null) {
+			prepareItem(item)
+			preparedItemIndex = exoPlayer.mediaItemCount - 1
+		}
 
+		// Seek to prepared media item
+		when (preparedItemIndex) {
+			exoPlayer.currentMediaItemIndex - 1 -> exoPlayer.seekToPreviousMediaItem()
+			exoPlayer.currentMediaItemIndex + 1 -> exoPlayer.seekToNextMediaItem()
+			exoPlayer.currentMediaItemIndex -> Unit
+			else -> exoPlayer.seekTo(preparedItemIndex, 0)
+		}
+
+		// Update audio attributes
+		val contentType = when (item.mediaType) {
+			MediaType.Video -> C.AUDIO_CONTENT_TYPE_MOVIE
+			MediaType.Audio -> C.AUDIO_CONTENT_TYPE_MUSIC
+			MediaType.Unknown -> C.AUDIO_CONTENT_TYPE_UNKNOWN
+		}
+
+		audioAttributeState.updateAudioAttributes(
+			builder = {
+				setContentType(contentType)
+				setUsage(C.USAGE_MEDIA)
+			},
+			onChange = { audioAttributes ->
+				exoPlayer.setAudioAttributes(audioAttributes, true)
+			}
+		)
+
+		// Enjoy!
 		Timber.i("Playing ${item.mediaStream?.url}")
-		exoPlayer.seekToNextMediaItem()
 		exoPlayer.play()
 	}
 
@@ -244,6 +319,10 @@ class ExoPlayerBackend(
 	override fun getPositionInfo(): PositionInfo = PositionInfo(
 		active = exoPlayer.currentPosition.milliseconds,
 		buffer = exoPlayer.bufferedPosition.milliseconds,
-		duration = if (exoPlayer.duration == C.TIME_UNSET) Duration.ZERO else exoPlayer.duration.milliseconds,
+		duration = lastKnownDuration ?: Duration.ZERO,
 	)
+
+	override fun setTimedEvents(timedEvents: List<TimedEvent>) {
+		timedEventState.setTimedEvents(exoPlayer, timedEvents)
+	}
 }

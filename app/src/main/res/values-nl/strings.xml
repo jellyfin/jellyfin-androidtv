@@ -8,8 +8,8 @@
     <string name="settings_title">Voorkeuren</string>
     <string name="chapters">Hoofdstukken</string>
     <string name="lbl_settings">Voorkeuren</string>
-    <string name="lbl_continue_watching">Verderkijken</string>
-    <string name="lbl_next_up">Als volgende</string>
+    <string name="lbl_continue_watching">Verder kijken</string>
+    <string name="lbl_next_up">Volgende kijken</string>
     <string name="lbl_on_now">Nu bezig</string>
     <string name="lbl_views">Weergaven</string>
     <string name="lbl_by_letter">Op alfabet</string>
@@ -266,9 +266,6 @@
     <string name="pref_clock_display_browsing">Tijdens bladeren</string>
     <string name="lbl_always">Altijd</string>
     <string name="pref_clock_display">Klok tonen</string>
-    <string name="pref_default_rating">Standaard beoordelingstype</string>
-    <string name="lbl_tomatoes">Tomaten</string>
-    <string name="lbl_stars">Sterren</string>
     <string name="login_authenticating">Authenticeren…</string>
     <string name="server_connecting">Verbinden met %1$s</string>
     <string name="login_username_field_empty">Gebruikersnaam mag niet leeg zijn</string>
@@ -541,7 +538,7 @@
     <string name="app_notification_update_soon">Je zult je server moeten bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
     <string name="current_queue">Huidige wachtrij</string>
     <string name="pref_external_player">Externe speler gebruiken</string>
-    <string name="continue_listening">Verderluisteren</string>
+    <string name="continue_listening">Verder luisteren</string>
     <string name="past_24_hours">Afgelopen 24 uur</string>
     <string name="past_week">Afgelopen week</string>
     <string name="scheduled_in_next_24_hours">Komende 24 uur ingepland</string>

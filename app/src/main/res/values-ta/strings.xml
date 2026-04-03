@@ -262,9 +262,6 @@
     <string name="lbl_playback_control_ends">%1$s இல் முடிகிறது</string>
     <string name="lbl_sign_in">உள்நுழையவும்</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_default_rating">இயல்புநிலை மதிப்பீட்டு வகை</string>
-    <string name="lbl_tomatoes">தக்காளி</string>
-    <string name="lbl_stars">நட்சத்திரங்கள்</string>
     <string name="pref_clock_display_playback">பின்னணி போது</string>
     <string name="pref_clock_display_browsing">உலாவும்போது</string>
     <string name="lbl_always">எப்போதும்</string>
@@ -591,4 +588,6 @@
     <string name="pref_subtitles_position">கீழிருந்து ஆஃப்செட்</string>
     <string name="settings">அமைப்பு</string>
     <string name="settings_description">உங்கள் விருப்பப்படி பயன்பாட்டை மாற்றவும்</string>
+    <string name="copied_to_clipboard">கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
+    <string name="pref_playback_next_up">அடுத்து வருவது</string>
 </resources>

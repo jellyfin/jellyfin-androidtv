@@ -1,1 +1,1 @@
-TV klijent za Jellyfin, besplatna aplikacija za medijski sustav
+TV klijent za Jellyfin, besplatna aplikacija za sadržaj

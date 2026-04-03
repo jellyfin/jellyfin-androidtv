@@ -267,9 +267,6 @@
     <string name="pref_clock_display_browsing">Mientras navega</string>
     <string name="lbl_always">Siempre</string>
     <string name="pref_clock_display">Mostrar el reloj</string>
-    <string name="pref_default_rating">Tipo de clasificación predeterminado</string>
-    <string name="lbl_tomatoes">Tomates</string>
-    <string name="lbl_stars">Estrellas</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina %1$s</string>
     <string name="lbl_sign_in">Por favor inicie sesión</string>
@@ -555,8 +552,8 @@
     <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
     <string name="past_24_hours">Últimas 24 horas</string>
     <string name="continue_listening">Continuar escuchando</string>
-    <string name="lbl_subtitle_text_color">Color del texto de los subtítulos</string>
-    <string name="lbl_subtitle_background_color">Color del fondo de los subtítulos</string>
+    <string name="lbl_subtitle_text_color">Color del texto</string>
+    <string name="lbl_subtitle_background_color">Color del fondo</string>
     <string name="video_start_delay">Retraso en el inicio del video</string>
     <string name="segment_action_nothing">No hacer nada</string>
     <string name="segment_action_skip">Saltar</string>
@@ -566,7 +563,7 @@
     <string name="segment_type_recap">Resumen</string>
     <string name="segment_type_unknown">Segmentos desconocidos</string>
     <string name="prefer_exoplayer_ffmpeg_content">Usa FFmpeg para decodificar el audio, incluso si los códecs de la plataforma están disponibles.</string>
-    <string name="lbl_subtitle_text_stroke_color">Color de contorno de los subtítulos</string>
+    <string name="lbl_subtitle_text_stroke_color">Color de contorno</string>
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para reproducir audio</string>
     <string name="pref_mediasegment_actions">Acciones de segmentos de medios</string>
     <string name="segment_type_commercial">Publicidad</string>
@@ -589,4 +586,5 @@
     <string name="lbl_still_watching_very_long">8 episodios o 240 minutos</string>
     <string name="pref_subtitles_bold">Texto ancho</string>
     <string name="pref_subtitles_position">Desplazamiento desde la parte inferior</string>
+    <string name="pref_report_device_profile_summary">Carga un documento para resolución de problemas al servidor Jellyfin con información acerca de las capacidades de reproducción.</string>
 </resources>

@@ -68,7 +68,7 @@
     <string name="lbl_cancel_series">Cancel·la la sèrie</string>
     <string name="lbl_cancel">Cancel·la</string>
     <string name="lbl_pause">Atura</string>
-    <string name="lbl_play">Reprodueix</string>
+    <string name="lbl_play">Reprodueix-ho</string>
     <string name="lbl_shuffle_all">Barreja total</string>
     <string name="lbl_loading_elipses">S\'està carregant…</string>
     <string name="lbl_born">"Nascut "</string>
@@ -235,9 +235,6 @@
     <string name="pref_clock_display_browsing">Mentre es navega</string>
     <string name="lbl_always">Sempre</string>
     <string name="pref_clock_display">Mostra el rellotge</string>
-    <string name="pref_default_rating">Tipus de qualificació per defecte</string>
-    <string name="lbl_tomatoes">Tomàquets</string>
-    <string name="lbl_stars">Estrelles</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Acaba a %1$s</string>
     <string name="lbl_sign_in">Inicieu la sessió</string>

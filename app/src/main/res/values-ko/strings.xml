@@ -264,7 +264,6 @@
     <string name="lbl_playback_control_ends">%1$s에 끝</string>
     <string name="lbl_remove_users">관련된 모든 계정도 삭제됩니다</string>
     <string name="lbl_always">항상</string>
-    <string name="lbl_tomatoes">토마토 지수</string>
     <string name="lbl_special">특별 영상</string>
     <string name="action_connect">연결</string>
     <string name="item_deleted">%1$s 삭제됨</string>
@@ -356,7 +355,6 @@
     <string name="pref_next_up_behavior_title">다음 비디오 정보 표시</string>
     <string name="color_pink">분홍색</string>
     <string name="pref_accounts">계정</string>
-    <string name="pref_default_rating">기본 평점 종류</string>
     <string name="lbl_remove_user_content">계정 삭제</string>
     <string name="lbl_remove">삭제</string>
     <string name="enable_smart_view_description">스마트 스크린은 그리드 대신 관련된 항목을 보여줍니다</string>
@@ -498,7 +496,6 @@
     <string name="photos">사진</string>
     <string name="lbl_use_series_thumbnails">시리즈 전체 썸네일 선호</string>
     <string name="image_size_xlarge">더 큼</string>
-    <string name="lbl_stars">별점</string>
     <string name="lbl_stretch">늘이기</string>
     <string name="searchable_hint">Jellyfin 검색</string>
     <string name="lbl_fit">기본</string>

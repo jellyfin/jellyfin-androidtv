@@ -11,4 +11,4 @@ Med en Jellyfin server kan du:
 * Strömma dina media till din Android-enhet
 * Se din samling i ett lättanvänt gränssnitt
 
-Detta är den officiella Jellyfin kompanjonsappen för Android TV. Tack för att du använder Jellyfin!
+Detta är den officiella Jellyfin appen för Android TV. Tack för att du använder Jellyfin!

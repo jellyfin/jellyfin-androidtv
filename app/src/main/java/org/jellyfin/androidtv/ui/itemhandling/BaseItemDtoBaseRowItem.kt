@@ -1,20 +1,21 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
 import android.content.Context
-import androidx.core.content.ContextCompat
-import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.constant.ImageType
-import org.jellyfin.androidtv.util.ImageHelper
-import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.apiclient.JellyfinImage
+import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
+import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
+import org.jellyfin.androidtv.util.apiclient.seriesThumbImage
 import org.jellyfin.androidtv.util.getTimeFormatter
 import org.jellyfin.androidtv.util.locale
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.extensions.ticks
+import org.jellyfin.sdk.model.api.ImageType
 import java.time.format.DateTimeFormatter
+import org.jellyfin.androidtv.constant.ImageType as BaseRowImageType
 
 open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	item: BaseItemDto,
@@ -59,26 +60,6 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	override val isFavorite get() = baseItem?.userData?.isFavorite == true
 	override val isPlayed get() = baseItem?.userData?.played == true
 
-	val childCountStr: String?
-		get() {
-			// Playlist
-			if (baseItem?.type == BaseItemKind.PLAYLIST) {
-				val childCount = baseItem.cumulativeRunTimeTicks?.ticks?.let { duration ->
-					TimeUtils.formatMillis(duration.inWholeMilliseconds)
-				}
-				if (childCount != null) return childCount
-			}
-
-			// Folder
-			if (baseItem?.isFolder == true && baseItem.type != BaseItemKind.MUSIC_ARTIST) {
-				val childCount = baseItem.childCount
-				if (childCount != null && childCount > 0) return childCount.toString()
-			}
-
-			// Default
-			return null
-		}
-
 	override fun getCardName(context: Context) = when {
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.artists != null -> baseItem.artists?.joinToString(", ")
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtists != null -> baseItem.albumArtists?.joinToString(", ")
@@ -120,58 +101,29 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 		else -> baseItem?.getSubName(context)
 	}
 
-	override fun getImageUrl(
-		context: Context,
-		imageHelper: ImageHelper,
-		imageType: ImageType,
-		fillWidth: Int,
-		fillHeight: Int
-	): String? {
-		val seriesPrimaryImage = baseItem?.seriesPrimaryImage
+	override fun getImage(imageType: BaseRowImageType): JellyfinImage? {
+		val primaryImage = when {
+			preferSeriesPoster && baseItem?.type == BaseItemKind.EPISODE -> baseItem.parentImages[ImageType.PRIMARY]
+				?: baseItem.seriesPrimaryImage
 
-		return when {
-			preferSeriesPoster && seriesPrimaryImage != null -> imageHelper.getImageUrl(seriesPrimaryImage, fillWidth, fillHeight)
+			preferParentThumb && baseItem?.type == BaseItemKind.EPISODE -> baseItem.parentImages[ImageType.THUMB]
+				?: baseItem.seriesThumbImage
 
-			imageType == ImageType.BANNER -> imageHelper.getBannerImageUrl(
-				requireNotNull(
-					baseItem
-				), fillWidth, fillHeight
-			)
+			baseItem?.type == BaseItemKind.SEASON -> baseItem.seriesPrimaryImage
+			baseItem?.type == BaseItemKind.PROGRAM -> baseItem.itemImages[ImageType.THUMB]
+			baseItem?.type == BaseItemKind.AUDIO -> baseItem.albumPrimaryImage
+			else -> null
+		} ?: baseItem?.itemImages[ImageType.PRIMARY]
 
-			imageType == ImageType.THUMB -> imageHelper.getThumbImageUrl(
-				requireNotNull(
-					baseItem
-				), fillWidth, fillHeight
-			)
-
-			else -> imageHelper.getPrimaryImageUrl(
-				baseItem!!,
-				preferParentThumb,
-				null,
-				fillHeight
-			)
+		return when (imageType) {
+			BaseRowImageType.BANNER -> baseItem?.itemImages[ImageType.BANNER] ?: primaryImage
+			BaseRowImageType.THUMB -> baseItem?.itemImages[ImageType.THUMB] ?: primaryImage
+			else -> primaryImage
 		}
 	}
 
-	override fun getBadgeImage(
-		context: Context,
-		imageHelper: ImageHelper,
-	) = when (baseItem?.type) {
-		BaseItemKind.LIVE_TV_PROGRAM,
-		BaseItemKind.PROGRAM -> when {
-			baseItem.seriesTimerId != null -> R.drawable.ic_record_series_red
-			baseItem.timerId != null -> R.drawable.ic_record_red
-
-			else -> null
-		}
-
-		else -> when {
-			baseItem?.criticRating != null -> when {
-				baseItem.criticRating!! > 59f -> R.drawable.ic_rt_fresh
-				else -> R.drawable.ic_rt_rotten
-			}
-
-			else -> null
-		}
-	}?.let { ContextCompat.getDrawable(context, it) }
+	override fun equals(other: Any?): Boolean {
+		if (other is BaseItemDtoBaseRowItem) return other.baseItem == baseItem
+		return super.equals(other)
+	}
 }

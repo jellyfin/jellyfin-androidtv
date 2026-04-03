@@ -219,9 +219,6 @@
     <string name="pref_clock_display_browsing">Κατά την περιήγηση</string>
     <string name="lbl_always">Πάντα</string>
     <string name="pref_clock_display">Δείξε το ρολόι</string>
-    <string name="pref_default_rating">Προεπιλεγμένος τύπος βαθμολογίας</string>
-    <string name="lbl_tomatoes">Ντομάτες</string>
-    <string name="lbl_stars">Αστέρια</string>
     <string name="lbl_sign_in">Παρακαλώ συνδεθείτε</string>
     <string name="pref_theme_emerald">Κλασσικό σμαραγδί</string>
     <string name="lbl_image_size">Μέγεθος εικόνας</string>
@@ -565,4 +562,22 @@
     <string name="font_weight_100">Λεπτό</string>
     <string name="font_weight_200">Πολύ λεπτό</string>
     <string name="filters">Φίλτρα</string>
+    <string name="lbl_exit">Έξοδος</string>
+    <string name="lbl_from_beginning">Παίξτε από την αρχή</string>
+    <string name="pref_still_watching_behavior_title">Εμφάνιση αναδυόμενου παραθύρου χρονικού ορίου αδράνειας</string>
+    <string name="lbl_still_watching_default">3 επεισόδια ή 90 λεπτά</string>
+    <string name="lbl_still_watching_short">2 επεισόδια ή 60 λεπτά</string>
+    <string name="lbl_still_watching_long">5 επεισόδια ή 150 λεπτά</string>
+    <string name="lbl_still_watching_very_long">8 επεισόδια ή 240 λεπτά</string>
+    <string name="pref_subtitles_position">Μετατόπιση από κάτω</string>
+    <string name="pref_subtitles_bold">Έντονο κείμενο</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="pref_mediasegment_actions">Ενέργειες τμήματος πολυμέσων</string>
+    <string name="segment_action_ask_to_skip">Ζητήστε να παραλείψετε</string>
+    <string name="segment_action_nothing">Μην κάνετε τίποτα</string>
+    <string name="segment_action_skip">Παραλείπω</string>
+    <string name="segment_type_commercial">Διαφημίσεις</string>
+    <string name="segment_type_intro">Εισαγωγές</string>
+    <string name="segment_type_preview">Προεπισκοπήσεις</string>
+    <string name="segment_type_recap">Ανακεφαλαιώσεις</string>
 </resources>

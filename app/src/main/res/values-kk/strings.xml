@@ -257,9 +257,6 @@
     <string name="pref_clock_display_browsing">Şarlau kezınde</string>
     <string name="lbl_always">Äldeqaşan</string>
     <string name="pref_clock_display">Sağatty körsetu</string>
-    <string name="pref_default_rating">Ädepkı bağalau türı</string>
-    <string name="lbl_tomatoes">Qyzanaqtar</string>
-    <string name="lbl_stars">Jūldyzdar</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Soñy %1$s kezınde</string>
     <string name="lbl_sign_in">Kırıñız</string>

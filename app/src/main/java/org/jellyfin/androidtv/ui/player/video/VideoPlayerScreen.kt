@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +18,8 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.ScreensaverLock
 import org.jellyfin.androidtv.ui.player.base.PlayerSubtitles
 import org.jellyfin.androidtv.ui.player.base.PlayerSurface
+import org.jellyfin.androidtv.ui.player.base.toast.MediaToastRegistry
+import org.jellyfin.androidtv.ui.player.video.toast.rememberPlaybackManagerMediaToastEmitter
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.koin.compose.koinInject
@@ -42,6 +45,10 @@ fun VideoPlayerScreen() {
 	val videoSize by playbackManager.state.videoSize.collectAsState()
 	val aspectRatio = videoSize.aspectRatio.takeIf { !it.isNaN() && it > 0f } ?: DefaultVideoAspectRatio
 
+	val coroutineScope = rememberCoroutineScope()
+	val mediaToastRegistry = remember { MediaToastRegistry(coroutineScope) }
+	rememberPlaybackManagerMediaToastEmitter(playbackManager, mediaToastRegistry)
+
 	Box(
 		modifier = Modifier
 			.background(Color.Black)
@@ -57,6 +64,7 @@ fun VideoPlayerScreen() {
 
 		VideoPlayerOverlay(
 			playbackManager = playbackManager,
+			mediaToastRegistry = mediaToastRegistry,
 		)
 
 		PlayerSubtitles(

@@ -272,9 +272,6 @@
     <string name="pref_clock_display_browsing">Podczas przeglądania</string>
     <string name="lbl_always">Zawsze</string>
     <string name="pref_clock_display">Pokaż zegar</string>
-    <string name="pref_default_rating">Domyślny typ oceny</string>
-    <string name="lbl_tomatoes">Pomidory</string>
-    <string name="lbl_stars">Gwiazdy</string>
     <string name="lbl_playback_control_ends">Koniec o %1$s</string>
     <string name="login_help_description">Jellyfin wymaga serwera do połączenia. Odwiedź naszą dokumentację na docs.jellyfin.org, lub zeskanuj kod QR, aby rozpocząć pracę z Jellyfin.</string>
     <string name="login_help_title">Potrzebuję pomocy\?</string>

@@ -37,8 +37,8 @@ import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
-import org.jellyfin.playback.jellyfin.lyrics
-import org.jellyfin.playback.jellyfin.lyricsFlow
+import org.jellyfin.playback.jellyfin.lyrics.lyrics
+import org.jellyfin.playback.jellyfin.lyrics.lyricsFlow
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.baseItemFlow
 import org.jellyfin.sdk.api.client.ApiClient

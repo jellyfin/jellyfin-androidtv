@@ -388,9 +388,6 @@
     <string name="pref_clock_display_browsing">Med brskanjem</string>
     <string name="lbl_always">Vedno</string>
     <string name="pref_clock_display">Prikaži uro</string>
-    <string name="pref_default_rating">Privzeti tip ocene</string>
-    <string name="lbl_tomatoes">Paradižnikov</string>
-    <string name="lbl_stars">Zvezdic</string>
     <string name="player_error">Napaka predvajalnika. Poizkušam ponovno…</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Zamik podnapisov</string>

@@ -292,7 +292,6 @@
     <string name="pref_clock_display_browsing">閲覧中</string>
     <string name="lbl_always">常に</string>
     <string name="pref_clock_display">時計を表示する</string>
-    <string name="lbl_stars">スター</string>
     <string name="lbl_playback_control_ends">%1$sに終了</string>
     <string name="lbl_sign_in">サインインして下さい</string>
     <string name="turn_off">このオプションをオフにする</string>
@@ -338,7 +337,6 @@
     <string name="lbl_unknown_key">不明(%1s)</string>
     <string name="license_repository">リポジトリ</string>
     <string name="input_password">パスワード</string>
-    <string name="lbl_tomatoes">RottenTomatoes.com</string>
     <string name="color_red">赤</string>
     <string name="color_green">緑</string>
     <string name="color_white">白</string>
@@ -476,7 +474,6 @@
     <string name="pref_external_player">外部プレーヤーを使用</string>
     <string name="lbl_subtitle_text_color">字幕テキスト色</string>
     <string name="lbl_user_last_used">%1$s で%2$sに最後に使用</string>
-    <string name="pref_default_rating">デフォルトレーティング</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_hide_watched_checkmark">残りエピソードあり</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
@@ -493,7 +490,7 @@
     <string name="pref_subtitles_bold">太字体</string>
     <string name="lbl_on_channel">%1$s で</string>
     <string name="lbl_subtitle_background_color">字幕背景色</string>
-    <string name="lbl_subtitle_text_stroke_color">字幕文字色</string>
+    <string name="lbl_subtitle_text_stroke_color">縁取り色</string>
     <string name="item_deletion_failed">%1$s削除不能</string>
     <string name="pref_screensaver_ageratingmax_entry">%1$d歳まで</string>
     <string name="lbl_additional_parts">追加部分</string>
@@ -584,4 +581,30 @@
     <string name="copied_to_clipboard">クリップボードにコピー</string>
     <string name="pref_media_queueing_description">TV番組再生中に次のエピソードをキューに加える</string>
     <string name="filters">フィルター</string>
+    <string name="pref_customization_subtitles">字幕</string>
+    <string name="pref_playback_prerolls">プリロール</string>
+    <string name="pref_playback_inactivity_prompt">無操作時プロンプト</string>
+    <string name="pref_prerolls_enabled">シネマモードを有効にする</string>
+    <string name="pref_prerolls_enabled_description">映画再生前にカスタムイントロを再生</string>
+    <string name="pref_media_queueing">全エピソードをキューに追加</string>
+    <string name="pref_subtitles_weight">テキストウェイト</string>
+    <string name="font_weight_400">ノーマル</string>
+    <string name="font_weight_500">ミディアム</string>
+    <string name="font_weight_800">エクストラボールド</string>
+    <string name="font_weight_700">ボールド</string>
+    <string name="pref_playback_next_up">次に再生</string>
+    <string name="pref_playback_media_segments">メディアセグメント</string>
+    <string name="font_weight_200">エクストラライト</string>
+    <string name="font_weight_300">ライト</string>
+    <string name="font_weight_600">セミボールド</string>
+    <string name="font_weight_100">シン</string>
+    <string name="font_weight_900">ブラック</string>
+    <string name="subtitle_preview_text">字幕はこのように表示されます</string>
+    <string name="color_presets">プリセット</string>
+    <string name="color_custom">カラーカスタマイズ</string>
+    <string name="color_alpha">透明度</string>
+    <string name="playback_video_player">ビデオプレーヤー</string>
+    <string name="video_player_internal">内蔵ビデオプレーヤー</string>
+    <string name="video_player_external">外部アプリ</string>
+    <string name="playback_video_player_external_empty">デバイスに、ジェリーフィンの動画を開くことができるビデオプレーヤーアプリがインストールされていません。</string>
 </resources>

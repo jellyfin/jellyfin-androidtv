@@ -28,7 +28,7 @@
     <string name="lbl_tv_series">TV-serier</string>
     <string name="lbl_other">Annet</string>
     <string name="lbl_play_all">Spill alle</string>
-    <string name="lbl_shuffle_all">Spill av alt i tilfeldig rekkefølge</string>
+    <string name="lbl_shuffle_all">Tilfeldig avspilling</string>
     <string name="lbl_play">Spill av</string>
     <string name="lbl_cancel">Avbryt</string>
     <string name="lbl_cancel_recording">Avbryt opptak</string>
@@ -267,9 +267,6 @@
     <string name="pref_clock_display_browsing">Når du blar</string>
     <string name="lbl_always">Alltid</string>
     <string name="pref_clock_display">Vis klokke</string>
-    <string name="pref_default_rating">Standard vurderingstype</string>
-    <string name="lbl_tomatoes">Tomater</string>
-    <string name="lbl_stars">Stjerner</string>
     <string name="lbl_playback_control_ends">Slutter ved %1$s</string>
     <string name="lbl_sign_in">Vennligst logg inn</string>
     <string name="lbl_subtitle_track">Velg undertekst</string>
@@ -620,4 +617,5 @@
     <string name="video_player_internal">Innebygd videospiller</string>
     <string name="video_player_external">Ekstern app</string>
     <string name="playback_video_player_external_empty">Du har ingen videospillere installert på enheten din som kan åpne videoer fra Jellyfin.</string>
+    <string name="filters">Filtere</string>
 </resources>

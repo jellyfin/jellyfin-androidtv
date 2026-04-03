@@ -15,7 +15,6 @@ import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.databinding.LiveTvGuideBinding
 import org.jellyfin.androidtv.ui.GuideChannelHeader
-import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.navigation.ProvideRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsDialog
@@ -91,21 +90,19 @@ fun LiveTvGuideFragment.addSettingsOptions(binding: LiveTvGuideBinding): Mutable
 	binding.settingsOptions.setContent {
 		val isVisible by visible.collectAsState(false)
 
-		JellyfinTheme {
-			ProvideRouter(
-				routes,
-				Routes.LIVETV_GUIDE_OPTIONS
-			) {
-				SettingsDialog(
-					visible = isVisible,
-					onDismissRequest = {
-						visible.value = false
-						TvManager.forceReload()
-						doLoad()
-					}
-				) {
-					SettingsRouterContent()
+		ProvideRouter(
+			routes,
+			Routes.LIVETV_GUIDE_OPTIONS
+		) {
+			SettingsDialog(
+				visible = isVisible,
+				onDismissRequest = {
+					visible.value = false
+					TvManager.forceReload()
+					doLoad()
 				}
+			) {
+				SettingsRouterContent()
 			}
 		}
 	}
@@ -119,21 +116,19 @@ fun LiveTvGuideFragment.addSettingsFilters(binding: LiveTvGuideBinding): Mutable
 	binding.settingsFilters.setContent {
 		val isVisible by visible.collectAsState(false)
 
-		JellyfinTheme {
-			ProvideRouter(
-				routes,
-				Routes.LIVETV_GUIDE_FILTERS
-			) {
-				SettingsDialog(
-					visible = isVisible,
-					onDismissRequest = {
-						visible.value = false
-						TvManager.forceReload()
-						doLoad()
-					}
-				) {
-					SettingsRouterContent()
+		ProvideRouter(
+			routes,
+			Routes.LIVETV_GUIDE_FILTERS
+		) {
+			SettingsDialog(
+				visible = isVisible,
+				onDismissRequest = {
+					visible.value = false
+					TvManager.forceReload()
+					doLoad()
 				}
+			) {
+				SettingsRouterContent()
 			}
 		}
 	}

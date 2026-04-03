@@ -213,7 +213,6 @@
     <string name="lbl_guest_stars">गेस्ट स्टार्स</string>
     <string name="lbl_guide_option_played">आखरी चलाया गया</string>
     <string name="lbl_resume_preroll">प्री-रोल फिर शुरू करें</string>
-    <string name="lbl_tomatoes">टोमाटोज</string>
     <string name="pref_clock_display_browsing">ब्राउज़ करते समय</string>
     <string name="lbl_album_name">एल्बम का नाम</string>
     <string name="lbl_next_episode">अगला एपिसोड</string>
@@ -248,7 +247,6 @@
     <string name="lbl_show_premieres">सीजन के प्रीमियर दिखाएं</string>
     <string name="episode_missing">एपिसोड गायब</string>
     <string name="lbl_sign_in">कृपया साइन इन करें</string>
-    <string name="lbl_stars">स्टार्स</string>
     <string name="lbl_image_type">इस तरह की इमेज</string>
     <string name="lbl_image_size">इमेज का आकार</string>
     <string name="lbl_my_media">मेरी मीडिया</string>
@@ -290,7 +288,6 @@
     <string name="pref_audio_track_button">ऑडियो ट्रैक बटन</string>
     <string name="no_player">कोई प्लेयर नहीं</string>
     <string name="subtitle_error">सबटाइटल चुनने में असमर्थ</string>
-    <string name="pref_default_rating">डिफॉल्ट रेटिंग प्रकार</string>
     <string name="pref_clock_display">घड़ी दिखाएं</string>
     <string name="lbl_always">हमेशा</string>
     <string name="server_connection_failed">सर्वर से कनेक्ट करने में असमर्थ</string>

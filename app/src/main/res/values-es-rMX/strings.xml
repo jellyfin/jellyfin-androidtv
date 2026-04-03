@@ -287,9 +287,6 @@
     <string name="pref_clock_display_browsing">Mientras navega</string>
     <string name="lbl_always">Siempre</string>
     <string name="pref_clock_display">Mostrar reloj</string>
-    <string name="pref_default_rating">Tipo de calificación por defecto</string>
-    <string name="lbl_tomatoes">Tomatazos</string>
-    <string name="lbl_stars">Estrellas</string>
     <string name="no_network_permissions">Jellyfin requiere permisos de acceso a red para funcionar</string>
     <string name="pref_theme_muted_purple">Púrpura silencioso</string>
     <string name="lbl_switch_user">Cambiar de cuenta</string>

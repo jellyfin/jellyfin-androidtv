@@ -343,9 +343,6 @@
     <string name="pref_clock_display_browsing">حین گشتن</string>
     <string name="lbl_always">همیشه</string>
     <string name="pref_clock_display">نمایش ساعت</string>
-    <string name="pref_default_rating">نوع ارزیابی پیشفرض</string>
-    <string name="lbl_tomatoes">گوجه فرنگی ها</string>
-    <string name="lbl_stars">ستاره ها</string>
     <string name="watch_count_overflow">۹۹+</string>
     <string name="lbl_playback_control_ends">در %1$s به اتمام می‌رسد</string>
     <string name="lbl_sign_in">لطفاً وارد شوید</string>
