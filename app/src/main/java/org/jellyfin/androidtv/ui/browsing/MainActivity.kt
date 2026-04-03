@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.browsing
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.compose.setContent
@@ -24,13 +23,13 @@ import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.ProvideLocalInteractionTracker
 import org.jellyfin.androidtv.ui.composable.compat.AppNavigationHost
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.ui.settings.compat.MainActivitySettings
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
-import org.jellyfin.androidtv.util.isMediaSessionKeyEvent
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -65,12 +64,16 @@ class MainActivity : FragmentActivity() {
 
 		setContent {
 			JellyfinTheme {
-				AppBackground()
-				AppNavigationHost(
-					navigationRepository = navigationRepository,
-				)
-				InAppScreensaver()
-				MainActivitySettings()
+				ProvideLocalInteractionTracker(
+					interactionTracker = { interactionTrackerViewModel.notifyInteraction(false, userInitiated = true) }
+				) {
+					AppBackground()
+					AppNavigationHost(
+						navigationRepository = navigationRepository,
+					)
+					InAppScreensaver()
+					MainActivitySettings()
+				}
 			}
 		}
 	}
@@ -114,22 +117,15 @@ class MainActivity : FragmentActivity() {
 	}
 
 	// Forward key events to fragments
+
 	private fun Fragment.onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean {
 		var result = childFragmentManager.fragments.any { it.onKeyEvent(keyCode, event) }
 		if (!result && this is View.OnKeyListener) result = onKey(currentFocus, keyCode, event)
 		return result
 	}
 
-	private fun onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean {
-		// Ignore the key event that closes the screensaver
-		if (interactionTrackerViewModel.visible.value) {
-			interactionTrackerViewModel.notifyInteraction(canCancel = event?.action == KeyEvent.ACTION_UP, userInitiated = true)
-			return true
-		}
-
-		return supportFragmentManager.fragments
-			.any { it.onKeyEvent(keyCode, event) }
-	}
+	private fun onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean = supportFragmentManager.fragments
+		.any { it.onKeyEvent(keyCode, event) }
 
 	override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyDown(keyCode, event)
@@ -139,44 +135,4 @@ class MainActivity : FragmentActivity() {
 
 	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
-
-	override fun onUserInteraction() {
-		super.onUserInteraction()
-
-		interactionTrackerViewModel.notifyInteraction(false, userInitiated = true)
-	}
-
-	@Suppress("RestrictedApi") // False positive
-	override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-		// Ignore the key event that closes the screensaver
-		if (!event.isMediaSessionKeyEvent() && interactionTrackerViewModel.visible.value) {
-			interactionTrackerViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP, userInitiated = true)
-			return true
-		}
-
-		@Suppress("RestrictedApi") // False positive
-		return super.dispatchKeyEvent(event)
-	}
-
-	@Suppress("RestrictedApi") // False positive
-	override fun dispatchKeyShortcutEvent(event: KeyEvent): Boolean {
-		// Ignore the key event that closes the screensaver
-		if (!event.isMediaSessionKeyEvent() && interactionTrackerViewModel.visible.value) {
-			interactionTrackerViewModel.notifyInteraction(canCancel = event.action == KeyEvent.ACTION_UP, userInitiated = true)
-			return true
-		}
-
-		@Suppress("RestrictedApi") // False positive
-		return super.dispatchKeyShortcutEvent(event)
-	}
-
-	override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-		// Ignore the touch event that closes the screensaver
-		if (interactionTrackerViewModel.visible.value) {
-			interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = true)
-			return true
-		}
-
-		return super.dispatchTouchEvent(ev)
-	}
 }

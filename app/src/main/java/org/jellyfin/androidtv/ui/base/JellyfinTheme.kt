@@ -16,10 +16,11 @@ fun JellyfinTheme(
 		LocalColorScheme provides colorScheme,
 		LocalShapes provides shapes,
 		LocalTypography provides typography,
+		LocalTextStyle provides LocalTextStyle.current.merge(typography.default),
 		// Disable overscroll
 		LocalOverscrollFactory provides null,
 	) {
-		ProvideTextStyle(value = typography.default, content = content)
+		content()
 	}
 }
 
