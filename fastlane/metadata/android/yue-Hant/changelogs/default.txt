@@ -1,0 +1,3 @@
+多謝你支持 Jellyfin Android 版！我哋一向建議你配合最新版本嘅 Jellyfin 伺服器一齊用。
+
+想了解更多資訊，請瀏覽 jellyfin.org 嘅部落格(Blog)，或者去 GitHub 睇返完整更新日誌。
