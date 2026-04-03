@@ -54,6 +54,7 @@ class StartupActivity : FragmentActivity() {
 		const val EXTRA_ITEM_ID = "ItemId"
 		const val EXTRA_ITEM_IS_USER_VIEW = "ItemIsUserView"
 		const val EXTRA_HIDE_SPLASH = "HideSplash"
+		const val EXTRA_USER_ID = "UserId"
 	}
 
 	private val startupViewModel: StartupViewModel by viewModel()
@@ -63,6 +64,7 @@ class StartupActivity : FragmentActivity() {
 	private val userRepository: UserRepository by inject()
 	private val navigationRepository: NavigationRepository by inject()
 	private val itemLauncher: ItemLauncher by inject()
+
 
 	private lateinit var binding: ActivityStartupBinding
 
@@ -109,6 +111,18 @@ class StartupActivity : FragmentActivity() {
 		.distinctUntilChanged()
 		.onEach { session ->
 			if (session != null) {
+				// Check if a specific user was requested via intent
+				val requestedUserId = intent.getStringExtra(EXTRA_USER_ID)?.toUUIDOrNull()
+				if (requestedUserId != null && requestedUserId != session.userId) {
+					Timber.i("User switch requested via intent to user $requestedUserId")
+					val switched = sessionRepository.switchCurrentSession(session.serverId, requestedUserId)
+					if (!switched) {
+						Timber.w("Failed to switch to requested user $requestedUserId")
+					}
+					// Clear the extra to prevent repeated switches
+					intent.removeExtra(EXTRA_USER_ID)
+				}
+
 				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
 				showSplash()
@@ -120,6 +134,21 @@ class StartupActivity : FragmentActivity() {
 					openNextActivity()
 				}
 			} else {
+				// Check if a specific user was requested via intent without an active session
+				val requestedUserId = intent.getStringExtra(EXTRA_USER_ID)?.toUUIDOrNull()
+				if (requestedUserId != null) {
+					Timber.i("User switch requested via intent to user $requestedUserId (no active session)")
+					val server = startupViewModel.getLastServer()
+					if (server != null) {
+						val switched = sessionRepository.switchCurrentSession(server.id, requestedUserId)
+						if (switched) {
+							intent.removeExtra(EXTRA_USER_ID)
+							return@onEach // Session change will re-trigger this flow
+						}
+						Timber.w("Failed to switch to requested user $requestedUserId on server ${server.id}")
+					}
+				}
+
 				// Clear audio queue in case left over from last run
 				mediaManager.clearAudioQueue()
 
