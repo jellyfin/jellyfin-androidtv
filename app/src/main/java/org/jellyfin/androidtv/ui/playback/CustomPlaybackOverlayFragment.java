@@ -59,6 +59,8 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragmentHelperKt;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
@@ -135,6 +137,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private final Lazy<UserSettingPreferences> userSettingPreferences = inject(UserSettingPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -588,13 +592,29 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     if (!mIsVisible) {
                         if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                            boolean dpadSkip = userPreferences.getValue().get(UserPreferences.Companion.getDpadSkipEnabled());
+
                             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                setFadingEnabled(true);
+                                if (dpadSkip) {
+                                    int forwardMs = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength());
+                                    playbackControllerContainer.getValue().getPlaybackController().fastForward();
+                                    binding.skipIndicator.show(true, forwardMs / 1000);
+                                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                                } else {
+                                    setFadingEnabled(true);
+                                }
                                 return true;
                             }
 
                             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                setFadingEnabled(true);
+                                if (dpadSkip) {
+                                    int backMs = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipBackLength());
+                                    playbackControllerContainer.getValue().getPlaybackController().rewind();
+                                    binding.skipIndicator.show(false, backMs / 1000);
+                                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                                } else {
+                                    setFadingEnabled(true);
+                                }
                                 return true;
                             }
                         }

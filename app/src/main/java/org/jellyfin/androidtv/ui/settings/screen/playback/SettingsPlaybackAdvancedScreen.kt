@@ -107,6 +107,53 @@ fun SettingsPlaybackAdvancedScreen() {
 			}
 		}
 
+		item {
+			var skipBackLength by rememberPreference(userSettingPreferences, UserSettingPreferences.skipBackLength)
+			val interactionSource = remember { MutableInteractionSource() }
+
+			ListControl(
+				headingContent = { Text(stringResource(R.string.skip_back_length)) },
+				interactionSource = interactionSource,
+			) {
+				Row(
+					verticalAlignment = Alignment.CenterVertically,
+				) {
+					RangeControl(
+						modifier = Modifier
+							.height(4.dp)
+							.weight(1f),
+						interactionSource = interactionSource,
+						// 5 - 30 seconds with 5 second increment
+						min = 5_000f,
+						max = 30_000f,
+						stepForward = 5_000f,
+						value = skipBackLength.toFloat(),
+						onValueChange = { skipBackLength = it.roundToInt() }
+					)
+
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
+
+					Box(
+						modifier = Modifier.sizeIn(minWidth = 32.dp),
+						contentAlignment = Alignment.CenterEnd
+					) {
+						Text("${skipBackLength / 1000}s")
+					}
+				}
+			}
+		}
+
+		item {
+			var dpadSkipEnabled by rememberPreference(userPreferences, UserPreferences.dpadSkipEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_dpad_skip_enabled)) },
+				captionContent = { Text(stringResource(R.string.pref_dpad_skip_enabled_summary)) },
+				trailingContent = { Checkbox(checked = dpadSkipEnabled) },
+				onClick = { dpadSkipEnabled = !dpadSkipEnabled }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_video)) }) }
 
 		item {

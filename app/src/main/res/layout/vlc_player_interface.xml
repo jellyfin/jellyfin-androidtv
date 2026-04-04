@@ -120,4 +120,9 @@
         android:id="@+id/skip_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <org.jellyfin.androidtv.ui.playback.overlay.SkipIndicatorView
+        android:id="@+id/skip_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

@@ -81,6 +81,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var stillWatchingBehavior = enumPreference("enable_still_watching", StillWatchingBehavior.DISABLED)
 
+		/**
+		 * Use D-pad left/right to skip backward/forward instead of showing the seek bar
+		 */
+		var dpadSkipEnabled = booleanPreference("pref_dpad_skip_enabled", false)
+
 		/* Playback - Video */
 		/**
 		 * Whether to use an external playback application or not.
