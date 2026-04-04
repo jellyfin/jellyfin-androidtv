@@ -66,20 +66,8 @@ fun SettingsCustomizationScreen() {
 
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_show_backdrop)) },
-				trailingContent = { Checkbox(checked = backdropEnabled) },
-				captionContent = { Text(stringResource(R.string.pref_show_backdrop_description)) },
-				onClick = { backdropEnabled = !backdropEnabled }
-			)
-		}
-
-		item {
-			var backdropBlurEnabled by rememberPreference(userPreferences, UserPreferences.backdropBlurEnabled)
-
-			ListButton(
-				headingContent = { Text(stringResource(R.string.lbl_enable_backdrop_blur)) },
-				trailingContent = { Checkbox(checked = backdropBlurEnabled) },
-				captionContent = { Text(stringResource(R.string.pref_enable_backdrop_blur_description)) },
-				onClick = { backdropBlurEnabled = !backdropBlurEnabled }
+				captionContent = { Text(stringResource(backdropEnabled.nameRes)) },
+				onClick = { router.push(Routes.CUSTOMIZATION_BACKDROP) }
 			)
 		}
 

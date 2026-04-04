@@ -5,6 +5,7 @@ import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
@@ -42,13 +43,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable background images while browsing
 		 */
-		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
-
-		
-		/**
-		 * Enable background blur
-		 */
-		var backdropBlurEnabled = booleanPreference("pref_enable_backdrop_blur", true)
+		var backdropEnabled = enumPreference("pref_show_backdrop", BackdropBehavior.BACKDROP_WITH_BLUR)
 
 		/* Playback - General*/
 		/**
