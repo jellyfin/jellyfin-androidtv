@@ -81,4 +81,16 @@
     <string name="lbl_no">否</string>
     <string name="lbl_yes">係</string>
     <string name="lbl_enter_server_address">輸入伺服器位址</string>
+    <string name="lbl_valid_server_address">唔該輸入伺服器位址（IP 或網域／機器名稱）</string>
+    <string name="lbl_ok">仲可以</string>
+    <string name="lbl_born">"牛一 "</string>
+    <string name="lbl_loading_elipses">載入緊…</string>
+    <string name="msg_playback_not_allowed">呢次唔畀播放</string>
+    <string name="msg_playback_restricted">管理員目前經已限制播放此項目</string>
+    <string name="msg_playback_incompatible">播放唔到呢種影片格式</string>
+    <string name="lbl_never">永不</string>
+    <string name="msg_cannot_play_time">家吓播放唔到呢個項目</string>
+    <string name="msg_cannot_play">播放唔到呢個項目</string>
+    <string name="lbl_no_items">冇嘢響度</string>
+    <string name="lbl_empty">空白</string>
 </resources>
