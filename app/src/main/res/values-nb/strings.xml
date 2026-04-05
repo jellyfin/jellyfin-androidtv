@@ -617,4 +617,6 @@
     <string name="video_player_external">Ekstern app</string>
     <string name="playback_video_player_external_empty">Du har ingen videospillere installert på enheten din som kan åpne videoer fra Jellyfin.</string>
     <string name="filters">Filtere</string>
+    <string name="backdrop_behavior_with_blur">Bakgrunn med uskarphet</string>
+    <string name="backdrop_behavior_without_blur">Bakgrunn uten uskarphet</string>
 </resources>
