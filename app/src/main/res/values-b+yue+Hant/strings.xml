@@ -93,4 +93,5 @@
     <string name="msg_cannot_play">播放唔到呢個項目</string>
     <string name="lbl_no_items">冇嘢響度</string>
     <string name="lbl_empty">空白</string>
+    <string name="lbl_tv_queuing">自動播放下一集</string>
 </resources>
