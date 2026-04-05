@@ -617,4 +617,6 @@
     <string name="video_player_internal">Eingebauter Videoplayer</string>
     <string name="video_player_external">Externe App</string>
     <string name="filters">Filter</string>
+    <string name="backdrop_behavior_with_blur">Hintergrund mit Unschärfe</string>
+    <string name="backdrop_behavior_without_blur">Hintergrund ohne Unschärfe</string>
 </resources>
