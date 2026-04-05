@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,6 +120,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private Animation hidePopup;
     private final Handler mHandler = new Handler();
     private Runnable mHideTask;
+    private final Handler skipRepeatHandler = new Handler(Looper.getMainLooper());
+    private Runnable skipRepeatRunnable = null;
 
     private AudioManager mAudioManager;
 
@@ -596,10 +599,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                                 if (dpadSkip) {
-                                    int forwardMs = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength());
-                                    playbackControllerContainer.getValue().getPlaybackController().fastForward();
-                                    binding.skipIndicator.show(true, forwardMs / 1000);
                                     leanbackOverlayFragment.setShouldShowOverlay(false);
+                                    if (skipRepeatRunnable == null) {
+                                        int forwardMs = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength());
+                                        startDpadSkip(true, forwardMs);
+                                    }
                                 } else {
                                     setFadingEnabled(true);
                                 }
@@ -608,10 +612,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                                 if (dpadSkip) {
-                                    int backMs = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipBackLength());
-                                    playbackControllerContainer.getValue().getPlaybackController().rewind();
-                                    binding.skipIndicator.show(false, backMs / 1000);
                                     leanbackOverlayFragment.setShouldShowOverlay(false);
+                                    if (skipRepeatRunnable == null) {
+                                        int backMs = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSkipBackLength());
+                                        startDpadSkip(false, backMs);
+                                    }
                                 } else {
                                     setFadingEnabled(true);
                                 }
@@ -630,6 +635,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     //and then manage our fade timer
                     if (mFadeEnabled) startFadeTimer();
+                }
+            }
+
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                if (!mGuideVisible && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
+                    boolean dpadSkip = userPreferences.getValue().get(UserPreferences.Companion.getDpadSkipEnabled());
+                    if (dpadSkip && (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) {
+                        stopSkipRepeat();
+                        return true;
+                    }
                 }
             }
 
@@ -718,6 +733,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onStop() {
         super.onStop();
         Timber.i("Stopping!");
+
+        stopSkipRepeat();
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
@@ -1362,5 +1379,31 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
         params.preferredDisplayModeId = 0;
         getActivity().getWindow().setAttributes(params);
+    }
+
+    private void startDpadSkip(boolean forward, int skipMs) {
+        stopSkipRepeat();
+        if (forward) playbackControllerContainer.getValue().getPlaybackController().fastForward();
+        else playbackControllerContainer.getValue().getPlaybackController().rewind();
+        binding.skipIndicator.show(forward, skipMs / 1000);
+        leanbackOverlayFragment.setShouldShowOverlay(false);
+        skipRepeatRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (forward) playbackControllerContainer.getValue().getPlaybackController().fastForward();
+                else playbackControllerContainer.getValue().getPlaybackController().rewind();
+                binding.skipIndicator.show(forward, skipMs / 1000);
+                leanbackOverlayFragment.setShouldShowOverlay(false);
+                skipRepeatHandler.postDelayed(this, 1000);
+            }
+        };
+        skipRepeatHandler.postDelayed(skipRepeatRunnable, 1000);
+    }
+
+    private void stopSkipRepeat() {
+        if (skipRepeatRunnable != null) {
+            skipRepeatHandler.removeCallbacks(skipRepeatRunnable);
+            skipRepeatRunnable = null;
+        }
     }
 }
