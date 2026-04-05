@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_error_unknown_error">載入影片失敗</string>
-    <string name="loading">載入中…</string>
+    <string name="loading">載入緊…</string>
     <string name="btn_cancel">取消</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">播放</string>
@@ -17,7 +17,7 @@
     <string name="lbl_next_up">即將播放</string>
     <string name="lbl_on_now">現正播出</string>
     <string name="lbl_views">觀看數</string>
-    <string name="lbl_by_letter">按字母排序</string>
+    <string name="lbl_by_letter">以字母排序</string>
     <string name="lbl_suggested">建議</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">類型</string>
@@ -25,7 +25,7 @@
     <string name="msg_not_implemented">" 尚未實作"</string>
     <string name="lbl_latest">近排新增</string>
     <string name="lbl_latest_in">近排 %1$s 新增</string>
-    <string name="lbl_by_name">按名稱排序</string>
+    <string name="lbl_by_name">以名稱排序</string>
     <string name="lbl_favorites">心水</string>
     <string name="lbl_coming_up">即將播放</string>
     <string name="lbl_favorite_channels">心水頻道</string>
@@ -133,7 +133,7 @@
     <string name="lbl_filters">直播電視篩選</string>
     <string name="msg_subtitles_loading">載入緊字幕…</string>
     <string name="lbl_end_padding">結束緩衝時間</string>
-    <string name="lbl_similar_items_library">媒體庫中嘅相似項目</string>
+    <string name="lbl_similar_items_library">媒體櫃入面嘅相似項目</string>
     <string name="lbl_record_any_channel">喺任何頻道錄製</string>
     <string name="lbl_record_any_time">喺任何時間錄製</string>
     <string name="lbl_only_new_episodes">僅限新集數</string>
@@ -242,7 +242,7 @@
     <string name="lbl_repeat_episodes">重播集數</string>
     <string name="lbl_live_broadcasts">直播</string>
     <string name="lbl_hd_programs">高清節目</string>
-    <string name="lbl_colored_backgrounds">按色水分類背景</string>
+    <string name="lbl_colored_backgrounds">以色水分類背景</string>
     <string name="lbl_start_favorites">將心水擺喺最前</string>
     <string name="lbl_image_type">圖片類型</string>
     <string name="lbl_image_size">圖片大細</string>
@@ -572,5 +572,38 @@
     <string name="color_custom">自訂色水</string>
     <string name="color_alpha">透明度</string>
     <string name="playback_video_player">影片播放器</string>
-    <string name="video_player_internal">內置影片播放器</string>
+    <string name="video_player_internal">內建影片播放器</string>
+    <string name="video_player_external">外部應用程式</string>
+    <string name="playback_video_player_external_empty">你部裝置冇裝到任何外部播放器應用程式可以開到 Jellyfin 影片。</string>
+    <string name="filters">篩選</string>
+    <plurals name="seconds">
+        <item quantity="other">%1$s 秒</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="other">%1$s 分鐘</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%1$s 個鐘</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="other">%1$s 條聲軌</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="other">%1$s 集</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="other">%1$s 個項目</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="other">%1$s 套戲</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s 套劇</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">%1$s 首歌</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="other">%1$s 張專輯</item>
+    </plurals>
 </resources>
