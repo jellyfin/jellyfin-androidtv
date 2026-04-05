@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemBackdropImages
 import org.jellyfin.androidtv.util.apiclient.parentBackdropImages
@@ -59,12 +60,14 @@ class BackgroundService(
 	 * Use all available backdrops from [baseItem] as background.
 	 */
 	fun setBackground(baseItem: BaseItemDto?) {
+		val backdropBehavior = userPreferences[UserPreferences.backdropBehavior]
+
 		// Check if item is set and backgrounds are enabled
-		if (baseItem == null || !userPreferences[UserPreferences.backdropEnabled])
+		if (baseItem == null || backdropBehavior == BackdropBehavior.DISABLED)
 			return clearBackgrounds()
 
 		// Enable blur for backdrops
-		_blurBackground.value = true
+		_blurBackground.value = backdropBehavior == BackdropBehavior.BACKDROP_WITH_BLUR
 
 		// Get all backdrop urls
 		val backdropUrls = (baseItem.itemBackdropImages + baseItem.parentBackdropImages)
@@ -79,7 +82,7 @@ class BackgroundService(
 	 */
 	fun setBackground(server: Server) {
 		// Check if item is set and backgrounds are enabled
-		if (!userPreferences[UserPreferences.backdropEnabled])
+		if (userPreferences[UserPreferences.backdropBehavior] == BackdropBehavior.DISABLED)
 			return clearBackgrounds()
 
 		// Check if splashscreen is enabled in (cached) branding options
