@@ -329,7 +329,7 @@
     <string name="discovered_servers_empty">喺區域網路入面搵唔到伺服器。</string>
     <string name="connect_manually_by_address">輸入伺服器位址</string>
     <string name="login_help_title">需要幫手？</string>
-    <string name="login_help_description">Jellyfin 需要連線去伺服器先用得。可以去 docs.jellyfin.org 睇吓說明文件，或者掃描 二維碼(QR code) 開始用 Jellyfin。</string>
+    <string name="login_help_description">Jellyfin 需要連線去伺服器先用得。可以去 docs.jellyfin.org 睇吓說明文檔，或者掃描 二維碼(QR code) 開始用 Jellyfin。</string>
     <string name="pref_watched_indicator">顯示已睇標示</string>
     <string name="lbl_hide_unwatched_count">當項目已經睇咗嗰陣</string>
     <string name="lbl_hide_watched_checkmark">當仲有集數未睇嗰陣</string>
@@ -534,8 +534,8 @@
     <string name="pref_subtitles_background_opacity">字幕背景不透明度</string>
     <string name="pref_troubleshooting">疑難排解</string>
     <string name="pref_report_device_profile_title">向伺服器回報播放能力</string>
-    <string name="pref_report_device_profile_summary">上載一份關於播放能力嘅疑難排解文件去 Jellyfin 伺服器</string>
-    <string name="pref_report_device_profile_success">文件已成功提交，編號為 %1$s</string>
+    <string name="pref_report_device_profile_summary">上載一份關於播放能力嘅疑難排解文檔去 Jellyfin 伺服器</string>
+    <string name="pref_report_device_profile_success">文檔已成功提交，編號為 %1$s</string>
     <string name="pref_report_device_profile_failure">提交文檔失敗。你個 Jellyfin 伺服器可能禁止咗用戶端上載日誌。</string>
     <string name="fast_forward">快進</string>
     <string name="rewind">倒帶</string>
@@ -548,4 +548,25 @@
     <string name="settings">設定</string>
     <string name="settings_description">根據你嘅喜好嚟更改應用程式設定</string>
     <string name="copied_to_clipboard">複製咗去剪貼簿</string>
+    <string name="pref_playback_next_up">跟住係</string>
+    <string name="pref_playback_media_segments">媒體片段</string>
+    <string name="pref_customization_subtitles">字幕</string>
+    <string name="pref_playback_prerolls">前置廣告</string>
+    <string name="pref_playback_inactivity_prompt">閒置提示</string>
+    <string name="pref_prerolls_enabled">開啟電影模式</string>
+    <string name="pref_prerolls_enabled_description">喺電影開始之前播自訂片頭</string>
+    <string name="pref_media_queueing">將所有集數排入隊列</string>
+    <string name="pref_media_queueing_description">播劇嗰陣將之後嘅集數自動加落隊列</string>
+    <string name="pref_subtitles_weight">文字粗細</string>
+    <string name="font_weight_100">極細 (100)</string>
+    <string name="font_weight_200">特細 (200)</string>
+    <string name="font_weight_300">細 (300)</string>
+    <string name="font_weight_400">標準 (400)</string>
+    <string name="font_weight_500">中等 (500)</string>
+    <string name="font_weight_600">半粗 (600)</string>
+    <string name="font_weight_700">粗 (700)</string>
+    <string name="font_weight_800">特粗 (800)</string>
+    <string name="font_weight_900">黑體 (900)</string>
+    <string name="subtitle_preview_text">字幕會係呢個樣</string>
+    <string name="color_presets">預設</string>
 </resources>
