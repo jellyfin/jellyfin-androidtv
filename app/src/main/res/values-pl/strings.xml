@@ -637,4 +637,6 @@
     <string name="video_player_external">Zewnętrzna aplikacja</string>
     <string name="playback_video_player_external_empty">Na tym urządzeniu nie ma zainstalowanej żadnej aplikacji do odtwarzania wideo, która mogłaby otwierać pliki wideo Jellyfin.</string>
     <string name="filters">Filtry</string>
+    <string name="backdrop_behavior_with_blur">Tło z rozmyciem</string>
+    <string name="backdrop_behavior_without_blur">Tło bez rozmycia</string>
 </resources>
