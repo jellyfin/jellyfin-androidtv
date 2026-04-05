@@ -193,7 +193,6 @@
     <string name="lbl_play_next_up">播放下一個</string>
     <string name="lbl_open">開啟</string>
     <string name="lbl_show_backdrop">顯示背景圖</string>
-    <string name="pref_show_backdrop_description">將背景圖片更改為揀住嘅項目</string>
     <string name="lbl_show_premieres">顯示季度首播</string>
     <string name="desc_premieres">顯示你睇開嘅劇集最新一集試播</string>
     <string name="lbl_in_x_days">%d 日後</string>

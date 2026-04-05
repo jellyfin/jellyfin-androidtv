@@ -449,7 +449,6 @@
     <string name="lbl_subtitle_text_color">Subtitru teksta krāsa</string>
     <string name="app_notification_update_soon">Atjauniniet serveri no %1$s uz vismaz %2$s, lai turpinātu lietot programmu pēc nākamā atjauninājuma.</string>
     <string name="pref_enable_media_management_description">Rādīt opciju pārvaldīt multividi pārlūkošanas laikā</string>
-    <string name="pref_show_backdrop_description">Mainīt fona attēlu izvēlētiem vienumiem</string>
     <string name="crash_report_toast">Ups! Kaut kas notika nepareizi, uz jūsu Jellyfin serveri tika nosūtīts avārijas ziņojums.</string>
     <string name="unreleased">Pagaidām nav publicēts</string>
     <string name="lbl_starting_early_ending_after">Sākt %1$s agrāk un beigt %2$s pēc grafika</string>

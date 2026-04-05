@@ -402,7 +402,6 @@
     <string name="home_prefs">Início</string>
     <string name="server_connection_failed_candidates">Não foi possível estabelecer ligação com o servidor, foram tentados os seguintes endereços: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_show_backdrop_description">Alterar imagem de fundo para seleção de items</string>
     <string name="state_disabled">Desativado</string>
     <string name="lbl_quality_profile">Perfil de qualidade</string>
     <string name="image_type_poster">Cartaz</string>

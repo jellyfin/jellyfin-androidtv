@@ -462,7 +462,6 @@
     <string name="pref_screensaver_inapp_timeout">Start skjermsparer etter</string>
     <string name="searchable_hint">Søk i Jellyfin</string>
     <string name="searchable_settings_description">Medier</string>
-    <string name="pref_show_backdrop_description">Endre bakgrunnsbilde til valgte elementer</string>
     <string name="license_license">Lisens</string>
     <string name="item_delete_confirm_title">Slett element</string>
     <string name="home_prefs">Hjem</string>
