@@ -569,4 +569,8 @@
     <string name="font_weight_900">黑體 (900)</string>
     <string name="subtitle_preview_text">字幕會係呢個樣</string>
     <string name="color_presets">預設</string>
+    <string name="color_custom">自訂色水</string>
+    <string name="color_alpha">透明度</string>
+    <string name="playback_video_player">影片播放器</string>
+    <string name="video_player_internal">內置影片播放器</string>
 </resources>
