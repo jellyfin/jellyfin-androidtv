@@ -61,6 +61,7 @@ class BackgroundService(
 	 */
 	fun setBackground(baseItem: BaseItemDto?) {
 		val backdropBehavior = userPreferences[UserPreferences.backdropBehavior]
+
 		// Check if item is set and backgrounds are enabled
 		if (baseItem == null || backdropBehavior == BackdropBehavior.DISABLED)
 			return clearBackgrounds()

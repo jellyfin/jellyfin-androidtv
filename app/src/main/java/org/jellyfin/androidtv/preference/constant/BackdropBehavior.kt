@@ -11,10 +11,10 @@ enum class BackdropBehavior(
 	/**
 	 * When selected, backdrop is shown with a blur effect.
 	 */
-	BACKDROP_WITH_BLUR(R.string.pref_enable_backdrop_with_blur),
+	BACKDROP_WITH_BLUR(R.string.backdrop_behavior_with_blur),
 
 	/**
 	 * When selected, backdrop is shown without any blur effect.
 	 */
-	BACKDROP_WITHOUT_BLUR(R.string.pref_enable_backdrop_without_blur),
+	BACKDROP_WITHOUT_BLUR(R.string.backdrop_behavior_without_blur),
 }

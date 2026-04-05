@@ -41,7 +41,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var appTheme = enumPreference("app_theme", AppTheme.DARK)
 
 		/**
-		 * Enable background images while browsing
+		 * Behavior of app background while browsing
 		 */
 		var backdropBehavior = enumPreference("backdrop_behavior", BackdropBehavior.BACKDROP_WITH_BLUR)
 
@@ -233,7 +233,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var assDirectPlay = booleanPreference("libass_enabled", false)
 
 		/**
-  		 * Enable PGS subtitle direct-play.
+		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 	}
@@ -264,9 +264,13 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 			migration(toVersion = 9) {
 				// Reset subtitle text size as we changed from fractional sizing to absolute sizing
 				remove("subtitles_text_size")
+
 				// Set the BackdropBehavior if it was enabled in a previous version
-				val backdropEnabled = it.getBoolean("backdrop_enabled", true)
-				putString("backdrop_behavior", if(backdropEnabled) BackdropBehavior.BACKDROP_WITH_BLUR.name else BackdropBehavior.DISABLED.name)
+				val backdropEnabled = it.getBoolean("pref_show_backdrop", true)
+				putString(
+					"backdrop_behavior",
+					if (backdropEnabled) BackdropBehavior.BACKDROP_WITH_BLUR.name else BackdropBehavior.DISABLED.name
+				)
 			}
 		}
 	}
