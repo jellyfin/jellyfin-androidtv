@@ -43,7 +43,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable background images while browsing
 		 */
-		var backdropEnabled = enumPreference("pref_show_backdrop", BackdropBehavior.BACKDROP_WITH_BLUR)
+		var backdropBehavior = enumPreference("backdrop_behavior", BackdropBehavior.BACKDROP_WITH_BLUR)
 
 		/* Playback - General*/
 		/**
@@ -264,6 +264,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 			migration(toVersion = 9) {
 				// Reset subtitle text size as we changed from fractional sizing to absolute sizing
 				remove("subtitles_text_size")
+				// Set the BackdropBehavior if it was enabled in a previous version
+				val backdropEnabled = it.getBoolean("backdrop_enabled", true)
+				putString("backdrop_behavior", if(backdropEnabled) BackdropBehavior.BACKDROP_WITH_BLUR.name else BackdropBehavior.DISABLED.name)
 			}
 		}
 	}

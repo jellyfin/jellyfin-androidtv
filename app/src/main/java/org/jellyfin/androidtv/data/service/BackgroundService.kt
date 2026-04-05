@@ -60,13 +60,13 @@ class BackgroundService(
 	 * Use all available backdrops from [baseItem] as background.
 	 */
 	fun setBackground(baseItem: BaseItemDto?) {
-		val backdropMode = userPreferences[UserPreferences.backdropEnabled]
+		val backdropBehavior = userPreferences[UserPreferences.backdropBehavior]
 		// Check if item is set and backgrounds are enabled
-		if (baseItem == null || backdropMode == BackdropBehavior.DISABLED)
+		if (baseItem == null || backdropBehavior == BackdropBehavior.DISABLED)
 			return clearBackgrounds()
 
 		// Enable blur for backdrops
-		_blurBackground.value = backdropMode == BackdropBehavior.BACKDROP_WITH_BLUR
+		_blurBackground.value = backdropBehavior == BackdropBehavior.BACKDROP_WITH_BLUR
 
 		// Get all backdrop urls
 		val backdropUrls = (baseItem.itemBackdropImages + baseItem.parentBackdropImages)
@@ -81,7 +81,7 @@ class BackgroundService(
 	 */
 	fun setBackground(server: Server) {
 		// Check if item is set and backgrounds are enabled
-		if (userPreferences[UserPreferences.backdropEnabled] == BackdropBehavior.DISABLED)
+		if (userPreferences[UserPreferences.backdropBehavior] == BackdropBehavior.DISABLED)
 			return clearBackgrounds()
 
 		// Check if splashscreen is enabled in (cached) branding options

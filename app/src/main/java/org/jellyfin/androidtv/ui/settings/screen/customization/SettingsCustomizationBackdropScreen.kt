@@ -21,7 +21,7 @@ import org.koin.compose.koinInject
 fun SettingsCustomizationBackdropScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
-	var backdropBehavior by rememberPreference(userPreferences, UserPreferences.backdropEnabled)
+	var backdropBehavior by rememberPreference(userPreferences, UserPreferences.backdropBehavior)
 
 	SettingsColumn {
 		item {
