@@ -14,7 +14,7 @@
     <string name="lbl_home">主頁</string>
     <string name="lbl_continue_watching">繼續睇返</string>
     <string name="continue_listening">繼續收聽</string>
-    <string name="lbl_next_up">即將播放</string>
+    <string name="lbl_next_up">跟住落嚟</string>
     <string name="lbl_on_now">現正播出</string>
     <string name="lbl_views">觀看數</string>
     <string name="lbl_by_letter">以字母排序</string>
@@ -52,7 +52,7 @@
     <string name="lbl_cast_crew">演職人員</string>
     <string name="lbl_additional_parts">額外片段</string>
     <string name="lbl_chapters">章節</string>
-    <string name="lbl_specials">特別收錄</string>
+    <string name="lbl_specials">特輯</string>
     <string name="lbl_trailers">預告片</string>
     <string name="lbl_items">項目</string>
     <string name="lbl_item">項目</string>
@@ -190,7 +190,7 @@
     <string name="lbl_subtitle_track">揀字幕軌</string>
     <string name="btn_got_it">知喇</string>
     <string name="lbl_clear_queue">清晒待播清單</string>
-    <string name="lbl_play_next_up">播放下一個</string>
+    <string name="lbl_play_next_up">播放「跟住落嚟」</string>
     <string name="lbl_open">開啟</string>
     <string name="lbl_show_backdrop">顯示背景圖</string>
     <string name="lbl_show_premieres">顯示季度首播</string>
@@ -251,7 +251,7 @@
     <string name="pref_about_title">關於</string>
     <string name="pref_external_player">用外部播放器</string>
     <string name="pref_next_up_timeout_summary">播下一個項目之前要等幾耐</string>
-    <string name="pref_next_up_timeout_title">下一個項目倒數時間</string>
+    <string name="pref_next_up_timeout_title">「跟住落嚟」倒數時間</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="watch_now">而家睇</string>
     <string name="pref_next_up_behavior_title">顯示下段片嘅詳細資訊</string>
@@ -350,7 +350,7 @@
     <string name="who_is_watching">邊位睇緊？</string>
     <string name="add_user">新增帳戶</string>
     <string name="help">幫手</string>
-    <string name="lbl_special">特別收錄</string>
+    <string name="lbl_special">特輯</string>
     <string name="lbl_season_number">第 %1$d 季</string>
     <string name="lbl_episode_number">第 %1$d 集</string>
     <string name="lbl_episode_range">第 %1$d–%2$d 集</string>
@@ -391,10 +391,10 @@
     <string name="home_section_latest_media">近排新增嘅媒體</string>
     <string name="home_section_library">我嘅媒體</string>
     <string name="home_section_library_small">我嘅媒體（細）</string>
-    <string name="home_section_resume">繼續睇</string>
+    <string name="home_section_resume">繼續睇返</string>
     <string name="home_section_resume_audio">繼續聽</string>
     <string name="home_section_active_recordings">錄製緊嘅項目</string>
-    <string name="home_section_next_up">跟住係</string>
+    <string name="home_section_next_up">跟住落嚟</string>
     <string name="home_section_livetv">直播電視</string>
     <string name="home_section_none">無</string>
     <string name="home_section_i">首頁板塊 %1$d</string>
@@ -432,7 +432,7 @@
     <string name="pref_libraries_description">更改媒體櫃嘅顯示方式</string>
     <string name="pref_login">登入</string>
     <string name="pref_customization_description">主題色水、首頁、撳掣對應</string>
-    <string name="pref_playback_description">影片、字幕、直播電視、跟住係</string>
+    <string name="pref_playback_description">影片、字幕、直播電視、跟住落嚟</string>
     <string name="pref_login_description">伺服器、帳戶、自動登入</string>
     <string name="pref_video">影片</string>
     <string name="pref_subtitles">字幕</string>
@@ -467,7 +467,7 @@
     <string name="pref_crash_report_logs_disabled">日誌唔會擺喺宕機回報入面</string>
     <string name="crash_report_toast">弊喇！出咗啲問題，宕機回報已經傳送咗去你個 Jellyfin 伺服器。</string>
     <string name="server_setup_incomplete">呢個伺服器仲未完成設定。登入之前，唔該先用瀏覽器開 Jellyfin 搞掂埋啲設定。</string>
-    <string name="episode_name_special">特別收錄</string>
+    <string name="episode_name_special">特輯</string>
     <string name="app_notification_beta">應用程式已更新至 %1$s\n唔該晒你參加 Jellyfin 嘅 Beta 測試計劃。</string>
     <string name="item_deleted">%1$s 已刪走</string>
     <string name="item_deletion_failed">刪唔到 %1$s</string>
@@ -547,7 +547,7 @@
     <string name="settings">設定</string>
     <string name="settings_description">根據你嘅喜好嚟更改應用程式設定</string>
     <string name="copied_to_clipboard">複製咗去剪貼簿</string>
-    <string name="pref_playback_next_up">跟住係</string>
+    <string name="pref_playback_next_up">跟住落嚟</string>
     <string name="pref_playback_media_segments">媒體片段</string>
     <string name="pref_customization_subtitles">字幕</string>
     <string name="pref_playback_prerolls">前置廣告</string>
@@ -605,4 +605,6 @@
     <plurals name="albums">
         <item quantity="other">%1$s 張專輯</item>
     </plurals>
+    <string name="backdrop_behavior_with_blur">連埋模糊效果嘅背景圖</string>
+    <string name="backdrop_behavior_without_blur">唔要模糊效果嘅背景圖</string>
 </resources>
