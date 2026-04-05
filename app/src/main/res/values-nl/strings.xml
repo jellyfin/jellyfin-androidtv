@@ -617,4 +617,6 @@
     <string name="video_player_internal">Ingebouwde videospeler</string>
     <string name="playback_video_player_external_empty">Je hebt geen apps op je apparaat staan die video\'s van Jellyfin kunnen afspelen.</string>
     <string name="filters">Filters</string>
+    <string name="backdrop_behavior_with_blur">Achtergrond met vervaging</string>
+    <string name="backdrop_behavior_without_blur">Achtergrond zonder vervaging</string>
 </resources>
