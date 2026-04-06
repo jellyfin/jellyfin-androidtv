@@ -637,4 +637,6 @@
     <string name="video_player_internal">Встроенный видео проигрыватель</string>
     <string name="video_player_external">Внешнее приложение</string>
     <string name="playback_video_player_external_empty">У вас нет ни одного приложения для воспроизведения видео, которое может открывать видео из Jellyfin.</string>
+    <string name="backdrop_behavior_with_blur">Фон с размытием</string>
+    <string name="backdrop_behavior_without_blur">Фон без размытия</string>
 </resources>
