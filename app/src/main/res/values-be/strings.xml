@@ -637,4 +637,6 @@
     <string name="font_weight_700">Тоўсты</string>
     <string name="font_weight_800">Экстра тоўсты</string>
     <string name="font_weight_900">Чорны</string>
+    <string name="backdrop_behavior_without_blur">Фон без размытасці</string>
+    <string name="backdrop_behavior_with_blur">Фон з размытасцю</string>
 </resources>
