@@ -328,7 +328,7 @@
     <string name="discovered_servers_empty">喺區域網路入面搵唔到伺服器。</string>
     <string name="connect_manually_by_address">輸入伺服器位址</string>
     <string name="login_help_title">需要幫手？</string>
-    <string name="login_help_description">Jellyfin 需要連線去伺服器先用得。可以去 docs.jellyfin.org 睇吓說明文檔，或者掃描 二維碼(QR code) 開始用 Jellyfin。</string>
+    <string name="login_help_description">Jellyfin 需要連線去伺服器先用得。可以去 docs.jellyfin.org 睇吓說明文檔，或者掃二維碼(QR code)開始使用 Jellyfin。</string>
     <string name="pref_watched_indicator">顯示已睇標示</string>
     <string name="lbl_hide_unwatched_count">當項目已經睇咗嗰陣</string>
     <string name="lbl_hide_watched_checkmark">當仲有集數未睇嗰陣</string>
@@ -449,7 +449,7 @@
     <string name="login_other_options">其他選項：</string>
     <string name="login_quickconnect_step_1">1. 喺你部手機或者瀏覽器開 Jellyfin，然後登入你個帳戶</string>
     <string name="login_quickconnect_step_2">2. 打開使用者選單，去「快速連線」頁面</string>
-    <string name="login_quickconnect_step_3">3. 輸入下邊呢組代碼：</string>
+    <string name="login_quickconnect_step_3">3. 輸入下邊呢組冧把：</string>
     <string name="lbl_refresh_switching">更新率切換</string>
     <string name="pref_refresh_rate_scale_on_tv">喺電視上縮放</string>
     <string name="pref_refresh_rate_scale_on_device">喺裝置上縮放</string>
