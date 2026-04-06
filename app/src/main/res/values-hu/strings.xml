@@ -402,7 +402,6 @@
     <string name="pref_accounts">Fiókok</string>
     <string name="sort_accounts_by">Fiókok rendezése ez szerint</string>
     <string name="pref_customization">Testreszabás</string>
-    <string name="pref_show_backdrop_description">A háttérkép módosítása a kiválasztott elemekre</string>
     <string name="home_section_resume_book">Olvasás folytatása</string>
     <string name="lbl_shuffle_queue">Véletlenszerű lejátszás</string>
     <string name="login_quickconnect_step_3">3. Írjd be a következő kódot:</string>

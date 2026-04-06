@@ -402,7 +402,6 @@
     <string name="pref_accounts">Účty</string>
     <string name="sort_accounts_by">Seřadit účty podle</string>
     <string name="pref_customization">Přizpůsobení</string>
-    <string name="pref_show_backdrop_description">Změnit pozadí na vybrané položky</string>
     <string name="home_section_resume_book">Pokračovat ve čtení</string>
     <string name="lbl_shuffle_queue">Přepnout náhodné přehrávání</string>
     <string name="pref_crash_report_logs_disabled">Logy nebudou přikládány ke hlášení pádů</string>

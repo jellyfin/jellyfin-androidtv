@@ -383,7 +383,6 @@
     <string name="lbl_stretch">Estira</string>
     <string name="lbl_auto_crop">Ajust automàtic</string>
     <string name="lbl_community_rating">Puntuació de la comunitat</string>
-    <string name="pref_show_backdrop_description">Canvia el fons de pantalla segons els elements seleccionats</string>
     <string name="crash_report_toast">Vaja! Alguna cosa ha anat malament, s\'ha enviat un informe de fallada al vostre servidor de Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">Els registres no s\'inclouran als informes de fallada</string>
     <string name="pref_crash_report_logs_enabled">Els registres s\'inclouran als informes de fallada</string>

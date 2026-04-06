@@ -302,7 +302,6 @@
     <string name="home_sections">홈 메뉴 항목</string>
     <string name="pref_theme_muted_purple">어두운 보라색</string>
     <string name="pref_crash_reports_enabled">마지막으로 접속했던 서버로 충돌 보고서를 보냅니다</string>
-    <string name="pref_show_backdrop_description">선택된 항목으로 배경 이미지 변경</string>
     <string name="lbl_quality_profile">품질 프로파일</string>
     <string name="lbl_user_last_used">%2$s에서 %1$s에 마지막으로 사용</string>
     <string name="crash_report_toast">이런! 문제가 발생했습니다. 당신의 Jellyfin 서버에 충돌 보고서를 전송했습니다.</string>

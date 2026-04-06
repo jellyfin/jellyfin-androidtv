@@ -257,7 +257,6 @@
     <string name="lbl_showing">Kuvamine</string>
     <string name="lbl_stretch">Venita</string>
     <string name="lbl_open">Ava</string>
-    <string name="pref_show_backdrop_description">Muuda taustapilt valitud üksusteks</string>
     <string name="lbl_show_premieres">Kuva hooaja pilootosad</string>
     <string name="desc_premieres">Kuva kõigi vaadatavate sarjade jaoks uute pilootosade rida</string>
     <string name="lbl_in_x_days">%d päeva jooksul</string>

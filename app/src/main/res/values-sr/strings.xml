@@ -417,7 +417,6 @@
     <string name="color_blue">Плаво</string>
     <string name="pref_customization">Прилагођавање</string>
     <string name="desc_audio_night_mode">Аутоматска јечина излазног звука</string>
-    <string name="pref_show_backdrop_description">Промени позадну на одабраним стварима</string>
     <string name="pref_home_description">Подеси одељак одгледано</string>
     <string name="pref_login">Улогуј се</string>
     <string name="state_disabled">Искључено</string>

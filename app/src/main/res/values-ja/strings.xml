@@ -327,7 +327,6 @@
     <string name="pref_direct_stream_live_on">トランスコーディングは無効です</string>
     <string name="watch_count_overflow">99+</string>
     <string name="mark_watched_message">最後まで再生されていませんが、視聴済みにしますか？</string>
-    <string name="pref_show_backdrop_description">背景画像を選択中のアイテムに変更する</string>
     <string name="lbl_playback_speed">再生速度</string>
     <string name="lbl_stretch">ストレッチ</string>
     <string name="lbl_auto_crop">オートクロップ</string>

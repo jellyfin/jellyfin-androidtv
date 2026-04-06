@@ -410,7 +410,6 @@
     <string name="sort_accounts_by">Hesapları sırala</string>
     <string name="lbl_quality_profile">Kalite profili</string>
     <string name="server_issue_ssl_handshake">SSL el sıkışması başarısız oldu</string>
-    <string name="pref_show_backdrop_description">Seçili ögelerin arka plan resmini değiştir</string>
     <string name="image_size_smallest">En Küçük</string>
     <string name="pref_home_description">Gösterilen bölümleri yapılandırın</string>
     <string name="pref_customization_description">Tema, ana ekran, yeniden eşleştirme</string>

@@ -375,7 +375,6 @@
     <string name="lbl_playback_speed">Ταχύτητα αναπαραγωγής</string>
     <string name="lbl_fit">Κανονικό</string>
     <string name="lbl_auto_crop">Αυτόματη περικοπή</string>
-    <string name="pref_show_backdrop_description">Αλλαγή εικόνας φόντου στα επιλεγμένα αντικείμενα</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/δευτ</string>
     <string name="pref_refresh_rate_scale_on_device">Κλιμάκωση σε συσκευή</string>
     <string name="pref_refresh_rate_scale_on_tv">Κλιμάκωση στην τηλεόραση</string>

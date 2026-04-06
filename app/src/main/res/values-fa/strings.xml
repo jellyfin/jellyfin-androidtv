@@ -175,7 +175,6 @@
     <string name="lbl_clear_queue">پاک کردن صف</string>
     <string name="btn_got_it">فهمیدم</string>
     <string name="lbl_refresh_switching">تعویض سرعت تازه سازی</string>
-    <string name="pref_show_backdrop_description">تغییر پس زمینه به تصاویر انتخاب شده</string>
     <string name="lbl_show_backdrop">نمایش تصاویر پس زمینه</string>
     <string name="lbl_open">باز کردن</string>
     <string name="lbl_play_next_up">پخش بعدی</string>

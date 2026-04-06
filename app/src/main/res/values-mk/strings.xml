@@ -285,7 +285,6 @@
     <string name="lbl_delete">Избриши</string>
     <string name="lbl_open">Отвори</string>
     <string name="lbl_play_next_up">Пушти следно</string>
-    <string name="pref_show_backdrop_description">Измени позадина на избрани ставки</string>
     <string name="lbl_show_backdrop">Прикажи позадини</string>
     <string name="lbl_new">Ново</string>
     <string name="lbl_tv_channel_status">%1$d од %2$d канали</string>

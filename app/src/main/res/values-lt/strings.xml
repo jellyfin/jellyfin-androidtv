@@ -185,7 +185,6 @@
     <string name="lbl_at_any_time">Bet kuriuo metu</string>
     <string name="lbl_show_indicators">Rodyti indikatorius</string>
     <string name="lbl_open_album">Atidaryti albumą</string>
-    <string name="pref_show_backdrop_description">Pakeiti dabar pasirinktų failų užsklandos paveikslelį</string>
     <string name="lbl_tv_channel_status">%1$d iš %2$d kanalų</string>
     <string name="lbl_tv_filter_status">kitom %1$d valandom</string>
     <string name="lbl_subtitle_delay">Subtitrų vėlinimas</string>

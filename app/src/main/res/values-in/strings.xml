@@ -301,7 +301,6 @@
     <string name="who_is_watching">Siapa yang sedang menonton\?</string>
     <string name="login_help_description">Jellyfin membutuhkan server untuk terhubung. Kunjungi dokumentasi kami di docs.jellyfin.org atau pindai kode QR untuk memulai dengan Jellyfin.</string>
     <string name="pref_watched_indicator">Munculkan indikator yang telah ditonton</string>
-    <string name="pref_show_backdrop_description">Ganti gambar latar belakang untuk entri terpilih</string>
     <string name="welcome_title">Selamat datang di Jellyfin!</string>
     <string name="help">Bantuan</string>
     <string name="lbl_special">Spesial</string>

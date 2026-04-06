@@ -402,7 +402,6 @@
     <string name="home_sections">Sekcje domowe</string>
     <string name="license_artifact">Aretfakt</string>
     <string name="server_connection_failed_candidates">Nie można połączyć się z serwerem, wypróbowane adresy: %1$s</string>
-    <string name="pref_show_backdrop_description">Zmień tło na wybrane elementy</string>
     <string name="lbl_playback_speed">Prędkość odtwarzania</string>
     <string name="login_quickconnect_step_3">3. Wpisz podany kod:</string>
     <string name="login_quickconnect_step_1">1. Otwórz aplikację Jellyfin na swoim telefonie lub w przeglądarce i zaloguj się na swoje konto</string>
@@ -639,4 +638,6 @@
     <string name="video_player_external">Zewnętrzna aplikacja</string>
     <string name="playback_video_player_external_empty">Na tym urządzeniu nie ma zainstalowanej żadnej aplikacji do odtwarzania wideo, która mogłaby otwierać pliki wideo Jellyfin.</string>
     <string name="filters">Filtry</string>
+    <string name="backdrop_behavior_with_blur">Tło z rozmyciem</string>
+    <string name="backdrop_behavior_without_blur">Tło bez rozmycia</string>
 </resources>
