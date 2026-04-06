@@ -15,8 +15,8 @@ import androidx.compose.ui.focus.focusRequester
 fun BaseScreen(
 	content: @Composable () -> Unit,
 ) {
-	// Work around a focus issue with our current fragment based navigation approuch
-	// by always focussing the screen contents whenever the screen is created
+	// Work around a focus issue with our current fragment based navigation approach
+	// by always focusing the screen contents whenever the screen is created
 	val focusRequester = remember { FocusRequester() }
 	Box(
 		modifier = Modifier
