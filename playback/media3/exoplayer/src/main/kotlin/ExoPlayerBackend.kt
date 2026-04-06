@@ -16,6 +16,7 @@ import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
@@ -109,7 +110,19 @@ class ExoPlayerBackend(
 			else renderersFactory
 		}
 
+		@Suppress("MagicNumber")
+		val loadControl = when (exoPlayerOptions.bufferSize) {
+			ExoPlayerOptions.BufferSize.LARGE -> DefaultLoadControl.Builder()
+				.setBufferDurationsMs(50_000, 120_000, 2_500, 5_000)
+				.build()
+			ExoPlayerOptions.BufferSize.EXTRA_LARGE -> DefaultLoadControl.Builder()
+				.setBufferDurationsMs(80_000, 240_000, 5_000, 10_000)
+				.build()
+			else -> DefaultLoadControl()
+		}
+
 		ExoPlayer.Builder(context)
+			.setLoadControl(loadControl)
 			.setRenderersFactory(renderersFactory)
 			.setTrackSelector(DefaultTrackSelector(context).apply {
 				setParameters(buildUponParameters().apply {

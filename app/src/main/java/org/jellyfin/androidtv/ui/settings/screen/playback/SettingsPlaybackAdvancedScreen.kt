@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
@@ -105,6 +106,16 @@ fun SettingsPlaybackAdvancedScreen() {
 					}
 				}
 			}
+		}
+
+		item {
+			var bufferLength by rememberPreference(userPreferences, UserPreferences.bufferLength)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.playback_buffer_length)) },
+				captionContent = { Text(stringResource(bufferLength.nameRes)) },
+				onClick = { router.push(Routes.PLAYBACK_BUFFER_LENGTH) },
+			)
 		}
 
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_video)) }) }

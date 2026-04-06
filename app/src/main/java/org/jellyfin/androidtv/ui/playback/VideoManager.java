@@ -32,6 +32,7 @@ import androidx.media3.common.Tracks;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.HttpDataSource;
+import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.analytics.AnalyticsListener;
@@ -48,6 +49,7 @@ import androidx.media3.ui.PlayerView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.BufferLength;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
@@ -246,6 +248,21 @@ public class VideoManager {
             exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
             exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
         }
+
+        BufferLength bufferLength = userPreferences.get(UserPreferences.Companion.getBufferLength());
+        DefaultLoadControl loadControl;
+        if (bufferLength == BufferLength.LARGE) {
+            loadControl = new DefaultLoadControl.Builder()
+                    .setBufferDurationsMs(50_000, 120_000, 2_500, 5_000)
+                    .build();
+        } else if (bufferLength == BufferLength.EXTRA_LARGE) {
+            loadControl = new DefaultLoadControl.Builder()
+                    .setBufferDurationsMs(80_000, 240_000, 5_000, 10_000)
+                    .build();
+        } else {
+            loadControl = new DefaultLoadControl();
+        }
+        exoPlayerBuilder.setLoadControl(loadControl);
 
         exoPlayerBuilder.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)

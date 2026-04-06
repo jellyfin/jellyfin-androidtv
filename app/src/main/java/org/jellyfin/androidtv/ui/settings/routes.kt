@@ -33,6 +33,7 @@ import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideFilte
 import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideOptionsScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAVCLevelScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAdvancedScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackBufferLengthScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAudioBehaviorScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackCodecScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackHEVCLevelScreen
@@ -97,6 +98,7 @@ object Routes {
 	const val PLAYBACK_MAX_BITRATE = "/playback/max-bitrate"
 	const val PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR = "/playback/refresh-rate-switching-behavior"
 	const val PLAYBACK_ZOOM_MODE = "/playback/zoom-mode"
+	const val PLAYBACK_BUFFER_LENGTH = "/playback/buffer-length"
 	const val PLAYBACK_AUDIO_BEHAVIOR = "/playback/audio-behavior"
 	const val PLAYBACK_CODEC = "/playback/codec"
 	const val PLAYBACK_AVC_LEVEL = "/playback/codec/avc-level"
@@ -247,6 +249,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.PLAYBACK_ZOOM_MODE to {
 		SettingsPlaybackZoomModeScreen()
+	},
+	Routes.PLAYBACK_BUFFER_LENGTH to {
+		SettingsPlaybackBufferLengthScreen()
 	},
 	Routes.PLAYBACK_AUDIO_BEHAVIOR to {
 		SettingsPlaybackAudioBehaviorScreen()
