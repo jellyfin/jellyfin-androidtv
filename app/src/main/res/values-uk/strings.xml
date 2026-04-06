@@ -637,4 +637,6 @@
     <string name="video_player_external">Зовнішній додаток</string>
     <string name="playback_video_player_external_empty">На вашому пристрої не встановлено програми відеопрогравача, які можуть відкривати відео Jellyfin.</string>
     <string name="filters">Фільтри</string>
+    <string name="backdrop_behavior_with_blur">Фон із розмиттям</string>
+    <string name="backdrop_behavior_without_blur">Фон без розмиття</string>
 </resources>
