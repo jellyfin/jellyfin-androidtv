@@ -74,7 +74,7 @@ class ServerFragment : Fragment() {
 
 		_binding = FragmentServerBinding.inflate(inflater, container, false)
 
-		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
+		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository, userPinRepository)
 
 		fun performLogin(server: Server, user: User) {
 			startupViewModel.authenticate(server, user).onEach { state ->
@@ -227,6 +227,7 @@ class ServerFragment : Fragment() {
 		private val startupViewModel: StartupViewModel,
 		private val authenticationRepository: AuthenticationRepository,
 		private val serverUserRepository: ServerUserRepository,
+		private val userPinRepository: UserPinRepository,
 	) : ListAdapter<User, UserAdapter.ViewHolder>() {
 		var onItemPressed: (User) -> Unit = {}
 
@@ -241,6 +242,7 @@ class ServerFragment : Fragment() {
 		override fun onBindViewHolder(holder: ViewHolder, user: User) {
 			holder.cardView.name = user.name
 			holder.cardView.image = startupViewModel.getUserImage(server, user)
+			holder.cardView.hasPin = userPinRepository.hasPin(user.id)
 
 			holder.cardView.setPopupMenu {
 				// Logout button

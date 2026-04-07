@@ -13,9 +13,11 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +38,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.AbstractComposeView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.LocalTextStyle
 import org.jellyfin.androidtv.ui.base.ProfilePicture
@@ -50,6 +55,7 @@ import org.jellyfin.androidtv.util.showIfNotEmpty
 fun UserCard(
 	image: @Composable () -> Unit,
 	name: @Composable () -> Unit,
+	showLocked: Boolean,
 	onClick: () -> Unit,
 	modifier: Modifier = Modifier,
 	interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -82,15 +88,22 @@ fun UserCard(
 
 		Spacer(Modifier.height(8.dp))
 
-		Box(
+		Row(
 			modifier = Modifier
 				.fillMaxWidth()
 				.basicMarquee(
 					iterations = if (focused) Int.MAX_VALUE else 0,
 					initialDelayMillis = 0,
 				),
-			contentAlignment = Alignment.TopCenter,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
 		) {
+			if(showLocked) {
+				Icon(painterResource(R.drawable.ic_lock_outline), contentDescription = null)
+
+                Spacer(modifier = Modifier.width(4.dp))
+			}
+
 			ProvideTextStyle(
 				LocalTextStyle.current.copy(
 					color = color.second,
@@ -109,6 +122,7 @@ class UserCardView @JvmOverloads constructor(
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
 	var name by mutableStateOf<String?>(null)
 	var image by mutableStateOf<String?>(null)
+	var hasPin by mutableStateOf<Boolean>(false)
 	private var focused by mutableStateOf(false)
 
 	init {
@@ -163,6 +177,7 @@ class UserCardView @JvmOverloads constructor(
 					maxLines = 1
 				)
 			},
+			showLocked = hasPin,
 			modifier = Modifier
 				.padding(horizontal = 6.dp, vertical = 8.dp)
 				.width(110.dp),
