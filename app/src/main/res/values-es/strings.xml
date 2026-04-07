@@ -532,6 +532,15 @@
         <item quantity="many">%1$s álbumes</item>
         <item quantity="other">%1$s álbumes</item>
     </plurals>
+    <string name="lbl_enter_pin">Introducir PIN</string>
+    <string name="lbl_set_pin">Establecer PIN</string>
+    <string name="lbl_change_pin">Cambiar PIN</string>
+    <string name="lbl_remove_pin">Eliminar PIN</string>
+    <string name="lbl_pin_removed">PIN eliminado</string>
+    <string name="lbl_pin_set">PIN establecido</string>
+    <string name="lbl_incorrect_pin">PIN incorrecto</string>
+    <string name="lbl_pin_mismatch">PINs no coinciden</string>
+    <string name="lbl_reenter_pin">Reintroducir PIN</string>
     <string name="random">Aleatorio</string>
     <string name="pref_playback_advanced">Preferencias avanzadas de reproducción</string>
     <string name="unreleased">Sin estrenar</string>
