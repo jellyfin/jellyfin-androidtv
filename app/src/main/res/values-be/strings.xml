@@ -136,7 +136,7 @@
     <string name="lbl_record_any_time">Запіс у любы час</string>
     <string name="msg_items_added">" элементаў дададзена"</string>
     <string name="login_authenticating">Аўтэнтыфікацыя…</string>
-    <string name="server_connection_failed_candidates">Немагчыма падлучыцца да сервера, паспрабаваў наступныя адрасы: %1$s</string>
+    <string name="server_connection_failed_candidates">Немагчыма падключыцца да сервера, наступныя адрасы былі правераныя: %1$s</string>
     <string name="login_invalid_credentials">Няправільнае імя карыстальніка і/або пароль</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">На %1$s</string>
@@ -150,7 +150,7 @@
     <string name="eac3">DD+</string>
     <string name="photo_albums">Фотаальбомы</string>
     <string name="clear_image_cache_content">Выкарыстана: %1$s</string>
-    <string name="pref_clock_display">Паказаць гадзіннік</string>
+    <string name="pref_clock_display">Паказываць гадзіннік</string>
     <string name="lbl_sign_out_content">Патрабуецца ўваход пры наступным выкарыстанні</string>
     <string name="select_version">Версія</string>
     <string name="lbl_manage_servers">Кіраванне серверамі</string>
@@ -160,21 +160,21 @@
     <string name="lbl_show_backdrop">Паказаць фоны</string>
     <string name="lbl_next_episode">Наступная серыя</string>
     <string name="enable_smart_view">Уключыць разумны экран</string>
-    <string name="login_server_unavailable">Немагчыма падлучыцца да сервера</string>
+    <string name="login_server_unavailable">Немагчыма падключыцца да сервера</string>
     <string name="lbl_sign_out">Выйсці</string>
     <plurals name="albums">
         <item quantity="one">%1$s альбом</item>
-        <item quantity="few">%1$s альбома</item>
+        <item quantity="few">%1$s альбомы</item>
         <item quantity="many">%1$s альбомаў</item>
         <item quantity="other">%1$s альбомаў</item>
     </plurals>
-    <string name="lbl_begin_padding">Пачатковая адбіўка</string>
-    <string name="lbl_goto_series">Перайсці да серыі</string>
+    <string name="lbl_begin_padding">Водступ у пачатку</string>
+    <string name="lbl_goto_series">Перайсці да серыяла</string>
     <string name="lbl_home">Галоўная</string>
-    <string name="lbl_end_padding">Канчатковая адбіўка</string>
+    <string name="lbl_end_padding">Водступ у канцы</string>
     <string name="lbl_similar_items_library">Падобныя элементы ў вашай бібліятэцы</string>
     <string name="lbl_play_next_up">Прайграць наступнае</string>
-    <string name="lbl_audio_track">Выбраць аўдыятрэк</string>
+    <string name="lbl_audio_track">Выбраць аўдыя дарожку</string>
     <string name="btn_got_it">Зразумела</string>
     <string name="lbl_new_premieres">Новыя прэм\'еры</string>
     <string name="lbl_next_item">Наступны элемент</string>
@@ -199,19 +199,19 @@
     <string name="pref_screensaver_ageratingrequired_disabled">Паказаць ўсе элементы</string>
     <plurals name="items">
         <item quantity="one">%1$s элемент</item>
-        <item quantity="few">%1$s элемента</item>
+        <item quantity="few">%1$s элементы</item>
         <item quantity="many">%1$s элементаў</item>
         <item quantity="other">%1$s элементаў</item>
     </plurals>
-    <string name="lbl_zoom">Павелічэнне</string>
+    <string name="lbl_zoom">Маштабаванне</string>
     <string name="lbl_song_title">Назва песні</string>
     <string name="lbl_news">Навіны</string>
     <string name="lbl_album_name">Назва альбома</string>
     <string name="bitrate_mbit">%1$,.0f Мбіт/с</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_clock_display_playback">Падчас прайгравання</string>
-    <string name="server_connecting">Падлучэнне да %1$s</string>
-    <string name="server_connection_failed">Немагчыма падлучыцца да сервера</string>
+    <string name="server_connecting">Падключэнне да %1$s</string>
+    <string name="server_connection_failed">Немагчыма падключыцца да сервера</string>
     <string name="lbl_remove_users">Гэта таксама выдаліць усе звязаныя ўліковыя запісы</string>
     <string name="lbl_remove_user_content">Выдаліць уліковы запіс</string>
     <string name="lbl_user_last_used">Апошні раз выкарыстоўваўся %1$s у %2$s</string>
@@ -222,11 +222,11 @@
     <string name="clear_image_cache">Ачысціць кэш малюнкаў</string>
     <string name="license_version">Версія</string>
     <string name="lbl_prev_item">Папярэдні элемент</string>
-    <string name="lbl_stretch">Расцянуць</string>
+    <string name="lbl_stretch">Расцягнуць</string>
     <string name="lbl_fit">Звычайны</string>
     <string name="lbl_clear_queue">Ачысціць чаргу</string>
     <string name="lbl_always">Заўсёды</string>
-    <string name="pref_clock_display_browsing">Падчас прагляду</string>
+    <string name="pref_clock_display_browsing">Падчас навігацыі</string>
     <string name="server_field_empty">Адрас не можа быць пустым</string>
     <string name="past_week">Мінулы тыдзень</string>
     <string name="image_size_large">Вялікі</string>
@@ -264,7 +264,7 @@
     <string name="pref_crash_reports_enabled">Справаздачы аб збоях будуць адпраўлены на ваш апошні выкарыстаны сервер</string>
     <string name="pref_crash_report_logs_disabled">Журналы не будуць уключаны ў справаздачы аб збоях</string>
     <string name="lbl_from">ад</string>
-    <string name="lbl_sorted_by">адсартаваны па</string>
+    <string name="lbl_sorted_by">адсартаваныя па</string>
     <string name="lbl_critic_rating">Рэйтынг крытыкаў</string>
     <string name="lbl_community_rating">Рэйтынг супольнасці</string>
     <string name="lbl_display_preferences">Налады дысплея</string>
@@ -290,18 +290,18 @@
         <item quantity="other">%1$s гадзін</item>
     </plurals>
     <string name="msg_unable_load_subs">Немагчыма загрузіць субцітры</string>
-    <string name="msg_burn_sub_warning">Убудоўваюцца субцітры. Гэта можа заняць некаторы час…</string>
+    <string name="msg_burn_sub_warning">Субцітры ўбудоўваюцца . Гэта можа заняць некаторы час…</string>
     <plurals name="minutes">
         <item quantity="one">%1$s хвіліна</item>
         <item quantity="few">%1$s хвіліны</item>
-        <item quantity="many">%1$s хвіліна</item>
-        <item quantity="other">%1$s хвіліна</item>
+        <item quantity="many">%1$s хвілін</item>
+        <item quantity="other">%1$s хвілін</item>
     </plurals>
     <string name="lbl_filters">Фільтры тэлеканалаў</string>
     <string name="desc_automatic_fav_songs">Аўтаматычны плэй-ліст любімых песень</string>
-    <string name="lbl_direct_stream_live">Прамая трансляцыя тэлеканала</string>
+    <string name="lbl_direct_stream_live">Жывая трансляцыя тэлеканала</string>
     <string name="lbl_albums">Альбомы</string>
-    <string name="lbl_now_playing">Зараз іграе</string>
+    <string name="lbl_now_playing">Зараз прайграецца</string>
     <string name="lbl_artists">Выканаўцы</string>
     <string name="lbl_open_album">Адкрыць альбом</string>
     <string name="lbl_shuffle_queue">Пераключыць перамешванне</string>
@@ -317,14 +317,14 @@
     <string name="user_picker_disable_summary">Заўсёды паказваць экран уваходу</string>
     <string name="no_user_warning">Нам не ўдалося знайсці ні аднаго ўліковага запісу!
 \nДадайце новы ўліковы запіс, націснуўшы на кнопку \"Дадаць уліковы запіс\".</string>
-    <string name="sum_enable_cinema_mode">Прайграванне даступных заставак і анонсаў перад пачаткам фільма</string>
+    <string name="sum_enable_cinema_mode">Прайграваць даступныя застаўкі і анонсы перад пачаткам фільма</string>
     <string name="lbl_delete">Выдаліць</string>
     <string name="msg_item_added">" элемент дададзены"</string>
     <string name="lbl_in_x_days">За %d дзён</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_hidden">Схаваны</string>
-    <string name="grid_direction_vertical">Вертыкальны</string>
-    <string name="grid_direction_horizontal">Гарызантальны</string>
+    <string name="grid_direction_vertical">Вертыкальная</string>
+    <string name="grid_direction_horizontal">Гарызантальная</string>
     <string name="lbl_unknown_key">Невядома (%1s)</string>
     <string name="pref_subtitle_track_button">Кнопка дарожкі субцітраў</string>
     <string name="mark_watched">Пазначыць як прагледжанае</string>
@@ -339,10 +339,10 @@
     <string name="msg_no_items">Няма элементаў для прайгравання</string>
     <string name="subtitle_error">Немагчыма выбраць субцітры</string>
     <string name="lbl_playback_control_ends">Заканчваецца ў %1$s</string>
-    <string name="lbl_sign_in">Калі ласка, увайдзіце</string>
-    <string name="pref_developer_link">Налады распрацоўніка</string>
+    <string name="lbl_sign_in">Увайдзіце</string>
+    <string name="pref_developer_link">Налады распрацоўшчыка</string>
     <string name="image_size_xlarge">Вельмі вялікі</string>
-    <string name="discovered_servers_empty">Серверы ў лакальнай сетцы не знойдзены.</string>
+    <string name="discovered_servers_empty">У лакальнай сетцы не знойдзена ніводнага сервера.</string>
     <string name="no_network_permissions">Jellyfin патрабуе сеткавых дазволаў для працы</string>
     <string name="searchable_settings_description">Мультымедыя</string>
     <string name="server_unsupported_notification">Гэты сервер выкарыстоўвае версію Jellyfin %1$s, якая не падтрымліваецца. Калі ласка, абнавіце Jellyfin да %2$s або больш позняй версіі, каб працягваць выкарыстоўваць праграму.</string>
@@ -351,7 +351,7 @@
     <string name="episode_name_special">спецыяльныя</string>
     <string name="pref_enable_media_management_description">Паказаць магчымасць кіравання мультымедыя падчас прагляду</string>
     <string name="current_queue">Бягучая чарга</string>
-    <string name="lbl_my_media">Мая мультымедыя</string>
+    <string name="lbl_my_media">Мае медыяфайлы</string>
     <string name="watch_now">Глядзець зараз</string>
     <string name="pref_next_up_behavior_title">Паказаць інфармацыю пра наступнае відэа</string>
     <string name="pref_device_model">Мадэль прылады</string>
@@ -365,9 +365,9 @@
     <string name="turn_off">Выключыць гэтую опцыю</string>
     <string name="just_one">Толькі гэты</string>
     <string name="image_size_small">Маленькі</string>
-    <string name="image_size_smallest">Наймніешы</string>
+    <string name="image_size_smallest">Найменшы</string>
     <string name="pref_developer_link_description">Пашыраныя і эксперыментальныя функцыі</string>
-    <string name="login_help_description">Для падлучэння да Jellyfin патрабуецца сервер. Наведайце нашу дакументацыю на docs.jellyfin.org або адскануйце QR-код, каб пачаць працу з Jellyfin.</string>
+    <string name="login_help_description">Для падключэння да Jellyfin патрабуецца сервер. Наведайце нашу дакументацыю на docs.jellyfin.org або адскануйце QR-код, каб пачаць працу з Jellyfin.</string>
     <string name="pref_watched_indicator">Паказаць індыкатар прагляду</string>
     <string name="lbl_use_series_thumbnails_description">Выкарыстоўваць мініяцюры серыялаў пры адлюстраванні серый</string>
     <string name="lbl_switch_user">Пераключыць уліковы запіс</string>
@@ -389,7 +389,7 @@
     <string name="lbl_select_date">Выбар даты</string>
     <plurals name="tv_series">
         <item quantity="one">%1$s тэлесерыял</item>
-        <item quantity="few">%1$s тэлесерыяла</item>
+        <item quantity="few">%1$s тэлесерыялы</item>
         <item quantity="many">%1$s тэлесерыялаў</item>
         <item quantity="other">%1$s тэлесерыялаў</item>
     </plurals>
@@ -404,7 +404,7 @@
     </plurals>
     <plurals name="movies">
         <item quantity="one">%1$s фільм</item>
-        <item quantity="few">%1$s фільма</item>
+        <item quantity="few">%1$s фільмы</item>
         <item quantity="many">%1$s фільмаў</item>
         <item quantity="other">%1$s фільмаў</item>
     </plurals>
@@ -412,18 +412,18 @@
     <string name="lbl_next_up_minimal">Без мініяцюры</string>
     <string name="sort_accounts_by">Сартаваць уліковыя запісы па</string>
     <string name="lbl_instant_mix">Хуткая падборка</string>
-    <string name="lbl_live">У прамым эфіры</string>
+    <string name="lbl_live">У жывым эфіры</string>
     <string name="lbl_save">Захаваць</string>
     <string name="lbl_premiere">Прэм\'ера</string>
     <string name="pref_theme_dark">Цёмная (прадвызначана)</string>
     <string name="lbl_on">Уключыць</string>
-    <string name="lbl_record_any_channel">Запіс любога канала</string>
+    <string name="lbl_record_any_channel">Запіс з любога канала</string>
     <string name="lbl_recorded_tv">Запісы тэлеканалаў</string>
-    <string name="lbl_new">Новы</string>
+    <string name="lbl_new">Новае</string>
     <string name="lbl_repeat">Паўтарыць</string>
     <string name="lbl_schedule">Расклад</string>
     <string name="lbl_episode_not_record">Гэты перадача НЕ будзе запісвацца</string>
-    <string name="lbl_series_settings">Налады серыі</string>
+    <string name="lbl_series_settings">Параметры серыяла</string>
     <string name="lbl_guide_option_played">Апошняе прайграванне</string>
     <string name="lbl_guest_stars">Запрошаныя зоркі</string>
     <string name="lbl_series_recordings">Запісы серыялаў</string>
@@ -447,7 +447,7 @@
     <string name="lbl_show_indicators">Паказваць індыкатары для</string>
     <string name="lbl_previous_episode">Папярэдняя серыя</string>
     <string name="lbl_subtitle_delay">Затрымка субцітраў</string>
-    <string name="msg_record_entire_series">Запісаць усю серыю?</string>
+    <string name="msg_record_entire_series">Запісаць увесь серыял?</string>
     <string name="no_program_data">Няма даступных даных праграмы</string>
     <string name="desc_premieres">Паказвайць радок новых пілотных серый для любога серыяла, які вы гледзіце</string>
     <string name="lbl_kids">Дзіцячае</string>
@@ -455,7 +455,7 @@
     <string name="color_yellow">Жоўты</string>
     <string name="pref_browsing">Прагляд</string>
     <string name="lbl_image_type">Тып выявы</string>
-    <string name="msg_settings_updated">Налады абноўлены</string>
+    <string name="msg_settings_updated">Параметры абноўлены</string>
     <string name="lbl_colored_backgrounds">Каляровыя фоны</string>
     <string name="app_notification_update_soon">Абнавіце свой сервер з %1$s як мінімум да %2$s, каб працягваць выкарыстоўваць праграму пасля наступнага абнаўлення.</string>
     <string name="login_connect_to">Падлучэнне да %1$s</string>
@@ -466,7 +466,7 @@
     <string name="pref_home_description">Настройка адлюстравання раздзелаў</string>
     <string name="server_issue_outdated_version">Сервер выкарыстоўвае версію %1$s, якая не падтрымліваецца. Абнавіце да %2$s або навей</string>
     <string name="lbl_repeat_episodes">Паўтор серый</string>
-    <string name="lbl_live_broadcasts">Прамыя трансляцыі</string>
+    <string name="lbl_live_broadcasts">Жывыя трансляцыі</string>
     <string name="lbl_hd_programs">Праграмы ў HD</string>
     <string name="lbl_start_favorites">Размесціць абранае ў пачатку</string>
     <string name="lbl_image_size">Памер выявы</string>
@@ -503,7 +503,7 @@
     <string name="action_connect">Падлучыцца</string>
     <string name="pref_screensaver_inapp_enabled">Выкарыстаць убудаваную застаўку</string>
     <string name="pref_screensaver_inapp_timeout">Запусціць застаўку пасля</string>
-    <string name="lbl_new_episodes">Новая серыя</string>
+    <string name="lbl_new_episodes">Новыя серыі</string>
     <string name="lbl_premieres">Прэм\'еры</string>
     <string name="lbl_hide_unwatched_count">Калі элемент перагледжаны</string>
     <string name="lbl_use_series_thumbnails">Аддаваць перавагу мініяцюрам серыялаў</string>
