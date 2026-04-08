@@ -63,7 +63,8 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	// Save subtitle language preference for restoration after NextUp screen
 	val videoQueueManager = get<VideoQueueManager>(VideoQueueManager::class.java)
 	if (index == -1) {
-		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(null)
+		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
+		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
 	} else {
 		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
