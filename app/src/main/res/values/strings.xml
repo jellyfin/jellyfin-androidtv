@@ -193,7 +193,9 @@
     <string name="playback_info_audio_title">Audio</string>
     <string name="playback_info_codec">Codec: %1$s</string>
     <string name="playback_info_resolution">Resolution: %1$dx%2$d</string>
+    <string name="playback_info_resolution_str">Resolution: %1$s</string>
     <string name="playback_info_bitrate">Bitrate: %1$s</string>
+    <string name="playback_info_bitrate_str">Bitrate: %1$s</string>
     <string name="playback_info_channels">Channels: %1$d</string>
     <string name="playback_info_language">Language: %1$s</string>
     <string name="playback_info_video_range">Video range: %1$s</string>
