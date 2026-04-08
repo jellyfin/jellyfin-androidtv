@@ -103,6 +103,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var preferExoPlayerFfmpeg = booleanPreference("exoplayer_prefer_ffmpeg", defaultValue = false)
 
+		/**
+		 * User defined AVC level override. "auto" uses device-reported capabilities.
+		 */
+		var userAVCLevel = stringPreference("user_avc_level", "auto")
+
+		/**
+		 * User defined HEVC level override. "auto" uses device-reported capabilities.
+		 */
+		var userHEVCLevel = stringPreference("user_hevc_level", "auto")
+
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.

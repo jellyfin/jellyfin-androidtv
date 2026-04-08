@@ -85,6 +85,8 @@ fun createDeviceProfile(
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
+	userAVCLevel = userPreferences[UserPreferences.userAVCLevel],
+	userHEVCLevel = userPreferences[UserPreferences.userHEVCLevel],
 )
 
 fun createDeviceProfile(
@@ -94,6 +96,8 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
+	userAVCLevel: String = "auto",
+	userHEVCLevel: String = "auto",
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -103,12 +107,12 @@ fun createDeviceProfile(
 
 	val supportsHevc = mediaTest.supportsHevc()
 	val supportsHevcMain10 = mediaTest.supportsHevcMain10()
-	val hevcMainLevel = mediaTest.getHevcMainLevel()
-	val hevcMain10Level = mediaTest.getHevcMain10Level()
+	val hevcMainLevel = if (userHEVCLevel != "auto") userHEVCLevel.toIntOrNull() ?: mediaTest.getHevcMainLevel() else mediaTest.getHevcMainLevel()
+	val hevcMain10Level = if (userHEVCLevel != "auto") userHEVCLevel.toIntOrNull() ?: mediaTest.getHevcMain10Level() else mediaTest.getHevcMain10Level()
 	val supportsAVC = mediaTest.supportsAVC()
 	val supportsAVCHigh10 = mediaTest.supportsAVCHigh10()
-	val avcMainLevel = mediaTest.getAVCMainLevel()
-	val avcHigh10Level = mediaTest.getAVCHigh10Level()
+	val avcMainLevel = if (userAVCLevel != "auto") userAVCLevel.toIntOrNull() ?: mediaTest.getAVCMainLevel() else mediaTest.getAVCMainLevel()
+	val avcHigh10Level = if (userAVCLevel != "auto") userAVCLevel.toIntOrNull() ?: mediaTest.getAVCHigh10Level() else mediaTest.getAVCHigh10Level()
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
 	val supportsVC1 = mediaTest.supportsVc1()

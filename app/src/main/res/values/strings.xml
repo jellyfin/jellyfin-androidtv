@@ -542,6 +542,10 @@
     <string name="rewind">Rewind</string>
     <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
     <string name="preference_enable_pgs">Direct play PGS subtitles</string>
+    <string name="user_avc_level">H.264 (AVC) Level Override</string>
+    <string name="user_hevc_level">H.265 (HEVC) Level Override</string>
+    <string name="codec_level_warning">Changing from Auto may cause playback issues if your device doesn\'t actually support the selected level.</string>
+    <string name="auto">Auto</string>
     <string name="speech_error_no_permission">No permission to use the microphone. Please enable it in system settings.</string>
     <string name="speech_error_unavailable">Speech recognition is unavailable on your device.</string>
     <string name="speech_error_unknown">An unexpected error occurred during speech recognition.</string>
