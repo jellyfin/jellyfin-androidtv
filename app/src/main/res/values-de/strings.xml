@@ -375,7 +375,6 @@
     <string name="pref_subtitles_background_title">Hintergrund aktivieren</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_home_description">Konfigurieren der angezeigten Abschnitte</string>
-    <string name="pref_show_backdrop_description">Wechselt das Hintergrundbild passend zu den ausgewählten Einträgen</string>
     <string name="pref_direct_stream_live_off">Transkodierung wird bei Bedarf verwendet</string>
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Untertitel</string>
@@ -618,4 +617,6 @@
     <string name="video_player_internal">Eingebauter Videoplayer</string>
     <string name="video_player_external">Externe App</string>
     <string name="filters">Filter</string>
+    <string name="backdrop_behavior_with_blur">Hintergrund mit Unschärfe</string>
+    <string name="backdrop_behavior_without_blur">Hintergrund ohne Unschärfe</string>
 </resources>

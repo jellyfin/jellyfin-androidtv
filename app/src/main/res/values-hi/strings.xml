@@ -144,7 +144,6 @@
     <string name="lbl_bitstream_ac3">बिट्सरीम डॉल्बी डिजिटल ऑडियो</string>
     <string name="desc_audio_night_mode">ऑडियो के वॉल्यूम को अपने आप लेवल आउट करें</string>
     <string name="lbl_playback_speed">प्लेबैक की गति</string>
-    <string name="pref_show_backdrop_description">चुने हुए आइटम का बैकग्राउंड बदलें</string>
     <string name="lbl_live">लाइव</string>
     <string name="pref_subtitle_track_button">सबटाइटल ट्रैक बटन</string>
     <string name="desc_premieres">देखे जाने वाली सीरीज के लिए एपिसोड पायलटों की एक पंक्ति दिखाएं</string>

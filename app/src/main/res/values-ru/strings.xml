@@ -389,7 +389,6 @@
     <string name="pref_libraries_description">Изменение способа отображения медиатек</string>
     <string name="pref_home_description">Настройка отображения разделов</string>
     <string name="sort_accounts_by">Сортировка учётных записей по</string>
-    <string name="pref_show_backdrop_description">Изменение фонового рисунка для выбранных элементов</string>
     <string name="pref_audio">Аудио</string>
     <string name="pref_subtitles">Субтитры</string>
     <string name="pref_video">Видео</string>
@@ -638,4 +637,6 @@
     <string name="video_player_internal">Встроенный видео проигрыватель</string>
     <string name="video_player_external">Внешнее приложение</string>
     <string name="playback_video_player_external_empty">У вас нет ни одного приложения для воспроизведения видео, которое может открывать видео из Jellyfin.</string>
+    <string name="backdrop_behavior_with_blur">Фон с размытием</string>
+    <string name="backdrop_behavior_without_blur">Фон без размытия</string>
 </resources>

@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.BaseScreen
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -47,7 +47,7 @@ class PhotoPlayerFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	) = content {
-		JellyfinTheme {
+		BaseScreen {
 			PhotoPlayerScreen()
 		}
 	}

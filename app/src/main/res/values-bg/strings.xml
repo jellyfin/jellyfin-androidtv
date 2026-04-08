@@ -214,7 +214,6 @@
     <string name="lbl_episode_not_record">Това предаване НЯМА да бъде записано</string>
     <string name="lbl_series_recordings">Записи от сериала</string>
     <string name="lbl_premiere">Премиера</string>
-    <string name="pref_show_backdrop_description">Сменете фоновото изображение на избраните елементи</string>
     <string name="lbl_recent_recordings">Последни записи</string>
     <string name="lbl_fit">Нормално</string>
     <string name="lbl_show_backdrop">Покажи фонове</string>

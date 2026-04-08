@@ -127,7 +127,6 @@
     <string name="lbl_quality_profile">รูปแบบคุณภาพ</string>
     <string name="lbl_clear_queue">ล้างคิว</string>
     <string name="lbl_play_next_up">เล่นถัดไป</string>
-    <string name="pref_show_backdrop_description">เปลี่ยนภาพพื้นหลังเป็นรายการที่เลือก</string>
     <string name="lbl_show_premieres">แสดงซีซันที่ออกอากาศ</string>
     <string name="lbl_just_this_once">แค่ครั้งเดียว</string>
     <string name="lbl_repeat">เล่นซ้ำ</string>

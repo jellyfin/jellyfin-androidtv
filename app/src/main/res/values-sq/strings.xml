@@ -151,7 +151,6 @@
     <string name="lbl_clear_queue">Fshij radhën</string>
     <string name="desc_bitstream_ac3">Kërkon pajisje të aftë</string>
     <string name="lbl_fit">Normal</string>
-    <string name="pref_show_backdrop_description">Ndrysho imazhin e sfondit ne artikujt e zgjedhur</string>
     <string name="lbl_runtime">Zgjat</string>
     <string name="lbl_end_padding">Ndalo mbushjen</string>
     <string name="pref_live_tv_cat">TV</string>

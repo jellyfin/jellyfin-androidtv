@@ -391,7 +391,6 @@
     <string name="player_error">Napaka predvajalnika. Poizkušam ponovno…</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Zamik podnapisov</string>
-    <string name="pref_show_backdrop_description">Spremeni sliko ozadja na izbrane elemente</string>
     <string name="lbl_playback_speed">Hitrost predvajanja</string>
     <string name="lbl_fit">Normalno</string>
     <string name="lbl_stretch">Raztegni</string>
