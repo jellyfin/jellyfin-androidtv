@@ -19,6 +19,7 @@ import org.jellyfin.sdk.model.api.MediaSegmentDto
 import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.koin.android.ext.android.inject
+import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.util.UUID
 
@@ -58,6 +59,15 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 
 	// Already using this subtitle index
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
+
+	// Save subtitle language preference for restoration after NextUp screen
+	val videoQueueManager = get<VideoQueueManager>(VideoQueueManager::class.java)
+	if (index == -1) {
+		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(null)
+	} else {
+		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
+		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+	}
 
 	// Disable subtitles
 	if (index == -1) {

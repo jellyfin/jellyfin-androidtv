@@ -507,6 +507,18 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mCurrentOptions != null) {
             internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
             internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
+        } else {
+            // Restore last used subtitle language when starting fresh playback (e.g., from NextUp screen)
+            String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
+            MediaSourceInfo mediaSource = getCurrentMediaSource();
+            if (lastSubtitleLanguage != null && mediaSource != null && mediaSource.getMediaStreams() != null) {
+                for (MediaStream stream : mediaSource.getMediaStreams()) {
+                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
+                        internalOptions.setSubtitleStreamIndex(stream.getIndex());
+                        break;
+                    }
+                }
+            }
         }
         if (forcedSubtitleIndex != null) {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
