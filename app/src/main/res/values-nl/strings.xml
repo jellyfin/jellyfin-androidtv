@@ -376,7 +376,6 @@
     <string name="licenses_link_description">Bekijk de licenties van de bibliotheken die door de Jellyfin-app worden gebruikt</string>
     <string name="server_issue_unsupported_version">Server gebruikt niet-ondersteunde versie %1$s</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
-    <string name="pref_show_backdrop_description">Achtergrond aanpassen aan geselecteerd item</string>
     <string name="pref_playback_description">Beeld, ondertiteling, live-tv, als volgende</string>
     <string name="pref_customization_description">Thema, startscherm, knoppen</string>
     <string name="server_issue_ssl_handshake">SSL-handshake mislukt</string>
@@ -618,4 +617,6 @@
     <string name="video_player_internal">Ingebouwde videospeler</string>
     <string name="playback_video_player_external_empty">Je hebt geen apps op je apparaat staan die video\'s van Jellyfin kunnen afspelen.</string>
     <string name="filters">Filters</string>
+    <string name="backdrop_behavior_with_blur">Achtergrond met vervaging</string>
+    <string name="backdrop_behavior_without_blur">Achtergrond zonder vervaging</string>
 </resources>

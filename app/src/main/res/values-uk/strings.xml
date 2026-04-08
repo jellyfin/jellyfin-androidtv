@@ -165,7 +165,6 @@
     <string name="lbl_sports">Спорт</string>
     <string name="lbl_bitstream_ac3">Звук Bitstream Dolby Digital</string>
     <string name="lbl_refresh_switching">Перемикання частоти оновлення</string>
-    <string name="pref_show_backdrop_description">Змінює зображення тла щоразу, коли обирається інший елемент медіатеки</string>
     <string name="lbl_show_backdrop">Відображати тло</string>
     <string name="lbl_open">Відкрити</string>
     <string name="lbl_play_next_up">Продовжити перегляд</string>
@@ -638,4 +637,6 @@
     <string name="video_player_external">Зовнішній додаток</string>
     <string name="playback_video_player_external_empty">На вашому пристрої не встановлено програми відеопрогравача, які можуть відкривати відео Jellyfin.</string>
     <string name="filters">Фільтри</string>
+    <string name="backdrop_behavior_with_blur">Фон із розмиттям</string>
+    <string name="backdrop_behavior_without_blur">Фон без розмиття</string>
 </resources>

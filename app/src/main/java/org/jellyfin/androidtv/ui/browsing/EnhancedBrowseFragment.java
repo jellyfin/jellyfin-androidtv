@@ -357,13 +357,13 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, null));
                         break;
 
                     case ALBUMS:
                         mFolder = JavaCompat.copyWithDisplayPreferencesId(mFolder, mFolder.getId() + "AL");
 
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, BaseItemKind.MUSIC_ALBUM.getSerialName()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, null));
                         break;
 
                     case ALBUM_ARTISTS:
