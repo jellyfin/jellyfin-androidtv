@@ -628,4 +628,6 @@
     <string name="pref_playback_prerolls">Intros</string>
     <string name="playback_video_player_external_empty">No tiene instalada ninguna aplicación de reproducción de vídeo en su dispositivo que pueda abrir vídeos de Jellyfin.</string>
     <string name="filters">Filtros</string>
+    <string name="backdrop_behavior_with_blur">Fondo con desenfoque</string>
+    <string name="backdrop_behavior_without_blur">Fondo sin desenfoque</string>
 </resources>
