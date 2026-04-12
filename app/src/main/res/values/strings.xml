@@ -13,6 +13,10 @@
     <string name="chapters">Chapters</string>
     <string name="state_disabled">Disabled</string>
     <string name="lbl_settings">Preferences</string>
+    <string name="lbl_always_transcode">Always transcode</string>
+    <string name="lbl_always_transcode_description">Force the server to always transcode video. Useful when direct play causes playback issues on your device.</string>
+    <string name="lbl_option_disabled_by_always_transcode">Disabled when always transcode is enabled</string>
+
     <string name="lbl_home">Home</string>
     <string name="lbl_continue_watching">Continue watching</string>
     <string name="continue_listening">Continue listening</string>

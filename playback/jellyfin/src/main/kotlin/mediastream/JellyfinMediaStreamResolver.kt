@@ -19,6 +19,7 @@ import org.jellyfin.sdk.model.api.PlaybackInfoDto
 class JellyfinMediaStreamResolver(
 	private val api: ApiClient,
 	private val deviceProfileBuilder: () -> DeviceProfile,
+	private val alwaysTranscode: () -> Boolean,
 ) : MediaStreamResolver {
 	companion object {
 		private val supportedMediaTypes = arrayOf(MediaType.VIDEO, MediaType.AUDIO)
@@ -88,8 +89,8 @@ class JellyfinMediaStreamResolver(
 			data = PlaybackInfoDto(
 				mediaSourceId = mediaSourceId,
 				deviceProfile = profile,
-				enableDirectPlay = true,
-				enableDirectStream = true,
+				enableDirectPlay = !alwaysTranscode(),
+				enableDirectStream = !alwaysTranscode(),
 				enableTranscoding = true,
 				allowVideoStreamCopy = true,
 				allowAudioStreamCopy = true,

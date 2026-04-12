@@ -131,6 +131,17 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var alwaysTranscode by rememberPreference(userPreferences, UserPreferences.alwaysTranscode)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_always_transcode)) },
+				captionContent = { Text(stringResource(R.string.lbl_always_transcode_description)) },
+				trailingContent = { Checkbox(checked = alwaysTranscode) },
+				onClick = { alwaysTranscode = !alwaysTranscode }
+			)
+		}
+
+		item {
 			var videoStartDelay by rememberPreference(userPreferences, UserPreferences.videoStartDelay)
 			val interactionSource = remember { MutableInteractionSource() }
 

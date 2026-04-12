@@ -103,6 +103,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var preferExoPlayerFfmpeg = booleanPreference("exoplayer_prefer_ffmpeg", defaultValue = false)
 
+		/**
+		 * Force the server to always transcode video. Useful when direct play causes playback issues on your device.
+		 */
+		var alwaysTranscode = booleanPreference("always_transcode", false)
+
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.

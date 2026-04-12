@@ -87,7 +87,8 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	install(media3SessionPlugin(get(), mediaSessionOptions))
 
 	val deviceProfileBuilder = { createDeviceProfile(androidContext(), userPreferences, get()) }
-	install(jellyfinPlugin(get(), deviceProfileBuilder, setOf(MediaSegmentType.INTRO), ProcessLifecycleOwner.get().lifecycle))
+	val alwaysTranscode = { userPreferences[UserPreferences.alwaysTranscode] }
+	install(jellyfinPlugin(get(), deviceProfileBuilder, alwaysTranscode, setOf(MediaSegmentType.INTRO), ProcessLifecycleOwner.get().lifecycle))
 
 	// Options
 	val userSettingPreferences = get<UserSettingPreferences>()

@@ -14,10 +14,11 @@ import org.jellyfin.sdk.model.api.MediaSegmentType
 fun jellyfinPlugin(
 	api: ApiClient,
 	deviceProfileBuilder: () -> DeviceProfile,
+	alwaysTranscode: () -> Boolean,
 	mediaSegmentSkipTypes: Set<MediaSegmentType> = emptySet(),
 	lifecycle: Lifecycle? = null,
 ) = playbackPlugin {
-	provide(JellyfinMediaStreamResolver(api, deviceProfileBuilder))
+	provide(JellyfinMediaStreamResolver(api, deviceProfileBuilder, alwaysTranscode))
 
 	val playSessionService = PlaySessionService(api)
 	provide(playSessionService)

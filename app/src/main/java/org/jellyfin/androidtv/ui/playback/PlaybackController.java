@@ -502,8 +502,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
-        if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
-        if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
+        
+        boolean alwaysTranscodeEnabled = userPreferences.getValue().get(UserPreferences.Companion.getAlwaysTranscode());
+        
+        if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv) || alwaysTranscodeEnabled) {
+            internalOptions.setEnableDirectPlay(false);
+        }
+        if (playbackRetries > 1 || alwaysTranscodeEnabled) {
+            internalOptions.setEnableDirectStream(false);
+        }
         if (mCurrentOptions != null) {
             internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
             internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
