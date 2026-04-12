@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.player.video
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,9 +38,11 @@ fun VideoPlayerOverlay(
 		PlayerOverlayLayout(
 			visibilityState = visibilityState,
 			header = {
-				VideoPlayerHeader(
-					item = item,
-				)
+				Column {
+					VideoPlayerHeader(
+						item = item,
+					)
+				}
 			},
 			controls = {
 				VideoPlayerControls(
@@ -49,12 +52,13 @@ fun VideoPlayerOverlay(
 			},
 		)
 
+		// Playback info overlay - positioned below header area, always visible when enabled
 		if (showPlaybackInfo) {
 			PlaybackInfoOverlay(
 				playbackManager = playbackManager,
 				modifier = Modifier
 					.align(Alignment.TopStart)
-					.padding(16.dp)
+					.padding(start = 48.dp, top = 100.dp)
 			)
 		}
 
