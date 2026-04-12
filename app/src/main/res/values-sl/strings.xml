@@ -70,9 +70,9 @@
     <string name="lbl_on_now">Sedaj</string>
     <string name="lbl_next_up">Sledi</string>
     <string name="lbl_continue_watching">Nadaljuj ogled</string>
-    <string name="lbl_settings">Nastavitve</string>
+    <string name="lbl_settings">Uporabniške nastavitve</string>
     <string name="chapters">Poglavja</string>
-    <string name="settings_title">Nastavitve</string>
+    <string name="settings_title">Uporabniške nastavitve</string>
     <string name="pref_max_bitrate_title">Maksimalna bitna pretočnost</string>
     <string name="pref_playback">Predvajanje</string>
     <string name="btn_cancel">Prekliči</string>
@@ -95,7 +95,7 @@
     <string name="msg_error_live_stream">Napaka pri pretakanju TV v živo. Poskušamo znova…</string>
     <string name="pref_live_tv_cat">TV v živo</string>
     <string name="lbl_recorded_tv">Posneta TV</string>
-    <string name="lbl_live_tv_guide">Vodič TV v živo</string>
+    <string name="lbl_live_tv_guide">TV spored v živo</string>
     <string name="lbl_no_recordings">Noben posnetek ni na voljo</string>
     <string name="msg_unable_load_subs">Podnapisov ni bilo možno naložiti</string>
     <string name="lbl_filters">Filtri televizije v živo</string>
@@ -502,8 +502,8 @@
     <string name="channels">Kanali</string>
     <string name="segment_type_commercial">Oglasi</string>
     <string name="segment_type_intro">Uvodi</string>
-    <string name="lbl_subtitle_background_color">Barva ozadja podnapisov</string>
-    <string name="lbl_subtitle_text_stroke_color">Barva obrobe podnapisov</string>
+    <string name="lbl_subtitle_background_color">Barva ozadja</string>
+    <string name="lbl_subtitle_text_stroke_color">Barva obrobe</string>
     <string name="continue_listening">Nadaljuj s poslušanjem</string>
     <string name="lbl_subtitle_text_color">Barva besedila</string>
     <plurals name="items">
