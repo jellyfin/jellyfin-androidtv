@@ -228,6 +228,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 				Toast.makeText(this@ExternalPlayerActivity, R.string.video_error_unknown_error, Toast.LENGTH_LONG).show()
 			}
 
+			dataRefreshService.lastPlayedItem = item
 			dataRefreshService.lastPlayback = Instant.now()
 			when (item.type) {
 				BaseItemKind.MOVIE -> dataRefreshService.lastMoviePlayback = Instant.now()
