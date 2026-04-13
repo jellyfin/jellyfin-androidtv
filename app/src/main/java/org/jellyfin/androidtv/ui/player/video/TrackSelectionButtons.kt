@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -179,11 +180,16 @@ private fun TrackItem(
 			verticalAlignment = Alignment.CenterVertically,
 			modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
 		) {
-			Icon(
-				imageVector = ImageVector.vectorResource(R.drawable.ic_check),
-				contentDescription = null,
-				tint = if (isSelected) JellyfinTheme.colorScheme.onBackground else JellyfinTheme.colorScheme.onBackground.copy(alpha = 0f),
-			)
+			// Use Box to reserve space for checkmark even when not selected
+			Box(modifier = Modifier.size(24.dp)) {
+				if (isSelected) {
+					Icon(
+						imageVector = ImageVector.vectorResource(R.drawable.ic_check),
+						contentDescription = null,
+						// Inherits color from Button's content color (dark on light bg, light on dark bg)
+					)
+				}
+			}
 			ProvideTextStyle(JellyfinTheme.typography.listHeadline) {
 				Text(text = label)
 			}
