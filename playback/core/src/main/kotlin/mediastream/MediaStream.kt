@@ -14,6 +14,7 @@ data class BasicMediaStream(
 	override val conversionMethod: MediaConversionMethod,
 	override val container: MediaStreamContainer,
 	override val tracks: Collection<MediaStreamTrack>,
+	val externalSubtitles: List<ExternalSubtitle> = emptyList(),
 ) : MediaStream {
 	fun toPlayableMediaStream(
 		queueEntry: QueueEntry,
@@ -25,6 +26,7 @@ data class BasicMediaStream(
 		tracks = tracks,
 		queueEntry = queueEntry,
 		url = url,
+		externalSubtitles = externalSubtitles,
 	)
 }
 
@@ -35,7 +37,16 @@ data class PlayableMediaStream(
 	override val tracks: Collection<MediaStreamTrack>,
 	val queueEntry: QueueEntry,
 	val url: String,
+	val externalSubtitles: List<ExternalSubtitle> = emptyList(),
 ) : MediaStream
+
+data class ExternalSubtitle(
+	val url: String,
+	val mimeType: String,
+	val language: String?,
+	val title: String?,
+	val index: Int,
+)
 
 data class MediaStreamContainer(
 	val format: String,

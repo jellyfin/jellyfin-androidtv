@@ -10,6 +10,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
@@ -30,6 +31,9 @@ import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
 import io.github.peerless2012.ass.media.type.AssRenderType
 import io.github.peerless2012.ass.media.widget.AssSubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
+import org.jellyfin.playback.core.backend.PlayerTrack
+import org.jellyfin.playback.core.backend.TrackSelectionBackend
+import org.jellyfin.playback.core.backend.TrackType
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
@@ -53,7 +57,7 @@ import kotlin.time.Duration.Companion.milliseconds
 class ExoPlayerBackend(
 	private val context: Context,
 	private val exoPlayerOptions: ExoPlayerOptions,
-) : BasePlayerBackend() {
+) : BasePlayerBackend(), TrackSelectionBackend {
 	companion object {
 		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
 		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
@@ -223,6 +227,18 @@ class ExoPlayerBackend(
 			setTag(item)
 			setMediaId(stream.hashCode().toString())
 			setUri(stream.url)
+
+			// Add external subtitles
+			if (stream.externalSubtitles.isNotEmpty()) {
+				setSubtitleConfigurations(stream.externalSubtitles.map { sub ->
+					MediaItem.SubtitleConfiguration.Builder(android.net.Uri.parse(sub.url))
+						.setId("external:${sub.index}")
+						.setMimeType(sub.mimeType)
+						.setLanguage(sub.language)
+						.setLabel(sub.title)
+						.build()
+				})
+			}
 		}.build()
 
 		// Remove any excessive items from the start
@@ -324,5 +340,88 @@ class ExoPlayerBackend(
 
 	override fun setTimedEvents(timedEvents: List<TimedEvent>) {
 		timedEventState.setTimedEvents(exoPlayer, timedEvents)
+	}
+
+	// TrackSelectionBackend implementation
+
+	override fun getAvailableTracks(type: TrackType): List<PlayerTrack> {
+		val exoTrackType = when (type) {
+			TrackType.AUDIO -> C.TRACK_TYPE_AUDIO
+			TrackType.SUBTITLE -> C.TRACK_TYPE_TEXT
+		}
+
+		val tracks = mutableListOf<PlayerTrack>()
+		val exoTracks = exoPlayer.currentTracks
+
+		for (groupInfo in exoTracks.groups) {
+			if (groupInfo.type != exoTrackType) continue
+
+			val group = groupInfo.mediaTrackGroup
+			for (i in 0 until group.length) {
+				if (!groupInfo.isTrackSupported(i)) continue
+
+				val format = group.getFormat(i)
+
+				tracks.add(
+					PlayerTrack(
+						index = tracks.size, // Use sequential index for our purposes
+						type = type,
+						label = format.label,
+						language = format.language,
+						codec = format.codecs ?: format.sampleMimeType,
+						isSelected = groupInfo.isTrackSelected(i),
+						groupIndex = exoTracks.groups.indexOf(groupInfo),
+						trackIndex = i,
+					)
+				)
+			}
+		}
+
+		return tracks
+	}
+
+	override fun selectTrack(type: TrackType, index: Int): Boolean {
+		val exoTrackType = when (type) {
+			TrackType.AUDIO -> C.TRACK_TYPE_AUDIO
+			TrackType.SUBTITLE -> C.TRACK_TYPE_TEXT
+		}
+
+		// Handle subtitle disable
+		if (type == TrackType.SUBTITLE && index == -1) {
+			val params = exoPlayer.trackSelectionParameters.buildUpon()
+				.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
+				.build()
+			exoPlayer.trackSelectionParameters = params
+			return true
+		}
+
+		// Find the track by our index
+		var currentIndex = 0
+		for (groupInfo in exoPlayer.currentTracks.groups) {
+			if (groupInfo.type != exoTrackType) continue
+
+			val group = groupInfo.mediaTrackGroup
+			for (i in 0 until group.length) {
+				if (!groupInfo.isTrackSupported(i)) continue
+
+				if (currentIndex == index) {
+					return try {
+						val params = exoPlayer.trackSelectionParameters.buildUpon()
+							.setTrackTypeDisabled(exoTrackType, false)
+							.setOverrideForType(TrackSelectionOverride(group, i))
+							.build()
+						exoPlayer.trackSelectionParameters = params
+						true
+					} catch (e: Exception) {
+						Timber.w(e, "Error setting track selection")
+						false
+					}
+				}
+				currentIndex++
+			}
+		}
+
+		Timber.w("Could not find track with index $index")
+		return false
 	}
 }
