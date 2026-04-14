@@ -400,7 +400,6 @@
     <string name="pref_subtitles_background_title">பின்னணியை இயக்கு</string>
     <string name="server_connection_failed_candidates">சேவையகத்துடன் இணைக்க முடியவில்லை, பின்வரும் முகவரிகளை முயற்சித்தேன்: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_show_backdrop_description">தேர்ந்தெடுக்கப்பட்ட உருப்படிகளுக்கு பின்னணி படத்தை மாற்றவும்</string>
     <string name="lbl_playback_speed">பின்னணி வேகம்</string>
     <string name="home_section_resume_book">தொடர்ந்து படி</string>
     <string name="lbl_shuffle_queue">ஷஃபிளை நிலைமாற்று</string>
@@ -588,4 +587,6 @@
     <string name="pref_subtitles_position">கீழிருந்து ஆஃப்செட்</string>
     <string name="settings">அமைப்பு</string>
     <string name="settings_description">உங்கள் விருப்பப்படி பயன்பாட்டை மாற்றவும்</string>
+    <string name="copied_to_clipboard">கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
+    <string name="pref_playback_next_up">அடுத்து வருவது</string>
 </resources>

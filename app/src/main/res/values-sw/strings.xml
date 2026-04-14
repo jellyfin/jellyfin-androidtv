@@ -152,7 +152,6 @@
     <string name="lbl_play_next_up">Cheza inayofuata</string>
     <string name="lbl_open">Fungua</string>
     <string name="lbl_show_backdrop">Onyesha picha za mandhari</string>
-    <string name="pref_show_backdrop_description">Tumia picha ya kitu teule kama mandhari ya nyuma</string>
     <string name="lbl_show_premieres">Onyesha mwanzo wa misimu</string>
     <string name="desc_premieres">Onyesha safu ya vipindi vya kwanza za msimu kwa mfululizo wowote unaotazama</string>
     <string name="lbl_in_x_days">Baada ya siku %d</string>

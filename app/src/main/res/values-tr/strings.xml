@@ -349,7 +349,7 @@
     <string name="image_size_large">Büyük</string>
     <string name="image_size_medium">Orta</string>
     <string name="image_size_small">Küçük</string>
-    <string name="image_type_banner">Afiş</string>
+    <string name="image_type_banner">Yatay Afiş</string>
     <string name="image_type_thumbnail">Küçük resim</string>
     <string name="enable_smart_view_description">Akıllı ekran tablo yerine ilgili ögeleri gösterir</string>
     <string name="enable_smart_view">Akıllı ekranı aktifleştir</string>
@@ -409,7 +409,6 @@
     <string name="sort_accounts_by">Hesapları sırala</string>
     <string name="lbl_quality_profile">Kalite profili</string>
     <string name="server_issue_ssl_handshake">SSL el sıkışması başarısız oldu</string>
-    <string name="pref_show_backdrop_description">Seçili ögelerin arka plan resmini değiştir</string>
     <string name="image_size_smallest">En Küçük</string>
     <string name="pref_home_description">Gösterilen bölümleri yapılandırın</string>
     <string name="pref_customization_description">Tema, ana ekran, yeniden eşleştirme</string>

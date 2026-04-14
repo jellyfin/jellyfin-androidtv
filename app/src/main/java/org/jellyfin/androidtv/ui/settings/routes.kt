@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenti
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationServerScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationServerUserScreen
 import org.jellyfin.androidtv.ui.settings.screen.authentication.SettingsAuthenticationSortByScreen
+import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationBackdropScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationClockScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationScreen
 import org.jellyfin.androidtv.ui.settings.screen.customization.SettingsCustomizationThemeScreen
@@ -62,6 +63,7 @@ object Routes {
 	const val CUSTOMIZATION_THEME = "/customization/theme"
 	const val CUSTOMIZATION_CLOCK = "/customization/clock"
 	const val CUSTOMIZATION_WATCHED_INDICATOR = "/customization/watch-indicators"
+	const val CUSTOMIZATION_BACKDROP = "/customization/backdrop"
 	const val CUSTOMIZATION_SCREENSAVER = "/customization/screensaver"
 	const val CUSTOMIZATION_SCREENSAVER_TIMEOUT = "/customization/screensaver/timeout"
 	const val CUSTOMIZATION_SCREENSAVER_AGE_RATING = "/customization/screensaver/age-rating"
@@ -138,6 +140,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.CUSTOMIZATION_WATCHED_INDICATOR to {
 		SettingsCustomizationWatchedIndicatorScreen()
+	},
+	Routes.CUSTOMIZATION_BACKDROP to {
+		SettingsCustomizationBackdropScreen()
 	},
 	Routes.CUSTOMIZATION_SCREENSAVER to {
 		SettingsScreensaverScreen()

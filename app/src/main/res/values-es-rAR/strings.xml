@@ -338,7 +338,6 @@
     <string name="lbl_starting_early_ending_after">Comienza %1$s antes y finaliza %2$s después del horario previsto</string>
     <string name="server_connection_failed_candidates">No se pudo conectar al servidor: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según los elementos seleccionados</string>
     <string name="lbl_playback_speed">Velocidad de reproducción</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Estirar</string>
@@ -628,4 +627,6 @@
     <string name="video_player_external">Aplicación externa</string>
     <string name="playback_video_player_external_empty">No tenés ninguna aplicación para reproducir video instalada en tu dispositivo que pueda abrir videos de Jellyfin.</string>
     <string name="filters">Filtros</string>
+    <string name="backdrop_behavior_with_blur">Fondo con desenfoque</string>
+    <string name="backdrop_behavior_without_blur">Fondo sin desenfoque</string>
 </resources>

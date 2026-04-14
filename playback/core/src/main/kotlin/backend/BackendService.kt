@@ -78,7 +78,7 @@ class BackendService {
 		listeners.remove(listener)
 	}
 
-	inner class BackendEventListener : PlayerBackendEventListener {
+	inner class BackendEventListener : PlayerBackendEventListener() {
 		private fun <T> callListeners(
 			body: PlayerBackendEventListener.() -> T
 		): List<T> = listeners.map { listener -> listener.body() }

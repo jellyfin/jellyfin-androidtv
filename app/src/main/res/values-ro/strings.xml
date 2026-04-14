@@ -399,7 +399,6 @@
     <string name="lbl_starting_early_ending_after">Începe %1$s mai devreme și se termină %2$s după program</string>
     <string name="server_connection_failed_candidates">Nu se poate conecta la server, următoarele adrese au fost încercate: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_show_backdrop_description">Schimbă imaginea de fundal în elementele selectate</string>
     <string name="lbl_playback_speed">Viteză de redare</string>
     <string name="pref_audio_night_mode">Mod audio de noapte (experimental)</string>
     <string name="lbl_additional_parts">Părți suplimentare</string>

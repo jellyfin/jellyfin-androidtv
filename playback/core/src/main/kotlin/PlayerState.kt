@@ -84,7 +84,7 @@ class MutablePlayerState(
 		get() = backendService.backend?.getPositionInfo() ?: PositionInfo.EMPTY
 
 	init {
-		backendService.addListener(object : PlayerBackendEventListener {
+		backendService.addListener(object : PlayerBackendEventListener() {
 			override fun onPlayStateChange(state: PlayState) {
 				_playState.value = state
 			}

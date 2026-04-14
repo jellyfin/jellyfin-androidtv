@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
+import org.jellyfin.androidtv.ui.base.interactionTracker
 
 @Composable
 fun DialogBase(
@@ -63,7 +64,8 @@ fun DialogBase(
 					.fillMaxSize()
 					.background(scrimColor.copy(alpha = scrimColor.alpha * alpha))
 					.focusRequester(focusRequester)
-					.focusGroup(),
+					.focusGroup()
+					.interactionTracker(),
 				contentAlignment = contentAlignment,
 			) {
 				transition.AnimatedVisibility(

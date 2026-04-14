@@ -39,50 +39,45 @@ object Destinations {
 
 	// Browsing
 	// TODO only pass item id instead of complete JSON to browsing destinations
-	fun libraryBrowser(item: BaseItemDto) = fragmentDestination<BrowseGridFragment>(
-		Extras.Folder to Json.Default.encodeToString(item),
-	)
-
-	// TODO only pass item id instead of complete JSON to browsing destinations
-	fun libraryBrowser(item: BaseItemDto, includeType: String) =
+	fun libraryBrowser(item: BaseItemDto, includeType: String? = null) =
 		fragmentDestination<BrowseGridFragment>(
-			Extras.Folder to Json.Default.encodeToString(item),
+			Extras.Folder to Json.encodeToString(item),
 			Extras.IncludeType to includeType,
 		)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun librarySmartScreen(item: BaseItemDto) = fragmentDestination<BrowseViewFragment>(
-		Extras.Folder to Json.Default.encodeToString(item),
+		Extras.Folder to Json.encodeToString(item),
 	)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun collectionBrowser(item: BaseItemDto) = fragmentDestination<CollectionFragment>(
-		Extras.Folder to Json.Default.encodeToString(item),
+		Extras.Folder to Json.encodeToString(item),
 	)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun folderBrowser(item: BaseItemDto) = fragmentDestination<GenericFolderFragment>(
-		Extras.Folder to Json.Default.encodeToString(item),
+		Extras.Folder to Json.encodeToString(item),
 	)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun libraryByGenres(item: BaseItemDto, includeType: String) =
 		fragmentDestination<ByGenreFragment>(
-			Extras.Folder to Json.Default.encodeToString(item),
+			Extras.Folder to Json.encodeToString(item),
 			Extras.IncludeType to includeType,
 		)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun libraryByLetter(item: BaseItemDto, includeType: String) =
 		fragmentDestination<ByLetterFragment>(
-			Extras.Folder to Json.Default.encodeToString(item),
+			Extras.Folder to Json.encodeToString(item),
 			Extras.IncludeType to includeType,
 		)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun librarySuggestions(item: BaseItemDto) =
 		fragmentDestination<SuggestedMoviesFragment>(
-			Extras.Folder to Json.Default.encodeToString(item),
+			Extras.Folder to Json.encodeToString(item),
 		)
 
 	// Item details
@@ -95,14 +90,14 @@ object Destinations {
 		fragmentDestination<FullDetailsFragment>(
 			"ItemId" to item.toString(),
 			"ChannelId" to channel.toString(),
-			"ProgramInfo" to Json.Default.encodeToString(programInfo),
+			"ProgramInfo" to Json.encodeToString(programInfo),
 		)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun seriesTimerDetails(item: UUID, seriesTimer: SeriesTimerInfoDto) =
 		fragmentDestination<FullDetailsFragment>(
 			"ItemId" to item.toString(),
-			"SeriesTimer" to Json.Default.encodeToString(seriesTimer),
+			"SeriesTimer" to Json.encodeToString(seriesTimer),
 		)
 
 	fun itemList(item: UUID) = fragmentDestination<ItemListFragment>(
