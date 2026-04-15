@@ -3,10 +3,12 @@ package org.jellyfin.androidtv.preference
 import android.content.Context
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
+import org.jellyfin.androidtv.preference.constant.AVCLevel
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
@@ -104,14 +106,14 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var preferExoPlayerFfmpeg = booleanPreference("exoplayer_prefer_ffmpeg", defaultValue = false)
 
 		/**
-		 * User defined AVC level override. "auto" uses device-reported capabilities.
+		 * User defined AVC level override. AUTO uses device-reported capabilities.
 		 */
-		var userAVCLevel = stringPreference("user_avc_level", "auto")
+		var userAVCLevel = enumPreference("user_avc_level", AVCLevel.AUTO)
 
 		/**
-		 * User defined HEVC level override. "auto" uses device-reported capabilities.
+		 * User defined HEVC level override. AUTO uses device-reported capabilities.
 		 */
-		var userHEVCLevel = stringPreference("user_hevc_level", "auto")
+		var userHEVCLevel = enumPreference("user_hevc_level", HEVCLevel.AUTO)
 
 		/* Playback - Audio related */
 		/**
@@ -281,6 +283,40 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 					"backdrop_behavior",
 					if (backdropEnabled) BackdropBehavior.BACKDROP_WITH_BLUR.name else BackdropBehavior.DISABLED.name
 				)
+			}
+
+			// Migrate AVC/HEVC level preferences from string to enum
+			migration(toVersion = 10) {
+				// Migrate AVC level
+				val oldAvcLevel = it.getString("user_avc_level", "auto")
+				val newAvcLevel = when (oldAvcLevel) {
+					"62" -> AVCLevel.LEVEL_6_2
+					"61" -> AVCLevel.LEVEL_6_1
+					"60" -> AVCLevel.LEVEL_6_0
+					"52" -> AVCLevel.LEVEL_5_2
+					"51" -> AVCLevel.LEVEL_5_1
+					"50" -> AVCLevel.LEVEL_5_0
+					"42" -> AVCLevel.LEVEL_4_2
+					"41" -> AVCLevel.LEVEL_4_1
+					"40" -> AVCLevel.LEVEL_4_0
+					else -> AVCLevel.AUTO
+				}
+				putString("user_avc_level", newAvcLevel.name)
+
+				// Migrate HEVC level
+				val oldHevcLevel = it.getString("user_hevc_level", "auto")
+				val newHevcLevel = when (oldHevcLevel) {
+					"186" -> HEVCLevel.LEVEL_6_2
+					"183" -> HEVCLevel.LEVEL_6_1
+					"180" -> HEVCLevel.LEVEL_6_0
+					"156" -> HEVCLevel.LEVEL_5_2
+					"153" -> HEVCLevel.LEVEL_5_1
+					"150" -> HEVCLevel.LEVEL_5_0
+					"123" -> HEVCLevel.LEVEL_4_1
+					"120" -> HEVCLevel.LEVEL_4_0
+					else -> HEVCLevel.AUTO
+				}
+				putString("user_hevc_level", newHevcLevel.name)
 			}
 		}
 	}

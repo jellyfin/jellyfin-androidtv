@@ -188,24 +188,10 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
-			var userAVCLevel by rememberPreference(userPreferences, UserPreferences.userAVCLevel)
-			val avcLevelOptions = getAVCLevelOptions()
-
 			ListButton(
-				headingContent = { Text(stringResource(R.string.user_avc_level)) },
-				captionContent = { Text(avcLevelOptions[userAVCLevel] ?: stringResource(R.string.auto)) },
-				onClick = { router.push(Routes.PLAYBACK_AVC_LEVEL) }
-			)
-		}
-
-		item {
-			var userHEVCLevel by rememberPreference(userPreferences, UserPreferences.userHEVCLevel)
-			val hevcLevelOptions = getHEVCLevelOptions()
-
-			ListButton(
-				headingContent = { Text(stringResource(R.string.user_hevc_level)) },
-				captionContent = { Text(hevcLevelOptions[userHEVCLevel] ?: stringResource(R.string.auto)) },
-				onClick = { router.push(Routes.PLAYBACK_HEVC_LEVEL) }
+				headingContent = { Text(stringResource(R.string.pref_codec_tweaking)) },
+				captionContent = { Text(stringResource(R.string.pref_codec_tweaking_summary)) },
+				onClick = { router.push(Routes.PLAYBACK_CODEC) }
 			)
 		}
 
@@ -282,28 +268,3 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 	}
 }
-
-fun getAVCLevelOptions(): Map<String, String> = mapOf(
-	"auto" to "Auto",
-	"62" to "Level 6.2",
-	"61" to "Level 6.1",
-	"60" to "Level 6.0",
-	"52" to "Level 5.2",
-	"51" to "Level 5.1",
-	"50" to "Level 5.0",
-	"42" to "Level 4.2",
-	"41" to "Level 4.1",
-	"40" to "Level 4.0",
-)
-
-fun getHEVCLevelOptions(): Map<String, String> = mapOf(
-	"auto" to "Auto",
-	"186" to "Level 6.2",
-	"183" to "Level 6.1",
-	"180" to "Level 6.0",
-	"156" to "Level 5.2",
-	"153" to "Level 5.1",
-	"150" to "Level 5.0",
-	"123" to "Level 4.1",
-	"120" to "Level 4.0",
-)
