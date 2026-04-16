@@ -30,6 +30,22 @@ android {
 		isCoreLibraryDesugaringEnabled = true
 	}
 
+	signingConfigs {
+		val keystoreFile = getProperty("keystore.file")
+		val keystorePassword = getProperty("keystore.password")
+		val signingKeyAlias = getProperty("signing.key.alias")
+		val signingKeyPassword = getProperty("signing.key.password")
+
+		if (keystoreFile != null && keystorePassword != null && signingKeyAlias != null && signingKeyPassword != null) {
+			create("release") {
+				storeFile = file(keystoreFile)
+				storePassword = keystorePassword
+				keyAlias = signingKeyAlias
+				keyPassword = signingKeyPassword
+			}
+		}
+	}
+
 	buildTypes {
 		release {
 			isMinifyEnabled = false
@@ -43,6 +59,8 @@ android {
 			resValue("string", "app_name", "@string/app_name_release")
 
 			buildConfigField("boolean", "DEVELOPMENT", "false")
+
+			signingConfig = signingConfigs.findByName("release")
 		}
 
 		debug {
