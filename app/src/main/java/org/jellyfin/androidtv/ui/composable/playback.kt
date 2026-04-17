@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.queue.queue
@@ -52,7 +53,7 @@ fun rememberPlayerProgress(
 		if (active == Duration.ZERO) animatable.snapTo(0f)
 		else animatable.snapTo((activeMs / durationMs).coerceIn(0f, 1f))
 
-		if (playing) {
+		if (playing) withContext(FixedMotionDurationScale) {
 			animatable.animateTo(
 				targetValue = 1f,
 				animationSpec = tween(
