@@ -627,4 +627,6 @@
     <string name="video_player_external">Спољна апликација</string>
     <string name="playback_video_player_external_empty">На вашем уређају нема ниједне апликације која може да отвори видео снимке из Jellyfin-а.</string>
     <string name="filters">Филтери</string>
+    <string name="backdrop_behavior_with_blur">Замућена позадина</string>
+    <string name="backdrop_behavior_without_blur">Незамућена позадина</string>
 </resources>

@@ -657,4 +657,6 @@
     <string name="video_player_external">تطبيق خارجي</string>
     <string name="playback_video_player_external_empty">لا تملك أي تطبيق تشغيل فيديو مٌنصّب على جهازك لفتح فيديوات Jellyfin.</string>
     <string name="filters">مرشحات</string>
+    <string name="backdrop_behavior_with_blur">صورة خلفية مع طمس</string>
+    <string name="backdrop_behavior_without_blur">صورة خلفية بلا طمس</string>
 </resources>

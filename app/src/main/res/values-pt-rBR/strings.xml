@@ -627,4 +627,6 @@
     <string name="pref_playback_prerolls">Vídeos de introdução</string>
     <string name="video_player_internal">Reprodutor nativo</string>
     <string name="pref_playback_inactivity_prompt">Aviso de inatividade</string>
+    <string name="backdrop_behavior_with_blur">Fundo com desfoque</string>
+    <string name="backdrop_behavior_without_blur">Fundo sem desfoque</string>
 </resources>

@@ -453,9 +453,9 @@
     <string name="lbl_home">Pagrindinis</string>
     <string name="lbl_runtime">Trukmė</string>
     <string name="because_you_watched">Nes žiūrėjote %1$s</string>
-    <string name="lbl_subtitle_text_color">Subtitrų teksto spalva</string>
-    <string name="lbl_subtitle_background_color">Subtitrų fono spalva</string>
-    <string name="lbl_subtitle_text_stroke_color">Subtitrų apvadėlio spalva</string>
+    <string name="lbl_subtitle_text_color">Teksto spalva</string>
+    <string name="lbl_subtitle_background_color">Fono spalva</string>
+    <string name="lbl_subtitle_text_stroke_color">Apvadėlio spalva</string>
     <string name="pref_external_player">Naudoti išorinį grotuvą</string>
     <string name="channels">Kanalai</string>
     <string name="past_week">Pastąrąją savaitę</string>
@@ -595,4 +595,10 @@
     <string name="rewind">Persukti</string>
     <string name="preference_enable_libass">Įjungti išplėstinį SubStation Alpha subtitrų kliento atvaizdavimą</string>
     <string name="still_watching_label">Ar vis dar žiūrite?</string>
+    <string name="pref_subtitles_position">Atstumas nuo apačios</string>
+    <string name="settings">Nustatymai</string>
+    <string name="settings_description">Redaguokite programėlę pagal save</string>
+    <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
+    <string name="pref_playback_next_up">Sekantis</string>
+    <string name="pref_customization_subtitles">Subtitrai</string>
 </resources>

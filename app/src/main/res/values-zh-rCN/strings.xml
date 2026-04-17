@@ -608,4 +608,6 @@
     <string name="video_player_external">外部应用程序</string>
     <string name="playback_video_player_external_empty">您的设备上没有安装任何可以播放 Jellyfin 视频的播放器应用程序。</string>
     <string name="filters">筛选器</string>
+    <string name="backdrop_behavior_with_blur">模糊背景</string>
+    <string name="backdrop_behavior_without_blur">无模糊背景</string>
 </resources>
