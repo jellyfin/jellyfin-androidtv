@@ -616,4 +616,6 @@
     <string name="pref_prerolls_enabled">Käytä teatteritilaa</string>
     <string name="pref_playback_media_segments">Mediaosiot</string>
     <string name="pref_playback_prerolls">Videospotit</string>
+    <string name="backdrop_behavior_with_blur">Tausta sumennuksella</string>
+    <string name="backdrop_behavior_without_blur">Tausta ilman sumennusta</string>
 </resources>
