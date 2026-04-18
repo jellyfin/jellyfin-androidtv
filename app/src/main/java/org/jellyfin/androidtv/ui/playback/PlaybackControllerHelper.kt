@@ -19,7 +19,6 @@ import org.jellyfin.sdk.model.api.MediaSegmentDto
 import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.koin.android.ext.android.inject
-import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.util.UUID
 
@@ -61,7 +60,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
 
 	// Save subtitle language preference for restoration after NextUp screen
-	val videoQueueManager = get<VideoQueueManager>(VideoQueueManager::class.java)
+	val videoQueueManager by fragment.inject<VideoQueueManager>()
 	if (index == -1) {
 		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
