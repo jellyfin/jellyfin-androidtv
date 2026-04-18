@@ -50,11 +50,11 @@
     <string name="lbl_by_name">Według nazwy</string>
     <string name="lbl_latest">Ostatnio dodane</string>
     <string name="lbl_search">Szukaj</string>
-    <string name="lbl_genres">Gatunek</string>
+    <string name="lbl_genres">Gatunki</string>
     <string name="lbl_suggested">Sugerowane</string>
     <string name="lbl_by_letter">Alfabetycznie</string>
     <string name="lbl_views">Odtworzeń</string>
-    <string name="lbl_on_now">Teraz</string>
+    <string name="lbl_on_now">Obecnie</string>
     <string name="lbl_next_up">Następne</string>
     <string name="lbl_continue_watching">Kontynuuj oglądanie</string>
     <string name="lbl_settings">Preferencje</string>
