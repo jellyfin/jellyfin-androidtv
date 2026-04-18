@@ -466,7 +466,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void refreshFavorite(UUID channelId) {
         for (int i = 0; i < tvGuideBinding.channels.getChildCount(); i++) {
             GuideChannelHeader gch = (GuideChannelHeader) tvGuideBinding.channels.getChildAt(i);
-            if (gch.getChannel().getId().equals(channelId.toString()))
+            if (gch.getChannel().getId().equals(channelId))
                 gch.refreshFavorite();
         }
     }
@@ -874,7 +874,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
 
                 // put focus on the last tuned channel
-                if (channel.getId().equals(mFirstFocusChannelId.toString())) {
+                if (channel.getId().equals(mFirstFocusChannelId)) {
                     firstRow = row;
                     mFirstFocusChannelId = null; // only do this first time in not while paging around
                 }
