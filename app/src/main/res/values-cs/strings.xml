@@ -629,4 +629,25 @@
     <string name="filters">Filtry</string>
     <string name="backdrop_behavior_with_blur">Pozadí s rozostřením</string>
     <string name="backdrop_behavior_without_blur">Pozadí bez rozostření</string>
+    <string name="user_avc_level">Úroveň H.264 (AVC)</string>
+    <string name="user_hevc_level">Úroveň H.265 (HEVC)</string>
+    <string name="codec_level_warning">Změna z automatického kodeku může způsobit problémy s přehráváním, pokud vaše zařízení nepodporuje zvolenou úroveň.</string>
+    <string name="preference_codecs">Kodeky médií</string>
+    <string name="preference_codecs_summary">Přepsat podporu kodeků hlášenou zařízením</string>
+    <string name="codec_level_manual">Ruční přepsání</string>
+    <string name="codec_level_6_2">Úroveň 6.2</string>
+    <string name="codec_level_6_1">Úroveň 6.1</string>
+    <string name="codec_level_6_0">Úroveň 6.0</string>
+    <string name="codec_level_5_2">Úroveň 5.2</string>
+    <string name="codec_level_5_1">Úroveň 5.1</string>
+    <string name="codec_level_5_0">Úroveň 5.0</string>
+    <string name="codec_level_4_2">Úroveň 4.2</string>
+    <string name="codec_level_4_1">Úroveň 4.1</string>
+    <string name="codec_level_4_0">Úroveň 4.0</string>
+    <string name="auto">Automaticky</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision s EL</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
 </resources>
