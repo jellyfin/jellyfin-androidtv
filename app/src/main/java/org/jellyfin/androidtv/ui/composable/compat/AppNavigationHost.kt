@@ -24,7 +24,6 @@ fun AppNavigationHost(
 ) {
 	val factory = remember { AppNavigationHostViewFactory() }
 
-	val currentAction by navigationRepository.currentAction.collectAsState(NavigationAction.Nothing)
 	val canGoBack by remember {
 		navigationRepository.currentAction.map { navigationRepository.canGoBack }.distinctUntilChanged()
 	}.collectAsState(navigationRepository.canGoBack)
@@ -36,12 +35,13 @@ fun AppNavigationHost(
 		modifier = modifier,
 	)
 
-	LaunchedEffect(currentAction) {
-		when (val currentAction = currentAction) {
-			is NavigationAction.NavigateFragment -> factory.view.navigate(currentAction)
-			NavigationAction.GoBack -> factory.view.goBack()
-
-			NavigationAction.Nothing -> Unit
+	LaunchedEffect(Unit) {
+		navigationRepository.currentAction.collect { action ->
+			when (action) {
+				is NavigationAction.NavigateFragment -> factory.view.navigate(action)
+				NavigationAction.GoBack -> factory.view.goBack()
+				NavigationAction.Nothing -> Unit
+			}
 		}
 	}
 }
