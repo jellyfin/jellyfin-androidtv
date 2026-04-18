@@ -619,4 +619,25 @@
     <string name="filters">Filters</string>
     <string name="backdrop_behavior_with_blur">Achtergrond met vervaging</string>
     <string name="backdrop_behavior_without_blur">Achtergrond zonder vervaging</string>
+    <string name="dolby_vision_with_el">Dolby Vision met EL</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="preference_codecs">Mediacodecs</string>
+    <string name="auto">Automatisch</string>
+    <string name="user_avc_level">Niveau H.264 (AVC)</string>
+    <string name="user_hevc_level">Niveau H.265 (HEVC)</string>
+    <string name="codec_level_4_0">Niveau 4.0</string>
+    <string name="codec_level_6_2">Niveau 6.2</string>
+    <string name="codec_level_6_1">Niveau 6.1</string>
+    <string name="codec_level_6_0">Niveau 6.0</string>
+    <string name="codec_level_5_2">Niveau 5.2</string>
+    <string name="codec_level_5_1">Niveau 5.1</string>
+    <string name="codec_level_5_0">Niveau 5.0</string>
+    <string name="codec_level_4_2">Niveau 4.2</string>
+    <string name="codec_level_4_1">Niveau 4.1</string>
+    <string name="preference_codecs_summary">De door het apparaat gemelde codec-ondersteuning overschrijven</string>
+    <string name="codec_level_manual">Handmatig overschrijven</string>
+    <string name="codec_level_warning">Een andere waarde dan \"automatisch\" kan afspeelproblemen veroorzaken als je apparaat het geselecteerde niveau niet daadwerkelijk ondersteunt.</string>
 </resources>
