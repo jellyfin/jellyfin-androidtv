@@ -639,4 +639,20 @@
     <string name="filters">Filtry</string>
     <string name="backdrop_behavior_with_blur">Tło z rozmyciem</string>
     <string name="backdrop_behavior_without_blur">Tło bez rozmycia</string>
+    <string name="user_avc_level">Poziom H.264 (AVC)</string>
+    <string name="user_hevc_level">Poziom H.265 (HEVC)</string>
+    <string name="codec_level_warning">Zmiana z trybu automatycznego może spowodować problemy z odtwarzaniem, jeśli Twoje urządzenie nie obsługuje wybranego poziomu.</string>
+    <string name="preference_codecs">Kodeki multimedialne</string>
+    <string name="preference_codecs_summary">Obejdź możliwości kodeka zgłaszane przez urządzenie</string>
+    <string name="codec_level_manual">Ręczne obejście</string>
+    <string name="codec_level_6_2">Poziom 6.2</string>
+    <string name="codec_level_6_1">Poziom 6.1</string>
+    <string name="codec_level_6_0">Poziom 6.0</string>
+    <string name="codec_level_5_2">Poziom 5.2</string>
+    <string name="codec_level_5_1">Poziom 5.1</string>
+    <string name="codec_level_5_0">Poziom 5.0</string>
+    <string name="codec_level_4_2">Poziom 4.2</string>
+    <string name="codec_level_4_1">Poziom 4.1</string>
+    <string name="codec_level_4_0">Poziom 4.0</string>
+    <string name="auto">Automatyczny</string>
 </resources>
