@@ -655,4 +655,9 @@
     <string name="codec_level_4_1">Poziom 4.1</string>
     <string name="codec_level_4_0">Poziom 4.0</string>
     <string name="auto">Automatyczny</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision z EL</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
 </resources>
