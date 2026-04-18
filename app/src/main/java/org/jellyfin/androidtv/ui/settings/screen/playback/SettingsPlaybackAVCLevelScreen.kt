@@ -21,13 +21,14 @@ import org.koin.compose.koinInject
 fun SettingsPlaybackAVCLevelScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
+
 	var userAVCLevel by rememberPreference(userPreferences, UserPreferences.userAVCLevel)
 	val manualOptions = AVCLevel.entries.filter { it != AVCLevel.AUTO }
 
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(stringResource(R.string.pref_codec_tweaking).uppercase()) },
+				overlineContent = { Text(stringResource(R.string.preference_codecs).uppercase()) },
 				headingContent = { Text(stringResource(R.string.user_avc_level)) },
 				captionContent = { Text(stringResource(R.string.codec_level_warning)) },
 			)

@@ -284,40 +284,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 					if (backdropEnabled) BackdropBehavior.BACKDROP_WITH_BLUR.name else BackdropBehavior.DISABLED.name
 				)
 			}
-
-			// Migrate AVC/HEVC level preferences from string to enum
-			migration(toVersion = 10) {
-				// Migrate AVC level
-				val oldAvcLevel = it.getString("user_avc_level", "auto")
-				val newAvcLevel = when (oldAvcLevel) {
-					"62" -> AVCLevel.LEVEL_6_2
-					"61" -> AVCLevel.LEVEL_6_1
-					"60" -> AVCLevel.LEVEL_6_0
-					"52" -> AVCLevel.LEVEL_5_2
-					"51" -> AVCLevel.LEVEL_5_1
-					"50" -> AVCLevel.LEVEL_5_0
-					"42" -> AVCLevel.LEVEL_4_2
-					"41" -> AVCLevel.LEVEL_4_1
-					"40" -> AVCLevel.LEVEL_4_0
-					else -> AVCLevel.AUTO
-				}
-				putString("user_avc_level", newAvcLevel.name)
-
-				// Migrate HEVC level
-				val oldHevcLevel = it.getString("user_hevc_level", "auto")
-				val newHevcLevel = when (oldHevcLevel) {
-					"186" -> HEVCLevel.LEVEL_6_2
-					"183" -> HEVCLevel.LEVEL_6_1
-					"180" -> HEVCLevel.LEVEL_6_0
-					"156" -> HEVCLevel.LEVEL_5_2
-					"153" -> HEVCLevel.LEVEL_5_1
-					"150" -> HEVCLevel.LEVEL_5_0
-					"123" -> HEVCLevel.LEVEL_4_1
-					"120" -> HEVCLevel.LEVEL_4_0
-					else -> HEVCLevel.AUTO
-				}
-				putString("user_hevc_level", newHevcLevel.name)
-			}
 		}
 	}
 }

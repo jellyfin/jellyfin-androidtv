@@ -21,13 +21,14 @@ import org.koin.compose.koinInject
 fun SettingsPlaybackHEVCLevelScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
+
 	var userHEVCLevel by rememberPreference(userPreferences, UserPreferences.userHEVCLevel)
 	val manualOptions = HEVCLevel.entries.filter { it != HEVCLevel.AUTO }
 
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(stringResource(R.string.pref_codec_tweaking).uppercase()) },
+				overlineContent = { Text(stringResource(R.string.preference_codecs).uppercase()) },
 				headingContent = { Text(stringResource(R.string.user_hevc_level)) },
 				captionContent = { Text(stringResource(R.string.codec_level_warning)) },
 			)

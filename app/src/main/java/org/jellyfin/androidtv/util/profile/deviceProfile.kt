@@ -5,8 +5,6 @@ import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
-import org.jellyfin.androidtv.preference.constant.AVCLevel
-import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
@@ -98,8 +96,8 @@ fun createDeviceProfile(
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
-	userAVCLevel: Int = AVCLevel.AUTO.level,
-	userHEVCLevel: Int = HEVCLevel.AUTO.level,
+	userAVCLevel: Int?,
+	userHEVCLevel: Int?,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -109,12 +107,12 @@ fun createDeviceProfile(
 
 	val supportsHevc = mediaTest.supportsHevc()
 	val supportsHevcMain10 = mediaTest.supportsHevcMain10()
-	val hevcMainLevel = if (userHEVCLevel >= 0) userHEVCLevel else mediaTest.getHevcMainLevel()
-	val hevcMain10Level = if (userHEVCLevel >= 0) userHEVCLevel else mediaTest.getHevcMain10Level()
+	val hevcMainLevel = userHEVCLevel ?: mediaTest.getHevcMainLevel()
+	val hevcMain10Level = userHEVCLevel ?: mediaTest.getHevcMain10Level()
 	val supportsAVC = mediaTest.supportsAVC()
 	val supportsAVCHigh10 = mediaTest.supportsAVCHigh10()
-	val avcMainLevel = if (userAVCLevel >= 0) userAVCLevel else mediaTest.getAVCMainLevel()
-	val avcHigh10Level = if (userAVCLevel >= 0) userAVCLevel else mediaTest.getAVCHigh10Level()
+	val avcMainLevel = userAVCLevel ?: mediaTest.getAVCMainLevel()
+	val avcHigh10Level = userAVCLevel ?: mediaTest.getAVCHigh10Level()
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
 	val supportsVC1 = mediaTest.supportsVc1()

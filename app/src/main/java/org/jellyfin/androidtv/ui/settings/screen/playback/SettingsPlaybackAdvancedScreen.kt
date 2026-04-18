@@ -189,8 +189,8 @@ fun SettingsPlaybackAdvancedScreen() {
 
 		item {
 			ListButton(
-				headingContent = { Text(stringResource(R.string.pref_codec_tweaking)) },
-				captionContent = { Text(stringResource(R.string.pref_codec_tweaking_summary)) },
+				headingContent = { Text(stringResource(R.string.preference_codecs)) },
+				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
 				onClick = { router.push(Routes.PLAYBACK_CODEC) }
 			)
 		}
