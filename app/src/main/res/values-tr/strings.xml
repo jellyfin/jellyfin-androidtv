@@ -617,4 +617,27 @@
     <string name="color_presets">Ön ayarlar</string>
     <string name="color_custom">Rengi özelleştir</string>
     <string name="filters">Filtreler</string>
+    <string name="backdrop_behavior_with_blur">Bulanık arka plan</string>
+    <string name="backdrop_behavior_without_blur">Bulanık olmayan arka plan</string>
+    <string name="user_avc_level">H.264 (AVC) düzeyi</string>
+    <string name="user_hevc_level">H.265 (HEVC) düzeyi</string>
+    <string name="codec_level_warning">Cihazınız seçilen düzey desteklemiyorsa, otomatik ayarı değiştirmek oynatma sorunlarına neden olabilir.</string>
+    <string name="preference_codecs">Medya codec bileşenleri</string>
+    <string name="preference_codecs_summary">Cihaz tarafından bildirilen codec bileşenleri özelliklerini geçersiz kıl</string>
+    <string name="codec_level_manual">El ile</string>
+    <string name="codec_level_6_2">6.2</string>
+    <string name="codec_level_6_1">6.1</string>
+    <string name="codec_level_6_0">6.0</string>
+    <string name="codec_level_5_2">5.2</string>
+    <string name="codec_level_5_1">5.1</string>
+    <string name="codec_level_5_0">5.0</string>
+    <string name="codec_level_4_2">4.2</string>
+    <string name="codec_level_4_1">4.1</string>
+    <string name="codec_level_4_0">4.0</string>
+    <string name="auto">Otomatik</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
+    <string name="dolby_vision_with_el">Dolby Vision (EL ile)</string>
 </resources>
