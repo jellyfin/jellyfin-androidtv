@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,7 +55,7 @@ fun rememberPlayerPositionInfo(
 @Composable
 fun rememberPlayerProgress(
 	playbackManager: PlaybackManager = koinInject(),
-): Float {
+): State<Float> {
 	val playState by playbackManager.state.playState.collectAsState()
 	val active = playbackManager.state.positionInfo.active
 	val duration = playbackManager.state.positionInfo.duration
@@ -71,7 +72,7 @@ fun rememberPlayerProgress(
 	playing: Boolean,
 	active: Duration,
 	duration: Duration,
-): Float {
+): State<Float> {
 	val animatable = remember { Animatable(0f, 0f) }
 
 	LaunchedEffect(playing, duration) {
@@ -92,5 +93,5 @@ fun rememberPlayerProgress(
 		}
 	}
 
-	return animatable.value
+	return animatable.asState()
 }
