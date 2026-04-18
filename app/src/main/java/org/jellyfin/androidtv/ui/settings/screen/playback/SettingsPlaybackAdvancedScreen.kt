@@ -198,6 +198,14 @@ fun SettingsPlaybackAdvancedScreen() {
 			)
 		}
 
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_codecs)) },
+				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
+				onClick = { router.push(Routes.PLAYBACK_CODEC) }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_live_tv_cat)) }) }
 
 		item {

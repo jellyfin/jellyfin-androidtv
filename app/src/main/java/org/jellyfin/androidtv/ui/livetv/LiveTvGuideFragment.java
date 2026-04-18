@@ -244,7 +244,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             View child = mChannels.getChildAt(i);
             if (!(child instanceof GuideChannelHeader)) continue;
             GuideChannelHeader gch = (GuideChannelHeader) child;
-            if (gch.getChannel().getId().equals(channelId.toString()))
+            if (gch.getChannel().getId().equals(channelId))
                 gch.refreshFavorite();
         }
     }

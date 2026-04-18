@@ -3,10 +3,12 @@ package org.jellyfin.androidtv.preference
 import android.content.Context
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
+import org.jellyfin.androidtv.preference.constant.AVCLevel
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
@@ -107,6 +109,15 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Force the server to always transcode video. Useful when direct play causes playback issues on your device.
 		 */
 		var alwaysTranscode = booleanPreference("always_transcode", false)
+    
+		 * User defined AVC level override. AUTO uses device-reported capabilities.
+		 */
+		var userAVCLevel = enumPreference("user_avc_level", AVCLevel.AUTO)
+
+		/**
+		 * User defined HEVC level override. AUTO uses device-reported capabilities.
+		 */
+		var userHEVCLevel = enumPreference("user_hevc_level", HEVCLevel.AUTO)
 
 		/* Playback - Audio related */
 		/**
