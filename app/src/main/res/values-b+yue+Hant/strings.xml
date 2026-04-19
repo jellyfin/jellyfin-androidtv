@@ -607,4 +607,25 @@
     </plurals>
     <string name="backdrop_behavior_with_blur">連埋模糊效果嘅背景圖</string>
     <string name="backdrop_behavior_without_blur">唔要模糊效果嘅背景圖</string>
+    <string name="user_avc_level">H.264 (AVC) 層級</string>
+    <string name="user_hevc_level">H.265 (HEVC) 層級</string>
+    <string name="codec_level_warning">如果改咗「自動」以外嘅設定，但你部裝置實際上唔支援所揀嘅層級，可能會導致播唔到片。</string>
+    <string name="preference_codecs">媒體編碼器</string>
+    <string name="preference_codecs_summary">強制覆蓋裝置回報嘅編碼支援能力</string>
+    <string name="codec_level_manual">手動強制設定</string>
+    <string name="codec_level_6_2">層級 6.2</string>
+    <string name="codec_level_6_1">層級 6.1</string>
+    <string name="codec_level_6_0">層級 6.0</string>
+    <string name="codec_level_5_2">層級 5.2</string>
+    <string name="codec_level_5_1">層級 5.1</string>
+    <string name="codec_level_5_0">層級 5.0</string>
+    <string name="codec_level_4_2">層級 4.2</string>
+    <string name="codec_level_4_1">層級 4.1</string>
+    <string name="codec_level_4_0">層級 4.0</string>
+    <string name="auto">自動</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision (連同 EL)</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
 </resources>
