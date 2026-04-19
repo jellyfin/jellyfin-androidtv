@@ -95,20 +95,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 			// Start out with default sections
 			val homesections = userSettingPreferences.activeHomesections
-			var includeLiveTvRows = false
-
-			// Check for live TV support
-			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
-				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
-				// If we can retrieve one live TV recommendation, then we should display the rows
-				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
-					enableTotalRecordCount = false,
-					imageTypeLimit = 1,
-					isAiring = true,
-					limit = 1,
-				)
-				includeLiveTvRows = recommendedPrograms.items.isNotEmpty()
-			}
 
 			// Make sure the rows are empty
 			val rows = mutableListOf<HomeFragmentRow>()
@@ -116,7 +102,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			// Check for coroutine cancellation
 			if (!isActive) return@launch
 
-			// Actually add the sections
+			// Add non-LiveTV sections first for faster initial display
 			for (section in homesections) when (section) {
 				HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(userViewsRepository.views.first()))
 				HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(HomeFragmentViewsRow(small = false))
@@ -126,15 +112,11 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				HomeSectionType.RESUME_BOOK -> Unit // Books are not (yet) supported
 				HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
 				HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
-				HomeSectionType.LIVE_TV -> if (includeLiveTvRows) {
-					rows.add(liveTVRow)
-					rows.add(helper.loadOnNow())
-				}
-
+				HomeSectionType.LIVE_TV -> Unit // Checked async below
 				HomeSectionType.NONE -> Unit
 			}
 
-			// Add sections to layout
+			// Add sections to layout immediately
 			withContext(Dispatchers.Main) {
 				val cardPresenter = CardPresenter()
 
@@ -142,6 +124,23 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				notificationsRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 				nowPlaying.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 				for (row in rows) row.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
+			}
+
+			// Check for live TV support async (doesn't block initial UI)
+			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
+				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
+					enableTotalRecordCount = false,
+					imageTypeLimit = 1,
+					isAiring = true,
+					limit = 1,
+				)
+				if (recommendedPrograms.items.isNotEmpty()) {
+					withContext(Dispatchers.Main) {
+						val cardPresenter = CardPresenter()
+						liveTVRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
+						helper.loadOnNow().addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
+					}
+				}
 			}
 		}
 
