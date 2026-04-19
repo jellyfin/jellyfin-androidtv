@@ -48,6 +48,8 @@ jobs:
           mv app/build/version.txt build/jellyfin-publish/
 
       - name: Upload release archive to GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload "$GITHUB_REF_NAME" build/jellyfin-publish/* --clobber
 
       - name: Configure deployment
