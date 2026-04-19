@@ -28,7 +28,7 @@ class HomeFragmentLatestRow(
 			.map { item ->
 				// Create query and add it to a new row
 				val request = GetLatestMediaRequest(
-					fields = ItemRepository.itemFields,
+					fields = ItemRepository.browseFields,
 					imageTypeLimit = 1,
 					parentId = item.id,
 					groupItems = true,
