@@ -658,4 +658,24 @@
     <string name="filters">مرشحات</string>
     <string name="backdrop_behavior_with_blur">صورة خلفية مع طمس</string>
     <string name="backdrop_behavior_without_blur">صورة خلفية بلا طمس</string>
+    <string name="user_avc_level">مستوى H.264 (AVC)</string>
+    <string name="user_hevc_level">مستوى H.265 (HEVC)</string>
+    <string name="hlg">HLG</string>
+    <string name="hdr10">HDR10</string>
+    <string name="sdr">SDR</string>
+    <string name="dolby_vision_with_el">Dolby Vision مع EL</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="auto">تلقائي</string>
+    <string name="codec_level_4_0">مستوى 4.0</string>
+    <string name="codec_level_4_1">مستوى 4.1</string>
+    <string name="codec_level_4_2">مستوى 4.2</string>
+    <string name="codec_level_5_0">مستوى 5.0</string>
+    <string name="codec_level_5_1">مستوى 5.1</string>
+    <string name="codec_level_5_2">مستوى 5.2</string>
+    <string name="codec_level_6_0">مستوى 6.0</string>
+    <string name="codec_level_6_1">مستوى 6.1</string>
+    <string name="codec_level_6_2">مستوى 6.2</string>
+    <string name="codec_level_manual">تجاوز يدوي</string>
+    <string name="codec_level_warning">التغيير من النمط التلقائي قد يسبب مشاكل تشغيل إذا كان جهازك لا يدعم المستوى المختار.</string>
+    <string name="preference_codecs">مرمزات الوسائط</string>
 </resources>
