@@ -25,7 +25,7 @@ class HomeFragmentHelper(
 	fun loadResume(title: String, includeMediaTypes: Collection<MediaType>): HomeFragmentRow {
 		val query = GetResumeItemsRequest(
 			limit = ITEM_LIMIT_RESUME,
-			fields = ItemRepository.itemFields,
+			fields = ItemRepository.browseFields,
 			imageTypeLimit = 1,
 			enableTotalRecordCount = false,
 			mediaTypes = includeMediaTypes,
@@ -58,7 +58,7 @@ class HomeFragmentHelper(
 			imageTypeLimit = 1,
 			limit = ITEM_LIMIT_NEXT_UP,
 			enableResumable = false,
-			fields = ItemRepository.itemFields
+			fields = ItemRepository.browseFields
 		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_next_up), query, arrayOf(ChangeTriggerType.TvPlayback)))
