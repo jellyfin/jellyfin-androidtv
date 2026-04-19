@@ -102,7 +102,8 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			// Check for coroutine cancellation
 			if (!isActive) return@launch
 
-			// Add non-LiveTV sections first for faster initial display
+			// Actually add the sections
+			val hasLiveTvAccess = currentUser.policy?.enableLiveTvAccess == true
 			for (section in homesections) when (section) {
 				HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(userViewsRepository.views.first()))
 				HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(HomeFragmentViewsRow(small = false))
@@ -112,11 +113,15 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				HomeSectionType.RESUME_BOOK -> Unit // Books are not (yet) supported
 				HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
 				HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
-				HomeSectionType.LIVE_TV -> Unit // Checked async below
+				HomeSectionType.LIVE_TV -> if (hasLiveTvAccess) {
+					rows.add(liveTVRow)
+					rows.add(helper.loadOnNow())
+				}
+
 				HomeSectionType.NONE -> Unit
 			}
 
-			// Add sections to layout immediately
+			// Add sections to layout
 			withContext(Dispatchers.Main) {
 				val cardPresenter = CardPresenter()
 
@@ -124,23 +129,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				notificationsRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 				nowPlaying.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 				for (row in rows) row.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
-			}
-
-			// Check for live TV support async (doesn't block initial UI)
-			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
-				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
-					enableTotalRecordCount = false,
-					imageTypeLimit = 1,
-					isAiring = true,
-					limit = 1,
-				)
-				if (recommendedPrograms.items.isNotEmpty()) {
-					withContext(Dispatchers.Main) {
-						val cardPresenter = CardPresenter()
-						liveTVRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
-						helper.loadOnNow().addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
-					}
-				}
 			}
 		}
 
