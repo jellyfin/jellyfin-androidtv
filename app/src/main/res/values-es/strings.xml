@@ -629,4 +629,6 @@
     <string name="filters">Filtros</string>
     <string name="backdrop_behavior_with_blur">Fondo con desenfoque</string>
     <string name="backdrop_behavior_without_blur">Fondo sin desenfoque</string>
+    <string name="codec_level_warning">Cambiar el nivel de auto puede causar problemas de reproducción si su dispositivo no soporta el nivel seleccionado.</string>
+    <string name="codec_level_manual">Sobreescritura manul</string>
 </resources>
