@@ -46,6 +46,11 @@ android {
 		}
 	}
 
+	dependenciesInfo {
+		includeInBundle = false
+		includeInApk = false
+	}
+
 	buildTypes {
 		release {
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
