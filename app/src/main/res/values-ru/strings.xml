@@ -639,4 +639,25 @@
     <string name="playback_video_player_external_empty">У вас нет ни одного приложения для воспроизведения видео, которое может открывать видео из Jellyfin.</string>
     <string name="backdrop_behavior_with_blur">Фон с размытием</string>
     <string name="backdrop_behavior_without_blur">Фон без размытия</string>
+    <string name="hlg">HLG</string>
+    <string name="hdr10">HDR10</string>
+    <string name="sdr">SDR</string>
+    <string name="dolby_vision_with_el">Dolby Vision с EL</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="auto">Авто</string>
+    <string name="codec_level_6_2">Уровень 6.2</string>
+    <string name="codec_level_6_1">Уровень 6.1</string>
+    <string name="codec_level_6_0">Уровень 6.0</string>
+    <string name="codec_level_5_2">Уровень 5.2</string>
+    <string name="codec_level_5_1">Уровень 5.1</string>
+    <string name="codec_level_5_0">Уровень 5.0</string>
+    <string name="codec_level_4_2">Уровень 4.2</string>
+    <string name="codec_level_4_1">Уровень 4.1</string>
+    <string name="codec_level_4_0">Уровень 4.0</string>
+    <string name="codec_level_manual">Ручное переопределение</string>
+    <string name="preference_codecs_summary">Переопределить поддерживаемые кодеки, получаемые с устройства</string>
+    <string name="preference_codecs">Медиа-кодеки</string>
+    <string name="codec_level_warning">Изменение с \"Авто\" может вызвать проблемы с воспроизведением, если ваше устройство на самом деле не поддерживает выбранный уровень.</string>
+    <string name="user_hevc_level">Уровень H.265 (HEVC)</string>
+    <string name="user_avc_level">Уровень H.264 (AVC)</string>
 </resources>
