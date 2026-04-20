@@ -640,4 +640,5 @@
     <string name="preference_codecs_summary">De door het apparaat gemelde codec-ondersteuning overschrijven</string>
     <string name="codec_level_manual">Handmatig overschrijven</string>
     <string name="codec_level_warning">Een andere waarde dan \"automatisch\" kan afspeelproblemen veroorzaken als je apparaat het geselecteerde niveau niet daadwerkelijk ondersteunt.</string>
+    <string name="pref_burn_subtitles_when_transcoding">Ondertiteling inbranden bij transcoderen</string>
 </resources>
