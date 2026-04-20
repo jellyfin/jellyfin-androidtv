@@ -46,6 +46,11 @@ android {
 		}
 	}
 
+	dependenciesInfo {
+		includeInBundle = false
+		includeInApk = false
+	}
+
 	buildTypes {
 		release {
 			isMinifyEnabled = false
