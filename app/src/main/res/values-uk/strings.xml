@@ -639,4 +639,8 @@
     <string name="filters">Фільтри</string>
     <string name="backdrop_behavior_with_blur">Фон із розмиттям</string>
     <string name="backdrop_behavior_without_blur">Фон без розмиття</string>
+    <string name="user_avc_level">H.264 (AVC) рівень</string>
+    <string name="user_hevc_level">H.265 (HEVC) рівень</string>
+    <string name="codec_level_warning">Зміна з автоматичного може спричинити проблеми з відтворенням, якщо ваш пристрій насправді не підтримує вибраний рівень.</string>
+    <string name="preference_codecs">Медіа кодеки</string>
 </resources>
