@@ -619,4 +619,25 @@
     <string name="filters">Filter</string>
     <string name="backdrop_behavior_with_blur">Hintergrund mit Unschärfe</string>
     <string name="backdrop_behavior_without_blur">Hintergrund ohne Unschärfe</string>
+    <string name="user_avc_level">H.264-(AVC)-Level</string>
+    <string name="user_hevc_level">H.265-(HEVC)-Level</string>
+    <string name="codec_level_warning">Andere Werte als Automatisch könnten Wiedergabeprobleme verursachen, wenn das Gerät das ausgewählte Level nicht unterstützt.</string>
+    <string name="preference_codecs">Mediencodecs</string>
+    <string name="preference_codecs_summary">Vom Gerät gemeldete unterstützte Codecs überschreiben</string>
+    <string name="codec_level_manual">Manuelle Überschreibung</string>
+    <string name="codec_level_6_2">Level 6.2</string>
+    <string name="codec_level_6_1">Level 6.1</string>
+    <string name="codec_level_6_0">Level 6.0</string>
+    <string name="codec_level_5_2">Level 5.2</string>
+    <string name="codec_level_5_1">Level 5.1</string>
+    <string name="codec_level_5_0">Level 5.0</string>
+    <string name="codec_level_4_2">Level 4.2</string>
+    <string name="codec_level_4_1">Level 4.1</string>
+    <string name="codec_level_4_0">Level 4.0</string>
+    <string name="auto">Automatisch</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision mit EL</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
 </resources>
