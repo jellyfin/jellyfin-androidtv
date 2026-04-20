@@ -99,15 +99,8 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 			return setSubtitleIndex(-1)
 		}
 
-		// The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
-		// is set, so we treat all subtitles as burned in when transcoding with the option enabled.
-		val deliveryMethod = when {
-			shouldBurnInSubtitles(currentStreamInfo.playMethod) -> SubtitleDeliveryMethod.ENCODE
-			else -> stream.deliveryMethod
-		}
-
-		when (deliveryMethod) {
-			SubtitleDeliveryMethod.ENCODE -> {
+		when {
+			stream.deliveryMethod == SubtitleDeliveryMethod.ENCODE || shouldBurnInSubtitles(currentStreamInfo.playMethod) -> {
 				Timber.i("Restarting playback for subtitle baking")
 
 				stop()
@@ -116,9 +109,9 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 				play(mCurrentPosition, index)
 			}
 
-			SubtitleDeliveryMethod.EXTERNAL,
-			SubtitleDeliveryMethod.EMBED,
-			SubtitleDeliveryMethod.HLS -> {
+			stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL ||
+				stream.deliveryMethod == SubtitleDeliveryMethod.EMBED ||
+				stream.deliveryMethod == SubtitleDeliveryMethod.HLS -> {
 				// External subtitles need to be resolved differently
 				val group = if (stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL) {
 					mVideoManager.mExoPlayer.currentTracks.groups.firstOrNull { group ->
@@ -162,7 +155,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 				}
 			}
 
-			SubtitleDeliveryMethod.DROP, null -> {
+			stream.deliveryMethod == SubtitleDeliveryMethod.DROP || stream.deliveryMethod == null -> {
 				Timber.i("Dropping subtitles")
 				setSubtitleIndex(-1)
 			}
