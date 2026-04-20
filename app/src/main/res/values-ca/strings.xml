@@ -628,4 +628,15 @@
     <string name="filters">Filtres</string>
     <string name="backdrop_behavior_with_blur">Fons amb desenfocament</string>
     <string name="backdrop_behavior_without_blur">Fons sense desenfocament</string>
+    <string name="hlg">HLG</string>
+    <string name="hdr10">HDR10</string>
+    <string name="codec_level_4_0">Nivell 4.0</string>
+    <string name="codec_level_4_1">Nivell 4.1</string>
+    <string name="codec_level_4_2">Nivell 4.2</string>
+    <string name="codec_level_5_0">Nivell 5.0</string>
+    <string name="codec_level_5_1">Nivell 5.1</string>
+    <string name="codec_level_5_2">Nivell 5.2</string>
+    <string name="codec_level_6_0">Nivell 6.0</string>
+    <string name="codec_level_6_1">Nivell 6.1</string>
+    <string name="codec_level_6_2">Nivell 6.2</string>
 </resources>
