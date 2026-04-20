@@ -195,6 +195,17 @@ fun SettingsPlaybackAdvancedScreen() {
 			)
 		}
 
+		item {
+			var subtitlesBurnDuringTranscode by rememberPreference(userPreferences, UserPreferences.subtitlesBurnDuringTranscode)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_burn_subtitles_when_transcoding)) },
+				captionContent = { Text(stringResource(R.string.pref_burn_subtitles_when_transcoding_description)) },
+				trailingContent = { Checkbox(checked = subtitlesBurnDuringTranscode) },
+				onClick = { subtitlesBurnDuringTranscode = !subtitlesBurnDuringTranscode }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_live_tv_cat)) }) }
 
 		item {

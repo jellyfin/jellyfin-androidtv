@@ -245,6 +245,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var assDirectPlay = booleanPreference("libass_enabled", false)
 
 		/**
+		 * Always burn in subtitles when transcoding.
+		 */
+		var subtitlesBurnDuringTranscode = booleanPreference("subtitles_burn_during_transcode", false)
+
+		/**
 		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
