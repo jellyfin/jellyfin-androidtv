@@ -9,7 +9,7 @@
     <string name="chapters">Hoofdstukken</string>
     <string name="lbl_settings">Voorkeuren</string>
     <string name="lbl_continue_watching">Verder kijken</string>
-    <string name="lbl_next_up">Volgende kijken</string>
+    <string name="lbl_next_up">Volgende</string>
     <string name="lbl_on_now">Nu bezig</string>
     <string name="lbl_views">Weergaven</string>
     <string name="lbl_by_letter">Op alfabet</string>
@@ -351,8 +351,8 @@
     <string name="home_section_none">Geen</string>
     <string name="home_section_livetv">Live-tv</string>
     <string name="home_section_active_recordings">Actieve opnames</string>
-    <string name="home_section_resume_audio">Verderluisteren</string>
-    <string name="home_section_resume">Verderkijken</string>
+    <string name="home_section_resume_audio">Verder luisteren</string>
+    <string name="home_section_resume">Verder kijken</string>
     <string name="home_section_library">Mijn media</string>
     <string name="home_section_latest_media">Onlangs toegevoegde media</string>
     <string name="license_license">Licentie</string>
