@@ -628,6 +628,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
-    <string name="pref_burn_subtitles_when_transcoding">轉碼時燒錄字幕</string>
+    <string name="pref_burn_subtitles_when_transcoding">轉碼嗰陣燒錄字幕</string>
     <string name="pref_burn_subtitles_when_transcoding_description">轉碼期間一律將字幕燒錄到影片入面。呢樣嘢可以解決字幕同步問題，但係會用唔到字幕自訂功能。</string>
 </resources>
