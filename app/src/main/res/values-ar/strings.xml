@@ -678,4 +678,7 @@
     <string name="codec_level_manual">تجاوز يدوي</string>
     <string name="codec_level_warning">التغيير من النمط التلقائي قد يسبب مشاكل تشغيل إذا كان جهازك لا يدعم المستوى المختار.</string>
     <string name="preference_codecs">مرمزات الوسائط</string>
+    <string name="preference_codecs_summary">تخطي امكانيات ترميز الاجهزة المبلغ عنها</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">حرق الترجمة دائما في الفيديو أثناء الترميز. قد يحل هذا مشاكل مزامنة الترجمة لكن لا يتيح تخصيصها.</string>
+    <string name="pref_burn_subtitles_when_transcoding">حرق الترجمات عند الترميز</string>
 </resources>
