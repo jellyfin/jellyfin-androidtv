@@ -639,4 +639,14 @@
     <string name="codec_level_6_0">Nivell 6.0</string>
     <string name="codec_level_6_1">Nivell 6.1</string>
     <string name="codec_level_6_2">Nivell 6.2</string>
+    <string name="sdr">SDR</string>
+    <string name="dolby_vision_with_el">Dolby Vision amb EL</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="auto">Auto</string>
+    <string name="codec_level_manual">Sobreescriptura manual</string>
+    <string name="preference_codecs_summary">Sobreescriu les capacitats de còdecs indicades pel dispositiu</string>
+    <string name="preference_codecs">Còdecs multimèdia</string>
+    <string name="user_hevc_level">Nivell H.265 (HEVC)</string>
+    <string name="user_avc_level">Nivell H.264 (AVC)</string>
+    <string name="codec_level_warning">Deixar l\'opció automàtica pot generar problemes de reproducció si el dispositiu no suporta el nivell seleccionat.</string>
 </resources>
