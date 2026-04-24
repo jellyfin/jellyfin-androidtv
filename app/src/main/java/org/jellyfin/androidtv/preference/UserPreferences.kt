@@ -253,6 +253,14 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable PGS subtitle direct-play.
 		 */
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
+
+		/**
+		 * Force Dolby Vision Profile 7 (enhancement layer) direct play.
+		 * When enabled, the client will not reject DOVIWithEL content in the device profile,
+		 * allowing the server to serve DV7 MKV files via direct play instead of transcoding.
+		 * Requires a device with native DV Profile 7 decoder support.
+		 */
+		var dv7DirectPlayEnabled = booleanPreference("dv7_direct_play", false)
 	}
 
 	init {
