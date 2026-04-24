@@ -188,6 +188,17 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var dv7DirectPlayEnabled by rememberPreference(userPreferences, UserPreferences.dv7DirectPlayEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_dv7_direct_play)) },
+				captionContent = { Text(stringResource(R.string.preference_dv7_direct_play_summary)) },
+				trailingContent = { Checkbox(checked = dv7DirectPlayEnabled) },
+				onClick = { dv7DirectPlayEnabled = !dv7DirectPlayEnabled }
+			)
+		}
+
+		item {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.preference_codecs)) },
 				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },

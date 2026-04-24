@@ -542,6 +542,8 @@
     <string name="rewind">Rewind</string>
     <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
     <string name="preference_enable_pgs">Direct play PGS subtitles</string>
+    <string name="preference_dv7_direct_play">Force Dolby Vision Profile 7 direct play (experimental)</string>
+    <string name="preference_dv7_direct_play_summary">Allow DV Profile 7 (enhancement layer) files to direct-play instead of being rejected. Requires a device with native DV Profile 7 decoder support. May not work on all hardware.</string>
     <string name="pref_burn_subtitles_when_transcoding">Burn in subtitles when transcoding</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Always burn subtitles into the video during transcoding. This can fix subtitle sync issues but disables subtitle customization.</string>
     <string name="speech_error_no_permission">No permission to use the microphone. Please enable it in system settings.</string>
