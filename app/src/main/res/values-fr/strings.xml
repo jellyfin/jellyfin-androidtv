@@ -650,4 +650,6 @@
     <string name="dolby_vision_with_el">Dolby Vision avec EL</string>
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
+    <string name="pref_burn_subtitles_when_transcoding">Incrustation des sous-titres lors du transcodage</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Toujours incorporer les sous-titres à la vidéo lors du transcodage. Cela peut résoudre les problèmes de synchronisation, mais désactive la personnalisation des sous-titres.</string>
 </resources>
