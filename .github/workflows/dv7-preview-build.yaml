@@ -1,0 +1,62 @@
+name: DV7 Preview / Build & Release
+
+on:
+  push:
+    branches:
+      - claude/dv7-direct-play-toggle-2aXaK
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build debug APK and publish pre-release
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: temurin
+          java-version-file: .tools-versions
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
+
+      - name: Assemble debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Collect APK
+        run: |
+          mkdir -p build/preview
+          find app/build/outputs/apk/debug -name "*.apk" -exec cp "{}" build/preview/ \;
+
+      - name: Delete existing pre-release tag (if any)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete dv7-preview --yes 2>/dev/null || true
+          git push origin :refs/tags/dv7-preview 2>/dev/null || true
+
+      - name: Create pre-release and upload APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create dv7-preview build/preview/*.apk \
+            --prerelease \
+            --title "DV7 Direct Play Preview" \
+            --notes "**Experimental debug build** — Force Dolby Vision Profile 7 direct play toggle.
+
+          Built from branch \`claude/dv7-direct-play-toggle-2aXaK\` at commit \`${{ github.sha }}\`.
+
+          ### Install
+          \`\`\`
+          adb install -r jellyfin-androidtv-*-debug.apk
+          \`\`\`
+
+          ### Enable the toggle
+          Settings → Playback → Advanced → Video → **Force Dolby Vision Profile 7 direct play (experimental)**
+
+          > ⚠️ Requires a device with native DV Profile 7 decoder support (e.g. Nvidia Shield). May not work on all hardware."
