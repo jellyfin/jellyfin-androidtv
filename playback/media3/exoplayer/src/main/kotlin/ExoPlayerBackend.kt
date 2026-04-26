@@ -111,15 +111,12 @@ class ExoPlayerBackend(
 		}
 
 		@Suppress("MagicNumber")
-		val loadControl = when (exoPlayerOptions.bufferSize) {
-			ExoPlayerOptions.BufferSize.LARGE -> DefaultLoadControl.Builder()
-				.setBufferDurationsMs(50_000, 120_000, 2_500, 5_000)
-				.build()
-			ExoPlayerOptions.BufferSize.EXTRA_LARGE -> DefaultLoadControl.Builder()
-				.setBufferDurationsMs(80_000, 240_000, 5_000, 10_000)
-				.build()
-			else -> DefaultLoadControl()
+	val loadControl = DefaultLoadControl.Builder().apply {
+		when (exoPlayerOptions.bufferSize) {
+			ExoPlayerOptions.BufferSize.LARGE -> setBufferDurationsMs(50_000, 120_000, 2_500, 5_000)
+			ExoPlayerOptions.BufferSize.EXTRA_LARGE -> setBufferDurationsMs(80_000, 240_000, 5_000, 10_000)
 		}
+	}.build()
 
 		ExoPlayer.Builder(context)
 			.setLoadControl(loadControl)
