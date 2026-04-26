@@ -232,7 +232,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 						PlaybackStopInfo(
 							itemId = item.id,
 							mediaSourceId = mediaSource.id,
-							positionTicks = if (playbackCompleted) runtime?.inWholeTicks else endPosition?.inWholeTicks,
+							positionTicks = if (endPosition == null && playbackCompleted) runtime?.inWholeTicks else endPosition?.inWholeTicks,
 							failed = false,
 						)
 					)
