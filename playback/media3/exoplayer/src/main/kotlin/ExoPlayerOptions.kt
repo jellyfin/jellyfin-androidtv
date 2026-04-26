@@ -8,11 +8,5 @@ data class ExoPlayerOptions(
 	val enableDebugLogging: Boolean = false,
 	val enableLibass: Boolean = false,
 	val baseDataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory(),
-	val bufferSize: BufferSize = BufferSize.AUTO,
-) {
-	enum class BufferSize {
-		AUTO,
-		LARGE,
-		EXTRA_LARGE,
-	}
-}
+	val bufferSize: ExoPlayerBufferSize = ExoPlayerBufferSize.AUTO,
+)

@@ -7,7 +7,7 @@ enum class BufferLength(
 	override val nameRes: Int,
 ) : PreferenceEnum {
 	/**
-	 * Use Media3 default buffer durations.
+	 * Use default buffer durations.
 	 */
 	AUTO(R.string.playback_buffer_auto),
 

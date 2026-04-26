@@ -26,7 +26,7 @@ fun SettingsPlaybackBufferLengthScreen() {
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(stringResource(R.string.pref_customization).uppercase()) },
+				overlineContent = { Text(stringResource(R.string.pref_playback_advanced).uppercase()) },
 				headingContent = { Text(stringResource(R.string.playback_buffer_length)) },
 			)
 		}

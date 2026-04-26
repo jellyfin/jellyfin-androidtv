@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.androidtv.util.profile.createDeviceProfile
 import org.jellyfin.playback.core.playbackManager
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
+import org.jellyfin.playback.media3.exoplayer.ExoPlayerBufferSize
 import org.jellyfin.playback.media3.exoplayer.ExoPlayerOptions
 import org.jellyfin.playback.media3.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.media3.session.MediaSessionOptions
@@ -72,9 +73,9 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 
 	val userPreferences = get<UserPreferences>()
 	val bufferSize = when (userPreferences[UserPreferences.bufferLength]) {
-		BufferLength.AUTO -> ExoPlayerOptions.BufferSize.AUTO
-		BufferLength.LARGE -> ExoPlayerOptions.BufferSize.LARGE
-		BufferLength.EXTRA_LARGE -> ExoPlayerOptions.BufferSize.EXTRA_LARGE
+		BufferLength.AUTO -> ExoPlayerBufferSize.AUTO
+		BufferLength.LARGE -> ExoPlayerBufferSize.LARGE
+		BufferLength.EXTRA_LARGE -> ExoPlayerBufferSize.EXTRA_LARGE
 	}
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
