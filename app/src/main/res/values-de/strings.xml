@@ -640,4 +640,10 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_buffer_length">Puffergröße der Wiedergabe</string>
+    <string name="playback_buffer_auto">Automatisch</string>
+    <string name="playback_buffer_large">Groß</string>
+    <string name="playback_buffer_extra_large">Sehr groß</string>
+    <string name="pref_burn_subtitles_when_transcoding">Untertitel beim Transkodieren einbrennen</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Untertitel beim Transkodieren immer einbrennen. Dies kann Fehler bei der Untertitel Synchronisation beheben, aber verhindert individualisierte Untertitel.</string>
 </resources>
