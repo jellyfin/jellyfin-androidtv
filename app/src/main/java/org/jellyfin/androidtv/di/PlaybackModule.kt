@@ -31,8 +31,8 @@ import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManager
 
 val playbackModule = module {
@@ -71,31 +71,16 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	}
 
 	val userPreferences = get<UserPreferences>()
+	val bufferLength = userPreferences[UserPreferences.bufferLength]
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
 		enableLibass = userPreferences[UserPreferences.assDirectPlay],
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
-		minBufferDuration = when (userPreferences[UserPreferences.bufferLength]) {
-			BufferLength.AUTO -> null
-			BufferLength.LARGE -> 50.seconds
-			BufferLength.EXTRA_LARGE -> 80.seconds
-		},
-		maxBufferDuration = when (userPreferences[UserPreferences.bufferLength]) {
-			BufferLength.AUTO -> null
-			BufferLength.LARGE -> 120.seconds
-			BufferLength.EXTRA_LARGE -> 240.seconds
-		},
-		bufferForPlaybackDuration = when (userPreferences[UserPreferences.bufferLength]) {
-			BufferLength.AUTO -> null
-			BufferLength.LARGE -> 2500.milliseconds
-			BufferLength.EXTRA_LARGE -> 5.seconds
-		},
-		bufferForPlaybackAfterRebufferDuration = when (userPreferences[UserPreferences.bufferLength]) {
-			BufferLength.AUTO -> null
-			BufferLength.LARGE -> 5.seconds
-			BufferLength.EXTRA_LARGE -> 10.seconds
-		},
+		minBufferDuration = bufferLength.minBufferDuration,
+		maxBufferDuration = bufferLength.maxBufferDuration,
+		bufferForPlaybackDuration = bufferLength.bufferForPlaybackDuration,
+		bufferForPlaybackAfterRebufferDuration = bufferLength.bufferForPlaybackAfterRebufferDuration,
 	)
 	install(exoPlayerPlugin(get(), exoPlayerOptions))
 
