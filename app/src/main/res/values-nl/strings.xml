@@ -644,4 +644,6 @@
     <string name="playback_buffer_auto">Automatisch</string>
     <string name="playback_buffer_large">Groot</string>
     <string name="playback_buffer_extra_large">Extra groot</string>
+    <string name="playback_buffer_length">Afspeelbuffergrootte</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Ondertiteling altijd inbranden in de video tijdens het transcoderen. Dit kan synchronisatieproblemen oplossen, maar maakt het aanpassen van ondertiteling onmogelijk.</string>
 </resources>
