@@ -111,9 +111,17 @@ class ExoPlayerBackend(
 		}
 
 		val loadControl = DefaultLoadControl.Builder().apply {
-			val buf = exoPlayerOptions.bufferSize
-			if (buf != ExoPlayerBufferSize.AUTO) {
-				setBufferDurationsMs(buf.minBufferMs, buf.maxBufferMs, buf.bufferForPlaybackMs, buf.bufferForPlaybackAfterRebufferMs)
+			val min = exoPlayerOptions.minBufferDuration
+			val max = exoPlayerOptions.maxBufferDuration
+			val play = exoPlayerOptions.bufferForPlaybackDuration
+			val rebuffer = exoPlayerOptions.bufferForPlaybackAfterRebufferDuration
+			if (min != null && max != null && play != null && rebuffer != null) {
+				setBufferDurationsMs(
+					min.inWholeMilliseconds.toInt(),
+					max.inWholeMilliseconds.toInt(),
+					play.inWholeMilliseconds.toInt(),
+					rebuffer.inWholeMilliseconds.toInt(),
+				)
 			}
 		}.build()
 
