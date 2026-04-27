@@ -645,4 +645,6 @@
     <string name="codec_level_4_1">Nivel 4.1</string>
     <string name="codec_level_4_0">Nivel 4.0</string>
     <string name="auto">Automático</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Incrustar siempre los subtítulos en el vídeo durante la transcodificación. Esto puede arreglar los problemas de sincronización de subtítulos pero desactiva su personalización.</string>
+    <string name="pref_burn_subtitles_when_transcoding">Incrustar subtítulos durante la transcodificación</string>
 </resources>
