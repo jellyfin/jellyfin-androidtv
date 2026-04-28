@@ -617,4 +617,16 @@
     <string name="pref_playback_inactivity_prompt">Inaktivitetsmeddelande</string>
     <string name="color_presets">Förinställningar</string>
     <string name="playback_video_player_external_empty">Du har inga videospelarappar installerade på din enhet som kan öppna Jellyfin videor.</string>
+    <string name="pref_burn_subtitles_when_transcoding">Bränn undertexterna vid omkodning</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Bränn alltid undertexterna till video vid omkodning. Detta kan fixa problem med synkronisering av undertexter men inaktiverar andra inställningar av undertexter.</string>
+    <string name="playback_buffer_length">Bufferstorlek för spelning</string>
+    <string name="playback_buffer_auto">Auto</string>
+    <string name="playback_buffer_large">Stor</string>
+    <string name="playback_buffer_extra_large">Extra stor</string>
+    <string name="backdrop_behavior_with_blur">Bakgrund med suddighet</string>
+    <string name="backdrop_behavior_without_blur">Bakgrund utan suddighet</string>
+    <string name="user_avc_level">H.264 (AVC) nivå</string>
+    <string name="user_hevc_level">H.265 (HEVC) nivå</string>
+    <string name="codec_level_warning">Ändrar man detta från auto kan det orsaka problem med uppspelningen om din enhet inte stödjer den valda nivån.</string>
+    <string name="preference_codecs">Media kodek</string>
 </resources>

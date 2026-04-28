@@ -12,6 +12,7 @@ import androidx.media3.datasource.okhttp.OkHttpDataSource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
+import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
@@ -70,11 +71,16 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	}
 
 	val userPreferences = get<UserPreferences>()
+	val bufferLength = userPreferences[UserPreferences.bufferLength]
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
 		enableLibass = userPreferences[UserPreferences.assDirectPlay],
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
+		minBufferDuration = bufferLength.minBufferDuration,
+		maxBufferDuration = bufferLength.maxBufferDuration,
+		bufferForPlaybackDuration = bufferLength.bufferForPlaybackDuration,
+		bufferForPlaybackAfterRebufferDuration = bufferLength.bufferForPlaybackAfterRebufferDuration,
 	)
 	install(exoPlayerPlugin(get(), exoPlayerOptions))
 

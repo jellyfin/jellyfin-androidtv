@@ -520,6 +520,10 @@
     <string name="prefer_exoplayer_ffmpeg_content">Use FFmpeg to decode audio, even if platform codecs are available.</string>
     <string name="default_video_zoom">Default zoom mode</string>
     <string name="video_start_delay">Video start delay</string>
+    <string name="playback_buffer_length">Playback buffer size</string>
+    <string name="playback_buffer_auto">Auto</string>
+    <string name="playback_buffer_large">Large</string>
+    <string name="playback_buffer_extra_large">Extra large</string>
     <string name="pref_mediasegment_actions">Media segment actions</string>
     <string name="segment_action_ask_to_skip">Ask to skip</string>
     <string name="segment_action_nothing">Do nothing</string>
@@ -542,6 +546,8 @@
     <string name="rewind">Rewind</string>
     <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
     <string name="preference_enable_pgs">Direct play PGS subtitles</string>
+    <string name="pref_burn_subtitles_when_transcoding">Burn in subtitles when transcoding</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Always burn subtitles into the video during transcoding. This can fix subtitle sync issues but disables subtitle customization.</string>
     <string name="speech_error_no_permission">No permission to use the microphone. Please enable it in system settings.</string>
     <string name="speech_error_unavailable">Speech recognition is unavailable on your device.</string>
     <string name="speech_error_unknown">An unexpected error occurred during speech recognition.</string>

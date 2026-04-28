@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
+import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.form.RangeControl
@@ -105,6 +106,16 @@ fun SettingsPlaybackAdvancedScreen() {
 					}
 				}
 			}
+		}
+
+		item {
+			var bufferLength by rememberPreference(userPreferences, UserPreferences.bufferLength)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.playback_buffer_length)) },
+				captionContent = { Text(stringResource(bufferLength.nameRes)) },
+				onClick = { router.push(Routes.PLAYBACK_BUFFER_LENGTH) },
+			)
 		}
 
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_video)) }) }
@@ -192,6 +203,17 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.preference_codecs)) },
 				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
 				onClick = { router.push(Routes.PLAYBACK_CODEC) }
+			)
+		}
+
+		item {
+			var subtitlesBurnDuringTranscode by rememberPreference(userPreferences, UserPreferences.subtitlesBurnDuringTranscode)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_burn_subtitles_when_transcoding)) },
+				captionContent = { Text(stringResource(R.string.pref_burn_subtitles_when_transcoding_description)) },
+				trailingContent = { Checkbox(checked = subtitlesBurnDuringTranscode) },
+				onClick = { subtitlesBurnDuringTranscode = !subtitlesBurnDuringTranscode }
 			)
 		}
 

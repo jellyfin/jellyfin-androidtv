@@ -650,4 +650,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="pref_burn_subtitles_when_transcoding">Vypálit titulky během překódování</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Vždy vypálit titulky do videa během překódování. Tímto můžete opravit problémy se synchronizací titulků, zakáže se tím ale jejich přizpůsobení.</string>
 </resources>

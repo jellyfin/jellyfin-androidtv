@@ -10,6 +10,8 @@ jobs:
     name: Publish
     runs-on: ubuntu-24.04
     if: ${{ contains(github.repository_owner, 'jellyfin') }}
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -46,36 +48,34 @@ jobs:
           mv app/build/version.txt build/jellyfin-publish/
 
       - name: Upload release archive to GitHub release
-        uses: alexellis/upload-assets@13926a61cdb2cb35f5fdef1c06b8b591523236d3 # 0.4.1
         env:
-          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
-        with:
-          asset_paths: '["build/jellyfin-publish/*"]'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "$GITHUB_REF_NAME" build/jellyfin-publish/* --clobber
+
+      - name: Configure deployment
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.REPO_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Upload release archive to repo.jellyfin.org
-        uses: burnett01/rsync-deployments@0dc935cdecc5f5e571865e60d2a6cdc673704823 # tag=5.2
-        with:
-          switches: -vrptz
-          path: build/jellyfin-publish/
-          remote_path: /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }}/
-          remote_host: ${{ secrets.REPO_HOST }}
-          remote_user: ${{ secrets.REPO_USER }}
-          remote_key: ${{ secrets.REPO_KEY }}
+        env:
+          TARGET_PATH: /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }}/
+          SOURCE_PATH: build/jellyfin-publish/
+        run: rsync -vrptz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" "$SOURCE_PATH" "${{ secrets.REPO_USER }}@${{ secrets.REPO_HOST }}:$TARGET_PATH"
 
       - name: Update repo.jellyfin.org symlinks
-        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
-        with:
-          host: ${{ secrets.REPO_HOST }}
-          username: ${{ secrets.REPO_USER }}
-          key: ${{ secrets.REPO_KEY }}
-          envs: JELLYFIN_VERSION
-          script_stop: true
-          script: |
+        env:
+          REPO_HOST: ${{ secrets.REPO_HOST }}
+          REPO_USER: ${{ secrets.REPO_USER }}
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${REPO_USER}@${REPO_HOST}" "bash -s" <<EOF
             if [ -d "/srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}" ] && [ -n "${{ env.JELLYFIN_VERSION }}" ]; then
                 sudo rm -r /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
             fi
             sudo mv /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }} /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
             cd /srv/repository/main/client/androidtv;
             sudo rm -rf *.apk version.txt;
-            sudo ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
-            sudo ln -s versions/v${JELLYFIN_VERSION}/version.txt .;
+            sudo ln -s versions/v${{ env.JELLYFIN_VERSION }}/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-*.apk .;
+            sudo ln -s versions/v${{ env.JELLYFIN_VERSION }}/version.txt .;
+          EOF

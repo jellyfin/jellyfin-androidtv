@@ -629,4 +629,27 @@
     <string name="filters">Filtres</string>
     <string name="backdrop_behavior_with_blur">Arrière-plan avec flou</string>
     <string name="backdrop_behavior_without_blur">Arrière-plan sans flou</string>
+    <string name="hlg">HLG</string>
+    <string name="user_avc_level">H.264 (AVC) niveaux</string>
+    <string name="user_hevc_level">H.265 (HEVC) niveau</string>
+    <string name="codec_level_warning">Passer de l’option automatique peut entraîner des problèmes de lecture si votre appareil ne prend pas réellement en charge le niveau sélectionné.</string>
+    <string name="preference_codecs">Codecs multimédias</string>
+    <string name="preference_codecs_summary">Remplacer les capacités de codecs signalées par l’appareil</string>
+    <string name="codec_level_manual">Remplacement manuel</string>
+    <string name="codec_level_6_2">Niveau 6.2</string>
+    <string name="codec_level_6_1">Niveau 6.1</string>
+    <string name="codec_level_6_0">Niveau 6.0</string>
+    <string name="codec_level_5_2">Niveau 5.2</string>
+    <string name="codec_level_5_1">Niveau 5.1</string>
+    <string name="codec_level_5_0">Niveau 5.0</string>
+    <string name="codec_level_4_2">Niveau 4.2</string>
+    <string name="codec_level_4_1">Niveau 4.1</string>
+    <string name="codec_level_4_0">Niveau 4.0</string>
+    <string name="auto">Automatique</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision avec EL</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="pref_burn_subtitles_when_transcoding">Incrustation des sous-titres lors du transcodage</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Toujours incorporer les sous-titres à la vidéo lors du transcodage. Cela peut résoudre les problèmes de synchronisation, mais désactive la personnalisation des sous-titres.</string>
 </resources>

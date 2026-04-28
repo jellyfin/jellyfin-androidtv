@@ -619,4 +619,27 @@
     <string name="filters">Filters</string>
     <string name="backdrop_behavior_with_blur">Backdrop with blur</string>
     <string name="backdrop_behavior_without_blur">Backdrop without blur</string>
+    <string name="pref_burn_subtitles_when_transcoding">Burn in subtitles when transcoding</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Always burn subtitles into the video during transcoding. This can fix subtitle sync issues but disables subtitle customisation.</string>
+    <string name="user_avc_level">H.264 (AVC) level</string>
+    <string name="user_hevc_level">H.265 (HEVC) level</string>
+    <string name="codec_level_warning">Changing from auto may cause playback issues if your device doesn\'t actually support the selected level.</string>
+    <string name="preference_codecs">Media codecs</string>
+    <string name="preference_codecs_summary">Override device-reported codec capabilities</string>
+    <string name="codec_level_manual">Manual override</string>
+    <string name="codec_level_6_2">Level 6.2</string>
+    <string name="codec_level_6_1">Level 6.1</string>
+    <string name="codec_level_6_0">Level 6.0</string>
+    <string name="codec_level_5_2">Level 5.2</string>
+    <string name="codec_level_5_1">Level 5.1</string>
+    <string name="codec_level_5_0">Level 5.0</string>
+    <string name="codec_level_4_2">Level 4.2</string>
+    <string name="codec_level_4_1">Level 4.1</string>
+    <string name="codec_level_4_0">Level 4.0</string>
+    <string name="auto">Auto</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision with EL</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
 </resources>

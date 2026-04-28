@@ -85,6 +85,23 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     protected VideoOptions mCurrentOptions;
     private int mDefaultAudioIndex = -1;
     protected boolean burningSubs = false;
+
+    // The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
+    // is set, so we need to assume subs are burned in when transcoding with the option enabled.
+    protected boolean shouldBurnInSubtitles(PlayMethod playMethod) {
+        return userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode())
+                && playMethod == PlayMethod.TRANSCODE;
+    }
+
+    private void updateBurningSubs(StreamInfo response) {
+        if (response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.DROP) {
+            burningSubs = false;
+            return;
+        }
+
+        burningSubs = response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE
+                || shouldBurnInSubtitles(response.getPlayMethod());
+    }
     private float mRequestedPlaybackSpeed = -1.0f;
 
     private Runnable mReportLoop;
@@ -502,6 +519,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
+        internalOptions.setAlwaysBurnInSubtitleWhenTranscoding(userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode()));
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
         if (mCurrentOptions != null) {
@@ -564,7 +582,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
-                    if (internalOptions.getSubtitleStreamIndex() == null) burningSubs = internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE;
+                    updateBurningSubs(internalResponse);
                     startItem(item, position, internalResponse);
                 }
 
@@ -995,6 +1013,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 public void onResponse(StreamInfo response) {
                     if (!isActive()) return;
                     mCurrentStreamInfo = response;
+
+                    updateBurningSubs(response);
+
                     if (mVideoManager != null) {
                         mVideoManager.setMediaStreamInfo(api.getValue(), response);
                         mVideoManager.start();
