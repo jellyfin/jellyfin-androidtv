@@ -121,8 +121,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private AudioManager mAudioManager;
 
     private boolean mFadeEnabled = false;
+    private boolean mFadeEnabledBeforeProgramInfo = false;
     private boolean mIsVisible = false;
     private boolean mPopupPanelVisible = false;
+    private boolean mProgramInfoVisible = false;
     private boolean navigating = false;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
@@ -389,7 +391,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
-            if (mPopupPanelVisible) {
+            if (mProgramInfoVisible) {
+                // back should just hide the program info panel
+                hideProgramInfo();
+            } else if (mPopupPanelVisible) {
                 // back should just hide the popup panel
                 hidePopupPanel();
                 leanbackOverlayFragment.hideOverlay();
@@ -398,6 +403,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) hide();
             } else if (mGuideVisible) {
                 hideGuide();
+            } else if (mIsVisible || leanbackOverlayFragment.isControlsOverlayVisible()) {
+                // overlay is showing — just dismiss it
+                hide();
+                leanbackOverlayFragment.hideOverlay();
             } else {
                 closePlayer();
             }
@@ -504,7 +513,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
 
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    if (mPopupPanelVisible) {
+                    if (mProgramInfoVisible) {
+                        // back should just hide the program info panel
+                        hideProgramInfo();
+                        return true;
+                    } else if (mPopupPanelVisible) {
                         // back should just hide the popup panel
                         hidePopupPanel();
                         leanbackOverlayFragment.hideOverlay();
@@ -514,6 +527,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         return true;
                     } else if (mGuideVisible) {
                         hideGuide();
+                        return true;
+                    } else if (mIsVisible || leanbackOverlayFragment.isControlsOverlayVisible()) {
+                        // overlay is showing — just dismiss it
+                        hide();
+                        leanbackOverlayFragment.hideOverlay();
                         return true;
                     }
                 }
@@ -718,29 +736,89 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         binding.topPanel.startAnimation(slideDown);
         mIsVisible = true;
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     public void hide() {
         // Can't hide what's already hidden
         if (!mIsVisible) return;
 
+        // If program info is showing, just close it and keep the overlay visible
+        if (mProgramInfoVisible) {
+            hideProgramInfo();
+            return;
+        }
+
         mIsVisible = false;
         binding.topPanel.startAnimation(fadeOut);
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     private void showChapterPanel() {
         setFadingEnabled(false);
         binding.popupArea.startAnimation(showPopup);
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
     }
 
     private void hidePopupPanel() {
         startFadeTimer();
         binding.popupArea.startAnimation(hidePopup);
         mPopupPanelVisible = false;
-        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible);
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
+    }
+
+    public void toggleProgramInfo() {
+        if (mProgramInfoVisible) {
+            hideProgramInfo();
+        } else {
+            showProgramInfo();
+        }
+    }
+
+    private void showProgramInfo() {
+        if (binding == null) return;
+
+        // Ensure the top panel overlay is visible so program info has a visible parent
+        show();
+
+        PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+        BaseItemDto currentItem = controller.getCurrentlyPlayingItem();
+        if (currentItem == null) return;
+
+        BaseItemDto program = currentItem.getCurrentProgram();
+        if (program == null) program = currentItem;
+
+        // Populate info row
+        binding.programInfoRow.removeAllViews();
+        InfoLayoutHelper.addInfoRow(requireContext(), program, binding.programInfoRow, true);
+
+        // Populate overview
+        String overview = program.getOverview();
+        if (overview != null && !overview.isEmpty()) {
+            binding.programOverview.setText(overview);
+            binding.programOverview.setVisibility(View.VISIBLE);
+        } else {
+            binding.programOverview.setVisibility(View.GONE);
+        }
+
+        binding.programInfoContainer.setVisibility(View.VISIBLE);
+        mProgramInfoVisible = true;
+        binding.skipOverlay.setSkipUiEnabled(false);
+
+        // Pause overlay auto-hide while info is showing, saving current state to restore later
+        mFadeEnabledBeforeProgramInfo = mFadeEnabled;
+        setFadingEnabled(false);
+    }
+
+    private void hideProgramInfo() {
+        if (binding == null) return;
+
+        binding.programInfoContainer.setVisibility(View.GONE);
+        mProgramInfoVisible = false;
+        binding.skipOverlay.setSkipUiEnabled(!mIsVisible && !mGuideVisible && !mPopupPanelVisible && !mProgramInfoVisible);
+
+        // Restore the fading state that was active before program info was shown
+        setFadingEnabled(mFadeEnabledBeforeProgramInfo);
     }
 
     public void showGuide() {
