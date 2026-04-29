@@ -154,7 +154,7 @@ class MediaCodecCapabilitiesTest(
 		MediaFormat.MIMETYPE_VIDEO_HEVC,
 		CodecProfileLevel.HEVCProfileMain10,
 		CodecProfileLevel.HEVCMainTierLevel4
-	)
+	) || supportsHevcHDR10()
 
 	// Can safely assume Dolby Vision decoders support single-layer HEVC profiles
 	fun supportsHevcDolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
@@ -188,8 +188,9 @@ class MediaCodecCapabilitiesTest(
 		CodecProfileLevel.HEVCProfileMain
 	)
 
-	fun getHevcMain10Level(): Int = getHevcLevel(
-		CodecProfileLevel.HEVCProfileMain10
+	fun getHevcMain10Level(): Int = maxOf(
+		getHevcLevel(CodecProfileLevel.HEVCProfileMain10),
+		getHevcLevel(CodecProfileLevel.HEVCProfileMain10HDR10)
 	)
 
 	private fun getHevcLevel(profile: Int): Int {

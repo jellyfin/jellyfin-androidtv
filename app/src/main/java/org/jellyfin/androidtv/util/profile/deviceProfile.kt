@@ -429,12 +429,12 @@ fun createDeviceProfile(
 	/// HDR exclude list
 
 	val unsupportedRangeTypesAv1 = buildSet {
-		add(VideoRangeType.DOVI_INVALID)
+		if (!supportsAV1Main10) add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsAV1DolbyVision) {
 			add(VideoRangeType.DOVI)
 			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10)
-			if (!supportsAV1HDR10Plus) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
+			if (!supportsAV1HDR10) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 		}
 
 		if (!supportsAV1HDR10Plus) {
@@ -445,7 +445,7 @@ fun createDeviceProfile(
 	}
 
 	val unsupportedRangeTypesHevc = buildSet {
-		add(VideoRangeType.DOVI_INVALID)
+		if (!supportsHevcMain10) add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
 			add(VideoRangeType.DOVI_WITH_EL)
@@ -454,7 +454,7 @@ fun createDeviceProfile(
 			if (!supportsHevcDolbyVision) {
 				add(VideoRangeType.DOVI)
 				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10)
-				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
+				if (!supportsHevcHDR10 && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 			}
 		}
 
