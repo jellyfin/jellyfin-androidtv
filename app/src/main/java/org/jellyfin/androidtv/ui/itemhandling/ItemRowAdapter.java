@@ -88,6 +88,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private List<org.jellyfin.sdk.model.api.BaseItemDto> mItems;
     private MutableObjectAdapter<Row> mParent;
     private ListRow mRow;
+    private Row siblingRow;
     private int chunkSize = 0;
 
     private int itemsLoaded = 0;
@@ -130,6 +131,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     public void setRow(ListRow row) {
         mRow = row;
+    }
+
+    public void setSiblingRow(Row row) {
+        siblingRow = row;
     }
 
     public void setReRetrieveTriggers(ChangeTriggerType[] reRetrieveTriggers) {
@@ -449,6 +454,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             // just clear us
             clear();
             return;
+        }
+
+        if (siblingRow != null) {
+            mParent.remove(siblingRow);
         }
 
         if (mParent.size() == 1) {
