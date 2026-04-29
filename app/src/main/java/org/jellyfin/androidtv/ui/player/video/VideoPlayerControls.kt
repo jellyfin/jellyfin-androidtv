@@ -49,7 +49,8 @@ import kotlin.time.DurationUnit
 
 @Composable
 fun VideoPlayerControls(
-	playbackManager: PlaybackManager = koinInject()
+	playbackManager: PlaybackManager = koinInject(),
+	onPlaybackInfoClick: () -> Unit = {},
 ) {
 	val playState by playbackManager.state.playState.collectAsState()
 
@@ -67,6 +68,8 @@ fun VideoPlayerControls(
 			FastForwardButton(playbackManager)
 
 			Spacer(Modifier.weight(1f))
+
+			PlaybackInfoButton(onClick = onPlaybackInfoClick)
 
 			MoreOptionsButton {
 				PreviousEntryButton(playbackManager)
@@ -266,4 +269,16 @@ private fun MoreOptionsButton(
 			content()
 		}
 	}
+}
+
+@Composable
+fun PlaybackInfoButton(
+	onClick: () -> Unit,
+) = IconButton(
+	onClick = onClick,
+) {
+	Icon(
+		imageVector = ImageVector.vectorResource(R.drawable.ic_info),
+		contentDescription = stringResource(R.string.lbl_playback_info),
+	)
 }
