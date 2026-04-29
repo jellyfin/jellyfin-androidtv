@@ -12,6 +12,20 @@ import androidx.recyclerview.widget.ListUpdateCallback
  */
 open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	private val data = mutableListOf<T>()
+	private val hiddenItems = mutableMapOf<Int, T>()
+
+	private fun visibleToAbsoluteIndex(visibleIndex: Int): Int {
+		var absoluteIndex = visibleIndex
+		for (hiddenIndex in hiddenItems.keys.sorted()) {
+			if (hiddenIndex <= absoluteIndex) absoluteIndex++
+		}
+		return absoluteIndex
+	}
+
+	private fun absoluteToVisibleIndex(absoluteIndex: Int): Int {
+		val hiddenBefore = hiddenItems.keys.count { it < absoluteIndex }
+		return absoluteIndex - hiddenBefore
+	}
 
 	// Constructors
 	constructor(presenterSelector: PresenterSelector) : super(presenterSelector)
@@ -26,6 +40,9 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	override fun iterator(): Iterator<T> = data.iterator()
 
 	// Custom
+	fun getHiddenItemsCount(): Int = hiddenItems.size
+	fun getHiddenItems(): List<T> = hiddenItems.values.toList()
+
 	fun add(element: T) {
 		data.add(element)
 		notifyItemRangeInserted(data.size - 1, 1)
@@ -58,6 +75,7 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 		})
 
 		data.clear()
+		hiddenItems.clear()
 		data.addAll(items)
 
 		diff.dispatchUpdatesTo(object : ListUpdateCallback {
@@ -74,6 +92,7 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 
 		notifyItemRangeRemoved(0, size)
 		data.clear()
+		hiddenItems.clear()
 	}
 
 	fun remove(element: T): Boolean {
@@ -89,6 +108,46 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 		notifyItemRangeRemoved(index, length)
 
 		return true
+	}
+
+	fun hide(element: T): Boolean {
+		val index = indexOf(element)
+		if (index == -1) return false
+		return hideAt(index)
+	}
+
+	fun hideAt(index: Int): Boolean {
+		if (index < 0 || index >= data.size) return false
+
+		val absoluteIndex = visibleToAbsoluteIndex(index)
+		val removed = data.removeAt(index)
+		hiddenItems[absoluteIndex] = removed
+
+		notifyItemRangeRemoved(index, 1)
+		val shiftedCount = data.size - index
+		if (shiftedCount > 0) notifyItemRangeChanged(index, shiftedCount)
+
+		return true
+	}
+
+	fun show(element: T): Boolean {
+		val index = hiddenItems.entries.find { it.value == element }?.key ?: return false
+		return showAt(index)
+	}
+
+	fun showAt(index: Int): Boolean {
+		if (index < 0) return false
+
+		val item = hiddenItems.remove(index) ?: return false
+		val visibleIndex = absoluteToVisibleIndex(index)
+		data.add(visibleIndex, item)
+		notifyItemRangeInserted(visibleIndex, 1)
+
+		return true
+	}
+
+	fun clearHidden() {
+		hiddenItems.clear()
 	}
 
 	fun indexOf(item: T) = data.indexOf(item)

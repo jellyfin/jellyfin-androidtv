@@ -462,6 +462,29 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         mParent.remove(mRow);
     }
 
+    protected void hideRow() {
+        if (mParent == null) {
+            // just clear us
+            clear();
+            return;
+        }
+
+        if (mParent.size() == 1) {
+            // we will be removing the last row - show something and prevent the framework from crashing
+            // because there is nowhere for focus to land
+            ArrayObjectAdapter emptyRow = new ArrayObjectAdapter(new TextItemPresenter());
+            emptyRow.add(context.getString(R.string.lbl_no_items));
+            mParent.add(new ListRow(new HeaderItem(context.getString(R.string.lbl_empty)), emptyRow));
+        }
+        mParent.hide(mRow);
+    }
+
+    protected void showRow() {
+        if(mParent!=null) {
+            mParent.show(mRow);
+        }
+    }
+
     public void loadMoreItemsIfNeeded(int pos) {
         if (fullyLoaded) {
             //context.getLogger().Debug("Row is fully loaded");
