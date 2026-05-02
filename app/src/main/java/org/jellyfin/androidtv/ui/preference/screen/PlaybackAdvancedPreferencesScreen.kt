@@ -98,6 +98,11 @@ class PlaybackAdvancedPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.preference_enable_libass)
+				bind(userPreferences, UserPreferences.assDirectPlay)
+			}
+
+			checkbox {
 				setTitle(R.string.preference_enable_pgs)
 				bind(userPreferences, UserPreferences.pgsDirectPlay)
 			}

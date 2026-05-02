@@ -6,14 +6,35 @@ import android.media.MediaCodecList
 import android.media.MediaFormat
 import android.os.Build
 import android.util.Size
-import androidx.core.content.ContextCompat
 import androidx.media3.common.MimeTypes
 import timber.log.Timber
 
+@Suppress("TooManyFunctions")
+interface DeviceProfileCapabilities {
+	fun supportsAV1(): Boolean
+	fun supportsAV1Main10(): Boolean
+	fun supportsAV1DolbyVision(): Boolean
+	fun supportsAV1HDR10(): Boolean
+	fun supportsAV1HDR10Plus(): Boolean
+	fun supportsAVC(): Boolean
+	fun supportsAVCHigh10(): Boolean
+	fun getAVCMainLevel(): Int
+	fun getAVCHigh10Level(): Int
+	fun supportsHevc(): Boolean
+	fun supportsHevcMain10(): Boolean
+	fun supportsHevcDolbyVision(): Boolean
+	fun supportsHevcDolbyVisionEL(): Boolean
+	fun supportsHevcHDR10(): Boolean
+	fun supportsHevcHDR10Plus(): Boolean
+	fun getHevcMainLevel(): Int
+	fun getHevcMain10Level(): Int
+	fun supportsVc1(): Boolean
+	fun getMaxResolution(mime: String): Size
+}
+
 class MediaCodecCapabilitiesTest(
 	private val context: Context,
-) {
-	private val display by lazy { ContextCompat.getDisplayOrDefault(context) }
+) : DeviceProfileCapabilities {
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
 
 	// Map common Dolby Vision Profiles to their corresponding CodecProfileLevel constant
@@ -97,46 +118,46 @@ class MediaCodecCapabilitiesTest(
 		CodecProfileLevel.HEVCMainTierLevel62 to 186,
 	)
 
-	fun supportsAV1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_AV1)
+	override fun supportsAV1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_AV1)
 
-	fun supportsAV1Main10(): Boolean = hasDecoder(
+	override fun supportsAV1Main10(): Boolean = hasDecoder(
 		MimeTypes.VIDEO_AV1,
 		AV1ProfileLevel.ProfileMain10,
 		AV1ProfileLevel.Level5
 	)
 
-	fun supportsAV1DolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+	override fun supportsAV1DolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
 		hasDecoder(
 			MimeTypes.VIDEO_DOLBY_VISION,
 			AV1ProfileLevel.DolbyVisionProfile10,
 			CodecProfileLevel.DolbyVisionLevelHd24
 		)
 
-	fun supportsAV1HDR10(): Boolean = hasDecoder(
+	override fun supportsAV1HDR10(): Boolean = hasDecoder(
 		MimeTypes.VIDEO_AV1,
 		AV1ProfileLevel.ProfileMain10HDR10,
 		AV1ProfileLevel.Level5
 	)
 
-	fun supportsAV1HDR10Plus(): Boolean = hasDecoder(
+	override fun supportsAV1HDR10Plus(): Boolean = hasDecoder(
 		MimeTypes.VIDEO_AV1,
 		AV1ProfileLevel.ProfileMain10HDR10Plus,
 		AV1ProfileLevel.Level5
 	)
 
-	fun supportsAVC(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AVC)
+	override fun supportsAVC(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AVC)
 
-	fun supportsAVCHigh10(): Boolean = hasDecoder(
+	override fun supportsAVCHigh10(): Boolean = hasDecoder(
 		MediaFormat.MIMETYPE_VIDEO_AVC,
 		CodecProfileLevel.AVCProfileHigh10,
 		CodecProfileLevel.AVCLevel4
 	)
 
-	fun getAVCMainLevel(): Int = getAVCLevel(
+	override fun getAVCMainLevel(): Int = getAVCLevel(
 		CodecProfileLevel.AVCProfileMain
 	)
 
-	fun getAVCHigh10Level(): Int = getAVCLevel(
+	override fun getAVCHigh10Level(): Int = getAVCLevel(
 		CodecProfileLevel.AVCProfileHigh10
 	)
 
@@ -148,20 +169,20 @@ class MediaCodecCapabilitiesTest(
 		}?.second ?: 0
 	}
 
-	fun supportsHevc(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_HEVC)
+	override fun supportsHevc(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_HEVC)
 
-	fun supportsHevcMain10(): Boolean = hasDecoder(
+	override fun supportsHevcMain10(): Boolean = hasDecoder(
 		MediaFormat.MIMETYPE_VIDEO_HEVC,
 		CodecProfileLevel.HEVCProfileMain10,
 		CodecProfileLevel.HEVCMainTierLevel4
 	)
 
 	// Can safely assume Dolby Vision decoders support single-layer HEVC profiles
-	fun supportsHevcDolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+	override fun supportsHevcDolbyVision(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
 		hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION)
 
 	// Checks for Dolby Vision Profile 7 (Enhancement Layer) and multi-instance HEVC support
-	fun supportsHevcDolbyVisionEL(): Boolean =
+	override fun supportsHevcDolbyVisionEL(): Boolean =
 		Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
 			hasDecoder(
 				MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION,
@@ -170,25 +191,25 @@ class MediaCodecCapabilitiesTest(
 			) &&
 			supportsMultiInstance(MediaFormat.MIMETYPE_VIDEO_HEVC)
 
-	fun supportsHevcHDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+	override fun supportsHevcHDR10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
 		hasDecoder(
 			MediaFormat.MIMETYPE_VIDEO_HEVC,
 			CodecProfileLevel.HEVCProfileMain10HDR10,
 			CodecProfileLevel.HEVCMainTierLevel4
 		)
 
-	fun supportsHevcHDR10Plus(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+	override fun supportsHevcHDR10Plus(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
 		hasDecoder(
 			MediaFormat.MIMETYPE_VIDEO_HEVC,
 			CodecProfileLevel.HEVCProfileMain10HDR10Plus,
 			CodecProfileLevel.HEVCMainTierLevel4
 		)
 
-	fun getHevcMainLevel(): Int = getHevcLevel(
+	override fun getHevcMainLevel(): Int = getHevcLevel(
 		CodecProfileLevel.HEVCProfileMain
 	)
 
-	fun getHevcMain10Level(): Int = getHevcLevel(
+	override fun getHevcMain10Level(): Int = getHevcLevel(
 		CodecProfileLevel.HEVCProfileMain10
 	)
 
@@ -200,7 +221,7 @@ class MediaCodecCapabilitiesTest(
 		}?.second ?: 0
 	}
 
-	fun supportsVc1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_VC1)
+	override fun supportsVc1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_VC1)
 
 	private fun getDecoderLevel(mime: String, profile: Int): Int {
 		var maxLevel = 0
@@ -283,7 +304,7 @@ class MediaCodecCapabilitiesTest(
 		return false
 	}
 
-	fun getMaxResolution(mime: String): Size {
+	override fun getMaxResolution(mime: String): Size {
 		var maxWidth = 0
 		var maxHeight = 0
 

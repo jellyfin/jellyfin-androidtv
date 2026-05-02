@@ -47,6 +47,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.playback.libass.LibassSubtitleController;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -71,6 +72,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private LibassSubtitleController mLibassSubtitleController;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -86,6 +88,9 @@ public class VideoManager {
         mActivity = activity;
         _helper = helper;
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
+        mLibassSubtitleController = userPreferences.get(UserPreferences.Companion.getAssDirectPlay())
+                ? new LibassSubtitleController()
+                : null;
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
 
@@ -118,6 +123,9 @@ public class VideoManager {
         mExoPlayerView.getSubtitleView().setFractionalTextSize(0.0533f * userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()));
         mExoPlayerView.getSubtitleView().setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
+        if (mLibassSubtitleController != null) {
+            mLibassSubtitleController.attach(mExoPlayer, mExoPlayerView.getSubtitleView());
+        }
 
         mExoPlayer.addListener(new Player.Listener() {
             @Override
@@ -218,8 +226,17 @@ public class VideoManager {
         extractorsFactory.setConstantBitrateSeekingEnabled(true);
         extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
         DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
-        exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-        exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+        if (mLibassSubtitleController != null) {
+            mLibassSubtitleController.configure(
+                    exoPlayerBuilder,
+                    dataSourceFactory,
+                    extractorsFactory,
+                    defaultRendererFactory
+            );
+        } else {
+            exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+            exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+        }
 
         exoPlayerBuilder.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)
@@ -354,8 +371,11 @@ public class VideoManager {
         try {
             // Add external subtitles
             List<MediaItem.SubtitleConfiguration> subtitleConfigurations = new ArrayList<>();
+            boolean hasLibassSubtitles = false;
             for (MediaStream mediaStream : streamInfo.getMediaSource().getMediaStreams()) {
                 if (mediaStream.getType() != MediaStreamType.SUBTITLE) continue;
+
+                hasLibassSubtitles = hasLibassSubtitles || VideoManagerHelperKt.usesLibassSubtitleRendering(mediaStream);
 
                 if (mediaStream.getDeliveryMethod() == SubtitleDeliveryMethod.EXTERNAL) {
                     Uri subtitleUri = Uri.parse(api.createUrl(mediaStream.getDeliveryUrl(), Collections.emptyMap(), Collections.emptyMap(), true));
@@ -369,6 +389,10 @@ public class VideoManager {
                     Timber.i("Adding subtitle track %s of type %s", subtitleConfiguration.uri, subtitleConfiguration.mimeType);
                     subtitleConfigurations.add(subtitleConfiguration);
                 }
+            }
+
+            if (mLibassSubtitleController != null && hasLibassSubtitles) {
+                mLibassSubtitleController.registerFallbackFonts(api);
             }
 
             MediaItem mediaItem = new MediaItem.Builder()
@@ -555,6 +579,12 @@ public class VideoManager {
         Timber.d("Setting playback speed: %f", speed);
 
         mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
+    }
+
+    public void clearLibassSubtitles() {
+        if (mLibassSubtitleController != null) {
+            mLibassSubtitleController.clearSelectedTrack();
+        }
     }
 
     public void destroy() {

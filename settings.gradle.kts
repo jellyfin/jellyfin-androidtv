@@ -8,6 +8,7 @@ include(":app")
 // Modules
 include(":playback:core")
 include(":playback:jellyfin")
+include(":playback:libass")
 include(":playback:media3:exoplayer")
 include(":playback:media3:session")
 include(":preference")
