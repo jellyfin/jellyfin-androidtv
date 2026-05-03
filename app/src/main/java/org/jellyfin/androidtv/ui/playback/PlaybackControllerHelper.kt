@@ -42,6 +42,7 @@ fun PlaybackController.getLiveTvChannel(
 @OptIn(UnstableApi::class)
 fun PlaybackController.disableDefaultSubtitles() {
 	Timber.i("Disabling non-baked subtitles")
+	mVideoManager.clearLibassSubtitles()
 
 	with(mVideoManager.mExoPlayer.trackSelector!!) {
 		parameters = parameters.buildUpon()
@@ -112,6 +113,10 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 			stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL ||
 				stream.deliveryMethod == SubtitleDeliveryMethod.EMBED ||
 				stream.deliveryMethod == SubtitleDeliveryMethod.HLS -> {
+				if (stream.usesLibassSubtitleRendering()) {
+					Timber.i("Routing ASS/SSA subtitle stream $index through libass client renderer")
+				}
+
 				// External subtitles need to be resolved differently
 				val group = if (stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL) {
 					mVideoManager.mExoPlayer.currentTracks.groups.firstOrNull { group ->

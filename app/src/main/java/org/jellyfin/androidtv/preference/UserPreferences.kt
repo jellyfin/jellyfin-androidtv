@@ -246,9 +246,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
 
 		/**
-		 * Enable libass.
+		 * Enable ASS/SSA subtitle direct-play using client-side libass rendering.
 		 */
-		var assDirectPlay = booleanPreference("libass_enabled", false)
+		var assDirectPlay = booleanPreference("ass_direct_play", true)
 
 		/**
 		 * Always burn in subtitles when transcoding.

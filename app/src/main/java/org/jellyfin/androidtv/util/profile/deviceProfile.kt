@@ -74,12 +74,13 @@ private fun UserPreferences.getMaxBitrate(): Int {
 	return (maxBitrate * 1_000_000).roundToInt()
 }
 
+@Suppress("UnusedParameter")
 fun createDeviceProfile(
 	context: Context,
 	userPreferences: UserPreferences,
 	serverVersion: ServerVersion,
 ) = createDeviceProfile(
-	mediaTest = MediaCodecCapabilitiesTest(context),
+	mediaTest = MediaCodecCapabilitiesTest(),
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
@@ -90,7 +91,7 @@ fun createDeviceProfile(
 )
 
 fun createDeviceProfile(
-	mediaTest: MediaCodecCapabilitiesTest,
+	mediaTest: DeviceProfileCapabilities,
 	maxBitrate: Int,
 	isAC3Enabled: Boolean,
 	downMixAudio: Boolean,

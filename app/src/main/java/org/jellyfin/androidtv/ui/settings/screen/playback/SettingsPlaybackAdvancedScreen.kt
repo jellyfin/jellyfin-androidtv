@@ -189,6 +189,16 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var assDirectPlay by rememberPreference(userPreferences, UserPreferences.assDirectPlay)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_enable_libass)) },
+				trailingContent = { Checkbox(checked = assDirectPlay) },
+				onClick = { assDirectPlay = !assDirectPlay }
+			)
+		}
+
+		item {
 			var pgsDirectPlay by rememberPreference(userPreferences, UserPreferences.pgsDirectPlay)
 
 			ListButton(

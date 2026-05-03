@@ -101,6 +101,7 @@ androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "androidx-media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
 jellyfin-androidx-media3-ffmpeg-decoder = { module = "org.jellyfin.media3:media3-ffmpeg-decoder", version.ref = "jellyfin-androidx-media" }
+libass-kt = { module = "io.github.peerless2012:ass-kt", version.ref = "libass-android" }
 libass-media3 = { module = "io.github.peerless2012:ass-media", version.ref = "libass-android" }
 
 # Markwon
