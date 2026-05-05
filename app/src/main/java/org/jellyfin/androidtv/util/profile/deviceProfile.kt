@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.util.profile
 
-import android.content.Context
 import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -75,11 +74,10 @@ private fun UserPreferences.getMaxBitrate(): Int {
 }
 
 fun createDeviceProfile(
-	context: Context,
 	userPreferences: UserPreferences,
 	serverVersion: ServerVersion,
 ) = createDeviceProfile(
-	mediaTest = MediaCodecCapabilitiesTest(context),
+	mediaTest = MediaCodecCapabilitiesTest(),
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
@@ -90,7 +88,7 @@ fun createDeviceProfile(
 )
 
 fun createDeviceProfile(
-	mediaTest: MediaCodecCapabilitiesTest,
+	mediaTest: DeviceProfileCapabilities,
 	maxBitrate: Int,
 	isAC3Enabled: Boolean,
 	downMixAudio: Boolean,

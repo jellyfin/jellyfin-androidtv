@@ -84,7 +84,7 @@ fun createDeviceProfileReport(
 		appendLine("- Server compatibility: $serverVersion")
 		appendCodeBlock(
 			language = "json",
-			code = createDeviceProfile(context, userPreferences, serverVersion)
+			code = createDeviceProfile(userPreferences, serverVersion)
 				.let(ApiSerializer::encodeRequestBody)
 				?.let(::formatJson)
 		)
@@ -181,7 +181,7 @@ fun createDeviceProfileReport(
 	}
 
 	appendDetails("Codec HDR Support") {
-		val mediaTest = MediaCodecCapabilitiesTest(context)
+		val mediaTest = MediaCodecCapabilitiesTest()
 
 		val codecHDRSupport = buildMap<String, Map<HdrFormats, Boolean>> {
 			if (mediaTest.supportsAV1()) {

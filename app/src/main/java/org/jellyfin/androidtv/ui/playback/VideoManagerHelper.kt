@@ -5,8 +5,11 @@ import android.media.audiofx.DynamicsProcessing
 import android.media.audiofx.Equalizer
 import android.os.Build
 import androidx.core.net.toUri
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.playback.media3.exoplayer.mapping.getFfmpegSubtitleMimeType
 import org.jellyfin.sdk.model.api.MediaStream
+import org.jellyfin.sdk.model.api.MediaStreamType
+import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import timber.log.Timber
 
 /**
@@ -22,6 +25,19 @@ fun getSubtitleMediaStreamCodec(stream: MediaStream): String {
 
 	return urlExtensionMediaType ?: codecMediaType ?: urlSubtitleExtension ?: codec
 }
+
+fun usesLibassSubtitleRendering(codec: String?, deliveryMethod: SubtitleDeliveryMethod?): Boolean {
+	val isAssCodec = codec.equals(Codec.Subtitle.ASS, ignoreCase = true) ||
+		codec.equals(Codec.Subtitle.SSA, ignoreCase = true)
+
+	return isAssCodec && (
+		deliveryMethod == SubtitleDeliveryMethod.EMBED ||
+			deliveryMethod == SubtitleDeliveryMethod.EXTERNAL
+		)
+}
+
+fun MediaStream.usesLibassSubtitleRendering(): Boolean =
+	type == MediaStreamType.SUBTITLE && usesLibassSubtitleRendering(codec, deliveryMethod)
 
 private var audioEffect: AudioEffect? = null
 

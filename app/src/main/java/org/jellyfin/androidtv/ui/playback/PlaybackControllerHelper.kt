@@ -42,6 +42,7 @@ fun PlaybackController.getLiveTvChannel(
 @OptIn(UnstableApi::class)
 fun PlaybackController.disableDefaultSubtitles() {
 	Timber.i("Disabling non-baked subtitles")
+	mVideoManager.clearLibassSubtitles()
 
 	with(mVideoManager.mExoPlayer.trackSelector!!) {
 		parameters = parameters.buildUpon()

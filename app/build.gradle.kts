@@ -115,6 +115,7 @@ dependencies {
 	implementation(projects.design)
 	implementation(projects.playback.core)
 	implementation(projects.playback.jellyfin)
+	implementation(projects.playback.libass)
 	implementation(projects.playback.media3.exoplayer)
 	implementation(projects.playback.media3.session)
 	implementation(projects.preference)
@@ -163,7 +164,6 @@ dependencies {
 	implementation(libs.androidx.media3.exoplayer.hls)
 	implementation(libs.androidx.media3.ui)
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
-	implementation(libs.libass.media3)
 
 	// Markdown
 	implementation(libs.bundles.markwon)
