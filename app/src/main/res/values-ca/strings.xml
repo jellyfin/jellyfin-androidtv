@@ -651,4 +651,8 @@
     <string name="codec_level_warning">Deixar l\'opció automàtica pot generar problemes de reproducció si el dispositiu no suporta el nivell seleccionat.</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Incrusta sempre els subtítols al vídeo durant la transcodificació. Això pot arreglar els problemes de sincronització dels subtítols, però desactiva la seva personalització.</string>
     <string name="pref_burn_subtitles_when_transcoding">Incrusta els subtítols durant la transcodificació</string>
+    <string name="playback_buffer_length">Mida de la memòria intermèdia de reproducció</string>
+    <string name="playback_buffer_auto">Automàtic</string>
+    <string name="playback_buffer_large">Gran</string>
+    <string name="playback_buffer_extra_large">Extra gran</string>
 </resources>
