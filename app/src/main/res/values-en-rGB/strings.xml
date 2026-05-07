@@ -642,4 +642,8 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_buffer_length">Playback buffer size</string>
+    <string name="playback_buffer_auto">Auto</string>
+    <string name="playback_buffer_large">Large</string>
+    <string name="playback_buffer_extra_large">Extra large</string>
 </resources>
