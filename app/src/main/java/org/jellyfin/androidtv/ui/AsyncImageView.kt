@@ -76,7 +76,7 @@ class AsyncImageView @JvmOverloads constructor(
 
 			// Only show blurhash if an image is going to be loaded from the network
 			val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
-			if (url != null && blurHash != null && !isLowRamDevice) withContext(Dispatchers.IO) {
+			if (url != null && blurHash != null && !isLowRamDevice && aspectRatio > 0) withContext(Dispatchers.IO) {
 				val blurHashBitmap = BlurHashDecoder.decode(
 					blurHash,
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,

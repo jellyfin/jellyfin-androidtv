@@ -15,7 +15,7 @@ object BlurHashDecoder {
 	 * Decode a blur hash into a new bitmap.
 	 */
 	fun decode(blurHash: String?, width: Int, height: Int, punch: Float = 1f): Bitmap? {
-		if (blurHash == null || blurHash.length < 6) return null
+		if (blurHash == null || blurHash.length < 6 || width <= 0 || height <= 0) return null
 
 		val numCompEnc = decode83(blurHash, 0, 1)
 		val numCompX = (numCompEnc % 9) + 1
