@@ -26,7 +26,6 @@ class CustomSeekProvider(
 	private val imageLoader: ImageLoader,
 	private val api: ApiClient,
 	private val context: Context,
-	private val trickPlayEnabled: Boolean,
 	private val forwardTime: Long
 ) : PlaybackSeekDataProvider() {
 	private val imageRequests = mutableMapOf<Int, Disposable>()
@@ -68,7 +67,6 @@ class CustomSeekProvider(
 	}
 
 	override fun getThumbnail(index: Int, callback: ResultCallback) {
-		if (!trickPlayEnabled) return
 		if (index >= currentSeekPositions.size) return
 
 		val currentRequest = imageRequests[index]
@@ -80,8 +78,7 @@ class CustomSeekProvider(
 		if (item == null || mediaSource == null || mediaSourceId == null) return
 
 		val trickPlayResolutions = item.trickplay?.get(mediaSource.id)
-		val trickPlayInfo = trickPlayResolutions?.values?.firstOrNull()
-		if (trickPlayInfo == null) return
+		val trickPlayInfo = trickPlayResolutions?.values?.firstOrNull() ?: return
 
 		val currentTimeMs = currentSeekPositions[index]
 		val currentTile = currentTimeMs.floorDiv(trickPlayInfo.interval).toInt()

@@ -81,28 +81,6 @@ fun SettingsDeveloperScreen() {
 		}
 
 		item {
-			// Trick play
-			var trickPlayEnabled by rememberPreference(userPreferences, UserPreferences.trickPlayEnabled)
-			ListButton(
-				headingContent = { Text(stringResource(R.string.preference_enable_trickplay)) },
-				trailingContent = { Checkbox(checked = trickPlayEnabled) },
-				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
-				onClick = { trickPlayEnabled = !trickPlayEnabled }
-			)
-		}
-
-		item {
-			// FFmpeg audio extension
-			var preferExoPlayerFfmpeg by rememberPreference(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
-			ListButton(
-				headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },
-				trailingContent = { Checkbox(checked = preferExoPlayerFfmpeg) },
-				captionContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg_content)) },
-				onClick = { preferExoPlayerFfmpeg = !preferExoPlayerFfmpeg }
-			)
-		}
-
-		item {
 			// Image cache
 			val imageLoader = koinInject<ImageLoader>()
 			var imageCacheSize by remember { mutableLongStateOf(imageLoader.diskCache?.size ?: 0L) }
