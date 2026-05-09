@@ -8,7 +8,7 @@
     <string name="settings_title">Voorkeuren</string>
     <string name="chapters">Hoofdstukken</string>
     <string name="lbl_settings">Voorkeuren</string>
-    <string name="lbl_continue_watching">Verderkijken</string>
+    <string name="lbl_continue_watching">Verder kijken</string>
     <string name="lbl_next_up">Volgende</string>
     <string name="lbl_on_now">Nu bezig</string>
     <string name="lbl_views">Weergaven</string>
@@ -222,7 +222,7 @@
     <string name="pref_next_up_timeout_summary">Hoe lang te wachten voordat het volgende item wordt afgespeeld</string>
     <string name="pref_about_title">Over</string>
     <string name="pref_app_theme">App-thema</string>
-    <string name="pref_next_up_timeout_title">Tijdsduur timer \'als volgende\'</string>
+    <string name="pref_next_up_timeout_title">Tijdsduur timer \'Volgende\'</string>
     <string name="pref_theme_emerald">Klassiek smaragd</string>
     <string name="pref_theme_dark">Donker (standaard)</string>
     <string name="grid_direction_vertical">Verticaal</string>
@@ -351,8 +351,8 @@
     <string name="home_section_none">Geen</string>
     <string name="home_section_livetv">Live-tv</string>
     <string name="home_section_active_recordings">Actieve opnames</string>
-    <string name="home_section_resume_audio">Verderluisteren</string>
-    <string name="home_section_resume">Verderkijken</string>
+    <string name="home_section_resume_audio">Verder luisteren</string>
+    <string name="home_section_resume">Verder kijken</string>
     <string name="home_section_library">Mijn media</string>
     <string name="home_section_latest_media">Onlangs toegevoegde media</string>
     <string name="license_license">Licentie</string>
@@ -371,16 +371,16 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_subtitles_size">Lettergrootte</string>
     <string name="pref_subtitles_background_summary">Toon de ondertiteling met een zwarte achtergrond</string>
-    <string name="home_section_next_up">Als volgende</string>
+    <string name="home_section_next_up">Volgende</string>
     <string name="home_section_library_small">Mijn media (klein)</string>
     <string name="licenses_link_description">Bekijk de licenties van de bibliotheken die door de Jellyfin-app worden gebruikt</string>
     <string name="server_issue_unsupported_version">Server gebruikt niet-ondersteunde versie %1$s</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
-    <string name="pref_playback_description">Beeld, ondertiteling, live-tv, als volgende</string>
+    <string name="pref_playback_description">Beeld, ondertiteling, live-tv, volgende</string>
     <string name="pref_customization_description">Thema, startscherm, knoppen</string>
     <string name="server_issue_ssl_handshake">SSL-handshake mislukt</string>
     <string name="server_issue_timeout">Verbindingstime-out</string>
-    <string name="home_section_resume_book">Verderlezen</string>
+    <string name="home_section_resume_book">Verder lezen</string>
     <string name="pref_direct_stream_live_on">Transcoderen uitgeschakeld</string>
     <string name="pref_direct_stream_live_off">Transcoderen wanneer nodig</string>
     <string name="pref_audio">Geluid</string>
@@ -537,7 +537,7 @@
     <string name="app_notification_update_soon">Je zult je server moeten bijwerken van %1$s naar ten minste %2$s om de app te kunnen blijven gebruiken na de volgende update.</string>
     <string name="current_queue">Huidige wachtrij</string>
     <string name="pref_external_player">Externe speler gebruiken</string>
-    <string name="continue_listening">Verderluisteren</string>
+    <string name="continue_listening">Verder luisteren</string>
     <string name="past_24_hours">Afgelopen 24 uur</string>
     <string name="past_week">Afgelopen week</string>
     <string name="scheduled_in_next_24_hours">Komende 24 uur ingepland</string>
@@ -597,7 +597,7 @@
     <string name="pref_playback_media_segments">Mediasegmenten</string>
     <string name="pref_playback_prerolls">Voorfilmpjes</string>
     <string name="pref_playback_inactivity_prompt">Melding bij inactiviteit</string>
-    <string name="pref_playback_next_up">Als volgende</string>
+    <string name="pref_playback_next_up">Volgende</string>
     <string name="color_alpha">Transparantie</string>
     <string name="color_presets">Voorinstellingen</string>
     <string name="color_custom">Kleur aanpassen</string>
