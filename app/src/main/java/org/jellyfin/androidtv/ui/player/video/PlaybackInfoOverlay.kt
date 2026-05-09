@@ -56,7 +56,7 @@ fun PlaybackInfoOverlay(
 			InfoText("")
 			InfoText(stringResource(R.string.playback_info_video_title))
 			InfoText(stringResource(R.string.playback_info_codec, videoTrack.codec.uppercase()))
-			if (videoTrack.width>0&&videoTrack.height>0) {
+ 			if (videoTrack.width > 0 && videoTrack.height > 0) {
 				InfoText(stringResource(R.string.playback_info_resolution, videoTrack.width, videoTrack.height))
 			}
 			if (videoTrack.bitrate > 0) {
