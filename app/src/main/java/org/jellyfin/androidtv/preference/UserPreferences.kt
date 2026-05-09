@@ -7,10 +7,10 @@ import org.jellyfin.androidtv.preference.constant.AVCLevel
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.BackdropBehavior
+import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
-import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
@@ -239,11 +239,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Preferred behavior for player aspect ratio (zoom mode).
 		 */
 		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.FIT)
-
-		/**
-		 * Enable TrickPlay in legacy player user interface while seeking.
-		 */
-		var trickPlayEnabled = booleanPreference("trick_play_enabled", false)
 
 		/**
 		 * Enable libass.
