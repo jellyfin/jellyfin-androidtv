@@ -36,9 +36,9 @@ private fun getAudioTrack(stream: MediaStream) = MediaStreamAudioTrack(
 private fun getVideoTrack(stream: MediaStream) = MediaStreamVideoTrack(
 	codec = requireNotNull(stream.codec),
 	bitrate = stream.bitRate ?: 0,
-	width = stream.width,
-	height = stream.height,
-	videoRange = stream.videoRangeType?.name,
+	width = stream.width ?: 0,
+	height = stream.height ?: 0,
+	videoRange = stream.videoRangeType.name,
 )
 
 // TODO Implement Subtitle track type

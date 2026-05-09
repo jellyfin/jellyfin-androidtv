@@ -56,11 +56,11 @@ fun PlaybackInfoOverlay(
 			InfoText("")
 			InfoText(stringResource(R.string.playback_info_video_title))
 			InfoText(stringResource(R.string.playback_info_codec, videoTrack.codec.uppercase()))
-			if (videoTrack.width != null && videoTrack.height != null) {
-				InfoText(stringResource(R.string.playback_info_resolution_str, "${videoTrack.width}x${videoTrack.height}"))
+			if (videoTrack.width>0&&videoTrack.height>0) {
+				InfoText(stringResource(R.string.playback_info_resolution, videoTrack.width, videoTrack.height))
 			}
 			if (videoTrack.bitrate > 0) {
-				InfoText(stringResource(R.string.playback_info_bitrate_str, formatBitrate(videoTrack.bitrate)))
+				InfoText(stringResource(R.string.playback_info_bitrate, formatBitrate(videoTrack.bitrate)))
 			}
 			videoTrack.videoRange?.let { InfoText(stringResource(R.string.playback_info_video_range, it)) }
 		}
@@ -72,7 +72,7 @@ fun PlaybackInfoOverlay(
 			InfoText(stringResource(R.string.playback_info_codec, audioTrack.codec.uppercase()))
 			InfoText(stringResource(R.string.playback_info_channels, audioTrack.channels))
 			if (audioTrack.bitrate > 0) {
-				InfoText(stringResource(R.string.playback_info_bitrate_str, formatBitrate(audioTrack.bitrate)))
+				InfoText(stringResource(R.string.playback_info_bitrate, formatBitrate(audioTrack.bitrate)))
 			}
 		}
 

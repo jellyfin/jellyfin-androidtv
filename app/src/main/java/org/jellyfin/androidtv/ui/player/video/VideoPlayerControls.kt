@@ -279,6 +279,6 @@ fun PlaybackInfoButton(
 ) {
 	Icon(
 		imageVector = ImageVector.vectorResource(R.drawable.ic_info),
-		contentDescription = stringResource(R.string.lbl_playback_info),
+		contentDescription = stringResource(R.string.playback_info),
 	)
 }
