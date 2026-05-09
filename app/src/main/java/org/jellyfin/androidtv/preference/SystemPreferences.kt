@@ -64,6 +64,11 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		val dismissedBetaNotificationVersion = stringPreference("dismissed_beta_notification_version", "")
 
 		/**
+		 * Stores the interval for the photo player in seconds
+		 */
+		val photoPlayerInterval = intPreference("sys_pref_photo_player_interval", 8)
+
+		/**
 		 * Whether to disable the "UI mode" warning that shows when using the app on non TV devices.
 		 */
 		val disableUiModeWarning = booleanPreference("disable_ui_mode_warning", false)
