@@ -666,4 +666,18 @@
     <string name="playback_buffer_auto">Automatyczny</string>
     <string name="playback_buffer_large">Duży</string>
     <string name="playback_buffer_extra_large">Bardzo duży</string>
+    <string name="playback_info">Informacje o odtwarzaniu</string>
+    <string name="playback_info_play_method">Metoda odtwarzania: %1$s</string>
+    <string name="playback_info_direct_play">Odtwarzanie bezpośrednie</string>
+    <string name="playback_info_direct_stream">Strumień bezpośredni</string>
+    <string name="playback_info_transcoding">Transkodowanie</string>
+    <string name="playback_info_container">Kontener: %1$s</string>
+    <string name="playback_info_video_title">Wideo</string>
+    <string name="playback_info_audio_title">Audio</string>
+    <string name="playback_info_codec">Kodek: %1$s</string>
+    <string name="playback_info_resolution">Rozdzielczość: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Przepływność: %1$s</string>
+    <string name="playback_info_channels">Kanały: %1$d</string>
+    <string name="playback_info_video_range">Zakres wideo: %1$s</string>
+    <string name="playback_info_transcoding_note">Serwer transkoduje ten plik</string>
 </resources>
