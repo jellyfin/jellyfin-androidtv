@@ -579,4 +579,38 @@
     <string name="segment_type_intro">Εισαγωγές</string>
     <string name="segment_type_preview">Προεπισκοπήσεις</string>
     <string name="segment_type_recap">Ανακεφαλαιώσεις</string>
+    <string name="segment_type_outro">Επίλογοι</string>
+    <string name="segment_type_unknown">Άγνωστα αποσπάσματα</string>
+    <string name="skip_forward_length">Διάρκεια προώθησης προς τα εμπρός</string>
+    <string name="preference_enable_trickplay">Ενεργοποιήστε το trickplay στον αναπαραγωγέα βίντεο</string>
+    <string name="pref_subtitles_background_opacity">Αδιαφάνεια υποβάθρου υπότιτλων</string>
+    <string name="pref_troubleshooting">Επίλυση προβλημάτων</string>
+    <string name="pref_report_device_profile_title">Αναφορά δυνατοτήτων αναπαραγωγής στον εξυπηρετητή</string>
+    <string name="pref_report_device_profile_summary">Μεταφορτώστε ένα έγγραφο αντιμετώπισης προβλημάτων στον διακομιστή Jellyfin με πληροφορίες σχετικά με τις δυνατότητες αναπαραγωγής</string>
+    <string name="pref_report_device_profile_success">Το έγγραφο υποβλήθηκε ως %1$s</string>
+    <string name="pref_report_device_profile_failure">Αποτυχία υποβολής εγγράφου. Ο διακομιστής Jellyfin σας ενδέχεται να απαγορεύει τα αρχεία καταγραφής πελάτη.</string>
+    <string name="fast_forward">Γρήγορη αναπαραγωγή</string>
+    <string name="rewind">Επανακύλιση</string>
+    <string name="preference_enable_libass">Ενεργοποιήστε την προχωρημένη απόδοση υπότιτλων SubStation Alpha στον πελάτη</string>
+    <string name="preference_enable_pgs">Άμεση αναπαραγωγή υποτίτλων PGS</string>
+    <string name="speech_error_no_permission">Δεν έχετε άδεια χρήσης του μικροφώνου. Ενεργοποιήστε το στις ρυθμίσεις του συστήματος.</string>
+    <string name="speech_error_unavailable">Η αναγνώριση ομιλίας δεν είναι διαθέσιμη στη συσκευή σας.</string>
+    <string name="speech_error_unknown">Παρουσιάστηκε απρόσμενο σφάλμα κατά την αναγνώριση ομιλίας.</string>
+    <string name="still_watching_label">Συνεχίζετε να παρακολουθείτε;</string>
+    <string name="backdrop_behavior_with_blur">Φόντο με θόλωμα</string>
+    <string name="backdrop_behavior_without_blur">Φόντο χωρίς θόλωση</string>
+    <string name="user_avc_level">Επίπεδο H.264 (AVC)</string>
+    <string name="codec_level_warning">Η αλλαγή από το αυτόματο ενδέχεται να προκαλέσει προβλήματα αναπαραγωγής εάν η συσκευή σας δεν υποστηρίζει πραγματικά το επιλεγμένο επίπεδο.</string>
+    <string name="preference_codecs">Κωδικοποιητές μέσων</string>
+    <string name="preference_codecs_summary">Παράκαμψη δυνατοτήτων κωδικοποιητών που ανέφερε η συσκευή</string>
+    <string name="codec_level_manual">Χειροκίνητη παράκαμψη</string>
+    <plurals name="songs">
+        <item quantity="one">%1$s τραγούδια</item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s άλμπουμ</item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="dolby_vision_with_el">Dolby Vision με EL</string>
 </resources>

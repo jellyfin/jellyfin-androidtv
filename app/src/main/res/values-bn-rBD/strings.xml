@@ -119,4 +119,10 @@
     <string name="lbl_tune_to_channel">চ্যানেল টিউন করুন</string>
     <string name="msg_recording_now">রেকর্ডিং হচ্ছে</string>
     <string name="lbl_play_first_unwatched">প্রথম অদেখা চালু করুন</string>
+    <string name="lbl_home">হোম</string>
+    <string name="continue_listening">শোনা চালিয়ে যান</string>
+    <string name="lbl_exit">বাহির</string>
+    <string name="runtime_hours_minutes">%1$d ঘণ্টা %2$d মিনিট</string>
+    <string name="runtime_minutes">%1$d মিনিট</string>
+    <string name="lbl_runtime">রানটাইম</string>
 </resources>

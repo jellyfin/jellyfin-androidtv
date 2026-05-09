@@ -65,7 +65,7 @@ fun NowPlayingComposable(
 
 	val entry by rememberQueueEntry(playbackManager)
 	val item = entry?.run { baseItemFlow.collectAsState(baseItem) }?.value
-	val progress = rememberPlayerProgress(playbackManager)
+	val progress by rememberPlayerProgress(playbackManager)
 
 	LaunchedEffect(item == null) { onFocusableChange(item != null) }
 

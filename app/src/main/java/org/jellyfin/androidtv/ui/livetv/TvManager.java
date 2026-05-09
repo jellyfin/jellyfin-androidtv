@@ -114,7 +114,7 @@ public class TvManager {
             int i = 0;
             for (BaseItemDto channel : allChannels) {
                 channelIds[i++] = channel.getId();
-                if (channel.getId().equals(last.toString())) ndx = i;
+                if (channel.getId().equals(last)) ndx = i;
             }
         }
 

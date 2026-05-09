@@ -163,7 +163,7 @@ fun LyricsBox(
 	color: Color = LocalTextStyle.current.color,
 ) = Box(modifier) {
 	var totalHeight by remember { mutableFloatStateOf(0f) }
-	val progress = rememberPlayerProgress(!paused, currentTimestamp, duration)
+	val progress by rememberPlayerProgress(!paused, currentTimestamp, duration)
 
 	LyricsBoxContent(
 		items = lines,

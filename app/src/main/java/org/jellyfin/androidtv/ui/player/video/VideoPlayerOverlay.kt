@@ -1,9 +1,17 @@
 package org.jellyfin.androidtv.ui.player.video
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
 import org.jellyfin.androidtv.ui.player.base.PlayerOverlayLayout
 import org.jellyfin.androidtv.ui.player.base.rememberPlayerOverlayVisibility
@@ -21,24 +29,39 @@ fun VideoPlayerOverlay(
 	mediaToastRegistry: MediaToastRegistry,
 ) {
 	val visibilityState = rememberPlayerOverlayVisibility()
+	var showPlaybackInfo by remember { mutableStateOf(false) }
 
 	val entry by rememberQueueEntry(playbackManager)
 	val item = entry?.run { baseItemFlow.collectAsState(baseItem) }?.value
 
-	PlayerOverlayLayout(
-		visibilityState = visibilityState,
-		modifier = modifier,
-		header = {
-			VideoPlayerHeader(
-				item = item,
-			)
-		},
-		controls = {
-			VideoPlayerControls(
-				playbackManager = playbackManager,
-			)
-		},
-	)
+	Box(modifier = modifier) {
+		PlayerOverlayLayout(
+			visibilityState = visibilityState,
+			header = {
+				Column {
+					VideoPlayerHeader(
+						item = item,
+					)
+				}
+			},
+			controls = {
+				VideoPlayerControls(
+					playbackManager = playbackManager,
+					onPlaybackInfoClick = { showPlaybackInfo = !showPlaybackInfo },
+				)
+			},
+		)
 
-	MediaToasts(mediaToastRegistry)
+		// Playback info overlay - positioned below header area, always visible when enabled
+		if (showPlaybackInfo) {
+			PlaybackInfoOverlay(
+				playbackManager = playbackManager,
+				modifier = Modifier
+					.align(Alignment.TopStart)
+					.padding(start = 48.dp, top = 100.dp)
+			)
+		}
+
+		MediaToasts(mediaToastRegistry)
+	}
 }

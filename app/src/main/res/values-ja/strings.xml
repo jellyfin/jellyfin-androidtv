@@ -372,7 +372,7 @@
     <string name="msg_playback_not_allowed">現在再生は許可されていません</string>
     <string name="msg_playback_restricted">管理者は現在このアイテムの再生を制限しています</string>
     <string name="msg_live_tv_next">次の %1$d 時間を読み込みますか？</string>
-    <string name="pref_playback_advanced">高度な再生設定</string>
+    <string name="pref_playback_advanced">詳細な再生設定</string>
     <string name="server_issue_outdated_version">サーバーはサポートされていないバージョン %1$s を使用しています。%2$s 以降に更新してください</string>
     <string name="login_connect_to">%1$sに接続</string>
     <string name="login_quickconnect_step_1">1. 携帯電話またはウェブブラウザでJellyfinアプリを開き、アカウントでサインインします</string>
@@ -459,7 +459,7 @@
         <item quantity="other">%1$s 枚のアルバム</item>
     </plurals>
     <string name="lbl_on_now">放送中</string>
-    <string name="app_notification_update_soon">次のアップデート後にアプリを使用し続けるには、サーバーを %1$s から少なくとも %2$sにアップデートしてください。</string>
+    <string name="app_notification_update_soon">次回のアップデート後にアプリを使用し続けるには、サーバを %1$s から少なくとも %2$sにアップデートしてください。</string>
     <string name="prefer_exoplayer_ffmpeg">音声再生用FFmpeg</string>
     <string name="prefer_exoplayer_ffmpeg_content">platform codecsが利用可能の場合でも 音声decodeにFFmpegを使用する。</string>
     <string name="pref_troubleshooting">トラブルシューティング</string>
@@ -527,7 +527,7 @@
     <string name="lbl_starting_on_schedule_ending_after">定時開始し %1$s 遅く終了</string>
     <string name="live_tv_preferences">ライブTVオプション</string>
     <string name="pref_browsing">ブラウジング</string>
-    <string name="pref_screensaver_ageratingmax">最高齢レーティング</string>
+    <string name="pref_screensaver_ageratingmax">年齢制限の上限</string>
     <string name="lbl_exit">終了</string>
     <string name="pref_still_watching_behavior_title">無操作時タイムアウト表示</string>
     <string name="lbl_episode_number">E%1$d</string>
@@ -556,7 +556,7 @@
     <string name="segment_action_nothing">なにもしない</string>
     <string name="segment_type_commercial">CM</string>
     <string name="segment_type_outro">アウトロ</string>
-    <string name="segment_type_unknown">未知のセグメント</string>
+    <string name="segment_type_unknown">不明なセグメント</string>
     <string name="preference_enable_trickplay">動画プレーヤーでtrickplayを有効にする</string>
     <string name="pref_subtitles_background_opacity">字幕背景透明度</string>
     <string name="pref_report_device_profile_title">サーバーにプレイバック性能を報告</string>
@@ -606,4 +606,17 @@
     <string name="video_player_internal">内蔵ビデオプレーヤー</string>
     <string name="video_player_external">外部アプリ</string>
     <string name="playback_video_player_external_empty">デバイスに、ジェリーフィンの動画を開くことができるビデオプレーヤーアプリがインストールされていません。</string>
+    <string name="playback_buffer_auto">自動</string>
+    <string name="playback_buffer_length">再生バッファサイズ</string>
+    <string name="playback_buffer_large">大</string>
+    <string name="playback_buffer_extra_large">最大</string>
+    <string name="pref_burn_subtitles_when_transcoding">トランスコード時に字幕を書き込む</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">トランスコード時、常に字幕を動画に書き込みます。これにより字幕の同期問題は解決されますが、字幕のカスタマイズ機能は使用できなくなります。</string>
+    <string name="backdrop_behavior_with_blur">ぼかし効果のある背景</string>
+    <string name="backdrop_behavior_without_blur">ぼかし効果のない背景</string>
+    <string name="codec_level_warning">お使いのデバイスが選択したレベルに対応していない場合、自動設定から変更すると再生に問題が生じる可能性があります。</string>
+    <string name="preference_codecs">メディアコーデック</string>
+    <string name="preference_codecs_summary">デバイスが提供するコーデック機能を上書きする</string>
+    <string name="codec_level_manual">手動設定</string>
+    <string name="auto">自動</string>
 </resources>

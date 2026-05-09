@@ -188,23 +188,25 @@ fun InfoRowMediaDetails(mediaSource: MediaSourceInfo) {
 		}
 	}
 
-	// Video stream
-	val videoCodecName = when {
-		!videoStream?.videoDoViTitle.isNullOrBlank() -> stringResource(R.string.dolby_vision)
-		videoStream?.videoRangeType != null && videoStream.videoRangeType != VideoRangeType.SDR && videoStream.videoRangeType != VideoRangeType.UNKNOWN ->
-			videoStream.videoRangeType.serialName.uppercase()
-
-		else -> videoStream?.codec?.uppercase()
+	// Video range
+	val videoRangeNames: Set<String> = when (videoStream?.videoRangeType) {
+		VideoRangeType.SDR -> setOf(stringResource(R.string.sdr))
+		VideoRangeType.HDR10 -> setOf(stringResource(R.string.hdr10))
+		VideoRangeType.HDR10_PLUS -> setOf(stringResource(R.string.hdr10_plus))
+		VideoRangeType.HLG -> setOf(stringResource(R.string.hlg))
+		VideoRangeType.DOVI -> setOf(stringResource(R.string.dolby_vision))
+		VideoRangeType.DOVI_WITH_HDR10 -> setOf(stringResource(R.string.dolby_vision), stringResource(R.string.hdr10))
+		VideoRangeType.DOVI_WITH_HLG -> setOf(stringResource(R.string.dolby_vision), stringResource(R.string.hlg))
+		VideoRangeType.DOVI_WITH_SDR -> setOf(stringResource(R.string.dolby_vision), stringResource(R.string.sdr))
+		VideoRangeType.DOVI_WITH_EL -> setOf(stringResource(R.string.dolby_vision_with_el))
+		VideoRangeType.DOVI_WITH_HDR10_PLUS -> setOf(stringResource(R.string.dolby_vision), stringResource(R.string.hdr10_plus))
+		VideoRangeType.DOVI_WITH_ELHDR10_PLUS -> setOf(stringResource(R.string.dolby_vision_with_el), stringResource(R.string.hdr10_plus))
+		VideoRangeType.DOVI_INVALID -> setOf(stringResource(R.string.dolby_vision))
+		else -> emptySet()
 	}
-	if (!videoCodecName.isNullOrBlank()) {
-		InfoRowItem(
-			contentDescription = null,
-			colors = InfoRowColors.Default,
-		) {
-			Text(videoCodecName)
-		}
+	videoRangeNames.forEach {
+		InfoRowItem(contentDescription = null, colors = InfoRowColors.Default) { Text(it) }
 	}
-
 	// Audio stream
 	val audioCodecName = when {
 		audioStream?.profile?.contains("Dolby Atmos", ignoreCase = true) == true -> stringResource(R.string.dolby_atmos)

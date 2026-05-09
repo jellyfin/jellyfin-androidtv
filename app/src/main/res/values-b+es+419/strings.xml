@@ -586,4 +586,20 @@
     <string name="pref_subtitles_bold">Texto ancho</string>
     <string name="pref_subtitles_position">Desplazamiento desde la parte inferior</string>
     <string name="pref_report_device_profile_summary">Carga un documento para resolución de problemas al servidor Jellyfin con información acerca de las capacidades de reproducción.</string>
+    <string name="pref_report_device_profile_success">Documento enviado como %1$s</string>
+    <string name="pref_report_device_profile_failure">Falló el envío del documento. Puede que tu servidor Jellyfin prohíba los registros de los clientes.</string>
+    <string name="fast_forward">Avance rápido</string>
+    <string name="rewind">Atrasar</string>
+    <string name="preference_enable_libass">Habilitar la presentación de subtítulos Advanced SubStation Alpha en el cliente</string>
+    <string name="preference_enable_pgs">Reproducción directa de subtítulos PGS</string>
+    <string name="speech_error_no_permission">Sin permiso para el uso del micrófono. Por favor, habilítelo en la configuración del sistema.</string>
+    <string name="speech_error_unavailable">El reconocimiento de voz no está disponible en su dispositivo.</string>
+    <string name="speech_error_unknown">Se produjo un error inesperado durante el reconocimiento de voz.</string>
+    <string name="still_watching_label">¿Aún estás mirando?</string>
+    <string name="settings">Configuraciones</string>
+    <string name="settings_description">Cambia la app a tu gusto</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
+    <string name="pref_playback_next_up">Siguiente</string>
+    <string name="pref_playback_media_segments">Segmentos de medio</string>
+    <string name="pref_customization_subtitles">Subtítulos</string>
 </resources>

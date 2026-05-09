@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.background.AppBackground
@@ -47,6 +48,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.ProgressButton
 import org.jellyfin.androidtv.ui.composable.AsyncImage
+import org.jellyfin.androidtv.ui.composable.FixedMotionDurationScale
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -137,13 +139,15 @@ fun StillWatchingOverlay(
 	val api = koinInject<ApiClient>()
 	val endWatchingTimer = remember { Animatable(0f) }
 	LaunchedEffect(item) {
-		endWatchingTimer.animateTo(
-			targetValue = 1f,
-			animationSpec = tween(
-				durationMillis = TIMEOUT_IN_MS,
-				easing = LinearEasing,
-			),
-		)
+		withContext(FixedMotionDurationScale) {
+			endWatchingTimer.animateTo(
+				targetValue = 1f,
+				animationSpec = tween(
+					durationMillis = TIMEOUT_IN_MS,
+					easing = LinearEasing,
+				),
+			)
+		}
 		onCancel()
 	}
 

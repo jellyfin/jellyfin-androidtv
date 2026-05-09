@@ -56,7 +56,7 @@ class ImageHelper(
 	): String? {
 		val image = when {
 			preferParentThumb && item.type == BaseItemKind.EPISODE -> item.parentImages[ImageType.THUMB] ?: item.seriesThumbImage
-			item.type == BaseItemKind.SEASON -> item.seriesPrimaryImage
+			item.type == BaseItemKind.SEASON -> item.itemImages[ImageType.PRIMARY] ?: item.seriesPrimaryImage
 			item.type == BaseItemKind.PROGRAM && item.imageTags?.containsKey(ImageType.THUMB) == true -> item.itemImages[ImageType.THUMB]
 			item.type == BaseItemKind.AUDIO -> item.albumPrimaryImage
 			else -> null

@@ -28,7 +28,7 @@ import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.LyricsDtoBox
 import org.jellyfin.androidtv.ui.composable.modifier.fadingEdges
-import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
+import org.jellyfin.androidtv.ui.composable.rememberPlayerPositionInfo
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
 import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
 import org.jellyfin.androidtv.util.apiclient.albumPrimaryImage
@@ -107,15 +107,12 @@ fun initializePreviewView(
 		// Display lyrics overlay
 		if (lyrics != null) {
 			val playState by remember { playbackManager.state.playState }.collectAsState()
-
-			// Using the progress animation causes the layout to recompose, which we need for synced lyrics to work
-			// we don't actually use the animation value here
-			rememberPlayerProgress(playbackManager)
+			val positionInfo by rememberPlayerPositionInfo(playbackManager)
 
 			LyricsDtoBox(
 				lyricDto = lyrics,
-				currentTimestamp = playbackManager.state.positionInfo.active,
-				duration = playbackManager.state.positionInfo.duration,
+				currentTimestamp = positionInfo.active,
+				duration = positionInfo.duration,
 				paused = playState != PlayState.PLAYING,
 				fontSize = 12.sp,
 				color = Color.White,

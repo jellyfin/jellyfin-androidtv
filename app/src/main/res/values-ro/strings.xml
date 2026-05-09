@@ -626,4 +626,6 @@
     <string name="video_player_internal">Playyer de Video inclus</string>
     <string name="video_player_external">Aplicatie Externa</string>
     <string name="playback_video_player_external_empty">Nu ai o aplicatie de redare de video care poate sa deschida videouri din Jellyfin.</string>
+    <string name="backdrop_behavior_with_blur">Fundal cu blur</string>
+    <string name="backdrop_behavior_without_blur">Fundal fără blur</string>
 </resources>

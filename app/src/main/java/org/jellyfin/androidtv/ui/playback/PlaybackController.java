@@ -85,6 +85,23 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     protected VideoOptions mCurrentOptions;
     private int mDefaultAudioIndex = -1;
     protected boolean burningSubs = false;
+
+    // The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
+    // is set, so we need to assume subs are burned in when transcoding with the option enabled.
+    protected boolean shouldBurnInSubtitles(PlayMethod playMethod) {
+        return userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode())
+                && playMethod == PlayMethod.TRANSCODE;
+    }
+
+    private void updateBurningSubs(StreamInfo response) {
+        if (response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.DROP) {
+            burningSubs = false;
+            return;
+        }
+
+        burningSubs = response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE
+                || shouldBurnInSubtitles(response.getPlayMethod());
+    }
     private float mRequestedPlaybackSpeed = -1.0f;
 
     private Runnable mReportLoop;
@@ -187,7 +204,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             } else {
                 // Prefer the media source with the same id as the item
                 for (MediaSourceInfo mediaSource : mediaSources) {
-                    if (UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()).equals(item.getId())) {
+                    if (item.getId().equals(UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()))) {
                         return mediaSource;
                     }
                 }
@@ -502,6 +519,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
+        internalOptions.setAlwaysBurnInSubtitleWhenTranscoding(userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode()));
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
         if (mCurrentOptions != null) {
@@ -564,7 +582,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     if (mVideoManager == null)
                         return;
                     mCurrentOptions = internalOptions;
-                    if (internalOptions.getSubtitleStreamIndex() == null) burningSubs = internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE;
+                    updateBurningSubs(internalResponse);
                     startItem(item, position, internalResponse);
                 }
 
@@ -625,8 +643,27 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info
-        mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : null);
+        // get subtitle info - prefer saved language preference over server default
+        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
+        if (lastSubtitleLanguage != null) {
+            if (lastSubtitleLanguage.isEmpty()) {
+                // User explicitly disabled subtitles
+                mCurrentOptions.setSubtitleStreamIndex(null);
+            } else if (response.getMediaSource().getMediaStreams() != null) {
+                // Find subtitle stream matching saved language
+                Integer matchingIndex = null;
+                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
+                        matchingIndex = stream.getIndex();
+                        break;
+                    }
+                }
+                mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
+            }
+        } else {
+            // No saved preference, use server default
+            mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
+        }
         setDefaultAudioIndex(response);
         Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
         Timber.i("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
@@ -976,6 +1013,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 public void onResponse(StreamInfo response) {
                     if (!isActive()) return;
                     mCurrentStreamInfo = response;
+
+                    updateBurningSubs(response);
+
                     if (mVideoManager != null) {
                         mVideoManager.setMediaStreamInfo(api.getValue(), response);
                         mVideoManager.start();

@@ -629,4 +629,22 @@
     <string name="filters">Filtros</string>
     <string name="backdrop_behavior_with_blur">Fondo con desenfoque</string>
     <string name="backdrop_behavior_without_blur">Fondo sin desenfoque</string>
+    <string name="codec_level_warning">Cambiar el nivel de auto puede causar problemas de reproducción si tu dispositivo no soporta el nivel seleccionado.</string>
+    <string name="codec_level_manual">Sobreescritura manual</string>
+    <string name="user_avc_level">Nivel H.264 (AVC)</string>
+    <string name="user_hevc_level">Nivel H.265 (HEVC)</string>
+    <string name="preference_codecs">Códecs multimedia</string>
+    <string name="preference_codecs_summary">Reemplazar las capacidades de códecs indicadas por el dispositivo</string>
+    <string name="codec_level_6_2">Nivel 6.2</string>
+    <string name="codec_level_6_1">Nivel 6.1</string>
+    <string name="codec_level_6_0">Nivel 6.0</string>
+    <string name="codec_level_5_2">Nivel 5.2</string>
+    <string name="codec_level_5_1">Nivel 5.1</string>
+    <string name="codec_level_5_0">Nivel 5.0</string>
+    <string name="codec_level_4_2">Nivel 4.2</string>
+    <string name="codec_level_4_1">Nivel 4.1</string>
+    <string name="codec_level_4_0">Nivel 4.0</string>
+    <string name="auto">Automático</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Incrustar siempre los subtítulos en el vídeo durante la transcodificación. Esto puede arreglar los problemas de sincronización de subtítulos pero desactiva su personalización.</string>
+    <string name="pref_burn_subtitles_when_transcoding">Incrustar subtítulos durante la transcodificación</string>
 </resources>

@@ -23,7 +23,7 @@ fun PlayerSeekbar(
 ) {
 	val playState by playbackManager.state.playState.collectAsState()
 	val positionInfo = playbackManager.state.positionInfo
-	val progress = rememberPlayerProgress(
+	val progress by rememberPlayerProgress(
 		playing = playState == PlayState.PLAYING,
 		active = positionInfo.active,
 		duration = positionInfo.duration,

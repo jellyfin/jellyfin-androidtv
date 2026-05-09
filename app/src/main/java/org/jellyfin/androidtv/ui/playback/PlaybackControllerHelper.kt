@@ -59,6 +59,16 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	// Already using this subtitle index
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
 
+	// Save subtitle language preference for restoration after NextUp screen
+	val videoQueueManager by fragment.inject<VideoQueueManager>()
+	if (index == -1) {
+		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
+		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
+	} else {
+		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
+		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+	}
+
 	// Disable subtitles
 	if (index == -1) {
 		mCurrentOptions.subtitleStreamIndex = -1
@@ -89,8 +99,8 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 			return setSubtitleIndex(-1)
 		}
 
-		when (stream.deliveryMethod) {
-			SubtitleDeliveryMethod.ENCODE -> {
+		when {
+			stream.deliveryMethod == SubtitleDeliveryMethod.ENCODE || shouldBurnInSubtitles(currentStreamInfo.playMethod) -> {
 				Timber.i("Restarting playback for subtitle baking")
 
 				stop()
@@ -99,9 +109,9 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 				play(mCurrentPosition, index)
 			}
 
-			SubtitleDeliveryMethod.EXTERNAL,
-			SubtitleDeliveryMethod.EMBED,
-			SubtitleDeliveryMethod.HLS -> {
+			stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL ||
+				stream.deliveryMethod == SubtitleDeliveryMethod.EMBED ||
+				stream.deliveryMethod == SubtitleDeliveryMethod.HLS -> {
 				// External subtitles need to be resolved differently
 				val group = if (stream.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL) {
 					mVideoManager.mExoPlayer.currentTracks.groups.firstOrNull { group ->
@@ -145,7 +155,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 				}
 			}
 
-			SubtitleDeliveryMethod.DROP, null -> {
+			stream.deliveryMethod == SubtitleDeliveryMethod.DROP || stream.deliveryMethod == null -> {
 				Timber.i("Dropping subtitles")
 				setSubtitleIndex(-1)
 			}
