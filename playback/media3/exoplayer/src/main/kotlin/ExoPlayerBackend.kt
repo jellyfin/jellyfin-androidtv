@@ -5,11 +5,13 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.TrackGroup
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.VideoSize
@@ -242,7 +244,7 @@ class ExoPlayerBackend(
 			// Add external subtitles
 			if (stream.externalSubtitles.isNotEmpty()) {
 				setSubtitleConfigurations(stream.externalSubtitles.map { sub ->
-					MediaItem.SubtitleConfiguration.Builder(android.net.Uri.parse(sub.url))
+					MediaItem.SubtitleConfiguration.Builder(sub.url.toUri())
 						.setId("external:${sub.index}")
 						.setMimeType(sub.mimeType)
 						.setLanguage(sub.language)
@@ -406,7 +408,17 @@ class ExoPlayerBackend(
 			return true
 		}
 
-		// Find the track by our index
+		val match = findSupportedTrack(exoTrackType, index)
+		if (match == null) {
+			Timber.w("Could not find track with index $index")
+			return false
+		}
+
+		val (group, trackIndex) = match
+		return applyTrackOverride(exoTrackType, group, trackIndex)
+	}
+
+	private fun findSupportedTrack(exoTrackType: Int, index: Int): Pair<TrackGroup, Int>? {
 		var currentIndex = 0
 		for (groupInfo in exoPlayer.currentTracks.groups) {
 			if (groupInfo.type != exoTrackType) continue
@@ -414,25 +426,22 @@ class ExoPlayerBackend(
 			val group = groupInfo.mediaTrackGroup
 			for (i in 0 until group.length) {
 				if (!groupInfo.isTrackSupported(i)) continue
-
-				if (currentIndex == index) {
-					return try {
-						val params = exoPlayer.trackSelectionParameters.buildUpon()
-							.setTrackTypeDisabled(exoTrackType, false)
-							.setOverrideForType(TrackSelectionOverride(group, i))
-							.build()
-						exoPlayer.trackSelectionParameters = params
-						true
-					} catch (e: Exception) {
-						Timber.w(e, "Error setting track selection")
-						false
-					}
-				}
+				if (currentIndex == index) return group to i
 				currentIndex++
 			}
 		}
+		return null
+	}
 
-		Timber.w("Could not find track with index $index")
-		return false
+	private fun applyTrackOverride(exoTrackType: Int, group: TrackGroup, trackIndex: Int): Boolean = try {
+		val params = exoPlayer.trackSelectionParameters.buildUpon()
+			.setTrackTypeDisabled(exoTrackType, false)
+			.setOverrideForType(TrackSelectionOverride(group, trackIndex))
+			.build()
+		exoPlayer.trackSelectionParameters = params
+		true
+	} catch (e: IllegalArgumentException) {
+		Timber.w(e, "Error setting track selection")
+		false
 	}
 }

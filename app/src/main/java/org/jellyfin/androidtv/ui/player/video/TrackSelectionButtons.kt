@@ -32,6 +32,8 @@ import org.jellyfin.playback.core.backend.PlayerTrack
 import org.jellyfin.playback.core.backend.TrackType
 import java.util.Locale
 
+private val POPOVER_VERTICAL_OFFSET = 5.dp
+
 @Composable
 fun AudioTrackButton(
 	playbackManager: PlaybackManager,
@@ -120,6 +122,7 @@ fun SubtitleTrackButton(
 }
 
 @Composable
+@Suppress("LongParameterList")
 private fun TrackSelectionPopover(
 	expanded: Boolean,
 	onDismissRequest: () -> Unit,
@@ -132,7 +135,7 @@ private fun TrackSelectionPopover(
 		expanded = expanded,
 		onDismissRequest = onDismissRequest,
 		alignment = Alignment.TopCenter,
-		offset = DpOffset(0.dp, (-5).dp),
+		offset = DpOffset(0.dp, -POPOVER_VERTICAL_OFFSET),
 	) {
 		Column(
 			modifier = Modifier
@@ -200,11 +203,7 @@ private fun TrackItem(
 private val PlayerTrack.displayLabel: String
 	get() {
 		val languageName = language?.let { code ->
-			try {
-				Locale.forLanguageTag(code).displayLanguage.takeIf { it.isNotBlank() && it != code }
-			} catch (e: Exception) {
-				null
-			}
+			Locale.forLanguageTag(code).displayLanguage.takeIf { it.isNotBlank() && it != code }
 		}
 
 		return buildString {
