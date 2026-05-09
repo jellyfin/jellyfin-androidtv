@@ -646,4 +646,18 @@
     <string name="playback_buffer_extra_large">Extra groot</string>
     <string name="playback_buffer_length">Afspeelbuffergrootte</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Ondertiteling altijd inbranden in de video tijdens het transcoderen. Dit kan synchronisatieproblemen oplossen, maar maakt het aanpassen van ondertiteling onmogelijk.</string>
+    <string name="playback_info">Afspeelinformatie</string>
+    <string name="playback_info_play_method">Afspeelmethode: %1$s</string>
+    <string name="playback_info_direct_play">Direct afspelen</string>
+    <string name="playback_info_direct_stream">Direct streamen</string>
+    <string name="playback_info_transcoding">Transcoderen</string>
+    <string name="playback_info_container">Container: %1$s</string>
+    <string name="playback_info_video_title">Beeld</string>
+    <string name="playback_info_audio_title">Geluid</string>
+    <string name="playback_info_codec">Codec: %1$s</string>
+    <string name="playback_info_resolution">Resolutie: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Bitsnelheid: %1$s</string>
+    <string name="playback_info_channels">Kanalen: %1$d</string>
+    <string name="playback_info_video_range">Beeldbereik: %1$s</string>
+    <string name="playback_info_transcoding_note">Server transcodeert dit bestand</string>
 </resources>
