@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
-import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.form.RangeControl
@@ -245,7 +244,7 @@ fun SettingsPlaybackAdvancedScreen() {
 			var audioNightMode by rememberPreference(userPreferences, UserPreferences.audioNightMode)
 
 			ListButton(
-				headingContent = { Text(stringResource(R.string.lbl_direct_stream_live)) },
+				headingContent = { Text(stringResource(R.string.pref_audio_night_mode)) },
 				trailingContent = { Checkbox(checked = audioNightMode) },
 				onClick = { audioNightMode = !audioNightMode }
 			)
@@ -258,6 +257,16 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.lbl_bitstream_ac3)) },
 				trailingContent = { Checkbox(checked = ac3Enabled) },
 				onClick = { ac3Enabled = !ac3Enabled }
+			)
+		}
+
+		item {
+			var preferExoPlayerFfmpeg by rememberPreference(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
+			ListButton(
+				headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },
+				trailingContent = { Checkbox(checked = preferExoPlayerFfmpeg) },
+				captionContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg_content)) },
+				onClick = { preferExoPlayerFfmpeg = !preferExoPlayerFfmpeg }
 			)
 		}
 
