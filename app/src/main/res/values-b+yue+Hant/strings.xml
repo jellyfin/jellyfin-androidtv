@@ -634,4 +634,18 @@
     <string name="playback_buffer_auto">自動</string>
     <string name="playback_buffer_large">大</string>
     <string name="playback_buffer_extra_large">特大</string>
+    <string name="playback_info">播放資訊</string>
+    <string name="playback_info_play_method">播放方式：%1$s</string>
+    <string name="playback_info_direct_play">直接播放</string>
+    <string name="playback_info_direct_stream">直接串流</string>
+    <string name="playback_info_transcoding">轉碼中</string>
+    <string name="playback_info_container">封裝格式：%1$s</string>
+    <string name="playback_info_video_title">影片</string>
+    <string name="playback_info_audio_title">音訊</string>
+    <string name="playback_info_codec">編碼：%1$s</string>
+    <string name="playback_info_resolution">解像度：%1$dx%2$d</string>
+    <string name="playback_info_bitrate">位元率：%1$s</string>
+    <string name="playback_info_channels">聲道：%1$d</string>
+    <string name="playback_info_video_range">動態範圍：%1$s</string>
+    <string name="playback_info_transcoding_note">伺服器正喺度轉碼緊呢個檔案</string>
 </resources>
