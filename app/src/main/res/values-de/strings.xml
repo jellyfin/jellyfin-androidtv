@@ -646,4 +646,12 @@
     <string name="playback_buffer_extra_large">Sehr groß</string>
     <string name="pref_burn_subtitles_when_transcoding">Untertitel beim Transkodieren einbrennen</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Untertitel beim Transkodieren immer einbrennen. Dies kann Fehler bei der Untertitel-Synchronisation beheben, aber verhindert individualisierte Untertitel.</string>
+    <string name="playback_info_transcoding_note">Server transkodiert diese Datei</string>
+    <string name="playback_info_channels">Kanäle: %1$d</string>
+    <string name="playback_info_bitrate">Bitrate: %1$s</string>
+    <string name="playback_info_resolution">Auflösung: %1$dx%2$d</string>
+    <string name="playback_info_codec">Codec: %1$s</string>
+    <string name="playback_info_audio_title">Audio</string>
+    <string name="playback_info_transcoding">Transkodierung</string>
+    <string name="playback_info_container">Container: %1$s</string>
 </resources>
