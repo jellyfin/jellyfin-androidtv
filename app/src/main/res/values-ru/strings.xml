@@ -660,4 +660,24 @@
     <string name="codec_level_warning">Изменение с \"Авто\" может вызвать проблемы с воспроизведением, если ваше устройство на самом деле не поддерживает выбранный уровень.</string>
     <string name="user_hevc_level">Уровень H.265 (HEVC)</string>
     <string name="user_avc_level">Уровень H.264 (AVC)</string>
+    <string name="playback_info">Информация о воспроизведении</string>
+    <string name="playback_info_play_method">Метод воспроизведения: %1$s</string>
+    <string name="playback_info_direct_play">Прямое воспроизведение</string>
+    <string name="playback_info_direct_stream">Прямая трансляция</string>
+    <string name="playback_info_transcoding">Перекодирование</string>
+    <string name="playback_info_container">Контейнер: %1$s</string>
+    <string name="playback_info_video_title">Видео</string>
+    <string name="playback_info_audio_title">Аудио</string>
+    <string name="playback_info_codec">Кодек: %1$s</string>
+    <string name="playback_info_resolution">Разрешение: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Битрейт: %1$s</string>
+    <string name="playback_info_channels">Каналы: %1$d</string>
+    <string name="playback_info_video_range">Диапазон видео: %1$s</string>
+    <string name="playback_info_transcoding_note">Сервер перекодирует файл</string>
+    <string name="playback_buffer_length">Размер буфера воспроизведения</string>
+    <string name="playback_buffer_auto">Авто</string>
+    <string name="playback_buffer_large">Большой</string>
+    <string name="playback_buffer_extra_large">Очень большой</string>
+    <string name="pref_burn_subtitles_when_transcoding">Вшивать субтитры при перекодировании</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Всегда вшивать субтитры в видео при перекодировании. Это может помочь исправить проблемы с синхронизацией субтитров, но отключит стилизацию субтитров.</string>
 </resources>
