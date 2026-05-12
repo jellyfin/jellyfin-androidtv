@@ -56,6 +56,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_MX_SUBS = "subs"
 		private const val API_MX_SUBS_NAME = "subs.name"
 		private const val API_MX_SUBS_FILENAME = "subs.filename"
+		private const val API_MX_SUBS_ENABLE = "subs.enable"
 		private const val API_MX_RESULT_ID = "com.mxtech.intent.result.VIEW"
 		private const val API_MX_RESULT_END_BY = "end_by"
 		private const val API_MX_RESULT_END_BY_PLAYBACK_COMPLETION = "playback_completion"
@@ -149,6 +150,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 				routeFormat = format,
 			)
 		}.toTypedArray()
+		var subtitleUrlsToUris = subtitleUrls.map { it.toUri() }.toTypedArray();
 		val subtitleNames = externalSubtitles.map { it.displayTitle ?: it.title.orEmpty() }.toTypedArray()
 		val subtitleLanguages = externalSubtitles.map { it.language.orEmpty() }.toTypedArray()
 
@@ -178,9 +180,10 @@ class ExternalPlayerActivity : FragmentActivity() {
 			putExtra(API_MX_TITLE, title)
 			putExtra(API_MX_FILENAME, fileName)
 			putExtra(API_MX_SECURE_URI, true)
-			putExtra(API_MX_SUBS, subtitleUrls)
+			putExtra(API_MX_SUBS, subtitleUrlsToUris)
 			putExtra(API_MX_SUBS_NAME, subtitleNames)
 			putExtra(API_MX_SUBS_FILENAME, subtitleLanguages)
+			if (subtitleUrlsToUris.isNotEmpty()) putExtra(API_MX_SUBS_ENABLE, arrayOf(subtitleUrlsToUris.first()))
 
 			if (subtitleUrls.isNotEmpty()) putExtra(API_VLC_SUBTITLES, subtitleUrls.first().toString())
 
