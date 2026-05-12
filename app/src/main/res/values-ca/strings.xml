@@ -655,4 +655,18 @@
     <string name="playback_buffer_auto">Automàtic</string>
     <string name="playback_buffer_large">Gran</string>
     <string name="playback_buffer_extra_large">Extra gran</string>
+    <string name="playback_info_transcoding_note">El servidor està transcodificant aquest fitxer</string>
+    <string name="playback_info_video_range">Rang de vídeo: %1$s</string>
+    <string name="playback_info_channels">Canals: %1$d</string>
+    <string name="playback_info_bitrate">Taxa de bits: %1$s</string>
+    <string name="playback_info_resolution">Resolució: %1$dx%2$d</string>
+    <string name="playback_info_codec">Còdec: %1$s</string>
+    <string name="playback_info_audio_title">Àudio</string>
+    <string name="playback_info_video_title">Vídeo</string>
+    <string name="playback_info_container">Contenidor: %1$s</string>
+    <string name="playback_info_transcoding">S\'està transcodificant</string>
+    <string name="playback_info_direct_stream">Emissió directa</string>
+    <string name="playback_info_direct_play">Reproducció directa</string>
+    <string name="playback_info_play_method">Mètode de reproducció: €1$s</string>
+    <string name="playback_info">Informació de reproducció</string>
 </resources>
