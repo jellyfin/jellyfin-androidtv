@@ -544,8 +544,8 @@
     <string name="prefer_exoplayer_ffmpeg">FFmpeg hanglejátszás előnyben részesítése</string>
     <string name="prefer_exoplayer_ffmpeg_content">Használja az FFmpeg-et a hang dekódolásához, még akkor is, ha elérhetőek a platform kodekek.</string>
     <string name="lbl_subtitle_text_color">Felirat szövegének színe</string>
-    <string name="lbl_subtitle_background_color">Felirat háttérszíne</string>
-    <string name="lbl_subtitle_text_stroke_color">Felirat körvonal színe</string>
+    <string name="lbl_subtitle_background_color">Háttérszín</string>
+    <string name="lbl_subtitle_text_stroke_color">Körvonal színe</string>
     <string name="video_start_delay">Videó indítás késleltetése</string>
     <string name="default_video_zoom">Alapértelmezett nagyítási mód</string>
     <string name="segment_type_preview">Előnézetek</string>
@@ -587,4 +587,21 @@
     <string name="still_watching_label">Még mindig figyel?</string>
     <string name="pref_subtitles_position">Alsó eltolás</string>
     <string name="settings">Beállítások</string>
+    <string name="playback_info">Lejátszási adatok</string>
+    <string name="playback_info_play_method">Lejátszási módszer: %1$s</string>
+    <string name="playback_info_direct_play">Közvetlen lejátszás</string>
+    <string name="playback_info_direct_stream">Közvetlen streamelés</string>
+    <string name="playback_info_transcoding">Átkódolás</string>
+    <string name="playback_info_container">Tároló: %1$s</string>
+    <string name="playback_info_video_title">Videó</string>
+    <string name="playback_info_audio_title">Hang</string>
+    <string name="playback_info_codec">Kodek: %1$s</string>
+    <string name="playback_info_resolution">Felbontás: %1$d%2$d</string>
+    <string name="playback_info_bitrate">Bitráta: %1$s</string>
+    <string name="playback_info_channels">Csatornák: %1$d</string>
+    <string name="playback_info_video_range">Dinamikatartomány: %1$s</string>
+    <string name="playback_info_transcoding_note">A szerver transzkódolja ezt a fájlt</string>
+    <string name="playback_buffer_length">Lejátszás puffer méret</string>
+    <string name="playback_buffer_auto">Automatikus</string>
+    <string name="playback_buffer_large">Nagy</string>
 </resources>
