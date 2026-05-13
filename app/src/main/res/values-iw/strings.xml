@@ -658,4 +658,18 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_info">פרטי ניגון</string>
+    <string name="playback_info_play_method">שיטת ניגון: %1$s</string>
+    <string name="playback_info_direct_play">ניגון־ישיר</string>
+    <string name="playback_info_direct_stream">הזרמה־ישירה</string>
+    <string name="playback_info_transcoding">ממיר קידוד</string>
+    <string name="playback_info_container">מעטפת: %1$s</string>
+    <string name="playback_info_video_title">וידאו</string>
+    <string name="playback_info_audio_title">שמע</string>
+    <string name="playback_info_codec">קודק: %1$s</string>
+    <string name="playback_info_resolution">רזולוציה: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">קצב־סיביות: %1$s</string>
+    <string name="playback_info_channels">ערוצים: %1$d</string>
+    <string name="playback_info_video_range">טווח הוידאו: %1$s</string>
+    <string name="playback_info_transcoding_note">השרת ממיר קידוד של קובץ זה</string>
 </resources>
