@@ -684,4 +684,13 @@
     <string name="playback_buffer_auto">تلقائي</string>
     <string name="playback_buffer_large">كبير</string>
     <string name="playback_buffer_extra_large">كبير جدًا</string>
+    <string name="playback_info">معلومات التشغيل</string>
+    <string name="playback_info_play_method">طريقة التشغيل: %1$s</string>
+    <string name="playback_info_direct_play">تشغيل مباشر</string>
+    <string name="playback_info_direct_stream">بث مباشر</string>
+    <string name="playback_info_transcoding">تشفير</string>
+    <string name="playback_info_container">حاوية: %1$s</string>
+    <string name="playback_info_video_title">فيديو</string>
+    <string name="playback_info_audio_title">صوت</string>
+    <string name="playback_info_codec">ترميز: %1$s</string>
 </resources>
