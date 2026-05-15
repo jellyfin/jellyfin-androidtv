@@ -656,8 +656,8 @@
     <string name="playback_info_container">Container: %1$s</string>
     <string name="playback_info">Wiedergabeinformationen</string>
     <string name="playback_info_play_method">Wiedergabemethode: %1$s</string>
-    <string name="playback_info_direct_play">Directplay</string>
-    <string name="playback_info_direct_stream">Directstream</string>
+    <string name="playback_info_direct_play">Direkte Wiedergabe</string>
+    <string name="playback_info_direct_stream">Direktes Streaming</string>
     <string name="playback_info_video_title">Video</string>
     <string name="playback_info_video_range">Videosignalbereich: %1$s</string>
 </resources>
