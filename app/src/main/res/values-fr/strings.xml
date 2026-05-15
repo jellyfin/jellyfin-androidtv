@@ -622,7 +622,7 @@
     <string name="color_presets">Couleurs par défaut</string>
     <string name="color_custom">Personnaliser les couleurs</string>
     <string name="color_alpha">Transparence</string>
-    <string name="playback_video_player">Lecteur Vidéo</string>
+    <string name="playback_video_player">Lecteur vidéo</string>
     <string name="video_player_internal">Lecteur vidéo intégré</string>
     <string name="video_player_external">Lecteur vidéo externe</string>
     <string name="playback_video_player_external_empty">Vous n\'avez aucune application de lecture vidéo installée sur votre appareil qui peut lire les vidéos de Jellyfin.</string>
@@ -652,4 +652,7 @@
     <string name="hdr10">HDR10</string>
     <string name="pref_burn_subtitles_when_transcoding">Incrustation des sous-titres lors du transcodage</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Toujours incorporer les sous-titres à la vidéo lors du transcodage. Cela peut résoudre les problèmes de synchronisation, mais désactive la personnalisation des sous-titres.</string>
+    <string name="playback_info">Information de lecture</string>
+    <string name="playback_info_play_method">Méthode de lecture : %1$s</string>
+    <string name="playback_info_direct_play">Lecture directe</string>
 </resources>
