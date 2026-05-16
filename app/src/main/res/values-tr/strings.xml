@@ -646,4 +646,18 @@
     <string name="playback_buffer_auto">Otomatik</string>
     <string name="playback_buffer_large">Büyük</string>
     <string name="playback_buffer_extra_large">Çok büyük</string>
+    <string name="playback_info">Oynatma bilgisi</string>
+    <string name="playback_info_play_method">Oynatma yöntemi: %1$s</string>
+    <string name="playback_info_direct_play">Doğrudan oynatma</string>
+    <string name="playback_info_direct_stream">Doğrudan akış</string>
+    <string name="playback_info_transcoding">Dönüştürülüyor</string>
+    <string name="playback_info_container">Kapsayıcı: %1$s</string>
+    <string name="playback_info_video_title">Video</string>
+    <string name="playback_info_audio_title">Ses</string>
+    <string name="playback_info_codec">Codec: %1$s</string>
+    <string name="playback_info_resolution">Çözünürlük: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Bit hızı: %1$s</string>
+    <string name="playback_info_channels">Kanal sayısı: %1$d</string>
+    <string name="playback_info_video_range">Video aralığı: %1$s</string>
+    <string name="playback_info_transcoding_note">Sunucu bu dosyayı dönüştürüyor</string>
 </resources>
