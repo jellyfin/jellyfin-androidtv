@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import org.jellyfin.androidtv.ui.base.button.Button
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
@@ -44,6 +45,7 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.queue.queue
 import org.koin.compose.koinInject
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 
@@ -72,8 +74,16 @@ fun VideoPlayerControls(
 			PlaybackInfoButton(onClick = onPlaybackInfoClick)
 
 			MoreOptionsButton {
-				PreviousEntryButton(playbackManager)
-				NextEntryButton(playbackManager)
+				Column(
+					verticalArrangement = Arrangement.spacedBy(8.dp),
+				) {
+					Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+						PreviousEntryButton(playbackManager)
+						NextEntryButton(playbackManager)
+					}
+
+					SubtitleOffsetControls(playbackManager)
+				}
 			}
 		}
 
@@ -239,6 +249,49 @@ private fun PositionText(
 		text = text,
 		style = LocalTextStyle.current.copy(color = Color.White)
 	)
+}
+
+private fun formatSubtitleOffset(offset: Duration): String {
+	val seconds = offset.inWholeMilliseconds / 1000.0
+	val safeSeconds = if (kotlin.math.abs(seconds) < 0.05) 0.0 else seconds
+	return String.format(java.util.Locale.US, "%+.1fs", safeSeconds)
+}
+
+@Composable
+private fun SubtitleOffsetControls(
+	playbackManager: PlaybackManager,
+) {
+	val subtitleTimingOffset by playbackManager.state.subtitleTimingOffset.collectAsState()
+	val subtitleTimingOffsetSupported by playbackManager.state.subtitleTimingOffsetSupported.collectAsState()
+	if (!subtitleTimingOffsetSupported) return
+
+	Column(
+		verticalArrangement = Arrangement.spacedBy(8.dp),
+		modifier = Modifier.padding(horizontal = 4.dp),
+	) {
+		Text(
+			text = stringResource(R.string.lbl_subtitle_offset_current, formatSubtitleOffset(subtitleTimingOffset)),
+			style = LocalTextStyle.current.copy(color = Color.White),
+		)
+
+		Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset((-500).milliseconds) }) {
+				Text("-0.5s")
+			}
+			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset((-100).milliseconds) }) {
+				Text("-0.1s")
+			}
+			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset(100.milliseconds) }) {
+				Text("+0.1s")
+			}
+			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset(500.milliseconds) }) {
+				Text("+0.5s")
+			}
+			Button(onClick = { playbackManager.state.resetSubtitleTimingOffset() }) {
+				Text(stringResource(R.string.lbl_reset))
+			}
+		}
+	}
 }
 
 @Composable

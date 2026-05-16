@@ -41,6 +41,8 @@ import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
 import androidx.media3.extractor.DefaultExtractorsFactory;
 import androidx.media3.extractor.ExtractorsFactory;
+import androidx.media3.extractor.text.DefaultSubtitleParserFactory;
+import androidx.media3.extractor.text.SubtitleParser;
 import androidx.media3.extractor.ts.TsExtractor;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.CaptionStyleCompat;
@@ -51,6 +53,8 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.BufferLength;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetRenderersFactory;
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetState;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -83,6 +87,7 @@ public class VideoManager {
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private Handler mHandler = new Handler();
+    private final SubtitleTimingOffsetState subtitleTimingOffsetState = new SubtitleTimingOffsetState();
 
     private long mMetaDuration = -1;
     private long lastExoPlayerPosition = -1;
@@ -218,7 +223,16 @@ public class VideoManager {
      */
     private ExoPlayer.Builder configureExoplayerBuilder(Context context, AssHandler assHandler) {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
-        DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
+
+        SubtitleParser.Factory legacySubtitleParserFactory = assHandler != null
+                ? new AssSubtitleParserFactory(assHandler)
+                : new DefaultSubtitleParserFactory();
+
+        SubtitleTimingOffsetRenderersFactory defaultRendererFactory = new SubtitleTimingOffsetRenderersFactory(
+                context,
+                subtitleTimingOffsetState,
+                legacySubtitleParserFactory
+        );
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
 
@@ -238,15 +252,18 @@ public class VideoManager {
         extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
         DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
         if (assHandler != null) {
-            AssSubtitleParserFactory assSubtitleParserFactory = new AssSubtitleParserFactory(assHandler);
+            AssSubtitleParserFactory assSubtitleParserFactory = (AssSubtitleParserFactory) legacySubtitleParserFactory;
             ExtractorsFactory assExtractorsFactory = AssPlayerKt.withAssMkvSupport(extractorsFactory, assSubtitleParserFactory, assHandler);
             DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory);
-            mediaSourceFactory.setSubtitleParserFactory(assSubtitleParserFactory);
+            mediaSourceFactory.experimentalParseSubtitlesDuringExtraction(false);
+            mediaSourceFactory.setSubtitleParserFactory(legacySubtitleParserFactory);
             exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
             exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, defaultRendererFactory));
         } else {
             exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-            exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+            exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
+                    .experimentalParseSubtitlesDuringExtraction(false)
+                    .setSubtitleParserFactory(legacySubtitleParserFactory));
         }
 
         BufferLength bufferLength = userPreferences.get(UserPreferences.Companion.getBufferLength());
@@ -598,6 +615,19 @@ public class VideoManager {
         Timber.d("Setting playback speed: %f", speed);
 
         mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
+    }
+
+    public long getSubtitleTimingOffsetUs() {
+        return subtitleTimingOffsetState.getOffsetUs();
+    }
+
+
+    public void adjustSubtitleTimingOffsetUs(long deltaUs) {
+        subtitleTimingOffsetState.adjustOffsetUs(deltaUs);
+    }
+
+    public void resetSubtitleTimingOffset() {
+        subtitleTimingOffsetState.setOffsetUs(0L);
     }
 
     public void destroy() {

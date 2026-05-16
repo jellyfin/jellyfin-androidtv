@@ -11,6 +11,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.common.TrackSelectionParameters
+import androidx.media3.common.Tracks
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
@@ -23,6 +24,8 @@ import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
+import androidx.media3.extractor.text.DefaultSubtitleParserFactory
+import androidx.media3.extractor.text.SubtitleParser
 import androidx.media3.ui.SubtitleView
 import io.github.peerless2012.ass.media.AssHandler
 import io.github.peerless2012.ass.media.factory.AssRenderersFactory
@@ -44,6 +47,9 @@ import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetRenderersFactory
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetState
+import org.jellyfin.playback.media3.exoplayer.subtitle.isSubtitleTimingOffsetSupported
 import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
 import org.jellyfin.playback.media3.exoplayer.support.toFormats
 import timber.log.Timber
@@ -67,6 +73,7 @@ class ExoPlayerBackend(
 	private val audioAttributeState = AudioAttributeState()
 	private val timedEventState = TimedEventState()
 	private var lastKnownDuration: Duration? = null
+	private val subtitleTimingOffsetState = SubtitleTimingOffsetState()
 
 	private val assHandler by lazy {
 		AssHandler(AssRenderType.OVERLAY_OPEN_GL)
@@ -89,15 +96,31 @@ class ExoPlayerBackend(
 			setConstantBitrateSeekingAlwaysEnabled(true)
 		}
 
+		val legacySubtitleParserFactory: SubtitleParser.Factory = if (exoPlayerOptions.enableLibass) {
+			AssSubtitleParserFactory(assHandler)
+		} else {
+			DefaultSubtitleParserFactory()
+		}
+
 		val mediaSourceFactory = if (exoPlayerOptions.enableLibass) {
-			val assSubtitleParserFactory = AssSubtitleParserFactory(assHandler)
+			val assSubtitleParserFactory = legacySubtitleParserFactory as AssSubtitleParserFactory
 			val assExtractorsFactory = extractorsFactory.withAssMkvSupport(assSubtitleParserFactory, assHandler)
 			DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
-				setSubtitleParserFactory(assSubtitleParserFactory)
+				@Suppress("DEPRECATION")
+				experimentalParseSubtitlesDuringExtraction(false)
+				setSubtitleParserFactory(legacySubtitleParserFactory)
 			}
-		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
+		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory).apply {
+			@Suppress("DEPRECATION")
+			experimentalParseSubtitlesDuringExtraction(false)
+			setSubtitleParserFactory(legacySubtitleParserFactory)
+		}
 
-		val renderersFactory = DefaultRenderersFactory(context).apply {
+		val renderersFactory = SubtitleTimingOffsetRenderersFactory(
+			context = context,
+			offsetState = subtitleTimingOffsetState,
+			subtitleParserFactory = legacySubtitleParserFactory,
+		).apply {
 			setEnableDecoderFallback(true)
 			setExtensionRendererMode(
 				when (exoPlayerOptions.preferFfmpeg) {
@@ -174,6 +197,16 @@ class ExoPlayerBackend(
 
 		override fun onPlaybackStateChanged(playbackState: Int) {
 			onIsPlayingChanged(exoPlayer.isPlaying)
+		}
+
+		override fun onTracksChanged(tracks: Tracks) {
+			val canAdjustSubtitleTiming = tracks.groups
+				.asSequence()
+				.filter { it.type == C.TRACK_TYPE_TEXT }
+				.flatMap { group -> (0 until group.length).asSequence().filter(group::isTrackSelected).map(group::getTrackFormat) }
+				.any(::isSubtitleTimingOffsetSupported)
+
+			listener?.onSubtitleTimingOffsetSupportChange(canAdjustSubtitleTiming)
 		}
 
 		override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
@@ -335,5 +368,10 @@ class ExoPlayerBackend(
 
 	override fun setTimedEvents(timedEvents: List<TimedEvent>) {
 		timedEventState.setTimedEvents(exoPlayer, timedEvents)
+	}
+
+
+	override fun setSubtitleTimingOffset(offset: Duration) {
+		subtitleTimingOffsetState.setOffsetUs(offset.inWholeMicroseconds)
 	}
 }

@@ -17,7 +17,12 @@ class ClosedCaptionsAction(
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
+	companion object {
+		private const val ITEM_SET_OFFSET = Int.MIN_VALUE
+	}
+
 	private var popup: PopupMenu? = null
+	private val subtitleOffsetPopup = SubtitleOffsetPopup(context)
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_subtitle)
@@ -29,6 +34,8 @@ class ClosedCaptionsAction(
 		context: Context,
 		view: View,
 	) {
+		subtitleOffsetPopup.dismiss()
+
 		if (playbackController.currentStreamInfo == null) {
 			Timber.w("StreamInfo null trying to obtain subtitles")
 			Toast.makeText(context, "Unable to obtain subtitle info", Toast.LENGTH_LONG).show()
@@ -37,9 +44,15 @@ class ClosedCaptionsAction(
 
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		removePopup()
+		var openingSubtitleOffsetPopup = false
 		popup = PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				var order = 0
+
+				if (videoPlayerAdapter.hasTimingAdjustableSubtitle()) {
+					add(1, ITEM_SET_OFFSET, order++, context.getString(R.string.lbl_subtitle_offset))
+				}
+
 				add(0, -1, order++, context.getString(R.string.lbl_none)).apply {
 					isChecked = playbackController.subtitleStreamIndex == -1
 				}
@@ -55,12 +68,22 @@ class ClosedCaptionsAction(
 				setGroupCheckable(0, true, false)
 			}
 			setOnDismissListener {
-				videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+				if (!openingSubtitleOffsetPopup) {
+					videoPlayerAdapter.leanbackOverlayFragment.setFading(true)
+				}
 				popup = null
 			}
 			setOnMenuItemClickListener { item ->
-				playbackController.setSubtitleIndex(item.itemId)
-				true
+				if (item.itemId == ITEM_SET_OFFSET) {
+					openingSubtitleOffsetPopup = true
+					view.post {
+						subtitleOffsetPopup.show(playbackController, videoPlayerAdapter)
+					}
+					false
+				} else {
+					playbackController.setSubtitleIndex(item.itemId)
+					true
+				}
 			}
 		}
 		popup?.show()
@@ -68,5 +91,6 @@ class ClosedCaptionsAction(
 
 	fun removePopup() {
 		popup?.dismiss()
+		subtitleOffsetPopup.dismiss()
 	}
 }

@@ -22,6 +22,8 @@ interface PlayerState {
 	val playbackOrder: StateFlow<PlaybackOrder>
 	val repeatMode: StateFlow<RepeatMode>
 	val scrubbing: StateFlow<Boolean>
+	val subtitleTimingOffset: StateFlow<Duration>
+	val subtitleTimingOffsetSupported: StateFlow<Boolean>
 
 	/**
 	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
@@ -49,6 +51,9 @@ interface PlayerState {
 	// Playback properties
 
 	fun setSpeed(speed: Float)
+	fun setSubtitleTimingOffset(offset: Duration)
+	fun adjustSubtitleTimingOffset(amount: Duration)
+	fun resetSubtitleTimingOffset()
 
 	fun setPlaybackOrder(order: PlaybackOrder)
 
@@ -80,6 +85,12 @@ class MutablePlayerState(
 	private val _scrubbing = MutableStateFlow(false)
 	override val scrubbing: StateFlow<Boolean> get() = _scrubbing.asStateFlow()
 
+	private val _subtitleTimingOffset = MutableStateFlow(Duration.ZERO)
+	override val subtitleTimingOffset: StateFlow<Duration> get() = _subtitleTimingOffset.asStateFlow()
+
+	private val _subtitleTimingOffsetSupported = MutableStateFlow(false)
+	override val subtitleTimingOffsetSupported: StateFlow<Boolean> get() = _subtitleTimingOffsetSupported.asStateFlow()
+
 	override val positionInfo: PositionInfo
 		get() = backendService.backend?.getPositionInfo() ?: PositionInfo.EMPTY
 
@@ -98,6 +109,14 @@ class MutablePlayerState(
 				// Note: the QueueService is responsible for changing REPEAT_ENTRY_ONCE to NONE
 				if (_repeatMode.value != RepeatMode.NONE) {
 					backendService.backend?.play()
+				}
+			}
+
+			override fun onSubtitleTimingOffsetSupportChange(supported: Boolean) {
+				_subtitleTimingOffsetSupported.value = supported
+				if (!supported && _subtitleTimingOffset.value != Duration.ZERO) {
+					_subtitleTimingOffset.value = Duration.ZERO
+					backendService.backend?.setSubtitleTimingOffset(Duration.ZERO)
 				}
 			}
 		})
@@ -148,6 +167,19 @@ class MutablePlayerState(
 	override fun setSpeed(speed: Float) {
 		_speed.value = speed
 		backendService.backend?.setSpeed(speed)
+	}
+
+	override fun setSubtitleTimingOffset(offset: Duration) {
+		_subtitleTimingOffset.value = offset
+		backendService.backend?.setSubtitleTimingOffset(offset)
+	}
+
+	override fun adjustSubtitleTimingOffset(amount: Duration) {
+		setSubtitleTimingOffset(_subtitleTimingOffset.value + amount)
+	}
+
+	override fun resetSubtitleTimingOffset() {
+		setSubtitleTimingOffset(Duration.ZERO)
 	}
 
 	override fun setPlaybackOrder(order: PlaybackOrder) {
