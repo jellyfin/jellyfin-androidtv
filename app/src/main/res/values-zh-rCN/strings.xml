@@ -636,4 +636,18 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_info">播放信息</string>
+    <string name="playback_info_play_method">播放模式：%1$s</string>
+    <string name="playback_info_direct_play">直接播放</string>
+    <string name="playback_info_direct_stream">直接串流</string>
+    <string name="playback_info_transcoding">转码</string>
+    <string name="playback_info_container">封装格式：%1$s</string>
+    <string name="playback_info_video_title">视频</string>
+    <string name="playback_info_audio_title">音频</string>
+    <string name="playback_info_codec">编码：%1$s</string>
+    <string name="playback_info_resolution">分辨率：%1$dx%2$d</string>
+    <string name="playback_info_bitrate">码率：%1$s</string>
+    <string name="playback_info_channels">频道：%1$d</string>
+    <string name="playback_info_video_range">动态范围：%1$s</string>
+    <string name="playback_info_transcoding_note">服务器正在转码此文件</string>
 </resources>
