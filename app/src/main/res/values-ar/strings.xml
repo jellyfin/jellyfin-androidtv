@@ -123,7 +123,7 @@
     <string name="chapters">الفصول</string>
     <string name="settings_title">التفضيلات</string>
     <string name="pref_max_bitrate_title">الحد الأقصى لمعدل البث</string>
-    <string name="pref_playback">التشغيل</string>
+    <string name="pref_playback">تشغيل</string>
     <string name="byletter_letters">أبتثجحخدذرزسشصضطظعغفقكلمنهوي</string>
     <string name="btn_cancel">إلغاء</string>
     <string name="loading">جارٍ التحميل…</string>
@@ -693,4 +693,9 @@
     <string name="playback_info_video_title">فيديو</string>
     <string name="playback_info_audio_title">صوت</string>
     <string name="playback_info_codec">ترميز: %1$s</string>
+    <string name="playback_info_transcoding_note">يشفر الخادم هذا الملف</string>
+    <string name="playback_info_video_range">مجال الفيديو: %1$s</string>
+    <string name="playback_info_channels">القنوات: %1$d</string>
+    <string name="playback_info_bitrate">معدل البث: %1$s</string>
+    <string name="playback_info_resolution">دقة الشاشة: %1$dx%2$d</string>
 </resources>
