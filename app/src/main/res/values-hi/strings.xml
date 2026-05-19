@@ -635,7 +635,6 @@
     <string name="video_player_external">बाहरी ऐप</string>
     <string name="playback_video_player_external_empty">आपके डिवाइस पर कोई भी वीडियो प्लेयर ऐप इंस्टॉल नहीं है जो जेलीफिन वीडियो खोल सके।</string>
     <string name="filters">फिल्टर</string>
-    <string name="backdrop_behavior_with_blur"></string>
     <string name="codec_level_warning">अगर आपका डिवाइस चुने हुए लेवल को सपोर्ट नहीं करता है, तो ऑटो से बदलने पर प्लेबैक में दिक्कतें आ सकती हैं।</string>
     <string name="preference_codecs_summary">डिवाइस द्वारा रिपोर्ट की गई कोडेक क्षमताओं को ओवरराइड करें</string>
     <string name="codec_level_manual">मैनुअल ओवरराइड</string>
