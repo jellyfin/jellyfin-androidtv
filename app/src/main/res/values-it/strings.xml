@@ -629,4 +629,6 @@
     <string name="filters">Filtri</string>
     <string name="backdrop_behavior_with_blur">Sfondo con opacità</string>
     <string name="backdrop_behavior_without_blur">Sfondo senza opacità</string>
+    <string name="playback_info_play_method">Metodo di riproduzione:%1$s</string>
+    <string name="playback_info_direct_play">Riproduzione diretta</string>
 </resources>
