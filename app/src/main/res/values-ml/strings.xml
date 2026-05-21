@@ -13,7 +13,7 @@
     <string name="chapters">അധ്യായങ്ങൾ</string>
     <string name="pref_authentication_cat">പ്രാമാണീകരണം</string>
     <string name="settings_title">മുൻഗണനകൾ</string>
-    <string name="pref_max_bitrate_title">മാക്സ് സ്ട്രീമിംഗ് ബിട്രേറ്റ്</string>
+    <string name="pref_max_bitrate_title">ഉയർന്ന സ്ട്രീമിംഗ് ബിറ്റ് റേറ്റ്</string>
     <string name="pref_playback">പ്ലേബാക്ക്</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">റദ്ദാക്കുക</string>
@@ -173,12 +173,12 @@
     <string name="msg_item_added">" ഇനം ചേർത്തു"</string>
     <string name="lbl_delete">ഇല്ലാതാക്കുക</string>
     <string name="lbl_instant_mix">തൽക്ഷണ മിക്സ്</string>
-    <string name="lbl_goto_now_playing">ഇപ്പോൾ പ്ലേയിംഗിലേക്ക് പോകുക</string>
-    <string name="lbl_remove_from_queue">ക്യൂവിൽ നിന്ന് നീക്കംചെയ്യുക</string>
-    <string name="lbl_play_from_here">ഇവിടെ നിന്ന് പ്ലേ ചെയ്യുക</string>
-    <string name="lbl_now_playing">ഇപ്പോൾ പ്ലേ ചെയ്യുന്നു</string>
-    <string name="lbl_prev_item">മുമ്പത്തെ ഇനം</string>
-    <string name="lbl_next_item">അടുത്ത ഇനം</string>
+    <string name="lbl_goto_now_playing">ഇപ്പോൾ കാണുന്നതിലേക്ക് പോകുക</string>
+    <string name="lbl_remove_from_queue">വരിയിൽ നിന്ന് നീക്കംചെയ്യുക</string>
+    <string name="lbl_play_from_here">ഇവിടെ നിന്ന് പതുടരുക</string>
+    <string name="lbl_now_playing">ഇപ്പോൾ കാണുന്നത്</string>
+    <string name="lbl_prev_item">പിറകിലേക്ക് പോകുക</string>
+    <string name="lbl_next_item">അടുത്തതായി</string>
     <string name="lbl_open_album">ആൽബം തുറക്കുക</string>
     <string name="lbl_open_artist">ഓപ്പൺ ആർട്ടിസ്റ്റ്</string>
     <string name="lbl_add_to_queue">ക്യൂവിലേക്ക് ചേർക്കുക</string>
@@ -346,4 +346,5 @@
     <string name="pref_live_tv_cat">തത്സമയ ടി വി</string>
     <string name="msg_subtitles_loading">സബ്ടൈറ്റിലുകൾ ലോഡ് ചെയ്യുന്നു…</string>
     <string name="because_you_watched">കാരണം നിങ്ങൾ %1$s കണ്ടു</string>
+    <string name="lbl_shuffle_queue">മാറ്റി കലർത്തുക</string>
 </resources>
