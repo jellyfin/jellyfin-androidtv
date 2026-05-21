@@ -655,4 +655,7 @@
     <string name="playback_info">Information de lecture</string>
     <string name="playback_info_play_method">Méthode de lecture : %1$s</string>
     <string name="playback_info_direct_play">Lecture directe</string>
+    <string name="playback_info_direct_stream">Flux direct</string>
+    <string name="playback_info_container">Conteneur : %1$s</string>
+    <string name="playback_info_video_title">Vidéo</string>
 </resources>
