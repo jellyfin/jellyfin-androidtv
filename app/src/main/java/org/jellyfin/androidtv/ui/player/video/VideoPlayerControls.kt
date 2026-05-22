@@ -254,7 +254,7 @@ private fun PositionText(
 private fun formatSubtitleOffset(offset: Duration): String {
 	val seconds = offset.inWholeMilliseconds / 1000.0
 	val safeSeconds = if (kotlin.math.abs(seconds) < 0.05) 0.0 else seconds
-	return String.format(java.util.Locale.US, "%+.1fs", safeSeconds)
+	return String.format(java.util.Locale.getDefault(), "%+.1f s", safeSeconds)
 }
 
 @Composable
@@ -276,16 +276,16 @@ private fun SubtitleOffsetControls(
 
 		Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset((-500).milliseconds) }) {
-				Text("-0.5s")
+				Text(formatSubtitleOffset((-500).milliseconds))
 			}
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset((-100).milliseconds) }) {
-				Text("-0.1s")
+				Text(formatSubtitleOffset((-100).milliseconds))
 			}
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset(100.milliseconds) }) {
-				Text("+0.1s")
+				Text(formatSubtitleOffset(100.milliseconds))
 			}
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset(500.milliseconds) }) {
-				Text("+0.5s")
+				Text(formatSubtitleOffset(500.milliseconds))
 			}
 			Button(onClick = { playbackManager.state.resetSubtitleTimingOffset() }) {
 				Text(stringResource(R.string.lbl_reset))
