@@ -71,6 +71,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 		private const val API_VIMU_TITLE = "forcename"
 		private const val API_VIMU_SEEK_POSITION = "startfrom"
 		private const val API_VIMU_RESUME = "forceresume"
+		private const val API_VIMU_SUBTITLES = "forcedsrt"
 		private const val API_VIMU_RESULT_ID = "net.gtvbox.videoplayer.result"
 		private const val API_VIMU_RESULT_ERROR = 4
 		private const val API_VIMU_RESULT_PLAYBACK_COMPLETED = 1
@@ -187,6 +188,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 			putExtra(API_VIMU_SEEK_POSITION, position.inWholeMilliseconds.toInt())
 			putExtra(API_VIMU_RESUME, false)
 			putExtra(API_VIMU_TITLE, title)
+			if (subtitleUrls.isNotEmpty()) putExtra(API_VIMU_SUBTITLES, subtitleUrls.first().toString())
 		}
 
 		try {
