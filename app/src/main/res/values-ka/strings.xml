@@ -361,4 +361,18 @@
     <string name="font_weight_200">ძალიან ღია</string>
     <string name="font_weight_600">ნახევრადსქელი</string>
     <string name="font_weight_800">ძალიან სქელი</string>
+    <string name="color_custom">ფერის მორგება</string>
+    <string name="playback_video_player">ვიდეოდამკვრელი</string>
+    <string name="video_player_external">გარე აპლიკაცია</string>
+    <string name="preference_codecs">მედიაკოდეკები</string>
+    <string name="codec_level_manual">ხელით გადაფარვა</string>
+    <string name="codec_level_6_2">დონე 6.2</string>
+    <string name="codec_level_6_1">დონე 6.1</string>
+    <string name="codec_level_6_0">დონე 6.0</string>
+    <string name="codec_level_5_2">დონე 5.2</string>
+    <string name="codec_level_5_1">დონე 5.1</string>
+    <string name="codec_level_5_0">დონე 5.0</string>
+    <string name="codec_level_4_2">დონე 4.2</string>
+    <string name="codec_level_4_1">დონე 4.1</string>
+    <string name="codec_level_4_0">დონე 4.0</string>
 </resources>
