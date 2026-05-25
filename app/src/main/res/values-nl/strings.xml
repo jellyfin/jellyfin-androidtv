@@ -104,7 +104,7 @@
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Downmixen naar stereo</string>
     <string name="lbl_audio_output">Geluidsuitgang</string>
-    <string name="lbl_goto_series">Naar serie gaan</string>
+    <string name="lbl_goto_series">Naar serie</string>
     <string name="lbl_enable_debug">Opties voor foutopsporing</string>
     <string name="desc_debug">Toon extra informatie voor foutopsporing</string>
     <string name="lbl_showing">Toont</string>
