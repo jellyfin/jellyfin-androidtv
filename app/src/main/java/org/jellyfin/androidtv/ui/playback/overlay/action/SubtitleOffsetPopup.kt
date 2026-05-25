@@ -44,7 +44,6 @@ class SubtitleOffsetPopup(
 	private var repeatAction: ((Long) -> Unit)? = null
 
 	private var dialog: Dialog? = null
-	private var helpDialog: Dialog? = null
 	val isShowing: Boolean get() = dialog?.isShowing == true
 
 	fun show(
@@ -67,6 +66,23 @@ class SubtitleOffsetPopup(
 			background = context.getDrawable(R.drawable.subtitle_offset_panel)
 			setPadding(panelPaddingHorizontal, panelPaddingVertical, panelPaddingHorizontal, panelPaddingVertical)
 		}
+
+		val helpText = TextView(context).apply {
+			text = context.getString(R.string.lbl_subtitle_offset_help)
+			setTextColor(Color.WHITE)
+			setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+			gravity = Gravity.CENTER
+			visibility = android.view.View.GONE
+		}
+		container.addView(
+			helpText,
+			LinearLayout.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+			).apply {
+				bottomMargin = rowSpacing
+			},
+		)
 
 		val currentOffsetText = TextView(context).apply {
 			setTextColor(Color.WHITE)
@@ -121,58 +137,18 @@ class SubtitleOffsetPopup(
 			}
 		}
 
-		fun showHelpPopup(anchorDialog: Dialog) {
-			val helpContainer = TextView(context).apply {
-				text = context.getString(R.string.lbl_subtitle_offset_help)
-				setTextColor(Color.WHITE)
-				setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-				gravity = Gravity.CENTER
-				background = context.getDrawable(R.drawable.subtitle_offset_panel)
-				setPadding(panelPaddingHorizontal, panelPaddingVertical, panelPaddingHorizontal, panelPaddingVertical)
-			}
-
-			helpContainer.measure(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT
-			)
-			val helpHeight = helpContainer.measuredHeight
-
-			helpDialog = Dialog(context, R.style.Theme_Jellyfin_Dialog).apply {
-				requestWindowFeature(Window.FEATURE_NO_TITLE)
-				setContentView(helpContainer)
-				setCanceledOnTouchOutside(false)
-				window?.apply {
-					setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-					clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-					setDimAmount(0f)
-					attributes = attributes.apply {
-						width = WindowManager.LayoutParams.WRAP_CONTENT
-						height = WindowManager.LayoutParams.WRAP_CONTENT
-						gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-						y = panelTopMargin
-					}
-				}
-				setOnDismissListener {
-					anchorDialog.window?.attributes = anchorDialog.window?.attributes?.apply {
-						y = panelTopMargin
-					}
-					helpDialog = null
-				}
-				show()
-
-				anchorDialog.window?.attributes = anchorDialog.window?.attributes?.apply {
-					y = panelTopMargin + helpHeight
-				}
-			}
-		}
-
 		val adjustmentButtons = listOf(
 			createButton(formatOffset(-OFFSET_US_500MS)) { applyOffsetDelta(-OFFSET_US_500MS) },
 			createButton(formatOffset(-OFFSET_US_100MS)) { applyOffsetDelta(-OFFSET_US_100MS) },
 			createButton(formatOffset(OFFSET_US_100MS)) { applyOffsetDelta(OFFSET_US_100MS) },
 			createButton(formatOffset(OFFSET_US_500MS)) { applyOffsetDelta(OFFSET_US_500MS) },
 			createButton(context.getString(R.string.lbl_reset)) { resetOffset() },
-			createButton(context.getString(R.string.lbl_help)) { showHelpPopup(dialog!!) },
+			createButton(context.getString(R.string.lbl_help)) {
+				helpText.visibility = if (helpText.visibility == android.view.View.VISIBLE)
+					android.view.View.GONE
+				else
+					android.view.View.VISIBLE
+			},
 		)
 		adjustmentButtons.forEachIndexed { index, button ->
 			adjustmentRow.addView(
@@ -196,12 +172,6 @@ class SubtitleOffsetPopup(
 			},
 		)
 
-		container.measure(
-			ViewGroup.LayoutParams.WRAP_CONTENT,
-			ViewGroup.LayoutParams.WRAP_CONTENT
-		)
-		val mainHeight = container.measuredHeight
-
 		repeatAction = { deltaUs -> applyOffsetDelta(deltaUs) }
 
 		dialog = Dialog(context, R.style.Theme_Jellyfin_Dialog).apply {
@@ -221,6 +191,14 @@ class SubtitleOffsetPopup(
 			}
 			setOnKeyListener { _, keyCode, event ->
 				when (keyCode) {
+					KeyEvent.KEYCODE_BACK -> {
+						if (event.action == KeyEvent.ACTION_UP && helpText.visibility == android.view.View.VISIBLE) {
+							helpText.visibility = android.view.View.GONE
+							true
+						} else {
+							false
+						}
+					}
 					KeyEvent.KEYCODE_DPAD_UP -> handleRepeatKey(event, OFFSET_US_100MS)
 					KeyEvent.KEYCODE_DPAD_DOWN -> handleRepeatKey(event, -OFFSET_US_100MS)
 					else -> false
@@ -239,7 +217,6 @@ class SubtitleOffsetPopup(
 
 	fun dismiss() {
 		dialog?.dismiss()
-		helpDialog?.dismiss()
 	}
 
 	private fun handleRepeatKey(event: KeyEvent, deltaUs: Long): Boolean {
@@ -273,6 +250,7 @@ class SubtitleOffsetPopup(
 	private fun formatOffset(offsetUs: Long): String {
 		val seconds = offsetUs / 1_000_000.0
 		val safeSeconds = if (abs(seconds) < 0.05) 0.0 else seconds
-		return String.format(Locale.getDefault(), "%+.1f s", safeSeconds)
+		val formatted = String.format(Locale.getDefault(), "%+.1f", safeSeconds)
+    	return context.getString(R.string.lbl_subtitle_offset_seconds, formatted)
 	}
 }
