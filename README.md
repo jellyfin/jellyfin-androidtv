@@ -1,4 +1,4 @@
-<h1 align="center">Jellyfin Android TV</h1>
+<h1 align="center">Jellyfin for Android TV</h1>
 <h3 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h3>
 
 ---
@@ -39,7 +39,7 @@
 <a href="https://repo.jellyfin.org/releases/client/androidtv/">Download archive</a>
 </p>
 
-Jellyfin Android TV is a Jellyfin client for Android TV, Nvidia Shield, and Amazon Fire TV devices. We welcome all contributions and pull
+Jellyfin for Android TV is a Jellyfin client for Android TV, Nvidia Shield, and Amazon Fire TV devices. We welcome all contributions and pull
 requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. 
 
 ## Building

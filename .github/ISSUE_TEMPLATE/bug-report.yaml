@@ -54,7 +54,7 @@ body:
     id: app-version
     attributes:
       label: Application version
-      description: The version of the installed Jellyfin Android TV app.
+      description: The version of the installed Jellyfin for Android TV app.
       placeholder: 0.18.2
     validations:
       required: true
