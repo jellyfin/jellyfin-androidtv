@@ -299,7 +299,7 @@
     <string name="pref_developer_link_description">Geavanceerde en experimentele functies</string>
     <string name="user_picker_last_user_summary">Gebruik het laatst actieve account</string>
     <string name="user_picker_last_user_title">Meest recent gebruikt</string>
-    <string name="user_picker_disable_summary">Aanmeldscherm altijd tonen</string>
+    <string name="user_picker_disable_summary">Altijd het aanmeldscherm tonen</string>
     <string name="user_picker_disable_title">Uitschakelen</string>
     <string name="auto_sign_in">Automatisch aanmelden</string>
     <string name="lbl_use_series_thumbnails_description">Serieminiatuur gebruiken bij weergeven van afleveringen</string>
