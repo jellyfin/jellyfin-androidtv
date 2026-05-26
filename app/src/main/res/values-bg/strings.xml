@@ -644,4 +644,18 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_info">Информация за възпроизвеждане</string>
+    <string name="playback_info_transcoding">Транскодиране</string>
+    <string name="playback_info_container">Контейнер:%1$s</string>
+    <string name="playback_info_video_title">Видео</string>
+    <string name="playback_info_audio_title">Аудио</string>
+    <string name="playback_info_codec">Кодек:%1$s</string>
+    <string name="playback_info_resolution">Резолюция:%1$dx%2$d</string>
+    <string name="playback_info_bitrate">Битрейт:%1$s</string>
+    <string name="playback_info_channels">Канали:%1$d</string>
+    <string name="playback_info_video_range">Видео рейндж:%1$s</string>
+    <string name="playback_info_transcoding_note">Сървъра транскодира този файл</string>
+    <string name="playback_info_play_method">Метод на възпроизвеждане: %1$s</string>
+    <string name="playback_info_direct_play">Директплей</string>
+    <string name="playback_info_direct_stream">Директстриим</string>
 </resources>
