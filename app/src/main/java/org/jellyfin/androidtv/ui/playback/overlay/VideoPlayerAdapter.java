@@ -1,12 +1,12 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
 import androidx.annotation.NonNull;
-import androidx.media3.common.MimeTypes;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetFormatsKt;
 import org.jellyfin.androidtv.ui.playback.VideoManagerHelperKt;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
@@ -131,10 +131,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
             }
 
             String mimeType = VideoManagerHelperKt.getSubtitleMediaStreamCodec(stream);
-            return MimeTypes.APPLICATION_SUBRIP.equals(mimeType)
-                    || MimeTypes.TEXT_VTT.equals(mimeType)
-                    || MimeTypes.TEXT_SSA.equals(mimeType)
-                    || MimeTypes.APPLICATION_TTML.equals(mimeType);
+            return SubtitleTimingOffsetFormatsKt.isSubtitleTimingOffsetSupported(mimeType);
         }
 
         return false;
