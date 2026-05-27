@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.settings.screen.playback
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -7,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
@@ -47,6 +49,19 @@ fun SettingsPlaybackCodecScreen() {
 				captionContent = { Text(stringResource(userHEVCLevel.nameRes)) },
 				onClick = { router.push(Routes.PLAYBACK_HEVC_LEVEL) }
 			)
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			item {
+				var softwareCodecsEnabled by rememberPreference(userPreferences, UserPreferences.softwareCodecsEnabled)
+
+				ListButton(
+					headingContent = { Text(stringResource(R.string.pref_software_codecs_enabled)) },
+					captionContent = { Text(stringResource(R.string.pref_software_codecs_enabled_description)) },
+					trailingContent = { Checkbox(checked = softwareCodecsEnabled) },
+					onClick = { softwareCodecsEnabled = !softwareCodecsEnabled }
+				)
+			}
 		}
 	}
 }
