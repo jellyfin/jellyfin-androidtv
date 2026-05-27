@@ -40,6 +40,7 @@ import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.jellyfin.androidtv.ui.base.popover.Popover
 import org.jellyfin.androidtv.ui.composable.rememberPlayerPositionInfo
 import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
+import org.jellyfin.androidtv.ui.playback.overlay.action.formatSubtitleOffsetSeconds
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.queue.queue
@@ -251,12 +252,6 @@ private fun PositionText(
 	)
 }
 
-private fun formatSubtitleOffset(offset: Duration): String {
-	val seconds = offset.inWholeMilliseconds / 1000.0
-	val safeSeconds = if (kotlin.math.abs(seconds) < 0.05) 0.0 else seconds
-	return String.format(java.util.Locale.getDefault(), "%+.1f", safeSeconds)
-}
-
 @Composable
 private fun SubtitleOffsetControls(
 	playbackManager: PlaybackManager,
@@ -270,22 +265,22 @@ private fun SubtitleOffsetControls(
 		modifier = Modifier.padding(horizontal = 4.dp),
 	) {
 		Text(
-			text = stringResource(R.string.lbl_subtitle_offset_current, stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffset(subtitleTimingOffset))),
+			text = stringResource(R.string.lbl_subtitle_offset_current, stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(subtitleTimingOffset))),
 			style = LocalTextStyle.current.copy(color = Color.White),
 		)
 
 		Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset((-500).milliseconds) }) {
-				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffset((-500).milliseconds)))
+				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds((-500).milliseconds)))
 			}
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset((-100).milliseconds) }) {
-				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffset((-100).milliseconds)))
+				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds((-100).milliseconds)))
 			}
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset(100.milliseconds) }) {
-				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffset(100.milliseconds)))
+				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(100.milliseconds)))
 			}
 			Button(onClick = { playbackManager.state.adjustSubtitleTimingOffset(500.milliseconds) }) {
-				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffset(500.milliseconds)))
+				Text(stringResource(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(500.milliseconds)))
 			}
 			Button(onClick = { playbackManager.state.resetSubtitleTimingOffset() }) {
 				Text(stringResource(R.string.lbl_reset))

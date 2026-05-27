@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/subtitle_offset_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/subtitle_offset_panel"
+    android:paddingHorizontal="18dp"
+    android:paddingVertical="14dp">
+
+    <TextView
+        android:id="@+id/subtitle_offset_help_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_subtitle_offset_help"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/subtitle_offset_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/subtitle_offset_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/btn_offset_minus_500"
+            style="@style/SubtitleOffsetButton" />
+
+        <Button
+            android:id="@+id/btn_offset_minus_100"
+            style="@style/SubtitleOffsetButton"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/btn_offset_plus_100"
+            style="@style/SubtitleOffsetButton"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/btn_offset_plus_500"
+            style="@style/SubtitleOffsetButton"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/btn_reset"
+            style="@style/SubtitleOffsetButton"
+            android:layout_marginStart="8dp"
+            android:text="@string/lbl_reset" />
+
+        <Button
+            android:id="@+id/btn_help"
+            style="@style/SubtitleOffsetButton"
+            android:layout_marginStart="8dp"
+            android:text="@string/lbl_help" />
+
+    </LinearLayout>
+
+</LinearLayout>

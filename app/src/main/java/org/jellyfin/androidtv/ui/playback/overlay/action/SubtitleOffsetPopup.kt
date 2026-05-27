@@ -6,16 +6,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.Looper
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.KeyEvent
-import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.View
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.databinding.DialogSubtitleOffsetBinding
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 import java.util.Locale
@@ -54,129 +51,51 @@ class SubtitleOffsetPopup(
 
 		videoPlayerAdapter.leanbackOverlayFragment.enterSubtitleOffsetMode()
 
-		val density = context.resources.displayMetrics.density
-		val panelPaddingHorizontal = (18 * density).toInt()
-		val panelPaddingVertical = (14 * density).toInt()
-		val rowSpacing = (10 * density).toInt()
-		val buttonSpacing = (8 * density).toInt()
-		val panelTopMargin = (32 * density).toInt()
-
-		val container = LinearLayout(context).apply {
-			orientation = LinearLayout.VERTICAL
-			background = context.getDrawable(R.drawable.subtitle_offset_panel)
-			setPadding(panelPaddingHorizontal, panelPaddingVertical, panelPaddingHorizontal, panelPaddingVertical)
-		}
-
-		val helpText = TextView(context).apply {
-			text = context.getString(R.string.lbl_subtitle_offset_help)
-			setTextColor(Color.WHITE)
-			setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-			gravity = Gravity.CENTER
-			visibility = android.view.View.GONE
-		}
-		container.addView(
-			helpText,
-			LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-			).apply {
-				bottomMargin = rowSpacing
-			},
+		val binding = DialogSubtitleOffsetBinding.inflate(
+			android.view.LayoutInflater.from(context)
 		)
-
-		val currentOffsetText = TextView(context).apply {
-			setTextColor(Color.WHITE)
-			setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-			text = context.getString(
-				R.string.lbl_subtitle_offset_current,
-				formatOffset(playbackController.subtitleTimingOffsetUs),
-			)
-		}
 		fun updateOffsetText() {
-			currentOffsetText.text = context.getString(
+			binding.subtitleOffsetCurrent.text = context.getString(
 				R.string.lbl_subtitle_offset_current,
-				formatOffset(playbackController.subtitleTimingOffsetUs),
+				context.getString(
+					R.string.lbl_subtitle_offset_seconds,
+					formatSubtitleOffsetSeconds(playbackController.subtitleTimingOffsetUs),
+				),
 			)
 		}
-		fun applyOffsetDelta(offsetUs: Long) {
-			playbackController.adjustSubtitleTimingOffsetUs(offsetUs)
+		fun applyOffsetDelta(deltaUs: Long) {
+			playbackController.adjustSubtitleTimingOffsetUs(deltaUs)
 			updateOffsetText()
 		}
 		fun resetOffset() {
 			playbackController.resetSubtitleTimingOffset()
 			updateOffsetText()
 		}
-		container.addView(
-			currentOffsetText,
-			LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-			),
-		)
+		updateOffsetText()
 
-		val adjustmentRow = LinearLayout(context).apply {
-			orientation = LinearLayout.HORIZONTAL
-			gravity = Gravity.CENTER_HORIZONTAL
-		}
+		binding.btnOffsetMinus500.text = context.getString(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(-OFFSET_US_500MS))
+		binding.btnOffsetMinus100.text = context.getString(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(-OFFSET_US_100MS))
+		binding.btnOffsetPlus100.text  = context.getString(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(OFFSET_US_100MS))
+		binding.btnOffsetPlus500.text  = context.getString(R.string.lbl_subtitle_offset_seconds, formatSubtitleOffsetSeconds(OFFSET_US_500MS))
 
-		fun createButton(label: String, onClick: () -> Unit): Button = Button(context).apply {
-			text = label
-			isAllCaps = false
-			background = context.getDrawable(R.drawable.subtitle_offset_button)
-			setTextColor(Color.WHITE)
-			stateListAnimator = null
-			minimumWidth = 0
-			minWidth = 0
-			minHeight = 0
-			minimumHeight = 0
-			setPadding((20 * density).toInt(), (8 * density).toInt(), (20 * density).toInt(), (8 * density).toInt())
-			setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
-			setOnClickListener {
-				onClick()
-				updateOffsetText()
-			}
+		binding.btnOffsetMinus500.setOnClickListener { applyOffsetDelta(-OFFSET_US_500MS) }
+		binding.btnOffsetMinus100.setOnClickListener { applyOffsetDelta(-OFFSET_US_100MS) }
+		binding.btnOffsetPlus100.setOnClickListener  { applyOffsetDelta(OFFSET_US_100MS) }
+		binding.btnOffsetPlus500.setOnClickListener  { applyOffsetDelta(OFFSET_US_500MS) }
+		binding.btnReset.setOnClickListener          { resetOffset() }
+		binding.btnHelp.setOnClickListener {
+			binding.subtitleOffsetHelpText.visibility =
+				if (binding.subtitleOffsetHelpText.visibility == View.VISIBLE) View.GONE
+				else View.VISIBLE
 		}
-
-		val adjustmentButtons = listOf(
-			createButton(formatOffset(-OFFSET_US_500MS)) { applyOffsetDelta(-OFFSET_US_500MS) },
-			createButton(formatOffset(-OFFSET_US_100MS)) { applyOffsetDelta(-OFFSET_US_100MS) },
-			createButton(formatOffset(OFFSET_US_100MS)) { applyOffsetDelta(OFFSET_US_100MS) },
-			createButton(formatOffset(OFFSET_US_500MS)) { applyOffsetDelta(OFFSET_US_500MS) },
-			createButton(context.getString(R.string.lbl_reset)) { resetOffset() },
-			createButton(context.getString(R.string.lbl_help)) {
-				helpText.visibility = if (helpText.visibility == android.view.View.VISIBLE)
-					android.view.View.GONE
-				else
-					android.view.View.VISIBLE
-			},
-		)
-		adjustmentButtons.forEachIndexed { index, button ->
-			adjustmentRow.addView(
-				button,
-				LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-				).apply {
-					if (index > 0) marginStart = buttonSpacing
-				},
-			)
-		}
-		container.addView(
-			adjustmentRow,
-			LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-			).apply {
-				this.topMargin = rowSpacing
-				gravity = Gravity.CENTER_HORIZONTAL
-			},
-		)
 
 		repeatAction = { deltaUs -> applyOffsetDelta(deltaUs) }
 
+		val panelTopMargin = context.resources.getDimensionPixelSize(R.dimen.subtitle_offset_panel_top_margin)
+
 		dialog = Dialog(context, R.style.Theme_Jellyfin_Dialog).apply {
 			requestWindowFeature(Window.FEATURE_NO_TITLE)
-			setContentView(container)
+			setContentView(binding.root)
 			setCanceledOnTouchOutside(false)
 			window?.apply {
 				setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -192,8 +111,8 @@ class SubtitleOffsetPopup(
 			setOnKeyListener { _, keyCode, event ->
 				when (keyCode) {
 					KeyEvent.KEYCODE_BACK -> {
-						if (event.action == KeyEvent.ACTION_UP && helpText.visibility == android.view.View.VISIBLE) {
-							helpText.visibility = android.view.View.GONE
+						if (event.action == KeyEvent.ACTION_UP && binding.subtitleOffsetHelpText.visibility == View.VISIBLE) {
+							binding.subtitleOffsetHelpText.visibility = View.GONE
 							true
 						} else {
 							false
@@ -211,7 +130,7 @@ class SubtitleOffsetPopup(
 				dialog = null
 			}
 			show()
-			adjustmentButtons.firstOrNull()?.requestFocus()
+			binding.btnOffsetMinus500.requestFocus()
 		}
 	}
 
@@ -247,10 +166,4 @@ class SubtitleOffsetPopup(
 		repeatHandler.removeCallbacks(repeatRunnable)
 	}
 
-	private fun formatOffset(offsetUs: Long): String {
-		val seconds = offsetUs / 1_000_000.0
-		val safeSeconds = if (abs(seconds) < 0.05) 0.0 else seconds
-		val formatted = String.format(Locale.getDefault(), "%+.1f", safeSeconds)
-    	return context.getString(R.string.lbl_subtitle_offset_seconds, formatted)
-	}
 }
