@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util.profile
 
 import android.content.Context
+import android.media.MediaCodecInfo
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
@@ -12,6 +13,7 @@ import timber.log.Timber
 
 class MediaCodecCapabilitiesTest(
 	private val context: Context,
+	private val softwareCodecsEnabled: Boolean
 ) {
 	private val display by lazy { ContextCompat.getDisplayOrDefault(context) }
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
@@ -207,6 +209,7 @@ class MediaCodecCapabilitiesTest(
 
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!softwareCodecsEnabled && info.isSoftwareCodec) continue
 
 			try {
 				val capabilities = info.getCapabilitiesForType(mime)
@@ -226,6 +229,7 @@ class MediaCodecCapabilitiesTest(
 	private fun hasDecoder(mime: String, profile: Int, level: Int): Boolean {
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!softwareCodecsEnabled && info.isSoftwareCodec) continue
 
 			try {
 				val capabilities = info.getCapabilitiesForType(mime)
@@ -253,6 +257,7 @@ class MediaCodecCapabilitiesTest(
 	private fun hasCodecForMime(mime: String): Boolean {
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!softwareCodecsEnabled && info.isSoftwareCodec) continue
 
 			if (info.supportedTypes.any { it.equals(mime, ignoreCase = true) }) {
 				Timber.i("found codec %s for mime %s", info.name, mime)
@@ -268,6 +273,7 @@ class MediaCodecCapabilitiesTest(
 
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!softwareCodecsEnabled && info.isSoftwareCodec) continue
 
 			try {
 				val types = info.getSupportedTypes()
@@ -289,6 +295,7 @@ class MediaCodecCapabilitiesTest(
 
 		for (info in mediaCodecList.codecInfos) {
 			if (info.isEncoder) continue
+			if (!softwareCodecsEnabled && info.isSoftwareCodec) continue
 
 			try {
 				val capabilities = info.getCapabilitiesForType(mime)
@@ -308,4 +315,7 @@ class MediaCodecCapabilitiesTest(
 
 		return Size(maxWidth, maxHeight)
 	}
+
+	private val MediaCodecInfo.isSoftwareCodec: Boolean
+		get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && isSoftwareOnly
 }
