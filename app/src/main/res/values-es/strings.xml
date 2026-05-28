@@ -105,7 +105,7 @@
     <string name="lbl_recordings">Grabaciones</string>
     <string name="lbl_videos">Vídeos</string>
     <string name="lbl_watched">Visto</string>
-    <string name="lbl_favorite">Favoritos</string>
+    <string name="lbl_favorite">Favorito</string>
     <string name="lbl_series">Series</string>
     <string name="lbl_item">Artículo</string>
     <string name="lbl_items">Elementos</string>
@@ -647,4 +647,27 @@
     <string name="auto">Automático</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Incrustar siempre los subtítulos en el vídeo durante la transcodificación. Esto puede arreglar los problemas de sincronización de subtítulos pero desactiva su personalización.</string>
     <string name="pref_burn_subtitles_when_transcoding">Incrustar subtítulos durante la transcodificación</string>
+    <string name="playback_info">Información de reproducción</string>
+    <string name="playback_info_play_method">Método de reproducción: %1$s</string>
+    <string name="playback_info_direct_play">Reproducción en directo</string>
+    <string name="playback_info_direct_stream">Transmisión en directo</string>
+    <string name="playback_info_transcoding">Transcodificación</string>
+    <string name="playback_info_container">Contenedor: %1$s</string>
+    <string name="playback_info_video_title">Video</string>
+    <string name="playback_info_audio_title">Audio</string>
+    <string name="playback_info_codec">Códec: %1$s</string>
+    <string name="playback_info_resolution">Resolución: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Bitrate: %1$s</string>
+    <string name="playback_info_channels">Canales: %1$d</string>
+    <string name="playback_info_video_range">Rango de video: %1$s</string>
+    <string name="playback_info_transcoding_note">El servidor está transcodificando este archivo</string>
+    <string name="playback_buffer_length">Tamaño de búfer de reproducción</string>
+    <string name="playback_buffer_auto">Automático</string>
+    <string name="playback_buffer_large">Grande</string>
+    <string name="playback_buffer_extra_large">Extragrande</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="dolby_vision_with_el">Dolby Vision con capa de mejora</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
 </resources>
