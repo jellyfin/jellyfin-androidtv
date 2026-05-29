@@ -21,6 +21,8 @@ import org.jellyfin.androidtv.util.sdk.TrailerUtils.getExternalTrailerIntent
 import org.jellyfin.androidtv.util.sdk.compat.canResume
 import org.jellyfin.androidtv.util.sdk.compat.copyWithUserData
 import org.jellyfin.androidtv.util.showIfNotEmpty
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
+import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.libraryApi
@@ -226,6 +228,34 @@ fun FullDetailsFragment.populatePreviousButton() {
 		mPrevButton.isVisible = previousItem != null
 
 		showMoreButtonIfNeeded()
+	}
+}
+
+fun FullDetailsFragment.loadNextEpisodes(adapter: org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter<androidx.leanback.widget.Row>) {
+	val api by inject<ApiClient>()
+
+	lifecycleScope.launch {
+		try {
+			val episodes = withContext(Dispatchers.IO) {
+				api.tvShowsApi.getEpisodes(
+					seriesId = requireNotNull(mBaseItem.seriesId),
+					seasonId = mBaseItem.seasonId,
+					startItemId = mBaseItem.id,
+					isMissing = false,
+					fields = ItemRepository.itemFields,
+					limit = 21,
+				).content
+			}
+
+			// Remove the first item (current episode)
+			val nextEpisodes = episodes.items.drop(1)
+			if (nextEpisodes.isNotEmpty()) {
+				val nextAdapter = ItemRowAdapter(requireContext(), nextEpisodes, CardPresenter(true, 120), adapter, true)
+				addItemRow(adapter, nextAdapter, 5, getString(R.string.lbl_next_episode))
+			}
+		} catch (err: ApiClientException) {
+			Timber.w(err, "Failed to load next episodes")
+		}
 	}
 }
 
