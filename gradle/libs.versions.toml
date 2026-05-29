@@ -38,7 +38,7 @@ kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
 libass-android = "0.4.0"
 markwon = "4.6.2"
-mockk = "1.14.9"
+mockk = "1.14.11"
 slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
