@@ -224,46 +224,45 @@ public class VideoManager {
     private ExoPlayer.Builder configureExoplayerBuilder(Context context, AssHandler assHandler) {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
 
-        SubtitleParser.Factory legacySubtitleParserFactory = assHandler != null
-                ? new AssSubtitleParserFactory(assHandler)
-                : new DefaultSubtitleParserFactory();
-
-        SubtitleTimingOffsetRenderersFactory defaultRendererFactory = new SubtitleTimingOffsetRenderersFactory(
+        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(
                 context,
-                subtitleTimingOffsetState,
-                legacySubtitleParserFactory
+                exoPlayerHttpDataSourceFactory
         );
-        defaultRendererFactory.setEnableDecoderFallback(true);
-        defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
-
-        DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
-        trackSelector.setParameters(trackSelector.buildUponParameters()
-                .setAudioOffloadPreferences(new TrackSelectionParameters.AudioOffloadPreferences.Builder()
-                        .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
-                        .build()
-                )
-                .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
-                .build()
+        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        extractorsFactory.setTsExtractorTimestampSearchBytes(
+                3 * TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
         );
-        exoPlayerBuilder.setTrackSelector(trackSelector);
 
-        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory().setTsExtractorTimestampSearchBytes(TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3);
-        extractorsFactory.setConstantBitrateSeekingEnabled(true);
-        extractorsFactory.setConstantBitrateSeekingAlwaysEnabled(true);
-        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, exoPlayerHttpDataSourceFactory);
         if (assHandler != null) {
-            AssSubtitleParserFactory assSubtitleParserFactory = (AssSubtitleParserFactory) legacySubtitleParserFactory;
+            AssSubtitleParserFactory assSubtitleParserFactory = new AssSubtitleParserFactory(assHandler);
+            SubtitleTimingOffsetRenderersFactory rendererFactory = new SubtitleTimingOffsetRenderersFactory(
+                    context,
+                    subtitleTimingOffsetState,
+                    assSubtitleParserFactory
+            );
+            rendererFactory.setEnableDecoderFallback(true);
+            rendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
+
             ExtractorsFactory assExtractorsFactory = AssPlayerKt.withAssMkvSupport(extractorsFactory, assSubtitleParserFactory, assHandler);
             DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory);
             mediaSourceFactory.experimentalParseSubtitlesDuringExtraction(false);
-            mediaSourceFactory.setSubtitleParserFactory(legacySubtitleParserFactory);
+            mediaSourceFactory.setSubtitleParserFactory(assSubtitleParserFactory);
             exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
-            exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, defaultRendererFactory));
+            exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, rendererFactory));
         } else {
-            exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+            DefaultSubtitleParserFactory defaultSubtitleParserFactory = new DefaultSubtitleParserFactory();
+            SubtitleTimingOffsetRenderersFactory rendererFactory = new SubtitleTimingOffsetRenderersFactory(
+                    context,
+                    subtitleTimingOffsetState,
+                    defaultSubtitleParserFactory
+            );
+            rendererFactory.setEnableDecoderFallback(true);
+            rendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
+
+            exoPlayerBuilder.setRenderersFactory(rendererFactory);
             exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
                     .experimentalParseSubtitlesDuringExtraction(false)
-                    .setSubtitleParserFactory(legacySubtitleParserFactory));
+                    .setSubtitleParserFactory(defaultSubtitleParserFactory));
         }
 
         BufferLength bufferLength = userPreferences.get(UserPreferences.Companion.getBufferLength());

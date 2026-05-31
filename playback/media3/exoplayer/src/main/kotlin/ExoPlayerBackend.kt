@@ -19,6 +19,7 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
@@ -96,41 +97,48 @@ class ExoPlayerBackend(
 			setConstantBitrateSeekingAlwaysEnabled(true)
 		}
 
-		val legacySubtitleParserFactory: SubtitleParser.Factory = if (exoPlayerOptions.enableLibass) {
-			AssSubtitleParserFactory(assHandler)
-		} else {
-			DefaultSubtitleParserFactory()
-		}
-
-		val mediaSourceFactory = if (exoPlayerOptions.enableLibass) {
-			val assSubtitleParserFactory = legacySubtitleParserFactory as AssSubtitleParserFactory
+		val mediaSourceFactory: DefaultMediaSourceFactory
+		val renderersFactory: RenderersFactory
+		if (exoPlayerOptions.enableLibass) {
+			val assSubtitleParserFactory = AssSubtitleParserFactory(assHandler)
 			val assExtractorsFactory = extractorsFactory.withAssMkvSupport(assSubtitleParserFactory, assHandler)
-			DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
+			mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
 				@Suppress("DEPRECATION")
 				experimentalParseSubtitlesDuringExtraction(false)
-				setSubtitleParserFactory(legacySubtitleParserFactory)
+				setSubtitleParserFactory(assSubtitleParserFactory)
 			}
-		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory).apply {
-			@Suppress("DEPRECATION")
-			experimentalParseSubtitlesDuringExtraction(false)
-			setSubtitleParserFactory(legacySubtitleParserFactory)
-		}
-
-		val renderersFactory = SubtitleTimingOffsetRenderersFactory(
-			context = context,
-			offsetState = subtitleTimingOffsetState,
-			subtitleParserFactory = legacySubtitleParserFactory,
-		).apply {
-			setEnableDecoderFallback(true)
-			setExtensionRendererMode(
-				when (exoPlayerOptions.preferFfmpeg) {
-					true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-					false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
-				}
-			)
-		}.let { renderersFactory ->
-			if (exoPlayerOptions.enableLibass) AssRenderersFactory(assHandler, renderersFactory)
-			else renderersFactory
+			renderersFactory = SubtitleTimingOffsetRenderersFactory(
+				context = context,
+				offsetState = subtitleTimingOffsetState,
+				subtitleParserFactory = assSubtitleParserFactory,
+			).apply {
+				setEnableDecoderFallback(true)
+				setExtensionRendererMode(
+					when (exoPlayerOptions.preferFfmpeg) {
+						true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+						false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
+					}
+				)
+			}.let { AssRenderersFactory(assHandler, it) }
+		} else {
+			val defaultSubtitleParserFactory = DefaultSubtitleParserFactory()
+			mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory).apply {
+				@Suppress("DEPRECATION")
+				experimentalParseSubtitlesDuringExtraction(false)
+				setSubtitleParserFactory(defaultSubtitleParserFactory)
+			}
+			renderersFactory = SubtitleTimingOffsetRenderersFactory(
+				context = context,
+				offsetState = subtitleTimingOffsetState,
+				subtitleParserFactory = defaultSubtitleParserFactory,
+			).apply {
+				setExtensionRendererMode(
+					when (exoPlayerOptions.preferFfmpeg) {
+						true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+						false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
+					}
+				)
+			}
 		}
 
 		val loadControl = DefaultLoadControl.Builder()
