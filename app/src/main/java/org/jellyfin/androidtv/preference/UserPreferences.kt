@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.HdrOverrideMode
 import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
@@ -136,6 +137,31 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable AC3
 		 */
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
+
+		/**
+		 * HDR10 device profile override.
+		 */
+		var hdr10Override = enumPreference("pref_hdr10_mode", HdrOverrideMode.AUTO)
+
+		/**
+		 * HDR10+ device profile override.
+		 */
+		var hdr10PlusOverride = enumPreference("pref_hdr10_plus_mode", HdrOverrideMode.AUTO)
+
+		/**
+		 * Dolby Vision Profile 5 device profile override.
+		 */
+		var doviProfile5Override = enumPreference("pref_dovi_profile_5_mode", HdrOverrideMode.AUTO)
+
+		/**
+		 * Dolby Vision Profile 7 device profile override.
+		 */
+		var doviProfile7Override = enumPreference("pref_dovi_profile_7_mode", HdrOverrideMode.AUTO)
+
+		/**
+		 * Dolby Vision Profile 8 device profile override.
+		 */
+		var doviProfile8Override = enumPreference("pref_dovi_profile_8_mode", HdrOverrideMode.AUTO)
 
 		/* Live TV */
 		/**

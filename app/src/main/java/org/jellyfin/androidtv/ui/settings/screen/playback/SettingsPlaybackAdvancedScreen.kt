@@ -199,6 +199,14 @@ fun SettingsPlaybackAdvancedScreen() {
 
 		item {
 			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_hdr_overrides)) },
+				captionContent = { Text(stringResource(R.string.preference_hdr_overrides_summary)) },
+				onClick = { router.push(Routes.PLAYBACK_HDR_OVERRIDES) }
+			)
+		}
+
+		item {
+			ListButton(
 				headingContent = { Text(stringResource(R.string.preference_codecs)) },
 				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
 				onClick = { router.push(Routes.PLAYBACK_CODEC) }
