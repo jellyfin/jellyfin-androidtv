@@ -85,6 +85,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     protected VideoOptions mCurrentOptions;
     private int mDefaultAudioIndex = -1;
     protected boolean burningSubs = false;
+    private boolean suppressOverlayOnNextPlayback = false;
 
     // The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
     // is set, so we need to assume subs are burned in when transcoding with the option enabled.
@@ -452,6 +453,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
                     mFragment.closePlayer();
                     return;
+                }
+
+                if (suppressOverlayOnNextPlayback) {
+                    mFragment.leanbackOverlayFragment.setShouldShowOverlay(false);
+                    mFragment.leanbackOverlayFragment.hideOverlay();
                 }
 
                 // make sure item isn't missing
@@ -1195,7 +1201,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Timber.i("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
         boolean stillWatchingEnabled = userPreferences.getValue().get(UserPreferences.Companion.getStillWatchingBehavior()) != StillWatchingBehavior.DISABLED;
         boolean nextUpEnabled = userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED;
-        if ((stillWatchingEnabled || nextUpEnabled) && curItem.getType() != BaseItemKind.TRAILER) {
+        boolean showPlaybackPrompt = curItem.getType() != BaseItemKind.TRAILER && curItem.getType() != BaseItemKind.VIDEO;
+        if ((stillWatchingEnabled || nextUpEnabled) && showPlaybackPrompt) {
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             spinnerOff = false;
@@ -1211,6 +1218,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
             endPlayback();
         } else {
+            if (curItem.getType() == BaseItemKind.VIDEO) {
+                suppressOverlayOnNextPlayback = true;
+            }
             next();
         }
     }
@@ -1226,6 +1236,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             if (mFragment != null) {
                 mFragment.setFadingEnabled(true);
                 mFragment.leanbackOverlayFragment.setShouldShowOverlay(false);
+                if (suppressOverlayOnNextPlayback) {
+                    mFragment.leanbackOverlayFragment.hideOverlay();
+                    suppressOverlayOnNextPlayback = false;
+                }
             }
 
             mPlaybackState = PlaybackState.PLAYING;
