@@ -35,6 +35,12 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
+import org.jellyfin.androidtv.ui.playback.external.DefaultExternalPlayerApi
+import org.jellyfin.androidtv.ui.playback.external.ExternalPlayerApi
+import org.jellyfin.androidtv.ui.playback.external.MpvExternalPlayerApi
+import org.jellyfin.androidtv.ui.playback.external.MxExternalPlayerApi
+import org.jellyfin.androidtv.ui.playback.external.VimuExternalPlayerApi
+import org.jellyfin.androidtv.ui.playback.external.VlcExternalPlayerApi
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepositoryImpl
@@ -63,6 +69,7 @@ import org.jellyfin.sdk.model.ClientInfo
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.jellyfin.sdk.Jellyfin as JellyfinSdk
 
@@ -141,7 +148,14 @@ val appModule = module {
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
 	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
-	single<ExternalAppRepository> { ExternalAppRepository(get()) }
+	single<ExternalAppRepository> { ExternalAppRepository(get(), getAll(), get<DefaultExternalPlayerApi>()) }
+
+	// External player APIs
+	single { VlcExternalPlayerApi() } bind ExternalPlayerApi::class
+	single { MxExternalPlayerApi() } bind ExternalPlayerApi::class
+	single { MpvExternalPlayerApi() } bind ExternalPlayerApi::class
+	single { VimuExternalPlayerApi() } bind ExternalPlayerApi::class
+	single { DefaultExternalPlayerApi() }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }
