@@ -7,10 +7,13 @@ import android.content.pm.ActivityInfo
 import android.content.pm.ResolveInfo
 import androidx.core.net.toUri
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.playback.external.ExternalPlayerApi
 import org.jellyfin.androidtv.util.componentName
 
 class ExternalAppRepository(
 	private val userPreferences: UserPreferences,
+	private val externalPlayerApis: List<ExternalPlayerApi>,
+	val defaultExternalPlayerApi: ExternalPlayerApi,
 ) {
 	companion object {
 		const val SAMPLE_VIDEO_URL = "http://jellyfin.local/query.mp4"
@@ -59,4 +62,8 @@ class ExternalAppRepository(
 			userPreferences[UserPreferences.externalPlayerComponentName] = activityInfo.componentName.flattenToShortString()
 		}
 	}
+
+	fun getExternalPlayerApi(activityInfo: ActivityInfo) = externalPlayerApis.firstOrNull { player ->
+		player.supports(activityInfo.applicationInfo)
+	} ?: defaultExternalPlayerApi
 }
