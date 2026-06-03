@@ -650,4 +650,6 @@
     <string name="playback_info_channels">频道：%1$d</string>
     <string name="playback_info_video_range">动态范围：%1$s</string>
     <string name="playback_info_transcoding_note">服务器正在转码此文件</string>
+    <string name="pref_software_codecs_enabled">使用软件编解码器</string>
+    <string name="pref_software_codecs_enabled_description">某些基于软件的实现方式可能会降低性能。禁用此选项会增加转码的可能性。</string>
 </resources>
