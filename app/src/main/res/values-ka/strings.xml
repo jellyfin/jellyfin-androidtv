@@ -465,4 +465,78 @@
     <string name="segment_action_ask_to_skip">კითხვა გამოტოვებისას</string>
     <string name="skip_forward_length">წინ გადახვევის ხანგრძლივობა</string>
     <string name="pref_subtitles_background_opacity">სუბტიტრის ფონის გაუმჭვირვალობა</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s წამი</item>
+        <item quantity="other">%1$s წამი</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s წუთი</item>
+        <item quantity="other">%1$s წუთი</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s საათი</item>
+        <item quantity="other">%1$s საათი</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s ტრეკი</item>
+        <item quantity="other">%1$s ტრეკი</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s ეპიზოდი</item>
+        <item quantity="other">%1$s ეპიზოდი</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s ელემენტი</item>
+        <item quantity="other">%1$s ელემენტი</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s ფილმი</item>
+        <item quantity="other">%1$s ფილმი</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s სერიალი</item>
+        <item quantity="other">%1$s სერიალი</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s სიმღერა</item>
+        <item quantity="other">%1$s სიმღერა</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s ალბომი</item>
+        <item quantity="other">%1$s ალბომი</item>
+    </plurals>
+    <string name="copied_to_clipboard">დაკოპირდა ბუფერში</string>
+    <string name="pref_prerolls_enabled">კინოს რეჟიმის ჩართვა</string>
+    <string name="pref_media_queueing">ყველა ეპიზოდის რიგში ჩასმა</string>
+    <string name="video_player_internal">ჩაშენებული ვიდეოდამკვრელი</string>
+    <string name="backdrop_behavior_with_blur">ფონი დაბინდვით</string>
+    <string name="backdrop_behavior_without_blur">ფონი დაბინდვის გარეშე</string>
+    <string name="user_avc_level">H.264-ის (AVC) დონე</string>
+    <string name="user_hevc_level">H.265-ის (HEVC) დონე</string>
+    <string name="pref_software_codecs_enabled">პროგრამული კოდეკების გამოყენება</string>
+    <string name="video_error_unknown_error">ვიდეოს ჩატვირთვა ჩავარდა</string>
+    <string name="lbl_latest_in">ახლახან დამატებული %1$s-ში</string>
+    <string name="because_you_watched">რადგან თქვენ უყურეთ %1$s-ს</string>
+    <string name="msg_set_to_record">პროგრამა დაყენებულია ჩაწერაზე</string>
+    <string name="msg_unable_to_create_recording">ჩაწერის შექმნა შეუძლებელია</string>
+    <string name="msg_unable_to_cancel">ჩაწერის გაუქმება შეუძლებელია</string>
+    <string name="msg_video_playback_error">"ვიდეოს დაკვრის შეცდომა - "</string>
+    <string name="lbl_tv_queuing">შემდეგი ეპიზოდის ავტომატური დაკვრა</string>
+    <string name="lbl_record_any_channel">ჩაწერა ნებისმიერი არხიდან</string>
+    <string name="lbl_record_any_time">ჩაწერა ნებისმიერ დროს</string>
+    <string name="pref_audio_night_mode">აუდიოს ღამის რეჟიმი (ექსპერიმენტული)</string>
+    <string name="msg_unable_load_subs">სუბტიტრის ჩატვირთვა ჩავარდა</string>
+    <string name="lbl_direct_stream_live">პირდაპირი ეთერის პირდაპირი ნაკადი</string>
+    <string name="lbl_goto_now_playing">გადასვლა იმაზე, რომლის დაკვრაც მიმდინარეობს</string>
+    <string name="lbl_bitstream_ac3">Dolby Digital audio-ის სტრიმინგი</string>
+    <string name="no_program_data">პროგრამის მონაცემები ხელმისაწვდომი არაა</string>
+    <string name="lbl_tv_channel_status">%1$d არხი %2$d-დან</string>
+    <string name="lbl_tv_filter_status">შემდეგი %1$d საათისთვის</string>
+    <string name="lbl_start_favorites">რჩეულების დასაწყისში მოთავსება</string>
+    <string name="pref_next_up_timeout_title">შემდეგი წამზომის ხანგრძლივობა</string>
+    <string name="pref_next_up_behavior_title">შემდეგი ვიდეოს ინფორმაციის ჩვენება</string>
+    <string name="pref_still_watching_behavior_title">არააქტიურობის დროის ამოწურვის მხტუნარას ჩვენება</string>
+    <string name="msg_live_tv_next">ჩაიტვირთოს შემდეგი %1$d საათი?</string>
+    <string name="msg_live_tv_prev">ჩაიტვირთოს წინა %1$d საათი?</string>
+    <string name="subtitle_error">სუბსტიტრების არჩევა შეუძლებელია</string>
 </resources>
