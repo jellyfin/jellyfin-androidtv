@@ -235,7 +235,7 @@ class SdkPlaybackHelper(
 				if (parentId == null) {
 					getParts(mainItem)
 				} else {
-					val siblingVideos = getVideosInFolder(parentId)
+					val siblingVideos = getVideosInFolder(parentId, mainItem)
 					if (siblingVideos.any { it.id == mainItem.id } && siblingVideos.size > 1) {
 						siblingVideos
 					} else {
@@ -262,27 +262,18 @@ class SdkPlaybackHelper(
 		}
 	}
 
-	private suspend fun getVideosInFolder(parentId: UUID): List<BaseItemDto> {
-		val videos = mutableListOf<BaseItemDto>()
-		var totalRecordCount: Int
+	private suspend fun getVideosInFolder(parentId: UUID, item: BaseItemDto): List<BaseItemDto> {
+		val response by api.itemsApi.getItems(
+			parentId = parentId,
+			isMissing = false,
+			includeItemTypes = listOf(BaseItemKind.VIDEO),
+			sortBy = listOf(ItemSortBy.SORT_NAME),
+			nameStartsWithOrGreater = item.sortName ?: item.name,
+			limit = ITEM_QUERY_LIMIT,
+			fields = ItemRepository.itemFields,
+		)
 
-		do {
-			val response by api.itemsApi.getItems(
-				parentId = parentId,
-				isMissing = false,
-				includeItemTypes = listOf(BaseItemKind.VIDEO),
-				sortBy = listOf(ItemSortBy.SORT_NAME),
-				startIndex = videos.size,
-				limit = ITEM_QUERY_LIMIT,
-				fields = ItemRepository.itemFields,
-			)
-
-			totalRecordCount = response.totalRecordCount
-			if (response.items.isEmpty()) break
-			videos += response.items
-		} while (videos.size < totalRecordCount)
-
-		return videos
+		return response.items
 	}
 
 	private suspend fun getParts(item: BaseItemDto): List<BaseItemDto> = buildList {
