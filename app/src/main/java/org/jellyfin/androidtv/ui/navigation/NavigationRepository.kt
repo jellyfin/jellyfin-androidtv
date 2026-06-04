@@ -57,6 +57,11 @@ interface NavigationRepository {
 	 * Reset navigation to the initial destination or a specific [Destination.Fragment] without clearing history.
 	 */
 	fun reset(destination: Destination.Fragment? = null) = reset(destination, false)
+	
+	/**
+	 * Dummy navigation required for fragment activites without their own UI.
+	 */
+	fun goNowhere(required: Boolean): Boolean
 }
 
 class NavigationRepositoryImpl(
@@ -96,5 +101,12 @@ class NavigationRepositoryImpl(
 		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, true, false, clearHistory))
 		Timber.i("Navigating to $actualDestination (via reset, clearHistory=$clearHistory)")
 	}
+	
+	override fun goNowhere(required: Boolean): Boolean {
+		if (!required) return false
+		Timber.i("Navigating to nowhere.")
+		_currentAction.tryEmit(NavigationAction.Nothing)
+		return true
+		}
 }
 
