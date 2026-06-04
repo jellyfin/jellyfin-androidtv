@@ -670,4 +670,6 @@
     <string name="playback_info_channels">Kanály: %1$d</string>
     <string name="playback_info_video_range">Rozsah videa: %1$s</string>
     <string name="playback_info_transcoding_note">Server provádí překódování tohoto souboru</string>
+    <string name="pref_software_codecs_enabled">Použít softwarové kodeky</string>
+    <string name="pref_software_codecs_enabled_description">Některé softwarové implementace mohou snižovat výkon. Zakázání této možnosti zvýší pravděpodobnost překódování.</string>
 </resources>
