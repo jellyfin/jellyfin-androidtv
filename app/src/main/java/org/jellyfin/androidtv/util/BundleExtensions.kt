@@ -8,3 +8,7 @@ inline fun <reified T> Bundle.getValue(key: String): T? = when {
 	Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelable(key, T::class.java)
 	else -> get(key) as T?
 }
+
+fun createBundle(init: (Bundle.() -> Unit)? = null) = Bundle().also { bundle ->
+	if (init != null) bundle.init()
+}
