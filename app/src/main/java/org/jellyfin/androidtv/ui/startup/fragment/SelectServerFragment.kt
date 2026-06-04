@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
@@ -46,6 +45,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MenuBuilder
+import org.jellyfin.androidtv.util.createBundle
 import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.compose.koinInject
@@ -73,9 +73,9 @@ class SelectServerFragment : Fragment() {
 						add<ServerFragment>(
 							R.id.content_view,
 							null,
-							bundleOf(
-								ServerFragment.ARG_SERVER_ID to server.id.toString()
-							)
+							createBundle {
+								putString(ServerFragment.ARG_SERVER_ID, server.id.toString())
+							}
 						)
 						addToBackStack(null)
 					}
@@ -102,9 +102,9 @@ class SelectServerFragment : Fragment() {
 							add<ServerFragment>(
 								R.id.content_view,
 								null,
-								bundleOf(
-									ServerFragment.ARG_SERVER_ID to state.id.toString()
-								)
+								createBundle {
+									putString(ServerFragment.ARG_SERVER_ID, state.id.toString())
+								}
 							)
 						}
 					} else {
@@ -115,12 +115,16 @@ class SelectServerFragment : Fragment() {
 
 						// Show error as toast
 						if (state is UnableToConnectState) {
-							Toast.makeText(requireContext(), getString(
-								R.string.server_connection_failed_candidates,
-								state.addressCandidates
-									.map { "${it.key} ${it.value.getSummary(requireContext())}" }
-									.joinToString(prefix = "\n", separator = "\n")
-							), Toast.LENGTH_LONG).show()
+							Toast.makeText(
+								requireContext(),
+								getString(
+									R.string.server_connection_failed_candidates,
+									state.addressCandidates
+										.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+										.joinToString(prefix = "\n", separator = "\n")
+								),
+								Toast.LENGTH_LONG,
+							).show()
 						}
 					}
 				}.launchIn(lifecycleScope)

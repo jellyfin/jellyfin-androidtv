@@ -33,86 +33,88 @@ import java.util.UUID
 object Destinations {
 	// General
 	val home = fragmentDestination<HomeFragment>()
-	fun search(query: String? = null) = fragmentDestination<SearchFragment>(
-		SearchFragment.EXTRA_QUERY to query,
-	)
+	fun search(query: String? = null) = fragmentDestination<SearchFragment> {
+		putString(SearchFragment.EXTRA_QUERY, query)
+	}
 
 	// Browsing
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun libraryBrowser(item: BaseItemDto, includeType: String? = null) =
-		fragmentDestination<BrowseGridFragment>(
-			Extras.Folder to Json.encodeToString(item),
-			Extras.IncludeType to includeType,
-		)
+		fragmentDestination<BrowseGridFragment> {
+			putString(Extras.Folder, Json.encodeToString(item))
+			putString(Extras.IncludeType, includeType)
+		}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
-	fun librarySmartScreen(item: BaseItemDto) = fragmentDestination<BrowseViewFragment>(
-		Extras.Folder to Json.encodeToString(item),
-	)
+	fun librarySmartScreen(item: BaseItemDto) = fragmentDestination<BrowseViewFragment> {
+		putString(Extras.Folder, Json.encodeToString(item))
+	}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
-	fun collectionBrowser(item: BaseItemDto) = fragmentDestination<CollectionFragment>(
-		Extras.Folder to Json.encodeToString(item),
-	)
+	fun collectionBrowser(item: BaseItemDto) = fragmentDestination<CollectionFragment> {
+		putString(Extras.Folder, Json.encodeToString(item))
+	}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
-	fun folderBrowser(item: BaseItemDto) = fragmentDestination<GenericFolderFragment>(
-		Extras.Folder to Json.encodeToString(item),
-	)
+	fun folderBrowser(item: BaseItemDto) = fragmentDestination<GenericFolderFragment> {
+		putString(Extras.Folder, Json.encodeToString(item))
+	}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun libraryByGenres(item: BaseItemDto, includeType: String) =
-		fragmentDestination<ByGenreFragment>(
-			Extras.Folder to Json.encodeToString(item),
-			Extras.IncludeType to includeType,
-		)
+		fragmentDestination<ByGenreFragment> {
+			putString(Extras.Folder, Json.encodeToString(item))
+			putString(Extras.IncludeType, includeType)
+		}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun libraryByLetter(item: BaseItemDto, includeType: String) =
-		fragmentDestination<ByLetterFragment>(
-			Extras.Folder to Json.encodeToString(item),
-			Extras.IncludeType to includeType,
-		)
+		fragmentDestination<ByLetterFragment> {
+			putString(Extras.Folder, Json.encodeToString(item))
+			putString(Extras.IncludeType, includeType)
+		}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun librarySuggestions(item: BaseItemDto) =
-		fragmentDestination<SuggestedMoviesFragment>(
-			Extras.Folder to Json.encodeToString(item),
-		)
+		fragmentDestination<SuggestedMoviesFragment> {
+			putString(Extras.Folder, Json.encodeToString(item))
+		}
 
 	// Item details
-	fun itemDetails(item: UUID) = fragmentDestination<FullDetailsFragment>(
-		"ItemId" to item.toString(),
-	)
+	fun itemDetails(item: UUID) = fragmentDestination<FullDetailsFragment> {
+		putString("ItemId", item.toString())
+	}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun channelDetails(item: UUID, channel: UUID, programInfo: BaseItemDto) =
-		fragmentDestination<FullDetailsFragment>(
-			"ItemId" to item.toString(),
-			"ChannelId" to channel.toString(),
-			"ProgramInfo" to Json.encodeToString(programInfo),
-		)
+		fragmentDestination<FullDetailsFragment> {
+			putString("ItemId", item.toString())
+			putString("ChannelId", channel.toString())
+			putString("ProgramInfo", Json.encodeToString(programInfo))
+		}
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
 	fun seriesTimerDetails(item: UUID, seriesTimer: SeriesTimerInfoDto) =
-		fragmentDestination<FullDetailsFragment>(
-			"ItemId" to item.toString(),
-			"SeriesTimer" to Json.encodeToString(seriesTimer),
-		)
+		fragmentDestination<FullDetailsFragment> {
+			putString("ItemId", item.toString())
+			putString("SeriesTimer", Json.encodeToString(seriesTimer))
+		}
 
-	fun itemList(item: UUID) = fragmentDestination<ItemListFragment>(
-		"ItemId" to item.toString(),
-	)
+	fun itemList(item: UUID) = fragmentDestination<ItemListFragment> {
+		putString("ItemId", item.toString())
+	}
 
-	fun musicFavorites(parent: UUID) = fragmentDestination<MusicFavoritesListFragment>(
-		"ParentId" to parent.toString(),
-	)
+	fun musicFavorites(parent: UUID) = fragmentDestination<MusicFavoritesListFragment> {
+		putString("ParentId", parent.toString())
+	}
 
 	// Live TV
 	val liveTvGuide = fragmentDestination<LiveTvGuideFragment>()
 	val liveTvSchedule = fragmentDestination<BrowseScheduleFragment>()
 	val liveTvRecordings = fragmentDestination<BrowseRecordingsFragment>()
-	val liveTvSeriesRecordings = fragmentDestination<BrowseViewFragment>(Extras.IsLiveTvSeriesRecordings to true)
+	val liveTvSeriesRecordings = fragmentDestination<BrowseViewFragment> {
+		putBoolean(Extras.IsLiveTvSeriesRecordings, true)
+	}
 
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
@@ -122,26 +124,26 @@ object Destinations {
 		autoPlay: Boolean,
 		albumSortBy: ItemSortBy?,
 		albumSortOrder: SortOrder?,
-	) = fragmentDestination<PhotoPlayerFragment>(
-		PhotoPlayerFragment.ARGUMENT_ITEM_ID to item.toString(),
-		PhotoPlayerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy?.serialName,
-		PhotoPlayerFragment.ARGUMENT_ALBUM_SORT_ORDER to albumSortOrder?.serialName,
-		PhotoPlayerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
-	)
+	) = fragmentDestination<PhotoPlayerFragment> {
+		putString(PhotoPlayerFragment.ARGUMENT_ITEM_ID, item.toString())
+		putString(PhotoPlayerFragment.ARGUMENT_ALBUM_SORT_BY, albumSortBy?.serialName)
+		putString(PhotoPlayerFragment.ARGUMENT_ALBUM_SORT_ORDER, albumSortOrder?.serialName)
+		putBoolean(PhotoPlayerFragment.ARGUMENT_AUTO_PLAY, autoPlay)
+	}
 
-	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(
-		"Position" to (position ?: 0)
-	)
+	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment> {
+		putInt("Position", position ?: 0)
+	}
 
-	fun videoPlayerNew(position: Int?) = fragmentDestination<VideoPlayerFragment>(
-		VideoPlayerFragment.EXTRA_POSITION to position
-	)
+	fun videoPlayerNew(position: Int?) = fragmentDestination<VideoPlayerFragment> {
+		putInt(VideoPlayerFragment.EXTRA_POSITION, position ?: 0)
+	}
 
-	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(
-		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
-	)
+	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment> {
+		putString(NextUpFragment.ARGUMENT_ITEM_ID, item.toString())
+	}
 
-	fun stillWatching(item: UUID) = fragmentDestination<StillWatchingFragment>(
-		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
-	)
+	fun stillWatching(item: UUID) = fragmentDestination<StillWatchingFragment> {
+		putString(NextUpFragment.ARGUMENT_ITEM_ID, item.toString())
+	}
 }

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
@@ -41,6 +40,7 @@ import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
 import org.jellyfin.androidtv.ui.startup.fragment.StartupToolbarFragment
 import org.jellyfin.androidtv.util.applyTheme
+import org.jellyfin.androidtv.util.createBundle
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -185,9 +185,9 @@ class StartupActivity : FragmentActivity() {
 	private fun showServer(id: UUID) = supportFragmentManager.commit {
 		replace<StartupToolbarFragment>(R.id.content_view)
 		add<ServerFragment>(
-			R.id.content_view, null, bundleOf(
-				ServerFragment.ARG_SERVER_ID to id.toString()
-			)
+			R.id.content_view, null, createBundle {
+				putString(ServerFragment.ARG_SERVER_ID, id.toString())
+			}
 		)
 	}
 

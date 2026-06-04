@@ -9,19 +9,19 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.os.BundleCompat
 import androidx.core.os.ParcelCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
+import org.jellyfin.androidtv.util.createBundle
 import timber.log.Timber
 import java.util.Stack
 
 private class HistoryEntry(
 	val name: Class<out Fragment>,
-	val arguments: Bundle = bundleOf(),
+	val arguments: Bundle = createBundle(),
 
 	var fragment: Fragment? = null,
 	var savedState: Fragment.SavedState? = null,
@@ -169,10 +169,10 @@ class DestinationFragmentView @JvmOverloads constructor(
 		saveCurrentFragmentState()
 
 		// Save state
-		return bundleOf(
-			BUNDLE_SUPER to super.onSaveInstanceState(),
-			BUNDLE_HISTORY to ArrayList(history),
-		)
+		return createBundle {
+			putParcelable(BUNDLE_SUPER, super.onSaveInstanceState())
+			putParcelableArrayList(BUNDLE_HISTORY, ArrayList(history))
+		}
 	}
 
 	override fun onRestoreInstanceState(state: Parcelable?) {

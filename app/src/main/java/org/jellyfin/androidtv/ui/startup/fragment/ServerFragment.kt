@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -41,6 +40,7 @@ import org.jellyfin.androidtv.ui.card.UserCardView
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
+import org.jellyfin.androidtv.util.createBundle
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -78,10 +78,10 @@ class ServerFragment : Fragment() {
 					AuthenticatingState -> Unit
 					AuthenticatedState -> Unit
 					// Actions
-					RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
-						UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
-						UserLoginFragment.ARG_USERNAME to user.name,
-					))
+					RequireSignInState -> navigateFragment<UserLoginFragment>(createBundle {
+						putString(UserLoginFragment.ARG_SERVER_ID, server.id.toString())
+						putString(UserLoginFragment.ARG_USERNAME, user.name)
+					})
 					// Errors
 					ServerUnavailableState,
 					is ApiClientErrorLoginState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
@@ -142,10 +142,10 @@ class ServerFragment : Fragment() {
 
 		binding.addUserButton.setOnClickListener {
 			navigateFragment<UserLoginFragment>(
-				args = bundleOf(
-					UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
-					UserLoginFragment.ARG_USERNAME to null
-				)
+				args = createBundle {
+					putString(UserLoginFragment.ARG_SERVER_ID, server.id.toString())
+					putString(UserLoginFragment.ARG_USERNAME, null)
+				}
 			)
 		}
 
@@ -169,7 +169,7 @@ class ServerFragment : Fragment() {
 	}
 
 	private inline fun <reified F : Fragment> navigateFragment(
-		args: Bundle = bundleOf(),
+		args: Bundle = createBundle(),
 		keepToolbar: Boolean = false,
 		keepHistory: Boolean = true,
 	) {
