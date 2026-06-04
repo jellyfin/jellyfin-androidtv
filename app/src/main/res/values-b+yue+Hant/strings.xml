@@ -648,4 +648,6 @@
     <string name="playback_info_channels">聲道：%1$d</string>
     <string name="playback_info_video_range">動態範圍：%1$s</string>
     <string name="playback_info_transcoding_note">伺服器正喺度轉碼緊呢個檔案</string>
+    <string name="pref_software_codecs_enabled">使用軟體解碼器</string>
+    <string name="pref_software_codecs_enabled_description">部分基於軟體嘅實作方式可能會令效能變差。閂咗呢個選項會比較容易引致轉碼。</string>
 </resources>
