@@ -646,4 +646,9 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_info_video_title">Video</string>
+    <string name="playback_info_audio_title">Ljud</string>
+    <string name="playback_info_codec">Kodek: %1$s</string>
+    <string name="playback_info_resolution">Upplösning: %1$dx%2$d</string>
+    <string name="playback_info_channels">Kanaler: %1$d</string>
 </resources>
