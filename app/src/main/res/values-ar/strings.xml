@@ -698,4 +698,6 @@
     <string name="playback_info_channels">القنوات: %1$d</string>
     <string name="playback_info_bitrate">معدل البث: %1$s</string>
     <string name="playback_info_resolution">دقة الشاشة: %1$dx%2$d</string>
+    <string name="pref_software_codecs_enabled">استخدم تشفير برمجي</string>
+    <string name="pref_software_codecs_enabled_description">بعض الاجراءات المستندة على البرامج قد تقلل من الاداء. اثباط هذا الاختيار يجعل الترميز افضل.</string>
 </resources>
