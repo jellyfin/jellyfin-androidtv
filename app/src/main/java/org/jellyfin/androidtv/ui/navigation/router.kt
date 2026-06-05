@@ -9,6 +9,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
@@ -17,10 +18,14 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.defaultPopTransitionSpec
 import androidx.navigation3.ui.defaultTransitionSpec
 import androidx.navigationevent.NavigationEvent
+import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 typealias RouteParameters = Map<String, String>
 typealias RouteComposable = @Composable ((context: RouteContext) -> Unit)
 
+@Serializable
 data class RouteContext(
 	val route: String,
 	val parameters: RouteParameters,
@@ -67,7 +72,9 @@ fun ProvideRouter(
 	defaultRouteParameters: RouteParameters = emptyMap(),
 	content: @Composable () -> Unit,
 ) {
-	val backStack = remember { mutableStateListOf(RouteContext(defaultRoute, defaultRouteParameters)) }
+	val backStack = rememberSerializable(serializer = SnapshotStateListSerializer(serializer<RouteContext>())) {
+		mutableStateListOf(RouteContext(defaultRoute, defaultRouteParameters))
+	}
 	val router = remember(routes, backStack) {
 		Router(
 			routes = routes,
