@@ -617,17 +617,6 @@
     <string name="preference_enable_pgs_description">Requires transcoding when disabled</string>
     <string name="preference_enable_ass_description">Experimental feature, may not work reliably</string>
     <string name="auto">Auto</string>
-    <string name="hdr10_plus">HDR10+</string>
-    <string name="dolby_vision_with_el">Dolby Vision with EL</string>
-    <string name="sdr">SDR</string>
-    <string name="hdr10">HDR10</string>
-    <string name="hlg">HLG</string>
-    <string name="lbl_subtitle_offset">Subtitle offset</string>
-    <string name="lbl_subtitle_offset_current">Subtitle offset %1$s</string>
-    <string name="lbl_reset">Reset</string>
-    <string name="lbl_help">Help</string>
-    <string name="lbl_subtitle_offset_help">Subtitles too late: use − | Subtitles too early: use +</string>
-    <string name="lbl_subtitle_offset_seconds">%1$s s</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
