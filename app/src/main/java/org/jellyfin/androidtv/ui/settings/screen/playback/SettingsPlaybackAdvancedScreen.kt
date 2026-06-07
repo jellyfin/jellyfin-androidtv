@@ -188,20 +188,34 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_codecs)) },
+				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
+				onClick = { router.push(Routes.PLAYBACK_CODEC) }
+			)
+		}
+
+		item { ListSection(headingContent = { Text(stringResource(R.string.pref_subtitles)) }) }
+
+		item {
 			var pgsDirectPlay by rememberPreference(userPreferences, UserPreferences.pgsDirectPlay)
 
 			ListButton(
 				headingContent = { Text(stringResource(R.string.preference_enable_pgs)) },
+				captionContent = { Text(stringResource(R.string.preference_enable_pgs_description)) },
 				trailingContent = { Checkbox(checked = pgsDirectPlay) },
 				onClick = { pgsDirectPlay = !pgsDirectPlay }
 			)
 		}
 
 		item {
+			var assDirectPlay by rememberPreference(userPreferences, UserPreferences.assDirectPlay)
+
 			ListButton(
-				headingContent = { Text(stringResource(R.string.preference_codecs)) },
-				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
-				onClick = { router.push(Routes.PLAYBACK_CODEC) }
+				headingContent = { Text(stringResource(R.string.preference_enable_ass)) },
+				captionContent = { Text(stringResource(R.string.preference_enable_ass_description)) },
+				trailingContent = { Checkbox(checked = assDirectPlay) },
+				onClick = { assDirectPlay = !assDirectPlay }
 			)
 		}
 

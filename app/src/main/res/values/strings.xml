@@ -558,7 +558,6 @@
     <string name="pref_report_device_profile_failure">Failed to submit document. Your Jellyfin server may prohibit client logs.</string>
     <string name="fast_forward">Fast forward</string>
     <string name="rewind">Rewind</string>
-    <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
     <string name="preference_enable_pgs">Direct play PGS subtitles</string>
     <string name="pref_burn_subtitles_when_transcoding">Burn in subtitles when transcoding</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Always burn subtitles into the video during transcoding. This can fix subtitle sync issues but disables subtitle customization.</string>
@@ -614,6 +613,9 @@
     <string name="codec_level_4_2">Level 4.2</string>
     <string name="codec_level_4_1">Level 4.1</string>
     <string name="codec_level_4_0">Level 4.0</string>
+    <string name="preference_enable_ass">Direct play ASS subtitles</string>
+    <string name="preference_enable_pgs_description">Requires transcoding when disabled</string>
+    <string name="preference_enable_ass_description">Experimental feature, may not work reliably</string>
     <string name="auto">Auto</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>

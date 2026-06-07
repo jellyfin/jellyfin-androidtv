@@ -9,7 +9,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import coil3.ImageLoader
-import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -28,12 +27,11 @@ fun SettingsDeveloperScreen() {
 	val systemPreferences = koinInject<SystemPreferences>()
 	val context = LocalContext.current
 	val isTvDevice = remember(context) { context.isTvDevice() }
-	val isDeveloperBuild = BuildConfig.DEVELOPMENT
 
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(stringResource(R.string.settings).uppercase()) },
+				overlineContent = { Text(stringResource(R.string.pref_about_title).uppercase()) },
 				headingContent = { Text(stringResource(R.string.pref_developer_link)) },
 			)
 		}
@@ -57,26 +55,6 @@ fun SettingsDeveloperScreen() {
 				headingContent = { Text(stringResource(R.string.disable_ui_mode_warning)) },
 				trailingContent = { Checkbox(checked = disableUiModeWarning) },
 				onClick = { disableUiModeWarning = !disableUiModeWarning }
-			)
-		}
-
-		// Playback rewrite - only show in debug mode
-		if (isDeveloperBuild) item {
-			var playbackRewriteVideoEnabled by rememberPreference(userPreferences, UserPreferences.playbackRewriteVideoEnabled)
-			ListButton(
-				// String is hardcoded because it's for development only
-				headingContent = { Text("Enable new playback module for video") },
-				trailingContent = { Checkbox(checked = playbackRewriteVideoEnabled) },
-				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
-				onClick = { playbackRewriteVideoEnabled = !playbackRewriteVideoEnabled }
-			)
-
-			var assDirectPlay by rememberPreference(userPreferences, UserPreferences.assDirectPlay)
-			ListButton(
-				headingContent = { Text(stringResource(R.string.preference_enable_libass)) },
-				trailingContent = { Checkbox(checked = assDirectPlay) },
-				captionContent = { Text(stringResource(R.string.enable_playback_module_description)) },
-				onClick = { assDirectPlay = !assDirectPlay }
 			)
 		}
 
