@@ -25,9 +25,11 @@ import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
+import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
@@ -107,21 +109,47 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 			// Some special flavor for series, used in FullDetailsFragment
 			val firstNextUp = response.items.firstOrNull()
 			if (query.seriesId != null && response.items.size == 1 && firstNextUp?.seasonId != null && firstNextUp.indexNumber != null) {
-				// If we have exactly 1 episode returned, the series is currently partially watched
-				// we want to query the server for all episodes in the same season starting from
-				// this one to create a list of all unwatched episodes
 				val episodesResponse = withContext(Dispatchers.IO) {
 					api.itemsApi.getItems(
 						parentId = firstNextUp.seasonId,
-						startIndex = firstNextUp.indexNumber,
+						includeItemTypes = setOf(BaseItemKind.EPISODE),
+						filters = setOf(ItemFilter.IS_UNPLAYED),
+						sortBy = setOf(ItemSortBy.INDEX_NUMBER, ItemSortBy.SORT_NAME),
+						sortOrder = setOf(SortOrder.ASCENDING),
 					).content
 				}
 
-				// Combine the next up episode with the additionally retrieved episodes
-				val items = buildList {
-					add(firstNextUp)
-					addAll(episodesResponse.items)
+				val items = episodesResponse.items.ifEmpty { listOf(firstNextUp) }
+
+				setItems(
+					items = items,
+					transform = { item, _ ->
+						BaseItemDtoBaseRowItem(
+							item,
+							preferParentThumb,
+							false
+						)
+					}
+				)
+
+				if (items.isEmpty()) removeRow()
+			} else if (query.seriesId != null && response.items.size == 1 && firstNextUp != null && firstNextUp.indexNumber == null) {
+				// Daily/date-ordered shows don't use episode index numbers, so the season-based
+				// expansion above never fires. Fetch all unplayed episodes in the series sorted
+				// by premiere date so the full upcoming list is shown in chronological order.
+				val episodesResponse = withContext(Dispatchers.IO) {
+					api.itemsApi.getItems(
+						parentId = query.seriesId,
+						includeItemTypes = setOf(BaseItemKind.EPISODE),
+						filters = setOf(ItemFilter.IS_UNPLAYED),
+						sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
+						sortOrder = setOf(SortOrder.ASCENDING),
+						recursive = true,
+						limit = 30,
+					).content
 				}
+
+				val items = episodesResponse.items.ifEmpty { listOf(firstNextUp) }
 
 				setItems(
 					items = items,
