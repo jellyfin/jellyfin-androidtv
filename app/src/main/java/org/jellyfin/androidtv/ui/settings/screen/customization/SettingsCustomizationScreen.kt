@@ -82,6 +82,17 @@ fun SettingsCustomizationScreen() {
 			)
 		}
 
+		item {
+			var enhancedHomeScreen by rememberPreference(userPreferences, UserPreferences.enhancedHomeScreen)
+
+			ListButton(
+				headingContent = { Text("Enhanced home screen") },
+				trailingContent = { Checkbox(checked = enhancedHomeScreen) },
+				captionContent = { Text("Show hero section with backdrop on home screen") },
+				onClick = { enhancedHomeScreen = !enhancedHomeScreen }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_browsing)) }) }
 
 		item {

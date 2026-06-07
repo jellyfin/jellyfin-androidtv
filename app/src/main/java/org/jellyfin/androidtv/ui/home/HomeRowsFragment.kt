@@ -56,11 +56,13 @@ import org.jellyfin.sdk.api.sockets.subscribe
 import org.jellyfin.sdk.model.api.LibraryChangedMessage
 import org.jellyfin.sdk.model.api.UserDataChangedMessage
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
 class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyListener {
 	private val api by inject<ApiClient>()
+	private val homeViewModel by activityViewModel<HomeViewModel>()
 	private val backgroundService by inject<BackgroundService>()
 	private val playbackManager by inject<PlaybackManager>()
 	private val mediaManager by inject<MediaManager>()
@@ -88,7 +90,9 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		adapter = MutableObjectAdapter<Row>(PositionableListRowPresenter())
+		// Add horizontal spacing to prevent card overlap on focus (12dp)
+		val horizontalSpacing = (12 * resources.displayMetrics.density).toInt()
+		adapter = MutableObjectAdapter<Row>(PositionableListRowPresenter(null, horizontalSpacing))
 
 		lifecycleScope.launch(Dispatchers.IO) {
 			val currentUser = withTimeout(30.seconds) {
@@ -272,16 +276,14 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		) {
 			if (item !is BaseRowItem) {
 				currentItem = null
-				//fill in default background
-				backgroundService.clearBackgrounds()
+				homeViewModel.updateFocusedItem(null)
 			} else {
 				currentItem = item
 				currentRow = row as ListRow
+				homeViewModel.updateFocusedItem(item)
 
 				val itemRowAdapter = row.adapter as? ItemRowAdapter
 				itemRowAdapter?.loadMoreItemsIfNeeded(itemRowAdapter.indexOf(item))
-
-				backgroundService.setBackground(item.baseItem)
 			}
 		}
 	}

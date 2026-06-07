@@ -170,6 +170,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var seriesThumbnailsEnabled = booleanPreference("pref_enable_series_thumbnails", true)
 
 		/**
+		 * Enable enhanced home screen with hero section
+		 */
+		var enhancedHomeScreen = booleanPreference("pref_enhanced_home_screen", false)
+
+		/**
 		 * Subtitles foreground color
 		 */
 		var subtitlesBackgroundColor = longPreference("subtitles_background_color", 0x00FFFFFF)
