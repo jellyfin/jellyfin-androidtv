@@ -69,14 +69,6 @@ fun SettingsMainScreen() {
 
 		item {
 			ListButton(
-				leadingContent = { Icon(painterResource(R.drawable.ic_flask), contentDescription = null) },
-				headingContent = { Text(stringResource(R.string.pref_developer_link)) },
-				onClick = { router.push(Routes.DEVELOPER) }
-			)
-		}
-
-		item {
-			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_jellyfin), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_about_title)) },
 				onClick = { router.push(Routes.ABOUT) }

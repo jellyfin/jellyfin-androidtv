@@ -62,5 +62,13 @@ fun SettingsAboutScreen(launchedFromLogin: Boolean = false) {
 				onClick = { router.push(Routes.LICENSES) },
 			)
 		}
+
+		if (!launchedFromLogin) item {
+			ListButton(
+				leadingContent = { Icon(painterResource(R.drawable.ic_flask), contentDescription = null) },
+				headingContent = { Text(stringResource(R.string.pref_developer_link)) },
+				onClick = { router.push(Routes.DEVELOPER) }
+			)
+		}
 	}
 }
