@@ -150,7 +150,7 @@
     <string name="lbl_play_from_here">Vanaf hier afspelen</string>
     <string name="lbl_remove_from_queue">Verwijderen uit wachtrij</string>
     <string name="lbl_goto_now_playing">Naar nu afspelen gaan</string>
-    <string name="lbl_instant_mix">Instant mix</string>
+    <string name="lbl_instant_mix">Snelmix</string>
     <string name="lbl_delete">Verwijderen</string>
     <string name="msg_item_added">" item toegevoegd"</string>
     <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete nummers</string>
