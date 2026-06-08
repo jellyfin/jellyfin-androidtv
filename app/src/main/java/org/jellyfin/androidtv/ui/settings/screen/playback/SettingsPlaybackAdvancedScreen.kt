@@ -261,6 +261,16 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var UserDefinedAudioCodecs by rememberPreference(userPreferences, UserPreferences.userdefinedaudiocodecs)
+
+			ListButton(
+				leadingContent = { Icon(painterResource(R.drawable.ic_more), contentDescription = null) },
+				headingContent = { Text(stringResource(R.string.lbl_preferred_audio_codecs))},
+				onClick = { router.push(Routes.PLAYBACK_PREFERRED_AUDIO_CODECS) }
+			)
+		}
+
+		item {
 			var preferExoPlayerFfmpeg by rememberPreference(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
 			ListButton(
 				headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },
