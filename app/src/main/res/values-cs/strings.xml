@@ -671,4 +671,7 @@
     <string name="playback_info_transcoding_note">Server provádí překódování tohoto souboru</string>
     <string name="pref_software_codecs_enabled">Použít softwarové kodeky</string>
     <string name="pref_software_codecs_enabled_description">Některé softwarové implementace mohou snižovat výkon. Zakázání této možnosti zvýší pravděpodobnost překódování.</string>
+    <string name="preference_enable_ass">Přímo přehrávat titulky ASS</string>
+    <string name="preference_enable_pgs_description">Při zakázání vyžaduje překódování</string>
+    <string name="preference_enable_ass_description">Experimentální funkce, nemusí fungovat spolehlivě</string>
 </resources>
