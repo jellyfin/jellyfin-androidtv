@@ -649,4 +649,7 @@
     <string name="playback_info_transcoding_note">伺服器正喺度轉碼緊呢個檔案</string>
     <string name="pref_software_codecs_enabled">使用軟體解碼器</string>
     <string name="pref_software_codecs_enabled_description">部分基於軟體嘅實作方式可能會令效能變差。閂咗呢個選項會比較容易引致轉碼。</string>
+    <string name="preference_enable_ass">直接播放 ASS 字幕</string>
+    <string name="preference_enable_pgs_description">閂咗嘅話就需要轉碼</string>
+    <string name="preference_enable_ass_description">實驗性功能，運作未必穩定</string>
 </resources>
