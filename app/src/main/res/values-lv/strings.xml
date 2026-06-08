@@ -577,7 +577,6 @@
     <string name="lbl_user_server">%1$s uz %2$s</string>
     <string name="lbl_starting_on_schedule_ending_after">Sākt saskaņā ar grafiku un beigt %1$s pēc grafika</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">Ieslēgt Advanced SubStation Alpha subtitru klienta atveidošanu</string>
     <string name="fast_forward">Paritināt uz priekšu</string>
     <string name="preference_enable_pgs">PGS subtitru tieša atskaņošana</string>
     <string name="pref_subtitles_bold">Treknraksts</string>

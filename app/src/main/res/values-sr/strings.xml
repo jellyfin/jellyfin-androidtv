@@ -476,7 +476,6 @@
     <string name="pref_report_device_profile_summary">Отпреми серверу документ о решавању проблема са подацима о могућностима репродукције</string>
     <string name="pref_report_device_profile_success">Документ предат - %1$s</string>
     <string name="fast_forward">Убрзај</string>
-    <string name="preference_enable_libass">Омогући напредно исцртавање титлова са SubStation Alpha</string>
     <string name="preference_enable_pgs">Омогући PGS титлове</string>
     <string name="item_delete_confirm_message">Да ли сте сигурни да желите неповратно да обришете ову ставку са сервера?</string>
     <plurals name="movies">

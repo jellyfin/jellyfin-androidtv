@@ -583,7 +583,6 @@
     <string name="pref_report_device_profile_success">מסמך נשלח כ-%1$s</string>
     <string name="pref_report_device_profile_failure">נכשל בשליחת המסמך. שרת ה-Jellyfin שלך עלול לא לאפשר יומן הודעות משתמש.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">אפשר ציור בצד לקוח של כתוביות בפורמט Advanced SubStation Alpha</string>
     <string name="lbl_from_beginning">נגן מההתחלה</string>
     <string name="speech_error_unavailable">זיהוי דיבור אינו זמין במכשיר זה.</string>
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>

@@ -590,7 +590,6 @@
     <string name="pref_report_device_profile_failure">Falló el envío del documento. Puede que tu servidor Jellyfin prohíba los registros de los clientes.</string>
     <string name="fast_forward">Avance rápido</string>
     <string name="rewind">Atrasar</string>
-    <string name="preference_enable_libass">Habilitar la presentación de subtítulos Advanced SubStation Alpha en el cliente</string>
     <string name="preference_enable_pgs">Reproducción directa de subtítulos PGS</string>
     <string name="speech_error_no_permission">Sin permiso para el uso del micrófono. Por favor, habilítelo en la configuración del sistema.</string>
     <string name="speech_error_unavailable">El reconocimiento de voz no está disponible en su dispositivo.</string>

@@ -571,7 +571,6 @@
     <string name="fast_forward">Fast forward</string>
     <string name="rewind">Rewind</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">Enable Advanced SubStation Alpha subtitle client rendering</string>
     <string name="pref_subtitles_bold">Bold text</string>
     <string name="lbl_from_beginning">Play from beginning</string>
     <string name="lbl_exit">Exit</string>

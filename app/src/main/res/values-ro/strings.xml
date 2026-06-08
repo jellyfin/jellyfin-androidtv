@@ -586,7 +586,6 @@
     <string name="still_watching_label">Încă te uiți?</string>
     <string name="lbl_still_watching_short">2 episoade sau 60 de minute</string>
     <string name="speech_error_no_permission">Nu ai permisiune să folosești microfonul. Activează-l din setările de sistem.</string>
-    <string name="preference_enable_libass">Activează subtirări Advanced SubStation Alpha</string>
     <string name="lbl_from_beginning">Redă de la început</string>
     <string name="speech_error_unknown">A apărut o eroare neașteptată în timpul recunoașterii vocale.</string>
     <string name="lbl_exit">Ieșire</string>

@@ -561,7 +561,6 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="fast_forward">快进</string>
     <string name="rewind">快退</string>
-    <string name="preference_enable_libass">启用高级 SubStation Alpha 字幕客户端渲染</string>
     <string name="speech_error_unavailable">您的设备无法使用语音识别。</string>
     <string name="speech_error_no_permission">无权使用麦克风。请在系统设置中启用。</string>
     <string name="lbl_from_beginning">从头开始播放</string>

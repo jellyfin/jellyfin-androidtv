@@ -592,7 +592,6 @@
     <string name="lbl_still_watching_very_long">8 epizodai arba 240 minučių</string>
     <string name="fast_forward">Greitai pirmyn</string>
     <string name="rewind">Persukti</string>
-    <string name="preference_enable_libass">Įjungti išplėstinį SubStation Alpha subtitrų kliento atvaizdavimą</string>
     <string name="still_watching_label">Ar vis dar žiūrite?</string>
     <string name="pref_subtitles_position">Atstumas nuo apačios</string>
     <string name="settings">Nustatymai</string>

@@ -582,7 +582,6 @@
     <string name="rewind">Rebobina</string>
     <string name="speech_error_no_permission">Els permisos per a usar el micròfon estan denegats. Activeu-los a la configuració del sistema.</string>
     <string name="speech_error_unavailable">El reconeixement de veu no està disponible per a aquest dispositiu.</string>
-    <string name="preference_enable_libass">Activa el client de renderitzat de subtítols Advanced SubStation Alpha</string>
     <string name="lbl_from_beginning">Reprodueix des de l\'inici</string>
     <string name="speech_error_unknown">Ha succeït un error inesperat durant el reconeixement de veu.</string>
     <string name="preference_enable_pgs">Reprodueix directament els subtítols PGS</string>

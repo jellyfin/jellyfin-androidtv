@@ -571,7 +571,6 @@
     <string name="rewind">Spol tilbake</string>
     <string name="fast_forward">Spol fremmover</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
-    <string name="preference_enable_libass">Aktiver visning av Advanced SubStation Alpha-undertekster i klienten</string>
     <string name="lbl_from_beginning">Spill av fra begynnelsen</string>
     <string name="preference_enable_pgs">Direkteavspilling av PGS-undertekster</string>
     <string name="lbl_exit">Avslutt</string>

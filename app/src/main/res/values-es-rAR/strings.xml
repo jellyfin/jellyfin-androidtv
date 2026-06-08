@@ -580,7 +580,6 @@
     <string name="pref_report_device_profile_failure">Error al subir el documento. Puede que tu servidor de Jellyfin no admita registros del cliente.</string>
     <string name="fast_forward">Adelantar</string>
     <string name="rewind">Rebobinar</string>
-    <string name="preference_enable_libass">Habilitar el renderizado en el cliente para subtítulos Advanced SubStation Alpha (ASS)</string>
     <string name="preference_enable_pgs">Reproducir directamente los subtítulos PGS</string>
     <string name="speech_error_no_permission">No hay permiso para usar el micrófono. Habilitalo en los ajustes del sistema, por favor.</string>
     <string name="speech_error_unavailable">El reconocimiento de voz no está disponible en tu dispositivo.</string>

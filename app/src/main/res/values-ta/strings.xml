@@ -556,7 +556,6 @@
     <string name="pref_report_device_profile_summary">பிளேபேக் திறன்கள் பற்றிய தகவலுடன் ஒரு சரிசெய்தல் ஆவணத்தை ஜெல்லிஃபின் சேவையகத்தில் பதிவேற்றவும்</string>
     <string name="pref_report_device_profile_success">ஆவணம் %1$s ஆக சமர்ப்பிக்கப்பட்டது</string>
     <string name="pref_report_device_profile_failure">ஆவணத்தைச் சமர்ப்பிக்க முடியவில்லை. உங்கள் ஜெல்லிஃபின் சேவையகம் கிளையன்ட் பதிவுகளைத் தடைசெய்யக்கூடும்.</string>
-    <string name="preference_enable_libass">மேம்பட்ட துணைநிலைய ஆல்பா துணைத்தலைப்பு கிளையன்ட் ரெண்டரிங்கை இயக்கு</string>
     <string name="preference_enable_pgs">நேரடி நாடகம் PGS வசனங்கள்</string>
     <string name="speech_error_unknown">பேச்சு அறிதலின் போது எதிர்பாராத பிழை ஏற்பட்டது.</string>
     <string name="default_video_zoom">இயல்புநிலை ஜூம் பயன்முறை</string>

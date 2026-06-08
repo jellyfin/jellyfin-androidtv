@@ -565,7 +565,6 @@
     <string name="pref_report_device_profile_summary">प्लेबैक क्षमताओं के बारे में जानकारी के साथ जेलीफिन सर्वर पर एक समस्या निवारण दस्तावेज़ अपलोड करें</string>
     <string name="pref_report_device_profile_success">दस्तावेज़ %1$s के रूप में सबमिट किया गया</string>
     <string name="pref_report_device_profile_failure">दस्तावेज़ सबमिट करने में विफल। आपका जेलीफ़िन सर्वर क्लाइंट लॉग को प्रतिबंधित कर सकता है।</string>
-    <string name="preference_enable_libass">उन्नत सबस्टेशन अल्फा उपशीर्षक (ASS) क्लाइंट रेंडरिंग चालू करें</string>
     <string name="speech_error_unavailable">आपके डिवाइस पर वाचा पहचान उपलब्ध नहीं है।</string>
     <string name="speech_error_unknown">वाचा पहचान के दौरान एक अप्रत्याशित एरर उत्पन्न हुआ।</string>
     <string name="still_watching_label">क्या आप अभी भी देख रहे हैं?</string>

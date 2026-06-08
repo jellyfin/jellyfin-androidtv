@@ -572,7 +572,6 @@
     <string name="lbl_still_watching_short">2 集或 60 分鐘</string>
     <string name="lbl_still_watching_long">5 集或 150 分鐘</string>
     <string name="lbl_still_watching_very_long">8 集或 240 分鐘</string>
-    <string name="preference_enable_libass">啟用高級 SubStation Alpha 字幕用戶端渲染</string>
     <string name="preference_enable_pgs">直接播放 PGS 字幕</string>
     <string name="still_watching_label">你還在觀看嗎？</string>
     <string name="pref_subtitles_position">從底部偏移</string>

@@ -585,7 +585,6 @@
     <string name="preference_enable_trickplay">Luba trickplay kasutamine</string>
     <string name="pref_mediasegment_actions">Meediasegmendi toimingud</string>
     <string name="segment_type_unknown">Tundmatud segmendid</string>
-    <string name="preference_enable_libass">Luba Advanced SubStation Alpha (ASS) subtiitrite renderdamine kliendil</string>
     <string name="settings">Seaded</string>
     <string name="settings_description">Muuda rakendust oma maitse järgi</string>
     <string name="copied_to_clipboard">Kopeeriti lõikelauale</string>

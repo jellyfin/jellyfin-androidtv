@@ -591,7 +591,6 @@
     <string name="indicator_subtitles_hearing_impaired">Слабослышащие</string>
     <string name="fast_forward">Перемотать вперед</string>
     <string name="rewind">Перемотать назад</string>
-    <string name="preference_enable_libass">Включить отрисовку субтитров типа Advanced SubStation Alpha на клиенте</string>
     <string name="speech_error_unavailable">Распознавание речи недоступно на вашем устройстве.</string>
     <string name="speech_error_no_permission">Отсутствует разрешение на использование микрофона. Пожалуйста, выдайте разрешение в настройках системы.</string>
     <string name="lbl_from_beginning">Воспроизвести с начала</string>

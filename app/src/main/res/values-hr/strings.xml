@@ -590,7 +590,6 @@
     <string name="pref_report_device_profile_failure">Neuspjelo slanje dokumenta. Vaš Jellyfin poslužitelj možda ne dopušta slanje zapisa klijenta.</string>
     <string name="fast_forward">Premotaj unaprijed</string>
     <string name="rewind">Premotaj unatrag</string>
-    <string name="preference_enable_libass">Omogući napredno klijentsko renderiranje ASS titlova</string>
     <string name="preference_enable_pgs">Izravna reprodukcija PGS podnatpisa</string>
     <string name="speech_error_no_permission">Aplikacija nema dopuštenje za pristup mikrofonu. Omogućite ga u postavkama sustava.</string>
     <string name="speech_error_unavailable">Prepoznavanje govora nije dostupno na vašem uređaju.</string>

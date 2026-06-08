@@ -582,7 +582,6 @@
     <string name="pref_report_device_profile_failure">Falha ao enviar o documento. Seu servidor Jellyfin pode proibir logs de clientes.</string>
     <string name="pref_subtitles_bold">Texto negrito</string>
     <string name="lbl_from_beginning">Reproduzir do início</string>
-    <string name="preference_enable_libass">Ativar renderização avançada de legendas SubStation Alpha no cliente</string>
     <string name="speech_error_unavailable">O reconhecimento de fala não está disponível no seu dispositivo.</string>
     <string name="speech_error_no_permission">Sem permissão para usar o microfone. Por favor, ative-a nas configurações do sistema.</string>
     <string name="speech_error_unknown">Ocorreu um erro inesperado durante o reconhecimento de fala.</string>

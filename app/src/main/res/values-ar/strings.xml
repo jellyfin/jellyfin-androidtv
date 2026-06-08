@@ -615,7 +615,6 @@
     </plurals>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="preference_enable_pgs">تشغيل مباشر لترجمات PGS</string>
-    <string name="preference_enable_libass">تمكين عرض عميل الترجمة Advanced SubStation Alpha</string>
     <string name="settings">الإعدادات</string>
     <string name="settings_description">قم بتغيير التطبيق حسب رغبتك</string>
     <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>

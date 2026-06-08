@@ -583,7 +583,6 @@
     <string name="lbl_still_watching_long">5 jaksoa tai 150 minuuttia</string>
     <string name="lbl_still_watching_very_long">8 jaksoa tai 240 minuuttia</string>
     <string name="speech_error_unavailable">Puheentunnistus ei ole saatavilla laitteellasi.</string>
-    <string name="preference_enable_libass">Ota käyttöön Advanced SubStation Alpha -tekstitysten renderöinti käyttäjällä</string>
     <string name="still_watching_label">Katseletko yhä?</string>
     <string name="settings">Asetukset</string>
     <string name="settings_description">Muokkaa äppiä mieleiseksesi</string>

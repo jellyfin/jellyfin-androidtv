@@ -591,7 +591,6 @@
     <string name="pref_report_device_profile_failure">Αποτυχία υποβολής εγγράφου. Ο διακομιστής Jellyfin σας ενδέχεται να απαγορεύει τα αρχεία καταγραφής πελάτη.</string>
     <string name="fast_forward">Γρήγορη αναπαραγωγή</string>
     <string name="rewind">Επανακύλιση</string>
-    <string name="preference_enable_libass">Ενεργοποιήστε την προχωρημένη απόδοση υπότιτλων SubStation Alpha στον πελάτη</string>
     <string name="preference_enable_pgs">Άμεση αναπαραγωγή υποτίτλων PGS</string>
     <string name="speech_error_no_permission">Δεν έχετε άδεια χρήσης του μικροφώνου. Ενεργοποιήστε το στις ρυθμίσεις του συστήματος.</string>
     <string name="speech_error_unavailable">Η αναγνώριση ομιλίας δεν είναι διαθέσιμη στη συσκευή σας.</string>
@@ -606,11 +605,11 @@
     <string name="codec_level_manual">Χειροκίνητη παράκαμψη</string>
     <plurals name="songs">
         <item quantity="one">%1$s τραγούδια</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="albums">
         <item quantity="one">%1$s άλμπουμ</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="dolby_vision_with_el">Dolby Vision με EL</string>
 </resources>

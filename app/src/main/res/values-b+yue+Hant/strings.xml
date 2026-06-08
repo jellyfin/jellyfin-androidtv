@@ -538,7 +538,6 @@
     <string name="pref_report_device_profile_failure">提交文檔失敗。你個 Jellyfin 伺服器可能禁止咗用戶端上載日誌。</string>
     <string name="fast_forward">快進</string>
     <string name="rewind">倒帶</string>
-    <string name="preference_enable_libass">開啟進階 SubStation Alpha (ASS) 字幕渲染</string>
     <string name="preference_enable_pgs">直接播放 PGS 字幕</string>
     <string name="speech_error_no_permission">冇權限用收音咪。唔該喺系統設定入面開返。</string>
     <string name="speech_error_unavailable">你部裝置用唔到語音辨識。</string>

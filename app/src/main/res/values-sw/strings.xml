@@ -538,7 +538,6 @@
     <string name="pref_report_device_profile_failure">Imeshindwa kuwasilisha nyaraka. Huenda seva yako ya Jellyfin imezuia kumbukumbu za vifaa.</string>
     <string name="fast_forward">Kimbiza mbele</string>
     <string name="rewind">Rudisha nyuma</string>
-    <string name="preference_enable_libass">Washa uandaji wa tafsiri za Advanced SubStation Alpha kwenye kifaa</string>
     <string name="preference_enable_pgs">Cheza tafsiri za PGS moja kwa moja</string>
     <string name="speech_error_no_permission">Huna ruhusa ya kutumia maikrofoni. Tafadhali iwashe kwenye mipangilio ya mfumo.</string>
     <string name="speech_error_unavailable">Utambuzi wa sauti haupatikani kwenye kifaa chako.</string>

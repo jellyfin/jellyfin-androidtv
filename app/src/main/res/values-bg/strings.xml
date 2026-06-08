@@ -562,7 +562,6 @@
     <string name="pref_report_device_profile_summary">Качване на документ за отстраняване на неизправности на Jellyfin сървъра с информация за възможностите за възпроизвеждане</string>
     <string name="pref_report_device_profile_success">Документът е изпратен като %1$s</string>
     <string name="pref_report_device_profile_failure">Неуспешно изпращане на документа. Вашият Jellyfin сървър може да забранява клиентски логове.</string>
-    <string name="preference_enable_libass">Активиране на Advanced SubStation Alpha рендиране на субтитри</string>
     <string name="preference_enable_pgs">Директно възпроизвеждане на PGS субтитри</string>
     <string name="pref_burn_subtitles_when_transcoding">Вграждане на субтитри при транскодиране</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Винаги вграждай субтитрите във видеото при транскодиране. Това може да поправи проблеми със синхронизацията, но изключва персонализирането им.</string>
