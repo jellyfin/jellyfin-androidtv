@@ -654,4 +654,23 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="playback_info">Информације о репродукцији</string>
+    <string name="playback_info_play_method">Начин репродукције: %1$s</string>
+    <string name="playback_info_direct_play">Директна репродукција</string>
+    <string name="playback_info_direct_stream">Директно стримовање</string>
+    <string name="playback_info_transcoding">Транскодовање</string>
+    <string name="playback_info_container">Контејнер: %1$s</string>
+    <string name="playback_info_video_title">Видео</string>
+    <string name="playback_info_audio_title">Аудио</string>
+    <string name="playback_info_codec">Кодек: %1$s</string>
+    <string name="playback_info_resolution">Резолуција: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Брзина преноса: %1$s</string>
+    <string name="playback_info_channels">Канала: %1$d</string>
+    <string name="playback_info_video_range">Опсег видеа: %1$s</string>
+    <string name="playback_info_transcoding_note">Сервер транскодује ову датотеку</string>
+    <string name="preference_enable_ass">Директна репродукција ASS титлова</string>
+    <string name="preference_enable_pgs_description">Захтева транскодовање кад је онемогућено</string>
+    <string name="preference_enable_ass_description">Експериментална могућност, може бити непоуздана</string>
+    <string name="pref_software_codecs_enabled">Користи софтверске кодеке</string>
+    <string name="pref_software_codecs_enabled_description">Неке имплементације засноване на софтверу могу успорити рад. Онемогућавање ове опције чини транскодовање вероватнијим.</string>
 </resources>
