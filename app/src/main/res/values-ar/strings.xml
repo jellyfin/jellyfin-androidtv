@@ -699,4 +699,7 @@
     <string name="playback_info_resolution">دقة الشاشة: %1$dx%2$d</string>
     <string name="pref_software_codecs_enabled">استخدم تشفير برمجي</string>
     <string name="pref_software_codecs_enabled_description">بعض الاجراءات المستندة على البرامج قد تقلل من الاداء. اثباط هذا الاختيار يجعل الترميز افضل.</string>
+    <string name="preference_enable_ass">تشغيل ترجمات ASS مباشرة</string>
+    <string name="preference_enable_pgs_description">يتطلب التشفير عند الاثباط</string>
+    <string name="preference_enable_ass_description">مزة تجريبية, قد لا تعمل بكفاءة</string>
 </resources>
