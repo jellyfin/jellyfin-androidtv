@@ -99,6 +99,7 @@ class MediaCodecCapabilitiesTest(
 		CodecProfileLevel.HEVCMainTierLevel62 to 186,
 	)
 
+	fun supportsAC4(): Boolean = hasCodecForMime(MimeTypes.AUDIO_AC4)
 	fun supportsAV1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_AV1)
 
 	fun supportsAV1Main10(): Boolean = hasDecoder(

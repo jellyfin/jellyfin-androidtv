@@ -27,6 +27,7 @@ private val supportedAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
 	Codec.Audio.AAC_LATM,
 	Codec.Audio.AC3,
+	Codec.Audio.AC4,
 	Codec.Audio.ALAC,
 	Codec.Audio.DCA,
 	Codec.Audio.DTS,
