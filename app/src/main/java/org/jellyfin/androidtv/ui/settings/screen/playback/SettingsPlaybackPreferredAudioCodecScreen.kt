@@ -33,6 +33,7 @@ import org.koin.compose.koinInject
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.profile.supportedAudioCodecs_default
 import org.jellyfin.androidtv.ui.base.button.Button
 import kotlin.collections.filterNot
@@ -54,33 +55,39 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 		var index : Int
 		var stemp: String
 		var defaultcodecs: Array<String>
+		var filtereddefaultcodecs: Array<String>
 		var currentcodecs: Array<String>
+		var filteredcodecs: Array<String>
 
-//		var isAC3Enabled: Boolean
-//		var isAACEnabled: Boolean
-//		isAC3Enabled = userPreferences[UserPreferences.ac3Enabled]
-//		isAACEnabled = userPreferences[UserPreferences.aacEnabled]
+		var displaystring: String
+
+		var isAC3Enabled: Boolean
+		var isAACEnabled: Boolean
+		isAC3Enabled = userPreferences[UserPreferences.ac3Enabled]
+		isAACEnabled = userPreferences[UserPreferences.aacEnabled]
 
 		defaultcodecs = supportedAudioCodecs_default
-//		if (!isAC3Enabled)
-//		{
-//			defaultcodecs = defaultcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-//		}
-//		if (!isAACEnabled)
-//		{
-//			defaultcodecs = defaultcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM }.toTypedArray()
-//		}
+		filtereddefaultcodecs = defaultcodecs
+		if (!isAC3Enabled)
+		{
+			filtereddefaultcodecs = filtereddefaultcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
+		}
+		if (!isAACEnabled)
+		{
+			filtereddefaultcodecs = filtereddefaultcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM  }.toTypedArray()
+		}
 
 		currentcodecs = userdefinedaudiocodecs.split(",").toTypedArray()
-//		if (!isAC3Enabled)
-//		{
-//			currentcodecs = currentcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-//		}
-//		if (!isAACEnabled)
-//		{
-//			currentcodecs = currentcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM  }.toTypedArray()
-//		}
-		userdefinedaudiocodecs = currentcodecs.joinToString(",")
+		filteredcodecs = currentcodecs
+		if (!isAC3Enabled)
+		{
+			filteredcodecs = filteredcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
+		}
+		if (!isAACEnabled)
+		{
+			filteredcodecs = filteredcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM  }.toTypedArray()
+		}
+		displaystring = filteredcodecs.joinToString(",")
 
 		val buttonwidth: Dp = 60.dp
 		val resetbuttonwidth: Dp = 100.dp
@@ -142,24 +149,24 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 						)
 					}
 
-					Row()
-					{
-						Text(
-							text = stringResource(R.string.pref_playback_preferred_audio_codecs_string_3),
-							textAlign = TextAlign.Left,
-							modifier = Modifier.padding(1.dp),
-							style = TextStyle(
-								color = Color.White,
-								fontSize = headertextsize
-							)
-						)
-					}
+//					Row()
+//					{
+//						Text(
+//							text = stringResource(R.string.pref_playback_preferred_audio_codecs_string_3),
+//							textAlign = TextAlign.Left,
+//							modifier = Modifier.padding(1.dp),
+//							style = TextStyle(
+//								color = Color.White,
+//								fontSize = headertextsize
+//							)
+//						)
+//					}
 
 					Row(
 					)
 					{
 						Text(
-							text = userdefinedaudiocodecs,
+							text = displaystring,
 							textAlign = TextAlign.Left,
 							style = TextStyle(
 								color = Color.White,
@@ -220,7 +227,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 
 					}
 
-					for (i in 0 until defaultcodecs.size) {
+					for (i in 0 until filtereddefaultcodecs.size) {
 						Row(
 							horizontalArrangement = Arrangement.spacedBy(2.dp),
 							verticalAlignment = Alignment.CenterVertically,
@@ -235,7 +242,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 									.padding(1.dp)
 							) {
 								Text(
-									text = defaultcodecs[i],
+									text = filtereddefaultcodecs[i],
 									modifier = Modifier
 										.padding(1.dp)
 										.fillMaxWidth(),
@@ -249,7 +256,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 							// This is the move left button
 							Button(
 								onClick = {
-									stemp = defaultcodecs[i]
+									stemp = filtereddefaultcodecs[i]
 									index = currentcodecs.indexOf(stemp)
 									if (index > 0) {
 										stemp = currentcodecs[index - 1]
@@ -281,7 +288,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 							// This is the move right button
 							Button(
 								onClick = {
-									stemp = defaultcodecs[i]
+									stemp = filtereddefaultcodecs[i]
 									index = currentcodecs.indexOf(stemp)
 									if (index >= 0 && index < currentcodecs.size - 1) {
 										stemp = currentcodecs[index + 1]
@@ -314,7 +321,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 							Button(
 								onClick = {
 									// the rows are based on the defaultcodecs array
-									currentcodecs = currentcodecs.filterNot { it == defaultcodecs[i] }.toTypedArray()
+									currentcodecs = currentcodecs.filterNot { it == filtereddefaultcodecs[i] }.toTypedArray()
 									userdefinedaudiocodecs = currentcodecs.joinToString(",")
 									forceredraw++
 								},
@@ -341,8 +348,8 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 							Button(
 								onClick = {
 									// only add it if it doesn't already exist
-									if (!currentcodecs.contains(defaultcodecs[i])) {
-										currentcodecs = currentcodecs + defaultcodecs[i]
+									if (!currentcodecs.contains(filtereddefaultcodecs[i])) {
+										currentcodecs = currentcodecs + filtereddefaultcodecs[i]
 										userdefinedaudiocodecs = currentcodecs.joinToString(",")
 										forceredraw++
 									}
