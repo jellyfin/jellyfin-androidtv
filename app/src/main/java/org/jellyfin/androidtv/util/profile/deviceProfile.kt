@@ -79,9 +79,9 @@ fun createDeviceProfile(
 	userPreferences: UserPreferences,
 	serverVersion: ServerVersion,
 ) = createDeviceProfile(
+	userPreferences,
 	mediaTest = MediaCodecCapabilitiesTest(context, userPreferences[UserPreferences.softwareCodecsEnabled]),
 	maxBitrate = userPreferences.getMaxBitrate(),
-	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
@@ -90,9 +90,9 @@ fun createDeviceProfile(
 )
 
 fun createDeviceProfile(
+	userPreferences: UserPreferences,
 	mediaTest: MediaCodecCapabilitiesTest,
 	maxBitrate: Int,
-	isAC3Enabled: Boolean,
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
@@ -101,8 +101,7 @@ fun createDeviceProfile(
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
-		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-		else -> supportedAudioCodecs
+		else -> getSupportedAudioCodecs(userPreferences)
 	}
 
 	val supportsHevc = mediaTest.supportsHevc()
@@ -546,4 +545,36 @@ private fun DeviceProfileBuilder.subtitleProfile(
 	if (external) subtitleProfile(format, SubtitleDeliveryMethod.EXTERNAL)
 	if (hls) subtitleProfile(format, SubtitleDeliveryMethod.HLS)
 	if (encode) subtitleProfile(format, SubtitleDeliveryMethod.ENCODE)
+}
+
+private fun getSupportedAudioCodecs(userPreferences: UserPreferences):Array<String>
+{
+	var tempstring : String
+	var temparray : Array<String>
+	var isAC3Enabled: Boolean
+	var isAACEnabled: Boolean
+
+	tempstring = userPreferences[UserPreferences.userdefinedaudiocodecs];
+	if (tempstring.count { !it.isWhitespace() } == 0)
+	{
+		temparray = supportedAudioCodecs_default;
+	} else {
+		temparray = tempstring.split(",").toTypedArray()
+	}
+
+	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled]
+	isAACEnabled = userPreferences[UserPreferences.aacEnabled]
+
+	if (!isAC3Enabled)
+	{
+		temparray = temparray.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
+	}
+
+	if (!isAACEnabled)
+	{
+		temparray = temparray.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM }.toTypedArray()
+	}
+
+	return (temparray)
+
 }
