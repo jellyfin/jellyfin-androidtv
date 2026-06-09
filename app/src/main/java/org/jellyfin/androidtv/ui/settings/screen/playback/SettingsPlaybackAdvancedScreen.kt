@@ -261,6 +261,16 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var aacEnabled by rememberPreference(userPreferences, UserPreferences.aacEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_bitstream_aac)) },
+				trailingContent = { Checkbox(checked = aacEnabled) },
+				onClick = { aacEnabled = !aacEnabled }
+			)
+		}
+
+		item {
 			var UserDefinedAudioCodecs by rememberPreference(userPreferences, UserPreferences.userdefinedaudiocodecs)
 
 			ListButton(
