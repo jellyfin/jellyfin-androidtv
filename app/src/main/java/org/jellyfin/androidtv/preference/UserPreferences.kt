@@ -138,9 +138,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
 
 		/**
-		 * Enable AC3
+		 * Enable AAC
 		 */
-		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
+		var aacEnabled = booleanPreference("pref_bitstream_aac", true)
+
+		RANFT NEED TO PUT STUFF HERE
+
 
 		/* Live TV */
 		/**

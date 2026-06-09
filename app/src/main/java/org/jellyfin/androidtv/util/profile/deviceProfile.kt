@@ -23,7 +23,7 @@ private val downmixSupportedAudioCodecs = arrayOf(
 	Codec.Audio.MP3,
 )
 
-private val supportedAudioCodecs = arrayOf(
+public val supportedAudioCodecs_default = arrayOf(
 	Codec.Audio.AAC,
 	Codec.Audio.AAC_LATM,
 	Codec.Audio.AC3,
