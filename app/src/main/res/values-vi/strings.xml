@@ -649,4 +649,9 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_enable_ass">Phụ đề ASS phát trực tiếp</string>
+    <string name="preference_enable_pgs_description">Yêu cầu chuyển mã khi bị vô hiệu hóa</string>
+    <string name="preference_enable_ass_description">Tính năng thử nghiệm, có thể không hoạt động ổn định</string>
+    <string name="pref_software_codecs_enabled">Sử dụng mã hóa phần mềm</string>
+    <string name="pref_software_codecs_enabled_description">Một số phương pháp triển khai dựa trên phần mềm có thể làm giảm hiệu suất. Việc tắt tùy chọn này sẽ làm tăng khả năng chuyển mã.</string>
 </resources>
