@@ -188,19 +188,14 @@
     // SettingsPlaybackPreferredAudioCodecScreen.kt strings
     <string name="lbl_preferred_audio_codecs">Select and prioritize audio codecs</string>
     <string name="pref_playback_preferred_audio_codecs_string_1">Audio Codec Selection and Prioritization</string>
-    <string name="pref_playback_preferred_audio_codecs_string_2">Move codecs to the left to prioritize. The current prioritization order is:</string>
-    <string name="pref_playback_preferred_audio_codecs_string_3"></string>
+    <string name="pref_playback_preferred_audio_codecs_string_2">Dolby Digital and AAC codecs will be shown even if their bitstreams are not enabled.</string>
+    <string name="pref_playback_preferred_audio_codecs_string_3">Move codecs to the left to prioritize. The current prioritization order is:</string>
     <string name="pref_playback_preferred_audio_codecs_reset">Reset to Defaults</string>
     <string name="pref_playback_preferred_audio_codecs_exit">Exit</string>
     <string name="pref_playback_preferred_audio_codecs_move_left">Move Left</string>
     <string name="pref_playback_preferred_audio_codecs_move_right">Move Right</string>
     <string name="pref_playback_preferred_audio_codecs_add">Add</string>
     <string name="pref_playback_preferred_audio_codecs_delete">Delete</string>
-
-
-
-
-
 
     <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
     <string name="lbl_zoom">Zoom</string>

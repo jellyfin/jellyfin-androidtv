@@ -33,7 +33,6 @@ import org.koin.compose.koinInject
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.profile.supportedAudioCodecs_default
 import org.jellyfin.androidtv.ui.base.button.Button
 import kotlin.collections.filterNot
@@ -53,39 +52,39 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 	{
 
 		var index : Int
-
 		var stemp: String
 		var defaultcodecs: Array<String>
 		var currentcodecs: Array<String>
-		var isAC3Enabled: Boolean
-		var isAACEnabled: Boolean
 
-		isAC3Enabled = userPreferences[UserPreferences.ac3Enabled]
-		isAACEnabled = userPreferences[UserPreferences.aacEnabled]
+//		var isAC3Enabled: Boolean
+//		var isAACEnabled: Boolean
+//		isAC3Enabled = userPreferences[UserPreferences.ac3Enabled]
+//		isAACEnabled = userPreferences[UserPreferences.aacEnabled]
 
 		defaultcodecs = supportedAudioCodecs_default
-		if (!isAC3Enabled)
-		{
-			defaultcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-		}
-		if (!isAACEnabled)
-		{
-			defaultcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM }.toTypedArray()
-		}
+//		if (!isAC3Enabled)
+//		{
+//			defaultcodecs = defaultcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
+//		}
+//		if (!isAACEnabled)
+//		{
+//			defaultcodecs = defaultcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM }.toTypedArray()
+//		}
 
 		currentcodecs = userdefinedaudiocodecs.split(",").toTypedArray()
-		if (!isAC3Enabled)
-		{
-			currentcodecs = currentcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-		}
-		if (!isAACEnabled)
-		{
-			currentcodecs = currentcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM  }.toTypedArray()
-		}
+//		if (!isAC3Enabled)
+//		{
+//			currentcodecs = currentcodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
+//		}
+//		if (!isAACEnabled)
+//		{
+//			currentcodecs = currentcodecs.filterNot { it == Codec.Audio.AAC || it == Codec.Audio.AAC_LATM  }.toTypedArray()
+//		}
+		userdefinedaudiocodecs = currentcodecs.joinToString(",")
 
 		val buttonwidth: Dp = 60.dp
 		val resetbuttonwidth: Dp = 100.dp
-		val buttonheight: Dp = 23.dp
+		val buttonheight: Dp = 22.dp
 		val headertextsize: TextUnit = 14.sp
 		val textsize: TextUnit = 10.sp
 		val codecboxwidth = 70.dp
@@ -143,7 +142,6 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 						)
 					}
 
-					/*
 					Row()
 					{
 						Text(
@@ -156,7 +154,6 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 							)
 						)
 					}
-					*/
 
 					Row(
 					)
