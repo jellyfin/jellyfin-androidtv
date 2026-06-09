@@ -26,6 +26,7 @@ import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import kotlin.time.Duration.Companion.minutes
+import org.jellyfin.androidtv.constant.Codec
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -142,8 +143,30 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var aacEnabled = booleanPreference("pref_bitstream_aac", true)
 
-		RANFT NEED TO PUT STUFF HERE
-
+		/**
+		 * User defined audio codecs in priority order
+		 */
+		var userdefinedaudiocodecs = stringPreference(key = "user_defined_audio_codecs",
+			defaultValue = Codec.Audio.AAC + "," +
+				Codec.Audio.AAC_LATM + "," +
+				Codec.Audio.AC3 + "," +
+				Codec.Audio.ALAC + "," +
+				Codec.Audio.DCA + "," +
+				Codec.Audio.DTS + "," +
+				Codec.Audio.EAC3 + "," +
+				Codec.Audio.FLAC + "," +
+				Codec.Audio.MLP + "," +
+				Codec.Audio.MP2 + "," +
+				Codec.Audio.MP3 + "," +
+				Codec.Audio.OPUS + "," +
+				Codec.Audio.PCM_ALAW + "," +
+				Codec.Audio.PCM_MULAW + "," +
+				Codec.Audio.PCM_S16LE + "," +
+				Codec.Audio.PCM_S20LE + "," +
+				Codec.Audio.PCM_S24LE + "," +
+				Codec.Audio.TRUEHD + "," +
+				Codec.Audio.VORBIS
+		)
 
 		/* Live TV */
 		/**

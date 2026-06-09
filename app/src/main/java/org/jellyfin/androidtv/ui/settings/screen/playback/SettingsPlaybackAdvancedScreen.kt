@@ -42,6 +42,8 @@ import org.koin.compose.koinInject
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
+import org.jellyfin.androidtv.ui.base.Icon
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun SettingsPlaybackAdvancedScreen() {
