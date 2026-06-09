@@ -68,6 +68,7 @@ class CardPresenter(
 			setParentCompositionContext(parent.findViewTreeCompositionContext())
 			setViewTreeLifecycleOwner(parent.findViewTreeLifecycleOwner())
 			setViewTreeSavedStateRegistryOwner(parent.findViewTreeSavedStateRegistryOwner())
+			isFocusable = true
 		}
 
 		return CardViewHolder(view)
