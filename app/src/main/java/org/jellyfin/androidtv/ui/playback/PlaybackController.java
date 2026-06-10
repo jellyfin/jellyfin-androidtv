@@ -643,23 +643,33 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info - prefer saved language preference over server default
+        // get subtitle info - prefer saved preference over server default
         String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
-        if (lastSubtitleLanguage != null) {
-            if (lastSubtitleLanguage.isEmpty()) {
-                // User explicitly disabled subtitles
-                mCurrentOptions.setSubtitleStreamIndex(null);
-            } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Find subtitle stream matching saved language
-                Integer matchingIndex = null;
+        Integer lastSubtitleIndex = videoQueueManager.getValue().getLastPlayedSubtitleStreamIndex();
+        if (lastSubtitleLanguage != null && lastSubtitleLanguage.isEmpty()) {
+            // User explicitly disabled subtitles
+            mCurrentOptions.setSubtitleStreamIndex(null);
+        } else if ((lastSubtitleLanguage != null || lastSubtitleIndex != null) && response.getMediaSource().getMediaStreams() != null) {
+            // Find subtitle stream matching saved language
+            Integer matchingIndex = null;
+            if (lastSubtitleLanguage != null) {
                 for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
                     if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
                         matchingIndex = stream.getIndex();
                         break;
                     }
                 }
-                mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
             }
+            // Fall back to matching by stream index for untagged subtitle tracks (language == null)
+            if (matchingIndex == null && lastSubtitleIndex != null && lastSubtitleIndex >= 0) {
+                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                    if (stream.getType() == MediaStreamType.SUBTITLE && stream.getIndex() == lastSubtitleIndex) {
+                        matchingIndex = stream.getIndex();
+                        break;
+                    }
+                }
+            }
+            mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
         } else {
             // No saved preference, use server default
             mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());

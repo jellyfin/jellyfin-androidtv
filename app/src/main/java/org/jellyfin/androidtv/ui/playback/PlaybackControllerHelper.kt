@@ -64,9 +64,11 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	if (index == -1) {
 		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
+		videoQueueManager.setLastPlayedSubtitleStreamIndex(-1)
 	} else {
 		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+		videoQueueManager.setLastPlayedSubtitleStreamIndex(index)
 	}
 
 	// Disable subtitles
