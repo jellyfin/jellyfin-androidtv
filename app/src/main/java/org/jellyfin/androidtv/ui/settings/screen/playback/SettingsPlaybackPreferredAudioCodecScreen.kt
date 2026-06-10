@@ -111,7 +111,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 				modifier = Modifier
 					.background(Color.Black)
 					.padding(1.dp)
-					.requiredSize(width = 800.dp, height = 550.dp)
+					.requiredSize(width = 900.dp, height = 550.dp)
 			) {
 
 				Column(
