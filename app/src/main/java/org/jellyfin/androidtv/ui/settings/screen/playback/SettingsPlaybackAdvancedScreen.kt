@@ -16,12 +16,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
+import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.form.RangeControl
@@ -39,11 +44,6 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.model.ServerVersion
 import org.koin.compose.koinInject
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
-import org.jellyfin.androidtv.ui.base.Icon
-import androidx.compose.ui.res.painterResource
 
 @Composable
 fun SettingsPlaybackAdvancedScreen() {

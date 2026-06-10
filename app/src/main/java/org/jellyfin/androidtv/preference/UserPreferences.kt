@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.preference
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import kotlin.time.Duration.Companion.minutes
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.screensaverInAppEnabled
 import org.jellyfin.androidtv.preference.constant.AVCLevel
 import org.jellyfin.androidtv.preference.constant.AppTheme
@@ -25,8 +27,6 @@ import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.model.api.MediaSegmentType
-import kotlin.time.Duration.Companion.minutes
-import org.jellyfin.androidtv.constant.Codec
 
 /**
  * User preferences are configurable by the user and change behavior of the application.

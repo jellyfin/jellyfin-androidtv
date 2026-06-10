@@ -20,23 +20,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.navigation.LocalRouter
-import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
-import org.koin.compose.koinInject
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import org.jellyfin.androidtv.constant.Codec
-import org.jellyfin.androidtv.util.profile.supportedAudioCodecs_default
-import org.jellyfin.androidtv.ui.base.button.Button
 import kotlin.collections.filterNot
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.constant.Codec
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.button.Button
+import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
+import org.jellyfin.androidtv.util.profile.supportedAudioCodecs_default
+import org.koin.compose.koinInject
 
 
 @Composable
@@ -149,19 +149,6 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 						)
 					}
 
-//					Row()
-//					{
-//						Text(
-//							text = stringResource(R.string.pref_playback_preferred_audio_codecs_string_3),
-//							textAlign = TextAlign.Left,
-//							modifier = Modifier.padding(1.dp),
-//							style = TextStyle(
-//								color = Color.White,
-//								fontSize = headertextsize
-//							)
-//						)
-//					}
-
 					Row(
 					)
 					{
@@ -202,28 +189,6 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 								)
 							)
 						}
-
-						// This is the exit button
-						/*
-						Button(
-							onClick = { isOpen = false },
-							modifier = Modifier
-								.width(resetbuttonwidth)
-								.height(buttonheight)
-								.padding(1.dp),
-							contentPadding = PaddingValues(horizontal = 2.dp, vertical = 1.dp)
-						) {
-							Text(
-								text = stringResource(R.string.pref_playback_preferred_audio_codecs_exit),
-								textAlign = TextAlign.Center,
-								modifier = Modifier.padding(1.dp),
-								style = TextStyle(
-									color = Color.White,
-									fontSize = textsize
-								)
-							)
-						}
-						*/
 
 					}
 
@@ -349,7 +314,7 @@ fun SettingsPlaybackPreferredAudioCodecScreen()
 								onClick = {
 									// only add it if it doesn't already exist
 									if (!currentcodecs.contains(filtereddefaultcodecs[i])) {
-										currentcodecs = currentcodecs + filtereddefaultcodecs[i]
+										currentcodecs += filtereddefaultcodecs[i]
 										userdefinedaudiocodecs = currentcodecs.joinToString(",")
 										forceredraw++
 									}
