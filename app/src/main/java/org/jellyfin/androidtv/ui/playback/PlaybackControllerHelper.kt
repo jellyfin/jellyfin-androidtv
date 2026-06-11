@@ -55,7 +55,6 @@ fun PlaybackController.disableDefaultSubtitles() {
 @JvmOverloads
 fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	Timber.i("Switching subtitles from index ${mCurrentOptions.subtitleStreamIndex} to $index")
-
 	// Already using this subtitle index
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
 
@@ -67,6 +66,9 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	} else {
 		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+		videoQueueManager.setLastPlayedSubtitleForcedState(stream?.isForced ?: false)
+		videoQueueManager.setLastPlayedSubtitleCodec(stream?.codec)
+		videoQueueManager.setLastPlayedSubtitleTitle(stream?.title)
 	}
 
 	// Disable subtitles
