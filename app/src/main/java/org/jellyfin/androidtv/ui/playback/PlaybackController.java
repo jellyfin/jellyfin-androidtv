@@ -538,7 +538,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // find the first audio stream with the requested language and codec
                 for (MediaStream stream : currentMediaSource.getMediaStreams()) {
                     if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage()) && forcedAudioCodec.equals(stream.getCodec())) {
-                        //internalOptions.setAudioStreamIndex(stream.getIndex());
                         matchingIndex = stream.getIndex();
                         break;
                     }
@@ -548,7 +547,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // find the first audio stream with the requested language (fallback to language only)
                 for (MediaStream stream : currentMediaSource.getMediaStreams()) {
                     if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
-                        //internalOptions.setAudioStreamIndex(stream.getIndex());
                         matchingIndex = stream.getIndex();
                         break;
                     }
