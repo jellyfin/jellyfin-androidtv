@@ -275,6 +275,36 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var eac3Enabled by rememberPreference(userPreferences, UserPreferences.eac3Enabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_bitstream_eac3)) },
+				trailingContent = { Checkbox(checked = eac3Enabled) },
+				onClick = { eac3Enabled = !eac3Enabled }
+			)
+		}
+
+		item {
+			var dtsEnabled by rememberPreference(userPreferences, UserPreferences.dtsEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_bitstream_dts)) },
+				trailingContent = { Checkbox(checked = dtsEnabled) },
+				onClick = { dtsEnabled = !dtsEnabled }
+			)
+		}
+
+		item {
+			var truehdEnabled by rememberPreference(userPreferences, UserPreferences.truehdEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_bitstream_truehd)) },
+				trailingContent = { Checkbox(checked = truehdEnabled) },
+				onClick = { truehdEnabled = !truehdEnabled }
+			)
+		}
+
+		item {
 			var preferExoPlayerFfmpeg by rememberPreference(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
 			ListButton(
 				headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },

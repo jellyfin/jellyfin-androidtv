@@ -669,4 +669,7 @@
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Grand</string>
     <string name="playback_buffer_extra_large">Très grand</string>
+    <string name="lbl_bitstream_eac3">Flux audio Dolby Digital Plus</string>
+    <string name="lbl_bitstream_dts">Flux audio Digital Theater System</string>
+    <string name="lbl_bitstream_truehd">Flux audio Dolby TrueHD</string>
 </resources>
