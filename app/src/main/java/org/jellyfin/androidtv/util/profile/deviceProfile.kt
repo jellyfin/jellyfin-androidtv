@@ -118,12 +118,6 @@ fun createDeviceProfile(
 		else -> supportedAudioCodecs.filterNot { supportedPassthroughAudioCodecs ->
 			when (supportedPassthroughAudioCodecs) {
 				// Remove codec if false.
-				//Codec.Audio.AC3 -> !isAC3Enabled && !isAC3PrefEnabled
-				//Codec.Audio.EAC3 -> !isEAC3Enabled && !isEAC3PrefEnabled
-				//Codec.Audio.TRUEHD -> !isTrueHDEnabled && !isTrueHDPrefEnabled
-				//Codec.Audio.DTS -> !isDTSEnabled && !isDTSPrefEnabled
-				//Codec.Audio.EAC3_JOC -> !isEAC3AtmosEnabled && !isAC3PrefEnabled
-				//Codec.Audio.DTS_HD -> !isDTSHDEnabled
 				Codec.Audio.AC3 -> !isAC3PrefEnabled
 				Codec.Audio.EAC3 -> !isEAC3PrefEnabled
 				Codec.Audio.TRUEHD -> !isTrueHDPrefEnabled
