@@ -50,6 +50,9 @@ fun SettingsPlaybackAdvancedScreen() {
 	val userPreferences = koinInject<UserPreferences>()
 	val userSettingPreferences = koinInject<UserSettingPreferences>()
 
+	var ac3Enabled by rememberPreference(userPreferences, UserPreferences.ac3Enabled)
+	var eac3Enabled by rememberPreference(userPreferences, UserPreferences.eac3Enabled)
+
 	SettingsColumn {
 		item {
 			ListSection(
@@ -265,22 +268,24 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
-			var ac3Enabled by rememberPreference(userPreferences, UserPreferences.ac3Enabled)
-
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_bitstream_ac3)) },
 				trailingContent = { Checkbox(checked = ac3Enabled) },
-				onClick = { ac3Enabled = !ac3Enabled }
+				onClick = {
+					val newValue = !ac3Enabled
+					ac3Enabled = newValue
+					if (!newValue) {
+						eac3Enabled = false
+					}
+				}
 			)
 		}
 
 		item {
-			var eac3Enabled by rememberPreference(userPreferences, UserPreferences.eac3Enabled)
-
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_bitstream_eac3)) },
 				trailingContent = { Checkbox(checked = eac3Enabled) },
-				onClick = { eac3Enabled = !eac3Enabled }
+				onClick = { eac3Enabled = !eac3Enabled }, enabled = ac3Enabled
 			)
 		}
 
