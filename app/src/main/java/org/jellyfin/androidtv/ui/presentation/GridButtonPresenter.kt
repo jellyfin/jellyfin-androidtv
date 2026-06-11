@@ -77,8 +77,13 @@ class GridButtonPresenter @JvmOverloads constructor(
 		}
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup): ViewHolder =
-		ViewHolder(ComposeView(parent.context))
+	override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+		val view = ComposeView(parent.context).apply {
+			isFocusable = true
+		}
+
+		return ViewHolder(view)
+	}
 
 	override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any?) {
 		if (viewHolder !is ViewHolder) return
