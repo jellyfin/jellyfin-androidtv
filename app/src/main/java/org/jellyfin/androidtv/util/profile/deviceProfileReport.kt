@@ -181,7 +181,7 @@ fun createDeviceProfileReport(
 	}
 
 	appendDetails("Codec HDR Support") {
-		val mediaTest = MediaCodecCapabilitiesTest(context, userPreferences[UserPreferences.softwareCodecsEnabled])
+		val mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled])
 
 		val codecHDRSupport = buildMap<String, Map<HdrFormats, Boolean>> {
 			if (mediaTest.supportsAV1()) {
