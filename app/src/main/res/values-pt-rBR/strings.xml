@@ -629,4 +629,18 @@
     <string name="backdrop_behavior_without_blur">Fundo sem desfoque</string>
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Grande</string>
+    <string name="playback_info_video_title">Vídeo</string>
+    <string name="playback_info_audio_title">Áudio</string>
+    <string name="playback_info_bitrate">Taxa de Bits: %1$s</string>
+    <string name="playback_info_channels">Canais: %1$d</string>
+    <string name="playback_info_transcoding_note">O servidor está transcodificando este arquivo</string>
+    <string name="playback_buffer_extra_large">Extra grande</string>
+    <string name="codec_level_warning">Alterar de automático pode causar problemas de reprodução se o seu dispositivo não suportar realmente o nível selecionado.</string>
+    <string name="preference_enable_pgs_description">Requer transcodificação quando desativado</string>
+    <string name="preference_enable_ass_description">Recurso experimental, pode não funcionar direito</string>
+    <string name="auto">Automático</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
+    <string name="playback_info_play_method">Método de reprodução: %1$s</string>
+    <string name="playback_info_transcoding">Transcodificação</string>
 </resources>

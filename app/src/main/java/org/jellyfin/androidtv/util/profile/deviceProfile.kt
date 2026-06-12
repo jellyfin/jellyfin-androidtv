@@ -86,7 +86,7 @@ fun createDeviceProfile(
 	userPreferences: UserPreferences,
 	serverVersion: ServerVersion,
 ) = createDeviceProfile(
-	mediaTest = MediaCodecCapabilitiesTest(context, userPreferences[UserPreferences.softwareCodecsEnabled]),
+	mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled]),
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3PrefEnabled = userPreferences[UserPreferences.ac3Enabled],
 	isEAC3PrefEnabled = userPreferences[UserPreferences.eac3Enabled],
