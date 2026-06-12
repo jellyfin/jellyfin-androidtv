@@ -648,4 +648,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">テーマ曲を再生</string>
+    <string name="preference_theme_audio_summary">メディアの閲覧中にテーマ曲を再生する</string>
 </resources>

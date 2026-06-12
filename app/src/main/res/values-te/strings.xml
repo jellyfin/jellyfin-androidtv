@@ -37,4 +37,6 @@
     <string name="lbl_pause">పాజ్</string>
     <string name="lbl_cancel">రద్దు</string>
     <string name="lbl_cancel_recording">రికార్డింగ్‌ని రద్దు చేయండి</string>
+    <string name="preference_theme_audio">ఆడియో థీమ్‌లను ప్లే చేయి</string>
+    <string name="preference_theme_audio_summary">మీడియా కోసం బ్రౌజ్ చేస్తున్నప్పుడు ఆడియో థీమ్‌ను ప్లే చేయి</string>
 </resources>

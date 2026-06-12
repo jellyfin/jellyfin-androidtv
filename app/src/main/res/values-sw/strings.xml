@@ -614,4 +614,6 @@
         <item quantity="one">Albamu %1$s</item>
         <item quantity="other">Albamu %1$s</item>
     </plurals>
+    <string name="preference_theme_audio">Cheza mandhari ya sauti</string>
+    <string name="preference_theme_audio_summary">Cheza mandhari ya sauti unapovinjari midia</string>
 </resources>

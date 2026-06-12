@@ -624,4 +624,6 @@
     <string name="pref_prerolls_enabled_description">Atskaņojiet pielāgotos ievadus pirms filmām</string>
     <string name="pref_playback_inactivity_prompt">Neaktivitātes paziņojums</string>
     <string name="pref_playback_prerolls">Ievadvideo</string>
+    <string name="preference_theme_audio">Atskaņot audio tēmas</string>
+    <string name="preference_theme_audio_summary">Atskaņot audio tēmu, pārlūkojot medijus</string>
 </resources>

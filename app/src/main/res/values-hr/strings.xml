@@ -669,4 +669,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">Reproduciraj zvučne teme</string>
+    <string name="preference_theme_audio_summary">Reproduciraj zvučne teme tijekom pregledavanja</string>
 </resources>

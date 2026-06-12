@@ -617,4 +617,6 @@
     <string name="pref_playback_prerolls">Videospotit</string>
     <string name="backdrop_behavior_with_blur">Tausta sumennuksella</string>
     <string name="backdrop_behavior_without_blur">Tausta ilman sumennusta</string>
+    <string name="preference_theme_audio">Toista ääniteemat</string>
+    <string name="preference_theme_audio_summary">Toista ääniteema, kun selaat medioita</string>
 </resources>

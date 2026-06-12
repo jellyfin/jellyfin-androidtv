@@ -522,4 +522,6 @@
     <string name="clear_image_cache_content">Користено: %1$s</string>
     <string name="lbl_runtime">Времетраење</string>
     <string name="dolby_vision">Dolby Vision</string>
+    <string name="preference_theme_audio">Пушти аудио теми</string>
+    <string name="preference_theme_audio_summary">Пушти аудио тема при преглед на медиуми</string>
 </resources>

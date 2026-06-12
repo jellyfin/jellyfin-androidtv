@@ -148,4 +148,6 @@
     <string name="state_disabled">Wedi\'i analluogi</string>
     <string name="lbl_cancel_recording">Canslo recordio</string>
     <string name="because_you_watched">Oherwydd i chi wylio %1$s</string>
+    <string name="preference_theme_audio">Chwarae themâu sain</string>
+    <string name="preference_theme_audio_summary">Chwarae thema sain wrth bori am gyfryngau</string>
 </resources>

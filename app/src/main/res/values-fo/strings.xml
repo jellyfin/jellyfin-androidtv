@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="preference_theme_audio">Spæl ljóðtema</string>
+    <string name="preference_theme_audio_summary">Spæl ljóðtema tá ið lýst er eftir miðlum</string>
 </resources>

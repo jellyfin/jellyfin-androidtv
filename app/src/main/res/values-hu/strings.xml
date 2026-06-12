@@ -664,4 +664,6 @@
     <string name="preference_enable_ass_description">Kísérleti funkció, előfordulhat, hogy nem működik megbízhatóan</string>
     <string name="pref_software_codecs_enabled">Használjon szoftveres kodekeket</string>
     <string name="pref_software_codecs_enabled_description">Néhány szoftveralapú megvalósítás ronthatja a teljesítményt. A beállítás letiltása nagyobb valószínűséggel okoz átkódolást.</string>
+    <string name="preference_theme_audio">Zenei témák lejátszása</string>
+    <string name="preference_theme_audio_summary">Zenei téma lejátszása a média böngészése közben</string>
 </resources>

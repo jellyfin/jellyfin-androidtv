@@ -19,11 +19,13 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModel
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 	protected var folder: BaseItemDto? = null
@@ -33,9 +35,11 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 
 	private val backgroundService by inject<BackgroundService>()
 	private val itemLauncher by inject<ItemLauncher>()
+	private val themeAudioViewModel: ThemeAudioViewModel by activityViewModel()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 
 		// Parse intent
 		folder = Json.decodeFromString<BaseItemDto>(arguments?.getString(Extras.Folder)!!)
@@ -46,25 +50,29 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 		headersState = HEADERS_DISABLED
 
 		// Add event listeners
-		onItemViewClickedListener = OnItemViewClickedListener { _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, row: Row ->
-			if (item is BaseRowItem) {
-				itemLauncher.launch(
-					item,
-					(row as ListRow).adapter as ItemRowAdapter,
-					requireContext()
-				)
+		onItemViewClickedListener =
+			OnItemViewClickedListener { _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, row: Row ->
+				if (item is BaseRowItem) {
+					itemLauncher.launch(
+						item,
+						(row as ListRow).adapter as ItemRowAdapter,
+						requireContext()
+					)
+				}
 			}
-		}
-		onItemViewSelectedListener = OnItemViewSelectedListener { _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, row: Row ->
-			if (item !is BaseRowItem) {
-				backgroundService.clearBackgrounds()
-			} else {
-				val adapter = (row as? ListRow)?.adapter
-				if (adapter is ItemRowAdapter) adapter.loadMoreItemsIfNeeded(adapter.indexOf(item))
+		onItemViewSelectedListener =
+			OnItemViewSelectedListener { _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, row: Row ->
+				if (item !is BaseRowItem) {
+					backgroundService.clearBackgrounds()
+					themeAudioViewModel.onItemFocused(null)
+				} else {
+					val adapter = (row as? ListRow)?.adapter
+					if (adapter is ItemRowAdapter) adapter.loadMoreItemsIfNeeded(adapter.indexOf(item))
 
-				backgroundService.setBackground(item.baseItem)
+					backgroundService.setBackground(item.baseItem)
+					themeAudioViewModel.onItemFocused(item.baseItem?.id)
+				}
 			}
-		}
 
 		// Initialize
 		lifecycleScope.launch {
@@ -73,6 +81,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 			}
 		}
 	}
+
 
 	protected abstract suspend fun setupQueries(rowLoader: RowLoader)
 
@@ -101,5 +110,10 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 				mutableAdapter.add(row)
 			}
 		}
+	}
+
+	override fun onPause() {
+		super.onPause()
+		themeAudioViewModel.onItemUnfocused()
 	}
 }

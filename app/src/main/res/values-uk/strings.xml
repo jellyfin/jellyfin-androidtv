@@ -679,4 +679,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">Відтворювати аудіотеми</string>
+    <string name="preference_theme_audio_summary">Відтворювати аудіотему під час перегляду медіафайлів</string>
 </resources>

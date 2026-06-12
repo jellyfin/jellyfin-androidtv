@@ -178,4 +178,6 @@
     <string name="lbl_delete">Устгах</string>
     <string name="msg_item_added">" нэмэгдлээ"</string>
     <string name="desc_automatic_fav_songs">Дуртай дуунуудыг автоматаар тоглуулах жагсаалт</string>
+    <string name="preference_theme_audio">Аудио сэдэв тоглуулах</string>
+    <string name="preference_theme_audio_summary">Медиа үзэж байхдаа аудио сэдэв тоглуулах</string>
 </resources>

@@ -615,4 +615,6 @@
     <string name="pref_playback_prerolls">Eelrullid</string>
     <string name="font_weight_900">Must</string>
     <string name="filters">Filtrid</string>
+    <string name="preference_theme_audio">Esita heliteemad</string>
+    <string name="preference_theme_audio_summary">Esita heliteema meediat sirvides</string>
 </resources>

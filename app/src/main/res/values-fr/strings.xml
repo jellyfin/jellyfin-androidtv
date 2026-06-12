@@ -669,4 +669,6 @@
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Grand</string>
     <string name="playback_buffer_extra_large">Très grand</string>
+    <string name="preference_theme_audio">Lire les thèmes musicaux</string>
+    <string name="preference_theme_audio_summary">Lire le thème musical lors de la navigation dans les médiathèques</string>
 </resources>

@@ -645,4 +645,6 @@
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Large</string>
     <string name="playback_buffer_extra_large">Extra large</string>
+    <string name="preference_theme_audio">Play audio themes</string>
+    <string name="preference_theme_audio_summary">Play audio theme when browsing for media</string>
 </resources>

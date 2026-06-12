@@ -668,4 +668,6 @@
     <string name="playback_info_direct_play">Reproducció directa</string>
     <string name="playback_info_play_method">Mètode de reproducció: €1$s</string>
     <string name="playback_info">Informació de reproducció</string>
+    <string name="preference_theme_audio">Reprodueix temes d\'àudio</string>
+    <string name="preference_theme_audio_summary">Reprodueix el tema d\'àudio en navegar pels continguts</string>
 </resources>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_error_unknown_error">වීඩියෝව බාගත කිරීමට අසමත් විය</string>
+    <string name="preference_theme_audio">ශ්‍රව්‍ය තේමා වාදනය කරන්න</string>
+    <string name="preference_theme_audio_summary">මාධ්‍ය සඳහා පිරික්සීමේදී ශ්‍රව්‍ය තේමාව වාදනය කරන්න</string>
 </resources>

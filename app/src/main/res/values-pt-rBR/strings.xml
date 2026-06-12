@@ -643,4 +643,6 @@
     <string name="hlg">HLG</string>
     <string name="playback_info_play_method">Método de reprodução: %1$s</string>
     <string name="playback_info_transcoding">Transcodificação</string>
+    <string name="preference_theme_audio">Reproduzir temas de áudio</string>
+    <string name="preference_theme_audio_summary">Reproduzir temas de áudio au navegar pelas mídias</string>
 </resources>

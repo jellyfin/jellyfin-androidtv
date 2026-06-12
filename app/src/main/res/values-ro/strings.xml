@@ -663,4 +663,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">Redă teme audio</string>
+    <string name="preference_theme_audio_summary">Redă tema audio în timpul navigării prin fișiere media</string>
 </resources>

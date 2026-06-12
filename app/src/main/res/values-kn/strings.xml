@@ -30,4 +30,6 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_latest_in">%1$s ನಲ್ಲಿ ಇತ್ತೀಚೆಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
     <string name="lbl_by_name">ಹೆಸರಿನಿಂದ</string>
+    <string name="preference_theme_audio">ಆಡಿಯೋ ಥೀಮ್‌ಗಳನ್ನು ಪ್ಲೇ ಮಾಡಿ</string>
+    <string name="preference_theme_audio_summary">ಮಾಧ್ಯಮಕ್ಕಾಗಿ ಬ್ರೌಸ್ ಮಾಡುವಾಗ ಆಡಿಯೋ ಥೀಮ್ ಅನ್ನು ಪ್ಲೇ ಮಾಡಿ</string>
 </resources>

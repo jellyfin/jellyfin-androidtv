@@ -673,4 +673,6 @@
     <string name="preference_enable_ass_description">Експериментална могућност, може бити непоуздана</string>
     <string name="pref_software_codecs_enabled">Користи софтверске кодеке</string>
     <string name="pref_software_codecs_enabled_description">Неке имплементације засноване на софтверу могу успорити рад. Онемогућавање ове опције чини транскодовање вероватнијим.</string>
+    <string name="preference_theme_audio">Пусти звучне теме</string>
+    <string name="preference_theme_audio_summary">Пусти звучну тему при прегледању медија</string>
 </resources>

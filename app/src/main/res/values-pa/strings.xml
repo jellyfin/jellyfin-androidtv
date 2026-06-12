@@ -3,4 +3,6 @@
     <string name="btn_cancel">ਰੋਕੋ</string>
     <string name="loading">ਖੁਲ ਰਿਹਾ ਹੈ…</string>
     <string name="video_error_unknown_error">ਵੀਡੀਓ ਲੋਡ ਨਾਈ ਹੋ ਰਹੀ</string>
+    <string name="preference_theme_audio">ਆਡੀਓ ਥੀਮ ਚਲਾਓ</string>
+    <string name="preference_theme_audio_summary">ਮੀਡੀਆ ਬ੍ਰਾਊਜ਼ ਕਰਨ ਵੇਲੇ ਆਡੀਓ ਥੀਮ ਚਲਾਓ</string>
 </resources>

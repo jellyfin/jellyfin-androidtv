@@ -669,4 +669,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">Reproducir temas de audio</string>
+    <string name="preference_theme_audio_summary">Reproducir tema de audio al buscar contenido</string>
 </resources>

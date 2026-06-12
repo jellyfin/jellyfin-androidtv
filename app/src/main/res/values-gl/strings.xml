@@ -97,4 +97,6 @@
     <string name="action_connect">Conectar</string>
     <string name="item_deleted">%1$s borrado</string>
     <string name="photos">Fotos</string>
+    <string name="preference_theme_audio">Reproducir temas de audio</string>
+    <string name="preference_theme_audio_summary">Reproducir o tema de audio ao navegar pelos medios</string>
 </resources>

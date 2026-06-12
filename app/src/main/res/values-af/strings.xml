@@ -61,4 +61,6 @@
     <string name="runtime_minutes">%1$dm</string>
     <string name="lbl_ends">Eindig</string>
     <string name="lbl_directed_by">Geregisseer deur</string>
+    <string name="preference_theme_audio">Speel oudiotemas</string>
+    <string name="preference_theme_audio_summary">Speel oudiotema wanneer daar vir media geblaai word</string>
 </resources>

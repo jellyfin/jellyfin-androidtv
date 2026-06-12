@@ -684,4 +684,6 @@
     <string name="preference_enable_ass">Bezpośrednie odtwarzanie napisów ASS</string>
     <string name="preference_enable_pgs_description">Wymaga transkodowania po wyłączeniu</string>
     <string name="preference_enable_ass_description">Funkcja eksperymentalna, może nie działać niezawodnie</string>
+    <string name="preference_theme_audio">Odtwarzaj motywy dźwiękowe</string>
+    <string name="preference_theme_audio_summary">Odtwarzaj motyw dźwiękowy podczas przeglądania multimediów</string>
 </resources>

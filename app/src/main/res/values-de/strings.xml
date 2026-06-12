@@ -664,4 +664,6 @@
     <string name="preference_enable_ass">ASS Untertitel direkt wiedergeben</string>
     <string name="preference_enable_pgs_description">Benötigt Transkodierung falls deaktiviert</string>
     <string name="preference_enable_ass_description">Experimentelles Feature, könnte nicht zuverlässig arbeiten</string>
+    <string name="preference_theme_audio">Audio-Themen abspielen</string>
+    <string name="preference_theme_audio_summary">Audio-Thema beim Durchsuchen von Medien abspielen</string>
 </resources>

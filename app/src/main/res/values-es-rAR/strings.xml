@@ -628,4 +628,6 @@
     <string name="filters">Filtros</string>
     <string name="backdrop_behavior_with_blur">Fondo con desenfoque</string>
     <string name="backdrop_behavior_without_blur">Fondo sin desenfoque</string>
+    <string name="preference_theme_audio">Reproducir temas de audio</string>
+    <string name="preference_theme_audio_summary">Reproducir temas de audio al buscar contenido</string>
 </resources>

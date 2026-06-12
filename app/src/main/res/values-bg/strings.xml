@@ -657,4 +657,6 @@
     <string name="playback_info_play_method">Метод на възпроизвеждане: %1$s</string>
     <string name="playback_info_direct_play">Директплей</string>
     <string name="playback_info_direct_stream">Директстриим</string>
+    <string name="preference_theme_audio">Възпроизвеждане на аудио теми</string>
+    <string name="preference_theme_audio_summary">Възпроизвеждане на аудио тема при преглед на медия</string>
 </resources>

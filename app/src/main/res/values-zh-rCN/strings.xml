@@ -654,4 +654,6 @@
     <string name="preference_enable_ass">直接播放ASS字幕</string>
     <string name="preference_enable_pgs_description">禁用时需要转码</string>
     <string name="preference_enable_ass_description">实验性功能，可能无法稳定运行</string>
+    <string name="preference_theme_audio">播放音乐主题</string>
+    <string name="preference_theme_audio_summary">浏览媒体时播放音乐主题</string>
 </resources>
