@@ -1,7 +1,14 @@
 package org.jellyfin.androidtv.util.profile
 
 import android.content.Context
+import android.media.AudioFormat
+import androidx.annotation.OptIn
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
+import androidx.media3.common.Format
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.audio.AudioCapabilities
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
@@ -16,14 +23,6 @@ import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.deviceprofile.DeviceProfileBuilder
 import org.jellyfin.sdk.model.deviceprofile.buildDeviceProfile
 import kotlin.math.roundToInt
-
-import androidx.annotation.OptIn
-import androidx.media3.common.AudioAttributes
-import androidx.media3.common.Format
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.audio.AudioCapabilities
-import android.media.AudioFormat
-import androidx.media3.common.C
 
 private val downmixSupportedAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
@@ -578,12 +577,19 @@ fun isPassthroughAudioAvailable(context: Context, mimetype: String): Boolean {
 		.setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
 		.build()
 	// Get audio capabilities
-	val audioCapabilities = AudioCapabilities.getCapabilities(context, audioAttributes, null)
+	val audioCapabilities = AudioCapabilities.getCapabilities(
+		context,
+		audioAttributes,
+		null,
+		listOf(
+			AudioFormat.CHANNEL_OUT_STEREO,
+			AudioFormat.CHANNEL_OUT_5POINT1 )
+	)
 	// Set audio format for a passthrough audio codec 2.0 check
 	val format = Format.Builder()
 		.setSampleMimeType(mimetype)
 		.setChannelCount(Integer.bitCount(AudioFormat.CHANNEL_OUT_STEREO))
-		.setSampleRate(48000)
+		.setSampleRate(Format.NO_VALUE)
 		.build()
 	// Test Passthrough Direct Playback
 	return audioCapabilities.isPassthroughPlaybackSupported(format, audioAttributes)
