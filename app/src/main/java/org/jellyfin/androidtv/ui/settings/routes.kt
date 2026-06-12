@@ -34,6 +34,7 @@ import org.jellyfin.androidtv.ui.settings.screen.livetv.SettingsLiveTvGuideOptio
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAVCLevelScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAdvancedScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAudioBehaviorScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackRemapKeyScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackBufferLengthScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackCodecScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackHEVCLevelScreen
@@ -100,6 +101,7 @@ object Routes {
 	const val PLAYBACK_ZOOM_MODE = "/playback/zoom-mode"
 	const val PLAYBACK_BUFFER_LENGTH = "/playback/buffer-length"
 	const val PLAYBACK_AUDIO_BEHAVIOR = "/playback/audio-behavior"
+	const val PLAYBACK_REMAP_KEY = "/playback/remap-key/{target}"
 	const val PLAYBACK_CODEC = "/playback/codec"
 	const val PLAYBACK_AVC_LEVEL = "/playback/codec/avc-level"
 	const val PLAYBACK_HEVC_LEVEL = "/playback/codec/hevc-level"
@@ -255,6 +257,11 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.PLAYBACK_AUDIO_BEHAVIOR to {
 		SettingsPlaybackAudioBehaviorScreen()
+	},
+	Routes.PLAYBACK_REMAP_KEY to { context ->
+		SettingsPlaybackRemapKeyScreen(
+			target = context.parameters["target"]!!
+		)
 	},
 	Routes.PLAYBACK_CODEC to {
 		SettingsPlaybackCodecScreen()

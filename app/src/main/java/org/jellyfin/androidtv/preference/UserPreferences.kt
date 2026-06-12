@@ -259,6 +259,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable the use of software-based codecs.
 		 */
 		var softwareCodecsEnabled = booleanPreference("software_codecs_enabled", true)
+
+		/**
+		 * Key code for subtitle track button.
+		 */
+		var subtitleKey = intPreference("subtitle_key", 175)
+
+		/**
+		 * Key code for audio track button.
+		 */
+		var audioKey = intPreference("audio_key", 0)
 	}
 
 	init {

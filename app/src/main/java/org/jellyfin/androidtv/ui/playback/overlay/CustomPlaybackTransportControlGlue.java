@@ -379,11 +379,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
 
         VideoPlayerAdapter playerAdapter = getPlayerAdapter();
+        UserPreferences userPreferences = KoinJavaComponent.get(UserPreferences.class);
 
-        if (playerAdapter.hasSubs() && keyCode == KeyEvent.KEYCODE_CAPTIONS) {
+        int subtitleKey = userPreferences.get(UserPreferences.Companion.getSubtitleKey());
+        if (playerAdapter.hasSubs() && keyCode == subtitleKey) {
             closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
-        if (playerAdapter.hasMultiAudio() && keyCode == KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK) {
+
+        int audioKey = userPreferences.get(UserPreferences.Companion.getAudioKey());
+        if (playerAdapter.hasMultiAudio() && (keyCode == KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK || (audioKey != 0 && keyCode == audioKey))) {
             selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);

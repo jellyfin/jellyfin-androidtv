@@ -33,6 +33,7 @@ import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsAsyncActionListButton
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
+import org.jellyfin.androidtv.ui.settings.composable.getKeyName
 import org.jellyfin.androidtv.util.profile.createDeviceProfileReport
 import org.jellyfin.design.Tokens
 import org.jellyfin.sdk.api.client.ApiClient
@@ -40,6 +41,7 @@ import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.model.ServerVersion
 import org.koin.compose.koinInject
 import java.text.DecimalFormat
+import androidx.compose.runtime.mutableStateOf
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -49,6 +51,9 @@ fun SettingsPlaybackAdvancedScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
 	val userSettingPreferences = koinInject<UserSettingPreferences>()
+
+	var subtitleKey by rememberPreference(userPreferences, UserPreferences.subtitleKey)
+	var audioKey by rememberPreference(userPreferences, UserPreferences.audioKey)
 
 	SettingsColumn {
 		item {
@@ -230,6 +235,14 @@ fun SettingsPlaybackAdvancedScreen() {
 			)
 		}
 
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_subtitle_track_button)) },
+				captionContent = { Text(getKeyName(subtitleKey)) },
+				onClick = { router.push(Routes.PLAYBACK_REMAP_KEY, mapOf("target" to "subtitle")) },
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_live_tv_cat)) }) }
 
 		item {
@@ -281,6 +294,14 @@ fun SettingsPlaybackAdvancedScreen() {
 				trailingContent = { Checkbox(checked = preferExoPlayerFfmpeg) },
 				captionContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg_content)) },
 				onClick = { preferExoPlayerFfmpeg = !preferExoPlayerFfmpeg }
+			)
+		}
+
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_audio_track_button)) },
+				captionContent = { Text(getKeyName(audioKey)) },
+				onClick = { router.push(Routes.PLAYBACK_REMAP_KEY, mapOf("target" to "audio")) },
 			)
 		}
 
