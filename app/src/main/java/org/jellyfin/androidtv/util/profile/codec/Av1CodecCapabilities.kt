@@ -6,7 +6,6 @@ import androidx.media3.common.MimeTypes
 
 class Av1CodecCapabilities(
 	private val query: MediaCodecQuery,
-	private val sdkInt: Int = Build.VERSION.SDK_INT,
 ) {
 	companion object {
 		private const val MIME_AV1 = MimeTypes.VIDEO_AV1
@@ -22,19 +21,19 @@ class Av1CodecCapabilities(
 	}
 
 	private val profileMain10: Int
-		get() = if (sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1ProfileMain10 else AV1_PROFILE_MAIN10
+		get() = if (DeviceSdk.sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1ProfileMain10 else AV1_PROFILE_MAIN10
 
 	private val profileMain10HDR10: Int
-		get() = if (sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1ProfileMain10HDR10 else AV1_PROFILE_MAIN10_HDR10
+		get() = if (DeviceSdk.sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1ProfileMain10HDR10 else AV1_PROFILE_MAIN10_HDR10
 
 	private val profileMain10HDR10Plus: Int
-		get() = if (sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1ProfileMain10HDR10Plus else AV1_PROFILE_MAIN10_HDR10_PLUS
+		get() = if (DeviceSdk.sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1ProfileMain10HDR10Plus else AV1_PROFILE_MAIN10_HDR10_PLUS
 
 	private val dolbyVisionProfile10: Int
-		get() = if (sdkInt >= Build.VERSION_CODES.R) CodecProfileLevel.DolbyVisionProfileDvav110 else DV_PROFILE_DVAV1_10
+		get() = if (DeviceSdk.sdkInt >= Build.VERSION_CODES.R) CodecProfileLevel.DolbyVisionProfileDvav110 else DV_PROFILE_DVAV1_10
 
 	private val level5: Int
-		get() = if (sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1Level5 else AV1_LEVEL5
+		get() = if (DeviceSdk.sdkInt >= Build.VERSION_CODES.Q) CodecProfileLevel.AV1Level5 else AV1_LEVEL5
 
 	fun supportsAv1(): Boolean = query.hasCodecForMime(MIME_AV1)
 
@@ -45,7 +44,7 @@ class Av1CodecCapabilities(
 	)
 
 	fun supportsAv1DolbyVision(): Boolean =
-		sdkInt >= Build.VERSION_CODES.N &&
+		DeviceSdk.sdkInt >= Build.VERSION_CODES.N &&
 			query.hasDecoder(
 				MIME_DOLBY_VISION,
 				dolbyVisionProfile10,

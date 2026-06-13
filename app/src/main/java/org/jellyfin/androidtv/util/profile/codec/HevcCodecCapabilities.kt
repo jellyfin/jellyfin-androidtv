@@ -6,7 +6,6 @@ import android.os.Build
 
 class HevcCodecCapabilities(
 	private val query: MediaCodecQuery,
-	private val sdkInt: Int = Build.VERSION.SDK_INT,
 ) {
 	companion object {
 		// HEVC levels as reported by ffprobe are multiplied by 30, e.g. level 4.1 is 123
@@ -39,11 +38,11 @@ class HevcCodecCapabilities(
 	)
 
 	fun supportsHevcDolbyVision(): Boolean =
-		sdkInt >= Build.VERSION_CODES.N &&
+		DeviceSdk.sdkInt >= Build.VERSION_CODES.N &&
 			query.hasCodecForMime(MIME_DOLBY_VISION)
 
 	fun supportsHevcDolbyVisionEL(): Boolean =
-		sdkInt >= Build.VERSION_CODES.N &&
+		DeviceSdk.sdkInt >= Build.VERSION_CODES.N &&
 			query.hasDecoder(
 				MIME_DOLBY_VISION,
 				CodecProfileLevel.DolbyVisionProfileDvheDtb,
@@ -52,7 +51,7 @@ class HevcCodecCapabilities(
 			query.supportsMultiInstance(MIME_HEVC)
 
 	fun supportsHevcHDR10(): Boolean =
-		sdkInt >= Build.VERSION_CODES.N &&
+		DeviceSdk.sdkInt >= Build.VERSION_CODES.N &&
 			query.hasDecoder(
 				MIME_HEVC,
 				CodecProfileLevel.HEVCProfileMain10HDR10,
@@ -60,7 +59,7 @@ class HevcCodecCapabilities(
 			)
 
 	fun supportsHevcHDR10Plus(): Boolean =
-		sdkInt >= Build.VERSION_CODES.Q &&
+		DeviceSdk.sdkInt >= Build.VERSION_CODES.Q &&
 			query.hasDecoder(
 				MIME_HEVC,
 				CodecProfileLevel.HEVCProfileMain10HDR10Plus,

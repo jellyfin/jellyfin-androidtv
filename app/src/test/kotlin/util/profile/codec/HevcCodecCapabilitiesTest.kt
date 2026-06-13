@@ -7,12 +7,22 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
 
 class HevcCodecCapabilitiesTest : FunSpec({
 	val mimeHevc = MediaFormat.MIMETYPE_VIDEO_HEVC
 	val mimeDolbyVision = MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION
 	val apiN = Build.VERSION_CODES.N
 	val apiQ = Build.VERSION_CODES.Q
+
+	beforeEach {
+		mockkObject(DeviceSdk)
+	}
+
+	afterEach {
+		unmockkObject(DeviceSdk)
+	}
 
 	test("supportsHevc returns true when device has HEVC decoder") {
 		val query = mockk<MediaCodecQuery> {
@@ -43,88 +53,101 @@ class HevcCodecCapabilitiesTest : FunSpec({
 	}
 
 	test("supportsHevcDolbyVision returns false when sdkInt below API 24") {
+		every { DeviceSdk.sdkInt } returns apiN - 1
 		val query = mockk<MediaCodecQuery>()
-		HevcCodecCapabilities(query, sdkInt = apiN - 1).supportsHevcDolbyVision() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcDolbyVision() shouldBe false
 	}
 
 	test("supportsHevcDolbyVision returns true when sdkInt >= 24 and device has Dolby Vision codec") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasCodecForMime(mimeDolbyVision) } returns true
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcDolbyVision() shouldBe true
+		HevcCodecCapabilities(query).supportsHevcDolbyVision() shouldBe true
 	}
 
 	test("supportsHevcDolbyVision returns false when sdkInt >= 24 but no Dolby Vision codec") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasCodecForMime(mimeDolbyVision) } returns false
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcDolbyVision() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcDolbyVision() shouldBe false
 	}
 
 	test("supportsHevcDolbyVisionEL returns false when sdkInt below API 24") {
+		every { DeviceSdk.sdkInt } returns apiN - 1
 		val query = mockk<MediaCodecQuery>()
-		HevcCodecCapabilities(query, sdkInt = apiN - 1).supportsHevcDolbyVisionEL() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcDolbyVisionEL() shouldBe false
 	}
 
 	test("supportsHevcDolbyVisionEL returns true when device has Profile 7 decoder and multi-instance HEVC") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeDolbyVision, CodecProfileLevel.DolbyVisionProfileDvheDtb, CodecProfileLevel.DolbyVisionLevelHd24) } returns true
 			every { supportsMultiInstance(mimeHevc) } returns true
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcDolbyVisionEL() shouldBe true
+		HevcCodecCapabilities(query).supportsHevcDolbyVisionEL() shouldBe true
 	}
 
 	test("supportsHevcDolbyVisionEL returns false when device has Profile 7 but no multi-instance") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeDolbyVision, CodecProfileLevel.DolbyVisionProfileDvheDtb, CodecProfileLevel.DolbyVisionLevelHd24) } returns true
 			every { supportsMultiInstance(mimeHevc) } returns false
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcDolbyVisionEL() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcDolbyVisionEL() shouldBe false
 	}
 
 	test("supportsHevcDolbyVisionEL returns false when device lacks Profile 7 decoder") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeDolbyVision, CodecProfileLevel.DolbyVisionProfileDvheDtb, CodecProfileLevel.DolbyVisionLevelHd24) } returns false
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcDolbyVisionEL() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcDolbyVisionEL() shouldBe false
 	}
 
 	test("supportsHevcHDR10 returns false when sdkInt below API 24") {
+		every { DeviceSdk.sdkInt } returns apiN - 1
 		val query = mockk<MediaCodecQuery>()
-		HevcCodecCapabilities(query, sdkInt = apiN - 1).supportsHevcHDR10() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcHDR10() shouldBe false
 	}
 
 	test("supportsHevcHDR10 returns true when sdkInt >= 24 and device supports Main10 HDR10") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeHevc, CodecProfileLevel.HEVCProfileMain10HDR10, CodecProfileLevel.HEVCMainTierLevel4) } returns true
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcHDR10() shouldBe true
+		HevcCodecCapabilities(query).supportsHevcHDR10() shouldBe true
 	}
 
 	test("supportsHevcHDR10 returns false when sdkInt >= 24 but device lacks Main10 HDR10") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeHevc, CodecProfileLevel.HEVCProfileMain10HDR10, CodecProfileLevel.HEVCMainTierLevel4) } returns false
 		}
-		HevcCodecCapabilities(query, sdkInt = apiN).supportsHevcHDR10() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcHDR10() shouldBe false
 	}
 
 	test("supportsHevcHDR10Plus returns false when sdkInt below API 29") {
+		every { DeviceSdk.sdkInt } returns apiQ - 1
 		val query = mockk<MediaCodecQuery>()
-		HevcCodecCapabilities(query, sdkInt = apiQ - 1).supportsHevcHDR10Plus() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcHDR10Plus() shouldBe false
 	}
 
 	test("supportsHevcHDR10Plus returns true when sdkInt >= 29 and device supports Main10 HDR10Plus") {
+		every { DeviceSdk.sdkInt } returns apiQ
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeHevc, CodecProfileLevel.HEVCProfileMain10HDR10Plus, CodecProfileLevel.HEVCMainTierLevel4) } returns true
 		}
-		HevcCodecCapabilities(query, sdkInt = apiQ).supportsHevcHDR10Plus() shouldBe true
+		HevcCodecCapabilities(query).supportsHevcHDR10Plus() shouldBe true
 	}
 
 	test("supportsHevcHDR10Plus returns false when sdkInt >= 29 but device lacks Main10 HDR10Plus") {
+		every { DeviceSdk.sdkInt } returns apiQ
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeHevc, CodecProfileLevel.HEVCProfileMain10HDR10Plus, CodecProfileLevel.HEVCMainTierLevel4) } returns false
 		}
-		HevcCodecCapabilities(query, sdkInt = apiQ).supportsHevcHDR10Plus() shouldBe false
+		HevcCodecCapabilities(query).supportsHevcHDR10Plus() shouldBe false
 	}
 
 	test("getMainLevel returns mapped level for device with Main Level 4.1") {
@@ -189,6 +212,7 @@ class HevcCodecCapabilitiesTest : FunSpec({
 
 	// Simulated device profiles
 	test("Shield TV profile: Main10 + HDR10 + Level 5.1") {
+		every { DeviceSdk.sdkInt } returns apiQ
 		val query = mockk<MediaCodecQuery> {
 			every { hasCodecForMime(mimeHevc) } returns true
 			every { hasCodecForMime(mimeDolbyVision) } returns true
@@ -199,7 +223,7 @@ class HevcCodecCapabilitiesTest : FunSpec({
 			every { getDecoderLevel(mimeHevc, CodecProfileLevel.HEVCProfileMain) } returns CodecProfileLevel.HEVCMainTierLevel51
 			every { getDecoderLevel(mimeHevc, CodecProfileLevel.HEVCProfileMain10) } returns CodecProfileLevel.HEVCMainTierLevel51
 		}
-		val hevc = HevcCodecCapabilities(query, sdkInt = apiQ)
+		val hevc = HevcCodecCapabilities(query)
 
 		hevc.supportsHevc() shouldBe true
 		hevc.supportsHevcMain10() shouldBe true
@@ -212,6 +236,7 @@ class HevcCodecCapabilitiesTest : FunSpec({
 	}
 
 	test("Budget device profile: basic HEVC only, no HDR") {
+		every { DeviceSdk.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasCodecForMime(mimeHevc) } returns true
 			every { hasCodecForMime(mimeDolbyVision) } returns false
@@ -221,7 +246,7 @@ class HevcCodecCapabilitiesTest : FunSpec({
 			every { getDecoderLevel(mimeHevc, CodecProfileLevel.HEVCProfileMain) } returns CodecProfileLevel.HEVCMainTierLevel41
 			every { getDecoderLevel(mimeHevc, CodecProfileLevel.HEVCProfileMain10) } returns 0
 		}
-		val hevc = HevcCodecCapabilities(query, sdkInt = apiN)
+		val hevc = HevcCodecCapabilities(query)
 
 		hevc.supportsHevc() shouldBe true
 		hevc.supportsHevcMain10() shouldBe false
@@ -233,6 +258,7 @@ class HevcCodecCapabilitiesTest : FunSpec({
 	}
 
 	test("No HEVC support at all") {
+		every { DeviceSdk.sdkInt } returns apiQ
 		val query = mockk<MediaCodecQuery> {
 			every { hasCodecForMime(mimeHevc) } returns false
 			every { hasCodecForMime(mimeDolbyVision) } returns false
@@ -243,7 +269,7 @@ class HevcCodecCapabilitiesTest : FunSpec({
 			every { getDecoderLevel(mimeHevc, CodecProfileLevel.HEVCProfileMain) } returns 0
 			every { getDecoderLevel(mimeHevc, CodecProfileLevel.HEVCProfileMain10) } returns 0
 		}
-		val hevc = HevcCodecCapabilities(query, sdkInt = apiQ)
+		val hevc = HevcCodecCapabilities(query)
 
 		hevc.supportsHevc() shouldBe false
 		hevc.supportsHevcMain10() shouldBe false
