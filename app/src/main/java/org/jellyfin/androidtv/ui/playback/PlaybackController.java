@@ -699,15 +699,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                         }
                     }
                 }
-                // Fallback to last language only
-                if (matchingIndex == null) {
-                    for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                        if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                            matchingIndex = stream.getIndex();
-                            break;
-                        }
-                    }
-                }
                 mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
             }
         } else {
