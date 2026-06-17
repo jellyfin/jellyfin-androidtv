@@ -19,15 +19,98 @@
     <string name="lbl_next_up">ಮುಂದೆ</string>
     <string name="lbl_views">ವೀಕ್ಷಣೆಗಳು</string>
     <string name="lbl_by_letter">ಅಕ್ಷರದ ಮೂಲಕ</string>
-    <string name="lbl_on_now">ಈಗ</string>
+    <string name="lbl_on_now">ಈಗ ಪ್ರಸಾರವಾಗುತ್ತಿದೆ</string>
     <string name="lbl_suggested">ಸಲಹೆ</string>
-    <string name="lbl_favorites">ಮೆಚಿಡು</string>
+    <string name="lbl_favorites">ಮೆಚ್ಚಿನವುಗಳು</string>
     <string name="lbl_coming_up">ಮುಂದೆ ಬರಲಿದೆ</string>
     <string name="msg_not_implemented">" ಅನುಷ್ಠಾನಗೊಂಡಿಲ್ಲ"</string>
     <string name="lbl_latest">ಇತ್ತೀಚೆಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
     <string name="lbl_movies">ಚಲನಚಿತ್ರಗಳು</string>
-    <string name="lbl_collections">ಸಂಗ್ರಹ</string>
+    <string name="lbl_collections">ಸಂಗ್ರಹಗಳು</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_latest_in">%1$s ನಲ್ಲಿ ಇತ್ತೀಚೆಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
     <string name="lbl_by_name">ಹೆಸರಿನಿಂದ</string>
+    <string name="lbl_favorite_channels">ನೆಚ್ಚಿನ ಚಾನಲ್‌ಗಳು</string>
+    <string name="lbl_other_channels">ಇತರ ಚಾನಲ್‌ಗಳು</string>
+    <string name="lbl_tv_series">ಟಿವಿ ಧಾರಾವಾಹಿ</string>
+    <string name="lbl_other">ಇತರೆ</string>
+    <string name="because_you_watched">ನೀವು %1$s ಅನ್ನು ನೋಡಿದರಿಂದಾಗಿ</string>
+    <string name="lbl_play_all">ಎಲ್ಲವನ್ನು ಪ್ರಸಾರಿಸು</string>
+    <string name="lbl_shuffle_all">ಅಲೆ ಮಾಡಿ ಪ್ರಸಾರಿಸು</string>
+    <string name="lbl_play">ಪ್ರಸಾರಿಸು</string>
+    <string name="lbl_pause">ವಿರಾಮ</string>
+    <string name="lbl_exit">ನಿರ್ಗಮ</string>
+    <string name="lbl_cancel">ರದ್ದುಮಾಡು</string>
+    <string name="lbl_cancel_recording">ರೆಕಾರ್ಡಿಂಗ್ ರದ್ದುಗೊಳಿಸು</string>
+    <string name="lbl_cancel_series">ಧಾರಾವಾಹಿಯನ್ನು ರದ್ದುಮಾಡು</string>
+    <string name="lbl_record_series">ಧಾರಾವಾಹಿಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡು</string>
+    <string name="lbl_record">ರೆಕಾರ್ಡ್</string>
+    <string name="msg_set_to_record">ಕಾರ್ಯಕ್ರಮವನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಲು ಹೊಂದಿಸಲಾಗಿದೆ</string>
+    <string name="msg_unable_to_create_recording">ರೆಕಾರ್ಡ್ ಮಾಡಲು ಆಗಲಿಲ್ಲ</string>
+    <string name="msg_recording_cancelled">ರೆಕಾರ್ಡ್ ಮಾಡುವುದು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</string>
+    <string name="msg_unable_to_cancel">ರೆಕಾರ್ಡ್ ಮಾಡುವುದು ರದ್ದುಗೊಳಿಸಲಾಗಲಿಲ್ಲ</string>
+    <string name="lbl_cast_crew">ಪಾತ್ರವರ್ಗ ಮತ್ತು ಸಿಬ್ಬಂದಿ</string>
+    <string name="lbl_additional_parts">ಇತರೆ ಭಾಗಗಳು</string>
+    <string name="lbl_chapters">ಅಧ್ಯಾಯಗಳು</string>
+    <string name="lbl_specials">ವಿಶೇಷ ಕಾರ್ಯಕ್ರಮಗಳು</string>
+    <string name="lbl_trailers">ಟ್ರೇಲರ್‌ಗಳು</string>
+    <string name="lbl_items">ವಸ್ತುಗಳು</string>
+    <string name="lbl_item">ವಸ್ತು</string>
+    <string name="lbl_series">ಧಾರಾವಾಹಿ</string>
+    <string name="lbl_seasons">ಹಂಗಾಮುಗಳು</string>
+    <string name="lbl_upcoming">ಮುಂಬರುವುದು</string>
+    <string name="lbl_favorite">ನೆಚ್ಚಿನ</string>
+    <string name="lbl_watched">ವೀಕ್ಷಿಸಲಾಗಿದೆ</string>
+    <string name="lbl_sd">ಎಸ.ಡಿ.</string>
+    <string name="runtime_hours_minutes">%1$dಗಂ %2$dನಿ</string>
+    <string name="runtime_minutes">%1$dನಿ</string>
+    <string name="lbl_ends">ಕೊನೆಗೊಳ್ಳುತ್ತದೆ</string>
+    <string name="lbl_directed_by">ನಿರ್ದೇಶಕ</string>
+    <string name="lbl_last_played">"ಕೊನೆಯದಾಗಿ ವೀಕ್ಷಿಸಲ್ಪಟ್ಟದ್ದು "</string>
+    <string name="lbl_runtime">ಅವಧಿ</string>
+    <string name="lbl_other_options">ಇತರ ಆಯ್ಕೆಗಳು</string>
+    <string name="lbl_people">ಜನ</string>
+    <string name="lbl_videos">ವೀಡಿಯೊಗಳು</string>
+    <string name="lbl_recordings">ರೆಕಾರ್ಡಿಂಗ್ ಗಳು</string>
+    <string name="lbl_none">ಯಾವುದೂ ಇಲ್ಲ</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s ಸೆಕೆ೦ಡು</item>
+        <item quantity="other">%1$s ಸೆಕೆಂಡುಗಳು</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s ನಿಮಿಷ</item>
+        <item quantity="other">%1$s ನಿಮಿಷಗಳು</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s ಗಂಟೆ</item>
+        <item quantity="other">%1$s ಗಂಟೆಗಳು</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s ಟ್ರ್ಯಾಕ್</item>
+        <item quantity="other">%1$s ಟ್ರಾಕುಗಳು</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s ಸಂಚಿಕೆ</item>
+        <item quantity="other">%1$s ಸಂಚಿಗಳು</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="one">%1$s ವಸ್ತು</item>
+        <item quantity="other">%1$s ವಸ್ತುಗಳು</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s ಚಲನಚಿತ್ರ</item>
+        <item quantity="other">%1$s ಚಲನಚಿತ್ರಗಳು</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s ಧಾರಾವಾಹಿ</item>
+        <item quantity="other">%1$s ಧಾರಾವಾಹಿಗಳು</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s ಹಾಡು</item>
+        <item quantity="other">%1$s ಹಾಡುಗಳು</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s ಆಲ್ಬಮ್</item>
+        <item quantity="other">%1$s ಆಲ್ಬಮ್‌ಗಳು</item>
+    </plurals>
 </resources>
