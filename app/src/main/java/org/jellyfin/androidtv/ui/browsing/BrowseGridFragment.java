@@ -167,6 +167,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
             if (mFolder.getCollectionType() == CollectionType.TVSHOWS) {
                 sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.SERIES_DATE_PLAYED, SortOrder.DESCENDING));
+                sortOptions.put(7, new SortOption(getString(R.string.lbl_date_last_content_added), ItemSortBy.DATE_LAST_CONTENT_ADDED, SortOrder.DESCENDING));
             } else {
                 sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DATE_PLAYED, SortOrder.DESCENDING));
             }

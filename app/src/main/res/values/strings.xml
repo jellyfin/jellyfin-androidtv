@@ -135,6 +135,7 @@
     <string name="lbl_from">from</string>
     <string name="lbl_name">Name</string>
     <string name="lbl_date_added">Date added</string>
+    <string name="lbl_date_last_content_added">Date last content added</string>
     <string name="lbl_premier_date">Premier date</string>
     <string name="lbl_critic_rating">Critic rating</string>
     <string name="lbl_community_rating">Community rating</string>
