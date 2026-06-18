@@ -645,4 +645,10 @@
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Large</string>
     <string name="playback_buffer_extra_large">Extra large</string>
+    <string name="playback_info">Playback info</string>
+    <string name="playback_info_play_method">Play method: %1$s</string>
+    <string name="playback_info_direct_play">Directplay</string>
+    <string name="playback_info_direct_stream">Directstream</string>
+    <string name="playback_info_transcoding">Transcoding</string>
+    <string name="playback_info_container">Container: %1$s</string>
 </resources>
