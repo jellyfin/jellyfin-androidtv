@@ -209,13 +209,20 @@ fun InfoRowMediaDetails(mediaSource: MediaSourceInfo) {
 	}
 	// Audio stream
 	val audioCodecName = when {
-		audioStream?.profile?.contains("Dolby Atmos", ignoreCase = true) == true -> stringResource(R.string.dolby_atmos)
+		audioStream?.profile?.contains("Dolby Atmos", ignoreCase = true) == true -> {
+			when (audioStream?.codec?.uppercase()) {
+				"EAC3" -> stringResource(R.string.eac3_atmos)
+				"TRUEHD" -> stringResource(R.string.truehd_atmos)
+				else -> stringResource(R.string.dolby_atmos)
+			}
+		}
 		audioStream?.profile?.contains("DTS:X", ignoreCase = true) == true -> stringResource(R.string.dts_x)
 		audioStream?.profile?.contains("DTS:HD", ignoreCase = true) == true -> stringResource(R.string.dts_hd)
 		else -> when (audioStream?.codec?.uppercase()) {
 			"DCA" -> stringResource(R.string.dca)
 			"AC3" -> stringResource(R.string.ac3)
 			"EAC3" -> stringResource(R.string.eac3)
+			"TRUEHD" -> stringResource(R.string.truehd)
 			else -> audioStream?.codec?.uppercase()
 		}
 	}
