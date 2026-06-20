@@ -217,7 +217,7 @@ fun InfoRowMediaDetails(mediaSource: MediaSourceInfo) {
 			}
 		}
 		audioStream?.profile?.contains("DTS:X", ignoreCase = true) == true -> stringResource(R.string.dts_x)
-		audioStream?.profile?.contains("DTS:HD", ignoreCase = true) == true -> stringResource(R.string.dts_hd)
+		audioStream?.profile?.let { it.contains("DTS:HD", ignoreCase = true) || it.contains("DTS-HD", ignoreCase = true) } == true -> stringResource(R.string.dts_hd)
 		else -> when (audioStream?.codec?.uppercase()) {
 			"DCA" -> stringResource(R.string.dca)
 			"AC3" -> stringResource(R.string.ac3)
