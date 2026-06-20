@@ -508,7 +508,7 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
