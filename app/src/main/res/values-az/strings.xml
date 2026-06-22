@@ -59,4 +59,26 @@
     <string name="lbl_series">Seriallar</string>
     <string name="lbl_seasons">Sezonlar</string>
     <string name="lbl_upcoming">Yaxın gələcək</string>
+    <string name="lbl_watched">Baxıldı</string>
+    <string name="lbl_directed_by">Rejissor</string>
+    <string name="lbl_none">Heç biri</string>
+    <string name="lbl_people">İnsanlar</string>
+    <string name="lbl_videos">Videolar</string>
+    <string name="lbl_recordings">Səsyazmalar</string>
+    <string name="lbl_bracket_unknown">Bilinməyən</string>
+    <string name="lbl_no">yox</string>
+    <string name="lbl_yes">Bəli</string>
+    <string name="lbl_enter_server_address">Server ünvanını daxil edin</string>
+    <string name="lbl_valid_server_address">Zəhmət olmasa server ünvanını daxil edin (IP və ya domen/maşın adı)</string>
+    <string name="lbl_loading_elipses">Yüklənir…</string>
+    <string name="msg_playback_not_allowed">Oxumağa hazırda icazə verilmir</string>
+    <string name="msg_playback_restricted">Administrator hazırda bu elementin oxunmasını məhdudlaşdırıb</string>
+    <string name="msg_playback_incompatible">Bu video formatını oynamaq mümkün deyil</string>
+    <string name="lbl_never">Heç vaxt</string>
+    <string name="msg_cannot_play_time">Hazırda bu elementi oynamaq mümkün deyil</string>
+    <string name="msg_cannot_play">Bu element ifa edilə bilməz</string>
+    <string name="lbl_no_items">Element yoxdur</string>
+    <string name="lbl_empty">Boş</string>
+    <string name="lbl_tv_queuing">Növbəti epizodu avtomatik oynayın</string>
+    <string name="lbl_search_hint">Mətni axtarın (klaviatura üçün seçin)</string>
 </resources>
