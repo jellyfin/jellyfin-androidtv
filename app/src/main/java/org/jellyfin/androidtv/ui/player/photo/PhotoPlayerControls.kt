@@ -29,6 +29,7 @@ import kotlin.time.Duration
 @Composable
 fun PhotoPlayerControls() {
 	val viewModel = koinViewModel<PhotoPlayerViewModel>()
+	val presentationActive by viewModel.presentationActive.collectAsState()
 	val presentationDelay by viewModel.presentationDelay.collectAsState()
 	val shuffleActive by viewModel.shuffleActive.collectAsState()
 
@@ -131,7 +132,7 @@ private fun ShuffleButton(
 	shuffleActive: Boolean,
 	onClick: () -> Unit,
 ) {
-	val tintColor = if (shuffleActive) JellyfinTheme.colorScheme.primary else JellyfinTheme.colorScheme.onBackground
+	val tintColor = if (shuffleActive) JellyfinTheme.colorScheme.buttonActive else JellyfinTheme.colorScheme.onBackground
 	IconButton(
 		onClick = onClick,
 	) {

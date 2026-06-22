@@ -4,6 +4,7 @@ import android.content.Context
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
+import org.jellyfin.preference.intPreference
 
 /**
  * System preferences are not possible to modify by the user.
