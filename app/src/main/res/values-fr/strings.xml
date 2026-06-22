@@ -672,4 +672,9 @@
     <string name="lbl_bitstream_eac3">Flux audio Dolby Digital Plus</string>
     <string name="lbl_bitstream_dts">Flux audio Digital Theater System</string>
     <string name="lbl_bitstream_truehd">Flux audio Dolby TrueHD</string>
+    <string name="pref_software_codecs_enabled">Utiliser des codecs logiciels</string>
+    <string name="pref_software_codecs_enabled_description">Certaines mises en œuvre basées sur un logiciel peuvent entraîner une dégradation des performances. La désactivation de cette option augmente les chances de transcodage.</string>
+    <string name="preference_enable_ass">Sous-titres ASS de jeu direct</string>
+    <string name="preference_enable_pgs_description">Exige une transcodage désactivée</string>
+    <string name="preference_enable_ass_description">Caractéristique expérimentale, peut ne pas fonctionner de manière fiable.</string>
 </resources>

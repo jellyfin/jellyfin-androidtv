@@ -157,7 +157,7 @@
     <string name="lbl_watched">Watched</string>
     <string name="lbl_favorite">Favourite</string>
     <string name="lbl_upcoming">Upcoming</string>
-    <string name="lbl_seasons">Series</string>
+    <string name="lbl_seasons">Seasons</string>
     <string name="lbl_series">Programme</string>
     <string name="lbl_item">Item</string>
     <string name="lbl_items">Items</string>
@@ -645,4 +645,23 @@
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Large</string>
     <string name="playback_buffer_extra_large">Extra large</string>
+    <string name="playback_info">Playback info</string>
+    <string name="playback_info_play_method">Play method: %1$s</string>
+    <string name="playback_info_direct_play">Directplay</string>
+    <string name="playback_info_direct_stream">Directstream</string>
+    <string name="playback_info_transcoding">Transcoding</string>
+    <string name="playback_info_container">Container: %1$s</string>
+    <string name="playback_info_video_title">Video</string>
+    <string name="playback_info_audio_title">Audio</string>
+    <string name="playback_info_codec">Codec: %1$s</string>
+    <string name="playback_info_resolution">Resolution: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Bitrate: %1$s</string>
+    <string name="playback_info_channels">Channels: %1$d</string>
+    <string name="playback_info_video_range">Video range: %1$s</string>
+    <string name="playback_info_transcoding_note">Server is transcoding this file</string>
+    <string name="pref_software_codecs_enabled">Use software codecs</string>
+    <string name="pref_software_codecs_enabled_description">"Some software-based implementations  may degrade performance. Disabling this option makes transcoding more likely."</string>
+    <string name="preference_enable_ass">Direct play ASS subtitles</string>
+    <string name="preference_enable_pgs_description">Requires transcoding when disabled</string>
+    <string name="preference_enable_ass_description">Experimental feature, may not work relia…</string>
 </resources>
