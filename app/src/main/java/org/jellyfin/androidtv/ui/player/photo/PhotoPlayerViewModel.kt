@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.constant.PresentationDelay
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.sdk.api.client.ApiClient
@@ -99,11 +100,11 @@ class PhotoPlayerViewModel(
 	private var presentationJob: Job? = null
 	private val _presentationActive = MutableStateFlow(false)
 	val presentationActive = _presentationActive.asStateFlow()
-	
+
 	val presentationDelay = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerInterval].seconds)
 
 	fun cycleInterval() {
-		val intervals = listOf(3, 5, 8, 10, 15, 30, 60)
+		val intervals = PresentationDelay().intervals
 		val currentSeconds = presentationDelay.value.inWholeSeconds.toInt()
 		val currentIndex = intervals.indexOf(currentSeconds).takeIf { it >= 0 } ?: 2
 		val nextSeconds = intervals[(currentIndex + 1) % intervals.size]
