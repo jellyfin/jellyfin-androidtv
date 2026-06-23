@@ -30,7 +30,6 @@ class PhotoPlayerViewModel(
 	private var originalAlbum: List<BaseItemDto> = emptyList()
 	private var currentAlbum: List<BaseItemDto> = emptyList()
 	private var albumIndex = -1
-
 	private val _currentItem = MutableStateFlow<BaseItemDto?>(null)
 	val currentItem = _currentItem.asStateFlow()
 
@@ -65,12 +64,19 @@ class PhotoPlayerViewModel(
 	// Album actions
 
 	fun toggleShuffle() {
-		shuffleActive.value = !shuffleActive.value
+		val shuffleActiveValue = !shuffleActive.value
 		val current = _currentItem.value
-		currentAlbum = if (shuffleActive.value) originalAlbum.shuffled() else originalAlbum
+		if (shuffleActiveValue == true) {
+			currentAlbum = originalAlbum.shuffled()
+		}
+		else{
+			currentAlbum = originalAlbum
+		}
 		if (current != null) {
 			albumIndex = currentAlbum.indexOfFirst { it.id == current.id }
 		}
+		shuffleActive.value = shuffleActiveValue
+		restartPresentation()
 	}
 
 	fun showNext() {
@@ -81,7 +87,7 @@ class PhotoPlayerViewModel(
 
 		_currentItem.value = currentAlbum[albumIndex]
 		restartPresentation()
-	}
+}
 
 	fun showPrevious() {
 		if (currentAlbum.isEmpty()) return
