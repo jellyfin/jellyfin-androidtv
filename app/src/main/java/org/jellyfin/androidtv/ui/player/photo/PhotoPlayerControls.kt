@@ -39,11 +39,12 @@ fun PhotoPlayerControls() {
 			.focusRestorer()
 			.focusGroup()
 	) {
-		ShuffleButton(
-			shuffleActive = shuffleActive,
-			onClick = { viewModel.toggleShuffle() },
-		)
-
+		if(presentationActive) {
+			ShuffleButton(
+				shuffleActive = shuffleActive,
+				onClick = { viewModel.toggleShuffle() },
+			)
+		}
 		PreviousButton(
 			onClick = { viewModel.showPrevious() },
 		)
@@ -132,7 +133,7 @@ private fun ShuffleButton(
 	shuffleActive: Boolean,
 	onClick: () -> Unit,
 ) {
-	val tintColor = if (shuffleActive) JellyfinTheme.colorScheme.buttonActive else JellyfinTheme.colorScheme.onBackground
+	val tintColor = if (shuffleActive) JellyfinTheme.colorScheme.onBackground else JellyfinTheme.colorScheme.buttonActive
 	IconButton(
 		onClick = onClick,
 	) {
