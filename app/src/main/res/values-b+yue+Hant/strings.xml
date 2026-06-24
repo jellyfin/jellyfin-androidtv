@@ -652,4 +652,6 @@
     <string name="preference_enable_ass">直接播放 ASS 字幕</string>
     <string name="preference_enable_pgs_description">閂咗嘅話就需要轉碼</string>
     <string name="preference_enable_ass_description">實驗性功能，運作未必穩定</string>
+    <string name="preference_theme_audio">播放音頻主題</string>
+    <string name="preference_theme_audio_summary">喺瀏覽媒體時播放音頻主題</string>
 </resources>

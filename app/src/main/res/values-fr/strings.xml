@@ -669,6 +669,8 @@
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Grand</string>
     <string name="playback_buffer_extra_large">Très grand</string>
+    <string name="preference_theme_audio">Lire les thèmes musicaux</string>
+    <string name="preference_theme_audio_summary">Lire le thème musical lors de la navigation dans les médiathèques</string>
     <string name="pref_software_codecs_enabled">Utiliser des codecs logiciels</string>
     <string name="pref_software_codecs_enabled_description">Certaines mises en œuvre basées sur un logiciel peuvent entraîner une dégradation des performances. La désactivation de cette option augmente les chances de transcodage.</string>
     <string name="preference_enable_ass">Sous-titres ASS de jeu direct</string>

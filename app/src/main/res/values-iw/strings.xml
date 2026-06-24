@@ -671,4 +671,6 @@
     <string name="playback_info_channels">ערוצים: %1$d</string>
     <string name="playback_info_video_range">טווח הוידאו: %1$s</string>
     <string name="playback_info_transcoding_note">השרת ממיר קידוד של קובץ זה</string>
+    <string name="preference_theme_audio">השמעת ערכות נושא</string>
+    <string name="preference_theme_audio_summary">השמעת ערכת נושא קולית בעת דפדוף במדיה</string>
 </resources>

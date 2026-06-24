@@ -136,4 +136,6 @@
     <string name="action_connect">ئۇلاڭ</string>
     <string name="server_unsupported_notification">بۇ مۇلازىمېتىر قوللىمايدىغان Jellyfin نەشىرىنى%2$s ئىشلىتىدۇ. بۇ دېتالنى داۋاملىق ئىشلىتىش ئۈچۈن Jellyfin %1$s ياكى يېڭى نەشرىگە يېڭىلاڭ.</string>
     <string name="app_notification_uimode_invalid">بۇ ئەپ تېلېۋىزور ئۈچۈن ئەلالاشتۇرۇلغان. كۆچمە ئەپنى باشقا ئۈسكۈنىلەردە ئىشلىتىشنى تەۋسىيە قىلىمىز.</string>
+    <string name="preference_theme_audio">ئۈن تېمىلىرىنى قويۇш</string>
+    <string name="preference_theme_audio_summary">ۋاسىتە كۆرگەندە ئۈن تېمىسى قويۇш</string>
 </resources>

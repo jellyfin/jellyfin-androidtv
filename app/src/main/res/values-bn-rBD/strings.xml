@@ -125,4 +125,6 @@
     <string name="runtime_hours_minutes">%1$d ঘণ্টা %2$d মিনিট</string>
     <string name="runtime_minutes">%1$d মিনিট</string>
     <string name="lbl_runtime">রানটাইম</string>
+    <string name="preference_theme_audio">অডিও থিম খেলুন</string>
+    <string name="preference_theme_audio_summary">মিডিয়া ব্রাউজ করার সময় অডিও থিম খেলুন</string>
 </resources>

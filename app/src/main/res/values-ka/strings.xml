@@ -539,4 +539,6 @@
     <string name="msg_live_tv_next">ჩაიტვირთოს შემდეგი %1$d საათი?</string>
     <string name="msg_live_tv_prev">ჩაიტვირთოს წინა %1$d საათი?</string>
     <string name="subtitle_error">სუბსტიტრების არჩევა შეუძლებელია</string>
+    <string name="preference_theme_audio">აუდიო თემების დაკვრა</string>
+    <string name="preference_theme_audio_summary">აუდიო თემის დაკვრა მედიის დათვალიერებისას</string>
 </resources>

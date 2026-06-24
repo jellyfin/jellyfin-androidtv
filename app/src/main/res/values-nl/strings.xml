@@ -664,4 +664,6 @@
     <string name="preference_enable_ass">ASS-ondertiteling direct afspelen</string>
     <string name="preference_enable_pgs_description">Vereist transcoderen indien uitgeschakeld</string>
     <string name="preference_enable_ass_description">Experimentele functie, mogelijk onbetrouwbaar</string>
+    <string name="preference_theme_audio">Audiothema\'s afspelen</string>
+    <string name="preference_theme_audio_summary">Speel audiothema af tijdens het bladeren naar media</string>
 </resources>

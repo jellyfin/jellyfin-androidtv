@@ -588,4 +588,6 @@
     <string name="playback_info">Afspilningsinformation</string>
     <string name="playback_info_play_method">Afspilningsmetode: %1$s</string>
     <string name="playback_info_transcoding">Transkodning</string>
+    <string name="preference_theme_audio">Afspil lydtemaer</string>
+    <string name="preference_theme_audio_summary">Afspil lydtema ved gennemsyn af medier</string>
 </resources>

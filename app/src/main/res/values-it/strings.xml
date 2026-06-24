@@ -630,4 +630,6 @@
     <string name="backdrop_behavior_without_blur">Sfondo senza opacità</string>
     <string name="playback_info_play_method">Metodo di riproduzione:%1$s</string>
     <string name="playback_info_direct_play">Riproduzione diretta</string>
+    <string name="preference_theme_audio">Riproduci temi audio</string>
+    <string name="preference_theme_audio_summary">Riproduci i temi audio durante la navigazione dei contenuti</string>
 </resources>

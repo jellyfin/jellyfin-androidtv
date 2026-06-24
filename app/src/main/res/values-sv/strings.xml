@@ -650,6 +650,8 @@
     <string name="playback_info_codec">Kodek: %1$s</string>
     <string name="playback_info_resolution">Upplösning: %1$dx%2$d</string>
     <string name="playback_info_channels">Kanaler: %1$d</string>
+    <string name="preference_theme_audio">Spela ljudteman</string>
+    <string name="preference_theme_audio_summary">Spela ljudtema vid bläddring av media</string>
     <string name="preference_enable_ass_description">Experimentell funktion, kanske inte fungerar pålitligt</string>
     <string name="preference_enable_pgs_description">Kräver omkodning när inaktiverad</string>
     <string name="preference_enable_ass">Direktspela ASS-undertexter</string>

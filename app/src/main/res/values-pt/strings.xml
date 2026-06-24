@@ -66,4 +66,6 @@
     <string name="lbl_cancel_recording">Cancelar a gravação</string>
     <string name="lbl_cancel_series">Cancelar as séries</string>
     <string name="lbl_record">Gravar</string>
+    <string name="preference_theme_audio">Reproduzir temas de áudio</string>
+    <string name="preference_theme_audio_summary">Reproduzir temas de áudio ao navegar pelos conteúdos</string>
 </resources>

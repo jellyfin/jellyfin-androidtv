@@ -654,4 +654,6 @@
     <string name="pref_burn_subtitles_when_transcoding">Queimar as legendas na transcodificação</string>
     <string name="preference_codecs">Codecs de multimédia</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">Reproduzir temas de áudio</string>
+    <string name="preference_theme_audio_summary">Reproduzir temas de áudio ao navegar por conteúdos</string>
 </resources>

@@ -50,6 +50,8 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModel;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModelHelperKt;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -129,6 +131,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     private boolean mDirty = true; // CardHeight, RowDef or GridSize changed
 
+    private ThemeAudioViewModel themeAudioViewModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,6 +190,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
+        themeAudioViewModel = ThemeAudioViewModelHelperKt.getThemeAudioViewModel(this);
         return binding.getRoot();
     }
 
@@ -617,7 +622,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             chunkSize = Math.min(mCardsScreenEst + mCardsScreenStride, 150); // cap at 150
             Timber.d("buildAdapter adjusting chunkSize to <%s> screenEst <%s>", chunkSize, mCardsScreenEst);
         }
-        chunkSize=100;
+        chunkSize = 100;
 
         switch (mRowDef.getQueryType()) {
             case NextUp:
@@ -924,15 +929,25 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 binding.title.setText(mainTitle);
                 //fill in default background
                 backgroundService.getValue().clearBackgrounds();
+                if (themeAudioViewModel != null) themeAudioViewModel.onItemFocused(null);
             } else {
                 mCurrentItem = (BaseRowItem) item;
                 binding.title.setText(mCurrentItem.getName(requireContext()));
                 binding.infoRow.removeAllViews();
                 mHandler.postDelayed(mDelayedSetItem, VIEW_SELECT_UPDATE_DELAY);
+                themeAudioViewModel.onItemFocused(((BaseRowItem) item).getBaseItem().getId());
 
                 if (!determiningPosterSize)
                     mAdapter.loadMoreItemsIfNeeded(mAdapter.indexOf(mCurrentItem));
             }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (themeAudioViewModel != null) {
+            themeAudioViewModel.onItemUnfocused();
         }
     }
 }

@@ -15,4 +15,6 @@
     <string name="loading">Maghintay…</string>
     <string name="lbl_other_channels">Ibang channels</string>
     <string name="lbl_collections">Mga Koleksyon</string>
+    <string name="preference_theme_audio">I-play ang mga audio theme</string>
+    <string name="preference_theme_audio_summary">I-play ang audio theme habang nagba-browse ng media</string>
 </resources>

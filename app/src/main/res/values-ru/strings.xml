@@ -679,4 +679,6 @@
     <string name="playback_buffer_extra_large">Очень большой</string>
     <string name="pref_burn_subtitles_when_transcoding">Вшивать субтитры при перекодировании</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Всегда вшивать субтитры в видео при перекодировании. Это может помочь исправить проблемы с синхронизацией субтитров, но отключит стилизацию субтитров.</string>
+    <string name="preference_theme_audio">Воспроизводить темы</string>
+    <string name="preference_theme_audio_summary">Воспроизводить музыкальные темы при просмотре медиа</string>
 </resources>

@@ -643,4 +643,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_theme_audio">ऑडियो थीम चलाएं</string>
+    <string name="preference_theme_audio_summary">मीडिया ब्राउज़ करते समय ऑडियो थीम चलाएं</string>
 </resources>

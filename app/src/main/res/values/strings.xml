@@ -616,6 +616,8 @@
     <string name="preference_enable_ass">Direct play ASS subtitles</string>
     <string name="preference_enable_pgs_description">Requires transcoding when disabled</string>
     <string name="preference_enable_ass_description">Experimental feature, may not work reliably</string>
+    <string name="preference_theme_audio">Play audio themes</string>
+    <string name="preference_theme_audio_summary">Play audio theme when browsing media</string>
     <string name="auto">Auto</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>

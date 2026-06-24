@@ -599,4 +599,6 @@
     <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
     <string name="pref_playback_next_up">Sekantis</string>
     <string name="pref_customization_subtitles">Subtitrai</string>
+    <string name="preference_theme_audio">Groti garso temas</string>
+    <string name="preference_theme_audio_summary">Groti garso temą naršant mediją</string>
 </resources>

@@ -98,4 +98,6 @@
     <string name="continue_listening">Continuar escuchando</string>
     <string name="lbl_genres">Géneros</string>
     <string name="because_you_watched">Porque viste %1$s</string>
+    <string name="preference_theme_audio">Reproducir temas de audio</string>
+    <string name="preference_theme_audio_summary">Reproducir temas de audio al buscar contenido</string>
 </resources>

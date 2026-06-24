@@ -223,4 +223,6 @@
     <string name="lbl_begin_padding">เริ่มการเติม</string>
     <string name="lbl_runtime">รันไทม์</string>
     <string name="lbl_shuffle_queue">สลับสถานะการสุ่ม</string>
+    <string name="preference_theme_audio">เล่นธีมเสียง</string>
+    <string name="preference_theme_audio_summary">เล่นธีมเสียงเมื่อกำลังเรียกดูสื่อ</string>
 </resources>

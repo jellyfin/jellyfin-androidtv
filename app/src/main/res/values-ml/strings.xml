@@ -347,4 +347,6 @@
     <string name="msg_subtitles_loading">സബ്ടൈറ്റിലുകൾ ലോഡ് ചെയ്യുന്നു…</string>
     <string name="because_you_watched">കാരണം നിങ്ങൾ %1$s കണ്ടു</string>
     <string name="lbl_shuffle_queue">മാറ്റി കലർത്തുക</string>
+    <string name="preference_theme_audio">ഓഡിയോ തീമുകൾ പ്ലേ ചെയ്യുക</string>
+    <string name="preference_theme_audio_summary">മീഡിയ ബ്രൗസ് ചെയ്യുമ്പോൾ ഓഡിയോ തീം പ്ലേ ചെയ്യുക</string>
 </resources>

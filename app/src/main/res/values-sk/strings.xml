@@ -626,4 +626,6 @@
     <string name="video_player_external">Externá aplikácia</string>
     <string name="playback_video_player_external_empty">Na vašom zariadení nemáte nainštalované žiadne videoprehrávače, ktoré dokážu otvárať videá z Jellyfinu.</string>
     <string name="filters">Filtre</string>
+    <string name="preference_theme_audio">Prehrávať hudobné motívy</string>
+    <string name="preference_theme_audio_summary">Prehrávať hudobný motív pri prehliadaní médií</string>
 </resources>

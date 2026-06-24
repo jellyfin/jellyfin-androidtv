@@ -663,4 +663,6 @@
     <string name="playback_info">Інфармацыя пра прайграванне</string>
     <string name="playback_info_channels">Каналы: %1$d</string>
     <string name="playback_info_video_range">Дыяпазон відэа: %1$s</string>
+    <string name="preference_theme_audio">Прайграваць аўдыётэмы</string>
+    <string name="preference_theme_audio_summary">Прайграваць аўдыётэмы падчас прагляду медыя</string>
 </resources>

@@ -674,4 +674,6 @@
     <string name="preference_enable_ass">Přímo přehrávat titulky ASS</string>
     <string name="preference_enable_pgs_description">Při zakázání vyžaduje překódování</string>
     <string name="preference_enable_ass_description">Experimentální funkce, nemusí fungovat spolehlivě</string>
+    <string name="preference_theme_audio">Přehrávat hudební motivy</string>
+    <string name="preference_theme_audio_summary">Přehrávat hudební motiv při procházení médií</string>
 </resources>

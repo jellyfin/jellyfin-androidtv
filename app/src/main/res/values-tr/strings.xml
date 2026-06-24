@@ -659,6 +659,8 @@
     <string name="playback_info_channels">Kanal sayısı: %1$d</string>
     <string name="playback_info_video_range">Video aralığı: %1$s</string>
     <string name="playback_info_transcoding_note">Sunucu bu dosyayı dönüştürüyor</string>
+    <string name="preference_theme_audio">Ses temalarını oynat</string>
+    <string name="preference_theme_audio_summary">Medyaya göz atarken ses temasını oynat</string>
     <string name="preference_enable_ass">Doğrudan oynatma için ASS altyazıları</string>
     <string name="preference_enable_pgs_description">Devre dışı bırakıldığında kod dönüştürme gerektirir</string>
     <string name="preference_enable_ass_description">Deneysel özellik; güvenilir şekilde çalışmayabilir</string>

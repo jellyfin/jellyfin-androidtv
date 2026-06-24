@@ -588,4 +588,6 @@
     <string name="settings_description">உங்கள் விருப்பப்படி பயன்பாட்டை மாற்றவும்</string>
     <string name="copied_to_clipboard">கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
     <string name="pref_playback_next_up">அடுத்து வருவது</string>
+    <string name="preference_theme_audio">ஒலி தீம்களை இயக்கவும்</string>
+    <string name="preference_theme_audio_summary">மீடியாவிற்கு உலவும்போது ஒலி தீம் இயக்கவும்</string>
 </resources>

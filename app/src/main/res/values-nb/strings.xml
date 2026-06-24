@@ -618,4 +618,6 @@
     <string name="filters">Filtere</string>
     <string name="backdrop_behavior_with_blur">Bakgrunn med uskarphet</string>
     <string name="backdrop_behavior_without_blur">Bakgrunn uten uskarphet</string>
+    <string name="preference_theme_audio">Spill av lydtemaer</string>
+    <string name="preference_theme_audio_summary">Spill av lydtema ved utforskning av media</string>
 </resources>

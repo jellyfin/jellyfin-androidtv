@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="preference_theme_audio">Ilgħab temi tal-awdjo</string>
+    <string name="preference_theme_audio_summary">Ilgħab tema tal-awdjo meta tibbrawżja għall-midja</string>
+</resources>

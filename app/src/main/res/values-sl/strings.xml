@@ -638,4 +638,6 @@
     <string name="filters">Filtri</string>
     <string name="backdrop_behavior_with_blur">Ozadje z zameglitvijo</string>
     <string name="backdrop_behavior_without_blur">Ozadje brez zameglitve</string>
+    <string name="preference_theme_audio">Predvajaj zvočne teme</string>
+    <string name="preference_theme_audio_summary">Predvajaj zvočno temo med brskanjem po medijih</string>
 </resources>

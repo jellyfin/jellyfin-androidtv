@@ -654,4 +654,6 @@
     <string name="preference_enable_ass_description">Tính năng thử nghiệm, có thể không hoạt động ổn định</string>
     <string name="pref_software_codecs_enabled">Sử dụng mã hóa phần mềm</string>
     <string name="pref_software_codecs_enabled_description">Một số phương pháp triển khai dựa trên phần mềm có thể làm giảm hiệu suất. Việc tắt tùy chọn này sẽ làm tăng khả năng chuyển mã.</string>
+    <string name="preference_theme_audio">Phát nhạc chủ đề</string>
+    <string name="preference_theme_audio_summary">Phát nhạc chủ đề khi xem nội dung</string>
 </resources>

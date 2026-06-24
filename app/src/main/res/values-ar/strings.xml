@@ -702,4 +702,6 @@
     <string name="preference_enable_ass">تشغيل ترجمات ASS مباشرة</string>
     <string name="preference_enable_pgs_description">يتطلب التشفير عند الاثباط</string>
     <string name="preference_enable_ass_description">مزة تجريبية, قد لا تعمل بكفاءة</string>
+    <string name="preference_theme_audio">تشغيل السمات الصوتية</string>
+    <string name="preference_theme_audio_summary">تشغيل السمة الصوتية عند تصفح الوسائط</string>
 </resources>

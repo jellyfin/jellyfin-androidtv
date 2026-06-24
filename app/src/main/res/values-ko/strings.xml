@@ -554,4 +554,6 @@
     <string name="skip_forward_length">앞으로 건너뛰기 길이</string>
     <string name="runtime_hours_minutes">%1$d시간 %2$d분</string>
     <string name="runtime_minutes">%1$d분</string>
+    <string name="preference_theme_audio">오디오 테마 재생</string>
+    <string name="preference_theme_audio_summary">미디어를 탐색하는 동안 오디오 테마 재생</string>
 </resources>

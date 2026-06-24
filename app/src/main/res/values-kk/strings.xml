@@ -436,4 +436,6 @@
     <string name="pref_telemetry_category">Aqau turaly habarlau</string>
     <string name="server_setup_incomplete">Būl serverdıñ ornatuy aiaqtalmady. Kıru aldynda ornatudy aiaqtau üşın ueb-şolğyşta Jellyfin jüiesın aşyñyz.</string>
     <string name="episode_name_special">arnaiy</string>
+    <string name="preference_theme_audio">Аудио тақырыптарын ойнату</string>
+    <string name="preference_theme_audio_summary">Медианы қарау кезінде аудио тақырыпты ойнату</string>
 </resources>

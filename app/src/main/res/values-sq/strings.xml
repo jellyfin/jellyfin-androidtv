@@ -192,4 +192,6 @@
     <string name="lbl_no_recordings">Asnjë rregjistrim i disponueshëm</string>
     <string name="lbl_programs">Programet</string>
     <string name="lbl_enable_cinema_mode">Modaliteti kinema</string>
+    <string name="preference_theme_audio">Luaj tema audio</string>
+    <string name="preference_theme_audio_summary">Luaj temën audio gjatë shfletimit për media</string>
 </resources>
