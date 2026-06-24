@@ -109,6 +109,8 @@ class PhotoPlayerViewModel(
 
 	val presentationDelay = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerInterval].seconds)
 
+	var documentaryZoomPan = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerDocumentaryZoomPan])
+
 	fun cycleInterval() {
 		val intervals = PresentationDelay().intervals
 		val currentSeconds = presentationDelay.value.inWholeSeconds.toInt()
@@ -153,5 +155,11 @@ class PhotoPlayerViewModel(
 	fun togglePresentation() {
 		if (presentationActive.value) stopPresentation()
 		else startPresentation()
+	}
+
+	fun toggleDocumentaryZoomPan() {
+		documentaryZoomPan.value = !documentaryZoomPan.value
+		systemPreferences[SystemPreferences.photoPlayerDocumentaryZoomPan] = documentaryZoomPan.value
+		restartPresentation()
 	}
 }

@@ -32,6 +32,7 @@ fun PhotoPlayerControls() {
 	val presentationActive by viewModel.presentationActive.collectAsState()
 	val presentationDelay by viewModel.presentationDelay.collectAsState()
 	val shuffleActive by viewModel.shuffleActive.collectAsState()
+	val documentaryZoomPanActive by viewModel.documentaryZoomPan.collectAsState()
 
 	Row(
 		horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -64,6 +65,11 @@ fun PhotoPlayerControls() {
 		IntervalButton(
 			presentationDelay = presentationDelay,
 			onClick = { viewModel.cycleInterval() }
+		)
+
+		AnimateButton(
+			documentaryZoomPanActive = documentaryZoomPanActive,
+			onClick = { viewModel.toggleDocumentaryZoomPan() },
 		)
 	}
 }
@@ -165,5 +171,22 @@ private fun IntervalButton(
 				text = "${presentationDelay.inWholeSeconds}s"
 			)
 		}
+	}
+}
+
+@Composable
+private fun AnimateButton(
+	documentaryZoomPanActive: Boolean,
+	onClick: () -> Unit,
+) {
+	val tintColor = if (documentaryZoomPanActive) JellyfinTheme.colorScheme.onBackground else JellyfinTheme.colorScheme.buttonActive
+	IconButton(
+		onClick = onClick,
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_motion),
+			contentDescription = stringResource(R.string.lbl_animate),
+			tint = tintColor
+		)
 	}
 }

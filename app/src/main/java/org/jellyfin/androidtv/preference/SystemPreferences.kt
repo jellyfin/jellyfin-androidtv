@@ -73,5 +73,10 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether to disable the "UI mode" warning that shows when using the app on non TV devices.
 		 */
 		val disableUiModeWarning = booleanPreference("disable_ui_mode_warning", false)
+
+		/**
+		 * Enables zoom and panning photos when a presentation is playing.
+		 */
+		val photoPlayerDocumentaryZoomPan = booleanPreference("sys_pref_photo_player_documentary_zoom_pan", false)
 	}
 }
