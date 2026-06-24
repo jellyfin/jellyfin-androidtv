@@ -103,6 +103,8 @@ class MediaCodecCapabilitiesTest(
 		AV1ProfileLevel.Level5
 	)
 
+	fun supportsAC4(): Boolean = codecQuery.hasCodecForMime(MimeTypes.AUDIO_AC4)
+
 	fun supportsAVC(): Boolean = avc.supportsAvc()
 
 	fun supportsAVCHigh10(): Boolean = avc.supportsAvcHigh10()
