@@ -583,7 +583,7 @@
     <string name="lbl_still_watching_short">2 bölüm veya 60 dakika</string>
     <string name="lbl_still_watching_long">5 bölüm veya 150 dakika</string>
     <string name="lbl_still_watching_very_long">8 bölüm veya 240 dakika</string>
-    <string name="still_watching_label">Hala izliyor musunuz?</string>
+    <string name="still_watching_label">Hâlâ izliyor musunuz?</string>
     <string name="pref_subtitles_position">Alttan uzaklık</string>
     <string name="settings">Ayarlar</string>
     <string name="settings_description">Uygulamayı kendi zevkinize göre değiştirin</string>
@@ -659,4 +659,9 @@
     <string name="playback_info_channels">Kanal sayısı: %1$d</string>
     <string name="playback_info_video_range">Video aralığı: %1$s</string>
     <string name="playback_info_transcoding_note">Sunucu bu dosyayı dönüştürüyor</string>
+    <string name="preference_enable_ass">Doğrudan oynatma için ASS altyazıları</string>
+    <string name="preference_enable_pgs_description">Devre dışı bırakıldığında kod dönüştürme gerektirir</string>
+    <string name="preference_enable_ass_description">Deneysel özellik; güvenilir şekilde çalışmayabilir</string>
+    <string name="pref_software_codecs_enabled">Yazılım codec bileşenlerini kullan</string>
+    <string name="pref_software_codecs_enabled_description">Bazı yazılım tabanlı uygulamalar performansı düşürebilir. Bu seçeneği devre dışı bırakmak, kod dönüştürme işleminin gerçekleşme olasılığını artırır.</string>
 </resources>
