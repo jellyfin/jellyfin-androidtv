@@ -668,4 +668,7 @@
     <string name="playback_info_direct_play">Reproducció directa</string>
     <string name="playback_info_play_method">Mètode de reproducció: €1$s</string>
     <string name="playback_info">Informació de reproducció</string>
+    <string name="preference_enable_ass">Subtítols ASS de reproducció directa</string>
+    <string name="preference_enable_pgs_description">Requereix transcodificació en inhabilitar-se</string>
+    <string name="preference_enable_ass_description">Característica experimental, potser no funciona de manera fiable.</string>
 </resources>
