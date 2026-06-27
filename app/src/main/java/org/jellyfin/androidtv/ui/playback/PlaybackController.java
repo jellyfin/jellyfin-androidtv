@@ -118,6 +118,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private LocalDateTime mCurrentProgramStart = null;
     private long mCurrentTranscodeStartTime;
     private boolean isLiveTv = false;
+    @Nullable
+    private BaseItemDto mCurrentLiveTvChannel = null;
     private boolean directStreamLiveTv;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
@@ -165,6 +167,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setItems(List<BaseItemDto> items) {
         mItems = items;
         mCurrentIndex = 0;
+        mCurrentLiveTvChannel = null;
     }
 
     public float getPlaybackSpeed() {
@@ -185,7 +188,20 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public BaseItemDto getCurrentlyPlayingItem() {
-        return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
+        if (mItems == null || mCurrentIndex < 0 || mCurrentIndex >= mItems.size()) {
+            return null;
+        }
+
+        BaseItemDto queuedItem = mItems.get(mCurrentIndex);
+        if (queuedItem != null
+                && queuedItem.getType() == BaseItemKind.TV_CHANNEL
+                && mCurrentLiveTvChannel != null
+                && queuedItem.getId() != null
+                && queuedItem.getId().equals(mCurrentLiveTvChannel.getId())) {
+            return mCurrentLiveTvChannel;
+        }
+
+        return queuedItem;
     }
 
     public boolean hasInitializedVideoManager() {
@@ -493,8 +509,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 isLiveTv = item.getType() == BaseItemKind.TV_CHANNEL;
                 startSpinner();
 
-                // undo setting mSeekPosition for liveTV
-                if (isLiveTv) mSeekPosition = -1;
+                if (isLiveTv) {
+                    mCurrentLiveTvChannel = item;
+                    // undo setting mSeekPosition for liveTV
+                    mSeekPosition = -1;
+                } else {
+                    mCurrentLiveTvChannel = null;
+                }
 
                 VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, forcedAudioLanguage, item);
 
@@ -1077,8 +1098,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void updateTvProgramInfo() {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
-        if (channel.getType() == BaseItemKind.TV_CHANNEL) {
+        if (channel != null && channel.getType() == BaseItemKind.TV_CHANNEL) {
             PlaybackControllerHelperKt.getLiveTvChannel(this, channel.getId(), updatedChannel -> {
+                mCurrentLiveTvChannel = updatedChannel;
+
                 BaseItemDto program = updatedChannel.getCurrentProgram();
                 if (program != null) {
                     mCurrentProgramEnd = program.getEndDate();
@@ -1113,6 +1136,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 if (isPlaying()) {
                     refreshCurrentPosition();
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
+
+                    // Detect live TV program transition and refresh channel/program data
+                    if (isLiveTv && mCurrentProgramEnd != null
+                            && LocalDateTime.now().isAfter(mCurrentProgramEnd)) {
+                        mCurrentProgramEnd = null;
+                        updateTvProgramInfo();
+                    }
 
                     reportingHelper.getValue().reportProgress(mFragment, PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
