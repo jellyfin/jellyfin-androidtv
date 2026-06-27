@@ -251,7 +251,9 @@ fun createDeviceProfileReport(
 				appendLine()
 				appendLine("- ${HdrFormats.DOLBY_VISION.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)}")
 				appendLine("- ${HdrFormats.HDR10}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)}")
-				if (AndroidVersion.isAtLeastQ) appendLine("- ${HdrFormats.HDR10_PLUS.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)}")
+				if (AndroidVersion.isAtLeastQ) {
+					appendLine("- ${HdrFormats.HDR10_PLUS.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)}")
+				}
 				appendLine("- ${HdrFormats.HLG.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HLG)}")
 			}
 		}
