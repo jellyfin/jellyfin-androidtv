@@ -42,6 +42,7 @@ import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
+import org.jellyfin.androidtv.util.KeyEventExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.PlaybackHelper;
@@ -98,6 +99,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private int guideRowHeightPx;
     private int guideRowWidthPerMinPx;
+    private int guideVisibleRows;
 
     private Handler mHandler = new Handler();
 
@@ -300,6 +302,11 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 event.startTracking();
                 return true;
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+            case KeyEvent.KEYCODE_MEDIA_NEXT:
+            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                return true;
         }
         return false;
     }
@@ -323,6 +330,11 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 // bring up filter selection
                 showFilterOptions.setValue(true);
                 break;
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+            case KeyEvent.KEYCODE_MEDIA_NEXT:
+            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                return handleChannelPageKey(keyCode);
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
@@ -374,6 +386,24 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         }
 
         return false;
+    }
+
+    private boolean handleChannelPageKey(int keyCode) {
+        if (mDetailPopup != null && mDetailPopup.isShowing()) {
+            return true;
+        }
+        if (mSpinner.getVisibility() == View.VISIBLE || mAllChannels == null || mAllChannels.isEmpty()) {
+            return true;
+        }
+
+        if (guideVisibleRows == 0) {
+            guideVisibleRows = Math.max(1, mChannelScroller.getHeight() / guideRowHeightPx);
+        }
+        LiveTvGuideFragmentHelperKt.pageGuideChannels(
+                requireActivity(), mProgramRows, mChannels, guideVisibleRows,
+                KeyEventExtensionsKt.isPageForward(keyCode)
+        );
+        return true;
     }
 
     View.OnClickListener datePickedListener = new View.OnClickListener() {
