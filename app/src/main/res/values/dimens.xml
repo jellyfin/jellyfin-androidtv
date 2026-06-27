@@ -1,6 +1,7 @@
 <resources>
     <dimen name="overscan_horizontal">27dp</dimen>
     <dimen name="overscan_vertical">48dp</dimen>
+    <dimen name="subtitle_offset_panel_top_margin">32dp</dimen>
 
     <fraction name="card_scale_default">100%</fraction>
     <fraction name="card_scale_focus">115%</fraction>

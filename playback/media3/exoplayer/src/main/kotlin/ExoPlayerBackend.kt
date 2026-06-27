@@ -11,6 +11,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.common.TrackSelectionParameters
+import androidx.media3.common.Tracks
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
@@ -18,11 +19,14 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
+import androidx.media3.extractor.text.DefaultSubtitleParserFactory
+import androidx.media3.extractor.text.SubtitleParser
 import androidx.media3.ui.SubtitleView
 import io.github.peerless2012.ass.media.AssHandler
 import io.github.peerless2012.ass.media.factory.AssRenderersFactory
@@ -44,6 +48,9 @@ import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetRenderersFactory
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetState
+import org.jellyfin.playback.media3.exoplayer.subtitle.isSubtitleTimingOffsetSupported
 import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
 import org.jellyfin.playback.media3.exoplayer.support.toFormats
 import timber.log.Timber
@@ -67,6 +74,7 @@ class ExoPlayerBackend(
 	private val audioAttributeState = AudioAttributeState()
 	private val timedEventState = TimedEventState()
 	private var lastKnownDuration: Duration? = null
+	private val subtitleTimingOffsetState = SubtitleTimingOffsetState()
 
 	private val assHandler by lazy {
 		AssHandler(AssRenderType.OVERLAY_OPEN_GL)
@@ -89,25 +97,48 @@ class ExoPlayerBackend(
 			setConstantBitrateSeekingAlwaysEnabled(true)
 		}
 
-		val mediaSourceFactory = if (exoPlayerOptions.enableLibass) {
+		val mediaSourceFactory: DefaultMediaSourceFactory
+		val renderersFactory: RenderersFactory
+		if (exoPlayerOptions.enableLibass) {
 			val assSubtitleParserFactory = AssSubtitleParserFactory(assHandler)
 			val assExtractorsFactory = extractorsFactory.withAssMkvSupport(assSubtitleParserFactory, assHandler)
-			DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
+			mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory).apply {
+				@Suppress("DEPRECATION")
+				experimentalParseSubtitlesDuringExtraction(false)
 				setSubtitleParserFactory(assSubtitleParserFactory)
 			}
-		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
-
-		val renderersFactory = DefaultRenderersFactory(context).apply {
-			setEnableDecoderFallback(true)
-			setExtensionRendererMode(
-				when (exoPlayerOptions.preferFfmpeg) {
-					true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-					false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
-				}
-			)
-		}.let { renderersFactory ->
-			if (exoPlayerOptions.enableLibass) AssRenderersFactory(assHandler, renderersFactory)
-			else renderersFactory
+			renderersFactory = SubtitleTimingOffsetRenderersFactory(
+				context = context,
+				offsetState = subtitleTimingOffsetState,
+				subtitleParserFactory = assSubtitleParserFactory,
+			).apply {
+				setEnableDecoderFallback(true)
+				setExtensionRendererMode(
+					when (exoPlayerOptions.preferFfmpeg) {
+						true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+						false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
+					}
+				)
+			}.let { AssRenderersFactory(assHandler, it) }
+		} else {
+			val defaultSubtitleParserFactory = DefaultSubtitleParserFactory()
+			mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory).apply {
+				@Suppress("DEPRECATION")
+				experimentalParseSubtitlesDuringExtraction(false)
+				setSubtitleParserFactory(defaultSubtitleParserFactory)
+			}
+			renderersFactory = SubtitleTimingOffsetRenderersFactory(
+				context = context,
+				offsetState = subtitleTimingOffsetState,
+				subtitleParserFactory = defaultSubtitleParserFactory,
+			).apply {
+				setExtensionRendererMode(
+					when (exoPlayerOptions.preferFfmpeg) {
+						true -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+						false -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON
+					}
+				)
+			}
 		}
 
 		val loadControl = DefaultLoadControl.Builder()
@@ -174,6 +205,16 @@ class ExoPlayerBackend(
 
 		override fun onPlaybackStateChanged(playbackState: Int) {
 			onIsPlayingChanged(exoPlayer.isPlaying)
+		}
+
+		override fun onTracksChanged(tracks: Tracks) {
+			val canAdjustSubtitleTiming = tracks.groups
+				.asSequence()
+				.filter { it.type == C.TRACK_TYPE_TEXT }
+				.flatMap { group -> (0 until group.length).asSequence().filter(group::isTrackSelected).map(group::getTrackFormat) }
+				.any(::isSubtitleTimingOffsetSupported)
+
+			listener?.onSubtitleTimingOffsetSupportChange(canAdjustSubtitleTiming)
 		}
 
 		override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
@@ -335,5 +376,10 @@ class ExoPlayerBackend(
 
 	override fun setTimedEvents(timedEvents: List<TimedEvent>) {
 		timedEventState.setTimedEvents(exoPlayer, timedEvents)
+	}
+
+
+	override fun setSubtitleTimingOffset(offset: Duration) {
+		subtitleTimingOffsetState.setOffsetUs(offset.inWholeMicroseconds)
 	}
 }
