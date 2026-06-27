@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.viewinterop.AndroidView
 import org.jellyfin.androidtv.ui.AsyncImageView
 import org.jellyfin.androidtv.util.BlurHashDecoder
+import org.jellyfin.sdk.model.api.BaseItemDto
 
 private data class AsyncImageState(
 	val url: String?,
@@ -30,6 +31,11 @@ fun AsyncImage(
 	aspectRatio: Float = 1f,
 	blurHashResolution: Int = 32,
 	scaleType: ImageView.ScaleType? = null,
+	documentaryZoomPan: Boolean = false,
+	animationDuration: Long? = null,
+	item: BaseItemDto? = null,
+	screenWidth: Int? = null,
+	screenHeight: Int? = null
 ) {
 	// Only the important properties are added to AsyncImageState
 	var state by remember { mutableStateOf<AsyncImageState?>(null) }
@@ -54,6 +60,9 @@ fun AsyncImage(
 					aspectRatio = aspectRatio.toDouble(),
 					blurHashResolution = blurHashResolution,
 				)
+				if (documentaryZoomPan) {
+					view.animateDocumentaryZoomPan(animationDuration, item, screenWidth, screenHeight)
+				}
 			}
 		},
 	)

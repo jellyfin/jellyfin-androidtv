@@ -19,6 +19,8 @@ fun PhotoPlayerScreen() {
 	val viewModel = koinViewModel<PhotoPlayerViewModel>()
 	val item by viewModel.currentItem.collectAsState()
 	val presentationActive by viewModel.presentationActive.collectAsState()
+	val presentationDelay by viewModel.presentationDelay.collectAsState()
+	val documentaryZoomPan by viewModel.documentaryZoomPan.collectAsState()
 
 	val backgroundService = koinInject<BackgroundService>()
 	LaunchedEffect(backgroundService) {
@@ -36,6 +38,8 @@ fun PhotoPlayerScreen() {
 	) {
 		PhotoPlayerContent(
 			item = item,
+			animationDuration = presentationDelay.inWholeMilliseconds,
+			documentaryZoomPan = documentaryZoomPan
 		)
 
 		PhotoPlayerOverlay(

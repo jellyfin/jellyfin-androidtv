@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.constant.PresentationDelay
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -21,10 +23,13 @@ import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
 
-class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
-	private var album: List<BaseItemDto> = emptyList()
+class PhotoPlayerViewModel(
+	private val api: ApiClient,
+	private val systemPreferences: SystemPreferences,
+) : ViewModel() {
+	private var originalAlbum: List<BaseItemDto> = emptyList()
+	private var currentAlbum: List<BaseItemDto> = emptyList()
 	private var albumIndex = -1
-
 	private val _currentItem = MutableStateFlow<BaseItemDto?>(null)
 	val currentItem = _currentItem.asStateFlow()
 
@@ -44,49 +49,83 @@ class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
 				sortOrder = listOf(sortOrder),
 			).content
 		}
-		album = albumResponse.items
-		albumIndex = album.indexOfFirst { it.id == id }
+		originalAlbum = albumResponse.items
 
 		// In some rare cases the album of the image might be empty when the
 		// files are considered invalid by the server
-		if (album.isEmpty()) {
-			album = listOf(itemResponse)
-			albumIndex = 0
+		if (originalAlbum.isEmpty()) {
+			originalAlbum = listOf(itemResponse)
 		}
+
+		currentAlbum = if (shuffleActive.value) originalAlbum.shuffled() else originalAlbum
+		albumIndex = currentAlbum.indexOfFirst { it.id == id }
 	}
 
 	// Album actions
 
-	fun showNext() {
-		if (album.isEmpty()) return
-
-		albumIndex++
-		if (albumIndex == album.size) albumIndex = 0
-
-		_currentItem.value = album[albumIndex]
+	fun toggleShuffle() {
+		val shuffleActiveValue = !shuffleActive.value
+		val current = _currentItem.value
+		if (shuffleActiveValue == true) {
+			currentAlbum = originalAlbum.shuffled()
+		}
+		else{
+			currentAlbum = originalAlbum
+		}
+		if (current != null) {
+			albumIndex = currentAlbum.indexOfFirst { it.id == current.id }
+		}
+		shuffleActive.value = shuffleActiveValue
 		restartPresentation()
 	}
 
+	fun showNext() {
+		if (currentAlbum.isEmpty()) return
+
+		albumIndex++
+		if (albumIndex == currentAlbum.size) albumIndex = 0
+
+		_currentItem.value = currentAlbum[albumIndex]
+		restartPresentation()
+}
+
 	fun showPrevious() {
-		if (album.isEmpty()) return
+		if (currentAlbum.isEmpty()) return
 
 		albumIndex--
-		if (albumIndex == -1) albumIndex = album.size - 1
+		if (albumIndex == -1) albumIndex = currentAlbum.size - 1
 
-		_currentItem.value = album[albumIndex]
+		_currentItem.value = currentAlbum[albumIndex]
 		restartPresentation()
 	}
 
 	// Presentation
 
+	val shuffleActive = MutableStateFlow(false)
+
 	private var presentationJob: Job? = null
 	private val _presentationActive = MutableStateFlow(false)
 	val presentationActive = _presentationActive.asStateFlow()
-	var presentationDelay = 8.seconds
+
+	val presentationDelay = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerInterval].seconds)
+
+	var documentaryZoomPan = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerDocumentaryZoomPan])
+
+	fun cycleInterval() {
+		val intervals = PresentationDelay().intervals
+		val currentSeconds = presentationDelay.value.inWholeSeconds.toInt()
+		val currentIndex = intervals.indexOf(currentSeconds).takeIf { it >= 0 } ?: 2
+		val nextSeconds = intervals[(currentIndex + 1) % intervals.size]
+
+		presentationDelay.value = nextSeconds.seconds
+		systemPreferences[SystemPreferences.photoPlayerInterval] = nextSeconds
+
+		restartPresentation()
+	}
 
 	fun createPresentationJob() = viewModelScope.launch(Dispatchers.IO) {
 		while (isActive) {
-			delay(presentationDelay)
+			delay(presentationDelay.value)
 			showNext()
 		}
 	}
@@ -116,5 +155,11 @@ class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
 	fun togglePresentation() {
 		if (presentationActive.value) stopPresentation()
 		else startPresentation()
+	}
+
+	fun toggleDocumentaryZoomPan() {
+		documentaryZoomPan.value = !documentaryZoomPan.value
+		systemPreferences[SystemPreferences.photoPlayerDocumentaryZoomPan] = documentaryZoomPan.value
+		restartPresentation()
 	}
 }
