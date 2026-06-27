@@ -1,13 +1,12 @@
 package org.jellyfin.androidtv.util
 
-import android.os.Build
 import android.view.KeyEvent
 
 /**
  * Returns whether this key event is a media key event or not.
  */
 fun KeyEvent.isMediaSessionKeyEvent(): Boolean = when {
-	Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> KeyEvent.isMediaSessionKey(keyCode)
+	AndroidVersion.isAtLeastS -> KeyEvent.isMediaSessionKey(keyCode)
 
 	else -> when (keyCode) {
 		KeyEvent.KEYCODE_MEDIA_PLAY,

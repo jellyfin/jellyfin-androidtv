@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.jellyfin.androidtv.util.appendCodeBlock
 import org.jellyfin.androidtv.util.appendDetails
 import org.jellyfin.androidtv.util.appendItem
@@ -47,13 +48,13 @@ private val featureNames = setOf(
 )
 
 // API levels
-private val isN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N // API 24
-private val isO = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O // API 26
-private val isQ = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q // API 29
-private val isR = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R // API 30
-private val isS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S // API 31
-private val isUpsideDownCake = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE // API 34
-private val isBaklava = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA // API 36
+private val isN = AndroidVersion.isAtLeastN // API 24
+private val isO = AndroidVersion.isAtLeastO // API 26
+private val isQ = AndroidVersion.isAtLeastQ // API 29
+private val isR = AndroidVersion.isAtLeastR // API 30
+private val isS = AndroidVersion.isAtLeastS // API 31
+private val isUpsideDownCake = AndroidVersion.isAtLeastUpsideDownCake // API 34
+private val isBaklava = AndroidVersion.isAtLeastBaklava // API 36
 
 // HDR formats to label strings
 enum class HdrFormats(val label: String) {

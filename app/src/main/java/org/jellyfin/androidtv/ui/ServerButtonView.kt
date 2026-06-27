@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui
 
 import android.content.Context
 import android.graphics.Rect
-import android.os.Build
 import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.compose.foundation.interaction.FocusInteraction
@@ -41,6 +40,7 @@ import org.jellyfin.androidtv.ui.base.button.ButtonBase
 import org.jellyfin.androidtv.ui.base.button.ButtonDefaults
 import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.popupMenu
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.jellyfin.androidtv.util.showIfNotEmpty
 
 @Composable
@@ -107,7 +107,7 @@ class ServerButtonView @JvmOverloads constructor(
 	init {
 		isFocusable = true
 		descendantFocusability = FOCUS_BLOCK_DESCENDANTS
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) defaultFocusHighlightEnabled = false
+		if (AndroidVersion.isAtLeastO) defaultFocusHighlightEnabled = false
 	}
 
 	fun setPopupMenu(init: MenuBuilder.() -> Unit) {

@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -28,6 +27,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
@@ -76,7 +76,7 @@ class LeanbackChannelWorker(
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher.
 	 */
-	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+	private val isSupported = AndroidVersion.isAtLeastO &&
 		// Check for leanback support
 		context.packageManager.hasSystemFeature("android.software.leanback")
 		// Check for "android.media.tv" provider to workaround a false-positive in the previous check

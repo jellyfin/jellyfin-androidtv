@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.settings.screen.playback
 
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -15,6 +14,7 @@ import org.jellyfin.androidtv.ui.navigation.LocalRouter
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.koin.compose.koinInject
 
 @Composable
@@ -51,7 +51,7 @@ fun SettingsPlaybackCodecScreen() {
 			)
 		}
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+		if (AndroidVersion.isAtLeastQ) {
 			item {
 				var softwareCodecsEnabled by rememberPreference(userPreferences, UserPreferences.softwareCodecsEnabled)
 
