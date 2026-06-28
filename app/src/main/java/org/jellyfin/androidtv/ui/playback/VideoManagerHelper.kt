@@ -3,8 +3,8 @@ package org.jellyfin.androidtv.ui.playback
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.DynamicsProcessing
 import android.media.audiofx.Equalizer
-import android.os.Build
 import androidx.core.net.toUri
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.jellyfin.playback.media3.exoplayer.mapping.getFfmpegSubtitleMimeType
 import org.jellyfin.sdk.model.api.MediaStream
 import timber.log.Timber
@@ -32,7 +32,7 @@ fun applyAudioNightmode(audioSessionId: Int) {
 
 	audioEffect = when {
 		// Use dynamics processinc on Android 9 (API 28) and newer
-		Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> DynamicsProcessing(0, audioSessionId, null).apply {
+		AndroidVersion.isAtLeastP -> DynamicsProcessing(0, audioSessionId, null).apply {
 			setLimiterAllChannelsTo(
 				DynamicsProcessing.Limiter(
 					true,
