@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.util.profile.codec
 
 import android.media.MediaCodecInfo.CodecProfileLevel
-import android.media.MediaFormat
+import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.util.AndroidVersion
 
 class HevcCodecCapabilities(
@@ -25,8 +25,8 @@ class HevcCodecCapabilities(
 			CodecProfileLevel.HEVCMainTierLevel62 to 186,
 		)
 
-		private const val MIME_HEVC = MediaFormat.MIMETYPE_VIDEO_HEVC
-		private const val MIME_DOLBY_VISION = MediaFormat.MIMETYPE_VIDEO_DOLBY_VISION
+		private const val MIME_HEVC = MimeTypes.VIDEO_H265
+		private const val MIME_DOLBY_VISION = MimeTypes.VIDEO_DOLBY_VISION
 	}
 
 	fun supportsHevc(): Boolean = query.hasCodecForMime(MIME_HEVC)
