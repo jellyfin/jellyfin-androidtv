@@ -643,4 +643,11 @@
     <string name="hlg">HLG</string>
     <string name="playback_info_play_method">Método de reprodução: %1$s</string>
     <string name="playback_info_transcoding">Transcodificação</string>
+    <string name="playback_info">Informações de playback</string>
+    <string name="playback_info_direct_play">Directplay</string>
+    <string name="playback_info_direct_stream">Directstream</string>
+    <string name="playback_info_container">Container:%1$s</string>
+    <string name="playback_info_codec">Codec:%1$s</string>
+    <string name="playback_info_resolution">Resolução: %1$d x %2$d</string>
+    <string name="pref_burn_subtitles_when_transcoding">Burn in legendas quando estiver transcodificando</string>
 </resources>
