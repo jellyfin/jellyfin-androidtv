@@ -83,10 +83,14 @@ open class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	}
 
 	fun removeAt(index: Int, length: Int = 1): Boolean {
-		if (index < 0 || index >= data.size) return false
+		if (index < 0 || index >= data.size || length <= 0 || index + length > data.size) return false
 
 		data.subList(index, index + length).clear()
 		notifyItemRangeRemoved(index, length)
+
+		// Force rebind of shifted items so focused rows redraw immediately after removals.
+		val shiftedCount = data.size - index
+		if (shiftedCount > 0) notifyItemRangeChanged(index, shiftedCount)
 
 		return true
 	}
