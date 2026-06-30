@@ -177,6 +177,22 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
+    public long getSubtitleTimingOffsetUs() {
+        return hasInitializedVideoManager() ? mVideoManager.getSubtitleTimingOffsetUs() : 0L;
+    }
+
+    public void adjustSubtitleTimingOffsetUs(long deltaUs) {
+        if (hasInitializedVideoManager()) {
+            mVideoManager.adjustSubtitleTimingOffsetUs(deltaUs);
+        }
+    }
+
+    public void resetSubtitleTimingOffset() {
+        if (hasInitializedVideoManager()) {
+            mVideoManager.resetSubtitleTimingOffset();
+        }
+    }
+
     public void setPlaybackSpeed(float speed) {
         mRequestedPlaybackSpeed = speed;
         if (hasInitializedVideoManager()) {

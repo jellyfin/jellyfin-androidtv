@@ -6,9 +6,14 @@ import androidx.leanback.media.PlayerAdapter;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.playback.media3.exoplayer.subtitle.SubtitleTimingOffsetFormatsKt;
+import org.jellyfin.androidtv.ui.playback.VideoManagerHelperKt;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.sdk.model.api.ChapterInfo;
+import org.jellyfin.sdk.model.api.MediaStream;
+import org.jellyfin.sdk.model.api.MediaStreamType;
+import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import org.jellyfin.sdk.model.api.MediaSourceInfo;
 import org.koin.java.KoinJavaComponent;
 
@@ -102,6 +107,34 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     public boolean hasSubs() {
         return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
+    }
+
+    public boolean hasTimingAdjustableSubtitle() {
+        MediaSourceInfo mediaSource = playbackController.getCurrentMediaSource();
+        if (mediaSource == null || mediaSource.getMediaStreams() == null) return false;
+
+        int selectedSubtitleStreamIndex = playbackController.getSubtitleStreamIndex();
+        if (selectedSubtitleStreamIndex < 0) return false;
+
+        for (MediaStream stream : mediaSource.getMediaStreams()) {
+            if (stream.getIndex() != selectedSubtitleStreamIndex) {
+                continue;
+            }
+
+            if (stream.getType() != MediaStreamType.SUBTITLE) {
+                return false;
+            }
+
+            SubtitleDeliveryMethod deliveryMethod = stream.getDeliveryMethod();
+            if (deliveryMethod == SubtitleDeliveryMethod.ENCODE || deliveryMethod == SubtitleDeliveryMethod.DROP) {
+                return false;
+            }
+
+            String mimeType = VideoManagerHelperKt.getSubtitleMediaStreamCodec(stream);
+            return SubtitleTimingOffsetFormatsKt.isSubtitleTimingOffsetSupported(mimeType);
+        }
+
+        return false;
     }
 
     public boolean hasMultiAudio() {

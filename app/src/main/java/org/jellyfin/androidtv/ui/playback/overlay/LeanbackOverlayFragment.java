@@ -24,6 +24,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     private CustomPlaybackTransportControlGlue playerGlue;
     private VideoPlayerAdapter playerAdapter;
     private boolean shouldShowOverlay = true;
+    private boolean subtitleOffsetMode = false;
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
     private final Lazy<UserSettingPreferences> userSettingPreferences = inject(UserSettingPreferences.class);
     private Lazy<ImageLoader> imageLoader = inject(ImageLoader.class);
@@ -93,6 +94,27 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void setFading(boolean fadingEnabled) {
         playerAdapter.getMasterOverlayFragment().setFadingEnabled(fadingEnabled);
+    }
+
+    public void enterSubtitleOffsetMode() {
+        subtitleOffsetMode = true;
+        setShouldShowOverlay(false);
+        setBackgroundType(BG_NONE);
+        super.hideControlsOverlay(false);
+        playerAdapter.getMasterOverlayFragment().hide();
+        playerAdapter.getMasterOverlayFragment().setFadingEnabled(false);
+    }
+
+    public void exitSubtitleOffsetMode() {
+        subtitleOffsetMode = false;
+        setBackgroundType(BG_LIGHT);
+        setShouldShowOverlay(true);
+        playerAdapter.getMasterOverlayFragment().setFadingEnabled(true);
+        showControlsOverlay(false);
+    }
+
+    public boolean isSubtitleOffsetMode() {
+        return subtitleOffsetMode;
     }
 
     public void mediaInfoChanged() {

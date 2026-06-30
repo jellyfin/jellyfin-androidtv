@@ -664,4 +664,10 @@
     <string name="preference_enable_ass">ASS-ondertiteling direct afspelen</string>
     <string name="preference_enable_pgs_description">Vereist transcoderen indien uitgeschakeld</string>
     <string name="preference_enable_ass_description">Experimentele functie, mogelijk onbetrouwbaar</string>
+    <string name="lbl_subtitle_offset">Ondertitelvertraging</string>
+    <string name="lbl_subtitle_offset_current">Ondertitelvertraging %1$s</string>
+    <string name="lbl_reset">Herstel</string>
+    <string name="lbl_help">Hulp</string>
+    <string name="lbl_subtitle_offset_help">Ondertitels te laat: gebruik − | Ondertitels te vroeg: gebruik +</string>
+    <string name="lbl_subtitle_offset_seconds">%1$s s</string>
 </resources>

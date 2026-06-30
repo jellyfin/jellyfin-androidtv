@@ -664,4 +664,7 @@
     <string name="preference_enable_ass">Direct play ASS subtitles</string>
     <string name="preference_enable_pgs_description">Requires transcoding when disabled</string>
     <string name="preference_enable_ass_description">Experimental feature, may not work relia…</string>
+    <string name="lbl_subtitle_offset">Subtitle offset</string>
+    <string name="lbl_subtitle_offset_current">Subtitle offset %1$s</string>
+    <string name="lbl_reset">Reset</string>
 </resources>
