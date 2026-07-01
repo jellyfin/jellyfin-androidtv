@@ -126,7 +126,7 @@ fun SettingsPlaybackAdvancedScreen() {
 						// 5 - 30 seconds with 5 second increment
 						min = 5_000f,
 						max = 30_000f,
-						stepBack = 5_000f,
+						stepBackward = 5_000f,
 						value = skipBackLength.toFloat(),
 						onValueChange = { skipBackLength = it.roundToInt() }
 					)
