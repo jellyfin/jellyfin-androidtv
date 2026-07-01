@@ -16,8 +16,13 @@ import androidx.tvprovider.media.tv.PreviewProgram
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.tvprovider.media.tv.WatchNextProgram
+import androidx.work.BackoffPolicy
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.await
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -53,6 +58,7 @@ import timber.log.Timber
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 
 /**
@@ -65,7 +71,17 @@ class LeanbackChannelWorker(
 	workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams), KoinComponent {
 	companion object {
-		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
+		private const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
+
+		suspend fun enqueue(workManager: WorkManager) {
+			workManager.enqueueUniquePeriodicWork(
+				PERIODIC_UPDATE_REQUEST_NAME,
+				ExistingPeriodicWorkPolicy.UPDATE,
+				PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
+					.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
+					.build()
+			).await()
+		}
 	}
 
 	private val api by inject<ApiClient>()
