@@ -10,7 +10,7 @@ import org.jellyfin.sdk.discovery.RecommendedServerIssue
  */
 fun RecommendedServerIssue.getFriendlyMessage(context: Context): String = when (this) {
 	// Connection issues
-	is RecommendedServerIssue.SecureConnectionFailed -> context.getString(R.string.server_issue_unable_to_connect)
+	is RecommendedServerIssue.SecureConnectionFailed -> context.getString(R.string.server_issue_ssl_handshake)
 	is RecommendedServerIssue.SlowResponse -> context.getString(R.string.server_issue_timeout)
 	is RecommendedServerIssue.ServerUnreachable -> context.getString(R.string.server_issue_unable_to_connect)
 
