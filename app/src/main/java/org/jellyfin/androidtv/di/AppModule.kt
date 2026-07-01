@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.di
 
 import android.content.Context
-import android.os.Build
 import androidx.lifecycle.ProcessLifecycleOwner
 import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
@@ -54,6 +53,7 @@ import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
@@ -128,7 +128,7 @@ val appModule = module {
 			components {
 				add(get<NetworkFetcher.Factory>())
 
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(AnimatedImageDecoder.Factory())
+				if (AndroidVersion.isAtLeastP) add(AnimatedImageDecoder.Factory())
 				else add(GifDecoder.Factory())
 				add(SvgDecoder.Factory())
 			}

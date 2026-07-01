@@ -164,7 +164,7 @@
     <string name="lbl_bitstream_ac3">Dźwięk w technologii Bitstream Dolby Digital</string>
     <string name="desc_automatic_fav_songs">Automatyczna lista ulubionych piosenek</string>
     <string name="msg_item_added">" pozycja dodana"</string>
-    <string name="lbl_instant_mix">Szybka składanka</string>
+    <string name="lbl_instant_mix">Szybki miks</string>
     <string name="lbl_play_from_here">Odtwarzaj od tego momentu</string>
     <string name="lbl_direct_stream_live">Bezpośrednia transmisja TV</string>
     <string name="lbl__continuing">KONTYNUACJA</string>

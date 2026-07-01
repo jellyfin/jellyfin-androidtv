@@ -4,8 +4,8 @@ import android.media.MediaCodecInfo
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
-import android.os.Build
 import android.util.Size
+import org.jellyfin.androidtv.util.AndroidVersion
 import timber.log.Timber
 
 /**
@@ -16,7 +16,7 @@ class MediaCodecQuery(
 	private val softwareCodecsEnabled: Boolean,
 ) {
 	private val MediaCodecInfo.isSoftwareCodec: Boolean
-		get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && isSoftwareOnly
+		get() = AndroidVersion.isAtLeastQ && isSoftwareOnly
 
 	private fun decoderInfos(): Sequence<MediaCodecInfo> =
 		mediaCodecList.codecInfos.asSequence()

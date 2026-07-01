@@ -669,4 +669,8 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_enable_pgs_description">Se requiere transcodificación cuando está desactivado</string>
+    <string name="preference_enable_ass_description">Función experimental, puede dejar de funcionar</string>
+    <string name="pref_software_codecs_enabled">Usar códec de software</string>
+    <string name="pref_software_codecs_enabled_description">Algunas implementaciones basadas en software podrían reducir el rendimiento. Desactivar esta opción hace la transcodificación más probable.</string>
 </resources>

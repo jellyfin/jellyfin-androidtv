@@ -123,7 +123,7 @@
     <string name="chapters">الفصول</string>
     <string name="settings_title">التفضيلات</string>
     <string name="pref_max_bitrate_title">الحد الأقصى لمعدل البث</string>
-    <string name="pref_playback">تشغيل</string>
+    <string name="pref_playback">التشغيل</string>
     <string name="byletter_letters">أبتثجحخدذرزسشصضطظعغفقكلمنهوي</string>
     <string name="btn_cancel">إلغاء</string>
     <string name="loading">جارٍ التحميل…</string>
@@ -516,8 +516,8 @@
     <string name="unreleased">لم يُصدر بعد</string>
     <string name="lbl_home">الرئيسية</string>
     <string name="indicator_subtitles">CC</string>
-    <string name="dolby_vision">Dolby Vision</string>
-    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dolby_vision">تقنية Dolby Vision</string>
+    <string name="dolby_atmos">تفنية Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS:HD</string>
     <string name="dca">DTS</string>
