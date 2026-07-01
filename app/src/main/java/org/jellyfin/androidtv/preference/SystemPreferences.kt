@@ -4,6 +4,7 @@ import android.content.Context
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
+import org.jellyfin.preference.intPreference
 
 /**
  * System preferences are not possible to modify by the user.
@@ -64,8 +65,18 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		val dismissedBetaNotificationVersion = stringPreference("dismissed_beta_notification_version", "")
 
 		/**
+		 * Stores the interval for the photo player in seconds
+		 */
+		val photoPlayerInterval = intPreference("sys_pref_photo_player_interval", 8)
+
+		/**
 		 * Whether to disable the "UI mode" warning that shows when using the app on non TV devices.
 		 */
 		val disableUiModeWarning = booleanPreference("disable_ui_mode_warning", false)
+
+		/**
+		 * Enables zoom and panning photos when a presentation is playing.
+		 */
+		val photoPlayerDocumentaryZoomPan = booleanPreference("sys_pref_photo_player_documentary_zoom_pan", false)
 	}
 }

@@ -19,13 +19,20 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.IconButton
+import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.koin.androidx.compose.koinViewModel
+import kotlin.time.Duration
 
 @Composable
 fun PhotoPlayerControls() {
 	val viewModel = koinViewModel<PhotoPlayerViewModel>()
 	val presentationActive by viewModel.presentationActive.collectAsState()
+	val presentationDelay by viewModel.presentationDelay.collectAsState()
+	val shuffleActive by viewModel.shuffleActive.collectAsState()
+	val documentaryZoomPanActive by viewModel.documentaryZoomPan.collectAsState()
 
 	Row(
 		horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -33,6 +40,12 @@ fun PhotoPlayerControls() {
 			.focusRestorer()
 			.focusGroup()
 	) {
+		if(presentationActive) {
+			ShuffleButton(
+				shuffleActive = shuffleActive,
+				onClick = { viewModel.toggleShuffle() },
+			)
+		}
 		PreviousButton(
 			onClick = { viewModel.showPrevious() },
 		)
@@ -47,6 +60,16 @@ fun PhotoPlayerControls() {
 
 		NextButton(
 			onClick = { viewModel.showNext() },
+		)
+
+		IntervalButton(
+			presentationDelay = presentationDelay,
+			onClick = { viewModel.cycleInterval() }
+		)
+
+		AnimateButton(
+			documentaryZoomPanActive = documentaryZoomPanActive,
+			onClick = { viewModel.toggleDocumentaryZoomPan() },
 		)
 	}
 }
@@ -108,5 +131,62 @@ private fun PlayPauseButton(
 				)
 			}
 		}
+	}
+}
+
+@Composable
+private fun ShuffleButton(
+	shuffleActive: Boolean,
+	onClick: () -> Unit,
+) {
+	val tintColor = if (shuffleActive) JellyfinTheme.colorScheme.onBackground else JellyfinTheme.colorScheme.buttonActive
+	IconButton(
+		onClick = onClick,
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_shuffle),
+			contentDescription = stringResource(R.string.lbl_shuffle),
+			tint = tintColor
+		)
+	}
+}
+
+@Composable
+private fun IntervalButton(
+	presentationDelay: Duration,
+	onClick: () -> Unit,
+) {
+	Button(
+		onClick = onClick,
+	) {
+		Row(
+			horizontalArrangement = Arrangement.spacedBy(4.dp),
+			verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+		) {
+			Icon(
+				imageVector = ImageVector.vectorResource(R.drawable.ic_time),
+				contentDescription = stringResource(R.string.lbl_change_interval),
+			)
+			Text(
+				text = "${presentationDelay.inWholeSeconds}s"
+			)
+		}
+	}
+}
+
+@Composable
+private fun AnimateButton(
+	documentaryZoomPanActive: Boolean,
+	onClick: () -> Unit,
+) {
+	val tintColor = if (documentaryZoomPanActive) JellyfinTheme.colorScheme.onBackground else JellyfinTheme.colorScheme.buttonActive
+	IconButton(
+		onClick = onClick,
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_motion),
+			contentDescription = stringResource(R.string.lbl_animate),
+			tint = tintColor
+		)
 	}
 }
