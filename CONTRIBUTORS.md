@@ -16,6 +16,7 @@
  - [MajMongoose](https://github.com/majmongoose)
  - [Olaren15](https://github.com/Olaren15)
  - [dtrexler](https://github.com/dtrexler)
+ - [Kyle Ferguson](https://github.com/kferguson42)
 
 # Emby Contributors
 
