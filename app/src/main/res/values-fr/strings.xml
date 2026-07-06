@@ -107,9 +107,9 @@
     <string name="lbl_goto_series">Aller vers les séries</string>
     <string name="lbl_enable_debug">Activer les options de débogage</string>
     <string name="desc_debug">Affiche un bouton d\'envoi des logs sur l\'écran de la page d\'accueil</string>
-    <string name="lbl_showing">Afficher</string>
-    <string name="lbl_all_items">Tous les éléments</string>
-    <string name="lbl_sorted_by">Trier par</string>
+    <string name="lbl_showing">S’affichent</string>
+    <string name="lbl_all_items">tous les éléments</string>
+    <string name="lbl_sorted_by">triés par</string>
     <string name="lbl_from">de</string>
     <string name="lbl_name">Nom</string>
     <string name="lbl_date_added">Date d\'ajout</string>

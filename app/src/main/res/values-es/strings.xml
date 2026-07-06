@@ -18,9 +18,9 @@
     <string name="msg_not_implemented">" no implementado"</string>
     <string name="lbl_latest">Novedades</string>
     <string name="lbl_by_name">Por nombre</string>
-    <string name="lbl_favorites">Favoritos</string>
+    <string name="lbl_favorites">favoritos</string>
     <string name="lbl_coming_up">Próximos</string>
-    <string name="lbl_favorite_channels">Canales favoritos</string>
+    <string name="lbl_favorite_channels">canales favoritos</string>
     <string name="lbl_other_channels">Otros canales</string>
     <string name="lbl_collections">Colecciones</string>
     <string name="lbl_movies">Películas</string>
@@ -68,8 +68,8 @@
     <string name="lbl_no_items">No hay ítems</string>
     <string name="lbl_empty">Vacío</string>
     <string name="lbl_tv_queuing">Reproducir siguiente episodio automáticamente</string>
-    <string name="lbl_all_items">Todos los elementos</string>
-    <string name="lbl_showing">Demostración</string>
+    <string name="lbl_all_items">todos los elementos</string>
+    <string name="lbl_showing">Mostrando</string>
     <string name="desc_debug">Proporcione información adicional para la depuración</string>
     <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="lbl_goto_series">Ir a la serie</string>
@@ -92,7 +92,7 @@
     <string name="lbl_tomorrow">Mañana</string>
     <string name="lbl_today">Hoy</string>
     <string name="lbl_load_channels">"Cargar Canales "</string>
-    <string name="lbl_unwatched">No visto</string>
+    <string name="lbl_unwatched">no vistos</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
     <string name="lbl_now_playing_album">desde %1$s</string>
     <string name="lbl_add_favorite">Agregar Favorito</string>
@@ -202,7 +202,7 @@
     <string name="lbl_series_recordings">Grabaciones de Series</string>
     <string name="lbl_ended">FINALIZADO</string>
     <string name="lbl__continuing">CONTINUANDO</string>
-    <string name="lbl_from">desde</string>
+    <string name="lbl_from">de</string>
     <string name="lbl_refresh_switching">Cambio de frecuencia de actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_episodes">Nuevos episodios</string>

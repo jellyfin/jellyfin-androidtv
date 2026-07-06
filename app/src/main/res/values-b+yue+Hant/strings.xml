@@ -243,8 +243,8 @@
     <string name="lbl_hd_programs">高清節目</string>
     <string name="lbl_colored_backgrounds">以色水分類背景</string>
     <string name="lbl_start_favorites">將心水擺喺最前</string>
-    <string name="lbl_image_type">圖片類型</string>
-    <string name="lbl_image_size">圖片大細</string>
+    <string name="lbl_image_type">圖像類型</string>
+    <string name="lbl_image_size">圖像大細</string>
     <string name="lbl_my_media">我嘅媒體</string>
     <string name="pref_theme_dark">暗色（預設）</string>
     <string name="pref_theme_emerald">經典翡翠綠</string>
@@ -496,7 +496,7 @@
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
-    <string name="clear_image_cache">清晒圖片快取</string>
+    <string name="clear_image_cache">清晒圖像快取</string>
     <string name="clear_image_cache_content">已用：%1$s</string>
     <string name="random">隨機</string>
     <string name="unreleased">仲未推出</string>
