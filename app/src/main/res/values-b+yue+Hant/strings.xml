@@ -314,7 +314,7 @@
     <string name="enable_smart_view">開啟智慧畫面</string>
     <string name="enable_smart_view_description">智慧畫面會顯示相關項目，而唔係成個網格咁出</string>
     <string name="image_type_poster">海報</string>
-    <string name="image_type_thumbnail">縮圖</string>
+    <string name="image_type_thumbnail">預覽圖</string>
     <string name="image_type_banner">橫額</string>
     <string name="image_size_smallest">最細</string>
     <string name="image_size_small">細</string>
@@ -332,8 +332,8 @@
     <string name="pref_watched_indicator">顯示已睇標示</string>
     <string name="lbl_hide_unwatched_count">當項目已經睇咗嗰陣</string>
     <string name="lbl_hide_watched_checkmark">當仲有集數未睇嗰陣</string>
-    <string name="lbl_use_series_thumbnails">優先用劇集縮圖</string>
-    <string name="lbl_use_series_thumbnails_description">顯示集數嗰陣用返劇集縮圖</string>
+    <string name="lbl_use_series_thumbnails">優先用劇集預覽圖</string>
+    <string name="lbl_use_series_thumbnails_description">顯示集數嗰陣用返劇集預覽圖</string>
     <string name="auto_sign_in">自動登入</string>
     <string name="user_picker_disable_title">停用</string>
     <string name="user_picker_disable_summary">一直都顯示登入畫面</string>
@@ -354,8 +354,8 @@
     <string name="lbl_season_number">第 %1$d 季</string>
     <string name="lbl_episode_number">第 %1$d 集</string>
     <string name="lbl_episode_range">第 %1$d–%2$d 集</string>
-    <string name="lbl_next_up_extended">連埋縮圖</string>
-    <string name="lbl_next_up_minimal">唔要縮圖</string>
+    <string name="lbl_next_up_extended">連埋預覽圖</string>
+    <string name="lbl_next_up_minimal">唔要預覽圖</string>
     <string name="lbl_still_watching_default">3 集或者 90 分鐘</string>
     <string name="lbl_still_watching_short">2 集或者 60 分鐘</string>
     <string name="lbl_still_watching_long">5 集或者 150 分鐘</string>
@@ -529,7 +529,7 @@
     <string name="segment_type_recap">前情提要</string>
     <string name="segment_type_unknown">未知片段</string>
     <string name="skip_forward_length">快進長度</string>
-    <string name="preference_enable_trickplay">喺播放器開啟預覽縮圖 (Trickplay)</string>
+    <string name="preference_enable_trickplay">喺播放器開啟預覽圖 (Trickplay)</string>
     <string name="pref_subtitles_background_opacity">字幕背景不透明度</string>
     <string name="pref_troubleshooting">疑難排解</string>
     <string name="pref_report_device_profile_title">向伺服器回報播放能力</string>
