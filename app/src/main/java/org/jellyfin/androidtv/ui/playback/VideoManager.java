@@ -142,6 +142,7 @@ public class VideoManager {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
                 Timber.e("***** Got error from player");
+                rememberCurrentExoPlayerPosition();
                 if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
             }
@@ -181,6 +182,7 @@ public class VideoManager {
             public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
                 // discontinuity for reason internal usually indicates an error, and that the player will reset to its default timestamp
                 if (reason == Player.DISCONTINUITY_REASON_INTERNAL) {
+                    rememberExoPlayerPosition(oldPosition.positionMs);
                     Timber.i("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s", oldPosition.positionMs, newPosition.positionMs);
                 }
             }
@@ -319,9 +321,8 @@ public class VideoManager {
         if (mExoPlayer == null || !isPlaying()) {
             return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
         } else {
-            long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
-            lastExoPlayerPosition = mExoPlayerCurrentPosition;
-            return mExoPlayerCurrentPosition;
+            rememberCurrentExoPlayerPosition();
+            return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
         }
     }
 
@@ -375,8 +376,28 @@ public class VideoManager {
             return -1;
 
         Timber.i("Exo length in seek is: %d", getDuration());
+        rememberSeekPosition(pos);
         mExoPlayer.seekTo(pos);
         return pos;
+    }
+
+    private void rememberCurrentExoPlayerPosition() {
+        if (mExoPlayer != null) {
+            rememberExoPlayerPosition(mExoPlayer.getCurrentPosition());
+        }
+    }
+
+    private void rememberExoPlayerPosition(long position) {
+        // Keep the previous positive position when ExoPlayer reports 0 during an error reset.
+        if (position >= 0 && (position > 0 || lastExoPlayerPosition <= 0)) {
+            lastExoPlayerPosition = position;
+        }
+    }
+
+    private void rememberSeekPosition(long position) {
+        if (position >= 0) {
+            lastExoPlayerPosition = position;
+        }
     }
 
     private int getSubtitleSelectionFlags(MediaStream mediaStream) {
@@ -393,6 +414,7 @@ public class VideoManager {
             return;
         }
         Timber.i("Video path set to: %s", path);
+        lastExoPlayerPosition = -1;
 
         try {
             // Add external subtitles

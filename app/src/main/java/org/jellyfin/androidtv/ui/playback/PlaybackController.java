@@ -67,6 +67,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<ReportingHelper> reportingHelper = inject(ReportingHelper.class);
     private final Lazy<InteractionTrackerViewModel> lazyInteractionTracker = inject(InteractionTrackerViewModel.class);
+    private final PlaybackPositionTracker playbackPositionTracker = new PlaybackPositionTracker();
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -266,9 +267,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (playbackRetries < 3) {
             if (mFragment != null)
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.player_error));
-            Timber.i("Player error encountered - retrying");
-            stop();
-            play(mCurrentPosition);
+            long retryPosition = getRecoverablePlaybackPosition();
+            Timber.i("Player error encountered - retrying at %s", retryPosition);
+            stopForRetry(retryPosition);
+            play(retryPosition);
         } else {
             mPlaybackState = PlaybackState.ERROR;
             if (mFragment != null) {
@@ -386,6 +388,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     // playback has started following initial seek for direct play and hls
                     // get current position and reset seekPosition
                     newPos = mVideoManager.getCurrentPosition();
+                    playbackPositionTracker.updateFromPlayerPosition(newPos);
                     mSeekPosition = -1;
                 } else if (wasSeeking) {
                     // the initial seek for direct play and hls completed
@@ -442,6 +445,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // set mSeekPosition so the seekbar will not default to 0:00
                 mSeekPosition = position;
                 mCurrentPosition = 0;
+                playbackPositionTracker.reset(position);
 
                 mFragment.setFadingEnabled(false);
 
@@ -876,11 +880,29 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mPlaybackState = PlaybackState.IDLE;
 
             if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
-            if (getCurrentlyPlayingItem() != null && mCurrentStreamInfo != null) {
-                Long mbPos = mCurrentPosition * 10000;
-                reportingHelper.getValue().reportStopped(mFragment, getCurrentlyPlayingItem(), mCurrentStreamInfo, mbPos);
-            }
+            reportStopped(mCurrentPosition);
             clearPlaybackSessionOptions();
+        }
+    }
+
+    private void stopForRetry(long retryPosition) {
+        Timber.i("stop for retry called at %s", retryPosition);
+        stopReportLoop();
+        if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
+            mPlaybackState = PlaybackState.IDLE;
+
+            if (mVideoManager != null) mVideoManager.stopPlayback();
+            reportStopped(retryPosition);
+            clearPlaybackSessionOptions();
+        }
+        mCurrentPosition = retryPosition;
+        playbackPositionTracker.reset(retryPosition);
+    }
+
+    private void reportStopped(long position) {
+        if (getCurrentlyPlayingItem() != null && mCurrentStreamInfo != null) {
+            Long mbPos = position * 10000;
+            reportingHelper.getValue().reportStopped(mFragment, getCurrentlyPlayingItem(), mCurrentStreamInfo, mbPos);
         }
     }
 
@@ -988,6 +1010,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             // Make sure we also set the seek positions so mCurrentPosition won't get overwritten in refreshCurrentPosition()
             currentSkipPos = mCurrentPosition;
             mSeekPosition = mCurrentPosition;
+            playbackPositionTracker.updateFromSeekPosition(mSeekPosition);
             // Finalize item playback
             itemComplete();
             return;
@@ -997,6 +1020,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         // set seekPosition so real position isn't used until playback starts again
         mSeekPosition = pos;
+        playbackPositionTracker.updateFromSeekPosition(pos);
 
         if (mCurrentStreamInfo == null) return;
 
@@ -1070,8 +1094,18 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             Timber.i("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
+            playbackPositionTracker.updateFromSeekPosition(currentSkipPos);
             mHandler.postDelayed(skipRunnable, 800);
         }
+    }
+
+    private long getRecoverablePlaybackPosition() {
+        boolean preferPendingSeek = mSeekPosition != -1 && (wasSeeking || currentSkipPos != 0 || !finishedInitialSeek);
+        if (!preferPendingSeek && hasInitializedVideoManager()) {
+            playbackPositionTracker.updateFromPlayerPosition(mVideoManager.getCurrentPosition());
+        }
+
+        return playbackPositionTracker.getRecoverablePosition(mCurrentPosition, mSeekPosition, preferPendingSeek);
     }
 
     public void updateTvProgramInfo() {
