@@ -19,13 +19,17 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
+import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.koin.androidx.compose.koinViewModel
+import kotlin.time.Duration
 
 @Composable
 fun PhotoPlayerControls() {
 	val viewModel = koinViewModel<PhotoPlayerViewModel>()
 	val presentationActive by viewModel.presentationActive.collectAsState()
+	val presentationDelay by viewModel.presentationDelay.collectAsState()
 
 	Row(
 		horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -47,6 +51,11 @@ fun PhotoPlayerControls() {
 
 		NextButton(
 			onClick = { viewModel.showNext() },
+		)
+
+		IntervalButton(
+			presentationDelay = presentationDelay,
+			onClick = { viewModel.cycleInterval() }
 		)
 	}
 }
@@ -107,6 +116,29 @@ private fun PlayPauseButton(
 					contentDescription = stringResource(R.string.lbl_play),
 				)
 			}
+		}
+	}
+}
+
+@Composable
+private fun IntervalButton(
+	presentationDelay: Duration,
+	onClick: () -> Unit,
+) {
+	Button(
+		onClick = onClick,
+	) {
+		Row(
+			horizontalArrangement = Arrangement.spacedBy(4.dp),
+			verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+		) {
+			Icon(
+				imageVector = ImageVector.vectorResource(R.drawable.ic_time),
+				contentDescription = stringResource(R.string.lbl_change_interval),
+			)
+			Text(
+				text = if (presentationDelay.inWholeSeconds < 60 ) "${presentationDelay.inWholeSeconds} s" else "${presentationDelay.inWholeMinutes} min"
+			)
 		}
 	}
 }
