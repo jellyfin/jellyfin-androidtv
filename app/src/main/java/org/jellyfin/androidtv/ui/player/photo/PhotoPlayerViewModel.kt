@@ -133,6 +133,6 @@ class PhotoPlayerViewModel(
 
 	companion object PresentationDelay {
 		@Suppress("MagicNumber")
-		val intervals = listOf<Long>(4000, 8000, 10000, 15000, 30000, 60000, 120000, 300000)
+		val intervals = listOf<Long>(4000, 6000, 8000, 10000, 15000, 30000, 60000, 120000, 300000)
 	}
 }
