@@ -134,10 +134,13 @@ private fun IntervalButton(
 		) {
 			Icon(
 				imageVector = ImageVector.vectorResource(R.drawable.ic_time),
-				contentDescription = stringResource(R.string.lbl_change_interval),
+				contentDescription = stringResource(R.string.change_interval),
 			)
 			Text(
-				text = if (presentationDelay.inWholeSeconds < 60 ) "${presentationDelay.inWholeSeconds} s" else "${presentationDelay.inWholeMinutes} min"
+				text = if (presentationDelay.inWholeSeconds < 60 )
+					       "${presentationDelay.inWholeSeconds} s"
+				       else
+						   "${presentationDelay.inWholeMinutes} min"
 			)
 		}
 	}
