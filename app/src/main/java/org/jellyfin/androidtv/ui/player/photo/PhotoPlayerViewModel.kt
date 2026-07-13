@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.constant.PresentationDelay
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.sdk.api.client.ApiClient
@@ -21,7 +20,6 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
-import kotlin.time.Duration.Companion.seconds
 
 class PhotoPlayerViewModel(private val api: ApiClient,
 						   private val systemPreferences: SystemPreferences
@@ -86,14 +84,14 @@ class PhotoPlayerViewModel(private val api: ApiClient,
 	private var presentationJob: Job? = null
 	private val _presentationActive = MutableStateFlow(false)
 	val presentationActive = _presentationActive.asStateFlow()
-	val presentationDelay = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerInterval].seconds)
+	val presentationDelay = MutableStateFlow(systemPreferences[SystemPreferences.photoPlayerInterval])
 
 	fun cycleInterval() {
-		val currentSeconds = presentationDelay.value.inWholeSeconds.toInt()
-		val presentationDelayIntervals = PresentationDelay().intervals
+		val currentSeconds = presentationDelay.value
+		val presentationDelayIntervals = intervals
 		val currentIndex = presentationDelayIntervals.indexOf(currentSeconds).takeIf { it >= 0 } ?: 2
 		val nextSeconds = presentationDelayIntervals[(currentIndex + 1) % presentationDelayIntervals.size]
-		presentationDelay.value = nextSeconds.seconds
+		presentationDelay.value = nextSeconds
 		systemPreferences[SystemPreferences.photoPlayerInterval] = nextSeconds
 		restartPresentation()
 	}
@@ -130,5 +128,10 @@ class PhotoPlayerViewModel(private val api: ApiClient,
 	fun togglePresentation() {
 		if (presentationActive.value) stopPresentation()
 		else startPresentation()
+	}
+
+	companion object PresentationDelay {
+		@Suppress("MagicNumber")
+		val intervals = listOf<Long>(4000, 8000, 10000, 15000, 30000, 60000, 120000, 300000)
 	}
 }

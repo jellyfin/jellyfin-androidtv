@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.preference
 
 import android.content.Context
 import org.jellyfin.preference.booleanPreference
-import org.jellyfin.preference.intPreference
+import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
 
@@ -70,8 +70,8 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		val disableUiModeWarning = booleanPreference("disable_ui_mode_warning", false)
 
 		/**
-		 * Stores the interval for the photo player in seconds
+		 * Stores the interval for the photo player in seconds. Default is a value from the PhotoPlayerViewModel Intervals list
 		 */
-		val photoPlayerInterval = intPreference("photo_player_interval", 8)
+		val photoPlayerInterval = longPreference("photo_player_interval", 8000)
 	}
 }

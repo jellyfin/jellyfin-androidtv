@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.koin.androidx.compose.koinViewModel
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun PhotoPlayerControls() {
@@ -54,7 +55,7 @@ fun PhotoPlayerControls() {
 		)
 
 		IntervalButton(
-			presentationDelay = presentationDelay,
+			presentationDelay = presentationDelay.milliseconds,
 			onClick = { viewModel.cycleInterval() }
 		)
 	}
