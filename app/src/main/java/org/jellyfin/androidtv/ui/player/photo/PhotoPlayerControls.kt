@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.IconButton
+import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.androidx.compose.koinViewModel
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -138,10 +139,7 @@ private fun IntervalButton(
 				contentDescription = stringResource(R.string.change_interval),
 			)
 			Text(
-				text = if (presentationDelay.inWholeSeconds < 60 )
-					       "${presentationDelay.inWholeSeconds} s"
-				       else
-						   "${presentationDelay.inWholeMinutes} min"
+				text = TimeUtils.formatMillis(presentationDelay.inWholeMilliseconds)
 			)
 		}
 	}
