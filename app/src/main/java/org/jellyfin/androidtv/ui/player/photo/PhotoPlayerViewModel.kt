@@ -21,8 +21,9 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
 
-class PhotoPlayerViewModel(private val api: ApiClient,
-						   private val systemPreferences: SystemPreferences
+class PhotoPlayerViewModel(
+	private val api: ApiClient,
+	private val systemPreferences: SystemPreferences
 ) : ViewModel() {
 	private var album: List<BaseItemDto> = emptyList()
 	private var albumIndex = -1
