@@ -523,8 +523,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
         if (mCurrentOptions != null) {
-            internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
-            internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
+            internalOptions.setSubtitleStreamIndex(getCurrentMediaSource().getDefaultSubtitleStreamIndex());
+            internalOptions.setAudioStreamIndex(getCurrentMediaSource().getDefaultAudioStreamIndex());
         }
         if (forcedSubtitleIndex != null) {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
