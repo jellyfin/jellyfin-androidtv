@@ -302,4 +302,24 @@
         <item quantity="one">%1$s spor</item>
         <item quantity="other">%1$s spor</item>
     </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s partur</item>
+        <item quantity="other">%1$s partar</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="one">%1$s filmur</item>
+        <item quantity="other">%1$s filmar</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="one">%1$s røð</item>
+        <item quantity="other">%1$s røðir</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="one">%1$s sangur</item>
+        <item quantity="other">%1$s sangir</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s útgáva</item>
+        <item quantity="other">%1$s útgávur</item>
+    </plurals>
 </resources>
