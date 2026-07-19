@@ -248,7 +248,6 @@
     <string name="login_quickconnect_step_3">3. Inntøppa fylgjandi kotu:</string>
     <string name="action_connect">Sambind</string>
     <string name="app_notification_beta">Appin er dagførd til %1$s\nTakk fyri at tú luttekur í Jellyfin royndarverkætlanini.</string>
-    <string name="item_deleted"></string>
     <string name="channels">Rásir</string>
     <string name="photo_albums">Myndabøkur</string>
     <string name="photos">Myndir</string>
@@ -287,8 +286,6 @@
     <string name="color_alpha">Gjøgnumskygni</string>
     <string name="video_player_external">Ytri app</string>
     <string name="backdrop_behavior_with_blur">Kámað bakgrund</string>
-    <string name="user_avc_level"></string>
-    <string name="user_hevc_level"></string>
     <plurals name="seconds">
         <item quantity="one">%1$s sekund</item>
         <item quantity="other">%1$s sekund</item>
