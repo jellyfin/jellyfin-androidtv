@@ -298,4 +298,8 @@
         <item quantity="one">%1$s tími</item>
         <item quantity="other">%1$s tímar</item>
     </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s spor</item>
+        <item quantity="other">%1$s spor</item>
+    </plurals>
 </resources>
