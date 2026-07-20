@@ -662,4 +662,6 @@
     <string name="playback_info_bitrate">Bithastighet: %1$s</string>
     <string name="playback_info_transcoding_note">Servern omkodar denna fil</string>
     <string name="pref_software_codecs_enabled">Använd mjukvarkodeks</string>
+    <string name="playback_info_video_range">Videointervall: %1$s</string>
+    <string name="pref_software_codecs_enabled_description">Vissa programvarubaserade implementeringar kan försämra prestandan. Om du inaktiverar det här alternativet ökar sannolikheten för omkodning.</string>
 </resources>
