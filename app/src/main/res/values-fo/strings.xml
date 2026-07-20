@@ -322,4 +322,12 @@
         <item quantity="one">%1$s útgáva</item>
         <item quantity="other">%1$s útgávur</item>
     </plurals>
+    <string name="continue_listening">Hald áfram at lurta</string>
+    <string name="lbl_by_letter">Stavraða</string>
+    <string name="lbl_collections">Søvn</string>
+    <string name="lbl_play_all">Spæl allar</string>
+    <string name="msg_recording_cancelled">Upptøka avlýst</string>
+    <string name="lbl_specials">Eykapartar</string>
+    <string name="playback_info_play_method">Spæliháttalag: %1$s</string>
+    <string name="lbl_resume_from">Tak uppaftur frá %1$s</string>
 </resources>
