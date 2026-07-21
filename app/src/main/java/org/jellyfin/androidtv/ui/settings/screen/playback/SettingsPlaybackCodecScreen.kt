@@ -21,6 +21,8 @@ import org.koin.compose.koinInject
 fun SettingsPlaybackCodecScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
+	var ac3Enabled by rememberPreference(userPreferences, UserPreferences.ac3Enabled)
+	var eac3Enabled by rememberPreference(userPreferences, UserPreferences.eac3Enabled)
 
 	SettingsColumn {
 		item {
@@ -48,6 +50,45 @@ fun SettingsPlaybackCodecScreen() {
 				headingContent = { Text(stringResource(R.string.user_hevc_level)) },
 				captionContent = { Text(stringResource(userHEVCLevel.nameRes)) },
 				onClick = { router.push(Routes.PLAYBACK_HEVC_LEVEL) }
+			)
+		}
+
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_bitstream_ac3)) },
+				trailingContent = { Checkbox(checked = ac3Enabled) },
+				onClick = {
+					ac3Enabled = !ac3Enabled
+					if(!ac3Enabled) eac3Enabled = false
+				}
+			)
+		}
+
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.bitstream_eac3)) },
+				trailingContent = { Checkbox(checked = eac3Enabled) },
+				onClick = { eac3Enabled = !eac3Enabled }, enabled = ac3Enabled
+			)
+		}
+
+		item {
+			var dtsEnabled by rememberPreference(userPreferences, UserPreferences.dtsEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.bitstream_dts)) },
+				trailingContent = { Checkbox(checked = dtsEnabled) },
+				onClick = { dtsEnabled = !dtsEnabled }
+			)
+		}
+
+		item {
+			var truehdEnabled by rememberPreference(userPreferences, UserPreferences.truehdEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.bitstream_truehd)) },
+				trailingContent = { Checkbox(checked = truehdEnabled) },
+				onClick = { truehdEnabled = !truehdEnabled }
 			)
 		}
 
