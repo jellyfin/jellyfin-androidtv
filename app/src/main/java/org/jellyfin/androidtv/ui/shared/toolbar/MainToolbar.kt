@@ -49,7 +49,7 @@ enum class MainToolbarActiveButton {
 	User,
 	Home,
 	Search,
-
+	Favorites,
 	None,
 }
 
@@ -141,6 +141,18 @@ private fun MainToolbar(
 						},
 						colors = if (activeButton == MainToolbarActiveButton.Home) activeButtonColors else ButtonDefaults.colors(),
 						content = { Text(stringResource(R.string.lbl_home)) }
+					)
+					Button(
+						onClick = {
+							if (activeButton != MainToolbarActiveButton.Favorites) {
+								navigationRepository.navigate(
+									Destinations.favorites,
+									replace = true,
+								)
+							}
+						},
+						colors = if (activeButton == MainToolbarActiveButton.Favorites) activeButtonColors else ButtonDefaults.colors(),
+						content = { Text(stringResource(R.string.lbl_favorites)) }
 					)
 					Button(
 						onClick = {

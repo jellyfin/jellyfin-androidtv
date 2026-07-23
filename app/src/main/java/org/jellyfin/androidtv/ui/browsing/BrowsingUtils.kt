@@ -239,6 +239,19 @@ object BrowsingUtils {
 	)
 
 	@JvmStatic
+	@JvmOverloads
+	fun createFavoritesRequest(
+		includeItemTypes: Set<BaseItemKind>? = null,
+	) = GetItemsRequest(
+		fields = ItemRepository.itemFields,
+		recursive = true,
+		includeItemTypes = includeItemTypes,
+		imageTypeLimit = 1,
+		filters = setOf(ItemFilter.IS_FAVORITE),
+		sortBy = setOf(ItemSortBy.SORT_NAME),
+	)
+
+	@JvmStatic
 	fun createCollectionsRequest(parentId: UUID) = GetItemsRequest(
 		fields = ItemRepository.itemFields,
 		includeItemTypes = setOf(BaseItemKind.BOX_SET),
