@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preference
 
 import android.content.Context
 import org.jellyfin.preference.booleanPreference
+import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
 
@@ -67,5 +68,10 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		 * Whether to disable the "UI mode" warning that shows when using the app on non TV devices.
 		 */
 		val disableUiModeWarning = booleanPreference("disable_ui_mode_warning", false)
+
+		/**
+		 * Stores the interval for the photo player in seconds. Default is a value from the PhotoPlayerViewModel Intervals list
+		 */
+		val photoPlayerInterval = longPreference("photo_player_interval", 8000)
 	}
 }
