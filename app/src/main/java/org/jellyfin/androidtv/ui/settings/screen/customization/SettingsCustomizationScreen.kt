@@ -82,6 +82,17 @@ fun SettingsCustomizationScreen() {
 			)
 		}
 
+		item {
+			var themeAudioEnabled by rememberPreference(userPreferences, UserPreferences.playThemeAudio)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_theme_audio)) },
+				trailingContent = { Checkbox(checked = themeAudioEnabled) },
+				captionContent = { Text(stringResource(R.string.preference_theme_audio_summary)) },
+				onClick = { themeAudioEnabled = !themeAudioEnabled }
+			)
+		}
+
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_browsing)) }) }
 
 		item {
