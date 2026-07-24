@@ -336,4 +336,5 @@
     <string name="lbl_all_items">Allir miðlar</string>
     <string name="lbl_prev_item">Undanfarni miðil</string>
     <string name="home_section_resume_book">Hald áfram at lesa</string>
+    <string name="episode_name_special">eykapartur</string>
 </resources>
