@@ -330,4 +330,10 @@
     <string name="lbl_specials">Eykapartar</string>
     <string name="playback_info_play_method">Spæliháttalag: %1$s</string>
     <string name="lbl_resume_from">Tak uppaftur frá %1$s</string>
+    <string name="lbl_items">Miðlar</string>
+    <string name="lbl_item">Miðil</string>
+    <string name="lbl_no_items">Eingir miðlar</string>
+    <string name="lbl_all_items">Allir miðlar</string>
+    <string name="lbl_prev_item">Undanfarni miðil</string>
+    <string name="home_section_resume_book">Hald áfram at lesa</string>
 </resources>
