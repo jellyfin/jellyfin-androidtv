@@ -455,6 +455,7 @@ public class VideoManager {
 
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
+
         int matchedIndex = -2;
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
