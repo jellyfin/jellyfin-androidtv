@@ -84,6 +84,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     protected VideoOptions mCurrentOptions;
     private int mDefaultAudioIndex = -1;
+    // limit stop/replay attempts when an audio track switch cannot be applied to the player,
+    // otherwise a switch that fails identically after every restart loops forever
+    private int mAudioSwitchRestartCount = 0;
     protected boolean burningSubs = false;
 
     // The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
@@ -442,6 +445,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // set mSeekPosition so the seekbar will not default to 0:00
                 mSeekPosition = position;
                 mCurrentPosition = 0;
+                mAudioSwitchRestartCount = 0;
 
                 mFragment.setFadingEnabled(false);
 
@@ -816,6 +820,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 Timber.i("setting mCurrentOptions audio stream index from %s to %s", mCurrentOptions.getAudioStreamIndex(), index);
                 mCurrentOptions.setAudioStreamIndex(index);
             }
+            mAudioSwitchRestartCount = 0;
             return;
         }
 
@@ -825,7 +830,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (!isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.AUDIO, currentMediaSource.getMediaStreams())) {
             mCurrentOptions.setMediaSourceId(currentMediaSource.getId());
             mCurrentOptions.setAudioStreamIndex(index);
+            mAudioSwitchRestartCount = 0;
         } else {
+            if (mAudioSwitchRestartCount >= 2) {
+                Timber.w("unable to apply audio stream index %s after %s restarts, continuing playback with the current selection", index, mAudioSwitchRestartCount);
+                return;
+            }
+            mAudioSwitchRestartCount++;
             startSpinner();
             mCurrentOptions.setMediaSourceId(currentMediaSource.getId());
             mCurrentOptions.setAudioStreamIndex(index);
