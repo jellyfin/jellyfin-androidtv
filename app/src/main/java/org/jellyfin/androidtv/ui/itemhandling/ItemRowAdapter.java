@@ -364,6 +364,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         return totalItems;
     }
 
+    public Instant getLastFullRetrieve() {
+        return lastFullRetrieve;
+    }
+
     public void setSortBy(BrowseGridFragment.SortOption option) {
         if (!option.value.equals(mSortBy) || !option.order.equals(sortOrder)) {
             mSortBy = option.value;

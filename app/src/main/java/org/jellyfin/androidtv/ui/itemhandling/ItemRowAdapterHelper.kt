@@ -558,34 +558,102 @@ fun ItemRowAdapter.retrieveArtists(
 	}
 }
 
+// The server transliterates non-Latin names when generating sort names (e.g. Hebrew
+// "בדרך" becomes "bdrk"), so a nameStartsWith query never matches these scripts.
+// Filter on the display name locally instead: look up all names in the view with a
+// lightweight query, then fetch only the matching items with the requested field set.
+private const val LOCAL_LETTER_FILTER_LOOKUP_LIMIT = 2500
+private const val LOCAL_LETTER_FILTER_MAX_RESULTS = 150 // ids are passed in the query string
+private val LOCAL_FILTER_LETTERS = 'א'..'ת' // Hebrew alphabet
+
+private fun localLetterFilterOrNull(nameStartsWith: String?): Char? =
+	nameStartsWith?.singleOrNull()?.takeIf { it in LOCAL_FILTER_LETTERS }
+
 fun ItemRowAdapter.retrieveItems(
 	api: ApiClient,
 	query: GetItemsRequest,
 	startIndex: Int,
 	batchSize: Int
 ) {
+	val localLetterFilter = localLetterFilterOrNull(query.nameStartsWith)
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
-			val response = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(
-					query.copy(
-						startIndex = startIndex,
-						limit = batchSize,
-					)
-				).content
-			}
+			if (localLetterFilter != null) {
+				// everything is loaded in the first batch when filtering locally
+				if (startIndex > 0) return@runCatching
+				val retrieveGeneration = lastFullRetrieve
 
-			totalItems = response.totalRecordCount
-			setItems(
-				items = response.items,
-				transform = { item, _ ->
-					BaseItemDtoBaseRowItem(
-						item,
-						preferParentThumb,
-						isStaticHeight,
-					)
-				},
-			)
+				val lookup = withContext(Dispatchers.IO) {
+					api.itemsApi.getItems(
+						query.copy(
+							nameStartsWith = null,
+							startIndex = 0,
+							limit = LOCAL_LETTER_FILTER_LOOKUP_LIMIT,
+							fields = null,
+							enableImages = false,
+							enableTotalRecordCount = false,
+						)
+					).content
+				}
+
+				if (lookup.items.size >= LOCAL_LETTER_FILTER_LOOKUP_LIMIT) {
+					Timber.w("Local letter filter lookup hit the %s item limit, results may be incomplete", LOCAL_LETTER_FILTER_LOOKUP_LIMIT)
+				}
+
+				val matchingIds = lookup.items
+					.filter { it.name?.startsWith(localLetterFilter) == true }
+					.map { it.id }
+				if (matchingIds.size > LOCAL_LETTER_FILTER_MAX_RESULTS) {
+					Timber.w("Local letter filter matched %s items, only showing the first %s", matchingIds.size, LOCAL_LETTER_FILTER_MAX_RESULTS)
+				}
+
+				val filteredItems = if (matchingIds.isEmpty()) emptyList() else withContext(Dispatchers.IO) {
+					api.itemsApi.getItems(
+						query.copy(
+							nameStartsWith = null,
+							startIndex = null,
+							limit = null,
+							ids = matchingIds.take(LOCAL_LETTER_FILTER_MAX_RESULTS),
+						)
+					).content.items
+				}
+
+				// a newer retrieve started while we were loading, discard these results
+				if (retrieveGeneration !== lastFullRetrieve) return@runCatching
+
+				totalItems = filteredItems.size
+				setItems(
+					items = filteredItems,
+					transform = { item, _ ->
+						BaseItemDtoBaseRowItem(
+							item,
+							preferParentThumb,
+							isStaticHeight,
+						)
+					},
+				)
+			} else {
+				val response = withContext(Dispatchers.IO) {
+					api.itemsApi.getItems(
+						query.copy(
+							startIndex = startIndex,
+							limit = batchSize,
+						)
+					).content
+				}
+
+				totalItems = response.totalRecordCount
+				setItems(
+					items = response.items,
+					transform = { item, _ ->
+						BaseItemDtoBaseRowItem(
+							item,
+							preferParentThumb,
+							isStaticHeight,
+						)
+					},
+				)
+			}
 
 			if (itemsLoaded == 0) removeRow()
 		}.fold(
