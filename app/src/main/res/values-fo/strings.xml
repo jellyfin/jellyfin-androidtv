@@ -347,7 +347,7 @@
     <string name="pref_screensaver_inapp_enabled">Brúka skáaskíggja apparinnar</string>
     <string name="pref_screensaver_inapp_enabled_description">Vís Jellyfin-skáaskíggjan ímeðan appin er opin</string>
     <string name="pref_screensaver_inapp_timeout">Byrja skáaskíggjan eftir</string>
-    <string name="lbl_album_artists">Plátulistafólk</string>
+    <string name="lbl_album_artists">Plátutónlistafólk</string>
     <plurals name="items">
         <item quantity="one">%1$s miðil</item>
         <item quantity="other">%1$s miðlar</item>
