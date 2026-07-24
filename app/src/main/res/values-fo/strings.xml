@@ -258,8 +258,8 @@
     <string name="past_24_hours">Síðstu 24 tímar</string>
     <string name="playback_buffer_length">Spælitippistødd</string>
     <string name="playback_buffer_auto">Sjálvvirkandi</string>
-    <string name="playback_buffer_large">Stór</string>
-    <string name="playback_buffer_extra_large">Eyka stór</string>
+    <string name="playback_buffer_large">Stórt</string>
+    <string name="playback_buffer_extra_large">Eyka stórt</string>
     <string name="segment_action_ask_to_skip">Spyr um at leypa um</string>
     <string name="segment_action_nothing">Ger einki</string>
     <string name="segment_action_skip">Leyp um</string>
@@ -337,4 +337,19 @@
     <string name="lbl_prev_item">Undanfarni miðil</string>
     <string name="home_section_resume_book">Hald áfram at lesa</string>
     <string name="episode_name_special">eykapartur</string>
+    <string name="item_deleted">%1$s strikaður</string>
+    <string name="item_deletion_failed">Bar ikki til at strika %1$s</string>
+    <string name="pref_enable_media_management">Virkja miðlaumsiting</string>
+    <string name="pref_enable_media_management_description">Vís kostir at umsita miðlar ímeðan kaga verður</string>
+    <string name="item_delete_confirm_title">Strika miðil</string>
+    <string name="item_delete_confirm_message">Ynskir tú at strika hendan miðilin frá ambætaranum? Gerðin kann ikki vendast aftur.</string>
+    <string name="pref_screensaver">Skáaskíggi</string>
+    <string name="pref_screensaver_inapp_enabled">Brúka skáaskíggja apparinnar</string>
+    <string name="pref_screensaver_inapp_enabled_description">Vís Jellyfin-skáaskíggjan ímeðan appin er opin</string>
+    <string name="pref_screensaver_inapp_timeout">Byrja skáaskíggjan eftir</string>
+    <string name="lbl_album_artists">Plátulistafólk</string>
+    <plurals name="items">
+        <item quantity="one">%1$s miðil</item>
+        <item quantity="other">%1$s miðlar</item>
+    </plurals>
 </resources>
