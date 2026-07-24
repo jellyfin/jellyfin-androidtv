@@ -455,8 +455,8 @@ public class VideoManager {
 
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
-
         int matchedIndex = -2;
+        int typeGroupPosition = -1;
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
             if (matchedIndex > -2)
@@ -464,6 +464,8 @@ public class VideoManager {
             // Group level information.
             @C.TrackType int trackType = groupInfo.getType();
             TrackGroup group = groupInfo.getMediaTrackGroup();
+            if (trackType == chosenTrackType)
+                typeGroupPosition++;
             for (int i = 0; i < group.length; i++) {
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
@@ -477,6 +479,19 @@ public class VideoManager {
                                 id = Integer.parseInt(group.id);
                             }
                         } catch (NumberFormatException e) {
+                            // sources like HLS use non-numeric group ids (e.g. "audio:name") that
+                            // cannot be mapped back to a MediaStream by id - map the Nth audio
+                            // group to the Nth non-external audio MediaStream instead
+                            if (chosenTrackType == C.TRACK_TYPE_AUDIO) {
+                                int typePosition = 0;
+                                for (MediaStream stream : allStreams) {
+                                    if (stream.isExternal() || stream.getType() != streamType)
+                                        continue;
+                                    if (typePosition == typeGroupPosition)
+                                        return stream.getIndex();
+                                    typePosition++;
+                                }
+                            }
                             Timber.w("failed to parse group ID [%s]", group.id);
                             break;
                         }
@@ -522,12 +537,25 @@ public class VideoManager {
         //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
         //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
 
+        // position of the requested stream among non-external streams of the same type, used to
+        // match sources (e.g. HLS) whose player group ids are not numeric
+        int candidateTypePosition = 0;
+        for (MediaStream stream : allStreams) {
+            if (stream.getIndex() == index)
+                break;
+            if (!stream.isExternal() && stream.getType() == streamType)
+                candidateTypePosition++;
+        }
+
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         TrackGroup matchedGroup = null;
+        int typeGroupPosition = -1;
         for (Tracks.Group groupInfo : exoTracks.getGroups()) {
             // Group level information.
             @C.TrackType int trackType = groupInfo.getType();
             TrackGroup group = groupInfo.getMediaTrackGroup();
+            if (trackType == chosenTrackType)
+                typeGroupPosition++;
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
                 boolean isSupported = groupInfo.isTrackSupported(i);
@@ -550,8 +578,12 @@ public class VideoManager {
                     if (id != exoTrackID)
                         continue;
                 } catch (NumberFormatException e) {
-                    Timber.w("failed to parse group ID [%s]", group.id);
-                    continue;
+                    // non-numeric group ids cannot be matched by id - for audio, fall back to
+                    // matching the Nth audio group to the Nth non-external audio MediaStream
+                    if (chosenTrackType != C.TRACK_TYPE_AUDIO || typeGroupPosition != candidateTypePosition) {
+                        Timber.w("failed to parse group ID [%s]", group.id);
+                        continue;
+                    }
                 }
 
                 if (!groupInfo.isTrackSupported(i)) {
