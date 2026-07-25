@@ -236,7 +236,8 @@ object BrowsingUtils {
 		parentId = parentId,
 		imageTypeLimit = 1,
 		filters = setOf(ItemFilter.IS_FAVORITE),
-		sortBy = setOf(ItemSortBy.SORT_NAME),
+		sortBy = setOf(ItemSortBy.DATE_PLAYED, ItemSortBy.SORT_NAME),
+		sortOrder = setOf(SortOrder.DESCENDING),
 	)
 
 	@JvmStatic
