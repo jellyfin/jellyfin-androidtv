@@ -30,6 +30,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.profile.DeviceProfileKt;
+import org.jellyfin.androidtv.util.sdk.MediaSourceVersionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.ServerVersion;
@@ -930,10 +931,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void next() {
         Timber.d("Next called.");
         if (mCurrentIndex < mItems.size() - 1) {
+            String playedVersionName = getPlayedVersionName();
             stop();
             resetPlayerErrors();
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            continueVersion(playedVersionName);
             Timber.i("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
@@ -943,14 +946,37 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void prev() {
         Timber.d("Prev called.");
         if (mCurrentIndex > 0 && mItems.size() > 0) {
+            String playedVersionName = getPlayedVersionName();
             stop();
             resetPlayerErrors();
             mCurrentIndex--;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            continueVersion(playedVersionName);
             Timber.i("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
         }
+    }
+
+    /**
+     * Name of the version that is playing, or null when the current item has no alternate versions.
+     */
+    private String getPlayedVersionName() {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        if (item == null || !MediaSourceVersionsKt.getHasAlternateVersions(item)) return null;
+
+        MediaSourceInfo mediaSource = getCurrentMediaSource();
+        return mediaSource != null ? mediaSource.getName() : null;
+    }
+
+    /**
+     * Keep playing the version named {@code versionName} when the current item has a version with that
+     * name, so switching items does not switch versions.
+     */
+    private void continueVersion(String versionName) {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        MediaSourceInfo version = item != null ? MediaSourceVersionsKt.findVersionByName(item, versionName) : null;
+        mCurrentMediaSourceId = version != null ? version.getId() : null;
     }
 
     public void fastForward() {
