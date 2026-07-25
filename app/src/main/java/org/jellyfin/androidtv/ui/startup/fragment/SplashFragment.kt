@@ -31,6 +31,9 @@ import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.koin.android.ext.android.inject
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun SplashScreen(splashscreenUrl: String? = null, showLogo: Boolean = true) {
@@ -47,6 +50,8 @@ fun SplashScreen(splashscreenUrl: String? = null, showLogo: Boolean = true) {
 					model = splashscreenUrl,
 					contentDescription = stringResource(R.string.app_name),
 					modifier = Modifier.fillMaxSize(),
+					contentScale = ContentScale.Crop,
+					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
 					error = painterResource(R.drawable.app_logo)
 				)
 			} else if (showLogo) {
