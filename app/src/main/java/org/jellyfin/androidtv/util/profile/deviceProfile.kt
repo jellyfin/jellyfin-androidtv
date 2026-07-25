@@ -129,6 +129,7 @@ fun createDeviceProfile(
 	val supportsVP8 = mediaTest.supportsVp8()
 	val supportsVP9 = mediaTest.supportsVp9()
 	val supportsMpeg2 = mediaTest.supportsMpeg2()
+	val supportsMpeg4Asp = mediaTest.supportsMpeg4Asp()
 
 	/// HDR capabilities
 
@@ -213,6 +214,7 @@ fun createDeviceProfile(
 			Codec.Video.HEVC,
 			Codec.Video.MPEG1VIDEO,
 			Codec.Video.MPEG2VIDEO,
+			Codec.Video.MPEG4,
 			Codec.Video.VC1,
 			Codec.Video.VP8,
 			Codec.Video.VP9,
@@ -295,6 +297,7 @@ fun createDeviceProfile(
 		Codec.Video.VC1 to supportsVC1,
 		Codec.Video.MPEG1VIDEO to supportsMpeg2,
 		Codec.Video.MPEG2VIDEO to supportsMpeg2,
+		Codec.Video.MPEG4 to supportsMpeg4Asp,
 		Codec.Video.VP8 to supportsVP8,
 		Codec.Video.VP9 to supportsVP9,
 	)

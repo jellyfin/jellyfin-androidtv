@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.util.Size
 import androidx.media3.common.MimeTypes
@@ -59,6 +60,10 @@ class MediaCodecCapabilitiesTest(
 
 	// MPEG-2 decoders also handle MPEG-1, Android does not register a separate MPEG-1 mime type
 	fun supportsMpeg2(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_MPEG2)
+
+	// DivX/Xvid need Advanced Simple Profile, a Simple Profile only decoder cannot play them
+	fun supportsMpeg4Asp(): Boolean =
+		codecQuery.getDecoderLevel(MimeTypes.VIDEO_MP4V, CodecProfileLevel.MPEG4ProfileAdvancedSimple) > 0
 
 	fun getMaxResolution(mime: String): Size = codecQuery.getMaxResolution(mime)
 }
