@@ -193,19 +193,16 @@ fun createDeviceProfile(
 		type = DlnaProfileType.VIDEO
 
 		container(
-			Codec.Container.ASF,
+			Codec.Container.AVI,
+			Codec.Container.FLV,
 			Codec.Container.HLS,
 			Codec.Container.M4V,
 			Codec.Container.MKV,
 			Codec.Container.MOV,
 			Codec.Container.MP4,
-			Codec.Container.OGM,
-			Codec.Container.OGV,
+			Codec.Container.MPEG,
 			Codec.Container.TS,
-			Codec.Container.VOB,
 			Codec.Container.WEBM,
-			Codec.Container.WMV,
-			Codec.Container.XVID,
 		)
 
 		videoCodec(
