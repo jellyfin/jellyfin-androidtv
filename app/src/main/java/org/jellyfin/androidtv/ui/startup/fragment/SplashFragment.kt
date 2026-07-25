@@ -36,33 +36,37 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 
 @Composable
-fun SplashScreen(splashscreenUrl: String? = null, showLogo: Boolean = true) {
+fun SplashScreen(
+	splashscreenUrl: String? = null,
+	showLogo: Boolean = true,
+) {
 	Box(
-		modifier = Modifier.background(colorResource(id = R.color.not_quite_black)),
+		modifier = Modifier
+			.fillMaxSize()
+			.background(colorResource(id = R.color.not_quite_black)),
+		contentAlignment = Alignment.Center,
 	) {
-		Column(
-			horizontalAlignment = Alignment.CenterHorizontally,
-			verticalArrangement = Arrangement.Center,
-			modifier = Modifier.fillMaxSize(),
-		) {
-			if (splashscreenUrl != null) {
-				AsyncImage(
-					model = splashscreenUrl,
-					contentDescription = stringResource(R.string.app_name),
-					modifier = Modifier.fillMaxSize(),
-					contentScale = ContentScale.Crop,
-					colorFilter = ColorFilter.tint(colorResource(R.color.background_filter), BlendMode.SrcAtop),
-					error = painterResource(R.drawable.app_logo)
-				)
-			} else if (showLogo) {
-				Image(
-					painter = painterResource(R.drawable.app_logo),
-					contentDescription = stringResource(R.string.app_name),
-					modifier = Modifier
-						.width(400.dp)
-						.fillMaxHeight()
-				)
-			}
+		if (splashscreenUrl != null) {
+			AsyncImage(
+				model = splashscreenUrl,
+				contentDescription = null,
+				modifier = Modifier.fillMaxSize(),
+				contentScale = ContentScale.Crop,
+				colorFilter = ColorFilter.tint(
+					colorResource(R.color.background_filter),
+					BlendMode.SrcAtop,
+				),
+			)
+		}
+
+		if (showLogo) {
+			Image(
+				painter = painterResource(R.drawable.app_logo),
+				contentDescription = stringResource(R.string.app_name),
+				modifier = Modifier
+					.width(400.dp)
+					.fillMaxHeight(),
+			)
 		}
 	}
 }
