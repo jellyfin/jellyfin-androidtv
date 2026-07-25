@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation
 
+import android.view.KeyEvent
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.compose.foundation.Image
@@ -47,6 +48,7 @@ import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.JellyfinImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
+import org.jellyfin.androidtv.util.getActivity
 import org.jellyfin.design.Tokens
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -69,6 +71,11 @@ class CardPresenter(
 			setViewTreeLifecycleOwner(parent.findViewTreeLifecycleOwner())
 			setViewTreeSavedStateRegistryOwner(parent.findViewTreeSavedStateRegistryOwner())
 			isFocusable = true
+			isFocusableInTouchMode = true
+
+			setOnLongClickListener {
+				context.getActivity()?.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU)) ?: false
+			}
 		}
 
 		return CardViewHolder(view)
