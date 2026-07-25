@@ -104,11 +104,16 @@ class JellyfinMediaStreamResolver(
 			error("Failed to get media info for item ${item.id} source ${mediaSourceId}: ${response.errorCode}")
 		}
 
-		val mediaSource = response.mediaSources
-			// Filter out invalid streams (like strm files)
-			.filter { it.protocol == MediaProtocol.FILE && !it.isRemote }
-			// Select first media source
-			.firstOrNull { mediaSourceId == null || it.id == mediaSourceId }
+		val mediaSource = when (mediaSourceId) {
+			null -> response.mediaSources
+				// Filter out invalid streams (like strm files)
+				.filter { it.protocol == MediaProtocol.FILE && !it.isRemote }
+				// The server orders the media sources so the version that should play comes first
+				.firstOrNull()
+
+			// Always use the requested version, even when it needs to be transcoded
+			else -> response.mediaSources.firstOrNull { it.id == mediaSourceId }
+		}
 
 		requireNotNull(mediaSource) {
 			"Failed to get media info for item ${item.id} source ${mediaSourceId}: media source missing in response"

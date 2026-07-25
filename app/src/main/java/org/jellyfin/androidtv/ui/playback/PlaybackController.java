@@ -42,7 +42,6 @@ import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.PlayMethod;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Duration;
@@ -201,16 +200,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             if (mediaSources == null || mediaSources.isEmpty()) {
                 return null;
-            } else {
-                // Prefer the media source with the same id as the item
-                for (MediaSourceInfo mediaSource : mediaSources) {
-                    if (item.getId().equals(UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()))) {
-                        return mediaSource;
-                    }
-                }
-                // Or fallback to the first media source if none match
-                return mediaSources.get(0);
             }
+
+            // The server orders the media sources so the version that should play comes first
+            return mediaSources.get(0);
         }
     }
 
