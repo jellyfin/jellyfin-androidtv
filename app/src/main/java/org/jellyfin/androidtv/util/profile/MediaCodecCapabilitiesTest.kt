@@ -53,7 +53,12 @@ class MediaCodecCapabilitiesTest(
 
 	fun supportsVc1(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VC1)
 
+	fun supportsVp8(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VP8)
+
 	fun supportsVp9(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VP9)
+
+	// MPEG-2 decoders also handle MPEG-1, Android does not register a separate MPEG-1 mime type
+	fun supportsMpeg2(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_MPEG2)
 
 	fun getMaxResolution(mime: String): Size = codecQuery.getMaxResolution(mime)
 }

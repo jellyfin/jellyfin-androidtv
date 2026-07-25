@@ -63,6 +63,7 @@ object Codec {
 		const val H264 = "h264"
 		const val HEVC = "hevc"
 		const val MPEG = "mpeg"
+		const val MPEG1VIDEO = "mpeg1video"
 		const val MPEG2VIDEO = "mpeg2video"
 		const val VP8 = "vp8"
 		const val VP9 = "vp9"

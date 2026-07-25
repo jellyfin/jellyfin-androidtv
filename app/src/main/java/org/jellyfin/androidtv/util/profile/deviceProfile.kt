@@ -126,7 +126,9 @@ fun createDeviceProfile(
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
 	val supportsVC1 = mediaTest.supportsVc1()
+	val supportsVP8 = mediaTest.supportsVp8()
 	val supportsVP9 = mediaTest.supportsVp9()
+	val supportsMpeg2 = mediaTest.supportsMpeg2()
 
 	/// HDR capabilities
 
@@ -209,7 +211,7 @@ fun createDeviceProfile(
 			Codec.Video.AV1,
 			Codec.Video.H264,
 			Codec.Video.HEVC,
-			Codec.Video.MPEG,
+			Codec.Video.MPEG1VIDEO,
 			Codec.Video.MPEG2VIDEO,
 			Codec.Video.VC1,
 			Codec.Video.VP8,
@@ -288,10 +290,18 @@ fun createDeviceProfile(
 		}
 	}
 
-	// VC1 profile
-	videoCodecProfile(Codec.Video.VC1) {
+	// Codecs without profile/level conditions, disabled entirely when the device has no decoder for them
+	val gatedVideoCodecs = listOf(
+		Codec.Video.VC1 to supportsVC1,
+		Codec.Video.MPEG1VIDEO to supportsMpeg2,
+		Codec.Video.MPEG2VIDEO to supportsMpeg2,
+		Codec.Video.VP8 to supportsVP8,
+		Codec.Video.VP9 to supportsVP9,
+	)
+
+	for ((codec, supported) in gatedVideoCodecs) videoCodecProfile(codec) {
 		when {
-			!supportsVC1 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+			!supported -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
 			else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
 		}
 	}
