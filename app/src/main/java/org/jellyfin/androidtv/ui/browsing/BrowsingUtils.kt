@@ -201,7 +201,8 @@ object BrowsingUtils {
 		artistIds = setOf(artistId),
 		recursive = true,
 		includeItemTypes = setOf(itemType),
-		sortBy = setOf(ItemSortBy.SORT_NAME),
+		sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
+		sortOrder = setOf(SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
