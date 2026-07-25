@@ -226,8 +226,29 @@ fun createDeviceProfile(
 	}
 
 	// Audio
+	// An empty container list means "every container" to the server, which would claim formats ExoPlayer has
+	// no demuxer for (asf/wma, ape, wavpack, dsd, aiff), so the supported ones are listed explicitly
 	directPlayProfile {
 		type = DlnaProfileType.AUDIO
+
+		container(
+			Codec.Container.AAC,
+			Codec.Container.AC3,
+			Codec.Container.AMR,
+			Codec.Container.EAC3,
+			Codec.Container.FLAC,
+			Codec.Container.FLV,
+			Codec.Container.HLS,
+			Codec.Container.M4A,
+			Codec.Container.MKV,
+			Codec.Container.MOV,
+			Codec.Container.MP3,
+			Codec.Container.MP4,
+			Codec.Container.OGG,
+			Codec.Container.TS,
+			Codec.Container.WAV,
+			Codec.Container.WEBM,
+		)
 
 		audioCodec(*allowedAudioCodecs)
 	}
