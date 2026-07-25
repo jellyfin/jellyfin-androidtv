@@ -30,6 +30,9 @@ class JellyfinMediaStreamResolver(
 
 		val mediaInfo = getPlaybackInfo(baseItem, queueEntry.mediaSourceId)
 
+		// Remember which version is actually played so it can be reported to the server
+		queueEntry.mediaSourceId = mediaInfo.mediaSource.id
+
 		return when {
 			// Direct play video
 			mediaInfo.mediaSource.supportsDirectPlay && baseItem.mediaType == MediaType.VIDEO -> mediaInfo.toStream(
