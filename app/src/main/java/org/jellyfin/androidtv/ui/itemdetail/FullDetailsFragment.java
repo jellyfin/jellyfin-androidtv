@@ -79,6 +79,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.MediaSourceVersionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -140,6 +141,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     BaseItemDto mBaseItem;
 
     private ArrayList<MediaSourceInfo> versions;
+    // Whether the version to display was resolved for the item that is currently loaded
+    private boolean mVersionResolved;
+    // Whether focus should return to the versions button once the buttons are rebuilt
+    private boolean mFocusVersionsButton;
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
@@ -357,6 +362,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private void loadItem(UUID id) {
+        mVersionResolved = false;
+
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
             FullDetailsFragmentHelperKt.getLiveTvChannel(this, mChannelId, channel -> {
@@ -418,6 +425,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 160) : Utils.convertDpToPixel(requireContext(), item.getType() == BaseItemKind.PERSON || item.getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
+            mDetailsOverviewRow.setSelectedMediaSourceIndex(MediaSourceVersionsKt.getOwnMediaSourceIndex(item));
 
             String primaryImageUrl = imageHelper.getValue().getLogoImageUrl(mBaseItem, 600);
             if (primaryImageUrl == null) {
@@ -487,6 +495,20 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     public void setBaseItem(BaseItemDto item) {
         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+
+        // Every version is a separate item with its own user data, so the version the server puts first
+        // is displayed instead of the queried item to show and resume the version that is played
+        if (item != null && !mVersionResolved) {
+            mVersionResolved = true;
+            UUID versionId = MediaSourceVersionsKt.getPrioritizedVersionId(item);
+            if (versionId != null) {
+                FullDetailsFragmentHelperKt.getItem(this, versionId, version -> {
+                    setBaseItem(version != null ? version : item);
+                    return null;
+                });
+                return;
+            }
+        }
 
         mBaseItem = item;
         backgroundService.getValue().setBackground(item);
@@ -675,6 +697,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             addButtons(BUTTON_SIZE);
         }
 
+        if (mFocusVersionsButton && mVersionsButton != null) {
+            mFocusVersionsButton = false;
+            // The button is not attached to the view hierarchy until the row is bound
+            TextUnderButton versionsButton = mVersionsButton;
+            versionsButton.post(versionsButton::requestFocus);
+        }
+
         mLastUpdated = Instant.now();
     }
 
@@ -845,12 +874,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             mVersionsButton = TextUnderButton.create(requireContext(), R.drawable.ic_guide, buttonSize, 0, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (versions != null) {
-                        addVersionsMenu(v);
-                    } else {
-                        versions = new ArrayList<>(mBaseItem.getMediaSources());
-                        addVersionsMenu(v);
-                    }
+                    versions = new ArrayList<>(mBaseItem.getMediaSources());
+                    addVersionsMenu(v);
                 }
             });
             mDetailsOverviewRow.addAction(mVersionsButton);
@@ -1103,13 +1128,16 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                mDetailsOverviewRow.setSelectedMediaSourceIndex(menuItem.getItemId());
-                FullDetailsFragmentHelperKt.getItem(FullDetailsFragment.this, UUIDSerializerKt.toUUID(versions.get(mDetailsOverviewRow.getSelectedMediaSourceIndex()).getId()), item -> {
+                String versionId = versions.get(menuItem.getItemId()).getId();
+                if (versionId == null) return true;
+
+                // Display the selected version itself: it owns the resume position, watched state and
+                // media streams that playback of this version uses
+                FullDetailsFragmentHelperKt.getItem(FullDetailsFragment.this, UUIDSerializerKt.toUUID(versionId), item -> {
                     if (item == null) return null;
 
-                    mBaseItem = item;
-                    mDorPresenter.getViewHolder().setItem(mDetailsOverviewRow);
-                    if (mVersionsButton != null) mVersionsButton.requestFocus();
+                    mFocusVersionsButton = true;
+                    setBaseItem(item);
                     return null;
                 });
                 return true;

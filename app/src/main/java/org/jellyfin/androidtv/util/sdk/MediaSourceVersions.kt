@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.util.sdk
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaSourceInfo
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
+import java.util.UUID
 
 /**
  * Whether this item is part of a group of alternate versions. Every version is a separate item that
@@ -25,6 +26,23 @@ val BaseItemDto.ownMediaSource: MediaSourceInfo?
  */
 val BaseItemDto.versionMediaSourceId: String?
 	get() = if (hasAlternateVersions) ownMediaSource?.id else null
+
+/**
+ * Index of [ownMediaSource] in the media sources of this item, or 0 when the item has none.
+ */
+val BaseItemDto.ownMediaSourceIndex: Int
+	get() = mediaSources?.indexOfFirst { it.id?.toUUIDOrNull() == id }?.takeIf { it >= 0 } ?: 0
+
+/**
+ * Id of the item owning the media source the server ordered first, or null when that is this item
+ * itself. The server puts the version that should play first, which is the version that was played
+ * most recently for an item with alternate versions.
+ */
+val BaseItemDto.prioritizedVersionId: UUID?
+	get() = when {
+		!hasAlternateVersions -> null
+		else -> mediaSources?.firstOrNull()?.id?.toUUIDOrNull()?.takeIf { it != id }
+	}
 
 /**
  * Find the version of this item named [name] to continue playing in the same version as another
