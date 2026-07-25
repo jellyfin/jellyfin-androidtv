@@ -76,7 +76,7 @@ fun createDeviceProfileReport(
 		appendLine("- Server compatibility: $serverVersion")
 		appendCodeBlock(
 			language = "json",
-			code = createDeviceProfile(context, userPreferences, serverVersion)
+			code = createDeviceProfile(userPreferences)
 				.let(ApiSerializer::encodeRequestBody)
 				?.let(::formatJson)
 		)

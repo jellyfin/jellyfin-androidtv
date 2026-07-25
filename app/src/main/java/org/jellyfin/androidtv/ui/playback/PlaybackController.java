@@ -32,7 +32,6 @@ import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.profile.DeviceProfileKt;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.api.client.ApiClient;
-import org.jellyfin.sdk.model.ServerVersion;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.DeviceProfile;
@@ -542,11 +541,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (!isLiveTv && currentMediaSource != null) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
-        DeviceProfile internalProfile = DeviceProfileKt.createDeviceProfile(
-                mFragment.getContext(),
-                userPreferences.getValue(),
-                get(ServerVersion.class)
-        );
+        DeviceProfile internalProfile = DeviceProfileKt.createDeviceProfile(userPreferences.getValue());
         internalOptions.setProfile(internalProfile);
         return internalOptions;
     }
