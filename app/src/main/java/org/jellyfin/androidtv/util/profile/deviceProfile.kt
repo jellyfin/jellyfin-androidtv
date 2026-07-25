@@ -180,11 +180,13 @@ fun createDeviceProfile(
 	)
 
 	// Audio
+	// Only the first matching audio transcoding profile is ever used by the server, so this is a single
+	// profile rather than a TS/fMP4 pair like the video profiles above
 	transcodingProfile {
 		type = DlnaProfileType.AUDIO
 		context = EncodingContext.STREAMING
 
-		container = Codec.Container.TS
+		container = Codec.Container.MP4
 		protocol = MediaStreamProtocol.HLS
 
 		audioCodec(Codec.Audio.AAC)
