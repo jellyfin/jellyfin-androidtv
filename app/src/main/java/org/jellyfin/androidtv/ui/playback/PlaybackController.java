@@ -70,6 +70,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     int mCurrentIndex;
+    // Id of the media source to play for the current item, or null to let the server pick one
+    private String mCurrentMediaSourceId;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
@@ -134,6 +136,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (items != null && startIndex > 0 && startIndex < items.size()) {
             mCurrentIndex = startIndex;
         }
+        mCurrentMediaSourceId = videoQueueManager.getValue().getCurrentMediaSourceId();
         mFragment = fragment;
         mHandler = new Handler();
 
@@ -164,6 +167,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setItems(List<BaseItemDto> items) {
         mItems = items;
         mCurrentIndex = 0;
+        mCurrentMediaSourceId = null;
     }
 
     public float getPlaybackSpeed() {
@@ -200,6 +204,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             if (mediaSources == null || mediaSources.isEmpty()) {
                 return null;
+            }
+
+            // Prefer the version that was selected for this item
+            if (mCurrentMediaSourceId != null) {
+                for (MediaSourceInfo mediaSource : mediaSources) {
+                    if (mCurrentMediaSourceId.equals(mediaSource.getId())) {
+                        return mediaSource;
+                    }
+                }
             }
 
             // The server orders the media sources so the version that should play comes first

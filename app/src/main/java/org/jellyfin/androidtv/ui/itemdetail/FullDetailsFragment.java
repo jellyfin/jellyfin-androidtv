@@ -70,6 +70,7 @@ import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
+import org.jellyfin.androidtv.util.ItemsToPlay;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.PlaybackHelper;
@@ -719,11 +720,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         BaseItemDto baseItem = mBaseItem;
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
+                playbackHelper.getValue().getItemsToPlay(getContext(), baseItem, false, false, new Response<ItemsToPlay>(getLifecycle()) {
                     @Override
-                    public void onResponse(List<BaseItemDto> response) {
+                    public void onResponse(ItemsToPlay response) {
                         if (!isActive()) return;
-                        mediaManager.getValue().addToAudioQueue(response);
+                        mediaManager.getValue().addToAudioQueue(response.getItems());
                     }
                 });
             } else {
@@ -1218,17 +1219,18 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>(getLifecycle()) {
+        playbackHelper.getValue().getItemsToPlay(getContext(), item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<ItemsToPlay>(getLifecycle()) {
             @Override
-            public void onResponse(List<BaseItemDto> response) {
+            public void onResponse(ItemsToPlay response) {
                 if (!isActive()) return;
-                if (response.isEmpty()) {
+                List<BaseItemDto> items = response.getItems();
+                if (items.isEmpty()) {
                     Timber.e("No items to play - ignoring play request.");
                     return;
                 }
 
-                interactionTracker.getValue().notifyStartSession(item, response);
-                KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), response, pos, false, 0, shuffle);
+                interactionTracker.getValue().notifyStartSession(item, items);
+                KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos, false, 0, shuffle, response.getMediaSourceId());
             }
         });
     }
