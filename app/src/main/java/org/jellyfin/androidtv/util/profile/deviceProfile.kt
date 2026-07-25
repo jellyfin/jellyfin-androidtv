@@ -126,6 +126,7 @@ fun createDeviceProfile(
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
 	val supportsVC1 = mediaTest.supportsVc1()
+	val supportsVP9 = mediaTest.supportsVp9()
 
 	/// HDR capabilities
 
@@ -158,6 +159,11 @@ fun createDeviceProfile(
 		Codec.Video.H264
 	).toTypedArray()
 
+	val hlsFmp4VideoCodecs = hlsVideoCodecs + listOfNotNull(
+		if (supportsAV1) Codec.Video.AV1 else null,
+		if (supportsVP9) Codec.Video.VP9 else null,
+	)
+
 	hlsVideoTranscodingProfile(
 		segmentContainer = Codec.Container.TS,
 		videoCodecs = hlsVideoCodecs,
@@ -166,7 +172,7 @@ fun createDeviceProfile(
 
 	hlsVideoTranscodingProfile(
 		segmentContainer = Codec.Container.MP4,
-		videoCodecs = hlsVideoCodecs,
+		videoCodecs = hlsFmp4VideoCodecs,
 		audioCodecs = hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray(),
 	)
 

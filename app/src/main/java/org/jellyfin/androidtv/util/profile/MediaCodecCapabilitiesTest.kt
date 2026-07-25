@@ -53,5 +53,7 @@ class MediaCodecCapabilitiesTest(
 
 	fun supportsVc1(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VC1)
 
+	fun supportsVp9(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VP9)
+
 	fun getMaxResolution(mime: String): Size = codecQuery.getMaxResolution(mime)
 }
