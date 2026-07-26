@@ -268,6 +268,15 @@ fun createDeviceProfile(
 		audioCodec(*allowedAudioCodecs)
 	}
 
+	// Audio remux
+	// When the container above is not supported but the codec is, the server remuxes instead of transcoding.
+	for (codec in hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains)) directPlayProfile {
+		type = DlnaProfileType.AUDIO
+
+		container(Codec.Container.MP4)
+		audioCodec(codec)
+	}
+
 	/// Codec profiles
 	// H264 profile
 	codecProfile {
