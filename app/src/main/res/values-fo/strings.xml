@@ -356,4 +356,19 @@
     <string name="lbl_continue_watching">Hald áfram at hyggja</string>
     <string name="lbl_views">Sýningar</string>
     <string name="lbl_pause">Steðga</string>
+    <string name="pref_audio_direct">Beinleiðis</string>
+    <string name="playback_info_transcoding">Umkotar</string>
+    <string name="playback_info_transcoding_note">Ambætarin umkotar fíluna</string>
+    <string name="lbl_episode_not_record">Hendan sýningin verður IKKI upptikin</string>
+    <string name="seek_error">Ikki møguligt at spola</string>
+    <string name="msg_no_items">Eingir miðlar at spæla</string>
+    <string name="server_connection_failed_candidates">Bar ikki til at sambinda við ambætaran. Fylgjandi adressur vóru royndar: %1$s</string>
+    <string name="server_field_empty">Adressuteigurin kann ikki standa tómur</string>
+    <string name="who_is_watching">Hvør hyggur?</string>
+    <string name="lbl_episode_number">P%1$d</string>
+    <string name="lbl_episode_range">P%1$d–%2$d</string>
+    <string name="color_darkgrey">Myrkagrátt</string>
+    <string name="pref_direct_stream_live_on">Umkoting er óvirkt</string>
+    <string name="action_use_quickconnect">Nýt Quick Connect</string>
+    <string name="dolby_vision_with_el">Dolby Vision við EL</string>
 </resources>
