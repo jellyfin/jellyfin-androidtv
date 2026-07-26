@@ -500,7 +500,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -666,4 +666,7 @@
     <string name="preference_enable_ass_description">Experimentele functie, mogelijk onbetrouwbaar</string>
     <string name="lbl_date_show_added">Datum serie toegevoegd</string>
     <string name="lbl_date_episode_added">Datum aflevering toegevoegd</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
