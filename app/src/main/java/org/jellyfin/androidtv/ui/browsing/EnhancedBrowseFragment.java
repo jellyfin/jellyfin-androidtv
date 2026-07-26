@@ -46,6 +46,7 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
@@ -82,6 +83,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected static final int SCHEDULE = 10;
     protected static final int SERIES = 11;
     protected static final int ALBUM_ARTISTS = 12;
+    protected static final int SHUFFLE_SONGS = 13;
     protected BaseItemDto mFolder;
     protected BaseItemKind itemType;
     protected boolean showViews = true;
@@ -103,6 +105,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final Lazy<ApiClient> api = inject(ApiClient.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
+    private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -302,6 +305,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 gridRowAdapter.add(new GridButton(ARTISTS, getString(R.string.lbl_artists)));
                 gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres)));
                 gridRowAdapter.add(new GridButton(RANDOM, getString(R.string.random)));
+                gridRowAdapter.add(new GridButton(SHUFFLE_SONGS, getString(R.string.lbl_shuffle_all)));
                 break;
 
             case SERIES:
@@ -385,6 +389,15 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                     case GENRES:
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByGenres(mFolder, itemType.getSerialName()));
                         break;
+                    case SHUFFLE_SONGS:
+                      BrowsingUtils.getRandomItems(api.getValue(), getViewLifecycleOwner(), mFolder, BaseItemKind.AUDIO, randomItems -> {
+                          mediaManager.getValue().clearAudioQueue();
+                          mediaManager.getValue().addToAudioQueue(randomItems);
+                          navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
+                          return null;
+                        });
+                        break;
+
 
                     case RANDOM:
                         BrowsingUtils.getRandomItem(api.getValue(), getViewLifecycleOwner(), mFolder, itemType, randomItem -> {
