@@ -13,7 +13,6 @@ import org.jellyfin.sdk.model.api.ProfileConditionValue
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.deviceprofile.DeviceProfileBuilder
-import org.jellyfin.sdk.model.deviceprofile.ProfileConditionsBuilder
 import org.jellyfin.sdk.model.deviceprofile.buildDeviceProfile
 import kotlin.math.roundToInt
 
@@ -72,11 +71,6 @@ private val hlsFmp4AudioCodecs = arrayOf(
 	Codec.Audio.TRUEHD,
 )
 
-private val avcRefFrameLimits = arrayOf(
-	12 to 1200,
-	4 to 1900,
-)
-
 private fun UserPreferences.getMaxBitrate(): Int {
 	var maxBitrate = this[UserPreferences.maxBitrate].toFloatOrNull()
 
@@ -132,6 +126,10 @@ fun createDeviceProfile(
 	val supportsVP9 = mediaTest.supportsVp9()
 	val supportsMpeg2 = mediaTest.supportsMpeg2()
 	val supportsMpeg4Asp = mediaTest.supportsMpeg4Asp()
+	val maxResolutionAVC = mediaTest.getMaxResolution(MimeTypes.VIDEO_H264)
+	val maxResolutionHevc = mediaTest.getMaxResolution(MimeTypes.VIDEO_H265)
+	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
+	val maxResolutionVC1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_VC1)
 
 	/// HDR capabilities
 
@@ -168,17 +166,33 @@ fun createDeviceProfile(
 		if (supportsVP9) Codec.Video.VP9 else null,
 	)
 
-	hlsVideoTranscodingProfile(
-		segmentContainer = Codec.Container.TS,
-		videoCodecs = hlsVideoCodecs,
-		audioCodecs = hlsMpegTsAudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray(),
-	)
+	transcodingProfile {
+		type = DlnaProfileType.VIDEO
+		context = EncodingContext.STREAMING
 
-	hlsVideoTranscodingProfile(
-		segmentContainer = Codec.Container.MP4,
-		videoCodecs = hlsFmp4VideoCodecs,
-		audioCodecs = hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray(),
-	)
+		container = Codec.Container.TS
+		protocol = MediaStreamProtocol.HLS
+
+		videoCodec(*hlsVideoCodecs)
+		audioCodec(*hlsMpegTsAudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
+
+		copyTimestamps = false
+		enableSubtitlesInManifest = true
+	}
+
+	transcodingProfile {
+		type = DlnaProfileType.VIDEO
+		context = EncodingContext.STREAMING
+
+		container = Codec.Container.MP4
+		protocol = MediaStreamProtocol.HLS
+
+		videoCodec(*hlsFmp4VideoCodecs)
+		audioCodec(*hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
+
+		copyTimestamps = false
+		enableSubtitlesInManifest = true
+	}
 
 	// Audio
 	// Only the first matching audio transcoding profile is ever used by the server, so this is a single
@@ -256,94 +270,256 @@ fun createDeviceProfile(
 
 	/// Codec profiles
 	// H264 profile
-	videoCodecProfile(Codec.Video.H264) {
-		when {
-			!supportsAVC -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
-			else -> ProfileConditionValue.VIDEO_PROFILE inCollection
-				avcBaseProfiles + listOfNotNull(if (supportsAVCHigh10) AVC_PROFILE_HIGH_10 else null)
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.H264
+
+		conditions {
+			when {
+				!supportsAVC -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE inCollection
+					avcBaseProfiles + listOfNotNull(if (supportsAVCHigh10) AVC_PROFILE_HIGH_10 else null)
+			}
 		}
 	}
-	if (supportsAVC) videoCodecProfile(
-		Codec.Video.H264,
-		applyWhen = { ProfileConditionValue.VIDEO_PROFILE inCollection avcBaseProfiles },
-	) {
-		ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals avcMainLevel
+	if (supportsAVC) {
+		codecProfile {
+			type = CodecType.VIDEO
+			codec = Codec.Video.H264
+
+			conditions {
+				ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals avcMainLevel
+			}
+
+			applyConditions {
+				ProfileConditionValue.VIDEO_PROFILE inCollection avcBaseProfiles
+			}
+		}
 	}
-	if (supportsAVCHigh10) videoCodecProfile(
-		Codec.Video.H264,
-		applyWhen = { ProfileConditionValue.VIDEO_PROFILE equals AVC_PROFILE_HIGH_10 },
-	) {
-		ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals avcHigh10Level
+	if (supportsAVCHigh10) {
+		codecProfile {
+			type = CodecType.VIDEO
+			codec = Codec.Video.H264
+
+			conditions {
+				ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals avcHigh10Level
+			}
+
+			applyConditions {
+				ProfileConditionValue.VIDEO_PROFILE equals AVC_PROFILE_HIGH_10
+			}
+		}
 	}
 
-	// H264 ref frames profiles
-	for ((refFrames, minWidth) in avcRefFrameLimits) videoCodecProfile(
-		Codec.Video.H264,
-		applyWhen = { ProfileConditionValue.WIDTH greaterThanOrEquals minWidth },
-	) {
-		ProfileConditionValue.REF_FRAMES lowerThanOrEquals refFrames
+	// H264 ref frames profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.H264
+
+		conditions {
+			ProfileConditionValue.REF_FRAMES lowerThanOrEquals 12
+		}
+
+		applyConditions {
+			ProfileConditionValue.WIDTH greaterThanOrEquals 1200
+		}
+	}
+
+	// H264 ref frames profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.H264
+
+		conditions {
+			ProfileConditionValue.REF_FRAMES lowerThanOrEquals 4
+		}
+
+		applyConditions {
+			ProfileConditionValue.WIDTH greaterThanOrEquals 1900
+		}
 	}
 
 	// HEVC profiles
-	videoCodecProfile(Codec.Video.HEVC) {
-		when {
-			!supportsHevc -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
-			else -> ProfileConditionValue.VIDEO_PROFILE inCollection listOfNotNull(
-				PROFILE_MAIN,
-				if (supportsHevcMain10) PROFILE_MAIN_10 else null
-			)
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.HEVC
+
+		conditions {
+			when {
+				!supportsHevc -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE inCollection listOfNotNull(
+					PROFILE_MAIN,
+					if (supportsHevcMain10) PROFILE_MAIN_10 else null
+				)
+			}
 		}
 	}
-	if (supportsHevc) videoCodecProfile(
-		Codec.Video.HEVC,
-		applyWhen = { ProfileConditionValue.VIDEO_PROFILE equals PROFILE_MAIN },
-	) {
-		ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals hevcMainLevel
+	if (supportsHevc) {
+		codecProfile {
+			type = CodecType.VIDEO
+			codec = Codec.Video.HEVC
+
+			conditions {
+				ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals hevcMainLevel
+			}
+
+			applyConditions {
+				ProfileConditionValue.VIDEO_PROFILE equals PROFILE_MAIN
+			}
+		}
 	}
-	if (supportsHevcMain10) videoCodecProfile(
-		Codec.Video.HEVC,
-		applyWhen = { ProfileConditionValue.VIDEO_PROFILE equals PROFILE_MAIN_10 },
-	) {
-		ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals hevcMain10Level
+	if (supportsHevcMain10) {
+		codecProfile {
+			type = CodecType.VIDEO
+			codec = Codec.Video.HEVC
+
+			conditions {
+				ProfileConditionValue.VIDEO_LEVEL lowerThanOrEquals hevcMain10Level
+			}
+
+			applyConditions {
+				ProfileConditionValue.VIDEO_PROFILE equals PROFILE_MAIN_10
+			}
+		}
 	}
 
 	// AV1 profile
-	videoCodecProfile(Codec.Video.AV1) {
-		when {
-			!supportsAV1 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
-			!supportsAV1Main10 -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_MAIN_10
-			else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.AV1
+
+		conditions {
+			when {
+				!supportsAV1 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				!supportsAV1Main10 -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_MAIN_10
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
 		}
 	}
 
-	// Codecs without profile/level conditions, disabled entirely when the device has no decoder for them
-	val gatedVideoCodecs = listOf(
-		Codec.Video.VC1 to supportsVC1,
-		Codec.Video.MPEG1VIDEO to supportsMpeg2,
-		Codec.Video.MPEG2VIDEO to supportsMpeg2,
-		Codec.Video.MPEG4 to supportsMpeg4Asp,
-		Codec.Video.VP8 to supportsVP8,
-		Codec.Video.VP9 to supportsVP9,
-	)
+	// VC1 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.VC1
 
-	for ((codec, supported) in gatedVideoCodecs) videoCodecProfile(codec) {
-		when {
-			!supported -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
-			else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+		conditions {
+			when {
+				!supportsVC1 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// MPEG-1 profile
+	// Android has no separate MPEG-1 mime type, the MPEG-2 decoder handles both
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.MPEG1VIDEO
+
+		conditions {
+			when {
+				!supportsMpeg2 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// MPEG-2 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.MPEG2VIDEO
+
+		conditions {
+			when {
+				!supportsMpeg2 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// MPEG-4 profile
+	// DivX/Xvid require Advanced Simple Profile, a Simple Profile only decoder cannot play them
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.MPEG4
+
+		conditions {
+			when {
+				!supportsMpeg4Asp -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// VP8 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.VP8
+
+		conditions {
+			when {
+				!supportsVP8 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// VP9 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.VP9
+
+		conditions {
+			when {
+				!supportsVP9 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
 		}
 	}
 
 	// Get max resolutions for common codecs
-	val maxResolutions = listOf(
-		Codec.Video.H264 to mediaTest.getMaxResolution(MimeTypes.VIDEO_H264),
-		Codec.Video.HEVC to mediaTest.getMaxResolution(MimeTypes.VIDEO_H265),
-		Codec.Video.AV1 to mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1),
-		Codec.Video.VC1 to mediaTest.getMaxResolution(MimeTypes.VIDEO_VC1),
-	)
+	// AVC
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.H264
 
-	for ((codec, maxResolution) in maxResolutions) videoCodecProfile(codec) {
-		ProfileConditionValue.WIDTH lowerThanOrEquals maxResolution.width
-		ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolution.height
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionAVC.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionAVC.height
+		}
+	}
+
+	// HEVC
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.HEVC
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionHevc.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionHevc.height
+		}
+	}
+
+	// AV1
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.AV1
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionAV1.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionAV1.height
+		}
+	}
+
+	// VC1
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.VC1
+
+		conditions {
+			ProfileConditionValue.WIDTH lowerThanOrEquals maxResolutionVC1.width
+			ProfileConditionValue.HEIGHT lowerThanOrEquals maxResolutionVC1.height
+		}
 	}
 
 	/// HDR exclude list
@@ -393,21 +569,33 @@ fun createDeviceProfile(
 	// The notEquals condition will always fail the ConditionProcessor test in the server so we use applyConditions to only have the codec
 	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
 	// notEquals in the StreamBuilder to create a correct transcode pipeline
-	val unsupportedRangeTypes = listOf(
-		Codec.Video.AV1 to unsupportedRangeTypesAv1,
-		Codec.Video.HEVC to unsupportedRangeTypesHevc,
-	)
 
-	for ((codec, rangeTypes) in unsupportedRangeTypes) {
-		if (rangeTypes.isEmpty()) continue
+	// Codecs
+	// AV1
+	if (unsupportedRangeTypesAv1.isNotEmpty()) codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.AV1
 
-		videoCodecProfile(
-			codec,
-			applyWhen = {
-				ProfileConditionValue.VIDEO_RANGE_TYPE inCollection rangeTypes.map { it.serialName }
-			},
-		) {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals rangeTypes.joinToString("|") { it.serialName }
+		conditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|") { it.serialName }
+		}
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1.map { it.serialName }
+		}
+	}
+
+	// HEVC
+	if (unsupportedRangeTypesHevc.isNotEmpty()) codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.HEVC
+
+		conditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|") { it.serialName }
+		}
+
+		applyConditions {
+			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc.map { it.serialName }
 		}
 	}
 
@@ -440,38 +628,6 @@ fun createDeviceProfile(
 	// ASS/SSA is supported via libass extension
 	subtitleProfile(Codec.Subtitle.ASS, encode = true, embedded = assDirectPlay, external = assDirectPlay)
 	subtitleProfile(Codec.Subtitle.SSA, encode = true, embedded = assDirectPlay, external = assDirectPlay)
-}
-
-// Little helper function to define the two near-identical HLS video transcoding profiles
-private fun DeviceProfileBuilder.hlsVideoTranscodingProfile(
-	segmentContainer: String,
-	videoCodecs: Array<String>,
-	audioCodecs: Array<String>,
-) = transcodingProfile {
-	type = DlnaProfileType.VIDEO
-	context = EncodingContext.STREAMING
-
-	container = segmentContainer
-	protocol = MediaStreamProtocol.HLS
-
-	videoCodec(*videoCodecs)
-	audioCodec(*audioCodecs)
-
-	copyTimestamps = false
-	enableSubtitlesInManifest = true
-}
-
-// Little helper function to more easily define video codec profiles
-private fun DeviceProfileBuilder.videoCodecProfile(
-	videoCodec: String,
-	applyWhen: (ProfileConditionsBuilder.() -> Unit)? = null,
-	conditions: ProfileConditionsBuilder.() -> Unit,
-) = codecProfile {
-	type = CodecType.VIDEO
-	codec = videoCodec
-
-	this.conditions(conditions)
-	if (applyWhen != null) applyConditions(applyWhen)
 }
 
 // Little helper function to more easily define subtitle profiles
