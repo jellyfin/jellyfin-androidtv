@@ -674,4 +674,9 @@
     <string name="pref_software_codecs_enabled">Usar códec de software</string>
     <string name="pref_software_codecs_enabled_description">Algunas implementaciones basadas en software podrían reducir el rendimiento. Desactivar esta opción hace la transcodificación más probable.</string>
     <string name="preference_enable_ass">Reproducir directamente subtítulos ASS</string>
+    <string name="lbl_date_show_added">Fecha de incorporación de la serie</string>
+    <string name="lbl_date_episode_added">Fecha de incorporación del episodio</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
