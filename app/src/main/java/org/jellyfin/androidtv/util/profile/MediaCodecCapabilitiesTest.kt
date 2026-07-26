@@ -3,12 +3,16 @@ package org.jellyfin.androidtv.util.profile
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.util.Size
+import androidx.annotation.OptIn
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 import org.jellyfin.androidtv.util.profile.codec.Av1CodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.AvcCodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.HevcCodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.MediaCodecQuery
 
+// MimeTypes.VIDEO_VP8 and MimeTypes.VIDEO_VP9 are marked as unstable media3 APIs
+@OptIn(UnstableApi::class)
 class MediaCodecCapabilitiesTest(
 	private val softwareCodecsEnabled: Boolean,
 ) {
