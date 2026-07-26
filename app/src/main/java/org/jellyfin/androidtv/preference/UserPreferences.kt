@@ -60,6 +60,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var mediaQueuingEnabled = booleanPreference("pref_enable_tv_queuing", true)
 
 		/**
+		 * Play audio theme background when a media is selected
+		 */
+		var playThemeAudio = booleanPreference("play_theme_audio", true)
+
+		/**
 		 * Enable the next up screen or not
 		 */
 		var nextUpBehavior = enumPreference("next_up_behavior", NextUpBehavior.EXTENDED)

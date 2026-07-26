@@ -24,6 +24,8 @@ import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemMutationRepositoryImpl
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepositoryImpl
+import org.jellyfin.androidtv.data.repository.ThemeAudioRepository
+import org.jellyfin.androidtv.data.repository.ThemeAudioRepositoryImpl
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
@@ -44,6 +46,8 @@ import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepositoryImpl
 import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingViewModel
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioPlayer
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModel
 import org.jellyfin.androidtv.ui.player.photo.PhotoPlayerViewModel
 import org.jellyfin.androidtv.ui.search.SearchFragmentDelegate
 import org.jellyfin.androidtv.ui.search.SearchRepository
@@ -149,6 +153,7 @@ val appModule = module {
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
 	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
 	single<ExternalAppRepository> { ExternalAppRepository(get(), getAll(), get<DefaultExternalPlayerApi>()) }
+	single<ThemeAudioRepository> { ThemeAudioRepositoryImpl(get()) }
 
 	// External player APIs
 	single { VlcExternalPlayerApi() } bind ExternalPlayerApi::class
@@ -166,6 +171,7 @@ val appModule = module {
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SettingsViewModel() }
+	viewModel { ThemeAudioViewModel(get(), get(), get(), get()) }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 
@@ -174,6 +180,7 @@ val appModule = module {
 	single { KeyProcessor() }
 	single { ReportingHelper(get(), get()) }
 	single<PlaybackHelper> { SdkPlaybackHelper(get(), get(), get(), get()) }
+	single { ThemeAudioPlayer(androidContext()) }
 
 	factory { (context: Context) -> SearchFragmentDelegate(context, get(), get()) }
 }

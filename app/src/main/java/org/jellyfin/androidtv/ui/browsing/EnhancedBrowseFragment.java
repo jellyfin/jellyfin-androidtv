@@ -46,6 +46,8 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModel;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModelHelperKt;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
@@ -104,6 +106,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
 
+    private ThemeAudioViewModel themeAudioViewModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +122,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         EnhancedDetailBrowseBinding binding = EnhancedDetailBrowseBinding.inflate(inflater, container, false);
+
+        themeAudioViewModel = ThemeAudioViewModelHelperKt.getThemeAudioViewModel(this);
 
         mTitle = binding.title;
         mInfoRow = binding.infoRow;
@@ -455,6 +461,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 mCurrentRow = null;
                 // Fill in default background
                 backgroundService.getValue().clearBackgrounds();
+                if (themeAudioViewModel != null) themeAudioViewModel.onItemFocused(null);
                 return;
             }
 
@@ -477,6 +484,15 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             adapter.loadMoreItemsIfNeeded(adapter.indexOf(rowItem));
 
             backgroundService.getValue().setBackground(rowItem.getBaseItem());
+            themeAudioViewModel.onItemFocused((rowItem).getBaseItem().getId());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (themeAudioViewModel != null) {
+            themeAudioViewModel.onItemUnfocused();
         }
     }
 }
