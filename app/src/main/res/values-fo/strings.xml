@@ -355,4 +355,5 @@
     <string name="pref_playback">Spæling</string>
     <string name="lbl_continue_watching">Hald áfram at hyggja</string>
     <string name="lbl_views">Sýningar</string>
+    <string name="lbl_pause">Steðga</string>
 </resources>
