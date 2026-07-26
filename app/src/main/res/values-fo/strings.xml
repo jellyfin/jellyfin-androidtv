@@ -352,4 +352,7 @@
         <item quantity="one">%1$s miðil</item>
         <item quantity="other">%1$s miðlar</item>
     </plurals>
+    <string name="pref_playback">Spæling</string>
+    <string name="lbl_continue_watching">Hald áfram at hyggja</string>
+    <string name="lbl_views">Sýningar</string>
 </resources>
