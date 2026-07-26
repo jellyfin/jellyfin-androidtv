@@ -395,7 +395,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                           mediaManager.getValue().clearAudioQueue();
                           mediaManager.getValue().addToAudioQueue(randomItems);
                           navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
-                          return Unit.INSTANCE;
+                          return null;
                         });
                         break;
 
