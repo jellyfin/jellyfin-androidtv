@@ -505,7 +505,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="ac3">DD</string>
     <plurals name="movies">
         <item quantity="one">%1$s film</item>
@@ -686,4 +686,7 @@
     <string name="preference_enable_ass_description">Funkcja eksperymentalna, może nie działać niezawodnie</string>
     <string name="lbl_date_show_added">Data dodania serialu</string>
     <string name="lbl_date_episode_added">Data dodania ocinka</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
