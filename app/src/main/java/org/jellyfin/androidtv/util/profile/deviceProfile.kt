@@ -146,7 +146,6 @@ fun createDeviceProfile(
 	val supportsHevcDolbyVisionEL = mediaTest.supportsHevcDolbyVisionEL()
 	val supportsHevcHDR10 = mediaTest.supportsHevcHDR10()
 	val supportsHevcHDR10Plus = mediaTest.supportsHevcHDR10Plus()
-	val hevcDoviHdr10PlusBug = KnownDefects.hevcDoviHdr10PlusBug
 
 	name = "AndroidTV-Default"
 
@@ -370,12 +369,12 @@ fun createDeviceProfile(
 
 		if (!supportsHevcDolbyVisionEL) {
 			add(VideoRangeType.DOVI_WITH_EL)
-			if (!supportsHevcHDR10Plus && !hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
+			if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 
 			if (!supportsHevcDolbyVision) {
 				add(VideoRangeType.DOVI)
 				if (!supportsHevcHDR10) add(VideoRangeType.DOVI_WITH_HDR10)
-				if (!supportsHevcHDR10Plus && !hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
+				if (!supportsHevcHDR10Plus && !KnownDefects.hevcDoviHdr10PlusBug) add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 			}
 		}
 
@@ -384,7 +383,7 @@ fun createDeviceProfile(
 			if (!supportsHevcHDR10) add(VideoRangeType.HDR10)
 		}
 
-		if (hevcDoviHdr10PlusBug) {
+		if (KnownDefects.hevcDoviHdr10PlusBug) {
 			add(VideoRangeType.DOVI_WITH_HDR10_PLUS)
 			add(VideoRangeType.DOVI_WITH_ELHDR10_PLUS)
 		}
