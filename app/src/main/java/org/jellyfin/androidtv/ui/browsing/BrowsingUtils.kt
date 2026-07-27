@@ -269,7 +269,7 @@ object BrowsingUtils {
 		imageTypeLimit = 1,
 		filters = setOf(ItemFilter.IS_FAVORITE),
 		sortBy = setOf(ItemSortBy.DATE_PLAYED, ItemSortBy.SORT_NAME),
-		sortOrder = setOf(SortOrder.DESCENDING),
+		sortOrder = setOf(SortOrder.DESCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
