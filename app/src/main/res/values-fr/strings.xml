@@ -505,7 +505,7 @@
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="ac3">DD</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="clear_image_cache">Vider le cache d\'images</string>
     <plurals name="songs">
         <item quantity="one">%1$s chanson</item>
@@ -674,4 +674,9 @@
     <string name="preference_enable_ass">Sous-titres ASS de jeu direct</string>
     <string name="preference_enable_pgs_description">Exige une transcodage désactivée</string>
     <string name="preference_enable_ass_description">Fonctionnalité expérimentale, peut ne pas fonctionner de manière fiable</string>
+    <string name="lbl_date_show_added">Date d\'ajout de la série</string>
+    <string name="lbl_date_episode_added">Date d\'ajout de l\'épisode</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
