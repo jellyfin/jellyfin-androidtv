@@ -671,4 +671,9 @@
     <string name="preference_enable_ass">Subtítols ASS de reproducció directa</string>
     <string name="preference_enable_pgs_description">Requereix transcodificació en inhabilitar-se</string>
     <string name="preference_enable_ass_description">Característica experimental, potser no funciona de manera fiable.</string>
+    <string name="lbl_date_show_added">Data d\'incorporació de la sèrie</string>
+    <string name="lbl_date_episode_added">Dara d\'incorporació de l\'usuari</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
