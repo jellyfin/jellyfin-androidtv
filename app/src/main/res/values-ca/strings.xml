@@ -519,7 +519,7 @@
         <item quantity="other">%1$s àlbums</item>
     </plurals>
     <string name="dolby_vision">Dolby Vision</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="ac3">DD</string>
