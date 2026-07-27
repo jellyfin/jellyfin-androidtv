@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Icon
@@ -139,7 +140,8 @@ private fun IntervalButton(
 				contentDescription = stringResource(R.string.change_interval),
 			)
 			Text(
-				text = TimeUtils.formatMillis(presentationDelay.inWholeMilliseconds)
+				text = TimeUtils.formatMillis(presentationDelay.inWholeMilliseconds),
+				fontFamily = FontFamily.Monospace
 			)
 		}
 	}
