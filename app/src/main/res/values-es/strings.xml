@@ -511,7 +511,7 @@
         <item quantity="other">%1$s series de televisión</item>
     </plurals>
     <string name="ac3">DD</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="eac3">DD+</string>
