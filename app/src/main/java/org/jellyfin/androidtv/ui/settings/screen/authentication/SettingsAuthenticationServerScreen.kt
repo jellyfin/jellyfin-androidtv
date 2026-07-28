@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.ui.base.button.IconButtonDefaults
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
@@ -97,7 +98,8 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 								"userId" to user.id.toString(),
 							),
 						)
-					}
+					},
+					modifier = Modifier.focusKey("user_${user.id}")
 				)
 			}
 		}
@@ -114,7 +116,8 @@ fun SettingsAuthenticationServerScreen(serverId: UUID) {
 						serverRepository.deleteServer(server?.id ?: serverId)
 						router.back()
 					}
-				}
+				},
+				modifier = Modifier.focusKey("remove_server")
 			)
 		}
 	}

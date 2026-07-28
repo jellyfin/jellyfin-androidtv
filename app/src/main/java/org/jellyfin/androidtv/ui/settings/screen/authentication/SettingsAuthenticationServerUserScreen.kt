@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -20,6 +21,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
 import java.util.UUID
@@ -58,7 +60,8 @@ fun SettingsAuthenticationServerUserScreen(serverId: UUID, userId: UUID) {
 						if (user != null) authenticationRepository.logout(user)
 						router.back()
 					}
-				}
+				},
+				modifier = Modifier.focusKey("sign_out")
 			)
 		}
 
@@ -72,7 +75,8 @@ fun SettingsAuthenticationServerUserScreen(serverId: UUID, userId: UUID) {
 						if (user != null) serverUserRepository.deleteStoredUser(user)
 						router.back()
 					}
-				}
+				},
+				modifier = Modifier.focusKey("remove")
 			)
 		}
 	}

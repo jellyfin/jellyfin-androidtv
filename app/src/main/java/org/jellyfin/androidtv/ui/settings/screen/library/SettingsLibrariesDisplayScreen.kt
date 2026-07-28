@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
@@ -14,6 +15,7 @@ import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -49,7 +51,8 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 						Routes.LIBRARIES_DISPLAY_IMAGE_SIZE,
 						mapOf("itemId" to itemId.toString(), "displayPreferencesId" to displayPreferencesId)
 					)
-				}
+				},
+				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_IMAGE_SIZE)
 			)
 		}
 
@@ -64,7 +67,8 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 						Routes.LIBRARIES_DISPLAY_IMAGE_TYPE,
 						mapOf("itemId" to itemId.toString(), "displayPreferencesId" to displayPreferencesId)
 					)
-				}
+				},
+				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_IMAGE_TYPE)
 			)
 		}
 
@@ -79,7 +83,8 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 						Routes.LIBRARIES_DISPLAY_GRID,
 						mapOf("itemId" to itemId.toString(), "displayPreferencesId" to displayPreferencesId)
 					)
-				}
+				},
+				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_GRID)
 			)
 		}
 
@@ -90,7 +95,8 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 				headingContent = { Text(stringResource(R.string.enable_smart_view)) },
 				trailingContent = { Checkbox(checked = enableSmartScreen) },
 				captionContent = { Text(stringResource(R.string.enable_smart_view_description)) },
-				onClick = { enableSmartScreen = !enableSmartScreen }
+				onClick = { enableSmartScreen = !enableSmartScreen },
+				modifier = Modifier.focusKey("enable_smart_view")
 			)
 		}
 	}
