@@ -50,6 +50,7 @@ import org.jellyfin.androidtv.ui.search.SearchRepository
 import org.jellyfin.androidtv.ui.search.SearchRepositoryImpl
 import org.jellyfin.androidtv.ui.search.SearchViewModel
 import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
+import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreenViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
@@ -166,6 +167,7 @@ val appModule = module {
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SettingsViewModel() }
+	viewModel { SettingsLibrariesScreenViewModel(get()) }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 
