@@ -21,6 +21,7 @@ import androidx.navigationevent.NavigationEvent
 import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
+import org.jellyfin.androidtv.ui.navigation.focus.rememberFocusRestorationNavEntryDecorator
 
 typealias RouteParameters = Map<String, String>
 typealias RouteComposable = @Composable ((context: RouteContext) -> Unit)
@@ -103,6 +104,7 @@ fun RouterContent(
 				onBack = { router.back() },
 				entryDecorators = listOf(
 					rememberSaveableStateHolderNavEntryDecorator(),
+					rememberFocusRestorationNavEntryDecorator(),
 				),
 				transitionSpec = transitionSpec,
 				popTransitionSpec = popTransitionSpec,
