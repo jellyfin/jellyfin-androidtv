@@ -245,7 +245,7 @@ fun createDeviceProfileReport(
 		if (AndroidVersion.isAtLeastN) {
 			@Suppress("DEPRECATION")
 			val supportedHdrTypes = if (AndroidVersion.isAtLeastUpsideDownCake) display.mode.supportedHdrTypes.toList()
-			else display.hdrCapabilities.supportedHdrTypes.toList()
+			else display.hdrCapabilities?.supportedHdrTypes?.toList().orEmpty()
 
 			appendItem("HDR capabilities") {
 				appendLine()
