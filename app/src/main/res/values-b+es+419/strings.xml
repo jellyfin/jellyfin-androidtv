@@ -496,7 +496,7 @@
     <string name="photos">Fotos</string>
     <string name="lbl_hide_watched_checkmark">Cuando hay episodios pendientes</string>
     <string name="random">Aleatorio</string>
-    <string name="ac3">Dolby Digital</string>
+    <string name="ac3">DD</string>
     <plurals name="albums">
         <item quantity="one">%1$s álbum</item>
         <item quantity="many"/>
@@ -505,14 +505,14 @@
     <string name="person_birthday_and_age">Nació el %1$s (%2$d)</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="indicator_subtitles">Subtítulo</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="lbl_runtime">Duración</string>
     <string name="unreleased">Sin estrenar</string>
     <string name="lbl_home">Inicio</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="eac3">Dolby Digital+</string>
+    <string name="eac3">DD+</string>
     <string name="pref_playback_advanced">Ajustes avanzados de reproducción</string>
     <string name="clear_image_cache">Vaciar caché de imágenes</string>
     <string name="clear_image_cache_content">Usado: %1$s</string>
@@ -536,16 +536,16 @@
         <item quantity="many"/>
         <item quantity="other">%1$s canciones</item>
     </plurals>
-    <string name="pref_screensaver_ageratingrequired_title">Requerir clasificación por edad</string>
+    <string name="pref_screensaver_ageratingrequired_title">Requiere clasificación por edad</string>
     <string name="pref_external_player">Usar reproductor externo</string>
     <string name="current_queue">Lista actual</string>
     <string name="app_notification_update_soon">Actualiza tu servidor %1$s a al menos la versión %2$s para continuar usando la aplicación después de la siguiente actualización.</string>
     <string name="all_channels">Todos los canales</string>
-    <string name="pref_screensaver_ageratingmax_entry">Hasta %1$d</string>
+    <string name="pref_screensaver_ageratingmax_entry">Hasta %1$d años</string>
     <string name="pref_screensaver_ageratingmax_zero">Todas las edades</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Deshabilitar máximo</string>
     <string name="pref_screensaver_ageratingmax">Clasificación por edad máxima</string>
-    <string name="pref_screensaver_ageratingrequired_disabled">Mostrar todos los elementos</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Mostrando todos los elementos</string>
     <string name="pref_screensaver_ageratingrequired_enabled">Solo mostrar contenido con clasificación por edad</string>
     <string name="past_week">La semana pasada</string>
     <string name="scheduled_in_next_24_hours">Programado para las siguientes 24 horas</string>
@@ -566,7 +566,7 @@
     <string name="prefer_exoplayer_ffmpeg">Preferir FFmpeg para reproducir audio</string>
     <string name="pref_mediasegment_actions">Acciones de segmentos de medios</string>
     <string name="segment_type_commercial">Publicidad</string>
-    <string name="default_video_zoom">Modo de ampliación predeterminado</string>
+    <string name="default_video_zoom">Modo de zoom predeterminado</string>
     <string name="segment_action_ask_to_skip">Preguntar para saltar</string>
     <string name="preference_enable_trickplay">Habilitar previsualizaciones en el reproductor</string>
     <string name="skip_forward_length">Duración del salto hacia adelante</string>
@@ -616,7 +616,7 @@
     <string name="playback_info_video_range">Rango de Video: %1$s</string>
     <string name="playback_info_transcoding_note">El servidor esta transcodificando este archivo</string>
     <string name="playback_buffer_length">Tamaño de buffer de reproducción</string>
-    <string name="playback_buffer_auto">Automática</string>
+    <string name="playback_buffer_auto">Automático</string>
     <string name="playback_buffer_large">Grande</string>
     <string name="playback_buffer_extra_large">Extra grande</string>
     <string name="pref_burn_subtitles_when_transcoding">Incrustar subtítulos mientras se transcodifica</string>
@@ -674,4 +674,9 @@
     <string name="hlg">HLG</string>
     <string name="pref_software_codecs_enabled">Usar códecs de software</string>
     <string name="pref_software_codecs_enabled_description">Algunas implementaciones basadas en software pueden reducir el rendimiento. Desactivando esta opción, es más probable que se realice la transcodificación.</string>
+    <string name="lbl_date_show_added">Agregada la fecha del programa</string>
+    <string name="lbl_date_episode_added">Agregada la fecha del episodio</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
