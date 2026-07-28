@@ -162,7 +162,7 @@ val appModule = module {
 	viewModel { ServerAddViewModel(get()) }
 	viewModel { NextUpViewModel(get(), get(), get()) }
 	viewModel { StillWatchingViewModel(get(), get(), get(), get()) }
-	viewModel { PhotoPlayerViewModel(get()) }
+	viewModel { PhotoPlayerViewModel(get(), get()) }
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SettingsViewModel() }

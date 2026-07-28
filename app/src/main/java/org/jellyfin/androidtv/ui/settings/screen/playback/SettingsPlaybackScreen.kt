@@ -65,6 +65,14 @@ fun SettingsPlaybackScreen() {
 
 		item {
 			ListButton(
+				leadingContent = { Icon(painterResource(R.drawable.ic_photo), contentDescription = null) },
+				headingContent = { Text(stringResource(R.string.photo_player)) },
+				onClick = { router.push(Routes.PLAYBACK_PHOTO_PLAYER) }
+			)
+		}
+
+		item {
+			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_next_up), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_playback_next_up)) },
 				onClick = { router.push(Routes.PLAYBACK_NEXT_UP) }
