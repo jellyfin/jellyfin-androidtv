@@ -1,0 +1,3 @@
+Takk fyri at tú brúkar Jellyfin til Android TV! Tað er altíð viðmælt at brúka nýggjastu slepping av Jellyfin-ambætararitbúnaðinum.
+
+Sí fleiri upplýsingar á okkara bloggi á jellyfin.org, ella les sleppingarskrivið á GitHub.
