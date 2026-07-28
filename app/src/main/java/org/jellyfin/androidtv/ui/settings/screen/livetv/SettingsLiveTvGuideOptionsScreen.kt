@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.LiveTvPreferences
@@ -13,6 +14,7 @@ import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -45,7 +47,8 @@ fun SettingsLiveTvGuideOptionsScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_sort_by)) },
 				captionContent = { Text(stringResource(LiveTvChannelOrder.fromString(channelOrder).nameRes)) },
-				onClick = { router.push(Routes.LIVETV_GUIDE_CHANNEL_ORDER) }
+				onClick = { router.push(Routes.LIVETV_GUIDE_CHANNEL_ORDER) },
+				modifier = Modifier.focusKey(Routes.LIVETV_GUIDE_CHANNEL_ORDER)
 			)
 		}
 
@@ -55,7 +58,8 @@ fun SettingsLiveTvGuideOptionsScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_start_favorites)) },
 				trailingContent = { Checkbox(checked = favsAtTop) },
-				onClick = { favsAtTop = !favsAtTop }
+				onClick = { favsAtTop = !favsAtTop },
+				modifier = Modifier.focusKey("favs_at_top")
 			)
 		}
 
@@ -65,7 +69,8 @@ fun SettingsLiveTvGuideOptionsScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_colored_backgrounds)) },
 				trailingContent = { Checkbox(checked = colorCodeGuide) },
-				onClick = { colorCodeGuide = !colorCodeGuide }
+				onClick = { colorCodeGuide = !colorCodeGuide },
+				modifier = Modifier.focusKey("color_code_guide")
 			)
 		}
 
@@ -77,7 +82,8 @@ fun SettingsLiveTvGuideOptionsScreen() {
 			ListButton(
 				headingContent = { Text(label) },
 				trailingContent = { Checkbox(checked = enabled) },
-				onClick = { enabled = !enabled }
+				onClick = { enabled = !enabled },
+				modifier = Modifier.focusKey("indicator_$label")
 			)
 		}
 	}
