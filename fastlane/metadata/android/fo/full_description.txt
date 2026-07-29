@@ -1,0 +1,14 @@
+Tínir margmiðlar eftir tínum treytum.
+
+Jellyfin verkætlanin er ein gjøgnumskygd, ókeypis ritbúnaðarligur margmiðlaambætari. Eingi gjøld, eingin njósning, eingin duld ætlan. Niðurtak ambætararitbúnaðin ókeypis, til tess at savna allar tínar ljóð-, mynda- og tekstmiðlar á einum stað.
+
+Til tess at nýta appina tørvar hon at sambinda í ein virknan Jellyfin ambætara. Sí meira á <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Við einum Jellyfin ambætara kanst tú:
+
+* Síggja beinleiðis sjónvarp og upptiknar sjónvarprøðir frá tínum Jellyfin ambætara (eyka tænastur og/ella tólbúnaður krevst)
+* Stroym til Chromecast-eindir á tínum neti
+* Stroym miðlar til tínar Android-eindir
+* Sí savnið í einum brúkaravinaligum nýtslumarkamóti
+
+Hetta er almannakunniga Jellyfin-appin til Android TV. Takk fyri at tú brúkar Jellyfin!

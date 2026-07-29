@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.settings.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.TelemetryPreferences
@@ -10,6 +11,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
@@ -35,7 +37,8 @@ fun SettingsTelemetryScreen() {
 					if (crashReportEnabled) Text(stringResource(R.string.pref_crash_reports_enabled))
 					else Text(stringResource(R.string.pref_crash_reports_disabled))
 				},
-				onClick = { crashReportEnabled = !crashReportEnabled }
+				onClick = { crashReportEnabled = !crashReportEnabled },
+				modifier = Modifier.focusKey("crash_report_enabled")
 			)
 		}
 
@@ -48,7 +51,8 @@ fun SettingsTelemetryScreen() {
 					if (crashReportIncludeLogs) Text(stringResource(R.string.pref_crash_report_logs_enabled))
 					else Text(stringResource(R.string.pref_crash_report_logs_disabled))
 				},
-				onClick = { crashReportIncludeLogs = !crashReportIncludeLogs }
+				onClick = { crashReportIncludeLogs = !crashReportIncludeLogs },
+				modifier = Modifier.focusKey("crash_report_logs")
 			)
 		}
 	}

@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -52,7 +53,8 @@ fun SettingsPlaybackNextUpScreen() {
 				headingContent = { Text(stringResource(R.string.pref_media_queueing)) },
 				trailingContent = { Checkbox(checked = mediaQueuingEnabled) },
 				captionContent = { Text(stringResource(R.string.pref_media_queueing_description)) },
-				onClick = { mediaQueuingEnabled = !mediaQueuingEnabled }
+				onClick = { mediaQueuingEnabled = !mediaQueuingEnabled },
+				modifier = Modifier.focusKey("media_queuing_enabled")
 			)
 		}
 
@@ -62,7 +64,8 @@ fun SettingsPlaybackNextUpScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.pref_next_up_behavior_title)) },
 				captionContent = { Text(stringResource(nextUpBehavior.nameRes)) },
-				onClick = { router.push(Routes.PLAYBACK_NEXT_UP_BEHAVIOR) }
+				onClick = { router.push(Routes.PLAYBACK_NEXT_UP_BEHAVIOR) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_NEXT_UP_BEHAVIOR)
 			)
 		}
 
@@ -74,6 +77,7 @@ fun SettingsPlaybackNextUpScreen() {
 				headingContent = { Text(stringResource(R.string.pref_next_up_timeout_title)) },
 				captionContent = { Text(stringResource(R.string.pref_next_up_timeout_summary)) },
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("next_up_timeout")
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,

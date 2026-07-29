@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.settings.screen
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
@@ -9,6 +10,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 
@@ -30,6 +32,7 @@ fun SettingsMainScreen() {
 				leadingContent = { Icon(painterResource(R.drawable.ic_users), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_login)) },
 				onClick = { router.push(Routes.AUTHENTICATION) },
+				modifier = Modifier.focusKey(Routes.AUTHENTICATION),
 			)
 		}
 
@@ -37,7 +40,8 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_adjust), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_customization)) },
-				onClick = { router.push(Routes.CUSTOMIZATION) }
+				onClick = { router.push(Routes.CUSTOMIZATION) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION),
 			)
 		}
 
@@ -46,7 +50,8 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_photos), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_screensaver)) },
-				onClick = { router.push(Routes.CUSTOMIZATION_SCREENSAVER) }
+				onClick = { router.push(Routes.CUSTOMIZATION_SCREENSAVER) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_SCREENSAVER),
 			)
 		}
 
@@ -54,7 +59,8 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_next), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_playback)) },
-				onClick = { router.push(Routes.PLAYBACK) }
+				onClick = { router.push(Routes.PLAYBACK) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK),
 			)
 		}
 
@@ -62,7 +68,8 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_error), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_telemetry_category)) },
-				onClick = { router.push(Routes.TELEMETRY) }
+				onClick = { router.push(Routes.TELEMETRY) },
+				modifier = Modifier.focusKey(Routes.TELEMETRY),
 			)
 
 		}
@@ -71,7 +78,8 @@ fun SettingsMainScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_jellyfin), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_about_title)) },
-				onClick = { router.push(Routes.ABOUT) }
+				onClick = { router.push(Routes.ABOUT) },
+				modifier = Modifier.focusKey(Routes.ABOUT),
 			)
 		}
 	}

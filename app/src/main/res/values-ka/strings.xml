@@ -539,4 +539,25 @@
     <string name="msg_live_tv_next">ჩაიტვირთოს შემდეგი %1$d საათი?</string>
     <string name="msg_live_tv_prev">ჩაიტვირთოს წინა %1$d საათი?</string>
     <string name="subtitle_error">სუბსტიტრების არჩევა შეუძლებელია</string>
+    <string name="msg_no_items">დასაკრავი ელემენტების გარეშე</string>
+    <string name="turn_off">ამ პარამეტრის გამორთვა</string>
+    <string name="login_invalid_credentials">არასწორი მომხმარებლის სახელი ან/და პაროლი</string>
+    <string name="login_username_field_empty">მომხმარებლის სახელი ცარიელი ვერ იქნება</string>
+    <string name="pref_developer_link_description">დამატებითი და ექსპერიმენტული ფუნქციები</string>
+    <string name="lbl_record_all">ჩაიწერს ყველა ეპიზოდს</string>
+    <string name="always_authenticate">ავტორიზაციის დეტალების ყოველთვის მოთხოვნა</string>
+    <string name="server_issue_invalid_product">სერვერის პროგრამული უზრუნველყოფა თავსებადი არაა</string>
+    <string name="item_deletion_failed">%1$s-ის წაშლა შეუძლებელია</string>
+    <string name="disable_ui_mode_warning">მოწყობილობის ტიპის გაფრთხილების გამორთვა</string>
+    <string name="pref_screensaver_ageratingmax_entry">%1$d ასაკამდე</string>
+    <string name="pref_report_device_profile_success">დოკუმენტი გადაცემულია, როგორც %1$s</string>
+    <string name="preference_enable_pgs">PGS სუბტიტრების პირდაპირი დაკვრა</string>
+    <string name="still_watching_label">ჯერ კიდევ უყურებთ?</string>
+    <string name="preference_codecs_summary">მოწყობილობის მიერ მოწოდებული კოდეკის შესაძლებლობების გადაფარვა</string>
+    <string name="dolby_vision_with_el">\'Dolby Vision\' EL-ით</string>
+    <string name="preference_enable_ass">ASS სუბტიტრების პირდაპირი დაკვრა</string>
+    <string name="preference_enable_pgs_description">სჭირდება ტრანსკოდინგი, როცა გამორთულია</string>
+    <string name="msg_playback_incompatible">ამ ვიდეოფორმატის დაკვრა შეუძლებელია</string>
+    <string name="msg_cannot_play">ამ ელემენტის დაკვრა შეუძლებელია</string>
+    <string name="lbl_similar_items_library">მსგავსი ელემენტები თქვენს ბიბლიოთეკაში</string>
 </resources>

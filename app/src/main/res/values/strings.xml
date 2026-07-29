@@ -135,6 +135,8 @@
     <string name="lbl_from">from</string>
     <string name="lbl_name">Name</string>
     <string name="lbl_date_added">Date added</string>
+    <string name="lbl_date_show_added">Date show added</string>
+    <string name="lbl_date_episode_added">Date episode added</string>
     <string name="lbl_premier_date">Premier date</string>
     <string name="lbl_critic_rating">Critic rating</string>
     <string name="lbl_community_rating">Community rating</string>
@@ -508,7 +510,7 @@
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -667,4 +669,7 @@
     <string name="photo_player">Photo player</string>
     <string name="photo_display_duration">Photo display duration</string>
     <string name="photo_display_duration_description">How long to wait before showing the next photo</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
