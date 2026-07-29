@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.settings.screen.customization
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
@@ -13,6 +14,7 @@ import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -37,7 +39,8 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.pref_app_theme)) },
 				captionContent = { Text(stringResource(appTheme.nameRes)) },
-				onClick = { router.push(Routes.CUSTOMIZATION_THEME) }
+				onClick = { router.push(Routes.CUSTOMIZATION_THEME) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_THEME)
 			)
 		}
 
@@ -47,7 +50,8 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.pref_clock_display)) },
 				captionContent = { Text(stringResource(clockBehavior.nameRes)) },
-				onClick = { router.push(Routes.CUSTOMIZATION_CLOCK) }
+				onClick = { router.push(Routes.CUSTOMIZATION_CLOCK) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_CLOCK)
 			)
 		}
 
@@ -57,7 +61,8 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.pref_watched_indicator)) },
 				captionContent = { Text(stringResource(watchedIndicatorBehavior.nameRes)) },
-				onClick = { router.push(Routes.CUSTOMIZATION_WATCHED_INDICATOR) }
+				onClick = { router.push(Routes.CUSTOMIZATION_WATCHED_INDICATOR) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_WATCHED_INDICATOR)
 			)
 		}
 
@@ -67,7 +72,8 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_show_backdrop)) },
 				captionContent = { Text(stringResource(backdropBehavior.nameRes)) },
-				onClick = { router.push(Routes.CUSTOMIZATION_BACKDROP) }
+				onClick = { router.push(Routes.CUSTOMIZATION_BACKDROP) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_BACKDROP)
 			)
 		}
 
@@ -78,7 +84,8 @@ fun SettingsCustomizationScreen() {
 				headingContent = { Text(stringResource(R.string.lbl_use_series_thumbnails)) },
 				trailingContent = { Checkbox(checked = seriesThumbnailsEnabled) },
 				captionContent = { Text(stringResource(R.string.lbl_use_series_thumbnails_description)) },
-				onClick = { seriesThumbnailsEnabled = !seriesThumbnailsEnabled }
+				onClick = { seriesThumbnailsEnabled = !seriesThumbnailsEnabled },
+				modifier = Modifier.focusKey("series_thumbnails_enabled")
 			)
 		}
 
@@ -88,7 +95,8 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_grid), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_libraries)) },
-				onClick = { router.push(Routes.LIBRARIES) }
+				onClick = { router.push(Routes.LIBRARIES) },
+				modifier = Modifier.focusKey(Routes.LIBRARIES)
 			)
 		}
 
@@ -96,7 +104,8 @@ fun SettingsCustomizationScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_house), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.home_prefs)) },
-				onClick = { router.push(Routes.HOME) }
+				onClick = { router.push(Routes.HOME) },
+				modifier = Modifier.focusKey(Routes.HOME)
 			)
 		}
 	}

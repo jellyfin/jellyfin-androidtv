@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
@@ -20,6 +21,7 @@ import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -71,7 +73,8 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 						UserSelectBehavior.SPECIFIC_USER -> Text(autoLoginUser?.name ?: stringResource(R.string.loading))
 					}
 				},
-				onClick = { router.push(Routes.AUTHENTICATION_AUTO_SIGN_IN) }
+				onClick = { router.push(Routes.AUTHENTICATION_AUTO_SIGN_IN) },
+				modifier = Modifier.focusKey(Routes.AUTHENTICATION_AUTO_SIGN_IN)
 			)
 		}
 
@@ -80,7 +83,8 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.sort_accounts_by)) },
 				captionContent = { Text(stringResource(sortBy.nameRes)) },
-				onClick = { router.push(Routes.AUTHENTICATION_SORT_BY) }
+				onClick = { router.push(Routes.AUTHENTICATION_SORT_BY) },
+				modifier = Modifier.focusKey(Routes.AUTHENTICATION_SORT_BY)
 			)
 		}
 
@@ -99,7 +103,8 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 								"serverId" to server.id.toString(),
 							),
 						)
-					}
+					},
+					modifier = Modifier.focusKey("server_${server.id}")
 				)
 			}
 		}
@@ -115,7 +120,8 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 					headingContent = { Text(stringResource(R.string.always_authenticate)) },
 					trailingContent = { Checkbox(checked = alwaysAuthenticate) },
 					captionContent = { Text(stringResource(R.string.always_authenticate_description)) },
-					onClick = { alwaysAuthenticate = !alwaysAuthenticate }
+					onClick = { alwaysAuthenticate = !alwaysAuthenticate },
+					modifier = Modifier.focusKey("always_authenticate")
 				)
 			}
 		}
@@ -124,7 +130,8 @@ fun SettingsAuthenticationScreen(launchedFromLogin: Boolean = false) {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_jellyfin), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.pref_about_title)) },
-				onClick = { router.push(Routes.ABOUT, mapOf("fromLogin" to "true")) }
+				onClick = { router.push(Routes.ABOUT, mapOf("fromLogin" to "true")) },
+				modifier = Modifier.focusKey(Routes.ABOUT)
 			)
 		}
 	}

@@ -26,6 +26,10 @@ class NotificationsRepositoryImpl(
 ) : NotificationsRepository {
 	override val notifications = MutableStateFlow(emptyList<AppNotification>())
 
+	init {
+		addDefaultNotifications()
+	}
+
 	override fun dismissNotification(item: AppNotification) {
 		notifications.value = notifications.value.filter { it != item }
 		item.dismiss()

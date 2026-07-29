@@ -663,4 +663,5 @@
     <string name="playback_info">Інфармацыя пра прайграванне</string>
     <string name="playback_info_channels">Каналы: %1$d</string>
     <string name="playback_info_video_range">Дыяпазон відэа: %1$s</string>
+    <string name="preference_enable_ass_description">Эксперыментальная функцыя, можа працаваць ненадзейна</string>
 </resources>

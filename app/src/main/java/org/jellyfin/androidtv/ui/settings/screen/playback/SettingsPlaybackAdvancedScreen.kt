@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsAsyncActionListButton
@@ -67,7 +68,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_resume_preroll)) },
 				captionContent = { Text(options[resumeSubtractDuration].orEmpty()) },
-				onClick = { router.push(Routes.PLAYBACK_RESUME_SUBTRACT_DURATION) }
+				onClick = { router.push(Routes.PLAYBACK_RESUME_SUBTRACT_DURATION) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_RESUME_SUBTRACT_DURATION)
 			)
 		}
 
@@ -78,6 +80,7 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListControl(
 				headingContent = { Text(stringResource(R.string.skip_forward_length)) },
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("skip_forward_length")
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
@@ -114,6 +117,7 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.playback_buffer_length)) },
 				captionContent = { Text(stringResource(bufferLength.nameRes)) },
 				onClick = { router.push(Routes.PLAYBACK_BUFFER_LENGTH) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_BUFFER_LENGTH)
 			)
 		}
 
@@ -126,7 +130,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.pref_max_bitrate_title)) },
 				captionContent = { Text(options[maxBitrate].orEmpty()) },
-				onClick = { router.push(Routes.PLAYBACK_MAX_BITRATE) }
+				onClick = { router.push(Routes.PLAYBACK_MAX_BITRATE) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_MAX_BITRATE)
 			)
 		}
 
@@ -136,7 +141,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_refresh_switching)) },
 				captionContent = { Text(stringResource(refreshRateSwitchingBehavior.nameRes)) },
-				onClick = { router.push(Routes.PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR) }
+				onClick = { router.push(Routes.PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR)
 			)
 		}
 
@@ -147,6 +153,7 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListControl(
 				headingContent = { Text(stringResource(R.string.video_start_delay)) },
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("video_start_delay")
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
@@ -183,7 +190,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.default_video_zoom)) },
 				captionContent = { Text(stringResource(playerZoomMode.nameRes)) },
-				onClick = { router.push(Routes.PLAYBACK_ZOOM_MODE) }
+				onClick = { router.push(Routes.PLAYBACK_ZOOM_MODE) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_ZOOM_MODE)
 			)
 		}
 
@@ -191,7 +199,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.preference_codecs)) },
 				captionContent = { Text(stringResource(R.string.preference_codecs_summary)) },
-				onClick = { router.push(Routes.PLAYBACK_CODEC) }
+				onClick = { router.push(Routes.PLAYBACK_CODEC) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_CODEC)
 			)
 		}
 
@@ -204,7 +213,8 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.preference_enable_pgs)) },
 				captionContent = { Text(stringResource(R.string.preference_enable_pgs_description)) },
 				trailingContent = { Checkbox(checked = pgsDirectPlay) },
-				onClick = { pgsDirectPlay = !pgsDirectPlay }
+				onClick = { pgsDirectPlay = !pgsDirectPlay },
+				modifier = Modifier.focusKey("pgs_direct_play")
 			)
 		}
 
@@ -215,7 +225,8 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.preference_enable_ass)) },
 				captionContent = { Text(stringResource(R.string.preference_enable_ass_description)) },
 				trailingContent = { Checkbox(checked = assDirectPlay) },
-				onClick = { assDirectPlay = !assDirectPlay }
+				onClick = { assDirectPlay = !assDirectPlay },
+				modifier = Modifier.focusKey("ass_direct_play")
 			)
 		}
 
@@ -226,7 +237,8 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.pref_burn_subtitles_when_transcoding)) },
 				captionContent = { Text(stringResource(R.string.pref_burn_subtitles_when_transcoding_description)) },
 				trailingContent = { Checkbox(checked = subtitlesBurnDuringTranscode) },
-				onClick = { subtitlesBurnDuringTranscode = !subtitlesBurnDuringTranscode }
+				onClick = { subtitlesBurnDuringTranscode = !subtitlesBurnDuringTranscode },
+				modifier = Modifier.focusKey("subtitles_burn_during_transcode")
 			)
 		}
 
@@ -238,7 +250,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_direct_stream_live)) },
 				trailingContent = { Checkbox(checked = liveTvDirectPlayEnabled) },
-				onClick = { liveTvDirectPlayEnabled = !liveTvDirectPlayEnabled }
+				onClick = { liveTvDirectPlayEnabled = !liveTvDirectPlayEnabled },
+				modifier = Modifier.focusKey("live_tv_direct_play_enabled")
 			)
 		}
 
@@ -250,7 +263,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_audio_output)) },
 				captionContent = { Text(stringResource(audioBehaviour.nameRes)) },
-				onClick = { router.push(Routes.PLAYBACK_AUDIO_BEHAVIOR) }
+				onClick = { router.push(Routes.PLAYBACK_AUDIO_BEHAVIOR) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_AUDIO_BEHAVIOR)
 			)
 		}
 
@@ -260,7 +274,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.pref_audio_night_mode)) },
 				trailingContent = { Checkbox(checked = audioNightMode) },
-				onClick = { audioNightMode = !audioNightMode }
+				onClick = { audioNightMode = !audioNightMode },
+				modifier = Modifier.focusKey("audio_night_mode")
 			)
 		}
 
@@ -270,7 +285,8 @@ fun SettingsPlaybackAdvancedScreen() {
 				headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },
 				trailingContent = { Checkbox(checked = preferExoPlayerFfmpeg) },
 				captionContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg_content)) },
-				onClick = { preferExoPlayerFfmpeg = !preferExoPlayerFfmpeg }
+				onClick = { preferExoPlayerFfmpeg = !preferExoPlayerFfmpeg },
+				modifier = Modifier.focusKey("prefer_exoplayer_ffmpeg")
 			)
 		}
 
@@ -299,6 +315,7 @@ fun SettingsPlaybackAdvancedScreen() {
 				onFailure = {
 					Toast.makeText(context, R.string.pref_report_device_profile_failure, Toast.LENGTH_LONG).show()
 				},
+				modifier = Modifier.focusKey("report_device_profile")
 			)
 		}
 	}

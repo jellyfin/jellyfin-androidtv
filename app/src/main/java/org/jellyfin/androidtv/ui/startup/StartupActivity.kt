@@ -12,8 +12,11 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.work.WorkManager
+import androidx.work.await
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -23,12 +26,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.databinding.ActivityStartupBinding
+import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -63,6 +67,8 @@ class StartupActivity : FragmentActivity() {
 	private val userRepository: UserRepository by inject()
 	private val navigationRepository: NavigationRepository by inject()
 	private val itemLauncher: ItemLauncher by inject()
+	private val workManager: WorkManager by inject()
+	private val socketListener: SocketHandler by inject()
 
 	private lateinit var binding: ActivityStartupBinding
 
@@ -138,13 +144,24 @@ class StartupActivity : FragmentActivity() {
 
 		Timber.i("Determining next activity (action=${intent.action}, itemId=$itemId, itemIsUserView=$itemIsUserView)")
 
-		// Start session
-		(application as? JellyfinApplication)?.onSessionStart()
+		// Update background worker
+		with(ProcessLifecycleOwner.get().lifecycleScope) {
+			launch {
+				// Cancel all current workers
+				workManager.cancelAllWork().await()
+
+				// Recreate periodic workers
+				LeanbackChannelWorker.enqueue(workManager)
+			}
+
+			// Update WebSockets
+			launch { socketListener.updateSession() }
+		}
 
 		// Create destination
 		val destination = when {
 			// Search is requested
-			intent.action === Intent.ACTION_SEARCH -> Destinations.search(
+			intent.action == Intent.ACTION_SEARCH -> Destinations.search(
 				query = intent.getStringExtra(SearchManager.QUERY)
 			)
 			// User view item is requested

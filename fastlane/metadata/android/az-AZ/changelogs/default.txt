@@ -1,0 +1,3 @@
+Thank you for using Jellyfin on Android TV! Using the latest released Jellyfin Server is always recommended.
+
+Daha çox məlumat üçün jellyfin.org saytındakı bloqumuzu izləyə və ya GitHub-da tam dəyişikliklər siyahısını (changelog) oxuya bilərsiniz.

@@ -548,7 +548,7 @@
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="indicator_subtitles">CC</string>
     <plurals name="albums">
-        <item quantity="other">%1$s albums</item>
+        <item quantity="other">%1$s album</item>
     </plurals>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
