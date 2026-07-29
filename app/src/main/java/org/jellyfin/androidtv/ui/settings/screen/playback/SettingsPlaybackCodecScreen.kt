@@ -96,7 +96,7 @@ fun SettingsPlaybackCodecScreen() {
 			)
 		}
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+		if (AndroidVersion.isAtLeastQ) {
 			item {
 				var softwareCodecsEnabled by rememberPreference(userPreferences, UserPreferences.softwareCodecsEnabled)
 
