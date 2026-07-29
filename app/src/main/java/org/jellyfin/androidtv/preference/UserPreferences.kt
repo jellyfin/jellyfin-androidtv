@@ -263,7 +263,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Stores the interval for the photo player.
 		 */
-		val photoPlayerPresentationDelay = longPreference("photo_player_presentation_delay", 8000)
+		var photoPlayerPresentationDelay = longPreference("photo_player_presentation_delay", 8000)
 	}
 
 	init {
