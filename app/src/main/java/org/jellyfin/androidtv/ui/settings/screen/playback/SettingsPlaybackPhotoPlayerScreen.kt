@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RangeControl
 import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.jellyfin.design.Tokens
@@ -46,6 +47,7 @@ fun SettingsPlaybackPhotoPlayerScreen() {
 				headingContent = { Text(stringResource(R.string.photo_display_duration)) },
 				captionContent = { Text(stringResource(R.string.photo_display_duration_description)) },
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("photo_display_duration")
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,

@@ -69,7 +69,8 @@ fun SettingsPlaybackScreen() {
 			ListButton(
 				leadingContent = { Icon(painterResource(R.drawable.ic_photo), contentDescription = null) },
 				headingContent = { Text(stringResource(R.string.photo_player)) },
-				onClick = { router.push(Routes.PLAYBACK_PHOTO_PLAYER) }
+				onClick = { router.push(Routes.PLAYBACK_PHOTO_PLAYER) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_PHOTO_PLAYER)
 			)
 		}
 
