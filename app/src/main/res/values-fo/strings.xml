@@ -382,4 +382,7 @@
     <string name="msg_item_added">" miðil innlagdur"</string>
     <string name="lbl_bitstream_ac3">Bitstroym Dolby Digital-ljóð</string>
     <string name="lbl_song_title">Sangheiti</string>
+    <string name="lbl_hd_programs">HD-sendingar</string>
+    <string name="msg_live_tv_next">Innles næstu %1$d tímarnar?</string>
+    <string name="msg_live_tv_prev">Innles undanfarnu %1$d tímarnar?</string>
 </resources>
