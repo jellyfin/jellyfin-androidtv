@@ -375,4 +375,11 @@
     <string name="video_player_internal">Innbygdur video-spælari</string>
     <string name="lbl_seasons">Sesongir</string>
     <string name="lbl_season_number">S%1$d</string>
+    <string name="video_error_unknown_error">Miseydnaðist at innlesa video</string>
+    <string name="lbl_bracket_unknown">Ókendur</string>
+    <string name="lbl_programs">Sendingar</string>
+    <string name="lbl_next_item">Næsti miðil</string>
+    <string name="msg_item_added">" miðil innlagdur"</string>
+    <string name="lbl_bitstream_ac3">Bitstroym Dolby Digital-ljóð</string>
+    <string name="lbl_song_title">Sangheiti</string>
 </resources>
