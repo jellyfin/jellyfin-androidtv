@@ -385,4 +385,5 @@
     <string name="lbl_hd_programs">HD-sendingar</string>
     <string name="msg_live_tv_next">Innles næstu %1$d tímarnar?</string>
     <string name="msg_live_tv_prev">Innles undanfarnu %1$d tímarnar?</string>
+    <string name="lbl_playback_control_ends">Endar kl. %1$s</string>
 </resources>
