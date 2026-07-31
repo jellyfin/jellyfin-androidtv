@@ -58,7 +58,7 @@
     <string name="lbl_remove_favorite">Strika av yndislista</string>
     <string name="lbl_now_playing_track">%1$s av %2$s</string>
     <string name="lbl_now_playing_album">av %1$s</string>
-    <string name="lbl_unwatched">Ikki sæð</string>
+    <string name="lbl_unwatched">Ósæddur</string>
     <string name="lbl_load_channels">"Innles rásir "</string>
     <string name="lbl_today">Í dag</string>
     <string name="lbl_tomorrow">Í morgin</string>
@@ -397,4 +397,7 @@
     <string name="lbl_next_up">Næst á skránni</string>
     <string name="home_section_next_up">Næst á skránni</string>
     <string name="lbl_upcoming">Komandi</string>
+    <string name="lbl_watched">Sæddur</string>
+    <string name="mark_watched">Merk sæddan</string>
+    <string name="home_section_resume">Hald áfram at hyggja</string>
 </resources>
