@@ -388,10 +388,13 @@
     <string name="lbl_playback_control_ends">Endar kl. %1$s</string>
     <string name="turn_off">Sløkk hesa stillingina</string>
     <string name="just_one">Einans hendan partin</string>
-    <string name="player_error">Spælaravilla kom fyri. Roynir aftur…</string>
+    <string name="player_error">Spælivilla kom fyri. Roynir aftur…</string>
     <string name="lbl_hide_unwatched_count">Tá miðilin er sæddur</string>
     <string name="always_authenticate_description">Er hetta virkt verður sjálvvirkandi innritan óvirkt</string>
     <string name="pref_direct_stream_live_off">Um neyðugt verður umkoting framd</string>
     <string name="unreleased">Ikki útgivin enn</string>
     <string name="auto">Sjálvvirkandi</string>
+    <string name="lbl_next_up">Næst á skránni</string>
+    <string name="home_section_next_up">Næst á skránni</string>
+    <string name="lbl_upcoming">Komandi</string>
 </resources>
