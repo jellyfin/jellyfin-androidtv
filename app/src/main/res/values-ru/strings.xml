@@ -679,4 +679,14 @@
     <string name="playback_buffer_extra_large">Очень большой</string>
     <string name="pref_burn_subtitles_when_transcoding">Вшивать субтитры при перекодировании</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Всегда вшивать субтитры в видео при перекодировании. Это может помочь исправить проблемы с синхронизацией субтитров, но отключит стилизацию субтитров.</string>
+    <string name="lbl_date_show_added">Дата добавления сериала</string>
+    <string name="lbl_date_episode_added">Дата добавления эпизода</string>
+    <string name="preference_enable_ass">Прямое воспроизведение ASS-субтитров</string>
+    <string name="preference_enable_pgs_description">Требует перекодирования когда выключено</string>
+    <string name="preference_enable_ass_description">Экспериментальная функция, может работать нестабильно</string>
+    <string name="pref_software_codecs_enabled">Использовать программные кодеки</string>
+    <string name="pref_software_codecs_enabled_description">Некоторые программные кодеки могут ухудшить производительность. Отключение этой опции повышает вероятность перекодирования.</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
