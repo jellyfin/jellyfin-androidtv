@@ -400,4 +400,5 @@
     <string name="lbl_watched">Sæddur</string>
     <string name="mark_watched">Merk sæddan</string>
     <string name="home_section_resume">Hald áfram at hyggja</string>
+    <string name="msg_items_added">" miðlar innlagdir"</string>
 </resources>
