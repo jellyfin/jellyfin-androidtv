@@ -371,11 +371,11 @@
     <string name="pref_direct_stream_live_on">Umkoting er óvirkt</string>
     <string name="action_use_quickconnect">Nýt Quick Connect</string>
     <string name="dolby_vision_with_el">Dolby Vision við EL</string>
-    <string name="playback_video_player">Video-spælari</string>
-    <string name="video_player_internal">Innbygdur video-spælari</string>
+    <string name="playback_video_player">Kykmyndaspælari</string>
+    <string name="video_player_internal">Innbygdur kykmyndaspælari</string>
     <string name="lbl_seasons">Sesongir</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="video_error_unknown_error">Miseydnaðist at innlesa video</string>
+    <string name="video_error_unknown_error">Miseydnaðist at innlesa kykmynd</string>
     <string name="lbl_bracket_unknown">Ókendur</string>
     <string name="lbl_programs">Sendingar</string>
     <string name="lbl_next_item">Næsti miðil</string>
@@ -401,4 +401,8 @@
     <string name="mark_watched">Merk sæddan</string>
     <string name="home_section_resume">Hald áfram at hyggja</string>
     <string name="msg_items_added">" miðlar innlagdir"</string>
+    <string name="lbl_videos">Kykmyndir</string>
+    <string name="playback_info_video_title">Kykmynd</string>
+    <string name="pref_video">Kykmyndir</string>
+    <string name="msg_video_playback_error">"Kykmyndaspælivilla - "</string>
 </resources>
