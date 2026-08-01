@@ -79,11 +79,11 @@
     <string name="lbl_no_recordings">Ongar upptøkur eru tøkar</string>
     <string name="lbl_recorded_tv">Upptikið sjónvarp</string>
     <string name="pref_live_tv_cat">Beinleiðis sjónvarp</string>
-    <string name="lbl_albums">Útgávur</string>
+    <string name="lbl_albums">Plátuútgávur</string>
     <string name="lbl_artists">Tónlistafólk</string>
     <string name="lbl_song">Sangur</string>
     <string name="lbl_songs">Sangir</string>
-    <string name="lbl_album">Útgáva</string>
+    <string name="lbl_album">Plátuútgáva</string>
     <string name="lbl_episodes">Partar</string>
     <string name="lbl_enable_cinema_mode">Biografstøða</string>
     <string name="sum_enable_cinema_mode">Spæl tøkar forfilmar og undansýningarfilmar áðrenn ein filmur byrjar</string>
