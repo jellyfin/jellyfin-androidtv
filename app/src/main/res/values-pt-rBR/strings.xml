@@ -675,4 +675,7 @@
     <string name="playback_buffer_length">Tamanho do buffer do playback</string>
     <string name="lbl_date_show_added">Adicionado recentemente</string>
     <string name="lbl_date_episode_added">Adicionado em</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
