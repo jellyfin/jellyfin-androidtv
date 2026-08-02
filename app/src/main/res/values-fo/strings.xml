@@ -406,4 +406,6 @@
     <string name="pref_video">Kykmyndir</string>
     <string name="msg_video_playback_error">"Kykmyndaspælivilla - "</string>
     <string name="segment_type_unknown">Ókend brot</string>
+    <string name="pref_playback_media_segments">Margmiðlabrot</string>
+    <string name="segment_type_preview">Undansýningar</string>
 </resources>
