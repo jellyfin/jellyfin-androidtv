@@ -408,4 +408,19 @@
     <string name="segment_type_unknown">Ókend brot</string>
     <string name="pref_playback_media_segments">Margmiðlabrot</string>
     <string name="segment_type_preview">Undansýningar</string>
+    <string name="pref_mediasegment_actions">Margmiðlabrotsatgerðir</string>
+    <string name="msg_playback_incompatible">Fær ikki spælt hetta kykmyndasniðið</string>
+    <string name="episode_missing_message_2">Hesin parturin vantar í tínum savni. Spælingin steðgar.</string>
+    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Hendan stillingin tørvar at eina triðjapartsapp at spæla kykmyndir.</string>
+    <string name="pref_playback_description">Kykmyndir, undirtekstir, beinleiðis sjónvarp, næst á skránni</string>
+    <string name="login_quickconnect_step_1">1. Lat upp Jellyfin-appina á tíni telefon ella vevkaga og rita inn við tínum brúkara</string>
+    <string name="login_quickconnect_step_2">2. Lat upp brúkaravalmyndina og vel Quick Connect</string>
+    <string name="app_notification_uimode_invalid">Hendan appin er albøtt til og ætlað sjónvørpum. Vit viðmæla at brúka far-app okkara á øðrum eindum.</string>
+    <string name="clear_image_cache">Tøm myndakova</string>
+    <string name="speech_error_unavailable">Taluafturkenning er ikki møguligt á hesi eindini.</string>
+    <string name="speech_error_unknown">Ein óvæntað villa kom fyri undir taluafturkenningini.</string>
+    <string name="pref_playback_next_up">Næst á skránni</string>
+    <string name="subtitle_preview_text">Undirtekstir koma at síggja soleiðis út</string>
+    <string name="preference_enable_ass_description">Royndarfunka ið kann vera óálítandi</string>
+    <string name="preference_enable_pgs_description">Um óvirkt er umkoting neyðug</string>
 </resources>
