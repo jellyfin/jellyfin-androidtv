@@ -411,7 +411,7 @@
     <string name="pref_mediasegment_actions">Margmiðlabrotsatgerðir</string>
     <string name="msg_playback_incompatible">Fær ikki spælt hetta kykmyndasniðið</string>
     <string name="episode_missing_message_2">Hesin parturin vantar í tínum savni. Spælingin steðgar.</string>
-    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Hendan stillingin tørvar at eina triðjapartsapp at spæla kykmyndir.</string>
+    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Hendan stillingin tørvar eina triðjapartsapp at spæla kykmyndir.</string>
     <string name="pref_playback_description">Kykmyndir, undirtekstir, beinleiðis sjónvarp, næst á skránni</string>
     <string name="login_quickconnect_step_1">1. Lat upp Jellyfin-appina á tíni telefon ella vevkaga og rita inn við tínum brúkara</string>
     <string name="login_quickconnect_step_2">2. Lat upp brúkaravalmyndina og vel Quick Connect</string>
