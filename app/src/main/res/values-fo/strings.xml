@@ -405,4 +405,5 @@
     <string name="playback_info_video_title">Kykmynd</string>
     <string name="pref_video">Kykmyndir</string>
     <string name="msg_video_playback_error">"Kykmyndaspælivilla - "</string>
+    <string name="segment_type_unknown">Ókend brot</string>
 </resources>
