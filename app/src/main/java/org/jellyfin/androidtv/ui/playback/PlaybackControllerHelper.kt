@@ -56,18 +56,28 @@ fun PlaybackController.disableDefaultSubtitles() {
 fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	Timber.i("Switching subtitles from index ${mCurrentOptions.subtitleStreamIndex} to $index")
 
-	// Already using this subtitle index
-	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
-
 	// Save subtitle language preference for restoration after NextUp screen
 	val videoQueueManager by fragment.inject<VideoQueueManager>()
 	if (index == -1) {
 		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
+		videoQueueManager.setLastPlayedSubtitleCodec(null)
+		videoQueueManager.setLastPlayedSubtitleDefaultState(false)
+		videoQueueManager.setLastPlayedSubtitleForcedState(false)
+		videoQueueManager.setLastPlayedSubtitleHearingImpairedState(false)
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
+		videoQueueManager.setLastPlayedSubtitleTitle(null)
 	} else {
 		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
+		videoQueueManager.setLastPlayedSubtitleCodec(stream?.codec)
+		videoQueueManager.setLastPlayedSubtitleDefaultState(stream?.isDefault ?: false)
+		videoQueueManager.setLastPlayedSubtitleForcedState(stream?.isForced ?: false)
+		videoQueueManager.setLastPlayedSubtitleHearingImpairedState(stream?.isHearingImpaired ?: false)
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+		videoQueueManager.setLastPlayedSubtitleTitle(stream?.title)
 	}
+
+	// Already using this subtitle index
+	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
 
 	// Disable subtitles
 	if (index == -1) {
@@ -117,7 +127,7 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 					mVideoManager.mExoPlayer.currentTracks.groups.firstOrNull { group ->
 						// Verify this is a group with a single format (the subtitles) that is added by us. Because ExoPlayer uses a
 						// MergingMediaSource, each external subtitle format id is prefixed with its source index (normally starting at 1,
-						// increasing for each external subttitle). So we only check the end of the id
+						// increasing for each external subtitle). So we only check the end of the id
 						group.length == 1 && group.getTrackFormat(0).id?.endsWith(":JF_EXTERNAL:$index") == true
 					}
 				} else {

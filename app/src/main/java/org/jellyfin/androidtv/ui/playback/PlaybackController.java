@@ -50,6 +50,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -204,7 +205,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             } else {
                 // Prefer the media source with the same id as the item
                 for (MediaSourceInfo mediaSource : mediaSources) {
-                    if (item.getId().equals(UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()))) {
+                    if (mediaSource.getId() != null && item.getId().equals(UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()))) {
                         return mediaSource;
                     }
                 }
@@ -496,7 +497,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, forcedAudioLanguage, item);
+                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item);
 
                 playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -514,7 +515,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     @NonNull
     private VideoOptions buildExoPlayerOptions(
             @Nullable Integer forcedSubtitleIndex,
-            @Nullable String forcedAudioLanguage,
             BaseItemDto item) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
@@ -522,24 +522,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setAlwaysBurnInSubtitleWhenTranscoding(userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode()));
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
-        if (mCurrentOptions != null) {
-            internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
-            internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
-        }
+        MediaSourceInfo currentMediaSource = getCurrentMediaSource();
         if (forcedSubtitleIndex != null) {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
+        }else{
+            internalOptions.setSubtitleStreamIndex(getBestSubtitleIndex(currentMediaSource));
         }
-        MediaSourceInfo currentMediaSource = getCurrentMediaSource();
-        if (forcedAudioLanguage != null) {
-            // find the first audio stream with the requested language
-            for (MediaStream stream : currentMediaSource.getMediaStreams()) {
-                if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
-                    internalOptions.setAudioStreamIndex(stream.getIndex());
-                    break;
-                }
-            }
-        }
-        if (!isLiveTv && currentMediaSource != null) {
+        internalOptions.setAudioStreamIndex(getBestAudioIndex(currentMediaSource));
+        if (!isLiveTv) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
         DeviceProfile internalProfile = DeviceProfileKt.createDeviceProfile(
@@ -625,6 +615,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
+        Timber.d("reset audio stream index to null");
         mCurrentOptions.setAudioStreamIndex(null); // reset audio stream index to allow auto selection on new item
 
         mStartPosition = position;
@@ -643,30 +634,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info - prefer saved language preference over server default
-        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
-        if (lastSubtitleLanguage != null) {
-            if (lastSubtitleLanguage.isEmpty()) {
-                // User explicitly disabled subtitles
-                mCurrentOptions.setSubtitleStreamIndex(null);
-            } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Find subtitle stream matching saved language
-                Integer matchingIndex = null;
-                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        matchingIndex = stream.getIndex();
-                        break;
-                    }
-                }
-                mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
-            }
-        } else {
-            // No saved preference, use server default
-            mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
-        }
         setDefaultAudioIndex(response);
+        int bSubIndex = getBestSubtitleIndex(response.getMediaSource());
+        var mSubIndex = mCurrentOptions.getSubtitleStreamIndex();
+        PlaybackControllerHelperKt.setSubtitleIndex(this, bSubIndex, (mSubIndex == null || !Objects.equals(mSubIndex, bSubIndex)));
         Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
-        Timber.i("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
+        Timber.i("default sub index set to %s remote default %s", mSubIndex, response.getMediaSource().getDefaultSubtitleStreamIndex());
 
         Long mbPos = position * 10000;
 
@@ -736,52 +709,308 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private Integer bestGuessAudioTrack(MediaSourceInfo info) {
-        if (info == null)
-            return null;
-
-        boolean videoFound = false;
-        for (MediaStream track : info.getMediaStreams()) {
-            if (track.getType() == MediaStreamType.VIDEO) {
-                videoFound = true;
-            } else {
-                if (videoFound && track.getType() == MediaStreamType.AUDIO)
-                    return track.getIndex();
+        if (info != null && info.getMediaStreams() != null) {
+            for (MediaStream track : info.getMediaStreams()) {
+                    if (track.getType() == MediaStreamType.AUDIO)
+                        return track.getIndex();
             }
         }
         return null;
     }
 
-    private Integer lastChosenLanguageAudioTrack(MediaSourceInfo info) {
-        if (info == null)
-            return null;
+    private Integer getBestAudioIndex(MediaSourceInfo info) {
+        if (info != null && info.getMediaStreams() != null) {
+            String lastAudioLanguage = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
+            String lastAudioCodec = videoQueueManager.getValue().getLastPlayedAudioCodec();
+            List<MediaStream> allAudioStreams = info.getMediaStreams().stream().filter(stream -> stream.getType() == MediaStreamType.AUDIO).toList();
+            if ((allAudioStreams != null) && (lastAudioLanguage != null) && (lastAudioCodec != null)) {
+                // find the best matching audio stream
+                Boolean lastAudioDefaultState = videoQueueManager.getValue().getLastPlayedAudioDefaultState();
+                Boolean lastAudioHearingImpairedState = videoQueueManager.getValue().getLastPlayedAudioHearingImpairedState();
+                Integer matchingIndex = null;
 
-        boolean videoFound = false;
-        for (MediaStream track : info.getMediaStreams()) {
-            if (track.getType() == MediaStreamType.VIDEO) {
-                videoFound = true;
-            } else {
-                if (videoFound
-                    && track.getType() == MediaStreamType.AUDIO
-                    && (track.getLanguage() != null && track.getLanguage().equals(videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode()))
-                )
-                    return track.getIndex();
+                // find the exact audio stream with the requested language, codec & indicators
+                for (MediaStream stream : allAudioStreams) {
+                    if (lastAudioLanguage.equals(stream.getLanguage())
+                            && lastAudioCodec.equals(stream.getCodec())
+                            && lastAudioDefaultState.equals(stream.isDefault())
+                            && lastAudioHearingImpairedState.equals(stream.isHearingImpaired())
+                    ) {
+                        Timber.d("Best audio found ! (lang+all)");
+                        matchingIndex = stream.getIndex();
+                        break;
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #1: find the first audio stream with the requested language, codec and SDH indicator
+                    for (MediaStream stream : allAudioStreams) {
+                        if (lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                                && lastAudioHearingImpairedState.equals(stream.isHearingImpaired())
+                        ) {
+                            Timber.d("Best audio found on fallback #1 (lang+codec+SDH)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #2: find the first audio stream with the requested language and codec but with only 'default' indicator
+                    for (MediaStream stream : allAudioStreams) {
+                        if (lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                                && lastAudioDefaultState.equals(stream.isDefault())
+                        ) {
+                            Timber.d("Best audio found on fallback #2 (lang+codec+default)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #3: find the first audio stream with the requested language and codec
+                    for (MediaStream stream : allAudioStreams) {
+                        if (lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                        ) {
+                            Timber.d("Best audio found on fallback #3 (lang+codec)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #4: find the first audio stream with the requested language and SDH indicator
+                    for (MediaStream stream : allAudioStreams) {
+                        if (lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioDefaultState.equals(stream.isDefault())
+                                && lastAudioHearingImpairedState.equals(stream.isHearingImpaired())
+                        ) {
+                            Timber.d("Best audio found on fallback #4 (lang+default+SDH)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #5: find the first audio stream with the requested language and 'default' indicator
+                    for (MediaStream stream : allAudioStreams) {
+                        if (lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioDefaultState.equals(stream.isDefault())
+                        ) {
+                            Timber.d("Best audio found on fallback #5 (lang+default)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #6: find the first audio stream with the requested language (fallback to language only)
+                    for (MediaStream stream : allAudioStreams) {
+                        if (lastAudioLanguage.equals(stream.getLanguage())) {
+                            Timber.d("Best audio found on fallback #6 (lang only)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #7: if audio languages are different but other indicators match
+                    for (MediaStream stream : allAudioStreams) {
+                        if (!lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                                && lastAudioDefaultState.equals(stream.isDefault())
+                                && lastAudioHearingImpairedState.equals(stream.isHearingImpaired())
+                        ) {
+                            Timber.d("Best audio found on fallback #7 (!lang+all)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #8: if audio languages are different
+                    for (MediaStream stream : allAudioStreams) {
+                        if (!lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                                && lastAudioDefaultState.equals(stream.isDefault())
+                        ) {
+                            Timber.d("Best audio found on fallback #8 (!lang+codec+default)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #9: if audio languages are different
+                    for (MediaStream stream : allAudioStreams) {
+                        if (!lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                                && lastAudioHearingImpairedState.equals(stream.isHearingImpaired())
+                        ) {
+                            Timber.d("Best audio found on fallback #9 (!lang+codec+SDH)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                if (matchingIndex == null) {
+                    // fallback #10: if audio languages are different
+                    for (MediaStream stream : allAudioStreams) {
+                        if (!lastAudioLanguage.equals(stream.getLanguage())
+                                && lastAudioCodec.equals(stream.getCodec())
+                        ) {
+                            Timber.d("Best audio found on fallback #10 (!lang+codec)");
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                Timber.i("Best audio found on index: %d for media: '%s'", matchingIndex, info.getName());
+                return matchingIndex;
+            }
+            else {
+                Integer matchingIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
+                Timber.i("Best audio found on server with index: %d for media: '%s'", matchingIndex, info.getName());
+                return matchingIndex;
             }
         }
         return null;
+    }
+
+    public Integer getBestSubtitleIndex(MediaSourceInfo info) {
+        // get subtitle info - prefer saved language preference over server default
+        Integer matchingIndex = null;
+        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
+        if (lastSubtitleLanguage != null) {
+            if (lastSubtitleLanguage.isEmpty()) {
+                // User explicitly disabled subtitles
+                Timber.i("Best subtitle found on index: -1");
+                return -1;
+            } else if (info.getMediaStreams() != null) {
+                // find the best matching subtitle stream
+                String lastSubtitleCodec = videoQueueManager.getValue().getLastPlayedSubtitleCodec();
+                Boolean lastSubtitleDefaultState = videoQueueManager.getValue().getLastPlayedSubtitleDefaultState();
+                Boolean lastSubtitleForcedState = videoQueueManager.getValue().getLastPlayedSubtitleForcedState();
+                Boolean lastSubtitleHearingImpairedState = videoQueueManager.getValue().getLastPlayedSubtitleHearingImpairedState();
+                String lastSubtitleTitle = videoQueueManager.getValue().getLastPlayedSubtitleTitle();
+                List<MediaStream> allSubtitleStreams = info.getMediaStreams().stream().filter(s -> s.getType() == MediaStreamType.SUBTITLE).toList();
+                if ((allSubtitleStreams != null) && (lastSubtitleCodec != null)) {
+                    // find the exact subtitle stream with the requested language, title, codec & indicators
+                    if (lastSubtitleTitle != null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleDefaultState.equals(stream.isDefault())
+                                    && lastSubtitleForcedState.equals(stream.isForced())
+                                    && lastSubtitleCodec.equals(stream.getCodec())
+                                    && lastSubtitleHearingImpairedState.equals(stream.isHearingImpaired())
+                                    && lastSubtitleTitle.equals(stream.getTitle())
+                            ) {
+                                Timber.d("Best subtitle found ! (lang+all)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                    // fallback #1: find the first subtitle stream with the requested language, codec and indicators but without title
+                    if (matchingIndex == null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleDefaultState.equals(stream.isDefault())
+                                    && lastSubtitleForcedState.equals(stream.isForced())
+                                    && lastSubtitleCodec.equals(stream.getCodec())
+                                    && lastSubtitleHearingImpairedState.equals(stream.isHearingImpaired())
+                            ) {
+                                Timber.d("Best subtitle found on fallback #1 (lang+codec+default+forced+SDH)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                    // fallback #2: find the first subtitle stream with the requested language, codec and indicators but without title and SDH
+                    if (matchingIndex == null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleDefaultState.equals(stream.isDefault())
+                                    && lastSubtitleForcedState.equals(stream.isForced())
+                                    && lastSubtitleCodec.equals(stream.getCodec())
+                            ) {
+                                Timber.d("Best subtitle found on fallback #2 (lang+codec+default+forced)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                    // fallback #3: find the first subtitle stream with the requested language and standard indicators but without title, codec and SDH
+                    // without codec, the first default forced
+                    if (matchingIndex == null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleDefaultState.equals(stream.isDefault())
+                                    && lastSubtitleForcedState.equals(stream.isForced())
+                            ) {
+                                Timber.d("Best subtitle found on fallback #3 (lang+default+forced)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                    if (matchingIndex == null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleDefaultState.equals(stream.isDefault())
+                                    && lastSubtitleCodec.equals(stream.getCodec())
+                            ) {
+                                Timber.d("Best subtitle found on fallback #4 (lang+codec+default)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                    // without codec, the first forced
+                    if (matchingIndex == null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleForcedState.equals(stream.isForced())
+                            ) {
+                                Timber.d("Best subtitle found on fallback #5 (lang+forced)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                    if (matchingIndex == null) {
+                        for (MediaStream stream : allSubtitleStreams) {
+                            if (lastSubtitleLanguage.equals(stream.getLanguage())
+                                    && lastSubtitleCodec.equals(stream.getCodec())
+                            ) {
+                                Timber.d("Best subtitle found on fallback #6 (lang+codec)");
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                } else { Timber.d("Best subtitle not found: no subtitle stream"); }
+            } else { Timber.d("Best subtitle not found: no stream"); }
+        }else { Timber.d("Best subtitle: lastsubtitlelanguage is null"); }
+        // No saved preference, use server default
+        if (matchingIndex == null) {
+            Timber.d("Best subtitle found on server side");
+            matchingIndex = info.getDefaultSubtitleStreamIndex();
+        }
+        Timber.i("Best subtitle found on index: %d for media: '%s'", matchingIndex, info.getName());
+        return matchingIndex;
     }
 
     private void setDefaultAudioIndex(StreamInfo info) {
         if (mDefaultAudioIndex != -1)
             return;
 
-        Integer lastChosenLanguage = lastChosenLanguageAudioTrack(info.getMediaSource());
-        Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
+        Integer lastChosenLanguage = getBestAudioIndex(info.getMediaSource());
         Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
 
         if (lastChosenLanguage != null)
             mDefaultAudioIndex = lastChosenLanguage;
-        else if (remoteDefault != null)
-            mDefaultAudioIndex = remoteDefault;
         else if (bestGuess != null)
             mDefaultAudioIndex = bestGuess;
         Timber.d("default audio index set to %s", mDefaultAudioIndex);
@@ -798,14 +1027,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
-        String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
-
-        if (currentAudioIsoCode != null
-                && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
-            videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
-                    currentAudioIsoCode
-            );
+        MediaStream currentMediaStream = currentMediaSource.getMediaStreams().get(index);
+        String currentAudioIsoCode = currentMediaStream.getLanguage();
+        if (currentAudioIsoCode != null) {
+            videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(currentAudioIsoCode);
+            if (currentMediaStream.getCodec() != null) videoQueueManager.getValue().setLastPlayedAudioCodec(currentMediaStream.getCodec());
+            videoQueueManager.getValue().setLastPlayedAudioDefaultState(currentMediaStream.isDefault());
+            videoQueueManager.getValue().setLastPlayedAudioHearingImpairedState(currentMediaStream.isHearingImpaired());
         }
 
         int currAudioIndex = getAudioStreamIndex();
@@ -902,6 +1130,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = null;
         mVideoManager = null;
         resetPlayerErrors();
+        videoQueueManager.getValue().clearVideoQueue();
     }
 
     public void endPlayback() {
@@ -913,6 +1142,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void clearPlaybackSessionOptions() {
+        Timber.d("Clear Playback Session Options.");
         mDefaultAudioIndex = -1;
         mSeekPosition = -1;
         finishedInitialSeek = false;
