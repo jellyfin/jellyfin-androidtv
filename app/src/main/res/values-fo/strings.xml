@@ -403,7 +403,7 @@
     <string name="msg_items_added">" miðlar innlagdir"</string>
     <string name="lbl_videos">Kykmyndir</string>
     <string name="playback_info_video_title">Kykmynd</string>
-    <string name="pref_video">Kykmyndir</string>
+    <string name="pref_video">Kykmynd</string>
     <string name="msg_video_playback_error">"Kykmyndaspælivilla - "</string>
     <string name="segment_type_unknown">Ókend brot</string>
     <string name="pref_playback_media_segments">Margmiðlabrot</string>
@@ -423,4 +423,5 @@
     <string name="subtitle_preview_text">Undirtekstir koma at síggja soleiðis út</string>
     <string name="preference_enable_ass_description">Royndarfunka ið kann vera óálítandi</string>
     <string name="preference_enable_pgs_description">Um óvirkt er umkoting neyðug</string>
+    <string name="playback_info_bitrate">Bitferð: %1$s</string>
 </resources>
