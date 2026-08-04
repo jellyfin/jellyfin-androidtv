@@ -625,4 +625,23 @@
     <string name="pref_prerolls_enabled">Įjungti kino režimą</string>
     <string name="pref_prerolls_enabled_description">Prieš filmus paleiskite pasirinktinius įžanginius įrašus</string>
     <string name="pref_media_queueing">Įtraukti visus epizodus į eilę</string>
+    <string name="lbl_date_show_added">Serialo pridėjimo data</string>
+    <string name="pref_playback_media_segments">Medijos segmentai</string>
+    <string name="pref_media_queueing_description">Įtraukti vėlesnius epizodus į eilę, kai leidžiate TV serialus</string>
+    <string name="pref_subtitles_weight">Teksto plotis</string>
+    <string name="font_weight_100">Plonas</string>
+    <string name="color_presets">Išankstiniai nustatymai</string>
+    <string name="color_custom">Tinkinti spalvą</string>
+    <string name="color_alpha">Skaidrumas</string>
+    <string name="playback_video_player">Vaizdo grotuvas</string>
+    <string name="video_player_internal">Integruotas vaizdo grotuvas</string>
+    <string name="video_player_external">Išorinė programėlė</string>
+    <string name="playback_video_player_external_empty">Jūsų įrenginyje nėra įdiegtos jokios vaizdo grotuvo programėlės, kuri galėtų atidaryti Jellyfin vaizdo įrašus.</string>
+    <string name="filters">Filtrai</string>
+    <string name="backdrop_behavior_with_blur">Fonas su suliejimu</string>
+    <string name="backdrop_behavior_without_blur">Fonas be suliejimo</string>
+    <string name="user_avc_level">H.264 (AVC) lygis</string>
+    <string name="user_hevc_level">H.265 (HEVC) lygis</string>
+    <string name="codec_level_warning">Perjungimas iš automatinio režimo gali sukelti atkūrimo problemų, jei jūsų įrenginys nepalaiko pasirinkto lygio.</string>
+    <string name="preference_codecs">Medijos kodekai</string>
 </resources>
