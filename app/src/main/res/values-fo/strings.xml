@@ -424,4 +424,5 @@
     <string name="preference_enable_ass_description">Royndarfunka ið kann vera óálítandi</string>
     <string name="preference_enable_pgs_description">Um óvirkt er umkoting neyðug</string>
     <string name="playback_info_bitrate">Bitferð: %1$s</string>
+    <string name="lbl_refresh_switching">Afturkomuferðskifti</string>
 </resources>
