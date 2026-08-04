@@ -310,6 +310,8 @@
     <string name="lbl_switch_user">切换账户</string>
     <string name="no_network_permissions">Jellyfin需要网络权限才能运行</string>
     <string name="pref_theme_muted_purple">淡紫色</string>
+    <string name="pref_theme_netflix">网飞（黑红）</string>
+    <string name="pref_theme_infuse">Infuse（橙）</string>
     <string name="lbl_episode_number">第%1$d集</string>
     <string name="lbl_season_number">第%1$d季</string>
     <string name="add_user">添加帐号</string>
