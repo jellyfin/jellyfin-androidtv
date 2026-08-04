@@ -359,6 +359,8 @@
     <string name="user_picker_last_user_summary">Use the last active account</string>
     <string name="lbl_switch_user">Switch account</string>
     <string name="pref_theme_muted_purple">Muted purple</string>
+    <string name="pref_theme_netflix">Netflix (Black &amp; Red)</string>
+    <string name="pref_theme_infuse">Infuse (Orange)</string>
     <string name="no_network_permissions">Jellyfin requires network permissions to function</string>
     <string name="press_to_close">Press to close</string>
     <string name="saved_servers">Saved servers</string>
