@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Infuse 橙主题（Apple TV Infuse 风格暖橙） -->
+    <color name="theme_infuse_light">#FF6B1A</color>
+    <color name="theme_infuse_dark">#1A1A1E</color>
+    <color name="theme_infuse_black">#000000</color>
+    <color name="theme_infuse_grey">#2C2C30</color>
+
+    <style name="Theme.Jellyfin.Infuse" parent="Theme.Jellyfin">
+        <item name="android:colorPrimary">@color/theme_infuse_dark</item>
+        <item name="android:colorPrimaryDark">@color/theme_infuse_black</item>
+        <item name="android:colorAccent">@color/theme_infuse_light</item>
+        <item name="defaultBackground">@drawable/moviebg</item>
+        <item name="defaultSearchColor">@color/theme_infuse_light</item>
+        <item name="progressPrimary">@color/theme_infuse_light</item>
+        <item name="progressSecondary">@color/theme_infuse_dark</item>
+        <item name="popupMenuBackground">@color/theme_infuse_black</item>
+
+        <!-- Control icons -->
+        <item name="controlIconBackground">@color/theme_infuse_black</item>
+        <item name="controlIconForegroundActive">@color/theme_infuse_light</item>
+        <item name="controlIconForegroundInactive">@color/theme_infuse_grey</item>
+
+        <!-- QR drawables -->
+        <item name="qrForeground">@color/theme_infuse_dark</item>
+
+        <!-- Tile colors -->
+        <item name="tile_search_bg">@color/theme_infuse_light</item>
+        <item name="tile_suggestions_bg">@color/theme_infuse_light</item>
+        <item name="tile_actors_bg">@color/theme_infuse_light</item>
+        <item name="tile_artists_bg">@color/theme_infuse_light</item>
+        <item name="tile_audio_bg">@color/theme_infuse_light</item>
+        <item name="tile_chapter_bg">@color/theme_infuse_light</item>
+        <item name="tile_genres_bg">@color/theme_infuse_light</item>
+        <item name="tile_letters_bg">@color/theme_infuse_light</item>
+        <item name="tile_land_folder_bg">@color/theme_infuse_light</item>
+        <item name="tile_land_photo_bg">@color/theme_infuse_light</item>
+        <item name="tile_land_series_timer_bg">@color/theme_infuse_light</item>
+        <item name="tile_land_tv_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_time_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_tv_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_video_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_folder_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_grid_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_guide_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_person_bg">@color/theme_infuse_light</item>
+        <item name="tile_port_series_timer_bg">@color/theme_infuse_light</item>
+    </style>
+</resources>
