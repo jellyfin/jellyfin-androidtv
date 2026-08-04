@@ -223,7 +223,7 @@ object BrowsingUtils {
 		recursive = true,
 		includeItemTypes = setOf(itemType),
 		sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
-		sortOrder = setOf(SortOrder.DESCENDING),
+		sortOrder = setOf(SortOrder.DESCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
@@ -233,7 +233,7 @@ object BrowsingUtils {
 		recursive = true,
 		includeItemTypes = setOf(itemType),
 		sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
-		sortOrder = setOf(SortOrder.ASCENDING),
+		sortOrder = setOf(SortOrder.ASCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
@@ -269,7 +269,7 @@ object BrowsingUtils {
 		imageTypeLimit = 1,
 		filters = setOf(ItemFilter.IS_FAVORITE),
 		sortBy = setOf(ItemSortBy.DATE_PLAYED, ItemSortBy.SORT_NAME),
-		sortOrder = setOf(SortOrder.DESCENDING),
+		sortOrder = setOf(SortOrder.DESCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
