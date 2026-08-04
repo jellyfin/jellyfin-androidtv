@@ -17,6 +17,8 @@ private val AppTheme.style
 		AppTheme.DARK -> R.style.Theme_Jellyfin
 		AppTheme.EMERALD -> R.style.Theme_Jellyfin_Emerald
 		AppTheme.MUTED_PURPLE -> R.style.Theme_Jellyfin_MutedPurple
+		AppTheme.NETFLIX -> R.style.Theme_Jellyfin_Netflix
+		AppTheme.INFUSE -> R.style.Theme_Jellyfin_Infuse
 	}
 
 /**
