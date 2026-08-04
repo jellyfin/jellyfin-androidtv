@@ -119,6 +119,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private Runnable mHideTask;
 
     private AudioManager mAudioManager;
+    private VideoMediaSession mMediaSession;
 
     private boolean mFadeEnabled = false;
     private boolean mIsVisible = false;
@@ -160,6 +161,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         int mediaPosition = videoQueueManager.getValue().getCurrentMediaPosition();
 
         playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this, mediaPosition));
+
+        // publish a media session so external media buttons (like a click on wireless headphones) can control playback
+        mMediaSession = new VideoMediaSession(requireContext(), playbackControllerContainer.getValue());
 
         // setup fade task
         mHideTask = () -> {
@@ -419,6 +423,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 event.startTracking();
                 return true;
             }
+
+            // Consume the down event of the media keys handled on key up below. When left unhandled the system forwards them to our
+            // media session instead, which would toggle playback twice for a single key press
+            if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                    || keyCode == KeyEvent.KEYCODE_HEADSETHOOK
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_REWIND) {
+                return true;
+            }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
             if (keyListener.onKey(v, keyCode, event)) return true;
 
@@ -447,7 +462,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
                     playbackController.pause();
                     return true;
-                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
                     playbackController.playPause();
                     return true;
                 } else if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
@@ -698,6 +713,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onStop() {
         super.onStop();
         Timber.i("Stopping!");
+
+        // Release the media session so media buttons are handed back to other apps
+        if (mMediaSession != null) {
+            mMediaSession.release();
+            mMediaSession = null;
+        }
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
@@ -1217,6 +1238,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         binding.skipOverlay.setCurrentPositionMs(time);
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.updateCurrentPosition();
+        if (mMediaSession != null) mMediaSession.update();
     }
 
     public void setSecondaryTime(long time) {
@@ -1233,11 +1255,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void setPlayPauseActionState(final int state) {
         leanbackOverlayFragment.updatePlayState();
+        if (mMediaSession != null) mMediaSession.update();
     }
 
     public void updateDisplay() {
         BaseItemDto current = playbackControllerContainer.getValue().getPlaybackController().getCurrentlyPlayingItem();
         if (current != null && getContext() != null) {
+            if (mMediaSession != null) {
+                mMediaSession.updateMetadata();
+                mMediaSession.update();
+            }
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.onFullyInitialized();
             leanbackOverlayFragment.recordingStateChanged();
