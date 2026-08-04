@@ -27,12 +27,12 @@ import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.koin.compose.koinInject
 
 @Composable
-private fun SplashScreen(){
+fun SplashScreen() {
 	val serverRepository = koinInject<ServerRepository>()
 	val backgroundService = koinInject<BackgroundService>()
 	val currentServer by serverRepository.currentServer.collectAsState()
 
-	LaunchedEffect(currentServer){
+	LaunchedEffect(currentServer) {
 		if (currentServer != null) backgroundService.setBackground(currentServer!!)
 		else backgroundService.clearBackgrounds()
 	}
@@ -54,8 +54,7 @@ private fun SplashScreen(){
 	}
 }
 
-class SplashFragment : Fragment(){
-
+class SplashFragment : Fragment() {
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
