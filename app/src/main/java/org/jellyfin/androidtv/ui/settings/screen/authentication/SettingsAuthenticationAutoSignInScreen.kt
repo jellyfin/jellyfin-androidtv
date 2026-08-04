@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.ui.base.form.RadioButton
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
@@ -61,7 +62,8 @@ fun SettingsAuthenticationAutoSignInScreen() {
 				onClick = {
 					autoLoginUserBehavior = UserSelectBehavior.DISABLED
 					router.back()
-				}
+				},
+				modifier = Modifier.focusKey("disable")
 			)
 		}
 
@@ -73,7 +75,8 @@ fun SettingsAuthenticationAutoSignInScreen() {
 				onClick = {
 					autoLoginUserBehavior = UserSelectBehavior.LAST_USER
 					router.back()
-				}
+				},
+				modifier = Modifier.focusKey("last_user")
 			)
 		}
 
@@ -102,7 +105,8 @@ fun SettingsAuthenticationAutoSignInScreen() {
 						autoLoginUserId = userId
 
 						router.back()
-					}
+					},
+					modifier = Modifier.focusKey("user_$userId")
 				)
 			}
 		}

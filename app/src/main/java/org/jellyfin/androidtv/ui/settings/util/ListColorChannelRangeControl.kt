@@ -29,6 +29,7 @@ fun ListColorChannelRangeControl(
 	channel: Color,
 	value: Color,
 	onValueChange: (color: Color) -> Unit,
+	modifier: Modifier = Modifier,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
 
@@ -57,6 +58,7 @@ fun ListColorChannelRangeControl(
 	ListControl(
 		headingContent = headingContent,
 		interactionSource = interactionSource,
+		modifier = modifier,
 	) {
 		Row(
 			verticalAlignment = Alignment.CenterVertically,

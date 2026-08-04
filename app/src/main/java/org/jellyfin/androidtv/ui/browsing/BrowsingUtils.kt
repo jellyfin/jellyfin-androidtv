@@ -62,6 +62,37 @@ object BrowsingUtils {
 	}
 
 	@JvmStatic
+	fun getRandomItems(
+		api: ApiClient,
+		lifecycle: LifecycleOwner,
+		library: BaseItemDto,
+		type: BaseItemKind,
+		callback: (item: List<BaseItemDto>) -> Unit
+	) {
+		lifecycle.lifecycleScope.launch(Dispatchers.IO) {
+			try {
+				val result by api.itemsApi.getItems(
+					parentId = library.id,
+					includeItemTypes = setOf(type),
+					recursive = true,
+					sortBy = setOf(ItemSortBy.RANDOM),
+					limit = 50,
+				)
+
+				withContext(Dispatchers.Main) {
+					callback(result.items)
+				}
+			} catch (error: ApiClientException) {
+				Timber.w(error, "Failed to retrieve random items")
+
+				withContext(Dispatchers.Main) {
+					callback(emptyList())
+				}
+			}
+		}
+	}
+
+	@JvmStatic
 	fun createGetNextUpRequest(parentId: UUID) = GetNextUpRequest(
 		limit = 50,
 		parentId = parentId,
@@ -191,7 +222,8 @@ object BrowsingUtils {
 		personIds = setOf(personId),
 		recursive = true,
 		includeItemTypes = setOf(itemType),
-		sortBy = setOf(ItemSortBy.SORT_NAME),
+		sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
+		sortOrder = setOf(SortOrder.DESCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
@@ -200,7 +232,8 @@ object BrowsingUtils {
 		artistIds = setOf(artistId),
 		recursive = true,
 		includeItemTypes = setOf(itemType),
-		sortBy = setOf(ItemSortBy.SORT_NAME),
+		sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
+		sortOrder = setOf(SortOrder.ASCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic
@@ -235,7 +268,8 @@ object BrowsingUtils {
 		parentId = parentId,
 		imageTypeLimit = 1,
 		filters = setOf(ItemFilter.IS_FAVORITE),
-		sortBy = setOf(ItemSortBy.SORT_NAME),
+		sortBy = setOf(ItemSortBy.DATE_PLAYED, ItemSortBy.SORT_NAME),
+		sortOrder = setOf(SortOrder.DESCENDING, SortOrder.ASCENDING),
 	)
 
 	@JvmStatic

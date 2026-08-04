@@ -628,4 +628,6 @@
     <string name="filters">Filtros</string>
     <string name="backdrop_behavior_with_blur">Fondo con desenfoque</string>
     <string name="backdrop_behavior_without_blur">Fondo sin desenfoque</string>
+    <string name="playback_info">Información de reproducción</string>
+    <string name="pref_software_codecs_enabled_description">Algunas implementaciones basadas en software pueden degradar el rendimiento, deshabilitar esta opción hace que la transcodificación sea más probable.</string>
 </resources>

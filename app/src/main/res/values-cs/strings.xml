@@ -511,7 +511,7 @@
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="indicator_subtitles">CC</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <plurals name="movies">
@@ -674,4 +674,9 @@
     <string name="preference_enable_ass">Přímo přehrávat titulky ASS</string>
     <string name="preference_enable_pgs_description">Při zakázání vyžaduje překódování</string>
     <string name="preference_enable_ass_description">Experimentální funkce, nemusí fungovat spolehlivě</string>
+    <string name="lbl_date_show_added">Datum přidání pořadu</string>
+    <string name="lbl_date_episode_added">Datum přidání epizody</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>

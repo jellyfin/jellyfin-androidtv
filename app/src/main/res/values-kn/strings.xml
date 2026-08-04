@@ -13,7 +13,7 @@
     <string name="video_error_unknown_error">ವೀಡಿಯೊ ಲೋಡ್ ವಿಫಲವಾಯಿತು</string>
     <string name="continue_listening">ಕೇಳುವುದನ್ನು ಮುಂದುವರಿಸಿ</string>
     <string name="lbl_continue_watching">ನೋಡುವುದನ್ನು ಮುಂದುವರಿಸಿ</string>
-    <string name="lbl_home">ಮನೆ</string>
+    <string name="lbl_home">ಮುಖಪುಟ</string>
     <string name="lbl_genres">ಶೈಲಿ</string>
     <string name="lbl_search">ಹುಡುಕು</string>
     <string name="lbl_next_up">ಮುಂದೆ</string>

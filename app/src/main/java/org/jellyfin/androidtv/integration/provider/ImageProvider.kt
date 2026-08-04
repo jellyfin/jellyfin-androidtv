@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.ParcelFileDescriptor
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
@@ -15,6 +14,7 @@ import coil3.request.ImageRequest
 import coil3.request.error
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
@@ -53,7 +53,7 @@ class ImageProvider : ContentProvider() {
 	) {
 		@Suppress("DEPRECATION")
 		val format = when {
-			Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Bitmap.CompressFormat.WEBP_LOSSY
+			AndroidVersion.isAtLeastR -> Bitmap.CompressFormat.WEBP_LOSSY
 			else -> Bitmap.CompressFormat.WEBP
 		}
 

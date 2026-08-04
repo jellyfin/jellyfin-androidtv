@@ -679,4 +679,9 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="preference_enable_ass">Пряме відтворення субтитрів ASS</string>
+    <string name="preference_enable_pgs_description">Потребує транскодування, якщо вимкнено</string>
+    <string name="preference_enable_ass_description">Експериментальна функція, може працювати нестабільно</string>
+    <string name="pref_software_codecs_enabled">Використовувати програмні кодеки</string>
+    <string name="pref_software_codecs_enabled_description">Деякі програмні реалізації можуть знизити продуктивність. Вимкнення цієї опції підвищує ймовірність транскодування.</string>
 </resources>

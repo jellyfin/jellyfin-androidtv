@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -17,8 +16,13 @@ import androidx.tvprovider.media.tv.PreviewProgram
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.tvprovider.media.tv.WatchNextProgram
+import androidx.work.BackoffPolicy
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.await
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -28,6 +32,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
+import org.jellyfin.androidtv.util.AndroidVersion
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
@@ -53,6 +58,7 @@ import timber.log.Timber
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 
 /**
@@ -65,7 +71,17 @@ class LeanbackChannelWorker(
 	workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams), KoinComponent {
 	companion object {
-		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
+		private const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
+
+		suspend fun enqueue(workManager: WorkManager) {
+			workManager.enqueueUniquePeriodicWork(
+				PERIODIC_UPDATE_REQUEST_NAME,
+				ExistingPeriodicWorkPolicy.UPDATE,
+				PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
+					.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
+					.build()
+			).await()
+		}
 	}
 
 	private val api by inject<ApiClient>()
@@ -76,7 +92,7 @@ class LeanbackChannelWorker(
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher.
 	 */
-	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+	private val isSupported = AndroidVersion.isAtLeastO &&
 		// Check for leanback support
 		context.packageManager.hasSystemFeature("android.software.leanback")
 		// Check for "android.media.tv" provider to workaround a false-positive in the previous check

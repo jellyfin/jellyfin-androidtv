@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.util
 
 import android.content.Context
-import android.os.Build
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
@@ -9,7 +8,7 @@ import java.util.Locale
 @Suppress("DEPRECATION")
 val Context.locale: Locale
 	get() = when {
-		Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> resources.configuration.getLocales().get(0)
+		AndroidVersion.isAtLeastN -> resources.configuration.getLocales().get(0)
 		else -> resources.configuration.locale
 	}
 

@@ -4,6 +4,7 @@ import android.content.ClipData
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.mikepenz.aboutlibraries.Libs
@@ -13,6 +14,7 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListMessage
 import org.jellyfin.androidtv.ui.base.list.ListSection
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.jellyfin.androidtv.ui.settings.util.copyAction
 
@@ -60,6 +62,7 @@ fun SettingsLicenseScreen(artifactId: String) {
 				headingContent = { Text(title) },
 				captionContent = { Text(value.orEmpty()) },
 				onClick = copyAction(ClipData.newPlainText(title, value)),
+				modifier = Modifier.focusKey("license_info_$title")
 			)
 		}
 	}

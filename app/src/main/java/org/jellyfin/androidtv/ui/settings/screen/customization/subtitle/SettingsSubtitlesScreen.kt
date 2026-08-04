@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.LocalRouter
+import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.Routes
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
@@ -71,6 +72,7 @@ fun SettingsSubtitlesScreen() {
 			ListControl(
 				headingContent = { Text(stringResource(R.string.pref_subtitles_size)) },
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("subtitles_size")
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
@@ -125,6 +127,7 @@ fun SettingsSubtitlesScreen() {
 					Text(name)
 				},
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("subtitles_weight")
 			) {
 				RangeControl(
 					modifier = Modifier
@@ -145,6 +148,7 @@ fun SettingsSubtitlesScreen() {
 				headingContent = { Text(stringResource(R.string.lbl_subtitle_text_color)) },
 				trailingContent = { ColorSwatch(color = Color(subtitlesTextColor.toInt())) },
 				onClick = { router.push(Routes.CUSTOMIZATION_SUBTITLES_TEXT_COLOR) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_SUBTITLES_TEXT_COLOR)
 			)
 		}
 
@@ -153,6 +157,7 @@ fun SettingsSubtitlesScreen() {
 				headingContent = { Text(stringResource(R.string.lbl_subtitle_background_color)) },
 				trailingContent = { ColorSwatch(color = Color(subtitlesBackgroundColor.toInt())) },
 				onClick = { router.push(Routes.CUSTOMIZATION_SUBTITLES_BACKGROUND_COLOR) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_SUBTITLES_BACKGROUND_COLOR)
 			)
 		}
 
@@ -161,6 +166,7 @@ fun SettingsSubtitlesScreen() {
 				headingContent = { Text(stringResource(R.string.lbl_subtitle_text_stroke_color)) },
 				trailingContent = { ColorSwatch(color = Color(subtitleTextStrokeColor.toInt())) },
 				onClick = { router.push(Routes.CUSTOMIZATION_SUBTITLES_EDGE_COLOR) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_SUBTITLES_EDGE_COLOR)
 			)
 		}
 
@@ -170,6 +176,7 @@ fun SettingsSubtitlesScreen() {
 			ListControl(
 				headingContent = { Text(stringResource(R.string.pref_subtitles_position)) },
 				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("subtitles_position")
 			) {
 				Row(
 					verticalAlignment = Alignment.CenterVertically,
