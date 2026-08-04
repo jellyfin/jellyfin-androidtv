@@ -704,7 +704,7 @@
     <string name="preference_enable_ass_description">مزة تجريبية, قد لا تعمل بكفاءة</string>
     <string name="lbl_date_episode_added">تم اضافة تاريخ الحلقة</string>
     <string name="lbl_date_show_added">تم اضافة تاريخ البرنامج</string>
-    <string name="truehd">TrueHD</string>
+    <string name="truehd">HD حقيقي</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>

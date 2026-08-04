@@ -500,7 +500,7 @@
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -673,4 +673,9 @@
     <string name="pref_software_codecs_enabled_description">Algumas implementações baseadas em programas podem diminuir performance. Desabilitar esta opção faz a transcodificação mais fácil.</string>
     <string name="playback_info_video_range">Faixa de vídeo: %1$s</string>
     <string name="playback_buffer_length">Tamanho do buffer do playback</string>
+    <string name="lbl_date_show_added">Adicionado recentemente</string>
+    <string name="lbl_date_episode_added">Adicionado em</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
