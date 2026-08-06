@@ -11,9 +11,9 @@
     <string name="lbl_movies">Filmai</string>
     <string name="lbl_collections">Kolekcijos</string>
     <string name="lbl_other_channels">Kiti kanalai</string>
-    <string name="lbl_favorite_channels">Mėgstamiausi kanalai</string>
+    <string name="lbl_favorite_channels">Mėgstami kanalai</string>
     <string name="lbl_coming_up">Jau greitai</string>
-    <string name="lbl_favorites">Mėgstamiausi</string>
+    <string name="lbl_favorites">Mėgstami</string>
     <string name="lbl_by_name">Pagal pavadinimą</string>
     <string name="lbl_latest">Nesenai pridėta</string>
     <string name="lbl_search">Paieška</string>
@@ -77,7 +77,7 @@
     <string name="lbl_last_played">"Paskutinį kartą žiūrėta "</string>
     <string name="lbl_ends">Baigiasi</string>
     <string name="lbl_watched">Žiūrėtas</string>
-    <string name="lbl_favorite">Mėgstamiausias</string>
+    <string name="lbl_favorite">Mėgstamas</string>
     <string name="lbl_chapters">Skyriai</string>
     <string name="msg_cannot_play">Šio elemento paleisti negalima</string>
     <string name="msg_cannot_play_time">Šiuo metu negalima paleisti šio elemento</string>
@@ -110,10 +110,10 @@
     <string name="lbl_remove">Pašalinti</string>
     <string name="lbl_showing">Rodoma</string>
     <string name="lbl_no_items">Tuščia</string>
-    <string name="lbl_remove_favorite">Pašalinti mėgstamiausią</string>
+    <string name="lbl_remove_favorite">Pašalinti mėgstamą</string>
     <string name="msg_playback_restricted">Administratorius apribojo šio įrašo paleidimą</string>
     <string name="lbl_enable_debug">Debuginimo nustatymai</string>
-    <string name="lbl_add_favorite">Pridėti mėgstamiausią</string>
+    <string name="lbl_add_favorite">Pridėti mėgstamą</string>
     <string name="msg_will_record">Įrašys</string>
     <string name="msg_no_playable_items">Nėra įrašų, kuriuos būtų galima paleisti</string>
     <string name="lbl_cast_crew">Aktoriai</string>
@@ -121,7 +121,7 @@
     <string name="lbl_load_channels">"Įkelti kanalus "</string>
     <string name="lbl_on">Įjungta</string>
     <string name="lbl_premier_date">Premjeros data</string>
-    <string name="lbl_start_favorites">Rodyti mėgstamiausiius pradžioje</string>
+    <string name="lbl_start_favorites">Rodyti mėgstamus pradžioje</string>
     <string name="lbl_all_items">Visi failai</string>
     <string name="lbl_community_rating">Bendruomenės įvertinimas</string>
     <string name="lbl_starting_with">Prasideda su tais kurių vardai prasideda</string>
@@ -144,7 +144,7 @@
     <string name="lbl_song">Daina</string>
     <string name="lbl_songs">Dainos</string>
     <string name="msg_cancel_entire_series">Ar esate tikri, kad norite nutraukti VISAS SERIJAS?</string>
-    <string name="lbl_only_new_episodes">Tik naujos serijos</string>
+    <string name="lbl_only_new_episodes">Tik nauji epizodai</string>
     <string name="lbl_repeat_options">Kartojimo nustatymai</string>
     <string name="lbl_enable_cinema_mode">Kino teatro aplinka</string>
     <string name="lbl_new">Nauji</string>
@@ -161,7 +161,7 @@
     <string name="lbl_quality_profile">Kokybės profilis</string>
     <string name="pref_next_up_behavior_title">Rodyti sekančio video informaciją</string>
     <string name="lbl_delete">Ištrinti</string>
-    <string name="desc_automatic_fav_songs">Automatiškai sugeneruotas grojaraštis iš mėgstamiausių dainų</string>
+    <string name="desc_automatic_fav_songs">Automatiškai sugeneruotas grojaraštis iš mėgstamų dainų</string>
     <string name="lbl_new_premieres">Naujos premjeros</string>
     <string name="lbl_clear_queue">Ištrinti eilę</string>
     <string name="lbl_play_next_up">Paleisti sekantį</string>
@@ -236,7 +236,7 @@
     <string name="license_description">Aprašymas</string>
     <string name="home_section_library">Mano medija</string>
     <string name="home_section_next_up">Toliau</string>
-    <string name="episode_missing_message">Šios serijos nėra jūsų bibliotekoje. Ar norėtumėte jį praleisti ir tęsti nuo kito?</string>
+    <string name="episode_missing_message">Šio epizodo nėra jūsų bibliotekoje. Ar norėtumėte jį praleisti ir tęsti nuo kito?</string>
     <string name="pref_subtitles">Subtitrai</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital garsas</string>
     <string name="sum_enable_cinema_mode">Paleisti galimus intro ir peržiūras prieš pradedant filmą</string>
@@ -244,7 +244,7 @@
     <string name="pref_refresh_rate_scale_on_device">Įrenginio mastelis</string>
     <string name="lbl_specials">Papildomi epizodai</string>
     <string name="lbl_begin_padding">Pradžios tarpas</string>
-    <string name="episode_name_special">Papildomi epizodai</string>
+    <string name="episode_name_special">specialus</string>
     <string name="lbl_sports">Sportas</string>
     <string name="lbl_playback_control_ends">Baigsis %1$s</string>
     <string name="lbl_hidden">Paslėpta</string>
@@ -337,7 +337,7 @@
     <string name="pref_developer_link">Programuotojo pasirinkimai</string>
     <string name="server_issue_timeout">Baigėsi jungimosi laikas</string>
     <string name="lbl_direct_stream_live">Tiesioginė gyvos TV transliacija</string>
-    <string name="desc_premieres">Rodyti bet kurios žiūrimos serijos naujų serijų bandomąsias versijas</string>
+    <string name="desc_premieres">Rodyti naujų bandomųjų epizodų eilutę bet kuriam žiūrimam serialui</string>
     <string name="lbl_just_this_once">Tik šį kartą</string>
     <string name="lbl_resume_preroll">Tęsti iš anksto</string>
     <string name="lbl_live_broadcasts">Gyvos transliacijos</string>
@@ -345,7 +345,7 @@
     <string name="pref_audio_track_button">Garso takelio mygtukas</string>
     <string name="pref_subtitle_track_button">Subtitrų takelio mygtukas</string>
     <string name="no_player">Nėra grotuvo</string>
-    <string name="episode_missing_message_2">Šios serijos nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
+    <string name="episode_missing_message_2">Šio epizodo nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
     <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui leisti.</string>
     <string name="msg_live_tv_next">Krauti kitas %1$d valandas?</string>
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
@@ -365,7 +365,7 @@
     <string name="pref_watched_indicator">Rodyti \"peržiūrėtų\" indikatorius</string>
     <string name="login_help_description">„Jellyfin“ reikia serverio, prie kurio būtų galima prisijungti. Apsilankykite mūsų dokumentuose adresu docs.jellyfin.org arba nuskaitykite QR kodą ir pradėkite naudotis „Jellyfin“.</string>
     <string name="connect_manually_by_address">Įrašykite serverio adresą</string>
-    <string name="lbl_use_series_thumbnails_description">Rodydami serijas naudokite serialų miniatiūras</string>
+    <string name="lbl_use_series_thumbnails_description">Rodant epizodus naudoti serialų miniatiūras</string>
     <string name="user_picker_last_user_summary">Naudoti paskutinę aktyvią paskyrą</string>
     <string name="user_picker_disable_summary">Visada rodyti prisijungimo langą</string>
     <string name="lbl_switch_user">Perjungti naudotoją</string>
@@ -434,13 +434,13 @@
     <string name="login_server_unavailable">Nepavyko priisjungti prie serverio</string>
     <string name="login_username_field_empty">Naudotojo vardas negali būti tuščias</string>
     <string name="server_connection_failed_candidates">Nepavyko prisijungti prie serverio, bandyta šiais adresais: %1$s</string>
-    <string name="seek_error">Nepavyksta sekti</string>
+    <string name="seek_error">Nepavyko ieškoti</string>
     <string name="login_authenticating">Jungiamasi…</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_next_up_extended">Su miniatūra</string>
     <string name="lbl_next_up_minimal">Be miniatūros</string>
-    <string name="lbl_special">Papildomai</string>
+    <string name="lbl_special">Specialus</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="pref_theme">Tema</string>
     <string name="pref_home_description">Konfigūruoti rodomas sekcijas</string>
@@ -545,7 +545,7 @@
     <string name="pref_screensaver_ageratingmax_zero">Visų metų</string>
     <string name="pref_screensaver">Ekrano užsklanda</string>
     <string name="pref_screensaver_inapp_enabled">Naudoti programos ekrano užsklandą</string>
-    <string name="lbl_hide_watched_checkmark">Kai likę epizodų</string>
+    <string name="lbl_hide_watched_checkmark">Kai lieka epizodų</string>
     <string name="item_delete_confirm_title">Ištrinti elementą</string>
     <string name="pref_enable_media_management_description">Rodyti nustatymą valdyti turinį naršant</string>
     <string name="pref_screensaver_inapp_enabled_description">Rodyti Jellyfin ekrano užsklandą kai programa atidaryta</string>
@@ -627,7 +627,7 @@
     <string name="pref_media_queueing">Įtraukti visus epizodus į eilę</string>
     <string name="lbl_date_show_added">Serialo pridėjimo data</string>
     <string name="pref_playback_media_segments">Medijos segmentai</string>
-    <string name="pref_media_queueing_description">Įtraukti vėlesnius epizodus į eilę, kai leidžiate TV serialus</string>
+    <string name="pref_media_queueing_description">Pridėti vėlesnius epizodus į eilę, kai leidžiate TV serialus</string>
     <string name="pref_subtitles_weight">Teksto plotis</string>
     <string name="font_weight_100">Plonas</string>
     <string name="color_presets">Išankstiniai nustatymai</string>
