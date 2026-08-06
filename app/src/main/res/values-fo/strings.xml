@@ -425,4 +425,22 @@
     <string name="preference_enable_pgs_description">Um óvirkt er umkoting neyðug</string>
     <string name="playback_info_bitrate">Bitferð: %1$s</string>
     <string name="lbl_refresh_switching">Afturkomuferðskifti</string>
+    <string name="lbl_instant_mix">Løtubland</string>
+    <string name="pref_developer_link_description">Víðkaðar og royndarfunkur</string>
+    <string name="lbl_hidden">Dult</string>
+    <string name="lbl_on_any_channel">Á einhvørjari rás</string>
+    <string name="enable_playback_module_description">Hettar er ein royndarfunka. Eingin hjálp verður veitt fyri henni.</string>
+    <string name="always_authenticate">Spyr altíð um innritanarupplýsingar</string>
+    <string name="pref_subtitles_bold">Feitir stavir</string>
+    <string name="color_pink">Ljósareyður</string>
+    <string name="not_set">Ósett</string>
+    <string name="segment_type_intro">Inngangir</string>
+    <string name="segment_type_outro">Endar</string>
+    <string name="settings_description">Tillaga appina til tín tørv</string>
+    <string name="speech_error_no_permission">Vantar rættindi at brúka ljóðtakið. Vinaliga játta rættindini í kervistillingum.</string>
+    <string name="color_custom">Tillaga lit</string>
+    <string name="filters">Filtur</string>
+    <string name="playback_video_player_external_empty">Eingin kykmyndaspælara-app ið kann spæla Jellyfin kykmyndir er innløgd á hesa eindina.</string>
+    <string name="byletter_letters">AÁBCDEFGHIÍJKLMNOÓPQRSTUÚVWXYÝÆØZ</string>
+    <string name="lbl_show_indicators">Vís ávísar fyri</string>
 </resources>
