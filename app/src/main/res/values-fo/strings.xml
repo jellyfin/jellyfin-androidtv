@@ -443,4 +443,6 @@
     <string name="playback_video_player_external_empty">Eingin kykmyndaspælara-app ið kann spæla Jellyfin kykmyndir er innløgd á hesa eindina.</string>
     <string name="byletter_letters">AÁBCDEFGHIÍJKLMNOÓPQRSTUÚVWXYÝÆØZ</string>
     <string name="lbl_show_indicators">Vís ávísar fyri</string>
+    <string name="lbl_program_ended">Sendingin er liðug</string>
+    <string name="backdrop_behavior_without_blur">Klár bakgrund</string>
 </resources>
