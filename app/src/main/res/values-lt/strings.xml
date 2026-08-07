@@ -166,7 +166,7 @@
     <string name="lbl_clear_queue">Ištrinti eilę</string>
     <string name="lbl_play_next_up">Paleisti sekantį</string>
     <string name="lbl_on_schedule">Laiku</string>
-    <string name="lbl_next_episode">Kitas epizodas</string>
+    <string name="lbl_next_episode">Sekantis epizodas</string>
     <string name="lbl_song_title">Dainos pavadinimas</string>
     <string name="lbl_news">Naujienos</string>
     <string name="lbl_new_only">Tik nauji</string>
@@ -175,7 +175,7 @@
     <string name="lbl_zoom">Priartinti</string>
     <string name="lbl_schedule">Planai</string>
     <string name="lbl_open">Atidaryti</string>
-    <string name="pref_next_up_timeout_summary">Kiek laukti prieš paleidžiant sekantį failą</string>
+    <string name="pref_next_up_timeout_summary">Kiek laukti prieš paleidžiant sekantį elementą</string>
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
     <string name="lbl_image_size">Paveikslėlio dydis</string>
     <string name="msg_record_entire_series">Įrašyti visas serijas\?</string>
@@ -283,7 +283,7 @@
     <string name="subtitle_error">Nepavyko pasirinkti subtitrų</string>
     <string name="lbl_starting_early_ending_after">Prasideda %1$s anksčiau ir baigiasi %2$s po nustatyto laiko</string>
     <string name="lbl__continuing">TĘSIAMA</string>
-    <string name="lbl_next_item">Kitas failas</string>
+    <string name="lbl_next_item">Kitas elementas</string>
     <string name="desc_bitstream_ac3">Reikalauja įrangos kuri sugebėtų tai palaikyti</string>
     <string name="audio_error">Nepavyko paleisti garso takelio %1$s</string>
     <string name="pref_clock_display_browsing">Naršant</string>
@@ -416,7 +416,7 @@
     <string name="always_authenticate">Visada prašyti prisijungimo informacijos</string>
     <string name="license_author">Autorius</string>
     <string name="lbl_tune_to_channel">Nustatyti kanalą</string>
-    <string name="lbl_tv_queuing">Automatiškai paleisti kitą epizodą</string>
+    <string name="lbl_tv_queuing">Automatiškai paleisti sekantį epizodą</string>
     <string name="lbl_show_backdrop">Rodyti fonus</string>
     <string name="lbl_program_ended">Programa pasibaigė</string>
     <string name="lbl_instant_mix">Spontaniškas sumaišymas</string>
