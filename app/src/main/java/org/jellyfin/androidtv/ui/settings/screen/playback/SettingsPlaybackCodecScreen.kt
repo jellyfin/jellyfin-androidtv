@@ -72,7 +72,8 @@ fun SettingsPlaybackCodecScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.bitstream_eac3)) },
 				trailingContent = { Checkbox(checked = eac3Enabled) },
-				onClick = { eac3Enabled = !eac3Enabled }, enabled = ac3Enabled
+				onClick = { eac3Enabled = !eac3Enabled },
+				enabled = ac3Enabled
 			)
 		}
 
