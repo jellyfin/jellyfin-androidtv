@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.util.appendItem
 import org.jellyfin.androidtv.util.appendSection
 import org.jellyfin.androidtv.util.appendValue
 import org.jellyfin.androidtv.util.buildMarkdown
+import org.jellyfin.androidtv.util.profile.codec.HDMIAudioPassthroughCapabilities
 import org.jellyfin.sdk.api.client.util.ApiSerializer
 import org.jellyfin.sdk.model.ServerVersion
 import kotlin.time.Duration.Companion.nanoseconds
@@ -165,6 +166,17 @@ fun createDeviceProfileReport(
 		}
 	}
 
+	appendDetails("HDMI Audio Passthrough Capabilities") {
+		val audioTest = HDMIAudioPassthroughCapabilities()
+		appendLine("***AC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_AC3)}")
+		appendLine("***EAC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3)}")
+		appendLine("***EAC3-JOC (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3_JOC)}")
+		appendLine("***DTS (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS)}")
+		appendLine("***DTS-HD (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS_HD)}")
+		appendLine("***TrueHD (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_TRUEHD)}")
+		appendLine()
+	}
+
 	appendDetails("Known media types") {
 		codecs
 			.flatMap { codec -> codec.supportedTypes.asIterable() }
@@ -288,15 +300,5 @@ fun createDeviceProfileReport(
 		appendItem("Device codename") { appendValue(Build.DEVICE) }
 		if (AndroidVersion.isAtLeastS) appendItem("Device SKU") { appendValue(Build.SKU) }
 		if (AndroidVersion.isAtLeastS) appendItem("Device SOC") { appendValue(Build.SOC_MODEL) }
-	}
-
-	appendSection("Audio Passthrough Capabilities") {
-		appendLine("***AC3 (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_AC3)}")
-		appendLine("***EAC3 (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3)}")
-		appendLine("***EAC3-JOC (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3_JOC)}")
-		appendLine("***DTS (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS)}")
-		appendLine("***DTS-HD (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS_HD)}")
-		appendLine("***TrueHD (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_TRUEHD)}")
-		appendLine()
 	}
 }
