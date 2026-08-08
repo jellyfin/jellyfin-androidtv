@@ -156,11 +156,15 @@ public class ItemLauncher {
                             break;
                         case Play:
                             //Just play it directly
-                            playbackHelper.getValue().getItemsToPlay(context, baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
+                            final BaseItemDto itemToPlay = baseItem;
+                            playbackHelper.getValue().getItemsToPlay(context, itemToPlay, itemToPlay.getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
                                 @Override
                                 public void onResponse(List<BaseItemDto> response) {
                                     if (!isActive()) return;
-                                    playbackLauncher.getValue().launch(context, response);
+                                    int itemPosition = itemToPlay.getType() == BaseItemKind.VIDEO
+                                            ? findItemPosition(response, itemToPlay)
+                                            : 0;
+                                    playbackLauncher.getValue().launch(context, response, null, false, itemPosition);
                                 }
                             });
                             break;
@@ -273,5 +277,15 @@ public class ItemLauncher {
                 }
                 break;
         }
+    }
+
+    private int findItemPosition(List<BaseItemDto> items, BaseItemDto selectedItem) {
+        for (int index = 0; index < items.size(); index++) {
+            if (items.get(index).getId().equals(selectedItem.getId())) {
+                return index;
+            }
+        }
+
+        return 0;
     }
 }
