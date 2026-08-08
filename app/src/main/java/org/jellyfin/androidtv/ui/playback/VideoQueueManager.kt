@@ -6,7 +6,11 @@ class VideoQueueManager {
 	private var _currentVideoQueue: List<BaseItemDto> = emptyList()
 	private var _currentMediaPosition = -1
 	private var _lastPlayedAudioLanguageIsoCode: String? = null
+	private var _lastPlayedAudioCodec: String? = null
 	private var _lastPlayedSubtitleLanguageIsoCode: String? = null
+	private var _lastPlayedSubtitleForcedState: Boolean = false
+	private var _lastPlayedSubtitleCodec: String? = null
+	private var _lastPlayedSubtitleTitle: String? = null
 
 	fun setCurrentVideoQueue(items: List<BaseItemDto>?) {
 		if (items.isNullOrEmpty()) return clearVideoQueue()
@@ -33,6 +37,14 @@ class VideoQueueManager {
 		_lastPlayedAudioLanguageIsoCode = isoCode
 	}
 
+	fun getLastPlayedAudioCodec(): String? {
+		return _lastPlayedAudioCodec
+	}
+
+	fun setLastPlayedAudioCodec(codec: String) {
+		_lastPlayedAudioCodec = codec
+	}
+
 	fun getLastPlayedSubtitleLanguageIsoCode(): String? {
 		return _lastPlayedSubtitleLanguageIsoCode
 	}
@@ -41,10 +53,38 @@ class VideoQueueManager {
 		_lastPlayedSubtitleLanguageIsoCode = isoCode
 	}
 
+	fun getLastPlayedSubtitleForcedState(): Boolean {
+		return _lastPlayedSubtitleForcedState
+	}
+
+	fun setLastPlayedSubtitleForcedState(state: Boolean) {
+		_lastPlayedSubtitleForcedState = state
+	}
+
+	fun getLastPlayedSubtitleCodec(): String? {
+		return _lastPlayedSubtitleCodec
+	}
+
+	fun setLastPlayedSubtitleCodec(codecTag: String?) {
+		_lastPlayedSubtitleCodec = codecTag
+	}
+
+	fun getLastPlayedSubtitleTitle(): String? {
+		return _lastPlayedSubtitleTitle
+	}
+
+	fun setLastPlayedSubtitleTitle(title: String?) {
+		_lastPlayedSubtitleTitle = title
+	}
+
 	fun clearVideoQueue() {
 		_currentVideoQueue = emptyList()
 		_currentMediaPosition = -1
 		_lastPlayedAudioLanguageIsoCode = null
+		_lastPlayedAudioCodec = null
 		_lastPlayedSubtitleLanguageIsoCode = null
+		_lastPlayedSubtitleForcedState = false
+		_lastPlayedSubtitleCodec = null
+		_lastPlayedSubtitleTitle = null
 	}
 }

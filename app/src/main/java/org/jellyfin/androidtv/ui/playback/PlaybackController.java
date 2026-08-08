@@ -407,6 +407,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     protected void play(long position, @Nullable Integer forcedSubtitleIndex) {
         String forcedAudioLanguage = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
+        String forcedAudioCodec = videoQueueManager.getValue().getLastPlayedAudioCodec();
         Timber.i("Play called from state: %s with pos: %d, sub index: %d and forced audio: %s", mPlaybackState, position, forcedSubtitleIndex, forcedAudioLanguage);
 
         if (mFragment == null) {
@@ -496,7 +497,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, forcedAudioLanguage, item);
+                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, forcedAudioLanguage, forcedAudioCodec, item);
 
                 playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -515,6 +516,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private VideoOptions buildExoPlayerOptions(
             @Nullable Integer forcedSubtitleIndex,
             @Nullable String forcedAudioLanguage,
+            @Nullable String forcedAudioCodec,
             BaseItemDto item) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
@@ -530,14 +532,27 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         }
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
-        if (forcedAudioLanguage != null) {
-            // find the first audio stream with the requested language
-            for (MediaStream stream : currentMediaSource.getMediaStreams()) {
-                if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
-                    internalOptions.setAudioStreamIndex(stream.getIndex());
-                    break;
+        if (forcedAudioLanguage != null){
+            Integer matchingIndex = null;
+            if (forcedAudioCodec != null) {
+                // find the first audio stream with the requested language and codec
+                for (MediaStream stream : currentMediaSource.getMediaStreams()) {
+                    if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage()) && forcedAudioCodec.equals(stream.getCodec())) {
+                        matchingIndex = stream.getIndex();
+                        break;
+                    }
                 }
             }
+            if (matchingIndex == null) {
+                // find the first audio stream with the requested language (fallback to language only)
+                for (MediaStream stream : currentMediaSource.getMediaStreams()) {
+                    if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
+                        matchingIndex = stream.getIndex();
+                        break;
+                    }
+                }
+            }
+            internalOptions.setAudioStreamIndex(matchingIndex);
         }
         if (!isLiveTv && currentMediaSource != null) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
@@ -645,6 +660,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         // get subtitle info - prefer saved language preference over server default
         String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
+        Boolean lastSubtitleForcedState = videoQueueManager.getValue().getLastPlayedSubtitleForcedState();
+        String lastSubtitleCodec = videoQueueManager.getValue().getLastPlayedSubtitleCodec();
+        String lastSubtitleTitle = videoQueueManager.getValue().getLastPlayedSubtitleTitle();
         if (lastSubtitleLanguage != null) {
             if (lastSubtitleLanguage.isEmpty()) {
                 // User explicitly disabled subtitles
@@ -652,10 +670,33 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             } else if (response.getMediaSource().getMediaStreams() != null) {
                 // Find subtitle stream matching saved language
                 Integer matchingIndex = null;
-                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        matchingIndex = stream.getIndex();
-                        break;
+                // Try with all previous subtitle info (title, codec, tag, lang)
+                if (lastSubtitleCodec != null && lastSubtitleTitle != null) {
+                    for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                        if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage()) && lastSubtitleForcedState.equals(stream.isForced()) && lastSubtitleCodec.equals(stream.getCodec()) && lastSubtitleTitle.equals(stream.getTitle())) {
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                // Fallback without title (codec, tag, lang)
+                if (matchingIndex == null) {
+                    if (lastSubtitleCodec != null) {
+                        for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                            if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage()) && lastSubtitleForcedState.equals(stream.isForced()) && lastSubtitleCodec.equals(stream.getCodec())) {
+                                matchingIndex = stream.getIndex();
+                                break;
+                            }
+                        }
+                    }
+                }
+                // Fallback to another Codec Tag (tag, lang)
+                if (matchingIndex == null) {
+                    for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                        if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage()) && lastSubtitleForcedState.equals(stream.isForced())) {
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
                     }
                 }
                 mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
@@ -761,6 +802,22 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 videoFound = true;
             } else {
                 if (videoFound
+                        && track.getType() == MediaStreamType.AUDIO
+                        && (track.getLanguage() != null
+                        && track.getLanguage().equals(videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode())
+                        && (track.getCodec() != null
+                        && track.getCodec().equals(videoQueueManager.getValue().getLastPlayedAudioCodec())))
+                )
+                    return track.getIndex();
+            }
+        }
+
+        videoFound = false;
+        for (MediaStream track : info.getMediaStreams()) {
+            if (track.getType() == MediaStreamType.VIDEO) {
+                videoFound = true;
+            } else {
+                if (videoFound
                     && track.getType() == MediaStreamType.AUDIO
                     && (track.getLanguage() != null && track.getLanguage().equals(videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode()))
                 )
@@ -798,14 +855,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
         String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
-
-        if (currentAudioIsoCode != null
-                && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
-            videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
-                    currentAudioIsoCode
-            );
+        if (currentAudioIsoCode != null) {
+            videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(currentAudioIsoCode);
+            String currentAudioCodec = currentMediaSource.getMediaStreams().get(index).getCodec();
+            if (currentAudioCodec != null) {
+                videoQueueManager.getValue().setLastPlayedAudioCodec(currentAudioCodec);
+            }
         }
 
         int currAudioIndex = getAudioStreamIndex();
