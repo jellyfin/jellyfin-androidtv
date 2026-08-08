@@ -443,7 +443,7 @@
     <string name="lbl_special">Specialus</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="pref_theme">Tema</string>
-    <string name="pref_home_description">Konfigūruoti rodomas sekcijas</string>
+    <string name="pref_home_description">Konfigūruoti rodomus skyrius</string>
     <string name="pref_libraries">Bibliotekos</string>
     <string name="pref_libraries_description">Keisti kaip bibliotekos yra rodomos</string>
     <string name="pref_browsing">Naršymas</string>
