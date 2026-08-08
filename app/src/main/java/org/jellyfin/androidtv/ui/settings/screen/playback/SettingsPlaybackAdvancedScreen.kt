@@ -280,17 +280,6 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
-			var ac3Enabled by rememberPreference(userPreferences, UserPreferences.ac3Enabled)
-
-			ListButton(
-				headingContent = { Text(stringResource(R.string.lbl_bitstream_ac3)) },
-				trailingContent = { Checkbox(checked = ac3Enabled) },
-				onClick = { ac3Enabled = !ac3Enabled },
-				modifier = Modifier.focusKey("ac3_enabled")
-			)
-		}
-
-		item {
 			var preferExoPlayerFfmpeg by rememberPreference(userPreferences, UserPreferences.preferExoPlayerFfmpeg)
 			ListButton(
 				headingContent = { Text(stringResource(R.string.prefer_exoplayer_ffmpeg)) },
