@@ -189,7 +189,7 @@
     <string name="lbl_subtitle_delay">Subtitrų vėlinimas</string>
     <string name="lbl_hd_programs">HD programos</string>
     <string name="watch_now">Žiūrėti dabar</string>
-    <string name="pref_app_theme">Aplikacijos išvaizda</string>
+    <string name="pref_app_theme">Programėlės išvaizda</string>
     <string name="lbl_sort_by">Rikiuoti pagal</string>
     <string name="lbl_auto_crop">Automatiškai apkirpti</string>
     <string name="lbl_stretch">Ištempti</string>
