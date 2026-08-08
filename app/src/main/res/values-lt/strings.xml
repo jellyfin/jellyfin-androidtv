@@ -61,7 +61,7 @@
     <string name="lbl_search_hint">Teksto paieška (pasirinkite klaviatūrai)</string>
     <string name="lbl_empty">Tuščias</string>
     <string name="lbl_never">Niekada</string>
-    <string name="msg_playback_incompatible">Negalima paleisti šio vaizdo įrašo formato</string>
+    <string name="msg_playback_incompatible">Nepavyksta paleisti šio vaizdo įrašo formato</string>
     <string name="msg_playback_not_allowed">Atkūrimas šiuo metu neleidžiamas</string>
     <string name="lbl_loading_elipses">Įkeliama…</string>
     <string name="lbl_born">"Gimė "</string>
@@ -103,7 +103,7 @@
     <string name="lbl_goto_series">Eiti į serialus</string>
     <string name="desc_debug">Pateikite daugiau informacijos klaidos atkartojimui</string>
     <string name="lbl_now_playing_track">%1$s iš %2$s</string>
-    <string name="lbl_live">Gyvai</string>
+    <string name="lbl_live">Tiesiogiai</string>
     <string name="lbl_additional_parts">Papildomos dalys</string>
     <string name="pref_audio_night_mode">Naktinė garso aplinka (ekspermentinė)</string>
     <string name="msg_unable_load_subs">Nepavyko įkelti subtitrų</string>
@@ -111,7 +111,7 @@
     <string name="lbl_showing">Rodoma</string>
     <string name="lbl_no_items">Tuščia</string>
     <string name="lbl_remove_favorite">Pašalinti mėgstamą</string>
-    <string name="msg_playback_restricted">Administratorius apribojo šio įrašo paleidimą</string>
+    <string name="msg_playback_restricted">Administratorius apribojo šio elemento atkūrimą</string>
     <string name="lbl_enable_debug">Debuginimo nustatymai</string>
     <string name="lbl_add_favorite">Pridėti mėgstamą</string>
     <string name="msg_will_record">Įrašys</string>
@@ -128,7 +128,7 @@
     <string name="msg_recording_now">Įrašoma dabar</string>
     <string name="crash_report_toast">Klaida! Kažkas įvyko, gedimo ataskaita buvo išsiųsta į jūsų Jellyfin serverį.</string>
     <string name="pref_audio_direct">Tiesioginė</string>
-    <string name="pref_live_tv_cat">Tiesioginė televizija</string>
+    <string name="pref_live_tv_cat">Tiesioginė TV</string>
     <string name="msg_burn_sub_warning">Įrašinėjami subtitrai, tai gali užtrukti kelias sekundes…</string>
     <string name="server_setup_incomplete">Serverio sąranka nebaigta. Atidarykite Jellyfin naršyklėje, kad pabaigtumėte sąranką.</string>
     <string name="lbl_programs">Programos</string>
@@ -212,8 +212,8 @@
     <string name="lbl_resume_from">Pratęsti nuo %1$s</string>
     <string name="lbl_premieres">Premjeros</string>
     <string name="lbl_image_type">Atvaizdo tipas</string>
-    <string name="pref_theme_dark">Tamsus (numatytas)</string>
-    <string name="pref_theme_emerald">Klasikinis emeraldas</string>
+    <string name="pref_theme_dark">Tamsi (numatyta)</string>
+    <string name="pref_theme_emerald">Klasikinis smaragdas</string>
     <string name="lbl_unknown_key">Nežinomas (%1s)</string>
     <string name="pref_button_remapping_description">Paspauskite bet kurį televizoriaus nuotolinio valdymo pulto mygtuką, kad jį priskirtumėte</string>
     <string name="lbl_Reset">Atstatyti</string>
@@ -270,7 +270,7 @@
     <string name="pref_clock_display_playback">Atkūrimo metu</string>
     <string name="lbl_always">Visada</string>
     <string name="server_connection_failed">Nepavyko prisijungti prie serverio</string>
-    <string name="lbl_hide_unwatched_count">Kai peržiūrėta</string>
+    <string name="lbl_hide_unwatched_count">Kai elementas yra žiūrėtas</string>
     <string name="lbl_starting_on_schedule_ending_after">Prasideda laiku ir baigiasi %1$s po nustatyto laiko</string>
     <string name="lbl_refresh_switching">Atnaujinimo dažnio perjungimas</string>
     <string name="pref_telemetry_category">Gedimų ataskaitos</string>
@@ -288,8 +288,8 @@
     <string name="audio_error">Nepavyko paleisti garso takelio %1$s</string>
     <string name="pref_clock_display_browsing">Naršant</string>
     <string name="license_license">Licencija</string>
-    <string name="pref_direct_stream_live_on">Transkodavimas atjungtas</string>
-    <string name="add_user">Pridėti naudotoją</string>
+    <string name="pref_direct_stream_live_on">Transkodavimas išjungtas</string>
+    <string name="add_user">Pridėti paskyrą</string>
     <string name="pref_login">Prisijungti</string>
     <string name="discovered_servers_title">Surasti serveriai</string>
     <string name="who_is_watching">Kas žiūri\?</string>
@@ -326,9 +326,9 @@
     <string name="lbl_sign_in">Prašome prisijungti</string>
     <string name="saved_servers">Išsaugoti serveriai</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="pref_accounts">Naudotojai</string>
+    <string name="pref_accounts">Paskyros</string>
     <string name="pref_subtitles_background_summary">Rodyti juodą foną už subtitrų</string>
-    <string name="home_section_active_recordings">Aktyvūs įrašai</string>
+    <string name="home_section_active_recordings">Aktyvūs įrašymai</string>
     <string name="pref_behavior">Elgsena</string>
     <string name="input_username">Prisijungimo vardas</string>
     <string name="login_connect_to">Jungiamasi prie %1$s</string>
@@ -336,11 +336,11 @@
     <string name="enable_smart_view_description">Išmanusis ekranas rodo atitinkamus elementus, o ne tinklelį</string>
     <string name="pref_developer_link">Programuotojo pasirinkimai</string>
     <string name="server_issue_timeout">Baigėsi jungimosi laikas</string>
-    <string name="lbl_direct_stream_live">Tiesioginė gyvos TV transliacija</string>
+    <string name="lbl_direct_stream_live">Tiesioginė TV transliacija</string>
     <string name="desc_premieres">Rodyti naujų bandomųjų epizodų eilutę bet kuriam žiūrimam serialui</string>
     <string name="lbl_just_this_once">Tik šį kartą</string>
     <string name="lbl_resume_preroll">Tęsti iš anksto</string>
-    <string name="lbl_live_broadcasts">Gyvos transliacijos</string>
+    <string name="lbl_live_broadcasts">Tiesioginės transliacijos</string>
     <string name="pref_next_up_timeout_title">Užrašo Toliau rodymo laikas</string>
     <string name="pref_audio_track_button">Garso takelio mygtukas</string>
     <string name="pref_subtitle_track_button">Subtitrų takelio mygtukas</string>
@@ -393,7 +393,7 @@
     <string name="server_issue_ssl_handshake">SSL jungimasis nepavyko</string>
     <string name="pref_direct_stream_live_off">Transkodavimas naudojamas kai būtina</string>
     <string name="home_section_resume_book">Tęsti skaitymą</string>
-    <string name="pref_playback_description">Vaizdo įrašai, Subtitrai, Tiesioginė televizija, Toliau</string>
+    <string name="pref_playback_description">Vaizdo įrašai, Subtitrai, Tiesioginė TV, Toliau</string>
     <string name="input_password">Slaptažodis</string>
     <string name="action_use_password">Naudoti slaptažodį</string>
     <string name="action_use_quickconnect">Naudoti Quick Connect</string>
@@ -454,14 +454,14 @@
     <string name="because_you_watched">Nes žiūrėjote %1$s</string>
     <string name="lbl_subtitle_text_color">Teksto spalva</string>
     <string name="lbl_subtitle_background_color">Fono spalva</string>
-    <string name="lbl_subtitle_text_stroke_color">Apvadėlio spalva</string>
+    <string name="lbl_subtitle_text_stroke_color">Krašto spalva</string>
     <string name="pref_external_player">Naudoti išorinį grotuvą</string>
     <string name="channels">Kanalai</string>
     <string name="past_week">Pastąrąją savaitę</string>
     <string name="prefer_exoplayer_ffmpeg">Teikti pirmenybę FFmpeg garso atkūrimui</string>
     <string name="segment_type_commercial">Reklamos</string>
     <string name="pref_subtitles_background_opacity">Subtitrų fono skaidrumas</string>
-    <string name="pref_report_device_profile_title">Pranešti serveriui apie grojimo galimybes</string>
+    <string name="pref_report_device_profile_title">Pranešti serveriui apie atkūrimo galimybes</string>
     <string name="pref_report_device_profile_success">Dokumentas pateiktas kaip %1$s</string>
     <plurals name="movies">
         <item quantity="one">%1$s filmas</item>
@@ -552,7 +552,7 @@
     <string name="item_delete_confirm_message">Ar tikrai norite ištrinti šį elementą iš serverio? Šio veiksmo atšaukti negalima.</string>
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS-HD</string>
-    <string name="pref_playback_advanced">Išplėstinės grojimo nuostatos</string>
+    <string name="pref_playback_advanced">Išplėstinės atkūrimo nuostatos</string>
     <string name="pref_screensaver_ageratingmax_entry">Iki %1$d amžiaus</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="pref_screensaver_ageratingrequired_title">Reikalauti amžiaus įvertinimo</string>
@@ -611,7 +611,7 @@
     <string name="playback_info_resolution">Rezoliucija: %1$dx%2$d</string>
     <string name="playback_info_bitrate">Bitų sparta: %1$s</string>
     <string name="playback_info_channels">Kanalai: %1$d</string>
-    <string name="playback_info_video_range">Vaizdo įrašų diapazonas: %1$s</string>
+    <string name="playback_info_video_range">Vaizdo diapazonas: %1$s</string>
     <string name="playback_info_transcoding_note">Serveris transkoduoja šį failą</string>
     <string name="playback_buffer_length">Atkūrimo buferio dydis</string>
     <string name="playback_buffer_auto">Automatinis</string>
