@@ -6,7 +6,7 @@ Naudotis programa privalote turėti veikiantį Jellyfin serverį. Išsiaiškinki
 
 Su Jellyfin serveriu galite:
 
-*Gyvai žiūrėti televiziją ir atsisiųstus serialus iš savo Jellyfin serverio (reikalauja papildomos aparatūros/paslaugų)
+*Žiūrėti tiesiogiai TV ir atsisiųstus serialus iš savo Jellyfin serverio (reikalauja papildomos aparatūros/paslaugų)
 *Dalintis turiniu su Chromecast įrenginiu savo tinkle
 *Dalintis turiniu su savo Android įrenginiu
 *Matyti savo kolekcija lengvoje naudoti naudotojo sąsajoje
