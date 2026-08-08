@@ -9,9 +9,11 @@ import androidx.media3.common.Format
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.audio.AudioCapabilities
 
-class HDMIAudioPassthroughCapabilities {
+class AudioPassthroughCapabilities (
+	private val context: Context
+){
 	@OptIn(UnstableApi::class)
-	fun isPassthroughAudioAvailable(context: Context, mimetype: String): Boolean {
+	fun isPassthroughAudioAvailable(mimetype: String): Boolean {
 		// Def audio attributes
 		val audioAttributes = AudioAttributes.Builder()
 			.setUsage(C.USAGE_MEDIA)
@@ -24,7 +26,8 @@ class HDMIAudioPassthroughCapabilities {
 			null,
 			listOf(
 				AudioFormat.CHANNEL_OUT_STEREO,
-				AudioFormat.CHANNEL_OUT_5POINT1 )
+				AudioFormat.CHANNEL_OUT_5POINT1
+			)
 		)
 		// Set audio format for a passthrough 2.0 audio codec check
 		val format = Format.Builder()

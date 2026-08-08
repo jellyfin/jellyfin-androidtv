@@ -19,7 +19,7 @@ import org.jellyfin.androidtv.util.appendItem
 import org.jellyfin.androidtv.util.appendSection
 import org.jellyfin.androidtv.util.appendValue
 import org.jellyfin.androidtv.util.buildMarkdown
-import org.jellyfin.androidtv.util.profile.codec.HDMIAudioPassthroughCapabilities
+import org.jellyfin.androidtv.util.profile.codec.AudioPassthroughCapabilities
 import org.jellyfin.sdk.api.client.util.ApiSerializer
 import org.jellyfin.sdk.model.ServerVersion
 import kotlin.time.Duration.Companion.nanoseconds
@@ -167,13 +167,13 @@ fun createDeviceProfileReport(
 	}
 
 	appendDetails("Audio passthrough capabilities") {
-		val audioTest = HDMIAudioPassthroughCapabilities()
-		appendLine("***AC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_AC3)}")
-		appendLine("***EAC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3)}")
-		appendLine("***EAC3-JOC (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3_JOC)}")
-		appendLine("***DTS (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS)}")
-		appendLine("***DTS-HD (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS_HD)}")
-		appendLine("***TrueHD (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_TRUEHD)}")
+		val audioTest = AudioPassthroughCapabilities(context)
+		appendLine("***AC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(MimeTypes.AUDIO_AC3)}")
+		appendLine("***EAC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(MimeTypes.AUDIO_E_AC3)}")
+		appendLine("***EAC3-JOC (2.0)***: ${audioTest.isPassthroughAudioAvailable(MimeTypes.AUDIO_E_AC3_JOC)}")
+		appendLine("***DTS (2.0)***: ${audioTest.isPassthroughAudioAvailable(MimeTypes.AUDIO_DTS)}")
+		appendLine("***DTS-HD (2.0)***: ${audioTest.isPassthroughAudioAvailable(MimeTypes.AUDIO_DTS_HD)}")
+		appendLine("***TrueHD (2.0)***: ${audioTest.isPassthroughAudioAvailable(MimeTypes.AUDIO_TRUEHD)}")
 		appendLine()
 	}
 

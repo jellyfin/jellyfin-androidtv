@@ -135,7 +135,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = booleanPreference("bitstream_ac3", true)
+		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
 
 		/**
 		 * Enable EAC3
