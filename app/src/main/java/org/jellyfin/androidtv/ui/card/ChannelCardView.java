@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.card;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import org.jellyfin.androidtv.R;
@@ -20,16 +21,35 @@ public class ChannelCardView extends FrameLayout {
     }
 
     public void setItem(final BaseItemDto channel) {
+        if (channel == null) return;
         if (channel.getNumber() != null) binding.name.setText(channel.getNumber() + " " + channel.getName());
         else binding.name.setText(channel.getName());
+
+        boolean isFavorite = channel.getUserData() != null && channel.getUserData().isFavorite();
+        binding.favImage.setVisibility(isFavorite ? View.VISIBLE : View.GONE);
 
         BaseItemDto program = channel.getCurrentProgram();
         if (program != null) {
             updateDisplay(program);
+            updateRecordingIndicator(program);
         } else {
             binding.program.setText(R.string.no_program_data);
             binding.time.setText("");
             binding.progress.setProgress(0);
+            binding.recIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateRecordingIndicator(BaseItemDto program) {
+        if (program.getSeriesTimerId() != null) {
+            binding.recIndicator.setImageResource(program.getTimerId() != null
+                    ? R.drawable.ic_record_series_red : R.drawable.ic_record_series);
+            binding.recIndicator.setVisibility(View.VISIBLE);
+        } else if (program.getTimerId() != null) {
+            binding.recIndicator.setImageResource(R.drawable.ic_record_red);
+            binding.recIndicator.setVisibility(View.VISIBLE);
+        } else {
+            binding.recIndicator.setVisibility(View.GONE);
         }
     }
 

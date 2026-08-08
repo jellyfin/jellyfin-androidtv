@@ -10,6 +10,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.LocationType
 import org.jellyfin.sdk.model.api.MediaType
@@ -40,6 +41,7 @@ fun loadLiveTvChannels(fragment: Fragment, callback: (channels: Collection<BaseI
 			withContext(Dispatchers.IO) {
 				api.liveTvApi.getLiveTvChannels(
 					addCurrentProgram = true,
+					fields = setOf(ItemFields.OVERVIEW),
 					enableFavoriteSorting = liveTvPreferences[LiveTvPreferences.favsAtTop],
 					sortBy = if (sortDatePlayed) setOf(ItemSortBy.DATE_PLAYED) else setOf(ItemSortBy.SORT_NAME),
 					sortOrder = if (sortDatePlayed) SortOrder.DESCENDING else SortOrder.ASCENDING,
