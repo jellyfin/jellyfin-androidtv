@@ -166,7 +166,7 @@ fun createDeviceProfileReport(
 		}
 	}
 
-	appendDetails("HDMI Audio Passthrough Capabilities") {
+	appendDetails("Audio passthrough capabilities") {
 		val audioTest = HDMIAudioPassthroughCapabilities()
 		appendLine("***AC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_AC3)}")
 		appendLine("***EAC3 (2.0)***: ${audioTest.isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3)}")
