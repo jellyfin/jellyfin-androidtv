@@ -282,7 +282,7 @@
     <string name="mark_watched_message">Šis failas nebuvo peržiūrėtas iki galo. Pažymėti kaip žiūrėtą?</string>
     <string name="subtitle_error">Nepavyko pasirinkti subtitrų</string>
     <string name="lbl_starting_early_ending_after">Prasideda %1$s anksčiau ir baigiasi %2$s po nustatyto laiko</string>
-    <string name="lbl__continuing">TĘSIAMA</string>
+    <string name="lbl__continuing">TĘSIAMAS</string>
     <string name="lbl_next_item">Kitas elementas</string>
     <string name="desc_bitstream_ac3">Reikalauja įrangos kuri sugebėtų tai palaikyti</string>
     <string name="audio_error">Nepavyko paleisti garso takelio %1$s</string>
