@@ -44,7 +44,7 @@
     <string name="pref_playback">Atkūrimas</string>
     <string name="msg_subtitles_loading">Subtitrai įkeliami…</string>
     <string name="lbl_filters">TV laidų filtrai</string>
-    <string name="lbl_ended">BAIGĖSI</string>
+    <string name="lbl_ended">PASIBAIGĖ</string>
     <string name="lbl_display_preferences">Ekrano nustatymai</string>
     <string name="lbl_rating">Įvertinimas</string>
     <string name="lbl_critic_rating">Kritikų įvertinimas</string>
