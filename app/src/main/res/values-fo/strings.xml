@@ -448,4 +448,19 @@
     <string name="lbl_live_broadcasts">Beinleiðis sendingar</string>
     <string name="lbl_guest_stars">Gestaleikarar</string>
     <string name="lbl_audio_output">Ljóðútgangur</string>
+    <string name="indicator_subtitles">Undirtekstir</string>
+    <string name="indicator_subtitles_hearing_impaired">Undirtekstir til deyv og hoyrnaveik</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS-HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="hdr10">HDR10</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="lbl_ok">Í lagi</string>
 </resources>
