@@ -463,4 +463,19 @@
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="lbl_ok">Í lagi</string>
+    <string name="pref_watched_indicator">Vís ávísar fyri sæddar miðlar</string>
+    <string name="pref_clock_display_playback">Ímeðan spælt verður</string>
+    <string name="pref_clock_display_browsing">Ímeðan kaga verður</string>
+    <string name="pref_screensaver_ageratingrequired_title">Aldursmarkstreytað</string>
+    <string name="pref_screensaver_ageratingmax_zero">Allir aldrar</string>
+    <string name="pref_screensaver_ageratingmax_entry">Upp til og við %1$d ár</string>
+    <string name="pref_screensaver_ageratingmax">Aldursmark</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Vísur einans innihald ið hevur aldursmark ásett</string>
+    <string name="pref_screensaver_ageratingmax_unlimited">Onki aldursmark</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Vísur alt innihald</string>
+    <string name="lbl_critic_rating">Ummælarameting</string>
+    <string name="lbl_community_rating">Hyggjarameting</string>
+    <string name="lbl_subtitle_text_color">Tekstlitur</string>
+    <string name="pref_subtitles_size">Tekststødd</string>
+    <string name="hlg">HLG</string>
 </resources>
