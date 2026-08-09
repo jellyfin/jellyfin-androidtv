@@ -705,6 +705,6 @@
     <string name="lbl_date_episode_added">تم اضافة تاريخ الحلقة</string>
     <string name="lbl_date_show_added">تم اضافة تاريخ البرنامج</string>
     <string name="truehd">HD حقيقي</string>
-    <string name="eac3_atmos">DD+ Atmos</string>
-    <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="eac3_atmos">DD+ نوى</string>
+    <string name="truehd_atmos">TrueHD نوى</string>
 </resources>
