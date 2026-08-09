@@ -470,7 +470,7 @@
     <string name="pref_screensaver_ageratingmax_zero">Allir aldrar</string>
     <string name="pref_screensaver_ageratingmax_entry">Upp til og við %1$d ár</string>
     <string name="pref_screensaver_ageratingmax">Aldursmark</string>
-    <string name="pref_screensaver_ageratingrequired_enabled">Vísur einans innihald ið hevur aldursmark ásett</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Vísur einans innihald treytað av aldursmarki</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Onki aldursmark</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Vísur alt innihald</string>
     <string name="lbl_critic_rating">Ummælarameting</string>
@@ -478,4 +478,7 @@
     <string name="lbl_subtitle_text_color">Tekstlitur</string>
     <string name="pref_subtitles_size">Tekststødd</string>
     <string name="hlg">HLG</string>
+    <string name="pref_audio_night_mode">Náttarstøða fyri ljóð (royndarhentleiki)</string>
+    <string name="lbl_special">Eykapartur</string>
+    <string name="sdr">SDR</string>
 </resources>
