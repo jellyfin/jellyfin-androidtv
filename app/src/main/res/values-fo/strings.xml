@@ -481,4 +481,19 @@
     <string name="pref_audio_night_mode">Náttarstøða fyri ljóð (royndarhentleiki)</string>
     <string name="lbl_special">Eykapartur</string>
     <string name="sdr">SDR</string>
+    <string name="lbl_additional_parts">Aðrir partar</string>
+    <string name="msg_cannot_play">Miðilin kann ikki spælast</string>
+    <string name="pref_audio_compat">Ljóðblanda niður til tvíræsi</string>
+    <string name="lbl__continuing">ÁFRAMHALDANDI</string>
+    <string name="playback_info">Spæliupplýsingar</string>
+    <string name="lbl_subtitle_text_stroke_color">Kantstrikufarva á teksti</string>
+    <string name="pref_crash_reports">Send sorúrritanir til ambætara</string>
+    <string name="pref_telemetry_description">Send sorúrrit umframt gerðalistar</string>
+    <string name="pref_crash_reports_enabled">Sorúrrit verða send til ambætaran ið seinast varð nýttur</string>
+    <string name="pref_crash_report_logs_enabled">Gerðalistar verða íroknaðir í sorúrritum</string>
+    <string name="pref_crash_report_logs_disabled">Gerðalistar verða ikki við í sorúrritum</string>
+    <string name="crash_report_toast">Ups! Ókend villa fór fram. Eitt sorúrrit var sent tínum Jellifin ambætara.</string>
+    <string name="clear_image_cache_content">Brúkar: %1$s</string>
+    <string name="pref_crash_reports_disabled">Sorúrrit verða ikki send</string>
+    <string name="pref_subtitles_position">Frástøða frá botninum</string>
 </resources>
