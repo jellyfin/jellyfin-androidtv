@@ -124,7 +124,7 @@ class PhotoPlayerViewModel(
 	}
 
 	fun setSettingsVisible(visible: Boolean) {
-		_settingsVisible.value = visible;
+		_settingsVisible.value = visible
 		if(!visible){
 			restartPresentation()
 		}
