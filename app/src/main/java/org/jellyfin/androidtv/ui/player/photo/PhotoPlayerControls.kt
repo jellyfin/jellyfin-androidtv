@@ -48,6 +48,10 @@ fun PhotoPlayerControls() {
 		NextButton(
 			onClick = { viewModel.showNext() },
 		)
+
+		SettingsButton (
+			onClick = { viewModel.setSettingsVisible(true)  },
+		)
 	}
 }
 
@@ -108,5 +112,19 @@ private fun PlayPauseButton(
 				)
 			}
 		}
+	}
+}
+
+@Composable
+private fun SettingsButton(
+	onClick: () -> Unit,
+) {
+	IconButton(
+		onClick = onClick,
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_settings),
+			contentDescription = stringResource(R.string.lbl_settings),
+		)
 	}
 }

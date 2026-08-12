@@ -31,6 +31,9 @@ class PhotoPlayerViewModel(
 	private val _currentItem = MutableStateFlow<BaseItemDto?>(null)
 	val currentItem = _currentItem.asStateFlow()
 
+	private val _settingsVisible = MutableStateFlow(false)
+	val settingsVisible = _settingsVisible.asStateFlow()
+
 	suspend fun loadItem(id: UUID, sortBy: Collection<ItemSortBy>, sortOrder: SortOrder) {
 		// Load requested item
 		val itemResponse = withContext(Dispatchers.IO) {
@@ -118,5 +121,12 @@ class PhotoPlayerViewModel(
 	fun togglePresentation() {
 		if (presentationActive.value) stopPresentation()
 		else startPresentation()
+	}
+
+	fun setSettingsVisible(visible: Boolean) {
+		_settingsVisible.value = visible;
+		if(!visible){
+			restartPresentation()
+		}
 	}
 }
