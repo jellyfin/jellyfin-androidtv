@@ -4,8 +4,8 @@
     <string name="lbl_seasons">Sezonai</string>
     <string name="lbl_series">Serialai</string>
     <string name="lbl_cancel">Atšaukti</string>
-    <string name="lbl_play">Leisti</string>
-    <string name="lbl_play_all">Žiūrėti visus</string>
+    <string name="lbl_play">Paleisti</string>
+    <string name="lbl_play_all">Paleisti viską</string>
     <string name="lbl_other">Kita</string>
     <string name="lbl_tv_series">TV Serialai</string>
     <string name="lbl_movies">Filmai</string>
@@ -61,7 +61,7 @@
     <string name="lbl_search_hint">Teksto paieška (pasirinkite klaviatūrai)</string>
     <string name="lbl_empty">Tuščias</string>
     <string name="lbl_never">Niekada</string>
-    <string name="msg_playback_incompatible">Nepavyksta paleisti šio vaizdo įrašo formato</string>
+    <string name="msg_playback_incompatible">Nepavyksta paleisti šio formato vaizdo įrašo</string>
     <string name="msg_playback_not_allowed">Atkūrimas šiuo metu neleidžiamas</string>
     <string name="lbl_loading_elipses">Įkeliama…</string>
     <string name="lbl_born">"Gimė "</string>
@@ -70,18 +70,18 @@
     <string name="lbl_yes">Taip</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nežinomas</string>
-    <string name="msg_video_playback_error">"Vaizdo įrašo atkūrimo klaida - "</string>
+    <string name="msg_video_playback_error">"Vaizdo įrašo paleidimo klaida - "</string>
     <string name="lbl_recordings">Įrašai</string>
     <string name="lbl_videos">Vaizdo įrašai</string>
     <string name="lbl_people">Žmonės</string>
-    <string name="lbl_last_played">"Paskutinį kartą žiūrėta "</string>
+    <string name="lbl_last_played">"Paskutinį kartą paleista "</string>
     <string name="lbl_ends">Baigiasi</string>
     <string name="lbl_watched">Žiūrėtas</string>
     <string name="lbl_favorite">Mėgstamas</string>
     <string name="lbl_chapters">Skyriai</string>
     <string name="msg_cannot_play">Šio elemento paleisti negalima</string>
     <string name="msg_cannot_play_time">Šiuo metu negalima paleisti šio elemento</string>
-    <string name="lbl_play_trailers">Leisti anonsą(-us)</string>
+    <string name="lbl_play_trailers">Paleisti anonsą(-us)</string>
     <string name="lbl_trailer">"Anonsas "</string>
     <string name="lbl_none">Tuščia</string>
     <string name="lbl_other_options">Kitos parinktys</string>
@@ -96,8 +96,8 @@
     <string name="msg_not_implemented">" neįgyvendinta"</string>
     <string name="state_disabled">Išjungta</string>
     <string name="lbl_valid_server_address">Prašome įvesti serverio adresą (IP arba domeną/įrenginio pavadinimą)</string>
-    <string name="lbl_mark_unplayed">Pažymėti kaip nežiūrėtą</string>
-    <string name="lbl_mark_played">Pažymėti kaip peržiūrėtą</string>
+    <string name="lbl_mark_unplayed">Pažymėti kaip nepaleistą</string>
+    <string name="lbl_mark_played">Pažymėti kaip paleistą</string>
     <string name="lbl_similar_items_library">Panašūs elementai bibliotekoje</string>
     <string name="lbl_record_any_time">Įrašyti bet kuriuo metu</string>
     <string name="lbl_goto_series">Eiti į serialus</string>
@@ -117,7 +117,7 @@
     <string name="msg_will_record">Įrašys</string>
     <string name="msg_no_playable_items">Nėra įrašų, kuriuos būtų galima paleisti</string>
     <string name="lbl_cast_crew">Aktoriai</string>
-    <string name="lbl_goto_now_playing">Eiti į dabar rodomą</string>
+    <string name="lbl_goto_now_playing">Eiti į dabar leidžiamą</string>
     <string name="lbl_load_channels">"Įkelti kanalus "</string>
     <string name="lbl_on">Įjungta</string>
     <string name="lbl_premier_date">Premjeros data</string>
@@ -346,7 +346,7 @@
     <string name="pref_subtitle_track_button">Subtitrų takelio mygtukas</string>
     <string name="no_player">Nėra grotuvo</string>
     <string name="episode_missing_message_2">Šio epizodo nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
-    <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui leisti.</string>
+    <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui paleisti.</string>
     <string name="msg_live_tv_next">Krauti kitas %1$d valandas?</string>
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
@@ -579,8 +579,8 @@
         <item quantity="other">%1$s valandų</item>
     </plurals>
     <string name="pref_subtitles_bold">Paryškintas tekstas</string>
-    <string name="preference_enable_pgs">Tiesiogiai atkurti PGS subtitrus</string>
-    <string name="lbl_from_beginning">Leisti nuo pradžios</string>
+    <string name="preference_enable_pgs">Tiesiogiai paleisti PGS subtitrus</string>
+    <string name="lbl_from_beginning">Paleisti nuo pradžios</string>
     <string name="speech_error_no_permission">Nėra leidimo naudotis mikrofonu. Įgalinkite jį sistemos nustatymuose.</string>
     <string name="speech_error_unavailable">Jūsų prietaise kalbos atpažinimo funkcija nepasiekiama.</string>
     <string name="speech_error_unknown">Atpažįstant kalbą įvyko nenumatyta klaida.</string>
@@ -624,7 +624,7 @@
     <string name="pref_playback_prerolls">Išankstiniai pasirodymai</string>
     <string name="pref_playback_inactivity_prompt">Neaktyvumo raginimas</string>
     <string name="pref_prerolls_enabled">Įjungti kino režimą</string>
-    <string name="pref_prerolls_enabled_description">Prieš filmus paleiskite pasirinktinius įžanginius įrašus</string>
+    <string name="pref_prerolls_enabled_description">Prieš filmus paleisti pasirinktinius įžanginius įrašus</string>
     <string name="pref_media_queueing">Įtraukti visus epizodus į eilę</string>
     <string name="lbl_date_show_added">Serialo pridėjimo data</string>
     <string name="pref_playback_media_segments">Medijos segmentai</string>
@@ -665,7 +665,7 @@
     <string name="codec_level_4_2">Lygis 4.2</string>
     <string name="codec_level_4_1">Lygis 4.1</string>
     <string name="codec_level_4_0">Lygis 4.0</string>
-    <string name="preference_enable_ass">Tiesioginio ASS subtitrų paleidimo funkcija</string>
+    <string name="preference_enable_ass">Tiesioginio paleidimo ASS subtitrai</string>
     <string name="preference_enable_pgs_description">Reikalingas transkodavimas, kai išjungta</string>
     <string name="preference_enable_ass_description">Eksperimentinė funkcija, gali neveikti patikimai</string>
     <string name="auto">Automatinis</string>
