@@ -419,7 +419,7 @@
     <string name="lbl_tv_queuing">Automatiškai paleisti sekantį epizodą</string>
     <string name="lbl_show_backdrop">Rodyti fonus</string>
     <string name="lbl_program_ended">Programa pasibaigė</string>
-    <string name="lbl_instant_mix">Spontaniškas sumaišymas</string>
+    <string name="lbl_instant_mix">Maišyti</string>
     <string name="msg_no_items">Nėra elementų, kuriuos būtų galima paleisti</string>
     <string name="lbl_remove_server">Pašalinti serverį</string>
     <string name="lbl_manage_servers">Valdyti serverius</string>
