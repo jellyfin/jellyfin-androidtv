@@ -658,4 +658,5 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="lbl_date_show_added">Ngày chương trình được thêm vào</string>
 </resources>
