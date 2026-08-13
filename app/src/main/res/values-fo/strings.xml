@@ -496,4 +496,6 @@
     <string name="clear_image_cache_content">Fyllir: %1$s</string>
     <string name="pref_crash_reports_disabled">Sorúrrit verða ikki send</string>
     <string name="pref_subtitles_position">Frástøða frá botninum</string>
+    <string name="playback_info_direct_play">Beinleiðis spæling</string>
+    <string name="playback_info_direct_stream">Beinleiðis stroyming</string>
 </resources>
