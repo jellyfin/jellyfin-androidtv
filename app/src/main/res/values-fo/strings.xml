@@ -498,4 +498,8 @@
     <string name="pref_subtitles_position">Frástøða frá botninum</string>
     <string name="playback_info_direct_play">Beinleiðis spæling</string>
     <string name="playback_info_direct_stream">Beinleiðis stroyming</string>
+    <string name="color_cyan">Blágrønur</string>
+    <string name="server_issue_ssl_handshake">SSL-sambinding miseydnaðist</string>
+    <string name="server_issue_timeout">Sambindingin eydnaðist ikki innan svarfreistina</string>
+    <string name="pref_telemetry_category">Sormelding</string>
 </resources>
