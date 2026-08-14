@@ -88,11 +88,11 @@
     <string name="lbl_enable_cinema_mode">Biografstøða</string>
     <string name="sum_enable_cinema_mode">Spæl tøkar forfilmar og undansýningarfilmar áðrenn ein filmur byrjar</string>
     <string name="lbl_playlists">Spælilistar</string>
-    <string name="lbl_add_to_queue">Legg í bíðirøð</string>
+    <string name="lbl_add_to_queue">Legg í spælirøð</string>
     <string name="lbl_open_artist">Sí listafólk</string>
     <string name="lbl_open_album">Sí útgávu</string>
     <string name="lbl_play_from_here">Spæl hiðanífrá</string>
-    <string name="lbl_remove_from_queue">Strika úr bíðirøð</string>
+    <string name="lbl_remove_from_queue">Strika úr spælirøð</string>
     <string name="lbl_delete">Strika</string>
     <string name="desc_automatic_fav_songs">Sjálvvirkandi yndistónleikalisti</string>
     <string name="lbl_new_premieres">Nýggjar frumsýningar</string>
@@ -273,7 +273,7 @@
     <string name="copied_to_clipboard">Avritað til setiborð</string>
     <string name="pref_customization_subtitles">Undirtekstir</string>
     <string name="pref_prerolls_enabled">Virkja biografstøðu</string>
-    <string name="pref_media_queueing">Set allar partarnar í bíðirøðina</string>
+    <string name="pref_media_queueing">Legg allar partarnar í spælirøðina</string>
     <string name="font_weight_100">Tunn</string>
     <string name="font_weight_200">Eyka tunn</string>
     <string name="font_weight_300">Løtt</string>
@@ -502,4 +502,6 @@
     <string name="server_issue_ssl_handshake">SSL-sambinding miseydnaðist</string>
     <string name="server_issue_timeout">Sambindingin eydnaðist ikki innan svarfreistina</string>
     <string name="pref_telemetry_category">Sormelding</string>
+    <string name="lbl_clear_queue">Reinsa spælirøðina</string>
+    <string name="current_queue">Núverandi spælirøð</string>
 </resources>
