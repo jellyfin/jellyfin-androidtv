@@ -40,7 +40,7 @@
     <string name="lbl_cancel_recording">Atšaukti įrašymą</string>
     <string name="lbl_shuffle_all">Sumaišyti visus</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_max_bitrate_title">Maksimalus srauto pralaidumas</string>
+    <string name="pref_max_bitrate_title">Maksimalus srautinės transliacijos bitų srautas</string>
     <string name="pref_playback">Atkūrimas</string>
     <string name="msg_subtitles_loading">Subtitrai įkeliami…</string>
     <string name="lbl_filters">TV laidų filtrai</string>
@@ -117,7 +117,7 @@
     <string name="msg_will_record">Įrašys</string>
     <string name="msg_no_playable_items">Nėra įrašų, kuriuos būtų galima paleisti</string>
     <string name="lbl_cast_crew">Aktoriai</string>
-    <string name="lbl_goto_now_playing">Eiti į dabar leidžiamą</string>
+    <string name="lbl_goto_now_playing">Eiti į dabar atkuriamą</string>
     <string name="lbl_load_channels">"Įkelti kanalus "</string>
     <string name="lbl_on">Įjungta</string>
     <string name="lbl_premier_date">Premjeros data</string>
@@ -138,7 +138,7 @@
     <string name="lbl_live_tv_guide">TV gidas</string>
     <string name="lbl_recorded_tv">Įrašyta televizija</string>
     <string name="lbl_episodes">Epizodai</string>
-    <string name="msg_error_live_stream">Įvyko klaida transliuojant televiziją. Bandoma paleisti iš naujo…</string>
+    <string name="msg_error_live_stream">Transliuojant tiesioginę televiziją įvyko klaida. Bandysiu dar kartą…</string>
     <string name="lbl_albums">Albumai</string>
     <string name="lbl_artists">Atlikėjai</string>
     <string name="lbl_song">Daina</string>
@@ -175,7 +175,7 @@
     <string name="lbl_zoom">Priartinti</string>
     <string name="lbl_schedule">Planai</string>
     <string name="lbl_open">Atidaryti</string>
-    <string name="pref_next_up_timeout_summary">Kiek laukti prieš paleidžiant sekantį elementą</string>
+    <string name="pref_next_up_timeout_summary">Kiek laukti prieš atkuriant sekantį elementą</string>
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
     <string name="lbl_image_size">Atvaizdo dydis</string>
     <string name="msg_record_entire_series">Įrašyti visą serialą?</string>
@@ -194,7 +194,7 @@
     <string name="lbl_auto_crop">Automatiškai apkirpti</string>
     <string name="lbl_stretch">Ištempti</string>
     <string name="lbl_new_episodes">Nauji epizodai</string>
-    <string name="lbl_now_playing">Dabar leidžiama</string>
+    <string name="lbl_now_playing">Dabar atkuriama</string>
     <string name="lbl_play_from_here">Paleisti nuo čia</string>
     <string name="lbl_remove_from_queue">Pašalinti iš eilės</string>
     <string name="msg_item_added">" failas pridėtas"</string>
@@ -346,7 +346,7 @@
     <string name="pref_subtitle_track_button">Subtitrų takelio mygtukas</string>
     <string name="no_player">Nėra grotuvo</string>
     <string name="episode_missing_message_2">Šio epizodo nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
-    <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui paleisti.</string>
+    <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui atkurti.</string>
     <string name="msg_live_tv_next">Krauti kitas %1$d valandas?</string>
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
@@ -628,7 +628,7 @@
     <string name="pref_media_queueing">Įtraukti visus epizodus į eilę</string>
     <string name="lbl_date_show_added">Serialo pridėjimo data</string>
     <string name="pref_playback_media_segments">Medijos segmentai</string>
-    <string name="pref_media_queueing_description">Pridėti vėlesnius epizodus į eilę, kai leidžiate TV serialus</string>
+    <string name="pref_media_queueing_description">Pridėti vėlesnius epizodus į eilę, kai atkuriate TV serialus</string>
     <string name="pref_subtitles_weight">Teksto plotis</string>
     <string name="font_weight_100">Plonas</string>
     <string name="color_presets">Išankstiniai nustatymai</string>
