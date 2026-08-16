@@ -46,7 +46,7 @@
     <string name="lbl_play_trailers">Spæl forfilm(ar)</string>
     <string name="lbl_no">Nei</string>
     <string name="lbl_yes">Ja</string>
-    <string name="lbl_enter_server_address">Inntæppa ambætaraadressu</string>
+    <string name="lbl_enter_server_address">Inntøppa ambætaraadressu</string>
     <string name="lbl_valid_server_address">Vinaliga inntøppa adressu ambætarans (IP ella økisnavn/vertsnavn)</string>
     <string name="lbl_born">"Føddur "</string>
     <string name="lbl_loading_elipses">Innlesur…</string>
@@ -189,7 +189,7 @@
     <string name="auto_sign_in">Sjálvvirkandi innritan</string>
     <string name="user_picker_disable_title">Óvirkja</string>
     <string name="user_picker_disable_summary">Vís innritan hvørja ferð</string>
-    <string name="user_picker_last_user_title">Seinast brúktur</string>
+    <string name="user_picker_last_user_title">Seinast brúkta konto</string>
     <string name="lbl_switch_user">Skift brúkara</string>
     <string name="no_network_permissions">Jellyfin tørvar netrættindir til tess at virka</string>
     <string name="saved_servers">Goymdir ambætarar</string>
@@ -244,7 +244,7 @@
     <string name="input_username">Brúkaranavn</string>
     <string name="input_password">Loyniorð</string>
     <string name="login_connect_to">Sambindur við %1$s</string>
-    <string name="login_other_options">Aðrar stillingar:</string>
+    <string name="login_other_options">Aðrir møgulleikar:</string>
     <string name="login_quickconnect_step_3">3. Inntøppa fylgjandi kotu:</string>
     <string name="action_connect">Sambind</string>
     <string name="app_notification_beta">Appin er dagførd til %1$s\nTakk fyri at tú luttekur í Jellyfin royndarverkætlanini.</string>
@@ -506,4 +506,5 @@
     <string name="current_queue">Núverandi spælirøð</string>
     <string name="lbl_load_guide_data">Innles skráadátur</string>
     <string name="last_use">Seinastu nýtslu</string>
+    <string name="user_picker_last_user_summary">Brúka seinast nýttu kontuna</string>
 </resources>
