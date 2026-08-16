@@ -367,8 +367,8 @@
     <string name="action_use_password">Brug en adgangskode</string>
     <string name="action_login">Log ind</string>
     <string name="home_section_resume_book">Læs videre</string>
-    <string name="pref_direct_stream_live_on">Omkodning er deaktiveret</string>
-    <string name="pref_direct_stream_live_off">Omkodning bruges når det er nødvendigt</string>
+    <string name="pref_direct_stream_live_on">Transkodning er deaktiveret</string>
+    <string name="pref_direct_stream_live_off">Transkodning bruges når det er nødvendigt</string>
     <string name="pref_audio">Lyd</string>
     <string name="pref_subtitles">Undertekster</string>
     <string name="pref_video">Video</string>
