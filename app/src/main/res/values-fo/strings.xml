@@ -528,6 +528,8 @@
     <string name="add_user">Legg inn konto</string>
     <string name="no_user_warning">Eingin konta var funnin!\nLegg eina nýggja konto inn við at trýsta á \"Legg inn konto\" knøttin.</string>
     <string name="random">Tilvildarligur</string>
-    <string name="pref_report_device_profile_failure">Miseydnaðist at boða frá spælivirkisføri. Møguliga noktar Jellyfin-ambætarin at taka ímóti viðskiftaragerðalistum.</string>
+    <string name="pref_report_device_profile_failure">Miseydnaðist at avhenda skjal. Møguliga noktar Jellyfin-ambætarin at taka ímóti viðskiftaragerðalistum.</string>
     <string name="pref_report_device_profile_success">Skjal fráboðað sum %1$s</string>
+    <string name="pref_report_device_profile_summary">Uppsend eitt brekgreiningarskjal til Jellyfin-ambætaran við upplýsingum um spælivirkisføri</string>
+    <string name="pref_troubleshooting">Brekgreining</string>
 </resources>
