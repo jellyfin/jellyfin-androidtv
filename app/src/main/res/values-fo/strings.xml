@@ -340,7 +340,7 @@
     <string name="item_deleted">%1$s strikaður</string>
     <string name="item_deletion_failed">Bar ikki til at strika %1$s</string>
     <string name="pref_enable_media_management">Virkja miðlaumsiting</string>
-    <string name="pref_enable_media_management_description">Vís kostir at umsita miðlar tá blaða verður</string>
+    <string name="pref_enable_media_management_description">Vís kostir at umsita miðlar tá kagað verður</string>
     <string name="item_delete_confirm_title">Strika miðil</string>
     <string name="item_delete_confirm_message">Ynskir tú at strika hendan miðilin frá ambætaranum? Gerðin kann ikki vendast aftur.</string>
     <string name="pref_screensaver">Skáaskíggi</string>
@@ -465,7 +465,7 @@
     <string name="lbl_ok">Í lagi</string>
     <string name="pref_watched_indicator">Vís ávísar fyri sæddar miðlar</string>
     <string name="pref_clock_display_playback">Ímeðan spælt verður</string>
-    <string name="pref_clock_display_browsing">Ímeðan blaða verður</string>
+    <string name="pref_clock_display_browsing">Ímeðan kagað verður</string>
     <string name="pref_screensaver_ageratingrequired_title">Aldursmarkstreytað</string>
     <string name="pref_screensaver_ageratingmax_zero">Allir aldrar</string>
     <string name="pref_screensaver_ageratingmax_entry">Upp til og við %1$d ár</string>
@@ -540,5 +540,9 @@
     <string name="pref_next_up_timeout_summary">Bíðitíð áðrenn fari verður undir at spæla næstu kykmynd</string>
     <string name="pref_next_up_timeout_title">Steðgur áðrenn næsta</string>
     <string name="pref_still_watching_behavior_title">Vís atgerðaloysisspurning</string>
-    <string name="pref_browsing">Blaðing</string>
+    <string name="pref_browsing">Kaging</string>
+    <string name="lbl_showing">Vísur</string>
+    <string name="server_setup_incomplete">Uppsetanin av hesum ambætaranum er ikki liðug. Lat Jellyfin-vevsíðuna upp í einum vevkaga til tess at avgreiða uppsetanina áðrenn tú ritar inn.</string>
+    <string name="lbl_remove_users">Sum ein avleiðing av hesum verða allar tilhoyrandi kontur strikaðar</string>
+    <string name="playback_info_container">Pakkasnið: %1$s</string>
 </resources>
