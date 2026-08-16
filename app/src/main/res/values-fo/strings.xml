@@ -521,4 +521,8 @@
     <string name="lbl_record_series">Tak sendirøðina uppá</string>
     <string name="lbl_record_any_channel">Tak uppá á einhvørjari rás</string>
     <string name="lbl_live_tv_guide">Sjónvarpsskráir</string>
+    <string name="lbl_stretch">Toygg</string>
+    <string name="lbl_playback_speed">Spæliferð</string>
+    <string name="msg_record_entire_series">Tak alla sendirøðina uppá?</string>
+    <string name="lbl_series_recordings">Røðupptøkur</string>
 </resources>
