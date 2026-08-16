@@ -1,0 +1,19 @@
+name: Repo / Triage
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - ready_for_review
+
+jobs:
+  review-add:
+    name: Add to reviews project
+    runs-on: ubuntu-24.04
+    if: ${{ contains(github.repository_owner, 'jellyfin') && !github.event.pull_request.draft }}
+    steps:
+      - name: Add pull request to organization project
+        env:
+          GH_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          PROJECT_ID: ${{ secrets.PROJECT_ANDROID_TRIAGE }}
+        run: gh project item-add "$PROJECT_ID" --owner "${{ github.repository_owner }}" --url "${{ github.event.pull_request.html_url }}"
