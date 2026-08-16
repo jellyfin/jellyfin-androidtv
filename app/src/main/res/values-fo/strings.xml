@@ -191,10 +191,10 @@
     <string name="user_picker_disable_summary">Vís innritan hvørja ferð</string>
     <string name="user_picker_last_user_title">Seinast brúktur</string>
     <string name="lbl_switch_user">Skift brúkara</string>
-    <string name="no_network_permissions">Jellyfin tørvar netrættindir fyri at virka</string>
+    <string name="no_network_permissions">Jellyfin tørvar netrættindir til tess at virka</string>
     <string name="saved_servers">Goymdir ambætarar</string>
     <string name="welcome_title">Vælkomin til Jellyfin!</string>
-    <string name="welcome_content">Sambind við tín ambætara fyri at koma í gongd.</string>
+    <string name="welcome_content">Sambind við tín ambætara til tess at koma í gongd.</string>
     <string name="help">Hjálp</string>
     <string name="lbl_next_up_extended">Við smámynd</string>
     <string name="lbl_next_up_minimal">Uttan smámynd</string>
