@@ -513,4 +513,5 @@
     <string name="pref_theme_muted_purple">Mjúkur purpur</string>
     <string name="lbl_none">Ongan</string>
     <string name="home_section_none">Einki</string>
+    <string name="no_program_data">Ongar skrádátur tøkar</string>
 </resources>
