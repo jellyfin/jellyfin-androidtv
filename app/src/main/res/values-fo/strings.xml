@@ -514,4 +514,10 @@
     <string name="lbl_none">Ongan</string>
     <string name="home_section_none">Einki</string>
     <string name="no_program_data">Ongar skrádátur tøkar</string>
+    <string name="lbl_shuffle_all">Blanda allar</string>
+    <string name="msg_recording_now">Tekur nú uppá</string>
+    <string name="msg_will_record">Verður tikin uppá</string>
+    <string name="msg_set_to_record">Sendingin verður tikin uppá</string>
+    <string name="lbl_record_series">Tak sendirøðina uppá</string>
+    <string name="lbl_record_any_channel">Tak uppá á einhvørjari rás</string>
 </resources>
