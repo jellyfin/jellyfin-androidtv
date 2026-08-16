@@ -89,7 +89,7 @@
     <string name="sum_enable_cinema_mode">Spæl tøkar forfilmar og undansýningarfilmar áðrenn ein filmur byrjar</string>
     <string name="lbl_playlists">Spælilistar</string>
     <string name="lbl_add_to_queue">Legg í spælirøð</string>
-    <string name="lbl_open_artist">Sí listafólk</string>
+    <string name="lbl_open_artist">Sí tónlistafólk</string>
     <string name="lbl_open_album">Sí útgávu</string>
     <string name="lbl_play_from_here">Spæl hiðanífrá</string>
     <string name="lbl_remove_from_queue">Strika úr spælirøð</string>
@@ -157,7 +157,7 @@
     <string name="audio_error">Bar ikki til at spæla ljóð %1$s</string>
     <string name="lbl_sign_in">Vinaliga rita inn</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_clock_display">Vís klokkuna</string>
+    <string name="pref_clock_display">Vís klokkuna (á nýtaramóti)</string>
     <string name="lbl_always">Altíð</string>
     <string name="server_connecting">Sambindur við %1$s</string>
     <string name="server_connection_failed">Bar ikki til at sambinda við ambætaran</string>
@@ -422,7 +422,7 @@
     <string name="pref_playback_next_up">Næst á skránni</string>
     <string name="subtitle_preview_text">Undirtekstir koma at síggja soleiðis út</string>
     <string name="preference_enable_ass_description">Royndarfunka ið kann vera óálítandi</string>
-    <string name="preference_enable_pgs_description">Um óvirkt er umkoting neyðug</string>
+    <string name="preference_enable_pgs_description">Um frávalt er kykmyndaumkoting neyðug</string>
     <string name="playback_info_bitrate">Bitferð: %1$s</string>
     <string name="lbl_refresh_switching">Afturkomuferðskifti</string>
     <string name="lbl_instant_mix">Løtubland</string>
@@ -484,7 +484,7 @@
     <string name="lbl_additional_parts">Aðrir partar</string>
     <string name="msg_cannot_play">Miðilin kann ikki spælast</string>
     <string name="pref_audio_compat">Ljóðblanda niður til tvíræsi</string>
-    <string name="lbl__continuing">ÁFRAMHALDANDI</string>
+    <string name="lbl__continuing">HELDUR FRAM</string>
     <string name="playback_info">Spæliupplýsingar</string>
     <string name="lbl_subtitle_text_stroke_color">Kantstrikufarva á teksti</string>
     <string name="pref_crash_reports">Send sorúrritanir til ambætara</string>
@@ -501,10 +501,14 @@
     <string name="color_cyan">Blágrønur</string>
     <string name="server_issue_ssl_handshake">SSL-sambinding miseydnaðist</string>
     <string name="server_issue_timeout">Sambindingin eydnaðist ikki innan svarfreistina</string>
-    <string name="pref_telemetry_category">Sormelding</string>
+    <string name="pref_telemetry_category">Sormeldingar</string>
     <string name="lbl_clear_queue">Reinsa spælirøðina</string>
     <string name="current_queue">Núverandi spælirøð</string>
     <string name="lbl_load_guide_data">Innles skráadátur</string>
     <string name="last_use">Seinastu nýtslu</string>
     <string name="user_picker_last_user_summary">Brúka seinast nýttu kontuna</string>
+    <string name="color_presets">Tøkir litir</string>
+    <string name="pref_crash_report_logs">Umfata gerðalistar</string>
+    <string name="home_section_resume_audio">Hald áfram at lurta</string>
+    <string name="pref_theme_muted_purple">Mjúkur purpur</string>
 </resources>
