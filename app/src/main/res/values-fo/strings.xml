@@ -520,4 +520,5 @@
     <string name="msg_set_to_record">Sendingin verður tikin uppá</string>
     <string name="lbl_record_series">Tak sendirøðina uppá</string>
     <string name="lbl_record_any_channel">Tak uppá á einhvørjari rás</string>
+    <string name="lbl_live_tv_guide">Sjónvarpsskráir</string>
 </resources>
