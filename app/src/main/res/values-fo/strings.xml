@@ -228,14 +228,14 @@
     <string name="server_issue_unable_to_connect">Bar ikki til at sambinda</string>
     <string name="server_issue_invalid_product">Ritbúnaður ambætarans er ikki sínamillumvirkin</string>
     <string name="server_issue_missing_version">Bar ikki til at staðfesta ambætaraútgávuna</string>
-    <string name="pref_customization">Brúkaratillagað</string>
+    <string name="pref_customization">Brúkaratillagan</string>
     <string name="sort_accounts_by">Raða kontur eftir</string>
     <string name="pref_accounts">Kontur</string>
     <string name="pref_behavior">Atburður</string>
     <string name="pref_theme">Snið</string>
     <string name="pref_libraries">Søvn</string>
     <string name="pref_libraries_description">Tillaga hvussu søvn verða víst</string>
-    <string name="pref_login">Rita inn</string>
+    <string name="pref_login">Innritan</string>
     <string name="pref_login_description">Ambætarar, kontur, sjálvvirkandi innritan</string>
     <string name="pref_subtitles">Undirtekstir</string>
     <string name="pref_audio">Ljóð</string>
