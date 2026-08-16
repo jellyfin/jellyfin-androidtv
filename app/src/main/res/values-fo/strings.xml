@@ -323,7 +323,7 @@
         <item quantity="other">%1$s útgávur</item>
     </plurals>
     <string name="continue_listening">Hald áfram at lurta</string>
-    <string name="lbl_by_letter">Stavraða</string>
+    <string name="lbl_by_letter">Stavraði</string>
     <string name="lbl_collections">Søvn</string>
     <string name="lbl_play_all">Spæl allar</string>
     <string name="msg_recording_cancelled">Upptøka avlýst</string>
@@ -505,4 +505,5 @@
     <string name="lbl_clear_queue">Reinsa spælirøðina</string>
     <string name="current_queue">Núverandi spælirøð</string>
     <string name="lbl_load_guide_data">Innles skráadátur</string>
+    <string name="last_use">Seinastu nýtslu</string>
 </resources>
