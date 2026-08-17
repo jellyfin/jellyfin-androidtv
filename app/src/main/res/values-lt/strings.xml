@@ -543,7 +543,7 @@
         <item quantity="other">%1$s TV serialų</item>
     </plurals>
     <string name="pref_screensaver_ageratingmax">Maksimalus amžiaus įvertinimas</string>
-    <string name="pref_screensaver_ageratingmax_zero">Visų metų</string>
+    <string name="pref_screensaver_ageratingmax_zero">Visoms amžiaus grupėms</string>
     <string name="pref_screensaver">Ekrano užsklanda</string>
     <string name="pref_screensaver_inapp_enabled">Naudoti programos ekrano užsklandą</string>
     <string name="lbl_hide_watched_checkmark">Kai lieka epizodų</string>
@@ -564,7 +564,7 @@
         <item quantity="other">%1$s dalykų</item>
     </plurals>
     <string name="pref_screensaver_ageratingrequired_enabled">Rodomi tik su amžiaus įvertinimu</string>
-    <string name="pref_screensaver_ageratingrequired_disabled">Rodomi visi</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Rodomi visi elementai</string>
     <string name="item_deletion_failed">Nepavyko ištrinti %1$s</string>
     <plurals name="seconds">
         <item quantity="one">%1$s sekundė</item>
