@@ -229,7 +229,7 @@
     <string name="lbl_sd">SD</string>
     <string name="lbl_record_any_channel">Įrašyti bet kurį kanalą</string>
     <string name="player_error">Grotuve įsivėlė klaida. Bandoma iš naujo…</string>
-    <string name="login_invalid_credentials">Neteisingas naudotojo vardas ir/arba slaptažodis</string>
+    <string name="login_invalid_credentials">Neteisingas vartotojo vardas ir/arba slaptažodis</string>
     <string name="user_picker_last_user_title">Paskutinį kartą naudota</string>
     <string name="lbl_on_any_channel">Ant bet kurio kanalo</string>
     <string name="always_authenticate_description">Įjungiant šią funkcija bus išjungtas automatinis prisijungimas</string>
@@ -330,7 +330,7 @@
     <string name="pref_subtitles_background_summary">Rodyti juodą foną už subtitrų</string>
     <string name="home_section_active_recordings">Aktyvūs įrašymai</string>
     <string name="pref_behavior">Elgsena</string>
-    <string name="input_username">Prisijungimo vardas</string>
+    <string name="input_username">Vartotojo vardas</string>
     <string name="login_connect_to">Jungiamasi prie %1$s</string>
     <string name="lbl_sign_out_content">Reikės priisjungti kitą kartą bandant naudotis</string>
     <string name="enable_smart_view_description">Išmanusis ekranas rodo atitinkamus elementus, o ne tinklelį</string>
@@ -432,7 +432,7 @@
     <string name="msg_live_tv_prev">Krauti buvusias %1$d valandas?</string>
     <string name="server_field_empty">Adresas negali būti tuščias</string>
     <string name="login_server_unavailable">Nepavyko priisjungti prie serverio</string>
-    <string name="login_username_field_empty">Naudotojo vardas negali būti tuščias</string>
+    <string name="login_username_field_empty">Vartotojo vardas negali būti tuščias</string>
     <string name="server_connection_failed_candidates">Nepavyko prisijungti prie serverio, bandyta šiais adresais: %1$s</string>
     <string name="seek_error">Nepavyko ieškoti</string>
     <string name="login_authenticating">Jungiamasi…</string>
