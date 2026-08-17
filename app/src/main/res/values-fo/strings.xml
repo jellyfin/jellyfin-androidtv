@@ -111,8 +111,8 @@
     <string name="lbl_in_x_days">Um %d dagar</string>
     <string name="lbl_select_date">Vel dag</string>
     <string name="lbl_just_this_once">Bert hesaferð</string>
-    <string name="lbl_sports">Ítrottir</string>
-    <string name="lbl_kids">Børn</string>
+    <string name="lbl_sports">Ítróttarsendingar</string>
+    <string name="lbl_kids">Barnasendingar</string>
     <string name="lbl_recent_recordings">Nýliga upptikið</string>
     <string name="lbl_repeat">Endurtak</string>
     <string name="lbl_live">Beinleiðis</string>
@@ -333,7 +333,7 @@
     <string name="lbl_items">Miðlar</string>
     <string name="lbl_item">Miðil</string>
     <string name="lbl_no_items">Eingir miðlar</string>
-    <string name="lbl_all_items">Allir miðlar</string>
+    <string name="lbl_all_items">Allar miðlar</string>
     <string name="lbl_prev_item">Undanfarni miðil</string>
     <string name="home_section_resume_book">Hald áfram at lesa</string>
     <string name="episode_name_special">eykapartur</string>
@@ -354,7 +354,7 @@
     </plurals>
     <string name="pref_playback">Spæling</string>
     <string name="lbl_continue_watching">Hald áfram at hyggja</string>
-    <string name="lbl_views">Sýningar</string>
+    <string name="lbl_views">Sýnir</string>
     <string name="lbl_pause">Pausa</string>
     <string name="pref_audio_direct">Beinleiðis</string>
     <string name="playback_info_transcoding">Umkotar</string>
@@ -548,4 +548,16 @@
     <string name="lbl_date_show_added">Innleggingardegi raðanna</string>
     <string name="lbl_date_episode_added">Innleggingardegi partanna</string>
     <string name="lbl_sd">SD</string>
+    <string name="lbl_exit">Loka</string>
+    <string name="lbl_mark_unplayed">Merk óspældan</string>
+    <string name="lbl_mark_played">Merk spældan</string>
+    <string name="pref_max_bitrate_title">Stroymibitferðmark</string>
+    <string name="lbl_starting_with">hvørs heiti byrjar við</string>
+    <string name="lbl_tune_to_channel">Skift til rásina</string>
+    <string name="lbl_new_only">Einans nýggjar</string>
+    <string name="lbl_similar_items_library">Tílíkir miðlar í savninum</string>
+    <string name="msg_error_live_stream">Villa undir stroyming av beinleiðis sjónvarpi. Roynur aftur…</string>
+    <string name="pref_button_remapping_description">Trýst á einhvønn knøtt á fjarstýringini til tess at áseta hann</string>
+    <string name="press_to_close">Trýst fyri at loka</string>
+    <string name="enable_smart_view">Virkja snilt sýni</string>
 </resources>
