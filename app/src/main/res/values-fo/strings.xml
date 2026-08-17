@@ -69,9 +69,9 @@
     <string name="lbl_enable_debug">Villugreiningarstillingar</string>
     <string name="lbl_sorted_by">raðað eftir</string>
     <string name="lbl_from">frá</string>
-    <string name="lbl_name">Navn</string>
+    <string name="lbl_name">Navni</string>
     <string name="lbl_date_added">Innleggingardagur</string>
-    <string name="lbl_premier_date">Frumsýningardagur</string>
+    <string name="lbl_premier_date">Frumsýningardegi</string>
     <string name="lbl_rating">Meting</string>
     <string name="lbl_ended">LIÐUG</string>
     <string name="msg_subtitles_loading">Innlesur undirtekstir…</string>
@@ -545,4 +545,7 @@
     <string name="server_setup_incomplete">Uppsetanin av hesum ambætaranum er ikki liðug. Lat Jellyfin-vevsíðuna upp í einum vevkaga til tess at avgreiða uppsetanina áðrenn tú ritar inn.</string>
     <string name="lbl_remove_users">Sum ein avleiðing av hesum verða allar tilhoyrandi kontur strikaðar</string>
     <string name="playback_info_container">Pakkasnið: %1$s</string>
+    <string name="lbl_date_show_added">Innleggingardegi raðanna</string>
+    <string name="lbl_date_episode_added">Innleggingardegi partanna</string>
+    <string name="lbl_sd">SD</string>
 </resources>
