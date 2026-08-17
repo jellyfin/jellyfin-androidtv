@@ -498,7 +498,7 @@
     <string name="scheduled_in_next_24_hours">Suplanuota sekančioms 24 valandoms</string>
     <string name="prefer_exoplayer_ffmpeg_content">Naudoti FFmpeg garso dekodavimui, net jei yra platformos kodeksai.</string>
     <string name="segment_type_unknown">Nežinomi segmentai</string>
-    <string name="skip_forward_length">Praleidimo į priekį trukmė</string>
+    <string name="skip_forward_length">Peršokimo į priekį ilgis</string>
     <plurals name="episodes">
         <item quantity="one">%1$s epizodas</item>
         <item quantity="few">%1$s epizodai</item>
