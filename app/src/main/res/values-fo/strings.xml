@@ -570,4 +570,17 @@
     <string name="image_type_banner">Bannari</string>
     <string name="lbl_image_type">Myndaskap</string>
     <string name="disable_ui_mode_warning">Óvirkja fráboðan um eindarslag</string>
+    <string name="user_avc_level">H.264 (AVC) støði</string>
+    <string name="user_hevc_level">H.265 (HEVC) støði</string>
+    <string name="codec_level_warning">At skifta frá \'sjálvvirkandi\' kann elva til spælitrupulleikar í fall tín eind ikki hevur virkisføri fyri valda støðinum.</string>
+    <string name="codec_level_4_0">Støði 4,0</string>
+    <string name="codec_level_4_1">Støði 4,1</string>
+    <string name="codec_level_4_2">Støði 4,2</string>
+    <string name="codec_level_5_0">Støði 5,0</string>
+    <string name="codec_level_5_1">Støði 5,1</string>
+    <string name="codec_level_5_2">Støði 5,2</string>
+    <string name="codec_level_6_0">Støði 6,0</string>
+    <string name="codec_level_6_1">Støði 6,1</string>
+    <string name="codec_level_6_2">Støði 6,2</string>
+    <string name="mark_watched_message">Miðilin tykist ikki at verða spældur liðugt. Skal hann merkjast sæddur kortini?</string>
 </resources>
