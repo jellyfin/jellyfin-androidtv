@@ -51,7 +51,7 @@
     <string name="lbl_date_added">Pridėjimo data</string>
     <string name="lbl_name">Pavadinimas</string>
     <string name="lbl_from">iš</string>
-    <string name="lbl_sorted_by">rūšiuojama pagal</string>
+    <string name="lbl_sorted_by">surūšiuota pagal</string>
     <string name="lbl_audio_output">Garso išvestis</string>
     <string name="lbl_tomorrow">Rytoj</string>
     <string name="lbl_today">Šiandien</string>
@@ -108,7 +108,7 @@
     <string name="pref_audio_night_mode">Naktinė garso aplinka (ekspermentinė)</string>
     <string name="msg_unable_load_subs">Nepavyko įkelti subtitrų</string>
     <string name="lbl_remove">Pašalinti</string>
-    <string name="lbl_showing">Rodoma</string>
+    <string name="lbl_showing">Rodomi</string>
     <string name="lbl_no_items">Tuščia</string>
     <string name="lbl_remove_favorite">Pašalinti mėgstamą</string>
     <string name="msg_playback_restricted">Administratorius apribojo šio elemento atkūrimą</string>
