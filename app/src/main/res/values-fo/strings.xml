@@ -583,4 +583,21 @@
     <string name="codec_level_6_1">Støði 6,1</string>
     <string name="codec_level_6_2">Støði 6,2</string>
     <string name="mark_watched_message">Miðilin tykist ikki at verða spældur liðugt. Skal hann merkjast sæddur kortini?</string>
+    <string name="desc_debug">Útvega fleiri upplýsingar til villukemban</string>
+    <string name="playback_info_video_range">Kykmyndaspenni: %1$s</string>
+    <string name="pref_subtitles_weight">Teksttjúkd</string>
+    <string name="codec_level_manual">Brúkaraásett</string>
+    <string name="lbl_sign_out_content">Innritan verður kravd við næstu koyring</string>
+    <string name="lbl_cancel_series">Frásig sendirøð</string>
+    <string name="msg_playback_not_allowed">Spæling er ikki loyvd í løtuni</string>
+    <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av hesum miðlinum í løtuni</string>
+    <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla hendan miðilin</string>
+    <string name="msg_no_playable_items">Ongir miðlar ið kunnu spælast</string>
+    <string name="lbl_show_premieres">Vís sesongfrumsýningar</string>
+    <string name="desc_premieres">Vís eina røð av nýggjum pørtum fyri røðir ið tú hyggur at</string>
+    <string name="lbl_new">Nýggj</string>
+    <string name="lbl_series_settings">Røðstillingar</string>
+    <string name="msg_settings_updated">Stillingarnar eru goymdar</string>
+    <string name="lbl_start_favorites">Set yndisrásir fremst</string>
+    <string name="default_video_zoom">Forsett surristøða</string>
 </resources>
