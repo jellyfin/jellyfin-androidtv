@@ -283,7 +283,7 @@
     <string name="font_weight_700">Feit</string>
     <string name="font_weight_800">Eyka feit</string>
     <string name="font_weight_900">Svart</string>
-    <string name="color_alpha">Gjøgnumskygni</string>
+    <string name="color_alpha">Ógjøgnumskygni</string>
     <string name="video_player_external">Ytri app</string>
     <string name="backdrop_behavior_with_blur">Kám bakmynd</string>
     <plurals name="seconds">
@@ -600,4 +600,22 @@
     <string name="msg_settings_updated">Stillingarnar eru goymdar</string>
     <string name="lbl_start_favorites">Set yndisrásir fremst</string>
     <string name="default_video_zoom">Forsett surristøða</string>
+    <string name="pref_subtitles_background_opacity">Bakgrundsóskygni</string>
+    <string name="pref_playback_prerolls">Undanfilmar</string>
+    <string name="watch_now">Spæl nú</string>
+    <string name="lbl_hide_watched_checkmark">Tá ið partar eru ósæddir</string>
+    <string name="lbl_use_series_thumbnails">Vís smámynd raðanna</string>
+    <string name="lbl_use_series_thumbnails_description">Vís røðsmámyndir heldur enn partasmámyndir, tá kaga verður í søvnum</string>
+    <string name="lbl_starting_early_ending_after">Byrjar %1$s áðrenn og steðgar %2$s eftir at sendingin er liðug sambært skránni</string>
+    <string name="lbl_starting_early_ending_on_schedule">Byrjar %1$s áðrenn og steðgar tá sendingin sambært skránni er liðug</string>
+    <string name="lbl_starting_on_schedule_ending_after">Byrjar tá sendingin byrjar og steðgar %1$s eftir sendingin er liðug sambært skránni</string>
+    <string name="lbl_start_end_on_schedule">Byrjar og steðgar sambært skránni</string>
+    <string name="pref_home_description">Tillaga vístar teigar</string>
+    <string name="home_sections">Heimateigar</string>
+    <string name="home_section_i">Heimateigur %1$d</string>
+    <string name="skip_forward_length">Tíðarbil at spola fram við</string>
+    <string name="home_section_library_small">Mínir miðlar (lítil)</string>
+    <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
+    <string name="msg_cancel_entire_series">Ynskir tú at avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
+    <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
 </resources>
