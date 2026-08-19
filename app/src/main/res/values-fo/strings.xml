@@ -612,7 +612,7 @@
     <string name="lbl_start_end_on_schedule">Byrjar og steðgar sambært skránni</string>
     <string name="pref_home_description">Tillaga vístar teigar</string>
     <string name="home_sections">Heimateigar</string>
-    <string name="home_section_i">Heimateigur %1$d</string>
+    <string name="home_section_i">%1$d. heimateigur</string>
     <string name="skip_forward_length">Tíðarbil at spola fram við</string>
     <string name="home_section_library_small">Mínir miðlar (lítil)</string>
     <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
