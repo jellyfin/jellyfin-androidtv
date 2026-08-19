@@ -373,8 +373,8 @@
     <string name="dolby_vision_with_el">Dolby Vision við EL</string>
     <string name="playback_video_player">Kykmyndaspælari</string>
     <string name="video_player_internal">Innbygdur kykmyndaspælari</string>
-    <string name="lbl_seasons">Sesongir</string>
-    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_seasons">Umfør</string>
+    <string name="lbl_season_number">U%1$d</string>
     <string name="video_error_unknown_error">Miseydnaðist at innlesa kykmynd</string>
     <string name="lbl_bracket_unknown">Ókendur</string>
     <string name="lbl_programs">Sendingar</string>
@@ -593,7 +593,7 @@
     <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av hesum miðlinum í løtuni</string>
     <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla hendan miðilin</string>
     <string name="msg_no_playable_items">Ongir miðlar ið kunnu spælast</string>
-    <string name="lbl_show_premieres">Vís sesongfrumsýningar</string>
+    <string name="lbl_show_premieres">Vís umfarsfrumsýningar</string>
     <string name="desc_premieres">Vís eina røð av nýggjum pørtum fyri røðir ið tú hyggur at</string>
     <string name="lbl_new">Nýggj</string>
     <string name="lbl_series_settings">Røðstillingar</string>
