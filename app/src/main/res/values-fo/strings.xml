@@ -7,7 +7,7 @@
     <string name="chapters">Kapitlar</string>
     <string name="state_disabled">Óvirkt</string>
     <string name="lbl_settings">Stillingar</string>
-    <string name="lbl_home">Heim</string>
+    <string name="lbl_home">Forsíða</string>
     <string name="lbl_suggested">Tilmælir</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">Greinar</string>
@@ -618,4 +618,5 @@
     <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
     <string name="msg_cancel_entire_series">Ynskir tú at avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
     <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
+    <string name="lbl_empty">Tómur</string>
 </resources>
