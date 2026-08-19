@@ -25,7 +25,7 @@
     <string name="because_you_watched">Av tí at tú hugdi eftir %1$s</string>
     <string name="lbl_play">Spæl</string>
     <string name="lbl_cancel">Avlýs</string>
-    <string name="lbl_cancel_recording">Avbrót upptøku</string>
+    <string name="lbl_cancel_recording">Avlýs upptøku</string>
     <string name="lbl_record">Tak upp</string>
     <string name="lbl_cast_crew">Leikarar og manning</string>
     <string name="lbl_chapters">Kapitlar</string>
@@ -618,7 +618,13 @@
     <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
     <string name="msg_cancel_entire_series">Ynskir tú at avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
     <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
-    <string name="lbl_on_now">Á skránni nú</string>
-    <string name="lbl_begin_padding">Byrjunarfylling</string>
-    <string name="lbl_end_padding">Endafylling</string>
+    <string name="lbl_on_now">Á skrá nú</string>
+    <string name="lbl_begin_padding">Byrjanarífylling</string>
+    <string name="lbl_end_padding">Endaífylling</string>
+    <string name="lbl_on_schedule">Sambært skrá (eingin ífylla)</string>
+    <string name="lbl_record_any_time">Tak upp til einhvørja tíð</string>
+    <string name="lbl_record_only_new">Einans nýggir partar verða tiknir uppá</string>
+    <string name="lbl_record_all">Allir partar verða tiknir uppá</string>
+    <string name="scheduled_in_next_24_hours">Fyriskipað næstu 24 tímarnar</string>
+    <string name="lbl_filters">Filtur fyri sjónvarpsskráir</string>
 </resources>
