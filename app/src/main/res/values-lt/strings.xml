@@ -83,7 +83,7 @@
     <string name="msg_cannot_play_time">Šiuo metu negalima paleisti šio elemento</string>
     <string name="lbl_play_trailers">Paleisti anonsą(-us)</string>
     <string name="lbl_trailer">"Anonsas "</string>
-    <string name="lbl_none">Tuščia</string>
+    <string name="lbl_none">Nėra</string>
     <string name="lbl_other_options">Kitos parinktys</string>
     <string name="lbl_directed_by">Režisierius</string>
     <string name="lbl_runs">Trukmė</string>
@@ -216,7 +216,7 @@
     <string name="pref_theme_emerald">Klasikinis smaragdas</string>
     <string name="lbl_unknown_key">Nežinomas (%1s)</string>
     <string name="pref_button_remapping_description">Paspauskite bet kurį televizoriaus nuotolinio valdymo pulto mygtuką, kad jį priskirtumėte</string>
-    <string name="lbl_Reset">Atstatyti</string>
+    <string name="lbl_Reset">iš naujo nustatyti</string>
     <string name="grid_direction_horizontal">Horizontaliai</string>
     <string name="lbl_my_media">Mano medija</string>
     <string name="lbl_episode_not_record">Šis įrašas NEBUS įrašytas</string>
@@ -239,7 +239,7 @@
     <string name="episode_missing_message">Šio epizodo nėra jūsų bibliotekoje. Ar norėtumėte jį praleisti ir tęsti nuo kito?</string>
     <string name="pref_subtitles">Subtitrai</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital garsas</string>
-    <string name="sum_enable_cinema_mode">Paleisti galimus intro ir peržiūras prieš pradedant filmą</string>
+    <string name="sum_enable_cinema_mode">Paleisti galimas įžangas ir peržiūras prieš pradedant filmą</string>
     <string name="pref_crash_report_logs_enabled">Žurnalai bus įtraukti į gedimų ataskaitas</string>
     <string name="pref_refresh_rate_scale_on_device">Įrenginio mastelis</string>
     <string name="lbl_specials">Papildomi epizodai</string>
@@ -252,7 +252,7 @@
     <string name="licenses_link">Licencija</string>
     <string name="license_website">Svetainė</string>
     <string name="license_repository">Saugykla</string>
-    <string name="home_section_none">Tuščia</string>
+    <string name="home_section_none">Nėra</string>
     <string name="pref_subtitles_size">Teksto dydis</string>
     <string name="server_issue_unable_to_connect">Nepavyko prisijungti</string>
     <string name="server_issue_invalid_product">Serverio programinė įranga yra nesuderinama</string>
@@ -488,7 +488,7 @@
     <string name="pref_mediasegment_actions">Turinio segmentų veiksmai</string>
     <string name="segment_action_nothing">Nieko nedaryti</string>
     <string name="segment_action_skip">Praleisti</string>
-    <string name="segment_type_preview">Demonstracijos</string>
+    <string name="segment_type_preview">Peržiūros</string>
     <string name="segment_type_outro">Pabaigos</string>
     <string name="runtime_hours_minutes">%1$dval %2$dmin</string>
     <string name="runtime_minutes">%1$dmin</string>
@@ -524,7 +524,7 @@
     <string name="clear_image_cache_content">Naudojama: %1$s</string>
     <string name="app_notification_update_soon">Atnaujinkite savo serverį nuo %1$s iki bent %2$s versijos prieš naudojant programą po sekančio atnaujinimo.</string>
     <string name="all_channels">Visi kanalai</string>
-    <string name="segment_type_intro">Intro</string>
+    <string name="segment_type_intro">Įžangos</string>
     <string name="video_start_delay">Vaizdo pradžios delsa</string>
     <string name="segment_type_recap">Apibendrinimai</string>
     <string name="preference_enable_trickplay">Įjungti Trickplay vaizdo grotuve</string>
@@ -624,7 +624,7 @@
     <string name="pref_playback_prerolls">Išankstiniai pasirodymai</string>
     <string name="pref_playback_inactivity_prompt">Neaktyvumo raginimas</string>
     <string name="pref_prerolls_enabled">Įjungti kino režimą</string>
-    <string name="pref_prerolls_enabled_description">Prieš filmus paleisti pasirinktinius įžanginius įrašus</string>
+    <string name="pref_prerolls_enabled_description">Prieš filmus paleisti pasirinktines įžangas</string>
     <string name="pref_media_queueing">Įtraukti visus epizodus į eilę</string>
     <string name="lbl_date_show_added">Serialo pridėjimo data</string>
     <string name="pref_playback_media_segments">Medijos segmentai</string>
