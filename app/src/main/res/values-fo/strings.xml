@@ -619,4 +619,6 @@
     <string name="msg_cancel_entire_series">Ynskir tú at avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
     <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
     <string name="lbl_on_now">Á skránni nú</string>
+    <string name="lbl_begin_padding">Byrjunarfylling</string>
+    <string name="lbl_end_padding">Endafylling</string>
 </resources>
