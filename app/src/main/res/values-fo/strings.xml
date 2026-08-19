@@ -618,5 +618,4 @@
     <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
     <string name="msg_cancel_entire_series">Ynskir tú at avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
     <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
-    <string name="lbl_empty"></string>
 </resources>
