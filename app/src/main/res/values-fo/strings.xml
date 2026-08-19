@@ -26,7 +26,7 @@
     <string name="lbl_play">Spæl</string>
     <string name="lbl_cancel">Avlýs</string>
     <string name="lbl_cancel_recording">Avlýs upptøku</string>
-    <string name="lbl_record">Tak upp</string>
+    <string name="lbl_record">Tak uppá</string>
     <string name="lbl_cast_crew">Leikarar og manning</string>
     <string name="lbl_chapters">Kapitlar</string>
     <string name="lbl_trailers">Forfilmar</string>
@@ -622,9 +622,11 @@
     <string name="lbl_begin_padding">Byrjanarífylling</string>
     <string name="lbl_end_padding">Endaífylling</string>
     <string name="lbl_on_schedule">Sambært skrá (eingin ífylla)</string>
-    <string name="lbl_record_any_time">Tak upp til einhvørja tíð</string>
+    <string name="lbl_record_any_time">Tak uppá til einhvørja tíð</string>
     <string name="lbl_record_only_new">Einans nýggir partar verða tiknir uppá</string>
     <string name="lbl_record_all">Allir partar verða tiknir uppá</string>
     <string name="scheduled_in_next_24_hours">Fyriskipað næstu 24 tímarnar</string>
     <string name="lbl_filters">Filtur fyri sjónvarpsskráir</string>
+    <string name="lbl_direct_stream_live">Beinleiðis-stroym beinleiðis sjónvarp</string>
+    <string name="lbl_tv_filter_status">fyri næstu %1$d tímarnar</string>
 </resources>
