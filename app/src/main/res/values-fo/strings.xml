@@ -657,4 +657,5 @@
     <string name="preference_codecs_summary">Skúgva kodek-virkisførisfráboðan eindarinnar til viks</string>
     <string name="lbl_quality_profile">Góðskustøði</string>
     <string name="lbl_resume_preroll">Spola aftur við uppafturtøku</string>
+    <string name="pref_burn_subtitles_when_transcoding">Kykmyndafest undirtekstir undir umkoting</string>
 </resources>
