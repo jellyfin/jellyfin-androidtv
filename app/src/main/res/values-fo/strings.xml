@@ -88,11 +88,11 @@
     <string name="lbl_enable_cinema_mode">Biografstøða</string>
     <string name="sum_enable_cinema_mode">Spæl tøkar forfilmar og undansýningarfilmar áðrenn ein filmur byrjar</string>
     <string name="lbl_playlists">Spælilistar</string>
-    <string name="lbl_add_to_queue">Legg í spælirøð</string>
+    <string name="lbl_add_to_queue">Legg í spælirøðina</string>
     <string name="lbl_open_artist">Sí tónlistafólk</string>
     <string name="lbl_open_album">Sí útgávu</string>
     <string name="lbl_play_from_here">Spæl hiðanífrá</string>
-    <string name="lbl_remove_from_queue">Strika úr spælirøð</string>
+    <string name="lbl_remove_from_queue">Strika úr spælirøðini</string>
     <string name="lbl_delete">Strika</string>
     <string name="desc_automatic_fav_songs">Sjálvvirkandi yndistónleikalisti</string>
     <string name="lbl_new_premieres">Nýggjar frumsýningar</string>
@@ -141,8 +141,8 @@
     <string name="pref_external_player">Brúka ytri spælara</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_app_theme">App-snið</string>
-    <string name="grid_direction_horizontal">Vatnrætt</string>
-    <string name="grid_direction_vertical">Loddrætt</string>
+    <string name="grid_direction_horizontal">Vatnrøtt</string>
+    <string name="grid_direction_vertical">Loddrøtt</string>
     <string name="pref_audio_track_button">Ljóðsporknøttur</string>
     <string name="lbl_unknown_key">Ókendur (%1s)</string>
     <string name="pref_subtitle_track_button">Undirtekstaknøttur</string>
@@ -634,4 +634,17 @@
     <string name="server_issue_unsupported_version">Ambætaraútgávan %1$s er ikki sínamillumvirkin við hesa útgávuna av appini</string>
     <string name="server_issue_outdated_version">Ambætaraútgávan %1$s er ikki sínamillumvirkin við hesa útgávuna av appini. Vinaliga dagfør til %2$s ella nýggjari</string>
     <string name="server_unsupported_notification">Jellyfin-ambætaraútgávan %1$s er ikki sínamillumvirkin við hesa útgávuna av appini. Vinaliga dagfør til Jellyfin %2$s ella nýggjari til tess at halda á fram at brúka appina.</string>
+    <string name="lbl_shuffle_queue">Blanda/Óblanda</string>
+    <string name="prefer_exoplayer_ffmpeg">Nýt FFmpeg til ljóðspæling</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Nýt FFmpeg at avkota ljóð sjálvt um stýrikerviveitt kodek eru tøk.</string>
+    <string name="playback_info_codec">Kodek: %1$s</string>
+    <string name="preference_enable_trickplay">Virkja TrickPlay í kykmyndaspælaranum</string>
+    <string name="preference_codecs">Miðla-kodek</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skift á sjónvarpi</string>
+    <string name="pref_refresh_rate_scale_on_device">Skift á eind</string>
+    <string name="pref_device_model">Modell eindarinnar</string>
+    <string name="lbl_more_like_this">Fleiri líkir hesum</string>
+    <string name="video_start_delay">Seinka kykmyndabyrjan</string>
+    <string name="grid_direction">Talvukós</string>
+    <string name="lbl_colored_backgrounds">Flokslittar bakgrundir</string>
 </resources>
