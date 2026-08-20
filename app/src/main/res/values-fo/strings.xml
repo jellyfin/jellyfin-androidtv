@@ -662,5 +662,9 @@
     <string name="pref_burn_subtitles_when_transcoding_description">Fest altíð undirtekstir á kykmyndina undir umkoting. Hetta kann bøta samstillingartrupulleikar við undirtekstum men ógildar tillagingar á undirtekstasnið.</string>
     <string name="pref_prerolls_enabled_description">Spæl undanfilmar áðrenn filmar</string>
     <string name="lbl_empty">Tómur</string>
-    <string name="lbl_now_playing">Spælur nú</string>
+    <string name="lbl_now_playing">Spælir nú</string>
+    <string name="lbl_goto_now_playing">Vís \"Spælir nú\"</string>
+    <string name="lbl_coming_up">Komandi sendingar</string>
+    <string name="pref_software_codecs_enabled">Brúka ritbúnaðar-kodek</string>
+    <string name="pref_software_codecs_enabled_description">Summar ritbúnaðarligar verksetanir kunnu hava ónøktandi avrikaføri. Uttan hettar er meira sannlíkt at tørvur er á umkotingum.</string>
 </resources>
