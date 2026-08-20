@@ -655,4 +655,5 @@
     <string name="preference_enable_pgs">Spæl PGS-undirtekstir beinleiðis</string>
     <string name="preference_enable_ass">Spæl ASS-undirtekstir beinleiðis</string>
     <string name="preference_codecs_summary">Skúgva kodek-virkisførisfráboðan eindarinnar til viks</string>
+    <string name="lbl_quality_profile">Góðskustøði</string>
 </resources>
