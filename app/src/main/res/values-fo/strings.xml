@@ -651,7 +651,7 @@
     <string name="lbl_auto_crop">Fyll skíggja</string>
     <string name="home_section_active_recordings">Upptøkur í gongd</string>
     <string name="enable_reactive_homepage">Virkja reaktiva forsíðu</string>
-    <string name="lbl_guide_option_played">Seinast hugd at</string>
+    <string name="lbl_guide_option_played">Seinast hugdar at</string>
     <string name="preference_enable_pgs">Spæl PGS-undirtekstir beinleiðis</string>
     <string name="preference_enable_ass">Spæl ASS-undirtekstir beinleiðis</string>
     <string name="preference_codecs_summary">Skúgva kodek-virkisførisfráboðan eindarinnar til viks</string>
