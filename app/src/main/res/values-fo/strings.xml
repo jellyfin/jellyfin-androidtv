@@ -662,4 +662,5 @@
     <string name="pref_burn_subtitles_when_transcoding_description">Fest altíð undirtekstir á kykmyndina undir umkoting. Hetta kann bøta samstillingartrupulleikar við undirtekstum men ógildar tillagingar á undirtekstasnið.</string>
     <string name="pref_prerolls_enabled_description">Spæl undanfilmar áðrenn filmar</string>
     <string name="lbl_empty">Tómur</string>
+    <string name="lbl_now_playing">Spælur nú</string>
 </resources>
