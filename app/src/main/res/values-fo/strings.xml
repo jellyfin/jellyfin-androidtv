@@ -656,4 +656,5 @@
     <string name="preference_enable_ass">Spæl ASS-undirtekstir beinleiðis</string>
     <string name="preference_codecs_summary">Skúgva kodek-virkisførisfráboðan eindarinnar til viks</string>
     <string name="lbl_quality_profile">Góðskustøði</string>
+    <string name="lbl_resume_preroll">Spola aftur við uppafturtøku</string>
 </resources>
