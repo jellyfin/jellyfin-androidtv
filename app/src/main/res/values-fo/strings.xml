@@ -660,4 +660,5 @@
     <string name="pref_burn_subtitles_when_transcoding">Kykmyndafest undirtekstir undir umkoting</string>
     <string name="msg_burn_sub_warning">Undirtekstir verða festir á kykmynd. Hetta kann taka nøkur sekund…</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Fest altíð undirtekstir á kykmyndina undir umkoting. Hetta kann bøta samstillingartrupulleikar við undirtekstum men ógildar tillagingar á undirtekstasnið.</string>
+    <string name="pref_prerolls_enabled_description">Spæl undanfilmar áðrenn filmar</string>
 </resources>
