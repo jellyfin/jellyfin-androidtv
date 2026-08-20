@@ -658,4 +658,5 @@
     <string name="lbl_quality_profile">Góðskustøði</string>
     <string name="lbl_resume_preroll">Spola aftur við uppafturtøku</string>
     <string name="pref_burn_subtitles_when_transcoding">Kykmyndafest undirtekstir undir umkoting</string>
+    <string name="msg_burn_sub_warning">Undirtekstir verða festir á kykmynd. Hetta kann taka nøkur sekund…</string>
 </resources>
