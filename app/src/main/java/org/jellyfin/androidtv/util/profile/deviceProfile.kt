@@ -81,7 +81,10 @@ fun createDeviceProfile(
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled]),
 	maxBitrate = userPreferences.getMaxBitrate(),
-	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
+	isAC3PrefEnabled = userPreferences[UserPreferences.ac3Enabled],
+	isEAC3PrefEnabled = userPreferences[UserPreferences.eac3Enabled],
+	isDTSPrefEnabled = userPreferences[UserPreferences.dtsEnabled],
+	isTrueHDPrefEnabled = userPreferences[UserPreferences.truehdEnabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
@@ -92,7 +95,10 @@ fun createDeviceProfile(
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
 	maxBitrate: Int,
-	isAC3Enabled: Boolean,
+	isAC3PrefEnabled: Boolean,
+	isEAC3PrefEnabled: Boolean,
+	isDTSPrefEnabled: Boolean,
+	isTrueHDPrefEnabled: Boolean,
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
@@ -101,8 +107,16 @@ fun createDeviceProfile(
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
-		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
-		else -> supportedAudioCodecs
+		else -> supportedAudioCodecs.filterNot { supportedPassthroughAudioCodecs ->
+			when (supportedPassthroughAudioCodecs) {
+				// Remove codec if false.
+				Codec.Audio.AC3 -> !isAC3PrefEnabled
+				Codec.Audio.EAC3 -> !isEAC3PrefEnabled
+				Codec.Audio.TRUEHD -> !isTrueHDPrefEnabled
+				Codec.Audio.DTS -> !isDTSPrefEnabled
+				else -> false
+			}
+		}.toTypedArray()
 	}
 
 	val supportsHevc = mediaTest.supportsHevc()
