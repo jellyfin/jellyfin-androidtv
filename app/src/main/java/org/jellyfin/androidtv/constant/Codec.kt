@@ -31,6 +31,7 @@ object Codec {
 		const val AAC = "aac"
 		const val AAC_LATM = "aac_latm"
 		const val AC3 = "ac3"
+		const val AC4 = "ac4"
 		const val ALAC = "alac"
 		const val APE = "ape"
 		const val DCA = "dca"
