@@ -666,6 +666,9 @@
     <string name="hlg">HLG</string>
     <string name="pref_software_codecs_enabled">Use software codecs</string>
     <string name="pref_software_codecs_enabled_description">Some software-based implementations may degrade performance. Disabling this option makes transcoding more likely.</string>
+    <string name="photo_player">Photo player</string>
+    <string name="photo_display_duration">Photo display duration</string>
+    <string name="photo_display_duration_description">How long to wait before showing the next photo</string>
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>

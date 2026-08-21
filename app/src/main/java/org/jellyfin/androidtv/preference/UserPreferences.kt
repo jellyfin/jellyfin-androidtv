@@ -259,6 +259,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable the use of software-based codecs.
 		 */
 		var softwareCodecsEnabled = booleanPreference("software_codecs_enabled", true)
+
+		/**
+		 * Stores the interval for the photo player.
+		 */
+		var photoPlayerPresentationDelay = longPreference("photo_player_presentation_delay", 8000)
 	}
 
 	init {
