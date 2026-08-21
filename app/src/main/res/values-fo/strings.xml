@@ -151,7 +151,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="no_player">Eingin spælari</string>
     <string name="episode_missing">Partur manglar</string>
-    <string name="episode_missing_message">Hesin parturin manglar í tínum savnið. Ynskir tú at leypa hann um og halda áfram til næsta partin?</string>
+    <string name="episode_missing_message">Hesin parturin manglar í savninum. Ynskir tú at leypa hann um og halda áfram til næsta partin?</string>
     <string name="too_many_errors">Ov nógvir feilir. Heldur uppat</string>
     <string name="subtitle_error">Bar ikki til at velja undirtekst</string>
     <string name="audio_error">Bar ikki til at spæla ljóð %1$s</string>
@@ -429,7 +429,7 @@
     <string name="pref_developer_link_description">Víðkaðar og royndarfunkur</string>
     <string name="lbl_hidden">Dult</string>
     <string name="lbl_on_any_channel">Á einhvørjari rás</string>
-    <string name="enable_playback_module_description">Hettar er ein royndarfunka. Eingin hjálp verður veitt fyri henni.</string>
+    <string name="enable_playback_module_description">Hetta er ein royndarfunka. Eingin hjálp verður veitt fyri henni.</string>
     <string name="always_authenticate">Spyr altíð um innritanarupplýsingar</string>
     <string name="pref_subtitles_bold">Feitir stavir</string>
     <string name="color_pink">Ljósareyður</string>
@@ -440,7 +440,7 @@
     <string name="speech_error_no_permission">Vantar rættindi at brúka ljóðtakið. Vinaliga játta rættindini í kervistillingum.</string>
     <string name="color_custom">Tillaga lit</string>
     <string name="filters">Filtur</string>
-    <string name="playback_video_player_external_empty">Eingin kykmyndaspælara-app ið kann spæla Jellyfin kykmyndir er innløgd á hesa eindina.</string>
+    <string name="playback_video_player_external_empty">Eingin kykmyndaspælara-app ið kann spæla Jellyfin kykmyndir er innløgd á hesi eindini.</string>
     <string name="byletter_letters">AÁBCDEFGHIÍJKLMNOÓPQRSTUÚVWXYÝÆØZ</string>
     <string name="lbl_show_indicators">Vís ávísar fyri</string>
     <string name="lbl_program_ended">Sendingin er liðug</string>
@@ -492,7 +492,7 @@
     <string name="pref_crash_reports_enabled">Sorúrrit verða send til ambætaran ið seinast varð nýttur</string>
     <string name="pref_crash_report_logs_enabled">Gerðalistar verða íroknaðir í sorúrritum</string>
     <string name="pref_crash_report_logs_disabled">Gerðalistar verða ikki við í sorúrritum</string>
-    <string name="crash_report_toast">Ups! Ókend villa fór fram. Eitt sorúrrit var sent tínum Jellifin ambætara.</string>
+    <string name="crash_report_toast">Ups! Ókend villa fór fram. Eitt sorúrrit var sent tínum Jellyfin-ambætara.</string>
     <string name="clear_image_cache_content">Fyllir: %1$s</string>
     <string name="pref_crash_reports_disabled">Sorúrrit verða ikki send</string>
     <string name="pref_subtitles_position">Frástøða frá botninum</string>
@@ -605,7 +605,7 @@
     <string name="watch_now">Spæl nú</string>
     <string name="lbl_hide_watched_checkmark">Tá ið partar eru ósæddir</string>
     <string name="lbl_use_series_thumbnails">Vís smámynd raðanna</string>
-    <string name="lbl_use_series_thumbnails_description">Vís røðsmámyndir heldur enn partasmámyndir, tá kaga verður í søvnum</string>
+    <string name="lbl_use_series_thumbnails_description">Vís røðsmámyndir heldur enn partasmámyndir, tá kagað verður í søvnum</string>
     <string name="lbl_starting_early_ending_after">Byrjar %1$s áðrenn og steðgar %2$s eftir at sendingin er liðug sambært skránni</string>
     <string name="lbl_starting_early_ending_on_schedule">Byrjar %1$s áðrenn og steðgar tá sendingin sambært skránni er liðug</string>
     <string name="lbl_starting_on_schedule_ending_after">Byrjar tá sendingin byrjar og steðgar %1$s eftir sendingin er liðug sambært skránni</string>
@@ -666,5 +666,5 @@
     <string name="lbl_goto_now_playing">Vís \"Spælir nú\"</string>
     <string name="lbl_coming_up">Komandi sendingar</string>
     <string name="pref_software_codecs_enabled">Brúka ritbúnaðar-kodek</string>
-    <string name="pref_software_codecs_enabled_description">Summar ritbúnaðarligar verksetanir kunnu hava ónøktandi avrikaføri. Uttan hettar er meira sannlíkt at tørvur er á umkotingum.</string>
+    <string name="pref_software_codecs_enabled_description">Summar ritbúnaðarligar verksetanir kunnu hava ónøktandi avrikaføri. Uttan hetta er meira sannlíkt at tørvur er á umkotingum.</string>
 </resources>
