@@ -103,6 +103,7 @@ public class ItemLauncher {
                             Timber.d("playing audio queue item");
                             mediaManager.getValue().playFrom(((AudioQueueBaseRowItem) rowItem).getQueueEntry());
                         } else if (adapter instanceof ItemRowAdapter && ((ItemRowAdapter)adapter).getQueryType() == QueryType.Search) {
+                            Timber.i("Launching due to search");
                             playbackLauncher.getValue().launch(context, Arrays.asList(rowItem.getBaseItem()));
                         } else {
                             Timber.d("playing audio item");
@@ -113,6 +114,7 @@ public class ItemLauncher {
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
 
+                            Timber.i("Launching due to audio else condition");
                             playbackLauncher.getValue().launch(context, audioItemsAsList, 0, false, adapter.indexOf(rowItem));
                         }
 
@@ -160,6 +162,7 @@ public class ItemLauncher {
                                 @Override
                                 public void onResponse(List<BaseItemDto> response) {
                                     if (!isActive()) return;
+                                    Timber.i("Launching due to play");
                                     playbackLauncher.getValue().launch(context, response);
                                 }
                             });
@@ -181,6 +184,7 @@ public class ItemLauncher {
                         List<BaseItemDto> items = new ArrayList<>(1);
                         items.add(response);
                         Long start = chapter.getStartPositionTicks() / 10000;
+                        Timber.i("Launching due to chapter");
                         playbackLauncher.getValue().launch(context, items, start.intValue());
                     }
                 });
@@ -202,6 +206,7 @@ public class ItemLauncher {
                                 if (!isActive()) return;
                                 List<BaseItemDto> items = new ArrayList<>(1);
                                 items.add(response);
+                                Timber.i("Launching due to LiveTvProgram play");
                                 playbackLauncher.getValue().launch(context, items);
 
                             }
@@ -220,6 +225,7 @@ public class ItemLauncher {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 if (!isActive()) return;
+                                Timber.i("Launching due to LiveTvChannel");
                                 playbackLauncher.getValue().launch(context, response);
                             }
                         });
@@ -241,6 +247,7 @@ public class ItemLauncher {
                                 if (!isActive()) return;
                                 List<BaseItemDto> items = new ArrayList<>(1);
                                 items.add(response);
+                                Timber.i("Launching due to LiveTvRecording");
                                 playbackLauncher.getValue().launch(context, items);
                             }
                         });
