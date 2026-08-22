@@ -62,6 +62,8 @@ import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModel;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModelHelperKt;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
@@ -153,6 +155,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
     private final Lazy<InteractionTrackerViewModel> interactionTracker = inject(InteractionTrackerViewModel.class);
 
+    private ThemeAudioViewModel themeAudioViewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -181,6 +185,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (timerJson != null) {
             mSeriesTimerInfo = Json.Default.decodeFromString(SeriesTimerInfoDto.Companion.serializer(), timerJson);
         }
+
+        themeAudioViewModel = ThemeAudioViewModelHelperKt.getThemeAudioViewModel(this);
 
         CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
             if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null) {
@@ -282,6 +288,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     public void onPause() {
         super.onPause();
         stopClock();
+        if (themeAudioViewModel != null) {
+            themeAudioViewModel.onItemUnfocused();
+        }
     }
 
     @Override
@@ -583,7 +592,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 break;
             case MUSIC_ARTIST:
-                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(),  BrowsingUtils.createArtistItemsRequest(mBaseItem.getId(), BaseItemKind.MUSIC_ALBUM), 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(requireContext(), BrowsingUtils.createArtistItemsRequest(mBaseItem.getId(), BaseItemKind.MUSIC_ALBUM), 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, artistAlbumsAdapter, 0, getString(R.string.lbl_albums));
 
                 break;
@@ -1200,8 +1209,30 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
+                if (themeAudioViewModel != null) {
+                    if (mBaseItem != null) {
+                        // we look for an episode in a media item so we play theme based on the main media item instead
+                        themeAudioViewModel.onItemFocused(mBaseItem.getId());
+                    } else {
+                        themeAudioViewModel.onItemFocused(null);
+                    }
+                }
             } else {
                 mCurrentItem = (BaseRowItem) item;
+                if (themeAudioViewModel != null) {
+                    BaseItemDto rowBaseItem = mCurrentItem.getBaseItem();
+
+                    // something that doesn't have a base item will just use the main media item for theme music
+                    if (rowBaseItem != null) {
+                        themeAudioViewModel.onItemFocused(rowBaseItem.getId());
+                    } else {
+                        if (mBaseItem != null) {
+                            themeAudioViewModel.onItemFocused(mBaseItem.getId());
+                        } else {
+                            themeAudioViewModel.onItemFocused(null);
+                        }
+                    }
+                }
             }
         }
     }

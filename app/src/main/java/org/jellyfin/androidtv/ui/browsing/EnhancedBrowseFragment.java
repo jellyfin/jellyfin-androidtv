@@ -46,6 +46,8 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModel;
+import org.jellyfin.androidtv.ui.playback.theme.ThemeAudioViewModelHelperKt;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
@@ -106,6 +108,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+
+    private ThemeAudioViewModel themeAudioViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
