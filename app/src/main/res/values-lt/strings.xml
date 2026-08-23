@@ -260,7 +260,7 @@
     <string name="pref_login_description">Serveriai, paskyros, automatinis prisijungimas</string>
     <string name="live_tv_preferences">Tiesioginės TV parinktys</string>
     <string name="server_connecting">Jungiamasi prie %1$s</string>
-    <string name="image_type_thumbnail">Miniatūra</string>
+    <string name="image_type_thumbnail">Miniatiūra</string>
     <string name="lbl_colored_backgrounds">Spalvoti fonai</string>
     <string name="pref_customization_description">Tema, pagrindinis, pertvarkymas</string>
     <string name="home_section_livetv">Tiesioginė TV</string>
