@@ -30,7 +30,7 @@
     <string name="lbl_cast_crew">Leikarar og manning</string>
     <string name="lbl_chapters">Kapitlar</string>
     <string name="lbl_trailers">Forfilmar</string>
-    <string name="lbl_series">Røðir</string>
+    <string name="lbl_series">Sendirøðir</string>
     <string name="lbl_favorite">Yndis</string>
     <string name="lbl_runs">Spælitíð</string>
     <string name="runtime_hours_minutes">%1$dt %2$dm</string>
@@ -66,7 +66,7 @@
     <string name="lbl_only_new_episodes">Einans nýggjar partar</string>
     <string name="lbl_repeat_options">Endurøkustillingar</string>
     <string name="lbl_goto_series">Far til røð</string>
-    <string name="lbl_enable_debug">Villugreiningarstillingar</string>
+    <string name="lbl_enable_debug">Villugreiningarstilling</string>
     <string name="lbl_sorted_by">raðað eftir</string>
     <string name="lbl_from">frá</string>
     <string name="lbl_name">Navni</string>
@@ -128,11 +128,11 @@
     <string name="lbl_next_episode">Næsti partur</string>
     <string name="lbl_album_name">Útgávunavn</string>
     <string name="lbl_tv_channel_status">%1$d av %2$d rásum</string>
-    <string name="lbl_news">Tíðindir</string>
+    <string name="lbl_news">Tíðindasendingar</string>
     <string name="lbl_subtitle_delay">Undirtekstaseinkan</string>
     <string name="lbl_new_episodes">Nýggir partar</string>
     <string name="lbl_premieres">Frumsýningar</string>
-    <string name="lbl_repeat_episodes">Endurtak partar</string>
+    <string name="lbl_repeat_episodes">Endursendingar</string>
     <string name="lbl_image_size">Myndastødd</string>
     <string name="lbl_my_media">Mínir miðlar</string>
     <string name="pref_theme_dark">Myrkt (Forsett)</string>
@@ -513,7 +513,7 @@
     <string name="pref_theme_muted_purple">Mjúkur purpur</string>
     <string name="lbl_none">Ongan</string>
     <string name="home_section_none">Einki</string>
-    <string name="no_program_data">Ongar skrádátur tøkar</string>
+    <string name="no_program_data">Ongin skrá tøk</string>
     <string name="lbl_shuffle_all">Blanda allar</string>
     <string name="msg_recording_now">Tekur nú uppá</string>
     <string name="msg_will_record">Verður tikin uppá</string>
@@ -526,7 +526,7 @@
     <string name="msg_record_entire_series">Tak alla sendirøðina uppá?</string>
     <string name="lbl_series_recordings">Røðupptøkur</string>
     <string name="add_user">Legg inn konto</string>
-    <string name="no_user_warning">Eingin konta var funnin!\nLegg eina nýggja konto inn við at trýsta á \"Legg inn konto\" knøttin.</string>
+    <string name="no_user_warning">Eingin konta var funnin!\nLegg eina konto inn við at trýsta á \"Legg inn konto\" knøttin.</string>
     <string name="random">Tilvildarligur</string>
     <string name="pref_report_device_profile_failure">Miseydnaðist at avhenda skjal. Møguliga noktar Jellyfin-ambætarin at taka ímóti viðskiftaragerðalistum.</string>
     <string name="pref_report_device_profile_success">Skjal fráboðað sum %1$s</string>
