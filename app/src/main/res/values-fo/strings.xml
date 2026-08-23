@@ -205,7 +205,7 @@
     <string name="lbl_on_channel">Á %1$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="alphabetical">Stavraðað</string>
+    <string name="alphabetical">Navni</string>
     <string name="advanced_settings">Víðkaðar</string>
     <string name="select_version">Útgáva</string>
     <string name="license_version">Útgáva</string>
