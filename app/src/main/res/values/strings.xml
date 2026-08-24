@@ -551,6 +551,12 @@
     <string name="segment_type_recap">Recaps</string>
     <string name="segment_type_unknown">Unknown segments</string>
     <string name="skip_forward_length">Skip forward length</string>
+    <string name="skip_back_length">Skip back length</string>
+    <string name="skip_mode">Skip mode</string>
+    <string name="skip_mode_absolute">Absolute</string>
+    <string name="skip_mode_absolute_description">Left and right open the seek bar and step between fixed positions, select confirms the seek</string>
+    <string name="skip_mode_relative">Relative</string>
+    <string name="skip_mode_relative_description">Left and right immediately skip from the current position by the configured skip lengths</string>
     <string name="preference_enable_trickplay">Enable trickplay in video player</string>
     <string name="pref_subtitles_background_opacity">Subtitle background opacity</string>
     <string name="pref_troubleshooting">Troubleshooting</string>

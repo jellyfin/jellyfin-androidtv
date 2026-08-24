@@ -50,6 +50,7 @@ fun SettingsPlaybackAdvancedScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
 	val userSettingPreferences = koinInject<UserSettingPreferences>()
+	val skipMode by rememberPreference(userPreferences, UserPreferences.skipMode)
 
 	SettingsColumn {
 		item {
@@ -70,6 +71,15 @@ fun SettingsPlaybackAdvancedScreen() {
 				captionContent = { Text(options[resumeSubtractDuration].orEmpty()) },
 				onClick = { router.push(Routes.PLAYBACK_RESUME_SUBTRACT_DURATION) },
 				modifier = Modifier.focusKey(Routes.PLAYBACK_RESUME_SUBTRACT_DURATION)
+			)
+		}
+
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.skip_mode)) },
+				captionContent = { Text(stringResource(skipMode.nameRes)) },
+				onClick = { router.push(Routes.PLAYBACK_SKIP_MODE) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_SKIP_MODE)
 			)
 		}
 
@@ -105,6 +115,43 @@ fun SettingsPlaybackAdvancedScreen() {
 						contentAlignment = Alignment.CenterEnd
 					) {
 						Text("${skipForwardLength / 1000}s")
+					}
+				}
+			}
+		}
+
+		item {
+			var skipBackLength by rememberPreference(userSettingPreferences, UserSettingPreferences.skipBackLength)
+			val interactionSource = remember { MutableInteractionSource() }
+
+			ListControl(
+				headingContent = { Text(stringResource(R.string.skip_back_length)) },
+				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("skip_back_length")
+			) {
+				Row(
+					verticalAlignment = Alignment.CenterVertically,
+				) {
+					RangeControl(
+						modifier = Modifier
+							.height(4.dp)
+							.weight(1f),
+						interactionSource = interactionSource,
+						// 5 - 30 seconds with 5 second increment
+						min = 5_000f,
+						max = 30_000f,
+						stepForward = 5_000f,
+						value = skipBackLength.toFloat(),
+						onValueChange = { skipBackLength = it.roundToInt() }
+					)
+
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
+
+					Box(
+						modifier = Modifier.sizeIn(minWidth = 32.dp),
+						contentAlignment = Alignment.CenterEnd
+					) {
+						Text("${skipBackLength / 1000}s")
 					}
 				}
 			}
