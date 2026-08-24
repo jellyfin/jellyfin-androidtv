@@ -101,7 +101,7 @@
     <string name="lbl_similar_items_library">Panašūs elementai bibliotekoje</string>
     <string name="lbl_record_any_time">Įrašyti bet kuriuo metu</string>
     <string name="lbl_goto_series">Eiti į serialus</string>
-    <string name="desc_debug">Pateikite daugiau informacijos klaidos atkartojimui</string>
+    <string name="desc_debug">Pateikite papildomos informacijos derinimui</string>
     <string name="lbl_now_playing_track">%1$s iš %2$s</string>
     <string name="lbl_live">Tiesiogiai</string>
     <string name="lbl_additional_parts">Papildomos dalys</string>
@@ -359,7 +359,7 @@
     <string name="image_size_smallest">Mažiausias</string>
     <string name="image_size_medium">Vidutinis</string>
     <string name="image_size_large">Didelis</string>
-    <string name="image_size_xlarge">Labai didelis</string>
+    <string name="image_size_xlarge">Ypač didelis</string>
     <string name="pref_developer_link_description">Papildomos ir ekspermentinės galimybės</string>
     <string name="discovered_servers_empty">Lokaliame tinkle serverių nerasta.</string>
     <string name="pref_watched_indicator">Rodyti \"Žiūrėtas\" indikatorius</string>
@@ -496,7 +496,7 @@
     <string name="ac3">DD</string>
     <string name="random">Atsitiktinis</string>
     <string name="scheduled_in_next_24_hours">Suplanuota sekančioms 24 valandoms</string>
-    <string name="prefer_exoplayer_ffmpeg_content">Naudoti FFmpeg garso dekodavimui, net jei yra platformos kodeksai.</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Naudokite FFmpeg garso dekodavimui, net jei yra platformos kodekų.</string>
     <string name="segment_type_unknown">Nežinomi segmentai</string>
     <string name="skip_forward_length">Peršokimo į priekį ilgis</string>
     <plurals name="episodes">
@@ -617,7 +617,7 @@
     <string name="playback_buffer_length">Atkūrimo buferio dydis</string>
     <string name="playback_buffer_auto">Auto</string>
     <string name="playback_buffer_large">Didelis</string>
-    <string name="playback_buffer_extra_large">Labai didelis</string>
+    <string name="playback_buffer_extra_large">Ypač didelis</string>
     <string name="pref_burn_subtitles_when_transcoding">Įrašyti subtitrus transkoduojant</string>
     <string name="playback_info_audio_title">Garsas</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Visada įrašyti subtitrus į vaizdo įrašą transkoduojant. Tai gali išspręsti subtitrų sinchronizavimo problemas, bet išjungia subtitrų pritaikymą.</string>
