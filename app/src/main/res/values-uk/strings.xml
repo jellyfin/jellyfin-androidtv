@@ -535,7 +535,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="eac3">DD+</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
@@ -684,4 +684,9 @@
     <string name="preference_enable_ass_description">Експериментальна функція, може працювати нестабільно</string>
     <string name="pref_software_codecs_enabled">Використовувати програмні кодеки</string>
     <string name="pref_software_codecs_enabled_description">Деякі програмні реалізації можуть знизити продуктивність. Вимкнення цієї опції підвищує ймовірність транскодування.</string>
+    <string name="lbl_date_show_added">Дата додавання шоу</string>
+    <string name="lbl_date_episode_added">Дата додавання епізоду</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
