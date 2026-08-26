@@ -54,7 +54,9 @@ class MainActivity : FragmentActivity() {
 				else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 			}.launchIn(lifecycleScope)
 
-		if (savedInstanceState == null && navigationRepository.canGoBack) navigationRepository.reset(clearHistory = true)
+		// Drop leftover navigation from a previous run, but keep a single destination the app was
+		// opened into directly, such as a launcher tile or a deep link.
+		if (savedInstanceState == null && navigationRepository.hasBackStack) navigationRepository.reset(clearHistory = true)
 
 		navigationRepository.currentAction
 			.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
