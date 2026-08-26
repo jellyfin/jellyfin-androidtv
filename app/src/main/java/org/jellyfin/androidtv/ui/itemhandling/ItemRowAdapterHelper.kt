@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.constant.LiveTvOption
 import org.jellyfin.androidtv.data.querying.GetAdditionalPartsRequest
 import org.jellyfin.androidtv.data.querying.GetSpecialsRequest
 import org.jellyfin.androidtv.data.querying.GetTrailersRequest
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment.SortOption
@@ -106,21 +107,22 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 
 			// Some special flavor for series, used in FullDetailsFragment
 			val firstNextUp = response.items.firstOrNull()
-			if (query.seriesId != null && response.items.size == 1 && firstNextUp?.seasonId != null && firstNextUp.indexNumber != null) {
+			if (query.seriesId != null && response.items.size == 1 && firstNextUp?.id != null) {
 				// If we have exactly 1 episode returned, the series is currently partially watched
-				// we want to query the server for all episodes in the same season starting from
-				// this one to create a list of all unwatched episodes
-				val episodesResponse = withContext(Dispatchers.IO) {
-					api.itemsApi.getItems(
-						parentId = firstNextUp.seasonId,
-						startIndex = firstNextUp.indexNumber,
-					).content
-				}
-
-				// Combine the next up episode with the additionally retrieved episodes
-				val items = buildList {
-					add(firstNextUp)
-					addAll(episodesResponse.items)
+				// we want to query the server for all episodes in the series starting from this one
+				// to create a list of all unwatched episodes.
+				//
+				// startItemId resolves by item id rather than a positional offset, so this stays
+				// correct even when the season has a numbering gap before its first available
+				// episode (e.g. only episodes 10+ exist on disk) - unlike a startIndex-based lookup,
+				// which would silently skip episodes in that gap.
+				val items = withContext(Dispatchers.IO) {
+					api.tvShowsApi.getEpisodes(
+						seriesId = query.seriesId!!,
+						startItemId = firstNextUp.id,
+						isMissing = false,
+						fields = ItemRepository.itemFields,
+					).content.items
 				}
 
 				setItems(
