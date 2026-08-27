@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.HEVCLevel
+import org.jellyfin.androidtv.preference.constant.HDRSupport
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
@@ -115,6 +116,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * User defined HEVC level override. AUTO uses device-reported capabilities.
 		 */
 		var userHEVCLevel = enumPreference("user_hevc_level", HEVCLevel.AUTO)
+
+		/**
+		 * How HDR support is reported to the server.
+		 */
+		var hdrSupport = enumPreference("hdr_support", HDRSupport.AUTOMATIC)
 
 		/**
 		 * Playback buffer size preset.

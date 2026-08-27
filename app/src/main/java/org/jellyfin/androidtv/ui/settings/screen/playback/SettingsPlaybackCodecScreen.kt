@@ -55,6 +55,17 @@ fun SettingsPlaybackCodecScreen() {
 			)
 		}
 
+		item {
+			var hdrSupport by rememberPreference(userPreferences, UserPreferences.hdrSupport)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.hdr_support)) },
+				captionContent = { Text(stringResource(hdrSupport.nameRes)) },
+				onClick = { router.push(Routes.PLAYBACK_HDR_SUPPORT) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_HDR_SUPPORT)
+			)
+		}
+
 		if (AndroidVersion.isAtLeastQ) {
 			item {
 				var softwareCodecsEnabled by rememberPreference(userPreferences, UserPreferences.softwareCodecsEnabled)
