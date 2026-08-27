@@ -607,7 +607,6 @@
     <string name="preference_codecs_summary">Override device-reported codec capabilities</string>
     <string name="hdr_support">HDR Support</string>
     <string name="hdr_support_description">Choose how HDR support is reported to the server for direct play and transcoding decisions.</string>
-    <string name="hdr_support_automatic">Automatic</string>
     <string name="hdr_support_automatic_description">Use this device’s detected HDR capabilities.</string>
     <string name="hdr_support_enabled">Enabled</string>
     <string name="hdr_support_enabled_description">Report valid HDR formats as supported, even when this device does not report them.</string>
