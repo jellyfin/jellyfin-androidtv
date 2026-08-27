@@ -36,4 +36,5 @@
     <string name="lbl_favorite_channels">Mga paboritong channel</string>
     <string name="lbl_other">Iba</string>
     <string name="because_you_watched">Dahil napanood mo %1$s</string>
+    <string name="lbl_series">Serye</string>
 </resources>
