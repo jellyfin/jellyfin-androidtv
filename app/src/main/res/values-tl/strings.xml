@@ -27,4 +27,13 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">Mga uri</string>
     <string name="lbl_search">Hanapin</string>
+    <string name="msg_not_implemented">" hindi ipinatupad"</string>
+    <string name="lbl_latest">Kamakailang idinagdag</string>
+    <string name="lbl_latest_in">Kamakailang idinagdag sa %1$s</string>
+    <string name="lbl_by_name">sa pangalan</string>
+    <string name="lbl_favorites">Mga paborito</string>
+    <string name="lbl_coming_up">Paparating</string>
+    <string name="lbl_favorite_channels">Mga paboritong channel</string>
+    <string name="lbl_other">Iba</string>
+    <string name="because_you_watched">Dahil napanood mo %1$s</string>
 </resources>
