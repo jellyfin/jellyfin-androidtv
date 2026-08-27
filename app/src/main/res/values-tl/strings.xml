@@ -15,4 +15,16 @@
     <string name="loading">Maghintay…</string>
     <string name="lbl_other_channels">Ibang channels</string>
     <string name="lbl_collections">Mga Koleksyon</string>
+    <string name="pref_playback">Playback</string>
+    <string name="pref_max_bitrate_title">pinakamataas na streaming bitrate</string>
+    <string name="pref_authentication_cat">pagpapatunay</string>
+    <string name="state_disabled">Hindi pinagana</string>
+    <string name="lbl_home">Home</string>
+    <string name="continue_listening">ipag patuloy ang pakikinig</string>
+    <string name="lbl_on_now">Sa ngayon</string>
+    <string name="lbl_views">Views</string>
+    <string name="lbl_suggested">Inirerekomenda</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_genres">Mga uri</string>
+    <string name="lbl_search">Hanapin</string>
 </resources>
