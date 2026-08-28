@@ -489,7 +489,7 @@
     <string name="lbl_subtitle_text_stroke_color">Kantstrikufarva á teksti</string>
     <string name="pref_crash_reports">Send sorúrritanir til ambætara</string>
     <string name="pref_telemetry_description">Send sorúrrit umframt gerðalistar</string>
-    <string name="pref_crash_reports_enabled">Sorúrrit verða send til ambætaran ið seinast varð nýttur</string>
+    <string name="pref_crash_reports_enabled">Sorúrrit verða send til ambætaran ið seinast var nýttur</string>
     <string name="pref_crash_report_logs_enabled">Gerðalistar verða íroknaðir í sorúrritum</string>
     <string name="pref_crash_report_logs_disabled">Gerðalistar verða ikki við í sorúrritum</string>
     <string name="crash_report_toast">Ups! Ókend villa fór fram. Eitt sorúrrit var sent tínum Jellyfin-ambætara.</string>
