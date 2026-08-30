@@ -45,6 +45,9 @@ import org.jellyfin.sdk.model.api.MediaSegmentType
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
+private const val SLIDE_IN_OFFSET_DIVISOR = 3
+private const val SLIDE_OUT_OFFSET_DIVISOR = 4
+
 @Composable
 fun SkipOverlayComposable(
 	visible: Boolean,
@@ -60,8 +63,8 @@ fun SkipOverlayComposable(
 	) {
 		AnimatedVisibility(
 			visible = visible,
-			enter = fadeIn() + slideInHorizontally { it / 3 },
-			exit = fadeOut() + slideOutHorizontally { it / 4 },
+			enter = fadeIn() + slideInHorizontally { it / SLIDE_IN_OFFSET_DIVISOR },
+			exit = fadeOut() + slideOutHorizontally { it / SLIDE_OUT_OFFSET_DIVISOR },
 		) {
 			Row(
 				modifier = Modifier
