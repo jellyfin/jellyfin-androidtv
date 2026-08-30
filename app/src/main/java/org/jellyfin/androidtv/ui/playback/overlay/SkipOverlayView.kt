@@ -195,6 +195,7 @@ class SkipOverlayView @JvmOverloads constructor(
 		LaunchedEffect(skipUiEnabled, targetPosition) {
 			delay(MediaSegmentRepository.AskToSkipAutoHideDuration)
 			_targetPosition.value = null
+			_segmentType.value = null
 		}
 
 		SkipOverlayComposable(visible, segmentType)
