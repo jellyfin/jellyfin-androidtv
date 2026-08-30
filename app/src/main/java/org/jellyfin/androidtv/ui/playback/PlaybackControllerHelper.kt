@@ -210,7 +210,7 @@ private fun PlaybackController.addSkipAction(mediaSegment: MediaSegmentDto) {
 private fun PlaybackController.addAskToSkipAction(mediaSegment: MediaSegmentDto) {
 	mVideoManager.mExoPlayer
 		.createMessage { _, _ ->
-			fragment?.askToSkip(mediaSegment.end)
+			fragment?.askToSkip(mediaSegment.end, mediaSegment.type)
 		}
 		// Segments at position 0 will never be hit by ExoPlayer so we need to add a minimum value
 		.setPosition(mediaSegment.start.inWholeMilliseconds.coerceAtLeast(1))

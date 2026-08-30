@@ -1274,6 +1274,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void clearSkipOverlay() {
         binding.skipOverlay.setTargetPositionMs(null);
+        binding.skipOverlay.setSegmentType(null);
     }
 
     private void prepareChapterAdapter() {

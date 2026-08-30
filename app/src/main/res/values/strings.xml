@@ -544,6 +544,12 @@
     <string name="segment_action_ask_to_skip">Ask to skip</string>
     <string name="segment_action_nothing">Do nothing</string>
     <string name="segment_action_skip">Skip</string>
+    <string name="segment_skip_intro">Skip intro</string>
+    <string name="segment_skip_outro">Skip outro</string>
+    <string name="segment_skip_recap">Skip recap</string>
+    <string name="segment_skip_preview">Skip preview</string>
+    <string name="segment_skip_commercial">Skip commercial</string>
+    <string name="segment_skip_control_hint">Press the center button to skip</string>
     <string name="segment_type_commercial">Commercials</string>
     <string name="segment_type_intro">Intros</string>
     <string name="segment_type_outro">Outros</string>

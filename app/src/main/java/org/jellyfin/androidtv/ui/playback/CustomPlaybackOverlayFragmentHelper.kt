@@ -17,6 +17,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.time.Instant
@@ -188,6 +189,7 @@ fun CustomPlaybackOverlayFragment.recordProgram(program: BaseItemDto, isSeries: 
 	}
 }
 
-fun CustomPlaybackOverlayFragment.askToSkip(position: Duration) {
+fun CustomPlaybackOverlayFragment.askToSkip(position: Duration, segmentType: MediaSegmentType) {
+	binding.skipOverlay.segmentType = segmentType
 	binding.skipOverlay.targetPosition = position
 }
