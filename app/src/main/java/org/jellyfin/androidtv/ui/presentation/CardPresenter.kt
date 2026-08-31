@@ -4,6 +4,7 @@ import android.view.KeyEvent
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.compose.foundation.Image
+import coil3.compose.rememberAsyncImagePainter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
@@ -13,11 +14,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -32,12 +40,15 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
-import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.composable.item.ItemCard
 import org.jellyfin.androidtv.ui.composable.item.ItemCardBaseItemOverlay
 import org.jellyfin.androidtv.ui.composable.item.ItemPreview
@@ -45,6 +56,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType
 import org.jellyfin.androidtv.ui.itemhandling.GridButtonBaseRowItem
+import org.jellyfin.androidtv.util.BlurHashDecoder
 import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.JellyfinImage
 import org.jellyfin.androidtv.util.apiclient.getUrl
@@ -53,6 +65,10 @@ import org.jellyfin.design.Tokens
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.compose.koinInject
+import kotlin.math.roundToInt
+
+private const val IMAGE_CROSSFADE_DURATION_MS = 100
+private const val BLUR_HASH_RESOLUTION = 32
 
 class CardPresenter(
 	val showInfo: Boolean,
@@ -96,12 +112,11 @@ class CardPresenter(
 
 	private inner class CardViewHolder(composeView: ComposeView) : ViewHolder(composeView) {
 		private val _item = MutableStateFlow<BaseRowItem?>(null)
-		private val _focused = MutableStateFlow(false)
+		private val focused = mutableStateOf(false)
 
 		init {
 			composeView.setContent {
 				val item by _item.collectAsState()
-				val focused by _focused.collectAsState()
 
 				CardViewHolderContent(
 					item = item,
@@ -113,18 +128,18 @@ class CardPresenter(
 				)
 			}
 
-			_focused.value = view.isFocused
-			composeView.onFocusChangeListener = { _, focused -> _focused.value = focused }
+			focused.value = view.isFocused
+			composeView.onFocusChangeListener = { _, isFocused -> focused.value = isFocused }
 		}
 
 		fun bind(item: BaseRowItem) {
 			_item.value = item
-			_focused.value = view.isFocused
+			focused.value = view.isFocused
 		}
 
 		fun unbind() {
 			_item.value = null
-			_focused.value = false
+			focused.value = false
 		}
 	}
 }
@@ -136,6 +151,35 @@ private data class BaseRowItemDisplayConfig(
 	val overrideShowInfo: Boolean? = null,
 	val scaleType: ImageView.ScaleType? = null,
 )
+
+private fun ImageView.ScaleType.toContentScale() = when (this) {
+	ImageView.ScaleType.CENTER_CROP -> ContentScale.Crop
+	ImageView.ScaleType.FIT_XY -> ContentScale.FillBounds
+	ImageView.ScaleType.CENTER -> ContentScale.None
+	ImageView.ScaleType.CENTER_INSIDE,
+	ImageView.ScaleType.FIT_CENTER,
+	ImageView.ScaleType.FIT_START,
+	ImageView.ScaleType.FIT_END,
+	ImageView.ScaleType.MATRIX -> ContentScale.Fit
+}
+
+@Composable
+private fun rememberBlurHashPainter(
+	blurHash: String?,
+	aspectRatio: Float,
+): Painter? {
+	val bitmap by produceState<android.graphics.Bitmap?>(null, blurHash, aspectRatio) {
+		value = if (blurHash == null || aspectRatio <= 0f) null else withContext(Dispatchers.Default) {
+			BlurHashDecoder.decode(
+				blurHash = blurHash,
+				width = if (aspectRatio > 1f) (BLUR_HASH_RESOLUTION * aspectRatio).roundToInt() else BLUR_HASH_RESOLUTION,
+				height = if (aspectRatio >= 1f) BLUR_HASH_RESOLUTION else (BLUR_HASH_RESOLUTION / aspectRatio).roundToInt(),
+			)
+		}
+	}
+
+	return remember(bitmap) { bitmap?.let { BitmapPainter(it.asImageBitmap()) } }
+}
 
 private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Boolean): BaseRowItemDisplayConfig = when (baseRowType) {
 	BaseRowType.BaseItem -> {
@@ -280,7 +324,7 @@ private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Bo
 @Stable
 private fun CardViewHolderContent(
 	item: BaseRowItem?,
-	focused: Boolean,
+	focused: State<Boolean>,
 	showInfo: Boolean,
 	imageType: ImageType,
 	staticHeight: Int,
@@ -311,17 +355,30 @@ private fun CardViewHolderContent(
 			image = {
 				if (image != null) {
 					val api = koinInject<ApiClient>()
-					AsyncImage(
-						url = image.getUrl(
+					val imageUrl = remember(image, api, size, localDensity) {
+						image.getUrl(
 							api,
 							maxWidth = with(localDensity) { size.width.roundToPx() },
 							maxHeight = with(localDensity) { size.height.roundToPx() },
+						)
+					}
+					val contentScale = (displayConfig.scaleType ?: ImageView.ScaleType.CENTER_CROP).toContentScale()
+					val placeholder = rememberBlurHashPainter(image.blurHash, aspectRatio)
+					val request = remember(imageUrl, context) {
+						ImageRequest.Builder(context)
+							.data(imageUrl)
+							.crossfade(IMAGE_CROSSFADE_DURATION_MS)
+							.build()
+					}
+					Image(
+						painter = rememberAsyncImagePainter(
+							model = request,
+							placeholder = placeholder,
+							contentScale = contentScale,
 						),
-						blurHash = image.blurHash,
-						aspectRatio = aspectRatio,
-						scaleType = displayConfig.scaleType ?: ImageView.ScaleType.CENTER_CROP,
-						modifier = Modifier
-							.fillMaxSize()
+						contentDescription = null,
+						contentScale = contentScale,
+						modifier = Modifier.fillMaxSize(),
 					)
 				} else if (item is GridButtonBaseRowItem && item.gridButton.imageRes != null) {
 					Image(
@@ -343,14 +400,12 @@ private fun CardViewHolderContent(
 			overlay = {
 				val showInfo = !usePreview && item.showCardInfoOverlay
 				item.baseItem?.let { baseItem ->
-					ItemCardBaseItemOverlay(
+					FocusAwareItemOverlay(
 						item = baseItem,
+						focused = focused,
 						footer = {
 							if (showInfo && title != null) {
-								val focusModifier = if (focused) Modifier.basicMarquee(
-									iterations = Int.MAX_VALUE,
-									initialDelayMillis = 0,
-								) else Modifier
+								val focusModifier = focusedMarqueeModifier(focused)
 
 								Box(
 									modifier = Modifier
@@ -379,11 +434,6 @@ private fun CardViewHolderContent(
 	}
 
 	if (usePreview) {
-		val focusModifier = if (focused) Modifier.basicMarquee(
-			iterations = Int.MAX_VALUE,
-			initialDelayMillis = 0,
-		) else Modifier
-
 		ItemPreview(
 			card = { card() },
 			title = title?.let { text ->
@@ -393,7 +443,7 @@ private fun CardViewHolderContent(
 						maxLines = 1,
 						overflow = TextOverflow.Ellipsis,
 						textAlign = TextAlign.Center,
-						modifier = Modifier.then(focusModifier),
+						modifier = Modifier.then(focusedMarqueeModifier(focused)),
 					)
 				}
 			},
@@ -404,7 +454,7 @@ private fun CardViewHolderContent(
 						maxLines = 1,
 						overflow = TextOverflow.Ellipsis,
 						textAlign = TextAlign.Center,
-						modifier = Modifier.then(focusModifier),
+						modifier = Modifier.then(focusedMarqueeModifier(focused)),
 					)
 				}
 			},
@@ -412,4 +462,23 @@ private fun CardViewHolderContent(
 	} else {
 		card()
 	}
+}
+
+@Composable
+private fun focusedMarqueeModifier(focused: State<Boolean>): Modifier = if (focused.value) Modifier.basicMarquee(
+	iterations = Int.MAX_VALUE,
+	initialDelayMillis = 0,
+) else Modifier
+
+@Composable
+private fun FocusAwareItemOverlay(
+	item: org.jellyfin.sdk.model.api.BaseItemDto,
+	focused: State<Boolean>,
+	footer: (@Composable () -> Unit)? = null,
+) {
+	ItemCardBaseItemOverlay(
+		item = item,
+		focused = focused.value,
+		footer = footer,
+	)
 }

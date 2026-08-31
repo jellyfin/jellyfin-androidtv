@@ -84,6 +84,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected static final int SERIES = 11;
     protected static final int ALBUM_ARTISTS = 12;
     protected static final int SHUFFLE_SONGS = 13;
+    private static final int VIEW_SELECT_UPDATE_DELAY = 250;
     protected BaseItemDto mFolder;
     protected BaseItemKind itemType;
     protected boolean showViews = true;
@@ -98,6 +99,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
 
+    private final Handler mSelectionHandler = new Handler();
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
@@ -151,6 +153,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
     @Override
     public void onDestroyView() {
+        mSelectionHandler.removeCallbacks(mDelayedSelectionUpdate);
         super.onDestroyView();
         mClickedListener.removeListeners();
         mSelectedListener.removeListeners();
@@ -456,28 +459,19 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         }
     }
 
-    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
+    private final Runnable mDelayedSelectionUpdate = new Runnable() {
         @Override
-        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
-                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (!(item instanceof BaseRowItem)) {
-                mTitle.setText(mFolder != null ? mFolder.getName() : "");
-                mInfoRow.removeAllViews();
+        public void run() {
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+
+            BaseRowItem rowItem = mCurrentItem;
+            mInfoRow.removeAllViews();
+
+            if (rowItem == null) {
                 mSummary.setText("");
-                mCurrentItem = null;
-                mCurrentRow = null;
-                // Fill in default background
                 backgroundService.getValue().clearBackgrounds();
                 return;
             }
-
-            BaseRowItem rowItem = (BaseRowItem) item;
-
-            mCurrentItem = rowItem;
-            mCurrentRow = (ListRow) row;
-            mInfoRow.removeAllViews();
-
-            mTitle.setText(rowItem.getName(requireContext()));
 
             String summary = rowItem.getSummary(requireContext());
             if (summary != null)
@@ -485,11 +479,33 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             else mSummary.setText(null);
 
             InfoLayoutHelper.addInfoRow(requireContext(), rowItem.getBaseItem(), mInfoRow, true);
+            backgroundService.getValue().setBackground(rowItem.getBaseItem());
+        }
+    };
+
+    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
+        @Override
+        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
+                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
+            mSelectionHandler.removeCallbacks(mDelayedSelectionUpdate);
+
+            if (!(item instanceof BaseRowItem)) {
+                mTitle.setText(mFolder != null ? mFolder.getName() : "");
+                mCurrentItem = null;
+                mCurrentRow = null;
+                mSelectionHandler.postDelayed(mDelayedSelectionUpdate, VIEW_SELECT_UPDATE_DELAY);
+                return;
+            }
+
+            BaseRowItem rowItem = (BaseRowItem) item;
+            mCurrentItem = rowItem;
+            mCurrentRow = (ListRow) row;
+            mTitle.setText(rowItem.getName(requireContext()));
 
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
             adapter.loadMoreItemsIfNeeded(adapter.indexOf(rowItem));
 
-            backgroundService.getValue().setBackground(rowItem.getBaseItem());
+            mSelectionHandler.postDelayed(mDelayedSelectionUpdate, VIEW_SELECT_UPDATE_DELAY);
         }
     }
 }

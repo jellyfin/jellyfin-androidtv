@@ -34,10 +34,13 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.compose.koinInject
 
+private const val PERCENTAGE_SCALE = 100f
+
 @Composable
 @Stable
 fun ItemCardBaseItemOverlay(
 	item: BaseItemDto,
+	focused: Boolean = false,
 	footer: (@Composable () -> Unit)? = null,
 ) = Box(
 	modifier = Modifier
@@ -60,6 +63,7 @@ fun ItemCardBaseItemOverlay(
 	) {
 		ProgressIndicator(
 			item = item,
+			focused = focused,
 		)
 
 		if (footer != null) footer()
@@ -145,16 +149,19 @@ private fun WatchIndicator(
 @Composable
 private fun ProgressIndicator(
 	item: BaseItemDto,
+	focused: Boolean,
 	modifier: Modifier = Modifier,
 ) {
-	val playbackManager = koinInject<org.jellyfin.playback.core.PlaybackManager>()
-	val playState by playbackManager.state.playState.collectAsState()
-	val currentQueueEntry by rememberQueueEntry(playbackManager)
+	val staticPlayedPercentage = item.userData?.playedPercentage
+		?.toFloat()
+		?.div(PERCENTAGE_SCALE)
+		?.coerceIn(0f, 1f)
+		?.takeIf { it > 0f && it < 1f }
 
-	val playedPercentage = if (playState == PlayState.PLAYING && currentQueueEntry?.baseItem?.id == item.id) {
-		rememberPlayerProgress(playbackManager).value
+	val playedPercentage = if (focused) {
+		FocusedPlaybackProgress(item) ?: staticPlayedPercentage
 	} else {
-		item.userData?.playedPercentage?.toFloat()?.div(100f)?.coerceIn(0f, 1f)?.takeIf { it > 0f && it < 1f }
+		staticPlayedPercentage
 	}
 
 	if (playedPercentage != null) {
@@ -167,5 +174,18 @@ private fun ProgressIndicator(
 					.height(4.dp)
 			)
 		}
+	}
+}
+
+@Composable
+private fun FocusedPlaybackProgress(item: BaseItemDto): Float? {
+	val playbackManager = koinInject<org.jellyfin.playback.core.PlaybackManager>()
+	val playState by playbackManager.state.playState.collectAsState()
+	val currentQueueEntry by rememberQueueEntry(playbackManager)
+
+	return if (playState == PlayState.PLAYING && currentQueueEntry?.baseItem?.id == item.id) {
+		rememberPlayerProgress(playbackManager).value
+	} else {
+		null
 	}
 }

@@ -12,6 +12,8 @@ import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.constant.Extras
@@ -25,6 +27,8 @@ import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.koin.android.ext.android.inject
 
+private const val FOCUS_SETTLE_DELAY_MS = 250L
+
 abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 	protected var folder: BaseItemDto? = null
 	protected var includeType: String? = null
@@ -33,6 +37,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 
 	private val backgroundService by inject<BackgroundService>()
 	private val itemLauncher by inject<ItemLauncher>()
+	private var backgroundUpdateJob: Job? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -56,13 +61,21 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 			}
 		}
 		onItemViewSelectedListener = OnItemViewSelectedListener { _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, row: Row ->
+			backgroundUpdateJob?.cancel()
+
 			if (item !is BaseRowItem) {
-				backgroundService.clearBackgrounds()
+				backgroundUpdateJob = lifecycleScope.launch {
+					delay(FOCUS_SETTLE_DELAY_MS)
+					backgroundService.clearBackgrounds()
+				}
 			} else {
 				val adapter = (row as? ListRow)?.adapter
 				if (adapter is ItemRowAdapter) adapter.loadMoreItemsIfNeeded(adapter.indexOf(item))
 
-				backgroundService.setBackground(item.baseItem)
+				backgroundUpdateJob = lifecycleScope.launch {
+					delay(FOCUS_SETTLE_DELAY_MS)
+					backgroundService.setBackground(item.baseItem)
+				}
 			}
 		}
 
@@ -72,6 +85,11 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 				setupQueries(this@BrowseFolderFragment)
 			}
 		}
+	}
+
+	override fun onDestroy() {
+		backgroundUpdateJob?.cancel()
+		super.onDestroy()
 	}
 
 	protected abstract suspend fun setupQueries(rowLoader: RowLoader)

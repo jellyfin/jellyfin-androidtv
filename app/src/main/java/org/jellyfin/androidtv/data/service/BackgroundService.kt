@@ -108,9 +108,13 @@ class BackgroundService(
 		// Cancel current loading job
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
+			val displayMetrics = context.resources.displayMetrics
 			_backgrounds = backdropUrls.mapNotNull { url ->
 				imageLoader.execute(
-					request = ImageRequest.Builder(context).data(url).build()
+					request = ImageRequest.Builder(context)
+						.data(url)
+						.size(displayMetrics.widthPixels, displayMetrics.heightPixels)
+						.build()
 				).image?.toBitmap()?.asImageBitmap()
 			}
 
