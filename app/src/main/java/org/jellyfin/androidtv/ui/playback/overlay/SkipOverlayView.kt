@@ -98,20 +98,6 @@ fun SkipOverlayComposable(
 					fontWeight = FontWeight.SemiBold,
 				)
 
-				Box(
-					contentAlignment = Alignment.Center,
-					modifier = Modifier
-						.size(30.dp)
-						.clip(CircleShape)
-						.background(contentColor.copy(alpha = 0.08f))
-				) {
-					Icon(
-						imageVector = ImageVector.vectorResource(R.drawable.ic_control_select),
-						contentDescription = stringResource(R.string.segment_skip_control_hint),
-						modifier = Modifier.size(21.dp),
-						tint = Color.Unspecified,
-					)
-				}
 			}
 		}
 	}
