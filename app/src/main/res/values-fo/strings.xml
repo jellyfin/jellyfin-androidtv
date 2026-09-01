@@ -79,11 +79,11 @@
     <string name="lbl_no_recordings">Ongar upptøkur eru tøkar</string>
     <string name="lbl_recorded_tv">Upptikið sjónvarp</string>
     <string name="pref_live_tv_cat">Beinleiðis sjónvarp</string>
-    <string name="lbl_albums">Plátuútgávur</string>
+    <string name="lbl_albums">Tónleikaútgávur</string>
     <string name="lbl_artists">Tónlistafólk</string>
     <string name="lbl_song">Sangur</string>
     <string name="lbl_songs">Sangir</string>
-    <string name="lbl_album">Plátuútgáva</string>
+    <string name="lbl_album">Tónleikaútgáva</string>
     <string name="lbl_episodes">Partar</string>
     <string name="lbl_enable_cinema_mode">Biografstøða</string>
     <string name="sum_enable_cinema_mode">Spæl tøkar forfilmar og undansýningarfilmar áðrenn ein filmur byrjar</string>
@@ -347,7 +347,7 @@
     <string name="pref_screensaver_inapp_enabled">Brúka skáaskíggja apparinnar</string>
     <string name="pref_screensaver_inapp_enabled_description">Vís Jellyfin-skáaskíggjan ímeðan appin er opin</string>
     <string name="pref_screensaver_inapp_timeout">Byrja skáaskíggjan eftir</string>
-    <string name="lbl_album_artists">Plátutónlistafólk</string>
+    <string name="lbl_album_artists">Útgávutónlistafólk</string>
     <plurals name="items">
         <item quantity="one">%1$s miðil</item>
         <item quantity="other">%1$s miðlar</item>
