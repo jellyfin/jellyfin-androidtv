@@ -4,13 +4,6 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
 class TimeUtilsTests : FunSpec({
-	test("TimeUtils.millisToSeconds() works correctly") {
-		TimeUtils.millisToSeconds(0) shouldBe 0
-		TimeUtils.millisToSeconds(1000) shouldBe 1
-		TimeUtils.millisToSeconds(1100) shouldBe 1
-		TimeUtils.millisToSeconds(2000) shouldBe 2
-	}
-
 	test("TimeUtils.secondsToMillis() works correctly") {
 		TimeUtils.secondsToMillis(0.0) shouldBe 0
 		TimeUtils.secondsToMillis(1.0) shouldBe 1000

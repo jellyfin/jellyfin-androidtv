@@ -20,9 +20,6 @@ public class TimeUtils {
     private static final String DURATION_TIME_FORMAT_NO_HOURS = "%d:%02d";
     private static final String DURATION_TIME_FORMAT_WITH_HOURS = "%d:%02d:%02d";
 
-    public static long millisToSeconds(long millis) {
-        return Math.round(millis / (float)MILLIS_PER_SEC);
-    }
     public static long secondsToMillis(double seconds) {
         return Math.round(seconds * MILLIS_PER_SEC);
     }

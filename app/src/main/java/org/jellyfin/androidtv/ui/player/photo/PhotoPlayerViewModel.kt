@@ -20,10 +20,11 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
+import kotlin.time.Duration.Companion.milliseconds
 
 class PhotoPlayerViewModel(
 	private val api: ApiClient,
-	private val userPreferences: UserPreferences
+	private val userPreferences: UserPreferences,
 ) : ViewModel() {
 	private var album: List<BaseItemDto> = emptyList()
 	private var albumIndex = -1
@@ -90,8 +91,10 @@ class PhotoPlayerViewModel(
 	val presentationActive = _presentationActive.asStateFlow()
 
 	fun createPresentationJob() = viewModelScope.launch(Dispatchers.IO) {
+		val photoPlayerPresentationDelay = userPreferences[UserPreferences.photoPlayerPresentationDelay].milliseconds
+
 		while (isActive) {
-			delay(userPreferences[UserPreferences.photoPlayerPresentationDelay])
+			delay(photoPlayerPresentationDelay)
 			showNext()
 		}
 	}
@@ -125,7 +128,13 @@ class PhotoPlayerViewModel(
 
 	fun setSettingsVisible(visible: Boolean) {
 		_settingsVisible.value = visible
-		if(!visible){
+
+		// Make sure presentation is stopped when settings are shown
+		// but keep the _presentationActive state
+		if (visible) {
+			presentationJob?.cancel()
+			presentationJob = null
+		} else {
 			restartPresentation()
 		}
 	}

@@ -54,9 +54,7 @@ fun PhotoPlayerScreen() {
 		) {
 			SettingsDialog(
 				visible = settingsVisible,
-				onDismissRequest = {
-					viewModel.setSettingsVisible(false);
-				}
+				onDismissRequest = { viewModel.setSettingsVisible(false) }
 			) {
 				SettingsRouterContent()
 			}

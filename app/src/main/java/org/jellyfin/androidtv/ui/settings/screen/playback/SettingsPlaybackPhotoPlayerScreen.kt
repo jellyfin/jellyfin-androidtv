@@ -24,9 +24,9 @@ import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.focus.focusKey
 import org.jellyfin.androidtv.ui.settings.compat.rememberPreference
 import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
-import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.design.Tokens
 import org.koin.compose.koinInject
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun SettingsPlaybackPhotoPlayerScreen() {
@@ -72,7 +72,7 @@ fun SettingsPlaybackPhotoPlayerScreen() {
 						modifier = Modifier.sizeIn(minWidth = 32.dp),
 						contentAlignment = Alignment.CenterEnd
 					) {
-						Text("${TimeUtils.millisToSeconds(photoPlayerPresentationDelay)}s")
+						Text("${photoPlayerPresentationDelay.milliseconds.inWholeSeconds}s")
 					}
 				}
 			}
