@@ -415,7 +415,7 @@
     <string name="pref_playback_description">Kykmyndir, undirtekstir, beinleiðis sjónvarp, næst á skránni</string>
     <string name="login_quickconnect_step_1">1. Lat upp Jellyfin-appina á tíni telefon ella vevkaga og rita inn við tínum brúkara</string>
     <string name="login_quickconnect_step_2">2. Lat upp brúkaravalmyndina og vel Quick Connect</string>
-    <string name="app_notification_uimode_invalid">Hendan appin er albøtt til og ætlað sjónvørpum. Vit viðmæla at brúka far-app okkara á øðrum eindum.</string>
+    <string name="app_notification_uimode_invalid">Hendan appin er albøtt til og ætlað sjónvørpum. Vit mæla til at brúka far-app okkara á øðrum eindum.</string>
     <string name="clear_image_cache">Tøm myndakova</string>
     <string name="speech_error_unavailable">Taluafturkenning er ikki møguligt á hesi eindini.</string>
     <string name="speech_error_unknown">Ein óvæntað villa kom fyri undir taluafturkenningini.</string>
