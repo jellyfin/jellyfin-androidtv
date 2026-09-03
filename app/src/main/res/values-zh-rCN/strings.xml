@@ -659,4 +659,7 @@
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="lbl_date_show_added">节目添加日期</string>
     <string name="lbl_date_episode_added">剧集添加日期</string>
+    <string name="photo_player">照片播放器</string>
+    <string name="photo_display_duration">照片显示时长</string>
+    <string name="photo_display_duration_description">多久之后才会显示下一张照片</string>
 </resources>
