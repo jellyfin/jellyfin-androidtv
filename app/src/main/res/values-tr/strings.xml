@@ -67,7 +67,7 @@
     <string name="lbl_starting_with">adı şununla başlayanlardan başlayarak</string>
     <string name="lbl_rating">Puan</string>
     <string name="lbl_critic_rating">Eleştirmen puanı</string>
-    <string name="lbl_premier_date">Premier zamanı</string>
+    <string name="lbl_premier_date">İlk gösterim tarihi</string>
     <string name="lbl_date_added">Eklenme tarihi</string>
     <string name="lbl_name">Ad</string>
     <string name="lbl_sorted_by">sıralama şekli</string>
@@ -495,7 +495,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -664,4 +664,9 @@
     <string name="preference_enable_ass_description">Deneysel özellik; güvenilir şekilde çalışmayabilir</string>
     <string name="pref_software_codecs_enabled">Yazılım codec bileşenlerini kullan</string>
     <string name="pref_software_codecs_enabled_description">Bazı yazılım tabanlı uygulamalar performansı düşürebilir. Bu seçeneği devre dışı bırakmak, kod dönüştürme işleminin gerçekleşme olasılığını artırır.</string>
+    <string name="lbl_date_show_added">Dizinin eklendiği tarih</string>
+    <string name="lbl_date_episode_added">Bölümün eklendiği tarih</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>

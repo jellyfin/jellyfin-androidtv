@@ -7,9 +7,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.PopupPositionProvider
 
-class PopoverMenuPositionProvider(
-	val alignment: Alignment = Alignment.Companion.BottomCenter,
-	val offset: IntOffset = IntOffset.Companion.Zero,
+class PopoverPositionProvider(
+	val alignment: Alignment = Alignment.BottomCenter,
+	val offset: IntOffset = IntOffset.Zero,
 ) : PopupPositionProvider {
 	private companion object {
 		private const val EPSILON = 1e-3f
@@ -34,7 +34,7 @@ class PopoverMenuPositionProvider(
 
 		// Measure bias
 		val biasPosition = alignment.align(
-			size = IntSize.Companion.Zero,
+			size = IntSize.Zero,
 			space = PROBE_SPACE,
 			layoutDirection = layoutDirection,
 		)

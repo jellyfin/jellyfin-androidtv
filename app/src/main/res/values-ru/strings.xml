@@ -530,7 +530,7 @@
     </plurals>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="ac3">DD</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="past_week">Прошлая неделя</string>
     <string name="scheduled_in_next_24_hours">Запланировано на следующие 24 часа</string>
     <string name="prefer_exoplayer_ffmpeg">Предпочитать FFmpeg для воспроизведения аудио</string>

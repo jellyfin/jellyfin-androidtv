@@ -3,7 +3,7 @@
     <string name="video_error_unknown_error">Kunde inte ladda videon</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>
-    <string name="settings_title">Preferenser</string>
+    <string name="settings_title">Inställningar</string>
     <string name="pref_authentication_cat">Autentisering</string>
     <string name="loading">Laddar…</string>
     <string name="lbl_direct_stream_live">Realtidsströmma direktsänd-TV</string>
@@ -41,8 +41,8 @@
     <string name="lbl_at_any_time">Närsomhelst</string>
     <string name="lbl_series_recordings">Serieinspelningar</string>
     <string name="lbl_save">Spara</string>
-    <string name="msg_settings_updated">Preferenser uppdaterade</string>
-    <string name="lbl_series_settings">Seriepreferenser</string>
+    <string name="msg_settings_updated">Inställningar uppdaterade</string>
+    <string name="lbl_series_settings">Serieinställningar</string>
     <string name="lbl_episode_not_record">Denna kommer INTE spelas in</string>
     <string name="lbl_schedule">Schema</string>
     <string name="lbl_live">Direktsänt</string>
@@ -215,7 +215,7 @@
     <string name="lbl_on_now">Visas just nu</string>
     <string name="lbl_next_up">Kommer härnäst</string>
     <string name="lbl_continue_watching">Fortsätt titta på</string>
-    <string name="lbl_settings">Preferenser</string>
+    <string name="lbl_settings">Inställningar</string>
     <string name="chapters">Kapitel</string>
     <string name="pref_max_bitrate_title">Maximal strömningsbithastighet</string>
     <string name="pref_playback">Uppspelning</string>
@@ -434,7 +434,7 @@
     <string name="image_size_xlarge">Extra Stor</string>
     <string name="image_size_smallest">Minsta</string>
     <string name="image_type_poster">Affisch</string>
-    <string name="lbl_additional_parts">Ytterligare komponenter</string>
+    <string name="lbl_additional_parts">Andra delar</string>
     <string name="episode_name_special">specialavsnitt</string>
     <string name="lbl_quality_profile">Kvalitetsprofil</string>
     <string name="desc_audio_night_mode">Jämnar ut ljudnivån automatiskt</string>
@@ -664,4 +664,6 @@
     <string name="pref_software_codecs_enabled">Använd mjukvarkodeks</string>
     <string name="playback_info_video_range">Videointervall: %1$s</string>
     <string name="pref_software_codecs_enabled_description">Vissa programvarubaserade implementeringar kan försämra prestandan. Om du inaktiverar det här alternativet ökar sannolikheten för omkodning.</string>
+    <string name="lbl_date_show_added">Datum serie las till</string>
+    <string name="lbl_date_episode_added">Datum avsnitt las till</string>
 </resources>

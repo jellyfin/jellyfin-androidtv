@@ -1,37 +1,55 @@
 name: App / Publish
 
 on:
-  push:
-    tags:
-      - v*
+  release:
+    types:
+      - created
+      - edited
+      - published
 
 jobs:
   publish:
-    name: Publish
+    name: Build and publish release
     runs-on: ubuntu-24.04
     if: ${{ contains(github.repository_owner, 'jellyfin') }}
     permissions:
       contents: write
     steps:
+      - name: Set JELLYFIN_VERSION
+        run: echo "JELLYFIN_VERSION=$(echo '${{ github.event.release.tag_name }}' | sed 's#^v##' | tr / -)" >> "$GITHUB_ENV"
+
+      - name: Check release assets
+        id: release-assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "$(gh release view "${{ github.event.release.tag_name }}" --json assets --jq '.assets | length')" -eq 0 ]; then
+            echo "has_assets=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_assets=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout repository
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Java
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
         with:
           distribution: temurin
           java-version-file: .tools-versions
 
       - name: Setup Gradle
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
-      - name: Set JELLYFIN_VERSION
-        run: echo "JELLYFIN_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
-
       - name: Decode keystore
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
         run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > keystore.jks
 
       - name: Assemble release files
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
         env:
           KEYSTORE_FILE: ${{ github.workspace }}/keystore.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -40,6 +58,7 @@ jobs:
         run: ./gradlew assemble bundleRelease versionTxt
 
       - name: Prepare release archive
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
         run: |
           mkdir -p build/jellyfin-publish
           mv app/build/outputs/apk/debug/jellyfin-androidtv-*-debug.apk build/jellyfin-publish/
@@ -48,23 +67,35 @@ jobs:
           mv app/build/version.txt build/jellyfin-publish/
 
       - name: Upload release archive to GitHub release
+        if: ${{ steps.release-assets.outputs.has_assets == 'false' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "$GITHUB_REF_NAME" build/jellyfin-publish/* --clobber
+        run: gh release upload "${{ github.event.release.tag_name }}" build/jellyfin-publish/* --clobber
+
+      - name: Download release archive
+        if: ${{ github.event.action == 'published' && steps.release-assets.outputs.has_assets == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p build/jellyfin-publish
+          gh release download "${{ github.event.release.tag_name }}" --dir build/jellyfin-publish
 
       - name: Configure deployment
+        if: ${{ github.event.action == 'published' }}
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.REPO_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Upload release archive to repo.jellyfin.org
+        if: ${{ github.event.action == 'published' }}
         env:
           TARGET_PATH: /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }}/
           SOURCE_PATH: build/jellyfin-publish/
         run: rsync -vrptz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" "$SOURCE_PATH" "${{ secrets.REPO_USER }}@${{ secrets.REPO_HOST }}:$TARGET_PATH"
 
       - name: Update repo.jellyfin.org symlinks
+        if: ${{ github.event.action == 'published' }}
         env:
           REPO_HOST: ${{ secrets.REPO_HOST }}
           REPO_USER: ${{ secrets.REPO_USER }}
@@ -74,8 +105,8 @@ jobs:
                 sudo rm -r /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
             fi
             sudo mv /srv/incoming/androidtv/v${{ env.JELLYFIN_VERSION }} /srv/repository/main/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
-            cd /srv/repository/main/client/androidtv;
-            sudo rm -rf *.apk version.txt;
-            sudo ln -s versions/v${{ env.JELLYFIN_VERSION }}/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-*.apk .;
-            sudo ln -s versions/v${{ env.JELLYFIN_VERSION }}/version.txt .;
+            cd /srv/repository/main/client/androidtv
+            sudo rm -rf *.apk version.txt
+            sudo ln -s versions/v${{ env.JELLYFIN_VERSION }}/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-*.apk .
+            sudo ln -s versions/v${{ env.JELLYFIN_VERSION }}/version.txt .
           EOF

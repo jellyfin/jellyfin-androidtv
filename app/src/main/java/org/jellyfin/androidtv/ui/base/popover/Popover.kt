@@ -45,7 +45,7 @@ fun Popover(
 ) {
 	val density = LocalDensity.current
 	val popupPositionProvider = remember(alignment, density, offset) {
-		PopoverMenuPositionProvider(
+		PopoverPositionProvider(
 			alignment = alignment,
 			offset = IntOffset(
 				x = with(density) { offset.x.roundToPx() },
