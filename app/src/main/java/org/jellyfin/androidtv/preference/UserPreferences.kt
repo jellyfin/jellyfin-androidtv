@@ -264,6 +264,21 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Stores the interval for the photo player.
 		 */
 		var photoPlayerPresentationDelay = longPreference("photo_player_presentation_delay", 8000)
+
+		/**
+		 * Enable animation of photos.
+		 */
+		var photoPlayerAnimatePhotos = booleanPreference("photo_player_animate_photos", false)
+
+		/**
+		 * Set amount of Panning as percent.
+		 */
+		var photoPlayerAnimatePanStrength = floatPreference("photo_player_animate_pan_strength", 0.5f)
+
+		/**
+		 * Set amount of Zooming as percent.
+		 */
+		var photoPlayerAnimateZoomStrength = floatPreference("photo_player_animate_zoom_strength", 0.5f)
 	}
 
 	init {

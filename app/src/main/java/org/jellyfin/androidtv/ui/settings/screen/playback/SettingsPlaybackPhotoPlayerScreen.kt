@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.form.RangeControl
+import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.focus.focusKey
@@ -73,6 +75,92 @@ fun SettingsPlaybackPhotoPlayerScreen() {
 						contentAlignment = Alignment.CenterEnd
 					) {
 						Text("${photoPlayerPresentationDelay.milliseconds.inWholeSeconds}s")
+					}
+				}
+			}
+		}
+
+		item {
+			var photoPlayerAnimatePhotos by rememberPreference(userPreferences, UserPreferences.photoPlayerAnimatePhotos)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.animate_photos)) },
+				captionContent = { Text(stringResource(R.string.animate_photos_description)) },
+				trailingContent = { Checkbox(checked = photoPlayerAnimatePhotos) },
+				onClick = { photoPlayerAnimatePhotos = !photoPlayerAnimatePhotos },
+				modifier = Modifier.focusKey("animate_photos")
+			)
+		}
+
+		item {
+			var photoPlayerAnimatePanStrength by rememberPreference(userPreferences, UserPreferences.photoPlayerAnimatePanStrength)
+			val interactionSource = remember { MutableInteractionSource() }
+
+			ListControl(
+				headingContent = { Text(stringResource(R.string.animation_pan_strength)) },
+				captionContent = { Text(stringResource(R.string.animation_pan_strength_description)) },
+				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("photo_animation_pan_strength")
+			) {
+				Row(
+					verticalAlignment = Alignment.CenterVertically,
+				) {
+					RangeControl(
+						modifier = Modifier
+							.height(4.dp)
+							.weight(1f),
+						interactionSource = interactionSource,
+						min = 0.0f,
+						max = 1.0f,
+						stepForward = 0.01f,
+						value = photoPlayerAnimatePanStrength,
+						onValueChange = { photoPlayerAnimatePanStrength = it }
+					)
+
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
+
+					Box(
+						modifier = Modifier.sizeIn(minWidth = 32.dp),
+						contentAlignment = Alignment.CenterEnd
+					) {
+						Text("${(photoPlayerAnimatePanStrength * 100).toInt()}%")
+					}
+				}
+			}
+		}
+
+		item {
+			var photoPlayerAnimateZoomStrength by rememberPreference(userPreferences, UserPreferences.photoPlayerAnimateZoomStrength)
+			val interactionSource = remember { MutableInteractionSource() }
+
+			ListControl(
+				headingContent = { Text(stringResource(R.string.animation_zoom_strength)) },
+				captionContent = { Text(stringResource(R.string.animation_zoom_strength_description)) },
+				interactionSource = interactionSource,
+				modifier = Modifier.focusKey("photo_animation_zoom_strength")
+			) {
+				Row(
+					verticalAlignment = Alignment.CenterVertically,
+				) {
+					RangeControl(
+						modifier = Modifier
+							.height(4.dp)
+							.weight(1f),
+						interactionSource = interactionSource,
+						min = 0.0f,
+						max = 1.0f,
+						stepForward = 0.01f,
+						value = photoPlayerAnimateZoomStrength,
+						onValueChange = { photoPlayerAnimateZoomStrength = it }
+					)
+
+					Spacer(Modifier.width(Tokens.Space.spaceSm))
+
+					Box(
+						modifier = Modifier.sizeIn(minWidth = 32.dp),
+						contentAlignment = Alignment.CenterEnd
+					) {
+						Text("${(photoPlayerAnimateZoomStrength * 100).toInt()}%")
 					}
 				}
 			}

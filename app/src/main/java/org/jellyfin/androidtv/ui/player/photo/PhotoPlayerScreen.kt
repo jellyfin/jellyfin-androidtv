@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.ScreensaverLock
 import org.jellyfin.androidtv.ui.navigation.ProvideRouter
 import org.jellyfin.androidtv.ui.settings.Routes
@@ -25,7 +26,10 @@ fun PhotoPlayerScreen() {
 	val item by viewModel.currentItem.collectAsState()
 	val presentationActive by viewModel.presentationActive.collectAsState()
 	val settingsVisible by viewModel.settingsVisible.collectAsState()
-
+	val animationDuration = viewModel.userPreferences[UserPreferences.photoPlayerPresentationDelay]
+	val animatePhoto = viewModel.userPreferences[UserPreferences.photoPlayerAnimatePhotos]
+	val animatePanStrength = viewModel.userPreferences[UserPreferences.photoPlayerAnimatePanStrength]
+	val animateZoomStrength = viewModel.userPreferences[UserPreferences.photoPlayerAnimateZoomStrength]
 	val backgroundService = koinInject<BackgroundService>()
 	LaunchedEffect(backgroundService) {
 		backgroundService.clearBackgrounds()
@@ -42,6 +46,11 @@ fun PhotoPlayerScreen() {
 	) {
 		PhotoPlayerContent(
 			item = item,
+			presentationActive = presentationActive,
+			animationDuration = animationDuration,
+			animatePhoto = animatePhoto,
+			animatePanStrength = animatePanStrength,
+			animateZoomStrength = animateZoomStrength,
 		)
 
 		PhotoPlayerOverlay(

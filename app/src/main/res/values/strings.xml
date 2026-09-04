@@ -669,6 +669,12 @@
     <string name="photo_player">Photo player</string>
     <string name="photo_display_duration">Photo display duration</string>
     <string name="photo_display_duration_description">How long to wait before showing the next photo</string>
+    <string name="animate_photos">Animate photos</string>
+    <string name="animate_photos_description">Zoom and Pan photos in documentary style during playback</string>
+    <string name="animation_pan_strength">Animation pan strength</string>
+    <string name="animation_pan_strength_description">Scale how much photos will be panned during animation</string>
+    <string name="animation_zoom_strength">Animation zoom strength</string>
+    <string name="animation_zoom_strength_description">Scale how much photos will be zoomed during animation</string>
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
