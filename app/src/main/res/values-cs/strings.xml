@@ -679,4 +679,7 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="photo_player">Prohlížeč fotografií</string>
+    <string name="photo_display_duration">Doba zobrazení fotografie</string>
+    <string name="photo_display_duration_description">Jak dlouho je třeba počkat, než se zobrazí další fotografie</string>
 </resources>
