@@ -278,4 +278,20 @@
     <string name="pref_next_up_timeout_summary">ระยะเวลาที่ต้องรอก่อนเล่นรายการถัดไป</string>
     <string name="pref_next_up_timeout_title">ระยะเวลาตัวนับถอยหลังรายการถัดไป</string>
     <string name="watch_now">รับชมตอนนี้</string>
+    <string name="pref_next_up_behavior_title">แสดงข้อมูลวิดีโอถัดไป</string>
+    <string name="pref_still_watching_behavior_title">แสดงป๊อปอัปแจ้งเตือนเมื่อไม่มีการใช้งาน</string>
+    <string name="pref_app_theme">ธีมแอป</string>
+    <string name="pref_device_model">รุ่นอุปกรณ์</string>
+    <string name="grid_direction">ทิศทางตาราง</string>
+    <string name="grid_direction_horizontal">แนวนอน</string>
+    <string name="grid_direction_vertical">แนวตั้ง</string>
+    <string name="lbl_unknown_key">ไม่รู้จัก (%1s)</string>
+    <string name="pref_audio_track_button">ปุ่มแทร็กเสียง</string>
+    <string name="pref_subtitle_track_button">ปุ่มแทร็กคำบรรยาย</string>
+    <string name="pref_button_remapping_description">กดปุ่มใดก็ได้บนรีโมททีวีเพื่อกำหนดหน้าที่</string>
+    <string name="lbl_Reset">รีเซ็ต</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="mark_watched">ทำเลิกว่ารับชมแล้ว</string>
+    <string name="mark_watched_message">รายการนี้ดูเหมือนจะยังเล่นไม่จบความยาวภาพยนตร์ ต้องการทำเลิกว่ารับชมแล้วหรือไม่?</string>
+    <string name="no_player">ไม่มีเครื่องเล่น</string>
 </resources>
