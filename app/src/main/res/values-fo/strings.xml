@@ -667,4 +667,5 @@
     <string name="lbl_coming_up">Komandi sendingar</string>
     <string name="pref_software_codecs_enabled">Brúka ritbúnaðar-kodek</string>
     <string name="pref_software_codecs_enabled_description">Summar ritbúnaðarligar verksetanir kunnu hava ónøktandi avrikaføri. Uttan hetta er meira sannlíkt at tørvur er á umkotingum.</string>
+    <string name="photo_display_duration_description">Tíðarbil áðrenn skift verður til næstu mynd</string>
 </resources>
