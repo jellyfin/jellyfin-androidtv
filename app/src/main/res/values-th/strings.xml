@@ -59,9 +59,9 @@
     <string name="lbl_next_up">ถัดไป</string>
     <string name="lbl_continue_watching">รับชมต่อ</string>
     <string name="lbl_settings">การตั้งค่า</string>
-    <string name="pref_authentication_cat">การตรวจสอบสิทธิ์</string>
+    <string name="pref_authentication_cat">การยืนยันตัวตน</string>
     <string name="settings_title">การตั้งค่า</string>
-    <string name="pref_max_bitrate_title">อัตราบิตเรทการสตรีมสูงสุด</string>
+    <string name="pref_max_bitrate_title">อัตราบิตเรตการสตรีมสูงสุด</string>
     <string name="pref_playback">การเล่น</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">ยกเลิก</string>
@@ -223,4 +223,16 @@
     <string name="lbl_begin_padding">ระยะขอบเริ่มต้น</string>
     <string name="lbl_runtime">รันไทม์</string>
     <string name="lbl_shuffle_queue">สลับสถานะการสุ่ม</string>
+    <string name="lbl_exit">ออก</string>
+    <string name="lbl_end_padding">ระยะขอบสิ้นสุด</string>
+    <string name="lbl_date_show_added">วันที่เพิ่มรายการ</string>
+    <string name="lbl_date_episode_added">วันที่เพิ่มตอน</string>
+    <string name="lbl_bitstream_ac3">สตรีมสัญญาณเสียง Dolby Digital</string>
+    <string name="playback_info">ข้อมูลการเล่น</string>
+    <string name="playback_info_play_method">วิธีการเล่น: %1$s</string>
+    <string name="playback_info_direct_play">เล่นโดยตรง</string>
+    <string name="playback_info_direct_stream">สตรีมโดยตรง</string>
+    <string name="playback_info_transcoding">แปลงรหัส</string>
+    <string name="playback_info_container">ฟอร์แมตไฟล์: %1$s</string>
+    <string name="playback_info_video_title">วิดีโอ</string>
 </resources>
