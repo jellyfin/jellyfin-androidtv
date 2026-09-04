@@ -43,7 +43,7 @@
     <string name="pref_max_bitrate_title">Maksimalus srautinės transliacijos bitų srautas</string>
     <string name="pref_playback">Atkūrimas</string>
     <string name="msg_subtitles_loading">Subtitrai įkeliami…</string>
-    <string name="lbl_filters">TV laidų filtrai</string>
+    <string name="lbl_filters">Tiesioginės TV filtrai</string>
     <string name="lbl_ended">PASIBAIGĖ</string>
     <string name="lbl_display_preferences">Ekrano nustatymai</string>
     <string name="lbl_rating">Įvertinimas</string>
@@ -70,12 +70,12 @@
     <string name="lbl_yes">Taip</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nežinomas</string>
-    <string name="msg_video_playback_error">"Vaizdo įrašo paleidimo klaida - "</string>
+    <string name="msg_video_playback_error">"Vaizdo įrašo atkūrimo klaida - "</string>
     <string name="lbl_recordings">Įrašai</string>
     <string name="lbl_videos">Vaizdo įrašai</string>
     <string name="lbl_people">Žmonės</string>
     <string name="lbl_last_played">"Paskutinį kartą paleista "</string>
-    <string name="lbl_ends">Baigiasi</string>
+    <string name="lbl_ends">Baigsis</string>
     <string name="lbl_watched">Žiūrėtas</string>
     <string name="lbl_favorite">Mėgstamas</string>
     <string name="lbl_chapters">Skyriai</string>
@@ -109,20 +109,20 @@
     <string name="msg_unable_load_subs">Nepavyko įkelti subtitrų</string>
     <string name="lbl_remove">Pašalinti</string>
     <string name="lbl_showing">Rodomi</string>
-    <string name="lbl_no_items">Tuščia</string>
+    <string name="lbl_no_items">Nėra elementų</string>
     <string name="lbl_remove_favorite">Pašalinti mėgstamą</string>
     <string name="msg_playback_restricted">Administratorius apribojo šio elemento atkūrimą</string>
-    <string name="lbl_enable_debug">Debuginimo nustatymai</string>
+    <string name="lbl_enable_debug">Derinimo parinktys</string>
     <string name="lbl_add_favorite">Pridėti mėgstamą</string>
     <string name="msg_will_record">Įrašys</string>
-    <string name="msg_no_playable_items">Nėra įrašų, kuriuos būtų galima paleisti</string>
-    <string name="lbl_cast_crew">Aktoriai</string>
+    <string name="msg_no_playable_items">Nėra elementų, kuriuos būtų galima paleisti</string>
+    <string name="lbl_cast_crew">Aktoriai ir komanda</string>
     <string name="lbl_goto_now_playing">Eiti į dabar atkuriamą</string>
     <string name="lbl_load_channels">"Įkelti kanalus "</string>
     <string name="lbl_on">Įjungta</string>
     <string name="lbl_premier_date">Premjeros data</string>
     <string name="lbl_start_favorites">Rodyti mėgstamus pradžioje</string>
-    <string name="lbl_all_items">Visi failai</string>
+    <string name="lbl_all_items">Visi elementai</string>
     <string name="lbl_community_rating">Bendruomenės įvertinimas</string>
     <string name="lbl_starting_with">Prasideda su tais kurių vardai prasideda</string>
     <string name="msg_recording_now">Įrašoma dabar</string>
@@ -146,7 +146,7 @@
     <string name="msg_cancel_entire_series">Ar tikrai norite atšaukti VISĄ SERIJALĄ?</string>
     <string name="lbl_only_new_episodes">Tik nauji epizodai</string>
     <string name="lbl_repeat_options">Kartojimo nustatymai</string>
-    <string name="lbl_enable_cinema_mode">Kino teatro aplinka</string>
+    <string name="lbl_enable_cinema_mode">Kino teatro režimas</string>
     <string name="lbl_new">Nauja</string>
     <string name="lbl_more_like_this">Daugiau kaip šis</string>
     <string name="lbl_previous_episode">Ankstesnis epizodas</string>
@@ -165,7 +165,7 @@
     <string name="lbl_new_premieres">Naujos premjeros</string>
     <string name="lbl_clear_queue">Ištrinti eilę</string>
     <string name="lbl_play_next_up">Paleisti sekantį</string>
-    <string name="lbl_on_schedule">Laiku</string>
+    <string name="lbl_on_schedule">Pagal grafiką</string>
     <string name="lbl_next_episode">Sekantis epizodas</string>
     <string name="lbl_song_title">Dainos pavadinimas</string>
     <string name="lbl_news">Naujienos</string>
@@ -173,7 +173,7 @@
     <string name="pref_about_title">Apie</string>
     <string name="lbl_add_to_queue">Pridėti į eilę</string>
     <string name="lbl_zoom">Priartinti</string>
-    <string name="lbl_schedule">Planai</string>
+    <string name="lbl_schedule">Tvarkaraštis</string>
     <string name="lbl_open">Atidaryti</string>
     <string name="pref_next_up_timeout_summary">Kiek laukti prieš atkuriant sekantį elementą</string>
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
@@ -197,7 +197,7 @@
     <string name="lbl_now_playing">Dabar atkuriama</string>
     <string name="lbl_play_from_here">Paleisti nuo čia</string>
     <string name="lbl_remove_from_queue">Pašalinti iš eilės</string>
-    <string name="msg_item_added">" failas pridėtas"</string>
+    <string name="msg_item_added">" elementas pridėtas"</string>
     <string name="desc_audio_night_mode">Sulygina garso takelius automatiškai</string>
     <string name="lbl_show_premieres">Rodyti sezonų premjeras</string>
     <string name="lbl_in_x_days">Po %d dienų</string>
@@ -261,7 +261,7 @@
     <string name="live_tv_preferences">Tiesioginės TV parinktys</string>
     <string name="server_connecting">Jungiamasi prie %1$s</string>
     <string name="image_type_thumbnail">Miniatiūra</string>
-    <string name="lbl_colored_backgrounds">Spalvoti fonai</string>
+    <string name="lbl_colored_backgrounds">Spalva koduojami fonai</string>
     <string name="pref_customization_description">Tema, pagrindinis, pertvarkymas</string>
     <string name="home_section_livetv">Tiesioginė TV</string>
     <string name="home_section_latest_media">Neseniai pridėta medija</string>
@@ -279,11 +279,11 @@
     <string name="home_section_i">Pagrindinio skyrius %1$d</string>
     <string name="welcome_content">Prisijunkite prie savo serverio, kad pradėtumėte.</string>
     <string name="sort_accounts_by">Rikiuoti paskyras pagal</string>
-    <string name="mark_watched_message">Šis failas nebuvo peržiūrėtas iki galo. Pažymėti kaip žiūrėtą?</string>
+    <string name="mark_watched_message">Šis elementas nebuvo peržiūrėtas iki galo. Pažymėti kaip žiūrėtą?</string>
     <string name="subtitle_error">Nepavyko pasirinkti subtitrų</string>
     <string name="lbl_starting_early_ending_after">Prasideda %1$s anksčiau ir baigiasi %2$s po nustatyto laiko</string>
     <string name="lbl__continuing">TĘSIAMAS</string>
-    <string name="lbl_next_item">Kitas elementas</string>
+    <string name="lbl_next_item">Sekantis elementas</string>
     <string name="desc_bitstream_ac3">Reikalauja įrangos kuri sugebėtų tai palaikyti</string>
     <string name="audio_error">Nepavyko paleisti garso takelio %1$s</string>
     <string name="pref_clock_display_browsing">Naršant</string>
@@ -293,7 +293,7 @@
     <string name="pref_login">Prisijungti</string>
     <string name="discovered_servers_title">Surasti serveriai</string>
     <string name="who_is_watching">Kas žiūri\?</string>
-    <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi laiku</string>
+    <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi pagal grafiką</string>
     <string name="lbl_record_only_new">Įrašys tik naujus epizodus</string>
     <string name="color_black">Juoda</string>
     <string name="color_white">Balta</string>
@@ -407,7 +407,7 @@
     <string name="pref_crash_reports_disabled">Gedimų ataskatos nebus siunčiamos</string>
     <string name="pref_crash_reports_enabled">Gedimų ataskaitos bus siunčiamos į paskutinį naudotą serverį</string>
     <string name="pref_crash_report_logs">Įtraukti žurnalus</string>
-    <string name="lbl_prev_item">Ankstesnis failas</string>
+    <string name="lbl_prev_item">Ankstesnis elementas</string>
     <string name="lbl_use_series_thumbnails">Pirmenybė teikiama serialų miniatiūroms</string>
     <string name="pref_audio_compat">Suspausti į stereo</string>
     <string name="lbl_end_padding">Pabaigos tarpas</string>
@@ -559,11 +559,12 @@
     <string name="pref_screensaver_ageratingrequired_title">Reikalauti amžiaus įvertinimo</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Išjungti maksimumą</string>
     <plurals name="items">
-        <item quantity="one">%1$s dalykas</item>
-        <item quantity="few">%1$s dalykai</item>
-        <item quantity="other">%1$s dalykų</item>
+        <item quantity="one">%1$s elementas</item>
+        <item quantity="few">%1$s elementai</item>
+        <item quantity="many">%1$s elementų</item>
+        <item quantity="other">%1$s elementų</item>
     </plurals>
-    <string name="pref_screensaver_ageratingrequired_enabled">Rodomi tik su amžiaus įvertinimu</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Rodomi tik elementai su nustatytu amžiaus reitingu</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Rodomi visi elementai</string>
     <string name="item_deletion_failed">Nepavyko ištrinti %1$s</string>
     <plurals name="seconds">
@@ -680,6 +681,6 @@
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="photo_display_duration">Nuotraukos rodymo trukmė</string>
-    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma kita nuotrauka</string>
+    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma sekanti nuotrauka</string>
     <string name="photo_player">Nuotraukų rodymas</string>
 </resources>

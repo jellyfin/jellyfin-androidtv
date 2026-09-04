@@ -29,7 +29,7 @@
     <string name="lbl_record">Tak upp</string>
     <string name="lbl_cast_crew">Leikarar og manning</string>
     <string name="lbl_chapters">Kapitlar</string>
-    <string name="lbl_trailers">Forfilmar</string>
+    <string name="lbl_trailers">Brellbitar</string>
     <string name="lbl_series">Sendirøðir</string>
     <string name="lbl_favorite">Yndis</string>
     <string name="lbl_runs">Spælitíð</string>
@@ -42,8 +42,8 @@
     <string name="lbl_other_options">Aðrar stillingar</string>
     <string name="lbl_people">Fólk</string>
     <string name="lbl_recordings">Upptøkur</string>
-    <string name="lbl_trailer">"Forfilmur "</string>
-    <string name="lbl_play_trailers">Spæl forfilm(ar)</string>
+    <string name="lbl_trailer">"Brellbiti "</string>
+    <string name="lbl_play_trailers">Spæl brellbita(r)</string>
     <string name="lbl_no">Nei</string>
     <string name="lbl_yes">Ja</string>
     <string name="lbl_enter_server_address">Inntøppa ambætaraadressu</string>
