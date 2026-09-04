@@ -14,6 +14,6 @@ jobs:
     steps:
       - name: Add pull request to organization project
         env:
-          GH_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PROJECTS_TOKEN }}
           PROJECT_ID: ${{ secrets.PROJECT_ANDROID_TRIAGE }}
         run: gh project item-add "$PROJECT_ID" --owner "${{ github.repository_owner }}" --url "${{ github.event.pull_request.html_url }}"
