@@ -14,7 +14,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.viewinterop.AndroidView
 import org.jellyfin.androidtv.ui.AsyncImageView
+import org.jellyfin.androidtv.ui.photoAnimateWithZoomAndPan
 import org.jellyfin.androidtv.util.BlurHashDecoder
+import org.jellyfin.sdk.model.api.BaseItemDto
 
 private data class AsyncImageState(
 	val url: String?,
@@ -30,6 +32,14 @@ fun AsyncImage(
 	aspectRatio: Float = 1f,
 	blurHashResolution: Int = 32,
 	scaleType: ImageView.ScaleType? = null,
+	presentationActive: Boolean = false,
+	animatePhoto: Boolean = false,
+	animationDuration: Long? = null,
+	animatePanStrength: Float = 0.5f,
+	animateZoomStrength: Float = 0.5f,
+	item: BaseItemDto? = null,
+	screenWidth: Int? = null,
+	screenHeight: Int? = null
 ) {
 	// Only the important properties are added to AsyncImageState
 	var state by remember { mutableStateOf<AsyncImageState?>(null) }
@@ -54,6 +64,9 @@ fun AsyncImage(
 					aspectRatio = aspectRatio.toDouble(),
 					blurHashResolution = blurHashResolution,
 				)
+				if (presentationActive && animatePhoto) {
+					view.photoAnimateWithZoomAndPan(animationDuration, animatePanStrength,animateZoomStrength, item, screenWidth, screenHeight)
+				}
 			}
 		},
 	)

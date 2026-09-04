@@ -19,6 +19,11 @@ import org.koin.compose.koinInject
 @Composable
 fun PhotoPlayerContent(
 	item: BaseItemDto?,
+	presentationActive: Boolean,
+	animationDuration: Long?,
+	animatePhoto: Boolean,
+	animatePanStrength: Float,
+	animateZoomStrength: Float
 ) {
 	val api = koinInject<ApiClient>()
 	val resources = LocalResources.current
@@ -40,7 +45,15 @@ fun PhotoPlayerContent(
 			blurHash = image?.blurHash,
 			aspectRatio = image?.aspectRatio ?: 1f,
 			modifier = Modifier
-				.fillMaxSize()
+				.fillMaxSize(),
+			presentationActive = presentationActive,
+			animatePhoto = animatePhoto,
+			animationDuration = animationDuration,
+			animatePanStrength = animatePanStrength,
+			animateZoomStrength = animateZoomStrength,
+			item = item,
+			screenWidth = resources.displayMetrics.widthPixels,
+			screenHeight = resources.displayMetrics.heightPixels
 		)
 	}
 }
