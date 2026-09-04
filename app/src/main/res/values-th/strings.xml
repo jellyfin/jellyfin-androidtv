@@ -7,7 +7,7 @@
     <string name="lbl_valid_server_address">โปรดใส่ที่อยู่เซิร์ฟเวอร์ (ที่อยู่IP หรือ ชื่อโดเมน/ชื่อเครื่อง)</string>
     <string name="lbl_yes">ใช่</string>
     <string name="lbl_no">ไม่</string>
-    <string name="lbl_play_trailers">เล่นตัวอย่าง</string>
+    <string name="lbl_play_trailers">เล่นตัวอย่างภาพยนตร์</string>
     <string name="lbl_trailer">"ตัวอย่าง "</string>
     <string name="lbl_bracket_unknown">ไม่รู้จัก</string>
     <string name="msg_video_playback_error">"เกิดข้อผิดพลาดในการเล่นวิดีโอ - "</string>
@@ -30,7 +30,7 @@
     <string name="lbl_tv_series">ซีรีส์โทรทัศน์</string>
     <string name="lbl_trailers">ตัวอย่าง</string>
     <string name="lbl_specials">สเปเชียล</string>
-    <string name="lbl_cast_crew">นักแสดง/ทีมงาน</string>
+    <string name="lbl_cast_crew">นักแสดง &amp; ทีมงาน</string>
     <string name="msg_unable_to_cancel">ไม่สามารถยกเลิกการบันทึกได้</string>
     <string name="msg_recording_cancelled">ยกเลิกการบันทึกแล้ว</string>
     <string name="msg_unable_to_create_recording">ไม่สามารถสร้างการบันทึกใหม่ได้</string>
@@ -78,7 +78,7 @@
     <string name="lbl_audio_output">เอาต์พุตเสียง</string>
     <string name="no_program_data">ไม่มีข้อมูลรายการ</string>
     <string name="lbl_empty">ว่าง</string>
-    <string name="lbl_tv_queuing">คิวตอนภายหลังทั้งหมด</string>
+    <string name="lbl_tv_queuing">เล่นตอนถัดไปโดยอัตโนมัติ</string>
     <string name="lbl_now_playing_album">จาก %1$s</string>
     <string name="lbl_from">จาก</string>
     <string name="lbl_kids">เด็ก</string>
@@ -185,7 +185,7 @@
     <string name="msg_subtitles_loading">กำลังโหลด คำบรรยาย.…</string>
     <string name="lbl_recorded_tv">รายการโทรทัศน์ที่บันทึก</string>
     <string name="msg_unable_load_subs">ไม่สามารถโหลด คำบรรยาย</string>
-    <string name="lbl_live_tv_guide">ผังรายการโทรทัศน์</string>
+    <string name="lbl_live_tv_guide">ผังรายการทีวีถ่ายทอดสด</string>
     <string name="msg_error_live_stream">ไม่สามารถสตรีม โทรทัศน์สดได้ กำลังลองใหม่…</string>
     <string name="lbl_episodes">ตอน</string>
     <string name="lbl_album">อัลบั้ม</string>
@@ -220,7 +220,7 @@
     <string name="lbl_runs">รัน</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
-    <string name="lbl_begin_padding">เริ่มการเติม</string>
+    <string name="lbl_begin_padding">ระยะขอบเริ่มต้น</string>
     <string name="lbl_runtime">รันไทม์</string>
     <string name="lbl_shuffle_queue">สลับสถานะการสุ่ม</string>
 </resources>
