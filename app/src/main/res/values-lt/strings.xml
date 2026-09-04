@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lbl_upcoming">Tuoj bus</string>
+    <string name="lbl_upcoming">Būsimi</string>
     <string name="lbl_seasons">Sezonai</string>
     <string name="lbl_series">Serialai</string>
     <string name="lbl_cancel">Atšaukti</string>
@@ -224,7 +224,7 @@
     <string name="lbl_open_artist">Atidaryti atlikėją</string>
     <string name="lbl_fit">Normalus</string>
     <string name="lbl_audio_track">Pasirinkti garso takelį</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit per sekundę</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_record_any_channel">Įrašyti bet kurį kanalą</string>
@@ -679,4 +679,7 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="photo_display_duration">Nuotraukos rodymo trukmė</string>
+    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma kita nuotrauka</string>
+    <string name="photo_player">Nuotraukų rodymas</string>
 </resources>
