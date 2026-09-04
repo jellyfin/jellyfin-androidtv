@@ -165,7 +165,7 @@
     <string name="lbl_new_premieres">Naujos premjeros</string>
     <string name="lbl_clear_queue">Ištrinti eilę</string>
     <string name="lbl_play_next_up">Paleisti sekantį</string>
-    <string name="lbl_on_schedule">Laiku</string>
+    <string name="lbl_on_schedule">Pagal grafiką</string>
     <string name="lbl_next_episode">Sekantis epizodas</string>
     <string name="lbl_song_title">Dainos pavadinimas</string>
     <string name="lbl_news">Naujienos</string>
@@ -173,7 +173,7 @@
     <string name="pref_about_title">Apie</string>
     <string name="lbl_add_to_queue">Pridėti į eilę</string>
     <string name="lbl_zoom">Priartinti</string>
-    <string name="lbl_schedule">Planai</string>
+    <string name="lbl_schedule">Tvarkaraštis</string>
     <string name="lbl_open">Atidaryti</string>
     <string name="pref_next_up_timeout_summary">Kiek laukti prieš atkuriant sekantį elementą</string>
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
@@ -283,7 +283,7 @@
     <string name="subtitle_error">Nepavyko pasirinkti subtitrų</string>
     <string name="lbl_starting_early_ending_after">Prasideda %1$s anksčiau ir baigiasi %2$s po nustatyto laiko</string>
     <string name="lbl__continuing">TĘSIAMAS</string>
-    <string name="lbl_next_item">Kitas elementas</string>
+    <string name="lbl_next_item">Sekantis elementas</string>
     <string name="desc_bitstream_ac3">Reikalauja įrangos kuri sugebėtų tai palaikyti</string>
     <string name="audio_error">Nepavyko paleisti garso takelio %1$s</string>
     <string name="pref_clock_display_browsing">Naršant</string>
@@ -293,7 +293,7 @@
     <string name="pref_login">Prisijungti</string>
     <string name="discovered_servers_title">Surasti serveriai</string>
     <string name="who_is_watching">Kas žiūri\?</string>
-    <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi laiku</string>
+    <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi pagal grafiką</string>
     <string name="lbl_record_only_new">Įrašys tik naujus epizodus</string>
     <string name="color_black">Juoda</string>
     <string name="color_white">Balta</string>
@@ -681,6 +681,6 @@
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="photo_display_duration">Nuotraukos rodymo trukmė</string>
-    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma kita nuotrauka</string>
+    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma sekanti nuotrauka</string>
     <string name="photo_player">Nuotraukų rodymas</string>
 </resources>
