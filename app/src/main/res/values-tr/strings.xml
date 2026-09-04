@@ -669,4 +669,7 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="photo_player">Fotoğraf görüntüleyici</string>
+    <string name="photo_display_duration">Fotoğraf görüntüleme süresi</string>
+    <string name="photo_display_duration_description">Bir sonraki fotoğrafı göstermeden önce ne kadar beklemeli</string>
 </resources>
