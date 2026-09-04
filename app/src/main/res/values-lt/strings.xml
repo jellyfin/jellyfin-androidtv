@@ -43,7 +43,7 @@
     <string name="pref_max_bitrate_title">Maksimalus srautinės transliacijos bitų srautas</string>
     <string name="pref_playback">Atkūrimas</string>
     <string name="msg_subtitles_loading">Subtitrai įkeliami…</string>
-    <string name="lbl_filters">TV laidų filtrai</string>
+    <string name="lbl_filters">Tiesioginės TV filtrai</string>
     <string name="lbl_ended">PASIBAIGĖ</string>
     <string name="lbl_display_preferences">Ekrano nustatymai</string>
     <string name="lbl_rating">Įvertinimas</string>
@@ -70,12 +70,12 @@
     <string name="lbl_yes">Taip</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nežinomas</string>
-    <string name="msg_video_playback_error">"Vaizdo įrašo paleidimo klaida - "</string>
+    <string name="msg_video_playback_error">"Vaizdo įrašo atkūrimo klaida - "</string>
     <string name="lbl_recordings">Įrašai</string>
     <string name="lbl_videos">Vaizdo įrašai</string>
     <string name="lbl_people">Žmonės</string>
     <string name="lbl_last_played">"Paskutinį kartą paleista "</string>
-    <string name="lbl_ends">Baigiasi</string>
+    <string name="lbl_ends">Baigsis</string>
     <string name="lbl_watched">Žiūrėtas</string>
     <string name="lbl_favorite">Mėgstamas</string>
     <string name="lbl_chapters">Skyriai</string>
