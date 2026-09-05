@@ -574,4 +574,83 @@
     <string name="font_weight_600">กึ่งหนา</string>
     <string name="font_weight_700">หนา</string>
     <string name="font_weight_800">หนามาก</string>
+    <string name="font_weight_900">หนาพิเศษ</string>
+    <string name="subtitle_preview_text">คำบรรยายจะมีลักษณะแบบนี้</string>
+    <string name="color_presets">รูปแบบสำเร็จรูป</string>
+    <string name="color_alpha">ความโปร่งใส</string>
+    <string name="video_player_internal">เครื่องเล่นวิดีโอในตัว</string>
+    <string name="video_player_external">แอปภายนอก</string>
+    <string name="playback_video_player_external_empty">ไม่พบแอปเครื่องเล่นวิดีโอในอุปกรณ์ที่สามารถเปิดวิดีโอ Jellyfin ได้</string>
+    <string name="filters">ตัวกรอง</string>
+    <string name="backdrop_behavior_with_blur">ภาพพื้นหลังแบบเบลอ</string>
+    <string name="backdrop_behavior_without_blur">ภาพพื้นหลังแบบไม่เบลอ</string>
+    <string name="user_avc_level">ระดับ H.264 (AVC)</string>
+    <string name="user_hevc_level">ระดับ H.265 (HEVC)</string>
+    <string name="codec_level_warning">การเปลี่ยนจากค่าอัตโนมัติอาจทำให้มีปัญหาในการเล่น หากอุปกรณ์ไม่รองรับระดับที่เลือกจริง</string>
+    <string name="preference_codecs">โคเดกสื่อ</string>
+    <string name="preference_codecs_summary">เขียนทับความสามารถโคเดกที่อุปกรณ์รายงาน</string>
+    <string name="codec_level_manual">เขียนทับด้วยตนเอง</string>
+    <string name="codec_level_6_2">ระดับ 6.2</string>
+    <string name="codec_level_6_1">ระดับ 6.1</string>
+    <string name="codec_level_6_0">ระดับ 6.0</string>
+    <string name="codec_level_5_2">ระดับ 5.2</string>
+    <string name="codec_level_5_1">ระดับ 5.1</string>
+    <string name="codec_level_5_0">ระดับ 5.0</string>
+    <string name="codec_level_4_1">ระดับ 4.1</string>
+    <string name="codec_level_4_0">ระดับ 4.0</string>
+    <string name="dolby_vision">Dolby Vision</string>
+    <string name="indicator_subtitles">CC</string>
+    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="dolby_atmos">Dolby Atmos</string>
+    <string name="dts_x">DTS:X</string>
+    <string name="dts_hd">DTS-HD</string>
+    <string name="dca">DTS</string>
+    <string name="ac3">DD</string>
+    <string name="eac3">DD+</string>
+    <string name="segment_type_preview">Previews</string>
+    <string name="preference_enable_pgs">Direct play PGS subtitles</string>
+    <string name="speech_error_unknown">เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างการจดจำเสียง</string>
+    <string name="color_custom">กำหนดสีเอง</string>
+    <string name="playback_video_player">เครื่องเล่นวิดีโอ</string>
+    <string name="codec_level_4_2">ระดับ 4.2</string>
+    <string name="preference_enable_ass">เล่นคำบรรยาย ASS โดยตรง</string>
+    <string name="preference_enable_pgs_description">ต้องแปลงรหัสเมื่อปิดใช้งาน</string>
+    <string name="preference_enable_ass_description">ฟีเจอร์ทดลอง อาจทำงานได้ไม่สมบูรณ์</string>
+    <string name="auto">อัตโนมัติ</string>
+    <plurals name="seconds">
+        <item quantity="other">%1$s วินาที</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="other">%1$s นาที</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%1$s ชั่วโมง</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="other">%1$s แทร็ก</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="other">%1$s ตอน</item>
+    </plurals>
+    <plurals name="items">
+        <item quantity="other">%1$s รายการ</item>
+    </plurals>
+    <plurals name="movies">
+        <item quantity="other">%1$s ภาพยนตร์</item>
+    </plurals>
+    <plurals name="tv_series">
+        <item quantity="other">%1$s ซีรีส์ทีวี</item>
+    </plurals>
+    <plurals name="songs">
+        <item quantity="other">%1$s เพลง</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="other">%1$s อัลบั้ม</item>
+    </plurals>
+    <string name="dolby_vision_with_el">Dolby Vision พร้อม EL</string>
+    <string name="pref_software_codecs_enabled">ใช้โคเดกซอฟต์แวร์</string>
+    <string name="pref_software_codecs_enabled_description">การประมวลผลด้วยซอฟต์แวร์บางส่วนอาจลดประสิทธิภาพ การปิดตัวเลือกนี้จะเพิ่มโอกาสในการแปลงรหัส</string>
+    <string name="photo_player">เครื่องเล่นรูปภาพ</string>
+    <string name="photo_display_duration">ระยะเวลาแสดงรูปภาพ</string>
+    <string name="photo_display_duration_description">ระยะเวลาที่ควรรอก่อนแสดงรูปภาพถัดไป</string>
 </resources>
