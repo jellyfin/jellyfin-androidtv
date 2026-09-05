@@ -564,4 +564,14 @@
     <string name="pref_media_queueing">เข้าคิวทุกตอน</string>
     <string name="pref_playback_media_segments">ช่วงสื่อ</string>
     <string name="pref_playback_prerolls">วิดีโอเกริ่นนำ</string>
+    <string name="pref_media_queueing_description">เพิ่มตอนถัดไปเข้าคิวโดยอัตโนมัติเมื่อเล่นซีรีส์</string>
+    <string name="pref_subtitles_weight">ความหนาตัวอักษร</string>
+    <string name="font_weight_100">บางพิเศษ</string>
+    <string name="font_weight_200">บางมาก</string>
+    <string name="font_weight_300">บาง</string>
+    <string name="font_weight_400">ปกติ</string>
+    <string name="font_weight_500">ปานกลาง</string>
+    <string name="font_weight_600">กึ่งหนา</string>
+    <string name="font_weight_700">หนา</string>
+    <string name="font_weight_800">หนามาก</string>
 </resources>
