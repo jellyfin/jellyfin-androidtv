@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.util.profile
 
-import android.content.Context
 import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -16,6 +15,14 @@ import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.deviceprofile.DeviceProfileBuilder
 import org.jellyfin.sdk.model.deviceprofile.buildDeviceProfile
 import kotlin.math.roundToInt
+
+// Video profile names as reported by the server
+private const val PROFILE_NONE = "none"
+private const val AVC_PROFILE_HIGH_10 = "high 10"
+private const val PROFILE_MAIN = "main"
+private const val PROFILE_MAIN_10 = "main 10"
+
+private val avcBaseProfiles = listOf("high", "main", "baseline", "constrained baseline")
 
 private val downmixSupportedAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
@@ -49,7 +56,7 @@ private val hlsMpegTsAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
 	Codec.Audio.AC3,
 	Codec.Audio.EAC3,
-	Codec.Audio.MP3
+	Codec.Audio.MP3,
 )
 
 private val hlsFmp4AudioCodecs = arrayOf(
@@ -61,7 +68,7 @@ private val hlsFmp4AudioCodecs = arrayOf(
 	Codec.Audio.FLAC,
 	Codec.Audio.OPUS,
 	Codec.Audio.DTS,
-	Codec.Audio.TRUEHD
+	Codec.Audio.TRUEHD,
 )
 
 private fun UserPreferences.getMaxBitrate(): Int {
@@ -75,7 +82,6 @@ private fun UserPreferences.getMaxBitrate(): Int {
 }
 
 fun createDeviceProfile(
-	context: Context,
 	userPreferences: UserPreferences,
 	serverVersion: ServerVersion,
 ) = createDeviceProfile(
@@ -116,6 +122,10 @@ fun createDeviceProfile(
 	val supportsAV1 = mediaTest.supportsAV1()
 	val supportsAV1Main10 = mediaTest.supportsAV1Main10()
 	val supportsVC1 = mediaTest.supportsVc1()
+	val supportsVP8 = mediaTest.supportsVp8()
+	val supportsVP9 = mediaTest.supportsVp9()
+	val supportsMpeg2 = mediaTest.supportsMpeg2()
+	val supportsMpeg4Asp = mediaTest.supportsMpeg4Asp()
 	val maxResolutionAVC = mediaTest.getMaxResolution(MimeTypes.VIDEO_H264)
 	val maxResolutionHevc = mediaTest.getMaxResolution(MimeTypes.VIDEO_H265)
 	val maxResolutionAV1 = mediaTest.getMaxResolution(MimeTypes.VIDEO_AV1)
@@ -143,10 +153,18 @@ fun createDeviceProfile(
 
 	/// Transcoding profiles
 	// Video
+	// The MPEG-TS profile is declared first so the server prefers it on an equal ranking; fMP4 only wins when it
+	// can stream-copy an audio codec that MPEG-TS cannot carry. Keeping both is required because LiveTV tuners
+	// force the "most compatible" (MPEG-TS only) profile.
 	val hlsVideoCodecs = listOfNotNull(
 		if (supportsHevc) Codec.Video.HEVC else null,
 		Codec.Video.H264
 	).toTypedArray()
+
+	val hlsFmp4VideoCodecs = hlsVideoCodecs + listOfNotNull(
+		if (supportsAV1) Codec.Video.AV1 else null,
+		if (supportsVP9) Codec.Video.VP9 else null,
+	)
 
 	transcodingProfile {
 		type = DlnaProfileType.VIDEO
@@ -169,7 +187,7 @@ fun createDeviceProfile(
 		container = Codec.Container.MP4
 		protocol = MediaStreamProtocol.HLS
 
-		videoCodec(*hlsVideoCodecs)
+		videoCodec(*hlsFmp4VideoCodecs)
 		audioCodec(*hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
 
 		copyTimestamps = false
@@ -177,11 +195,13 @@ fun createDeviceProfile(
 	}
 
 	// Audio
+	// Only the first matching audio transcoding profile is ever used by the server, so this is a single
+	// profile rather than a TS/fMP4 pair like the video profiles above
 	transcodingProfile {
 		type = DlnaProfileType.AUDIO
 		context = EncodingContext.STREAMING
 
-		container = Codec.Container.TS
+		container = Codec.Container.MP4
 		protocol = MediaStreamProtocol.HLS
 
 		audioCodec(Codec.Audio.AAC)
@@ -193,27 +213,25 @@ fun createDeviceProfile(
 		type = DlnaProfileType.VIDEO
 
 		container(
-			Codec.Container.ASF,
+			Codec.Container.AVI,
+			Codec.Container.FLV,
 			Codec.Container.HLS,
 			Codec.Container.M4V,
 			Codec.Container.MKV,
 			Codec.Container.MOV,
 			Codec.Container.MP4,
-			Codec.Container.OGM,
-			Codec.Container.OGV,
+			Codec.Container.MPEG,
 			Codec.Container.TS,
-			Codec.Container.VOB,
 			Codec.Container.WEBM,
-			Codec.Container.WMV,
-			Codec.Container.XVID,
 		)
 
 		videoCodec(
 			Codec.Video.AV1,
 			Codec.Video.H264,
 			Codec.Video.HEVC,
-			Codec.Video.MPEG,
+			Codec.Video.MPEG1VIDEO,
 			Codec.Video.MPEG2VIDEO,
+			Codec.Video.MPEG4,
 			Codec.Video.VC1,
 			Codec.Video.VP8,
 			Codec.Video.VP9,
@@ -223,10 +241,40 @@ fun createDeviceProfile(
 	}
 
 	// Audio
+	// An empty container list means "every container" to the server, which would claim formats ExoPlayer has
+	// no demuxer for (asf/wma, ape, wavpack, dsd, aiff), so the supported ones are listed explicitly
 	directPlayProfile {
 		type = DlnaProfileType.AUDIO
 
+		container(
+			Codec.Container.AAC,
+			Codec.Container.AC3,
+			Codec.Container.AMR,
+			Codec.Container.EAC3,
+			Codec.Container.FLAC,
+			Codec.Container.FLV,
+			Codec.Container.HLS,
+			Codec.Container.M4A,
+			Codec.Container.MKV,
+			Codec.Container.MOV,
+			Codec.Container.MP3,
+			Codec.Container.MP4,
+			Codec.Container.OGG,
+			Codec.Container.TS,
+			Codec.Container.WAV,
+			Codec.Container.WEBM,
+		)
+
 		audioCodec(*allowedAudioCodecs)
+	}
+
+	// Audio remux
+	// When the container above is not supported but the codec is, the server remuxes instead of transcoding.
+	for (codec in hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains)) directPlayProfile {
+		type = DlnaProfileType.AUDIO
+
+		container(Codec.Container.MP4)
+		audioCodec(codec)
 	}
 
 	/// Codec profiles
@@ -237,14 +285,9 @@ fun createDeviceProfile(
 
 		conditions {
 			when {
-				!supportsAVC -> ProfileConditionValue.VIDEO_PROFILE equals "none"
-				else -> ProfileConditionValue.VIDEO_PROFILE inCollection listOfNotNull(
-					"high",
-					"main",
-					"baseline",
-					"constrained baseline",
-					if (supportsAVCHigh10) "high 10" else null
-				)
+				!supportsAVC -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE inCollection
+					avcBaseProfiles + listOfNotNull(if (supportsAVCHigh10) AVC_PROFILE_HIGH_10 else null)
 			}
 		}
 	}
@@ -258,12 +301,7 @@ fun createDeviceProfile(
 			}
 
 			applyConditions {
-				ProfileConditionValue.VIDEO_PROFILE inCollection listOf(
-					"high",
-					"main",
-					"baseline",
-					"constrained baseline"
-				)
+				ProfileConditionValue.VIDEO_PROFILE inCollection avcBaseProfiles
 			}
 		}
 	}
@@ -277,7 +315,7 @@ fun createDeviceProfile(
 			}
 
 			applyConditions {
-				ProfileConditionValue.VIDEO_PROFILE equals "high 10"
+				ProfileConditionValue.VIDEO_PROFILE equals AVC_PROFILE_HIGH_10
 			}
 		}
 	}
@@ -317,10 +355,10 @@ fun createDeviceProfile(
 
 		conditions {
 			when {
-				!supportsHevc -> ProfileConditionValue.VIDEO_PROFILE equals "none"
+				!supportsHevc -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
 				else -> ProfileConditionValue.VIDEO_PROFILE inCollection listOfNotNull(
-					"main",
-					if (supportsHevcMain10) "main 10" else null
+					PROFILE_MAIN,
+					if (supportsHevcMain10) PROFILE_MAIN_10 else null
 				)
 			}
 		}
@@ -335,7 +373,7 @@ fun createDeviceProfile(
 			}
 
 			applyConditions {
-				ProfileConditionValue.VIDEO_PROFILE equals "main"
+				ProfileConditionValue.VIDEO_PROFILE equals PROFILE_MAIN
 			}
 		}
 	}
@@ -349,7 +387,7 @@ fun createDeviceProfile(
 			}
 
 			applyConditions {
-				ProfileConditionValue.VIDEO_PROFILE equals "main 10"
+				ProfileConditionValue.VIDEO_PROFILE equals PROFILE_MAIN_10
 			}
 		}
 	}
@@ -361,9 +399,9 @@ fun createDeviceProfile(
 
 		conditions {
 			when {
-				!supportsAV1 -> ProfileConditionValue.VIDEO_PROFILE equals "none"
-				!supportsAV1Main10 -> ProfileConditionValue.VIDEO_PROFILE notEquals "main 10"
-				else -> ProfileConditionValue.VIDEO_PROFILE notEquals "none"
+				!supportsAV1 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				!supportsAV1Main10 -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_MAIN_10
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
 			}
 		}
 	}
@@ -375,8 +413,75 @@ fun createDeviceProfile(
 
 		conditions {
 			when {
-				!supportsVC1 -> ProfileConditionValue.VIDEO_PROFILE equals "none"
-				else -> ProfileConditionValue.VIDEO_PROFILE notEquals "none"
+				!supportsVC1 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// MPEG-1 profile
+	// Android has no separate MPEG-1 mime type, the MPEG-2 decoder handles both
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.MPEG1VIDEO
+
+		conditions {
+			when {
+				!supportsMpeg2 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// MPEG-2 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.MPEG2VIDEO
+
+		conditions {
+			when {
+				!supportsMpeg2 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// MPEG-4 profile
+	// DivX/Xvid require Advanced Simple Profile, a Simple Profile only decoder cannot play them
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.MPEG4
+
+		conditions {
+			when {
+				!supportsMpeg4Asp -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// VP8 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.VP8
+
+		conditions {
+			when {
+				!supportsVP8 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
+			}
+		}
+	}
+
+	// VP9 profile
+	codecProfile {
+		type = CodecType.VIDEO
+		codec = Codec.Video.VP9
+
+		conditions {
+			when {
+				!supportsVP9 -> ProfileConditionValue.VIDEO_PROFILE equals PROFILE_NONE
+				else -> ProfileConditionValue.VIDEO_PROFILE notEquals PROFILE_NONE
 			}
 		}
 	}
@@ -440,7 +545,7 @@ fun createDeviceProfile(
 		if (!supportsAV1HDR10Plus) {
 			add(VideoRangeType.HDR10_PLUS)
 
-			if (!mediaTest.supportsAV1HDR10()) add(VideoRangeType.HDR10)
+			if (!supportsAV1HDR10) add(VideoRangeType.HDR10)
 		}
 	}
 
