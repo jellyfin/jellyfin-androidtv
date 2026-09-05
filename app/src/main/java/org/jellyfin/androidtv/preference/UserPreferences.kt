@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.SkipMode
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.ZoomMode
@@ -239,6 +240,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Preferred behavior for player aspect ratio (zoom mode).
 		 */
 		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.FIT)
+
+		/**
+		 * Behavior of the left/right buttons while playing media with the controls hidden.
+		 */
+		var skipMode = enumPreference("skip_mode", SkipMode.ABSOLUTE)
 
 		/**
 		 * Enable libass.
