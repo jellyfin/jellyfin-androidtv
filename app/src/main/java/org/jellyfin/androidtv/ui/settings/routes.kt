@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackAudioB
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackBufferLengthScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackCodecScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackHEVCLevelScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackHDRSupportScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackInactivityPromptScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackMaxBitrateScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPlayerScreen
@@ -105,6 +106,7 @@ object Routes {
 	const val PLAYBACK_CODEC = "/playback/codec"
 	const val PLAYBACK_AVC_LEVEL = "/playback/codec/avc-level"
 	const val PLAYBACK_HEVC_LEVEL = "/playback/codec/hevc-level"
+	const val PLAYBACK_HDR_SUPPORT = "/playback/codec/hdr-support"
 	const val TELEMETRY = "/telemetry"
 	const val DEVELOPER = "/developer"
 	const val ABOUT = "/about"
@@ -269,6 +271,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.PLAYBACK_HEVC_LEVEL to {
 		SettingsPlaybackHEVCLevelScreen()
+	},
+	Routes.PLAYBACK_HDR_SUPPORT to {
+		SettingsPlaybackHDRSupportScreen()
 	},
 	Routes.TELEMETRY to {
 		SettingsTelemetryScreen()

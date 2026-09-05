@@ -5,6 +5,7 @@ import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.HDRSupport
 import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
@@ -64,6 +65,17 @@ private val hlsFmp4AudioCodecs = arrayOf(
 	Codec.Audio.TRUEHD
 )
 
+private val supportedVideoCodecs = arrayOf(
+	Codec.Video.AV1,
+	Codec.Video.H264,
+	Codec.Video.HEVC,
+	Codec.Video.MPEG,
+	Codec.Video.MPEG2VIDEO,
+	Codec.Video.VC1,
+	Codec.Video.VP8,
+	Codec.Video.VP9,
+)
+
 private fun UserPreferences.getMaxBitrate(): Int {
 	var maxBitrate = this[UserPreferences.maxBitrate].toFloatOrNull()
 
@@ -87,6 +99,7 @@ fun createDeviceProfile(
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
 	userAVCLevel = userPreferences[UserPreferences.userAVCLevel].level,
 	userHEVCLevel = userPreferences[UserPreferences.userHEVCLevel].level,
+	hdrSupport = userPreferences[UserPreferences.hdrSupport],
 )
 
 fun createDeviceProfile(
@@ -98,6 +111,7 @@ fun createDeviceProfile(
 	pgsDirectPlay: Boolean,
 	userAVCLevel: Int?,
 	userHEVCLevel: Int?,
+	hdrSupport: HDRSupport,
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
@@ -208,16 +222,7 @@ fun createDeviceProfile(
 			Codec.Container.XVID,
 		)
 
-		videoCodec(
-			Codec.Video.AV1,
-			Codec.Video.H264,
-			Codec.Video.HEVC,
-			Codec.Video.MPEG,
-			Codec.Video.MPEG2VIDEO,
-			Codec.Video.VC1,
-			Codec.Video.VP8,
-			Codec.Video.VP9,
-		)
+		videoCodec(*supportedVideoCodecs)
 
 		audioCodec(*allowedAudioCodecs)
 	}
@@ -428,7 +433,7 @@ fun createDeviceProfile(
 
 	/// HDR exclude list
 
-	val unsupportedRangeTypesAv1 = buildSet {
+	val automaticallyUnsupportedRangeTypesAv1 = buildSet {
 		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsAV1DolbyVision) {
@@ -444,7 +449,7 @@ fun createDeviceProfile(
 		}
 	}
 
-	val unsupportedRangeTypesHevc = buildSet {
+	val automaticallyUnsupportedRangeTypesHevc = buildSet {
 		add(VideoRangeType.DOVI_INVALID)
 
 		if (!supportsHevcDolbyVisionEL) {
@@ -484,32 +489,34 @@ fun createDeviceProfile(
 	// profile be active when the media in question uses one of the unsupported range types. The server will then use the value of the
 	// notEquals in the StreamBuilder to create a correct transcode pipeline
 
-	// Codecs
-	// AV1
-	if (unsupportedRangeTypesAv1.isNotEmpty()) codecProfile {
-		type = CodecType.VIDEO
-		codec = Codec.Video.AV1
-
-		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesAv1.joinToString("|") { it.serialName }
-		}
-
-		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesAv1.map { it.serialName }
+	val unsupportedRangeTypesByCodec = when (hdrSupport) {
+		HDRSupport.AUTOMATIC -> mapOf(
+			Codec.Video.AV1 to automaticallyUnsupportedRangeTypesAv1,
+			Codec.Video.HEVC to automaticallyUnsupportedRangeTypesHevc,
+		)
+		HDRSupport.ENABLED -> mapOf(
+			Codec.Video.AV1 to setOf(VideoRangeType.DOVI_INVALID),
+			Codec.Video.HEVC to setOf(VideoRangeType.DOVI_INVALID),
+		)
+		HDRSupport.DISABLED -> supportedVideoCodecs.associateWith {
+			VideoRangeType.entries.filterNot { rangeType -> rangeType == VideoRangeType.SDR }.toSet()
 		}
 	}
 
-	// HEVC
-	if (unsupportedRangeTypesHevc.isNotEmpty()) codecProfile {
-		type = CodecType.VIDEO
-		codec = Codec.Video.HEVC
+	for ((codecName, unsupportedRangeTypes) in unsupportedRangeTypesByCodec) {
+		if (unsupportedRangeTypes.isEmpty()) continue
 
-		conditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypesHevc.joinToString("|") { it.serialName }
-		}
+		codecProfile {
+			type = CodecType.VIDEO
+			codec = codecName
 
-		applyConditions {
-			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc.map { it.serialName }
+			conditions {
+				ProfileConditionValue.VIDEO_RANGE_TYPE notEquals unsupportedRangeTypes.joinToString("|") { it.serialName }
+			}
+
+			applyConditions {
+				ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypes.map { it.serialName }
+			}
 		}
 	}
 
