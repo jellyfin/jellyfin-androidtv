@@ -682,4 +682,19 @@
     <string name="photo_player">Prohlížeč fotografií</string>
     <string name="photo_display_duration">Doba zobrazení fotografie</string>
     <string name="photo_display_duration_description">Jak dlouho je třeba počkat, než se zobrazí další fotografie</string>
+    <string name="preference_hdr_overrides">Formáty HDR</string>
+    <string name="preference_hdr_overrides_summary">Přepsat schopnosti HDR hlášené zařízením</string>
+    <string name="hdr_override_auto">Automaticky (zjištěno zařízením)</string>
+    <string name="hdr_override_enable">Zapnout</string>
+    <string name="hdr_override_disable">Vypnout</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Statická metadata HDR</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dynamická metadata HDR</string>
+    <string name="dovi_profile_5">Dolby Vision – profil 5</string>
+    <string name="dovi_profile_5_description">Jednovrstvé Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision – profil 7</string>
+    <string name="dovi_profile_7_description">Dvojvrstvé s vylepšovací vrstvou</string>
+    <string name="dovi_profile_8">Dolby Vision – profil 8</string>
+    <string name="dovi_profile_8_description">Jednovrstvé se zálohou na HDR10</string>
 </resources>
