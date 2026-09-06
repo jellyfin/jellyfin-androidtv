@@ -672,4 +672,19 @@
     <string name="photo_player">Fotospeler</string>
     <string name="photo_display_duration">Weergaveduur foto\'s</string>
     <string name="photo_display_duration_description">Wachttijd voordat de volgende foto wordt weergegeven</string>
+    <string name="preference_hdr_overrides">HDR-indelingen</string>
+    <string name="preference_hdr_overrides_summary">Overschrijf door apparaat gerapporteerde HDR-ondersteuning</string>
+    <string name="hdr_override_auto">Automatisch (apparaatdetectie)</string>
+    <string name="hdr_override_enable">Inschakelen</string>
+    <string name="hdr_override_disable">Uitschakelen</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Statische HDR-metadata</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dynamische HDR-metadata</string>
+    <string name="dovi_profile_5">Dolby Vision profiel 5</string>
+    <string name="dovi_profile_5_description">Enkellaags Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision profiel 7</string>
+    <string name="dovi_profile_7_description">Dubbellaags met verbeteringslaag</string>
+    <string name="dovi_profile_8">Dolby Vision profiel 8</string>
+    <string name="dovi_profile_8_description">Enkellaags met HDR10 als terugvaloptie</string>
 </resources>
