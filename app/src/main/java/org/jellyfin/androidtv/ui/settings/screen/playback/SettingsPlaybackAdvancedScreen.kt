@@ -201,7 +201,8 @@ fun SettingsPlaybackAdvancedScreen() {
 			ListButton(
 				headingContent = { Text(stringResource(R.string.preference_hdr_overrides)) },
 				captionContent = { Text(stringResource(R.string.preference_hdr_overrides_summary)) },
-				onClick = { router.push(Routes.PLAYBACK_HDR_OVERRIDES) }
+				onClick = { router.push(Routes.PLAYBACK_HDR_OVERRIDES) },
+				modifier = Modifier.focusKey(Routes.PLAYBACK_HDR_OVERRIDES)
 			)
 		}
 
