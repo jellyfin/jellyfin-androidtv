@@ -662,4 +662,19 @@
     <string name="photo_player">照片播放器</string>
     <string name="photo_display_duration">照片显示时长</string>
     <string name="photo_display_duration_description">多久之后才会显示下一张照片</string>
+    <string name="preference_hdr_overrides">HDR 格式</string>
+    <string name="preference_hdr_overrides_summary">覆盖设备报告的 HDR 功能</string>
+    <string name="hdr_override_auto">自动（设备检测）</string>
+    <string name="hdr_override_enable">启用</string>
+    <string name="hdr_override_disable">禁用</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">静态 HDR 元数据</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">动态 HDR 元数据</string>
+    <string name="dovi_profile_5">Dolby Vision Profile 5</string>
+    <string name="dovi_profile_5_description">单层杜比视界</string>
+    <string name="dovi_profile_7">Dolby Vision Profile 7</string>
+    <string name="dovi_profile_7_description">双层结构，带增强层</string>
+    <string name="dovi_profile_8">Dolby Vision Profile 8</string>
+    <string name="dovi_profile_8_description">单层，支持 HDR10 回退</string>
 </resources>
