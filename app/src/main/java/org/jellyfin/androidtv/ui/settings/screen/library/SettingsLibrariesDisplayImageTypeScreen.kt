@@ -46,7 +46,8 @@ fun SettingsLibrariesDisplayImageTypeScreen(itemId: UUID, displayPreferencesId: 
 					imageType = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("image_type_${entry.name}")
+				modifier = Modifier
+					.focusKey("image_type_${entry.name}", initialFocus = imageType == entry)
 			)
 		}
 	}

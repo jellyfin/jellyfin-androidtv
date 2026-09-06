@@ -44,7 +44,8 @@ fun SettingsPlaybackAVCLevelScreen() {
 					userAVCLevel = AVCLevel.AUTO
 					router.back()
 				},
-				modifier = Modifier.focusKey("avc_level_auto")
+				modifier = Modifier
+					.focusKey("avc_level_auto", initialFocus = userAVCLevel == AVCLevel.AUTO)
 			)
 		}
 
@@ -58,7 +59,8 @@ fun SettingsPlaybackAVCLevelScreen() {
 					userAVCLevel = level
 					router.back()
 				},
-				modifier = Modifier.focusKey("avc_level_${level.name}")
+				modifier = Modifier
+					.focusKey("avc_level_${level.name}", initialFocus = userAVCLevel == level)
 			)
 		}
 	}

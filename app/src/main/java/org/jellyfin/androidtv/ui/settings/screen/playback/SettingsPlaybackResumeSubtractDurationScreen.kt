@@ -41,7 +41,8 @@ fun SettingsPlaybackResumeSubtractDurationScreen() {
 					resumeSubtractDuration = value
 					router.back()
 				},
-				modifier = Modifier.focusKey("resume_subtract_duration_$value")
+				modifier = Modifier
+					.focusKey("resume_subtract_duration_$value", initialFocus = resumeSubtractDuration == value)
 			)
 		}
 	}

@@ -41,7 +41,8 @@ fun SettingsCustomizationBackdropScreen() {
 					backdropBehavior = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("backdrop_behavior_${entry.name}")
+				modifier = Modifier
+					.focusKey("backdrop_behavior_${entry.name}", initialFocus = backdropBehavior == entry)
 			)
 		}
 	}

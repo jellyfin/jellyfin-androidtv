@@ -45,7 +45,8 @@ fun SettingsPlaybackHdrOverrideScreen(
 					mode = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("hdr_override_${format.name}_${entry.name}")
+				modifier = Modifier
+					.focusKey("hdr_override_${format.name}_${entry.name}", initialFocus = mode == entry)
 			)
 		}
 	}

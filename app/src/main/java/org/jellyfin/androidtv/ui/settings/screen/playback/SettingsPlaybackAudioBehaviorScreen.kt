@@ -41,7 +41,8 @@ fun SettingsPlaybackAudioBehaviorScreen() {
 					audioBehaviour = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("audio_behavior_${entry.name}")
+				modifier = Modifier
+					.focusKey("audio_behavior_${entry.name}", initialFocus = audioBehaviour == entry)
 			)
 		}
 	}
