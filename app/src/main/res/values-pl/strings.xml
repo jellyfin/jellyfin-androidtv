@@ -692,4 +692,19 @@
     <string name="photo_player">Odtwarzacz zdjęć</string>
     <string name="photo_display_duration">Czas wyświetlania zdjęcia</string>
     <string name="photo_display_duration_description">Jak długo czekać przed wyświetleniem kolejnego zdjęcia</string>
+    <string name="preference_hdr_overrides">Formaty HDR</string>
+    <string name="preference_hdr_overrides_summary">Zastąp możliwości HDR zgłaszane przez urządzenie</string>
+    <string name="hdr_override_auto">Auto (wykrywanie urządzenia)</string>
+    <string name="hdr_override_enable">Włącz</string>
+    <string name="hdr_override_disable">Wyłącz</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Statyczne metadane HDR</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dynamiczne metadane HDR</string>
+    <string name="dovi_profile_5_description">Jednowarstwowe Dolby Vision</string>
+    <string name="dovi_profile_5">Dolby Vision – Profil 5</string>
+    <string name="dovi_profile_7">Dolby Vision – Profil 7</string>
+    <string name="dovi_profile_7_description">Dwuwarstwowe z warstwą wzmacniającą</string>
+    <string name="dovi_profile_8">Dolby Vision – Profil 8</string>
+    <string name="dovi_profile_8_description">Jednowarstwowe z funkcją zapasową HDR10</string>
 </resources>
