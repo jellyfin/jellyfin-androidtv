@@ -670,4 +670,10 @@
     <string name="photo_display_duration_description">Tíðarbil áðrenn skift verður til næstu myndina</string>
     <string name="photo_player">Myndasýning</string>
     <string name="photo_display_duration">Tíðarbil í myndasýning</string>
+    <string name="preference_hdr_overrides">HDR snið</string>
+    <string name="hdr_override_enable">Virkja</string>
+    <string name="hdr_override_disable">Óvirkja</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="preference_hdr_overrides_summary">Skúgva HDR-virkisførisfráboðan eindarinnar til viks</string>
 </resources>
