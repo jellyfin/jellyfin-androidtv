@@ -46,7 +46,8 @@ fun SettingsLibrariesDisplayImageSizeScreen(itemId: UUID, displayPreferencesId: 
 					posterSize = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("poster_size_${entry.name}")
+				modifier = Modifier
+					.focusKey("poster_size_${entry.name}", initialFocus = posterSize == entry)
 			)
 		}
 	}

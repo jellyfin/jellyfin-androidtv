@@ -41,7 +41,8 @@ fun SettingsCustomizationThemeScreen() {
 					appTheme = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("app_theme_${entry.name}")
+				modifier = Modifier
+					.focusKey("app_theme_${entry.name}", initialFocus = appTheme == entry)
 			)
 		}
 	}

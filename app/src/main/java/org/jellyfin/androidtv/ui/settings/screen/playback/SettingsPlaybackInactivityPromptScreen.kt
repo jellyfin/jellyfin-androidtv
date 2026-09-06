@@ -41,7 +41,8 @@ fun SettingsPlaybackInactivityPromptScreen() {
 					stillWatchingBehavior = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("inactivity_prompt_${entry.name}")
+				modifier = Modifier
+					.focusKey("inactivity_prompt_${entry.name}", initialFocus = stillWatchingBehavior == entry)
 			)
 		}
 	}

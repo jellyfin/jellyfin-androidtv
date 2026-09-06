@@ -41,7 +41,8 @@ fun SettingsPlaybackBufferLengthScreen() {
 					bufferLength = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("buffer_length_${entry.name}")
+				modifier = Modifier
+					.focusKey("buffer_length_${entry.name}", initialFocus = bufferLength == entry)
 			)
 		}
 	}

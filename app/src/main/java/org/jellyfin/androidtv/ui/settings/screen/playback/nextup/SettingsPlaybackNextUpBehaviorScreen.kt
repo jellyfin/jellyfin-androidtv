@@ -41,7 +41,8 @@ fun SettingsPlaybackNextUpBehaviorScreen() {
 					nextUpBehavior = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("next_up_behavior_${entry.name}")
+				modifier = Modifier
+					.focusKey("next_up_behavior_${entry.name}", initialFocus = nextUpBehavior == entry)
 			)
 		}
 	}

@@ -41,7 +41,8 @@ fun SettingsAuthenticationSortByScreen() {
 					sortBy = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("sort_by_${entry.name}")
+				modifier = Modifier
+					.focusKey("sort_by_${entry.name}", initialFocus = sortBy == entry)
 			)
 		}
 	}

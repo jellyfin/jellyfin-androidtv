@@ -41,7 +41,8 @@ fun SettingsScreensaverTimeoutScreen() {
 					screensaverInAppTimeout = duration.inWholeMilliseconds
 					router.back()
 				},
-				modifier = Modifier.focusKey("timeout_${duration.inWholeMilliseconds}")
+				modifier = Modifier
+					.focusKey("timeout_${duration.inWholeMilliseconds}", initialFocus = screensaverInAppTimeout == duration.inWholeMilliseconds)
 			)
 		}
 	}

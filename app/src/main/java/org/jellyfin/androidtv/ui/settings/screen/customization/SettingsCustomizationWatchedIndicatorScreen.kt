@@ -41,7 +41,8 @@ fun SettingsCustomizationWatchedIndicatorScreen() {
 					watchedIndicatorBehavior = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("watched_indicator_${entry.name}")
+				modifier = Modifier
+					.focusKey("watched_indicator_${entry.name}", initialFocus = watchedIndicatorBehavior == entry)
 			)
 		}
 	}

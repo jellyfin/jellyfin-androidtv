@@ -52,7 +52,8 @@ fun SettingsHomeSectionScreen(index: Int) {
 					sectionType = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("section_type_${entry.name}")
+				modifier = Modifier
+					.focusKey("section_type_${entry.name}", initialFocus = sectionType == entry)
 			)
 		}
 	}
