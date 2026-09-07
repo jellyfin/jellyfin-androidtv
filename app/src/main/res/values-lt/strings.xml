@@ -683,4 +683,19 @@
     <string name="photo_display_duration">Nuotraukos rodymo trukmė</string>
     <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma sekanti nuotrauka</string>
     <string name="photo_player">Nuotraukų rodymas</string>
+    <string name="preference_hdr_overrides">HDR formatai</string>
+    <string name="preference_hdr_overrides_summary">Nepaisyti įrenginio nurodytų HDR galimybių</string>
+    <string name="hdr_override_auto">Auto (įrenginio aptikimas)</string>
+    <string name="hdr_override_enable">Įjungti</string>
+    <string name="hdr_override_disable">Išjungti</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Statiniai HDR metaduomenys</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dinaminio HDR metaduomenys</string>
+    <string name="dovi_profile_5">Dolby Vision profilis 5</string>
+    <string name="dovi_profile_5_description">Vieno sluoksnio Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision profilis 7</string>
+    <string name="dovi_profile_7_description">Dvisluoksnis su patobulinimo sluoksniu</string>
+    <string name="dovi_profile_8">Dolby Vision profilis 8</string>
+    <string name="dovi_profile_8_description">Vieno sluoksnio su HDR10 atsarginiu režimu</string>
 </resources>
