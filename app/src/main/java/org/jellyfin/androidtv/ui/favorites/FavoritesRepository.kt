@@ -16,7 +16,7 @@ import timber.log.Timber
 interface FavoritesRepository {
 	suspend fun getFavorites(
 		itemTypes: Collection<BaseItemKind>,
-	): Result<List<BaseItemDto>>
+	): List<BaseItemDto>
 }
 
 class FavoritesRepositoryImpl(
@@ -28,25 +28,23 @@ class FavoritesRepositoryImpl(
 
 	override suspend fun getFavorites(
 		itemTypes: Collection<BaseItemKind>,
-	): Result<List<BaseItemDto>> = try {
+	): List<BaseItemDto> = try {
 		val request = GetItemsRequest(
 			limit = QUERY_LIMIT,
 			imageTypeLimit = 1,
 			includeItemTypes = itemTypes,
-			filters = setOf(ItemFilter.IS_FAVORITE_OR_LIKES),
+			filters = setOf(ItemFilter.IS_FAVORITE),
 			sortBy = setOf(ItemSortBy.SORT_NAME),
 			fields = ItemRepository.itemFields,
 			recursive = true,
 			enableTotalRecordCount = false,
 		)
 
-		val result = withContext(Dispatchers.IO) {
+		withContext(Dispatchers.IO) {
 			apiClient.itemsApi.getItems(request).content
-		}
-
-		Result.success(result.items)
+		}.items
 	} catch (e: ApiClientException) {
 		Timber.e(e, "Failed to load favorite items")
-		Result.failure(e)
+		emptyList()
 	}
 }

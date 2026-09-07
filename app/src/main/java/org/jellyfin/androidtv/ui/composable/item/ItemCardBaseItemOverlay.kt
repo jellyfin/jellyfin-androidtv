@@ -39,6 +39,7 @@ import org.koin.compose.koinInject
 fun ItemCardBaseItemOverlay(
 	item: BaseItemDto,
 	footer: (@Composable () -> Unit)? = null,
+	hideFavoriteIndicator: Boolean = false,
 ) = Box(
 	modifier = Modifier
 		.fillMaxSize()
@@ -46,6 +47,7 @@ fun ItemCardBaseItemOverlay(
 ) {
 	StateIndicator(
 		item = item,
+		hideFavoriteIndicator = hideFavoriteIndicator,
 		modifier = Modifier.align(Alignment.TopStart),
 	)
 
@@ -71,8 +73,9 @@ fun ItemCardBaseItemOverlay(
 private fun StateIndicator(
 	item: BaseItemDto,
 	modifier: Modifier = Modifier,
+	hideFavoriteIndicator: Boolean = false,
 ) {
-	val isFavorited = item.userData?.isFavorite == true
+	val isFavorited = !hideFavoriteIndicator && item.userData?.isFavorite == true
 	val isRecording = item.timerId?.takeIf { item.type == BaseItemKind.LIVE_TV_PROGRAM || item.type == BaseItemKind.PROGRAM } != null
 	val isRecordingActive = item.seriesTimerId != null && isRecording
 

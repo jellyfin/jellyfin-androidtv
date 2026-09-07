@@ -6,11 +6,12 @@ import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.leanback.widget.OnItemViewSelectedListener
 import androidx.leanback.widget.Row
-import org.jellyfin.androidtv.constant.QueryType
+import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
+import org.jellyfin.androidtv.ui.itemhandling.LabeledItemGroup
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
@@ -22,16 +23,22 @@ class FavoritesFragmentDelegate(
 ) {
 	val rowsAdapter = MutableObjectAdapter<Row>(CustomListRowPresenter())
 
-	fun showResults(favoritesResultGroups: Collection<FavoritesResultGroup>) {
+	fun showResults(favoritesResultGroups: Collection<LabeledItemGroup>) {
 		rowsAdapter.clear()
 		val adapters = mutableListOf<ItemRowAdapter>()
 		for ((labelRes, baseItems) in favoritesResultGroups) {
 			val adapter = ItemRowAdapter(
 				context,
 				baseItems.toList(),
-				CardPresenter(),
+				CardPresenter(
+					showInfo = true,
+					imageType = ImageType.POSTER,
+					staticHeight = 150,
+					uniformAspect = false,
+					hideFavoriteIndicator = true,
+				),
 				rowsAdapter,
-				QueryType.Search
+				true
 			).apply {
 				setRow(ListRow(HeaderItem(context.getString(labelRes)), this))
 			}

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.itemhandling.LabeledItemGroup
 import org.jellyfin.sdk.model.api.BaseItemKind
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -42,7 +43,7 @@ class SearchViewModel(
 
 	private var previousQuery: String? = null
 
-	private val _searchResultsFlow = MutableStateFlow<Collection<SearchResultGroup>>(emptyList())
+	private val _searchResultsFlow = MutableStateFlow<Collection<LabeledItemGroup>>(emptyList())
 	val searchResultsFlow = _searchResultsFlow.asStateFlow()
 
 	fun searchImmediately(query: String) = searchDebounced(query, 0.milliseconds)
@@ -67,7 +68,7 @@ class SearchViewModel(
 					val result = searchRepository.search(trimmed, itemKinds)
 					val items = result.getOrNull().orEmpty()
 
-					SearchResultGroup(stringRes, items)
+					LabeledItemGroup(stringRes, items)
 				}
 			}.awaitAll()
 		}

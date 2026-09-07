@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
+import org.jellyfin.androidtv.ui.itemhandling.LabeledItemGroup
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
@@ -22,7 +23,7 @@ class SearchFragmentDelegate(
 ) {
 	val rowsAdapter = MutableObjectAdapter<Row>(CustomListRowPresenter())
 
-	fun showResults(searchResultGroups: Collection<SearchResultGroup>) {
+	fun showResults(searchResultGroups: Collection<LabeledItemGroup>) {
 		rowsAdapter.clear()
 		val adapters = mutableListOf<ItemRowAdapter>()
 		for ((labelRes, baseItems) in searchResultGroups) {

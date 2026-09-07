@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.itemhandling.LabeledItemGroup
 import org.jellyfin.sdk.model.api.BaseItemKind
 
 class FavoritesViewModel(
@@ -30,17 +31,16 @@ class FavoritesViewModel(
 		)
 	}
 
-	private val _favoritesResultsFlow = MutableStateFlow<Collection<FavoritesResultGroup>>(emptyList())
+	private val _favoritesResultsFlow = MutableStateFlow<Collection<LabeledItemGroup>>(emptyList())
 	val favoritesResultsFlow = _favoritesResultsFlow.asStateFlow()
 
 	fun load() {
 		viewModelScope.launch {
 			_favoritesResultsFlow.value = groups.map { (stringRes, itemKinds) ->
 				async {
-					val result = favoritesRepository.getFavorites(itemKinds)
-					val items = result.getOrNull().orEmpty()
+					val items = favoritesRepository.getFavorites(itemKinds)
 
-					FavoritesResultGroup(stringRes, items)
+					LabeledItemGroup(stringRes, items)
 				}
 			}.awaitAll().filter { it.items.isNotEmpty() }
 		}

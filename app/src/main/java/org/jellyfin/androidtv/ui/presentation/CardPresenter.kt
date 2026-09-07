@@ -54,11 +54,12 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.compose.koinInject
 
-class CardPresenter(
+class CardPresenter @JvmOverloads constructor(
 	val showInfo: Boolean,
 	val imageType: ImageType,
 	val staticHeight: Int,
 	val uniformAspect: Boolean,
+	val hideFavoriteIndicator: Boolean = false,
 ) : Presenter() {
 	constructor(showInfo: Boolean, imageType: ImageType, staticHeight: Int) : this(showInfo, imageType, staticHeight, false)
 	constructor(showInfo: Boolean, staticHeight: Int) : this(showInfo, ImageType.POSTER, staticHeight)
@@ -110,6 +111,7 @@ class CardPresenter(
 					imageType = imageType,
 					staticHeight = staticHeight,
 					uniformAspect = uniformAspect,
+					hideFavoriteIndicator = hideFavoriteIndicator,
 				)
 			}
 
@@ -285,6 +287,7 @@ private fun CardViewHolderContent(
 	imageType: ImageType,
 	staticHeight: Int,
 	uniformAspect: Boolean,
+	hideFavoriteIndicator: Boolean = false,
 ) {
 	val context = LocalContext.current
 	val localDensity = LocalDensity.current
@@ -345,6 +348,7 @@ private fun CardViewHolderContent(
 				item.baseItem?.let { baseItem ->
 					ItemCardBaseItemOverlay(
 						item = baseItem,
+						hideFavoriteIndicator = hideFavoriteIndicator,
 						footer = {
 							if (showInfo && title != null) {
 								val focusModifier = if (focused) Modifier.basicMarquee(
