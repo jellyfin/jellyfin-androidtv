@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -13,10 +14,12 @@ import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
+import java.time.LocalDateTime
 
 class HomeFragmentHelper(
 	private val context: Context,
 	private val userRepository: UserRepository,
+	private val userPreferences: UserPreferences,
 ) {
 	fun loadRecentlyAdded(userViews: Collection<BaseItemDto>): HomeFragmentRow {
 		return HomeFragmentLatestRow(userRepository, userViews)
@@ -54,11 +57,19 @@ class HomeFragmentHelper(
 	}
 
 	fun loadNextUp(): HomeFragmentRow {
+		val maxDays = userPreferences[UserPreferences.maxDaysInNextUp]
+		val nextUpDateCutoff = if (maxDays > 0) {
+			LocalDateTime.now().minusDays(maxDays.toLong())
+		} else {
+			null
+		}
+
 		val query = GetNextUpRequest(
 			imageTypeLimit = 1,
 			limit = ITEM_LIMIT_NEXT_UP,
 			enableResumable = false,
-			fields = ItemRepository.browseFields
+			fields = ItemRepository.browseFields,
+			nextUpDateCutoff = nextUpDateCutoff,
 		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_next_up), query, arrayOf(ChangeTriggerType.TvPlayback)))
