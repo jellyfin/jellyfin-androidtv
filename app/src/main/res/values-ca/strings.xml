@@ -681,4 +681,16 @@
     <string name="photo_player">Reproductor de fotos</string>
     <string name="photo_display_duration">Durada de visualització de la foto</string>
     <string name="photo_display_duration_description">Quant de temps esperarà abans de mostrar la següent foto</string>
+    <string name="preference_hdr_overrides">Formats HDR</string>
+    <string name="preference_hdr_overrides_summary">Anul·la les capacitats HDR reportades pel dispositiu</string>
+    <string name="hdr_override_auto">Automàtic (detecció de dispositius)</string>
+    <string name="hdr_override_enable">Habilita</string>
+    <string name="hdr_override_disable">Inhabilita</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Metadades HDR estàtiques</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Metadades HDR dinàmiques</string>
+    <string name="dovi_profile_5">Perfil 5 de Dolby Vision</string>
+    <string name="dovi_profile_5_description">Dolby Vision d\'una sola capa</string>
+    <string name="dovi_profile_7">Perfil 7 de Dobly Vision</string>
 </resources>
