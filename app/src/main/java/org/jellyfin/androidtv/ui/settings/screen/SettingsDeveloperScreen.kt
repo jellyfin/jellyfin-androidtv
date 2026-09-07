@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import coil3.ImageLoader
+import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -48,6 +49,16 @@ fun SettingsDeveloperScreen() {
 				captionContent = { Text(stringResource(R.string.desc_debug)) },
 				onClick = { debuggingEnabled = !debuggingEnabled },
 				modifier = Modifier.focusKey("debugging_enabled")
+			)
+		}
+
+		if (BuildConfig.DEVELOPMENT) item {
+			var experimentalUiEnabled by rememberPreference(userPreferences, UserPreferences.experimentalUiEnabled)
+			ListButton(
+				headingContent = { Text("Enable experimental UI") },
+				trailingContent = { Checkbox(checked = experimentalUiEnabled) },
+				onClick = { experimentalUiEnabled = !experimentalUiEnabled },
+				modifier = Modifier.focusKey("experimental_ui_enabled")
 			)
 		}
 
