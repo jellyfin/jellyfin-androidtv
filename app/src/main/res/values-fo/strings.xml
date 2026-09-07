@@ -16,7 +16,7 @@
     <string name="lbl_latest">Nýliga innlagt</string>
     <string name="lbl_latest_in">Nýliga innlagt í %1$s</string>
     <string name="lbl_by_name">Eftir navni</string>
-    <string name="lbl_favorites">Yndis</string>
+    <string name="lbl_favorites">Yndislista</string>
     <string name="lbl_favorite_channels">Yndisrásir</string>
     <string name="lbl_other_channels">Aðrar rásir</string>
     <string name="lbl_movies">Filmar</string>
@@ -31,7 +31,7 @@
     <string name="lbl_chapters">Kapitlar</string>
     <string name="lbl_trailers">Brellbitar</string>
     <string name="lbl_series">Sendirøðir</string>
-    <string name="lbl_favorite">Yndis</string>
+    <string name="lbl_favorite">Legg á yndislistan</string>
     <string name="lbl_runs">Spælitíð</string>
     <string name="runtime_hours_minutes">%1$dt %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
@@ -54,7 +54,7 @@
     <string name="lbl_tv_queuing">Spæl næsta part sjálvvirkandi</string>
     <string name="lbl_search_hint">Leititekstur (vel fyri knappaborð)</string>
     <string name="lbl_play_first_unwatched">Spæl fyrsta ósædda</string>
-    <string name="lbl_add_favorite">Legg á yndislista</string>
+    <string name="lbl_add_favorite">Legg á yndislistan</string>
     <string name="lbl_remove_favorite">Strika av yndislista</string>
     <string name="lbl_now_playing_track">%1$s av %2$s</string>
     <string name="lbl_now_playing_album">av %1$s</string>
