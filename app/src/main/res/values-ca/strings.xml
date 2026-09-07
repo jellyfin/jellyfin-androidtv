@@ -692,5 +692,8 @@
     <string name="hdr10_plus_override_description">Metadades HDR dinàmiques</string>
     <string name="dovi_profile_5">Perfil 5 de Dolby Vision</string>
     <string name="dovi_profile_5_description">Dolby Vision d\'una sola capa</string>
-    <string name="dovi_profile_7">Perfil 7 de Dobly Vision</string>
+    <string name="dovi_profile_7">Perfil 7 de Dolby Vision</string>
+    <string name="dovi_profile_7_description">Doble capa amb capa de millora</string>
+    <string name="dovi_profile_8">Perfil 8 de Dolby Vision</string>
+    <string name="dovi_profile_8_description">Monocapa amb HDR10 alternatiu</string>
 </resources>
