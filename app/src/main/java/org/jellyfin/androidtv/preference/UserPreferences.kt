@@ -262,6 +262,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		)
 
 		/**
+		 * The duration in seconds to wait before automatically hiding the "ask to skip" UI.
+		 * 0 = never auto-hide (stay until segment ends).
+		 */
+		var mediaSegmentAutoHideDuration = intPreference("media_segment_auto_hide_duration", 8)
+
+		/**
 		 * Preferred behavior for player aspect ratio (zoom mode).
 		 */
 		var playerZoomMode = enumPreference("player_zoom_mode", ZoomMode.FIT)
