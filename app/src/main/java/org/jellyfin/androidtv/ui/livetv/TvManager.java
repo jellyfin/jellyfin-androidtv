@@ -31,6 +31,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class TvManager {
     }
 
     public static List<BaseItemDto> getAllChannels() {
-        return allChannels;
+        return allChannels == null ? Collections.emptyList() : allChannels;
     }
 
     public static void forceReload() {
