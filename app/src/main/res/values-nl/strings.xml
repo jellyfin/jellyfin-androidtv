@@ -596,7 +596,7 @@
     <string name="pref_playback_media_segments">Mediasegmenten</string>
     <string name="pref_playback_prerolls">Voorfilmpjes</string>
     <string name="pref_playback_inactivity_prompt">Melding bij inactiviteit</string>
-    <string name="pref_playback_next_up">Volgende</string>
+    <string name="pref_playback_next_up">Volgende item</string>
     <string name="color_alpha">Transparantie</string>
     <string name="color_presets">Voorinstellingen</string>
     <string name="color_custom">Kleur aanpassen</string>
@@ -636,7 +636,7 @@
     <string name="codec_level_5_0">Niveau 5.0</string>
     <string name="codec_level_4_2">Niveau 4.2</string>
     <string name="codec_level_4_1">Niveau 4.1</string>
-    <string name="preference_codecs_summary">De door het apparaat gemelde codec-ondersteuning overschrijven</string>
+    <string name="preference_codecs_summary">Overschrijf door apparaat gemelde codec-ondersteuning</string>
     <string name="codec_level_manual">Handmatig overschrijven</string>
     <string name="codec_level_warning">Een andere waarde dan \"automatisch\" kan afspeelproblemen veroorzaken als je apparaat het geselecteerde niveau niet daadwerkelijk ondersteunt.</string>
     <string name="pref_burn_subtitles_when_transcoding">Ondertiteling inbranden bij transcoderen</string>
@@ -673,7 +673,7 @@
     <string name="photo_display_duration">Weergaveduur foto\'s</string>
     <string name="photo_display_duration_description">Wachttijd voordat de volgende foto wordt weergegeven</string>
     <string name="preference_hdr_overrides">HDR-indelingen</string>
-    <string name="preference_hdr_overrides_summary">Overschrijf door apparaat gerapporteerde HDR-ondersteuning</string>
+    <string name="preference_hdr_overrides_summary">Overschrijf door apparaat gemelde HDR-ondersteuning</string>
     <string name="hdr_override_auto">Automatisch (apparaatdetectie)</string>
     <string name="hdr_override_enable">Inschakelen</string>
     <string name="hdr_override_disable">Uitschakelen</string>
