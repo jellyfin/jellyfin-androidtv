@@ -28,10 +28,12 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.rememberPlayerProgress
 import org.jellyfin.androidtv.ui.composable.rememberQueueEntry
 import org.jellyfin.design.Tokens
+import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.MediaType
 import org.koin.compose.koinInject
 
 @Composable
@@ -142,19 +144,23 @@ private fun WatchIndicator(
 	}
 }
 
+// Media types that need to show a user progress bar (based on playedPercentage in userData)
+private val progressMediaTypes = setOf(MediaType.VIDEO, MediaType.BOOK)
+
 @Composable
 private fun ProgressIndicator(
 	item: BaseItemDto,
 	modifier: Modifier = Modifier,
 ) {
-	val playbackManager = koinInject<org.jellyfin.playback.core.PlaybackManager>()
+	val playbackManager = koinInject<PlaybackManager>()
 	val playState by playbackManager.state.playState.collectAsState()
 	val currentQueueEntry by rememberQueueEntry(playbackManager)
 
-	val playedPercentage = if (playState == PlayState.PLAYING && currentQueueEntry?.baseItem?.id == item.id) {
-		rememberPlayerProgress(playbackManager).value
-	} else {
-		item.userData?.playedPercentage?.toFloat()?.div(100f)?.coerceIn(0f, 1f)?.takeIf { it > 0f && it < 1f }
+	val playedPercentage = when {
+		playState == PlayState.PLAYING && currentQueueEntry?.baseItem?.id == item.id -> rememberPlayerProgress(playbackManager).value
+		item.mediaType in progressMediaTypes -> item.userData?.playedPercentage?.toFloat()?.div(100f)?.coerceIn(0f, 1f)
+
+		else -> null
 	}
 
 	if (playedPercentage != null) {
