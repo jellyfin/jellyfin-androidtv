@@ -689,4 +689,15 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">HDR-формати</string>
+    <string name="preference_hdr_overrides_summary">Замінити визначені пристроєм можливості HDR</string>
+    <string name="hdr_override_auto">Автоматично (визначення пристроєм)</string>
+    <string name="hdr_override_enable">Включити</string>
+    <string name="hdr_override_disable">Вимкнути</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Статичні метадані HDR</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Динамічні метадані HDR</string>
+    <string name="dovi_profile_5">Dolby Vision Профіль 5</string>
+    <string name="dovi_profile_5_description">Одношаровий Dolby Vision</string>
 </resources>
