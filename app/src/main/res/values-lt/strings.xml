@@ -396,12 +396,12 @@
     <string name="pref_playback_description">Vaizdo įrašai, Subtitrai, Tiesioginė TV, Toliau</string>
     <string name="input_password">Slaptažodis</string>
     <string name="action_use_password">Naudoti slaptažodį</string>
-    <string name="action_use_quickconnect">Naudoti Quick Connect</string>
+    <string name="action_use_quickconnect">Naudoti greitą prisijungimą</string>
     <string name="login_other_options">Kiti pasirinkimai:</string>
     <string name="login_quickconnect_step_1">1. Telefone arba naršyklėje atidarykite Jellyfin ir prisijunkite naudodami savo paskyrą</string>
     <string name="login_quickconnect_step_3">3. Įrašykite šį kodą:</string>
     <string name="pref_refresh_rate_scale_on_tv">Mastelis televizoriuje</string>
-    <string name="login_quickconnect_step_2">2. Atidarykite naudotojo meniu ir eikite į Quick Connect puslapį</string>
+    <string name="login_quickconnect_step_2">2. Atidarykite naudotojo meniu ir eikite į greito prisijungimo puslapį</string>
     <string name="pref_telemetry_description">Siųsti gedimų ataskaitas, įtraukti žurnalus</string>
     <string name="server_unsupported_notification">Šis serveris naudoja Jellyfin %1$s versiją, kuri nepalaikoma. Jei norite toliau naudoti programą, atnaujinkite į Jellyfin %2$s arba naujesnę versiją.</string>
     <string name="pref_crash_reports_disabled">Gedimų ataskatos nebus siunčiamos</string>
@@ -582,7 +582,7 @@
     <string name="pref_subtitles_bold">Paryškintas tekstas</string>
     <string name="preference_enable_pgs">Tiesiogiai paleisti PGS subtitrus</string>
     <string name="lbl_from_beginning">Paleisti nuo pradžios</string>
-    <string name="speech_error_no_permission">Nėra leidimo naudotis mikrofonu. Įgalinkite jį sistemos nustatymuose.</string>
+    <string name="speech_error_no_permission">Nėra leidimo naudotis mikrofonu. Įjunkite jį sistemos nustatymuose.</string>
     <string name="speech_error_unavailable">Jūsų įrenginyje kalbos atpažinimo funkcija nepasiekiama.</string>
     <string name="speech_error_unknown">Atpažįstant kalbą įvyko nenumatyta klaida.</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
