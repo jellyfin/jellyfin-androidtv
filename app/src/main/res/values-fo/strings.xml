@@ -157,7 +157,7 @@
     <string name="audio_error">Bar ikki til at spæla ljóð %1$s</string>
     <string name="lbl_sign_in">Vinaliga rita inn</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="pref_clock_display">Vís klokkuna (á nýtaramóti)</string>
+    <string name="pref_clock_display">Vís klokkuna á nýtaramótinum</string>
     <string name="lbl_always">Altíð</string>
     <string name="server_connecting">Sambindur við %1$s</string>
     <string name="server_connection_failed">Bar ikki til at sambinda við ambætaran</string>
@@ -407,7 +407,7 @@
     <string name="msg_video_playback_error">"Kykmyndaspælivilla - "</string>
     <string name="segment_type_unknown">Ókend brot</string>
     <string name="pref_playback_media_segments">Margmiðlabrot</string>
-    <string name="segment_type_preview">Undansýningar</string>
+    <string name="segment_type_preview">Brellbitar</string>
     <string name="pref_mediasegment_actions">Margmiðlabrotsatgerðir</string>
     <string name="msg_playback_incompatible">Fær ikki spælt hetta kykmyndasniðið</string>
     <string name="episode_missing_message_2">Hesin parturin vantar í tínum savni. Spælingin steðgar.</string>
@@ -676,4 +676,5 @@
     <string name="hdr10_override">HDR10</string>
     <string name="hdr10_plus_override">HDR10+</string>
     <string name="preference_hdr_overrides_summary">Skúgva HDR-virkisførisfráboðan eindarinnar til viks</string>
+    <string name="hdr_override_auto">Sjálvvirkandi (eindarfráboðað)</string>
 </resources>
