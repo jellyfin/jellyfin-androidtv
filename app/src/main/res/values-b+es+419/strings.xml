@@ -679,4 +679,14 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">Formatos HDR</string>
+    <string name="hdr_override_enable">Habilitar</string>
+    <string name="hdr_override_disable">Deshabilitar</string>
+    <string name="hdr10_override_description">Metadatos HDR estáticos</string>
+    <string name="hdr10_plus_override_description">Metadatos HDR dinámicos</string>
+    <string name="dovi_profile_5">Perfil Dolby Vision 5</string>
+    <string name="dovi_profile_7">Perfil Dolby Vision 7</string>
+    <string name="dovi_profile_8">Perfil Dolby Vision 8</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_override">HDR10</string>
 </resources>
