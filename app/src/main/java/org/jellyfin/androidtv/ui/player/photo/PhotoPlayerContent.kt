@@ -22,8 +22,6 @@ fun PhotoPlayerContent(
 	presentationActive: Boolean,
 	animationDuration: Long?,
 	animatePhoto: Boolean,
-	animatePanStrength: Float,
-	animateZoomStrength: Float
 ) {
 	val api = koinInject<ApiClient>()
 	val resources = LocalResources.current
@@ -49,8 +47,6 @@ fun PhotoPlayerContent(
 			presentationActive = presentationActive,
 			animatePhoto = animatePhoto,
 			animationDuration = animationDuration,
-			animatePanStrength = animatePanStrength,
-			animateZoomStrength = animateZoomStrength,
 			item = item,
 			screenWidth = resources.displayMetrics.widthPixels,
 			screenHeight = resources.displayMetrics.heightPixels

@@ -28,8 +28,6 @@ fun PhotoPlayerScreen() {
 	val settingsVisible by viewModel.settingsVisible.collectAsState()
 	val animationDuration = viewModel.userPreferences[UserPreferences.photoPlayerPresentationDelay]
 	val animatePhoto = viewModel.userPreferences[UserPreferences.photoPlayerAnimatePhotos]
-	val animatePanStrength = viewModel.userPreferences[UserPreferences.photoPlayerAnimatePanStrength]
-	val animateZoomStrength = viewModel.userPreferences[UserPreferences.photoPlayerAnimateZoomStrength]
 	val backgroundService = koinInject<BackgroundService>()
 	LaunchedEffect(backgroundService) {
 		backgroundService.clearBackgrounds()
@@ -49,8 +47,6 @@ fun PhotoPlayerScreen() {
 			presentationActive = presentationActive,
 			animationDuration = animationDuration,
 			animatePhoto = animatePhoto,
-			animatePanStrength = animatePanStrength,
-			animateZoomStrength = animateZoomStrength,
 		)
 
 		PhotoPlayerOverlay(

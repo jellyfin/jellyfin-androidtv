@@ -5,7 +5,7 @@ import kotlin.math.floor
 
 
 private const val EIGHT_SECONDS = 8000
-fun AsyncImageView.photoAnimateWithZoomAndPan(duration: Long?, panEffectPercent: Float, zoomEffectPercent: Float, item: BaseItemDto?, screenWidth: Int?, screenHeight: Int?){
+fun AsyncImageView.photoAnimateWithZoomAndPan(duration: Long?, item: BaseItemDto?, screenWidth: Int?, screenHeight: Int?){
 	if(duration == null || item == null || screenWidth == null || screenHeight == null || item.width == null || item.height == null)
 		return
 	val imageAspectRatio = item.width!!.toDouble() / item.height!!.toDouble()
@@ -14,16 +14,16 @@ fun AsyncImageView.photoAnimateWithZoomAndPan(duration: Long?, panEffectPercent:
 			return floor(Math.random() * (max + 1 - min).toDouble()).toInt() + min
 		}
 		fun getRandomScaleValue(min: Int, max: Int): Float {
-			return (getRandomInt(min, max).toFloat() / 100.0f * zoomEffectPercent) + 1.0f
+			return (getRandomInt(min, max).toFloat() / 100.0f) + 1.0f
 		}
 		fun getRandomPanValue(limit: Int): Float {
-			return getRandomInt(-1 * limit, limit).toFloat() * panEffectPercent
+			return getRandomInt(-1 * limit, limit).toFloat()
 		}
 		fun getRandomSubDuration(duration: Long, min: Int, max: Int) : Long{
 			return (duration * (getRandomInt(min, max).toFloat() / 100.0f)).toLong()
 		}
 		fun getScaledPanLimit(value: Int, scale: Float): Int{
-			return ((value * (scale * 0.1f)) * panEffectPercent).toInt()
+			return (value * (scale * 0.05f)).toInt()
 		}
 
 		val use1PhaseActions = duration < EIGHT_SECONDS
@@ -32,7 +32,7 @@ fun AsyncImageView.photoAnimateWithZoomAndPan(duration: Long?, panEffectPercent:
 			//Static Image
 			return
 		}
-		val randomScale1 = getRandomScaleValue(50,200)
+		val randomScale1 = getRandomScaleValue(25,100)
 		val xLimit = getScaledPanLimit((item.width ?: screenWidth),randomScale1)
 		val yLimit = getScaledPanLimit((item.height ?: screenHeight), randomScale1)
 		val rndX = getRandomPanValue(xLimit)
@@ -50,7 +50,7 @@ fun AsyncImageView.photoAnimateWithZoomAndPan(duration: Long?, panEffectPercent:
 		else {
 			val randomDuration1 = getRandomSubDuration(actionDuration,40,60)
 			val randomDuration2 = actionDuration - randomDuration1
-			val randomScale2 = getRandomScaleValue(50,200)
+			val randomScale2 = getRandomScaleValue(25,100)
 			val xLimit2 = getScaledPanLimit((item.width ?: screenWidth),randomScale2)
 			val yLimit2 = getScaledPanLimit((item.height ?: screenHeight), randomScale2)
 			val rndX2 = getRandomPanValue(xLimit2)

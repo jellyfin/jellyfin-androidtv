@@ -269,16 +269,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable animation of photos.
 		 */
 		var photoPlayerAnimatePhotos = booleanPreference("photo_player_animate_photos", false)
-
-		/**
-		 * Set amount of Panning as percent.
-		 */
-		var photoPlayerAnimatePanStrength = floatPreference("photo_player_animate_pan_strength", 0.5f)
-
-		/**
-		 * Set amount of Zooming as percent.
-		 */
-		var photoPlayerAnimateZoomStrength = floatPreference("photo_player_animate_zoom_strength", 0.5f)
 	}
 
 	init {

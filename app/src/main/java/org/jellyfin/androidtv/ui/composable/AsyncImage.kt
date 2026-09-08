@@ -35,8 +35,6 @@ fun AsyncImage(
 	presentationActive: Boolean = false,
 	animatePhoto: Boolean = false,
 	animationDuration: Long? = null,
-	animatePanStrength: Float = 0.5f,
-	animateZoomStrength: Float = 0.5f,
 	item: BaseItemDto? = null,
 	screenWidth: Int? = null,
 	screenHeight: Int? = null
@@ -65,7 +63,7 @@ fun AsyncImage(
 					blurHashResolution = blurHashResolution,
 				)
 				if (presentationActive && animatePhoto) {
-					view.photoAnimateWithZoomAndPan(animationDuration, animatePanStrength,animateZoomStrength, item, screenWidth, screenHeight)
+					view.photoAnimateWithZoomAndPan(animationDuration, item, screenWidth, screenHeight)
 				}
 			}
 		},
