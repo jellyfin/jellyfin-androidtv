@@ -700,4 +700,11 @@
     <string name="hdr10_plus_override_description">Динамічні метадані HDR</string>
     <string name="dovi_profile_5">Dolby Vision Профіль 5</string>
     <string name="dovi_profile_5_description">Одношаровий Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision Профіль 7</string>
+    <string name="dovi_profile_7_description">Двошаровий із шаром розширення</string>
+    <string name="dovi_profile_8">Dolby Vision Профіль 8</string>
+    <string name="dovi_profile_8_description">Одношаровий із резервним копіюванням HDR10</string>
+    <string name="photo_player">Переглядач фото</string>
+    <string name="photo_display_duration">Тривалість показу фото</string>
+    <string name="photo_display_duration_description">Затримка перед показом наступного фото</string>
 </resources>
