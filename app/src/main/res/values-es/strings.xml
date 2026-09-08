@@ -679,4 +679,11 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">Formatos HDR</string>
+    <string name="preference_hdr_overrides_summary">Anular las capacidades HDR reportadas por el dispositivo</string>
+    <string name="hdr_override_enable">Activar</string>
+    <string name="hdr_override_disable">Desactivar</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Metadatos HDR estáticos</string>
+    <string name="hdr10_plus_override">HDR10+</string>
 </resources>
