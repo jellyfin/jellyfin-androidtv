@@ -44,7 +44,8 @@ fun SettingsPlaybackHEVCLevelScreen() {
 					userHEVCLevel = HEVCLevel.AUTO
 					router.back()
 				},
-				modifier = Modifier.focusKey("hevc_level_auto")
+				modifier = Modifier
+					.focusKey("hevc_level_auto", initialFocus = userHEVCLevel == HEVCLevel.AUTO)
 			)
 		}
 
@@ -58,7 +59,8 @@ fun SettingsPlaybackHEVCLevelScreen() {
 					userHEVCLevel = level
 					router.back()
 				},
-				modifier = Modifier.focusKey("hevc_level_${level.name}")
+				modifier = Modifier
+					.focusKey("hevc_level_${level.name}", initialFocus = userHEVCLevel == level)
 			)
 		}
 	}

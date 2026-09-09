@@ -664,4 +664,9 @@
     <string name="preference_enable_ass_description">Kísérleti funkció, előfordulhat, hogy nem működik megbízhatóan</string>
     <string name="pref_software_codecs_enabled">Használjon szoftveres kodekeket</string>
     <string name="pref_software_codecs_enabled_description">Néhány szoftveralapú megvalósítás ronthatja a teljesítményt. A beállítás letiltása nagyobb valószínűséggel okoz átkódolást.</string>
+    <string name="lbl_date_show_added">A műsor hozzáadásának dátuma</string>
+    <string name="lbl_date_episode_added">Az epizód hozzáadásának dátuma</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>

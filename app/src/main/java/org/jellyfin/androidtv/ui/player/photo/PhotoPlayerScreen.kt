@@ -11,6 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.ScreensaverLock
+import org.jellyfin.androidtv.ui.navigation.ProvideRouter
+import org.jellyfin.androidtv.ui.settings.Routes
+import org.jellyfin.androidtv.ui.settings.composable.SettingsDialog
+import org.jellyfin.androidtv.ui.settings.composable.SettingsRouterContent
+import org.jellyfin.androidtv.ui.settings.routes
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -19,6 +24,7 @@ fun PhotoPlayerScreen() {
 	val viewModel = koinViewModel<PhotoPlayerViewModel>()
 	val item by viewModel.currentItem.collectAsState()
 	val presentationActive by viewModel.presentationActive.collectAsState()
+	val settingsVisible by viewModel.settingsVisible.collectAsState()
 
 	val backgroundService = koinInject<BackgroundService>()
 	LaunchedEffect(backgroundService) {
@@ -41,5 +47,17 @@ fun PhotoPlayerScreen() {
 		PhotoPlayerOverlay(
 			item = item,
 		)
+
+		ProvideRouter(
+			routes,
+			Routes.PLAYBACK_PHOTO_PLAYER,
+		) {
+			SettingsDialog(
+				visible = settingsVisible,
+				onDismissRequest = { viewModel.setSettingsVisible(false) }
+			) {
+				SettingsRouterContent()
+			}
+		}
 	}
 }

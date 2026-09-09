@@ -41,7 +41,8 @@ fun SettingsCustomizationClockScreen() {
 					clockBehavior = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("clock_behavior_${entry.name}")
+				modifier = Modifier
+					.focusKey("clock_behavior_${entry.name}", initialFocus = clockBehavior == entry)
 			)
 		}
 	}

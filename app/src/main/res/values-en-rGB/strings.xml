@@ -502,7 +502,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dts_x">DTS:X</string>
     <string name="dolby_atmos">Dolby Atmos</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -660,8 +660,13 @@
     <string name="playback_info_video_range">Video range: %1$s</string>
     <string name="playback_info_transcoding_note">Server is transcoding this file</string>
     <string name="pref_software_codecs_enabled">Use software codecs</string>
-    <string name="pref_software_codecs_enabled_description">"Some software-based implementations  may degrade performance. Disabling this option makes transcoding more likely."</string>
+    <string name="pref_software_codecs_enabled_description">Some software-based implementations may degrade performance. Disabling this option makes transcoding more likely.</string>
     <string name="preference_enable_ass">Direct play ASS subtitles</string>
     <string name="preference_enable_pgs_description">Requires transcoding when disabled</string>
-    <string name="preference_enable_ass_description">Experimental feature, may not work relia…</string>
+    <string name="preference_enable_ass_description">Experimental feature, may not work reliably</string>
+    <string name="lbl_date_show_added">Date show added</string>
+    <string name="lbl_date_episode_added">Date episode added</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>

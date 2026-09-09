@@ -535,7 +535,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="eac3">DD+</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
@@ -684,4 +684,27 @@
     <string name="preference_enable_ass_description">Експериментальна функція, може працювати нестабільно</string>
     <string name="pref_software_codecs_enabled">Використовувати програмні кодеки</string>
     <string name="pref_software_codecs_enabled_description">Деякі програмні реалізації можуть знизити продуктивність. Вимкнення цієї опції підвищує ймовірність транскодування.</string>
+    <string name="lbl_date_show_added">Дата додавання шоу</string>
+    <string name="lbl_date_episode_added">Дата додавання епізоду</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">HDR-формати</string>
+    <string name="preference_hdr_overrides_summary">Замінити визначені пристроєм можливості HDR</string>
+    <string name="hdr_override_auto">Автоматично (визначення пристроєм)</string>
+    <string name="hdr_override_enable">Включити</string>
+    <string name="hdr_override_disable">Вимкнути</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Статичні метадані HDR</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Динамічні метадані HDR</string>
+    <string name="dovi_profile_5">Dolby Vision Профіль 5</string>
+    <string name="dovi_profile_5_description">Одношаровий Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision Профіль 7</string>
+    <string name="dovi_profile_7_description">Двошаровий із шаром розширення</string>
+    <string name="dovi_profile_8">Dolby Vision Профіль 8</string>
+    <string name="dovi_profile_8_description">Одношаровий із резервним копіюванням HDR10</string>
+    <string name="photo_player">Переглядач фото</string>
+    <string name="photo_display_duration">Тривалість показу фото</string>
+    <string name="photo_display_duration_description">Затримка перед показом наступного фото</string>
 </resources>

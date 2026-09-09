@@ -41,7 +41,8 @@ fun SettingsPlaybackMediaSegmentScreen(
 					mediaSegmentRepository.setDefaultSegmentTypeAction(segmentType, entry)
 					router.back()
 				},
-				modifier = Modifier.focusKey("media_segment_action_${entry.name}")
+				modifier = Modifier
+					.focusKey("media_segment_action_${entry.name}", initialFocus = action == entry)
 			)
 		}
 	}

@@ -42,7 +42,8 @@ fun SettingsLiveTvGuideChannelOrderScreen() {
 					channelOrder = entry.stringValue
 					router.back()
 				},
-				modifier = Modifier.focusKey("channel_order_${entry.name}")
+				modifier = Modifier
+					.focusKey("channel_order_${entry.name}", initialFocus = channelOrderEnum == entry)
 			)
 		}
 	}

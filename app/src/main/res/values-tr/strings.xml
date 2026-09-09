@@ -67,7 +67,7 @@
     <string name="lbl_starting_with">adı şununla başlayanlardan başlayarak</string>
     <string name="lbl_rating">Puan</string>
     <string name="lbl_critic_rating">Eleştirmen puanı</string>
-    <string name="lbl_premier_date">Premier zamanı</string>
+    <string name="lbl_premier_date">İlk gösterim tarihi</string>
     <string name="lbl_date_added">Eklenme tarihi</string>
     <string name="lbl_name">Ad</string>
     <string name="lbl_sorted_by">sıralama şekli</string>
@@ -495,7 +495,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -664,4 +664,27 @@
     <string name="preference_enable_ass_description">Deneysel özellik; güvenilir şekilde çalışmayabilir</string>
     <string name="pref_software_codecs_enabled">Yazılım codec bileşenlerini kullan</string>
     <string name="pref_software_codecs_enabled_description">Bazı yazılım tabanlı uygulamalar performansı düşürebilir. Bu seçeneği devre dışı bırakmak, kod dönüştürme işleminin gerçekleşme olasılığını artırır.</string>
+    <string name="lbl_date_show_added">Dizinin eklendiği tarih</string>
+    <string name="lbl_date_episode_added">Bölümün eklendiği tarih</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="photo_player">Fotoğraf görüntüleyici</string>
+    <string name="photo_display_duration">Fotoğraf görüntüleme süresi</string>
+    <string name="photo_display_duration_description">Bir sonraki fotoğrafı göstermeden önce ne kadar beklemeli</string>
+    <string name="preference_hdr_overrides">HDR biçimleri</string>
+    <string name="preference_hdr_overrides_summary">Cihaz tarafından bildirilen HDR özelliklerini geçersiz kıl</string>
+    <string name="hdr_override_auto">Otomatik (cihaz algılama)</string>
+    <string name="hdr_override_enable">Etkinleştir</string>
+    <string name="hdr_override_disable">Devre dışı bırak</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="dovi_profile_7_description">Çift katmanlı, Geliştirme Katmanlı</string>
+    <string name="dovi_profile_8">Dolby Vision Profile 8</string>
+    <string name="dovi_profile_8_description">Tek katmanlı, HDR10 yedekleme özelliğiyle</string>
+    <string name="hdr10_override_description">Statik HDR meta verisi</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dinamik HDR meta verisi</string>
+    <string name="dovi_profile_5">Dolby Vision Profile 5</string>
+    <string name="dovi_profile_5_description">Tek katmanlı Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision Profile 7</string>
 </resources>

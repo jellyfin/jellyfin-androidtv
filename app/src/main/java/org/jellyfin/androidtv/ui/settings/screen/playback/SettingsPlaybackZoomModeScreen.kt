@@ -41,7 +41,8 @@ fun SettingsPlaybackZoomModeScreen() {
 					playerZoomMode = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("zoom_mode_${entry.name}")
+				modifier = Modifier
+					.focusKey("zoom_mode_${entry.name}", initialFocus = playerZoomMode == entry)
 			)
 		}
 	}

@@ -41,7 +41,8 @@ fun SettingsPlaybackRefreshRateSwitchingBehaviorScreen() {
 					refreshRateSwitchingBehavior = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("refresh_rate_switching_${entry.name}")
+				modifier = Modifier
+					.focusKey("refresh_rate_switching_${entry.name}", initialFocus = refreshRateSwitchingBehavior == entry)
 			)
 		}
 	}

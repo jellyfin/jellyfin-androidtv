@@ -79,7 +79,7 @@
     <string name="color_pink">Rosa</string>
     <string name="color_cyan">Ciano</string>
     <string name="login_other_options">Outras opcións:</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -97,4 +97,12 @@
     <string name="action_connect">Conectar</string>
     <string name="item_deleted">%1$s borrado</string>
     <string name="photos">Fotos</string>
+    <plurals name="movies">
+        <item quantity="one">%1$s película</item>
+        <item quantity="other">%1$s películas</item>
+    </plurals>
+    <plurals name="albums">
+        <item quantity="one">%1$s álbum</item>
+        <item quantity="other">%1$s álbums</item>
+    </plurals>
 </resources>

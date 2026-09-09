@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.settings.screen.customization
+package org.jellyfin.androidtv.ui.settings.screen.playback
 
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -8,7 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.preference.constant.HdrFormat
+import org.jellyfin.androidtv.preference.constant.HdrOverrideMode
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RadioButton
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -20,29 +21,32 @@ import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.koin.compose.koinInject
 
 @Composable
-fun SettingsCustomizationThemeScreen() {
+fun SettingsPlaybackHdrOverrideScreen(
+	format: HdrFormat,
+) {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
-	var appTheme by rememberPreference(userPreferences, UserPreferences.appTheme)
+	var mode by rememberPreference(userPreferences, format.preference)
 
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(stringResource(R.string.pref_customization).uppercase()) },
-				headingContent = { Text(stringResource(R.string.pref_app_theme)) },
+				overlineContent = { Text(stringResource(R.string.preference_hdr_overrides).uppercase()) },
+				headingContent = { Text(stringResource(format.nameRes)) },
+				captionContent = { Text(stringResource(format.descriptionRes)) },
 			)
 		}
 
-		items(AppTheme.entries) { entry ->
+		items(HdrOverrideMode.entries) { entry ->
 			ListButton(
 				headingContent = { Text(stringResource(entry.nameRes)) },
-				trailingContent = { RadioButton(checked = appTheme == entry) },
+				trailingContent = { RadioButton(checked = mode == entry) },
 				onClick = {
-					appTheme = entry
+					mode = entry
 					router.back()
 				},
 				modifier = Modifier
-					.focusKey("app_theme_${entry.name}", initialFocus = appTheme == entry)
+					.focusKey("hdr_override_${format.name}_${entry.name}", initialFocus = mode == entry)
 			)
 		}
 	}

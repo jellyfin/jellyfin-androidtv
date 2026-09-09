@@ -41,7 +41,8 @@ fun SettingsScreensaverAgeRatingScreen() {
 					screensaverAgeRatingMax = ageRating
 					router.back()
 				},
-				modifier = Modifier.focusKey("age_rating_$ageRating")
+				modifier = Modifier
+					.focusKey("age_rating_$ageRating", initialFocus = screensaverAgeRatingMax == ageRating)
 			)
 		}
 	}

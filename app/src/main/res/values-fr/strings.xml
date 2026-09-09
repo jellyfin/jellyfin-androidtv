@@ -679,4 +679,15 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">Formats HDR</string>
+    <string name="hdr_override_auto">Auto (détection de l\'appareil)</string>
+    <string name="hdr_override_enable">Activer</string>
+    <string name="hdr_override_disable">Désactiver</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Métadonnées HDR statiques</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Métadonnées HDR dynamiques</string>
+    <string name="photo_player">Lecteur photo</string>
+    <string name="photo_display_duration">Durée d\'affichage des photos</string>
+    <string name="photo_display_duration_description">Temps d\'attente avant d\'afficher la photo suivante</string>
 </resources>

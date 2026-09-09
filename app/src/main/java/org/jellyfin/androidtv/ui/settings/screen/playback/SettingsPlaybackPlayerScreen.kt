@@ -71,7 +71,8 @@ fun SettingsPlaybackPlayerScreen() {
 					externalAppRepository.setExternalPlayerapp(null)
 					router.back()
 				},
-				modifier = Modifier.focusKey("player_internal")
+				modifier = Modifier
+					.focusKey("player_internal", initialFocus = currentExternalPlayer == null && !playbackRewriteVideoEnabled)
 			)
 		}
 
@@ -94,7 +95,8 @@ fun SettingsPlaybackPlayerScreen() {
 					externalAppRepository.setExternalPlayerapp(null)
 					router.back()
 				},
-				modifier = Modifier.focusKey("player_new")
+				modifier = Modifier
+					.focusKey("player_new", initialFocus = currentExternalPlayer == null && playbackRewriteVideoEnabled)
 			)
 		}
 
@@ -129,7 +131,11 @@ fun SettingsPlaybackPlayerScreen() {
 					externalAppRepository.setExternalPlayerapp(app.activityInfo)
 					router.back()
 				},
-				modifier = Modifier.focusKey("player_external_${app.activityInfo.componentName}")
+				modifier = Modifier
+					.focusKey(
+						key = "player_external_${app.activityInfo.componentName}",
+						initialFocus = currentExternalPlayer?.componentName == app.activityInfo.componentName,
+					)
 			)
 		}
 	}

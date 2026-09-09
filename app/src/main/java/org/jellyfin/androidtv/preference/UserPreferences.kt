@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.BackdropBehavior
 import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.HdrOverrideMode
 import org.jellyfin.androidtv.preference.constant.HEVCLevel
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
@@ -151,6 +152,29 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable TrueHD
 		 */
 		var truehdEnabled = booleanPreference("bitstream_truehd", true)
+		 * HDR10 device profile override.
+		 */
+		var hdr10Override = enumPreference("hdr10_override", HdrOverrideMode.AUTO)
+
+		/**
+		 * HDR10+ device profile override.
+		 */
+		var hdr10PlusOverride = enumPreference("hdr10_plus_override", HdrOverrideMode.AUTO)
+
+		/**
+		 * Dolby Vision Profile 5 device profile override.
+		 */
+		var doviProfile5Override = enumPreference("dovi_profile_5_override", HdrOverrideMode.AUTO)
+
+		/**
+		 * Dolby Vision Profile 7 device profile override.
+		 */
+		var doviProfile7Override = enumPreference("dovi_profile_7_override", HdrOverrideMode.AUTO)
+
+		/**
+		 * Dolby Vision Profile 8 device profile override.
+		 */
+		var doviProfile8Override = enumPreference("dovi_profile_8_override", HdrOverrideMode.AUTO)
 
 		/* Live TV */
 		/**
@@ -274,6 +298,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable the use of software-based codecs.
 		 */
 		var softwareCodecsEnabled = booleanPreference("software_codecs_enabled", true)
+
+		/**
+		 * Stores the interval for the photo player.
+		 */
+		var photoPlayerPresentationDelay = longPreference("photo_player_presentation_delay", 8000)
 	}
 
 	init {

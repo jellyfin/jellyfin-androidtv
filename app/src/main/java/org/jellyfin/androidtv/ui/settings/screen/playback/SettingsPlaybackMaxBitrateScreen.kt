@@ -45,7 +45,8 @@ fun SettingsPlaybackMaxBitrateScreen() {
 					maxBitrate = value
 					router.back()
 				},
-				modifier = Modifier.focusKey("max_bitrate_$value")
+				modifier = Modifier
+					.focusKey("max_bitrate_$value", initialFocus = maxBitrate == value)
 			)
 		}
 	}

@@ -596,7 +596,7 @@
     <string name="pref_playback_media_segments">Mediasegmenten</string>
     <string name="pref_playback_prerolls">Voorfilmpjes</string>
     <string name="pref_playback_inactivity_prompt">Melding bij inactiviteit</string>
-    <string name="pref_playback_next_up">Volgende</string>
+    <string name="pref_playback_next_up">Volgende item</string>
     <string name="color_alpha">Transparantie</string>
     <string name="color_presets">Voorinstellingen</string>
     <string name="color_custom">Kleur aanpassen</string>
@@ -636,7 +636,7 @@
     <string name="codec_level_5_0">Niveau 5.0</string>
     <string name="codec_level_4_2">Niveau 4.2</string>
     <string name="codec_level_4_1">Niveau 4.1</string>
-    <string name="preference_codecs_summary">De door het apparaat gemelde codec-ondersteuning overschrijven</string>
+    <string name="preference_codecs_summary">Overschrijf door apparaat gemelde codec-ondersteuning</string>
     <string name="codec_level_manual">Handmatig overschrijven</string>
     <string name="codec_level_warning">Een andere waarde dan \"automatisch\" kan afspeelproblemen veroorzaken als je apparaat het geselecteerde niveau niet daadwerkelijk ondersteunt.</string>
     <string name="pref_burn_subtitles_when_transcoding">Ondertiteling inbranden bij transcoderen</string>
@@ -669,4 +669,22 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="photo_player">Fotospeler</string>
+    <string name="photo_display_duration">Weergaveduur foto\'s</string>
+    <string name="photo_display_duration_description">Wachttijd voordat de volgende foto wordt weergegeven</string>
+    <string name="preference_hdr_overrides">HDR-indelingen</string>
+    <string name="preference_hdr_overrides_summary">Overschrijf door apparaat gemelde HDR-ondersteuning</string>
+    <string name="hdr_override_auto">Automatisch (apparaatdetectie)</string>
+    <string name="hdr_override_enable">Inschakelen</string>
+    <string name="hdr_override_disable">Uitschakelen</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Statische HDR-metadata</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dynamische HDR-metadata</string>
+    <string name="dovi_profile_5">Dolby Vision profiel 5</string>
+    <string name="dovi_profile_5_description">Enkellaags Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision profiel 7</string>
+    <string name="dovi_profile_7_description">Dubbellaags met verbeteringslaag</string>
+    <string name="dovi_profile_8">Dolby Vision profiel 8</string>
+    <string name="dovi_profile_8_description">Enkellaags met HDR10 als terugvaloptie</string>
 </resources>

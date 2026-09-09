@@ -46,7 +46,8 @@ fun SettingsLibrariesDisplayGridScreen(itemId: UUID, displayPreferencesId: Strin
 					gridDirection = entry
 					router.back()
 				},
-				modifier = Modifier.focusKey("grid_direction_${entry.name}")
+				modifier = Modifier
+					.focusKey("grid_direction_${entry.name}", initialFocus = gridDirection == entry)
 			)
 		}
 	}

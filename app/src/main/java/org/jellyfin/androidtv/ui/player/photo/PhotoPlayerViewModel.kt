@@ -11,6 +11,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -19,14 +20,20 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
-class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
+class PhotoPlayerViewModel(
+	private val api: ApiClient,
+	private val userPreferences: UserPreferences,
+) : ViewModel() {
 	private var album: List<BaseItemDto> = emptyList()
 	private var albumIndex = -1
 
 	private val _currentItem = MutableStateFlow<BaseItemDto?>(null)
 	val currentItem = _currentItem.asStateFlow()
+
+	private val _settingsVisible = MutableStateFlow(false)
+	val settingsVisible = _settingsVisible.asStateFlow()
 
 	suspend fun loadItem(id: UUID, sortBy: Collection<ItemSortBy>, sortOrder: SortOrder) {
 		// Load requested item
@@ -82,11 +89,12 @@ class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
 	private var presentationJob: Job? = null
 	private val _presentationActive = MutableStateFlow(false)
 	val presentationActive = _presentationActive.asStateFlow()
-	var presentationDelay = 8.seconds
 
 	fun createPresentationJob() = viewModelScope.launch(Dispatchers.IO) {
+		val photoPlayerPresentationDelay = userPreferences[UserPreferences.photoPlayerPresentationDelay].milliseconds
+
 		while (isActive) {
-			delay(presentationDelay)
+			delay(photoPlayerPresentationDelay)
 			showNext()
 		}
 	}
@@ -116,5 +124,18 @@ class PhotoPlayerViewModel(private val api: ApiClient) : ViewModel() {
 	fun togglePresentation() {
 		if (presentationActive.value) stopPresentation()
 		else startPresentation()
+	}
+
+	fun setSettingsVisible(visible: Boolean) {
+		_settingsVisible.value = visible
+
+		// Make sure presentation is stopped when settings are shown
+		// but keep the _presentationActive state
+		if (visible) {
+			presentationJob?.cancel()
+			presentationJob = null
+		} else {
+			restartPresentation()
+		}
 	}
 }

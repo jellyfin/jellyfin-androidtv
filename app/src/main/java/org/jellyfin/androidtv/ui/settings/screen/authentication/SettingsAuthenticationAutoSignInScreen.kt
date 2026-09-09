@@ -63,7 +63,8 @@ fun SettingsAuthenticationAutoSignInScreen() {
 					autoLoginUserBehavior = UserSelectBehavior.DISABLED
 					router.back()
 				},
-				modifier = Modifier.focusKey("disable")
+				modifier = Modifier
+					.focusKey("disable", initialFocus = autoLoginUserBehavior == UserSelectBehavior.DISABLED)
 			)
 		}
 
@@ -76,7 +77,8 @@ fun SettingsAuthenticationAutoSignInScreen() {
 					autoLoginUserBehavior = UserSelectBehavior.LAST_USER
 					router.back()
 				},
-				modifier = Modifier.focusKey("last_user")
+				modifier = Modifier
+					.focusKey("last_user", initialFocus = autoLoginUserBehavior == UserSelectBehavior.LAST_USER)
 			)
 		}
 
@@ -106,7 +108,13 @@ fun SettingsAuthenticationAutoSignInScreen() {
 
 						router.back()
 					},
-					modifier = Modifier.focusKey("user_$userId")
+					modifier = Modifier
+						.focusKey(
+							key = "user_$userId",
+							initialFocus = autoLoginUserBehavior == UserSelectBehavior.SPECIFIC_USER &&
+								autoLoginServerId == serverId &&
+								autoLoginUserId == userId,
+						)
 				)
 			}
 		}

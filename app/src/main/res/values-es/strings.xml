@@ -679,4 +679,22 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">Formatos HDR</string>
+    <string name="preference_hdr_overrides_summary">Anular las capacidades HDR reportadas por el dispositivo</string>
+    <string name="hdr_override_enable">Activar</string>
+    <string name="hdr_override_disable">Desactivar</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Metadatos HDR estáticos</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Metadatos HDR dinámicos</string>
+    <string name="dovi_profile_5">Dolby Vision Perfil 5</string>
+    <string name="dovi_profile_5_description">Dolby Vision de capa única</string>
+    <string name="dovi_profile_7">Dolby Vision Perfil 7</string>
+    <string name="dovi_profile_7_description">Doble capa con capa de mejora</string>
+    <string name="dovi_profile_8">Dolby Vision Perfil 8</string>
+    <string name="photo_player">Reproductor de fotos</string>
+    <string name="photo_display_duration">Duración de la visualización de fotos</string>
+    <string name="photo_display_duration_description">Tiempo de espera antes de mostrar la siguiente foto</string>
+    <string name="hdr_override_auto">Automático (detectar dispositivo)</string>
+    <string name="dovi_profile_8_description">Capa única con alternativa HDR10</string>
 </resources>
