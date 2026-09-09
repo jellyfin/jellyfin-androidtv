@@ -707,4 +707,22 @@
     <string name="truehd">HD حقيقي</string>
     <string name="eac3_atmos">DD+ نوى</string>
     <string name="truehd_atmos">TrueHD نوى</string>
+    <string name="preference_hdr_overrides">تهيئات HDR</string>
+    <string name="hdr_override_auto">تلقائي (اكتشاف الجهاز)</string>
+    <string name="hdr_override_enable">تفعيل</string>
+    <string name="hdr_override_disable">مثبط</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">بيانات وسوم HDR ثابتة</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">بيانات وسوم HDR متغيرة</string>
+    <string name="dovi_profile_5">ملف Dolby Vision 5</string>
+    <string name="dovi_profile_5_description">Dolby Vision طبقة احادية</string>
+    <string name="dovi_profile_7">ملف Dolby Vision 7</string>
+    <string name="dovi_profile_7_description">طبقة مزدوجة مع طبقة محسنة</string>
+    <string name="preference_hdr_overrides_summary">تخطي امكانيات تبليغ جهاز HDR</string>
+    <string name="dovi_profile_8">ملف Dolby Vision 8</string>
+    <string name="photo_player">مشغل الصور</string>
+    <string name="photo_display_duration">مدة عرض الصورة</string>
+    <string name="photo_display_duration_description">كم يجب ان تنتظر قبل عرض الصورة التالية</string>
+    <string name="dovi_profile_8_description">طبقة احادية مع تراجع HDR10</string>
 </resources>
