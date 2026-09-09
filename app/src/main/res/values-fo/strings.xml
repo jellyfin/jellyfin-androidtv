@@ -677,4 +677,7 @@
     <string name="hdr10_plus_override">HDR10+</string>
     <string name="preference_hdr_overrides_summary">Skúgva HDR-virkisførisfráboðan eindarinnar til viks</string>
     <string name="hdr_override_auto">Sjálvvirkandi (eindarfráboðað)</string>
+    <string name="dovi_profile_5">Dolby Vision profilur 5</string>
+    <string name="dovi_profile_7">Dolby Vision profilur 7</string>
+    <string name="dovi_profile_8">Dolby Vision profilur 8</string>
 </resources>
