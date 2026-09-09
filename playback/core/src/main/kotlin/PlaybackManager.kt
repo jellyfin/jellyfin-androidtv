@@ -5,6 +5,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackend
+import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.plugin.PlayerService
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -23,12 +24,21 @@ class PlaybackManager internal constructor(
 	val state: PlayerState = MutablePlayerState(
 		options = options,
 		backendService = backendService,
-		queue = getService()
+		queue = getService(),
+		commandHandler = ::handleCommand,
 	)
 
 	init {
 		services.forEach { it.initialize(this, state, Job(job)) }
 	}
+
+	fun handleCommand(command: PlayerCommand): Boolean = services
+		.filterIsInstance<PlayerCommandHandler>()
+		.any { it.handleCommand(command) }
+
+	fun addBackendListener(listener: PlayerBackendEventListener) = backendService.addListener(listener)
+
+	fun removeBackendListener(listener: PlayerBackendEventListener) = backendService.removeListener(listener)
 
 	fun addService(service: PlayerService) {
 		Timber.i("Adding service $service")

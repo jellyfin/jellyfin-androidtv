@@ -40,6 +40,7 @@ import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.queue.QueueEntry
+import org.jellyfin.playback.core.queue.initialPlayback
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
@@ -115,7 +116,8 @@ class ExoPlayerBackend(
 				exoPlayerOptions.minBufferDuration?.inWholeMilliseconds?.toInt() ?: DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
 				exoPlayerOptions.maxBufferDuration?.inWholeMilliseconds?.toInt() ?: DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
 				exoPlayerOptions.bufferForPlaybackDuration?.inWholeMilliseconds?.toInt() ?: DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-				exoPlayerOptions.bufferForPlaybackAfterRebufferDuration?.inWholeMilliseconds?.toInt() ?: DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS,
+				exoPlayerOptions.bufferForPlaybackAfterRebufferDuration?.inWholeMilliseconds?.toInt()
+					?: DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS,
 			)
 			.build()
 
@@ -160,6 +162,7 @@ class ExoPlayerBackend(
 
 		override fun onPlayerError(error: PlaybackException) {
 			listener?.onPlayStateChange(PlayState.ERROR)
+			selectedStream()?.let { listener?.onMediaStreamError(it.queueEntry) }
 		}
 
 		override fun onVideoSizeChanged(size: VideoSize) {
@@ -174,11 +177,15 @@ class ExoPlayerBackend(
 
 		override fun onPlaybackStateChanged(playbackState: Int) {
 			onIsPlayingChanged(exoPlayer.isPlaying)
+			selectedStream()?.queueEntry?.let { entry ->
+				listener?.onBuffering(entry, playbackState == Player.STATE_BUFFERING)
+				if (playbackState == Player.STATE_READY) listener?.onMediaStreamReady(entry)
+			}
 		}
 
 		override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
 			if (reason == Player.PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM) {
-				listener?.onMediaStreamEnd(requireNotNull(currentStream))
+				selectedStream()?.let { listener?.onMediaStreamEnd(it) }
 			}
 		}
 
@@ -189,18 +196,28 @@ class ExoPlayerBackend(
 		override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
 			val queueEntry = mediaItem?.localConfiguration?.tag as? QueueEntry
 			audioPipeline.normalizationGain = queueEntry?.normalizationGain
+			updateDuration()
 		}
 
 		override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-			val duration = exoPlayer.duration.takeUnless { it == C.TIME_UNSET }?.milliseconds
-			if (duration == lastKnownDuration) return
-			timedEventState.onDurationChange(exoPlayer, duration)
-			lastKnownDuration = duration
+			updateDuration()
 		}
 
 		override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
 			timedEventState.onSeek(oldPosition.positionMs.milliseconds, newPosition.positionMs.milliseconds, lastKnownDuration ?: Duration.ZERO)
 		}
+	}
+
+	private fun selectedStream(): PlayableMediaStream? {
+		val selectedEntry = exoPlayer.currentMediaItem?.localConfiguration?.tag as? QueueEntry
+		return currentStream?.takeIf { it.queueEntry === selectedEntry }
+	}
+
+	private fun updateDuration() {
+		val duration = exoPlayer.duration.takeUnless { it == C.TIME_UNSET }?.milliseconds
+		if (duration == lastKnownDuration) return
+		timedEventState.onDurationChange(exoPlayer, duration)
+		lastKnownDuration = duration
 	}
 
 	override fun supportsStream(
@@ -251,6 +268,7 @@ class ExoPlayerBackend(
 		if (currentStream == stream) return
 
 		currentStream = stream
+		exoPlayer.playWhenReady = item.initialPlayback.playWhenReady
 
 		var preparedItemIndex = (0 until exoPlayer.mediaItemCount).firstOrNull { index ->
 			exoPlayer.getMediaItemAt(index).mediaId == stream.hashCode().toString()
@@ -263,12 +281,7 @@ class ExoPlayerBackend(
 		}
 
 		// Seek to prepared media item
-		when (preparedItemIndex) {
-			exoPlayer.currentMediaItemIndex - 1 -> exoPlayer.seekToPreviousMediaItem()
-			exoPlayer.currentMediaItemIndex + 1 -> exoPlayer.seekToNextMediaItem()
-			exoPlayer.currentMediaItemIndex -> Unit
-			else -> exoPlayer.seekTo(preparedItemIndex, 0)
-		}
+		exoPlayer.seekTo(preparedItemIndex, item.initialPlayback.position.inWholeMilliseconds)
 
 		// Update audio attributes
 		val contentType = when (item.mediaType) {
@@ -289,7 +302,12 @@ class ExoPlayerBackend(
 
 		// Enjoy!
 		Timber.i("Playing ${item.mediaStream?.url}")
-		exoPlayer.play()
+		if (item.initialPlayback.playWhenReady) exoPlayer.play()
+		else exoPlayer.pause()
+		// Already prepared entries need a ready notification even without a state transition.
+		if (exoPlayer.playbackState == Player.STATE_READY && selectedStream()?.queueEntry === item) {
+			listener?.onMediaStreamReady(item)
+		}
 	}
 
 	override fun play() {

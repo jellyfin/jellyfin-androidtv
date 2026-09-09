@@ -1,10 +1,9 @@
 package org.jellyfin.playback.core.mediastream
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.QueueEntry
@@ -24,17 +23,19 @@ internal class MediaStreamService(
 	}
 
 	override suspend fun onInitialize() {
-		manager.queue.entry.onEach { entry ->
-			Timber.d("Queue entry changed to $entry")
+		coroutineScope.launch(Dispatchers.Main) {
+			manager.queue.entry.collectLatest { entry ->
+				Timber.d("Queue entry changed to $entry")
 
-			if (entry == null) {
-				val backend = requireNotNull(manager.backend)
-				backend.stop()
-			} else {
-				playEntry(entry)
-				entry.ensurePreloadTimedEvent()
+				if (entry == null) {
+					val backend = requireNotNull(manager.backend)
+					backend.stop()
+				} else {
+					playEntry(entry)
+					entry.ensurePreloadTimedEvent()
+				}
 			}
-		}.launchIn(coroutineScope + Dispatchers.Main)
+		}
 	}
 
 	private suspend fun QueueEntry.ensureMediaStream(): Boolean {
@@ -44,6 +45,7 @@ internal class MediaStreamService(
 					resolver.getStream(this@ensureMediaStream)
 				}
 			}.onFailure {
+				if (it is CancellationException) throw it
 				Timber.e(it, "Media stream resolver failed for $this")
 			}.getOrNull()
 		}
@@ -72,12 +74,18 @@ internal class MediaStreamService(
 		val hasMediaStream = entry.ensureMediaStream()
 
 		if (hasMediaStream) {
-			backend.playItem(entry)
+			// A network lookup may finish after the authoritative queue has changed.
+			if (manager.queue.entry.value === entry) backend.playItem(entry)
 		} else {
+			if (manager.queue.entry.value !== entry) return
 			Timber.e("Unable to resolve stream for entry $entry")
+			manager.backendService.BackendEventListener().onMediaStreamError(entry)
+			if (manager.queue.entry.value !== entry) return
 
 			// TODO: Somehow notify the user that we skipped an unplayable entry
-			if (manager.queue.peekNext() != null) {
+			val nextEntry = manager.queue.peekNext()
+			if (manager.queue.entry.value !== entry) return
+			if (nextEntry != null) {
 				manager.queue.next(usePlaybackOrder = true, useRepeatMode = false)
 			} else {
 				backend.stop()
@@ -86,13 +94,14 @@ internal class MediaStreamService(
 	}
 
 	private fun preloadNextEntry() = coroutineScope.launch(Dispatchers.Main) {
+		val currentEntry = manager.queue.entry.value
 		// Peek into the next item to preload
 		val nextItem = manager.queue.peekNext() ?: return@launch
 
 		// Preload media stream information
 		val hasMediaStream = nextItem.ensureMediaStream()
 
-		if (hasMediaStream) {
+		if (hasMediaStream && manager.queue.entry.value === currentEntry && manager.queue.indexOf(nextItem) != null) {
 			// Preload media in backend
 			val backend = requireNotNull(manager.backend)
 			backend.prepareItem(nextItem)

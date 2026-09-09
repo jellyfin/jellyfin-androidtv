@@ -1,12 +1,16 @@
 package org.jellyfin.playback.core.queue
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.PlayerCommand
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlaybackOrder
@@ -19,12 +23,16 @@ import org.jellyfin.playback.core.queue.order.ShuffleOrderIndexProvider
 import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import kotlin.math.max
 
+// Keep the Queue operations and their shared loading generation in one service.
+@Suppress("TooManyFunctions")
 class QueueService internal constructor() : PlayerService(), Queue {
 	private val suppliers = mutableListOf<QueueSupplier>()
 	private var currentSupplierIndex = 0
 	private var currentSupplierEntryIndex = 0
 	private val fetchedEntries: MutableList<QueueEntry> = mutableListOf()
 	private var removedEntries = 0
+	private var generation = 0L
+	private var supplierMutex = Mutex()
 
 	private var defaultOrderIndexProvider = DefaultOrderIndexProvider()
 	private var orderIndexProvider: OrderIndexProvider = defaultOrderIndexProvider
@@ -54,7 +62,8 @@ class QueueService internal constructor() : PlayerService(), Queue {
 		// Automatically advance when current stream ends
 		manager.backendService.addListener(object : PlayerBackendEventListener() {
 			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
-				coroutineScope.launch {
+				coroutineScope.launch(Dispatchers.Main.immediate) {
+					if (mediaStream.queueEntry !== _entry.value) return@launch
 					val nextEntry = next(usePlaybackOrder = true, useRepeatMode = true)
 					if (nextEntry == null && _entryIndex.value != Queue.INDEX_NONE) setIndex(Queue.INDEX_NONE, true)
 				}
@@ -77,6 +86,15 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	}
 
 	private suspend fun getOrSupplyEntry(index: Int): QueueEntry? {
+		val expectedGeneration = generation
+		return supplierMutex.withLock {
+			if (generation != expectedGeneration) return@withLock null
+			getOrSupplyEntryLocked(index)
+		}
+	}
+
+	private suspend fun getOrSupplyEntryLocked(index: Int): QueueEntry? {
+		val expectedGeneration = generation
 		// Fetch additional entries from suppliers until we reach the desired index
 		var entriesChanged = false
 		while (index >= fetchedEntries.size) {
@@ -85,6 +103,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 			val supplier = suppliers[currentSupplierIndex]
 			val nextEntry = supplier.getItem(currentSupplierEntryIndex)
+			if (generation != expectedGeneration) return null
 
 			if (nextEntry != null) {
 				// Add entry to cache and increase entry index
@@ -110,6 +129,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 	override suspend fun removeEntry(entry: QueueEntry) {
 		val index = indexOf(entry) ?: return
+		if (manager.handleCommand(PlayerCommand.Remove(index))) return
 
 		// Add to removed list
 		removedEntries++
@@ -132,6 +152,8 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	}
 
 	override fun clear() {
+		generation++
+		supplierMutex = Mutex()
 		suppliers.clear()
 		currentSupplierIndex = 0
 		currentSupplierEntryIndex = 0
@@ -162,11 +184,13 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 	// Jumping
 
-	override suspend fun previous(): QueueEntry? = currentQueueIndicesPlayed.removeLastOrNull()?.let {
-		setIndex(it)
+	override suspend fun previous(): QueueEntry? {
+		if (manager.handleCommand(PlayerCommand.Previous)) return entry.value
+		return currentQueueIndicesPlayed.removeLastOrNull()?.let { setIndex(it) }
 	}
 
 	override suspend fun next(usePlaybackOrder: Boolean, useRepeatMode: Boolean): QueueEntry? {
+		if (manager.handleCommand(PlayerCommand.Next)) return entry.value
 		val index = getNextIndices(1, usePlaybackOrder, useRepeatMode).firstOrNull() ?: return null
 
 		val provider = if (usePlaybackOrder) orderIndexProvider else defaultOrderIndexProvider
@@ -183,6 +207,29 @@ class QueueService internal constructor() : PlayerService(), Queue {
 	}
 
 	override suspend fun setIndex(index: Int, saveHistory: Boolean): QueueEntry? {
+		if (manager.handleCommand(PlayerCommand.Select(index))) return entry.value
+		return updateIndex(index, saveHistory)
+	}
+
+	override suspend fun synchronize(supplier: QueueSupplier, index: Int): QueueEntry? {
+		generation++
+		// A stale supplier may still be awaiting the network; it must not block this generation.
+		supplierMutex = Mutex()
+		suppliers.clear()
+		suppliers.add(supplier)
+		currentSupplierIndex = 0
+		currentSupplierEntryIndex = 0
+		fetchedEntries.clear()
+		_entries.value = emptyList()
+		removedEntries = 0
+		currentQueueIndicesPlayed.clear()
+		defaultOrderIndexProvider = DefaultOrderIndexProvider()
+		orderIndexProvider = defaultOrderIndexProvider
+		return updateIndex(index, false)
+	}
+
+	private suspend fun updateIndex(index: Int, saveHistory: Boolean): QueueEntry? {
+		val expectedGeneration = generation
 		if (index < 0 && index != Queue.INDEX_NONE) return null
 
 		// Save previous index
@@ -192,6 +239,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 		// Set new index
 		val currentEntry = getOrSupplyEntry(index)
+		if (generation != expectedGeneration) return null
 		_entryIndex.value = if (currentEntry == null) Queue.INDEX_NONE else index
 		_entry.value = currentEntry
 

@@ -44,6 +44,9 @@ interface Queue {
 	 */
 	fun clear()
 
+	/** Replace the queue atomically with an authoritative playlist, without selecting item zero first. */
+	suspend fun synchronize(supplier: QueueSupplier, index: Int): QueueEntry?
+
 	/**
 	 * Set the current entry to the previously played entry. Does nothing if there is no previous entry.
 	 */
