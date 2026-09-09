@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -25,7 +26,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.DpOffset
@@ -39,6 +39,7 @@ import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.jellyfin.androidtv.ui.base.popover.Popover
 import org.jellyfin.androidtv.ui.composable.rememberPlayerPositionInfo
 import org.jellyfin.androidtv.ui.player.base.PlayerSeekbar
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayButton
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.queue.queue
@@ -51,6 +52,7 @@ import kotlin.time.DurationUnit
 fun VideoPlayerControls(
 	playbackManager: PlaybackManager = koinInject(),
 	onPlaybackInfoClick: () -> Unit = {},
+	onSyncPlayClick: () -> Unit = {},
 ) {
 	val playState by playbackManager.state.playState.collectAsState()
 
@@ -70,6 +72,7 @@ fun VideoPlayerControls(
 			Spacer(Modifier.weight(1f))
 
 			PlaybackInfoButton(onClick = onPlaybackInfoClick)
+			SyncPlayButton(onClick = onSyncPlayClick, playbackManager = playbackManager)
 
 			MoreOptionsButton {
 				PreviousEntryButton(playbackManager)
@@ -102,6 +105,9 @@ private fun PlayPauseButton(
 	playState: PlayState,
 ) {
 	val focusRequester = remember { FocusRequester() }
+	LaunchedEffect(focusRequester) {
+		focusRequester.requestFocus()
+	}
 	IconButton(
 		onClick = {
 			when (playState) {
@@ -114,9 +120,6 @@ private fun PlayPauseButton(
 		},
 		modifier = Modifier
 			.focusRequester(focusRequester)
-			.onVisibilityChanged {
-				focusRequester.requestFocus()
-			}
 	) {
 		AnimatedContent(playState) { playState ->
 			when (playState) {

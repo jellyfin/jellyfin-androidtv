@@ -23,8 +23,11 @@ import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayService
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.GroupRepeatMode
+import org.jellyfin.sdk.model.api.GroupShuffleMode
 import org.jellyfin.sdk.model.api.MediaType
 
 @Suppress("TooManyFunctions")
@@ -32,6 +35,8 @@ class RewriteMediaManager(
 	private val api: ApiClient,
 	private val playbackManager: PlaybackManager,
 ) : MediaManager {
+	private val syncPlay get() = playbackManager.getService<SyncPlayService>()?.takeIf { it.group.value != null }
+
 	override fun hasAudioQueueItems(): Boolean = playbackManager.queue.estimatedSize > 0 && currentAudioItem != null
 
 	override val currentAudioQueueSize: Int
@@ -54,20 +59,21 @@ class RewriteMediaManager(
 			?.takeIf { it.mediaType == MediaType.AUDIO }
 
 	override fun toggleRepeat(): Boolean {
-		val newMode = when (playbackManager.state.repeatMode.value) {
-			RepeatMode.NONE -> RepeatMode.REPEAT_ENTRY_INFINITE
-			else -> RepeatMode.NONE
-		}
+		val newMode = if (isRepeatMode) RepeatMode.NONE else RepeatMode.REPEAT_ENTRY_INFINITE
 		playbackManager.state.setRepeatMode(newMode)
 
 		return isRepeatMode
 	}
 
-	override val isRepeatMode get() = playbackManager.state.repeatMode.value != RepeatMode.NONE
+	override val isRepeatMode get() = syncPlay?.let {
+		it.queueState.value?.repeatMode?.let { mode -> mode != GroupRepeatMode.REPEAT_NONE } ?: false
+	} ?: (playbackManager.state.repeatMode.value != RepeatMode.NONE)
 
 	override val isAudioPlayerInitialized: Boolean = true
 	override val isShuffleMode: Boolean
-		get() = playbackManager.state.playbackOrder.value != PlaybackOrder.DEFAULT
+		get() = syncPlay?.let {
+			it.queueState.value?.shuffleMode == GroupShuffleMode.SHUFFLE
+		} ?: (playbackManager.state.playbackOrder.value != PlaybackOrder.DEFAULT)
 
 	private val audioListeners = mutableListOf<AudioEventListener>()
 	private var audioListenersJob: Job? = null
@@ -114,6 +120,9 @@ class RewriteMediaManager(
 
 		playbackManager.queue.entry.onEach { notifyListeners { onQueueReplaced() } }.launchIn(this)
 		playbackManager.state.playbackOrder.onEach { notifyListeners { onQueueReplaced() } }.launchIn(this)
+		playbackManager.getService<SyncPlayService>()?.queueState?.onEach {
+			notifyListeners { onQueueStatusChanged(hasAudioQueueItems()) }
+		}?.launchIn(this)
 	}
 
 	private fun notifyListeners(body: AudioEventListener.() -> Unit) {
@@ -141,6 +150,10 @@ class RewriteMediaManager(
 
 	override fun addToAudioQueue(items: List<BaseItemDto>) {
 		if (items.isEmpty()) return
+		syncPlay?.let {
+			it.queueItems(items.map { item -> item.id })
+			return
+		}
 
 		playbackManager.queue.addSupplier(BaseItemQueueSupplier(api, items, true))
 		playbackManager.state.setPlaybackOrder(if (isShuffleMode) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
@@ -173,10 +186,7 @@ class RewriteMediaManager(
 	}
 
 	override fun shuffleAudioQueue() {
-		val newMode = when (playbackManager.state.playbackOrder.value) {
-			PlaybackOrder.DEFAULT -> PlaybackOrder.SHUFFLE
-			else -> PlaybackOrder.DEFAULT
-		}
+		val newMode = if (isShuffleMode) PlaybackOrder.DEFAULT else PlaybackOrder.SHUFFLE
 
 		playbackManager.state.setPlaybackOrder(newMode)
 	}

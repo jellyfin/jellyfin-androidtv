@@ -47,7 +47,7 @@ import java.time.Instant
  */
 interface AuthenticationRepository {
 	fun authenticate(server: Server, method: AuthenticateMethod): Flow<LoginState>
-	fun logout(user: User): Boolean
+	suspend fun logout(user: User): Boolean
 	fun getUserImageUrl(server: Server, user: User): String?
 }
 
@@ -194,7 +194,12 @@ class AuthenticationRepositoryImpl(
 		return authenticated
 	}
 
-	override fun logout(user: User): Boolean {
+	override suspend fun logout(user: User): Boolean {
+		val session = sessionRepository.currentSession.value
+		if (session?.userId == user.id && session.serverId == user.serverId) {
+			sessionRepository.destroyCurrentSession(expectedSession = session)
+		}
+
 		val authStoreUser = authenticationStore
 			.getUser(user.serverId, user.id)
 			?.copy(accessToken = null)

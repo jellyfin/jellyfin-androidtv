@@ -22,7 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -42,6 +44,15 @@ import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+private val overlayNavigationKeys = setOf(
+	Key.DirectionUp,
+	Key.DirectionDown,
+	Key.DirectionLeft,
+	Key.DirectionRight,
+	Key.DirectionCenter,
+	Key.Enter,
+)
+
 @Composable
 fun PlayerOverlayLayout(
 	modifier: Modifier = Modifier,
@@ -51,7 +62,6 @@ fun PlayerOverlayLayout(
 ) = Box(
 	modifier = modifier
 		.fillMaxSize()
-		.focusable()
 		.onPreviewKeyEvent {
 			// Reset hide timer on key presses
 			if (visibilityState.visible) visibilityState.show()
@@ -62,13 +72,15 @@ fun PlayerOverlayLayout(
 			if (it.key == Key.Back && visibilityState.visible) {
 				visibilityState.hide()
 				true
-			} else if (!it.nativeKeyEvent.isSystem && !visibilityState.visible) {
+			} else if (!visibilityState.visible && (it.key in overlayNavigationKeys || !it.nativeKeyEvent.isSystem)) {
 				visibilityState.show()
 				true
 			} else {
 				false
 			}
 		}
+		.focusRequester(rememberPlayerOverlayFocusRequester(visibilityState.visible))
+		.focusable()
 ) {
 	if (header != null) {
 		AnimatedVisibility(
@@ -148,6 +160,16 @@ fun PlayerOverlayLayout(
 			}
 		}
 	}
+}
+
+@Composable
+private fun rememberPlayerOverlayFocusRequester(visible: Boolean): FocusRequester {
+	val focusRequester = remember { FocusRequester() }
+	LaunchedEffect(visible) {
+		// Hidden controls have no focused child, so the overlay must receive remote keys itself.
+		if (!visible) focusRequester.requestFocus()
+	}
+	return focusRequester
 }
 
 data class PlayerOverlayVisibilityState(

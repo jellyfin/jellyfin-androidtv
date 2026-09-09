@@ -44,10 +44,11 @@ interface SessionRepository {
 
 	suspend fun restoreSession(destroyOnly: Boolean)
 	suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean
-	fun destroyCurrentSession()
+	suspend fun destroyCurrentSession(expectedSession: Session? = null)
 }
 
-class SessionRepositoryImpl(
+// Session dependencies and the teardown hook are supplied together by dependency injection.
+class SessionRepositoryImpl @Suppress("LongParameterList") constructor(
 	private val authenticationPreferences: AuthenticationPreferences,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: ApiClient,
@@ -56,6 +57,7 @@ class SessionRepositoryImpl(
 	private val userRepository: UserRepository,
 	private val serverRepository: ServerRepository,
 	private val telemetryPreferences: TelemetryPreferences,
+	private val onSessionEnding: suspend () -> Unit,
 ) : SessionRepository {
 	private val currentSessionMutex = Mutex()
 	private val _currentSession = MutableStateFlow<Session?>(null)
@@ -73,8 +75,8 @@ class SessionRepositoryImpl(
 			val autoLoginBehavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
 
 			when {
-				alwaysAuthenticate -> destroyCurrentSession()
-				autoLoginBehavior == DISABLED -> destroyCurrentSession()
+				alwaysAuthenticate -> clearCurrentSession()
+				autoLoginBehavior == DISABLED -> clearCurrentSession()
 				autoLoginBehavior == LAST_USER && !destroyOnly -> setCurrentSession(createLastUserSession())
 				autoLoginBehavior == SPECIFIC_USER && !destroyOnly -> {
 					val serverId = authenticationPreferences[AuthenticationPreferences.autoLoginServerId].toUUIDOrNull()
@@ -87,31 +89,40 @@ class SessionRepositoryImpl(
 		}
 	}
 
-	override suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean {
+	override suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean = currentSessionMutex.withLock {
 		// No change in user - don't switch
-		if (currentSession.value?.userId == userId) {
+		if (currentSession.value?.userId == userId && currentSession.value?.serverId == serverId) {
 			Timber.d("Current session user is the same as the requested user")
-			return false
+			return@withLock false
 		}
 
 		_state.value = SessionRepositoryState.SWITCHING_SESSION
 		Timber.i("Switching current session to user $userId")
 
-		val session = createUserSession(serverId, userId)
-		if (session == null) {
-			Timber.w("Could not switch to non-existing session for user $userId")
-			_state.value = SessionRepositoryState.READY
-			return false
-		}
+		try {
+			val session = createUserSession(serverId, userId)
+			if (session == null) {
+				Timber.w("Could not switch to non-existing session for user $userId")
+				return@withLock false
+			}
 
-		val switched = setCurrentSession(session)
-		_state.value = SessionRepositoryState.READY
-		return switched
+			setCurrentSession(session)
+		} finally {
+			_state.value = SessionRepositoryState.READY
+		}
 	}
 
-	override fun destroyCurrentSession() {
+	override suspend fun destroyCurrentSession(expectedSession: Session?) = withContext(NonCancellable) {
+		currentSessionMutex.withLock {
+			if (expectedSession == null || _currentSession.value == expectedSession) clearCurrentSession()
+		}
+	}
+
+	private suspend fun clearCurrentSession() {
 		Timber.i("Destroying current session")
 
+		if (_currentSession.value != null) withContext(NonCancellable) { onSessionEnding() }
+		userApiClient.applySession(null)
 		userRepository.setCurrentUser(null)
 		serverRepository.setCurrentServer(null)
 		_currentSession.value = null
@@ -123,7 +134,7 @@ class SessionRepositoryImpl(
 
 		if (session != null) {
 			// No change in session - don't switch
-			if (currentSession.value?.userId == session.userId) return true
+			if (currentSession.value?.userId == session.userId && currentSession.value?.serverId == session.serverId) return true
 
 			// Update last active user
 			authenticationPreferences[AuthenticationPreferences.lastServerId] = session.serverId.toString()
@@ -133,6 +144,9 @@ class SessionRepositoryImpl(
 			server = serverRepository.getServer(session.serverId, true)
 			if (server == null || !server.versionSupported) return false
 		}
+
+		// Leave any playback group while the API still belongs to the outgoing session.
+		if (_currentSession.value != null) withContext(NonCancellable) { onSessionEnding() }
 
 		// Update session after binding the apiclient settings
 		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo
@@ -148,7 +162,7 @@ class SessionRepositoryImpl(
 				serverRepository.setCurrentServer(server)
 			} catch (err: ApiClientException) {
 				Timber.e(err, "Unable to authenticate: bad response when getting user info")
-				destroyCurrentSession()
+				clearCurrentSession()
 				return false
 			}
 

@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.ui.player.base.PlayerOverlayLayout
 import org.jellyfin.androidtv.ui.player.base.rememberPlayerOverlayVisibility
 import org.jellyfin.androidtv.ui.player.base.toast.MediaToastRegistry
 import org.jellyfin.androidtv.ui.player.base.toast.MediaToasts
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayDialog
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.baseItemFlow
@@ -30,6 +31,7 @@ fun VideoPlayerOverlay(
 ) {
 	val visibilityState = rememberPlayerOverlayVisibility()
 	var showPlaybackInfo by remember { mutableStateOf(false) }
+	var showSyncPlay by remember { mutableStateOf(false) }
 
 	val entry by rememberQueueEntry(playbackManager)
 	val item = entry?.run { baseItemFlow.collectAsState(baseItem) }?.value
@@ -48,6 +50,7 @@ fun VideoPlayerOverlay(
 				VideoPlayerControls(
 					playbackManager = playbackManager,
 					onPlaybackInfoClick = { showPlaybackInfo = !showPlaybackInfo },
+					onSyncPlayClick = { showSyncPlay = true },
 				)
 			},
 		)
@@ -63,5 +66,11 @@ fun VideoPlayerOverlay(
 		}
 
 		MediaToasts(mediaToastRegistry)
+
+		SyncPlayDialog(
+			visible = showSyncPlay,
+			onDismissRequest = { showSyncPlay = false },
+			playbackManager = playbackManager,
+		)
 	}
 }

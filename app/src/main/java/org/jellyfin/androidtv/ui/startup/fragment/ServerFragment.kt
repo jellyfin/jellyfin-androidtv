@@ -14,6 +14,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
@@ -223,7 +224,10 @@ class ServerFragment : Fragment() {
 				// Logout button
 				if (user is PrivateUser && user.accessToken != null) {
 					item(context.getString(R.string.lbl_sign_out)) {
-						authenticationRepository.logout(user)
+						holder.cardView.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+							authenticationRepository.logout(user)
+							startupViewModel.loadUsers(server)
+						}
 					}
 				}
 
@@ -246,4 +250,3 @@ class ServerFragment : Fragment() {
 		) : RecyclerView.ViewHolder(cardView)
 	}
 }
-

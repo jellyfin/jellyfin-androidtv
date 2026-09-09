@@ -687,4 +687,23 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <!-- SyncPlay -->
+    <string name="syncplay">SyncPlay</string>
+    <string name="syncplay_active">SyncPlay: %1$s</string>
+    <string name="syncplay_description">Watch together with other Jellyfin clients. Group videos use the integrated player.</string>
+    <string name="syncplay_available_groups">Available groups</string>
+    <string name="syncplay_no_groups">No groups available. Create a group to start watching together.</string>
+    <string name="syncplay_refresh">Refresh</string>
+    <string name="syncplay_create_group">Create group</string>
+    <string name="syncplay_group_name">Group name</string>
+    <string name="syncplay_join_group">Join %1$s</string>
+    <string name="syncplay_current_group">Current group: %1$s</string>
+    <string name="syncplay_participants">Participants: %1$s</string>
+    <string name="syncplay_group_hint">Play a video to watch with your group. Playback controls affect everyone in the group.</string>
+    <string name="syncplay_leave_group">Leave group</string>
+    <string name="syncplay_close">Close</string>
+    <string name="syncplay_error">SyncPlay: %1$s</string>
+    <string name="syncplay_dismiss_error">Dismiss error</string>
+    <string name="syncplay_correct_drift">Correct playback drift</string>
+    <string name="syncplay_correct_drift_description">Adjust playback speed or seek when out of sync.</string>
 </resources>

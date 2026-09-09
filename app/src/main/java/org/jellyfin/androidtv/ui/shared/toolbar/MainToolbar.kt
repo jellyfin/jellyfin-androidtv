@@ -1,13 +1,15 @@
 package org.jellyfin.androidtv.ui.shared.toolbar
 
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -34,11 +37,12 @@ import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.ButtonDefaults
 import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.jellyfin.androidtv.ui.base.button.IconButtonDefaults
-import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayButton
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayDialog
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.sdk.api.client.ApiClient
@@ -80,7 +84,8 @@ private fun MainToolbar(
 	val mediaManager = koinInject<MediaManager>()
 	val sessionRepository = koinInject<SessionRepository>()
 	val settingsViewModel = koinActivityViewModel<SettingsViewModel>()
-	val activity = LocalActivity.current
+	val scope = rememberCoroutineScope()
+	var showSyncPlay by remember { mutableStateOf(false) }
 	val activeButtonColors = ButtonDefaults.colors(
 		containerColor = JellyfinTheme.colorScheme.buttonActive,
 		contentColor = JellyfinTheme.colorScheme.onButtonActive,
@@ -99,12 +104,10 @@ private fun MainToolbar(
 				IconButton(
 					onClick = {
 						if (activeButton != MainToolbarActiveButton.User) {
-							mediaManager.clearAudioQueue()
-							sessionRepository.destroyCurrentSession()
-
-							// Open login activity
-							activity?.startActivity(ActivityDestinations.startup(activity))
-							activity?.finishAfterTransition()
+							scope.launch {
+								sessionRepository.destroyCurrentSession()
+								mediaManager.clearAudioQueue()
+							}
 						}
 					},
 					colors = if (activeButton == MainToolbarActiveButton.User) activeButtonColors else ButtonDefaults.colors(),
@@ -156,6 +159,8 @@ private fun MainToolbar(
 		},
 		end = {
 			ToolbarButtons {
+				SyncPlayButton(onClick = { showSyncPlay = true })
+
 				IconButton(
 					onClick = { settingsViewModel.show() },
 				) {
@@ -168,5 +173,10 @@ private fun MainToolbar(
 				ToolbarClock()
 			}
 		}
+	)
+
+	SyncPlayDialog(
+		visible = showSyncPlay,
+		onDismissRequest = { showSyncPlay = false },
 	)
 }

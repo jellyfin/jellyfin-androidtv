@@ -62,6 +62,7 @@ import org.jellyfin.androidtv.util.apiclient.ReportingHelper
 import org.jellyfin.androidtv.util.coil.CoilTimberLogger
 import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
 import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
+import org.jellyfin.playback.jellyfin.network.ReliableApiClientFactory
 import org.jellyfin.sdk.android.androidDevice
 import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.jellyfin.sdk.api.okhttp.OkHttpFactory
@@ -97,7 +98,7 @@ val appModule = module {
 			minimumServerVersion = ServerRepository.minimumServerVersion
 
 			// Use our own shared factory instance
-			apiClientFactory = get<OkHttpFactory>()
+			apiClientFactory = ReliableApiClientFactory(get())
 			socketConnectionFactory = get<OkHttpFactory>()
 		}
 	}
