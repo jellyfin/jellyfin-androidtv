@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -81,8 +82,10 @@ public class TvManager {
         return -1;
     }
 
+    @Nullable
     public static BaseItemDto getChannel(int ndx) {
-        return allChannels.get(ndx);
+        List<BaseItemDto> channels = getAllChannels();
+        return ndx >= 0 && ndx < channels.size() ? channels.get(ndx) : null;
     }
 
     public static void updateLastPlayedDate(UUID channelId) {
