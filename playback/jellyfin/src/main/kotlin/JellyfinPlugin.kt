@@ -7,6 +7,7 @@ import org.jellyfin.playback.jellyfin.mediasegment.MediaSegmentService
 import org.jellyfin.playback.jellyfin.mediastream.JellyfinMediaStreamResolver
 import org.jellyfin.playback.jellyfin.playsession.PlaySessionService
 import org.jellyfin.playback.jellyfin.playsession.PlaySessionSocketService
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayService
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.DeviceProfile
 import org.jellyfin.sdk.model.api.MediaSegmentType
@@ -22,6 +23,7 @@ fun jellyfinPlugin(
 	val playSessionService = PlaySessionService(api)
 	provide(playSessionService)
 	provide(PlaySessionSocketService(api, playSessionService, lifecycle))
+	provide(SyncPlayService(api))
 
 	provide(LyricsPlayerService(api))
 
