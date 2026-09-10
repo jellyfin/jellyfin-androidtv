@@ -55,7 +55,7 @@
     <string name="lbl_audio_output">Garso išvestis</string>
     <string name="lbl_tomorrow">Rytoj</string>
     <string name="lbl_today">Šiandien</string>
-    <string name="lbl_unwatched">Nežiūrėtas</string>
+    <string name="lbl_unwatched">Nežiūrėta</string>
     <string name="lbl_now_playing_album">nuo %1$s</string>
     <string name="lbl_play_first_unwatched">Paleisti pirmą nežiūrėtą</string>
     <string name="lbl_search_hint">Teksto paieška (pasirinkite klaviatūrai)</string>
@@ -108,7 +108,7 @@
     <string name="pref_audio_night_mode">Naktinė garso aplinka (ekspermentinė)</string>
     <string name="msg_unable_load_subs">Nepavyko įkelti subtitrų</string>
     <string name="lbl_remove">Pašalinti</string>
-    <string name="lbl_showing">Rodomi</string>
+    <string name="lbl_showing">Rodoma</string>
     <string name="lbl_no_items">Nėra elementų</string>
     <string name="lbl_remove_favorite">Pašalinti mėgstamą</string>
     <string name="msg_playback_restricted">Administratorius apribojo šio elemento atkūrimą</string>
@@ -159,7 +159,7 @@
     <string name="lbl_playback_speed">Atkūrimo greitis</string>
     <string name="mark_watched">Pažymėti kaip žiūrėtą</string>
     <string name="lbl_quality_profile">Kokybės profilis</string>
-    <string name="pref_next_up_behavior_title">Rodyti sekančio video informaciją</string>
+    <string name="pref_next_up_behavior_title">Rodyti sekančio vaizdo įrašo informaciją</string>
     <string name="lbl_delete">Ištrinti</string>
     <string name="desc_automatic_fav_songs">Automatiškai sugeneruotas grojaraštis iš mėgstamų dainų</string>
     <string name="lbl_new_premieres">Naujos premjeros</string>
@@ -290,7 +290,7 @@
     <string name="license_license">Licencija</string>
     <string name="pref_direct_stream_live_on">Transkodavimas išjungtas</string>
     <string name="add_user">Pridėti paskyrą</string>
-    <string name="pref_login">Prisijungti</string>
+    <string name="pref_login">Prisijungimas</string>
     <string name="discovered_servers_title">Surasti serveriai</string>
     <string name="who_is_watching">Kas žiūri\?</string>
     <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi pagal grafiką</string>
@@ -362,7 +362,7 @@
     <string name="image_size_xlarge">Ypač didelis</string>
     <string name="pref_developer_link_description">Papildomos ir ekspermentinės galimybės</string>
     <string name="discovered_servers_empty">Lokaliame tinkle serverių nerasta.</string>
-    <string name="pref_watched_indicator">Rodyti \"Žiūrėtas\" indikatorius</string>
+    <string name="pref_watched_indicator">Rodyti Žiūrėtas indikatorius</string>
     <string name="login_help_description">Jellyfin reikia serverio, prie kurio būtų galima prisijungti. Apsilankykite mūsų dokumentuose adresu docs.jellyfin.org arba nuskaitykite QR kodą ir pradėkite naudotis Jellyfin.</string>
     <string name="connect_manually_by_address">Įrašykite serverio adresą</string>
     <string name="lbl_use_series_thumbnails_description">Rodant epizodus naudoti serialų miniatiūras</string>
@@ -520,7 +520,7 @@
     <string name="enable_reactive_homepage">Įjungti reaguojantį pagrindinį langą</string>
     <string name="clear_image_cache">Išvalyti atvaizdų talpyklą</string>
     <string name="lbl_album_artists">Albumo atlikėjai</string>
-    <string name="default_video_zoom">Numatytas priartinimo režimas</string>
+    <string name="default_video_zoom">Numatytasis mastelio keitimo režimas</string>
     <string name="clear_image_cache_content">Naudojama: %1$s</string>
     <string name="app_notification_update_soon">Atnaujinkite savo serverį nuo %1$s iki bent %2$s versijos prieš naudojant programą po sekančio atnaujinimo.</string>
     <string name="all_channels">Visi kanalai</string>
@@ -633,7 +633,7 @@
     <string name="pref_subtitles_weight">Teksto plotis</string>
     <string name="font_weight_100">Plonas</string>
     <string name="color_presets">Išankstiniai nustatymai</string>
-    <string name="color_custom">Tinkinti spalvą</string>
+    <string name="color_custom">Pritaikyti spalvą</string>
     <string name="color_alpha">Skaidrumas</string>
     <string name="playback_video_player">Vaizdo grotuvas</string>
     <string name="video_player_internal">Integruotas vaizdo grotuvas</string>
