@@ -555,7 +555,7 @@
     <string name="lbl_starting_with">hvørs heiti byrjar við</string>
     <string name="lbl_tune_to_channel">Skift til rásina</string>
     <string name="lbl_new_only">Einans nýggjar</string>
-    <string name="lbl_similar_items_library">Tílíkir miðlar í savninum</string>
+    <string name="lbl_similar_items_library">Líkir miðlar í savninum</string>
     <string name="msg_error_live_stream">Villa undir stroyming av beinleiðis sjónvarpi. Roynur aftur…</string>
     <string name="pref_button_remapping_description">Trýst á einhvønn knøtt á fjarstýringini til tess at áseta hann</string>
     <string name="press_to_close">Trýst fyri at loka</string>
