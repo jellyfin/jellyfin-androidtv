@@ -307,7 +307,7 @@
     <string name="pref_audio">Garsas</string>
     <string name="action_login">Prisijungti</string>
     <string name="action_connect">Prisijungti</string>
-    <string name="app_notification_uimode_invalid">Ši programa yra optimizuota televizoriams. Kituose įrenginiuose rekomenduojame naudoti mūsų mobiliąją programėlę.</string>
+    <string name="app_notification_uimode_invalid">Ši programėlė yra optimizuota televizoriams. Kituose įrenginiuose rekomenduojame naudoti mūsų mobiliąją programėlę.</string>
     <string name="color_cyan">Žalsvai mėlyna</string>
     <string name="pref_crash_report_logs_disabled">Žurnalai nebus įtraukti į gedimų ataskaitas</string>
     <string name="lbl_remove_user_content">Pašalinti paskyrą</string>
@@ -334,7 +334,7 @@
     <string name="login_connect_to">Jungiamasi prie %1$s</string>
     <string name="lbl_sign_out_content">Reikės priisjungti kitą kartą bandant naudotis</string>
     <string name="enable_smart_view_description">Išmanusis ekranas rodo atitinkamus elementus, o ne tinklelį</string>
-    <string name="pref_developer_link">Programuotojo pasirinkimai</string>
+    <string name="pref_developer_link">Kūrėjo parinktys</string>
     <string name="server_issue_timeout">Baigėsi jungimosi laikas</string>
     <string name="lbl_direct_stream_live">Tiesioginė TV transliacija</string>
     <string name="desc_premieres">Rodyti naujų bandomųjų epizodų eilutę bet kuriam žiūrimam serialui</string>
@@ -346,7 +346,7 @@
     <string name="pref_subtitle_track_button">Subtitrų takelio mygtukas</string>
     <string name="no_player">Nėra grotuvo</string>
     <string name="episode_missing_message_2">Šio epizodo nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
-    <string name="no_player_message">Atrodo, kad neįdiegėte vaizdo įrašų palaikančios programos. Šiai parinkčiai reikia įdiegti trečiosios šalies programą, skirtą vaizdo turiniui atkurti.</string>
+    <string name="no_player_message">Atrodo, kad neturite įdiegtos programėlės, palaikančios vaizdo įrašų atkūrimą. Norint naudotis šia parinktimi, reikia įdiegti trečiosios šalies programėlę vaizdo įrašams atkurti.</string>
     <string name="msg_live_tv_next">Krauti kitas %1$d valandas?</string>
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
@@ -378,8 +378,8 @@
     <string name="lbl_on_channel">Ant %1$s</string>
     <string name="enable_playback_module_description">Tai yra ekspermentinė funkcija kuri neturi palaikymo.</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="last_use">Paskutinį kartą naudotas</string>
-    <string name="licenses_link_description">Peržiūrėkite Jellyfin programos naudojamų bibliotekų licencijas</string>
+    <string name="last_use">Paskutinį kartą naudotą</string>
+    <string name="licenses_link_description">Peržiūrėti Jellyfin programėlės naudojamų bibliotekų licencijas</string>
     <string name="select_version">Versija</string>
     <string name="home_prefs">Pagrindinis</string>
     <string name="license_artifact">Artefaktai</string>
@@ -403,7 +403,7 @@
     <string name="pref_refresh_rate_scale_on_tv">Mastelis televizoriuje</string>
     <string name="login_quickconnect_step_2">2. Atidarykite naudotojo meniu ir eikite į greito prisijungimo puslapį</string>
     <string name="pref_telemetry_description">Siųsti gedimų ataskaitas, įtraukti žurnalus</string>
-    <string name="server_unsupported_notification">Šis serveris naudoja Jellyfin %1$s versiją, kuri nepalaikoma. Jei norite toliau naudoti programą, atnaujinkite į Jellyfin %2$s arba naujesnę versiją.</string>
+    <string name="server_unsupported_notification">Šiame serveryje naudojama Jellyfin versija %1$s, kuri nebepalaikoma. Norėdami toliau naudotis programėle, atnaujinkite Jellyfin į %2$s ar naujesnę versiją.</string>
     <string name="pref_crash_reports_disabled">Gedimų ataskatos nebus siunčiamos</string>
     <string name="pref_crash_reports_enabled">Gedimų ataskaitos bus siunčiamos į paskutinį naudotą serverį</string>
     <string name="pref_crash_report_logs">Įtraukti žurnalus</string>
@@ -426,7 +426,7 @@
     <string name="lbl_user_last_used">Paskutinį kartą naudota %1$s %2$s</string>
     <string name="lbl_server">Serveris</string>
     <string name="login_help_title">Reikia pagalbos\?</string>
-    <string name="alphabetical">Abėcėlę</string>
+    <string name="alphabetical">Abėcėlės tvarką</string>
     <string name="searchable_hint">Ieškoti Jellyfin</string>
     <string name="searchable_settings_description">Medija</string>
     <string name="msg_live_tv_prev">Krauti buvusias %1$d valandas?</string>
@@ -522,7 +522,7 @@
     <string name="lbl_album_artists">Albumo atlikėjai</string>
     <string name="default_video_zoom">Numatytasis mastelio keitimo režimas</string>
     <string name="clear_image_cache_content">Naudojama: %1$s</string>
-    <string name="app_notification_update_soon">Atnaujinkite savo serverį nuo %1$s iki bent %2$s versijos prieš naudojant programą po sekančio atnaujinimo.</string>
+    <string name="app_notification_update_soon">Atnaujinkite savo serverį iš %1$s bent į %2$s, kad galėtumėte toliau naudotis programėle po kito atnaujinimo.</string>
     <string name="all_channels">Visi kanalai</string>
     <string name="segment_type_intro">Įžangos</string>
     <string name="video_start_delay">Vaizdo pradžios delsa</string>
@@ -542,21 +542,21 @@
         <item quantity="many">%1$s TV serialų</item>
         <item quantity="other">%1$s TV serialų</item>
     </plurals>
-    <string name="pref_screensaver_ageratingmax">Maksimalus amžiaus įvertinimas</string>
+    <string name="pref_screensaver_ageratingmax">Didžiausias amžiaus cenzas</string>
     <string name="pref_screensaver_ageratingmax_zero">Visoms amžiaus grupėms</string>
     <string name="pref_screensaver">Ekrano užsklanda</string>
-    <string name="pref_screensaver_inapp_enabled">Naudoti programos ekrano užsklandą</string>
+    <string name="pref_screensaver_inapp_enabled">Naudoti programėlės ekrano užsklandą</string>
     <string name="lbl_hide_watched_checkmark">Kai lieka epizodų</string>
     <string name="item_delete_confirm_title">Ištrinti elementą</string>
     <string name="pref_enable_media_management_description">Rodyti nustatymą valdyti turinį naršant</string>
-    <string name="pref_screensaver_inapp_enabled_description">Rodyti Jellyfin ekrano užsklandą kai programa atidaryta</string>
+    <string name="pref_screensaver_inapp_enabled_description">Rodyti Jellyfin ekrano užsklandą kai programėlė atidaryta</string>
     <string name="item_delete_confirm_message">Ar tikrai norite ištrinti šį elementą iš serverio? Šio veiksmo atšaukti negalima.</string>
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS-HD</string>
     <string name="pref_playback_advanced">Išplėstinės atkūrimo nuostatos</string>
     <string name="pref_screensaver_ageratingmax_entry">Iki %1$d amžiaus</string>
     <string name="dolby_atmos">Dolby Atmos</string>
-    <string name="pref_screensaver_ageratingrequired_title">Reikalauti amžiaus įvertinimo</string>
+    <string name="pref_screensaver_ageratingrequired_title">Reikalauti amžiaus cenzo</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Išjungti maksimumą</string>
     <plurals name="items">
         <item quantity="one">%1$s elementas</item>
@@ -564,7 +564,7 @@
         <item quantity="many">%1$s elementų</item>
         <item quantity="other">%1$s elementų</item>
     </plurals>
-    <string name="pref_screensaver_ageratingrequired_enabled">Rodomi tik elementai su nustatytu amžiaus reitingu</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Rodomi tik elementai, kuriems nustatytas amžiaus cenzas</string>
     <string name="pref_screensaver_ageratingrequired_disabled">Rodomi visi elementai</string>
     <string name="item_deletion_failed">Nepavyko ištrinti %1$s</string>
     <plurals name="seconds">
@@ -572,8 +572,7 @@
         <item quantity="few">%1$s sekundės</item>
         <item quantity="other">%1$s sekundžių</item>
     </plurals>
-    <string name="app_notification_beta">Programa atnaujinta į %1$s
-\nAčiū, kad dalyvaujate Jellyfin beta programoje.</string>
+    <string name="app_notification_beta">Programėlė atnaujinta į %1$s\nDėkojame, kad dalyvaujate Jellyfin beta versijos programoje.</string>
     <plurals name="hours">
         <item quantity="one">%1$s valanda</item>
         <item quantity="few">%1$s valandos</item>
