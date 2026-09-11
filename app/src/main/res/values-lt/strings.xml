@@ -5,7 +5,7 @@
     <string name="lbl_series">Serialai</string>
     <string name="lbl_cancel">Atšaukti</string>
     <string name="lbl_play">Paleisti</string>
-    <string name="lbl_play_all">Paleisti viską</string>
+    <string name="lbl_play_all">Paleisti visus</string>
     <string name="lbl_other">Kita</string>
     <string name="lbl_tv_series">TV Serialai</string>
     <string name="lbl_movies">Filmai</string>
@@ -55,7 +55,7 @@
     <string name="lbl_audio_output">Garso išvestis</string>
     <string name="lbl_tomorrow">Rytoj</string>
     <string name="lbl_today">Šiandien</string>
-    <string name="lbl_unwatched">Nežiūrėta</string>
+    <string name="lbl_unwatched">Nežiūrėti</string>
     <string name="lbl_now_playing_album">nuo %1$s</string>
     <string name="lbl_play_first_unwatched">Paleisti pirmą nežiūrėtą</string>
     <string name="lbl_search_hint">Teksto paieška (pasirinkite klaviatūrai)</string>
@@ -96,8 +96,8 @@
     <string name="msg_not_implemented">" neįgyvendinta"</string>
     <string name="state_disabled">Išjungta</string>
     <string name="lbl_valid_server_address">Prašome įvesti serverio adresą (IP arba domeną/įrenginio pavadinimą)</string>
-    <string name="lbl_mark_unplayed">Pažymėti kaip nepaleistą</string>
-    <string name="lbl_mark_played">Pažymėti kaip paleistą</string>
+    <string name="lbl_mark_unplayed">Pažymėti kaip nežiūrėtą</string>
+    <string name="lbl_mark_played">Pažymėti kaip peržiūrėtą</string>
     <string name="lbl_similar_items_library">Panašūs elementai bibliotekoje</string>
     <string name="lbl_record_any_time">Įrašyti bet kuriuo metu</string>
     <string name="lbl_goto_series">Eiti į serialus</string>
@@ -108,12 +108,12 @@
     <string name="pref_audio_night_mode">Naktinė garso aplinka (ekspermentinė)</string>
     <string name="msg_unable_load_subs">Nepavyko įkelti subtitrų</string>
     <string name="lbl_remove">Pašalinti</string>
-    <string name="lbl_showing">Rodoma</string>
+    <string name="lbl_showing">Rodomi</string>
     <string name="lbl_no_items">Nėra elementų</string>
-    <string name="lbl_remove_favorite">Pašalinti mėgstamą</string>
+    <string name="lbl_remove_favorite">Pašalinti iš mėgstamų</string>
     <string name="msg_playback_restricted">Administratorius apribojo šio elemento atkūrimą</string>
     <string name="lbl_enable_debug">Derinimo parinktys</string>
-    <string name="lbl_add_favorite">Pridėti mėgstamą</string>
+    <string name="lbl_add_favorite">Pridėti prie mėgstamų</string>
     <string name="msg_will_record">Įrašys</string>
     <string name="msg_no_playable_items">Nėra elementų, kuriuos būtų galima paleisti</string>
     <string name="lbl_cast_crew">Aktoriai ir komanda</string>
