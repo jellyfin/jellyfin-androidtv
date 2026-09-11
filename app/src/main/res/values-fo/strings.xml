@@ -388,7 +388,7 @@
     <string name="lbl_playback_control_ends">Endar kl. %1$s</string>
     <string name="turn_off">Sløkk hesa stillingina</string>
     <string name="just_one">Einans hendan partin</string>
-    <string name="player_error">Spælivilla kom fyri. Roynir aftur…</string>
+    <string name="player_error">Ein spælivilla kom fyri. Roynir aftur…</string>
     <string name="lbl_hide_unwatched_count">Tá miðilin er sæddur</string>
     <string name="always_authenticate_description">Er hetta virkt verður sjálvvirkandi innritan óvirkt</string>
     <string name="pref_direct_stream_live_off">Um neyðugt verður umkoting framd</string>
@@ -492,7 +492,7 @@
     <string name="pref_crash_reports_enabled">Sorúrrit verða send til ambætaran ið seinast var nýttur</string>
     <string name="pref_crash_report_logs_enabled">Gerðalistar verða íroknaðir í sorúrritum</string>
     <string name="pref_crash_report_logs_disabled">Gerðalistar verða ikki við í sorúrritum</string>
-    <string name="crash_report_toast">Ups! Ókend villa fór fram. Eitt sorúrrit var sent tínum Jellyfin-ambætara.</string>
+    <string name="crash_report_toast">Ups! Ein ókend villa fór fram. Eitt sorúrrit var sent tínum Jellyfin-ambætara.</string>
     <string name="clear_image_cache_content">Fyllir: %1$s</string>
     <string name="pref_crash_reports_disabled">Sorúrrit verða ikki send</string>
     <string name="pref_subtitles_position">Frástøða frá botninum</string>
@@ -556,7 +556,7 @@
     <string name="lbl_tune_to_channel">Skift til rásina</string>
     <string name="lbl_new_only">Einans nýggjar</string>
     <string name="lbl_similar_items_library">Líkir miðlar í savninum</string>
-    <string name="msg_error_live_stream">Villa undir stroyming av beinleiðis sjónvarpi. Roynur aftur…</string>
+    <string name="msg_error_live_stream">Ein villa kom fyri undir stroyming av beinleiðis sjónvarpi. Roynir aftur…</string>
     <string name="pref_button_remapping_description">Trýst á einhvønn knøtt á fjarstýringini til tess at áseta hann</string>
     <string name="press_to_close">Trýst fyri at loka</string>
     <string name="enable_smart_view">Virkja snilt sýni</string>
