@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.form.RangeControl
+import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListControl
 import org.jellyfin.androidtv.ui.base.list.ListSection
 import org.jellyfin.androidtv.ui.navigation.focus.focusKey
@@ -76,6 +78,18 @@ fun SettingsPlaybackPhotoPlayerScreen() {
 					}
 				}
 			}
+		}
+
+		item {
+			var photoPlayerAnimatePhotos by rememberPreference(userPreferences, UserPreferences.photoPlayerAnimatePhotos)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.animate_photos)) },
+				captionContent = { Text(stringResource(R.string.animate_photos_description)) },
+				trailingContent = { Checkbox(checked = photoPlayerAnimatePhotos) },
+				onClick = { photoPlayerAnimatePhotos = !photoPlayerAnimatePhotos },
+				modifier = Modifier.focusKey("animate_photos")
+			)
 		}
 	}
 }
