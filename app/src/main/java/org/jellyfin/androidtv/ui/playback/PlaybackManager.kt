@@ -13,9 +13,29 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.model.api.MediaSourceInfo
+import org.jellyfin.sdk.model.api.MediaStreamProtocol
 import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 import org.jellyfin.sdk.model.api.PlaybackInfoResponse
+
+/**
+ * The server picks a transcoding container for this source (reported back as
+ * [MediaSourceInfo.transcodingContainer], matched against the containers this app declares
+ * support for per codec in its DeviceProfile, see deviceProfile.kt - e.g. MPEG-TS for
+ * AAC/AC3/EAC3 audio, fMP4 for codecs that need it such as TrueHD/DTS) but does not apply that
+ * choice to the HLS master playlist/segment URL it hands back in [MediaSourceInfo.transcodingUrl]:
+ * without an explicit "SegmentContainer" query parameter that endpoint falls back to its own
+ * ".ts" default regardless of what was negotiated. Passing the already-negotiated container
+ * through explicitly keeps today's behavior for the common ".ts" case and fixes it for sources
+ * that need a container ".ts" cannot carry, such as TrueHD or DTS passthrough.
+ */
+internal fun MediaSourceInfo.segmentContainerQueryParameters(): Map<String, Any?> {
+	if (transcodingSubProtocol != MediaStreamProtocol.HLS) return emptyMap()
+	val container = transcodingContainer ?: return emptyMap()
+
+	return mapOf("segmentContainer" to container)
+}
 
 private fun createStreamInfo(
 	api: ApiClient,
@@ -50,11 +70,19 @@ private fun createStreamInfo(
 	} else if (options.enableDirectStream && source.supportsDirectStream) {
 		playMethod = PlayMethod.DIRECT_STREAM
 		container = source.transcodingContainer
-		mediaUrl = api.createUrl(requireNotNull(source.transcodingUrl), ignorePathParameters = true)
+		mediaUrl = api.createUrl(
+			requireNotNull(source.transcodingUrl),
+			queryParameters = source.segmentContainerQueryParameters(),
+			ignorePathParameters = true,
+		)
 	} else if (source.supportsTranscoding) {
 		playMethod = PlayMethod.TRANSCODE
 		container = source.transcodingContainer
-		mediaUrl = api.createUrl(requireNotNull(source.transcodingUrl), ignorePathParameters = true)
+		mediaUrl = api.createUrl(
+			requireNotNull(source.transcodingUrl),
+			queryParameters = source.segmentContainerQueryParameters(),
+			ignorePathParameters = true,
+		)
 	}
 }
 
