@@ -48,6 +48,7 @@ import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackPrerol
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackRefreshRateSwitchingBehaviorScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackResumeSubtractDurationScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackScreen
+import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackSkipModeScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.SettingsPlaybackZoomModeScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.mediasegment.SettingsPlaybackMediaSegmentScreen
 import org.jellyfin.androidtv.ui.settings.screen.playback.mediasegment.SettingsPlaybackMediaSegmentsScreen
@@ -103,6 +104,7 @@ object Routes {
 	const val PLAYBACK_MAX_BITRATE = "/playback/max-bitrate"
 	const val PLAYBACK_REFRESH_RATE_SWITCHING_BEHAVIOR = "/playback/refresh-rate-switching-behavior"
 	const val PLAYBACK_ZOOM_MODE = "/playback/zoom-mode"
+	const val PLAYBACK_SKIP_MODE = "/playback/skip-mode"
 	const val PLAYBACK_BUFFER_LENGTH = "/playback/buffer-length"
 	const val PLAYBACK_HDR_OVERRIDES = "/playback/hdr-overrides"
 	const val PLAYBACK_HDR_OVERRIDE = "/playback/hdr-overrides/{format}"
@@ -259,6 +261,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.PLAYBACK_ZOOM_MODE to {
 		SettingsPlaybackZoomModeScreen()
+	},
+	Routes.PLAYBACK_SKIP_MODE to {
+		SettingsPlaybackSkipModeScreen()
 	},
 	Routes.PLAYBACK_BUFFER_LENGTH to {
 		SettingsPlaybackBufferLengthScreen()

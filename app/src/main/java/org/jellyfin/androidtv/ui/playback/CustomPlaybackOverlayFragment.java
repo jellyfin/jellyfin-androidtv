@@ -42,6 +42,8 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.SkipMode;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
@@ -135,6 +137,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -588,12 +591,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     if (!mIsVisible) {
                         if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                setFadingEnabled(true);
-                                return true;
-                            }
-
-                            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                                if (canRelativeSkip()) {
+                                    // Prevent the leanback fragment from showing the controls overlay for this key press,
+                                    // the flag is re-armed once the key is released
+                                    suppressOverlayUntilKeyUp = true;
+                                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                                    // A manual skip supersedes a pending media segment skip prompt
+                                    if (binding.skipOverlay.getVisible()) clearSkipOverlay();
+                                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                                        playbackControllerContainer.getValue().getPlaybackController().fastForward();
+                                    } else {
+                                        playbackControllerContainer.getValue().getPlaybackController().rewind();
+                                    }
+                                    return true;
+                                }
                                 setFadingEnabled(true);
                                 return true;
                             }
@@ -616,12 +628,34 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DPAD_LEFT:
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    if (suppressOverlayUntilKeyUp) {
+                        // Consume the event so the controls overlay isn't shown by the leanback fragment,
+                        // then re-arm the overlay flag once the key press is fully dispatched
+                        if (event.getAction() == KeyEvent.ACTION_UP) {
+                            suppressOverlayUntilKeyUp = false;
+                            mHandler.post(() -> leanbackOverlayFragment.setShouldShowOverlay(true));
+                        }
+                        return true;
+                    }
                     leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
             }
 
             return false;
         }
     };
+
+    private boolean suppressOverlayUntilKeyUp = false;
+
+    private boolean canRelativeSkip() {
+        if (mIsVisible || mGuideVisible || mPopupPanelVisible) return false;
+
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        return playbackController.canSeek()
+                // Match the readiness requirements of PlaybackController.skip() so unskippable
+                // presses fall through to the controls overlay instead of being silently consumed
+                && (playbackController.isPlaying() || playbackController.isPaused())
+                && userPreferences.getValue().get(UserPreferences.Companion.getSkipMode()) == SkipMode.RELATIVE;
+    }
 
     public LocalDateTime getCurrentLocalStartDate() {
         return mCurrentGuideStart;
