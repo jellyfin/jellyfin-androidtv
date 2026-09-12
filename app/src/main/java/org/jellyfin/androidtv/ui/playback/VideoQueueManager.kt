@@ -7,6 +7,7 @@ class VideoQueueManager {
 	private var _currentMediaPosition = -1
 	private var _lastPlayedAudioLanguageIsoCode: String? = null
 	private var _lastPlayedSubtitleLanguageIsoCode: String? = null
+	private var _lastPlayedSubtitleTitle: String? = null
 
 	fun setCurrentVideoQueue(items: List<BaseItemDto>?) {
 		if (items.isNullOrEmpty()) return clearVideoQueue()
@@ -41,10 +42,19 @@ class VideoQueueManager {
 		_lastPlayedSubtitleLanguageIsoCode = isoCode
 	}
 
+	fun getLastPlayedSubtitleTitle(): String? {
+		return _lastPlayedSubtitleTitle
+	}
+
+	fun setLastPlayedSubtitleTitle(title: String?) {
+		_lastPlayedSubtitleTitle = title
+	}
+
 	fun clearVideoQueue() {
 		_currentVideoQueue = emptyList()
 		_currentMediaPosition = -1
 		_lastPlayedAudioLanguageIsoCode = null
 		_lastPlayedSubtitleLanguageIsoCode = null
+		_lastPlayedSubtitleTitle = null
 	}
 }
