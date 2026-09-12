@@ -30,6 +30,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.profile.DeviceProfileKt;
+import org.jellyfin.androidtv.util.sdk.MediaSourceVersionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.ServerVersion;
@@ -42,7 +43,6 @@ import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.PlayMethod;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Duration;
@@ -71,6 +71,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     int mCurrentIndex;
+    // Id of the media source to play for the current item, or null to let the server pick one
+    private String mCurrentMediaSourceId;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
 
@@ -135,6 +137,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (items != null && startIndex > 0 && startIndex < items.size()) {
             mCurrentIndex = startIndex;
         }
+        mCurrentMediaSourceId = videoQueueManager.getValue().getCurrentMediaSourceId();
         mFragment = fragment;
         mHandler = new Handler();
 
@@ -165,6 +168,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void setItems(List<BaseItemDto> items) {
         mItems = items;
         mCurrentIndex = 0;
+        mCurrentMediaSourceId = null;
     }
 
     public float getPlaybackSpeed() {
@@ -201,16 +205,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             if (mediaSources == null || mediaSources.isEmpty()) {
                 return null;
-            } else {
-                // Prefer the media source with the same id as the item
+            }
+
+            // Prefer the version that was selected for this item
+            if (mCurrentMediaSourceId != null) {
                 for (MediaSourceInfo mediaSource : mediaSources) {
-                    if (item.getId().equals(UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()))) {
+                    if (mCurrentMediaSourceId.equals(mediaSource.getId())) {
                         return mediaSource;
                     }
                 }
-                // Or fallback to the first media source if none match
-                return mediaSources.get(0);
             }
+
+            // The server orders the media sources so the version that should play comes first
+            return mediaSources.get(0);
         }
     }
 
@@ -924,10 +931,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void next() {
         Timber.d("Next called.");
         if (mCurrentIndex < mItems.size() - 1) {
+            String playedVersionName = getPlayedVersionName();
             stop();
             resetPlayerErrors();
             mCurrentIndex++;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            continueVersion(playedVersionName);
             Timber.i("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
@@ -937,14 +946,37 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void prev() {
         Timber.d("Prev called.");
         if (mCurrentIndex > 0 && mItems.size() > 0) {
+            String playedVersionName = getPlayedVersionName();
             stop();
             resetPlayerErrors();
             mCurrentIndex--;
             videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            continueVersion(playedVersionName);
             Timber.i("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
         }
+    }
+
+    /**
+     * Name of the version that is playing, or null when the current item has no alternate versions.
+     */
+    private String getPlayedVersionName() {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        if (item == null || !MediaSourceVersionsKt.getHasAlternateVersions(item)) return null;
+
+        MediaSourceInfo mediaSource = getCurrentMediaSource();
+        return mediaSource != null ? mediaSource.getName() : null;
+    }
+
+    /**
+     * Keep playing the version named {@code versionName} when the current item has a version with that
+     * name, so switching items does not switch versions.
+     */
+    private void continueVersion(String versionName) {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        MediaSourceInfo version = item != null ? MediaSourceVersionsKt.findVersionByName(item, versionName) : null;
+        mCurrentMediaSourceId = version != null ? version.getId() : null;
     }
 
     public void fastForward() {

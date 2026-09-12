@@ -5,6 +5,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 class VideoQueueManager {
 	private var _currentVideoQueue: List<BaseItemDto> = emptyList()
 	private var _currentMediaPosition = -1
+	private var _currentMediaSourceId: String? = null
 	private var _lastPlayedAudioLanguageIsoCode: String? = null
 	private var _lastPlayedSubtitleLanguageIsoCode: String? = null
 
@@ -25,6 +26,16 @@ class VideoQueueManager {
 
 	fun getCurrentMediaPosition() = _currentMediaPosition
 
+	/**
+	 * Set the id of the media source to play for the item at [getCurrentMediaPosition], or null to let
+	 * the server pick the media source.
+	 */
+	fun setCurrentMediaSourceId(mediaSourceId: String?) {
+		_currentMediaSourceId = mediaSourceId
+	}
+
+	fun getCurrentMediaSourceId(): String? = _currentMediaSourceId
+
 	fun getLastPlayedAudioLanguageIsoCode(): String? {
 		return _lastPlayedAudioLanguageIsoCode
 	}
@@ -44,6 +55,7 @@ class VideoQueueManager {
 	fun clearVideoQueue() {
 		_currentVideoQueue = emptyList()
 		_currentMediaPosition = -1
+		_currentMediaSourceId = null
 		_lastPlayedAudioLanguageIsoCode = null
 		_lastPlayedSubtitleLanguageIsoCode = null
 	}
