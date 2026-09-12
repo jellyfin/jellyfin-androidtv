@@ -104,11 +104,11 @@
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Sous-mixer en stéréo</string>
     <string name="lbl_audio_output">Sortie audio</string>
-    <string name="lbl_goto_series">Aller vers les séries</string>
+    <string name="lbl_goto_series">Aller vers la série</string>
     <string name="lbl_enable_debug">Activer les options de débogage</string>
     <string name="desc_debug">Affiche un bouton d\'envoi des logs sur l\'écran de la page d\'accueil</string>
-    <string name="lbl_showing">S’affichent</string>
-    <string name="lbl_all_items">tous les éléments</string>
+    <string name="lbl_showing">Affiche</string>
+    <string name="lbl_all_items">Tous les éléments</string>
     <string name="lbl_sorted_by">triés par</string>
     <string name="lbl_from">de</string>
     <string name="lbl_name">Nom</string>
@@ -162,7 +162,7 @@
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
     <string name="lbl_new_premieres">Nouvelles saisons</string>
     <string name="lbl_open">Ouvrir</string>
-    <string name="lbl_play_next_up">Lire la prochaine vidéo</string>
+    <string name="lbl_play_next_up">Lire la vidéo suivante</string>
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds</string>
@@ -690,4 +690,11 @@
     <string name="photo_player">Lecteur photo</string>
     <string name="photo_display_duration">Durée d\'affichage des photos</string>
     <string name="photo_display_duration_description">Temps d\'attente avant d\'afficher la photo suivante</string>
+    <string name="preference_hdr_overrides_summary">Remplacer les capacités HDR signalées par l\'appareil</string>
+    <string name="dovi_profile_5">Dolby Vision Profile 5</string>
+    <string name="dovi_profile_5_description">Dolby Vision Monocouche</string>
+    <string name="dovi_profile_7">Dolby Vision Profile 7</string>
+    <string name="dovi_profile_7_description">Double couche avec couche améliorée</string>
+    <string name="dovi_profile_8">Dolby Vision Profile 8</string>
+    <string name="dovi_profile_8_description">Monocouche avec HDR10 en secours</string>
 </resources>
