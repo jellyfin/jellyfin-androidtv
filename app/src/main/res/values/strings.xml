@@ -431,6 +431,8 @@
     <string name="home_section_livetv">Live TV</string>
     <string name="home_section_none">None</string>
     <string name="home_section_i">Home section %1$d</string>
+    <string name="pref_max_days_in_next_up">Next up date cutoff</string>
+    <string name="pref_max_days_in_next_up_disabled">Disabled</string>
     <string name="searchable_hint">Search Jellyfin</string>
     <string name="searchable_settings_description">Media</string>
     <string name="pref_subtitles_background_title">Enable background</string>
@@ -645,6 +647,10 @@
     <plurals name="hours">
         <item quantity="one">%1$s hour</item>
         <item quantity="other">%1$s hours</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%1$s day</item>
+        <item quantity="other">%1$s days</item>
     </plurals>
     <plurals name="tracks">
         <item quantity="one">%1$s track</item>
