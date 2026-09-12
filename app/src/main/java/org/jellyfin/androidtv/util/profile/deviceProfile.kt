@@ -116,6 +116,7 @@ fun createDeviceProfile(
 		else -> supportedAudioCodecs
 	}
 
+	val supportsAC4 = mediaTest.supportsAC4()
 	val supportsHevc = mediaTest.supportsHevc()
 	val supportsHevcMain10 = mediaTest.supportsHevcMain10()
 	val hevcMainLevel = userHEVCLevel ?: mediaTest.getHevcMainLevel()
@@ -231,6 +232,9 @@ fun createDeviceProfile(
 		)
 
 		audioCodec(*allowedAudioCodecs)
+		if (supportsAC4)  {
+			audioCodec(Codec.Audio.AC4)
+		}
 	}
 
 	// Audio
@@ -238,6 +242,9 @@ fun createDeviceProfile(
 		type = DlnaProfileType.AUDIO
 
 		audioCodec(*allowedAudioCodecs)
+		if (supportsAC4)  {
+			audioCodec(Codec.Audio.AC4)
+		}
 	}
 
 	/// Codec profiles
