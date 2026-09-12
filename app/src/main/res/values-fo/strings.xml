@@ -670,7 +670,7 @@
     <string name="photo_display_duration_description">Tíðarbil áðrenn skift verður til næstu myndina</string>
     <string name="photo_player">Myndasýning</string>
     <string name="photo_display_duration">Tíðarbil í myndasýning</string>
-    <string name="preference_hdr_overrides">HDR snið</string>
+    <string name="preference_hdr_overrides">HDR-snið</string>
     <string name="hdr_override_enable">Virkja</string>
     <string name="hdr_override_disable">Óvirkja</string>
     <string name="hdr10_override">HDR10</string>
@@ -680,4 +680,6 @@
     <string name="dovi_profile_5">Dolby Vision profilur 5</string>
     <string name="dovi_profile_7">Dolby Vision profilur 7</string>
     <string name="dovi_profile_8">Dolby Vision profilur 8</string>
+    <string name="dovi_profile_5_description">Eittlags Dolby Vision</string>
+    <string name="dovi_profile_8_description">Eittlags Dolby Vision við HDR10-varavirkisføri</string>
 </resources>
