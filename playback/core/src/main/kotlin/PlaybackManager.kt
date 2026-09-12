@@ -5,6 +5,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackend
+import org.jellyfin.playback.core.backend.TrackSelectionBackend
 import org.jellyfin.playback.core.plugin.PlayerService
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -25,6 +26,12 @@ class PlaybackManager internal constructor(
 		backendService = backendService,
 		queue = getService()
 	)
+
+	/**
+	 * Get the track selection interface if the current backend supports it.
+	 */
+	val trackSelection: TrackSelectionBackend?
+		get() = backendService.getTrackSelectionBackend()
 
 	init {
 		services.forEach { it.initialize(this, state, Job(job)) }
