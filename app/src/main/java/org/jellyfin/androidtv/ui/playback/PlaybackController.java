@@ -543,7 +543,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
         DeviceProfile internalProfile = DeviceProfileKt.createDeviceProfile(
-                mFragment.getContext(),
                 userPreferences.getValue(),
                 get(ServerVersion.class)
         );

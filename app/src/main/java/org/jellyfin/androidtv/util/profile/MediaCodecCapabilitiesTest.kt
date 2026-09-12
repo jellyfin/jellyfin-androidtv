@@ -1,13 +1,18 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.util.Size
+import androidx.annotation.OptIn
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 import org.jellyfin.androidtv.util.profile.codec.Av1CodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.AvcCodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.HevcCodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.MediaCodecQuery
 
+// MimeTypes.VIDEO_VP8 and MimeTypes.VIDEO_VP9 are marked as unstable media3 APIs
+@OptIn(UnstableApi::class)
 class MediaCodecCapabilitiesTest(
 	private val softwareCodecsEnabled: Boolean,
 ) {
@@ -52,6 +57,17 @@ class MediaCodecCapabilitiesTest(
 	fun getHevcMain10Level(): Int = hevc.getMain10Level()
 
 	fun supportsVc1(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VC1)
+
+	fun supportsVp8(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VP8)
+
+	fun supportsVp9(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VP9)
+
+	// MPEG-2 decoders also handle MPEG-1, Android does not register a separate MPEG-1 mime type
+	fun supportsMpeg2(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_MPEG2)
+
+	// DivX/Xvid need Advanced Simple Profile, a Simple Profile only decoder cannot play them
+	fun supportsMpeg4Asp(): Boolean =
+		codecQuery.getDecoderLevel(MimeTypes.VIDEO_MP4V, CodecProfileLevel.MPEG4ProfileAdvancedSimple) > 0
 
 	fun getMaxResolution(mime: String): Size = codecQuery.getMaxResolution(mime)
 }
