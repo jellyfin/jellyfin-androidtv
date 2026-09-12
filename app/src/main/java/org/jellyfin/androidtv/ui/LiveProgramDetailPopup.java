@@ -257,9 +257,11 @@ public class LiveProgramDetailPopup {
 
     public android.widget.ImageButton createFavoriteButton() {
         BaseItemDto channel = TvManager.getChannel(TvManager.getAllChannelsIndex(mProgram.getChannelId()));
-        boolean isFav = channel.getUserData() != null && channel.getUserData().isFavorite();
+        boolean isFav = channel != null && channel.getUserData() != null && channel.getUserData().isFavorite();
 
         android.widget.ImageButton fave = addImgButton(mDButtonRow, isFav ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+        fave.setEnabled(channel != null);
+        if (channel == null) return fave;
         fave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
