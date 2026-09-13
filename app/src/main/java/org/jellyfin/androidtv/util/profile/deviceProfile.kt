@@ -47,14 +47,17 @@ private val supportedAudioCodecs = arrayOf(
 	Codec.Audio.VORBIS,
 )
 
-private val hlsMpegTsAudioCodecs = arrayOf(
+// internal, not private: PlaybackManager.segmentContainerQueryParameters() reuses these as the
+// single source of truth for which audio codecs each HLS container actually declares support
+// for, so the two never drift apart.
+internal val hlsMpegTsAudioCodecs = arrayOf(
 	Codec.Audio.AAC,
 	Codec.Audio.AC3,
 	Codec.Audio.EAC3,
 	Codec.Audio.MP3
 )
 
-private val hlsFmp4AudioCodecs = arrayOf(
+internal val hlsFmp4AudioCodecs = arrayOf(
 	Codec.Audio.AAC,
 	Codec.Audio.AC3,
 	Codec.Audio.EAC3,

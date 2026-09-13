@@ -5,10 +5,13 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.data.compat.PlaybackException
 import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.compat.VideoOptions
 import org.jellyfin.androidtv.util.apiclient.Response
+import org.jellyfin.androidtv.util.profile.hlsFmp4AudioCodecs
+import org.jellyfin.androidtv.util.profile.hlsMpegTsAudioCodecs
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
@@ -29,12 +32,37 @@ import org.jellyfin.sdk.model.api.PlaybackInfoResponse
  * ".ts" default regardless of what was negotiated. Passing the already-negotiated container
  * through explicitly keeps today's behavior for the common ".ts" case and fixes it for sources
  * that need a container ".ts" cannot carry, such as TrueHD or DTS passthrough.
+ *
+ * Container alone is not enough: without an explicit "AudioCodec" parameter either, the server
+ * infers a target audio codec from the segment request's own file extension (".mp4" -> "aac"),
+ * which is wrong for an HLS video segment - the extension there is the container, not the audio
+ * format - and forces an unnecessary transcode even once the container is correct.
+ *
+ * The server's "audioCodec" parameter has its own hard 40-character limit
+ * (`^[a-zA-Z0-9\-\._,|]{0,40}$`, enforced server-side), too short for the full
+ * hlsFmp4AudioCodecs list from deviceProfile.kt. That list is also more than what is needed here:
+ * fMP4 is only ever the negotiated container because the source needs a codec MPEG-TS cannot
+ * carry in the first place (see deviceProfile.kt / StreamBuilder's ranking), so it is exactly the
+ * ts-incompatible subset - hlsFmp4AudioCodecs minus hlsMpegTsAudioCodecs - that needs stating
+ * explicitly for the mp4 case. The plain ts case reuses hlsMpegTsAudioCodecs as-is (well under
+ * the limit already).
  */
+private val fmp4OnlyAudioCodecs = hlsFmp4AudioCodecs.filterNot { it in hlsMpegTsAudioCodecs }
+
 internal fun MediaSourceInfo.segmentContainerQueryParameters(): Map<String, Any?> {
 	if (transcodingSubProtocol != MediaStreamProtocol.HLS) return emptyMap()
 	val container = transcodingContainer ?: return emptyMap()
 
-	return mapOf("segmentContainer" to container)
+	val audioCodecs = when (container) {
+		Codec.Container.MP4 -> fmp4OnlyAudioCodecs
+		Codec.Container.TS -> hlsMpegTsAudioCodecs.toList()
+		else -> null
+	}
+
+	return buildMap {
+		put("segmentContainer", container)
+		if (audioCodecs != null) put("audioCodec", audioCodecs.joinToString(","))
+	}
 }
 
 private fun createStreamInfo(

@@ -39,19 +39,45 @@ private fun hlsMediaSource(transcodingContainer: String?) = MediaSourceInfo(
 )
 
 class PlaybackManagerSegmentContainerTests : FunSpec({
-	test("HLS source with fMP4 transcoding container (e.g. negotiated for TrueHD/DTS passthrough) requests that same segment container") {
+	// Container alone is not sufficient: the server infers a target audio codec from the segment
+	// request's own file extension when no explicit "audioCodec" is sent, which is wrong for an
+	// HLS video segment (verified live: forcing segmentContainer=mp4 alone still produced AAC).
+	// For fMP4 only the ts-incompatible subset of hlsFmp4AudioCodecs is sent (also verified live:
+	// the full list trips the server's own 40-char limit on this parameter and gets rejected with
+	// a 400) - that subset is also the precise reason fMP4 was negotiated in the first place.
+	test("HLS source with fMP4 transcoding container requests that container and the codecs ts cannot carry") {
 		val source = hlsMediaSource(transcodingContainer = "mp4")
 
-		source.segmentContainerQueryParameters() shouldBe mapOf("segmentContainer" to "mp4")
+		source.segmentContainerQueryParameters() shouldBe mapOf(
+			"segmentContainer" to "mp4",
+			"audioCodec" to "alac,flac,opus,dts,truehd",
+		)
 	}
 
-	test("HLS source with the common MPEG-TS transcoding container still explicitly requests ts (keeps today's behavior)") {
+	test("HLS source with the common MPEG-TS transcoding container requests ts and its declared codec list") {
 		val source = hlsMediaSource(transcodingContainer = "ts")
 
-		source.segmentContainerQueryParameters() shouldBe mapOf("segmentContainer" to "ts")
+		source.segmentContainerQueryParameters() shouldBe mapOf(
+			"segmentContainer" to "ts",
+			"audioCodec" to "aac,ac3,eac3,mp3",
+		)
 	}
 
-	test("HLS source without a negotiated transcoding container adds no parameter (nothing to tell the server)") {
+	test("the audioCodec value for every recognized container stays within the server's 40-character limit") {
+		val mp4Params = hlsMediaSource(transcodingContainer = "mp4").segmentContainerQueryParameters()
+		val tsParams = hlsMediaSource(transcodingContainer = "ts").segmentContainerQueryParameters()
+
+		((mp4Params["audioCodec"] as String).length <= 40) shouldBe true
+		((tsParams["audioCodec"] as String).length <= 40) shouldBe true
+	}
+
+	test("HLS source with an unrecognized transcoding container still requests the container, without an audio codec list") {
+		val source = hlsMediaSource(transcodingContainer = "mkv")
+
+		source.segmentContainerQueryParameters() shouldBe mapOf("segmentContainer" to "mkv")
+	}
+
+	test("HLS source without a negotiated transcoding container adds no parameters (nothing to tell the server)") {
 		val source = hlsMediaSource(transcodingContainer = null)
 
 		source.segmentContainerQueryParameters().shouldBeEmpty()
