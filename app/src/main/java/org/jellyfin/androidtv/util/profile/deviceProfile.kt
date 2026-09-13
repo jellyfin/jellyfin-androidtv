@@ -66,7 +66,6 @@ private val hlsFmp4AudioCodecs = arrayOf(
 	Codec.Audio.FLAC,
 	Codec.Audio.OPUS,
 	Codec.Audio.DTS,
-	Codec.Audio.TRUEHD
 )
 
 private fun UserPreferences.getMaxBitrate(): Int {
