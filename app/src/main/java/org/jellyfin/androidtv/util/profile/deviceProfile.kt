@@ -1,7 +1,13 @@
 package org.jellyfin.androidtv.util.profile
 
 import android.content.Context
+import android.os.Build
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.Format
+import androidx.media3.common.C
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.audio.AudioCapabilities
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
@@ -17,6 +23,7 @@ import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.deviceprofile.DeviceProfileBuilder
 import org.jellyfin.sdk.model.deviceprofile.buildDeviceProfile
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 private val downmixSupportedAudioCodecs = arrayOf(
@@ -66,6 +73,96 @@ private val hlsFmp4AudioCodecs = arrayOf(
 	Codec.Audio.TRUEHD
 )
 
+/** What this device can hand over untouched to whatever decodes its audio. */
+data class PassthroughSupport(
+	/** Codec names that reach that decoder as a bitstream. */
+	val codecs: Set<String>,
+	/** Whether a lossless format gets through, which the rule below reads as an amplifier. */
+	val lossless: Boolean,
+)
+
+/** Surround codecs that only arrive intact as a bitstream. */
+private val surroundCodecs = setOf(
+	Codec.Audio.AC3,
+	Codec.Audio.EAC3,
+	Codec.Audio.DTS,
+	Codec.Audio.DCA,
+	Codec.Audio.MLP,
+	Codec.Audio.TRUEHD,
+)
+
+/**
+ * Asks the platform which surround formats it can pass through, at 5.1 and 48 kHz.
+ *
+ * From Android 13 one call describes the currently routed output, which media3 uses. Before that
+ * the platform answers for every output the device has rather than the one in use, which is the
+ * best available there.
+ */
+@OptIn(UnstableApi::class)
+fun getPassthroughSupport(context: Context): PassthroughSupport {
+	val attributes = AudioAttributes.Builder()
+		.setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+		.setUsage(C.USAGE_MEDIA)
+		.build()
+	@Suppress("DEPRECATION")
+	val capabilities = AudioCapabilities.getCapabilities(context, attributes, null)
+
+	fun passesThrough(mimeType: String): Boolean {
+		val format = Format.Builder()
+			.setSampleMimeType(mimeType)
+			.setSampleRate(48000)
+			.setChannelCount(6)
+			.build()
+		val output = capabilities.getEncodingAndChannelConfigForPassthrough(format, attributes)
+		// media3 falls back from DTS-HD to its DTS core, which is not DTS-HD support.
+		return output != null && output.first == MimeTypes.getEncoding(mimeType, null)
+	}
+
+	val trueHd = passesThrough(MimeTypes.AUDIO_TRUEHD)
+	val dts = passesThrough(MimeTypes.AUDIO_DTS)
+	val codecs = buildSet {
+		if (passesThrough(MimeTypes.AUDIO_AC3)) add(Codec.Audio.AC3)
+		if (passesThrough(MimeTypes.AUDIO_E_AC3)) add(Codec.Audio.EAC3)
+		if (dts) addAll(listOf(Codec.Audio.DTS, Codec.Audio.DCA))
+		if (trueHd) addAll(listOf(Codec.Audio.TRUEHD, Codec.Audio.MLP))
+	}
+	return PassthroughSupport(codecs, lossless = trueHd || passesThrough(MimeTypes.AUDIO_DTS_HD))
+		.also { Timber.i("Audio passthrough: %s", it) }
+}
+
+/**
+ * Returns whether to offer only what this device can bitstream.
+ *
+ * The profile sees the client, not the chain behind it. Passthrough says which bitstreams the
+ * current output accepts and nothing about what a television further along does to multichannel
+ * PCM: a Chromecast with Google TV reports a direct 5.1 PCM profile on a chain that delivers
+ * stereo. So a bitstream is the safer offer whenever the device can make one.
+ *
+ * Lossless is left alone on the assumption that it means an amplifier, which takes PCM as well.
+ * That assumption is why this belongs in a user setting, with this rule as its automatic default.
+ *
+ * Only AC-3 and E-AC-3 count as a fallback; ffmpeg's DTS encoder is experimental.
+ */
+private fun PassthroughSupport.shouldLimit(allowed: Array<String>) = !lossless &&
+	(Codec.Audio.AC3 in codecs && Codec.Audio.AC3 in allowed ||
+		Codec.Audio.EAC3 in codecs && Codec.Audio.EAC3 in allowed)
+
+/**
+ * Encoder preferences for a transcoding profile. Source track copying is selected separately by
+ * the server.
+ *
+ * The head of this list is what the server encodes to, so a codec that arrives intact goes first.
+ * AC-3 before E-AC-3: ffmpeg's E-AC-3 encoder is less good than its AC-3 one.
+ */
+private fun Array<String>.forTranscoding(allowed: Array<String>, passthrough: Set<String>) =
+	filter { it in allowed }
+		.sortedBy { when {
+			it == Codec.Audio.AC3 && it in passthrough -> 0
+			it == Codec.Audio.EAC3 && it in passthrough -> 1
+			it == Codec.Audio.AAC -> 2
+			else -> 3
+		} }.toTypedArray()
+
 private fun UserPreferences.getMaxBitrate(): Int {
 	var maxBitrate = this[UserPreferences.maxBitrate].toFloatOrNull()
 
@@ -87,6 +184,7 @@ fun createDeviceProfile(
 	serverVersion: ServerVersion,
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled]),
+	passthroughSupport = getPassthroughSupport(context),
 	maxBitrate = userPreferences.getMaxBitrate(),
 	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
@@ -108,13 +206,18 @@ fun createDeviceProfile(
 	userAVCLevel: Int?,
 	userHEVCLevel: Int?,
 	forceEnabledHdr: Set<VideoRangeType>,
-	forceDisabledHdr: Set<VideoRangeType>
+	forceDisabledHdr: Set<VideoRangeType>,
+	passthroughSupport: PassthroughSupport = PassthroughSupport(emptySet(), lossless = false),
 ) = buildDeviceProfile {
-	val allowedAudioCodecs = when {
+	val candidateAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
 		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
 		else -> supportedAudioCodecs
 	}
+	val limitToPassthrough = !downMixAudio && passthroughSupport.shouldLimit(candidateAudioCodecs)
+	val allowedAudioCodecs = candidateAudioCodecs
+		.filterNot { limitToPassthrough && it in surroundCodecs && it !in passthroughSupport.codecs }
+		.toTypedArray()
 
 	val supportsHevc = mediaTest.supportsHevc()
 	val supportsHevcMain10 = mediaTest.supportsHevcMain10()
@@ -167,7 +270,7 @@ fun createDeviceProfile(
 		protocol = MediaStreamProtocol.HLS
 
 		videoCodec(*hlsVideoCodecs)
-		audioCodec(*hlsMpegTsAudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
+		audioCodec(*hlsMpegTsAudioCodecs.forTranscoding(allowedAudioCodecs, passthroughSupport.codecs))
 
 		copyTimestamps = false
 		enableSubtitlesInManifest = true
@@ -181,7 +284,7 @@ fun createDeviceProfile(
 		protocol = MediaStreamProtocol.HLS
 
 		videoCodec(*hlsVideoCodecs)
-		audioCodec(*hlsFmp4AudioCodecs.filter(allowedAudioCodecs::contains).toTypedArray())
+		audioCodec(*hlsFmp4AudioCodecs.forTranscoding(allowedAudioCodecs, passthroughSupport.codecs))
 
 		copyTimestamps = false
 		enableSubtitlesInManifest = true
