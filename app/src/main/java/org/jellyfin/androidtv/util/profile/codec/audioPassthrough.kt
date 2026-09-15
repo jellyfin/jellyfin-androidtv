@@ -11,27 +11,23 @@ import androidx.media3.exoplayer.audio.AudioCapabilities
 
 @OptIn(UnstableApi::class)
 fun isPassthroughAudioAvailable(context: Context, mimetype: String): Boolean {
-	// Def audio attributes
-	val audioAttributes = AudioAttributes.Builder()
+	val attributes = AudioAttributes.Builder()
 		.setUsage(C.USAGE_MEDIA)
 		.setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
 		.build()
-	// Get audio capabilities
-	val audioCapabilities = AudioCapabilities.getCapabilities(
+
+	val capabilities = AudioCapabilities.getCapabilities(
 		context,
-		audioAttributes,
+		attributes,
 		null,
-		listOf(
-			AudioFormat.CHANNEL_OUT_STEREO,
-			AudioFormat.CHANNEL_OUT_5POINT1
-		)
+		listOf(AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.CHANNEL_OUT_5POINT1)
 	)
-	// Set audio format for a passthrough 2.0 audio codec check
+
 	val format = Format.Builder()
 		.setSampleMimeType(mimetype)
 		.setChannelCount(Integer.bitCount(AudioFormat.CHANNEL_OUT_STEREO))
 		.setSampleRate(Format.NO_VALUE)
 		.build()
-	// Test Passthrough Direct Playback
-	return audioCapabilities.isPassthroughPlaybackSupported(format, audioAttributes)
+
+	return capabilities.isPassthroughPlaybackSupported(format, attributes)
 }
