@@ -21,6 +21,8 @@ object ItemRepository {
 		ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
 		ItemFields.TAGLINES,
 		ItemFields.TRICKPLAY,
+		ItemFields.WIDTH,
+		ItemFields.HEIGHT,
 	)
 
 	// Lighter field set for home screen rows - excludes heavy fields like
