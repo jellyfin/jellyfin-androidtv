@@ -687,4 +687,7 @@
     <string name="dovi_profile_7_description">Dubbellaags met verbeteringslaag</string>
     <string name="dovi_profile_8">Dolby Vision profiel 8</string>
     <string name="dovi_profile_8_description">Enkellaags met HDR10 als terugvaloptie</string>
+    <string name="bitstream_eac3">Dolby Digital Plus bitstreamen</string>
+    <string name="bitstream_dts">Digital Theater System bitstreamen</string>
+    <string name="bitstream_truehd">Dolby TrueHD bitstreamen</string>
 </resources>
