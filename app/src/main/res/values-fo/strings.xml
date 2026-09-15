@@ -151,7 +151,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="no_player">Eingin spælari</string>
     <string name="episode_missing">Partur manglar</string>
-    <string name="episode_missing_message">Hesin parturin manglar í savninum. Ynskir tú at leypa hann um og halda áfram til næsta partin?</string>
+    <string name="episode_missing_message">Hesin parturin manglar í savninum. Vilt tú leypa hann um og halda áfram til næsta partin?</string>
     <string name="too_many_errors">Ov nógvir feilir. Heldur uppat</string>
     <string name="subtitle_error">Bar ikki til at velja undirtekst</string>
     <string name="audio_error">Bar ikki til at spæla ljóð %1$s</string>
@@ -342,7 +342,7 @@
     <string name="pref_enable_media_management">Virkja miðlaumsiting</string>
     <string name="pref_enable_media_management_description">Vís kostir at umsita miðlar tá kagað verður</string>
     <string name="item_delete_confirm_title">Strika miðil</string>
-    <string name="item_delete_confirm_message">Ynskir tú at strika hendan miðilin frá ambætaranum? Gerðin kann ikki vendast aftur.</string>
+    <string name="item_delete_confirm_message">Vilt tú strika hendan miðilin frá ambætaranum? Gerðin kann ikki vendast aftur.</string>
     <string name="pref_screensaver">Skáaskíggi</string>
     <string name="pref_screensaver_inapp_enabled">Brúka skáaskíggja apparinnar</string>
     <string name="pref_screensaver_inapp_enabled_description">Vís Jellyfin-skáaskíggjan ímeðan appin er opin</string>
@@ -616,7 +616,7 @@
     <string name="skip_forward_length">Tíðarbil at spola fram við</string>
     <string name="home_section_library_small">Mínir miðlar (lítil)</string>
     <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
-    <string name="msg_cancel_entire_series">Ynskir tú at avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
+    <string name="msg_cancel_entire_series">Vilt tú avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
     <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
     <string name="lbl_on_now">Á sjónvarpsskráum nú</string>
     <string name="lbl_begin_padding">Byrjanarífylling</string>
