@@ -40,6 +40,7 @@ libass-android = "0.5.1"
 markwon = "4.6.2"
 mockk = "1.14.11"
 slf4j-timber = "0.0.4"
+slf4j = "2.0.17"
 timber = "5.0.1"
 
 [plugins]
@@ -129,6 +130,8 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugar" }
 
 # Test utilities
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }

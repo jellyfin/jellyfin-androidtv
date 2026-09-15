@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.auth.repository
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -8,6 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
@@ -47,6 +51,10 @@ interface SessionRepository {
 	fun destroyCurrentSession()
 }
 
+fun interface SessionCleanup {
+	suspend fun beforeSessionChange()
+}
+
 class SessionRepositoryImpl(
 	private val authenticationPreferences: AuthenticationPreferences,
 	private val authenticationStore: AuthenticationStore,
@@ -56,6 +64,8 @@ class SessionRepositoryImpl(
 	private val userRepository: UserRepository,
 	private val serverRepository: ServerRepository,
 	private val telemetryPreferences: TelemetryPreferences,
+	private val sessionCleanups: List<SessionCleanup> = emptyList(),
+	private val cleanupScope: CoroutineScope? = null,
 ) : SessionRepository {
 	private val currentSessionMutex = Mutex()
 	private val _currentSession = MutableStateFlow<Session?>(null)
@@ -111,6 +121,9 @@ class SessionRepositoryImpl(
 
 	override fun destroyCurrentSession() {
 		Timber.i("Destroying current session")
+		if (currentSession.value != null) cleanupScope?.launch(start = CoroutineStart.UNDISPATCHED) {
+			runSessionCleanups()
+		}
 
 		userRepository.setCurrentUser(null)
 		serverRepository.setCurrentServer(null)
@@ -120,6 +133,7 @@ class SessionRepositoryImpl(
 
 	private suspend fun setCurrentSession(session: Session?): Boolean {
 		var server: Server? = null
+		if (currentSession.value != null && currentSession.value != session) runSessionCleanups()
 
 		if (session != null) {
 			// No change in session - don't switch
@@ -166,6 +180,15 @@ class SessionRepositoryImpl(
 		return true
 	}
 
+	private suspend fun runSessionCleanups() {
+		withTimeoutOrNull(SESSION_CLEANUP_TIMEOUT_MILLIS) {
+			sessionCleanups.forEach { cleanup ->
+				runCatching { cleanup.beforeSessionChange() }
+					.onFailure { Timber.w(it, "Session cleanup failed") }
+			}
+		}
+	}
+
 	private fun createLastUserSession(): Session? {
 		val lastUserId = authenticationPreferences[AuthenticationPreferences.lastUserId].toUUIDOrNull()
 		val lastServerId = authenticationPreferences[AuthenticationPreferences.lastServerId].toUUIDOrNull()
@@ -204,5 +227,9 @@ class SessionRepositoryImpl(
 		}
 
 		return true
+	}
+
+	private companion object {
+		const val SESSION_CLEANUP_TIMEOUT_MILLIS = 2_000L
 	}
 }

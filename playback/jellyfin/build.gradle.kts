@@ -50,6 +50,8 @@ dependencies {
 	coreLibraryDesugaring(libs.android.desugar)
 
 	// Testing
+	testRuntimeOnly(libs.slf4j.nop)
+	testImplementation(libs.kotlinx.coroutines.test)
 	testImplementation(libs.kotest.runner.junit5)
 	testImplementation(libs.kotest.assertions)
 	testImplementation(libs.mockk)

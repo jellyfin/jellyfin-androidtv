@@ -687,4 +687,26 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="syncplay">SyncPlay</string>
+    <string name="syncplay_watch_together">Watch together</string>
+    <string name="syncplay_description">Join a group to keep playback synchronized with friends.</string>
+    <string name="syncplay_create_group">Create group</string>
+    <string name="syncplay_default_group_name">%1$s’s group</string>
+    <string name="syncplay_leave_group">Leave group</string>
+    <string name="syncplay_stop_following">Stop following playback</string>
+    <string name="syncplay_resume_following">Resume following playback</string>
+    <string name="syncplay_no_groups">No groups are available.</string>
+    <string name="syncplay_empty_group">No participants</string>
+    <string name="syncplay_retry">Select to try again.</string>
+    <string name="syncplay_state_idle">Group is idle</string>
+    <string name="syncplay_state_waiting">Waiting for participants</string>
+    <string name="syncplay_state_paused">Playback is paused</string>
+    <string name="syncplay_state_playing">Playback is playing</string>
+    <string name="syncplay_error_groups">Couldn’t load SyncPlay groups.</string>
+    <string name="syncplay_error_membership">Couldn’t join or create the group.</string>
+    <string name="syncplay_error_action">The SyncPlay action failed.</string>
+    <string name="syncplay_error_disconnected">SyncPlay disconnected.</string>
+    <string name="syncplay_error_playback">This item couldn’t be played with SyncPlay.</string>
+    <string name="syncplay_error_group_missing">This SyncPlay group no longer exists.</string>
+    <string name="syncplay_error_access_denied">You don’t have access to an item in this group.</string>
 </resources>

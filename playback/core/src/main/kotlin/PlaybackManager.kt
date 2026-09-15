@@ -5,6 +5,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackend
+import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.plugin.PlayerService
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -15,6 +16,8 @@ class PlaybackManager internal constructor(
 	val options: PlaybackManagerOptions,
 	parentJob: Job? = null,
 ) {
+	var commandInterceptor: PlaybackCommandInterceptor? = null
+
 	internal val backendService = BackendService().also { service ->
 		service.switchBackend(backend)
 	}
@@ -51,4 +54,8 @@ class PlaybackManager internal constructor(
 		service.coroutineScope.cancel()
 		services.remove(service)
 	}
+
+	fun addBackendEventListener(listener: PlayerBackendEventListener) = backendService.addListener(listener)
+
+	fun removeBackendEventListener(listener: PlayerBackendEventListener) = backendService.removeListener(listener)
 }

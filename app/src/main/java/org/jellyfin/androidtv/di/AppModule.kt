@@ -1,7 +1,9 @@
 package org.jellyfin.androidtv.di
 
 import android.content.Context
+import android.os.SystemClock
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
 import coil3.gif.AnimatedImageDecoder
@@ -13,6 +15,7 @@ import coil3.svg.SvgDecoder
 import coil3.util.Logger
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.ServerRepository
+import org.jellyfin.androidtv.auth.repository.SessionCleanup
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.auth.repository.UserRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
@@ -50,6 +53,10 @@ import org.jellyfin.androidtv.ui.search.SearchRepository
 import org.jellyfin.androidtv.ui.search.SearchRepositoryImpl
 import org.jellyfin.androidtv.ui.search.SearchViewModel
 import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayViewModel
+import org.jellyfin.androidtv.ui.syncplay.CoreSyncPlayPlayer
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayMediaSessionInterceptor
+import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreenViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
@@ -67,6 +74,9 @@ import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
+import org.jellyfin.playback.jellyfin.syncplay.SdkSyncPlayTransport
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayClient
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayCoordinator
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -108,6 +118,29 @@ val appModule = module {
 	}
 
 	single { SocketHandler(get(), get(), get(), get(), get(), get(), get(), get(), get(), ProcessLifecycleOwner.get().lifecycle) }
+	single { CoreSyncPlayPlayer(get(), get(), get(), get()) }
+	single {
+		val scope = ProcessLifecycleOwner.get().lifecycleScope
+		SyncPlayCoordinator(
+			scope = scope,
+			transport = SdkSyncPlayTransport(get()),
+			wallMillis = System::currentTimeMillis,
+			monotonicMillis = SystemClock::elapsedRealtime,
+		).also { coordinator ->
+			coordinator.attach(get<CoreSyncPlayPlayer>())
+			get<PlaybackManager>().commandInterceptor = SyncPlayMediaSessionInterceptor(coordinator, scope)
+		}
+	} bind SyncPlayClient::class
+	single<SessionCleanup> {
+		SessionCleanup {
+			val syncPlay = get<SyncPlayClient>()
+			try {
+				syncPlay.leave()
+			} finally {
+				syncPlay.close()
+			}
+		}
+	}
 
 	// Coil (images)
 	single {
@@ -167,6 +200,7 @@ val appModule = module {
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SettingsViewModel() }
+	viewModel { SyncPlayViewModel(get(), get()) }
 	viewModel { SettingsLibrariesScreenViewModel(get()) }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }

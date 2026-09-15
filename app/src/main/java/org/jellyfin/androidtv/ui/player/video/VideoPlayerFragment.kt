@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.base.BaseScreen
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.queue.queue
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayClient
 import org.jellyfin.sdk.api.client.ApiClient
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -25,6 +27,7 @@ class VideoPlayerFragment : Fragment() {
 	private val videoQueueManager by inject<VideoQueueManager>()
 	private val playbackManager by inject<PlaybackManager>()
 	private val api by inject<ApiClient>()
+	private val syncPlay by inject<SyncPlayClient>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -59,13 +62,15 @@ class VideoPlayerFragment : Fragment() {
 	override fun onPause() {
 		super.onPause()
 
-		playbackManager.state.pause()
+		if (syncPlay.state.value.group != null && syncPlay.state.value.following) {
+			lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) { syncPlay.halt() }
+		} else playbackManager.state.pause()
 	}
 
 	override fun onResume() {
 		super.onResume()
 
-		playbackManager.state.unpause()
+		if (syncPlay.state.value.group == null) playbackManager.state.unpause()
 	}
 
 	override fun onStop() {

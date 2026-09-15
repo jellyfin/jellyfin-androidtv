@@ -19,6 +19,7 @@ import kotlinx.coroutines.guava.future
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.PlaybackSeekCommand
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
@@ -136,6 +137,7 @@ internal class MediaSessionPlayer(
 
 	override fun handleSetPlayWhenReady(playWhenReady: Boolean): ListenableFuture<*> {
 		Timber.d("handleSetPlayWhenReady(playWhenReady=${playWhenReady})")
+		if (manager.commandInterceptor?.setPlaying(playWhenReady) == true) return Futures.immediateVoidFuture()
 		if (playWhenReady) state.unpause()
 		else state.pause()
 		return Futures.immediateVoidFuture()
@@ -148,6 +150,7 @@ internal class MediaSessionPlayer(
 
 	override fun handleStop(): ListenableFuture<*> {
 		Timber.d("handleStop()")
+		if (manager.commandInterceptor?.stop() == true) return Futures.immediateVoidFuture()
 		state.stop()
 		return Futures.immediateVoidFuture()
 	}
@@ -158,6 +161,15 @@ internal class MediaSessionPlayer(
 		seekCommand: Int,
 	): ListenableFuture<*> = scope.future(Dispatchers.Main) {
 		Timber.d("handleSeek(mediaItemIndex=$mediaItemIndex, positionMs=$positionMs, seekCommand=$seekCommand)")
+		val intercepted = manager.commandInterceptor?.seek(
+			position = positionMs.takeUnless { it == C.TIME_UNSET }?.milliseconds ?: Duration.ZERO,
+			command = when (seekCommand) {
+				COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM, COMMAND_SEEK_TO_PREVIOUS -> PlaybackSeekCommand.PREVIOUS
+				COMMAND_SEEK_TO_NEXT_MEDIA_ITEM, COMMAND_SEEK_TO_NEXT -> PlaybackSeekCommand.NEXT
+				else -> PlaybackSeekCommand.POSITION
+			},
+		) == true
+		if (intercepted) return@future
 
 		// Queue progress
 		@Suppress("SwitchIntDef")
@@ -179,12 +191,14 @@ internal class MediaSessionPlayer(
 
 	override fun handleSetPlaybackParameters(playbackParameters: PlaybackParameters): ListenableFuture<*> {
 		Timber.d("handleSetPlaybackParameters(playbackParameters=${playbackParameters})")
+		if (manager.commandInterceptor?.setSpeed(playbackParameters.speed) == true) return Futures.immediateVoidFuture()
 		state.setSpeed(playbackParameters.speed)
 		return Futures.immediateVoidFuture()
 	}
 
 	override fun handleSetShuffleModeEnabled(shuffleModeEnabled: Boolean): ListenableFuture<*> {
 		Timber.d("handleSetShuffleModeEnabled(shuffleModeEnabled=${shuffleModeEnabled})")
+		if (manager.commandInterceptor?.setShuffle(shuffleModeEnabled) == true) return Futures.immediateVoidFuture()
 		val playbackOrder = when (shuffleModeEnabled) {
 			true -> PlaybackOrder.SHUFFLE
 			false -> PlaybackOrder.DEFAULT
@@ -195,6 +209,7 @@ internal class MediaSessionPlayer(
 
 	override fun handleSetRepeatMode(repeatMode: Int): ListenableFuture<*> {
 		Timber.d("handleSetRepeatMode(repeatMode=${repeatMode})")
+		if (manager.commandInterceptor?.setRepeat(repeatMode != REPEAT_MODE_OFF) == true) return Futures.immediateVoidFuture()
 		val mode = when (repeatMode) {
 			REPEAT_MODE_ONE,
 			REPEAT_MODE_ALL -> RepeatMode.REPEAT_ENTRY_INFINITE

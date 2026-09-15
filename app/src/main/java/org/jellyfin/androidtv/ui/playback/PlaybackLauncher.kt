@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.playback
 
 import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -8,8 +10,13 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayClient
+import org.jellyfin.playback.jellyfin.syncplay.SyncPlayRequest
+import org.jellyfin.sdk.model.api.PlayRequestDto
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+
+private const val TICKS_PER_MILLISECOND = 10_000L
 
 /**
  * Utility class to launch the playback UI for an item.
@@ -19,6 +26,8 @@ class PlaybackLauncher(
 	private val videoQueueManager: VideoQueueManager,
 	private val navigationRepository: NavigationRepository,
 	private val userPreferences: UserPreferences,
+	private val syncPlay: SyncPlayClient,
+	private val coroutineScope: CoroutineScope,
 ) {
 	private val BaseItemDto.supportsExternalPlayer
 		get() = when (type) {
@@ -44,6 +53,22 @@ class PlaybackLauncher(
 		itemsPosition: Int = 0,
 		shuffle: Boolean = false,
 	) {
+		if (items.isEmpty()) return
+		if (syncPlay.state.value.group != null) {
+			coroutineScope.launch {
+				syncPlay.request(
+					SyncPlayRequest.SetQueue(
+						PlayRequestDto(
+							playingQueue = items.map { it.id },
+							playingItemPosition = itemsPosition,
+							startPositionTicks = (position?.toLong() ?: 0L) * TICKS_PER_MILLISECOND,
+						)
+					)
+				)
+			}
+			return
+		}
+
 		val isAudio = items.any { it.mediaType == MediaType.AUDIO }
 
 		if (isAudio) {

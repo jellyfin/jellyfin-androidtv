@@ -39,9 +39,11 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayViewModel
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.model.api.SyncPlayUserAccessType
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinActivityViewModel
 
@@ -66,6 +68,8 @@ fun MainToolbar(
 
 	MainToolbar(
 		userImage = userImage,
+		syncPlayAvailable = currentUser?.policy?.syncPlayAccess != null &&
+			currentUser?.policy?.syncPlayAccess != SyncPlayUserAccessType.NONE,
 		activeButton = activeButton,
 	)
 }
@@ -73,6 +77,7 @@ fun MainToolbar(
 @Composable
 private fun MainToolbar(
 	userImage: String? = null,
+	syncPlayAvailable: Boolean,
 	activeButton: MainToolbarActiveButton,
 ) {
 	val focusRequester = remember { FocusRequester() }
@@ -80,6 +85,8 @@ private fun MainToolbar(
 	val mediaManager = koinInject<MediaManager>()
 	val sessionRepository = koinInject<SessionRepository>()
 	val settingsViewModel = koinActivityViewModel<SettingsViewModel>()
+	val syncPlayViewModel = koinActivityViewModel<SyncPlayViewModel>()
+	val syncPlayState by syncPlayViewModel.syncPlayState.collectAsState()
 	val activity = LocalActivity.current
 	val activeButtonColors = ButtonDefaults.colors(
 		containerColor = JellyfinTheme.colorScheme.buttonActive,
@@ -156,6 +163,16 @@ private fun MainToolbar(
 		},
 		end = {
 			ToolbarButtons {
+				if (syncPlayAvailable) IconButton(
+					onClick = syncPlayViewModel::show,
+					colors = if (syncPlayState.group != null) activeButtonColors else ButtonDefaults.colors(),
+				) {
+					Icon(
+						imageVector = ImageVector.vectorResource(R.drawable.ic_users),
+						contentDescription = stringResource(R.string.syncplay),
+					)
+				}
+
 				IconButton(
 					onClick = { settingsViewModel.show() },
 				) {
