@@ -55,6 +55,65 @@ class SyncPlayCoordinatorTests : FunSpec({
 		}
 	}
 
+	test("B02 an authoritative pause does not acknowledge itself with another ready request") {
+		runTest {
+			val fixture = Fixture(this)
+			fixture.join()
+			fixture.emitQueue()
+			runCurrent()
+			fixture.transport.requests.filterIsInstance<SyncPlayRequest.Ready>().size shouldBe 1
+
+			fixture.transport.events.emit(
+				SyncPlayEvent.Command(command(type = SendCommandType.PAUSE, emitted = 1300, whenMillis = 0)),
+			)
+			fixture.player.events.emit(SyncPlayPlayerEvent.Ready)
+			runCurrent()
+
+			fixture.player.playing shouldBe false
+			fixture.transport.requests.filterIsInstance<SyncPlayRequest.Ready>().size shouldBe 1
+		}
+	}
+
+	test("B03 sustained buffering and recovery each report exactly once") {
+		runTest {
+			val fixture = Fixture(this)
+			fixture.join()
+			fixture.emitQueue()
+			runCurrent()
+
+			fixture.player.events.emit(SyncPlayPlayerEvent.Buffering)
+			fixture.player.events.emit(SyncPlayPlayerEvent.Buffering)
+			runCurrent()
+			advanceTimeBy(3000)
+			runCurrent()
+			fixture.transport.requests.filterIsInstance<SyncPlayRequest.Buffering>().size shouldBe 1
+
+			fixture.player.events.emit(SyncPlayPlayerEvent.Ready)
+			fixture.player.events.emit(SyncPlayPlayerEvent.Ready)
+			runCurrent()
+			fixture.transport.requests.filterIsInstance<SyncPlayRequest.Ready>().size shouldBe 2
+		}
+	}
+
+	test("B04 an authoritative seek reports readiness once after seeking") {
+		runTest {
+			val fixture = Fixture(this)
+			fixture.join()
+			fixture.emitQueue()
+			runCurrent()
+
+			fixture.transport.events.emit(
+				SyncPlayEvent.Command(
+					command(type = SendCommandType.SEEK, position = 300_000_000, emitted = 1300, whenMillis = 0),
+				),
+			)
+			runCurrent()
+
+			fixture.player.position shouldBe 300_000_000
+			fixture.transport.requests.filterIsInstance<SyncPlayRequest.Ready>().size shouldBe 2
+		}
+	}
+
 	test("T05 command arriving before preparation completes is retained") {
 		runTest {
 			val fixture = Fixture(this)

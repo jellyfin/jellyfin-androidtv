@@ -53,11 +53,10 @@ import org.jellyfin.androidtv.ui.search.SearchRepository
 import org.jellyfin.androidtv.ui.search.SearchRepositoryImpl
 import org.jellyfin.androidtv.ui.search.SearchViewModel
 import org.jellyfin.androidtv.ui.settings.compat.SettingsViewModel
-import org.jellyfin.androidtv.ui.syncplay.SyncPlayViewModel
+import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreenViewModel
 import org.jellyfin.androidtv.ui.syncplay.CoreSyncPlayPlayer
 import org.jellyfin.androidtv.ui.syncplay.SyncPlayMediaSessionInterceptor
-import org.jellyfin.playback.core.PlaybackManager
-import org.jellyfin.androidtv.ui.settings.screen.library.SettingsLibrariesScreenViewModel
+import org.jellyfin.androidtv.ui.syncplay.SyncPlayViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
@@ -67,6 +66,8 @@ import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper
 import org.jellyfin.androidtv.util.coil.CoilTimberLogger
+import org.jellyfin.androidtv.util.sdk.LosslessSocketConnectionFactory
+import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
 import org.jellyfin.androidtv.util.sdk.SdkPlaybackHelper
 import org.jellyfin.sdk.android.androidDevice
@@ -108,7 +109,7 @@ val appModule = module {
 
 			// Use our own shared factory instance
 			apiClientFactory = get<OkHttpFactory>()
-			socketConnectionFactory = get<OkHttpFactory>()
+			socketConnectionFactory = LosslessSocketConnectionFactory(get())
 		}
 	}
 

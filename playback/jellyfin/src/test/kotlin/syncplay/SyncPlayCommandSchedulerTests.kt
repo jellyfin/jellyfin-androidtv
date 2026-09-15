@@ -24,6 +24,9 @@ class SyncPlayCommandSchedulerTests : FunSpec({
 			advanceTimeBy(1)
 			runCurrent()
 			actions shouldBe listOf(SyncPlayAction(SendCommandType.UNPAUSE, 0))
+			scheduler.schedule(command()) shouldBe true
+			runCurrent()
+			actions shouldBe listOf(SyncPlayAction(SendCommandType.UNPAUSE, 0))
 		}
 	}
 

@@ -71,6 +71,7 @@ class SyncPlayCoordinator(
 	private var actionJob: Job? = null
 	private var playerEventsJob: Job? = null
 	private var bufferingJob: Job? = null
+	private var bufferingReportedItem: UUID? = null
 	private val scheduler = SyncPlayCommandScheduler(scope, { clock.serverTime(monotonicMillis()) }, ::applyAction)
 
 	override suspend fun groups(): List<GroupInfoDto> = transport.groups()
@@ -198,17 +199,22 @@ class SyncPlayCoordinator(
 				if (this@SyncPlayCoordinator.player != player || !state.value.following || preparedItem == null) return@collect
 				when (event) {
 					SyncPlayPlayerEvent.Buffering -> {
-						bufferingJob?.cancel()
 						val generation = session.state.value.generation
 						val item = preparedItem
+						if (bufferingReportedItem == item || bufferingJob?.isActive == true) return@collect
 						bufferingJob = scope.launch {
 							delay(BUFFERING_DELAY_MILLIS)
-							if (current(generation) && preparedItem == item) report(buffering = true)
+							if (current(generation) && preparedItem == item && report(buffering = true)) {
+								bufferingReportedItem = item
+							}
 						}
 					}
 					SyncPlayPlayerEvent.Ready -> {
 						bufferingJob?.cancel()
-						if (actionJob?.isActive != true && prepareJob?.isActive != true) report(buffering = false)
+						if (bufferingReportedItem == preparedItem) {
+							bufferingReportedItem = null
+							report(buffering = false)
+						}
 					}
 					SyncPlayPlayerEvent.Ended -> if (endedItem != preparedItem) {
 						endedItem = preparedItem
@@ -273,7 +279,14 @@ class SyncPlayCoordinator(
 				withTimeout(PREPARE_TIMEOUT_MILLIS) {
 					when (action.command) {
 						SendCommandType.STOP -> activePlayer.stop()
-						SendCommandType.PAUSE, SendCommandType.SEEK -> {
+						SendCommandType.PAUSE -> {
+							activePlayer.pause()
+							val target = requireNotNull(action.positionTicks)
+							if (abs(activePlayer.snapshot.positionTicks - target) > SEEK_TOLERANCE_TICKS) {
+								activePlayer.seek(target)
+							}
+						}
+						SendCommandType.SEEK -> {
 							activePlayer.pause()
 							activePlayer.seek(requireNotNull(action.positionTicks))
 							if (current(generation)) report(buffering = false)
@@ -289,11 +302,11 @@ class SyncPlayCoordinator(
 		}
 	}
 
-	private suspend fun report(buffering: Boolean) {
-		val item = preparedItem ?: return
-		val snapshot = player?.snapshot ?: return
-		val time = clock.serverTime(monotonicMillis())?.atZone(ZoneId.systemDefault())?.toLocalDateTime() ?: return
-		request(if (buffering) SyncPlayRequest.Buffering(time, snapshot.positionTicks, snapshot.isPlaying, item)
+	private suspend fun report(buffering: Boolean): Boolean {
+		val item = preparedItem ?: return false
+		val snapshot = player?.snapshot ?: return false
+		val time = clock.serverTime(monotonicMillis())?.atZone(ZoneId.systemDefault())?.toLocalDateTime() ?: return false
+		return request(if (buffering) SyncPlayRequest.Buffering(time, snapshot.positionTicks, snapshot.isPlaying, item)
 		else SyncPlayRequest.Ready(time, snapshot.positionTicks, snapshot.isPlaying, item))
 	}
 
@@ -356,6 +369,7 @@ class SyncPlayCoordinator(
 		prepareJob?.cancel()
 		actionJob?.cancel()
 		bufferingJob?.cancel()
+		bufferingReportedItem = null
 		preparedItem = null
 		loadingItem = null
 		endedItem = null

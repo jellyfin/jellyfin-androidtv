@@ -35,7 +35,15 @@ The Android toolchain is installed outside the repository:
 
 `local.properties` points Gradle at that SDK and remains ignored by Git.
 
-The canonical module tests pass. The SyncPlay foundation currently has 43 coordinator/clock/session/scheduler/transport tests. Ten application tests cover discovery, safe failures, duplicate membership actions, normalized creation, session isolation, halt/resume/leave, authoritative playback launches, and MediaSession interception. Production app and Media3 modules compile with Java 21.
+The canonical module tests pass. The SyncPlay foundation currently has 46 coordinator/clock/session/scheduler/transport tests. Eleven application tests cover discovery, safe failures, duplicate membership actions, normalized creation, session isolation, halt/resume/leave, authoritative playback launches, MediaSession interception, and lossless adjacent WebSocket delivery. Production app and Media3 modules compile with Java 21.
+
+Emulator interoperability was completed against Jellyfin 10.11.1 with two passwordless test accounts. The Android TV client created an isolated group and a second authenticated HTTP/WebSocket client exercised the same SyncPlay protocol used by jellyfin-web. The run verified two-member discovery, remote queue loading, coordinated start, remote and local pause/unpause, remote seek, stop, and membership refresh/leave. A ten-seek burst delivered and applied all ten commands; unpausing resumed at the final 39-second target.
+
+The run uncovered and fixed three integration defects:
+
+- authoritative Pause commands caused a Ready/Pause feedback loop (401 requests in one capture); Pause is now idempotent and does not acknowledge itself with Ready;
+- repeated player Ready events could create additional readiness traffic; readiness is now reported only after this client previously reported buffering;
+- jellyfin-sdk 1.x represents incoming socket frames as a conflating `StateFlow`, so a command immediately followed by a state update was intermittently lost. The application now supplies a compatible buffered socket connection, with a regression test proving adjacent frames are delivered in order.
 
 Commands used:
 
@@ -54,10 +62,10 @@ Detekt completes successfully. The repository-wide report still contains pre-exi
 
 ## Remaining validation and hardening
 
-This is a functional first integration, but it has not yet been exercised against a real Jellyfin server or a physical/emulated TV. The highest-priority remaining work is:
+This is a functional first integration that has been exercised on an Android TV emulator and a real Jellyfin server. The highest-priority remaining work is:
 
-1. run captured/released-server compatibility fixtures and Web-to-TV interoperability for create/join, queue load, pause, seek, buffering, next and disconnect;
-2. add focused tests around the Media3 adapter and MediaSession interceptor, including readiness races and a seek that never settles;
+1. run the same interoperability matrix in the actual jellyfin-web UI and capture released-server compatibility fixtures;
+2. add focused tests around the Media3 adapter, including a seek that never settles;
 3. add explicit reconnect/rejoin reconciliation and unknown historical group-update handling;
 4. add queue editing UI and repeat/shuffle requests, plus visible waiting/resync feedback;
 5. verify audio, transcode, unsupported/live/nonseekable behavior and decide the supported media matrix;

@@ -32,7 +32,7 @@ class SyncPlayCommandScheduler(
 			return false
 		}
 		if (command.command != SendCommandType.STOP && (command.positionTicks?.let { it >= 0 } != true)) return false
-		if (job?.isActive == true && scheduled == command) return true
+		if (scheduled == command) return true
 		cancel()
 		scheduled = command
 		val whenInstant = command.`when`.toSyncPlayInstant()
