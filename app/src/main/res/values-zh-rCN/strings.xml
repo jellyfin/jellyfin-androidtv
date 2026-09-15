@@ -677,4 +677,7 @@
     <string name="dovi_profile_7_description">双层结构，带增强层</string>
     <string name="dovi_profile_8">Dolby Vision Profile 8</string>
     <string name="dovi_profile_8_description">单层，支持 HDR10 回退</string>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
 </resources>
