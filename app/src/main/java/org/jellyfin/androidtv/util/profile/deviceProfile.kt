@@ -5,8 +5,11 @@ import androidx.media3.common.MimeTypes
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.BitstreamAudioFormat
+import org.jellyfin.androidtv.preference.constant.BitstreamAudioMode
 import org.jellyfin.androidtv.preference.constant.HdrFormat
 import org.jellyfin.androidtv.preference.constant.HdrOverrideMode
+import org.jellyfin.androidtv.util.profile.codec.isPassthroughAudioAvailable
 import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.CodecType
 import org.jellyfin.sdk.model.api.DlnaProfileType
@@ -81,6 +84,13 @@ private fun UserPreferences.getHdrRangeTypesFor(mode: HdrOverrideMode): Set<Vide
 		.filter { this[it.preference] == mode }
 		.flatMapTo(mutableSetOf()) { it.videoRangeTypes }
 
+private fun UserPreferences.isBitstreamAudioEnabled(context: Context, format: BitstreamAudioFormat): Boolean =
+	when (this[format.preference]) {
+		BitstreamAudioMode.AUTO -> isPassthroughAudioAvailable(context, format.mimeType)
+		BitstreamAudioMode.ENABLE -> true
+		BitstreamAudioMode.DISABLE -> false
+	}
+
 fun createDeviceProfile(
 	context: Context,
 	userPreferences: UserPreferences,
@@ -88,7 +98,10 @@ fun createDeviceProfile(
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled]),
 	maxBitrate = userPreferences.getMaxBitrate(),
-	isAC3Enabled = userPreferences[UserPreferences.ac3Enabled],
+	isAC3PrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.AC3),
+	isEAC3PrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.EAC3),
+	isDTSPrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.DTS),
+	isTrueHDPrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.TRUEHD),
 	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
 	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
 	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
@@ -101,7 +114,10 @@ fun createDeviceProfile(
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
 	maxBitrate: Int,
-	isAC3Enabled: Boolean,
+	isAC3PrefEnabled: Boolean,
+	isEAC3PrefEnabled: Boolean,
+	isDTSPrefEnabled: Boolean,
+	isTrueHDPrefEnabled: Boolean,
 	downMixAudio: Boolean,
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
@@ -112,9 +128,16 @@ fun createDeviceProfile(
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
-		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
 		else -> supportedAudioCodecs
-	}
+	}.filter { supportedPassthroughAudioCodecs ->
+		when (supportedPassthroughAudioCodecs) {
+			Codec.Audio.AC3 -> isAC3PrefEnabled
+			Codec.Audio.EAC3 -> isEAC3PrefEnabled
+			Codec.Audio.TRUEHD -> isTrueHDPrefEnabled
+			Codec.Audio.DTS -> isDTSPrefEnabled
+			else -> true
+		}
+	}.toTypedArray()
 
 	val supportsHevc = mediaTest.supportsHevc()
 	val supportsHevcMain10 = mediaTest.supportsHevcMain10()
