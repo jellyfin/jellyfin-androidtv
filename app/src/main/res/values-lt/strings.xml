@@ -362,7 +362,7 @@
     <string name="image_size_xlarge">Ypač didelis</string>
     <string name="pref_developer_link_description">Papildomos ir ekspermentinės galimybės</string>
     <string name="discovered_servers_empty">Lokaliame tinkle serverių nerasta.</string>
-    <string name="pref_watched_indicator">Rodyti Žiūrėtas indikatorius</string>
+    <string name="pref_watched_indicator">Rodyti indikatorius Žiūrėtas</string>
     <string name="login_help_description">Jellyfin reikia serverio, prie kurio būtų galima prisijungti. Apsilankykite mūsų dokumentuose adresu docs.jellyfin.org arba nuskaitykite QR kodą ir pradėkite naudotis Jellyfin.</string>
     <string name="connect_manually_by_address">Įrašykite serverio adresą</string>
     <string name="lbl_use_series_thumbnails_description">Rodant epizodus naudoti serialų miniatiūras</string>
