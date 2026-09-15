@@ -58,6 +58,20 @@ fun SettingsScreensaverScreen() {
 		}
 
 		item {
+			var screensaverInAppSleepTimeout by rememberPreference(userPreferences, UserPreferences.screensaverInAppSleepTimeout)
+			val caption = getScreensaverSleepTimeoutOptions()
+				.firstOrNull { (duration) -> duration.inWholeMilliseconds == screensaverInAppSleepTimeout }
+				?.second.orEmpty()
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_screensaver_inapp_sleep_timeout)) },
+				captionContent = { Text(caption) },
+				onClick = { router.push(Routes.CUSTOMIZATION_SCREENSAVER_SLEEP_TIMEOUT) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_SCREENSAVER_SLEEP_TIMEOUT)
+			)
+		}
+
+		item {
 			var screensaverAgeRatingRequired by rememberPreference(userPreferences, UserPreferences.screensaverAgeRatingRequired)
 
 			ListButton(

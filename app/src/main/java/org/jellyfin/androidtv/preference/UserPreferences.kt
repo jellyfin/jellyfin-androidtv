@@ -26,6 +26,7 @@ import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.model.api.MediaSegmentType
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 /**
@@ -234,6 +235,13 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Timeout before showing the screensaver in app, depends on [screensaverInAppEnabled].
 		 */
 		var screensaverInAppTimeout = longPreference("screensaver_inapp_timeout", 5.minutes.inWholeMilliseconds)
+
+		/**
+		 * Duration the in-app screensaver keeps the device awake for after it becomes visible, depends on
+		 * [screensaverInAppEnabled]. [Duration.INFINITE] holds the screen for as long as the app is in the
+		 * foreground, [Duration.ZERO] never holds it at all.
+		 */
+		var screensaverInAppSleepTimeout = longPreference("screensaver_inapp_sleep_timeout", Duration.INFINITE.inWholeMilliseconds)
 
 		/**
 		 * Age rating used to filter items in the screensaver. Use -1 to disable (omits parameter from requests).

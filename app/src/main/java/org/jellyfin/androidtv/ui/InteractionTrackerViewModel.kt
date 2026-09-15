@@ -25,6 +25,7 @@ class InteractionTrackerViewModel(
 
 	private var timer: Job? = null
 	private var locks = 0
+	private var sleepAllowed = false
 
 	// Still Watching
 
@@ -37,6 +38,7 @@ class InteractionTrackerViewModel(
 
 	private val inAppEnabled get() = userPreferences[UserPreferences.screensaverInAppEnabled]
 	private val timeout get() = userPreferences[UserPreferences.screensaverInAppTimeout].milliseconds
+	private val sleepTimeout get() = userPreferences[UserPreferences.screensaverInAppSleepTimeout].milliseconds
 	private val stillWatchingBehavior get() = userPreferences[UserPreferences.stillWatchingBehavior]
 
 	// State
@@ -91,6 +93,7 @@ class InteractionTrackerViewModel(
 	fun notifyInteraction(canCancel: Boolean, userInitiated: Boolean) {
 		// Cancel pending screensaver timer (if any)
 		timer?.cancel()
+		sleepAllowed = false
 
 		// If watching episodes, reset episode count and watch time
 		if (isWatchingEpisodes && userInitiated) {
@@ -108,11 +111,20 @@ class InteractionTrackerViewModel(
 			timer = viewModelScope.launch {
 				delay(timeout)
 				_screensaverVisible.value = true
+
+				if (sleepTimeout.isFinite()) {
+					delay(sleepTimeout)
+					sleepAllowed = true
+					updateKeepScreenOn()
+				}
 			}
 		}
 
-		// Update KEEP_SCREEN_ON flag value
-		_keepScreenOn.value = inAppEnabled || locks > 0
+		updateKeepScreenOn()
+	}
+
+	private fun updateKeepScreenOn() {
+		_keepScreenOn.value = (inAppEnabled && !sleepAllowed) || locks > 0
 	}
 
 	/**

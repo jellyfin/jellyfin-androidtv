@@ -55,6 +55,7 @@ import org.jellyfin.androidtv.ui.settings.screen.playback.nextup.SettingsPlaybac
 import org.jellyfin.androidtv.ui.settings.screen.playback.nextup.SettingsPlaybackNextUpScreen
 import org.jellyfin.androidtv.ui.settings.screen.screensaver.SettingsScreensaverAgeRatingScreen
 import org.jellyfin.androidtv.ui.settings.screen.screensaver.SettingsScreensaverScreen
+import org.jellyfin.androidtv.ui.settings.screen.screensaver.SettingsScreensaverSleepTimeoutScreen
 import org.jellyfin.androidtv.ui.settings.screen.screensaver.SettingsScreensaverTimeoutScreen
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -74,6 +75,7 @@ object Routes {
 	const val CUSTOMIZATION_BACKDROP = "/customization/backdrop"
 	const val CUSTOMIZATION_SCREENSAVER = "/customization/screensaver"
 	const val CUSTOMIZATION_SCREENSAVER_TIMEOUT = "/customization/screensaver/timeout"
+	const val CUSTOMIZATION_SCREENSAVER_SLEEP_TIMEOUT = "/customization/screensaver/sleep-timeout"
 	const val CUSTOMIZATION_SCREENSAVER_AGE_RATING = "/customization/screensaver/age-rating"
 	const val CUSTOMIZATION_SUBTITLES = "/customization/subtitles"
 	const val CUSTOMIZATION_SUBTITLES_TEXT_COLOR = "/customization/subtitles/text-color"
@@ -164,6 +166,9 @@ val routes = mapOf<String, RouteComposable>(
 	},
 	Routes.CUSTOMIZATION_SCREENSAVER_TIMEOUT to {
 		SettingsScreensaverTimeoutScreen()
+	},
+	Routes.CUSTOMIZATION_SCREENSAVER_SLEEP_TIMEOUT to {
+		SettingsScreensaverSleepTimeoutScreen()
 	},
 	Routes.CUSTOMIZATION_SCREENSAVER_AGE_RATING to {
 		SettingsScreensaverAgeRatingScreen()
