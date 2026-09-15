@@ -669,4 +669,6 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="lbl_date_show_added">Datum dodavanja serije</string>
+    <string name="lbl_date_episode_added">Datum dodavanja epizode</string>
 </resources>

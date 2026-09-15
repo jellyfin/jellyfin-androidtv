@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.util.withContext
+import com.mikepenz.aboutlibraries.util.withJson
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -24,7 +24,7 @@ fun SettingsLicensesScreen() {
 
 	val libraries = remember(context) {
 		val libs = Libs.Builder()
-			.withContext(context)
+			.withJson(context, R.raw.aboutlibraries)
 			.build()
 
 		libs.libraries.sortedBy { it.name.lowercase() }

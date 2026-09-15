@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.util.withContext
+import com.mikepenz.aboutlibraries.util.withJson
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -24,6 +25,7 @@ fun SettingsLicenseScreen(artifactId: String) {
 
 	val library = remember(context, artifactId) {
 		val libs = Libs.Builder()
+			.withJson(context, R.raw.aboutlibraries)
 			.withContext(context)
 			.build()
 

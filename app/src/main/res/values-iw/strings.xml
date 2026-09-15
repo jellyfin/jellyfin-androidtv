@@ -502,7 +502,7 @@
     <string name="person_birthday_and_age">תאריך לידה %1$s (%2$d)</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -678,4 +678,25 @@
     <string name="pref_software_codecs_enabled_description">חלק מהיישומים מבוססי התוכנה עלולים לפגוע בביצועים. השבתת אפשרות זו מגדילה את הסבירות להמרת קידוד.</string>
     <string name="lbl_date_show_added">תאריך הוספת הסדרה</string>
     <string name="lbl_date_episode_added">תאריך הוספת הפרק</string>
+    <string name="preference_hdr_overrides">פורמטים ב־HDR</string>
+    <string name="preference_hdr_overrides_summary">לדרוס יכולות HDR המדווחות ע\"י המכשיר</string>
+    <string name="hdr_override_auto">אוטומטי (זיהוי ע\"י המכשיר)</string>
+    <string name="hdr_override_enable">לאפשר</string>
+    <string name="hdr_override_disable">לבטל</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">מטא-נתוני HDR סטטיים</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">מטא-נתוני HDR דינאמיים</string>
+    <string name="dovi_profile_5">Dolby Vision פרופיל 5</string>
+    <string name="dovi_profile_5_description">Dolby Vision חד־שכבתי</string>
+    <string name="dovi_profile_7">Dolby Vision פרופיל 7</string>
+    <string name="dovi_profile_7_description">דו־שכבתי עם שכבת־שיפור</string>
+    <string name="dovi_profile_8">Dolby Vision פרופיל 8</string>
+    <string name="dovi_profile_8_description">שכבה אחת עם נסיגה ל־HDR10</string>
+    <string name="photo_player">נגן תמונות</string>
+    <string name="photo_display_duration">משך הצגה של תמונה</string>
+    <string name="photo_display_duration_description">כמה זמן להמתין לפני הצגת התמונה הבאה</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
