@@ -228,7 +228,7 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_record_any_channel">Įrašyti bet kurį kanalą</string>
-    <string name="player_error">Grotuve įsivėlė klaida. Bandoma iš naujo…</string>
+    <string name="player_error">Leistuve įsivėlė klaida. Bandoma iš naujo…</string>
     <string name="login_invalid_credentials">Neteisingas vartotojo vardas ir/arba slaptažodis</string>
     <string name="user_picker_last_user_title">Paskutinį kartą naudota</string>
     <string name="lbl_on_any_channel">Ant bet kurio kanalo</string>
@@ -344,7 +344,7 @@
     <string name="pref_next_up_timeout_title">Užrašo Toliau rodymo laikas</string>
     <string name="pref_audio_track_button">Garso takelio mygtukas</string>
     <string name="pref_subtitle_track_button">Subtitrų takelio mygtukas</string>
-    <string name="no_player">Nėra grotuvo</string>
+    <string name="no_player">Nėra leistuvo</string>
     <string name="episode_missing_message_2">Šio epizodo nėra jūsų bibliotekoje. Atkūrimas bus sustabdytas.</string>
     <string name="no_player_message">Atrodo, kad neturite įdiegtos programėlės, palaikančios vaizdo įrašų atkūrimą. Norint naudotis šia parinktimi, reikia įdiegti trečiosios šalies programėlę vaizdo įrašams atkurti.</string>
     <string name="msg_live_tv_next">Krauti kitas %1$d valandas?</string>
@@ -455,7 +455,7 @@
     <string name="lbl_subtitle_text_color">Teksto spalva</string>
     <string name="lbl_subtitle_background_color">Fono spalva</string>
     <string name="lbl_subtitle_text_stroke_color">Krašto spalva</string>
-    <string name="pref_external_player">Naudoti išorinį grotuvą</string>
+    <string name="pref_external_player">Naudoti išorinį leistuvą</string>
     <string name="channels">Kanalai</string>
     <string name="past_week">Pastąrąją savaitę</string>
     <string name="prefer_exoplayer_ffmpeg">Teikti pirmenybę FFmpeg garso atkūrimui</string>
@@ -527,7 +527,7 @@
     <string name="segment_type_intro">Įžangos</string>
     <string name="video_start_delay">Vaizdo pradžios delsa</string>
     <string name="segment_type_recap">Apibendrinimai</string>
-    <string name="preference_enable_trickplay">Įjungti Trickplay vaizdo grotuve</string>
+    <string name="preference_enable_trickplay">Įjungti Trickplay vaizdo leistuve</string>
     <string name="pref_troubleshooting">Diagnostika</string>
     <string name="pref_report_device_profile_summary">Įkelti diagnostikos dokumentą į Jellyfin serverį su informacija apie atkūrimo galimybes</string>
     <plurals name="tracks">
@@ -634,10 +634,10 @@
     <string name="color_presets">Išankstiniai nustatymai</string>
     <string name="color_custom">Pritaikyti spalvą</string>
     <string name="color_alpha">Skaidrumas</string>
-    <string name="playback_video_player">Vaizdo grotuvas</string>
-    <string name="video_player_internal">Integruotas vaizdo grotuvas</string>
+    <string name="playback_video_player">Vaizdo leistuvas</string>
+    <string name="video_player_internal">Integruotas vaizdo leistuvas</string>
     <string name="video_player_external">Išorinė programėlė</string>
-    <string name="playback_video_player_external_empty">Jūsų įrenginyje nėra įdiegtos jokios vaizdo grotuvo programėlės, kuri galėtų atidaryti Jellyfin vaizdo įrašus.</string>
+    <string name="playback_video_player_external_empty">Jūsų įrenginyje nėra įdiegtos jokios vaizdo leistuvo programėlės, kuri galėtų atidaryti Jellyfin vaizdo įrašus.</string>
     <string name="filters">Filtrai</string>
     <string name="backdrop_behavior_with_blur">Fonas su suliejimu</string>
     <string name="backdrop_behavior_without_blur">Fonas be suliejimo</string>
@@ -697,4 +697,7 @@
     <string name="dovi_profile_7_description">Dvisluoksnis su patobulinimo sluoksniu</string>
     <string name="dovi_profile_8">Dolby Vision profilis 8</string>
     <string name="dovi_profile_8_description">Vieno sluoksnio su HDR10 atsarginiu režimu</string>
+    <string name="bitstream_eac3">Dolby Digital Plus bitų srautas</string>
+    <string name="bitstream_truehd">Dolby TrueHD bitų srautas</string>
+    <string name="bitstream_dts">Digital Theater System bitų srautas</string>
 </resources>
