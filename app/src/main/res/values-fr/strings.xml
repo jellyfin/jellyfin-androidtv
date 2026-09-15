@@ -181,7 +181,7 @@
     <string name="lbl_new">Nouveau</string>
     <string name="lbl_recent_recordings">Enregistrements récents</string>
     <string name="lbl_repeat">Répéter</string>
-    <string name="lbl_resume_from">Reprendre à partir de %1$s</string>
+    <string name="lbl_resume_from">Reprendre à %1$s</string>
     <string name="lbl_save">Sauvegarder</string>
     <string name="lbl_select_date">Choisir la date</string>
     <string name="lbl_series_settings">Préférences des séries</string>
