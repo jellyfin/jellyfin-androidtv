@@ -263,7 +263,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         playFromHere.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                play(mItems, row.getIndex(), false);
+                play(mBaseItem, mItems, row.getIndex(), false);
                 return true;
             }
         });
@@ -347,10 +347,10 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void play(List<BaseItemDto> items, boolean shuffle) {
-        play(items, 0, shuffle);
+        play(mBaseItem, items, 0, shuffle);
     }
 
-    private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
+    private void play(BaseItemDto baseItem, List<BaseItemDto> items, int ndx, boolean shuffle) {
         Timber.i("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
         int pos = 0;
@@ -358,7 +358,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         if (item != null && item.getUserData() != null) {
             pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
         }
-        KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos, false, ndx, shuffle);
+        Timber.i("Launching due to play multiple items");
+        KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos, false, ndx, shuffle, baseItem);
     }
 
     private void addButtons(int buttonSize) {
