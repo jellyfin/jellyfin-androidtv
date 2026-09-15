@@ -249,7 +249,7 @@
     <string name="lbl_playback_control_ends">Baigsis %1$s</string>
     <string name="lbl_hidden">Paslėpta</string>
     <string name="grid_direction">Tinklelio kryptis</string>
-    <string name="licenses_link">Licencija</string>
+    <string name="licenses_link">Licencijos</string>
     <string name="license_website">Svetainė</string>
     <string name="license_repository">Saugykla</string>
     <string name="home_section_none">Nėra</string>
