@@ -682,4 +682,9 @@
     <string name="dovi_profile_8">Dolby Vision profilur 8</string>
     <string name="dovi_profile_5_description">Eittlags Dolby Vision</string>
     <string name="dovi_profile_8_description">Eittlags Dolby Vision við HDR10-varavirkisføri</string>
+    <string name="bitstream_eac3">Bitstroym Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstroym Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstroym Dolby TrueHD</string>
+    <string name="hdr10_plus_override_description">Dynamiskar HDR-metadátur</string>
+    <string name="hdr10_override_description">Statiskar HDR-metadátur</string>
 </resources>
