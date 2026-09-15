@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.preference.constant.AVCLevel
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.BackdropBehavior
+import org.jellyfin.androidtv.preference.constant.BitstreamAudioMode
 import org.jellyfin.androidtv.preference.constant.BufferLength
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.HEVCLevel
@@ -134,24 +135,24 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var audioNightMode = enumPreference("audio_night_mode", false)
 
 		/**
-		 * Enable AC3
+		 * AC3 bitstream device profile override.
 		 */
-		var ac3Enabled = booleanPreference("pref_bitstream_ac3", true)
+		var bitstreamAc3 = enumPreference("bitstream_ac3_mode", BitstreamAudioMode.AUTO)
 
 		/**
-		 * Enable EAC3
+		 * EAC3 bitstream device profile override.
 		 */
-		var eac3Enabled = booleanPreference("bitstream_eac3", true)
+		var bitstreamEac3 = enumPreference("bitstream_eac3_mode", BitstreamAudioMode.AUTO)
 
 		/**
-		 * Enable DTS
+		 * DTS bitstream device profile override.
 		 */
-		var dtsEnabled = booleanPreference("bitstream_dts", true)
+		var bitstreamDts = enumPreference("bitstream_dts_mode", BitstreamAudioMode.AUTO)
 
 		/**
-		 * Enable TrueHD
+		 * TrueHD bitstream device profile override.
 		 */
-		var truehdEnabled = booleanPreference("bitstream_truehd", true)
+		var bitstreamTrueHd = enumPreference("bitstream_truehd_mode", BitstreamAudioMode.AUTO)
 
 		/**
 		 * HDR10 device profile override.

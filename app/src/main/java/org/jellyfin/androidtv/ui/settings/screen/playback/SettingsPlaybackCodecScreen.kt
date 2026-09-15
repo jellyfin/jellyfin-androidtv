@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.BitstreamAudioFormat
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -23,8 +24,6 @@ import org.koin.compose.koinInject
 fun SettingsPlaybackCodecScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
-	var ac3Enabled by rememberPreference(userPreferences, UserPreferences.ac3Enabled)
-	var eac3Enabled by rememberPreference(userPreferences, UserPreferences.eac3Enabled)
 
 	SettingsColumn {
 		item {
@@ -57,43 +56,20 @@ fun SettingsPlaybackCodecScreen() {
 			)
 		}
 
-		item {
+		items(BitstreamAudioFormat.entries.size) { index ->
+			val format = BitstreamAudioFormat.entries[index]
+			val mode = userPreferences[format.preference]
+
 			ListButton(
-				headingContent = { Text(stringResource(R.string.lbl_bitstream_ac3)) },
-				trailingContent = { Checkbox(checked = ac3Enabled) },
+				headingContent = { Text(stringResource(format.nameRes)) },
+				captionContent = { Text(stringResource(mode.nameRes)) },
 				onClick = {
-					ac3Enabled = !ac3Enabled
-					if(!ac3Enabled) eac3Enabled = false
-				}
-			)
-		}
-
-		item {
-			ListButton(
-				headingContent = { Text(stringResource(R.string.bitstream_eac3)) },
-				trailingContent = { Checkbox(checked = eac3Enabled) },
-				onClick = { eac3Enabled = !eac3Enabled },
-				enabled = ac3Enabled
-			)
-		}
-
-		item {
-			var dtsEnabled by rememberPreference(userPreferences, UserPreferences.dtsEnabled)
-
-			ListButton(
-				headingContent = { Text(stringResource(R.string.bitstream_dts)) },
-				trailingContent = { Checkbox(checked = dtsEnabled) },
-				onClick = { dtsEnabled = !dtsEnabled }
-			)
-		}
-
-		item {
-			var truehdEnabled by rememberPreference(userPreferences, UserPreferences.truehdEnabled)
-
-			ListButton(
-				headingContent = { Text(stringResource(R.string.bitstream_truehd)) },
-				trailingContent = { Checkbox(checked = truehdEnabled) },
-				onClick = { truehdEnabled = !truehdEnabled }
+					router.push(
+						route = Routes.PLAYBACK_BITSTREAM_AUDIO,
+						parameters = mapOf("format" to format.name),
+					)
+				},
+				modifier = Modifier.focusKey("bitstream_audio_${format.name}"),
 			)
 		}
 
