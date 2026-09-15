@@ -57,12 +57,8 @@ class HomeFragmentHelper(
 	}
 
 	fun loadNextUp(): HomeFragmentRow {
-		val maxDays = userPreferences[UserPreferences.maxDaysInNextUp]
-		val nextUpDateCutoff = if (maxDays > 0) {
-			LocalDateTime.now().minusDays(maxDays.toLong())
-		} else {
-			null
-		}
+		val maxDays = userPreferences[UserPreferences.homeNextUpMaxDays]
+		val nextUpDateCutoff = maxDays.takeIf { it > 0 }?.let { LocalDateTime.now().minusDays(it.toLong()) }
 
 		val query = GetNextUpRequest(
 			imageTypeLimit = 1,

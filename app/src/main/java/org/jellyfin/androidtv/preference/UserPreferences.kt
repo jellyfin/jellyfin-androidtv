@@ -199,7 +199,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Maximum days since last watch to show an item in next up.
 		 * Set to 0 to disable (no cutoff).
 		 */
-		var maxDaysInNextUp = intPreference("pref_max_days_in_next_up", 0)
+		var homeNextUpMaxDays = intPreference("home_next_up_max_days", 0)
 
 		/**
 		 * Subtitles foreground color

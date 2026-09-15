@@ -20,12 +20,15 @@ import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.jellyfin.androidtv.util.getQuantityString
 import org.koin.compose.koinInject
 
+@Suppress("MagicNumber")
+private val NextUpMaxDaysOptions = listOf(7, 14, 30, 60, 90, 180, 365)
+
 @Composable
 fun getNextUpCutoffOptions(): List<Pair<Int, String>> {
 	val context = LocalContext.current
 	return buildList {
-		add(0 to stringResource(R.string.pref_max_days_in_next_up_disabled))
-		listOf(7, 14, 30, 60, 90, 180, 365).forEach { days ->
+		add(0 to stringResource(R.string.home_next_up_max_days_disabled))
+		NextUpMaxDaysOptions.forEach { days ->
 			add(days to context.getQuantityString(R.plurals.days, days))
 		}
 	}
@@ -35,27 +38,27 @@ fun getNextUpCutoffOptions(): List<Pair<Int, String>> {
 fun SettingsHomeNextUpCutoffScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
-	var maxDaysInNextUp by rememberPreference(userPreferences, UserPreferences.maxDaysInNextUp)
+	var homeNextUpMaxDays by rememberPreference(userPreferences, UserPreferences.homeNextUpMaxDays)
 	val options = getNextUpCutoffOptions()
 
 	SettingsColumn {
 		item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.home_prefs).uppercase()) },
-				headingContent = { Text(stringResource(R.string.pref_max_days_in_next_up)) },
+				headingContent = { Text(stringResource(R.string.home_next_up_max_days)) },
 			)
 		}
 
 		items(options) { (days, label) ->
 			ListButton(
 				headingContent = { Text(label) },
-				trailingContent = { RadioButton(checked = maxDaysInNextUp == days) },
+				trailingContent = { RadioButton(checked = homeNextUpMaxDays == days) },
 				onClick = {
-					maxDaysInNextUp = days
+					homeNextUpMaxDays = days
 					router.back()
 				},
 				modifier = Modifier
-					.focusKey("cutoff_$days", initialFocus = maxDaysInNextUp == days)
+					.focusKey("cutoff_$days", initialFocus = homeNextUpMaxDays == days)
 			)
 		}
 	}
