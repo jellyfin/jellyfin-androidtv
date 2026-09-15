@@ -48,13 +48,13 @@ fun SettingsHomeScreen() {
 		}
 
 		item {
-			val maxDaysInNextUp by rememberPreference(userPreferences, UserPreferences.maxDaysInNextUp)
+			val homeNextUpMaxDays by rememberPreference(userPreferences, UserPreferences.homeNextUpMaxDays)
 			val options = getNextUpCutoffOptions()
-			val selectedCaption = options.firstOrNull { it.first == maxDaysInNextUp }?.second
-				?: stringResource(R.string.pref_max_days_in_next_up_disabled)
+			val selectedCaption = options.firstOrNull { it.first == homeNextUpMaxDays }?.second
+				?: stringResource(R.string.home_next_up_max_days_disabled)
 
 			ListButton(
-				headingContent = { Text(stringResource(R.string.pref_max_days_in_next_up)) },
+				headingContent = { Text(stringResource(R.string.home_next_up_max_days)) },
 				captionContent = { Text(selectedCaption) },
 				onClick = { router.push(Routes.HOME_NEXT_UP_CUTOFF) },
 				modifier = Modifier.focusKey(Routes.HOME_NEXT_UP_CUTOFF)
