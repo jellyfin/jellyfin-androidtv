@@ -643,23 +643,57 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info - prefer saved language preference over server default
+        // get subtitle info - prefer saved language + title preference over server default.
+        // Matching priority: exact (language + title) -> language only -> server default.
         String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
+        String lastSubtitleTitle = videoQueueManager.getValue().getLastPlayedSubtitleTitle();
         if (lastSubtitleLanguage != null) {
             if (lastSubtitleLanguage.isEmpty()) {
                 // User explicitly disabled subtitles
                 mCurrentOptions.setSubtitleStreamIndex(null);
             } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Find subtitle stream matching saved language
+                // Pass 1: try to find a subtitle stream matching both the saved language and title
                 Integer matchingIndex = null;
-                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        matchingIndex = stream.getIndex();
-                        break;
+                if (lastSubtitleTitle != null) {
+                    for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                        if (stream.getType() == MediaStreamType.SUBTITLE
+                            && lastSubtitleLanguage.equals(stream.getLanguage())
+                            && lastSubtitleTitle.equals(stream.getTitle() != null ? stream.getTitle() : stream.getDisplayTitle())) {
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
                     }
+                }
+                // Pass 2: fall back to any subtitle stream matching the saved language
+                if (matchingIndex == null) {
+                    for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                        if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
+                            matchingIndex = stream.getIndex();
+                            break;
+                        }
+                    }
+                }
+                // Pass 3: no language match at all, fall back to the server default
+                if (matchingIndex == null) {
+                    matchingIndex = response.getMediaSource().getDefaultSubtitleStreamIndex();
                 }
                 mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
             }
+        } else if (lastSubtitleTitle != null && response.getMediaSource().getMediaStreams() != null) {
+            // No language preference, but a title was saved (e.g. tracks without a language tag).
+            // Try to restore the track by its title alone.
+            Integer matchingIndex = null;
+            for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
+                if (stream.getType() == MediaStreamType.SUBTITLE
+                    && lastSubtitleTitle.equals(stream.getTitle() != null ? stream.getTitle() : stream.getDisplayTitle())) {
+                    matchingIndex = stream.getIndex();
+                    break;
+                }
+            }
+            if (matchingIndex == null) {
+                matchingIndex = response.getMediaSource().getDefaultSubtitleStreamIndex();
+            }
+            mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
         } else {
             // No saved preference, use server default
             mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
