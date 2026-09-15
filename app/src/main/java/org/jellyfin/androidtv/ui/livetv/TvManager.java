@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -31,6 +32,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +65,7 @@ public class TvManager {
     }
 
     public static List<BaseItemDto> getAllChannels() {
-        return allChannels;
+        return allChannels == null ? Collections.emptyList() : allChannels;
     }
 
     public static void forceReload() {
@@ -80,8 +82,10 @@ public class TvManager {
         return -1;
     }
 
+    @Nullable
     public static BaseItemDto getChannel(int ndx) {
-        return allChannels.get(ndx);
+        List<BaseItemDto> channels = getAllChannels();
+        return ndx >= 0 && ndx < channels.size() ? channels.get(ndx) : null;
     }
 
     public static void updateLastPlayedDate(UUID channelId) {

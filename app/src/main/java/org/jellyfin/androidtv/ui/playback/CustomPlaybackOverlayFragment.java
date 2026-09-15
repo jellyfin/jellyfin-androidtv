@@ -866,6 +866,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             for (int i = start; i <= end; i++) {
                 if (isCancelled()) return null;
                 final BaseItemDto channel = TvManager.getChannel(i);
+                if (channel == null) continue;
                 List<BaseItemDto> programs = TvManager.getProgramsForChannel(channel.getId());
                 final LinearLayout row = getProgramRow(programs, channel.getId());
                 if (first) {
