@@ -230,6 +230,20 @@ class SdkPlaybackHelper(
 				}
 			}
 
+			BaseItemKind.VIDEO -> {
+				val parentId = mainItem.parentId
+				if (parentId == null) {
+					getParts(mainItem)
+				} else {
+					val siblingVideos = getVideosInFolder(parentId, mainItem)
+					if (siblingVideos.any { it.id == mainItem.id } && siblingVideos.size > 1) {
+						siblingVideos
+					} else {
+						getParts(mainItem)
+					}
+				}
+			}
+
 			else -> {
 				val parts = getParts(mainItem)
 				val addIntros = allowIntros && userPreferences[UserPreferences.cinemaModeEnabled]
@@ -246,6 +260,20 @@ class SdkPlaybackHelper(
 				}
 			}
 		}
+	}
+
+	private suspend fun getVideosInFolder(parentId: UUID, item: BaseItemDto): List<BaseItemDto> {
+		val response by api.itemsApi.getItems(
+			parentId = parentId,
+			isMissing = false,
+			includeItemTypes = listOf(BaseItemKind.VIDEO),
+			sortBy = listOf(ItemSortBy.SORT_NAME),
+			nameStartsWithOrGreater = item.sortName ?: item.name,
+			limit = ITEM_QUERY_LIMIT,
+			fields = ItemRepository.itemFields,
+		)
+
+		return response.items
 	}
 
 	private suspend fun getParts(item: BaseItemDto): List<BaseItemDto> = buildList {
