@@ -20,6 +20,7 @@ val MediaSegmentType.nameRes
 
 @Composable
 @Stable
+@Suppress("MagicNumber")
 fun getMediaSegmentAutoHideDurationOptions(): Map<Int, String> {
 	val context = LocalContext.current
 	return listOf(
@@ -32,7 +33,7 @@ fun getMediaSegmentAutoHideDurationOptions(): Map<Int, String> {
 		30,
 		0,
 	).associateWith { seconds ->
-		if (seconds == 0) stringResource(R.string.pref_skip_button_until_segment_ends)
+		if (seconds == 0) stringResource(R.string.media_segment_skip_button_until_segment_ends)
 		else TimeUtils.formatSeconds(context, seconds)
 	}
 }

@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.ZoomMode
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
+import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.playback.segment.toMediaSegmentActionsString
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
@@ -265,7 +266,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * The duration in seconds to wait before automatically hiding the "ask to skip" UI.
 		 * 0 = never auto-hide (stay until segment ends).
 		 */
-		var mediaSegmentAutoHideDuration = intPreference("media_segment_auto_hide_duration", 8)
+		var mediaSegmentAutoHideDuration = intPreference(
+			"media_segment_auto_hide_duration",
+			MediaSegmentRepository.AskToSkipAutoHideDuration.inWholeSeconds.toInt()
+		)
 
 		/**
 		 * Preferred behavior for player aspect ratio (zoom mode).

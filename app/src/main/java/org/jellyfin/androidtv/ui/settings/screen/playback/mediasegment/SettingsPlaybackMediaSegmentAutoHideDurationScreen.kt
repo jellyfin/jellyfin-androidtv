@@ -29,7 +29,7 @@ fun SettingsPlaybackMediaSegmentAutoHideDurationScreen() {
 		item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.pref_playback_media_segments).uppercase()) },
-				headingContent = { Text(stringResource(R.string.pref_skip_button_duration)) },
+				headingContent = { Text(stringResource(R.string.media_segment_skip_button_duration)) },
 			)
 		}
 

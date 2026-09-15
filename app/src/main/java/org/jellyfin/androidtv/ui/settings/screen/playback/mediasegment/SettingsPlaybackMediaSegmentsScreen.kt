@@ -55,7 +55,7 @@ fun SettingsPlaybackMediaSegmentsScreen() {
 			val options = getMediaSegmentAutoHideDurationOptions()
 
 			ListButton(
-				headingContent = { Text(stringResource(R.string.pref_skip_button_duration)) },
+				headingContent = { Text(stringResource(R.string.media_segment_skip_button_duration)) },
 				captionContent = { Text(options[autoHideDuration].orEmpty()) },
 				onClick = { router.push(Routes.PLAYBACK_MEDIA_SEGMENT_AUTO_HIDE_DURATION) },
 				modifier = Modifier.focusKey(Routes.PLAYBACK_MEDIA_SEGMENT_AUTO_HIDE_DURATION)
