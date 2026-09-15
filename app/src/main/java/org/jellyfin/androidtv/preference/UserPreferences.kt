@@ -212,6 +212,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var seriesThumbnailsEnabled = booleanPreference("pref_enable_series_thumbnails", true)
 
 		/**
+		 * Maximum days since last watch to show an item in next up.
+		 * Set to 0 to disable (no cutoff).
+		 */
+		var homeNextUpMaxDays = intPreference("home_next_up_max_days", 0)
+
+		/**
 		 * Subtitles foreground color
 		 */
 		var subtitlesBackgroundColor = longPreference("subtitles_background_color", 0x00FFFFFF)
