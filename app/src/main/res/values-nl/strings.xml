@@ -690,4 +690,10 @@
     <string name="bitstream_eac3">Dolby Digital Plus bitstreamen</string>
     <string name="bitstream_dts">Digital Theater System bitstreamen</string>
     <string name="bitstream_truehd">Dolby TrueHD bitstreamen</string>
+    <plurals name="days">
+        <item quantity="one">%1$s dag</item>
+        <item quantity="other">%1$s dagen</item>
+    </plurals>
+    <string name="home_next_up_max_days_disabled">Uitgeschakeld</string>
+    <string name="home_next_up_max_days">Aantal dagen in \'Volgende\'</string>
 </resources>
