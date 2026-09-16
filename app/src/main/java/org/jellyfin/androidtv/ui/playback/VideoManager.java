@@ -36,6 +36,7 @@ import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.analytics.AnalyticsListener;
+import androidx.media3.exoplayer.mediacodec.MediaCodecSelector;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
@@ -83,6 +84,11 @@ public class VideoManager {
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private Handler mHandler = new Handler();
+
+    private final FailedVideoDecoderTracker failedVideoDecoderTracker = new FailedVideoDecoderTracker();
+
+    private final MediaCodecSelector mediaCodecSelector = (mimeType, requiresSecureDecoder, requiresTunnelingDecoder) ->
+            failedVideoDecoderTracker.filter(MediaCodecSelector.DEFAULT.getDecoderInfos(mimeType, requiresSecureDecoder, requiresTunnelingDecoder));
 
     private long mMetaDuration = -1;
     private long lastExoPlayerPosition = -1;
@@ -142,6 +148,15 @@ public class VideoManager {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
                 Timber.e("***** Got error from player");
+
+                if (failedVideoDecoderTracker.tryExcludeFailedDecoder(error)) {
+                    // recover locally instead of going through the full error/restart path
+                    long recoveryPosition = mExoPlayer.getCurrentPosition();
+                    mExoPlayer.prepare();
+                    mExoPlayer.seekTo(recoveryPosition);
+                    return;
+                }
+
                 if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
             }
@@ -201,6 +216,10 @@ public class VideoManager {
         mPlaybackControllerNotifiable = notifier;
     }
 
+    public void clearExcludedDecoders() {
+        failedVideoDecoderTracker.clear();
+    }
+
     private int determineExoPlayerExtensionRendererMode() {
         if (userPreferences.get(UserPreferences.Companion.getPreferExoPlayerFfmpeg())) {
             return DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER;
@@ -221,6 +240,7 @@ public class VideoManager {
         DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
+        defaultRendererFactory.setMediaCodecSelector(mediaCodecSelector);
 
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
         trackSelector.setParameters(trackSelector.buildUponParameters()
