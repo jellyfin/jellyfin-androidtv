@@ -680,4 +680,9 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="home_next_up_max_days">下一次更新截止日期</string>
+    <string name="home_next_up_max_days_disabled">禁用</string>
+    <plurals name="days">
+        <item quantity="other">%1$s 天</item>
+    </plurals>
 </resources>
