@@ -229,7 +229,7 @@ class SocketHandler(
 		when (itemKind) {
 			BaseItemKind.USER_VIEW,
 			BaseItemKind.COLLECTION_FOLDER -> {
-				val item by api.userLibraryApi.getItem(itemId = itemId)
+				val item = withContext(Dispatchers.IO) { api.userLibraryApi.getItem(itemId = itemId).content }
 				itemLauncher.launchUserView(item)
 			}
 
