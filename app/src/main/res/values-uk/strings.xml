@@ -707,4 +707,15 @@
     <string name="photo_player">Переглядач фото</string>
     <string name="photo_display_duration">Тривалість показу фото</string>
     <string name="photo_display_duration_description">Затримка перед показом наступного фото</string>
+    <string name="home_next_up_max_days">Граничний термін для списку «Далі»</string>
+    <string name="home_next_up_max_days_disabled">Вимкнено</string>
+    <plurals name="days">
+        <item quantity="one">%1$s день</item>
+        <item quantity="few">%1$s дні</item>
+        <item quantity="many">%1$s днів</item>
+        <item quantity="other">%1$s днів</item>
+    </plurals>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
 </resources>
