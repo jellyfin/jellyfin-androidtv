@@ -700,4 +700,12 @@
     <string name="bitstream_eac3">Dolby Digital Plus bitų srautas</string>
     <string name="bitstream_truehd">Dolby TrueHD bitų srautas</string>
     <string name="bitstream_dts">Digital Theater System bitų srautas</string>
+    <string name="home_next_up_max_days">Kitas galutinis duomenų atnaujinimo terminas</string>
+    <string name="home_next_up_max_days_disabled">Išjungta</string>
+    <plurals name="days">
+        <item quantity="one">%1$s diena</item>
+        <item quantity="few">%1$s dienos</item>
+        <item quantity="many">%1$s dienų</item>
+        <item quantity="other">%1$s dienų</item>
+    </plurals>
 </resources>
