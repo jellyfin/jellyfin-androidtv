@@ -710,4 +710,12 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="home_next_up_max_days_disabled">Wyłączone</string>
+    <plurals name="days">
+        <item quantity="one">%1$s dzień</item>
+        <item quantity="few">%1$s dni</item>
+        <item quantity="many">%1$s dni</item>
+        <item quantity="other">%1$s dni</item>
+    </plurals>
+    <string name="home_next_up_max_days">Data graniczna następnych</string>
 </resources>
