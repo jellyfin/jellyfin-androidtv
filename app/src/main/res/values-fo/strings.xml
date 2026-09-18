@@ -687,4 +687,10 @@
     <string name="bitstream_truehd">Bitstroym Dolby TrueHD</string>
     <string name="hdr10_plus_override_description">Dynamiskar HDR-metadátur</string>
     <string name="hdr10_override_description">Statiskar HDR-metadátur</string>
+    <plurals name="days">
+        <item quantity="one">%1$s dagur</item>
+        <item quantity="other">%1$s dagar</item>
+    </plurals>
+    <string name="home_next_up_max_days_disabled">Óavmarkað</string>
+    <string name="home_next_up_max_days">\"Næst á skránni\" tíðarmark</string>
 </resources>
