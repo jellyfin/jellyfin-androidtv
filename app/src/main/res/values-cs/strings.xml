@@ -700,4 +700,12 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="home_next_up_max_days">Datum hranice dalších na řadě</string>
+    <string name="home_next_up_max_days_disabled">Zakázáno</string>
+    <plurals name="days">
+        <item quantity="one">%1$s den</item>
+        <item quantity="few">%1$s dny</item>
+        <item quantity="many">%1$s dní</item>
+        <item quantity="other">%1$s dní</item>
+    </plurals>
 </resources>
