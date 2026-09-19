@@ -66,6 +66,23 @@ class GenericFolderFragment : EnhancedBrowseFragment() {
 		if (mFolder.type == BaseItemKind.SEASON) {
 			val specials = GetSpecialsRequest(mFolder.id)
 			mRows.add(BrowseRowDef(getString(R.string.lbl_specials), specials))
+
+			val seriesId = mFolder.seriesId ?: mFolder.parentId
+			if (seriesId != null) {
+				val otherSeasons = GetItemsRequest(
+					fields = ItemRepository.itemFields,
+					parentId = seriesId,
+					includeItemTypes = setOf(BaseItemKind.SEASON),
+					excludeItemIds = setOf(mFolder.id),
+				)
+				mRows.add(BrowseRowDef(getString(R.string.lbl_seasons), otherSeasons, 100))
+
+				val series = GetItemsRequest(
+					fields = ItemRepository.itemFields,
+					ids = setOf(seriesId),
+				)
+				mRows.add(BrowseRowDef(getString(R.string.lbl_series), series, 100))
+			}
 		}
 
 		rowLoader.loadRows(mRows)
