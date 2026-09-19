@@ -70,7 +70,7 @@
     <string name="lbl_sorted_by">raðað eftir</string>
     <string name="lbl_from">frá</string>
     <string name="lbl_name">Navni</string>
-    <string name="lbl_date_added">Innleggingardagur</string>
+    <string name="lbl_date_added">Innleggingardegi</string>
     <string name="lbl_premier_date">Frumsýningardegi</string>
     <string name="lbl_rating">Meting</string>
     <string name="lbl_ended">LIÐUG</string>
