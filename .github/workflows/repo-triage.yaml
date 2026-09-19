@@ -9,7 +9,7 @@ on:
 jobs:
   review-add:
     name: Add to reviews project
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: ${{ contains(github.repository_owner, 'jellyfin') && !github.event.pull_request.draft }}
     steps:
       - name: Add pull request to organization project
