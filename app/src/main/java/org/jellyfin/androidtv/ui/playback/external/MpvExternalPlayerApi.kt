@@ -16,9 +16,10 @@ class MpvExternalPlayerApi : ExternalPlayerApi {
 			"is.xyz.mpv"
 		)
 
-		private const val EXTRA_TITLE = "media-title"
+		private const val EXTRA_TITLE = "title"
 		private const val EXTRA_POSITION = "position"
 		private const val EXTRA_SUBS = "subs"
+		private const val EXTRA_SUBS_ENABLE = "subs.enable"
 
 		private const val RESULT_EXTRA_POSITION = "position"
 	}
@@ -31,6 +32,12 @@ class MpvExternalPlayerApi : ExternalPlayerApi {
 
 		if (data.externalSubtitles.isNotEmpty()) {
 			intent.putExtra(EXTRA_SUBS, data.externalSubtitles.map { it.url }.toTypedArray())
+
+			// Select the default subtitles, must be a subset of the subtitles added above
+			val defaultSubtitles = data.externalSubtitles.filter { it.mediaStream.isDefault }
+			if (defaultSubtitles.isNotEmpty()) {
+				intent.putExtra(EXTRA_SUBS_ENABLE, defaultSubtitles.map { it.url }.toTypedArray())
+			}
 		}
 	}
 
