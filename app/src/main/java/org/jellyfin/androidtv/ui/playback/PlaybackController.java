@@ -910,6 +910,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void resetPlayerErrors() {
         playbackRetries = 0;
+        if (mVideoManager != null) mVideoManager.clearExcludedDecoders();
     }
 
     private void clearPlaybackSessionOptions() {
