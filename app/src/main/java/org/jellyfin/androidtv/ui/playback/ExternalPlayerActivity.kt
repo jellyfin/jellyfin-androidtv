@@ -145,7 +145,7 @@ class ExternalPlayerActivity : FragmentActivity() {
 			fileName = mediaSource.path?.let { File(it).name },
 			externalSubtitles = mediaSource.mediaStreams
 				?.filter { it.type == MediaStreamType.SUBTITLE && it.isExternal }
-				?.sortedWith(compareBy<MediaStream> { it.isDefault }.thenBy { it.index })
+				?.sortedWith(compareByDescending<MediaStream> { it.isDefault }.thenBy { it.index })
 				.orEmpty()
 				.map { mediaStream ->
 					// We cannot use the DeliveryUrl as that is only populated when using the playback info API, which we skip as we'll
