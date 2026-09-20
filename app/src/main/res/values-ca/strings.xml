@@ -696,4 +696,14 @@
     <string name="dovi_profile_7_description">Doble capa amb capa de millora</string>
     <string name="dovi_profile_8">Perfil 8 de Dolby Vision</string>
     <string name="dovi_profile_8_description">Monocapa amb HDR10 alternatiu</string>
+    <string name="home_next_up_max_days">Data límit de la pròxima actualització</string>
+    <string name="home_next_up_max_days_disabled">Deshabilitat</string>
+    <plurals name="days">
+        <item quantity="one">%1$s dia</item>
+        <item quantity="many">%1$s dies</item>
+        <item quantity="other">%1$s dies</item>
+    </plurals>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
 </resources>
