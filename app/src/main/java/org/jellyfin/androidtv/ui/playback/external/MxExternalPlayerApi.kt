@@ -14,7 +14,6 @@ class MxExternalPlayerApi : ExternalPlayerApi {
 	companion object {
 		val PACKAGE_NAMES = arrayOf(
 			"com.mxtech.videoplayer.ad",
-			"com.mxtech.videoplayer.pro",
 		)
 
 		private const val EXTRA_TITLE = "title"
@@ -56,9 +55,8 @@ class MxExternalPlayerApi : ExternalPlayerApi {
 
 	override fun parseResult(result: ActivityResult): ExternalPlayResult = when (result.resultCode) {
 		Activity.RESULT_OK -> {
-			val data = result.data
-			val position = data?.getIntExtra(RESULT_EXTRA_POSITION, -1)?.takeIf { it >= 0 }?.toLong()?.milliseconds
-			val completed = when (data?.getStringExtra(RESULT_EXTRA_END_BY)) {
+			val position = result.data?.getIntExtra(RESULT_EXTRA_POSITION, -1)?.takeIf { it >= 0 }?.toLong()?.milliseconds
+			val completed = when (result.data?.getStringExtra(RESULT_EXTRA_END_BY)) {
 				RESULT_END_BY_PLAYBACK_COMPLETION -> true
 				RESULT_END_BY_USER -> false
 				else -> null

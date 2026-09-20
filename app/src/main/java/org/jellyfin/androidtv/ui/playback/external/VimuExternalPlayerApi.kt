@@ -18,7 +18,6 @@ class VimuExternalPlayerApi : ExternalPlayerApi {
 		private const val EXTRA_TITLE = "forcename"
 		private const val EXTRA_POSITION = "startfrom"
 		private const val EXTRA_SUBTITLE_URL = "forcedsrt"
-		private const val EXTRA_RESUME = "forceresume"
 
 		private const val RESULT_CODE_COMPLETED = 1
 		private const val RESULT_CODE_INTERRUPTED = 0
@@ -31,7 +30,6 @@ class VimuExternalPlayerApi : ExternalPlayerApi {
 	override fun populateIntent(intent: Intent, data: ExternalPlayData) {
 		intent.putExtra(EXTRA_TITLE, data.title)
 		intent.putExtra(EXTRA_POSITION, data.position.inWholeMilliseconds.toInt())
-		intent.putExtra(EXTRA_RESUME, false)
 
 		// Just a single external subtitle can be added
 		if (data.externalSubtitles.isNotEmpty()) {
