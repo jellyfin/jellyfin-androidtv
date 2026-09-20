@@ -140,7 +140,9 @@ class DestinationFragmentView @JvmOverloads constructor(
 		}
 
 		// Update arguments
-		fragment.arguments = entry.arguments
+		if (!fragmentManager.isStateSaved) {
+			fragment.arguments = entry.arguments
+		}
 
 		transaction.apply {
 			// Set options
