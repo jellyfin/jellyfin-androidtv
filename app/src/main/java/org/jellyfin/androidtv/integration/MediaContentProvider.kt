@@ -25,6 +25,7 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDtoQueryResult
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -35,7 +36,6 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 		private const val AUTHORITY = "${BuildConfig.APPLICATION_ID}.content"
 		private const val SUGGEST_PATH = "suggestions"
 		private const val SEARCH_SUGGEST = 1
-		private const val TICKS_IN_MILLISECOND = 10000
 		private const val DEFAULT_LIMIT = 10
 		private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
 			addURI(AUTHORITY, "$SUGGEST_PATH/${SearchManager.SUGGEST_URI_PATH_QUERY}", SEARCH_SUGGEST)
@@ -115,7 +115,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 
 				cursor.newRow().apply {
 					add(BaseColumns._ID, item.id)
-					add(SearchManager.SUGGEST_COLUMN_DURATION, item.runTimeTicks?.run { div(TICKS_IN_MILLISECOND) })
+					add(SearchManager.SUGGEST_COLUMN_DURATION, item.runTimeTicks?.ticks?.inWholeMilliseconds)
 					add(SearchManager.SUGGEST_COLUMN_IS_LIVE, if (item.isLive == true) 1 else 0)
 					val lastAccess = item.userData?.lastPlayedDate?.atZone(ZoneId.systemDefault())?.toEpochSecond()
 					add(SearchManager.SUGGEST_COLUMN_LAST_ACCESS_HINT, lastAccess)
