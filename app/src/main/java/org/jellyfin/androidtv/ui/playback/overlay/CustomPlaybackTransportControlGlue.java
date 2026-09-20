@@ -374,8 +374,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) {
-            // The below actions are only handled on key up
-            return super.onKey(v, keyCode, event);
+            // Let the playback glue handle the key before applying the focus fallback below.
+            if (super.onKey(v, keyCode, event)) return true;
+
+            // Leanback UI doesn't work within compose. We need to implement a custom focus handler
+            // to work around various leanback issues on older Android platforms
+            if (event.getAction() == KeyEvent.ACTION_DOWN) return moveFocus(v, keyCode);
+            return false;
         }
 
         VideoPlayerAdapter playerAdapter = getPlayerAdapter();
@@ -387,5 +392,33 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
+    }
+
+    private boolean moveFocus(View root, int keyCode) {
+        final int direction;
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_UP:
+                direction = View.FOCUS_UP;
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                direction = View.FOCUS_DOWN;
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                direction = View.FOCUS_LEFT;
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                direction = View.FOCUS_RIGHT;
+                break;
+            default:
+                return false;
+        }
+
+        View focused = root.findFocus();
+        if (focused == null) return false;
+
+        View next = focused.focusSearch(direction);
+        if (next != null && next != focused) next.requestFocus(direction);
+
+        return true;
     }
 }
