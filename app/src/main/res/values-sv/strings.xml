@@ -503,8 +503,8 @@
         <item quantity="other">%1$s Låtar</item>
     </plurals>
     <plurals name="tv_series">
-        <item quantity="one">%1$s TV Serie</item>
-        <item quantity="other">%1$s TV Serier</item>
+        <item quantity="one">%1$s TV-Serie</item>
+        <item quantity="other">%1$s TV-Serier</item>
     </plurals>
     <plurals name="albums">
         <item quantity="one">%1$s album</item>
@@ -611,8 +611,8 @@
     <string name="video_player_internal">Inbyggd spelare</string>
     <string name="video_player_external">Extern app</string>
     <string name="filters">Filter</string>
-    <string name="pref_playback_next_up">Nästa</string>
-    <string name="pref_playback_prerolls">Prerolls</string>
+    <string name="pref_playback_next_up">Nästa på tur</string>
+    <string name="pref_playback_prerolls">Förfilmer</string>
     <string name="pref_playback_inactivity_prompt">Inaktivitetsmeddelande</string>
     <string name="color_presets">Förinställningar</string>
     <string name="playback_video_player_external_empty">Du har inga videospelarappar installerade på din enhet som kan öppna Jellyfin videor.</string>
@@ -661,7 +661,7 @@
     <string name="playback_info_container">Behållare: %1$s</string>
     <string name="playback_info_bitrate">Bithastighet: %1$s</string>
     <string name="playback_info_transcoding_note">Servern omkodar denna fil</string>
-    <string name="pref_software_codecs_enabled">Använd mjukvarkodeks</string>
+    <string name="pref_software_codecs_enabled">Använd mjukvarkodek</string>
     <string name="playback_info_video_range">Videointervall: %1$s</string>
     <string name="pref_software_codecs_enabled_description">Vissa programvarubaserade implementeringar kan försämra prestandan. Om du inaktiverar det här alternativet ökar sannolikheten för omkodning.</string>
     <string name="lbl_date_show_added">Datum serie las till</string>
