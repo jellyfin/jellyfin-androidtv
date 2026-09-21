@@ -703,4 +703,8 @@
     <string name="bitstream_truehd">Bitstream za Dolby TrueHD</string>
     <string name="photo_player">Preglednik fotografija</string>
     <string name="photo_display_duration">Trajanje prikaza fotografije</string>
+    <string name="photo_display_duration_description">Koliko dugo čekati prije prikaza sljedeće fotografije</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
