@@ -532,7 +532,7 @@
     <string name="lbl_home">Početna</string>
     <string name="all_channels">Svi kanali</string>
     <string name="default_video_zoom">Uobičajeno povećanje</string>
-    <string name="segment_action_nothing">Zanemari</string>
+    <string name="segment_action_nothing">Ne poduzimaj ništa</string>
     <string name="segment_action_skip">Preskoči</string>
     <string name="segment_type_outro">Odjave</string>
     <string name="segment_type_preview">Najave</string>
