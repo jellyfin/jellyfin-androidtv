@@ -90,6 +90,7 @@ fun SettingsPlaybackNextUpScreen() {
 						// 0 - 30 seconds with 1 second increment
 						min = 0f,
 						max = 30_000f,
+						markers = listOf(UserPreferences.nextUpTimeout.defaultValue.toFloat()),
 						stepForward = 1_000f,
 						value = nextUpTimeout.toFloat(),
 						onValueChange = { nextUpTimeout = it.roundToInt() }
