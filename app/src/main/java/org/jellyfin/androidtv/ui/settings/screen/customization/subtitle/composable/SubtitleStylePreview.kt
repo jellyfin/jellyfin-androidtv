@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.TypefaceCompat
 import androidx.core.graphics.alpha
@@ -47,7 +48,7 @@ fun SubtitleStylePreview(
 		modifier = Modifier
 			.background(Tokens.Color.colorBluegrey800, JellyfinTheme.shapes.large)
 			.fillMaxWidth()
-			.height(75.dp)
+			.height(subtitlesTextSize * 3.dp)
 			.clip(JellyfinTheme.shapes.large)
 	)
 	Spacer(Modifier.height(Tokens.Space.spaceSm))
