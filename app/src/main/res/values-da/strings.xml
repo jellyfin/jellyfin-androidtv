@@ -631,4 +631,16 @@
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
     <string name="playback_buffer_auto">Auto</string>
+    <string name="dovi_profile_5_description">enkeltlags Dolby Vision</string>
+    <string name="dovi_profile_7_description">Tolags med forbedringslag</string>
+    <string name="dovi_profile_8_description">Enkeltlags med HDR10-fallback</string>
+    <string name="playback_info_direct_play">Direkte afspilning</string>
+    <string name="playback_info_direct_stream">Direkte stream</string>
+    <string name="playback_info_container">Container: %1$s</string>
+    <string name="playback_info_codec">Codecs: %1$s</string>
+    <string name="playback_info_resolution">Opløsning: %1$dx%2$d</string>
+    <string name="playback_info_bitrate">Bitrate: %1$s</string>
+    <string name="playback_info_channels">Kanaler: %1$d</string>
+    <string name="playback_info_video_range">Videoområde: %1$s</string>
+    <string name="playback_info_transcoding_note">Serveren transkoder denne fil</string>
 </resources>
