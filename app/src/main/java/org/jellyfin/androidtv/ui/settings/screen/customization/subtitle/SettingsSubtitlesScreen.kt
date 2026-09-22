@@ -83,7 +83,7 @@ fun SettingsSubtitlesScreen() {
 							.weight(1f),
 						interactionSource = interactionSource,
 						min = 8f,
-						max = 32f,
+						max = 48f,
 						stepForward = 1f,
 						value = subtitlesTextSize,
 						onValueChange = { subtitlesTextSize = it }
