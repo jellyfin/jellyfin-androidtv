@@ -678,8 +678,8 @@
     <string name="bitstream_eac3">Dolby Digital Plus ビットストリーム</string>
     <string name="bitstream_dts">DTS ビットストリーム</string>
     <string name="bitstream_truehd">Dolby TrueHD ビットストリーム</string>
-    <string name="photo_player">写真プレーヤー</string>
-    <string name="photo_display_duration">写真の表示間隔</string>
-    <string name="photo_display_duration_description">次の写真を表示するまでどれぐらい待機するか</string>
+    <string name="photo_player">フォトプレーヤー</string>
+    <string name="photo_display_duration">フォトの表示間隔</string>
+    <string name="photo_display_duration_description">次のフォトを表示するまでどれぐらい待機するか</string>
     <string name="truehd">TrueHD</string>
 </resources>
