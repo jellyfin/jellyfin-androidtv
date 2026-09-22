@@ -294,8 +294,15 @@ class SdkPlaybackHelper(
 			val items = withContext(Dispatchers.IO) {
 				val response by api.itemsApi.getItems(
 					ids = itemIds,
+					// Without these fields the server omits MediaSources and an unprobed item looks empty.
+					fields = ItemRepository.itemFields,
 				)
 				response.items
+			}
+
+			if (items.isEmpty()) {
+				Toast.makeText(context, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()
+				return@launch
 			}
 
 			val pos = position?.ticks ?: items[0].userData?.playbackPositionTicks?.ticks?.minus(
