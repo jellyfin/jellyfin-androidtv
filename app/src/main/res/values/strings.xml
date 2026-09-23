@@ -433,6 +433,8 @@
     <string name="home_section_i">Home section %1$d</string>
     <string name="home_next_up_max_days">Next up date cutoff</string>
     <string name="home_next_up_max_days_disabled">Disabled</string>
+    <string name="tv_provider_enabled">Integrate with Android TV home</string>
+    <string name="tv_provider_enabled_description">Show Jellyfin channels and recommendations on the Android TV home screen</string>
     <string name="searchable_hint">Search Jellyfin</string>
     <string name="searchable_settings_description">Media</string>
     <string name="pref_subtitles_background_title">Enable background</string>
