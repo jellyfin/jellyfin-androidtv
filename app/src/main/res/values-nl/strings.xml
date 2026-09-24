@@ -696,4 +696,6 @@
     </plurals>
     <string name="home_next_up_max_days_disabled">Uitgeschakeld</string>
     <string name="home_next_up_max_days">Aantal dagen in \'Volgende\'</string>
+    <string name="tv_provider_enabled_description">Toon Jellyfin-kanalen en -aanbevelingen op het startscherm van Android TV</string>
+    <string name="tv_provider_enabled">Integreren met Android TV-startscherm</string>
 </resources>
