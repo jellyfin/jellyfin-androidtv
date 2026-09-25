@@ -51,7 +51,7 @@
     <string name="lbl_date_added">Pridėjimo data</string>
     <string name="lbl_name">Pavadinimas</string>
     <string name="lbl_from">iš</string>
-    <string name="lbl_sorted_by">surūšiuota pagal</string>
+    <string name="lbl_sorted_by">surūšiuoti pagal</string>
     <string name="lbl_audio_output">Garso išvestis</string>
     <string name="lbl_tomorrow">Rytoj</string>
     <string name="lbl_today">Šiandien</string>
@@ -708,4 +708,6 @@
         <item quantity="many">%1$s dienų</item>
         <item quantity="other">%1$s dienų</item>
     </plurals>
+    <string name="tv_provider_enabled">Integracija su Android TV pagrindiniu ekranu</string>
+    <string name="tv_provider_enabled_description">Rodyti Jellyfin kanalus ir rekomendacijas Android TV pagrindiniame ekrane</string>
 </resources>
