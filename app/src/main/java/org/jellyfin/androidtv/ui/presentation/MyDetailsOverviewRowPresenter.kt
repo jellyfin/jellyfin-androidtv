@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.leanback.widget.RowPresenter
@@ -7,7 +8,10 @@ import org.jellyfin.androidtv.ui.DetailRowView
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow
 import org.jellyfin.androidtv.util.InfoLayoutHelper
 import org.jellyfin.androidtv.util.MarkdownRenderer
+import org.jellyfin.androidtv.util.TrackSelectionHelper
+import org.jellyfin.androidtv.util.TrackSelectionManager
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.MediaStreamType
 
 class MyDetailsOverviewRowPresenter(
 	private val markdownRenderer: MarkdownRenderer,
@@ -32,6 +36,7 @@ class MyDetailsOverviewRowPresenter(
 
 			binding.infoTitle3.text = row.infoItem3?.label
 			binding.infoValue3.text = row.infoItem3?.value
+
 
 			binding.mainImage.load(row.imageDrawable, null, null, 1.0, 0)
 
@@ -62,6 +67,7 @@ class MyDetailsOverviewRowPresenter(
 		fun setInfoValue3(text: String?) {
 			binding.infoValue3.text = text
 		}
+
 	}
 
 	var viewHolder: ViewHolder? = null
