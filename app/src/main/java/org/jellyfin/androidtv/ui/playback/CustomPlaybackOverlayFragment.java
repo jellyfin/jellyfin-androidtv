@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -68,6 +69,7 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyEventExtensionsKt;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -137,6 +139,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
+
+    private final Lazy<UserSettingPreferences> userSettingPreferences = inject(UserSettingPreferences.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -571,17 +575,29 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                         }
                     }
 
+                    boolean isTransportKey = KeyEventExtensionsKt.isMediaSessionKeyEvent(event);
+                    boolean showOverlay = userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getShowLeanbackOverlayWhenTransporting());
+                    if (isTransportKey && !event.isLongPress()) {
+                        if (!mIsVisible) {
+                            leanbackOverlayFragment.setShouldShowOverlay(showOverlay);
+                            leanbackOverlayFragment.hideControlsOverlay(!showOverlay);
+                        } else {
+                            leanbackOverlayFragment.setShouldShowOverlay(true);
+                            leanbackOverlayFragment.showControlsOverlay(true);
+                        }
+                    }
+
                     // Control fast forward and rewind if overlay hidden and not showing live TV
                     if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
                             playbackControllerContainer.getValue().getPlaybackController().fastForward();
-                            setFadingEnabled(true);
+                            setFadingEnabled(mIsVisible || showOverlay);
                             return true;
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
                             playbackControllerContainer.getValue().getPlaybackController().rewind();
-                            setFadingEnabled(true);
+                            setFadingEnabled(mIsVisible || showOverlay);
                             return true;
                         }
                     }
