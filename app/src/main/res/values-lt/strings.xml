@@ -629,8 +629,8 @@
     <string name="lbl_date_show_added">Serialo pridėjimo data</string>
     <string name="pref_playback_media_segments">Medijos segmentai</string>
     <string name="pref_media_queueing_description">Pridėti vėlesnius epizodus į eilę, kai atkuriate TV serialus</string>
-    <string name="pref_subtitles_weight">Teksto plotis</string>
-    <string name="font_weight_100">Plonas</string>
+    <string name="pref_subtitles_weight">Teksto storis</string>
+    <string name="font_weight_100">Ploniausias</string>
     <string name="color_presets">Išankstiniai nustatymai</string>
     <string name="color_custom">Pritaikyti spalvą</string>
     <string name="color_alpha">Skaidrumas</string>
@@ -652,7 +652,7 @@
     <string name="font_weight_600">Pusiau paryškintas</string>
     <string name="font_weight_700">Paryškintas</string>
     <string name="font_weight_800">Ypač paryškintas</string>
-    <string name="font_weight_900">Juodas</string>
+    <string name="font_weight_900">Itin storas</string>
     <string name="subtitle_preview_text">Subtitrai atrodys taip</string>
     <string name="preference_codecs_summary">Nepaisyti įrenginio praneštų kodeko galimybių</string>
     <string name="codec_level_manual">Rankinis perrašymas</string>
