@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import org.jellyfin.androidtv.ui.player.base.PlayerOverlayLayout
 import org.jellyfin.androidtv.ui.player.base.rememberPlayerOverlayVisibility
@@ -30,8 +30,8 @@ fun PhotoPlayerOverlay(
 			PhotoPlayerControls()
 		},
 		modifier = Modifier
-			.onKeyEvent { event ->
-				if (event.type != KeyEventType.KeyDown) return@onKeyEvent false
+			.onPreviewKeyEvent { event ->
+				if (event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
 
 				when (event.key) {
 					Key.MediaPlayPause,
@@ -41,10 +41,20 @@ fun PhotoPlayerOverlay(
 						true
 					}
 
+					Key.DirectionLeft if !visibilityState.visible -> {
+						viewModel.showPrevious()
+						true
+					}
+
 					Key.MediaStepBackward,
 					Key.MediaSkipBackward,
 					Key.MediaPrevious -> {
 						viewModel.showPrevious()
+						true
+					}
+
+					Key.DirectionRight if !visibilityState.visible -> {
+						viewModel.showNext()
 						true
 					}
 

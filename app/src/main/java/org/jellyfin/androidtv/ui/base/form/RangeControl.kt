@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -49,6 +50,7 @@ fun RangeControl(
 	min: Float = 0f,
 	max: Float = 1f,
 	value: Float = 0f,
+	markers: List<Float> = emptyList(),
 	stepForward: Float = 0.01f,
 	stepBackward: Float = stepForward,
 	onValueChange: ((vakye: Float) -> Unit)? = null,
@@ -100,6 +102,19 @@ fun RangeControl(
 						),
 						cornerRadius = barCornerRadius,
 					)
+				}
+
+				// Markers
+				for (marker in markers) {
+					val markerPercentage = (marker - min) / (max - min)
+					if (markerPercentage in 0f..1f) {
+						val markerWidth = 3f
+						drawRect(
+							color = colors.knobColor,
+							topLeft = Offset(x = markerPercentage * size.width - markerWidth / 2, y = 0f),
+							size = size.copy(width = markerWidth),
+						)
+					}
 				}
 
 				// Progress knob

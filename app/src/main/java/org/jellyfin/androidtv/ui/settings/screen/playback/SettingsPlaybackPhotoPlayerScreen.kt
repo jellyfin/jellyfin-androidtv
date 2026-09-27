@@ -61,6 +61,7 @@ fun SettingsPlaybackPhotoPlayerScreen() {
 						// 4 - 120 seconds with 2 second increment
 						min = 4_000f,
 						max = 120_000f,
+						markers = listOf(UserPreferences.photoPlayerPresentationDelay.defaultValue.toFloat()),
 						stepForward = 2_000f,
 						value = photoPlayerPresentationDelay.toFloat(),
 						onValueChange = { photoPlayerPresentationDelay = it.toLong() }

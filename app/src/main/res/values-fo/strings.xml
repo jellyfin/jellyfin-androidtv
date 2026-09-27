@@ -37,7 +37,7 @@
     <string name="runtime_minutes">%1$dm</string>
     <string name="lbl_ends">Liðugur</string>
     <string name="lbl_directed_by">Leikstjórnað hevur</string>
-    <string name="lbl_last_played">"Síðst spældur "</string>
+    <string name="lbl_last_played">"Seinast spældur "</string>
     <string name="lbl_runtime">Spælitíð</string>
     <string name="lbl_other_options">Aðrar stillingar</string>
     <string name="lbl_people">Fólk</string>
@@ -693,4 +693,7 @@
     </plurals>
     <string name="home_next_up_max_days_disabled">Óavmarkað</string>
     <string name="home_next_up_max_days">\"Næst á skránni\" tíðarmark</string>
+    <string name="tv_provider_enabled_description">Vís Jellyfin-rásir og tilmælir á Android TV-forsíðuni</string>
+    <string name="tv_provider_enabled">Android TV-forsíðuveiting</string>
+    <string name="dovi_profile_7_description">Tveylags við víðkanarlagi</string>
 </resources>

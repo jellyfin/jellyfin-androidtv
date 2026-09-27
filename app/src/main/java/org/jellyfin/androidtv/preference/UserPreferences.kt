@@ -312,6 +312,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Stores the interval for the photo player.
 		 */
 		var photoPlayerPresentationDelay = longPreference("photo_player_presentation_delay", 8000)
+
+		/**
+		 * Integrate with androidx.tvprovider for the Android TV home screen.
+		 */
+		var tvProviderEnabled = booleanPreference("tv_provider_enabled", true)
 	}
 
 	init {

@@ -414,7 +414,7 @@
     <string name="login_quickconnect_step_3">3. 次のコードを入力します:</string>
     <string name="app_notification_uimode_invalid">このアプリはテレビ向けに最適化されています。他のデバイスではモバイルアプリを使用することをお勧めします。</string>
     <string name="server_setup_incomplete">このサーバーのセットアップは完了していません。サインインする前に、Web ブラウザーで Jellyfin を開いてセットアップを完了してください。</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="eac3">DD+</string>
     <string name="lbl_shuffle_queue">シャッフルの切り替え</string>
     <string name="clear_image_cache">画像キャッシュをクリアする</string>
@@ -648,4 +648,38 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="lbl_date_show_added">番組追加日</string>
+    <string name="lbl_date_episode_added">エピソード追加日</string>
+    <string name="preference_hdr_overrides">HDR 形式</string>
+    <string name="preference_hdr_overrides_summary">デバイが報告する HDR 機能を上書きする</string>
+    <string name="hdr_override_auto">自動 (デバイス検出)</string>
+    <string name="hdr_override_enable">有効</string>
+    <string name="hdr_override_disable">無効</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">固定 HDR メタデータ</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">動的 HDR メタデータ</string>
+    <string name="dovi_profile_5">Dolby Vision Profile 5</string>
+    <string name="dovi_profile_5_description">シングルレイヤー Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision Profile 7</string>
+    <string name="dovi_profile_7_description">エンハンスメントレイヤー付きデュアルレイヤー</string>
+    <string name="dovi_profile_8">Dolby Vision Profile 8</string>
+    <string name="dovi_profile_8_description">HDR10 フォールバック付シングルレイヤー</string>
+    <string name="home_next_up_max_days">「次回」を表示しなくなる日数</string>
+    <string name="home_next_up_max_days_disabled">無効です</string>
+    <string name="preference_enable_ass">ASS 字幕の直接再生</string>
+    <string name="preference_enable_pgs_description">無効にするとトランスコードが必要になります</string>
+    <string name="preference_enable_ass_description">実験的機能で、信頼性が失われる可能性あり</string>
+    <plurals name="days">
+        <item quantity="other">%1$s 日</item>
+    </plurals>
+    <string name="pref_software_codecs_enabled">ソフトウェアコーデックを利用</string>
+    <string name="pref_software_codecs_enabled_description">ソフトウェアベースの実装によっては、パフォーマンスが低下する場合があります。この設定を無効にすると、トランスコードが発生する可能性が高くなります。</string>
+    <string name="bitstream_eac3">Dolby Digital Plus ビットストリーム</string>
+    <string name="bitstream_dts">DTS ビットストリーム</string>
+    <string name="bitstream_truehd">Dolby TrueHD ビットストリーム</string>
+    <string name="photo_player">フォトプレーヤー</string>
+    <string name="photo_display_duration">フォトの表示間隔</string>
+    <string name="photo_display_duration_description">次のフォトを表示するまでどれぐらい待機するか</string>
+    <string name="truehd">TrueHD</string>
 </resources>

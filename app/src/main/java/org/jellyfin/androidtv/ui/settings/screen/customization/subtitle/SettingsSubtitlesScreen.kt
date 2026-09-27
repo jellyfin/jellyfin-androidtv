@@ -83,7 +83,8 @@ fun SettingsSubtitlesScreen() {
 							.weight(1f),
 						interactionSource = interactionSource,
 						min = 8f,
-						max = 32f,
+						max = 48f,
+						markers = listOf(UserPreferences.subtitlesTextSize.defaultValue),
 						stepForward = 1f,
 						value = subtitlesTextSize,
 						onValueChange = { subtitlesTextSize = it }
@@ -136,6 +137,7 @@ fun SettingsSubtitlesScreen() {
 					interactionSource = interactionSource,
 					min = 100f,
 					max = 900f,
+					markers = listOf(UserPreferences.subtitlesTextWeight.defaultValue.toFloat()),
 					stepForward = 100f,
 					value = subtitlesTextWeight.toFloat(),
 					onValueChange = { subtitlesTextWeight = it.toInt() }
@@ -188,6 +190,7 @@ fun SettingsSubtitlesScreen() {
 						interactionSource = interactionSource,
 						min = 0f,
 						max = 0.8f,
+						markers = listOf(UserPreferences.subtitlesOffsetPosition.defaultValue),
 						stepForward = 0.01f,
 						value = subtitlesOffsetPosition,
 						onValueChange = { subtitlesOffsetPosition = it }
