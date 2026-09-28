@@ -503,7 +503,7 @@
     <string name="indicator_subtitles">CC</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
@@ -669,4 +669,33 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">HDR-formátumok</string>
+    <string name="preference_hdr_overrides_summary">Az eszköz által jelentett HDR-képességek felülbírálása</string>
+    <string name="hdr_override_auto">Automatikus (eszközfelismerés)</string>
+    <string name="hdr_override_enable">Engedélyezés</string>
+    <string name="hdr_override_disable">Letiltás</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Statikus HDR-metaadatok</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Dinamikus HDR-metaadatok</string>
+    <string name="dovi_profile_5">Dolby Vision 5-ös profil</string>
+    <string name="dovi_profile_5_description">Egyszeri rétegű Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision 7-es profil</string>
+    <string name="dovi_profile_7_description">Képrétegű, kiegészítő réteggel</string>
+    <string name="dovi_profile_8">Dolby Vision 8-as profil</string>
+    <string name="dovi_profile_8_description">Egyszeri réteg HDR10-es tartalék megoldással</string>
+    <string name="home_next_up_max_days">A következő frissítés határideje</string>
+    <string name="home_next_up_max_days_disabled">Letiltva</string>
+    <string name="tv_provider_enabled">Integráció az Android TV otthoni rendszerével</string>
+    <string name="tv_provider_enabled_description">Jellyfin-csatornák és -ajánlások megjelenítése az Android TV kezdőképernyőjén</string>
+    <plurals name="days">
+        <item quantity="one">%1$s. nap</item>
+        <item quantity="other">%1$s napok</item>
+    </plurals>
+    <string name="bitstream_eac3">Bitfolyam Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream digitális házimozi-rendszer</string>
+    <string name="bitstream_truehd">Dolby TrueHD bitfolyam</string>
+    <string name="photo_player">Fotólejátszó</string>
+    <string name="photo_display_duration">Fénykép megjelenítési ideje</string>
+    <string name="photo_display_duration_description">Mennyit kell várni a következő fénykép megjelenítése előtt</string>
 </resources>
