@@ -699,4 +699,10 @@
     <string name="dovi_profile_7">Dolby Vision Profile 7</string>
     <string name="dovi_profile_5">Dolby Vision Profile 5</string>
     <string name="dovi_profile_8">Dolby Vision Profile 8</string>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="photo_player">Lettore di immagini</string>
+    <string name="photo_display_duration">Durata riproduzione foto</string>
+    <string name="hdr_override_auto">Auto (rilevamento del dispositivo)</string>
 </resources>
