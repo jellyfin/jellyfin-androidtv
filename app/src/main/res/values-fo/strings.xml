@@ -470,9 +470,9 @@
     <string name="pref_screensaver_ageratingmax_zero">Allir aldrar</string>
     <string name="pref_screensaver_ageratingmax_entry">Upp til og við %1$d ár</string>
     <string name="pref_screensaver_ageratingmax">Aldursmark</string>
-    <string name="pref_screensaver_ageratingrequired_enabled">Vísur einans innihald treytað av aldursmarki</string>
+    <string name="pref_screensaver_ageratingrequired_enabled">Vísir einans innihald treytað av aldursmarki</string>
     <string name="pref_screensaver_ageratingmax_unlimited">Onki aldursmark</string>
-    <string name="pref_screensaver_ageratingrequired_disabled">Vísur alt innihald</string>
+    <string name="pref_screensaver_ageratingrequired_disabled">Vísir alt innihald</string>
     <string name="lbl_critic_rating">Ummælarameting</string>
     <string name="lbl_community_rating">Hyggjarameting</string>
     <string name="lbl_subtitle_text_color">Tekstlitur</string>
@@ -541,7 +541,7 @@
     <string name="pref_next_up_timeout_title">Steðgur áðrenn næsta</string>
     <string name="pref_still_watching_behavior_title">Vís atgerðaloysisspurning</string>
     <string name="pref_browsing">Kaging</string>
-    <string name="lbl_showing">Vísur</string>
+    <string name="lbl_showing">Vísir</string>
     <string name="server_setup_incomplete">Uppsetanin av hesum ambætaranum er ikki liðug. Lat Jellyfin-vevsíðuna upp í einum vevkaga til tess at avgreiða uppsetanina áðrenn tú ritar inn.</string>
     <string name="lbl_remove_users">Sum ein avleiðing av hesum verða allar tilhoyrandi kontur strikaðar</string>
     <string name="playback_info_container">Pakkasnið: %1$s</string>
@@ -560,7 +560,7 @@
     <string name="pref_button_remapping_description">Trýst á einhvønn knøtt á fjarstýringini til tess at áseta hann</string>
     <string name="press_to_close">Trýst fyri at loka</string>
     <string name="enable_smart_view">Virkja snilt sýni</string>
-    <string name="enable_smart_view_description">Snilt sýni vísur miðlar á ein meira viðkomandi hátt heldur enn í eini talvu</string>
+    <string name="enable_smart_view_description">Snilt sýni vísir miðlar á ein meira viðkomandi hátt heldur enn í eini talvu</string>
     <string name="licenses_link">Loyvir (Licensir)</string>
     <string name="licenses_link_description">Sí loyvini (licensirnar) fyri kotusøvnini ið eru nýtt í Jellyfin-appini</string>
     <string name="license_license">Loyvi (Licensur)</string>
