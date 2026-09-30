@@ -705,4 +705,7 @@
     <string name="photo_player">Lettore di immagini</string>
     <string name="photo_display_duration">Durata riproduzione foto</string>
     <string name="hdr_override_auto">Auto (rilevamento del dispositivo)</string>
+    <string name="dovi_profile_7_description">Dual-layer con Layer di Miglioramento</string>
+    <string name="dovi_profile_8_description">Single-layer con fallback HDR10</string>
+    <string name="tv_provider_enabled">Integra con Android TV home</string>
 </resources>
