@@ -643,7 +643,7 @@
     <string name="pref_refresh_rate_scale_on_tv">Skift á sjónvarpi</string>
     <string name="pref_refresh_rate_scale_on_device">Skift á eind</string>
     <string name="pref_device_model">Modell eindarinnar</string>
-    <string name="lbl_more_like_this">Fleiri líkir hesum</string>
+    <string name="lbl_more_like_this">Tílíkir miðlar</string>
     <string name="video_start_delay">Seinka kykmyndabyrjan</string>
     <string name="grid_direction">Talvukós</string>
     <string name="lbl_colored_backgrounds">Flokslittar bakgrundir</string>
