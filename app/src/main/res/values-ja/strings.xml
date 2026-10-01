@@ -303,8 +303,8 @@
     <string name="lbl_load_guide_data">ガイドデータの読み込み</string>
     <string name="episode_missing_message_2">このエピソードはあなたのライブラリから欠落しています。再生は停止します。</string>
     <string name="episode_missing_message">このエピソードはあなたのライブラリから欠落しています。スキップして次のものに進みますか\?</string>
-    <string name="episode_missing">エピソードがありません</string>
-    <string name="no_player_message">ビデオ対応アプリがインストールされていないようです。このオプションでは、ビデオコンテンツを再生するためのサードパーティのアプリケーションをインストールする必要があります。</string>
+    <string name="episode_missing">エピソードが欠けています</string>
+    <string name="no_player_message">動画対応アプリがインストールされていないようです。この設定では、動画コンテンツを再生するサードパーティ アプリをインストールする必要があります。</string>
     <string name="mark_watched">視聴済みにする</string>
     <string name="lbl_Reset">リセット</string>
     <string name="pref_button_remapping_description">割り当てるテレビリモコンの任意のボタンを押します</string>
@@ -325,7 +325,7 @@
     <string name="pref_direct_stream_live_off">トランスコーディングは必要に応じて使用</string>
     <string name="pref_direct_stream_live_on">トランスコーディングは無効です</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="mark_watched_message">最後まで再生されていませんが、視聴済みにしますか？</string>
+    <string name="mark_watched_message">アイテム全体の再生時間に対して充分な時間の再生をしていませんが、視聴済みにしますか？</string>
     <string name="lbl_playback_speed">再生速度</string>
     <string name="lbl_stretch">ストレッチ</string>
     <string name="lbl_auto_crop">自動クロップ</string>
@@ -347,7 +347,7 @@
     <string name="color_darkgrey">灰色</string>
     <string name="pref_theme_emerald">クラシック エメラルド</string>
     <string name="bitrate_mbit">%1$,.0f Mビット/秒</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kビット/秒</string>
     <string name="just_one">一度だけ</string>
     <string name="image_size_smallest">最小</string>
     <string name="image_size_xlarge">超特</string>
