@@ -707,4 +707,6 @@
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
     <string name="home_next_up_max_days">Fecha límite para la próxima actualización</string>
+    <string name="tv_provider_enabled_description">Mostrar canales y recomendaciones de Jellyfin en la pantalla de inicio de Android TV</string>
+    <string name="tv_provider_enabled">Integrar con Android TV Home</string>
 </resources>
