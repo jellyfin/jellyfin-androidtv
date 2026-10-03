@@ -685,4 +685,6 @@
     <plurals name="days">
         <item quantity="other">%1$s 天</item>
     </plurals>
+    <string name="tv_provider_enabled">集成到 Android TV 首页</string>
+    <string name="tv_provider_enabled_description">在Android TV主屏幕上展示Jellyfin频道和推荐内容</string>
 </resources>

@@ -689,4 +689,5 @@
     <string name="dovi_profile_8">Perfil Dolby Vision 8</string>
     <string name="hdr10_plus_override">HDR10+</string>
     <string name="hdr10_override">HDR10</string>
+    <string name="preference_hdr_overrides_summary">Sobreescribir capacidades HDR reportadas por el dispositivo</string>
 </resources>

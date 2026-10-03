@@ -516,7 +516,7 @@
     <string name="person_birthday_and_age">Nasce %1$s (%2$d)</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="indicator_subtitles">CC</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="eac3">DD+</string>
     <plurals name="items">
@@ -679,4 +679,33 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">Formati HDR</string>
+    <string name="hdr_override_enable">Abilita</string>
+    <string name="hdr_override_disable">Disabilita</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="dovi_profile_5_description">Single-layer Dolby Vision</string>
+    <string name="home_next_up_max_days_disabled">Disabilitato</string>
+    <string name="tv_provider_enabled_description">Mostra i canali e i suggerimenti di Jellyfin sull\'home screen di Android TV</string>
+    <plurals name="days">
+        <item quantity="one">%1$s giorno</item>
+        <item quantity="many">%1$s giorni</item>
+        <item quantity="other">%1$s giorni</item>
+    </plurals>
+    <string name="photo_display_duration_description">Quanto bisogna aspettare prima che venga mostrala la prossima foto</string>
+    <string name="preference_hdr_overrides_summary">Ignora le capacità HDR riportate dal dispositivo</string>
+    <string name="hdr10_override_description">Metadati HDR Statico</string>
+    <string name="hdr10_plus_override_description">Metadati HDR Dinamico</string>
+    <string name="dovi_profile_7">Dolby Vision Profile 7</string>
+    <string name="dovi_profile_5">Dolby Vision Profile 5</string>
+    <string name="dovi_profile_8">Dolby Vision Profile 8</string>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="photo_player">Lettore di immagini</string>
+    <string name="photo_display_duration">Durata riproduzione foto</string>
+    <string name="hdr_override_auto">Auto (rilevamento del dispositivo)</string>
+    <string name="dovi_profile_7_description">Dual-layer con Layer di Miglioramento</string>
+    <string name="dovi_profile_8_description">Single-layer con fallback HDR10</string>
+    <string name="tv_provider_enabled">Integra con Android TV home</string>
 </resources>

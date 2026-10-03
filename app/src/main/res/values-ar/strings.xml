@@ -738,4 +738,6 @@
     <string name="bitstream_eac3">معدل بث Dolby Digital Plus</string>
     <string name="bitstream_dts">معدل بث نظام Digital Theater</string>
     <string name="bitstream_truehd">معدل بث Dolby TrueHD</string>
+    <string name="tv_provider_enabled">الدمج مع صفحة Android TV الرئيسية</string>
+    <string name="tv_provider_enabled_description">اظهار قنوات و توصيات Jellyfin في صفحة Android TV الرئيسية</string>
 </resources>

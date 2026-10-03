@@ -696,4 +696,6 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="tv_provider_enabled_description">Visa Jellyfins kanaler och rekommendationer på hemskärmen för Android TV</string>
+    <string name="tv_provider_enabled">Integrera med Android TV Hem</string>
 </resources>

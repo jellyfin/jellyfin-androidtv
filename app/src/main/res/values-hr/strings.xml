@@ -707,4 +707,6 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="tv_provider_enabled">Integracija s početnim zaslonom Android TV-a</string>
+    <string name="tv_provider_enabled_description">Prikaži Jellyfin kanale i preporuke na početnom zaslonu Android TV-a</string>
 </resources>

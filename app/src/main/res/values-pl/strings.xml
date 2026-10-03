@@ -718,4 +718,6 @@
         <item quantity="other">%1$s dni</item>
     </plurals>
     <string name="home_next_up_max_days">Data graniczna następnych</string>
+    <string name="tv_provider_enabled">Zintegruj z ekranem głównym Android TV</string>
+    <string name="tv_provider_enabled_description">Wyświetlaj kanały i rekomendacje z Jellyfin na ekranie głównym Android TV</string>
 </resources>
