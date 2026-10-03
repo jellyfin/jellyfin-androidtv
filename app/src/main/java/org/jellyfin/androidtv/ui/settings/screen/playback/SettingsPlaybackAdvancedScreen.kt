@@ -111,6 +111,18 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var transportButtonsShowLeanBackOverlay by rememberPreference(userSettingPreferences, UserSettingPreferences.showLeanbackOverlayWhenTransporting)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.transport_buttons_show_leanback_overlay)) },
+				captionContent = { Text(stringResource(R.string.transport_buttons_show_leanback_overlay_caption)) },
+				trailingContent = { Checkbox(checked = transportButtonsShowLeanBackOverlay) },
+				onClick = { transportButtonsShowLeanBackOverlay = !transportButtonsShowLeanBackOverlay },
+				modifier = Modifier.focusKey("transport_buttons_show_leanback_overlay")
+			)
+		}
+
+		item {
 			var bufferLength by rememberPreference(userPreferences, UserPreferences.bufferLength)
 
 			ListButton(

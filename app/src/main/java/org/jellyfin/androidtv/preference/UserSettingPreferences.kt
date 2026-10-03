@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preference
 
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
+import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
 import org.jellyfin.preference.intPreference
 import org.jellyfin.sdk.api.client.ApiClient
@@ -16,6 +17,8 @@ class UserSettingPreferences(
 	companion object {
 		val skipBackLength = intPreference("skipBackLength", 10_000)
 		val skipForwardLength = intPreference("skipForwardLength", 30_000)
+
+		val showLeanbackOverlayWhenTransporting = booleanPreference("showLeanbackOverlayWhenTransporting", true)
 
 		val homesection0 = enumPreference("homesection0", HomeSectionType.LIBRARY_TILES_SMALL)
 		val homesection1 = enumPreference("homesection1", HomeSectionType.RESUME)
