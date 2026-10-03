@@ -124,7 +124,15 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 					// The server does not send a reliable index in all cases, so calculate it manually
 					val localIndex = mediaSource.mediaStreams.orEmpty()
 						.filter { it.type == MediaStreamType.SUBTITLE }
-						.filter { it.deliveryMethod == SubtitleDeliveryMethod.EMBED || it.deliveryMethod == SubtitleDeliveryMethod.HLS }
+						.filter {
+							if (stream.deliveryMethod == SubtitleDeliveryMethod.EMBED) {
+								// ExoPlayer exposes every subtitle track of the container, including the ones the server
+								// would burn in (ASS/SSA without libass), so they must be counted to match its track groups
+								!it.isExternal
+							} else {
+								it.deliveryMethod == SubtitleDeliveryMethod.EMBED || it.deliveryMethod == SubtitleDeliveryMethod.HLS
+							}
+						}
 						.indexOf(stream)
 						.takeIf { it != -1 }
 
