@@ -23,6 +23,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	staticHeight: Boolean = false,
 	selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
 	val preferSeriesPoster: Boolean = false,
+	private val showParentTitle: Boolean = false,
 ) : BaseRowItem(
 	baseRowType = when (item.type) {
 		BaseItemKind.TV_CHANNEL,
@@ -61,10 +62,13 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	override val isPlayed get() = baseItem?.userData?.played == true
 
 	override fun getCardName(context: Context) = when {
+		showParentTitle && baseItem?.type == BaseItemKind.SEASON && !baseItem.seriesName.isNullOrBlank() -> baseItem.seriesName
+
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.artists != null -> baseItem.artists?.joinToString(", ")
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtists != null -> baseItem.albumArtists?.joinToString(", ")
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.albumArtist != null -> baseItem.albumArtist
 		baseItem?.type == BaseItemKind.AUDIO && baseItem.album != null -> baseItem.album
+
 		else -> baseItem?.getFullName(context)
 	}
 
@@ -98,6 +102,9 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			"$title $timestamp"
 		}
 
+		BaseItemKind.SEASON if showParentTitle && !baseItem.seriesName.isNullOrBlank() -> baseItem.name
+		BaseItemKind.SEASON -> baseItem.getSubName(context)
+
 		else -> baseItem?.getSubName(context)
 	}
 
@@ -111,6 +118,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 
 			baseItem?.type == BaseItemKind.SEASON -> baseItem.itemImages[ImageType.PRIMARY]
 				?: baseItem.seriesPrimaryImage
+
 			baseItem?.type == BaseItemKind.PROGRAM -> baseItem.itemImages[ImageType.THUMB]
 			baseItem?.type == BaseItemKind.AUDIO -> baseItem.albumPrimaryImage
 			else -> null
