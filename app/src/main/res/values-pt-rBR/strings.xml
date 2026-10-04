@@ -678,4 +678,20 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="preference_hdr_overrides">Formatos HDR</string>
+    <string name="preference_hdr_overrides_summary">Substituir as capacidades de HDR informadas pelo dispositivo</string>
+    <string name="hdr_override_auto">Automático (detecção de dispositivo)</string>
+    <string name="hdr_override_enable">Habilitar</string>
+    <string name="hdr_override_disable">Desativar</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">Metadados HDR estáticos</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">Metadados HDR dinâmico</string>
+    <string name="dovi_profile_5">Dolby Vision Perfil 5</string>
+    <string name="dovi_profile_5_description">Dolby Vision de camada única</string>
+    <string name="dovi_profile_7">Dolby Vision Perfil 7</string>
+    <string name="dovi_profile_8">Dolby Vision Perfil 8</string>
+    <string name="home_next_up_max_days">Prazo limite da próxima atualização</string>
+    <string name="home_next_up_max_days_disabled">Desabilitado</string>
+    <string name="tv_provider_enabled">Integrar com a tela inicial do Android TV</string>
 </resources>
