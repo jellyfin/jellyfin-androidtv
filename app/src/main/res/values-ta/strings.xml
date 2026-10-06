@@ -491,7 +491,7 @@
     <string name="dolby_vision">டால்பி விஷன்</string>
     <string name="indicator_subtitles">CC</string>
     <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dolby_atmos">டால்பி அட்மோஸ்</string>
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
@@ -540,7 +540,7 @@
     <string name="current_queue">தற்போதைய வரிசை</string>
     <string name="pref_troubleshooting">சரிசெய்தல்</string>
     <string name="lbl_from_beginning">தொடக்கத்திலிருந்து இயக்கு</string>
-    <string name="lbl_subtitle_text_stroke_color">வசன வரிகளின் வண்ணம்</string>
+    <string name="lbl_subtitle_text_stroke_color">விளிம்பு நிறம்</string>
     <string name="lbl_still_watching_default">3 எபிசோடுகள் அல்லது 90 நிமிடங்கள்</string>
     <string name="lbl_still_watching_long">5 எபிசோடுகள் அல்லது 150 நிமிடங்கள்</string>
     <string name="app_notification_update_soon">அடுத்த புதுப்பிப்புக்குப் பிறகு பயன்பாட்டைத் தொடர்ந்து பயன்படுத்த, உங்கள் சேவையகத்தை %1$s இலிருந்து குறைந்தது %2$s ஆகப் புதுப்பிக்கவும்.</string>
@@ -559,8 +559,8 @@
     <string name="preference_enable_pgs">நேரடி நாடகம் PGS வசனங்கள்</string>
     <string name="speech_error_unknown">பேச்சு அறிதலின் போது எதிர்பாராத பிழை ஏற்பட்டது.</string>
     <string name="default_video_zoom">இயல்புநிலை ஜூம் பயன்முறை</string>
-    <string name="lbl_subtitle_text_color">வசன உரை வண்ணம்</string>
-    <string name="lbl_subtitle_background_color">வசன பின்னணி நிறம்</string>
+    <string name="lbl_subtitle_text_color">உரை நிறம்</string>
+    <string name="lbl_subtitle_background_color">பின்னணி நிறம்</string>
     <string name="all_channels">எல்லா சேனல்களும்</string>
     <string name="segment_action_ask_to_skip">தவிர்க்கச் சொல்லுங்கள்</string>
     <string name="pref_external_player">வெளிப்புற பிளேயரைப் பயன்படுத்தவும்</string>
@@ -588,4 +588,8 @@
     <string name="settings_description">உங்கள் விருப்பப்படி பயன்பாட்டை மாற்றவும்</string>
     <string name="copied_to_clipboard">கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
     <string name="pref_playback_next_up">அடுத்து வருவது</string>
+    <plurals name="days">
+        <item quantity="one">%1$s-வது நாள்</item>
+        <item quantity="other">%1$s நாட்கள்</item>
+    </plurals>
 </resources>
