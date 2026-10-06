@@ -64,6 +64,7 @@
     <string name="lbl_favorite">Favorite</string>
     <string name="lbl_watched">Watched</string>
     <string name="lbl_sd">SD</string>
+    <string name="lbl_3d">3D</string>
     <string name="lbl_runs">"Runs"</string>
     <string name="runtime_hours_minutes">%1$dh %2$dm</string>
     <string name="runtime_minutes">%1$dm</string>
