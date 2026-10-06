@@ -96,6 +96,7 @@ class ExoPlayerBackend(
 				setSubtitleParserFactory(assSubtitleParserFactory)
 			}
 		} else DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
+		mediaSourceFactory.setLoadErrorHandlingPolicy(NetworkRetryLoadErrorHandlingPolicy())
 
 		val renderersFactory = DefaultRenderersFactory(context).apply {
 			setEnableDecoderFallback(true)
