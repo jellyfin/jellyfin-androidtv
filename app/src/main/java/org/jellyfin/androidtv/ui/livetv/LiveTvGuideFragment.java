@@ -339,6 +339,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 if (!isActive()) return;
+                                Timber.i("Launching due to GuideChannelHeader");
                                 playbackLauncher.getValue().launch(requireContext(), response);
                             }
                         });
