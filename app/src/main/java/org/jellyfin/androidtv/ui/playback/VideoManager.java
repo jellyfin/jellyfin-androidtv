@@ -51,6 +51,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.BufferLength;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.playback.media3.exoplayer.NetworkRetryLoadErrorHandlingPolicy;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
@@ -242,11 +243,14 @@ public class VideoManager {
             ExtractorsFactory assExtractorsFactory = AssPlayerKt.withAssMkvSupport(extractorsFactory, assSubtitleParserFactory, assHandler);
             DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory);
             mediaSourceFactory.setSubtitleParserFactory(assSubtitleParserFactory);
+            mediaSourceFactory.setLoadErrorHandlingPolicy(new NetworkRetryLoadErrorHandlingPolicy());
             exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
             exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, defaultRendererFactory));
         } else {
             exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-            exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+            DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory);
+            mediaSourceFactory.setLoadErrorHandlingPolicy(new NetworkRetryLoadErrorHandlingPolicy());
+            exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
         }
 
         BufferLength bufferLength = userPreferences.get(UserPreferences.Companion.getBufferLength());
