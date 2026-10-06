@@ -59,14 +59,16 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	// Already using this subtitle index
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
 
-	// Save subtitle language preference for restoration after NextUp screen
+	// Save subtitle language + title preference for restoration after NextUp screen
 	val videoQueueManager by fragment.inject<VideoQueueManager>()
 	if (index == -1) {
 		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
+		videoQueueManager.setLastPlayedSubtitleTitle(null)
 	} else {
 		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
 		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+		videoQueueManager.setLastPlayedSubtitleTitle(stream?.title ?: stream?.displayTitle)
 	}
 
 	// Disable subtitles
