@@ -329,7 +329,6 @@
     <string name="pref_clock_display_playback">During playback</string>
     <string name="server_connecting">Connecting to %1$s</string>
     <string name="server_connection_failed">Unable to connect to server</string>
-    <string name="server_connection_lost">Lost connection to server, reconnecting…</string>
     <string name="server_connection_failed_candidates">Unable to connect to server, tried the following addresses: %1$s</string>
     <string name="server_field_empty">The address cannot be empty</string>
     <string name="login_authenticating">Authenticating…</string>
