@@ -19,11 +19,17 @@ class NetworkRetryLoadErrorHandlingPolicy : DefaultLoadErrorHandlingPolicy() {
 	companion object {
 		// The retry delay grows to 5 seconds, so this keeps retrying for at least 10 minutes
 		const val MAX_NETWORK_ERROR_COUNT = 120
+
+		@JvmStatic
+		fun isNetworkError(exception: IOException) = exception is DataSourceException && (
+			exception.reason == PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED ||
+				exception.reason == PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT
+			)
 	}
 
 	override fun getRetryDelayMsFor(loadErrorInfo: LoadErrorHandlingPolicy.LoadErrorInfo): Long {
 		val maxErrorCount = when {
-			loadErrorInfo.exception.isNetworkError -> MAX_NETWORK_ERROR_COUNT
+			isNetworkError(loadErrorInfo.exception) -> MAX_NETWORK_ERROR_COUNT
 			else -> super.getMinimumLoadableRetryCount(loadErrorInfo.mediaLoadData.dataType)
 		}
 
@@ -33,10 +39,4 @@ class NetworkRetryLoadErrorHandlingPolicy : DefaultLoadErrorHandlingPolicy() {
 
 	// Errors are reported to the player once getRetryDelayMsFor stops retrying
 	override fun getMinimumLoadableRetryCount(dataType: Int): Int = Int.MAX_VALUE
-
-	private val IOException.isNetworkError
-		get() = this is DataSourceException && (
-			reason == PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED ||
-				reason == PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT
-			)
 }

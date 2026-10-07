@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,8 @@ import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.analytics.AnalyticsListener;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.exoplayer.source.LoadEventInfo;
+import androidx.media3.exoplayer.source.MediaLoadData;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
 import androidx.media3.extractor.DefaultExtractorsFactory;
@@ -58,6 +61,7 @@ import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import org.koin.java.KoinJavaComponent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,6 +87,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private TextView mConnectionLostView;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -139,6 +144,17 @@ public class VideoManager {
             mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
         }
 
+        mConnectionLostView = view.findViewById(R.id.connection_lost);
+        mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
+            @Override
+            public void onLoadError(@NonNull AnalyticsListener.EventTime eventTime, @NonNull LoadEventInfo loadEventInfo, @NonNull MediaLoadData mediaLoadData, @NonNull IOException error, boolean wasCanceled) {
+                // Only explain stalled playback, the load is retried until the server is back
+                if (mExoPlayer.getPlaybackState() == Player.STATE_BUFFERING && NetworkRetryLoadErrorHandlingPolicy.isNetworkError(error)) {
+                    mConnectionLostView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
@@ -163,6 +179,8 @@ public class VideoManager {
             public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
+                } else {
+                    mConnectionLostView.setVisibility(View.GONE);
                 }
 
                 if (playbackState == Player.STATE_ENDED) {

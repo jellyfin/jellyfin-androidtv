@@ -29,7 +29,22 @@
             android:id="@+id/exoPlayerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:show_buffering="when_playing"
             app:use_controller="false" />
+
+        <TextView
+            android:id="@+id/connection_lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:background="@color/black_transparent"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/server_connection_lost"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/leanback_fragment"
