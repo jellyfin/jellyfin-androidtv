@@ -32,6 +32,34 @@
             app:show_buffering="when_playing"
             app:use_controller="false" />
 
+        <LinearLayout
+            android:id="@+id/connection_lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/button_bar_back"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@null"
+                android:src="@mipmap/app_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/server_connection_lost"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/leanback_fragment"
             android:name="org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment"
