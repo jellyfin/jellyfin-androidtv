@@ -12,7 +12,7 @@ import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -87,7 +87,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
-    private TextView mConnectionLostView;
+    private boolean mConnectionLostShown = false;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -144,13 +144,13 @@ public class VideoManager {
             mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
         }
 
-        mConnectionLostView = view.findViewById(R.id.connection_lost);
         mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
             @Override
             public void onLoadError(@NonNull AnalyticsListener.EventTime eventTime, @NonNull LoadEventInfo loadEventInfo, @NonNull MediaLoadData mediaLoadData, @NonNull IOException error, boolean wasCanceled) {
-                // Only explain stalled playback, the load is retried until the server is back
-                if (mExoPlayer.getPlaybackState() == Player.STATE_BUFFERING && NetworkRetryLoadErrorHandlingPolicy.isNetworkError(error)) {
-                    mConnectionLostView.setVisibility(View.VISIBLE);
+                // Only explain stalled playback once, the load is retried until the server is back
+                if (!mConnectionLostShown && mExoPlayer.getPlaybackState() == Player.STATE_BUFFERING && NetworkRetryLoadErrorHandlingPolicy.isNetworkError(error)) {
+                    Toast.makeText(mActivity, R.string.server_connection_lost, Toast.LENGTH_LONG).show();
+                    mConnectionLostShown = true;
                 }
             }
         });
@@ -180,7 +180,7 @@ public class VideoManager {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
                 } else {
-                    mConnectionLostView.setVisibility(View.GONE);
+                    mConnectionLostShown = false;
                 }
 
                 if (playbackState == Player.STATE_ENDED) {
