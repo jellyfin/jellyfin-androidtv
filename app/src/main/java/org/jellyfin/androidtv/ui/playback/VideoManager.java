@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,8 @@ import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.analytics.AnalyticsListener;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.exoplayer.source.LoadEventInfo;
+import androidx.media3.exoplayer.source.MediaLoadData;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.util.EventLogger;
 import androidx.media3.extractor.DefaultExtractorsFactory;
@@ -51,12 +54,14 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.BufferLength;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
+import org.jellyfin.playback.media3.exoplayer.NetworkRetryLoadErrorHandlingPolicy;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 import org.koin.java.KoinJavaComponent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -82,6 +87,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private boolean mConnectionLostShown = false;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -138,6 +144,17 @@ public class VideoManager {
             mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
         }
 
+        mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
+            @Override
+            public void onLoadError(@NonNull AnalyticsListener.EventTime eventTime, @NonNull LoadEventInfo loadEventInfo, @NonNull MediaLoadData mediaLoadData, @NonNull IOException error, boolean wasCanceled) {
+                // Only explain stalled playback once, the load is retried until the server is back
+                if (!mConnectionLostShown && mExoPlayer.getPlaybackState() == Player.STATE_BUFFERING && NetworkRetryLoadErrorHandlingPolicy.isNetworkError(error)) {
+                    Toast.makeText(mActivity, R.string.server_connection_failed, Toast.LENGTH_LONG).show();
+                    mConnectionLostShown = true;
+                }
+            }
+        });
+
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
@@ -162,6 +179,8 @@ public class VideoManager {
             public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
+                } else {
+                    mConnectionLostShown = false;
                 }
 
                 if (playbackState == Player.STATE_ENDED) {
@@ -242,11 +261,14 @@ public class VideoManager {
             ExtractorsFactory assExtractorsFactory = AssPlayerKt.withAssMkvSupport(extractorsFactory, assSubtitleParserFactory, assHandler);
             DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, assExtractorsFactory);
             mediaSourceFactory.setSubtitleParserFactory(assSubtitleParserFactory);
+            mediaSourceFactory.setLoadErrorHandlingPolicy(new NetworkRetryLoadErrorHandlingPolicy());
             exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
             exoPlayerBuilder.setRenderersFactory(new AssRenderersFactory(assHandler, defaultRendererFactory));
         } else {
             exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
-            exoPlayerBuilder.setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory));
+            DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory);
+            mediaSourceFactory.setLoadErrorHandlingPolicy(new NetworkRetryLoadErrorHandlingPolicy());
+            exoPlayerBuilder.setMediaSourceFactory(mediaSourceFactory);
         }
 
         BufferLength bufferLength = userPreferences.get(UserPreferences.Companion.getBufferLength());
