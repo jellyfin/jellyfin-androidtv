@@ -180,6 +180,9 @@ dependencies {
 	implementation(libs.timber)
 	implementation(libs.slf4j.timber)
 
+	// Memory leaks. Installed automatically in debug builds.
+	debugImplementation(libs.leakcanary.android)
+
 	// Compatibility (desugaring)
 	coreLibraryDesugaring(libs.android.desugar)
 

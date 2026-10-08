@@ -36,6 +36,7 @@ kotest = "6.2.5"
 kotlin = "2.4.20"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
+leakcanary = "2.14"
 libass-android = "0.5.1"
 markwon = "4.6.2"
 mockk = "1.14.11"
@@ -124,6 +125,9 @@ aboutlibraries = { module = "com.mikepenz:aboutlibraries-core", version.ref = "a
 # Logging
 slf4j-timber = { module = "io.github.unveloper:slf4j-timber", version.ref = "slf4j-timber" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+# Memory leaks
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 # Compatibility (desugaring)
 android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugar" }
