@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
-import org.jellyfin.androidtv.preference.LibraryPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RadioButton
@@ -28,7 +27,7 @@ fun SettingsLibrariesDisplayImageTypeScreen(itemId: UUID, displayPreferencesId: 
 	val preferencesRepository = koinInject<PreferencesRepository>()
 	val userView = rememberUserView(itemId)
 	val libraryPreferences = remember(displayPreferencesId) { preferencesRepository.getLibraryPreferences(displayPreferencesId) }
-	var imageType by rememberPreference(libraryPreferences, LibraryPreferences.imageType)
+	var imageType by rememberPreference(libraryPreferences, libraryPreferences.imageType)
 
 	SettingsColumn {
 		item {
