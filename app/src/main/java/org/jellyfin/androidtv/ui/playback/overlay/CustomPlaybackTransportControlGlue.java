@@ -105,16 +105,14 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     @Override
+    protected void onHostStop() {
+        clearOnDetach();
+        super.onHostStop();
+    }
+
+    @Override
     protected void onDetachedFromHost() {
-        mHandler.removeCallbacks(mRefreshEndTime);
-        mHandler.removeCallbacks(mRefreshViewVisibility);
-
-        closedCaptionsAction.removePopup();
-        playbackSpeedAction.dismissPopup();
-        selectAudioAction.dismissPopup();
-        selectQualityAction.dismissPopup();
-        zoomAction.dismissPopup();
-
+        clearOnDetach();
         super.onDetachedFromHost();
     }
 
@@ -420,5 +418,16 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (next != null && next != focused) next.requestFocus(direction);
 
         return true;
+    }
+
+    private void clearOnDetach() {
+        mHandler.removeCallbacks(mRefreshEndTime);
+        mHandler.removeCallbacks(mRefreshViewVisibility);
+
+        closedCaptionsAction.removePopup();
+        playbackSpeedAction.dismissPopup();
+        selectAudioAction.dismissPopup();
+        selectQualityAction.dismissPopup();
+        zoomAction.dismissPopup();
     }
 }
