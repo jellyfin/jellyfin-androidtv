@@ -15,8 +15,8 @@ class ServerAddViewModel(
 	private val _state = MutableStateFlow<ServerAdditionState?>(null)
 	val state = _state.asStateFlow()
 
-	fun addServer(address: String) {
-		serverRepository.addServer(address).onEach { state ->
+	fun addServer(address: String, customHeaders: Map<String, String> = emptyMap()) {
+		serverRepository.addServer(address, customHeaders).onEach { state ->
 			_state.value = state
 		}.launchIn(viewModelScope)
 	}

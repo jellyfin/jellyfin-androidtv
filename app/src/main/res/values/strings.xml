@@ -84,6 +84,10 @@
     <string name="lbl_yes">Yes</string>
     <string name="lbl_enter_server_address">Enter server address</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
+    <string name="lbl_advanced_options_show">▸ Advanced options</string>
+    <string name="lbl_advanced_options_hide">▾ Advanced options</string>
+    <string name="lbl_custom_headers">Custom HTTP headers (optional)</string>
+    <string name="hint_custom_headers">One per line, e.g.\nX-Api-Key: your-key\nX-Authentik-Token: your-token</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Born "</string>
     <string name="lbl_loading_elipses">Loading…</string>

@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.ui.startup.fragment
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -49,11 +51,45 @@ class ServerAddFragment : Fragment() {
 			}
 		}
 
+		with(binding.headers) {
+			// On Android TV, ENTER is otherwise treated as a "select" key and never reaches a
+			// focused text field as a line break. Insert the newline ourselves so headers can be
+			// entered one per line with a hardware keyboard or remote.
+			setOnKeyListener { _, keyCode, event ->
+				val isEnter = keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER
+				if (isEnter && event.action == KeyEvent.ACTION_DOWN) {
+					val from = selectionStart.coerceAtLeast(0)
+					val to = selectionEnd.coerceAtLeast(0)
+					text?.replace(minOf(from, to), maxOf(from, to), "\n")
+					true
+				} else {
+					// Let ENTER's key-up and all other keys fall through untouched
+					isEnter
+				}
+			}
+		}
+
+		with(binding.advancedToggle) {
+			setOnClickListener { toggleAdvanced() }
+		}
+
 		with(binding.confirm) {
 			setOnClickListener { submitAddress() }
 		}
 
 		return binding.root
+	}
+
+	/** Expand or collapse the advanced options accordion holding the custom headers field. */
+	private fun toggleAdvanced() {
+		val expand = !binding.advancedSection.isVisible
+		binding.advancedSection.isVisible = expand
+		binding.advancedToggle.setText(
+			if (expand) R.string.lbl_advanced_options_hide else R.string.lbl_advanced_options_show
+		)
+		// Keep D-pad navigation sensible as the section appears/disappears
+		binding.advancedToggle.nextFocusDownId = if (expand) binding.headers.id else binding.confirm.id
+		if (expand) binding.headers.requestFocus()
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,7 +150,26 @@ class ServerAddFragment : Fragment() {
 	}
 
 	private fun submitAddress() = when {
-		binding.address.text.isNotBlank() -> startupViewModel.addServer(binding.address.text.toString())
+		binding.address.text.isNotBlank() -> startupViewModel.addServer(
+			binding.address.text.toString(),
+			parseHeaders(binding.headers.text.toString()),
+		)
+
 		else -> binding.error.setText(R.string.server_field_empty)
 	}
+
+	/**
+	 * Parse the custom headers field, with one `Header-Name: value` entry per line. Blank lines and
+	 * lines without a name are ignored.
+	 */
+	private fun parseHeaders(raw: String): Map<String, String> = raw.lineSequence()
+		.mapNotNull { line ->
+			val separator = line.indexOf(':')
+			if (separator <= 0) return@mapNotNull null
+
+			val name = line.substring(0, separator).trim()
+			val value = line.substring(separator + 1).trim()
+			if (name.isEmpty()) null else name to value
+		}
+		.toMap()
 }

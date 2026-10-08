@@ -11,7 +11,10 @@ import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.Logger
+import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.auth.CustomHeadersInterceptor
+import org.jellyfin.androidtv.auth.repository.CustomHeadersRepository
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.auth.repository.UserRepositoryImpl
@@ -79,7 +82,16 @@ val defaultDeviceInfo = named("defaultDeviceInfo")
 val appModule = module {
 	// SDK
 	single(defaultDeviceInfo) { androidDevice(get()) }
-	single { OkHttpFactory() }
+	single { CustomHeadersRepository(get()) }
+	single {
+		// Share a single OkHttp client (with the custom header interceptor) across the SDK API
+		// client, image loading and media playback.
+		OkHttpFactory(
+			base = OkHttpClient.Builder()
+				.addInterceptor(CustomHeadersInterceptor(get()))
+				.build()
+		)
+	}
 	single { HttpClientOptions() }
 	single {
 		createJellyfin {

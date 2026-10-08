@@ -47,12 +47,61 @@
         android:layout_marginTop="8dp"
         android:imeOptions="actionDone"
         android:inputType="textUri"
-        android:nextFocusDown="@id/confirm"
-        android:nextFocusForward="@id/confirm"
+        android:nextFocusDown="@id/advanced_toggle"
+        android:nextFocusForward="@id/advanced_toggle"
         android:privateImeOptions="horizontalAlignment=right"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_label" />
+
+    <!-- Accordion toggle: collapsed by default so most users only see the address field -->
+    <TextView
+        android:id="@+id/advanced_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/advanced_toggle_back"
+        android:focusable="true"
+        android:nextFocusDown="@id/confirm"
+        android:nextFocusForward="@id/confirm"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        android:text="@string/lbl_advanced_options_show"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address" />
+
+    <LinearLayout
+        android:id="@+id/advanced_section"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/advanced_toggle">
+
+        <TextView
+            android:id="@+id/headers_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_custom_headers" />
+
+        <EditText
+            android:id="@+id/headers"
+            style="@style/Input.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="top"
+            android:hint="@string/hint_custom_headers"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:minLines="2"
+            android:nextFocusDown="@id/confirm"
+            android:nextFocusForward="@id/confirm" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/confirm"
@@ -62,7 +111,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/action_connect"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address" />
+        app:layout_constraintTop_toBottomOf="@id/advanced_section" />
 
     <TextView
         android:id="@+id/error"

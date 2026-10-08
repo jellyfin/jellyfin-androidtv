@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.ConnectingState
@@ -46,7 +47,7 @@ interface ServerRepository {
 
 	fun setCurrentServer(server: Server?)
 
-	fun addServer(address: String): Flow<ServerAdditionState>
+	fun addServer(address: String, customHeaders: Map<String, String> = emptyMap()): Flow<ServerAdditionState>
 	suspend fun getServer(id: UUID, eagerUpdate: Boolean = false): Server?
 	suspend fun updateServer(server: Server, force: Boolean = false): Boolean
 	suspend fun deleteServer(server: UUID): Boolean
@@ -62,6 +63,7 @@ interface ServerRepository {
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val authenticationStore: AuthenticationStore,
+	private val customHeadersRepository: CustomHeadersRepository,
 ) : ServerRepository {
 	// State
 	private val _storedServers = MutableStateFlow(emptyList<Server>())
@@ -98,7 +100,7 @@ class ServerRepositoryImpl(
 	}
 
 	// Mutating data
-	override fun addServer(address: String): Flow<ServerAdditionState> = flow {
+	override fun addServer(address: String, customHeaders: Map<String, String>): Flow<ServerAdditionState> = flow {
 		Timber.i("Adding server %s", address)
 
 		emit(ConnectingState(address))
@@ -106,6 +108,21 @@ class ServerRepositoryImpl(
 		val addressCandidates = jellyfin.discovery.getAddressCandidates(address)
 		Timber.i("Found ${addressCandidates.size} candidates")
 
+		// Make the custom headers available to the candidate hosts during probing, before the
+		// server is persisted. Cleared again once the add attempt finishes.
+		val pendingHosts = addressCandidates.mapNotNull { it.toHttpUrlOrNull()?.host }.toSet()
+		pendingHosts.forEach { customHeadersRepository.setPendingHeaders(it, customHeaders) }
+		try {
+			emit(connectToCandidates(addressCandidates, customHeaders))
+		} finally {
+			pendingHosts.forEach { customHeadersRepository.clearPendingHeaders(it) }
+		}
+	}.flowOn(Dispatchers.IO)
+
+	private suspend fun connectToCandidates(
+		addressCandidates: Collection<String>,
+		customHeaders: Map<String, String>,
+	): ServerAdditionState {
 		val goodRecommendations = mutableListOf<RecommendedServerInfo>()
 		val badRecommendations = mutableListOf<RecommendedServerInfo>()
 		val greatRecommendation = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
@@ -135,45 +152,47 @@ class ServerRepositoryImpl(
 		})
 
 		val chosenRecommendation = greatRecommendation ?: goodRecommendations.firstOrNull()
-		if (chosenRecommendation != null && chosenRecommendation.systemInfo.isSuccess) {
-			// Get system info
-			val systemInfo = chosenRecommendation.systemInfo.getOrThrow()
-
-			// Get branding info
-			val api = jellyfin.createApi(chosenRecommendation.address)
-			val branding = api.getBrandingOptionsOrDefault()
-
-			val id = systemInfo.id!!.toUUID()
-
-			val server = authenticationStore.getServer(id)?.copy(
-				name = systemInfo.serverName ?: "Jellyfin Server",
-				address = chosenRecommendation.address,
-				version = systemInfo.version,
-				loginDisclaimer = branding.loginDisclaimer,
-				splashscreenEnabled = branding.splashscreenEnabled,
-				setupCompleted = systemInfo.startupWizardCompleted ?: true,
-				lastUsed = Instant.now().toEpochMilli()
-			) ?: AuthenticationStoreServer(
-				name = systemInfo.serverName ?: "Jellyfin Server",
-				address = chosenRecommendation.address,
-				version = systemInfo.version,
-				loginDisclaimer = branding.loginDisclaimer,
-				splashscreenEnabled = branding.splashscreenEnabled,
-				setupCompleted = systemInfo.startupWizardCompleted ?: true,
-			)
-
-			authenticationStore.putServer(id, server)
-			loadStoredServers()
-
-			emit(ConnectedState(id, systemInfo))
-		} else {
+		if (chosenRecommendation == null || !chosenRecommendation.systemInfo.isSuccess) {
 			// No great or good recommendations, only add bad recommendations
 			val addressCandidatesWithIssues = (badRecommendations + goodRecommendations)
 				.groupBy { it.address }
 				.mapValues { (_, entry) -> entry.flatMap { server -> server.issues } }
-			emit(UnableToConnectState(addressCandidatesWithIssues))
+			return UnableToConnectState(addressCandidatesWithIssues)
 		}
-	}.flowOn(Dispatchers.IO)
+
+		// Get system info
+		val systemInfo = chosenRecommendation.systemInfo.getOrThrow()
+
+		// Get branding info
+		val api = jellyfin.createApi(chosenRecommendation.address)
+		val branding = api.getBrandingOptionsOrDefault()
+
+		val id = systemInfo.id!!.toUUID()
+
+		val server = authenticationStore.getServer(id)?.copy(
+			name = systemInfo.serverName ?: "Jellyfin Server",
+			address = chosenRecommendation.address,
+			version = systemInfo.version,
+			loginDisclaimer = branding.loginDisclaimer,
+			splashscreenEnabled = branding.splashscreenEnabled,
+			setupCompleted = systemInfo.startupWizardCompleted ?: true,
+			customHeaders = customHeaders,
+			lastUsed = Instant.now().toEpochMilli()
+		) ?: AuthenticationStoreServer(
+			name = systemInfo.serverName ?: "Jellyfin Server",
+			address = chosenRecommendation.address,
+			version = systemInfo.version,
+			loginDisclaimer = branding.loginDisclaimer,
+			splashscreenEnabled = branding.splashscreenEnabled,
+			setupCompleted = systemInfo.startupWizardCompleted ?: true,
+			customHeaders = customHeaders,
+		)
+
+		authenticationStore.putServer(id, server)
+		loadStoredServers()
+
+		return ConnectedState(id, systemInfo)
+	}
 
 	override suspend fun getServer(id: UUID, eagerUpdate: Boolean): Server? {
 		val server = authenticationStore.getServer(id) ?: return null
@@ -252,6 +271,7 @@ class ServerRepositoryImpl(
 		splashscreenEnabled = splashscreenEnabled,
 		setupCompleted = setupCompleted,
 		dateLastAccessed = Instant.ofEpochMilli(lastUsed),
+		customHeaders = customHeaders,
 	)
 
 	/**

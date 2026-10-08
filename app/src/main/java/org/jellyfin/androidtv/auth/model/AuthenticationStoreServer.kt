@@ -22,5 +22,11 @@ data class AuthenticationStoreServer(
 	@SerialName("setup_completed")  val setupCompleted: Boolean = true,
 	@SerialName("last_used") val lastUsed: Long = Instant.now().toEpochMilli(),
 	@SerialName("last_refreshed") val lastRefreshed: Long = Instant.now().toEpochMilli(),
+	/**
+	 * Custom HTTP headers to send with every request to this server, e.g. an API key or a token
+	 * required by an authenticating reverse proxy or identity-aware gateway (such as Authentik or
+	 * Authelia) placed in front of the server.
+	 */
+	@SerialName("custom_headers") val customHeaders: Map<String, String> = emptyMap(),
 	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),
 )
