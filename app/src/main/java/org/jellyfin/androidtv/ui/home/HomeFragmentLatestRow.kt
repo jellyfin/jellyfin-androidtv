@@ -26,6 +26,7 @@ class HomeFragmentLatestRow(
 		userViews
 			.filterNot { item -> item.collectionType in EXCLUDED_COLLECTION_TYPES || item.id in latestItemsExcludes }
 			.map { item ->
+				val musicVideos = item.collectionType == CollectionType.MUSICVIDEOS
 				// Create query and add it to a new row
 				val request = GetLatestMediaRequest(
 					fields = ItemRepository.browseFields,
@@ -36,7 +37,7 @@ class HomeFragmentLatestRow(
 				)
 
 				val title = context.getString(R.string.lbl_latest_in, item.name)
-				HomeFragmentBrowseRowDefRow(BrowseRowDef(title, request, arrayOf(ChangeTriggerType.LibraryUpdated)))
+				HomeFragmentBrowseRowDefRow(BrowseRowDef(title, request, arrayOf(ChangeTriggerType.LibraryUpdated)), musicVideos)
 			}.forEach { row ->
 				// Add row to adapter
 				row.addToRowsAdapter(context, cardPresenter, rowsAdapter)

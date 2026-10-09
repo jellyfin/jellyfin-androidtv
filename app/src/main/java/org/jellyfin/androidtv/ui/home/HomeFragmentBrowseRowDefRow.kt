@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.Row
+import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.data.querying.GetUserViewsRequest
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -15,7 +16,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class HomeFragmentBrowseRowDefRow(
-	private val browseRowDef: BrowseRowDef
+	private val browseRowDef: BrowseRowDef,
+	private val musicVideos: Boolean = false,
 ) : HomeFragmentRow, KoinComponent {
 	private val userPreferences by inject<UserPreferences>()
 
@@ -26,7 +28,12 @@ class HomeFragmentBrowseRowDefRow(
 		// Some of these members are probably never used and could be removed
 		val rowAdapter = when (browseRowDef.queryType) {
 			QueryType.NextUp -> ItemRowAdapter(context, browseRowDef.nextUpQuery, preferParentThumb, cardPresenter, rowsAdapter)
-			QueryType.LatestItems -> ItemRowAdapter(context, browseRowDef.latestItemsQuery, userPreferences[UserPreferences.seriesThumbnailsEnabled], cardPresenter, rowsAdapter)
+			QueryType.LatestItems -> {
+				val presenter = if (musicVideos) CardPresenter(
+					cardPresenter.showInfo, ImageType.THUMB, cardPresenter.staticHeight, cardPresenter.uniformAspect
+				) else cardPresenter
+				ItemRowAdapter(context, browseRowDef.latestItemsQuery, userPreferences[UserPreferences.seriesThumbnailsEnabled], presenter, rowsAdapter)
+			}
 			QueryType.Views -> ItemRowAdapter(context, GetUserViewsRequest, cardPresenter, rowsAdapter)
 			QueryType.SimilarSeries -> ItemRowAdapter(context, browseRowDef.similarQuery, QueryType.SimilarSeries, cardPresenter, rowsAdapter)
 			QueryType.SimilarMovies -> ItemRowAdapter(context, browseRowDef.similarQuery, QueryType.SimilarMovies, cardPresenter, rowsAdapter)

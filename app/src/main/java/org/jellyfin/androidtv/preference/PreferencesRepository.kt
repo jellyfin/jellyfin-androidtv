@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.preference
 
 import kotlinx.coroutines.runBlocking
+import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.sdk.api.client.ApiClient
 import kotlin.collections.set
 
@@ -15,7 +16,14 @@ class PreferencesRepository(
 	private val libraryPreferences = mutableMapOf<String, LibraryPreferences>()
 
 	fun getLibraryPreferences(preferencesId: String): LibraryPreferences {
-		val store = libraryPreferences[preferencesId] ?: LibraryPreferences(preferencesId, api)
+		val defaultImageType = if (preferencesId == LibraryPreferences.MUSIC_VIDEO_ARTIST_DISPLAY_PREFERENCES_ID ||
+			preferencesId == LibraryPreferences.MUSIC_VIDEO_ITEM_DISPLAY_PREFERENCES_ID
+		) {
+			ImageType.THUMB
+		} else {
+			ImageType.POSTER
+		}
+		val store = libraryPreferences[preferencesId] ?: LibraryPreferences(preferencesId, api, defaultImageType)
 
 		libraryPreferences[preferencesId] = store
 
