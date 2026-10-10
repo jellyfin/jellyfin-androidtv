@@ -1,21 +1,27 @@
 package org.jellyfin.androidtv.auth.store
 
 import android.content.Context
+import androidx.core.util.AtomicFile
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.encodeToStream
 import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.sdk.model.serializer.UUIDSerializer
 import timber.log.Timber
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.util.UUID
 
 /**
@@ -24,11 +30,9 @@ import java.util.UUID
  *
  * The data is stored in a JSON file located in the applications data directory.
  */
-class AuthenticationStore(
-	private val context: Context,
-) {
-	private val storePath
-		get() = context.filesDir.resolve("authentication_store.json")
+class AuthenticationStore(context: Context) {
+	private val storePath = context.filesDir.resolve("authentication_store.json")
+	private val storeFile = AtomicFile(storePath)
 
 	private val json = Json {
 		encodeDefaults = true
@@ -42,16 +46,20 @@ class AuthenticationStore(
 		load().toMutableMap()
 	}
 
+	@OptIn(ExperimentalSerializationApi::class)
 	private fun load(): Map<UUID, AuthenticationStoreServer> {
-		// No store found
-		if (!storePath.exists()) return emptyMap()
-
 		// Parse JSON document
 		val root = try {
-			json.parseToJsonElement(storePath.readText()).jsonObject
+			storeFile.openRead().use { json.decodeFromStream<JsonObject>(it) }
+		} catch (_: FileNotFoundException) {
+			// No store found
+			return emptyMap()
+		} catch (e: IOException) {
+			Timber.e(e, "Unable to read authentication store")
+			return emptyMap()
 		} catch (e: SerializationException) {
 			Timber.e(e, "Unable to read JSON")
-			JsonObject(emptyMap())
+			return emptyMap()
 		}
 
 		// Check for version
@@ -77,19 +85,39 @@ class AuthenticationStore(
 		}
 	}
 
+	@OptIn(ExperimentalSerializationApi::class)
 	private fun write(servers: Map<UUID, AuthenticationStoreServer>): Boolean {
-		val root = JsonObject(mapOf(
-			"version" to JsonPrimitive(2),
-			"servers" to json.encodeToJsonElement(servers)
-		))
+		val root = buildJsonObject {
+			put("version", 2)
+			put("servers", json.encodeToJsonElement(servers))
+		}
 
-		storePath.writeText(json.encodeToString(root))
+		val stream = try {
+			storeFile.startWrite()
+		} catch (e: IOException) {
+			Timber.e(e, "Unable to start writing authentication store")
+			return false
+		}
 
-		return true
+		return try {
+			json.encodeToStream(root, stream)
+
+			stream.fd.sync()
+			storeFile.finishWrite(stream)
+
+			// Verify the file write completed
+			if (storePath.resolveSibling("${storePath.name}.new").exists()) throw IOException("Unable to commit authentication store")
+
+			true
+		} catch (e: IOException) {
+			storeFile.failWrite(stream)
+			Timber.e(e, "Unable to write authentication store")
+			false
+		}
 	}
 
-	private fun save(): Boolean {
-		return write(store)
+	private fun save(): Boolean = synchronized(storeFile) {
+		write(store)
 	}
 
 	fun getServers(): Map<UUID, AuthenticationStoreServer> = store
@@ -108,7 +136,7 @@ class AuthenticationStore(
 	fun putUser(server: UUID, userId: UUID, userInfo: AuthenticationStoreUser): Boolean {
 		val serverInfo = store[server] ?: return false
 
-		store[server] = serverInfo.copy(users = serverInfo.users.toMutableMap().apply { put(userId, userInfo) })
+		store[server] = serverInfo.copy(users = serverInfo.users + (userId to userInfo))
 
 		return save()
 	}
@@ -117,14 +145,14 @@ class AuthenticationStore(
 	 * Removes the server and stored users from the credential store.
 	 */
 	fun removeServer(server: UUID): Boolean {
-		store.remove(server)
+		store -= server
 		return save()
 	}
 
 	fun removeUser(server: UUID, user: UUID): Boolean {
 		val serverInfo = store[server] ?: return false
 
-		store[server] = serverInfo.copy(users = serverInfo.users.toMutableMap().apply { remove(user) })
+		store[server] = serverInfo.copy(users = serverInfo.users - user)
 
 		return save()
 	}
