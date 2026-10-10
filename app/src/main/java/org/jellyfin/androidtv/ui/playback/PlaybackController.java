@@ -289,10 +289,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
-    private Display.Mode findBestDisplayMode(MediaStream videoStream) {
-        if (mFragment == null || mDisplayModes == null || videoStream.getRealFrameRate() == null)
+    @Nullable
+    private Display.Mode findBestDisplayMode(@Nullable MediaStream videoStream) {
+        if (mFragment == null || mDisplayModes == null || videoStream == null || videoStream.getRealFrameRate() == null || videoStream.getWidth() == null || videoStream.getHeight() == null)
             return null;
-
 
         int curWeight = 0;
         Display.Mode bestMode = null;
