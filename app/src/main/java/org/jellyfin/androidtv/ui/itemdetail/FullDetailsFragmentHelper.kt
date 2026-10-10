@@ -217,10 +217,8 @@ fun FullDetailsFragment.populatePreviousButton() {
 			).content
 		}
 
-		val previousItem = siblings.items
-			.filterNot { it.id == mBaseItem.id }
-			.firstOrNull()
-			?.id
+		val currentIndex = siblings.items.indexOfFirst { it.id == mBaseItem.id }
+		val previousItem = siblings.items.getOrNull(currentIndex - 1)?.id
 
 		mPrevItemId = previousItem
 		mPrevButton.isVisible = previousItem != null
