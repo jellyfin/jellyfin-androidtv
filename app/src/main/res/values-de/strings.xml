@@ -681,4 +681,7 @@
     <string name="dovi_profile_5_description">Einlagiges Dolby Vision</string>
     <string name="dovi_profile_7_description">Zweilagig mit Erwiterungsschicht</string>
     <string name="dovi_profile_8_description">Einlagig mit HDR10 Rückfall</string>
+    <string name="lbl_date_show_added">Serie hinzugefügt am</string>
+    <string name="lbl_date_episode_added">Episode hinzugefügt am</string>
+    <string name="preference_hdr_overrides_summary">Erkannte HDR-Fähigkeiten des Geräts überschreiben</string>
 </resources>
