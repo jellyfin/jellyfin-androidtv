@@ -684,4 +684,10 @@
     <string name="lbl_date_show_added">Serie hinzugefügt am</string>
     <string name="lbl_date_episode_added">Episode hinzugefügt am</string>
     <string name="preference_hdr_overrides_summary">Erkannte HDR-Fähigkeiten des Geräts überschreiben</string>
+    <string name="home_next_up_max_days">Als Nächstes Datumsgrenze</string>
+    <plurals name="days">
+        <item quantity="one">%1$s Tag</item>
+        <item quantity="other">%1$s Tage</item>
+    </plurals>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
 </resources>
