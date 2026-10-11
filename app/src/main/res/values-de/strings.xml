@@ -690,4 +690,12 @@
         <item quantity="other">%1$s Tage</item>
     </plurals>
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="photo_player">Foto-Player</string>
+    <string name="photo_display_duration">Anzeigedauer der Fotos</string>
+    <string name="photo_display_duration_description">Wartezeit bis zum nächsten Foto</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
 </resources>
