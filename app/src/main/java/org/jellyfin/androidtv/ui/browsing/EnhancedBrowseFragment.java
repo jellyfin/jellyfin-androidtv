@@ -128,7 +128,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rowsFragment) == null) {
-            mRowsFragment = new RowsSupportFragment();
+            mRowsFragment = new AutoFocusRowsFragment();
             getChildFragmentManager()
                     .beginTransaction()
                     .replace(R.id.rowsFragment, mRowsFragment).commit();
