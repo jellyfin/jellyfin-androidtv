@@ -651,8 +651,8 @@
     <string name="playback_info_resolution">Resolução: %1$d x %2$d</string>
     <string name="pref_burn_subtitles_when_transcoding">Gravar as legendas quando estiver transcodificando</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Sempre gravar legendas no vídeo durante a transcodificação. Isso pode corrigir problemas de sincronização, mas desativa a personalização das legendas.</string>
-    <string name="user_avc_level">H.264 (AVC) nível</string>
-    <string name="user_hevc_level">H.265 (HEVC) nível</string>
+    <string name="user_avc_level">Nível H.264 (AVC)</string>
+    <string name="user_hevc_level">Nível H.265 (HEVC)</string>
     <string name="preference_codecs">Codecs de mídia</string>
     <string name="preference_codecs_summary">Sobrescrever suporte a codecs do dispositivo</string>
     <string name="codec_level_manual">Ajuste manual</string>
@@ -669,7 +669,7 @@
     <string name="hdr10_plus">HDR10+</string>
     <string name="dolby_vision_with_el">Dolby Vision com EL</string>
     <string name="sdr">SDR</string>
-    <string name="pref_software_codecs_enabled">Use codecs de software</string>
+    <string name="pref_software_codecs_enabled">Usar codecs de software</string>
     <string name="pref_software_codecs_enabled_description">Algumas implementações via software podem reduzir o desempenho. Desativar esta opção torna a transcodificação mais provável.</string>
     <string name="playback_info_video_range">Alcance de vídeo: %1$s</string>
     <string name="playback_buffer_length">Tamanho do buffer de reprodução</string>
@@ -694,4 +694,17 @@
     <string name="home_next_up_max_days">Prazo limite da próxima atualização</string>
     <string name="home_next_up_max_days_disabled">Desabilitado</string>
     <string name="tv_provider_enabled">Integrar com a tela inicial do Android TV</string>
+    <string name="dovi_profile_7_description">Camada dupla com Camada de Aprimoramento</string>
+    <string name="dovi_profile_8_description">Camada única com alternativa de HDR10</string>
+    <string name="tv_provider_enabled_description">Mostrar canais e recomendações do Jellyfin na tela inicial do Android TV</string>
+    <plurals name="days">
+        <item quantity="one">%1$s dia</item>
+        <item quantity="many">%1$s dias</item>
+        <item quantity="other">%1$s dias</item>
+    </plurals>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="photo_player">Reprodutor de fotos</string>
+    <string name="photo_display_duration">Duração da visualização da foto</string>
+    <string name="photo_display_duration_description">Quanto tempo esperar antes de mostrar a próxima foto</string>
 </resources>
