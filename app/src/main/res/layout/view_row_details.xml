@@ -165,16 +165,22 @@
         <org.jellyfin.androidtv.ui.ExpandableTextView
             android:id="@+id/fdSummaryText"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="6"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/infoValue3"
             app:layout_constraintEnd_toEndOf="@id/guide_main_end"
             app:layout_constraintStart_toStartOf="@id/guide_main_start"
             app:layout_constraintTop_toBottomOf="@id/fdGenreRow"
             tools:text="fdSummaryText" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/details_content_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="fdSummaryText,infoValue3" />
 
         <LinearLayout
             android:id="@+id/fdButtonRow"
@@ -186,7 +192,7 @@
             android:showDividers="none"
             app:layout_constraintEnd_toEndOf="@id/guide_main_end"
             app:layout_constraintStart_toStartOf="@id/guide_main_start"
-            app:layout_constraintTop_toBottomOf="@id/fdSummaryText" />
+            app:layout_constraintTop_toBottomOf="@id/details_content_bottom" />
 
         <!-- Right -->
 
