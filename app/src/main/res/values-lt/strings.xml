@@ -710,4 +710,5 @@
     </plurals>
     <string name="tv_provider_enabled">Integracija su Android TV pagrindiniu ekranu</string>
     <string name="tv_provider_enabled_description">Rodyti Jellyfin kanalus ir rekomendacijas Android TV pagrindiniame ekrane</string>
+    <string name="lbl_3d">3D</string>
 </resources>
