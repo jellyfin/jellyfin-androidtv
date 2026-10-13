@@ -659,4 +659,5 @@
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="lbl_date_show_added">Ngày chương trình được thêm vào</string>
+    <string name="preference_hdr_overrides">Định dạng HDR</string>
 </resources>
