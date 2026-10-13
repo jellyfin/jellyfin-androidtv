@@ -696,4 +696,5 @@
     <string name="tv_provider_enabled_description">Vís Jellyfin-rásir og tilmælir á Android TV-forsíðuni</string>
     <string name="tv_provider_enabled">Android TV-forsíðuveiting</string>
     <string name="dovi_profile_7_description">Tveylags við víðkanarlagi</string>
+    <string name="lbl_3d">3D</string>
 </resources>
