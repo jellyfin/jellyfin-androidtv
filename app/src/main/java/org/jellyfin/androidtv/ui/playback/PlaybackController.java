@@ -650,12 +650,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // User explicitly disabled subtitles
                 mCurrentOptions.setSubtitleStreamIndex(null);
             } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Find subtitle stream matching saved language
+                // Find subtitle stream matching saved language, keeping the requested stream if it matches
+                // (e.g. when playback restarts to switch between baked and non-baked subtitles)
+                Integer requestedIndex = mCurrentOptions.getSubtitleStreamIndex();
                 Integer matchingIndex = null;
                 for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
                     if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        matchingIndex = stream.getIndex();
-                        break;
+                        if (matchingIndex == null) matchingIndex = stream.getIndex();
+                        if (requestedIndex != null && requestedIndex == stream.getIndex()) {
+                            matchingIndex = requestedIndex;
+                            break;
+                        }
                     }
                 }
                 mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
