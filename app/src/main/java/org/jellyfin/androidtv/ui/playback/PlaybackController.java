@@ -524,7 +524,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
         if (mCurrentOptions != null) {
             internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
-            internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
+            internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex(item.getId()));
         }
         if (forcedSubtitleIndex != null) {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
@@ -788,6 +788,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void switchAudioStream(int index) {
+        switchAudioStream(index, true);
+    }
+
+    private void switchAudioStream(int index, boolean selectedByUser) {
         if (!(isPlaying() || isPaused()) || index < 0)
             return;
 
@@ -804,7 +808,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (currentAudioIsoCode != null
                 && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
             videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
-                    currentAudioIsoCode
+                    currentAudioIsoCode, selectedByUser
             );
         }
 
@@ -1258,7 +1262,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
                 eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
             }
-            switchAudioStream(eligibleAudioTrack);
+            switchAudioStream(eligibleAudioTrack, false);
         }
     }
 
