@@ -530,15 +530,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         }
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
-        if (forcedAudioLanguage != null) {
-            // find the first audio stream with the requested language
-            for (MediaStream stream : currentMediaSource.getMediaStreams()) {
-                if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
-                    internalOptions.setAudioStreamIndex(stream.getIndex());
-                    break;
-                }
-            }
-        }
+        internalOptions.applyAudioLanguage(forcedAudioLanguage,
+                currentMediaSource != null ? currentMediaSource.getMediaStreams() : null);
         if (!isLiveTv && currentMediaSource != null) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
