@@ -22,6 +22,7 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.extractor.DefaultExtractorsFactory
+import androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory
 import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.SubtitleView
 import io.github.peerless2012.ass.media.AssHandler
@@ -57,7 +58,7 @@ class ExoPlayerBackend(
 ) : BasePlayerBackend() {
 	companion object {
 		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
-		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
+		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES * 3
 		const val MEDIA_ITEM_COUNT_MAX = 10
 	}
 
@@ -84,6 +85,10 @@ class ExoPlayerBackend(
 					true -> TS_SEARCH_BYTES_LM
 					false -> TS_SEARCH_BYTES_HM
 				}
+			)
+			setTsExtractorFlags(
+				DefaultTsPayloadReaderFactory.FLAG_ENABLE_HDMV_DTS_AUDIO_STREAMS or
+				DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES
 			)
 			setConstantBitrateSeekingEnabled(true)
 			setConstantBitrateSeekingAlwaysEnabled(true)
