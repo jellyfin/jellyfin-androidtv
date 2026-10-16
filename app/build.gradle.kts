@@ -169,9 +169,6 @@ dependencies {
 
 	// Image utility
 	implementation(libs.bundles.coil)
-	implementation(libs.coil.core)
-	implementation(libs.coil.compose)
-	implementation(libs.coil.network.okhttp)
 
 	// Crash Reporting
 	implementation(libs.bundles.acra)
