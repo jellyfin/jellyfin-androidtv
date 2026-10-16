@@ -32,7 +32,7 @@ fun AsyncImage(
 	placeholder: Drawable? = null,
 	aspectRatio: Float = 1f,
 	blurHashResolution: Int = 32,
-	scaleType: ImageView.ScaleType? = null,
+	scaleType: ContentScale = ContentScale.Fit,
 ) {
 	// Only the important properties are added to AsyncImageState
 	var state by remember { mutableStateOf<AsyncImageState?>(null) }
@@ -42,7 +42,7 @@ fun AsyncImage(
 			painter = blurHashPainter(blurHash, IntSize(32, 32)),
 			contentDescription = null,
 			alignment = Alignment.Center,
-			contentScale = ContentScale.Crop,
+			contentScale = ContentScale.FillBounds,
 			modifier = Modifier.fillMaxSize(),
 		)
 	}
@@ -50,7 +50,8 @@ fun AsyncImage(
 	AsyncImage(
 		model = url,
 		contentDescription = null,
-		modifier = modifier
+		modifier = modifier,
+		contentScale = scaleType,
 	)
 }
 

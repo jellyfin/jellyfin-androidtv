@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -122,7 +123,7 @@ fun NowPlayingComposable(
 										sweepAngle = 360f * progress,
 									)
 								},
-							scaleType = ImageView.ScaleType.CENTER_CROP,
+							scaleType = ContentScale.Crop,
 						)
 
 						Column(
