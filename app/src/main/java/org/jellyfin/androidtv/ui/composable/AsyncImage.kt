@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.composable
 
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,6 +13,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import coil3.compose.AsyncImage
 import org.jellyfin.androidtv.util.BlurHashDecoder
@@ -29,7 +28,7 @@ fun AsyncImage(
 	modifier: Modifier = Modifier,
 	url: String? = null,
 	blurHash: String? = null,
-	placeholder: Drawable? = null,
+	placeholder: Int? = null,
 	aspectRatio: Float = 1f,
 	blurHashResolution: Int = 32,
 	scaleType: ContentScale = ContentScale.Fit,
@@ -37,9 +36,9 @@ fun AsyncImage(
 	// Only the important properties are added to AsyncImageState
 	var state by remember { mutableStateOf<AsyncImageState?>(null) }
 
-	if (blurHash != null) {
+	if (blurHash != null && placeholder == null) {
 		Image(
-			painter = blurHashPainter(blurHash, IntSize(32, 32)),
+			painter = blurHashPainter(blurHash, IntSize(blurHashResolution, blurHashResolution)),
 			contentDescription = null,
 			alignment = Alignment.Center,
 			contentScale = ContentScale.FillBounds,
@@ -47,12 +46,22 @@ fun AsyncImage(
 		)
 	}
 
-	AsyncImage(
-		model = url,
-		contentDescription = null,
-		modifier = modifier,
-		contentScale = scaleType,
-	)
+    if(url != null) {
+		AsyncImage(
+			model = url,
+			contentDescription = null,
+			modifier = modifier,
+			contentScale = scaleType,
+		)
+	}
+	else if (placeholder != null) {
+	    Image(
+			painter = painterResource(placeholder),
+			contentDescription = null,
+			modifier = modifier,
+			contentScale = scaleType,
+		)
+	}
 }
 
 @Composable
