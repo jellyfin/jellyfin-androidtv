@@ -690,4 +690,11 @@
     <string name="hdr10_plus_override">HDR10+</string>
     <string name="hdr10_override">HDR10</string>
     <string name="preference_hdr_overrides_summary">Sobreescribir capacidades HDR reportadas por el dispositivo</string>
+    <string name="lbl_3d">3D</string>
+    <string name="hdr_override_auto">Auto (detección de dispositivo)</string>
+    <string name="dovi_profile_5_description">Dolby Vision de una capa</string>
+    <string name="dovi_profile_7_description">Doble capa con mejora de capa</string>
+    <string name="dovi_profile_8_description">Una capa con soporte de HDR10</string>
+    <string name="home_next_up_max_days">Días a mantener en Siguiente</string>
+    <string name="home_next_up_max_days_disabled">Deshabilitado</string>
 </resources>
