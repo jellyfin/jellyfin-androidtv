@@ -294,6 +294,7 @@ class SdkPlaybackHelper(
 			val items = withContext(Dispatchers.IO) {
 				val response by api.itemsApi.getItems(
 					ids = itemIds,
+					fields = ItemRepository.itemFields,
 				)
 				response.items
 			}
