@@ -2,18 +2,21 @@ package org.jellyfin.androidtv.ui.composable
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.viewinterop.AndroidView
-import org.jellyfin.androidtv.ui.AsyncImageView
+import coil3.compose.AsyncImage
 import org.jellyfin.androidtv.util.BlurHashDecoder
 
 private data class AsyncImageState(
@@ -34,28 +37,20 @@ fun AsyncImage(
 	// Only the important properties are added to AsyncImageState
 	var state by remember { mutableStateOf<AsyncImageState?>(null) }
 
-	AndroidView(
-		modifier = modifier,
-		factory = { context ->
-			AsyncImageView(context).also { view ->
-				view.adjustViewBounds = true
-				view.scaleType = scaleType ?: ImageView.ScaleType.FIT_CENTER
-			}
-		},
-		update = { view ->
-			val compositionState = AsyncImageState(url, blurHash)
-			if (state != compositionState) {
-				state = compositionState
+	if (blurHash != null) {
+		Image(
+			painter = blurHashPainter(blurHash, IntSize(32, 32)),
+			contentDescription = null,
+			alignment = Alignment.Center,
+			contentScale = ContentScale.Crop,
+			modifier = Modifier.fillMaxSize(),
+		)
+	}
 
-				view.load(
-					url = compositionState.url,
-					blurHash = compositionState.blurHash,
-					placeholder = placeholder,
-					aspectRatio = aspectRatio.toDouble(),
-					blurHashResolution = blurHashResolution,
-				)
-			}
-		},
+	AsyncImage(
+		model = url,
+		contentDescription = null,
+		modifier = modifier
 	)
 }
 
