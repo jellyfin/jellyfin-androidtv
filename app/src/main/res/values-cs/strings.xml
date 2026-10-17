@@ -710,4 +710,5 @@
     </plurals>
     <string name="tv_provider_enabled">Integrace s úvodní obrazovkou Android TV</string>
     <string name="tv_provider_enabled_description">Zobrazit kanály a doporučení Jellyfin na úvodní obrazovce Android TV</string>
+    <string name="lbl_3d">3D</string>
 </resources>
