@@ -67,6 +67,10 @@ public class ItemLauncher {
     }
 
     public void launch(final BaseRowItem rowItem, MutableObjectAdapter<Object> adapter, final Context context) {
+        launch(rowItem, adapter, context, null);
+    }
+
+    public void launch(final BaseRowItem rowItem, MutableObjectAdapter<Object> adapter, final Context context, @Nullable String folderDisplayPreferencesId) {
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
                 BaseItemDto baseItem = rowItem.getBaseItem();
@@ -143,7 +147,9 @@ public class ItemLauncher {
                     // Some items don't have a display preferences id, but it's required for StdGridFragment
                     // Use the id of the item as a workaround, it's a unique key for the specific item
                     // Which is exactly what we want
-                    if (baseItem.getDisplayPreferencesId() == null) {
+                    if (folderDisplayPreferencesId != null) {
+                        baseItem = JavaCompat.copyWithDisplayPreferencesId(baseItem, folderDisplayPreferencesId);
+                    } else if (baseItem.getDisplayPreferencesId() == null) {
                         baseItem = JavaCompat.copyWithDisplayPreferencesId(baseItem, baseItem.getId().toString());
                     }
 
