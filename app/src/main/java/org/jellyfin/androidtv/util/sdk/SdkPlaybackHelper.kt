@@ -24,6 +24,7 @@ import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.CollectionType
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
@@ -71,6 +72,19 @@ class SdkPlaybackHelper(
 		allowIntros: Boolean,
 		shuffle: Boolean,
 	): List<BaseItemDto> = withContext(Dispatchers.IO) {
+		val musicVideoLibrary = when {
+			mainItem.collectionType == CollectionType.MUSICVIDEOS -> mainItem
+			mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO -> findMusicVideoLibrary(mainItem)
+			else -> null
+		}
+		if (musicVideoLibrary != null) {
+			val items = getMusicVideos(musicVideoLibrary.id)
+			if (mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO) {
+				if (items.none { it.id == mainItem.id }) return@withContext listOf(mainItem)
+			}
+			return@withContext MusicVideoQueue.startAt(items, mainItem.id) { it.id }
+		}
+
 		when (mainItem.type) {
 			BaseItemKind.EPISODE -> {
 				val seriesId = mainItem.seriesId
@@ -246,6 +260,31 @@ class SdkPlaybackHelper(
 				}
 			}
 		}
+	}
+
+	private suspend fun findMusicVideoLibrary(item: BaseItemDto): BaseItemDto? {
+		var parentId = item.parentId
+		val visited = mutableSetOf<UUID>()
+		while (parentId != null && visited.add(parentId)) {
+			val parent by api.userLibraryApi.getItem(parentId)
+			if (parent.collectionType == CollectionType.MUSICVIDEOS) return parent
+			parentId = parent.parentId
+		}
+		return null
+	}
+
+	private suspend fun getMusicVideos(libraryId: UUID): List<BaseItemDto> = MusicVideoQueue.all(ITEM_QUERY_LIMIT) { offset, limit ->
+			val response by api.itemsApi.getItems(
+				parentId = libraryId,
+				includeItemTypes = listOf(BaseItemKind.MUSIC_VIDEO, BaseItemKind.VIDEO),
+				isMissing = false,
+				recursive = true,
+				sortBy = listOf(ItemSortBy.SORT_NAME),
+				startIndex = offset,
+				limit = limit,
+				fields = ItemRepository.itemFields,
+			)
+			response.items
 	}
 
 	private suspend fun getParts(item: BaseItemDto): List<BaseItemDto> = buildList {
