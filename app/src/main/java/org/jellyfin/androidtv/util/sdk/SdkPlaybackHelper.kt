@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.preference.LibraryPreferences
+import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
@@ -35,6 +37,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class SdkPlaybackHelper(
 	private val api: ApiClient,
+	private val preferencesRepository: PreferencesRepository,
 	private val userPreferences: UserPreferences,
 	private val playbackLauncher: PlaybackLauncher,
 	private val playbackControllerContainer: PlaybackControllerContainer,
@@ -78,7 +81,7 @@ class SdkPlaybackHelper(
 			else -> null
 		}
 		if (musicVideoLibrary != null) {
-			val items = getMusicVideos(musicVideoLibrary.id)
+			val items = getMusicVideos(musicVideoLibrary)
 			if (mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO) {
 				if (items.none { it.id == mainItem.id }) return@withContext listOf(mainItem)
 			}
@@ -273,18 +276,26 @@ class SdkPlaybackHelper(
 		return null
 	}
 
-	private suspend fun getMusicVideos(libraryId: UUID): List<BaseItemDto> = MusicVideoQueue.all(ITEM_QUERY_LIMIT) { offset, limit ->
+	private suspend fun getMusicVideos(library: BaseItemDto): List<BaseItemDto> {
+		val preferencesId = library.displayPreferencesId ?: library.id.toString()
+		val preferences = preferencesRepository.getLibraryPreferences(preferencesId)
+		val sortBy = preferences[LibraryPreferences.sortBy]
+		val sortOrder = preferences[LibraryPreferences.sortOrder]
+
+		return MusicVideoQueue.all(ITEM_QUERY_LIMIT) { offset, limit ->
 			val response by api.itemsApi.getItems(
-				parentId = libraryId,
+				parentId = library.id,
 				includeItemTypes = listOf(BaseItemKind.MUSIC_VIDEO, BaseItemKind.VIDEO),
 				isMissing = false,
 				recursive = true,
-				sortBy = listOf(ItemSortBy.SORT_NAME),
+				sortBy = listOf(sortBy),
+				sortOrder = listOf(sortOrder),
 				startIndex = offset,
 				limit = limit,
 				fields = ItemRepository.itemFields,
 			)
 			response.items
+		}
 	}
 
 	private suspend fun getParts(item: BaseItemDto): List<BaseItemDto> = buildList {
