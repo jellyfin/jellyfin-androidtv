@@ -81,7 +81,7 @@ class SdkPlaybackHelper(
 			else -> null
 		}
 		if (musicVideoLibrary != null) {
-			val items = getMusicVideos(musicVideoLibrary)
+			val items = getMusicVideos(musicVideoLibrary, shuffle)
 			if (mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO) {
 				if (items.none { it.id == mainItem.id }) return@withContext listOf(mainItem)
 			}
@@ -276,10 +276,13 @@ class SdkPlaybackHelper(
 		return null
 	}
 
-	private suspend fun getMusicVideos(library: BaseItemDto): List<BaseItemDto> {
+	private suspend fun getMusicVideos(
+		library: BaseItemDto,
+		shuffle: Boolean,
+	): List<BaseItemDto> {
 		val preferencesId = library.displayPreferencesId ?: library.id.toString()
 		val preferences = preferencesRepository.getLibraryPreferences(preferencesId)
-		val sortBy = preferences[LibraryPreferences.sortBy]
+		val sortBy = if (shuffle) ItemSortBy.RANDOM else preferences[LibraryPreferences.sortBy]
 		val sortOrder = preferences[LibraryPreferences.sortOrder]
 
 		return MusicVideoQueue.all(ITEM_QUERY_LIMIT) { offset, limit ->
