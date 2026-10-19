@@ -20,13 +20,13 @@ import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.instantMixApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.api.CollectionType
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
@@ -75,13 +75,11 @@ class SdkPlaybackHelper(
 		allowIntros: Boolean,
 		shuffle: Boolean,
 	): List<BaseItemDto> = withContext(Dispatchers.IO) {
-		val musicVideoLibrary = when {
-			mainItem.collectionType == CollectionType.MUSICVIDEOS -> mainItem
-			mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO -> findMusicVideoLibrary(mainItem)
-			else -> null
+		val musicVideoLibrary = MusicVideoQueue.libraryFor(mainItem) {
+			api.libraryApi.getAncestors(mainItem.id).content
 		}
 		if (musicVideoLibrary != null) {
-			val items = getMusicVideos(musicVideoLibrary, shuffle)
+			val items = getMusicVideos(musicVideoLibrary)
 			if (mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO) {
 				if (items.none { it.id == mainItem.id }) return@withContext listOf(mainItem)
 			}
@@ -265,24 +263,12 @@ class SdkPlaybackHelper(
 		}
 	}
 
-	private suspend fun findMusicVideoLibrary(item: BaseItemDto): BaseItemDto? {
-		var parentId = item.parentId
-		val visited = mutableSetOf<UUID>()
-		while (parentId != null && visited.add(parentId)) {
-			val parent by api.userLibraryApi.getItem(parentId)
-			if (parent.collectionType == CollectionType.MUSICVIDEOS) return parent
-			parentId = parent.parentId
-		}
-		return null
-	}
-
 	private suspend fun getMusicVideos(
 		library: BaseItemDto,
-		shuffle: Boolean,
 	): List<BaseItemDto> {
 		val preferencesId = library.displayPreferencesId ?: library.id.toString()
 		val preferences = preferencesRepository.getLibraryPreferences(preferencesId)
-		val sortBy = if (shuffle) ItemSortBy.RANDOM else preferences[LibraryPreferences.sortBy]
+		val sortBy = preferences[LibraryPreferences.sortBy]
 		val sortOrder = preferences[LibraryPreferences.sortOrder]
 
 		return MusicVideoQueue.all(ITEM_QUERY_LIMIT) { offset, limit ->

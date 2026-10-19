@@ -4,10 +4,37 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.assertions.throwables.shouldThrow
 import kotlinx.coroutines.runBlocking
+import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.CollectionType
 import java.io.IOException
 import java.util.UUID
 
 class MusicVideoQueueTests : FunSpec({
+	test("finds the music video library without requiring a parent id on the selected video") {
+		val library = BaseItemDto(id = UUID.randomUUID(), type = BaseItemKind.COLLECTION_FOLDER, collectionType = CollectionType.MUSICVIDEOS)
+		val folder = BaseItemDto(id = UUID.randomUUID(), type = BaseItemKind.FOLDER)
+		for (kind in listOf(BaseItemKind.MUSIC_VIDEO, BaseItemKind.VIDEO)) {
+			val video = BaseItemDto(id = UUID.randomUUID(), type = kind)
+			runBlocking { MusicVideoQueue.libraryFor(video) { listOf(folder, library) } } shouldBe library
+		}
+	}
+
+	test("does not use a different library or expand unrelated media") {
+		val movies = BaseItemDto(id = UUID.randomUUID(), type = BaseItemKind.COLLECTION_FOLDER, collectionType = CollectionType.MOVIES)
+		val video = BaseItemDto(id = UUID.randomUUID(), type = BaseItemKind.VIDEO)
+		runBlocking { MusicVideoQueue.libraryFor(video) { listOf(movies) } } shouldBe null
+		for (kind in listOf(BaseItemKind.MOVIE, BaseItemKind.EPISODE, BaseItemKind.AUDIO, BaseItemKind.PLAYLIST)) {
+			val item = BaseItemDto(id = UUID.randomUUID(), type = kind)
+			runBlocking { MusicVideoQueue.libraryFor(item) { error("Unrelated media must not request ancestors") } } shouldBe null
+		}
+	}
+
+	test("playing a library does not need an ancestor request") {
+		val library = BaseItemDto(id = UUID.randomUUID(), type = BaseItemKind.COLLECTION_FOLDER, collectionType = CollectionType.MUSICVIDEOS)
+		runBlocking { MusicVideoQueue.libraryFor(library) { error("Library is already known") } } shouldBe library
+	}
+
 	test("collects every page of a large library") {
 		val videos = (0 until 501).toList()
 		val offsets = mutableListOf<Int>()
