@@ -68,6 +68,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetLiveTvChannelsRequest mTvChannelQuery;
     private GetRecommendedProgramsRequest mTvProgramQuery;
     private GetRecordingsRequest mTvRecordingQuery;
+    private GetSeriesTimersRequest mSeriesTimerQuery;
     private GetArtistsRequest mArtistsQuery;
     private GetAlbumArtistsRequest mAlbumArtistsQuery;
     private GetLatestMediaRequest mLatestQuery;
@@ -205,6 +206,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         super(presenter);
         this.context = context;
         mParent = parent;
+        mSeriesTimerQuery = query;
         queryType = QueryType.SeriesTimer;
     }
 
@@ -645,7 +647,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 break;
             case SeriesTimer:
                 boolean canManageRecordings = Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue());
-                ItemRowAdapterHelperKt.retrieveLiveTvSeriesTimers(this, api.getValue(), context, canManageRecordings);
+                ItemRowAdapterHelperKt.retrieveLiveTvSeriesTimers(this, api.getValue(), context, canManageRecordings, mSeriesTimerQuery.getParentId());
                 break;
             case Resume:
                 ItemRowAdapterHelperKt.retrieveResumeItems(this, api.getValue(), resumeQuery);

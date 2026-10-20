@@ -41,6 +41,7 @@ import org.jellyfin.sdk.model.api.request.GetSeasonsRequest
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.jellyfin.sdk.model.api.request.GetUpcomingEpisodesRequest
 import timber.log.Timber
+import java.util.UUID
 import kotlin.math.min
 
 fun <T : Any> ItemRowAdapter.setItems(
@@ -396,12 +397,13 @@ fun ItemRowAdapter.retrieveLiveTvRecordings(api: ApiClient, query: GetRecordings
 fun ItemRowAdapter.retrieveLiveTvSeriesTimers(
 	api: ApiClient,
 	context: Context,
-	canManageRecordings: Boolean
+	canManageRecordings: Boolean,
+	parentId: UUID?
 ) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.liveTvApi.getSeriesTimers().content
+				api.liveTvApi.getSeriesTimers(parentId = parentId).content
 			}
 
 			setItems(

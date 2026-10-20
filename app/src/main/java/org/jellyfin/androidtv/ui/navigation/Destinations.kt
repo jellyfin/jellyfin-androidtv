@@ -31,6 +31,8 @@ import java.util.UUID
 
 @Suppress("TooManyFunctions")
 object Destinations {
+	const val LIVE_TV_PARENT_ID = "LiveTvParentId"
+
 	// General
 	val home = fragmentDestination<HomeFragment>()
 	fun search(query: String? = null) = fragmentDestination<SearchFragment> {
@@ -110,10 +112,23 @@ object Destinations {
 
 	// Live TV
 	val liveTvGuide = fragmentDestination<LiveTvGuideFragment>()
+	fun liveTvGuide(parentId: UUID?) = fragmentDestination<LiveTvGuideFragment> {
+		putString(LIVE_TV_PARENT_ID, parentId?.toString())
+	}
 	val liveTvSchedule = fragmentDestination<BrowseScheduleFragment>()
+	fun liveTvSchedule(parentId: UUID?) = fragmentDestination<BrowseScheduleFragment> {
+		putString(LIVE_TV_PARENT_ID, parentId?.toString())
+	}
 	val liveTvRecordings = fragmentDestination<BrowseRecordingsFragment>()
+	fun liveTvRecordings(parentId: UUID?) = fragmentDestination<BrowseRecordingsFragment> {
+		putString(LIVE_TV_PARENT_ID, parentId?.toString())
+	}
 	val liveTvSeriesRecordings = fragmentDestination<BrowseViewFragment> {
 		putBoolean(Extras.IsLiveTvSeriesRecordings, true)
+	}
+	fun liveTvSeriesRecordings(parentId: UUID?) = fragmentDestination<BrowseViewFragment> {
+		putBoolean(Extras.IsLiveTvSeriesRecordings, true)
+		putString(LIVE_TV_PARENT_ID, parentId?.toString())
 	}
 
 	// Playback

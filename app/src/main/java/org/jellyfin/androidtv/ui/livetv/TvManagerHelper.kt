@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.LiveTvPreferences
+import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -39,6 +40,7 @@ fun loadLiveTvChannels(fragment: Fragment, callback: (channels: Collection<BaseI
 		runCatching {
 			withContext(Dispatchers.IO) {
 				api.liveTvApi.getLiveTvChannels(
+					parentId = fragment.arguments?.getString(Destinations.LIVE_TV_PARENT_ID)?.toUUIDOrNull(),
 					addCurrentProgram = true,
 					enableFavoriteSorting = liveTvPreferences[LiveTvPreferences.favsAtTop],
 					sortBy = if (sortDatePlayed) setOf(ItemSortBy.DATE_PLAYED) else setOf(ItemSortBy.SORT_NAME),
@@ -65,6 +67,7 @@ fun getPrograms(
 		runCatching {
 			withContext(Dispatchers.IO) {
 				api.liveTvApi.getLiveTvPrograms(
+					parentId = fragment.arguments?.getString(Destinations.LIVE_TV_PARENT_ID)?.toUUIDOrNull(),
 					channelIds = channelIds.toList(),
 					enableImages = false,
 					sortBy = setOf(ItemSortBy.START_DATE),
@@ -90,6 +93,7 @@ fun getScheduleRows(
 		runCatching {
 			withContext(Dispatchers.IO) {
 				api.liveTvApi.getTimers(
+					parentId = fragment.arguments?.getString(Destinations.LIVE_TV_PARENT_ID)?.toUUIDOrNull(),
 					seriesTimerId = seriesTimerId,
 				).content.items
 			}

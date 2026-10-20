@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.GetSeriesTimersRequest;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.Utils;
@@ -27,6 +28,7 @@ import org.koin.java.KoinJavaComponent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -92,19 +94,19 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 showViews = true;
 
                 //On now
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_on_now), BrowsingUtils.createLiveTVOnNowRequest()));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_on_now), BrowsingUtils.createLiveTVOnNowRequest(mFolder.getId())));
 
                 //Upcoming
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_coming_up), BrowsingUtils.createLiveTVUpcomingRequest()));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_coming_up), BrowsingUtils.createLiveTVUpcomingRequest(mFolder.getId())));
 
                 //Fav Channels
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), BrowsingUtils.createLiveTVChannelsRequest(true)));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), BrowsingUtils.createLiveTVChannelsRequest(true, mFolder.getId())));
 
                 //Other Channels
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), BrowsingUtils.createLiveTVChannelsRequest(false)));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), BrowsingUtils.createLiveTVChannelsRequest(false, mFolder.getId())));
 
                 //Latest Recordings
-                BrowseViewFragmentHelperKt.getLiveTvRecordingsAndTimers(this, (recordings, timers) -> {
+                BrowseViewFragmentHelperKt.getLiveTvRecordingsAndTimers(this, mFolder.getId(), (recordings, timers) -> {
                     List<BaseItemDto> nearTimers = new ArrayList<>();
                     LocalDateTime next24 = LocalDateTime.now().plusDays(1);
                     //Get scheduled items for next 24 hours
@@ -180,7 +182,10 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             default:
                 boolean isRecordingsView = getArguments().getBoolean(Extras.IsLiveTvSeriesRecordings, false);
                 if (isRecordingsView) {
-                    mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), GetSeriesTimersRequest.INSTANCE));
+                    UUID parentId = getArguments().getString(Destinations.LIVE_TV_PARENT_ID) == null
+                            ? null
+                            : UUID.fromString(getArguments().getString(Destinations.LIVE_TV_PARENT_ID));
+                    mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new GetSeriesTimersRequest(parentId)));
                     rowLoader.loadRows(mRows);
                 }
         }

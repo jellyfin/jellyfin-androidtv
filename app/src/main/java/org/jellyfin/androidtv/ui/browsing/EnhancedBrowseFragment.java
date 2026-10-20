@@ -423,20 +423,20 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
                     case SERIES:
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSeriesRecordings());
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.liveTvSeriesRecordings(mFolder != null ? mFolder.getId() : null));
                         break;
 
                     case SCHEDULE:
                     case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSchedule());
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.liveTvSchedule(mFolder != null ? mFolder.getId() : null));
                         break;
 
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvRecordings());
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.liveTvRecordings(mFolder != null ? mFolder.getId() : null));
                         break;
 
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuide());
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.liveTvGuide(mFolder != null ? mFolder.getId() : null));
                         break;
 
                     default:

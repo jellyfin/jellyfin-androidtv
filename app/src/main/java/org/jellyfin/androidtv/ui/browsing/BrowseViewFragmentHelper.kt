@@ -6,6 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -17,8 +18,10 @@ import org.jellyfin.sdk.model.api.TimerInfoDto
 import org.jellyfin.sdk.model.api.TimerInfoDtoQueryResult
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
+import java.util.UUID
 
 fun EnhancedBrowseFragment.getLiveTvRecordingsAndTimers(
+	parentId: UUID,
 	callback: (recordings: BaseItemDtoQueryResult, timers: TimerInfoDtoQueryResult) -> Unit,
 	errorCallback: (exception: Throwable) -> Unit,
 ) {
@@ -35,7 +38,7 @@ fun EnhancedBrowseFragment.getLiveTvRecordingsAndTimers(
 			}
 
 			val timers = async(Dispatchers.IO) {
-				api.liveTvApi.getTimers().content
+				api.liveTvApi.getTimers(parentId = parentId).content
 			}
 
 			recordings.await() to timers.await()
@@ -55,7 +58,9 @@ fun EnhancedBrowseFragment.getLiveTvTimers(
 	lifecycleScope.launch {
 		runCatching {
 			withContext(Dispatchers.IO) {
-				api.liveTvApi.getTimers().content
+				api.liveTvApi.getTimers(
+					parentId = arguments?.getString(Destinations.LIVE_TV_PARENT_ID)?.toUUIDOrNull(),
+				).content
 			}
 		}.fold(
 			onSuccess = { timers -> callback(timers) },

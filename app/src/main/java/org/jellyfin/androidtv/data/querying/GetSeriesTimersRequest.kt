@@ -1,3 +1,7 @@
 package org.jellyfin.androidtv.data.querying
 
-data object GetSeriesTimersRequest
+import java.util.UUID
+
+data class GetSeriesTimersRequest(
+	val parentId: UUID? = null,
+)

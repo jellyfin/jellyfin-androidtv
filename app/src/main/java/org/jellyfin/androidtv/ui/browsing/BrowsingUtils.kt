@@ -141,8 +141,9 @@ object BrowsingUtils {
 	)
 
 	@JvmStatic
-	fun createLiveTVOnNowRequest() = GetRecommendedProgramsRequest(
+	fun createLiveTVOnNowRequest(parentId: UUID) = GetRecommendedProgramsRequest(
 		isAiring = true,
+		parentId = parentId,
 		fields = ItemRepository.itemFields,
 		imageTypeLimit = 1,
 		enableTotalRecordCount = false,
@@ -150,8 +151,9 @@ object BrowsingUtils {
 	)
 
 	@JvmStatic
-	fun createLiveTVUpcomingRequest() = GetRecommendedProgramsRequest(
+	fun createLiveTVUpcomingRequest(parentId: UUID) = GetRecommendedProgramsRequest(
 		isAiring = false,
+		parentId = parentId,
 		hasAired = false,
 		fields = ItemRepository.itemFields,
 		imageTypeLimit = 1,
@@ -200,8 +202,9 @@ object BrowsingUtils {
 	)
 
 	@JvmStatic
-	fun createLiveTVChannelsRequest(isFavorite: Boolean) = GetLiveTvChannelsRequest(
+	fun createLiveTVChannelsRequest(isFavorite: Boolean, parentId: UUID) = GetLiveTvChannelsRequest(
 		isFavorite = isFavorite,
+		parentId = parentId,
 	)
 
 	@JvmStatic
