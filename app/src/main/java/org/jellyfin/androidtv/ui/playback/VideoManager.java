@@ -10,7 +10,10 @@ import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.TypedValue;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -82,6 +85,8 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    @Nullable
+    private TextureView mRotatedVideoTextureView;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -193,12 +198,57 @@ public class VideoManager {
             @Override
             public void onTracksChanged(Tracks tracks) {
                 Timber.d("Tracks changed");
+                updateVideoOutputForRotation(tracks);
             }
         });
     }
 
     public void subscribe(@NonNull PlaybackControllerNotifiable notifier) {
         mPlaybackControllerNotifiable = notifier;
+    }
+
+    /**
+     * ExoPlayer leaves rotation (e.g. portrait phone recordings) to the output surface. Many TV
+     * devices put SurfaceView video on a hardware overlay that ignores the buffer transform, so the
+     * picture is shown sideways. A TextureView is composed by the GPU, which always applies it, so
+     * swap to one while the selected video track is rotated.
+     */
+    private void updateVideoOutputForRotation(@NonNull Tracks tracks) {
+        boolean isRotated = false;
+        for (Tracks.Group group : tracks.getGroups()) {
+            if (group.getType() != C.TRACK_TYPE_VIDEO) continue;
+            for (int i = 0; i < group.length; i++) {
+                if (group.isTrackSelected(i) && group.getTrackFormat(i).rotationDegrees != 0) {
+                    isRotated = true;
+                }
+            }
+        }
+
+        if (isRotated) useTextureViewOutput();
+        else useSurfaceViewOutput();
+    }
+
+    private void useTextureViewOutput() {
+        if (mRotatedVideoTextureView != null || mExoPlayer == null) return;
+        if (!(mExoPlayerView.getVideoSurfaceView() instanceof SurfaceView)) return;
+
+        Timber.i("Selected video track is rotated, switching to TextureView output");
+        SurfaceView surfaceView = (SurfaceView) mExoPlayerView.getVideoSurfaceView();
+        ViewGroup contentFrame = (ViewGroup) surfaceView.getParent();
+        mRotatedVideoTextureView = new TextureView(mActivity);
+        contentFrame.addView(mRotatedVideoTextureView, contentFrame.indexOfChild(surfaceView) + 1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mExoPlayer.setVideoTextureView(mRotatedVideoTextureView);
+        surfaceView.setVisibility(View.GONE);
+    }
+
+    private void useSurfaceViewOutput() {
+        if (mRotatedVideoTextureView == null) return;
+
+        SurfaceView surfaceView = (SurfaceView) mExoPlayerView.getVideoSurfaceView();
+        surfaceView.setVisibility(View.VISIBLE);
+        if (mExoPlayer != null) mExoPlayer.setVideoSurfaceView(surfaceView);
+        ((ViewGroup) mRotatedVideoTextureView.getParent()).removeView(mRotatedVideoTextureView);
+        mRotatedVideoTextureView = null;
     }
 
     private int determineExoPlayerExtensionRendererMode() {
@@ -609,6 +659,7 @@ public class VideoManager {
     private void releasePlayer() {
         _helper.setScreensaverLock(false);
         if (mExoPlayer != null) {
+            useSurfaceViewOutput();
             mExoPlayerView.setPlayer(null);
             mExoPlayer.release();
             mExoPlayer = null;
