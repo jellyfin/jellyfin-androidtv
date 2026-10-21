@@ -560,4 +560,8 @@
     <string name="msg_playback_incompatible">ამ ვიდეოფორმატის დაკვრა შეუძლებელია</string>
     <string name="msg_cannot_play">ამ ელემენტის დაკვრა შეუძლებელია</string>
     <string name="lbl_similar_items_library">მსგავსი ელემენტები თქვენს ბიბლიოთეკაში</string>
+    <plurals name="days">
+        <item quantity="one">%1$s დღე</item>
+        <item quantity="other">%1$s დღე</item>
+    </plurals>
 </resources>

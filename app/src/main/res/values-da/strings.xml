@@ -643,4 +643,15 @@
     <string name="playback_info_channels">Kanaler: %1$d</string>
     <string name="playback_info_video_range">Videoområde: %1$s</string>
     <string name="playback_info_transcoding_note">Serveren transkoder denne fil</string>
+    <string name="lbl_3d">3D</string>
+    <string name="preference_hdr_overrides_summary">Ignorer enheds-rapporteret HDR egenskaber</string>
+    <string name="hdr_override_auto">Auto (enheds genkendelse)</string>
+    <string name="home_next_up_max_days">Sidste frist af dato for \"Næste\"</string>
+    <string name="home_next_up_max_days_disabled">Deaktiveret</string>
+    <string name="tv_provider_enabled">Integrering med Android TV home</string>
+    <string name="tv_provider_enabled_description">Vis Jellyfin kanaler og anbefalinger på Android TV\'s hjemmeskærm</string>
+    <string name="playback_buffer_length">Afspilnings buffer størrelse</string>
+    <string name="playback_buffer_large">Stor</string>
+    <string name="playback_buffer_extra_large">Ekstra stor</string>
+    <string name="pref_burn_subtitles_when_transcoding">Indlejre undertekster når der transkodes</string>
 </resources>

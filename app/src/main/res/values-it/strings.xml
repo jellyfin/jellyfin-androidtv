@@ -708,4 +708,5 @@
     <string name="dovi_profile_7_description">Dual-layer con Layer di Miglioramento</string>
     <string name="dovi_profile_8_description">Single-layer con fallback HDR10</string>
     <string name="tv_provider_enabled">Integra con Android TV home</string>
+    <string name="lbl_3d">3D</string>
 </resources>
