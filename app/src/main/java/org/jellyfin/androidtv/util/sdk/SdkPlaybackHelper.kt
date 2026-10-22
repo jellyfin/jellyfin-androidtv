@@ -277,7 +277,7 @@ class SdkPlaybackHelper(
 				includeItemTypes = listOf(BaseItemKind.MUSIC_VIDEO, BaseItemKind.VIDEO),
 				isMissing = false,
 				recursive = true,
-				sortBy = listOf(sortBy),
+				sortBy = setOf(sortBy, ItemSortBy.SORT_NAME),
 				sortOrder = listOf(sortOrder),
 				startIndex = offset,
 				limit = limit,
