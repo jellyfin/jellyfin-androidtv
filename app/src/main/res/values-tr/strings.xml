@@ -697,4 +697,6 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="tv_provider_enabled">Android TV ana ekranıyla tümleştir</string>
+    <string name="home_next_up_max_days">Sıradaki bölümler için son tarih</string>
 </resources>
