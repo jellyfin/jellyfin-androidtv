@@ -13,8 +13,8 @@ import java.util.UUID
 @Composable
 fun rememberUserView(itemId: UUID): BaseItemDto? {
 	val userViewsRepository = koinInject<UserViewsRepository>()
-	val userView by remember {
-		userViewsRepository.views.map { views -> views.first { view -> view.id == itemId } }
+	val userView by remember(itemId) {
+		userViewsRepository.views.map { views -> views.firstOrNull { view -> view.id == itemId } }
 	}.collectAsState(null)
 	return userView
 }
