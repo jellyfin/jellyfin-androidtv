@@ -120,7 +120,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 		if (history.isEmpty()) return
 
 		// Update the top-most history entry with state from current fragment
-		val fragment = requireNotNull(fragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT))
+		val fragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT) ?: return
 		history[history.size - 1].savedState = fragmentManager.saveFragmentInstanceState(fragment)
 	}
 

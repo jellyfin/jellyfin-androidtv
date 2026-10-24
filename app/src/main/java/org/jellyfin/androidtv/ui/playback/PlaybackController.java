@@ -691,6 +691,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         PlaybackControllerHelperKt.applyMediaSegments(this, item, () -> {
+            // Playback could have ended while the media segments were loading,
+            // in that case there is nothing left to start.
+            if (mVideoManager == null || mFragment == null) return null;
+
             // Set video start delay
             long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
             if (videoStartDelay > 0) {
