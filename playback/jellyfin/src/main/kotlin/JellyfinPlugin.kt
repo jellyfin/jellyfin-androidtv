@@ -1,6 +1,8 @@
 package org.jellyfin.playback.jellyfin
 
 import androidx.lifecycle.Lifecycle
+import org.jellyfin.playback.core.mediastream.MediaStreamResolver
+import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.plugin.playbackPlugin
 import org.jellyfin.playback.jellyfin.lyrics.LyricsPlayerService
 import org.jellyfin.playback.jellyfin.mediasegment.MediaSegmentService
@@ -17,7 +19,10 @@ fun jellyfinPlugin(
 	mediaSegmentSkipTypes: Set<MediaSegmentType> = emptySet(),
 	lifecycle: Lifecycle? = null,
 ) = playbackPlugin {
-	provide(JellyfinMediaStreamResolver(api, deviceProfileBuilder))
+	// Provided as service as well to be able to use the queue for version selection
+	val mediaStreamResolver = JellyfinMediaStreamResolver(api, deviceProfileBuilder)
+	provide(mediaStreamResolver as PlayerService)
+	provide(mediaStreamResolver as MediaStreamResolver)
 
 	val playSessionService = PlaySessionService(api)
 	provide(playSessionService)
