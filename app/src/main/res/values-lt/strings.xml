@@ -711,4 +711,9 @@
     <string name="tv_provider_enabled">Integracija su Android TV pagrindiniu ekranu</string>
     <string name="tv_provider_enabled_description">Rodyti Jellyfin kanalus ir rekomendacijas Android TV pagrindiniame ekrane</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">„Android TV“ pagrindinis ekranas</string>
+    <string name="tv_provider_group_by_folder">Grupuoti naujienas pagal aplankus</string>
+    <string name="tv_provider_group_by_folder_description">Kanaluose rodomas vienas įrašas aplankui, o ne kiekvienas naujas filmas ar serija, su nuoroda į aplanką</string>
+    <string name="tv_provider_group_by_series">Grupuoti naujas serijas pagal serialus</string>
+    <string name="tv_provider_group_by_series_description">Naujų serijų kanale rodomas vienas įrašas serialui, o ne kiekviena serija, su nuoroda į serialą</string>
 </resources>

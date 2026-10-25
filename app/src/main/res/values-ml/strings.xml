@@ -347,4 +347,9 @@
     <string name="msg_subtitles_loading">സബ്ടൈറ്റിലുകൾ ലോഡ് ചെയ്യുന്നു…</string>
     <string name="because_you_watched">കാരണം നിങ്ങൾ %1$s കണ്ടു</string>
     <string name="lbl_shuffle_queue">മാറ്റി കലർത്തുക</string>
+    <string name="pref_tv_provider">Android TV ഹോം സ്ക്രീൻ</string>
+    <string name="tv_provider_group_by_folder">പുതിയവ ഫോൾഡർ അനുസരിച്ച് ഗ്രൂപ്പ് ചെയ്യുക</string>
+    <string name="tv_provider_group_by_folder_description">ചാനലുകളിൽ ഓരോ പുതിയ സിനിമയ്ക്കോ എപ്പിസോഡിനോ പകരം ഓരോ ഫോൾഡറിനും ഒരു എൻട്രി കാണിക്കുക, ഫോൾഡറിലേക്കുള്ള ലിങ്കോടെ</string>
+    <string name="tv_provider_group_by_series">പുതിയ എപ്പിസോഡുകൾ സീരീസ് അനുസരിച്ച് ഗ്രൂപ്പ് ചെയ്യുക</string>
+    <string name="tv_provider_group_by_series_description">പുതിയ എപ്പിസോഡുകളുടെ ചാനലിൽ ഓരോ എപ്പിസോഡിനും പകരം ഓരോ സീരീസിനും ഒരു എൻട്രി കാണിക്കുക, സീരീസിലേക്കുള്ള ലിങ്കോടെ</string>
 </resources>

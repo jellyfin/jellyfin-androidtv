@@ -459,4 +459,9 @@
     <string name="lbl_subtitle_text_color">رنگ نوشته زیرنویس</string>
     <string name="lbl_subtitle_text_stroke_color">رنگ زیرنویس</string>
     <string name="lbl_subtitle_background_color">رنگ پشت صفحه زیرنویس</string>
+    <string name="pref_tv_provider">صفحه اصلی Android TV</string>
+    <string name="tv_provider_group_by_folder">گروه‌بندی موارد جدید بر اساس پوشه</string>
+    <string name="tv_provider_group_by_folder_description">در کانال‌ها به جای هر فیلم یا قسمت جدید، یک مورد برای هر پوشه نشان می‌دهد و به پوشه پیوند می‌دهد</string>
+    <string name="tv_provider_group_by_series">گروه‌بندی قسمت‌های جدید بر اساس سریال</string>
+    <string name="tv_provider_group_by_series_description">در کانال قسمت‌های جدید به جای هر قسمت، یک مورد برای هر سریال نشان می‌دهد و به سریال پیوند می‌دهد</string>
 </resources>

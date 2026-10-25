@@ -436,4 +436,9 @@
     <string name="pref_telemetry_category">Aqau turaly habarlau</string>
     <string name="server_setup_incomplete">Būl serverdıñ ornatuy aiaqtalmady. Kıru aldynda ornatudy aiaqtau üşın ueb-şolğyşta Jellyfin jüiesın aşyñyz.</string>
     <string name="episode_name_special">arnaiy</string>
+    <string name="pref_tv_provider">Android TV басты экраны</string>
+    <string name="tv_provider_group_by_folder">Жаңаларды қалталар бойынша топтау</string>
+    <string name="tv_provider_group_by_folder_description">Арналарда әр жаңа фильм немесе эпизодтың орнына әр қалтаға бір жазба көрсетіледі, қалтаға өту сілтемесімен</string>
+    <string name="tv_provider_group_by_series">Жаңа эпизодтарды сериалдар бойынша топтау</string>
+    <string name="tv_provider_group_by_series_description">Жаңа эпизодтар арнасында әр эпизодтың орнына әр сериалға бір жазба көрсетіледі, сериалға өту сілтемесімен</string>
 </resources>

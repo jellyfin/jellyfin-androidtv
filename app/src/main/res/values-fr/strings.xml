@@ -709,4 +709,9 @@
     <string name="bitstream_truehd">Flux binaire Dolby TrueHD</string>
     <string name="tv_provider_enabled">Intégrer à l\'écran d\'accueil d\'Android TV</string>
     <string name="tv_provider_enabled_description">Afficher les chaînes et les recommandations Jellyfin sur l\'écran d\'accueil d\'Android TV</string>
+    <string name="pref_tv_provider">Écran d\'accueil Android TV</string>
+    <string name="tv_provider_group_by_folder">Regrouper les nouveautés par dossier</string>
+    <string name="tv_provider_group_by_folder_description">Affiche une entrée par dossier dans les chaînes au lieu de chaque nouveau film ou épisode, avec un lien vers le dossier</string>
+    <string name="tv_provider_group_by_series">Regrouper les nouveaux épisodes par série</string>
+    <string name="tv_provider_group_by_series_description">Affiche une entrée par série dans la chaîne des nouveaux épisodes au lieu de chaque épisode, avec un lien vers la série</string>
 </resources>

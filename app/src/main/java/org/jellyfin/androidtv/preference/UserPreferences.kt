@@ -317,6 +317,18 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Integrate with androidx.tvprovider for the Android TV home screen.
 		 */
 		var tvProviderEnabled = booleanPreference("tv_provider_enabled", true)
+
+		/**
+		 * Show a single entry per folder instead of every new episode in the Android TV home screen
+		 * "new episodes" channel.
+		 */
+		var tvProviderGroupByFolder = booleanPreference("tv_provider_group_by_folder", true)
+
+		/**
+		 * Show a single entry per series instead of every new episode in the Android TV home screen
+		 * "new episodes" channel.
+		 */
+		var tvProviderGroupBySeries = booleanPreference("tv_provider_group_by_series", true)
 	}
 
 	init {

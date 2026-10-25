@@ -709,4 +709,9 @@
     <string name="home_next_up_max_days">Fecha límite para la próxima actualización</string>
     <string name="tv_provider_enabled_description">Mostrar canales y recomendaciones de Jellyfin en la pantalla de inicio de Android TV</string>
     <string name="tv_provider_enabled">Integrar con Android TV Home</string>
+    <string name="pref_tv_provider">Pantalla de inicio de Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupar novedades por carpeta</string>
+    <string name="tv_provider_group_by_folder_description">Muestra una entrada por carpeta en los canales en lugar de cada película o episodio nuevo, con enlace a la carpeta</string>
+    <string name="tv_provider_group_by_series">Agrupar episodios nuevos por serie</string>
+    <string name="tv_provider_group_by_series_description">Muestra una entrada por serie en el canal de episodios nuevos en lugar de cada episodio, con enlace a la serie</string>
 </resources>

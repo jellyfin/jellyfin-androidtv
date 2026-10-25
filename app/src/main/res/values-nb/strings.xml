@@ -618,4 +618,9 @@
     <string name="filters">Filtere</string>
     <string name="backdrop_behavior_with_blur">Bakgrunn med uskarphet</string>
     <string name="backdrop_behavior_without_blur">Bakgrunn uten uskarphet</string>
+    <string name="pref_tv_provider">Startskjerm for Android TV</string>
+    <string name="tv_provider_group_by_folder">Grupper nytt etter mappe</string>
+    <string name="tv_provider_group_by_folder_description">Vis én oppføring per mappe i kanalene i stedet for hver nye film eller episode, med lenke til mappen</string>
+    <string name="tv_provider_group_by_series">Grupper nye episoder etter serie</string>
+    <string name="tv_provider_group_by_series_description">Vis én oppføring per serie i kanalen for nye episoder i stedet for hver episode, med lenke til serien</string>
 </resources>

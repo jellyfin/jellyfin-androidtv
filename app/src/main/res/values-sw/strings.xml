@@ -614,4 +614,9 @@
         <item quantity="one">Albamu %1$s</item>
         <item quantity="other">Albamu %1$s</item>
     </plurals>
+    <string name="pref_tv_provider">Skrini ya mwanzo ya Android TV</string>
+    <string name="tv_provider_group_by_folder">Panga vipya kulingana na folda</string>
+    <string name="tv_provider_group_by_folder_description">Onyesha ingizo moja kwa kila folda kwenye vituo badala ya kila filamu au kipindi kipya, lenye kiungo cha folda</string>
+    <string name="tv_provider_group_by_series">Panga vipindi vipya kulingana na mfululizo</string>
+    <string name="tv_provider_group_by_series_description">Onyesha ingizo moja kwa kila mfululizo kwenye kituo cha vipindi vipya badala ya kila kipindi, lenye kiungo cha mfululizo</string>
 </resources>

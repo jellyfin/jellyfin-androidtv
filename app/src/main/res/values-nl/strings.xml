@@ -699,4 +699,9 @@
     <string name="tv_provider_enabled_description">Toon Jellyfin-kanalen en -aanbevelingen op het startscherm van Android TV</string>
     <string name="tv_provider_enabled">Integreren met Android TV-startscherm</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Android TV-startscherm</string>
+    <string name="tv_provider_group_by_folder">Nieuwe items groeperen per map</string>
+    <string name="tv_provider_group_by_folder_description">Toon in de kanalen één item per map in plaats van elke nieuwe film of aflevering, met een link naar de map</string>
+    <string name="tv_provider_group_by_series">Nieuwe afleveringen groeperen per serie</string>
+    <string name="tv_provider_group_by_series_description">Toon in het kanaal met nieuwe afleveringen één item per serie in plaats van elke aflevering, met een link naar de serie</string>
 </resources>

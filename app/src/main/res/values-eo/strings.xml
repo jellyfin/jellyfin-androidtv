@@ -436,4 +436,9 @@
     <string name="pref_telemetry_description">Sendi kraŝraportojn, inkluzivi protokolojn</string>
     <string name="server_setup_incomplete">La agordo de ĉi tiu servilo ne estas finita. Malfermu Jellyfin en TTT-foliumilo por fini agordon antaŭ ensaluti.</string>
     <string name="episode_name_special">speciala</string>
+    <string name="pref_tv_provider">Hejma ekrano de Android TV</string>
+    <string name="tv_provider_group_by_folder">Grupigi novaĵojn laŭ dosierujo</string>
+    <string name="tv_provider_group_by_folder_description">Montras unu eron por dosierujo en la kanaloj anstataŭ ĉiu nova filmo aŭ epizodo, kun ligilo al la dosierujo</string>
+    <string name="tv_provider_group_by_series">Grupigi novajn epizodojn laŭ serio</string>
+    <string name="tv_provider_group_by_series_description">Montras unu eron por serio en la kanalo de novaj epizodoj anstataŭ ĉiu epizodo, kun ligilo al la serio</string>
 </resources>

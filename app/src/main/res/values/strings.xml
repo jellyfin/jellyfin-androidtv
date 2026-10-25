@@ -436,6 +436,11 @@
     <string name="home_next_up_max_days_disabled">Disabled</string>
     <string name="tv_provider_enabled">Integrate with Android TV home</string>
     <string name="tv_provider_enabled_description">Show Jellyfin channels and recommendations on the Android TV home screen</string>
+    <string name="pref_tv_provider">Android TV home screen</string>
+    <string name="tv_provider_group_by_folder">Group new items by folder</string>
+    <string name="tv_provider_group_by_folder_description">Show one entry per folder in the channels instead of every new movie or episode, linking to the folder</string>
+    <string name="tv_provider_group_by_series">Group new episodes by series</string>
+    <string name="tv_provider_group_by_series_description">Show one entry per series in the new episodes channel instead of every episode, linking to the series</string>
     <string name="searchable_hint">Search Jellyfin</string>
     <string name="searchable_settings_description">Media</string>
     <string name="pref_subtitles_background_title">Enable background</string>

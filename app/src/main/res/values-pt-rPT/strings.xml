@@ -654,4 +654,9 @@
     <string name="pref_burn_subtitles_when_transcoding">Queimar as legendas na transcodificação</string>
     <string name="preference_codecs">Codecs de multimédia</string>
     <string name="hlg">HLG</string>
+    <string name="pref_tv_provider">Ecrã inicial do Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupar novidades por pasta</string>
+    <string name="tv_provider_group_by_folder_description">Mostra uma entrada por pasta nos canais em vez de cada novo filme ou episódio, com ligação à pasta</string>
+    <string name="tv_provider_group_by_series">Agrupar novos episódios por série</string>
+    <string name="tv_provider_group_by_series_description">Mostra uma entrada por série no canal de novos episódios em vez de cada episódio, com ligação à série</string>
 </resources>

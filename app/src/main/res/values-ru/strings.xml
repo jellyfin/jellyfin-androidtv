@@ -689,4 +689,9 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="pref_tv_provider">Главный экран Android TV</string>
+    <string name="tv_provider_group_by_folder">Группировать новое по папкам</string>
+    <string name="tv_provider_group_by_folder_description">Показывать одну запись на папку в каналах вместо каждого нового фильма или серии, с переходом к папке</string>
+    <string name="tv_provider_group_by_series">Группировать новые серии по сериалам</string>
+    <string name="tv_provider_group_by_series_description">Показывать одну запись на сериал в канале новых серий вместо каждой серии, с переходом к сериалу</string>
 </resources>

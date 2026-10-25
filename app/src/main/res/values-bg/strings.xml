@@ -657,4 +657,9 @@
     <string name="playback_info_play_method">Метод на възпроизвеждане: %1$s</string>
     <string name="playback_info_direct_play">Директплей</string>
     <string name="playback_info_direct_stream">Директстриим</string>
+    <string name="pref_tv_provider">Начален екран на Android TV</string>
+    <string name="tv_provider_group_by_folder">Групиране на новото по папки</string>
+    <string name="tv_provider_group_by_folder_description">Показвай по един запис за папка в каналите вместо всеки нов филм или епизод, с връзка към папката</string>
+    <string name="tv_provider_group_by_series">Групиране на новите епизоди по сериали</string>
+    <string name="tv_provider_group_by_series_description">Показвай по един запис за сериал в канала за нови епизоди вместо всеки епизод, с връзка към сериала</string>
 </resources>

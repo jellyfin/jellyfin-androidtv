@@ -27,6 +27,7 @@ import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
@@ -646,10 +647,19 @@ fun setArtistsSorting(
 fun setItemsSorting(
 	request: GetItemsRequest,
 	sortOption: SortOption,
-) = request.copy(
-	sortBy = setOf(sortOption.value, ItemSortBy.SORT_NAME),
-	sortOrder = setOf(sortOption.order)
-)
+	foldersFirst: Boolean = false,
+) = if (foldersFirst) {
+	// Every sort criteria needs its own order, the server lists folders first when ascending
+	request.copy(
+		sortBy = listOf(ItemSortBy.IS_FOLDER, sortOption.value, ItemSortBy.SORT_NAME),
+		sortOrder = listOf(SortOrder.ASCENDING, sortOption.order, sortOption.order)
+	)
+} else {
+	request.copy(
+		sortBy = setOf(sortOption.value, ItemSortBy.SORT_NAME),
+		sortOrder = setOf(sortOption.order)
+	)
+}
 
 fun setAlbumArtistsFilter(
 	request: GetAlbumArtistsRequest,

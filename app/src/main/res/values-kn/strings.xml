@@ -114,4 +114,9 @@
         <item quantity="other">%1$s ಆಲ್ಬಮ್‌ಗಳು</item>
     </plurals>
     <string name="lbl_runs">ರನ್‌ಗಳು</string>
+    <string name="pref_tv_provider">Android TV ಮುಖಪುಟ ಪರದೆ</string>
+    <string name="tv_provider_group_by_folder">ಹೊಸದನ್ನು ಫೋಲ್ಡರ್ ಪ್ರಕಾರ ಗುಂಪು ಮಾಡಿ</string>
+    <string name="tv_provider_group_by_folder_description">ಚಾನೆಲ್‌ಗಳಲ್ಲಿ ಪ್ರತಿ ಹೊಸ ಚಲನಚಿತ್ರ ಅಥವಾ ಎಪಿಸೋಡ್‌ನ ಬದಲು ಪ್ರತಿ ಫೋಲ್ಡರ್‌ಗೆ ಒಂದು ನಮೂದನ್ನು ತೋರಿಸಿ, ಫೋಲ್ಡರ್‌ಗೆ ಲಿಂಕ್‌ನೊಂದಿಗೆ</string>
+    <string name="tv_provider_group_by_series">ಹೊಸ ಎಪಿಸೋಡ್‌ಗಳನ್ನು ಸರಣಿ ಪ್ರಕಾರ ಗುಂಪು ಮಾಡಿ</string>
+    <string name="tv_provider_group_by_series_description">ಹೊಸ ಎಪಿಸೋಡ್‌ಗಳ ಚಾನೆಲ್‌ನಲ್ಲಿ ಪ್ರತಿ ಎಪಿಸೋಡ್‌ನ ಬದಲು ಪ್ರತಿ ಸರಣಿಗೆ ಒಂದು ನಮೂದನ್ನು ತೋರಿಸಿ, ಸರಣಿಗೆ ಲಿಂಕ್‌ನೊಂದಿಗೆ</string>
 </resources>

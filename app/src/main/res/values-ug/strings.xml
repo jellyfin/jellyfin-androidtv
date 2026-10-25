@@ -136,4 +136,9 @@
     <string name="action_connect">ئۇلاڭ</string>
     <string name="server_unsupported_notification">بۇ مۇلازىمېتىر قوللىمايدىغان Jellyfin نەشىرىنى%2$s ئىشلىتىدۇ. بۇ دېتالنى داۋاملىق ئىشلىتىش ئۈچۈن Jellyfin %1$s ياكى يېڭى نەشرىگە يېڭىلاڭ.</string>
     <string name="app_notification_uimode_invalid">بۇ ئەپ تېلېۋىزور ئۈچۈن ئەلالاشتۇرۇلغان. كۆچمە ئەپنى باشقا ئۈسكۈنىلەردە ئىشلىتىشنى تەۋسىيە قىلىمىز.</string>
+    <string name="pref_tv_provider">Android TV باشبەت ئېكرانى</string>
+    <string name="tv_provider_group_by_folder">يېڭىلىقلارنى قىسقۇچ بويىچە گۇرۇپپىلاش</string>
+    <string name="tv_provider_group_by_folder_description">قانالدا ھەر بىر يېڭى فىلىم ياكى بۆلۈمنىڭ ئورنىغا ھەر بىر قىسقۇچقا بىردىن تۈر كۆرسىتىدۇ ھەمدە قىسقۇچقا ئۆتىدۇ</string>
+    <string name="tv_provider_group_by_series">يېڭى بۆلۈملەرنى سەرىيالى بويىچە گۇرۇپپىلاش</string>
+    <string name="tv_provider_group_by_series_description">يېڭى بۆلۈملەر قانىلىدا ھەر بىر بۆلۈمنىڭ ئورنىغا ھەر بىر سەرىيالغا بىردىن تۈر كۆرسىتىدۇ ھەمدە سەرىيالغا ئۆتىدۇ</string>
 </resources>

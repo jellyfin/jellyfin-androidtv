@@ -522,4 +522,9 @@
     <string name="clear_image_cache_content">Користено: %1$s</string>
     <string name="lbl_runtime">Времетраење</string>
     <string name="dolby_vision">Dolby Vision</string>
+    <string name="pref_tv_provider">Почетен екран на Android TV</string>
+    <string name="tv_provider_group_by_folder">Групирај ново по папки</string>
+    <string name="tv_provider_group_by_folder_description">Прикажува еден запис по папка во каналите наместо секој нов филм или епизода, со врска до папката</string>
+    <string name="tv_provider_group_by_series">Групирај нови епизоди по серии</string>
+    <string name="tv_provider_group_by_series_description">Прикажува еден запис по серија во каналот за нови епизоди наместо секоја епизода, со врска до серијата</string>
 </resources>

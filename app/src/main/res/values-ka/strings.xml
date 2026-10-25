@@ -564,4 +564,9 @@
         <item quantity="one">%1$s დღე</item>
         <item quantity="other">%1$s დღე</item>
     </plurals>
+    <string name="pref_tv_provider">Android TV-ის მთავარი ეკრანი</string>
+    <string name="tv_provider_group_by_folder">ახალი ჩანაწერების დაჯგუფება საქაღალდეების მიხედვით</string>
+    <string name="tv_provider_group_by_folder_description">არხებში ჩანს თითო ჩანაწერი საქაღალდეზე, ყველა ახალი ფილმისა თუ ეპიზოდის ნაცვლად, საქაღალდეზე გადასვლით</string>
+    <string name="tv_provider_group_by_series">ახალი ეპიზოდების დაჯგუფება სერიალის მიხედვით</string>
+    <string name="tv_provider_group_by_series_description">ახალი ეპიზოდების არხში ჩანს თითო ჩანაწერი სერიალზე, ყველა ეპიზოდის ნაცვლად, სერიალზე გადასვლით</string>
 </resources>

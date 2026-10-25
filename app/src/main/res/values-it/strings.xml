@@ -709,4 +709,9 @@
     <string name="dovi_profile_8_description">Single-layer con fallback HDR10</string>
     <string name="tv_provider_enabled">Integra con Android TV home</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Schermata iniziale di Android TV</string>
+    <string name="tv_provider_group_by_folder">Raggruppa le novità per cartella</string>
+    <string name="tv_provider_group_by_folder_description">Mostra una voce per cartella nei canali invece di ogni nuovo film o episodio, con collegamento alla cartella</string>
+    <string name="tv_provider_group_by_series">Raggruppa i nuovi episodi per serie</string>
+    <string name="tv_provider_group_by_series_description">Mostra una voce per serie nel canale dei nuovi episodi invece di ogni episodio, con collegamento alla serie</string>
 </resources>

@@ -699,4 +699,9 @@
     <string name="photo_display_duration_description">Hvor lang tid går der før næste billede vises</string>
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="pref_tv_provider">Startskærm til Android TV</string>
+    <string name="tv_provider_group_by_folder">Gruppér nyt efter mappe</string>
+    <string name="tv_provider_group_by_folder_description">Vis én post pr. mappe i kanalerne i stedet for hver ny film eller episode, med link til mappen</string>
+    <string name="tv_provider_group_by_series">Gruppér nye episoder efter serie</string>
+    <string name="tv_provider_group_by_series_description">Vis én post pr. serie i kanalen for nye episoder i stedet for hver episode, med link til serien</string>
 </resources>

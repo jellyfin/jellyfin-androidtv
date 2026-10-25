@@ -706,4 +706,9 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="pref_tv_provider">Pantalla d\'inici d\'Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupa les novetats per carpeta</string>
+    <string name="tv_provider_group_by_folder_description">Mostra una entrada per carpeta als canals en lloc de cada pel·lícula o episodi nou, amb enllaç a la carpeta</string>
+    <string name="tv_provider_group_by_series">Agrupa els episodis nous per sèrie</string>
+    <string name="tv_provider_group_by_series_description">Mostra una entrada per sèrie al canal d\'episodis nous en lloc de cada episodi, amb enllaç a la sèrie</string>
 </resources>

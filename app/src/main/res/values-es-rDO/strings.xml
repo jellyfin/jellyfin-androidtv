@@ -98,4 +98,9 @@
     <string name="continue_listening">Continuar escuchando</string>
     <string name="lbl_genres">Géneros</string>
     <string name="because_you_watched">Porque viste %1$s</string>
+    <string name="pref_tv_provider">Pantalla de inicio de Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupar novedades por carpeta</string>
+    <string name="tv_provider_group_by_folder_description">Muestra una entrada por carpeta en los canales en lugar de cada película o episodio nuevo, con enlace a la carpeta</string>
+    <string name="tv_provider_group_by_series">Agrupar episodios nuevos por serie</string>
+    <string name="tv_provider_group_by_series_description">Muestra una entrada por serie en el canal de episodios nuevos en lugar de cada episodio, con enlace a la serie</string>
 </resources>

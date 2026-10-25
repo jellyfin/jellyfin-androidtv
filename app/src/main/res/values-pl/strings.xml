@@ -721,4 +721,9 @@
     <string name="tv_provider_enabled">Zintegruj z ekranem głównym Android TV</string>
     <string name="tv_provider_enabled_description">Wyświetlaj kanały i rekomendacje z Jellyfin na ekranie głównym Android TV</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Ekran główny Android TV</string>
+    <string name="tv_provider_group_by_folder">Grupuj nowości według folderów</string>
+    <string name="tv_provider_group_by_folder_description">Pokazuje jeden wpis na folder w kanałach zamiast każdego nowego filmu lub odcinka, z przejściem do folderu</string>
+    <string name="tv_provider_group_by_series">Grupuj nowe odcinki według seriali</string>
+    <string name="tv_provider_group_by_series_description">Pokazuje jeden wpis na serial w kanale nowych odcinków zamiast każdego odcinka, z przejściem do serialu</string>
 </resources>

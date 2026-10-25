@@ -711,4 +711,9 @@
     <string name="tv_provider_enabled">שילוב במסך הבית של Android TV</string>
     <string name="tv_provider_enabled_description">הצגת ערוצים והמלצות של Jellyfin במסך הבית של Android TV</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">מסך הבית של Android TV</string>
+    <string name="tv_provider_group_by_folder">קיבוץ פריטים חדשים לפי תיקייה</string>
+    <string name="tv_provider_group_by_folder_description">הצג ערך אחד לכל תיקייה בערוצים במקום כל סרט או פרק חדש, עם קישור לתיקייה</string>
+    <string name="tv_provider_group_by_series">קיבוץ פרקים חדשים לפי סדרה</string>
+    <string name="tv_provider_group_by_series_description">הצג ערך אחד לכל סדרה בערוץ הפרקים החדשים במקום כל פרק, עם קישור לסדרה</string>
 </resources>

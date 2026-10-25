@@ -686,4 +686,9 @@
     <string name="eac3_atmos">Dolby Digital + Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Android TV ホーム画面</string>
+    <string name="tv_provider_group_by_folder">新着をフォルダーごとにまとめる</string>
+    <string name="tv_provider_group_by_folder_description">チャンネルで、新しい映画やエピソードを個別に表示せず、フォルダーごとに1件にまとめて表示し、フォルダーへ移動できます</string>
+    <string name="tv_provider_group_by_series">新着エピソードをシリーズごとにまとめる</string>
+    <string name="tv_provider_group_by_series_description">新着エピソードのチャンネルで、エピソードを個別に表示せず、シリーズごとに1件にまとめて表示し、シリーズへ移動できます</string>
 </resources>

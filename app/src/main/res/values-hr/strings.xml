@@ -710,4 +710,9 @@
     <string name="tv_provider_enabled">Integracija s početnim zaslonom Android TV-a</string>
     <string name="tv_provider_enabled_description">Prikaži Jellyfin kanale i preporuke na početnom zaslonu Android TV-a</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Početni zaslon Android TV-a</string>
+    <string name="tv_provider_group_by_folder">Grupiraj novo po mapama</string>
+    <string name="tv_provider_group_by_folder_description">Prikazuje jedan unos po mapi u kanalima umjesto svakog novog filma ili epizode, s poveznicom na mapu</string>
+    <string name="tv_provider_group_by_series">Grupiraj nove epizode po serijama</string>
+    <string name="tv_provider_group_by_series_description">Prikazuje jedan unos po seriji u kanalu novih epizoda umjesto svake epizode, s poveznicom na seriju</string>
 </resources>

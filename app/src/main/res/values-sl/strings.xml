@@ -638,4 +638,9 @@
     <string name="filters">Filtri</string>
     <string name="backdrop_behavior_with_blur">Ozadje z zameglitvijo</string>
     <string name="backdrop_behavior_without_blur">Ozadje brez zameglitve</string>
+    <string name="pref_tv_provider">Domači zaslon Android TV</string>
+    <string name="tv_provider_group_by_folder">Združi novosti po mapah</string>
+    <string name="tv_provider_group_by_folder_description">V kanalih prikaže en vnos na mapo namesto vsakega novega filma ali epizode s povezavo do mape</string>
+    <string name="tv_provider_group_by_series">Združi nove epizode po serijah</string>
+    <string name="tv_provider_group_by_series_description">V kanalu novih epizod prikaže en vnos na serijo namesto vsake epizode s povezavo do serije</string>
 </resources>

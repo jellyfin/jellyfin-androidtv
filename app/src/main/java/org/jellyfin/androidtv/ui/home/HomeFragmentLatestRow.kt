@@ -50,6 +50,7 @@ class HomeFragmentLatestRow(
 			CollectionType.LIVETV,
 			CollectionType.BOXSETS,
 			CollectionType.BOOKS,
+			CollectionType.FOLDERS,
 		)
 
 		// Maximum amount of items loaded for a row

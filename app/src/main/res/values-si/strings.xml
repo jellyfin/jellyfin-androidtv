@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_error_unknown_error">වීඩියෝව බාගත කිරීමට අසමත් විය</string>
+    <string name="pref_tv_provider">Android TV මුල් තිරය</string>
+    <string name="tv_provider_group_by_folder">අලුත් දේ ෆෝල්ඩරය අනුව කාණ්ඩ කරන්න</string>
+    <string name="tv_provider_group_by_folder_description">නාලිකා වල සෑම නව චිත්‍රපටයක් හෝ කථාංගයක් වෙනුවට ෆෝල්ඩරයකට එක් ඇතුළත් කිරීමක් පෙන්වන්න, ෆෝල්ඩරයට සබැඳියක් සමඟ</string>
+    <string name="tv_provider_group_by_series">නව කථාංග ශ්‍රේණිය අනුව කාණ්ඩ කරන්න</string>
+    <string name="tv_provider_group_by_series_description">නව කථාංග නාලිකාවේ සෑම කථාංගයක් වෙනුවට ශ්‍රේණියකට එක් ඇතුළත් කිරීමක් පෙන්වන්න, ශ්‍රේණියට සබැඳියක් සමඟ</string>
 </resources>

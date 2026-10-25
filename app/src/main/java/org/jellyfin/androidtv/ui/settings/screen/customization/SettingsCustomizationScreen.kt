@@ -8,8 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -30,7 +28,6 @@ fun SettingsCustomizationScreen() {
 	val context = LocalContext.current
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
-	val workManager = koinInject<WorkManager>()
 	val leanbackChannelWorkerAvailable = remember(context) { LeanbackChannelWorker.isAvailable(context) }
 
 	SettingsColumn {
@@ -98,17 +95,11 @@ fun SettingsCustomizationScreen() {
 		}
 
 		if (leanbackChannelWorkerAvailable) item {
-			var tvProviderEnabled by rememberPreference(userPreferences, UserPreferences.tvProviderEnabled)
-
 			ListButton(
-				headingContent = { Text(stringResource(R.string.tv_provider_enabled)) },
+				headingContent = { Text(stringResource(R.string.pref_tv_provider)) },
 				captionContent = { Text(stringResource(R.string.tv_provider_enabled_description)) },
-				trailingContent = { Checkbox(checked = tvProviderEnabled) },
-				onClick = {
-					tvProviderEnabled = !tvProviderEnabled
-					workManager.enqueue(OneTimeWorkRequestBuilder<LeanbackChannelWorker>().build())
-				},
-				modifier = Modifier.focusKey("leanback_channels_enabled")
+				onClick = { router.push(Routes.CUSTOMIZATION_TV_PROVIDER) },
+				modifier = Modifier.focusKey(Routes.CUSTOMIZATION_TV_PROVIDER)
 			)
 		}
 

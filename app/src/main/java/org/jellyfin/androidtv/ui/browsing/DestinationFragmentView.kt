@@ -130,6 +130,7 @@ class DestinationFragmentView @JvmOverloads constructor(
 		transaction: FragmentTransaction,
 	) {
 		var fragment = entry.fragment
+		val isNewFragment = fragment == null
 
 		// Create if there is no existing fragment
 		if (fragment == null) {
@@ -139,8 +140,9 @@ class DestinationFragmentView @JvmOverloads constructor(
 			entry.fragment = fragment
 		}
 
-		// Update arguments
-		if (!fragmentManager.isStateSaved) {
+		// Update arguments, this is not allowed for existing fragments after the state is saved (when
+		// the app is in the background) but a new fragment always needs them
+		if (isNewFragment || !fragmentManager.isStateSaved) {
 			fragment.arguments = entry.arguments
 		}
 

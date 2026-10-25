@@ -61,4 +61,9 @@
     <string name="runtime_minutes">%1$dm</string>
     <string name="lbl_ends">Eindig</string>
     <string name="lbl_directed_by">Geregisseer deur</string>
+    <string name="pref_tv_provider">Android TV-tuisskerm</string>
+    <string name="tv_provider_group_by_folder">Groepeer nuwe items volgens vouer</string>
+    <string name="tv_provider_group_by_folder_description">Wys een inskrywing per vouer in die kanale in plaas van elke nuwe fliek of episode, met \'n skakel na die vouer</string>
+    <string name="tv_provider_group_by_series">Groepeer nuwe episodes volgens reeks</string>
+    <string name="tv_provider_group_by_series_description">Wys een inskrywing per reeks in die kanaal vir nuwe episodes in plaas van elke episode, met \'n skakel na die reeks</string>
 </resources>

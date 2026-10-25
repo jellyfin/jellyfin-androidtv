@@ -664,4 +664,9 @@
     <string name="playback_info_channels">Каналы: %1$d</string>
     <string name="playback_info_video_range">Дыяпазон відэа: %1$s</string>
     <string name="preference_enable_ass_description">Эксперыментальная функцыя, можа працаваць ненадзейна</string>
+    <string name="pref_tv_provider">Галоўны экран Android TV</string>
+    <string name="tv_provider_group_by_folder">Групаваць новае па папках</string>
+    <string name="tv_provider_group_by_folder_description">Паказваць адзін запіс на папку ў каналах замест кожнага новага фільма ці серыі, з пераходам да папкі</string>
+    <string name="tv_provider_group_by_series">Групаваць новыя серыі па серыялах</string>
+    <string name="tv_provider_group_by_series_description">Паказваць адзін запіс на серыял у канале новых серый замест кожнай серыі, з пераходам да серыяла</string>
 </resources>

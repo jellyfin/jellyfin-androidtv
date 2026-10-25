@@ -356,4 +356,9 @@
     <string name="pref_developer_link_description">Veçori të avancuara dhe eksperimentale</string>
     <string name="lbl_hidden">E fshehur</string>
     <string name="discovered_servers_title">Serverat e zbuluar</string>
+    <string name="pref_tv_provider">Ekrani kryesor i Android TV</string>
+    <string name="tv_provider_group_by_folder">Grupo të rejat sipas dosjes</string>
+    <string name="tv_provider_group_by_folder_description">Shfaq një hyrje për çdo dosje në kanale në vend të çdo filmi ose episodi të ri, me lidhje te dosja</string>
+    <string name="tv_provider_group_by_series">Grupo episodet e reja sipas serialit</string>
+    <string name="tv_provider_group_by_series_description">Shfaq një hyrje për çdo serial në kanalin e episodeve të reja në vend të çdo episodi, me lidhje te seriali</string>
 </resources>

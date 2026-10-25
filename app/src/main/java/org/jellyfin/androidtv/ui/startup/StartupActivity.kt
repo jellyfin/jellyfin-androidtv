@@ -43,10 +43,13 @@ import org.jellyfin.androidtv.ui.startup.fragment.SelectServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
 import org.jellyfin.androidtv.ui.startup.fragment.StartupToolbarFragment
+import org.jellyfin.androidtv.util.sdk.compat.copyWithDisplayPreferencesId
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.androidtv.util.createBundle
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,6 +60,7 @@ class StartupActivity : FragmentActivity() {
 	companion object {
 		const val EXTRA_ITEM_ID = "ItemId"
 		const val EXTRA_ITEM_IS_USER_VIEW = "ItemIsUserView"
+		const val EXTRA_ITEM_IS_FOLDER = "ItemIsFolder"
 		const val EXTRA_HIDE_SPLASH = "HideSplash"
 	}
 
@@ -141,6 +145,7 @@ class StartupActivity : FragmentActivity() {
 			else -> intent.getStringExtra(EXTRA_ITEM_ID)
 		}?.toUUIDOrNull()
 		val itemIsUserView = intent.getBooleanExtra(EXTRA_ITEM_IS_USER_VIEW, false)
+		val itemIsFolder = intent.getBooleanExtra(EXTRA_ITEM_IS_FOLDER, false)
 
 		Timber.i("Determining next activity (action=${intent.action}, itemId=$itemId, itemIsUserView=$itemIsUserView)")
 
@@ -173,6 +178,24 @@ class StartupActivity : FragmentActivity() {
 			}.onFailure { throwable ->
 				Timber.w(throwable, "Failed to retrieve item $itemId from server.")
 			}.getOrNull()
+			// Folder is requested, open it in the library browser
+			itemId != null && itemIsFolder -> {
+				val item = runCatching {
+					withContext(Dispatchers.IO) {
+						api.userLibraryApi.getItem(itemId = itemId).content
+					}
+				}.onFailure { throwable ->
+					Timber.w(throwable, "Failed to retrieve item $itemId from server.")
+				}.getOrNull()
+					// The browser only needs the id, so it can still be opened when the server is not reachable yet
+					?: BaseItemDto(id = itemId, type = BaseItemKind.FOLDER, isFolder = true)
+
+				// Folders don't have display preferences, use the item id as unique key
+				Destinations.libraryBrowser(
+					item.takeIf { it.displayPreferencesId != null }
+						?: item.copyWithDisplayPreferencesId(item.id.toString())
+				)
+			}
 			// Other item is requested
 			itemId != null -> Destinations.itemDetails(itemId)
 			// No destination requested, use default

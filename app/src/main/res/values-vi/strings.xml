@@ -660,4 +660,9 @@
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="lbl_date_show_added">Ngày chương trình được thêm vào</string>
     <string name="preference_hdr_overrides">Định dạng HDR</string>
+    <string name="pref_tv_provider">Màn hình chính Android TV</string>
+    <string name="tv_provider_group_by_folder">Nhóm mục mới theo thư mục</string>
+    <string name="tv_provider_group_by_folder_description">Hiển thị một mục cho mỗi thư mục trong các kênh thay vì từng phim hoặc tập mới, có liên kết đến thư mục</string>
+    <string name="tv_provider_group_by_series">Nhóm tập mới theo phim bộ</string>
+    <string name="tv_provider_group_by_series_description">Hiển thị một mục cho mỗi phim bộ trong kênh tập mới thay vì từng tập, có liên kết đến phim bộ</string>
 </resources>

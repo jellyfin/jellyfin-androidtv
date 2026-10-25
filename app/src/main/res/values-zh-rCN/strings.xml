@@ -688,4 +688,9 @@
     <string name="tv_provider_enabled">集成到 Android TV 首页</string>
     <string name="tv_provider_enabled_description">在Android TV主屏幕上展示Jellyfin频道和推荐内容</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Android TV 主屏幕</string>
+    <string name="tv_provider_group_by_folder">按文件夹分组新内容</string>
+    <string name="tv_provider_group_by_folder_description">在频道中每个文件夹仅显示一个条目，而不是每部新电影或每一集，并链接到该文件夹</string>
+    <string name="tv_provider_group_by_series">按剧集系列分组新剧集</string>
+    <string name="tv_provider_group_by_series_description">在新剧集频道中每个系列仅显示一个条目，而不是每一集，并链接到该系列</string>
 </resources>

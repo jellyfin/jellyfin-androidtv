@@ -663,4 +663,9 @@
     <string name="sdr">SDR</string>
     <string name="hdr10">HDR10</string>
     <string name="hlg">HLG</string>
+    <string name="pref_tv_provider">Ecranul de pornire Android TV</string>
+    <string name="tv_provider_group_by_folder">Grupează noutățile pe foldere</string>
+    <string name="tv_provider_group_by_folder_description">Afișează o singură intrare per folder în canale, în loc de fiecare film sau episod nou, cu legătură către folder</string>
+    <string name="tv_provider_group_by_series">Grupează episoadele noi pe seriale</string>
+    <string name="tv_provider_group_by_series_description">Afișează o singură intrare per serial în canalul de episoade noi, în loc de fiecare episod, cu legătură către serial</string>
 </resources>

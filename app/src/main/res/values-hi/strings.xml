@@ -667,4 +667,9 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="pref_tv_provider">Android TV होम स्क्रीन</string>
+    <string name="tv_provider_group_by_folder">नई सामग्री को फ़ोल्डर के अनुसार समूहित करें</string>
+    <string name="tv_provider_group_by_folder_description">चैनलों में हर नई फ़िल्म या एपिसोड के बजाय प्रति फ़ोल्डर एक प्रविष्टि दिखाएँ, जो फ़ोल्डर से जुड़ी हो</string>
+    <string name="tv_provider_group_by_series">नए एपिसोड को सीरीज़ के अनुसार समूहित करें</string>
+    <string name="tv_provider_group_by_series_description">नए एपिसोड चैनल में हर एपिसोड के बजाय प्रति सीरीज़ एक प्रविष्टि दिखाएँ, जो सीरीज़ से जुड़ी हो</string>
 </resources>

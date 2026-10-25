@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.composable.item
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,10 +52,14 @@ fun ItemCardBaseItemOverlay(
 		modifier = Modifier.align(Alignment.TopStart),
 	)
 
-	WatchIndicator(
-		item = item,
-		modifier = Modifier.align(Alignment.TopEnd)
-	)
+	Row(
+		modifier = Modifier.align(Alignment.TopEnd),
+		horizontalArrangement = Arrangement.spacedBy(Tokens.Space.spaceXs),
+	) {
+		FolderIndicator(item = item)
+
+		WatchIndicator(item = item)
+	}
 
 	Column(
 		modifier = Modifier.align(Alignment.BottomCenter),
@@ -101,6 +106,27 @@ private fun StateIndicator(
 					.size(24.dp)
 			)
 		}
+	}
+}
+
+@Composable
+@Stable
+private fun FolderIndicator(
+	item: BaseItemDto,
+	modifier: Modifier = Modifier,
+) {
+	// Only physical folders, other containers like series or collections have their own artwork
+	if (item.type != BaseItemKind.FOLDER) return
+
+	Badge(
+		modifier = modifier
+			.size(24.dp),
+	) {
+		Icon(
+			imageVector = ImageVector.vectorResource(R.drawable.ic_folder),
+			contentDescription = null,
+			modifier = Modifier.size(12.dp)
+		)
 	}
 }
 

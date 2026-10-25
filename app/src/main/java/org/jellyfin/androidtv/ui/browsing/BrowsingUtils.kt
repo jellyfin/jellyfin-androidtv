@@ -306,6 +306,16 @@ object BrowsingUtils {
 		sortOrder = setOf(SortOrder.DESCENDING),
 	)
 
+	/**
+	 * Request for the direct children of [parent], used to browse the folder structure.
+	 */
+	@JvmStatic
+	fun createFolderViewRequest(parent: BaseItemDto) = GetItemsRequest(
+		fields = ItemRepository.itemFields,
+		parentId = parent.id,
+		recursive = false,
+	)
+
 	@JvmStatic
 	fun createBrowseGridItemsRequest(parent: BaseItemDto): GetItemsRequest {
 		val baseRequest = GetItemsRequest(

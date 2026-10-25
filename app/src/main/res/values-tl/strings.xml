@@ -38,4 +38,9 @@
     <string name="because_you_watched">Dahil napanood mo %1$s</string>
     <string name="lbl_series">Serye</string>
     <string name="lbl_favorite">Paborito</string>
+    <string name="pref_tv_provider">Home screen ng Android TV</string>
+    <string name="tv_provider_group_by_folder">Pangkatin ang mga bago ayon sa folder</string>
+    <string name="tv_provider_group_by_folder_description">Magpakita ng isang entry bawat folder sa mga channel sa halip na bawat bagong pelikula o episode, na may link sa folder</string>
+    <string name="tv_provider_group_by_series">Pangkatin ang mga bagong episode ayon sa serye</string>
+    <string name="tv_provider_group_by_series_description">Magpakita ng isang entry bawat serye sa channel ng mga bagong episode sa halip na bawat episode, na may link sa serye</string>
 </resources>

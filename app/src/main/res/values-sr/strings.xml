@@ -673,4 +673,9 @@
     <string name="preference_enable_ass_description">Експериментална могућност, може бити непоуздана</string>
     <string name="pref_software_codecs_enabled">Користи софтверске кодеке</string>
     <string name="pref_software_codecs_enabled_description">Неке имплементације засноване на софтверу могу успорити рад. Онемогућавање ове опције чини транскодовање вероватнијим.</string>
+    <string name="pref_tv_provider">Почетни екран Android TV-а</string>
+    <string name="tv_provider_group_by_folder">Групиши ново по фасциклама</string>
+    <string name="tv_provider_group_by_folder_description">Приказује један унос по фасцикли у каналима уместо сваког новог филма или епизоде, са везом ка фасцикли</string>
+    <string name="tv_provider_group_by_series">Групиши нове епизоде по серијама</string>
+    <string name="tv_provider_group_by_series_description">Приказује један унос по серији у каналу нових епизода уместо сваке епизоде, са везом ка серији</string>
 </resources>

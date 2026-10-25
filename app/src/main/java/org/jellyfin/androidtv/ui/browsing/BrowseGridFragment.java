@@ -48,6 +48,9 @@ import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.AlphaPickerView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
@@ -116,6 +119,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<PreferencesRepository> preferencesRepository = inject(PreferencesRepository.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
     private final Lazy<ApiClient> api = inject(ApiClient.class);
 
@@ -547,7 +551,20 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mGridPaddingTop = paddingTopInt;
     }
 
+    /**
+     * Browsing the folder structure: the "Folders" view of the server or any folder opened from it.
+     */
+    private boolean isFolderBrowsing() {
+        return Extras.IncludeTypeFolders.equals(getArguments().getString(Extras.IncludeType, null))
+                || (mFolder.getType() == BaseItemKind.USER_VIEW && mFolder.getCollectionType() == CollectionType.FOLDERS);
+    }
+
     private void setupQueries() {
+        if (isFolderBrowsing()) {
+            setRowDef(new BrowseRowDef("", BrowsingUtils.createFolderViewRequest(mFolder), CHUNK_SIZE_MINIMUM, false, true));
+            return;
+        }
+
         if (mFolder.getType() == BaseItemKind.USER_VIEW || mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
             CollectionType type = mFolder.getCollectionType() != null ? mFolder.getCollectionType() : CollectionType.UNKNOWN;
             if (type == CollectionType.MUSIC) {
@@ -697,6 +714,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             buildAdapter();
         }
 
+        mAdapter.setFoldersFirst(isFolderBrowsing());
         mAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
         mAdapter.Retrieve();
     }
@@ -900,12 +918,30 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         });
     }
 
+    private static boolean isBrowsableFolder(BaseItemKind type) {
+        return type == BaseItemKind.FOLDER
+                || type == BaseItemKind.COLLECTION_FOLDER
+                || type == BaseItemKind.USER_VIEW
+                || type == BaseItemKind.MANUAL_PLAYLISTS_FOLDER;
+    }
+
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
+
+            // Keep browsing the folder structure instead of opening libraries as smart/flat views
+            BaseItemDto baseItem = ((BaseRowItem) item).getBaseItem();
+            if (isFolderBrowsing() && baseItem != null && isBrowsableFolder(baseItem.getType())) {
+                if (baseItem.getDisplayPreferencesId() == null) {
+                    baseItem = JavaCompat.copyWithDisplayPreferencesId(baseItem, baseItem.getId().toString());
+                }
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(baseItem, Extras.IncludeTypeFolders));
+                return;
+            }
+
             itemLauncher.getValue().launch((BaseRowItem) item, mAdapter, requireContext());
         }
     }

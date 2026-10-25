@@ -698,4 +698,9 @@
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="tv_provider_enabled_description">Visa Jellyfins kanaler och rekommendationer på hemskärmen för Android TV</string>
     <string name="tv_provider_enabled">Integrera med Android TV Hem</string>
+    <string name="pref_tv_provider">Startskärm för Android TV</string>
+    <string name="tv_provider_group_by_folder">Gruppera nytt per mapp</string>
+    <string name="tv_provider_group_by_folder_description">Visa en post per mapp i kanalerna i stället för varje ny film eller avsnitt, med länk till mappen</string>
+    <string name="tv_provider_group_by_series">Gruppera nya avsnitt per serie</string>
+    <string name="tv_provider_group_by_series_description">Visa en post per serie i kanalen för nya avsnitt i stället för varje avsnitt, med länk till serien</string>
 </resources>

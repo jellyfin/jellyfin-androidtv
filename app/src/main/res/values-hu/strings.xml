@@ -698,4 +698,9 @@
     <string name="photo_player">Fotólejátszó</string>
     <string name="photo_display_duration">Fénykép megjelenítési ideje</string>
     <string name="photo_display_duration_description">Mennyit kell várni a következő fénykép megjelenítése előtt</string>
+    <string name="pref_tv_provider">Android TV kezdőképernyő</string>
+    <string name="tv_provider_group_by_folder">Újdonságok csoportosítása mappa szerint</string>
+    <string name="tv_provider_group_by_folder_description">A csatornákban mappánként egy elemet jelenít meg minden új film vagy epizód helyett, a mappára mutató hivatkozással</string>
+    <string name="tv_provider_group_by_series">Új epizódok csoportosítása sorozat szerint</string>
+    <string name="tv_provider_group_by_series_description">Az új epizódok csatornájában sorozatonként egy elemet jelenít meg minden epizód helyett, a sorozatra mutató hivatkozással</string>
 </resources>

@@ -3,4 +3,9 @@
     <string name="btn_cancel">ਰੋਕੋ</string>
     <string name="loading">ਖੁਲ ਰਿਹਾ ਹੈ…</string>
     <string name="video_error_unknown_error">ਵੀਡੀਓ ਲੋਡ ਨਾਈ ਹੋ ਰਹੀ</string>
+    <string name="pref_tv_provider">Android TV ਹੋਮ ਸਕ੍ਰੀਨ</string>
+    <string name="tv_provider_group_by_folder">ਨਵੇਂ ਨੂੰ ਫੋਲਡਰ ਅਨੁਸਾਰ ਸਮੂਹਬੱਧ ਕਰੋ</string>
+    <string name="tv_provider_group_by_folder_description">ਚੈਨਲਾਂ ਵਿੱਚ ਹਰ ਨਵੀਂ ਫ਼ਿਲਮ ਜਾਂ ਐਪੀਸੋਡ ਦੀ ਥਾਂ ਹਰ ਫੋਲਡਰ ਲਈ ਇੱਕ ਐਂਟਰੀ ਦਿਖਾਓ, ਫੋਲਡਰ ਦੇ ਲਿੰਕ ਸਮੇਤ</string>
+    <string name="tv_provider_group_by_series">ਨਵੇਂ ਐਪੀਸੋਡਾਂ ਨੂੰ ਸੀਰੀਜ਼ ਅਨੁਸਾਰ ਸਮੂਹਬੱਧ ਕਰੋ</string>
+    <string name="tv_provider_group_by_series_description">ਨਵੇਂ ਐਪੀਸੋਡਾਂ ਦੇ ਚੈਨਲ ਵਿੱਚ ਹਰ ਐਪੀਸੋਡ ਦੀ ਥਾਂ ਹਰ ਸੀਰੀਜ਼ ਲਈ ਇੱਕ ਐਂਟਰੀ ਦਿਖਾਓ, ਸੀਰੀਜ਼ ਦੇ ਲਿੰਕ ਸਮੇਤ</string>
 </resources>

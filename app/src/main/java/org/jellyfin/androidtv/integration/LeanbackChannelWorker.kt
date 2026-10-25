@@ -24,8 +24,10 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.await
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.ItemRepository
@@ -51,6 +53,8 @@ import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.ItemFields
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.core.component.KoinComponent
@@ -59,6 +63,7 @@ import timber.log.Timber
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 
@@ -74,6 +79,8 @@ class LeanbackChannelWorker(
 	companion object {
 		private const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 		private const val CHANNEL_STORE_NAME = "leanback_channels"
+		private const val LATEST_ITEMS_LIMIT = 50
+		private const val LATEST_ITEMS_LIMIT_GROUPED = 300
 
 		/**
 		 * Check if the app can use Android TV home screen channels on this device.
@@ -115,7 +122,17 @@ class LeanbackChannelWorker(
 			// Get next up episodes
 			val (resumeItems, nextUpItems) = getNextUpItems()
 			// Get latest media
-			val (latestEpisodes, latestMovies, latestMedia) = getLatestMedia()
+			val byFolder = userPreferences[UserPreferences.tvProviderGroupByFolder]
+			val bySeries = userPreferences[UserPreferences.tvProviderGroupBySeries]
+			// Grouping reduces the amount of entries, so fetch more to still fill the channels
+			val (allLatestEpisodes, allLatestMovies, allLatestMedia) = getLatestMedia(
+				limit = if (byFolder || bySeries) LATEST_ITEMS_LIMIT_GROUPED else LATEST_ITEMS_LIMIT
+			)
+			// Movies are only grouped by folder, series are only relevant for episodes
+			val (latestEpisodes, episodeFolderImages) = groupItems(allLatestEpisodes, byFolder, bySeries)
+			val (latestMovies, movieFolderImages) = groupItems(allLatestMovies, byFolder, false)
+			val (latestMedia, mediaFolderImages) = groupItems(allLatestMedia, byFolder, false)
+			val folderImageItems = episodeFolderImages + movieFolderImages + mediaFolderImages
 			val myMedia = getMyMedia()
 			// Delete current items from the channels
 			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
@@ -174,7 +191,8 @@ class LeanbackChannelWorker(
 						createPreviewProgram(
 							channel,
 							item,
-							preferParentThumb
+							preferParentThumb,
+							imageItem = folderImageItems[item.id] ?: item
 						)
 					}.let {
 						context.contentResolver.bulkInsert(
@@ -321,12 +339,13 @@ class LeanbackChannelWorker(
 			Pair(resume.await(), nextUp.await())
 		}
 
-	private suspend fun getLatestMedia(): Triple<List<BaseItemDto>, List<BaseItemDto>, List<BaseItemDto>> =
+	private suspend fun getLatestMedia(limit: Int): Triple<List<BaseItemDto>, List<BaseItemDto>, List<BaseItemDto>> =
 		withContext(Dispatchers.IO) {
 			val latestEpisodes = async {
 				api.userLibraryApi.getLatestMedia(
-					fields = ItemRepository.itemFields,
-					limit = 50,
+					// Parent id is required to group by folder
+					fields = ItemRepository.itemFields + ItemFields.PARENT_ID,
+					limit = limit,
 					includeItemTypes = listOf(BaseItemKind.EPISODE),
 					isPlayed = false
 				).content
@@ -334,8 +353,8 @@ class LeanbackChannelWorker(
 
 			val latestMovies = async {
 				api.userLibraryApi.getLatestMedia(
-					fields = ItemRepository.itemFields,
-					limit = 50,
+					fields = ItemRepository.itemFields + ItemFields.PARENT_ID,
+					limit = limit,
 					includeItemTypes = listOf(BaseItemKind.MOVIE),
 					isPlayed = false
 				).content
@@ -343,8 +362,8 @@ class LeanbackChannelWorker(
 
 			val latestMedia = async {
 				api.userLibraryApi.getLatestMedia(
-					fields = ItemRepository.itemFields,
-					limit = 50,
+					fields = ItemRepository.itemFields + ItemFields.PARENT_ID,
+					limit = limit,
 					includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 					isPlayed = false
 				).content
@@ -354,13 +373,96 @@ class LeanbackChannelWorker(
 			Triple(latestEpisodes.await(), latestMovies.await(), latestMedia.await())
 		}
 
+	/**
+	 * Collapse items into a single entry per folder and/or series so a lot of new episodes or
+	 * movies from the same folder don't fill the entire channel. An entry is placed at the position of its most recent
+	 * episode. When both options are enabled, episodes stored in a folder are grouped by that
+	 * folder and all others by their series. Episodes that can't be grouped (or when the
+	 * server can't be reached) are kept as is.
+	 *
+	 * Returns the resulting items and, for folders, the first item inside that folder to use
+	 * as image because folders usually don't have one themselves.
+	 */
+	private suspend fun groupItems(
+		episodes: List<BaseItemDto>,
+		byFolder: Boolean,
+		bySeries: Boolean,
+	): Pair<List<BaseItemDto>, Map<UUID, BaseItemDto>> {
+		if (!byFolder && !bySeries) return episodes to emptyMap()
+
+		return withContext(Dispatchers.IO) {
+			try {
+				val parents = if (byFolder) getItemsById(episodes.mapNotNull { it.parentId }.distinct()) else emptyMap()
+				// The root folder of a library is a folder too, but items in it are not in a "folder" from
+				// the user perspective: only folders that are inside another folder are grouped
+				val grandParents = getItemsById(parents.values.mapNotNull { it.parentId }.distinct())
+				val folderOf = { episode: BaseItemDto ->
+					episode.parentId
+						?.let(parents::get)
+						?.takeIf { it.type == BaseItemKind.FOLDER }
+						?.takeIf { parent -> parent.parentId?.let(grandParents::get)?.type == BaseItemKind.FOLDER }
+				}
+				val series = if (bySeries) {
+					getItemsById(episodes.filter { folderOf(it) == null }.mapNotNull { it.seriesId }.distinct())
+				} else emptyMap()
+
+				val grouped = episodes
+					.map { episode -> folderOf(episode) ?: episode.seriesId?.let(series::get) ?: episode }
+					.distinctBy { it.id }
+					.take(LATEST_ITEMS_LIMIT)
+
+				val folderImages = grouped
+					.filter { it.type == BaseItemKind.FOLDER }
+					.map { folder ->
+						async {
+							folder.id to try {
+								api.itemsApi.getItems(
+									parentId = folder.id,
+									limit = 1,
+									sortBy = listOf(ItemSortBy.SORT_NAME),
+									fields = ItemRepository.itemFields,
+									imageTypeLimit = 1,
+								).content.items.firstOrNull()
+							} catch (err: Exception) {
+								// Not having an image for the folder is not a reason to fail
+								Timber.w(err, "Unable to retrieve first item of folder ${folder.id}")
+								null
+							}
+						}
+					}
+					.awaitAll()
+					.mapNotNull { (id, child) -> child?.let { id to it } }
+					.toMap()
+
+				Timber.i("Grouped ${episodes.size} episodes into ${grouped.size} entries (byFolder=$byFolder, bySeries=$bySeries)")
+
+				grouped to folderImages
+			} catch (err: CancellationException) {
+				throw err
+			} catch (err: Exception) {
+				// Grouping is optional, never fail updating the channels because of it
+				Timber.e(err, "Unable to group episodes, showing all episodes")
+				episodes to emptyMap()
+			}
+		}
+	}
+
+	private suspend fun getItemsById(ids: List<UUID>): Map<UUID, BaseItemDto> =
+		if (ids.isEmpty()) emptyMap()
+		else api.itemsApi.getItems(
+			ids = ids,
+			fields = ItemRepository.itemFields + ItemFields.PARENT_ID,
+			imageTypeLimit = 1,
+		).content.items.associateBy { it.id }
+
 	@SuppressLint("RestrictedApi")
 	private fun createPreviewProgram(
 		channelUri: Uri,
 		item: BaseItemDto,
-		preferParentThumb: Boolean
+		preferParentThumb: Boolean,
+		imageItem: BaseItemDto = item,
 	): ContentValues {
-		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
+		val imageUri = imageItem.getPosterArtImageUrl(preferParentThumb)
 		val seasonString = item.parentIndexNumber?.toString().orEmpty()
 
 		val episodeString = when {
@@ -393,6 +495,7 @@ class LeanbackChannelWorker(
 			.setPosterArtAspectRatio(
 				when (item.type) {
 					BaseItemKind.COLLECTION_FOLDER,
+					BaseItemKind.FOLDER,
 					BaseItemKind.EPISODE -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9
 
 					else -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
@@ -401,6 +504,7 @@ class LeanbackChannelWorker(
 			.setIntent(Intent(context, StartupActivity::class.java).apply {
 				putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
 				putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, item.type == BaseItemKind.COLLECTION_FOLDER)
+				putExtra(StartupActivity.EXTRA_ITEM_IS_FOLDER, item.type == BaseItemKind.FOLDER)
 			})
 			.setDurationMillis(
 				if (item.runTimeTicks?.ticks != null) {

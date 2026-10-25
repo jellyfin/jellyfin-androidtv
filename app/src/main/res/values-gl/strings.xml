@@ -105,4 +105,9 @@
         <item quantity="one">%1$s álbum</item>
         <item quantity="other">%1$s álbums</item>
     </plurals>
+    <string name="pref_tv_provider">Pantalla de inicio de Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupar novidades por cartafol</string>
+    <string name="tv_provider_group_by_folder_description">Mostra unha entrada por cartafol nas canles en lugar de cada película ou episodio novo, con ligazón ao cartafol</string>
+    <string name="tv_provider_group_by_series">Agrupar episodios novos por serie</string>
+    <string name="tv_provider_group_by_series_description">Mostra unha entrada por serie na canle de episodios novos en lugar de cada episodio, con ligazón á serie</string>
 </resources>

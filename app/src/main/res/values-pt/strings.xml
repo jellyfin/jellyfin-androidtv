@@ -125,4 +125,9 @@
     <string name="lbl_on">Ao vivo</string>
     <string name="lbl_tune_to_channel">Sintonizar no canal</string>
     <string name="msg_recording_now">A gravar</string>
+    <string name="pref_tv_provider">Tela inicial do Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupar novidades por pasta</string>
+    <string name="tv_provider_group_by_folder_description">Mostra uma entrada por pasta nos canais em vez de cada novo filme ou episódio, com link para a pasta</string>
+    <string name="tv_provider_group_by_series">Agrupar novos episódios por série</string>
+    <string name="tv_provider_group_by_series_description">Mostra uma entrada por série no canal de novos episódios em vez de cada episódio, com link para a série</string>
 </resources>

@@ -711,4 +711,9 @@
     <string name="tv_provider_enabled">Integrace s úvodní obrazovkou Android TV</string>
     <string name="tv_provider_enabled_description">Zobrazit kanály a doporučení Jellyfin na úvodní obrazovce Android TV</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Domovská obrazovka Android TV</string>
+    <string name="tv_provider_group_by_folder">Seskupit novinky podle složek</string>
+    <string name="tv_provider_group_by_folder_description">Zobrazí v kanálech jeden záznam na složku místo každého nového filmu nebo epizody s odkazem na složku</string>
+    <string name="tv_provider_group_by_series">Seskupit nové epizody podle seriálů</string>
+    <string name="tv_provider_group_by_series_description">Zobrazí v kanálu nových epizod jeden záznam na seriál místo každé epizody s odkazem na seriál</string>
 </resources>

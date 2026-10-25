@@ -148,4 +148,9 @@
     <string name="state_disabled">Wedi\'i analluogi</string>
     <string name="lbl_cancel_recording">Canslo recordio</string>
     <string name="because_you_watched">Oherwydd i chi wylio %1$s</string>
+    <string name="pref_tv_provider">Sgrin gartref Android TV</string>
+    <string name="tv_provider_group_by_folder">Grwpio newydd yn ôl ffolder</string>
+    <string name="tv_provider_group_by_folder_description">Dangos un cofnod ar gyfer pob ffolder yn y sianeli yn lle pob ffilm neu bennod newydd, gyda dolen i\'r ffolder</string>
+    <string name="tv_provider_group_by_series">Grwpio penodau newydd yn ôl cyfres</string>
+    <string name="tv_provider_group_by_series_description">Dangos un cofnod ar gyfer pob cyfres yn y sianel penodau newydd yn lle pob pennod, gyda dolen i\'r gyfres</string>
 </resources>

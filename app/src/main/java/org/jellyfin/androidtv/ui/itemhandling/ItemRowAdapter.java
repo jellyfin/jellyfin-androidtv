@@ -75,6 +75,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private QueryType queryType;
 
     private ItemSortBy mSortBy;
+    private BrowseGridFragment.SortOption mSortOption;
+    private boolean mFoldersFirst = false;
     private SortOrder sortOrder;
     private FilterOptions mFilters;
 
@@ -364,10 +366,23 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         return totalItems;
     }
 
+    /**
+     * List folders before other items, regardless of the selected sort option.
+     */
+    public void setFoldersFirst(boolean foldersFirst) {
+        if (mFoldersFirst == foldersFirst) return;
+
+        mFoldersFirst = foldersFirst;
+        if (mSortOption != null && queryType != QueryType.Artists && queryType != QueryType.AlbumArtists) {
+            mQuery = ItemRowAdapterHelperKt.setItemsSorting(mQuery, mSortOption, mFoldersFirst);
+        }
+    }
+
     public void setSortBy(BrowseGridFragment.SortOption option) {
         if (!option.value.equals(mSortBy) || !option.order.equals(sortOrder)) {
             mSortBy = option.value;
             sortOrder = option.order;
+            mSortOption = option;
             switch (queryType) {
                 case Artists:
                     mArtistsQuery = ItemRowAdapterHelperKt.setArtistsSorting(mArtistsQuery, option);
@@ -376,7 +391,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     mAlbumArtistsQuery = ItemRowAdapterHelperKt.setAlbumArtistsSorting(mAlbumArtistsQuery, option);
                     break;
                 default:
-                    mQuery = ItemRowAdapterHelperKt.setItemsSorting(mQuery, option);
+                    mQuery = ItemRowAdapterHelperKt.setItemsSorting(mQuery, option, mFoldersFirst);
                     break;
             }
             if (!ItemSortBy.SORT_NAME.equals(option.value)) {

@@ -541,4 +541,9 @@
     <string name="dts_hd">DTS:HD</string>
     <string name="playback_info_resolution">Resolusi</string>
     <string name="playback_info_video_range">Jangkauan video:%1$s</string>
+    <string name="pref_tv_provider">Layar beranda Android TV</string>
+    <string name="tv_provider_group_by_folder">Kelompokkan konten baru menurut folder</string>
+    <string name="tv_provider_group_by_folder_description">Tampilkan satu entri per folder di kanal, bukan setiap film atau episode baru, dengan tautan ke folder</string>
+    <string name="tv_provider_group_by_series">Kelompokkan episode baru menurut serial</string>
+    <string name="tv_provider_group_by_series_description">Tampilkan satu entri per serial di kanal episode baru, bukan setiap episode, dengan tautan ke serial</string>
 </resources>

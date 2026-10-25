@@ -699,4 +699,9 @@
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Android-TV-Startbildschirm</string>
+    <string name="tv_provider_group_by_folder">Neue Inhalte nach Ordnern gruppieren</string>
+    <string name="tv_provider_group_by_folder_description">Zeigt in den Kanälen einen Eintrag pro Ordner statt jedes neuen Films oder jeder neuen Episode und verlinkt auf den Ordner</string>
+    <string name="tv_provider_group_by_series">Neue Episoden nach Serien gruppieren</string>
+    <string name="tv_provider_group_by_series_description">Zeigt im Kanal für neue Episoden einen Eintrag pro Serie statt jeder Episode und verlinkt auf die Serie</string>
 </resources>

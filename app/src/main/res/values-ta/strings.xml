@@ -698,4 +698,9 @@
     <string name="eac3_atmos">DD+ _______</string>
     <string name="truehd_atmos">TrueHD _______</string>
     <string name="lbl_3d">3டி</string>
+    <string name="pref_tv_provider">Android TV முகப்புத் திரை</string>
+    <string name="tv_provider_group_by_folder">புதியவற்றை கோப்புறை வாரியாக குழுவாக்கு</string>
+    <string name="tv_provider_group_by_folder_description">சேனல்களில் ஒவ்வொரு புதிய திரைப்படம் அல்லது எபிசோடுக்கும் பதிலாக ஒரு கோப்புறைக்கு ஒரு உள்ளீட்டைக் காட்டி, கோப்புறைக்கான இணைப்புடன்</string>
+    <string name="tv_provider_group_by_series">புதிய எபிசோடுகளை தொடர் வாரியாக குழுவாக்கு</string>
+    <string name="tv_provider_group_by_series_description">புதிய எபிசோடுகள் சேனலில் ஒவ்வொரு எபிசோடுக்கும் பதிலாக ஒரு தொடருக்கு ஒரு உள்ளீட்டைக் காட்டி, தொடருக்கான இணைப்புடன்</string>
 </resources>

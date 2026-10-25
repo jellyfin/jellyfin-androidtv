@@ -699,4 +699,9 @@
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
     <string name="tv_provider_enabled">Android TV ana ekranıyla tümleştir</string>
     <string name="home_next_up_max_days">Sıradaki bölümler için son tarih</string>
+    <string name="pref_tv_provider">Android TV ana ekranı</string>
+    <string name="tv_provider_group_by_folder">Yenileri klasöre göre grupla</string>
+    <string name="tv_provider_group_by_folder_description">Kanallarda her yeni film veya bölüm yerine klasör başına tek bir giriş gösterir ve klasöre bağlanır</string>
+    <string name="tv_provider_group_by_series">Yeni bölümleri diziye göre grupla</string>
+    <string name="tv_provider_group_by_series_description">Yeni bölümler kanalında her bölüm yerine dizi başına tek bir giriş gösterir ve diziye bağlanır</string>
 </resources>

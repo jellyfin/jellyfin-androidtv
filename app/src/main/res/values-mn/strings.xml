@@ -178,4 +178,9 @@
     <string name="lbl_delete">Устгах</string>
     <string name="msg_item_added">" нэмэгдлээ"</string>
     <string name="desc_automatic_fav_songs">Дуртай дуунуудыг автоматаар тоглуулах жагсаалт</string>
+    <string name="pref_tv_provider">Android TV үндсэн дэлгэц</string>
+    <string name="tv_provider_group_by_folder">Шинийг хавтсаар бүлэглэх</string>
+    <string name="tv_provider_group_by_folder_description">Сувгуудад шинэ кино эсвэл ангийг тус бүрд нь харуулахын оронд хавтас бүрт нэг бичлэг харуулж, хавтас руу холбоостой</string>
+    <string name="tv_provider_group_by_series">Шинэ ангиудыг цувралаар бүлэглэх</string>
+    <string name="tv_provider_group_by_series_description">Шинэ ангиудын суваг дээр анги бүрийн оронд цуврал бүрт нэг бичлэг харуулж, цуврал руу холбоостой</string>
 </resources>

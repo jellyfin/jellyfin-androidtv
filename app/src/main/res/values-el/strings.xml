@@ -612,4 +612,9 @@
         <item quantity="other"/>
     </plurals>
     <string name="dolby_vision_with_el">Dolby Vision με EL</string>
+    <string name="pref_tv_provider">Αρχική οθόνη Android TV</string>
+    <string name="tv_provider_group_by_folder">Ομαδοποίηση νέων ανά φάκελο</string>
+    <string name="tv_provider_group_by_folder_description">Εμφανίζει μία καταχώριση ανά φάκελο στα κανάλια αντί για κάθε νέα ταινία ή επεισόδιο, με σύνδεσμο προς τον φάκελο</string>
+    <string name="tv_provider_group_by_series">Ομαδοποίηση νέων επεισοδίων ανά σειρά</string>
+    <string name="tv_provider_group_by_series_description">Εμφανίζει μία καταχώριση ανά σειρά στο κανάλι νέων επεισοδίων αντί για κάθε επεισόδιο, με σύνδεσμο προς τη σειρά</string>
 </resources>

@@ -697,4 +697,9 @@
     <string name="photo_player">Prehliadač fotografií</string>
     <string name="photo_display_duration">Dĺžka zobrazenia fotografie</string>
     <string name="photo_display_duration_description">Ako dlho čakať pred zobrazením ďalšej fotografie</string>
+    <string name="pref_tv_provider">Domovská obrazovka Android TV</string>
+    <string name="tv_provider_group_by_folder">Zoskupiť novinky podľa priečinkov</string>
+    <string name="tv_provider_group_by_folder_description">Zobrazí v kanáloch jeden záznam na priečinok namiesto každého nového filmu alebo epizódy s odkazom na priečinok</string>
+    <string name="tv_provider_group_by_series">Zoskupiť nové epizódy podľa seriálov</string>
+    <string name="tv_provider_group_by_series_description">Zobrazí v kanáli nových epizód jeden záznam na seriál namiesto každej epizódy s odkazom na seriál</string>
 </resources>

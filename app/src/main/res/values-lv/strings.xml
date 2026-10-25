@@ -624,4 +624,9 @@
     <string name="pref_prerolls_enabled_description">Atskaņojiet pielāgotos ievadus pirms filmām</string>
     <string name="pref_playback_inactivity_prompt">Neaktivitātes paziņojums</string>
     <string name="pref_playback_prerolls">Ievadvideo</string>
+    <string name="pref_tv_provider">Android TV sākuma ekrāns</string>
+    <string name="tv_provider_group_by_folder">Grupēt jaunumus pēc mapēm</string>
+    <string name="tv_provider_group_by_folder_description">Kanālos rāda vienu ierakstu katrai mapei, nevis katru jauno filmu vai sēriju, ar saiti uz mapi</string>
+    <string name="tv_provider_group_by_series">Grupēt jaunās sērijas pēc seriāliem</string>
+    <string name="tv_provider_group_by_series_description">Jauno sēriju kanālā rāda vienu ierakstu katram seriālam, nevis katru sēriju, ar saiti uz seriālu</string>
 </resources>

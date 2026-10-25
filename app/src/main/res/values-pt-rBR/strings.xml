@@ -707,4 +707,9 @@
     <string name="photo_player">Reprodutor de fotos</string>
     <string name="photo_display_duration">Duração da visualização da foto</string>
     <string name="photo_display_duration_description">Quanto tempo esperar antes de mostrar a próxima foto</string>
+    <string name="pref_tv_provider">Tela inicial do Android TV</string>
+    <string name="tv_provider_group_by_folder">Agrupar novidades por pasta</string>
+    <string name="tv_provider_group_by_folder_description">Mostra uma entrada por pasta nos canais em vez de cada novo filme ou episódio, com link para a pasta</string>
+    <string name="tv_provider_group_by_series">Agrupar novos episódios por série</string>
+    <string name="tv_provider_group_by_series_description">Mostra uma entrada por série no canal de novos episódios em vez de cada episódio, com link para a série</string>
 </resources>

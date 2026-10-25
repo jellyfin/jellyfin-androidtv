@@ -554,4 +554,9 @@
     <string name="skip_forward_length">앞으로 건너뛰기 길이</string>
     <string name="runtime_hours_minutes">%1$d시간 %2$d분</string>
     <string name="runtime_minutes">%1$d분</string>
+    <string name="pref_tv_provider">Android TV 홈 화면</string>
+    <string name="tv_provider_group_by_folder">새 항목을 폴더별로 묶기</string>
+    <string name="tv_provider_group_by_folder_description">채널에서 새 영화나 에피소드를 각각 표시하는 대신 폴더당 하나의 항목을 표시하고 해당 폴더로 연결합니다</string>
+    <string name="tv_provider_group_by_series">새 에피소드를 시리즈별로 묶기</string>
+    <string name="tv_provider_group_by_series_description">새 에피소드 채널에서 에피소드를 각각 표시하는 대신 시리즈당 하나의 항목을 표시하고 해당 시리즈로 연결합니다</string>
 </resources>

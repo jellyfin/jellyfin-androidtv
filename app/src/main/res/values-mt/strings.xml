@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>    <string name="pref_tv_provider">Skrin ewlenija ta\' Android TV</string>
+    <string name="tv_provider_group_by_folder">Iggrupa l-ġdid skont il-folder</string>
+    <string name="tv_provider_group_by_folder_description">Uri entrata waħda għal kull folder fil-kanali minflok kull film jew episodju ġdid, b\'link għall-folder</string>
+    <string name="tv_provider_group_by_series">Iggrupa episodji ġodda skont is-serje</string>
+    <string name="tv_provider_group_by_series_description">Uri entrata waħda għal kull serje fil-kanal tal-episodji ġodda minflok kull episodju, b\'link għas-serje</string>
+</resources>

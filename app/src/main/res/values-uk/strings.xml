@@ -718,4 +718,9 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="pref_tv_provider">Головний екран Android TV</string>
+    <string name="tv_provider_group_by_folder">Групувати нове за теками</string>
+    <string name="tv_provider_group_by_folder_description">Показувати один запис на теку в каналах замість кожного нового фільму чи серії, з переходом до теки</string>
+    <string name="tv_provider_group_by_series">Групувати нові серії за серіалами</string>
+    <string name="tv_provider_group_by_series_description">Показувати один запис на серіал у каналі нових серій замість кожної серії, з переходом до серіалу</string>
 </resources>

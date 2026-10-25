@@ -683,4 +683,9 @@
     <string name="photo_player">相片播放器</string>
     <string name="photo_display_duration">相片顯示時長</string>
     <string name="photo_display_duration_description">顯示下一張相片前嘅等待時間</string>
+    <string name="pref_tv_provider">Android TV 主畫面</string>
+    <string name="tv_provider_group_by_folder">依資料夾將新內容分組</string>
+    <string name="tv_provider_group_by_folder_description">頻道中每個資料夾只顯示一個項目，而不是每部新電影或每一集，並連結至該資料夾</string>
+    <string name="tv_provider_group_by_series">依影集將新集數分組</string>
+    <string name="tv_provider_group_by_series_description">新集數頻道中每部影集只顯示一個項目，而不是每一集，並連結至該影集</string>
 </resources>

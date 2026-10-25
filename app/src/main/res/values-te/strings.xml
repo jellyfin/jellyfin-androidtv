@@ -37,4 +37,9 @@
     <string name="lbl_pause">పాజ్</string>
     <string name="lbl_cancel">రద్దు</string>
     <string name="lbl_cancel_recording">రికార్డింగ్‌ని రద్దు చేయండి</string>
+    <string name="pref_tv_provider">Android TV హోమ్ స్క్రీన్</string>
+    <string name="tv_provider_group_by_folder">కొత్తవాటిని ఫోల్డర్ వారీగా సమూహపరచండి</string>
+    <string name="tv_provider_group_by_folder_description">ఛానెల్‌లలో ప్రతి కొత్త సినిమా లేదా ఎపిసోడ్‌కు బదులుగా ప్రతి ఫోల్డర్‌కు ఒక ఎంట్రీని చూపండి, ఫోల్డర్‌కు లింక్‌తో</string>
+    <string name="tv_provider_group_by_series">కొత్త ఎపిసోడ్‌లను సిరీస్ వారీగా సమూహపరచండి</string>
+    <string name="tv_provider_group_by_series_description">కొత్త ఎపిసోడ్‌ల ఛానెల్‌లో ప్రతి ఎపిసోడ్‌కు బదులుగా ప్రతి సిరీస్‌కు ఒక ఎంట్రీని చూపండి, సిరీస్‌కు లింక్‌తో</string>
 </resources>

@@ -575,4 +575,9 @@
     <string name="preference_enable_pgs">直接播放 PGS 字幕</string>
     <string name="still_watching_label">你還在觀看嗎？</string>
     <string name="pref_subtitles_position">從底部偏移</string>
+    <string name="pref_tv_provider">Android TV 主畫面</string>
+    <string name="tv_provider_group_by_folder">依資料夾將新內容分組</string>
+    <string name="tv_provider_group_by_folder_description">頻道中每個資料夾只顯示一個項目，而不是每部新電影或每一集，並連結至該資料夾</string>
+    <string name="tv_provider_group_by_series">依影集將新集數分組</string>
+    <string name="tv_provider_group_by_series_description">新集數頻道中每部影集只顯示一個項目，而不是每一集，並連結至該影集</string>
 </resources>

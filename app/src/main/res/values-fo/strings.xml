@@ -697,4 +697,9 @@
     <string name="tv_provider_enabled">Android TV-forsíðuveiting</string>
     <string name="dovi_profile_7_description">Tveylags við víðkanarlagi</string>
     <string name="lbl_3d">3D</string>
+    <string name="pref_tv_provider">Heimaskíggi hjá Android TV</string>
+    <string name="tv_provider_group_by_folder">Bólka nýtt eftir mappu</string>
+    <string name="tv_provider_group_by_folder_description">Vís eitt innskot fyri hvørja mappu í rásunum í staðin fyri hvørja nýggja filmin ella tátt, við leinki til mappuna</string>
+    <string name="tv_provider_group_by_series">Bólka nýggjar tættir eftir røð</string>
+    <string name="tv_provider_group_by_series_description">Vís eitt innskot fyri hvørja røð í rásini við nýggjum tættum í staðin fyri hvønn tátt, við leinki til røðina</string>
 </resources>

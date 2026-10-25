@@ -615,4 +615,9 @@
     <string name="pref_playback_prerolls">Eelrullid</string>
     <string name="font_weight_900">Must</string>
     <string name="filters">Filtrid</string>
+    <string name="pref_tv_provider">Android TV avaekraan</string>
+    <string name="tv_provider_group_by_folder">Rühmita uued kaustade kaupa</string>
+    <string name="tv_provider_group_by_folder_description">Näitab kanalites ühte kirjet kausta kohta iga uue filmi või episoodi asemel, lingiga kausta</string>
+    <string name="tv_provider_group_by_series">Rühmita uued episoodid sarjade kaupa</string>
+    <string name="tv_provider_group_by_series_description">Näitab uute episoodide kanalis ühte kirjet sarja kohta iga episoodi asemel, lingiga sarja</string>
 </resources>

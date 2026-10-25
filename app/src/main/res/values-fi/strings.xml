@@ -697,4 +697,9 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="pref_tv_provider">Android TV:n aloitusnäyttö</string>
+    <string name="tv_provider_group_by_folder">Ryhmitä uudet kohteet kansioittain</string>
+    <string name="tv_provider_group_by_folder_description">Näyttää kanavissa yhden merkinnän kansiota kohti jokaisen uuden elokuvan tai jakson sijaan ja linkittää kansioon</string>
+    <string name="tv_provider_group_by_series">Ryhmitä uudet jaksot sarjoittain</string>
+    <string name="tv_provider_group_by_series_description">Näyttää uusien jaksojen kanavassa yhden merkinnän sarjaa kohti jokaisen jakson sijaan ja linkittää sarjaan</string>
 </resources>

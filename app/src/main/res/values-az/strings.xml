@@ -81,4 +81,9 @@
     <string name="lbl_empty">Boş</string>
     <string name="lbl_tv_queuing">Növbəti epizodu avtomatik oynayın</string>
     <string name="lbl_search_hint">Mətni axtarın (klaviatura üçün seçin)</string>
+    <string name="pref_tv_provider">Android TV əsas ekranı</string>
+    <string name="tv_provider_group_by_folder">Yenilikləri qovluqlara görə qruplaşdır</string>
+    <string name="tv_provider_group_by_folder_description">Kanallarda hər yeni film və ya epizod əvəzinə qovluq başına bir giriş göstərir və qovluğa keçid verir</string>
+    <string name="tv_provider_group_by_series">Yeni epizodları seriala görə qruplaşdır</string>
+    <string name="tv_provider_group_by_series_description">Yeni epizodlar kanalında hər epizod əvəzinə serial başına bir giriş göstərir və seriala keçid verir</string>
 </resources>

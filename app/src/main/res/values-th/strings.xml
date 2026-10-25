@@ -653,4 +653,9 @@
     <string name="photo_player">เครื่องเล่นรูปภาพ</string>
     <string name="photo_display_duration">ระยะเวลาแสดงรูปภาพ</string>
     <string name="photo_display_duration_description">ระยะเวลาที่ควรรอก่อนแสดงรูปภาพถัดไป</string>
+    <string name="pref_tv_provider">หน้าจอหลักของ Android TV</string>
+    <string name="tv_provider_group_by_folder">จัดกลุ่มรายการใหม่ตามโฟลเดอร์</string>
+    <string name="tv_provider_group_by_folder_description">แสดงหนึ่งรายการต่อโฟลเดอร์ในช่องแทนภาพยนตร์หรือตอนใหม่ทุกรายการ พร้อมลิงก์ไปยังโฟลเดอร์</string>
+    <string name="tv_provider_group_by_series">จัดกลุ่มตอนใหม่ตามซีรีส์</string>
+    <string name="tv_provider_group_by_series_description">แสดงหนึ่งรายการต่อซีรีส์ในช่องตอนใหม่แทนทุกตอน พร้อมลิงก์ไปยังซีรีส์</string>
 </resources>

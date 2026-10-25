@@ -125,4 +125,9 @@
     <string name="runtime_hours_minutes">%1$d ঘণ্টা %2$d মিনিট</string>
     <string name="runtime_minutes">%1$d মিনিট</string>
     <string name="lbl_runtime">রানটাইম</string>
+    <string name="pref_tv_provider">Android TV হোম স্ক্রিন</string>
+    <string name="tv_provider_group_by_folder">নতুন আইটেম ফোল্ডার অনুযায়ী গ্রুপ করুন</string>
+    <string name="tv_provider_group_by_folder_description">চ্যানেলে প্রতিটি নতুন চলচ্চিত্র বা পর্বের পরিবর্তে প্রতি ফোল্ডারে একটি এন্ট্রি দেখান, ফোল্ডারের লিঙ্কসহ</string>
+    <string name="tv_provider_group_by_series">নতুন পর্ব সিরিজ অনুযায়ী গ্রুপ করুন</string>
+    <string name="tv_provider_group_by_series_description">নতুন পর্বের চ্যানেলে প্রতিটি পর্বের পরিবর্তে প্রতি সিরিজে একটি এন্ট্রি দেখান, সিরিজের লিঙ্কসহ</string>
 </resources>
