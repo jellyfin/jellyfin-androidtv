@@ -198,7 +198,7 @@
     <string name="lbl_no_recordings">録画はありません</string>
     <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
     <string name="lbl_pause">一時停止</string>
-    <string name="lbl_record_any_channel">任意のチャンネルで録画</string>
+    <string name="lbl_record_any_channel">どのチャンネルでも録画</string>
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングのはじまり</string>
     <string name="msg_burn_sub_warning">字幕を焼き込んでいます。数分かかります…</string>
