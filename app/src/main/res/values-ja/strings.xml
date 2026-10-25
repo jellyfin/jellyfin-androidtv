@@ -685,4 +685,5 @@
     <string name="tv_provider_enabled_description">Android TV ホーム画面に、Jellyfin のチャンネルとおすすめを表示する</string>
     <string name="eac3_atmos">Dolby Digital + Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="lbl_3d">3D</string>
 </resources>
