@@ -392,7 +392,7 @@
     <string name="server_issue_unsupported_version">Serveris naudoja %1$s versiją, kuri nepalaikoma</string>
     <string name="server_issue_ssl_handshake">SSL jungimasis nepavyko</string>
     <string name="pref_direct_stream_live_off">Transkodavimas naudojamas kai būtina</string>
-    <string name="home_section_resume_book">Tęsti skaitymą</string>
+    <string name="home_section_resume_book">Skaityti toliau</string>
     <string name="pref_playback_description">Vaizdo įrašai, Subtitrai, Tiesioginė TV, Toliau</string>
     <string name="input_password">Slaptažodis</string>
     <string name="action_use_password">Naudoti slaptažodį</string>
@@ -448,7 +448,7 @@
     <string name="pref_libraries_description">Keisti kaip bibliotekos yra rodomos</string>
     <string name="pref_browsing">Naršymas</string>
     <string name="lbl_latest_in">Nesenai pridėta prie %1$s</string>
-    <string name="continue_listening">Tęsti klausymą</string>
+    <string name="continue_listening">Klausytis toliau</string>
     <string name="lbl_home">Pagrindinis</string>
     <string name="lbl_runtime">Trukmė</string>
     <string name="because_you_watched">Nes žiūrėjote %1$s</string>
