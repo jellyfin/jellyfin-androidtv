@@ -23,7 +23,7 @@
     <string name="lbl_views">Peržiūros</string>
     <string name="lbl_on_now">Šiuo metu rodoma</string>
     <string name="lbl_next_up">Toliau</string>
-    <string name="lbl_continue_watching">Tęsti žiūrėjimą</string>
+    <string name="lbl_continue_watching">Žiūrėti toliau</string>
     <string name="lbl_settings">Parinktys</string>
     <string name="chapters">Skyriai</string>
     <string name="pref_authentication_cat">Autentifikacija</string>
