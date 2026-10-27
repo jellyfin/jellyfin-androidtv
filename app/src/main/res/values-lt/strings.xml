@@ -159,14 +159,14 @@
     <string name="lbl_playback_speed">Atkūrimo greitis</string>
     <string name="mark_watched">Pažymėti kaip žiūrėtą</string>
     <string name="lbl_quality_profile">Kokybės profilis</string>
-    <string name="pref_next_up_behavior_title">Rodyti sekančio vaizdo įrašo informaciją</string>
+    <string name="pref_next_up_behavior_title">Rodyti tolimesnio vaizdo įrašo informaciją</string>
     <string name="lbl_delete">Ištrinti</string>
     <string name="desc_automatic_fav_songs">Automatiškai sugeneruotas grojaraštis iš mėgstamų dainų</string>
     <string name="lbl_new_premieres">Naujos premjeros</string>
     <string name="lbl_clear_queue">Ištrinti eilę</string>
-    <string name="lbl_play_next_up">Paleisti sekantį</string>
+    <string name="lbl_play_next_up">Paleisti kitą</string>
     <string name="lbl_on_schedule">Pagal grafiką</string>
-    <string name="lbl_next_episode">Sekanti serija</string>
+    <string name="lbl_next_episode">Kita serija</string>
     <string name="lbl_song_title">Dainos pavadinimas</string>
     <string name="lbl_news">Naujienos</string>
     <string name="lbl_new_only">Tik nauji</string>
@@ -175,7 +175,7 @@
     <string name="lbl_zoom">Priartinti</string>
     <string name="lbl_schedule">Tvarkaraštis</string>
     <string name="lbl_open">Atidaryti</string>
-    <string name="pref_next_up_timeout_summary">Kiek laukti prieš atkuriant sekantį elementą</string>
+    <string name="pref_next_up_timeout_summary">Kiek laukti prieš atkuriant tolimesnį elementą</string>
     <string name="lbl_repeat_episodes">Kartoti serijas</string>
     <string name="lbl_image_size">Atvaizdo dydis</string>
     <string name="msg_record_entire_series">Įrašyti visą serialą?</string>
@@ -283,7 +283,7 @@
     <string name="subtitle_error">Nepavyko pasirinkti subtitrų</string>
     <string name="lbl_starting_early_ending_after">Prasideda %1$s anksčiau ir baigiasi %2$s po nustatyto laiko</string>
     <string name="lbl__continuing">TĘSIAMAS</string>
-    <string name="lbl_next_item">Sekantis elementas</string>
+    <string name="lbl_next_item">Kitas elementas</string>
     <string name="desc_bitstream_ac3">Reikalauja įrangos kuri sugebėtų tai palaikyti</string>
     <string name="audio_error">Nepavyko paleisti garso takelio %1$s</string>
     <string name="pref_clock_display_browsing">Naršant</string>
@@ -416,7 +416,7 @@
     <string name="always_authenticate">Visada prašyti prisijungimo informacijos</string>
     <string name="license_author">Autorius</string>
     <string name="lbl_tune_to_channel">Įjungti kanalą</string>
-    <string name="lbl_tv_queuing">Automatiškai paleisti sekančią seriją</string>
+    <string name="lbl_tv_queuing">Automatiškai paleisti tolimesnę seriją</string>
     <string name="lbl_show_backdrop">Rodyti fonus</string>
     <string name="lbl_program_ended">Programa pasibaigė</string>
     <string name="lbl_instant_mix">Greitas miksas</string>
@@ -495,7 +495,7 @@
     <string name="person_birthday_and_age">Gimė %1$s (%2$d)</string>
     <string name="ac3">DD</string>
     <string name="random">Atsitiktinis</string>
-    <string name="scheduled_in_next_24_hours">Suplanuota sekančioms 24 valandoms</string>
+    <string name="scheduled_in_next_24_hours">Suplanuota tolimesnioms 24 valandoms</string>
     <string name="prefer_exoplayer_ffmpeg_content">Naudokite FFmpeg garso dekodavimui, net jei yra platformos kodekų.</string>
     <string name="segment_type_unknown">Nežinomi segmentai</string>
     <string name="skip_forward_length">Peršokimo į priekį ilgis</string>
@@ -681,7 +681,7 @@
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
     <string name="photo_display_duration">Nuotraukos rodymo trukmė</string>
-    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma sekanti nuotrauka</string>
+    <string name="photo_display_duration_description">Kiek laiko laukti, kol bus rodoma tolimesnė nuotrauka</string>
     <string name="photo_player">Nuotraukų rodymas</string>
     <string name="preference_hdr_overrides">HDR formatai</string>
     <string name="preference_hdr_overrides_summary">Nepaisyti įrenginio nurodytų HDR galimybių</string>
