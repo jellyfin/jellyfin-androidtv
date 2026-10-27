@@ -8,6 +8,7 @@ import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentAction
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.util.sdk.end
@@ -59,14 +60,21 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 	// Already using this subtitle index
 	if (mCurrentOptions.subtitleStreamIndex == index && !force) return
 
-	// Save subtitle language preference for restoration after NextUp screen
+	// Save subtitle preference for restoration after NextUp screen and for other episodes in the series
 	val videoQueueManager by fragment.inject<VideoQueueManager>()
-	if (index == -1) {
-		// Use empty string to indicate "subtitles explicitly disabled" vs null meaning "no preference"
-		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode("")
+	val selection = if (index == -1) {
+		SubtitleSelection(disabled = true)
 	} else {
 		val stream = currentMediaSource.mediaStreams?.firstOrNull { it.type == MediaStreamType.SUBTITLE && it.index == index }
-		videoQueueManager.setLastPlayedSubtitleLanguageIsoCode(stream?.language)
+		SubtitleSelection(language = stream?.language, title = stream?.title ?: stream?.displayTitle)
+	}
+	videoQueueManager.setLastPlayedSubtitleSelection(selection)
+
+	val userPreferences by fragment.inject<UserPreferences>()
+	if (userPreferences[UserPreferences.subtitlesRememberSelection]) {
+		getCurrentlyPlayingItem()?.seriesId?.let { seriesId ->
+			userPreferences.setSeriesSubtitleSelection(seriesId, selection)
+		}
 	}
 
 	// Disable subtitles
