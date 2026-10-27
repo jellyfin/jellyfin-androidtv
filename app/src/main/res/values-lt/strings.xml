@@ -144,7 +144,7 @@
     <string name="lbl_song">Daina</string>
     <string name="lbl_songs">Dainos</string>
     <string name="msg_cancel_entire_series">Ar tikrai norite atšaukti VISĄ SERIJALĄ?</string>
-    <string name="lbl_only_new_episodes">Tik nauji epizodai</string>
+    <string name="lbl_only_new_episodes">Tik naujos serijos</string>
     <string name="lbl_repeat_options">Kartojimo nustatymai</string>
     <string name="lbl_enable_cinema_mode">Kino teatro režimas</string>
     <string name="lbl_new">Nauja</string>
@@ -242,7 +242,7 @@
     <string name="sum_enable_cinema_mode">Paleisti galimas įžangas ir peržiūras prieš pradedant filmą</string>
     <string name="pref_crash_report_logs_enabled">Žurnalai bus įtraukti į gedimų ataskaitas</string>
     <string name="pref_refresh_rate_scale_on_device">Įrenginio mastelis</string>
-    <string name="lbl_specials">Papildomi epizodai</string>
+    <string name="lbl_specials">Specialūs</string>
     <string name="lbl_begin_padding">Pradžios tarpas</string>
     <string name="episode_name_special">specialus</string>
     <string name="lbl_sports">Sportas</string>
@@ -416,7 +416,7 @@
     <string name="always_authenticate">Visada prašyti prisijungimo informacijos</string>
     <string name="license_author">Autorius</string>
     <string name="lbl_tune_to_channel">Įjungti kanalą</string>
-    <string name="lbl_tv_queuing">Automatiškai paleisti sekantį epizodą</string>
+    <string name="lbl_tv_queuing">Automatiškai paleisti sekančią seriją</string>
     <string name="lbl_show_backdrop">Rodyti fonus</string>
     <string name="lbl_program_ended">Programa pasibaigė</string>
     <string name="lbl_instant_mix">Greitas miksas</string>
@@ -600,7 +600,7 @@
     <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
     <string name="pref_playback_next_up">Toliau</string>
     <string name="pref_customization_subtitles">Subtitrai</string>
-    <string name="lbl_date_episode_added">Epizodo pridėjimo data</string>
+    <string name="lbl_date_episode_added">Serijos pridėjimo data</string>
     <string name="playback_info">Atkūrimo informacija</string>
     <string name="playback_info_play_method">Atkūrimo metodas %1$s</string>
     <string name="playback_info_direct_play">Tiesioginis atkūrimas</string>
