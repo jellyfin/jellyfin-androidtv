@@ -9,6 +9,7 @@ import androidx.media3.common.Format
 import androidx.media3.common.TrackGroup
 import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
+import io.kotest.assertions.withClue
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
@@ -191,14 +192,18 @@ internal class PlaybackFixture(private val method: PlayMethod = PlayMethod.DIREC
 	fun isSubtitleStream(stream: MediaStream?): Boolean =
 		isCurrentStream(stream) && getStreamIndex(stream) == getSubtitleIndex()
 
-	fun assertAudio(stream: MediaStream) {
-		isCurrentStream(stream) shouldBe true
-		getAudioIndex() shouldBe getStreamIndex(stream)
+	fun assertAudio(stream: MediaStream, message: String = "Unexpected audio stream") {
+		withClue(message) {
+			isCurrentStream(stream) shouldBe true
+			getAudioIndex() shouldBe getStreamIndex(stream)
+		}
 	}
 
-	fun assertSubtitle(stream: MediaStream?) {
-		isCurrentStream(stream) shouldBe true
-		getSubtitleIndex() shouldBe getStreamIndex(stream)
+	fun assertSubtitle(stream: MediaStream?, message: String = "Unexpected subtitle stream") {
+		withClue(message) {
+			isCurrentStream(stream) shouldBe true
+			getSubtitleIndex() shouldBe getStreamIndex(stream)
+		}
 	}
 
 	suspend fun play(vararg items: BaseItemDto) {
