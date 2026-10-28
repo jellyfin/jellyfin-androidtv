@@ -66,7 +66,7 @@
     <string name="lbl_enter_server_address">أدخل عنوان الخادم</string>
     <string name="lbl_yes">نعم</string>
     <string name="lbl_no">لا</string>
-    <string name="lbl_trailer">"إعلان ترويجي "</string>
+    <string name="lbl_trailer">"إعلان دعائي "</string>
     <string name="lbl_bracket_unknown">غير معروف</string>
     <string name="msg_video_playback_error">"خطأ في تشغيل الفيديو - "</string>
     <string name="lbl_none">لا شيء</string>
@@ -345,7 +345,7 @@
     <string name="lbl_loading_elipses">جارٍ التحميل…</string>
     <string name="lbl_play_trailers">تشغيل الإعلان (الإعلانات) الترويجية</string>
     <string name="lbl_videos">فيديوهات</string>
-    <string name="lbl_trailers">إعلانات ترويجية</string>
+    <string name="lbl_trailers">إعلانات دعائية</string>
     <string name="lbl_genres">الأنواع</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="license_version">الإصدار</string>
