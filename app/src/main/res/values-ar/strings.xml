@@ -148,10 +148,10 @@
     <string name="lbl_load_guide_data">تحميل بيانات الدليل</string>
     <string name="episode_missing_message_2">هذه الحلقة مفقودة من مكتبتك. سيتوقف التشغيل.</string>
     <string name="episode_missing_message">هذه الحلقة مفقودة من مكتبتك. هل ترغب في تخطيها والمتابعة إلى الحلقة التالية؟</string>
-    <string name="episode_missing">حلقة مفقودة</string>
-    <string name="no_player_message">لا يبدو أن لديك تطبيقًا قادرًا على تشغيل الفيديو مثبتًا. يتطلب هذا الخيار تثبيت تطبيق جهة خارجية لتشغيل محتوى الفيديو.</string>
-    <string name="no_player">لا يوجد مشغل</string>
-    <string name="mark_watched_message">يبدو أن العنصر لم يتم تشغيله طوال مدته. هل تريد تعليمه كمشاهد؟</string>
+    <string name="episode_missing">الحلقة مفقودة</string>
+    <string name="no_player_message">يبدو أنك لا تملك تطبيقًا قادرًا على تشغيل الفيديو. يتطلب هذا الخيار تثبيت تطبيق جهة خارجية لتشغيل محتوى الفيديو.</string>
+    <string name="no_player">لا يوجد مُشغل</string>
+    <string name="mark_watched_message">يبدو أن العنصر لم يتم تشغيله بالكامل. هل تريد وضع علامة مُشاهد؟</string>
     <string name="mark_watched">وضع علامة مُشاهد</string>
     <string name="lbl_Reset">إعادة تعيين</string>
     <string name="pref_button_remapping_description">اضغط على أي زر في جهاز التحكم الخاص بالتلفاز لتعيينه</string>
@@ -249,7 +249,7 @@
     <string name="lbl_next_up_minimal">بدون صورة مصغرة</string>
     <string name="lbl_next_up_extended">مع صورة مصغرة</string>
     <string name="user_picker_last_user_title">آخر استخدام</string>
-    <string name="lbl_use_series_thumbnails_description">استخدام الصور المصغرة للمسلسل عند عرض الحلقات</string>
+    <string name="lbl_use_series_thumbnails_description">إستخدام صور المسلسل المصغرة عند عرض الحلقات</string>
     <string name="lbl_use_series_thumbnails">تفضيل الصور المصغرة للمسلسل</string>
     <string name="image_type_banner">لافتة</string>
     <string name="lbl_auto_crop">قص تلقائي</string>
@@ -377,7 +377,7 @@
     <string name="pref_audio">الصوت</string>
     <string name="pref_subtitles">الترجمات</string>
     <string name="pref_video">فيديو</string>
-    <string name="pref_playback_description">الفيديو، الترجمات، البث المباشر، التالي</string>
+    <string name="pref_playback_description">الفيديو، الترجمات، البث التفزيوني، التالي</string>
     <string name="pref_customization_description">السمة، الرئيسية، إعادة التعيين</string>
     <string name="pref_login_description">الخوادم، الحسابات، تسجيل الدخول التلقائي</string>
     <string name="pref_login">تسجيل الدخول</string>
@@ -557,7 +557,7 @@
     <string name="lbl_still_watching_long">5 حلقات أو 150 دقيقة</string>
     <string name="lbl_still_watching_very_long">8 حلقات أو 240 دقيقة</string>
     <string name="pref_subtitles_position">الإزاحة من الأسفل</string>
-    <string name="pref_subtitles_bold">نص غامق</string>
+    <string name="pref_subtitles_bold">نص سميك</string>
     <string name="past_week">الأسبوع الماضي</string>
     <string name="scheduled_in_next_24_hours">مجدول في الـ 24 ساعة القادمة</string>
     <string name="past_24_hours">الـ 24 ساعة الماضية</string>
@@ -725,7 +725,7 @@
     <string name="photo_display_duration">مدة عرض الصورة</string>
     <string name="photo_display_duration_description">كم يجب ان تنتظر قبل عرض الصورة التالية</string>
     <string name="dovi_profile_8_description">طبقة أحادية مع تراجع HDR10</string>
-    <string name="home_next_up_max_days_disabled">تثبيط</string>
+    <string name="home_next_up_max_days_disabled">مُعطل</string>
     <string name="home_next_up_max_days">تاريخ القطع القادم</string>
     <plurals name="days">
         <item quantity="zero">%1$s صفر</item>
@@ -739,6 +739,6 @@
     <string name="bitstream_dts">معدل بث نظام Digital Theater</string>
     <string name="bitstream_truehd">معدل بث Dolby TrueHD</string>
     <string name="tv_provider_enabled">الدمج مع صفحة Android TV الرئيسية</string>
-    <string name="tv_provider_enabled_description">اظهار قنوات و توصيات Jellyfin في صفحة Android TV الرئيسية</string>
+    <string name="tv_provider_enabled_description">إظهار قنوات و توصيات Jellyfin في صفحة Android TV الرئيسية</string>
     <string name="lbl_3d">3D</string>
 </resources>
