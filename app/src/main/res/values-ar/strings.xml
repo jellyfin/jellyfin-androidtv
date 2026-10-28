@@ -402,8 +402,8 @@
     <string name="lbl_playback_speed">سرعة التشغيل</string>
     <string name="color_white">أبيض</string>
     <string name="color_darkgrey">رمادي داكن</string>
-    <string name="pref_crash_reports_disabled">لن يتم إرسال تقارير الانهيار</string>
-    <string name="pref_crash_report_logs_disabled">لن يتم تضمين السجلات في تقارير الانهيار</string>
+    <string name="pref_crash_reports_disabled">لن يتم إرسال تقارير العطل</string>
+    <string name="pref_crash_report_logs_disabled">لن يتم تضمين السجلات في تقارير العطل</string>
     <string name="action_login">تسجيل الدخول</string>
     <string name="color_black">أسود</string>
     <string name="color_green">أخضر</string>
@@ -413,8 +413,8 @@
     <string name="color_cyan">سماوي</string>
     <string name="action_use_quickconnect">استخدام Quick Connect</string>
     <string name="login_quickconnect_step_3">3. أدخل الرمز التالي:</string>
-    <string name="pref_telemetry_category">الإبلاغ عن الانهيارات</string>
-    <string name="pref_telemetry_description">إرسال تقارير الانهيار، وتضمين السجلات</string>
+    <string name="pref_telemetry_category">الإبلاغ عن الأعطال</string>
+    <string name="pref_telemetry_description">إرسال تقارير العطل، وتضمين السجلات</string>
     <string name="state_disabled">معطّل</string>
     <string name="lbl_additional_parts">أجزاء إضافية</string>
     <string name="pref_audio_night_mode">وضع الصوت الليلي (تجريبي)</string>
@@ -436,11 +436,11 @@
     <string name="live_tv_preferences">خيارات التلفاز المباشر</string>
     <string name="app_notification_uimode_invalid">تم تحسين هذا التطبيق لأجهزة التلفاز. نوصي باستخدام تطبيق الأجهزة المحمولة الخاص بنا على الأجهزة الأخرى.</string>
     <string name="server_unsupported_notification">يستخدم هذا الخادم إصدار Jellyfin %1$s وهو غير مدعوم. يرجى التحديث إلى Jellyfin %2$s أو أحدث لمواصلة استخدام التطبيق.</string>
-    <string name="pref_crash_reports">إرسال تقارير الانهيار إلى الخادم</string>
-    <string name="pref_crash_reports_enabled">سيتم إرسال تقارير الانهيار إلى آخر خادم استخدمته</string>
+    <string name="pref_crash_reports">إرسال تقارير العطل إلى الخادم</string>
+    <string name="pref_crash_reports_enabled">سيتم إرسال تقارير العطل إلى آخر خادم استخدمته</string>
     <string name="pref_crash_report_logs">تضمين السجلات</string>
-    <string name="pref_crash_report_logs_enabled">سيتم تضمين السجلات في تقارير الانهيار</string>
-    <string name="crash_report_toast">عفوًا! حدث خطأ ما، تم إرسال تقرير بالانهيار إلى خادم Jellyfin الخاص بك.</string>
+    <string name="pref_crash_report_logs_enabled">سيتم تضمين السجلات في تقارير العطل</string>
+    <string name="crash_report_toast">عفوًا! حدث خطأ ما، تم إرسال تقرير بالعطل إلى خادم Jellyfin الخاص بك.</string>
     <string name="server_setup_incomplete">لم يكتمل إعداد هذا الخادم. افتح Jellyfin في متصفح الويب لإنهاء الإعداد قبل تسجيل الدخول.</string>
     <string name="app_notification_beta">تم تحديث التطبيق إلى %1$s\nشكرًا لك على المشاركة في برنامج Jellyfin التجريبي.</string>
     <string name="input_password">كلمة المرور</string>
@@ -678,7 +678,7 @@
     <string name="preference_codecs">ترميزات الوسائط</string>
     <string name="preference_codecs_summary">تجاوز إمكانيات الترميز التي يبلغ عنها الجهاز</string>
     <string name="pref_burn_subtitles_when_transcoding_description">قم دائمًا بحرق الترجمات في الفيديو أثناء تحويل الترميز. هذا يمكن أن يحل مشاكل مزامنة الترجمة ولكنه يعطل تخصيص الترجمة.</string>
-    <string name="pref_burn_subtitles_when_transcoding">حرق الترجمات عند تحويل الترميز</string>
+    <string name="pref_burn_subtitles_when_transcoding">دمج الترجمات عند تحويل الترميز</string>
     <string name="playback_buffer_length">حجم مخزن التشغيل المؤقت</string>
     <string name="playback_buffer_auto">تلقائي</string>
     <string name="playback_buffer_large">كبير</string>
