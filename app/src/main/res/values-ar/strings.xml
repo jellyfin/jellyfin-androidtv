@@ -677,7 +677,7 @@
     <string name="codec_level_warning">قد يؤدي التغيير من التلقائي إلى حدوث مشكلات في التشغيل إذا كان جهازك لا يدعم المستوى المحدد فعليًا.</string>
     <string name="preference_codecs">ترميزات الوسائط</string>
     <string name="preference_codecs_summary">تجاوز إمكانيات الترميز التي يبلغ عنها الجهاز</string>
-    <string name="pref_burn_subtitles_when_transcoding_description">قم دائمًا بحرق الترجمات في الفيديو أثناء تحويل الترميز. هذا يمكن أن يحل مشاكل مزامنة الترجمة ولكنه يعطل تخصيص الترجمة.</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">قم دائمًا بدمج الترجمات في الفيديو أثناء الترميز. يمكن أن يحل مشاكل المزامنة ولكنه يعطل تخصيص الترجمة.</string>
     <string name="pref_burn_subtitles_when_transcoding">دمج الترجمات عند تحويل الترميز</string>
     <string name="playback_buffer_length">حجم مخزن التشغيل المؤقت</string>
     <string name="playback_buffer_auto">تلقائي</string>
