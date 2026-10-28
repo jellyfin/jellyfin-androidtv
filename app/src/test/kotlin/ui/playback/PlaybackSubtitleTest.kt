@@ -187,4 +187,21 @@ class PlaybackSubtitleTest : FunSpec({
 		method(playback)
 		playback.assertSubtitle(sndFull)
 	}
+
+	withTests(transitions.mapKeys { (template, _) ->
+		template.format("unavailable selected language")
+	}) { method ->
+		val fstOrigin = subtitle(language = "jpn", isDefault = true)
+		val fstTranslated = subtitle(language = "eng")
+		val sndOrigin = fstOrigin.copy()
+		val sndTranslated = fstTranslated.copy(language = "rus")
+
+		playback.play(
+			media(video(), audio(), fstOrigin, fstTranslated),
+			media(video(), audio(), sndOrigin, sndTranslated)
+		)
+		playback.selectSubtitle(fstTranslated)
+		method(playback)
+		playback.assertSubtitle(sndOrigin)
+	}
 })

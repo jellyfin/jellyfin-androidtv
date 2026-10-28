@@ -40,6 +40,16 @@ class PlaybackAudioTest : FunSpec({
 		playback.assertAudio(comment)
 	}
 
+	test("Fallback to existing audio when the selected index is lost") {
+		val selected = audio()
+		val fallback = audio()
+
+		playback.play(media(video(), audio(), selected), media(video(), fallback, subtitle()))
+		playback.selectAudio(selected)
+		playback.skip()
+		playback.assertAudio(fallback)
+	}
+
 	withTests(transitions.mapKeys { (template, _) ->
 		template.format("non-default audio in a different language")
 	}) { method ->
@@ -108,5 +118,19 @@ class PlaybackAudioTest : FunSpec({
 		playback.selectAudio(fstComment)
 		method(playback)
 		playback.assertAudio(sndComment)
+	}
+
+	withTests(transitions.mapKeys { (template, _) ->
+		template.format("unavailable selected language")
+	}) { method ->
+		val fstOrigin = audio(language = "jpn", isDefault = true)
+		val fstDubbed = audio(language = "eng")
+		val sndOrigin = fstOrigin.copy()
+		val sndDubbed = fstDubbed.copy(language = "rus")
+
+		playback.play(media(video(), fstOrigin, fstDubbed), media(video(), sndOrigin, sndDubbed))
+		playback.selectAudio(fstDubbed)
+		method(playback)
+		playback.assertAudio(sndOrigin)
 	}
 })
