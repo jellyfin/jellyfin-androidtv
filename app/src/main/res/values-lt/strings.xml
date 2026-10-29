@@ -92,7 +92,7 @@
     <string name="lbl_trailers">Anonsai</string>
     <string name="lbl_cancel_series">Atšaukti serialą</string>
     <string name="lbl_record_series">Įrašyti serialą</string>
-    <string name="lbl_pause">Pauzė</string>
+    <string name="lbl_pause">Pristabdyti</string>
     <string name="msg_not_implemented">" neįgyvendinta"</string>
     <string name="state_disabled">Išjungta</string>
     <string name="lbl_valid_server_address">Prašome įvesti serverio adresą (IP arba domeną/įrenginio pavadinimą)</string>
