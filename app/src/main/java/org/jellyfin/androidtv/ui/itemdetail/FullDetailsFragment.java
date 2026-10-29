@@ -1043,7 +1043,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                         if (navigationRepository.getValue().getCanGoBack()) {
                                             navigationRepository.getValue().goBack();
                                         } else {
-                                            navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
+                                            navigationRepository.getValue().reset(Destinations.INSTANCE.getHome(), true);
                                         }
                                         return null;
                                     });
