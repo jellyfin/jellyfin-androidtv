@@ -30,6 +30,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
@@ -87,6 +88,28 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 						isStaticHeight
 					)
 				}
+			)
+
+			if (response.items.isEmpty()) removeRow()
+		}.fold(
+			onSuccess = { notifyRetrieveFinished() },
+			onFailure = { error -> notifyRetrieveFinished(error as? Exception) }
+		)
+	}
+}
+
+fun ItemRowAdapter.retrieveEpisodes(api: ApiClient, query: GetEpisodesRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		runCatching {
+			val response = withContext(Dispatchers.IO) {
+				api.tvShowsApi.getEpisodes(query).content
+			}
+
+			setItems(
+				items = response.items,
+				transform = { item, _ ->
+					BaseItemDtoBaseRowItem(item, preferParentThumb, isStaticHeight)
+				},
 			)
 
 			if (response.items.isEmpty()) removeRow()
