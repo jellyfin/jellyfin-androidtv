@@ -697,7 +697,9 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             buildAdapter();
         }
 
-        mAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
+        SortOption sortOption = getSortOption(libraryPreferences.get(LibraryPreferences.Companion.getSortBy()));
+        SortOrder sortOrder = libraryPreferences.get(LibraryPreferences.Companion.getSortOrder());
+        mAdapter.setSortBy(new SortOption(sortOption.name, sortOption.value, sortOrder));
         mAdapter.Retrieve();
     }
 
@@ -712,7 +714,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
             libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
             libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
-            libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
+            libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), mAdapter.getSortOrder());
             return libraryPreferences.commit(continuation);
         });
     }
@@ -731,16 +733,24 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 //Create sort menu
                 PopupMenu sortMenu = new PopupMenu(getActivity(), binding.toolBar, Gravity.END);
                 for (Map.Entry<Integer, SortOption> entry : sortOptions.entrySet()) {
-                    MenuItem item = sortMenu.getMenu().add(0, entry.getKey(), entry.getKey(), entry.getValue().name);
-                    item.setChecked(entry.getValue().value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
+                    String name = entry.getValue().name;
+                    // Show the current sort direction next to the active option
+                    if (entry.getValue().value.equals(mAdapter.getSortBy())) {
+                        name += mAdapter.getSortOrder() == SortOrder.ASCENDING ? " ↑" : " ↓";
+                    }
+                    sortMenu.getMenu().add(0, entry.getKey(), entry.getKey(), name);
                 }
-                sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        mAdapter.setSortBy(Objects.requireNonNull(sortOptions.get(item.getItemId())));
+                        SortOption option = Objects.requireNonNull(sortOptions.get(item.getItemId()));
+                        if (option.value.equals(mAdapter.getSortBy())) {
+                            // Selecting the active option again reverses the sort direction
+                            SortOrder reversed = mAdapter.getSortOrder() == SortOrder.ASCENDING ? SortOrder.DESCENDING : SortOrder.ASCENDING;
+                            option = new SortOption(option.name, option.value, reversed);
+                        }
+                        mAdapter.setSortBy(option);
                         mAdapter.Retrieve();
-                        item.setChecked(true);
                         updateDisplayPrefs();
                         return true;
                     }
