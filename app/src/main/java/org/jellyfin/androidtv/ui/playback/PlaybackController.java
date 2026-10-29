@@ -317,17 +317,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             Timber.i("qualifying display mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
 
-            // if scaling on-device, keep native resolution modes at diff 0 (best score)
-            // for other resolutions when scaling on device, or if scaling on tv, score based on distance from media resolution
-
-            // use -1 as the default so, with SCALE_ON_DEVICE, a mode at native resolution will rank higher than
-            // a mode with equal refresh rate and the same resolution as the media
-            int resolutionDifference = -1;
-            if ((refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_DEVICE &&
-                    !(mode.getPhysicalWidth() == defaultMode.getPhysicalWidth() && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight())) ||
-
-                    refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_TV) {
-
+            // When SCALE_ON_DEVICE is selected, prioritize native display resolution (e.g. 4K)
+            // so the Shield never downswitches to 1080p and always activates its hardware AI Upscaler
+            int resolutionDifference = 0;
+            if (refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_DEVICE) {
+                if (mode.getPhysicalWidth() != defaultMode.getPhysicalWidth() || mode.getPhysicalHeight() != defaultMode.getPhysicalHeight()) {
+                    resolutionDifference = 50000;
+                }
+            } else if (refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_TV) {
                 resolutionDifference = Math.abs(mode.getPhysicalWidth() - videoStream.getWidth());
             }
             int refreshRateDifference = rate - sourceRate;
