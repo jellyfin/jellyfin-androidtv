@@ -19,6 +19,8 @@ object Codec {
 		const val MPG = "mpg"
 		const val OGM = "ogm"
 		const val OGV = "ogv"
+		const val M2TS = "m2ts"
+		const val MTS = "mts"
 		const val TS = "ts"
 		const val VOB = "vob"
 		const val WEBM = "webm"
