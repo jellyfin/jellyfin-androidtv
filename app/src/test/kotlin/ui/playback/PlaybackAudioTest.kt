@@ -144,4 +144,38 @@ class PlaybackAudioTest : FunSpec({
 		method(playback)
 		playback.assertAudio(sndOrigin)
 	}
+
+	withTests(transitions.mapKeys { (template, _) ->
+		template.format("short to long title changes and reordering of the same language")
+	}) { method ->
+		val dubbed = audio(language = "eng", title = "Official", isDefault = true)
+		val voice = audio(language = "eng", title = "Studio")
+		val fandub = audio(language = "eng", title = "Fandub")
+		val actor = audio(language = "eng", title = "Fandub (John Doe)")
+
+		playback.play(
+			media(video(), dubbed, voice, fandub).copy(seriesId = seriesId),
+			media(video(), dubbed.copy(), actor, voice.copy()).copy(seriesId = seriesId),
+		)
+		playback.selectAudio(fandub)
+		method(playback)
+		playback.assertAudio(actor)
+	}
+
+	withTests(transitions.mapKeys { (template, _) ->
+		template.format("long to short title changes and reordering of the same language")
+	}) { method ->
+		val dubbed = audio(language = "eng", title = "Official", isDefault = true)
+		val voice = audio(language = "eng", title = "Studio")
+		val fandub = audio(language = "eng", title = "Fandub")
+		val actor = audio(language = "eng", title = "Fandub (John Doe)")
+
+		playback.play(
+			media(video(), dubbed, voice, actor).copy(seriesId = seriesId),
+			media(video(), dubbed.copy(), fandub, voice.copy()).copy(seriesId = seriesId),
+		)
+		playback.selectAudio(actor)
+		method(playback)
+		playback.assertAudio(fandub)
+	}
 })

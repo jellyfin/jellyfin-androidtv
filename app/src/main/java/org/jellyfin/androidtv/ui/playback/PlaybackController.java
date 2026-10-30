@@ -59,6 +59,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 import kotlin.Lazy;
 import timber.log.Timber;
 
@@ -649,7 +650,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         Predicate<String> hasValue = value -> value != null && !value.isEmpty();
         Predicate<MediaStream> matchesTitle = stream -> hasValue.test(title) && title.equals(stream.getTitle());
         Predicate<MediaStream> matchesIndex = stream -> stream.getIndex() == previous.getIndex();
+
+        NormalizedLevenshtein algorithm = new NormalizedLevenshtein();
+        Comparator<MediaStream> titleSimilarity = Comparator.comparingDouble(
+                stream -> hasValue.test(title) && hasValue.test(stream.getTitle())
+                        ? algorithm.similarity(title, stream.getTitle()) : 0);
         Comparator<MediaStream> priorityOrder = Comparator.comparing(matchesTitle::test)
+                .thenComparing(stream -> hasValue.test(title) && !hasValue.test(stream.getTitle())
+                        && matchesIndex.test(stream))
+                .thenComparing(titleSimilarity)
                 .thenComparing(matchesIndex::test);
 
         return Optional.ofNullable(getCurrentMediaSource())
@@ -658,7 +667,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 .orElseGet(Stream::empty)
                 .filter(stream -> stream.getType() == previous.getType())
                 .filter(stream -> !hasValue.test(language) || language.equals(stream.getLanguage()))
-                .filter(stream -> hasValue.test(language) || matchesTitle.test(stream) || matchesIndex.test(stream))
+                .filter(stream -> hasValue.test(language) || hasValue.test(title) || matchesIndex.test(stream))
                 .max(priorityOrder)
                 .map(MediaStream::getIndex)
                 .orElse(null);

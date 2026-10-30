@@ -164,6 +164,9 @@ dependencies {
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
 	implementation(libs.libass.media3)
 
+	// String similarity
+	implementation(libs.java.string.similarity)
+
 	// Markdown
 	implementation(libs.bundles.markwon)
 

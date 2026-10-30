@@ -206,4 +206,38 @@ class PlaybackSubtitleTest : FunSpec({
 		method(playback)
 		playback.assertSubtitle(sndOrigin)
 	}
+
+	withTests(transitions.mapKeys { (template, _) ->
+		template.format("short to long title changes and reordering of the same language")
+	}) { method ->
+		val official = subtitle(language = "eng", title = "Official", isDefault = true)
+		val comments = subtitle(language = "eng", title = "Comments")
+		val fansub = subtitle(language = "eng", title = "Fansub")
+		val person = subtitle(language = "eng", title = "John Doe [Fansub]")
+
+		playback.play(
+			media(video(), audio(), official, comments, fansub).copy(seriesId = seriesId),
+			media(video(), audio(), official.copy(), person, comments.copy()).copy(seriesId = seriesId),
+		)
+		playback.selectSubtitle(fansub)
+		method(playback)
+		playback.assertSubtitle(person)
+	}
+
+	withTests(transitions.mapKeys { (template, _) ->
+		template.format("long to short title changes and reordering of the same language")
+	}) { method ->
+		val official = subtitle(language = "eng", title = "Official", isDefault = true)
+		val comments = subtitle(language = "eng", title = "Comments")
+		val fansub = subtitle(language = "eng", title = "Fansub")
+		val person = subtitle(language = "eng", title = "John Doe [Fansub]")
+
+		playback.play(
+			media(video(), audio(), official, comments, person).copy(seriesId = seriesId),
+			media(video(), audio(), official.copy(), fansub, comments.copy()).copy(seriesId = seriesId),
+		)
+		playback.selectSubtitle(person)
+		method(playback)
+		playback.assertSubtitle(fansub)
+	}
 })
