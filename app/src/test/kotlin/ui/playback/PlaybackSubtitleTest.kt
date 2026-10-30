@@ -2,9 +2,11 @@ package org.jellyfin.androidtv.ui.playback
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withTests
+import java.util.UUID
 
 class PlaybackSubtitleTest : FunSpec({
 	lateinit var playback: PlaybackFixture
+	val seriesId = UUID.randomUUID()
 
 	val transitions = mapOf<String, suspend (PlaybackFixture) -> Unit>(
 		"Force skip to the next episode with %s" to PlaybackFixture::skip,
@@ -83,8 +85,8 @@ class PlaybackSubtitleTest : FunSpec({
 		template.format("disabled default subtitles")
 	}) { method ->
 		playback.play(
-			media(video(), audio(), subtitle(isDefault = true)),
-			media(video(), audio(), subtitle(isDefault = true)),
+			media(video(), audio(), subtitle(isDefault = true)).copy(seriesId = seriesId),
+			media(video(), audio(), subtitle(isDefault = true)).copy(seriesId = seriesId),
 		)
 		playback.disableSubtitles()
 		method(playback)
@@ -95,8 +97,8 @@ class PlaybackSubtitleTest : FunSpec({
 		template.format("disabled external default subtitles")
 	}) { method ->
 		playback.play(
-			media(video(), audio(), subtitle(isDefault = true, isExternal = true)),
-			media(video(), audio(), subtitle(isDefault = true, isExternal = true)),
+			media(video(), audio(), subtitle(isDefault = true, isExternal = true)).copy(seriesId = seriesId),
+			media(video(), audio(), subtitle(isDefault = true, isExternal = true)).copy(seriesId = seriesId),
 		)
 		playback.disableSubtitles()
 		method(playback)
@@ -113,7 +115,7 @@ class PlaybackSubtitleTest : FunSpec({
 
 		playback.play(
 			media(video(), audio(), fstDefault, fstOrigin),
-			media(video(), audio(), sndDefault, sndOrigin)
+			media(video(), audio(), sndDefault, sndOrigin),
 		)
 		playback.selectSubtitle(fstOrigin)
 		method(playback)
@@ -129,8 +131,8 @@ class PlaybackSubtitleTest : FunSpec({
 		val sndFull = fstFull.copy()
 
 		playback.play(
-			media(video(), audio(), fstSong, fstFull),
-			media(video(), audio(), sndSong, sndFull)
+			media(video(), audio(), fstSong, fstFull).copy(seriesId = seriesId),
+			media(video(), audio(), sndSong, sndFull).copy(seriesId = seriesId),
 		)
 		playback.selectSubtitle(fstFull)
 		method(playback)
@@ -147,7 +149,7 @@ class PlaybackSubtitleTest : FunSpec({
 
 		playback.play(
 			media(video(), audio(), fstDefault, fstOrigin),
-			media(video(), audio(), sndOrigin, sndDefault)
+			media(video(), audio(), sndOrigin, sndDefault),
 		)
 		playback.selectSubtitle(fstDefault)
 		method(playback)
@@ -163,8 +165,8 @@ class PlaybackSubtitleTest : FunSpec({
 		val sndFull = fstFull.copy()
 
 		playback.play(
-			media(video(), audio(), fstSong, fstFull),
-			media(video(), audio(), sndFull, sndSong)
+			media(video(), audio(), fstSong, fstFull).copy(seriesId = seriesId),
+			media(video(), audio(), sndFull, sndSong).copy(seriesId = seriesId),
 		)
 		playback.selectSubtitle(fstSong)
 		method(playback)
@@ -180,8 +182,8 @@ class PlaybackSubtitleTest : FunSpec({
 		val sndFull = subtitle(language = "jpn", title = "Fall")
 
 		playback.play(
-			media(video(), audio(), fstSong, fstFull),
-			media(video(), audio(), sndSong, sndFull)
+			media(video(), audio(), fstSong, fstFull).copy(seriesId = seriesId),
+			media(video(), audio(), sndSong, sndFull).copy(seriesId = seriesId),
 		)
 		playback.selectSubtitle(fstFull)
 		method(playback)
@@ -198,7 +200,7 @@ class PlaybackSubtitleTest : FunSpec({
 
 		playback.play(
 			media(video(), audio(), fstOrigin, fstTranslated),
-			media(video(), audio(), sndOrigin, sndTranslated)
+			media(video(), audio(), sndOrigin, sndTranslated),
 		)
 		playback.selectSubtitle(fstTranslated)
 		method(playback)

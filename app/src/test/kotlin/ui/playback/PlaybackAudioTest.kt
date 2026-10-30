@@ -2,9 +2,11 @@ package org.jellyfin.androidtv.ui.playback
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withTests
+import java.util.UUID
 
 class PlaybackAudioTest : FunSpec({
 	lateinit var playback: PlaybackFixture
+	val seriesId = UUID.randomUUID()
 
 	val transitions = mapOf<String, suspend (PlaybackFixture) -> Unit>(
 		"Force skip to the next episode with %s" to PlaybackFixture::skip,
@@ -72,7 +74,10 @@ class PlaybackAudioTest : FunSpec({
 		val sndVoice = fstVoice.copy()
 		val sndComment = fstComment.copy()
 
-		playback.play(media(video(), fstVoice, fstComment), media(video(), sndVoice, sndComment))
+		playback.play(
+			media(video(), fstVoice, fstComment).copy(seriesId = seriesId),
+			media(video(), sndVoice, sndComment).copy(seriesId = seriesId),
+		)
 		playback.selectAudio(fstComment)
 		method(playback)
 		playback.assertAudio(sndComment)
@@ -100,7 +105,10 @@ class PlaybackAudioTest : FunSpec({
 		val sndVoice = fstVoice.copy()
 		val sndComment = fstComment.copy()
 
-		playback.play(media(video(), fstVoice, fstComment), media(video(), sndComment, sndVoice))
+		playback.play(
+			media(video(), fstVoice, fstComment).copy(seriesId = seriesId),
+			media(video(), sndComment, sndVoice).copy(seriesId = seriesId),
+		)
 		playback.selectAudio(fstVoice)
 		method(playback)
 		playback.assertAudio(sndVoice)
@@ -114,7 +122,10 @@ class PlaybackAudioTest : FunSpec({
 		val sndVoice = fstVoice.copy()
 		val sndComment = audio(language = "jpn", title = "Coment")
 
-		playback.play(media(video(), fstVoice, fstComment), media(video(), sndVoice, sndComment))
+		playback.play(
+			media(video(), fstVoice, fstComment).copy(seriesId = seriesId),
+			media(video(), sndVoice, sndComment).copy(seriesId = seriesId),
+		)
 		playback.selectAudio(fstComment)
 		method(playback)
 		playback.assertAudio(sndComment)

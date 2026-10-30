@@ -50,10 +50,13 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import kotlin.Lazy;
@@ -611,58 +614,101 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     @Nullable
-    private Integer restoreAudioStreamIndex() {
-        Integer index = mCurrentOptions != null ? mCurrentOptions.getAudioStreamIndex() : null;
-        String language = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
+    private UUID getWorkId() {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        return item != null
+                ? item.getSeriesId() != null
+                        ? item.getSeriesId()
+                        : item.getId()
+                : null;
+    }
+
+    void setLastPlayedStreams(int audioIndex, int subtitleIndex) {
+        List<MediaStream> streams = Optional.ofNullable(getCurrentMediaSource())
+                .map(MediaSourceInfo::getMediaStreams)
+                .orElseGet(Collections::emptyList);
+        MediaStream audio = streams.stream()
+                .filter(stream -> stream.getType() == MediaStreamType.AUDIO && stream.getIndex() == audioIndex)
+                .findFirst().orElse(null);
+        MediaStream subtitle = streams.stream()
+                .filter(stream -> stream.getType() == MediaStreamType.SUBTITLE && stream.getIndex() == subtitleIndex)
+                .findFirst().orElse(null);
+        UUID workId = getWorkId();
+
+        if (workId != null && !streams.isEmpty()
+                && (audioIndex < 0 || audio != null)
+                && (subtitleIndex < 0 || subtitle != null)) {
+            videoQueueManager.getValue().setLastPlayedStreams(workId, audio, subtitle);
+        }
+    }
+
+    @Nullable
+    private Integer findMatchingStreamIndex(MediaStream previous) {
+        String language = previous.getLanguage();
+        String title = previous.getTitle();
+        Predicate<String> hasValue = value -> value != null && !value.isEmpty();
+        Predicate<MediaStream> matchesTitle = stream -> hasValue.test(title) && title.equals(stream.getTitle());
+        Predicate<MediaStream> matchesIndex = stream -> stream.getIndex() == previous.getIndex();
+        Comparator<MediaStream> priorityOrder = Comparator.comparing(matchesTitle::test)
+                .thenComparing(matchesIndex::test);
 
         return Optional.ofNullable(getCurrentMediaSource())
                 .map(MediaSourceInfo::getMediaStreams)
                 .map(Collection::stream)
                 .orElseGet(Stream::empty)
-                .filter(stream -> stream.getType() == MediaStreamType.AUDIO)
-                .filter(stream -> language != null
-                        ? language.equals(stream.getLanguage())
-                        : Objects.equals(index, stream.getIndex()))
+                .filter(stream -> stream.getType() == previous.getType())
+                .filter(stream -> !hasValue.test(language) || language.equals(stream.getLanguage()))
+                .filter(stream -> hasValue.test(language) || matchesTitle.test(stream) || matchesIndex.test(stream))
+                .max(priorityOrder)
                 .map(MediaStream::getIndex)
-                .reduce((first, next) -> Objects.equals(index, next) ? next : first)
                 .orElse(null);
     }
 
     @Nullable
-    private Integer restoreSubtitleStreamIndex() {
-        Integer index = mCurrentOptions != null ? mCurrentOptions.getSubtitleStreamIndex() : null;
-        String language = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
-        if ("".equals(language)) return -1;
+    private Integer restoreAudioStreamIndex() {
+        VideoQueueManager queue = videoQueueManager.getValue();
+        MediaStream previous = queue.getLastPlayedAudioStream();
+        UUID workId = getWorkId();
 
-        return Optional.ofNullable(getCurrentMediaSource())
-                .map(MediaSourceInfo::getMediaStreams)
-                .map(Collection::stream)
-                .orElseGet(Stream::empty)
-                .filter(stream -> stream.getType() == MediaStreamType.SUBTITLE)
-                .filter(stream -> language != null
-                        ? language.equals(stream.getLanguage())
-                        : Objects.equals(index, stream.getIndex()))
-                .map(MediaStream::getIndex)
-                .reduce((first, next) -> Objects.equals(index, next) ? next : first)
-                .orElse(null);
+        return previous != null && workId != null
+                ? workId.equals(queue.getLastPlayedWorkId())
+                        ? findMatchingStreamIndex(previous)
+                        : findMatchingStreamIndex(JavaCompat.copyWithIndexAndTitle(previous, -1, null))
+                : null;
+    }
+
+    @Nullable
+    private Integer restoreSubtitleStreamIndex() {
+        VideoQueueManager queue = videoQueueManager.getValue();
+        MediaStream previous = queue.getLastPlayedSubtitleStream();
+        UUID workId = getWorkId();
+
+        if (previous == null && workId != null && workId.equals(queue.getLastPlayedWorkId())) {
+            return -1;
+        }
+
+        return previous != null && workId != null
+                ? workId.equals(queue.getLastPlayedWorkId())
+                        ? findMatchingStreamIndex(previous)
+                        : findMatchingStreamIndex(JavaCompat.copyWithIndexAndTitle(previous, -1, null))
+                : null;
     }
 
     private int selectAudioStreamIndex() {
         MediaSourceInfo source = mCurrentStreamInfo.getMediaSource();
-        Stream<Integer> fallback = Optional.ofNullable(source.getMediaStreams())
-                .map(Collection::stream)
-                .orElseGet(Stream::empty)
-                .filter(stream -> stream.getType() == MediaStreamType.AUDIO)
-                .sorted(Comparator.comparing(MediaStream::isDefault).reversed())
-                .map(MediaStream::getIndex);
-
-        return Stream.concat(Stream
+        return Stream
                 .of(mCurrentOptions.getAudioStreamIndex(),
                         restoreAudioStreamIndex(),
                         source.getDefaultAudioStreamIndex())
-                .filter(Objects::nonNull), fallback)
+                .filter(Objects::nonNull)
                 .findFirst()
-                .orElse(-1);
+                .orElseGet(() -> Optional.ofNullable(source.getMediaStreams())
+                        .map(Collection::stream)
+                        .orElseGet(Stream::empty)
+                        .filter(stream -> stream.getType() == MediaStreamType.AUDIO)
+                        .max(Comparator.comparing(MediaStream::isDefault))
+                        .map(MediaStream::getIndex)
+                        .orElse(-1));
     }
 
     private int selectSubtitleStreamIndex() {
@@ -699,6 +745,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         mCurrentOptions.setAudioStreamIndex(selectAudioStreamIndex());
         mCurrentOptions.setSubtitleStreamIndex(selectSubtitleStreamIndex());
+        setLastPlayedStreams(mCurrentOptions.getAudioStreamIndex(), mCurrentOptions.getSubtitleStreamIndex());
         Timber.i("default audio index set to %s remote default %s",
                 mCurrentOptions.getAudioStreamIndex(), response.getMediaSource().getDefaultAudioStreamIndex());
         Timber.i("default sub index set to %s remote default %s",
@@ -782,15 +829,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
-        String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
-
-        if (currentAudioIsoCode != null
-                && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
-            videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
-                    currentAudioIsoCode
-            );
-        }
+        setLastPlayedStreams(index, getSubtitleStreamIndex());
 
         int currAudioIndex = getAudioStreamIndex();
         Timber.i("trying to switch audio stream from %s to %s", currAudioIndex, index);
