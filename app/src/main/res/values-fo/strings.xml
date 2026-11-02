@@ -30,7 +30,7 @@
     <string name="lbl_cast_crew">Leikarar og manning</string>
     <string name="lbl_chapters">Kapitlar</string>
     <string name="lbl_trailers">Brellbitar</string>
-    <string name="lbl_series">Sendirøðir</string>
+    <string name="lbl_series">Røðir</string>
     <string name="lbl_favorite">Legg á yndislistan</string>
     <string name="lbl_runs">Spælitíð</string>
     <string name="runtime_hours_minutes">%1$dt %2$dm</string>
@@ -518,12 +518,12 @@
     <string name="msg_recording_now">Tekur upp nú</string>
     <string name="msg_will_record">Verður tikin upp</string>
     <string name="msg_set_to_record">Sendingin verður tikin upp</string>
-    <string name="lbl_record_series">Tak sendirøðina upp</string>
+    <string name="lbl_record_series">Tak røðina upp</string>
     <string name="lbl_record_any_channel">Tak upp á einhvørjari rás</string>
     <string name="lbl_live_tv_guide">Sjónvarpsskráir</string>
     <string name="lbl_stretch">Toygg</string>
     <string name="lbl_playback_speed">Spæliferð</string>
-    <string name="msg_record_entire_series">Tak alla sendirøðina upp?</string>
+    <string name="msg_record_entire_series">Tak alla røðina upp?</string>
     <string name="lbl_series_recordings">Røðupptøkur</string>
     <string name="add_user">Legg inn konto</string>
     <string name="no_user_warning">Eingin konta var funnin!\nLegg eina konto inn við at trýsta á \"Legg inn konto\" knøttin.</string>
@@ -588,7 +588,7 @@
     <string name="pref_subtitles_weight">Teksttjúkd</string>
     <string name="codec_level_manual">Brúkaraásett</string>
     <string name="lbl_sign_out_content">Innritan verður kravd við næstu koyring</string>
-    <string name="lbl_cancel_series">Frásig sendirøð</string>
+    <string name="lbl_cancel_series">Avlýs røðupptøku</string>
     <string name="msg_playback_not_allowed">Spæling er ikki loyvd í løtuni</string>
     <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av hesum miðlinum í løtuni</string>
     <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla hendan miðilin</string>
@@ -616,7 +616,7 @@
     <string name="skip_forward_length">Tíðarbil at spola fram við</string>
     <string name="home_section_library_small">Mínir miðlar (lítil)</string>
     <string name="app_notification_update_soon">Dagfør ambætaran frá útgávu %1$s til í minsta lagi %2$s fyri at kunna at halda á fram at brúka appina eftir næstu dagføring.</string>
-    <string name="msg_cancel_entire_series">Vilt tú avlýsa ALLAR upptøkur av HESI SENDIRØÐINI?</string>
+    <string name="msg_cancel_entire_series">Vilt tú avlýsa ALLAR upptøkur av HESI RØÐINI?</string>
     <string name="live_tv_preferences">Stillingar fyri beinleiðis sjónvarp</string>
     <string name="lbl_on_now">Á sjónvarpsskráum nú</string>
     <string name="lbl_begin_padding">Byrjanarífylling</string>
