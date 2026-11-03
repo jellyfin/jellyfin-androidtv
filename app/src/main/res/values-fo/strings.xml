@@ -562,8 +562,8 @@
     <string name="enable_smart_view">Virkja snilt sýni</string>
     <string name="enable_smart_view_description">Snilt sýni vísir miðlar á ein meira viðkomandi hátt heldur enn í eini talvu</string>
     <string name="licenses_link">Loyvir (Licensir)</string>
-    <string name="licenses_link_description">Sí loyvini (licensirnar) fyri kotusøvnini ið eru nýtt í Jellyfin-appini</string>
-    <string name="license_license">Loyvi (Licensur)</string>
+    <string name="licenses_link_description">Sí loyvini fyri kotusøvnini ið eru nýtt í Jellyfin-appini</string>
+    <string name="license_license">Loyvi</string>
     <string name="license_description">Lýsing</string>
     <string name="license_repository">Verkætlanarstaður</string>
     <string name="license_artifact">Lutur</string>
