@@ -248,6 +248,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var subtitlesOffsetPosition = floatPreference("subtitles_offset_position", 0.08f)
 
 		/**
+		 * Move subtitles out of the picture into the letterbox bars
+		 */
+		var subtitlesInLetterbox = booleanPreference("subtitles_in_letterbox", false)
+
+		/**
 		 * Show screensaver in app
 		 */
 		var screensaverInAppEnabled = booleanPreference("screensaver_inapp_enabled", true)

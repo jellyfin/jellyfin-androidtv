@@ -82,6 +82,7 @@ public class VideoManager {
     private PlaybackOverlayFragmentHelper _helper;
     public ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private LetterboxSubtitleOverlay letterboxSubtitles;
     private Handler mHandler = new Handler();
 
     private long mMetaDuration = -1;
@@ -136,6 +137,15 @@ public class VideoManager {
         if (assHandler != null) {
             assHandler.init(mExoPlayer);
             mExoPlayerView.getSubtitleView().addView(new AssSubtitleView(mActivity, assHandler));
+        }
+
+        if (userPreferences.get(UserPreferences.Companion.getSubtitlesInLetterbox())) {
+            letterboxSubtitles = new LetterboxSubtitleOverlay(activity, mExoPlayerView, subtitleStyle,
+                    userPreferences.get(UserPreferences.Companion.getSubtitlesTextSize()),
+                    userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
+            FrameLayout parent = (FrameLayout) mExoPlayerView.getParent();
+            parent.addView(letterboxSubtitles, parent.indexOfChild(mExoPlayerView) + 1,
+                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         }
 
         mExoPlayer.addListener(new Player.Listener() {
@@ -397,10 +407,14 @@ public class VideoManager {
         try {
             // Add external subtitles
             List<MediaItem.SubtitleConfiguration> subtitleConfigurations = new ArrayList<>();
+            List<String> assSourceIds = new ArrayList<>();
             for (MediaStream mediaStream : streamInfo.getMediaSource().getMediaStreams()) {
                 if (mediaStream.getType() != MediaStreamType.SUBTITLE) continue;
 
                 if (mediaStream.getDeliveryMethod() == SubtitleDeliveryMethod.EXTERNAL) {
+                    if ("ass".equalsIgnoreCase(mediaStream.getCodec()) || "ssa".equalsIgnoreCase(mediaStream.getCodec())) {
+                        assSourceIds.add("JF_EXTERNAL:" + mediaStream.getIndex());
+                    }
                     Uri subtitleUri = Uri.parse(api.createUrl(mediaStream.getDeliveryUrl(), Collections.emptyMap(), Collections.emptyMap(), true));
                     MediaItem.SubtitleConfiguration subtitleConfiguration = new MediaItem.SubtitleConfiguration.Builder(subtitleUri)
                             .setId("JF_EXTERNAL:" + String.valueOf(mediaStream.getIndex()))
@@ -413,6 +427,8 @@ public class VideoManager {
                     subtitleConfigurations.add(subtitleConfiguration);
                 }
             }
+
+            if (letterboxSubtitles != null) letterboxSubtitles.setAssSourceIds(assSourceIds);
 
             MediaItem mediaItem = new MediaItem.Builder()
                     .setUri(Uri.parse(path))
@@ -608,6 +624,10 @@ public class VideoManager {
 
     private void releasePlayer() {
         _helper.setScreensaverLock(false);
+        if (letterboxSubtitles != null) {
+            letterboxSubtitles.release();
+            letterboxSubtitles = null;
+        }
         if (mExoPlayer != null) {
             mExoPlayerView.setPlayer(null);
             mExoPlayer.release();

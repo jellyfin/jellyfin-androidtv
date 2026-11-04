@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
+import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.form.ColorSwatch
 import org.jellyfin.androidtv.ui.base.form.RangeControl
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -46,6 +47,7 @@ fun SettingsSubtitlesScreen() {
 	var subtitleTextStrokeColor by rememberPreference(userPreferences, UserPreferences.subtitleTextStrokeColor)
 	var subtitlesTextSize by rememberPreference(userPreferences, UserPreferences.subtitlesTextSize)
 	var subtitlesOffsetPosition by rememberPreference(userPreferences, UserPreferences.subtitlesOffsetPosition)
+	var subtitlesInLetterbox by rememberPreference(userPreferences, UserPreferences.subtitlesInLetterbox)
 
 	SettingsColumn {
 		item {
@@ -206,6 +208,16 @@ fun SettingsSubtitlesScreen() {
 					}
 				}
 			}
+		}
+
+		item {
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_subtitles_in_letterbox)) },
+				trailingContent = { Checkbox(checked = subtitlesInLetterbox) },
+				captionContent = { Text(stringResource(R.string.pref_subtitles_in_letterbox_summary)) },
+				onClick = { subtitlesInLetterbox = !subtitlesInLetterbox },
+				modifier = Modifier.focusKey("subtitles_in_letterbox")
+			)
 		}
 	}
 }
