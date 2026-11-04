@@ -46,8 +46,6 @@ import java.util.Set;
 @OptIn(markerClass = UnstableApi.class)
 public final class LetterboxSubtitleOverlay extends FrameLayout {
     private static final float INNER_TEXT_PADDING = 0.125f;
-    /** Space kept between a moved caption and the screen edge or picture. */
-    private static final int MARGIN_DP = 8;
     /** A caption taller than its bar may shrink to this share of its size to fit inside the bar. */
     private static final float MINIMUM_FIT_SCALE = 0.6f;
     // Media3 SsaParser places alignment-only lines at these fractions; overridden placement (\pos) differs.
@@ -114,7 +112,7 @@ public final class LetterboxSubtitleOverlay extends FrameLayout {
         this.videoSurface = playerView.getVideoSurfaceView();
         this.textSizeDp = textSizeDp;
         this.offsetFraction = offsetFraction;
-        margin = Math.round(MARGIN_DP * getResources().getDisplayMetrics().density);
+        margin = Math.round(SubtitleViewSafety.MINIMUM_BOTTOM_MARGIN_DP * getResources().getDisplayMetrics().density);
         textPaint.setTypeface(style.typeface);
 
         TypedArray attributes = context.obtainStyledAttributes(null,
@@ -266,7 +264,8 @@ public final class LetterboxSubtitleOverlay extends FrameLayout {
             return;
         }
 
-        pictureSubtitles.setBottomPaddingFraction(offsetFraction);
+        pictureSubtitles.setBottomPaddingFraction(SubtitleViewSafety.bottomPaddingFraction(cueArea.height(),
+                getResources().getDisplayMetrics().density, offsetFraction));
         pictureSubtitles.measure(MeasureSpec.makeMeasureSpec(cueArea.width(), MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(cueArea.height(), MeasureSpec.EXACTLY));
         pictureSubtitles.layout(cueArea.left, cueArea.top, cueArea.right, cueArea.bottom);
