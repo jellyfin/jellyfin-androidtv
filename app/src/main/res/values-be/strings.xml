@@ -341,7 +341,7 @@
     <string name="lbl_playback_control_ends">Заканчваецца ў %1$s</string>
     <string name="lbl_sign_in">Увайдзіце</string>
     <string name="pref_developer_link">Налады распрацоўшчыка</string>
-    <string name="image_size_xlarge">Вельмі вялікі</string>
+    <string name="image_size_xlarge">Надвялікі</string>
     <string name="discovered_servers_empty">У лакальнай сетцы не знойдзена ніводнага сервера.</string>
     <string name="no_network_permissions">Jellyfin патрабуе сеткавых дазволаў для працы</string>
     <string name="searchable_settings_description">Мультымедыя</string>
@@ -549,7 +549,7 @@
     <string name="person_birthday_and_age">Нарадзіўся %1$s (%2$d)</string>
     <string name="dolby_vision">Dolby Vision</string>
     <string name="dolby_atmos">Dolby Atmos</string>
-    <string name="dts_hd">DTS:HD</string>
+    <string name="dts_hd">DTS-HD</string>
     <string name="dca">DTS</string>
     <string name="pref_playback_advanced">Пашыраныя налады прайгравання</string>
     <string name="all_channels">Усе каналы</string>
@@ -665,4 +665,18 @@
     <string name="playback_info_video_range">Дыяпазон відэа: %1$s</string>
     <string name="preference_enable_ass_description">Эксперыментальная функцыя, можа працаваць ненадзейна</string>
     <string name="lbl_3d">3D</string>
+    <string name="lbl_date_show_added">Дата дадання серыяла</string>
+    <string name="lbl_date_episode_added">Дата дадання эпізода</string>
+    <string name="preference_hdr_overrides">Фарматы HDR</string>
+    <plurals name="days">
+        <item quantity="one">%1$s дзень</item>
+        <item quantity="few">%1$s дні</item>
+        <item quantity="many">%1$s дзён</item>
+        <item quantity="other">%1$s дзён</item>
+    </plurals>
+    <string name="preference_hdr_overrides_summary">Замяніць вызначаныя прыладай магчымасці HDR</string>
+    <string name="hdr_override_enable">Уключыць</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="playback_info_bitrate">Бітрэйт: %1$s</string>
 </resources>
