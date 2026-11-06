@@ -707,4 +707,5 @@
     <string name="playback_buffer_length">Памер буфера прайгравання</string>
     <string name="playback_buffer_extra_large">Вельмі вялікі</string>
     <string name="codec_level_manual">Ручное перавызначэнне</string>
+    <string name="preference_enable_ass">Прамое прайграванне субтытраў ASS</string>
 </resources>
