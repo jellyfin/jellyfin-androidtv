@@ -602,11 +602,11 @@
     <string name="indicator_subtitles">คำบรรยายแทนเสียง</string>
     <string name="indicator_subtitles_hearing_impaired">คำบรรยายสำหรับคนหูหนวกและผู้ที่มีปัญหาทางการได้ยิน</string>
     <string name="dolby_atmos">Dolby Atmos</string>
-    <string name="dts_x">DTS:X</string>
-    <string name="dts_hd">DTS-HD</string>
-    <string name="dca">DTS</string>
-    <string name="ac3">DD</string>
-    <string name="eac3">DD+</string>
+    <string name="dts_x">ระบบเสียง 3 มิติแบบอิงวัตถุ</string>
+    <string name="dts_hd">ฟอร์แมตเสียงความละเอียดสูง (DTS-HD)</string>
+    <string name="dca">ระบบเสียงรอบทิศทางแบบดิจิทัล (DTS)</string>
+    <string name="ac3">Dolby Digital (DD)</string>
+    <string name="eac3">Dolby Digital Plus (DD+ 7.1)</string>
     <string name="segment_type_preview">ตัวอย่าง</string>
     <string name="preference_enable_pgs">เล่นคำบรรยาย PGS โดยตรง</string>
     <string name="speech_error_unknown">เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างการจดจำเสียง</string>
@@ -673,4 +673,17 @@
     <string name="home_next_up_max_days_disabled">ปิดใช้งาน</string>
     <string name="tv_provider_enabled">ผสานการทำงานกับหน้าหลักของ Android TV</string>
     <string name="tv_provider_enabled_description">แสดงช่องและรายการแนะนำของ Jellyfin บนหน้าจอหลักของ Android TV</string>
+    <plurals name="days">
+        <item quantity="other">%1$s วัน</item>
+    </plurals>
+    <string name="hdr10_plus">HDR10+</string>
+    <string name="sdr">SDR</string>
+    <string name="hdr10">HDR10</string>
+    <string name="hlg">HLG</string>
+    <string name="bitstream_eac3">บิตสตรีม Dolby Digital Plus</string>
+    <string name="bitstream_dts">ระบบโรงภาพยนตร์ดิจิทัลแบบบิตสตรีม</string>
+    <string name="bitstream_truehd">บิตสตรีม Dolby TrueHD</string>
+    <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
