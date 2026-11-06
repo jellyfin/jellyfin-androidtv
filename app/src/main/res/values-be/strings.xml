@@ -238,7 +238,7 @@
     <string name="lbl_ended">ЗАВЕРШАНА</string>
     <string name="lbl_live_tv_guide">Гід па тэлеканалах</string>
     <string name="msg_error_live_stream">Памылка трансляцыі тэлеканала. Паспрабую яшчэ раз…</string>
-    <string name="lbl_playlists">Плэй-лісты</string>
+    <string name="lbl_playlists">Плэйлісты</string>
     <string name="lbl_add_to_queue">Дадаць у чаргу</string>
     <string name="lbl_open_artist">Адкрыць выканаўцу</string>
     <string name="lbl_starting_with">пачынаючы з тых, чыя назва пачынаецца з</string>
@@ -298,7 +298,7 @@
         <item quantity="other">%1$s хвілін</item>
     </plurals>
     <string name="lbl_filters">Фільтры тэлеканалаў</string>
-    <string name="desc_automatic_fav_songs">Аўтаматычны плэй-ліст любімых песень</string>
+    <string name="desc_automatic_fav_songs">Аўтаматычны плэйліст любімых песень</string>
     <string name="lbl_direct_stream_live">Жывая трансляцыя тэлеканала</string>
     <string name="lbl_albums">Альбомы</string>
     <string name="lbl_now_playing">Зараз прайграецца</string>
