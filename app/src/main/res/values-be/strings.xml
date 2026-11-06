@@ -687,4 +687,9 @@
     <string name="preference_codecs_summary">Замяніць кодэкі, якія паведамляе прылада</string>
     <string name="hdr_override_auto">Аўта (вызначэнне прылады)</string>
     <string name="dovi_profile_5">Dolby Vision, Профіль 5</string>
+    <string name="dovi_profile_5_description">Аднаслойны Dolby Vision</string>
+    <string name="dovi_profile_7">Dolby Vision, Профіль 7</string>
+    <string name="dovi_profile_7_description">Двухслойны Dolby Vision з узроўнем паляпшэння</string>
+    <string name="dovi_profile_8">Dolby Vision, Профіль 8</string>
+    <string name="dovi_profile_8_description">Аднаслойны Dolby Vision з рэзервовым HDR10</string>
 </resources>
