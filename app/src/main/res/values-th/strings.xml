@@ -599,8 +599,8 @@
     <string name="codec_level_4_1">ระดับ 4.1</string>
     <string name="codec_level_4_0">ระดับ 4.0</string>
     <string name="dolby_vision">ดอลบี้ วิชั่น</string>
-    <string name="indicator_subtitles">CC</string>
-    <string name="indicator_subtitles_hearing_impaired">SDH</string>
+    <string name="indicator_subtitles">คำบรรยายแทนเสียง</string>
+    <string name="indicator_subtitles_hearing_impaired">คำบรรยายสำหรับคนหูหนวกและผู้ที่มีปัญหาทางการได้ยิน</string>
     <string name="dolby_atmos">Dolby Atmos</string>
     <string name="dts_x">DTS:X</string>
     <string name="dts_hd">DTS-HD</string>
@@ -655,4 +655,22 @@
     <string name="photo_display_duration_description">ระยะเวลาที่ควรรอก่อนแสดงรูปภาพถัดไป</string>
     <string name="lbl_3d">3มิติ</string>
     <string name="preference_hdr_overrides">รูปแบบ HDR</string>
+    <string name="preference_hdr_overrides_summary">แทนที่ความสามารถ HDR ที่อุปกรณ์รายงาน</string>
+    <string name="hdr_override_auto">อัตโนมัติ (การตรวจจับอุปกรณ์)</string>
+    <string name="hdr_override_enable">เปิดใช้งาน</string>
+    <string name="hdr_override_disable">ปิดการใช้งาน</string>
+    <string name="hdr10_override">HDR10</string>
+    <string name="hdr10_override_description">เมต้าดาต้า HDR แบบคงที่</string>
+    <string name="hdr10_plus_override">HDR10+</string>
+    <string name="hdr10_plus_override_description">เมทาดาต้า HDR แบบไดนามิก</string>
+    <string name="dovi_profile_5">Dolby Vision โปรไฟล์ 5</string>
+    <string name="dovi_profile_5_description">Dolby Vision แบบเลเยอร์เดียว</string>
+    <string name="dovi_profile_7">Dolby Vision โปรไฟล์ 7</string>
+    <string name="dovi_profile_7_description">สองชั้นพร้อมชั้นเสริมประสิทธิภาพ</string>
+    <string name="dovi_profile_8">Dolby Vision โปรไฟล์ 8</string>
+    <string name="dovi_profile_8_description">แบบชั้นเดียวพร้อม HDR10 เป็นรูปแบบสำรอง</string>
+    <string name="home_next_up_max_days">วันที่ตัดรอบถัดไป</string>
+    <string name="home_next_up_max_days_disabled">ปิดใช้งาน</string>
+    <string name="tv_provider_enabled">ผสานการทำงานกับหน้าหลักของ Android TV</string>
+    <string name="tv_provider_enabled_description">แสดงช่องและรายการแนะนำของ Jellyfin บนหน้าจอหลักของ Android TV</string>
 </resources>
