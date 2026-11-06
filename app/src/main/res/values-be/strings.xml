@@ -692,4 +692,15 @@
     <string name="dovi_profile_7_description">Двухслойны Dolby Vision з узроўнем паляпшэння</string>
     <string name="dovi_profile_8">Dolby Vision, Профіль 8</string>
     <string name="dovi_profile_8_description">Аднаслойны Dolby Vision з рэзервовым HDR10</string>
+    <string name="playback_info_play_method">Метад прайгравання: %1$s</string>
+    <string name="playback_info_direct_stream">Прамая трансляцыя</string>
+    <string name="playback_info_transcoding">Перакадаванне</string>
+    <string name="playback_info_transcoding_note">Сервер перакадоўвае гэты файл</string>
+    <string name="home_next_up_max_days">Тэрмін для спіса \"Далей\"</string>
+    <string name="hdr10_override_description">Статычныя метаданыя HDR</string>
+    <string name="hdr10_plus_override_description">Дынамічныя метаданыя HDR</string>
+    <string name="playback_info_direct_play">Прамое прайграванне</string>
+    <string name="hdr_override_disable">Адключыць</string>
+    <string name="home_next_up_max_days_disabled">Адключана</string>
+    <string name="tv_provider_enabled">Інтэграваць з галоўным экранам Android TV</string>
 </resources>
