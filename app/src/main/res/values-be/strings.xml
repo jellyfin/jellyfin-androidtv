@@ -236,7 +236,7 @@
     <string name="image_size_medium">Сярэдні</string>
     <string name="lbl__continuing">ПРАЦЯГ</string>
     <string name="lbl_ended">ЗАВЕРШАНА</string>
-    <string name="lbl_live_tv_guide">Гід па тэлеканалах</string>
+    <string name="lbl_live_tv_guide">Тэлегід тэлеканалаў</string>
     <string name="msg_error_live_stream">Памылка трансляцыі тэлеканала. Паспрабую яшчэ раз…</string>
     <string name="lbl_playlists">Плэйлісты</string>
     <string name="lbl_add_to_queue">Дадаць у чаргу</string>
