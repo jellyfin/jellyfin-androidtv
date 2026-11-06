@@ -681,4 +681,8 @@
     <string name="playback_info_bitrate">Бітрэйт: %1$s</string>
     <string name="playback_buffer_auto">Аўта</string>
     <string name="playback_buffer_large">Вялікі</string>
+    <string name="pref_burn_subtitles_when_transcoding">Ушыць субтытры пры транскадаванні</string>
+    <string name="pref_burn_subtitles_when_transcoding_description">Заўсёды ўшываць субтытры ў відэа пры транскадаванні. Гэта можа выправіць праблемы сінхранізацыі субтытраў, але адключае іх наладку.</string>
+    <string name="codec_level_warning">Змена аўтаматычнага значэння можа выклікаць праблемы з прайграваннем, калі ваша прылада на самай справе не падтрымлівае выбраны ўзровень.</string>
+    <string name="preference_codecs_summary">Перакрываць магчымасці кодэкаў, якія паведамляе прылада</string>
 </resources>
