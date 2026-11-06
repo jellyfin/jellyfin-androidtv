@@ -598,7 +598,7 @@
     <string name="codec_level_5_0">ระดับ 5.0</string>
     <string name="codec_level_4_1">ระดับ 4.1</string>
     <string name="codec_level_4_0">ระดับ 4.0</string>
-    <string name="dolby_vision">Dolby Vision</string>
+    <string name="dolby_vision">ดอลบี้ วิชั่น</string>
     <string name="indicator_subtitles">CC</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
     <string name="dolby_atmos">Dolby Atmos</string>
@@ -607,8 +607,8 @@
     <string name="dca">DTS</string>
     <string name="ac3">DD</string>
     <string name="eac3">DD+</string>
-    <string name="segment_type_preview">Previews</string>
-    <string name="preference_enable_pgs">Direct play PGS subtitles</string>
+    <string name="segment_type_preview">ตัวอย่าง</string>
+    <string name="preference_enable_pgs">เล่นคำบรรยาย PGS โดยตรง</string>
     <string name="speech_error_unknown">เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างการจดจำเสียง</string>
     <string name="color_custom">กำหนดสีเอง</string>
     <string name="playback_video_player">เครื่องเล่นวิดีโอ</string>
