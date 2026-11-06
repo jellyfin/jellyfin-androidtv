@@ -150,7 +150,7 @@
     <string name="eac3">DD+</string>
     <string name="photo_albums">Фотаальбомы</string>
     <string name="clear_image_cache_content">Выкарыстана: %1$s</string>
-    <string name="pref_clock_display">Паказываць гадзіннік</string>
+    <string name="pref_clock_display">Паказваць гадзіннік</string>
     <string name="lbl_sign_out_content">Патрабуецца ўваход пры наступным выкарыстанні</string>
     <string name="select_version">Версія</string>
     <string name="lbl_manage_servers">Кіраванне серверамі</string>
