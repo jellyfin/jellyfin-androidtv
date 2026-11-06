@@ -715,4 +715,6 @@
     <string name="bitstream_eac3">Бітстрым Dolby Digital Plus</string>
     <string name="bitstream_dts">Бітстрым Digital Theater System</string>
     <string name="bitstream_truehd">Бітстрым Dolby TrueHD</string>
+    <string name="photo_player">Праглядальнік фота</string>
+    <string name="photo_display_duration">Працягласць паказу фота</string>
 </resources>
