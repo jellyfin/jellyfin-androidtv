@@ -717,4 +717,6 @@
     <string name="bitstream_truehd">Бітстрым Dolby TrueHD</string>
     <string name="photo_player">Праглядальнік фота</string>
     <string name="photo_display_duration">Працягласць паказу фота</string>
+    <string name="photo_display_duration_description">Затрымка перад наступным фота</string>
+    <string name="truehd">TrueHD</string>
 </resources>
