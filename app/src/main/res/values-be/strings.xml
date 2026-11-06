@@ -704,4 +704,7 @@
     <string name="home_next_up_max_days_disabled">Адключана</string>
     <string name="tv_provider_enabled">Інтэграваць з галоўным экранам Android TV</string>
     <string name="tv_provider_enabled_description">Паказваць каналы і рэкамендацыі Jellyfin на галоўным экране Android TV</string>
+    <string name="playback_buffer_length">Памер буфера прайгравання</string>
+    <string name="playback_buffer_extra_large">Вельмі вялікі</string>
+    <string name="codec_level_manual">Ручное перавызначэнне</string>
 </resources>
