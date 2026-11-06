@@ -653,4 +653,6 @@
     <string name="photo_player">เครื่องเล่นรูปภาพ</string>
     <string name="photo_display_duration">ระยะเวลาแสดงรูปภาพ</string>
     <string name="photo_display_duration_description">ระยะเวลาที่ควรรอก่อนแสดงรูปภาพถัดไป</string>
+    <string name="lbl_3d">3มิติ</string>
+    <string name="preference_hdr_overrides">รูปแบบ HDR</string>
 </resources>
