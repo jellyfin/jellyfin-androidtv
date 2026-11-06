@@ -708,4 +708,11 @@
     <string name="playback_buffer_extra_large">Вельмі вялікі</string>
     <string name="codec_level_manual">Ручное перавызначэнне</string>
     <string name="preference_enable_ass">Прамое прайграванне субтытраў ASS</string>
+    <string name="preference_enable_pgs_description">Патрабуе перакадавання, калі адключана</string>
+    <string name="auto">Аўта</string>
+    <string name="pref_software_codecs_enabled">Выкарыстоўваць праграмныя кодэкі</string>
+    <string name="pref_software_codecs_enabled_description">Некаторыя праграмныя рэалізацыі могуць пагоршыць прадукцыйнасць. Адключэнне гэтай опцыі павялічвае верагоднасць перакадавання.</string>
+    <string name="bitstream_eac3">Бітстрым Dolby Digital Plus</string>
+    <string name="bitstream_dts">Бітстрым Digital Theater System</string>
+    <string name="bitstream_truehd">Бітстрым Dolby TrueHD</string>
 </resources>
