@@ -703,4 +703,5 @@
     <string name="hdr_override_disable">Адключыць</string>
     <string name="home_next_up_max_days_disabled">Адключана</string>
     <string name="tv_provider_enabled">Інтэграваць з галоўным экранам Android TV</string>
+    <string name="tv_provider_enabled_description">Паказваць каналы і рэкамендацыі Jellyfin на галоўным экране Android TV</string>
 </resources>
