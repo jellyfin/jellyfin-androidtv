@@ -712,11 +712,13 @@
     <string name="auto">Аўта</string>
     <string name="pref_software_codecs_enabled">Выкарыстоўваць праграмныя кодэкі</string>
     <string name="pref_software_codecs_enabled_description">Некаторыя праграмныя рэалізацыі могуць пагоршыць прадукцыйнасць. Адключэнне гэтай опцыі павялічвае верагоднасць перакадавання.</string>
-    <string name="bitstream_eac3">Бітстрым Dolby Digital Plus</string>
-    <string name="bitstream_dts">Бітстрым Digital Theater System</string>
-    <string name="bitstream_truehd">Бітстрым Dolby TrueHD</string>
+    <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
+    <string name="bitstream_dts">Bitstream Digital Theater System</string>
+    <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
     <string name="photo_player">Праглядальнік фота</string>
     <string name="photo_display_duration">Працягласць паказу фота</string>
     <string name="photo_display_duration_description">Затрымка перад наступным фота</string>
     <string name="truehd">TrueHD</string>
+    <string name="eac3_atmos">DD+ Atmos</string>
+    <string name="truehd_atmos">TrueHD Atmos</string>
 </resources>
