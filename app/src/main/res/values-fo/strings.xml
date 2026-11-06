@@ -46,8 +46,8 @@
     <string name="lbl_play_trailers">Spæl brellbita(r)</string>
     <string name="lbl_no">Nei</string>
     <string name="lbl_yes">Ja</string>
-    <string name="lbl_enter_server_address">Inntøppa ambætaraadressu</string>
-    <string name="lbl_valid_server_address">Vinaliga inntøppa adressu ambætarans (IP ella økisnavn/vertsnavn)</string>
+    <string name="lbl_enter_server_address">Skriva ambætaraadressu</string>
+    <string name="lbl_valid_server_address">Vinaliga skriva adressu ambætarans (IP ella økisnavn/vertsnavn)</string>
     <string name="lbl_born">"Føddur "</string>
     <string name="lbl_loading_elipses">Innlesur…</string>
     <string name="lbl_never">Ongantíð</string>
@@ -183,7 +183,7 @@
     <string name="pref_developer_link">Mennarastillingar</string>
     <string name="discovered_servers_title">Funnir ambætarar</string>
     <string name="discovered_servers_empty">Fann ongar ambætarar á nærneti.</string>
-    <string name="connect_manually_by_address">Inntøppa ambætaraadressu</string>
+    <string name="connect_manually_by_address">Skriva ambætaraadressu</string>
     <string name="login_help_title">Tørvar tær hjálp?</string>
     <string name="login_help_description">Jellyfin tørvar at sambindast til ein ambætara. Sí skjalfestingina á docs.jellyfin.org ella skanna QR-kotuna til tess at koma ígongd við Jellyfin.</string>
     <string name="auto_sign_in">Sjálvvirkandi innritan</string>
@@ -245,7 +245,7 @@
     <string name="input_password">Loyniorð</string>
     <string name="login_connect_to">Sambindur við %1$s</string>
     <string name="login_other_options">Aðrir møgulleikar:</string>
-    <string name="login_quickconnect_step_3">3. Inntøppa fylgjandi kotu:</string>
+    <string name="login_quickconnect_step_3">3. Skriva fylgjandi kotu:</string>
     <string name="action_connect">Sambind</string>
     <string name="app_notification_beta">Appin er dagførd til %1$s\nTakk fyri at tú luttekur í Jellyfin royndarverkætlanini.</string>
     <string name="channels">Rásir</string>
