@@ -290,7 +290,7 @@
     <string name="pref_subtitle_track_button">ปุ่มแทร็กคำบรรยาย</string>
     <string name="pref_button_remapping_description">กดปุ่มใดก็ได้บนรีโมททีวีเพื่อกำหนดหน้าที่</string>
     <string name="lbl_Reset">รีเซ็ต</string>
-    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f เมกะบิต/วินาที</string>
     <string name="mark_watched">ทำเครื่องหมายว่ารับชมแล้ว</string>
     <string name="mark_watched_message">รายการนี้ดูเหมือนจะยังเล่นไม่จบความยาว ต้องการทำเครื่องหมายว่ารับชมแล้วหรือไม่?</string>
     <string name="no_player">ไม่มีเครื่องเล่น</string>
@@ -345,7 +345,7 @@
     <string name="image_size_xlarge">ใหญ่พิเศษ</string>
     <string name="pref_developer_link">ตัวเลือกสำหรับนักพัฒนา</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f กิโลบิต/วินาที</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_developer_link_description">ฟีเจอร์ขั้นสูงและฟีเจอร์ทดลอง</string>
     <string name="lbl_hidden">ซ่อนอยู่</string>
