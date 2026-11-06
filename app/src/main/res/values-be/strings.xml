@@ -679,4 +679,5 @@
     <string name="hdr10_override">HDR10</string>
     <string name="hdr10_plus_override">HDR10+</string>
     <string name="playback_info_bitrate">Бітрэйт: %1$s</string>
+    <string name="playback_buffer_auto">Аўтаматычна</string>
 </resources>
