@@ -23,6 +23,7 @@ import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
+import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaType
@@ -222,11 +223,16 @@ class RewriteMediaManager(
 	/**
 	 * A simple [QueueSupplier] implementation for compatibility with existing UI/playback code. It contains
 	 * a mutable BaseItemDto list that is used to retrieve items from.
+	 *
+	 * @param mediaSourceId Id of the media source to play for the item at [mediaSourceIndex], used to
+	 * play a specific version of that item.
 	 */
 	class BaseItemQueueSupplier(
 		private val api: ApiClient,
 		val items: List<BaseItemDto>,
 		val visibleInScreensaver: Boolean,
+		private val mediaSourceId: String? = null,
+		private val mediaSourceIndex: Int = 0,
 	) : QueueSupplier {
 		override val size: Int
 			get() = items.size
@@ -235,6 +241,7 @@ class RewriteMediaManager(
 			val item = items.getOrNull(index) ?: return null
 			return createBaseItemQueueEntry(api, item).also {
 				it.visibleInScreensaver = visibleInScreensaver
+				if (index == mediaSourceIndex) it.mediaSourceId = mediaSourceId
 			}
 		}
 	}
