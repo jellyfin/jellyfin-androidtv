@@ -17,7 +17,7 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.milliseconds
 
-class VideoPlayerFragment : Fragment() {
+open class VideoPlayerFragment : Fragment() {
 	companion object {
 		const val EXTRA_POSITION: String = "position"
 	}

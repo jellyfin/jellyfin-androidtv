@@ -57,7 +57,17 @@ class PlaybackLauncher(
 
 			if (items.isEmpty()) return
 
-			if (userPreferences[UserPreferences.useExternalPlayer] && items.all { it.supportsExternalPlayer }) {
+			val video3dFormat = items.getOrNull(itemsPosition)?.let { item ->
+				item.video3dFormat ?: item.mediaSources
+					?.firstNotNullOfOrNull { mediaSource -> mediaSource.video3dFormat }
+			}
+
+			if (video3dFormat != null) {
+				navigationRepository.navigate(
+					Destinations.stereoVideoPlayer(position, video3dFormat),
+					replace
+				)
+			} else if (userPreferences[UserPreferences.useExternalPlayer] && items.all { it.supportsExternalPlayer }) {
 				context.startActivity(ActivityDestinations.externalPlayer(context, position?.milliseconds ?: Duration.ZERO))
 			} else if (userPreferences[UserPreferences.playbackRewriteVideoEnabled]) {
 				val destination = Destinations.videoPlayerNew(position)
