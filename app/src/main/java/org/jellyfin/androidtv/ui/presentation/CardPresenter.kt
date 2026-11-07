@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -134,7 +135,7 @@ private data class BaseRowItemDisplayConfig(
 	val iconRes: Int,
 	val aspectRatio: Float,
 	val overrideShowInfo: Boolean? = null,
-	val scaleType: ImageView.ScaleType? = null,
+	val scaleType: ContentScale = ContentScale.Crop,
 )
 
 private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Boolean): BaseRowItemDisplayConfig = when (baseRowType) {
@@ -225,7 +226,7 @@ private fun BaseRowItem.getDisplayConfig(imageType: ImageType, uniformAspect: Bo
 			else -> baseItem?.primaryImageAspectRatio?.toFloat() ?: 1f
 		},
 		image = getImage(imageType),
-		scaleType = ImageView.ScaleType.FIT_CENTER,
+		scaleType = ContentScale.Fit,
 		iconRes = R.drawable.ic_tv,
 	)
 
@@ -319,7 +320,7 @@ private fun CardViewHolderContent(
 						),
 						blurHash = image.blurHash,
 						aspectRatio = aspectRatio,
-						scaleType = displayConfig.scaleType ?: ImageView.ScaleType.CENTER_CROP,
+						scaleType = displayConfig.scaleType,
 						modifier = Modifier
 							.fillMaxSize()
 					)
