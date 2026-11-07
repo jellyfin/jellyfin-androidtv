@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +51,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapterHelperKt;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -57,7 +59,9 @@ import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.apiclient.EmptyResponse;
+import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.sdk.api.client.ApiClient;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -67,6 +71,7 @@ import org.jellyfin.sdk.model.api.SortOrder;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -118,6 +123,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<ItemLauncher> itemLauncher = inject(ItemLauncher.class);
     private final Lazy<KeyProcessor> keyProcessor = inject(KeyProcessor.class);
     private final Lazy<ApiClient> api = inject(ApiClient.class);
+    private final Lazy<PlaybackHelper> playbackHelper = inject(PlaybackHelper.class);
+    private final Lazy<PlaybackLauncher> playbackLauncher = inject(PlaybackLauncher.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -752,6 +759,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
         binding.toolBar.addView(mSortButton);
 
+        if (mFolder.getCollectionType() == CollectionType.MUSICVIDEOS) {
+            addMusicVideoPlayButton(size, false);
+            addMusicVideoPlayButton(size, true);
+        }
+
         if (mRowDef.getQueryType() == QueryType.Items) {
             mUnwatchedButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
             mUnwatchedButton.setImageResource(R.drawable.ic_unwatch);
@@ -827,6 +839,35 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             binding.toolBar.addView(mSettingsButton);
             BrowseGridFragmentHelperKt.addSettings(BrowseGridFragment.this, binding.settings, mFolder.getId(), mFolder.getDisplayPreferencesId(), settingsVisible);
         }
+    }
+
+    private void addMusicVideoPlayButton(int size, boolean shuffle) {
+        ImageButton button = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+        button.setImageResource(shuffle ? R.drawable.ic_shuffle : R.drawable.ic_play);
+        button.setMaxHeight(size);
+        button.setAdjustViewBounds(true);
+        button.setContentDescription(getString(shuffle ? R.string.lbl_shuffle_all : R.string.lbl_play_all));
+        button.setOnClickListener(view -> playbackHelper.getValue().getItemsToPlay(
+                requireContext(), mFolder, false, shuffle, new Response<List<BaseItemDto>>(getViewLifecycleOwner().getLifecycle()) {
+                    @Override
+                    public void onResponse(List<BaseItemDto> items) {
+                        if (!isActive()) return;
+                        if (items.isEmpty()) {
+                            Toast.makeText(requireContext(), R.string.msg_no_playable_items, Toast.LENGTH_LONG).show();
+                        } else {
+                            playbackLauncher.getValue().launch(requireContext(), items, null, false, 0, shuffle);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        if (!isActive()) return;
+                        Timber.w(exception, "Failed to retrieve music videos");
+                        Toast.makeText(requireContext(), R.string.msg_no_playable_items, Toast.LENGTH_LONG).show();
+                    }
+                }
+        ));
+        binding.toolBar.addView(button);
     }
 
     class JumplistPopup {
