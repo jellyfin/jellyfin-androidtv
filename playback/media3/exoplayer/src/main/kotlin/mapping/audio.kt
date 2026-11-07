@@ -26,6 +26,8 @@ val ffmpegAudioMimeTypes = mapOf(
 	"opus" to MimeTypes.AUDIO_OPUS,
 	"pcm_alaw" to MimeTypes.AUDIO_ALAW,
 	"pcm_mulaw" to MimeTypes.AUDIO_MLAW,
+	"pcm_bluray" to MimeTypes.AUDIO_RAW,
+	"pcm_dvd" to MimeTypes.AUDIO_RAW,
 	"truehd" to MimeTypes.AUDIO_TRUEHD,
 	"vorbis" to MimeTypes.AUDIO_VORBIS,
 // TODO: Find mime types for all these codecs...
