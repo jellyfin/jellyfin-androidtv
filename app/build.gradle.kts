@@ -164,6 +164,9 @@ dependencies {
 	implementation(libs.jellyfin.androidx.media3.ffmpeg.decoder)
 	implementation(libs.libass.media3)
 
+	// String similarity
+	implementation(libs.java.string.similarity)
+
 	// Markdown
 	implementation(libs.bundles.markwon)
 
@@ -186,5 +189,6 @@ dependencies {
 	// Testing
 	testImplementation(libs.kotest.runner.junit5)
 	testImplementation(libs.kotest.assertions)
+	testImplementation(libs.kotlinx.coroutines.test)
 	testImplementation(libs.mockk)
 }

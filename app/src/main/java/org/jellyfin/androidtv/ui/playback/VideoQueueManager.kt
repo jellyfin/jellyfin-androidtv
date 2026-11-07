@@ -1,12 +1,15 @@
 package org.jellyfin.androidtv.ui.playback
 
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.MediaStream
+import java.util.UUID
 
 class VideoQueueManager {
 	private var _currentVideoQueue: List<BaseItemDto> = emptyList()
 	private var _currentMediaPosition = -1
-	private var _lastPlayedAudioLanguageIsoCode: String? = null
-	private var _lastPlayedSubtitleLanguageIsoCode: String? = null
+	private var _lastPlayedWorkId: UUID? = null
+	private var _lastPlayedAudioStream: MediaStream? = null
+	private var _lastPlayedSubtitleStream: MediaStream? = null
 
 	fun setCurrentVideoQueue(items: List<BaseItemDto>?) {
 		if (items.isNullOrEmpty()) return clearVideoQueue()
@@ -25,26 +28,23 @@ class VideoQueueManager {
 
 	fun getCurrentMediaPosition() = _currentMediaPosition
 
-	fun getLastPlayedAudioLanguageIsoCode(): String? {
-		return _lastPlayedAudioLanguageIsoCode
+	fun setLastPlayedStreams(workId: UUID, audio: MediaStream?, subtitle: MediaStream?) {
+		_lastPlayedWorkId = workId
+		_lastPlayedAudioStream = audio
+		_lastPlayedSubtitleStream = subtitle
 	}
 
-	fun setLastPlayedAudioLanguageIsoCode(isoCode: String) {
-		_lastPlayedAudioLanguageIsoCode = isoCode
-	}
+	fun getLastPlayedWorkId(): UUID? = _lastPlayedWorkId
 
-	fun getLastPlayedSubtitleLanguageIsoCode(): String? {
-		return _lastPlayedSubtitleLanguageIsoCode
-	}
+	fun getLastPlayedAudioStream(): MediaStream? = _lastPlayedAudioStream
 
-	fun setLastPlayedSubtitleLanguageIsoCode(isoCode: String?) {
-		_lastPlayedSubtitleLanguageIsoCode = isoCode
-	}
+	fun getLastPlayedSubtitleStream(): MediaStream? = _lastPlayedSubtitleStream
 
 	fun clearVideoQueue() {
 		_currentVideoQueue = emptyList()
 		_currentMediaPosition = -1
-		_lastPlayedAudioLanguageIsoCode = null
-		_lastPlayedSubtitleLanguageIsoCode = null
+		_lastPlayedWorkId = null
+		_lastPlayedAudioStream = null
+		_lastPlayedSubtitleStream = null
 	}
 }

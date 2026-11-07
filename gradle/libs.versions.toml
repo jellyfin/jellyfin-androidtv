@@ -28,6 +28,7 @@ androidx-work = "2.11.2"
 coil = "3.6.3"
 detekt = "1.23.8"
 java-jdk = "21"
+java-string-similarity = "2.0.0"
 jellyfin-androidx-media = "1.9.0+1"
 jellyfin-sdk = "1.8.12"
 koin = "4.2.2"
@@ -57,6 +58,7 @@ jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-core", version.ref = "jelly
 # Kotlin
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
@@ -120,6 +122,7 @@ acra-toast = { module = "ch.acra:acra-toast", version.ref = "acra" }
 
 # Libraries
 aboutlibraries = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutlibraries" }
+java-string-similarity = { module = "info.debatty:java-string-similarity", version.ref = "java-string-similarity" }
 
 # Logging
 slf4j-timber = { module = "io.github.unveloper:slf4j-timber", version.ref = "slf4j-timber" }
