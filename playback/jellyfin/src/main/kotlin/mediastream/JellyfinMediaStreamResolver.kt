@@ -128,5 +128,6 @@ class JellyfinMediaStreamResolver(
 		tracks = getTracks(),
 		queueEntry = queueEntry,
 		url = url,
+		externalSubtitles = getExternalSubtitles(api),
 	)
 }
