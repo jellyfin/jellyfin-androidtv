@@ -30,11 +30,15 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun SkipOverlayComposable(
@@ -73,7 +77,8 @@ class SkipOverlayView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyle: Int = 0
-) : AbstractComposeView(context, attrs, defStyle) {
+) : AbstractComposeView(context, attrs, defStyle), KoinComponent {
+	private val userPreferences by inject<UserPreferences>()
 	private val _currentPosition = MutableStateFlow(Duration.ZERO)
 	private val _targetPosition = MutableStateFlow<Duration?>(null)
 	private val _skipUiEnabled = MutableStateFlow(true)
@@ -129,8 +134,13 @@ class SkipOverlayView @JvmOverloads constructor(
 
 		// Auto hide
 		LaunchedEffect(skipUiEnabled, targetPosition) {
-			delay(MediaSegmentRepository.AskToSkipAutoHideDuration)
-			_targetPosition.value = null
+			if (targetPosition != null) {
+				val autoHideSeconds = userPreferences[UserPreferences.mediaSegmentAutoHideDuration]
+				if (autoHideSeconds > 0) {
+					delay(autoHideSeconds.seconds)
+					_targetPosition.value = null
+				}
+			}
 		}
 
 		SkipOverlayComposable(visible)
