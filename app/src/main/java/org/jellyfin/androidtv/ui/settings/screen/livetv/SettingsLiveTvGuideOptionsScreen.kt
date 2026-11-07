@@ -64,6 +64,17 @@ fun SettingsLiveTvGuideOptionsScreen() {
 		}
 
 		item {
+			var restoreLastChannel by rememberPreference(liveTvPreferences, LiveTvPreferences.restoreLastChannel)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.lbl_guide_restore_last_channel)) },
+				trailingContent = { Checkbox(checked = restoreLastChannel) },
+				onClick = { restoreLastChannel = !restoreLastChannel },
+				modifier = Modifier.focusKey("restore_last_channel")
+			)
+		}
+
+		item {
 			var colorCodeGuide by rememberPreference(liveTvPreferences, LiveTvPreferences.colorCodeGuide)
 
 			ListButton(

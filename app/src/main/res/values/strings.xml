@@ -254,6 +254,7 @@
     <string name="lbl_show_indicators">Show indicators for</string>
     <string name="lbl_guide_option_played">Last played</string>
     <string name="lbl_guide_option_number">Channel number</string>
+    <string name="lbl_guide_restore_last_channel">Restore last channel</string>
     <string name="lbl_resume_preroll">Resume pre-roll</string>
     <string name="lbl_subtitle_text_color">Text color</string>
     <string name="lbl_subtitle_background_color">Background color</string>
