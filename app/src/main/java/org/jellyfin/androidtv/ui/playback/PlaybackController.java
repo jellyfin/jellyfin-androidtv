@@ -24,6 +24,8 @@ import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior;
 import org.jellyfin.androidtv.preference.constant.StillWatchingBehavior;
 import org.jellyfin.androidtv.preference.constant.ZoomMode;
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel;
+import org.jellyfin.androidtv.ui.playback.SubtitleSelection;
+import static org.jellyfin.androidtv.ui.playback.SubtitleSelectionKt.getSeriesSubtitleSelection;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -643,24 +645,34 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info - prefer saved language preference over server default
-        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
-        if (lastSubtitleLanguage != null) {
-            if (lastSubtitleLanguage.isEmpty()) {
+        // get subtitle info - prefer saved selection over server default
+        SubtitleSelection lastSubtitleSelection = null;
+        if (userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesRememberSelection()) && item.getSeriesId() != null) {
+            // Prefer the selection persisted for this series, made in this or a previous session
+            lastSubtitleSelection = getSeriesSubtitleSelection(userPreferences.getValue(), item.getSeriesId());
+        }
+        if (lastSubtitleSelection == null)
+            lastSubtitleSelection = videoQueueManager.getValue().getLastPlayedSubtitleSelection();
+
+        if (lastSubtitleSelection != null) {
+            if (lastSubtitleSelection.getDisabled()) {
                 // User explicitly disabled subtitles
                 mCurrentOptions.setSubtitleStreamIndex(null);
             } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Find subtitle stream matching saved language, keeping the requested stream if it matches
+                // Find subtitle stream matching saved selection, keeping the requested stream if it matches
                 // (e.g. when playback restarts to switch between baked and non-baked subtitles)
+                // Prefer the exact stream (title) over a stream that only matches the language
                 Integer requestedIndex = mCurrentOptions.getSubtitleStreamIndex();
                 Integer matchingIndex = null;
+                Integer languageIndex = null;
                 for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        if (matchingIndex == null) matchingIndex = stream.getIndex();
-                        if (requestedIndex != null && requestedIndex == stream.getIndex()) {
-                            matchingIndex = requestedIndex;
-                            break;
-                        }
+                    if (stream.getType() != MediaStreamType.SUBTITLE || !lastSubtitleSelection.matchesLanguage(stream)) continue;
+
+                    if (languageIndex == null) languageIndex = stream.getIndex();
+                    if (matchingIndex == null && lastSubtitleSelection.matchesStream(stream)) matchingIndex = stream.getIndex();
+                    if (requestedIndex != null && requestedIndex == stream.getIndex()) {
+                        matchingIndex = requestedIndex;
+                        break;
                     }
                 }
                 mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
