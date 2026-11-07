@@ -1313,7 +1313,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (navigationRepository.getValue().getCanGoBack()) {
             navigationRepository.getValue().goBack();
         } else {
-            navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
+            navigationRepository.getValue().reset(Destinations.INSTANCE.getHome(), true);
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -179,9 +180,14 @@ fun PlaybackController.applyMediaSegments(
 
 	fragment?.clearSkipOverlay()
 	fragment.lifecycleScope.launch {
-		val mediaSegments = runCatching {
+		val mediaSegments: List<MediaSegmentDto> = try {
 			mediaSegmentRepository.getSegmentsForItem(item)
-		}.getOrNull().orEmpty()
+		} catch (e: CancellationException) {
+			// Never swallow cancellation, the callback must not run after playback ended
+			throw e
+		} catch (_: Exception) {
+			emptyList()
+		}
 
 		for (mediaSegment in mediaSegments) {
 			val action = mediaSegmentRepository.getMediaSegmentAction(mediaSegment)
