@@ -63,7 +63,7 @@
     <string name="lbl_yes">Ja</string>
     <string name="lbl_enter_server_address">Indtast serveradresse</string>
     <string name="lbl_valid_server_address">Indtast venligst serveradressen (IP eller domæne/servernavn)</string>
-    <string name="lbl_ok">OK</string>
+    <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Født "</string>
     <string name="lbl_loading_elipses">Indlæser…</string>
     <string name="msg_playback_not_allowed">Afspilning ikke tilladt på nuværende tidspunkt</string>
@@ -244,7 +244,7 @@
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
     <string name="msg_no_items">Ingen filer at afspille</string>
     <string name="subtitle_error">Kan ikke vælge undertekst</string>
-    <string name="too_many_errors">For mange fejl. Giver op.</string>
+    <string name="too_many_errors">For mange fejl. Giver op</string>
     <string name="player_error">Afspilningsfejl. Prøver igen…</string>
     <string name="seek_error">Kan ikke søge</string>
     <string name="msg_live_tv_prev">Indlæs forrige %1$d timer?</string>

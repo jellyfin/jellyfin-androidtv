@@ -709,4 +709,5 @@
     <string name="bitstream_truehd">Flux binaire Dolby TrueHD</string>
     <string name="tv_provider_enabled">Intégrer à l\'écran d\'accueil d\'Android TV</string>
     <string name="tv_provider_enabled_description">Afficher les chaînes et les recommandations Jellyfin sur l\'écran d\'accueil d\'Android TV</string>
+    <string name="lbl_3d">3D</string>
 </resources>
