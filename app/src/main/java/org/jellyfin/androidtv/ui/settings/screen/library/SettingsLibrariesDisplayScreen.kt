@@ -41,6 +41,22 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 		}
 
 		item {
+			var viewType by rememberPreference(libraryPreferences, LibraryPreferences.viewType)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.view_type)) },
+				captionContent = { Text(stringResource(viewType.nameRes)) },
+				onClick = {
+					router.push(
+						Routes.LIBRARIES_DISPLAY_VIEW_TYPE,
+						mapOf("itemId" to itemId.toString(), "displayPreferencesId" to displayPreferencesId)
+					)
+				},
+				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_VIEW_TYPE)
+			)
+		}
+
+		item {
 			var posterSize by rememberPreference(libraryPreferences, LibraryPreferences.posterSize)
 
 			ListButton(

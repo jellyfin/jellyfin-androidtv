@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.preference
 import org.jellyfin.androidtv.constant.GridDirection
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.constant.PosterSize
+import org.jellyfin.androidtv.constant.ViewType
 import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
@@ -21,6 +22,7 @@ class LibraryPreferences(
 		val posterSize = enumPreference("PosterSize", PosterSize.MED)
 		val imageType = enumPreference("ImageType", ImageType.POSTER)
 		val gridDirection = enumPreference("GridDirection", GridDirection.HORIZONTAL)
+		val viewType = enumPreference("ViewType", ViewType.GRID)
 		val enableSmartScreen = booleanPreference("SmartScreen", false)
 
 		// Filters

@@ -6,9 +6,14 @@ import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -18,6 +23,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -35,6 +42,7 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.ImageType
+import org.jellyfin.androidtv.constant.ViewType
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.AsyncImage
@@ -59,9 +67,11 @@ class CardPresenter(
 	val imageType: ImageType,
 	val staticHeight: Int,
 	val uniformAspect: Boolean,
+	val viewType: ViewType = ViewType.GRID,
 ) : Presenter() {
-	constructor(showInfo: Boolean, imageType: ImageType, staticHeight: Int) : this(showInfo, imageType, staticHeight, false)
-	constructor(showInfo: Boolean, staticHeight: Int) : this(showInfo, ImageType.POSTER, staticHeight)
+	constructor(showInfo: Boolean, imageType: ImageType, staticHeight: Int, uniformAspect: Boolean) : this(showInfo, imageType, staticHeight, uniformAspect, ViewType.GRID)
+	constructor(showInfo: Boolean, imageType: ImageType, staticHeight: Int) : this(showInfo, imageType, staticHeight, false, ViewType.GRID)
+	constructor(showInfo: Boolean, staticHeight: Int) : this(showInfo, ImageType.POSTER, staticHeight, false, ViewType.GRID)
 	constructor(showInfo: Boolean) : this(showInfo, 150)
 	constructor() : this(true)
 
@@ -72,6 +82,13 @@ class CardPresenter(
 			setViewTreeSavedStateRegistryOwner(parent.findViewTreeSavedStateRegistryOwner())
 			isFocusable = true
 			isFocusableInTouchMode = true
+
+			if (viewType == ViewType.LIST) {
+				layoutParams = ViewGroup.LayoutParams(
+					ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT
+				)
+			}
 
 			setOnLongClickListener {
 				context.getActivity()?.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU)) ?: false
@@ -100,17 +117,27 @@ class CardPresenter(
 
 		init {
 			composeView.setContent {
-				val item by _item.collectAsState()
-				val focused by _focused.collectAsState()
+				JellyfinTheme {
+					val item by _item.collectAsState()
+					val focused by _focused.collectAsState()
 
-				CardViewHolderContent(
-					item = item,
-					focused = focused,
-					showInfo = showInfo,
-					imageType = imageType,
-					staticHeight = staticHeight,
-					uniformAspect = uniformAspect,
-				)
+					if (viewType == ViewType.LIST) {
+						ListCardViewHolderContent(
+							item = item,
+							focused = focused,
+							imageType = imageType,
+						)
+					} else {
+						CardViewHolderContent(
+							item = item,
+							focused = focused,
+							showInfo = showInfo,
+							imageType = imageType,
+							staticHeight = staticHeight,
+							uniformAspect = uniformAspect,
+						)
+					}
+				}
 			}
 
 			_focused.value = view.isFocused
@@ -411,5 +438,157 @@ private fun CardViewHolderContent(
 		)
 	} else {
 		card()
+	}
+}
+
+@Composable
+@Stable
+private fun ListCardViewHolderContent(
+	item: BaseRowItem?,
+	focused: Boolean,
+	imageType: ImageType,
+) {
+	val context = LocalContext.current
+	val localDensity = LocalDensity.current
+
+	val title = remember(item, context) {
+		item?.getFullName(context)?.takeIf { it.isNotBlank() }
+			?: item?.getCardName(context)?.takeIf { it.isNotBlank() }
+			?: item?.baseItem?.name
+	}
+	val subtitle = remember(item, context) { item?.getSubText(context) }
+	val displayConfig = remember(item, imageType) { item?.getDisplayConfig(imageType, false) }
+	if (item == null || displayConfig == null) return
+
+	val image = displayConfig.image
+	val baseItem = item.baseItem
+
+	val focusModifier = if (focused) Modifier.basicMarquee(
+		iterations = Int.MAX_VALUE,
+		initialDelayMillis = 1000,
+	) else Modifier
+
+	val backgroundColor = if (focused) {
+		Tokens.Color.colorBluegrey700
+	} else {
+		Tokens.Color.colorBluegrey900.copy(alpha = 0.45f)
+	}
+
+	val borderColor = if (focused) Tokens.Color.colorBluegrey200 else Color.Transparent
+
+	Row(
+		modifier = Modifier
+			.fillMaxWidth()
+			.height(76.dp)
+			.clip(JellyfinTheme.shapes.small)
+			.background(backgroundColor, JellyfinTheme.shapes.small)
+			.border(if (focused) 2.dp else 0.dp, borderColor, JellyfinTheme.shapes.small)
+			.padding(horizontal = 16.dp, vertical = 6.dp),
+		verticalAlignment = Alignment.CenterVertically,
+		horizontalArrangement = Arrangement.spacedBy(16.dp),
+	) {
+		// Thumbnail (Poster / Icon)
+		Box(
+			modifier = Modifier
+				.size(width = 46.dp, height = 64.dp)
+				.clip(JellyfinTheme.shapes.extraSmall)
+				.background(JellyfinTheme.colorScheme.surface, JellyfinTheme.shapes.extraSmall),
+			contentAlignment = Alignment.Center,
+		) {
+			if (image != null) {
+				val api = koinInject<ApiClient>()
+				AsyncImage(
+					url = image.getUrl(
+						api,
+						maxWidth = with(localDensity) { 46.dp.roundToPx() },
+						maxHeight = with(localDensity) { 64.dp.roundToPx() },
+					),
+					blurHash = image.blurHash,
+					aspectRatio = 46f / 64f,
+					scaleType = ImageView.ScaleType.CENTER_CROP,
+					modifier = Modifier.fillMaxSize(),
+				)
+			} else {
+				Image(
+					painter = painterResource(displayConfig.iconRes),
+					contentDescription = null,
+					modifier = Modifier.size(26.dp),
+				)
+			}
+		}
+
+		// Middle: Title and Subtitle / Metadata
+		Column(
+			modifier = Modifier.weight(1f),
+			verticalArrangement = Arrangement.Center,
+		) {
+			if (title != null) {
+				Text(
+					text = title,
+					maxLines = 1,
+					overflow = TextOverflow.Ellipsis,
+					color = if (focused) Tokens.Color.colorWhite else Tokens.Color.colorGrey100,
+					style = JellyfinTheme.typography.listHeadline,
+					modifier = Modifier.then(focusModifier),
+				)
+			}
+
+			val metadataParts = remember(baseItem, subtitle) {
+				buildList {
+					if (!subtitle.isNullOrBlank()) {
+						add(subtitle)
+					} else {
+						baseItem?.productionYear?.let { add(it.toString()) }
+						baseItem?.runTimeTicks?.let { ticks ->
+							val durationMinutes = ticks / 10000 / 1000 / 60
+							if (durationMinutes > 0) {
+								val hours = durationMinutes / 60
+								val mins = durationMinutes % 60
+								add(if (hours > 0) "${hours}h ${mins}m" else "${mins}m")
+							}
+						}
+						baseItem?.officialRating?.let { add(it) }
+						baseItem?.communityRating?.let { add(String.format(java.util.Locale.US, "★ %.1f", it)) }
+					}
+				}
+			}
+
+			if (metadataParts.isNotEmpty()) {
+				Text(
+					text = metadataParts.joinToString(" • "),
+					maxLines = 1,
+					overflow = TextOverflow.Ellipsis,
+					color = if (focused) Tokens.Color.colorGrey200 else Tokens.Color.colorGrey400,
+					style = JellyfinTheme.typography.listCaption,
+					modifier = Modifier.padding(top = 2.dp),
+				)
+			}
+		}
+
+		// Right: Status indicators (Watched / Favorite)
+		val isPlayed = item.isPlayed || baseItem?.userData?.played == true
+		val isFavorite = item.isFavorite || baseItem?.userData?.isFavorite == true
+
+		if (isPlayed || isFavorite) {
+			Row(
+				horizontalArrangement = Arrangement.spacedBy(8.dp),
+				verticalAlignment = Alignment.CenterVertically,
+			) {
+				if (isFavorite) {
+					Image(
+						painter = painterResource(R.drawable.ic_heart),
+						contentDescription = null,
+						modifier = Modifier.size(18.dp),
+					)
+				}
+				if (isPlayed) {
+					Image(
+						painter = painterResource(R.drawable.ic_check),
+						contentDescription = null,
+						modifier = Modifier.size(18.dp),
+					)
+				}
+			}
+		}
 	}
 }
