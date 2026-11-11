@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.sdk.duration
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.mediaSegmentsApi
+import org.jellyfin.sdk.api.client.extensions.mediaSegmentApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.MediaSegmentDto
 import org.jellyfin.sdk.model.api.MediaSegmentType
@@ -105,7 +105,7 @@ class MediaSegmentRepositoryImpl(
 
 	override suspend fun getSegmentsForItem(item: BaseItemDto): List<MediaSegmentDto> = runCatching {
 		withContext(Dispatchers.IO) {
-			api.mediaSegmentsApi.getItemSegments(
+			api.mediaSegmentApi.getItemSegments(
 				itemId = item.id,
 				includeSegmentTypes = MediaSegmentRepository.SupportedTypes,
 			).content.items

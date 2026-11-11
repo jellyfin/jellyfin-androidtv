@@ -31,7 +31,7 @@ import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
@@ -101,7 +101,7 @@ class DreamViewModel(
 		while (true) {
 			val items = try {
 				withContext(Dispatchers.IO) {
-					val response by api.itemsApi.getItems(
+					val response by api.libraryApi.getItems(
 						includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 						recursive = true,
 						sortBy = listOf(ItemSortBy.RANDOM),

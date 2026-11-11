@@ -37,7 +37,7 @@ import org.jellyfin.androidtv.ui.settings.composable.SettingsColumn
 import org.jellyfin.androidtv.util.profile.createDeviceProfileReport
 import org.jellyfin.design.Tokens
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.clientLogApi
+import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.model.ServerVersion
 import org.koin.compose.koinInject
 import java.text.DecimalFormat
@@ -310,7 +310,7 @@ fun SettingsPlaybackAdvancedScreen() {
 				captionContent = { Text(stringResource(R.string.pref_report_device_profile_summary)) },
 				action = {
 					val report = createDeviceProfileReport(context, userPreferences, serverVersion)
-					val response by api.clientLogApi.logFile(report)
+					val response by api.systemApi.logFile(report)
 					response
 				},
 				onSuccess = { result ->

@@ -23,8 +23,8 @@ import org.jellyfin.androidtv.ui.playback.setSubtitleIndex
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.sessionApi
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.sockets.subscribe
 import org.jellyfin.sdk.api.sockets.subscribeGeneralCommand
 import org.jellyfin.sdk.api.sockets.subscribeGeneralCommands
@@ -230,7 +230,7 @@ class SocketHandler(
 		when (itemKind) {
 			BaseItemKind.USER_VIEW,
 			BaseItemKind.COLLECTION_FOLDER -> {
-				val item = withContext(Dispatchers.IO) { api.userLibraryApi.getItem(itemId = itemId).content }
+				val item = withContext(Dispatchers.IO) { api.libraryApi.getItem(itemId = itemId).content }
 				itemLauncher.launchUserView(item)
 			}
 

@@ -46,7 +46,7 @@ import org.jellyfin.androidtv.ui.startup.fragment.StartupToolbarFragment
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.androidtv.util.createBundle
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -167,7 +167,7 @@ class StartupActivity : FragmentActivity() {
 			// User view item is requested
 			itemId != null && itemIsUserView -> runCatching {
 				val item = withContext(Dispatchers.IO) {
-					api.userLibraryApi.getItem(itemId = itemId).content
+					api.libraryApi.getItem(itemId = itemId).content
 				}
 				itemLauncher.getUserViewDestination(item)
 			}.onFailure { throwable ->

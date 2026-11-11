@@ -8,9 +8,8 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.itemsApi
-import org.jellyfin.sdk.api.client.extensions.playlistsApi
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
+import org.jellyfin.sdk.api.client.extensions.playlistApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -22,7 +21,7 @@ fun ItemListFragment.loadItem(itemId: UUID) {
 
 	lifecycleScope.launch {
 		val item = withContext(Dispatchers.IO) {
-			api.userLibraryApi.getItem(itemId).content
+			api.libraryApi.getItem(itemId).content
 		}
 		if (isActive) setBaseItem(item)
 	}
@@ -36,7 +35,7 @@ fun MusicFavoritesListFragment.getFavoritePlaylist(
 
 	lifecycleScope.launch {
 		val result = withContext(Dispatchers.IO) {
-			api.itemsApi.getItems(
+			api.libraryApi.getItems(
 				parentId = parentId,
 				includeItemTypes = setOf(BaseItemKind.AUDIO),
 				recursive = true,
@@ -60,13 +59,13 @@ fun ItemListFragment.getPlaylist(
 	lifecycleScope.launch {
 		val result = withContext(Dispatchers.IO) {
 			when {
-				item.type == BaseItemKind.PLAYLIST -> api.playlistsApi.getPlaylistItems(
+				item.type == BaseItemKind.PLAYLIST -> api.playlistApi.getPlaylistItems(
 					playlistId = item.id,
 					limit = 150,
 					fields = ItemRepository.itemFields,
 				).content
 
-				else -> api.itemsApi.getItems(
+				else -> api.libraryApi.getItems(
 					parentId = item.id,
 					includeItemTypes = setOf(BaseItemKind.AUDIO),
 					recursive = true,

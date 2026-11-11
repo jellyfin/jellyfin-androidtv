@@ -34,6 +34,7 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.exception.TimeoutException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
 import org.jellyfin.sdk.api.client.extensions.authenticateWithQuickConnect
+import org.jellyfin.sdk.api.client.extensions.authenticationApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.api.AuthenticationResult
@@ -83,7 +84,7 @@ class AuthenticationRepositoryImpl(
 	private fun authenticateCredential(server: Server, username: String, password: String) = flow {
 		val api = jellyfin.createApi(server.address, deviceInfo = defaultDeviceInfo.forUser(username))
 		val result = try {
-			val response = api.userApi.authenticateUserByName(username, password)
+			val response = api.authenticationApi.authenticateUserByName(username, password)
 			response.content
 		} catch (err: TimeoutException) {
 			Timber.e(err, "Failed to connect to server trying to sign in $username")
@@ -101,7 +102,7 @@ class AuthenticationRepositoryImpl(
 	private fun authenticateQuickConnect(server: Server, secret: String) = flow {
 		val api = jellyfin.createApi(server.address, deviceInfo = defaultDeviceInfo)
 		val result = try {
-			val response = api.userApi.authenticateWithQuickConnect(secret)
+			val response = api.authenticationApi.authenticateWithQuickConnect(secret)
 			response.content
 		} catch (err: TimeoutException) {
 			Timber.e(err, "Failed to connect to server")
