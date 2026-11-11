@@ -258,7 +258,7 @@
     <string name="image_type_thumbnail">Мініяцюра</string>
     <string name="image_type_banner">Банер</string>
     <string name="connect_manually_by_address">Увядзіце адрас сервера</string>
-    <string name="welcome_content">Падлучыцеся да сервера, каб пачаць працу.</string>
+    <string name="welcome_content">Падключыцеся да свайго сервера, каб пачаць.</string>
     <string name="press_to_close">Націсніце, каб закрыць</string>
     <string name="home_section_livetv">Тэлеканалы</string>
     <string name="pref_crash_reports_enabled">Справаздачы аб збоях будуць адпраўлены на ваш апошні выкарыстаны сервер</string>
@@ -458,7 +458,7 @@
     <string name="msg_settings_updated">Параметры абноўлены</string>
     <string name="lbl_colored_backgrounds">Каляровыя фоны</string>
     <string name="app_notification_update_soon">Абнавіце свой сервер з %1$s як мінімум да %2$s, каб працягваць выкарыстоўваць праграму пасля наступнага абнаўлення.</string>
-    <string name="login_connect_to">Падлучэнне да %1$s</string>
+    <string name="login_connect_to">Падключэнне да %1$s</string>
     <string name="pref_video">Відэа</string>
     <string name="home_section_none">Няма</string>
     <string name="color_black">Чорны</string>
@@ -484,7 +484,7 @@
     <string name="pref_subtitles_background_title">Уключыць фон</string>
     <string name="home_section_i">Галоўны раздзел %1$d</string>
     <string name="color_green">Зялёны</string>
-    <string name="server_issue_unable_to_connect">Немагчыма падлучыцца</string>
+    <string name="server_issue_unable_to_connect">Немагчыма падключыцца</string>
     <string name="pref_subtitles_background_summary">Паказваць чорны фон за субцітрамі</string>
     <string name="server_issue_invalid_product">Сервернае праграмнае забеспячэнне несумяшчальна</string>
     <string name="server_issue_missing_version">Немагчыма вызначыць версію сервера</string>
