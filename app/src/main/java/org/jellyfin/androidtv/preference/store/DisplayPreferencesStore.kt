@@ -8,7 +8,7 @@ import org.jellyfin.preference.migration.MigrationContext
 import org.jellyfin.preference.store.AsyncPreferenceStore
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.displayPreferencesApi
+import org.jellyfin.sdk.api.client.extensions.displayPreferenceApi
 import org.jellyfin.sdk.model.api.DisplayPreferencesDto
 import org.jellyfin.sdk.model.api.ScrollDirection
 import org.jellyfin.sdk.model.api.SortOrder
@@ -29,7 +29,7 @@ abstract class DisplayPreferencesStore(
 		if (displayPreferencesDto == null) return false
 
 		try {
-			api.displayPreferencesApi.updateDisplayPreferences(
+			api.displayPreferenceApi.updateDisplayPreferences(
 				displayPreferencesId = displayPreferencesId,
 				client = app,
 				data = displayPreferencesDto!!.copy(
@@ -59,7 +59,7 @@ abstract class DisplayPreferencesStore(
 	override suspend fun update(): Boolean {
 		try {
 			val result = withContext(Dispatchers.IO) {
-				api.displayPreferencesApi.getDisplayPreferences(
+				api.displayPreferenceApi.getDisplayPreferences(
 					displayPreferencesId = displayPreferencesId,
 					client = app
 				).content

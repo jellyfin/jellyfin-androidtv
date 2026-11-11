@@ -21,7 +21,7 @@ import org.jellyfin.androidtv.ui.settings.composable.SettingsDialog
 import org.jellyfin.androidtv.ui.settings.composable.SettingsRouterContent
 import org.jellyfin.androidtv.ui.settings.routes
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaType
@@ -73,7 +73,7 @@ fun LiveTvGuideFragment.refreshSelectedProgram() {
 	lifecycleScope.launch {
 		runCatching {
 			val item = withContext(Dispatchers.IO) {
-				api.userLibraryApi.getItem(mSelectedProgram.id).content
+				api.libraryApi.getItem(mSelectedProgram.id).content
 			}
 			mSelectedProgram = item
 		}.onFailure { error ->

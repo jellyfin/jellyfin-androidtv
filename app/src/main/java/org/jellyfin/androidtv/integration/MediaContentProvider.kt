@@ -22,7 +22,7 @@ import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDtoQueryResult
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.extensions.ticks
@@ -75,7 +75,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 	 * Gets the resumable items or returns null
 	 */
 	private suspend fun searchItems(query: String, limit: Int): BaseItemDtoQueryResult? = try {
-		val items by api.itemsApi.getItems(
+		val items by api.libraryApi.getItems(
 			searchTerm = query,
 			recursive = true,
 			limit = limit,

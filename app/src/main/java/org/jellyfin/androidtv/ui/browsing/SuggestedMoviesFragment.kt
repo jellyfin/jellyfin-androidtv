@@ -8,7 +8,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
@@ -25,7 +25,7 @@ class SuggestedMoviesFragment : EnhancedBrowseFragment() {
 	override fun setupQueries(rowLoader: RowLoader) {
 		lifecycleScope.launch {
 			val response = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(
+				api.libraryApi.getItems(
 					parentId = mFolder.id,
 					includeItemTypes = setOf(BaseItemKind.MOVIE),
 					sortOrder = setOf(SortOrder.DESCENDING),

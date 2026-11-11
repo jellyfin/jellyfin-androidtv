@@ -13,7 +13,7 @@ import org.jellyfin.playback.core.timedevent.TimedEvent
 import org.jellyfin.playback.core.timedevent.timedEvents
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.mediaSegmentsApi
+import org.jellyfin.sdk.api.client.extensions.mediaSegmentApi
 import org.jellyfin.sdk.model.api.MediaSegmentDto
 import org.jellyfin.sdk.model.api.MediaSegmentType
 import org.jellyfin.sdk.model.extensions.ticks
@@ -43,7 +43,7 @@ class MediaSegmentService(
 		val baseItem = entry.baseItem ?: return
 
 		// Get via API
-		val mediaSegments by api.mediaSegmentsApi.getItemSegments(baseItem.id)
+		val mediaSegments by api.mediaSegmentApi.getItemSegments(baseItem.id)
 		entry.mediaSegments = mediaSegments.items
 	}
 

@@ -9,7 +9,7 @@ import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.audioApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
-import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.api.client.extensions.videoApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.DeviceProfile
 import org.jellyfin.sdk.model.api.MediaProtocol
@@ -35,7 +35,7 @@ class JellyfinMediaStreamResolver(
 			mediaInfo.mediaSource.supportsDirectPlay && baseItem.mediaType == MediaType.VIDEO -> mediaInfo.toStream(
 				queueEntry = queueEntry,
 				conversionMethod = MediaConversionMethod.None,
-				url = api.videosApi.getVideoStreamUrl(
+				url = api.videoApi.getVideoStreamUrl(
 					itemId = baseItem.id,
 					container = mediaInfo.mediaSource.container,
 					mediaSourceId = mediaInfo.mediaSource.id,
