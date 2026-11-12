@@ -46,8 +46,8 @@
     <string name="lbl_play_trailers">Spæl brellbita(r)</string>
     <string name="lbl_no">Nei</string>
     <string name="lbl_yes">Ja</string>
-    <string name="lbl_enter_server_address">Inntøppa ambætaraadressu</string>
-    <string name="lbl_valid_server_address">Vinaliga inntøppa adressu ambætarans (IP ella økisnavn/vertsnavn)</string>
+    <string name="lbl_enter_server_address">Skriva ambætaraadressu</string>
+    <string name="lbl_valid_server_address">Vinaliga skriva adressu ambætarans (IP ella økisnavn/vertsnavn)</string>
     <string name="lbl_born">"Føddur "</string>
     <string name="lbl_loading_elipses">Innlesur…</string>
     <string name="lbl_never">Ongantíð</string>
@@ -151,7 +151,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="no_player">Eingin spælari</string>
     <string name="episode_missing">Partur manglar</string>
-    <string name="episode_missing_message">Hesin parturin manglar í savninum. Vilt tú leypa hann um og halda áfram til næsta partin?</string>
+    <string name="episode_missing_message">Parturin manglar í savninum. Vilt tú leypa hann um og halda áfram til næsta partin?</string>
     <string name="too_many_errors">Ov nógvir feilir. Heldur uppat</string>
     <string name="subtitle_error">Bar ikki til at velja undirtekst</string>
     <string name="audio_error">Bar ikki til at spæla ljóð %1$s</string>
@@ -183,7 +183,7 @@
     <string name="pref_developer_link">Mennarastillingar</string>
     <string name="discovered_servers_title">Funnir ambætarar</string>
     <string name="discovered_servers_empty">Fann ongar ambætarar á nærneti.</string>
-    <string name="connect_manually_by_address">Inntøppa ambætaraadressu</string>
+    <string name="connect_manually_by_address">Skriva ambætaraadressu</string>
     <string name="login_help_title">Tørvar tær hjálp?</string>
     <string name="login_help_description">Jellyfin tørvar at sambindast til ein ambætara. Sí skjalfestingina á docs.jellyfin.org ella skanna QR-kotuna til tess at koma ígongd við Jellyfin.</string>
     <string name="auto_sign_in">Sjálvvirkandi innritan</string>
@@ -245,7 +245,7 @@
     <string name="input_password">Loyniorð</string>
     <string name="login_connect_to">Sambindur við %1$s</string>
     <string name="login_other_options">Aðrir møgulleikar:</string>
-    <string name="login_quickconnect_step_3">3. Inntøppa fylgjandi kotu:</string>
+    <string name="login_quickconnect_step_3">3. Skriva fylgjandi kotu:</string>
     <string name="action_connect">Sambind</string>
     <string name="app_notification_beta">Appin er dagførd til %1$s\nTakk fyri at tú luttekur í Jellyfin royndarverkætlanini.</string>
     <string name="channels">Rásir</string>
@@ -386,7 +386,7 @@
     <string name="msg_live_tv_next">Innles næstu %1$d tímarnar?</string>
     <string name="msg_live_tv_prev">Innles undanfarnu %1$d tímarnar?</string>
     <string name="lbl_playback_control_ends">Endar kl. %1$s</string>
-    <string name="turn_off">Sløkk hesa stillingina</string>
+    <string name="turn_off">Sløkk stillingina</string>
     <string name="just_one">Einans hendan partin</string>
     <string name="player_error">Ein spælivilla kom fyri. Roynir aftur…</string>
     <string name="lbl_hide_unwatched_count">Tá miðilin er sæddur</string>
@@ -409,9 +409,9 @@
     <string name="pref_playback_media_segments">Margmiðlabrot</string>
     <string name="segment_type_preview">Brellbitar</string>
     <string name="pref_mediasegment_actions">Margmiðlabrotsatgerðir</string>
-    <string name="msg_playback_incompatible">Fær ikki spælt hetta kykmyndasniðið</string>
+    <string name="msg_playback_incompatible">Fær ikki spælt kykmyndasniðið</string>
     <string name="episode_missing_message_2">Hesin parturin vantar í tínum savni. Spælingin steðgar.</string>
-    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Hendan stillingin tørvar eina triðjapartsapp at spæla kykmyndir.</string>
+    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Stillingin tørvar eina triðjaparts-app at spæla kykmyndir.</string>
     <string name="pref_playback_description">Kykmyndir, undirtekstir, beinleiðis sjónvarp, næst á skránni</string>
     <string name="login_quickconnect_step_1">1. Lat upp Jellyfin-appina á tíni telefon ella vevkaga og rita inn við tínum brúkara</string>
     <string name="login_quickconnect_step_2">2. Lat upp brúkaravalmyndina og vel Quick Connect</string>
@@ -590,8 +590,8 @@
     <string name="lbl_sign_out_content">Innritan verður kravd við næstu koyring</string>
     <string name="lbl_cancel_series">Avlýs røðupptøku</string>
     <string name="msg_playback_not_allowed">Spæling er ikki loyvd í løtuni</string>
-    <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av hesum miðlinum í løtuni</string>
-    <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla hendan miðilin</string>
+    <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av miðlinum í løtuni</string>
+    <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla miðilin</string>
     <string name="msg_no_playable_items">Ongir miðlar ið kunnu spælast</string>
     <string name="lbl_show_premieres">Vís umfarsfrumsýningar</string>
     <string name="desc_premieres">Vís eina røð av nýggjum pørtum fyri røðir ið tú hyggur at</string>
