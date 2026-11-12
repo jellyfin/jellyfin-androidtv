@@ -98,7 +98,7 @@
     <string name="lbl_today">Сёння</string>
     <string name="lbl_tomorrow">Заўтра</string>
     <string name="license_license">Ліцэнзія</string>
-    <string name="home_section_library">Мая мультымедыя</string>
+    <string name="home_section_library">Мае медыя</string>
     <string name="lbl_play_first_unwatched">Спачатку прайграваць непрагледжанае</string>
     <string name="lbl_mark_played">Пазначыць як прайгранае</string>
     <string name="lbl_remove_favorite">Выдаліць з абранага</string>
@@ -115,7 +115,7 @@
     <string name="lbl_add_favorite">Дадаць у абранае</string>
     <string name="home_prefs">Дадому</string>
     <string name="home_sections">Хатнія раздзелы</string>
-    <string name="home_section_latest_media">Нядаўна дададзеныя мультымедыя</string>
+    <string name="home_section_latest_media">Нядаўна дададзеныя медыя</string>
     <string name="home_section_library_small">Мае медыя (скарочана)</string>
     <string name="home_section_resume_audio">Працягнуць праслухоўваць</string>
     <string name="home_section_resume">Працягнуць прагляд</string>
@@ -344,14 +344,14 @@
     <string name="image_size_xlarge">Надвялікі</string>
     <string name="discovered_servers_empty">У лакальнай сетцы не знойдзена ніводнага сервера.</string>
     <string name="no_network_permissions">Jellyfin патрабуе сеткавых дазволаў для працы</string>
-    <string name="searchable_settings_description">Мультымедыя</string>
+    <string name="searchable_settings_description">Медыя</string>
     <string name="server_unsupported_notification">Гэты сервер выкарыстоўвае версію Jellyfin %1$s, якая не падтрымліваецца. Калі ласка, абнавіце Jellyfin да %2$s або больш позняй версіі, каб працягваць выкарыстоўваць праграму.</string>
     <string name="pref_crash_reports">Адпраўляць справаздачы аб збоях на сервер</string>
     <string name="pref_crash_report_logs">Уключаючы журналы</string>
     <string name="episode_name_special">спецыяльныя</string>
-    <string name="pref_enable_media_management_description">Паказаць магчымасць кіравання мультымедыя падчас прагляду</string>
+    <string name="pref_enable_media_management_description">Паказаць магчымасць кіравання медыя падчас прагляду</string>
     <string name="current_queue">Бягучая чарга</string>
-    <string name="lbl_my_media">Мае медыяфайлы</string>
+    <string name="lbl_my_media">Мае медыя</string>
     <string name="watch_now">Глядзець зараз</string>
     <string name="pref_next_up_behavior_title">Паказаць інфармацыю пра наступнае відэа</string>
     <string name="pref_device_model">Мадэль прылады</string>
@@ -382,7 +382,7 @@
     <string name="server_setup_incomplete">Налада гэтага сервера не была завершана. Адкрыйце Jellyfin у вэб-браўзеры, каб завяршыць наладку перад уваходам.</string>
     <string name="crash_report_toast">Ой! Нешта пайшло не так, справаздача аб збоях была адпраўлена на ваш сервер Jellyfin.</string>
     <string name="item_deleted">%1$s выдалена</string>
-    <string name="pref_enable_media_management">Уключыць кіраванне мультымедыя</string>
+    <string name="pref_enable_media_management">Уключыць кіраванне медыя</string>
     <string name="pref_live_tv_cat">Тэлеканалы</string>
     <string name="lbl_song">Песня</string>
     <string name="lbl_remove_from_queue">Выдаліць з чаргі</string>
@@ -579,7 +579,7 @@
     <string name="video_start_delay">Затрымка пачатку відэа</string>
     <string name="segment_action_nothing">Нічога не рабіць</string>
     <string name="prefer_exoplayer_ffmpeg_content">Выкарыстоўваць FFmpeg, каб раскадзіраваць аўдыя, нават калі даступныя кодэкі платформы.</string>
-    <string name="pref_mediasegment_actions">Дзеянні з сегментамі медыяфайла</string>
+    <string name="pref_mediasegment_actions">Дзеянні з медыясегментамі</string>
     <string name="segment_action_ask_to_skip">Запытаць дазвол на прапуск</string>
     <string name="segment_action_skip">Прапусціць</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
