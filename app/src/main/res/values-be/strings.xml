@@ -98,7 +98,7 @@
     <string name="lbl_today">Сёння</string>
     <string name="lbl_tomorrow">Заўтра</string>
     <string name="license_license">Ліцэнзія</string>
-    <string name="home_section_library">Мая мультымедыя</string>
+    <string name="home_section_library">Мае медыя</string>
     <string name="lbl_play_first_unwatched">Спачатку прайграваць непрагледжанае</string>
     <string name="lbl_mark_played">Пазначыць як прайгранае</string>
     <string name="lbl_remove_favorite">Выдаліць з абранага</string>
@@ -115,7 +115,7 @@
     <string name="lbl_add_favorite">Дадаць у абранае</string>
     <string name="home_prefs">Дадому</string>
     <string name="home_sections">Хатнія раздзелы</string>
-    <string name="home_section_latest_media">Нядаўна дададзеныя мультымедыя</string>
+    <string name="home_section_latest_media">Нядаўна дададзеныя медыя</string>
     <string name="home_section_library_small">Мае медыя (скарочана)</string>
     <string name="home_section_resume_audio">Працягнуць праслухоўваць</string>
     <string name="home_section_resume">Працягнуць прагляд</string>
@@ -124,7 +124,7 @@
     <string name="lbl_showing">Паказ</string>
     <string name="lbl_only_new_episodes">Толькі новыя серыі</string>
     <string name="lbl_repeat_options">Варыянты паўтору</string>
-    <string name="msg_cancel_entire_series">Вы ўпэўненыя, што хочаце скасаваць УВЕСЬ СЕРЫЯЛ?</string>
+    <string name="msg_cancel_entire_series">Вы ўпэўнены, што жадаеце скасаваць УВЕСЬ СЕРЫЯЛ?</string>
     <string name="pref_audio_compat">Звядзенне да стэрэа</string>
     <string name="lbl_audio_output">Аўдыявыхад</string>
     <string name="lbl_runtime">Працягласць</string>
@@ -258,7 +258,7 @@
     <string name="image_type_thumbnail">Мініяцюра</string>
     <string name="image_type_banner">Банер</string>
     <string name="connect_manually_by_address">Увядзіце адрас сервера</string>
-    <string name="welcome_content">Падлучыцеся да сервера, каб пачаць працу.</string>
+    <string name="welcome_content">Падключыцеся да свайго сервера, каб пачаць.</string>
     <string name="press_to_close">Націсніце, каб закрыць</string>
     <string name="home_section_livetv">Тэлеканалы</string>
     <string name="pref_crash_reports_enabled">Справаздачы аб збоях будуць адпраўлены на ваш апошні выкарыстаны сервер</string>
@@ -344,14 +344,14 @@
     <string name="image_size_xlarge">Надвялікі</string>
     <string name="discovered_servers_empty">У лакальнай сетцы не знойдзена ніводнага сервера.</string>
     <string name="no_network_permissions">Jellyfin патрабуе сеткавых дазволаў для працы</string>
-    <string name="searchable_settings_description">Мультымедыя</string>
+    <string name="searchable_settings_description">Медыя</string>
     <string name="server_unsupported_notification">Гэты сервер выкарыстоўвае версію Jellyfin %1$s, якая не падтрымліваецца. Калі ласка, абнавіце Jellyfin да %2$s або больш позняй версіі, каб працягваць выкарыстоўваць праграму.</string>
     <string name="pref_crash_reports">Адпраўляць справаздачы аб збоях на сервер</string>
     <string name="pref_crash_report_logs">Уключаючы журналы</string>
     <string name="episode_name_special">спецыяльныя</string>
-    <string name="pref_enable_media_management_description">Паказаць магчымасць кіравання мультымедыя падчас прагляду</string>
+    <string name="pref_enable_media_management_description">Паказаць магчымасць кіравання медыя падчас прагляду</string>
     <string name="current_queue">Бягучая чарга</string>
-    <string name="lbl_my_media">Мае медыяфайлы</string>
+    <string name="lbl_my_media">Мае медыя</string>
     <string name="watch_now">Глядзець зараз</string>
     <string name="pref_next_up_behavior_title">Паказаць інфармацыю пра наступнае відэа</string>
     <string name="pref_device_model">Мадэль прылады</string>
@@ -382,7 +382,7 @@
     <string name="server_setup_incomplete">Налада гэтага сервера не была завершана. Адкрыйце Jellyfin у вэб-браўзеры, каб завяршыць наладку перад уваходам.</string>
     <string name="crash_report_toast">Ой! Нешта пайшло не так, справаздача аб збоях была адпраўлена на ваш сервер Jellyfin.</string>
     <string name="item_deleted">%1$s выдалена</string>
-    <string name="pref_enable_media_management">Уключыць кіраванне мультымедыя</string>
+    <string name="pref_enable_media_management">Уключыць кіраванне медыя</string>
     <string name="pref_live_tv_cat">Тэлеканалы</string>
     <string name="lbl_song">Песня</string>
     <string name="lbl_remove_from_queue">Выдаліць з чаргі</string>
@@ -458,7 +458,7 @@
     <string name="msg_settings_updated">Параметры абноўлены</string>
     <string name="lbl_colored_backgrounds">Каляровыя фоны</string>
     <string name="app_notification_update_soon">Абнавіце свой сервер з %1$s як мінімум да %2$s, каб працягваць выкарыстоўваць праграму пасля наступнага абнаўлення.</string>
-    <string name="login_connect_to">Падлучэнне да %1$s</string>
+    <string name="login_connect_to">Падключэнне да %1$s</string>
     <string name="pref_video">Відэа</string>
     <string name="home_section_none">Няма</string>
     <string name="color_black">Чорны</string>
@@ -484,7 +484,7 @@
     <string name="pref_subtitles_background_title">Уключыць фон</string>
     <string name="home_section_i">Галоўны раздзел %1$d</string>
     <string name="color_green">Зялёны</string>
-    <string name="server_issue_unable_to_connect">Немагчыма падлучыцца</string>
+    <string name="server_issue_unable_to_connect">Немагчыма падключыцца</string>
     <string name="pref_subtitles_background_summary">Паказваць чорны фон за субцітрамі</string>
     <string name="server_issue_invalid_product">Сервернае праграмнае забеспячэнне несумяшчальна</string>
     <string name="server_issue_missing_version">Немагчыма вызначыць версію сервера</string>
@@ -530,7 +530,7 @@
     <string name="login_other_options">Іншыя варыянты:</string>
     <string name="login_quickconnect_step_3">3. Увядзіце наступны код:</string>
     <string name="app_notification_uimode_invalid">Гэта праграма аптымізавана для тэлевізараў. Мы рэкамендуем выкарыстоўваць нашу мабільную праграму на іншых прыладах.</string>
-    <string name="item_delete_confirm_message">Вы ўпэўнены, што хочаце выдаліць гэты элемент з сервера? Гэта дзеянне нельга адмяніць.</string>
+    <string name="item_delete_confirm_message">Вы ўпэўнены, што жадаеце выдаліць гэты элемент з сервера? Гэта дзеянне нельга адмяніць.</string>
     <string name="lbl_show_premieres">Паказваць прэм\'еры сезона</string>
     <string name="lbl_sports">Спорт</string>
     <string name="indicator_subtitles">CC</string>
@@ -579,7 +579,7 @@
     <string name="video_start_delay">Затрымка пачатку відэа</string>
     <string name="segment_action_nothing">Нічога не рабіць</string>
     <string name="prefer_exoplayer_ffmpeg_content">Выкарыстоўваць FFmpeg, каб раскадзіраваць аўдыя, нават калі даступныя кодэкі платформы.</string>
-    <string name="pref_mediasegment_actions">Дзеянні з сегментамі медыяфайла</string>
+    <string name="pref_mediasegment_actions">Дзеянні з медыясегментамі</string>
     <string name="segment_action_ask_to_skip">Запытаць дазвол на прапуск</string>
     <string name="segment_action_skip">Прапусціць</string>
     <string name="indicator_subtitles_hearing_impaired">SDH</string>
@@ -588,7 +588,7 @@
     <string name="skip_forward_length">Даўжыня пераскоку ўперад</string>
     <string name="pref_report_device_profile_title">Паведамляць пра магчымасці прайгравання на сервер</string>
     <string name="segment_type_preview">Прадпрагляд</string>
-    <string name="segment_type_recap">У папярэдніх серыях</string>
+    <string name="segment_type_recap">Падагульненні</string>
     <string name="segment_type_unknown">Невядомыя сегменты</string>
     <string name="pref_subtitles_background_opacity">Празрыстасць фону субцітраў</string>
     <string name="pref_report_device_profile_summary">Загрузіце дакумент па вырашэнні праблем на сервер Jellyfin з інфармацыяй пра магчымасці прайгравання</string>
@@ -662,7 +662,7 @@
     <string name="preference_codecs">Медыякодэкі</string>
     <string name="playback_info">Інфармацыя пра прайграванне</string>
     <string name="playback_info_channels">Каналы: %1$d</string>
-    <string name="playback_info_video_range">Дыяпазон відэа: %1$s</string>
+    <string name="playback_info_video_range">Відэадыяпазон: %1$s</string>
     <string name="preference_enable_ass_description">Эксперыментальная функцыя, можа працаваць ненадзейна</string>
     <string name="lbl_3d">3D</string>
     <string name="lbl_date_show_added">Дата дадання серыяла</string>
