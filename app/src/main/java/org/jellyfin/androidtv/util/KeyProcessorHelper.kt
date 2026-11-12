@@ -7,8 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.ui.itemdetail.firstUnplayedIndex
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.playlistsApi
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
@@ -51,6 +56,60 @@ fun FragmentActivity.playFirstUnwatchedItem(parentId: UUID) {
 				Timber.e(error, "Error trying to play first unwatched")
 				Toast.makeText(
 					this@playFirstUnwatchedItem,
+					R.string.msg_video_playback_error,
+					Toast.LENGTH_LONG
+				).show()
+			},
+		)
+	}
+}
+
+fun FragmentActivity.resumePlaylist(playlistId: UUID) {
+	val api by inject<ApiClient>()
+	val playbackLauncher by inject<PlaybackLauncher>()
+	val sessionRepository by inject<SessionRepository>()
+
+	lifecycleScope.launch(Dispatchers.IO) {
+		runCatching {
+			api.playlistsApi.getPlaylistItems(
+				playlistId = playlistId,
+				userId = sessionRepository.currentSession.value?.userId,
+				fields = setOf(
+					ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+					ItemFields.MEDIA_SOURCE_COUNT,
+					ItemFields.CHAPTERS,
+					ItemFields.TRICKPLAY,
+				),
+				enableUserData = true,
+			)
+		}.fold(
+			onSuccess = { response ->
+				val items = response.content.items.orEmpty()
+				val index = firstUnplayedIndex(items).coerceAtLeast(0)
+
+				withContext(Dispatchers.Main) {
+					if (items.isEmpty()) {
+						Toast.makeText(
+							this@resumePlaylist,
+							R.string.msg_no_items,
+							Toast.LENGTH_LONG
+						).show()
+					} else {
+						playbackLauncher.launch(
+							this@resumePlaylist,
+							items,
+							items[index].userData?.playbackPositionTicks?.let { (it / 10000).toInt() },
+							false,
+							index,
+							false,
+						)
+					}
+				}
+			},
+			onFailure = { error ->
+				Timber.e(error, "Error trying to resume playlist")
+				Toast.makeText(
+					this@resumePlaylist,
 					R.string.msg_video_playback_error,
 					Toast.LENGTH_LONG
 				).show()
