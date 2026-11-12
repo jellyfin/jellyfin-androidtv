@@ -662,7 +662,7 @@
     <string name="preference_codecs">Медыякодэкі</string>
     <string name="playback_info">Інфармацыя пра прайграванне</string>
     <string name="playback_info_channels">Каналы: %1$d</string>
-    <string name="playback_info_video_range">Дыяпазон відэа: %1$s</string>
+    <string name="playback_info_video_range">Відэадыяпазон: %1$s</string>
     <string name="preference_enable_ass_description">Эксперыментальная функцыя, можа працаваць ненадзейна</string>
     <string name="lbl_3d">3D</string>
     <string name="lbl_date_show_added">Дата дадання серыяла</string>
