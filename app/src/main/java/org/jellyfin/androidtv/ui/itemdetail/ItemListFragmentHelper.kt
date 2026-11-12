@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
@@ -56,14 +57,17 @@ fun ItemListFragment.getPlaylist(
 	callback: (items: List<BaseItemDto>) -> Unit
 ) {
 	val api by inject<ApiClient>()
+	val sessionRepository by inject<SessionRepository>()
 
 	lifecycleScope.launch {
 		val result = withContext(Dispatchers.IO) {
 			when {
 				item.type == BaseItemKind.PLAYLIST -> api.playlistsApi.getPlaylistItems(
 					playlistId = item.id,
+					userId = sessionRepository.currentSession.value?.userId,
 					limit = 150,
 					fields = ItemRepository.itemFields,
+					enableUserData = true,
 				).content
 
 				else -> api.itemsApi.getItems(
@@ -92,3 +96,9 @@ fun ItemListFragment.toggleFavorite(item: BaseItemDto, callback: (item: BaseItem
 		callback(item.copy(userData = userData))
 	}
 }
+
+/**
+ * Index of the first playlist entry that has not been played yet, or -1 when every entry is played.
+ */
+fun firstUnplayedIndex(items: List<BaseItemDto>): Int =
+	items.indexOfFirst { it.userData?.played != true }

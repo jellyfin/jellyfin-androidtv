@@ -78,6 +78,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private BaseItemDto mBaseItem;
     private List<BaseItemDto> mItems = new ArrayList<>();
+    private TextUnderButton mResumeButton;
 
     private int mBottomScrollThreshold;
 
@@ -337,6 +338,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
             updateBackdrop();
         }
+        updateResumeButton();
         return null;
     };
 
@@ -359,6 +361,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
         }
         KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).launch(getContext(), items, pos, false, ndx, shuffle);
+    }
+
+    private void updateResumeButton() {
+        if (mResumeButton == null) return;
+        mResumeButton.setVisibility(ItemListFragmentHelperKt.firstUnplayedIndex(mItems) >= 0 ? View.VISIBLE : View.GONE);
     }
 
     private void addButtons(int buttonSize) {
@@ -405,6 +412,25 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             }
 
             if (mBaseItem.isFolder()) {
+                if (mBaseItem.getType() == BaseItemKind.PLAYLIST) {
+                    mResumeButton = TextUnderButton.create(requireContext(), R.drawable.ic_resume, buttonSize, 2, getString(R.string.lbl_resume), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int index = ItemListFragmentHelperKt.firstUnplayedIndex(mItems);
+                            if (index >= 0) {
+                                play(mItems, index, false);
+                            } else {
+                                Utils.showToast(requireContext(), R.string.msg_no_playable_items);
+                            }
+                        }
+                    });
+                    mResumeButton.setVisibility(View.GONE);
+                    mButtonRow.addView(mResumeButton);
+                    mResumeButton.setOnFocusChangeListener((v, hasFocus) -> {
+                        if (hasFocus) mScrollView.smoothScrollTo(0, 0);
+                    });
+                }
+
                 TextUnderButton shuffle = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
