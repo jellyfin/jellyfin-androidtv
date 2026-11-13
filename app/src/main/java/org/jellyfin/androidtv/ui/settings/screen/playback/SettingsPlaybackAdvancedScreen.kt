@@ -111,6 +111,18 @@ fun SettingsPlaybackAdvancedScreen() {
 		}
 
 		item {
+			var smartSkipEnabled by rememberPreference(userSettingPreferences, UserSettingPreferences.smartSkipEnabled)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.preference_enable_smart_skip)) },
+				captionContent = { Text(stringResource(R.string.preference_enable_smart_skip_description)) },
+				trailingContent = { Checkbox(checked = smartSkipEnabled) },
+				onClick = { smartSkipEnabled = !smartSkipEnabled },
+				modifier = Modifier.focusKey("smart_skip_enabled")
+			)
+		}
+
+		item {
 			var bufferLength by rememberPreference(userPreferences, UserPreferences.bufferLength)
 
 			ListButton(
