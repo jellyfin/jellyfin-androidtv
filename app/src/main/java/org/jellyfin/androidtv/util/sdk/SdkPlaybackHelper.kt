@@ -294,8 +294,14 @@ class SdkPlaybackHelper(
 			val items = withContext(Dispatchers.IO) {
 				val response by api.itemsApi.getItems(
 					ids = itemIds,
+					fields = ItemRepository.itemFields,
 				)
 				response.items
+			}
+
+			if (items.isEmpty() || items.any { it.mediaSources.isNullOrEmpty() }) {
+				Toast.makeText(context, R.string.msg_cannot_play, Toast.LENGTH_LONG).show()
+				return@launch
 			}
 
 			val pos = position?.ticks ?: items[0].userData?.playbackPositionTicks?.ticks?.minus(
