@@ -16,6 +16,7 @@ class LiveTvPreferences(
 		val channelOrder = stringPreference("livetv-channelorder", ItemSortBy.DATE_PLAYED.name)
 		val colorCodeGuide = booleanPreference("guide-colorcodedbackgrounds", false)
 		val favsAtTop = booleanPreference("livetv-favoritechannelsattop", true)
+		val restoreLastChannel = booleanPreference("livetv-guide-restore-last-channel", true)
 		val showHDIndicator = booleanPreference("guide-indicator-hd", false)
 		val showLiveIndicator = booleanPreference("guide-indicator-live", true)
 		val showNewIndicator = booleanPreference("guide-indicator-new", false)
