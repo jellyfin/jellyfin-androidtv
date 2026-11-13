@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -93,7 +94,7 @@ fun initializePreviewView(
 						url = cover.getUrl(api),
 						blurHash = cover.blurHash,
 						aspectRatio = cover.aspectRatio?.toFloat() ?: 1f,
-						scaleType = ImageView.ScaleType.CENTER_INSIDE,
+						scaleType = ContentScale.Fit,
 						modifier = Modifier
 							.alpha(coverViewAlpha)
 					)
