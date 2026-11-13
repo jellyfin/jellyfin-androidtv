@@ -35,6 +35,7 @@ private val supportedAudioCodecs = arrayOf(
 	Codec.Audio.ALAC,
 	Codec.Audio.DCA,
 	Codec.Audio.DTS,
+	Codec.Audio.DTS_HD,
 	Codec.Audio.EAC3,
 	Codec.Audio.FLAC,
 	Codec.Audio.MLP,
@@ -133,7 +134,7 @@ fun createDeviceProfile(
 			Codec.Audio.AC3 -> isAC3PrefEnabled
 			Codec.Audio.EAC3 -> isEAC3PrefEnabled
 			Codec.Audio.TRUEHD -> isTrueHDPrefEnabled
-			Codec.Audio.DTS -> isDTSPrefEnabled
+			Codec.Audio.DTS, Codec.Audio.DTS_HD, Codec.Audio.DCA -> isDTSPrefEnabled
 			else -> true
 		}
 	}.toTypedArray()
