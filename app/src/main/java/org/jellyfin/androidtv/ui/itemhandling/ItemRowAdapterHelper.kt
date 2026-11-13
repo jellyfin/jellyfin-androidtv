@@ -17,14 +17,12 @@ import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment.SortOption
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
-import org.jellyfin.sdk.api.client.extensions.artistsApi
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.artistApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
-import org.jellyfin.sdk.api.client.extensions.tvShowsApi
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
-import org.jellyfin.sdk.api.client.extensions.userViewsApi
-import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.api.client.extensions.showApi
+import org.jellyfin.sdk.api.client.extensions.userViewApi
+import org.jellyfin.sdk.api.client.extensions.videoApi
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
@@ -75,7 +73,7 @@ fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequ
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.itemsApi.getResumeItems(query).content
+				api.libraryApi.getResumeItems(query).content
 			}
 
 			setItems(
@@ -101,7 +99,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.tvShowsApi.getNextUp(query).content
+				api.showApi.getNextUp(query).content
 			}
 
 			// Some special flavor for series, used in FullDetailsFragment
@@ -111,7 +109,7 @@ fun ItemRowAdapter.retrieveNextUpItems(api: ApiClient, query: GetNextUpRequest) 
 				// we want to query the server for all episodes in the same season starting from
 				// this one to create a list of all unwatched episodes
 				val episodesResponse = withContext(Dispatchers.IO) {
-					api.itemsApi.getItems(
+					api.libraryApi.getItems(
 						parentId = firstNextUp.seasonId,
 						startIndex = firstNextUp.indexNumber,
 					).content
@@ -160,7 +158,7 @@ fun ItemRowAdapter.retrieveLatestMedia(api: ApiClient, query: GetLatestMediaRequ
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.userLibraryApi.getLatestMedia(query).content
+				api.libraryApi.getLatestMedia(query).content
 			}
 
 			setItems(
@@ -189,7 +187,7 @@ fun ItemRowAdapter.retrieveSpecialFeatures(api: ApiClient, query: GetSpecialsReq
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.userLibraryApi.getSpecialFeatures(query.itemId).content
+				api.libraryApi.getSpecialFeatures(query.itemId).content
 			}
 
 			setItems(
@@ -211,7 +209,7 @@ fun ItemRowAdapter.retrieveAdditionalParts(api: ApiClient, query: GetAdditionalP
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.videosApi.getAdditionalPart(query.itemId).content
+				api.videoApi.getAdditionalPart(query.itemId).content
 			}
 
 			setItems(
@@ -231,7 +229,7 @@ fun ItemRowAdapter.retrieveUserViews(api: ApiClient, userViewsRepository: UserVi
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.userViewsApi.getUserViews().content
+				api.userViewApi.getUserViews().content
 			}
 
 			val filteredItems = response.items
@@ -254,7 +252,7 @@ fun ItemRowAdapter.retrieveSeasons(api: ApiClient, query: GetSeasonsRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.tvShowsApi.getSeasons(query).content
+				api.showApi.getSeasons(query).content
 			}
 
 			setItems(
@@ -274,7 +272,7 @@ fun ItemRowAdapter.retrieveUpcomingEpisodes(api: ApiClient, query: GetUpcomingEp
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.tvShowsApi.getUpcomingEpisodes(query).content
+				api.showApi.getUpcomingEpisodes(query).content
 			}
 
 			setItems(
@@ -314,7 +312,7 @@ fun ItemRowAdapter.retrieveTrailers(api: ApiClient, query: GetTrailersRequest) {
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.userLibraryApi.getLocalTrailers(itemId = query.itemId)
+				api.libraryApi.getLocalTrailers(itemId = query.itemId)
 			}.content
 
 			setItems(
@@ -494,7 +492,7 @@ fun ItemRowAdapter.retrieveAlbumArtists(
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.artistsApi.getAlbumArtists(
+				api.artistApi.getAlbumArtists(
 					query.copy(
 						startIndex = startIndex,
 						limit = batchSize,
@@ -531,7 +529,7 @@ fun ItemRowAdapter.retrieveArtists(
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.artistsApi.getArtists(
+				api.artistApi.getArtists(
 					query.copy(
 						startIndex = startIndex,
 						limit = batchSize,
@@ -568,7 +566,7 @@ fun ItemRowAdapter.retrieveItems(
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(
+				api.libraryApi.getItems(
 					query.copy(
 						startIndex = startIndex,
 						limit = batchSize,
@@ -603,7 +601,7 @@ fun ItemRowAdapter.retrievePremieres(
 	ProcessLifecycleOwner.get().lifecycleScope.launch {
 		runCatching {
 			val response = withContext(Dispatchers.IO) {
-				api.itemsApi.getItems(query).content
+				api.libraryApi.getItems(query).content
 			}
 
 			setItems(
@@ -706,7 +704,7 @@ fun ItemRowAdapter.refreshItem(
 	lifecycleOwner.lifecycleScope.launch {
 		runCatching {
 			withContext(Dispatchers.IO) {
-				api.userLibraryApi.getItem(itemId = currentBaseItem.id).content
+				api.libraryApi.getItem(itemId = currentBaseItem.id).content
 			}
 		}.fold(
 			onSuccess = { refreshedBaseItem ->

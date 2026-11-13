@@ -29,7 +29,7 @@ import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.quickConnectApi
+import org.jellyfin.sdk.api.client.extensions.authenticationApi
 import org.jellyfin.sdk.model.DeviceInfo
 import timber.log.Timber
 import java.util.UUID
@@ -87,7 +87,7 @@ class UserLoginViewModel(
 					deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID()),
 				)
 
-				quickConnectApi.quickConnectApi.initiateQuickConnect().content
+				quickConnectApi.authenticationApi.initiateQuickConnect().content
 			}
 
 			quickConnectSecret = response.secret
@@ -117,7 +117,7 @@ class UserLoginViewModel(
 
 		try {
 			val state = withContext(Dispatchers.IO) {
-				quickConnectApi.quickConnectApi.getQuickConnectState(secret = secret).content
+				quickConnectApi.authenticationApi.getQuickConnectState(secret = secret).content
 			}
 
 			if (state.authenticated) {

@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.koin.java.KoinJavaComponent
 import java.util.UUID
@@ -21,7 +21,7 @@ object ItemLauncherHelper {
 
 			try {
 				val response = withContext(Dispatchers.IO) {
-					api.userLibraryApi.getItem(itemId = itemId).content
+					api.libraryApi.getItem(itemId = itemId).content
 				}
 				callback.onResponse(response)
 			} catch (error: ApiClientException) {

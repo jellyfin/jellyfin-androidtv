@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaType
@@ -50,7 +50,7 @@ class SearchRepositoryImpl(
 		}
 
 		val result = withContext(Dispatchers.IO) {
-			apiClient.itemsApi.getItems(request).content
+			apiClient.libraryApi.getItems(request).content
 		}
 
 		Result.success(result.items)

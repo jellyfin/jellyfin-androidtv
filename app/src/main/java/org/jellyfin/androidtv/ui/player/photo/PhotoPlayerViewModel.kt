@@ -13,8 +13,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.itemsApi
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -38,12 +37,12 @@ class PhotoPlayerViewModel(
 	suspend fun loadItem(id: UUID, sortBy: Collection<ItemSortBy>, sortOrder: SortOrder) {
 		// Load requested item
 		val itemResponse = withContext(Dispatchers.IO) {
-			api.userLibraryApi.getItem(itemId = id).content
+			api.libraryApi.getItem(itemId = id).content
 		}
 		_currentItem.value = itemResponse
 
 		val albumResponse = withContext(Dispatchers.IO) {
-			api.itemsApi.getItems(
+			api.libraryApi.getItems(
 				parentId = itemResponse.parentId,
 				includeItemTypes = setOf(BaseItemKind.PHOTO),
 				fields = ItemRepository.itemFields,

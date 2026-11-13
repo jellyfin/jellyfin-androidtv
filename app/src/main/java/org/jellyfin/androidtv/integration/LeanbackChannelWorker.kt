@@ -44,10 +44,9 @@ import org.jellyfin.androidtv.util.stripHtml
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.exception.TimeoutException
-import org.jellyfin.sdk.api.client.extensions.itemsApi
-import org.jellyfin.sdk.api.client.extensions.tvShowsApi
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
-import org.jellyfin.sdk.api.client.extensions.userViewsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
+import org.jellyfin.sdk.api.client.extensions.showApi
+import org.jellyfin.sdk.api.client.extensions.userViewApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
@@ -269,7 +268,7 @@ class LeanbackChannelWorker(
 	 */
 	@Suppress("RestrictedApi")
 	private suspend fun getMyMedia(): List<BaseItemDto> {
-		val response by api.userViewsApi.getUserViews(includeHidden = false)
+		val response by api.userViewApi.getUserViews(includeHidden = false)
 
 		// Add new items
 		return response.items
@@ -298,7 +297,7 @@ class LeanbackChannelWorker(
 	private suspend fun getNextUpItems(): Pair<List<BaseItemDto>, List<BaseItemDto>> =
 		withContext(Dispatchers.IO) {
 			val resume = async {
-				api.itemsApi.getResumeItems(
+				api.libraryApi.getResumeItems(
 					fields = ItemRepository.itemFields,
 					imageTypeLimit = 1,
 					limit = 10,
@@ -309,7 +308,7 @@ class LeanbackChannelWorker(
 			}
 
 			val nextUp = async {
-				api.tvShowsApi.getNextUp(
+				api.showApi.getNextUp(
 					imageTypeLimit = 1,
 					limit = 10,
 					enableResumable = false,
@@ -324,7 +323,7 @@ class LeanbackChannelWorker(
 	private suspend fun getLatestMedia(): Triple<List<BaseItemDto>, List<BaseItemDto>, List<BaseItemDto>> =
 		withContext(Dispatchers.IO) {
 			val latestEpisodes = async {
-				api.userLibraryApi.getLatestMedia(
+				api.libraryApi.getLatestMedia(
 					fields = ItemRepository.itemFields,
 					limit = 50,
 					includeItemTypes = listOf(BaseItemKind.EPISODE),
@@ -333,7 +332,7 @@ class LeanbackChannelWorker(
 			}
 
 			val latestMovies = async {
-				api.userLibraryApi.getLatestMedia(
+				api.libraryApi.getLatestMedia(
 					fields = ItemRepository.itemFields,
 					limit = 50,
 					includeItemTypes = listOf(BaseItemKind.MOVIE),
@@ -342,7 +341,7 @@ class LeanbackChannelWorker(
 			}
 
 			val latestMedia = async {
-				api.userLibraryApi.getLatestMedia(
+				api.libraryApi.getLatestMedia(
 					fields = ItemRepository.itemFields,
 					limit = 50,
 					includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
