@@ -38,6 +38,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest;
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest;
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest;
 import org.jellyfin.sdk.model.api.request.GetItemsRequest;
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest;
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest;
@@ -58,6 +59,7 @@ import timber.log.Timber;
 
 public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetItemsRequest mQuery;
+    private GetEpisodesRequest mEpisodesQuery;
     private GetNextUpRequest mNextUpQuery;
     private GetSeasonsRequest mSeasonQuery;
     private GetUpcomingEpisodesRequest mUpcomingQuery;
@@ -189,6 +191,15 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         staticHeight = true;
         this.chunkSize = chunkSize;
         queryType = QueryType.AlbumArtists;
+    }
+
+    public ItemRowAdapter(Context context, GetEpisodesRequest query, Presenter presenter, MutableObjectAdapter<Row> parent) {
+        super(presenter);
+        this.context = context;
+        mParent = parent;
+        mEpisodesQuery = query;
+        queryType = QueryType.Episodes;
+        staticHeight = true;
     }
 
     public ItemRowAdapter(Context context, GetNextUpRequest query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
@@ -580,6 +591,9 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 } else {
                     ItemRowAdapterHelperKt.retrieveItems(this, api.getValue(), mQuery, 0, chunkSize);
                 }
+                break;
+            case Episodes:
+                ItemRowAdapterHelperKt.retrieveEpisodes(this, api.getValue(), mEpisodesQuery);
                 break;
             case NextUp:
                 ItemRowAdapterHelperKt.retrieveNextUpItems(this, api.getValue(), mNextUpQuery);

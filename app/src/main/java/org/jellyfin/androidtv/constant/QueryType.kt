@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.constant
 
 enum class QueryType {
 	Items,
+	Episodes,
 	NextUp,
 	Views,
 	Season,
