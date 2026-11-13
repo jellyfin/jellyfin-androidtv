@@ -698,4 +698,5 @@
     <string name="photo_player">Fotólejátszó</string>
     <string name="photo_display_duration">Fénykép megjelenítési ideje</string>
     <string name="photo_display_duration_description">Mennyit kell várni a következő fénykép megjelenítése előtt</string>
+    <string name="lbl_3d">3D</string>
 </resources>
