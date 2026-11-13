@@ -197,6 +197,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var playbackRewriteVideoEnabled = booleanPreference("playback_new", false)
 
 		/**
+		 * Use new experimental composed based UI rewrite
+		 */
+		var experimentalUiEnabled = booleanPreference("ui_v2", false)
+
+		/**
 		 * When to show the clock.
 		 */
 		var clockBehavior = enumPreference("pref_clock_behavior", ClockBehavior.ALWAYS)
