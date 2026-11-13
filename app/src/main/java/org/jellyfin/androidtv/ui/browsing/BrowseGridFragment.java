@@ -180,6 +180,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.RUNTIME, SortOrder.ASCENDING));
                 }
             }
+            sortOptions.put(8, new SortOption(getString(R.string.random), ItemSortBy.RANDOM, SortOrder.ASCENDING));
         }
 
         setDefaultGridRowCols(mPosterSizeSetting, mImageType);
