@@ -100,7 +100,7 @@
     <string name="lbl_mark_played">Pažymėti kaip peržiūrėtą</string>
     <string name="lbl_similar_items_library">Panašūs elementai bibliotekoje</string>
     <string name="lbl_record_any_time">Įrašyti bet kuriuo metu</string>
-    <string name="lbl_goto_series">Eiti į serialus</string>
+    <string name="lbl_goto_series">Eiti į serialą</string>
     <string name="desc_debug">Pateikite papildomos informacijos derinimui</string>
     <string name="lbl_now_playing_track">%1$s iš %2$s</string>
     <string name="lbl_live">Tiesiogiai</string>
