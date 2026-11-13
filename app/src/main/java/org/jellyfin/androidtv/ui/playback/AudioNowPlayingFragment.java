@@ -305,7 +305,7 @@ public class AudioNowPlayingFragment extends Fragment {
             updateInfo(mBaseItem);
         } else {
             if (navigationRepository.getValue().getCanGoBack()) navigationRepository.getValue().goBack();
-            else navigationRepository.getValue().navigate(Destinations.INSTANCE.getHome());
+            else navigationRepository.getValue().reset(Destinations.INSTANCE.getHome(), true);
         }
     }
 
