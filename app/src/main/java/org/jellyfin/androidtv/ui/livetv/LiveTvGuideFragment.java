@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
 import org.jellyfin.androidtv.util.ImageHelper;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.ItemsToPlay;
 import org.jellyfin.androidtv.util.PlaybackHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -335,11 +336,11 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     } else if (mSelectedProgramView instanceof GuideChannelHeader) {
                         // Tuning directly to a channel
                         GuideChannelHeader channelHeader = (GuideChannelHeader) mSelectedProgramView;
-                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<List<BaseItemDto>>(getLifecycle()) {
+                        playbackHelper.getValue().getItemsToPlay(requireContext(), channelHeader.getChannel(), false, false, new Response<ItemsToPlay>(getLifecycle()) {
                             @Override
-                            public void onResponse(List<BaseItemDto> response) {
+                            public void onResponse(ItemsToPlay response) {
                                 if (!isActive()) return;
-                                playbackLauncher.getValue().launch(requireContext(), response);
+                                playbackLauncher.getValue().launch(requireContext(), response.getItems());
                             }
                         });
                     }
