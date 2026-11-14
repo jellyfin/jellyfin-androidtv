@@ -135,7 +135,7 @@
     <string name="lbl_only_new_episodes">Only new episodes</string>
     <string name="lbl_now_playing_track">%1$s of %2$s</string>
     <string name="lbl_born">"Born "</string>
-    <string name="lbl_ok">OK</string>
+    <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
     <string name="lbl_enter_server_address">Enter server address</string>
     <string name="lbl_yes">Yes</string>

@@ -636,10 +636,10 @@
     <string name="server_unsupported_notification">Jellyfin-ambætaraútgávan %1$s er ikki sínamillumvirkin við hesa útgávuna av appini. Vinaliga dagfør til Jellyfin %2$s ella nýggjari til tess at halda á fram at brúka appina.</string>
     <string name="lbl_shuffle_queue">Blanda/Óblanda</string>
     <string name="prefer_exoplayer_ffmpeg">Nýt FFmpeg til ljóðspæling</string>
-    <string name="prefer_exoplayer_ffmpeg_content">Nýt FFmpeg at avkota ljóð sjálvt um stýrikerviveitt kodek eru tøk.</string>
-    <string name="playback_info_codec">Kodek: %1$s</string>
+    <string name="prefer_exoplayer_ffmpeg_content">Nýt FFmpeg at avkota ljóð sjálvt um stýrikerviveitt kodekk eru tøk.</string>
+    <string name="playback_info_codec">Kodekk: %1$s</string>
     <string name="preference_enable_trickplay">Virkja TrickPlay í kykmyndaspælaranum</string>
-    <string name="preference_codecs">Miðla-kodek</string>
+    <string name="preference_codecs">Miðla-kodekk</string>
     <string name="pref_refresh_rate_scale_on_tv">Skift á sjónvarpi</string>
     <string name="pref_refresh_rate_scale_on_device">Skift á eind</string>
     <string name="pref_device_model">Modell eindarinnar</string>
@@ -654,7 +654,7 @@
     <string name="lbl_guide_option_played">Seinast hugdar at</string>
     <string name="preference_enable_pgs">Spæl PGS-undirtekstir beinleiðis</string>
     <string name="preference_enable_ass">Spæl ASS-undirtekstir beinleiðis</string>
-    <string name="preference_codecs_summary">Skúgva kodek-virkisførisfráboðan eindarinnar til viks</string>
+    <string name="preference_codecs_summary">Skúgva kodekk-virkisførisfráboðan eindarinnar til viks</string>
     <string name="lbl_quality_profile">Góðskustøði</string>
     <string name="lbl_resume_preroll">Spola aftur við uppafturtøku</string>
     <string name="pref_burn_subtitles_when_transcoding">Kykmyndafest undirtekstir undir umkoting</string>
@@ -665,7 +665,7 @@
     <string name="lbl_now_playing">Spælir nú</string>
     <string name="lbl_goto_now_playing">Vís \"Spælir nú\"</string>
     <string name="lbl_coming_up">Komandi sendingar</string>
-    <string name="pref_software_codecs_enabled">Brúka ritbúnaðar-kodek</string>
+    <string name="pref_software_codecs_enabled">Brúka ritbúnaðar-kodekk</string>
     <string name="pref_software_codecs_enabled_description">Summar ritbúnaðarligar verksetanir kunnu hava ónøktandi avrikaføri. Uttan hetta er meira sannlíkt at tørvur er á umkotingum.</string>
     <string name="photo_display_duration_description">Tíðarbil áðrenn skift verður til næstu myndina</string>
     <string name="photo_player">Myndasýning</string>
