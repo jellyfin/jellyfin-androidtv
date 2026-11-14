@@ -80,7 +80,7 @@
     <string name="lbl_search_hint">検索テキスト（選択するとキーボードが表示）</string>
     <string name="lbl_play_first_unwatched">まず未視聴を再生</string>
     <string name="lbl_mark_unplayed">未再生とする</string>
-    <string name="lbl_mark_played">再生済とする</string>
+    <string name="lbl_mark_played">再生済みとする</string>
     <string name="lbl_remove_favorite">お気に入りから外す</string>
     <string name="lbl_add_favorite">お気に入りに追加</string>
     <string name="lbl_now_playing_track">%1$s / %2$s</string>
@@ -198,7 +198,7 @@
     <string name="lbl_no_recordings">録画はありません</string>
     <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
     <string name="lbl_pause">一時停止</string>
-    <string name="lbl_record_any_channel">任意のチャンネルで録画</string>
+    <string name="lbl_record_any_channel">どのチャンネルでも録画</string>
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングのはじまり</string>
     <string name="msg_burn_sub_warning">字幕を焼き込んでいます。数分かかります…</string>
@@ -304,7 +304,7 @@
     <string name="episode_missing_message">このエピソードはあなたのライブラリから欠落しています。スキップして次に進みますか?</string>
     <string name="episode_missing">欠落エピソード</string>
     <string name="no_player_message">動画対応アプリがインストールされていないようです。この設定では、動画コンテンツを再生するサードパーティ アプリをインストールする必要があります。</string>
-    <string name="mark_watched">視聴済みにする</string>
+    <string name="mark_watched">視聴済みとする</string>
     <string name="lbl_Reset">リセット</string>
     <string name="pref_button_remapping_description">割り当てるテレビリモコンの任意のボタンを押します</string>
     <string name="pref_subtitle_track_button">字幕トラックボタン</string>
@@ -685,4 +685,5 @@
     <string name="tv_provider_enabled_description">Android TV ホーム画面に、Jellyfin のチャンネルとおすすめを表示する</string>
     <string name="eac3_atmos">Dolby Digital + Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="lbl_3d">3D</string>
 </resources>
