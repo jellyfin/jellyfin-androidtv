@@ -151,7 +151,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="no_player">Eingin spælari</string>
     <string name="episode_missing">Partur manglar</string>
-    <string name="episode_missing_message">Hesin parturin manglar í savninum. Vilt tú leypa hann um og halda áfram til næsta partin?</string>
+    <string name="episode_missing_message">Parturin manglar í savninum. Vilt tú leypa hann um og halda áfram til næsta partin?</string>
     <string name="too_many_errors">Ov nógvir feilir. Heldur uppat</string>
     <string name="subtitle_error">Bar ikki til at velja undirtekst</string>
     <string name="audio_error">Bar ikki til at spæla ljóð %1$s</string>
@@ -386,7 +386,7 @@
     <string name="msg_live_tv_next">Innles næstu %1$d tímarnar?</string>
     <string name="msg_live_tv_prev">Innles undanfarnu %1$d tímarnar?</string>
     <string name="lbl_playback_control_ends">Endar kl. %1$s</string>
-    <string name="turn_off">Sløkk hesa stillingina</string>
+    <string name="turn_off">Sløkk stillingina</string>
     <string name="just_one">Einans hendan partin</string>
     <string name="player_error">Ein spælivilla kom fyri. Roynir aftur…</string>
     <string name="lbl_hide_unwatched_count">Tá miðilin er sæddur</string>
@@ -409,9 +409,9 @@
     <string name="pref_playback_media_segments">Margmiðlabrot</string>
     <string name="segment_type_preview">Brellbitar</string>
     <string name="pref_mediasegment_actions">Margmiðlabrotsatgerðir</string>
-    <string name="msg_playback_incompatible">Fær ikki spælt hetta kykmyndasniðið</string>
+    <string name="msg_playback_incompatible">Fær ikki spælt kykmyndasniðið</string>
     <string name="episode_missing_message_2">Hesin parturin vantar í tínum savni. Spælingin steðgar.</string>
-    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Hendan stillingin tørvar eina triðjapartsapp at spæla kykmyndir.</string>
+    <string name="no_player_message">Tú tykist ikki at hava nakra kykmyndavirkisføra app innlagda. Stillingin tørvar eina triðjaparts-app at spæla kykmyndir.</string>
     <string name="pref_playback_description">Kykmyndir, undirtekstir, beinleiðis sjónvarp, næst á skránni</string>
     <string name="login_quickconnect_step_1">1. Lat upp Jellyfin-appina á tíni telefon ella vevkaga og rita inn við tínum brúkara</string>
     <string name="login_quickconnect_step_2">2. Lat upp brúkaravalmyndina og vel Quick Connect</string>
@@ -590,8 +590,8 @@
     <string name="lbl_sign_out_content">Innritan verður kravd við næstu koyring</string>
     <string name="lbl_cancel_series">Avlýs røðupptøku</string>
     <string name="msg_playback_not_allowed">Spæling er ikki loyvd í løtuni</string>
-    <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av hesum miðlinum í løtuni</string>
-    <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla hendan miðilin</string>
+    <string name="msg_playback_restricted">Umsitarin hevur avmarkað spæl av miðlinum í løtuni</string>
+    <string name="msg_cannot_play_time">Tað ber í løtuni ikki til at spæla miðilin</string>
     <string name="msg_no_playable_items">Ongir miðlar ið kunnu spælast</string>
     <string name="lbl_show_premieres">Vís umfarsfrumsýningar</string>
     <string name="desc_premieres">Vís eina røð av nýggjum pørtum fyri røðir ið tú hyggur at</string>
