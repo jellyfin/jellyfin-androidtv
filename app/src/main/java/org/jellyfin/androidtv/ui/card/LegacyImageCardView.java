@@ -117,7 +117,17 @@ public class LegacyImageCardView extends BaseCardView {
         }
     }
 
+    public void clearOverlayInfo() {
+        binding.nameOverlay.setVisibility(GONE);
+        binding.overlayText.setText(null);
+        binding.overlayCount.setText(null);
+        binding.icon.setVisibility(GONE);
+        binding.iconImage.setImageDrawable(null);
+    }
+
     public void setOverlayInfo(BaseRowItem item) {
+        // A recycled card can still contain the previous item's overlay.
+        clearOverlayInfo();
         if (binding.overlayText == null) return;
 
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.getShowCardInfoOverlay()) {
