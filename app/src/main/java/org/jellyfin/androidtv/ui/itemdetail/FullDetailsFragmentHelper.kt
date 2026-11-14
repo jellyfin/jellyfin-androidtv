@@ -243,11 +243,12 @@ suspend fun FullDetailsFragment.getNextUpEpisode(): BaseItemDto? {
 				seriesId = mBaseItem.seriesId ?: mBaseItem.id,
 				fields = ItemRepository.itemFields,
 				limit = 1,
+				enableResumable = false,
 			).content
 		}
 		return episodes.items.firstOrNull()
 	} catch (err: ApiClientException) {
-		Timber.w(err, "Failed to get next up items")
+		Timber.w(err, "Failed to get next up items for series ${mBaseItem.id}")
 		return null
 	}
 }
@@ -263,12 +264,18 @@ fun FullDetailsFragment.resumePlayback(v: View) {
 	lifecycleScope.launch {
 		val nextUpEpisode = getNextUpEpisode()
 		if (nextUpEpisode == null) {
+			Timber.w("No next up episode found for series ${mBaseItem.id}")
 			Toast.makeText(
 				requireContext(),
 				getString(R.string.msg_video_playback_error),
 				Toast.LENGTH_LONG
 			).show()
-		} else if (nextUpEpisode.userData?.playbackPositionTicks == 0L) {
+			return@launch
+		}
+
+		Timber.d("Next up episode: ${nextUpEpisode.name} (playback position: ${nextUpEpisode.userData?.playbackPositionTicks})")
+
+		if (nextUpEpisode.userData?.playbackPositionTicks == 0L) {
 			play(nextUpEpisode, 0, false)
 		} else {
 			showResumeMenu(v, nextUpEpisode)
