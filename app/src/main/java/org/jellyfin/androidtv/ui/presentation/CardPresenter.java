@@ -309,6 +309,7 @@ public class CardPresenter extends Presenter {
         }
 
         protected void resetCardView() {
+            mCardView.clearOverlayInfo();
             mCardView.clearBanner();
             mCardView.setUnwatchedCount(-1);
             mCardView.setProgress(0);
@@ -348,6 +349,8 @@ public class CardPresenter extends Presenter {
         holder.mCardView.setContentText(rowItem.getSubText(holder.mCardView.getContext()));
         if (ImageType.POSTER.equals(mImageType)) {
             holder.mCardView.setOverlayInfo(rowItem);
+        } else {
+            holder.mCardView.clearOverlayInfo();
         }
         holder.mCardView.showFavIcon(rowItem.isFavorite());
         if (rowItem instanceof AudioQueueBaseRowItem && ((AudioQueueBaseRowItem) rowItem).getPlaying()) {
