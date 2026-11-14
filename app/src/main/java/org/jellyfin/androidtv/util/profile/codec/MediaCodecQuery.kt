@@ -50,20 +50,31 @@ class MediaCodecQuery(
 		return maxLevel
 	}
 
+	/**
+	 * The largest frame size a decoder for [mime] accepts. See [selectMaxResolution].
+	 */
 	fun getMaxResolution(mime: String): Size {
-		val resolutions = decoderInfos()
-			.mapNotNull { info -> getCapabilitiesOrNull(info, mime)?.videoCapabilities }
-			.mapNotNull { vc ->
-				val w = vc.supportedWidths?.upper ?: return@mapNotNull null
-				val h = vc.supportedHeights?.upper ?: return@mapNotNull null
-				w to h
+		val candidates = decoderInfos()
+			.mapNotNull { info ->
+				val vc = getCapabilitiesOrNull(info, mime)?.videoCapabilities ?: return@mapNotNull null
+				val width = vc.supportedWidths?.upper ?: return@mapNotNull null
+				val height = try {
+					vc.getSupportedHeightsFor(width)?.upper
+				} catch (_: IllegalArgumentException) {
+					vc.supportedHeights?.upper
+				} ?: return@mapNotNull null
+				DecoderResolution(info.name, info.isSoftwareCodec, width, height)
 			}
+			.toList()
 
-		val maxWidth = resolutions.maxOfOrNull { it.first } ?: 0
-		val maxHeight = resolutions.maxOfOrNull { it.second } ?: 0
+		val best = selectMaxResolution(candidates)
+		if (best == null) {
+			Timber.d("No decoder with video capabilities for %s", mime)
+			return Size(0, 0)
+		}
 
-		Timber.d("Computed max resolution for %s: %dx%d", mime, maxWidth, maxHeight)
-		return Size(maxWidth, maxHeight)
+		Timber.d("Computed max resolution for %s: %dx%d (%s)", mime, best.width, best.height, best.decoder)
+		return Size(best.width, best.height)
 	}
 
 	fun supportsMultiInstance(mime: String): Boolean =
@@ -107,3 +118,27 @@ class MediaCodecQuery(
 		null
 	}
 }
+
+/**
+ * The widest frame a decoder accepts: its largest width, with the largest height it supports at that width.
+ */
+data class DecoderResolution(
+	val decoder: String,
+	val isSoftware: Boolean,
+	val width: Int,
+	val height: Int,
+)
+
+/**
+ * Picks the resolution to advertise from the decoders of one mime type.
+ *
+ * Width and height come from the same decoder, and hardware decoders are preferred: playback selects a hardware
+ * decoder first, so the larger limits of a software decoder must not be advertised while a hardware decoder
+ * exists. Combining the largest width and the largest height of different decoders produced sizes that no
+ * decoder supports, e.g. 2048x1152 on a device whose hardware HEVC decoder stops at 1920x1088, so the server
+ * transcoded to a size the player then failed to decode.
+ */
+fun selectMaxResolution(candidates: List<DecoderResolution>): DecoderResolution? =
+	candidates.filterNot { it.isSoftware }
+		.ifEmpty { candidates }
+		.maxByOrNull { it.width.toLong() * it.height }
