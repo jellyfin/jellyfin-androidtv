@@ -57,7 +57,7 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 		}
 
 		item {
-			var imageType by rememberPreference(libraryPreferences, LibraryPreferences.imageType)
+			var imageType by rememberPreference(libraryPreferences, libraryPreferences.imageType)
 
 			ListButton(
 				headingContent = { Text(stringResource(R.string.lbl_image_type)) },
