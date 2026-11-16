@@ -30,6 +30,7 @@ import org.jellyfin.sdk.model.api.BrandingOptionsDto
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
+import java.io.IOException
 import java.time.Instant
 import java.util.UUID
 
@@ -50,6 +51,9 @@ interface ServerRepository {
 	suspend fun getServer(id: UUID, eagerUpdate: Boolean = false): Server?
 	suspend fun updateServer(server: Server, force: Boolean = false): Boolean
 	suspend fun deleteServer(server: UUID): Boolean
+
+	/** Any HTTP response counts as reachable, only connection failures return false. */
+	suspend fun isServerReachable(server: Server): Boolean
 
 	companion object {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
@@ -240,6 +244,18 @@ class ServerRepositoryImpl(
 		val success = authenticationStore.removeServer(server)
 		if (success) loadStoredServers()
 		return success
+	}
+
+	override suspend fun isServerReachable(server: Server): Boolean = withContext(Dispatchers.IO) {
+		try {
+			jellyfin.createApi(server.address).systemApi.getPublicSystemInfo()
+			true
+		} catch (err: ApiClientException) {
+			// The SDK wraps all connection failures (including timeouts) with an IOException cause
+			if (err.cause !is IOException) return@withContext true
+			Timber.w(err, "Server ${server.address} is unreachable")
+			false
+		}
 	}
 
 	// Helper functions

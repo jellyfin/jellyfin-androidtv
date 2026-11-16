@@ -70,6 +70,9 @@ class StartupActivity : FragmentActivity() {
 	private val workManager: WorkManager by inject()
 	private val socketListener: SocketHandler by inject()
 
+	// Set when the session is discarded so signing in as the same user is handled again
+	private var sessionDiscarded = false
+
 	private lateinit var binding: ActivityStartupBinding
 
 	private val networkPermissionsRequester = registerForActivityResult(
@@ -112,8 +115,10 @@ class StartupActivity : FragmentActivity() {
 		.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
 		.filter { it == SessionRepositoryState.READY }
 		.map { sessionRepository.currentSession.value }
-		.distinctUntilChanged()
+		.distinctUntilChanged { old, new -> !sessionDiscarded && old == new }
 		.onEach { session ->
+			sessionDiscarded = false
+
 			if (session != null) {
 				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
@@ -121,6 +126,15 @@ class StartupActivity : FragmentActivity() {
 
 				val currentUser = userRepository.currentUser.first { it != null }
 				Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
+
+				// The home screen can't load when the restored session's server is offline
+				val unreachableServer = startupViewModel.getServerIfUnreachable(session.serverId)
+				if (unreachableServer != null) {
+					sessionRepository.destroyCurrentSession()
+					sessionDiscarded = true
+					showServer(unreachableServer.id)
+					return@onEach
+				}
 
 				lifecycleScope.launch {
 					openNextActivity()
