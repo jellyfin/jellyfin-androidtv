@@ -35,7 +35,7 @@ import org.jellyfin.androidtv.databinding.ActivityStartupBinding
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.browsing.MainActivity
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncherHelper
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
@@ -66,7 +66,6 @@ class StartupActivity : FragmentActivity() {
 	private val sessionRepository: SessionRepository by inject()
 	private val userRepository: UserRepository by inject()
 	private val navigationRepository: NavigationRepository by inject()
-	private val itemLauncher: ItemLauncher by inject()
 	private val workManager: WorkManager by inject()
 	private val socketListener: SocketHandler by inject()
 
@@ -169,7 +168,7 @@ class StartupActivity : FragmentActivity() {
 				val item = withContext(Dispatchers.IO) {
 					api.userLibraryApi.getItem(itemId = itemId).content
 				}
-				itemLauncher.getUserViewDestination(item)
+				ItemLauncherHelper.getUserViewDestination(item)
 			}.onFailure { throwable ->
 				Timber.w(throwable, "Failed to retrieve item $itemId from server.")
 			}.getOrNull()
