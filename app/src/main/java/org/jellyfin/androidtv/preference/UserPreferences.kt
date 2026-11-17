@@ -221,6 +221,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Home screen section slots, stored on this device only.
 		 */
+		private const val HOME_SECTION_COUNT = 20
 		val homesections = listOf(
 			HomeSectionType.LIBRARY_TILES_SMALL,
 			HomeSectionType.RESUME,
@@ -229,10 +230,8 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 			HomeSectionType.LIVE_TV,
 			HomeSectionType.NEXT_UP,
 			HomeSectionType.LATEST_MEDIA,
-			HomeSectionType.NONE,
-			HomeSectionType.NONE,
-			HomeSectionType.NONE,
-		).mapIndexed { index, default -> enumPreference("home_section_$index", default) }
+		).let { it + List(HOME_SECTION_COUNT - it.size) { HomeSectionType.NONE } }
+			.mapIndexed { index, default -> enumPreference("home_section_$index", default) }
 
 		/**
 		 * Subtitles foreground color
