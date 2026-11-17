@@ -440,6 +440,10 @@
     <string name="home_section_directed_by">Directed By</string>
     <string name="home_row_starring">Starring %1$s</string>
     <string name="home_row_directed_by">Directed by %1$s</string>
+    <string name="home_section_random_genre">Random Genre</string>
+    <string name="home_section_random_collection">Random Collection</string>
+    <string name="home_section_rewatch">Rewatch</string>
+    <string name="home_row_rewatch">Worth a rewatch</string>
     <string name="home_section_none">None</string>
     <string name="home_section_i">Home section %1$d</string>
     <string name="home_next_up_max_days">Next up date cutoff</string>

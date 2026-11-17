@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.genresApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -42,6 +43,8 @@ class HomeFragmentHelper(
 	private var recentlyWatched: List<WatchedTitle>? = null
 	private var peopleSample: List<BaseItemDto>? = null
 	private val usedPersonIds = mutableSetOf<UUID>()
+	private val usedGenres = mutableSetOf<String>()
+	private val usedCollectionIds = mutableSetOf<UUID>()
 	fun loadRecentlyAdded(userViews: Collection<BaseItemDto>): HomeFragmentRow {
 		return HomeFragmentLatestRow(userRepository, userViews)
 	}
@@ -104,23 +107,11 @@ class HomeFragmentHelper(
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
 	}
 
-	fun loadRandomItems(): HomeFragmentRow =
-		loadUnplayedRandom(context.getString(R.string.home_section_random_items), minCommunityRating = null, parentId = null)
-
-	fun loadHiddenGems(userViews: Collection<BaseItemDto>): List<HomeFragmentRow> = userViews
-		.filter { it.collectionType == null || it.collectionType in HIDDEN_GEMS_COLLECTION_TYPES }
-		.map { view ->
-			val title = context.getString(R.string.home_row_hidden_gems_in, view.name)
-			loadUnplayedRandom(title, minCommunityRating = HIDDEN_GEMS_MIN_RATING, parentId = view.id)
-		}
-
-	private fun loadUnplayedRandom(title: String, minCommunityRating: Double?, parentId: UUID?): HomeFragmentRow {
+	fun loadRandomItems(): HomeFragmentRow {
 		val query = GetItemsRequest(
-			parentId = parentId,
 			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 			recursive = true,
 			isPlayed = false,
-			minCommunityRating = minCommunityRating,
 			sortBy = setOf(ItemSortBy.RANDOM),
 			// With a start index, ItemRowAdapter uses this limit instead of the chunk size
 			startIndex = 0,
@@ -130,6 +121,125 @@ class HomeFragmentHelper(
 			enableTotalRecordCount = false,
 		)
 
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.home_section_random_items), query, 0))
+	}
+
+	suspend fun loadHiddenGems(userViews: Collection<BaseItemDto>): List<HomeFragmentRow> = userViews
+		.filter { it.collectionType == null || it.collectionType in HIDDEN_GEMS_COLLECTION_TYPES }
+		.mapNotNull { view ->
+			val title = context.getString(R.string.home_row_hidden_gems_in, view.name)
+			// isPlayed=false still includes started titles, so drop anything with progress here
+			val ids = runCatching {
+				api.itemsApi.getItems(
+					parentId = view.id,
+					includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+					recursive = true,
+					isPlayed = false,
+					minCommunityRating = HIDDEN_GEMS_MIN_RATING,
+					sortBy = setOf(ItemSortBy.RANDOM),
+					limit = HIDDEN_GEMS_SAMPLE_SIZE,
+					enableTotalRecordCount = false,
+				).content.items
+			}.onFailure { Timber.w(it, "Unable to load hidden gems") }
+				.getOrDefault(emptyList())
+				.filter { (it.userData?.playedPercentage ?: 0.0) == 0.0 && (it.userData?.playbackPositionTicks ?: 0) == 0L }
+				.map { it.id }
+				.take(ITEM_LIMIT_RANDOM)
+			loadItemsRow(title, ids)
+		}
+
+	suspend fun loadRandomGenre(): HomeFragmentRow? = runCatching {
+		val genre = api.genresApi.getGenres(
+			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+		).content.items
+			.mapNotNull { it.name }
+			.filter { it !in usedGenres }
+			.shuffled()
+			.take(GENRE_CHECK_ATTEMPTS)
+			.firstOrNull { name ->
+				api.itemsApi.getItems(
+					genres = setOf(name),
+					includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+					recursive = true,
+					limit = 0,
+					enableTotalRecordCount = true,
+				).content.totalRecordCount >= MIN_TITLES_PER_GENRE
+			} ?: return null
+		usedGenres.add(genre)
+
+		val query = GetItemsRequest(
+			genres = setOf(genre),
+			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+			recursive = true,
+			sortBy = setOf(ItemSortBy.RANDOM),
+			startIndex = 0,
+			limit = ITEM_LIMIT_RANDOM,
+			fields = ItemRepository.browseFields,
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
+		)
+		HomeFragmentBrowseRowDefRow(BrowseRowDef(genre, query, 0))
+	}.onFailure { Timber.w(it, "Unable to load genre home row") }.getOrNull()
+
+	suspend fun loadRandomCollection(): HomeFragmentRow? = runCatching {
+		val collection = api.itemsApi.getItems(
+			includeItemTypes = setOf(BaseItemKind.BOX_SET),
+			recursive = true,
+			fields = setOf(ItemFields.CHILD_COUNT),
+			enableTotalRecordCount = false,
+		).content.items
+			.filter { (it.childCount ?: 0) >= MIN_TITLES_PER_COLLECTION && it.id !in usedCollectionIds }
+			.randomOrNull() ?: return null
+		usedCollectionIds.add(collection.id)
+
+		val query = GetItemsRequest(
+			parentId = collection.id,
+			sortBy = setOf(ItemSortBy.PREMIERE_DATE, ItemSortBy.SORT_NAME),
+			startIndex = 0,
+			limit = ITEM_LIMIT_RANDOM,
+			fields = ItemRepository.browseFields,
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
+		)
+		HomeFragmentBrowseRowDefRow(BrowseRowDef(collection.name.orEmpty(), query, 0))
+	}.onFailure { Timber.w(it, "Unable to load collection home row") }.getOrNull()
+
+	// Series have no last-played date of their own, so it comes from their most recent episode
+	suspend fun loadRewatch(): HomeFragmentRow? = runCatching {
+		val cutoff = LocalDateTime.now().minusDays(REWATCH_MIN_AGE_DAYS)
+		val played = api.itemsApi.getItems(
+			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.EPISODE),
+			recursive = true,
+			filters = setOf(ItemFilter.IS_PLAYED),
+			enableTotalRecordCount = false,
+		).content.items
+
+		val lastPlayedByTitle = played
+			.mapNotNull { item ->
+				val date = item.userData?.lastPlayedDate ?: return@mapNotNull null
+				val id = if (item.type == BaseItemKind.EPISODE) item.seriesId else item.id
+				id?.let { it to date }
+			}
+			.groupBy({ it.first }, { it.second })
+			.mapValues { (_, dates) -> dates.max() }
+
+		val ids = lastPlayedByTitle.filterValues { it < cutoff }.keys.shuffled().take(ITEM_LIMIT_RANDOM)
+		loadItemsRow(context.getString(R.string.home_row_rewatch), ids)
+	}.onFailure { Timber.w(it, "Unable to load rewatch home row") }.getOrNull()
+
+	private fun loadItemsRow(title: String, ids: List<UUID>): HomeFragmentRow? {
+		// An empty id list would match everything
+		if (ids.isEmpty()) return null
+
+		val query = GetItemsRequest(
+			ids = ids,
+			sortBy = setOf(ItemSortBy.RANDOM),
+			startIndex = 0,
+			limit = ids.size,
+			fields = ItemRepository.browseFields,
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
+		)
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0))
 	}
 
@@ -287,5 +397,10 @@ class HomeFragmentHelper(
 		private const val PERSON_SAMPLE_SIZE = 100
 		private const val PERSON_CHECK_ATTEMPTS = 10
 		private const val MIN_TITLES_PER_PERSON = 5
+		private const val HIDDEN_GEMS_SAMPLE_SIZE = 100
+		private const val GENRE_CHECK_ATTEMPTS = 10
+		private const val MIN_TITLES_PER_GENRE = 10
+		private const val MIN_TITLES_PER_COLLECTION = 2
+		private const val REWATCH_MIN_AGE_DAYS = 365L
 	}
 }

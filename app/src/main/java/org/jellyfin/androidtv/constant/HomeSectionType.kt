@@ -29,5 +29,8 @@ enum class HomeSectionType(
 	BECAUSE_YOU_WATCHED("becauseyouwatched", R.string.home_section_because_you_watched),
 	STARRING("starring", R.string.home_section_starring),
 	DIRECTED_BY("directedby", R.string.home_section_directed_by),
+	RANDOM_GENRE("randomgenre", R.string.home_section_random_genre),
+	RANDOM_COLLECTION("randomcollection", R.string.home_section_random_collection),
+	REWATCH("rewatch", R.string.home_section_rewatch),
 	NONE("none", R.string.home_section_none),
 }

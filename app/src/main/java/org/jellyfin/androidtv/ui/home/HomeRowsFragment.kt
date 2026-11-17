@@ -121,6 +121,9 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 				HomeSectionType.RANDOM_ITEMS -> rows.add(helper.loadRandomItems())
 				HomeSectionType.HIDDEN_GEMS -> rows.addAll(helper.loadHiddenGems(userViewsRepository.views.first()))
+				HomeSectionType.RANDOM_GENRE -> helper.loadRandomGenre()?.let(rows::add)
+				HomeSectionType.RANDOM_COLLECTION -> helper.loadRandomCollection()?.let(rows::add)
+				HomeSectionType.REWATCH -> helper.loadRewatch()?.let(rows::add)
 				HomeSectionType.RECENTLY_ADDED_ALL -> rows.add(helper.loadRecentlyAddedAll())
 				HomeSectionType.LATEST_RELEASES -> rows.add(helper.loadLatestReleases())
 				HomeSectionType.BECAUSE_YOU_WATCHED -> helper.loadBecauseYouWatched()?.let(rows::add)
