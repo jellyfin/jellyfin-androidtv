@@ -432,8 +432,14 @@
     <string name="home_section_livetv">Live TV</string>
     <string name="home_section_random_items">Random Picks</string>
     <string name="home_section_hidden_gems">Hidden Gems</string>
+    <string name="home_row_hidden_gems_in">Hidden Gems in %1$s</string>
     <string name="home_section_recently_added_all">Recently Added (All)</string>
     <string name="home_section_latest_releases">Latest Releases</string>
+    <string name="home_section_because_you_watched">Because You Watched</string>
+    <string name="home_section_starring">Starring</string>
+    <string name="home_section_directed_by">Directed By</string>
+    <string name="home_row_starring">Starring %1$s</string>
+    <string name="home_row_directed_by">Directed by %1$s</string>
     <string name="home_section_none">None</string>
     <string name="home_section_i">Home section %1$d</string>
     <string name="home_next_up_max_days">Next up date cutoff</string>

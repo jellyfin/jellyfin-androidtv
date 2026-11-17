@@ -26,5 +26,8 @@ enum class HomeSectionType(
 	HIDDEN_GEMS("hiddengems", R.string.home_section_hidden_gems),
 	RECENTLY_ADDED_ALL("recentlyaddedall", R.string.home_section_recently_added_all),
 	LATEST_RELEASES("latestreleases", R.string.home_section_latest_releases),
+	BECAUSE_YOU_WATCHED("becauseyouwatched", R.string.home_section_because_you_watched),
+	STARRING("starring", R.string.home_section_starring),
+	DIRECTED_BY("directedby", R.string.home_section_directed_by),
 	NONE("none", R.string.home_section_none),
 }

@@ -74,7 +74,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val itemLauncher by inject<ItemLauncher>()
 	private val keyProcessor by inject<KeyProcessor>()
 
-	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userPreferences) }
+	private val helper by lazy { HomeFragmentHelper(requireContext(), api, userRepository, userPreferences) }
 
 	// Data
 	private var currentItem: BaseRowItem? = null
@@ -120,9 +120,12 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				}
 
 				HomeSectionType.RANDOM_ITEMS -> rows.add(helper.loadRandomItems())
-				HomeSectionType.HIDDEN_GEMS -> rows.add(helper.loadHiddenGems())
+				HomeSectionType.HIDDEN_GEMS -> rows.addAll(helper.loadHiddenGems(userViewsRepository.views.first()))
 				HomeSectionType.RECENTLY_ADDED_ALL -> rows.add(helper.loadRecentlyAddedAll())
 				HomeSectionType.LATEST_RELEASES -> rows.add(helper.loadLatestReleases())
+				HomeSectionType.BECAUSE_YOU_WATCHED -> helper.loadBecauseYouWatched()?.let(rows::add)
+				HomeSectionType.STARRING -> helper.loadStarring()?.let(rows::add)
+				HomeSectionType.DIRECTED_BY -> helper.loadDirectedBy()?.let(rows::add)
 				HomeSectionType.NONE -> Unit
 			}
 
