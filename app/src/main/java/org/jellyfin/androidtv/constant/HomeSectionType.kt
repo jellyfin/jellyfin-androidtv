@@ -21,5 +21,7 @@ enum class HomeSectionType(
 	ACTIVE_RECORDINGS("activerecordings", R.string.home_section_active_recordings),
 	NEXT_UP("nextup", R.string.home_section_next_up),
 	LIVE_TV("livetv", R.string.home_section_livetv),
+	// Unknown to the server, so home sections are stored locally only
+	RANDOM_ITEMS("randomitems", R.string.home_section_random_items),
 	NONE("none", R.string.home_section_none),
 }

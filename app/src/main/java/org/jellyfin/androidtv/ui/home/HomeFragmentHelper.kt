@@ -9,7 +9,9 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
@@ -83,11 +85,29 @@ class HomeFragmentHelper(
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
 	}
 
+	fun loadRandomItems(): HomeFragmentRow {
+		val query = GetItemsRequest(
+			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+			recursive = true,
+			isPlayed = false,
+			sortBy = setOf(ItemSortBy.RANDOM),
+			// With a start index, ItemRowAdapter uses this limit instead of the chunk size
+			startIndex = 0,
+			limit = ITEM_LIMIT_RANDOM,
+			fields = ItemRepository.browseFields,
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
+		)
+
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.home_section_random_items), query, 0))
+	}
+
 	companion object {
 		// Maximum amount of items loaded for a row
 		private const val ITEM_LIMIT_RESUME = 50
 		private const val ITEM_LIMIT_RECORDINGS = 40
 		private const val ITEM_LIMIT_NEXT_UP = 50
 		private const val ITEM_LIMIT_ON_NOW = 20
+		private const val ITEM_LIMIT_RANDOM = 25
 	}
 }

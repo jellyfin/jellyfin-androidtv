@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.list.ListButton
 import org.jellyfin.androidtv.ui.base.list.ListSection
@@ -22,7 +21,6 @@ import org.koin.compose.koinInject
 fun SettingsHomeScreen() {
 	val router = LocalRouter.current
 	val userPreferences = koinInject<UserPreferences>()
-	val userSettingPreferences = koinInject<UserSettingPreferences>()
 
 	SettingsColumn {
 		item {
@@ -32,10 +30,10 @@ fun SettingsHomeScreen() {
 			)
 		}
 
-		itemsIndexed(userSettingPreferences.homesections) { index, section ->
+		itemsIndexed(UserPreferences.homesections) { index, section ->
 			ListButton(
 				headingContent = { Text(stringResource(R.string.home_section_i, index + 1)) },
-				captionContent = { Text(stringResource(userSettingPreferences[section].nameRes)) },
+				captionContent = { Text(stringResource(userPreferences[section].nameRes)) },
 				onClick = { router.push(Routes.HOME_SECTION, mapOf("index" to index.toString())) },
 				modifier = Modifier.focusKey("home_section_$index")
 			)

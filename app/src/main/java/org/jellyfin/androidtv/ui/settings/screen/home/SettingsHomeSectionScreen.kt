@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.HomeSectionType
-import org.jellyfin.androidtv.preference.UserSettingPreferences
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.RadioButton
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -23,8 +23,8 @@ import org.koin.compose.koinInject
 @Composable
 fun SettingsHomeSectionScreen(index: Int) {
 	val router = LocalRouter.current
-	val userSettingPreferences = koinInject<UserSettingPreferences>()
-	val sectionPreference = userSettingPreferences.homesections.getOrNull(index)
+	val userPreferences = koinInject<UserPreferences>()
+	val sectionPreference = UserPreferences.homesections.getOrNull(index)
 
 	if (sectionPreference == null) {
 		ListMessage {
@@ -34,7 +34,7 @@ fun SettingsHomeSectionScreen(index: Int) {
 		return
 	}
 
-	var sectionType by rememberPreference(userSettingPreferences, sectionPreference)
+	var sectionType by rememberPreference(userPreferences, sectionPreference)
 
 	SettingsColumn {
 		item {
@@ -50,6 +50,8 @@ fun SettingsHomeSectionScreen(index: Int) {
 				trailingContent = { RadioButton(checked = sectionType == entry) },
 				onClick = {
 					sectionType = entry
+					// Write now; rememberPreference's effect is cancelled by router.back()
+					userPreferences[sectionPreference] = entry
 					router.back()
 				},
 				modifier = Modifier
