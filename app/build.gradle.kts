@@ -67,7 +67,8 @@ android {
 
 			buildConfigField("boolean", "DEVELOPMENT", "false")
 
-			signingConfig = signingConfigs.findByName("release")
+			// Fall back to the debug key so local release builds install without a keystore
+			signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
 		}
 
 		debug {
