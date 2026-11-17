@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.preference
 
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.sdk.api.client.ApiClient
-import kotlin.collections.set
 
 /**
  * Repository to access special preference stores.
@@ -14,13 +13,17 @@ class PreferencesRepository(
 ) {
 	private val libraryPreferences = mutableMapOf<String, LibraryPreferences>()
 
-	fun getLibraryPreferences(preferencesId: String): LibraryPreferences {
+	// FIXME: Remove the blocking API when the remaining callers support suspension.
+	fun getLibraryPreferences(preferencesId: String): LibraryPreferences = runBlocking {
+		loadLibraryPreferences(preferencesId)
+	}
+
+	suspend fun loadLibraryPreferences(preferencesId: String): LibraryPreferences {
 		val store = libraryPreferences[preferencesId] ?: LibraryPreferences(preferencesId, api)
 
 		libraryPreferences[preferencesId] = store
 
-		// FIXME: Make [getLibraryPreferences] suspended when usages are converted to Kotlin
-		if (store.shouldUpdate) runBlocking { store.update() }
+		if (store.shouldUpdate) store.update()
 
 		return store
 	}
