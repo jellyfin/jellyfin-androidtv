@@ -5,12 +5,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 
-@Suppress("DEPRECATION")
 val Context.locale: Locale
-	get() = when {
-		AndroidVersion.isAtLeastN -> resources.configuration.getLocales().get(0)
-		else -> resources.configuration.locale
-	}
+	get() = resources.configuration.locales[0]
 
 @JvmOverloads
 fun Context.getDateFormatter(
