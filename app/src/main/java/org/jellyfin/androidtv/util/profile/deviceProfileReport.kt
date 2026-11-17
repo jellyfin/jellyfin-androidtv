@@ -252,20 +252,19 @@ fun createDeviceProfileReport(
 		if (AndroidVersion.isAtLeastO) appendItem("Any HDR") { appendValue(display.isHdr.toString()) }
 		if (AndroidVersion.isAtLeastO) appendItem("Wide color gamut") { appendValue(display.isWideColorGamut.toString()) }
 		if (AndroidVersion.isAtLeastQ) appendItem("Preferred wide color space") { appendValue(display.preferredWideGamutColorSpace.toString()) }
-		if (AndroidVersion.isAtLeastN) {
-			@Suppress("DEPRECATION")
-			val supportedHdrTypes = if (AndroidVersion.isAtLeastUpsideDownCake) display.mode.supportedHdrTypes.toList()
-			else display.hdrCapabilities?.supportedHdrTypes?.toList().orEmpty()
 
-			appendItem("HDR capabilities") {
-				appendLine()
-				appendLine("- ${HdrFormats.DOLBY_VISION.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)}")
-				appendLine("- ${HdrFormats.HDR10}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)}")
-				if (AndroidVersion.isAtLeastQ) {
-					appendLine("- ${HdrFormats.HDR10_PLUS.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)}")
-				}
-				appendLine("- ${HdrFormats.HLG.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HLG)}")
+		@Suppress("DEPRECATION")
+		val supportedHdrTypes = if (AndroidVersion.isAtLeastUpsideDownCake) display.mode.supportedHdrTypes.toList()
+		else display.hdrCapabilities?.supportedHdrTypes?.toList().orEmpty()
+
+		appendItem("HDR capabilities") {
+			appendLine()
+			appendLine("- ${HdrFormats.DOLBY_VISION.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION)}")
+			appendLine("- ${HdrFormats.HDR10}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10)}")
+			if (AndroidVersion.isAtLeastQ) {
+				appendLine("- ${HdrFormats.HDR10_PLUS.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)}")
 			}
+			appendLine("- ${HdrFormats.HLG.label}: ${supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HLG)}")
 		}
 
 		if (AndroidVersion.isAtLeastUpsideDownCake) appendItem("HDR/SDR ratio") {

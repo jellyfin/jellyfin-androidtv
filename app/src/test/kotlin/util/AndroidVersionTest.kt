@@ -19,7 +19,6 @@ class AndroidVersionTest : FunSpec({
 	test("version checks return true when sdkInt is at the threshold") {
 		every { AndroidVersion.sdkInt } returns Build.VERSION_CODES.Q
 
-		AndroidVersion.isAtLeastN shouldBe true
 		AndroidVersion.isAtLeastO shouldBe true
 		AndroidVersion.isAtLeastP shouldBe true
 		AndroidVersion.isAtLeastQ shouldBe true
@@ -38,7 +37,6 @@ class AndroidVersionTest : FunSpec({
 	test("all checks are true on the newest mocked version") {
 		every { AndroidVersion.sdkInt } returns Build.VERSION_CODES.BAKLAVA
 
-		AndroidVersion.isAtLeastN shouldBe true
 		AndroidVersion.isAtLeastO shouldBe true
 		AndroidVersion.isAtLeastP shouldBe true
 		AndroidVersion.isAtLeastQ shouldBe true
@@ -52,7 +50,6 @@ class AndroidVersionTest : FunSpec({
 	test("all checks are false on a version below every threshold") {
 		every { AndroidVersion.sdkInt } returns Build.VERSION_CODES.M
 
-		AndroidVersion.isAtLeastN shouldBe false
 		AndroidVersion.isAtLeastO shouldBe false
 		AndroidVersion.isAtLeastP shouldBe false
 		AndroidVersion.isAtLeastQ shouldBe false
