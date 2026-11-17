@@ -23,5 +23,8 @@ enum class HomeSectionType(
 	LIVE_TV("livetv", R.string.home_section_livetv),
 	// Unknown to the server, so home sections are stored locally only
 	RANDOM_ITEMS("randomitems", R.string.home_section_random_items),
+	HIDDEN_GEMS("hiddengems", R.string.home_section_hidden_gems),
+	RECENTLY_ADDED_ALL("recentlyaddedall", R.string.home_section_recently_added_all),
+	LATEST_RELEASES("latestreleases", R.string.home_section_latest_releases),
 	NONE("none", R.string.home_section_none),
 }

@@ -120,6 +120,9 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				}
 
 				HomeSectionType.RANDOM_ITEMS -> rows.add(helper.loadRandomItems())
+				HomeSectionType.HIDDEN_GEMS -> rows.add(helper.loadHiddenGems())
+				HomeSectionType.RECENTLY_ADDED_ALL -> rows.add(helper.loadRecentlyAddedAll())
+				HomeSectionType.LATEST_RELEASES -> rows.add(helper.loadLatestReleases())
 				HomeSectionType.NONE -> Unit
 			}
 

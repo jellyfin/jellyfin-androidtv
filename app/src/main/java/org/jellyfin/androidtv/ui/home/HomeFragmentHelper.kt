@@ -11,7 +11,9 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
+import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetNextUpRequest
 import org.jellyfin.sdk.model.api.request.GetRecommendedProgramsRequest
 import org.jellyfin.sdk.model.api.request.GetRecordingsRequest
@@ -85,11 +87,18 @@ class HomeFragmentHelper(
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
 	}
 
-	fun loadRandomItems(): HomeFragmentRow {
+	fun loadRandomItems(): HomeFragmentRow =
+		loadUnplayedRandom(R.string.home_section_random_items, minCommunityRating = null)
+
+	fun loadHiddenGems(): HomeFragmentRow =
+		loadUnplayedRandom(R.string.home_section_hidden_gems, minCommunityRating = HIDDEN_GEMS_MIN_RATING)
+
+	private fun loadUnplayedRandom(titleRes: Int, minCommunityRating: Double?): HomeFragmentRow {
 		val query = GetItemsRequest(
 			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 			recursive = true,
 			isPlayed = false,
+			minCommunityRating = minCommunityRating,
 			sortBy = setOf(ItemSortBy.RANDOM),
 			// With a start index, ItemRowAdapter uses this limit instead of the chunk size
 			startIndex = 0,
@@ -99,7 +108,38 @@ class HomeFragmentHelper(
 			enableTotalRecordCount = false,
 		)
 
-		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.home_section_random_items), query, 0))
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(titleRes), query, 0))
+	}
+
+	fun loadRecentlyAddedAll(): HomeFragmentRow {
+		val query = GetLatestMediaRequest(
+			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.EPISODE),
+			groupItems = true,
+			limit = ITEM_LIMIT_RECENTLY_ADDED_ALL,
+			fields = ItemRepository.browseFields,
+			imageTypeLimit = 1,
+		)
+
+		return HomeFragmentBrowseRowDefRow(
+			BrowseRowDef(context.getString(R.string.home_section_recently_added_all), query, arrayOf(ChangeTriggerType.LibraryUpdated))
+		)
+	}
+
+	fun loadLatestReleases(): HomeFragmentRow {
+		val query = GetItemsRequest(
+			includeItemTypes = setOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
+			recursive = true,
+			maxPremiereDate = LocalDateTime.now(),
+			sortBy = setOf(ItemSortBy.PREMIERE_DATE),
+			sortOrder = setOf(SortOrder.DESCENDING),
+			startIndex = 0,
+			limit = ITEM_LIMIT_LATEST_RELEASES,
+			fields = ItemRepository.browseFields,
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
+		)
+
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.home_section_latest_releases), query, 0))
 	}
 
 	companion object {
@@ -109,5 +149,8 @@ class HomeFragmentHelper(
 		private const val ITEM_LIMIT_NEXT_UP = 50
 		private const val ITEM_LIMIT_ON_NOW = 20
 		private const val ITEM_LIMIT_RANDOM = 25
+		private const val ITEM_LIMIT_RECENTLY_ADDED_ALL = 50
+		private const val ITEM_LIMIT_LATEST_RELEASES = 25
+		private const val HIDDEN_GEMS_MIN_RATING = 7.5
 	}
 }

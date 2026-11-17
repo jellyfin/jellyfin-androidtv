@@ -431,6 +431,9 @@
     <string name="home_section_next_up">Next up</string>
     <string name="home_section_livetv">Live TV</string>
     <string name="home_section_random_items">Random Picks</string>
+    <string name="home_section_hidden_gems">Hidden Gems</string>
+    <string name="home_section_recently_added_all">Recently Added (All)</string>
+    <string name="home_section_latest_releases">Latest Releases</string>
     <string name="home_section_none">None</string>
     <string name="home_section_i">Home section %1$d</string>
     <string name="home_next_up_max_days">Next up date cutoff</string>
