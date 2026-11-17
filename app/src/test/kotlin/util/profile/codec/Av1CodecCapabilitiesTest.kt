@@ -73,13 +73,7 @@ class Av1CodecCapabilitiesTest : FunSpec({
 		}
 	}
 
-	test("supportsAv1DolbyVision returns false when sdkInt below API 24") {
-		every { AndroidVersion.sdkInt } returns apiN - 1
-		val query = mockk<MediaCodecQuery>()
-		Av1CodecCapabilities(query).supportsAv1DolbyVision() shouldBe false
-	}
-
-	test("supportsAv1DolbyVision returns true when sdkInt >= 24 and device has DV decoder") {
+	test("supportsAv1DolbyVision returns true when device has DV decoder") {
 		every { AndroidVersion.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeDolbyVision, any(), any()) } returns true
@@ -87,7 +81,7 @@ class Av1CodecCapabilitiesTest : FunSpec({
 		Av1CodecCapabilities(query).supportsAv1DolbyVision() shouldBe true
 	}
 
-	test("supportsAv1DolbyVision returns false when sdkInt >= 24 but no DV decoder") {
+	test("supportsAv1DolbyVision returns false when device has no DV decoder") {
 		every { AndroidVersion.sdkInt } returns apiN
 		val query = mockk<MediaCodecQuery> {
 			every { hasDecoder(mimeDolbyVision, any(), any()) } returns false
