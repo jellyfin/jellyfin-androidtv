@@ -70,7 +70,7 @@ public class TimeUtils {
                 return context.getString(R.string.lbl_tomorrow);
             }
             if (dateTime.getDayOfYear() < now.getDayOfYear() + 7 && dateTime.getDayOfYear() > now.getDayOfYear()) {
-                return dateTime.format(DateTimeFormatter.ofPattern("EE", DateTimeExtensionsKt.getLocale(context)));
+                return dateTime.format(DateTimeFormatter.ofPattern("EE", context.getResources().getConfiguration().getLocales().get(0)));
             }
             if (relative) {
                 return context.getString(R.string.lbl_in_x_days, dateTime.getDayOfYear() - now.getDayOfYear());
