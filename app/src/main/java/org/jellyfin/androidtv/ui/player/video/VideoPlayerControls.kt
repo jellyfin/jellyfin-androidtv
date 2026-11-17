@@ -66,6 +66,9 @@ fun VideoPlayerControls(
 			PlayPauseButton(playbackManager, playState)
 			RewindButton(playbackManager)
 			FastForwardButton(playbackManager)
+			SubtitleTrackButton(
+				playbackManager = playbackManager,
+			)
 
 			Spacer(Modifier.weight(1f))
 

@@ -8,6 +8,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,6 +48,7 @@ fun PlayerOverlayLayout(
 	modifier: Modifier = Modifier,
 	visibilityState: PlayerOverlayVisibilityState = rememberPlayerOverlayVisibility(),
 	header: (@Composable () -> Unit)? = null,
+	headerOverlay: (@Composable BoxScope.() -> Unit)? = null,
 	controls: (@Composable () -> Unit)? = null,
 ) = Box(
 	modifier = modifier
@@ -93,6 +95,20 @@ fun PlayerOverlayLayout(
 					.overscan()
 			) {
 				header()
+			}
+		}
+	}
+
+	if (headerOverlay != null) {
+		AnimatedVisibility(
+			visible = visibilityState.visible,
+			modifier = Modifier
+				.align(Alignment.TopCenter),
+			enter = slideInVertically(initialOffsetY = { -it / 3 }) + fadeIn(),
+			exit = slideOutVertically(targetOffsetY = { -it / 3 }) + fadeOut(),
+		) {
+			Box(Modifier.fillMaxSize()) {
+				headerOverlay(this)
 			}
 		}
 	}

@@ -15,17 +15,17 @@ class BackendService {
 
 	private var listeners = mutableListOf<PlayerBackendEventListener>()
 	private var _surfaceView: PlayerSurfaceView? = null
-	private var _subtitleView: PlayerSubtitleView? = null
+	private val _subtitleViews = mutableListOf<PlayerSubtitleView>()
 
 	fun switchBackend(backend: PlayerBackend) {
 		_backend?.stop()
 		_backend?.setListener(null)
 		_backend?.setSurfaceView(null)
-		_backend?.setSubtitleView(null)
+		_backend?.setSubtitleViews(emptyList())
 
 		_backend = backend.apply {
 			_surfaceView?.let(::setSurfaceView)
-			_subtitleView?.let(::setSubtitleView)
+			setSubtitleViews(_subtitleViews.toList())
 			setListener(BackendEventListener())
 		}
 	}
@@ -51,23 +51,20 @@ class BackendService {
 	}
 
 	fun attachSubtitleView(subtitleView: PlayerSubtitleView) {
-		// Remove existing surface view
-		if (_subtitleView != null) {
-			_backend?.setSubtitleView(null)
-		}
+		if (subtitleView in _subtitleViews) return
 
-		// Apply new surface view
-		_subtitleView = subtitleView.apply {
-			_backend?.setSubtitleView(subtitleView)
+		_subtitleViews.add(subtitleView)
+		syncSubtitleViews()
 
-			// Automatically detach
-			doOnDetach {
-				if (subtitleView == _subtitleView) {
-					_subtitleView = null
-					_backend?.setSubtitleView(null)
-				}
+		subtitleView.doOnDetach {
+			if (_subtitleViews.remove(subtitleView)) {
+				syncSubtitleViews()
 			}
 		}
+	}
+
+	private fun syncSubtitleViews() {
+		_backend?.setSubtitleViews(_subtitleViews.toList())
 	}
 
 	fun addListener(listener: PlayerBackendEventListener) {

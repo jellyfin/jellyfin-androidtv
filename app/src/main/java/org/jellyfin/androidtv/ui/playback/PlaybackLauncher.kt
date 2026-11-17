@@ -64,7 +64,7 @@ class PlaybackLauncher(
 
 			if (video3dFormat != null) {
 				navigationRepository.navigate(
-					Destinations.stereoVideoPlayer(position, video3dFormat),
+					Destinations.videoPlayerNew(position, video3dFormat),
 					replace
 				)
 			} else if (userPreferences[UserPreferences.useExternalPlayer] && items.all { it.supportsExternalPlayer }) {

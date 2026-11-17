@@ -2,6 +2,7 @@ package org.jellyfin.playback.jellyfin.mediastream
 
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
+import org.jellyfin.playback.core.mediastream.MediaStreamSubtitleTrack
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.baseItem
@@ -9,11 +10,14 @@ import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.audioApi
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
+import org.jellyfin.sdk.api.client.extensions.subtitleApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.DeviceProfile
 import org.jellyfin.sdk.model.api.MediaProtocol
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.MediaStreamType
+import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 
 class JellyfinMediaStreamResolver(
@@ -125,7 +129,27 @@ class JellyfinMediaStreamResolver(
 		identifier = playSessionId,
 		conversionMethod = conversionMethod,
 		container = getMediaStreamContainer(),
-		tracks = getTracks(),
+		tracks = getTracks() + mediaSource.mediaStreams.orEmpty()
+			.filter { it.type == MediaStreamType.SUBTITLE && it.deliveryMethod == SubtitleDeliveryMethod.EXTERNAL }
+			.map { stream ->
+				val format = stream.path?.substringAfterLast('.', missingDelimiterValue = stream.codec.orEmpty())
+					?.takeIf(String::isNotBlank)
+					?: "srt"
+				MediaStreamSubtitleTrack(
+					codec = stream.codec ?: format,
+					index = stream.index,
+					label = stream.displayTitle ?: stream.title,
+					language = stream.language,
+					url = api.subtitleApi.getSubtitleUrl(
+						routeItemId = queueEntry.baseItem?.id ?: error("Queue entry is missing its base item"),
+						routeMediaSourceId = mediaSource.id ?: error("Media source is missing its ID"),
+						routeIndex = stream.index,
+						routeFormat = format,
+					),
+					isDefault = stream.isDefault,
+					isForced = stream.isForced,
+				)
+			},
 		queueEntry = queueEntry,
 		url = url,
 	)

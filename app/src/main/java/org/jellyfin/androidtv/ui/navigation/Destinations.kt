@@ -21,7 +21,6 @@ import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
 import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
 import org.jellyfin.androidtv.ui.player.photo.PhotoPlayerFragment
-import org.jellyfin.androidtv.ui.player.video.StereoVideoPlayerFragment
 import org.jellyfin.androidtv.ui.player.video.VideoPlayerFragment
 import org.jellyfin.androidtv.ui.search.SearchFragment
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -137,15 +136,10 @@ object Destinations {
 		putInt("Position", position ?: 0)
 	}
 
-	fun videoPlayerNew(position: Int?) = fragmentDestination<VideoPlayerFragment> {
+	fun videoPlayerNew(position: Int?, video3dFormat: Video3dFormat? = null) = fragmentDestination<VideoPlayerFragment> {
 		putInt(VideoPlayerFragment.EXTRA_POSITION, position ?: 0)
+		video3dFormat?.let { putString(VideoPlayerFragment.EXTRA_VIDEO_3D_FORMAT, it.serialName) }
 	}
-
-	fun stereoVideoPlayer(position: Int?, video3dFormat: Video3dFormat) =
-		fragmentDestination<StereoVideoPlayerFragment> {
-			putInt(VideoPlayerFragment.EXTRA_POSITION, position ?: 0)
-			putString(StereoVideoPlayerFragment.EXTRA_VIDEO_3D_FORMAT, video3dFormat.serialName)
-		}
 
 	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment> {
 		putString(NextUpFragment.ARGUMENT_ITEM_ID, item.toString())
