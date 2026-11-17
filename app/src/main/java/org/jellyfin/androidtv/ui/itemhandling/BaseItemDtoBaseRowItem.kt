@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.seriesThumbImage
 import org.jellyfin.androidtv.util.getTimeFormatter
-import org.jellyfin.androidtv.util.locale
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -93,7 +92,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			).joinToString(" - ")
 
 			val timestamp = buildString {
-				append(DateTimeFormatter.ofPattern("d MMM", context.locale).format(baseItem.startDate))
+				append(DateTimeFormatter.ofPattern("d MMM", context.resources.configuration.locales[0]).format(baseItem.startDate))
 				append(" ")
 				append(context.getTimeFormatter().format(baseItem.startDate))
 				append(" - ")
