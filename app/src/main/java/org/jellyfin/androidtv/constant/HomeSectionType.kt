@@ -32,5 +32,8 @@ enum class HomeSectionType(
 	RANDOM_GENRE("randomgenre", R.string.home_section_random_genre),
 	RANDOM_COLLECTION("randomcollection", R.string.home_section_random_collection),
 	REWATCH("rewatch", R.string.home_section_rewatch),
+	MORE_FROM_STUDIO("morefromstudio", R.string.home_section_more_from_studio),
+	CRITICALLY_ACCLAIMED("criticallyacclaimed", R.string.home_section_critically_acclaimed),
+	STANDUP_COMEDIAN("standupcomedian", R.string.home_section_standup_comedian),
 	NONE("none", R.string.home_section_none),
 }
