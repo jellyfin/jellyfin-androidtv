@@ -27,6 +27,8 @@ class FocusPersistManager {
 		if (!isFocused) return
 
 		lastFocusedKey = key
+		restoredFocusKey = null
+
 		if (initialFocusRequester == null || requesters[key] === initialFocusRequester) {
 			initialFocusAllowed = false
 		}
@@ -40,12 +42,17 @@ class FocusPersistManager {
 
 	fun save(): String? = lastFocusedKey
 
+	fun requestRestoredFocus(key: String, requester: FocusRequester) {
+		if (restoredFocusKey != key || requesters[key] !== requester) return
+		if (requester.requestFocus() && restoredFocusKey == key) restoredFocusKey = null
+	}
+
 	fun restore(key: String?) {
 		restoredFocusKey = key
 		if (key == null) return
 
 		initialFocusAllowed = false
-		requesters[key]?.requestFocus()
+		requesters[key]?.let { requestRestoredFocus(key, it) }
 	}
 }
 
