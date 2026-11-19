@@ -52,15 +52,16 @@ class MediaCodecQuery(
 
 	fun getMaxResolution(mime: String): Size {
 		val resolutions = decoderInfos()
-			.mapNotNull { info -> getCapabilitiesOrNull(info, mime)?.videoCapabilities }
-			.mapNotNull { vc ->
-				val w = vc.supportedWidths?.upper ?: return@mapNotNull null
-				val h = vc.supportedHeights?.upper ?: return@mapNotNull null
-				w to h
-			}
+			.mapNotNull { info ->
+				val vc = getCapabilitiesOrNull(info, mime)?.videoCapabilities ?: return@mapNotNull null
+				val width = vc.supportedWidths?.upper ?: return@mapNotNull null
+				val height = vc.supportedHeights?.upper ?: return@mapNotNull null
+				if (width <= 0 || height <= 0) return@mapNotNull null
 
-		val maxWidth = resolutions.maxOfOrNull { it.first } ?: 0
-		val maxHeight = resolutions.maxOfOrNull { it.second } ?: 0
+				DecoderResolution(width, height, info.isSoftwareCodec)
+			}.toList()
+
+		val (maxWidth, maxHeight) = selectMaxResolution(resolutions)
 
 		Timber.d("Computed max resolution for %s: %dx%d", mime, maxWidth, maxHeight)
 		return Size(maxWidth, maxHeight)
@@ -106,4 +107,21 @@ class MediaCodecQuery(
 	} catch (_: IllegalArgumentException) {
 		null
 	}
+}
+
+internal data class DecoderResolution(
+	val width: Int,
+	val height: Int,
+	val isSoftware: Boolean,
+)
+
+/**
+ * Prefer hardware decoder limits for the device profile. Software decoder limits
+ * are only used when no hardware decoder reported a usable resolution.
+ */
+internal fun selectMaxResolution(resolutions: List<DecoderResolution>): Pair<Int, Int> {
+	val hardware = resolutions.filterNot { it.isSoftware }
+	val candidates = hardware.ifEmpty { resolutions }
+	return (candidates.maxOfOrNull { it.width } ?: 0) to
+		(candidates.maxOfOrNull { it.height } ?: 0)
 }
