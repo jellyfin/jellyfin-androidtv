@@ -285,6 +285,7 @@ public class MusicFavoritesListFragment extends Fragment implements View.OnKeyLi
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
         Timber.i("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
+        Timber.i("Launching due to play multiple items");
         playbackLauncher.getValue().launch(requireContext(), items, 0, false, ndx, shuffle);
     }
 }
