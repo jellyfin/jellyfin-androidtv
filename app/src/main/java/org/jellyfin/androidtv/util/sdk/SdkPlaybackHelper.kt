@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.preference.LibraryPreferences
+import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
@@ -18,6 +20,7 @@ import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.instantMixApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -34,6 +37,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class SdkPlaybackHelper(
 	private val api: ApiClient,
+	private val preferencesRepository: PreferencesRepository,
 	private val userPreferences: UserPreferences,
 	private val playbackLauncher: PlaybackLauncher,
 	private val playbackControllerContainer: PlaybackControllerContainer,
@@ -71,6 +75,17 @@ class SdkPlaybackHelper(
 		allowIntros: Boolean,
 		shuffle: Boolean,
 	): List<BaseItemDto> = withContext(Dispatchers.IO) {
+		val musicVideoLibrary = MusicVideoQueue.libraryFor(mainItem) {
+			api.libraryApi.getAncestors(mainItem.id).content
+		}
+		if (musicVideoLibrary != null) {
+			val items = getMusicVideos(musicVideoLibrary)
+			if (mainItem.type == BaseItemKind.MUSIC_VIDEO || mainItem.type == BaseItemKind.VIDEO) {
+				if (items.none { it.id == mainItem.id }) return@withContext listOf(mainItem)
+			}
+			return@withContext MusicVideoQueue.startAt(items, mainItem.id) { it.id }
+		}
+
 		when (mainItem.type) {
 			BaseItemKind.EPISODE -> {
 				val seriesId = mainItem.seriesId
@@ -245,6 +260,30 @@ class SdkPlaybackHelper(
 					parts
 				}
 			}
+		}
+	}
+
+	private suspend fun getMusicVideos(
+		library: BaseItemDto,
+	): List<BaseItemDto> {
+		val preferencesId = library.displayPreferencesId ?: library.id.toString()
+		val preferences = preferencesRepository.getLibraryPreferences(preferencesId)
+		val sortBy = preferences[LibraryPreferences.sortBy]
+		val sortOrder = preferences[LibraryPreferences.sortOrder]
+
+		return MusicVideoQueue.all(ITEM_QUERY_LIMIT) { offset, limit ->
+			val response by api.itemsApi.getItems(
+				parentId = library.id,
+				includeItemTypes = listOf(BaseItemKind.MUSIC_VIDEO, BaseItemKind.VIDEO),
+				isMissing = false,
+				recursive = true,
+				sortBy = setOf(sortBy, ItemSortBy.SORT_NAME),
+				sortOrder = listOf(sortOrder),
+				startIndex = offset,
+				limit = limit,
+				fields = ItemRepository.itemFields,
+			)
+			response.items
 		}
 	}
 
