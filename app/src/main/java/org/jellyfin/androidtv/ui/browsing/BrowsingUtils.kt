@@ -17,6 +17,7 @@ import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import org.jellyfin.sdk.model.api.request.GetAlbumArtistsRequest
 import org.jellyfin.sdk.model.api.request.GetArtistsRequest
+import org.jellyfin.sdk.model.api.request.GetEpisodesRequest
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
 import org.jellyfin.sdk.model.api.request.GetLatestMediaRequest
 import org.jellyfin.sdk.model.api.request.GetLiveTvChannelsRequest
@@ -237,11 +238,13 @@ object BrowsingUtils {
 	)
 
 	@JvmStatic
-	fun createNextEpisodesRequest(seasonId: UUID, indexNumber: Int) = GetItemsRequest(
+	fun createNextEpisodesRequest(seriesId: UUID, seasonId: UUID, itemId: UUID) = GetEpisodesRequest(
 		fields = ItemRepository.itemFields,
-		parentId = seasonId,
-		includeItemTypes = setOf(BaseItemKind.EPISODE),
-		startIndex = indexNumber,
+		seriesId = seriesId,
+		seasonId = seasonId,
+		startItemId = itemId,
+		// The start item is included, so skip it to return only following episodes.
+		startIndex = 1,
 		limit = 20,
 	)
 
