@@ -53,6 +53,7 @@ import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.sockets.subscribe
 import org.jellyfin.sdk.model.api.LibraryChangedMessage
 import org.jellyfin.sdk.model.api.UserDataChangedMessage
@@ -108,7 +109,11 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 			// Actually add the sections
 			for (section in homesections) when (section) {
-				HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(userViewsRepository.views.first()))
+				HomeSectionType.LATEST_MEDIA -> try {
+					rows.add(helper.loadRecentlyAdded(userViewsRepository.views.first()))
+				} catch (err: ApiClientException) {
+					Timber.w(err, "Unable to retrieve user views, skipping latest media section")
+				}
 				HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(HomeFragmentViewsRow(small = false))
 				HomeSectionType.LIBRARY_BUTTONS -> rows.add(HomeFragmentViewsRow(small = true))
 				HomeSectionType.RESUME -> rows.add(helper.loadResumeVideo())

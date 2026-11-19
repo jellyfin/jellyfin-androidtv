@@ -91,5 +91,13 @@ class StartupViewModel(
 	}
 
 	suspend fun updateServer(server: Server): Boolean = serverRepository.updateServer(server)
+
+	suspend fun isServerReachable(server: Server): Boolean = serverRepository.isServerReachable(server)
+
+	suspend fun getServerIfUnreachable(id: UUID): Server? {
+		serverRepository.loadStoredServers()
+		val server = getServer(id) ?: return null
+		return server.takeUnless { serverRepository.isServerReachable(it) }
+	}
 }
 
