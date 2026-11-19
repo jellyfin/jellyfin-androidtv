@@ -65,7 +65,7 @@ fun FullDetailsFragment.deleteItem(
 	dataRefreshService.lastDeletedItemId = item.id
 
 	if (navigationRepository.canGoBack) navigationRepository.goBack()
-	else navigationRepository.navigate(Destinations.home)
+	else navigationRepository.reset(Destinations.home, clearHistory = true)
 
 	Toast.makeText(context, getString(R.string.item_deleted, item.name), Toast.LENGTH_LONG).show()
 }
