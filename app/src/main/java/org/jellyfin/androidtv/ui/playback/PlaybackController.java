@@ -59,6 +59,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
+    private static final int[] SMART_SKIP_STEPS = { 5_000, 30_000, 60_000, 300_000, 900_000 };
 
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -378,7 +379,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             newPos = getRealTimeProgress();
             // live tv
         } else if (hasInitializedVideoManager()) {
-            if (currentSkipPos != 0 || (!isPlaying() && mSeekPosition != -1)) {
+            if (currentSkipPos != -1 || (!isPlaying() && mSeekPosition != -1)) {
                 newPos = mSeekPosition;
                 // use seekPosition until playback starts
             } else if (isPlaying()) {
@@ -920,6 +921,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private void clearPlaybackSessionOptions() {
         mDefaultAudioIndex = -1;
         mSeekPosition = -1;
+        mHandler.removeCallbacks(skipRunnable);
+        currentSkipPos = -1;
         finishedInitialSeek = false;
         wasSeeking = false;
         burningSubs = false;
@@ -954,12 +957,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public void fastForward() {
         UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
-        skip(prefs.get(UserSettingPreferences.Companion.getSkipForwardLength()));
+        if (prefs.get(UserSettingPreferences.Companion.getSmartSkipEnabled())) smartSkip(1);
+        else skip(prefs.get(UserSettingPreferences.Companion.getSkipForwardLength()));
     }
 
     public void rewind() {
         UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
-        skip(-prefs.get(UserSettingPreferences.Companion.getSkipBackLength()));
+        if (prefs.get(UserSettingPreferences.Companion.getSmartSkipEnabled())) smartSkip(-1);
+        else skip(-prefs.get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
     public void seek(long pos) {
@@ -1057,26 +1062,48 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
-    private long currentSkipPos = 0;
+    private long currentSkipPos = -1;
+    private int smartSkipStep = 0;
+    private long smartSkipBase = 0;
     private final Runnable skipRunnable = () -> {
         if (!(isPlaying() || isPaused())) return; // in case we completed since this was requested
 
         seek(currentSkipPos);
-        currentSkipPos = 0;
+        currentSkipPos = -1;
     };
 
     private void skip(int msec) {
+        refreshCurrentPosition();
+        skipTo((currentSkipPos == -1 ? mCurrentPosition : currentSkipPos) + msec);
+    }
+
+    private boolean skipTo(long target) {
         if (hasInitializedVideoManager() && (isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
             mHandler.removeCallbacks(skipRunnable);
-            refreshCurrentPosition();
-            currentSkipPos = Utils.getSafeSeekPosition((currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec, getDuration());
+            currentSkipPos = Utils.getSafeSeekPosition(target, getDuration());
 
-            Timber.i("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
+            Timber.i("Skip requested to %s. Calculated position is %s", target, currentSkipPos);
             Timber.i("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
             mHandler.postDelayed(skipRunnable, 800);
+            return true;
         }
+        return false;
+    }
+
+    // The pending position is replaced by the new step rather than accumulating the presses.
+    private void smartSkip(int direction) {
+        if (currentSkipPos == -1) {
+            refreshCurrentPosition();
+            smartSkipBase = mCurrentPosition;
+            smartSkipStep = 0;
+        }
+        int step = Math.max(-SMART_SKIP_STEPS.length, Math.min(SMART_SKIP_STEPS.length, smartSkipStep + direction));
+        int offset = step == 0 ? 0 : Integer.signum(step) * SMART_SKIP_STEPS[Math.abs(step) - 1];
+        if (!skipTo(smartSkipBase + offset)) return;
+        smartSkipStep = step;
+        if (mFragment != null) mFragment.showSkipIndicator(currentSkipPos - smartSkipBase);
     }
 
     public void updateTvProgramInfo() {
