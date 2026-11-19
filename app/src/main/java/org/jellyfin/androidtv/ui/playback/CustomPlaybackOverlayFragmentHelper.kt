@@ -23,6 +23,11 @@ import java.time.Instant
 import java.util.UUID
 import kotlin.time.Duration
 
+fun CustomPlaybackOverlayFragment.closePlayerOnStop() {
+	// Navigation already removes/detaches this fragment; do not pop its successor.
+	if (!isRemoving && !isDetached) closePlayer()
+}
+
 fun CustomPlaybackOverlayFragment.toggleFavorite() {
 	val header = mSelectedProgramView as? GuideChannelHeader
 	val channel = header?.channel ?: return
