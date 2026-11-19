@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.genresApi
+import org.jellyfin.sdk.api.client.extensions.genreApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.request.GetItemsRequest
@@ -19,7 +19,7 @@ class ByGenreFragment : BrowseFolderFragment() {
 
 		// Get all genres for this folder
 		val genresResponse = withContext(Dispatchers.IO) {
-			apiClient.genresApi.getGenres(
+			apiClient.genreApi.getGenres(
 				parentId = folder?.id,
 				sortBy = setOf(ItemSortBy.SORT_NAME),
 			).content

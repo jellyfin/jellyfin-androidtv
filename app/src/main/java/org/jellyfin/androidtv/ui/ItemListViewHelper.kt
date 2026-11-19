@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.koin.java.KoinJavaComponent
 
 fun ItemListView.refresh() {
@@ -15,7 +15,7 @@ fun ItemListView.refresh() {
 
 	findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
 		val response = withContext(Dispatchers.IO) {
-			api.itemsApi.getItems(
+			api.libraryApi.getItems(
 				ids = mItemIds,
 				fields = ItemRepository.itemFields
 			).content

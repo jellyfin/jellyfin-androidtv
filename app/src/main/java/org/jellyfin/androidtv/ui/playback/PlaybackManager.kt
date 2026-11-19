@@ -10,9 +10,9 @@ import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.compat.VideoOptions
 import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.hlsSegmentApi
+import org.jellyfin.sdk.api.client.extensions.delete
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
-import org.jellyfin.sdk.api.client.extensions.videosApi
+import org.jellyfin.sdk.api.client.extensions.videoApi
 import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 import org.jellyfin.sdk.model.api.PlaybackInfoResponse
@@ -38,7 +38,7 @@ private fun createStreamInfo(
 		container = source.container
 		mediaUrl = when {
 			source.isRemote && source.path != null -> source.path
-			else -> api.videosApi.getVideoStreamUrl(
+			else -> api.videoApi.getVideoStreamUrl(
 				itemId = itemId,
 				container = container,
 				mediaSourceId = source.id,
@@ -82,7 +82,11 @@ class PlaybackManager(
 	) = lifecycleOwner.lifecycleScope.launch {
 		if (stream.playSessionId != null && stream.playMethod != PlayMethod.DIRECT_PLAY) {
 			withContext(Dispatchers.IO) {
-				api.hlsSegmentApi.stopEncodingProcess(api.deviceInfo.id, stream.playSessionId)
+				// TODO: endpoint was (accidentally?) removed from OpenAPI spec in 12.0
+				api.delete<Unit>(
+					"/Videos/ActiveEncodings",
+					queryParameters = mapOf("deviceId" to api.deviceInfo.id, "playSessionId" to stream.playSessionId),
+				)
 			}
 		}
 
