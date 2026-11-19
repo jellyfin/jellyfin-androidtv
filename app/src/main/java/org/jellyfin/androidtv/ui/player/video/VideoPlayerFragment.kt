@@ -13,18 +13,27 @@ import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.model.api.Video3dFormat
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.milliseconds
 
-class VideoPlayerFragment : Fragment() {
+open class VideoPlayerFragment : Fragment() {
 	companion object {
 		const val EXTRA_POSITION: String = "position"
+		const val EXTRA_VIDEO_3D_FORMAT: String = "video3dFormat"
 	}
 
 	private val videoQueueManager by inject<VideoQueueManager>()
 	private val playbackManager by inject<PlaybackManager>()
 	private val api by inject<ApiClient>()
+
+	private val video3dFormat: Video3dFormat?
+		get() = arguments?.getString(EXTRA_VIDEO_3D_FORMAT)?.let { serialName ->
+			Video3dFormat.fromNameOrNull(serialName).also { format ->
+				if (format == null) Timber.w("Unknown video 3D format: %s", serialName)
+			}
+		}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -52,7 +61,7 @@ class VideoPlayerFragment : Fragment() {
 		savedInstanceState: Bundle?
 	) = content {
 		BaseScreen {
-			VideoPlayerScreen()
+			VideoPlayerScreen(video3dFormat)
 		}
 	}
 

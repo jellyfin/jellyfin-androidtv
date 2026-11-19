@@ -14,9 +14,11 @@ import org.jellyfin.androidtv.ui.shared.toolbar.ToolbarClock
 
 @Composable
 fun PlayerHeader(
+	modifier: Modifier = Modifier,
 	content: @Composable ColumnScope.() -> Unit,
 ) {
 	Row(
+		modifier = modifier,
 		horizontalArrangement = Arrangement.spacedBy(12.dp),
 		verticalAlignment = Alignment.Top,
 	) {
