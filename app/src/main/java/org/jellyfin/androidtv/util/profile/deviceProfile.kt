@@ -228,10 +228,13 @@ fun createDeviceProfile(
 		container(
 			Codec.Container.ASF,
 			Codec.Container.HLS,
+			Codec.Container.M2TS,
 			Codec.Container.M4V,
 			Codec.Container.MKV,
 			Codec.Container.MOV,
 			Codec.Container.MP4,
+			Codec.Container.MPEGTS,
+			Codec.Container.MTS,
 			Codec.Container.OGM,
 			Codec.Container.OGV,
 			Codec.Container.TS,
