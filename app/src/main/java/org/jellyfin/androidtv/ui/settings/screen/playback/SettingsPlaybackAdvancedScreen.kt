@@ -216,6 +216,18 @@ fun SettingsPlaybackAdvancedScreen() {
 		item { ListSection(headingContent = { Text(stringResource(R.string.pref_subtitles)) }) }
 
 		item {
+			var subtitlesRememberSelection by rememberPreference(userPreferences, UserPreferences.subtitlesRememberSelection)
+
+			ListButton(
+				headingContent = { Text(stringResource(R.string.pref_subtitles_remember_selection)) },
+				captionContent = { Text(stringResource(R.string.pref_subtitles_remember_selection_description)) },
+				trailingContent = { Checkbox(checked = subtitlesRememberSelection) },
+				onClick = { subtitlesRememberSelection = !subtitlesRememberSelection },
+				modifier = Modifier.focusKey("subtitles_remember_selection")
+			)
+		}
+
+		item {
 			var pgsDirectPlay by rememberPreference(userPreferences, UserPreferences.pgsDirectPlay)
 
 			ListButton(

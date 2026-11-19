@@ -304,6 +304,17 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var pgsDirectPlay = booleanPreference("pgs_enabled", true)
 
 		/**
+		 * Automatically match the subtitle selection of episodes in a series to the most recently manually selected one.
+		 */
+		var subtitlesRememberSelection = booleanPreference("subtitles_remember_selection", true)
+
+		/**
+		 * Last manually selected subtitle per series. Encoded as JSON, managed by
+		 * [getSeriesSubtitleSelection] and [setSeriesSubtitleSelection].
+		 */
+		var subtitlesSeriesSelections = stringPreference("subtitles_series_selections", "")
+
+		/**
 		 * Enable the use of software-based codecs.
 		 */
 		var softwareCodecsEnabled = booleanPreference("software_codecs_enabled", true)
