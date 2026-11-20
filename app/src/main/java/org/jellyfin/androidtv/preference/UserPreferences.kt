@@ -135,6 +135,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var audioNightMode = enumPreference("audio_night_mode", false)
 
 		/**
+		 * AAC bitstream device profile override.
+		 */
+		var bitstreamAac = enumPreference("bitstream_aac_mode", BitstreamAudioMode.AUTO)
+
+		/**
 		 * AC3 bitstream device profile override.
 		 */
 		var bitstreamAc3 = enumPreference("bitstream_ac3_mode", BitstreamAudioMode.AUTO)

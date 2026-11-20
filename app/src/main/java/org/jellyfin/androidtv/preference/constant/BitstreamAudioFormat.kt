@@ -13,6 +13,11 @@ enum class BitstreamAudioFormat(
 	val mimeType: String,
 	val preference: Preference<BitstreamAudioMode>,
 ) {
+	AAC(
+		nameRes = R.string.lbl_bitstream_aac,
+		mimeType = MimeTypes.AUDIO_AAC,
+		preference = UserPreferences.bitstreamAac,
+	),
 	AC3(
 		nameRes = R.string.lbl_bitstream_ac3,
 		mimeType = MimeTypes.AUDIO_AC3,
