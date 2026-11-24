@@ -120,6 +120,9 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			baseItem?.type == BaseItemKind.SEASON -> baseItem.itemImages[ImageType.PRIMARY]
 				?: baseItem.seriesPrimaryImage
 
+			baseItem?.type == BaseItemKind.USER_VIEW -> baseItem.itemImages[ImageType.PRIMARY]
+				?: baseItem.parentImages[ImageType.PRIMARY]
+
 			baseItem?.type == BaseItemKind.PROGRAM -> baseItem.itemImages[ImageType.THUMB]
 			baseItem?.type == BaseItemKind.AUDIO -> baseItem.albumPrimaryImage
 			else -> null
