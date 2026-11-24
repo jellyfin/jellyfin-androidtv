@@ -697,4 +697,14 @@
     <string name="dovi_profile_8_description">Una capa con soporte de HDR10</string>
     <string name="home_next_up_max_days">Días a mantener en Siguiente</string>
     <string name="home_next_up_max_days_disabled">Deshabilitado</string>
+    <string name="tv_provider_enabled">Integración con el TV Androide del hogar (Android TV Home)</string>
+    <string name="tv_provider_enabled_description">Mostrar canales y recomendaciones de Jellyfin en la pantalla del televisor Androide del hogar (Android TV Home)</string>
+    <plurals name="days">
+        <item quantity="one">Uno</item>
+        <item quantity="many">Muchos</item>
+        <item quantity="other">Otros</item>
+    </plurals>
+    <string name="photo_player">Reproductor de fotografías</string>
+    <string name="photo_display_duration">Duración de la reproducción de fotografías</string>
+    <string name="photo_display_duration_description">Cuanto tiempo esperar antes de mostrar la siguiente fotografía</string>
 </resources>
