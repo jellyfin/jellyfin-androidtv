@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.playback.core.backend.PlayerBackendEvent
 import org.jellyfin.playback.core.mediastream.MediaConversionMethod
+import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.RepeatMode
@@ -23,20 +25,54 @@ import org.jellyfin.sdk.model.api.QueueItem
 import org.jellyfin.sdk.model.extensions.inWholeTicks
 import timber.log.Timber
 import kotlin.math.roundToInt
+import kotlin.time.Duration
 import org.jellyfin.sdk.model.api.RepeatMode as SdkRepeatMode
 
 class PlaySessionService(
 	private val api: ApiClient,
 ) : PlayerService() {
+	private var lastReportedStream: PlayableMediaStream? = null
+	private var lastReportedPlayState: PlayState? = null
+
 	override suspend fun onInitialize() {
-		state.playState.onEach { playState ->
-			when (playState) {
-				PlayState.PLAYING -> sendStreamStart()
-				PlayState.STOPPED -> sendStreamStop()
-				PlayState.PAUSED -> sendStreamUpdate()
-				PlayState.ERROR -> sendStreamStop()
+		state.backendEvents
+			.onEach { event ->
+				when (event) {
+					is PlayerBackendEvent.PlayStateChanged -> when (event.state) {
+						PlayState.PLAYING -> onPlayStatePlaying()
+						PlayState.PAUSED -> onPlayStatePaused()
+						PlayState.STOPPED, PlayState.ERROR -> onPlayStateStopped()
+					}
+
+					is PlayerBackendEvent.MediaStreamEnded -> sendStreamStop(event.stream, event.position)
+					is PlayerBackendEvent.VideoSizeChanged -> Unit
+				}
 			}
-		}.launchIn(coroutineScope)
+			.launchIn(coroutineScope)
+	}
+
+	private suspend fun onPlayStatePlaying() {
+		val stream = manager.queue.entry.value?.mediaStream ?: return
+		val position = withContext(Dispatchers.Main) { state.positionInfo.active }
+		sendStreamStart(stream, position)
+	}
+
+	private suspend fun onPlayStatePaused() {
+		val stream = manager.queue.entry.value?.mediaStream ?: return
+
+		val lastState = if (lastReportedStream === stream) lastReportedPlayState else null
+		if (lastState == PlayState.PAUSED || lastState == PlayState.STOPPED) return
+		lastReportedStream = stream
+		lastReportedPlayState = PlayState.PAUSED
+
+		val position = withContext(Dispatchers.Main) { state.positionInfo.active }
+		sendStreamUpdate(stream, position)
+	}
+
+	private suspend fun onPlayStateStopped() {
+		val stream = manager.queue.entry.value?.mediaStream ?: return
+		val position = withContext(Dispatchers.Main) { state.positionInfo.active }
+		sendStreamStop(stream, position)
 	}
 
 	private val MediaConversionMethod.playMethod
@@ -54,7 +90,12 @@ class PlaySessionService(
 		}
 
 	suspend fun sendUpdateIfActive() {
-		coroutineScope.launch { sendStreamUpdate() }
+		coroutineScope.launch {
+			manager.queue.entry.value?.mediaStream?.let { stream ->
+				val position = withContext(Dispatchers.Main) { state.positionInfo.active }
+				sendStreamUpdate(stream, position)
+			}
+		}
 	}
 
 	private suspend fun getQueue(): List<QueueItem> {
@@ -66,11 +107,14 @@ class PlaySessionService(
 			.map { QueueItem(id = it.id, playlistItemId = it.playlistItemId) }
 	}
 
-	private suspend fun sendStreamStart() {
-		val entry = manager.queue.entry.value ?: return
-		val stream = entry.mediaStream ?: return
-		val item = entry.baseItem ?: return
+	private suspend fun sendStreamStart(stream: PlayableMediaStream, position: Duration) {
+		if (lastReportedStream === stream && lastReportedPlayState == PlayState.PLAYING) return
+		lastReportedStream = stream
+		lastReportedPlayState = PlayState.PLAYING
 
+		val item = stream.queueEntry.baseItem ?: return
+
+		Timber.d("Reporting playback start for ${item.id} at $position")
 		runCatching {
 			api.playStateApi.reportPlaybackStart(
 				PlaybackStartInfo(
@@ -82,7 +126,7 @@ class PlaySessionService(
 					volumeLevel = (state.volume.volume * 100).roundToInt(),
 					isPaused = state.playState.value != PlayState.PLAYING,
 					aspectRatio = state.videoSize.value.aspectRatio.toString(),
-					positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
+					positionTicks = position.inWholeTicks,
 					playMethod = stream.conversionMethod.playMethod,
 					repeatMode = state.repeatMode.value.remoteRepeatMode,
 					nowPlayingQueue = getQueue(),
@@ -96,11 +140,10 @@ class PlaySessionService(
 		}.onFailure { error -> Timber.w(error, "Failed to send playback start event") }
 	}
 
-	private suspend fun sendStreamUpdate() {
-		val entry = manager.queue.entry.value ?: return
-		val stream = entry.mediaStream ?: return
-		val item = entry.baseItem ?: return
+	private suspend fun sendStreamUpdate(stream: PlayableMediaStream, position: Duration) {
+		val item = stream.queueEntry.baseItem ?: return
 
+		Timber.d("Reporting playback progress for ${item.id} at $position")
 		runCatching {
 			api.playStateApi.reportPlaybackProgress(
 				PlaybackProgressInfo(
@@ -112,7 +155,7 @@ class PlaySessionService(
 					volumeLevel = (state.volume.volume * 100).roundToInt(),
 					isPaused = state.playState.value != PlayState.PLAYING,
 					aspectRatio = state.videoSize.value.aspectRatio.toString(),
-					positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
+					positionTicks = position.inWholeTicks,
 					playMethod = stream.conversionMethod.playMethod,
 					repeatMode = state.repeatMode.value.remoteRepeatMode,
 					nowPlayingQueue = getQueue(),
@@ -123,25 +166,28 @@ class PlaySessionService(
 					}
 				)
 			)
-		}.onFailure { error -> Timber.w("Failed to send playback update event", error) }
+		}.onFailure { error -> Timber.w(error, "Failed to send playback update event") }
 	}
 
-	private suspend fun sendStreamStop() {
-		val entry = manager.queue.entry.value ?: return
-		val stream = entry.mediaStream ?: return
-		val item = entry.baseItem ?: return
+	private suspend fun sendStreamStop(stream: PlayableMediaStream, position: Duration) {
+		if (lastReportedStream === stream && lastReportedPlayState == PlayState.STOPPED) return
+		lastReportedStream = stream
+		lastReportedPlayState = PlayState.STOPPED
 
+		val item = stream.queueEntry.baseItem ?: return
+
+		Timber.d("Reporting playback stop for ${item.id} at $position")
 		runCatching {
 			api.playStateApi.reportPlaybackStopped(
 				PlaybackStopInfo(
 					itemId = item.id,
 					playSessionId = stream.identifier,
 					playlistItemId = item.playlistItemId,
-					positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
+					positionTicks = position.inWholeTicks,
 					failed = false,
 					nowPlayingQueue = getQueue(),
 				)
 			)
-		}.onFailure { error -> Timber.w("Failed to send playback stop event", error) }
+		}.onFailure { error -> Timber.w(error, "Failed to send playback stop event") }
 	}
 }
