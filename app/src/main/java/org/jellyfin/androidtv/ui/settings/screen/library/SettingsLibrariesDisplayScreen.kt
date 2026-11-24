@@ -24,16 +24,16 @@ import java.util.UUID
 fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 	val router = LocalRouter.current
 	val userViewsRepository = koinInject<UserViewsRepository>()
-	val userView = rememberUserView(itemId)
+	val item = rememberBaseItemDto(itemId)
 	val libraryPreferences = rememberLibraryPreferences(displayPreferencesId) ?: return
 
-	val allowViewSelection = userViewsRepository.allowViewSelection(userView?.collectionType)
+	val allowViewSelection = item != null && userViewsRepository.allowViewSelection(item.collectionType)
 
 	SettingsColumn {
 		item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.pref_libraries).uppercase()) },
-				headingContent = { Text(userView?.name.orEmpty()) },
+				headingContent = { Text(item?.name.orEmpty()) },
 			)
 		}
 
@@ -49,7 +49,7 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 						mapOf("itemId" to itemId.toString(), "displayPreferencesId" to displayPreferencesId)
 					)
 				},
-				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_IMAGE_SIZE)
+				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_IMAGE_SIZE, initialFocus = true)
 			)
 		}
 
