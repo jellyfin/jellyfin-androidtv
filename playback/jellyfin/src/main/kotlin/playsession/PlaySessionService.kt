@@ -38,41 +38,38 @@ class PlaySessionService(
 		state.backendEvents
 			.onEach { event ->
 				when (event) {
-					is PlayerBackendEvent.PlayStateChanged -> when (event.state) {
-						PlayState.PLAYING -> onPlayStatePlaying()
-						PlayState.PAUSED -> onPlayStatePaused()
-						PlayState.STOPPED, PlayState.ERROR -> onPlayStateStopped()
+					is PlayerBackendEvent.PlayStateChanged -> {
+						val stream = event.stream ?: return@onEach
+						val position = event.position ?: return@onEach
+
+						when (event.state) {
+							PlayState.PLAYING -> onPlayStatePlaying(stream, position)
+							PlayState.PAUSED -> onPlayStatePaused(stream, position)
+							PlayState.STOPPED, PlayState.ERROR -> sendStreamStop(stream, position)
+						}
 					}
 
 					is PlayerBackendEvent.MediaStreamEnded -> sendStreamStop(event.stream, event.position)
+					is PlayerBackendEvent.MediaStreamReplaced -> sendStreamStop(event.stream, event.position)
 					is PlayerBackendEvent.VideoSizeChanged -> Unit
 				}
 			}
 			.launchIn(coroutineScope)
 	}
 
-	private suspend fun onPlayStatePlaying() {
-		val stream = manager.queue.entry.value?.mediaStream ?: return
-		val position = withContext(Dispatchers.Main) { state.positionInfo.active }
-		sendStreamStart(stream, position)
+	private suspend fun onPlayStatePlaying(stream: PlayableMediaStream, position: Duration) {
+		if (lastReportedStream === stream && lastReportedPlayState == PlayState.PAUSED) {
+			lastReportedPlayState = PlayState.PLAYING
+			sendStreamUpdate(stream, position, paused = false)
+		} else {
+			sendStreamStart(stream, position)
+		}
 	}
 
-	private suspend fun onPlayStatePaused() {
-		val stream = manager.queue.entry.value?.mediaStream ?: return
-
-		val lastState = if (lastReportedStream === stream) lastReportedPlayState else null
-		if (lastState == PlayState.PAUSED || lastState == PlayState.STOPPED) return
-		lastReportedStream = stream
+	private suspend fun onPlayStatePaused(stream: PlayableMediaStream, position: Duration) {
+		if (lastReportedStream !== stream || lastReportedPlayState != PlayState.PLAYING) return
 		lastReportedPlayState = PlayState.PAUSED
-
-		val position = withContext(Dispatchers.Main) { state.positionInfo.active }
-		sendStreamUpdate(stream, position)
-	}
-
-	private suspend fun onPlayStateStopped() {
-		val stream = manager.queue.entry.value?.mediaStream ?: return
-		val position = withContext(Dispatchers.Main) { state.positionInfo.active }
-		sendStreamStop(stream, position)
+		sendStreamUpdate(stream, position, paused = true)
 	}
 
 	private val MediaConversionMethod.playMethod
@@ -92,8 +89,11 @@ class PlaySessionService(
 	suspend fun sendUpdateIfActive() {
 		coroutineScope.launch {
 			manager.queue.entry.value?.mediaStream?.let { stream ->
-				val position = withContext(Dispatchers.Main) { state.positionInfo.active }
-				sendStreamUpdate(stream, position)
+				sendStreamUpdate(
+					stream = stream,
+					position = withContext(Dispatchers.Main) { state.positionInfo.active },
+					paused = state.playState.value != PlayState.PLAYING
+				)
 			}
 		}
 	}
@@ -124,7 +124,7 @@ class PlaySessionService(
 					canSeek = true,
 					isMuted = state.volume.muted,
 					volumeLevel = (state.volume.volume * 100).roundToInt(),
-					isPaused = state.playState.value != PlayState.PLAYING,
+					isPaused = false,
 					aspectRatio = state.videoSize.value.aspectRatio.toString(),
 					positionTicks = position.inWholeTicks,
 					playMethod = stream.conversionMethod.playMethod,
@@ -140,7 +140,7 @@ class PlaySessionService(
 		}.onFailure { error -> Timber.w(error, "Failed to send playback start event") }
 	}
 
-	private suspend fun sendStreamUpdate(stream: PlayableMediaStream, position: Duration) {
+	private suspend fun sendStreamUpdate(stream: PlayableMediaStream, position: Duration, paused: Boolean) {
 		val item = stream.queueEntry.baseItem ?: return
 
 		Timber.d("Reporting playback progress for ${item.id} at $position")
@@ -153,7 +153,7 @@ class PlaySessionService(
 					canSeek = true,
 					isMuted = state.volume.muted,
 					volumeLevel = (state.volume.volume * 100).roundToInt(),
-					isPaused = state.playState.value != PlayState.PLAYING,
+					isPaused = paused,
 					aspectRatio = state.videoSize.value.aspectRatio.toString(),
 					positionTicks = position.inWholeTicks,
 					playMethod = stream.conversionMethod.playMethod,
