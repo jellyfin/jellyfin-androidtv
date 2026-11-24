@@ -18,6 +18,7 @@ import org.jellyfin.playback.core.queue.order.RandomOrderIndexProvider
 import org.jellyfin.playback.core.queue.order.ShuffleOrderIndexProvider
 import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import kotlin.math.max
+import kotlin.time.Duration
 
 class QueueService internal constructor() : PlayerService(), Queue {
 	private val suppliers = mutableListOf<QueueSupplier>()
@@ -53,7 +54,7 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 		// Automatically advance when current stream ends
 		manager.backendService.addListener(object : PlayerBackendEventListener() {
-			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
+			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream, position: Duration) {
 				coroutineScope.launch {
 					val nextEntry = next(usePlaybackOrder = true, useRepeatMode = true)
 					if (nextEntry == null && _entryIndex.value != Queue.INDEX_NONE) setIndex(Queue.INDEX_NONE, true)
