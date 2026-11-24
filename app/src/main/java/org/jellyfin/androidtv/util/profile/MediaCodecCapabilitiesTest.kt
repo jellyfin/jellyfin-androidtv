@@ -2,7 +2,10 @@ package org.jellyfin.androidtv.util.profile
 
 import android.media.MediaCodecList
 import android.util.Size
+import androidx.annotation.OptIn
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.decoder.ffmpeg.FfmpegLibrary
 import org.jellyfin.androidtv.util.profile.codec.Av1CodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.AvcCodecCapabilities
 import org.jellyfin.androidtv.util.profile.codec.HevcCodecCapabilities
@@ -52,6 +55,10 @@ class MediaCodecCapabilitiesTest(
 	fun getHevcMain10Level(): Int = hevc.getMain10Level()
 
 	fun supportsVc1(): Boolean = codecQuery.hasCodecForMime(MimeTypes.VIDEO_VC1)
+
+	@OptIn(UnstableApi::class)
+	fun hasAudioDecoder(mimeType: String): Boolean =
+		codecQuery.hasCodecForMime(mimeType) || (softwareCodecsEnabled && FfmpegLibrary.supportsFormat(mimeType))
 
 	fun getMaxResolution(mime: String): Size = codecQuery.getMaxResolution(mime)
 }
