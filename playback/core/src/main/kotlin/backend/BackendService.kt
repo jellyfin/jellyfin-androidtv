@@ -84,8 +84,8 @@ class BackendService {
 			body: PlayerBackendEventListener.() -> T
 		): List<T> = listeners.map { listener -> listener.body() }
 
-		override fun onPlayStateChange(state: PlayState) {
-			callListeners { onPlayStateChange(state) }
+		override fun onPlayStateChange(state: PlayState, stream: PlayableMediaStream?, position: Duration?) {
+			callListeners { onPlayStateChange(state, stream, position) }
 		}
 
 		override fun onVideoSizeChange(width: Int, height: Int) {
@@ -94,6 +94,10 @@ class BackendService {
 
 		override fun onMediaStreamEnd(mediaStream: PlayableMediaStream, position: Duration) {
 			callListeners { onMediaStreamEnd(mediaStream, position) }
+		}
+
+		override fun onMediaStreamReplaced(mediaStream: PlayableMediaStream, position: Duration) {
+			callListeners { onMediaStreamReplaced(mediaStream, position) }
 		}
 	}
 }

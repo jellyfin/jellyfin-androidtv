@@ -95,10 +95,10 @@ class MutablePlayerState(
 		volume = options.playerVolumeState
 
 		backendService.addListener(object : PlayerBackendEventListener() {
-			override fun onPlayStateChange(state: PlayState) {
+			override fun onPlayStateChange(state: PlayState, stream: PlayableMediaStream?, position: Duration?) {
 				_playState.value = state
 
-				_backendEvents.tryEmit(PlayerBackendEvent.PlayStateChanged(state))
+				_backendEvents.tryEmit(PlayerBackendEvent.PlayStateChanged(state, stream, position))
 			}
 
 			override fun onVideoSizeChange(width: Int, height: Int) {
@@ -109,6 +109,10 @@ class MutablePlayerState(
 
 			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream, position: Duration) {
 				_backendEvents.tryEmit(PlayerBackendEvent.MediaStreamEnded(mediaStream, position))
+			}
+
+			override fun onMediaStreamReplaced(mediaStream: PlayableMediaStream, position: Duration) {
+				_backendEvents.tryEmit(PlayerBackendEvent.MediaStreamReplaced(mediaStream, position))
 			}
 		})
 	}
