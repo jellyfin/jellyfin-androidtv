@@ -22,14 +22,14 @@ import java.util.UUID
 @Composable
 fun SettingsLibrariesDisplayGridScreen(itemId: UUID, displayPreferencesId: String) {
 	val router = LocalRouter.current
-	val userView = rememberUserView(itemId)
+	val item = rememberBaseItemDto(itemId)
 	val libraryPreferences = rememberLibraryPreferences(displayPreferencesId) ?: return
 	var gridDirection by rememberPreference(libraryPreferences, LibraryPreferences.gridDirection)
 
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(userView?.name.orEmpty().uppercase()) },
+				overlineContent = { Text(item?.name.orEmpty().uppercase()) },
 				headingContent = { Text(stringResource(R.string.grid_direction)) },
 			)
 		}

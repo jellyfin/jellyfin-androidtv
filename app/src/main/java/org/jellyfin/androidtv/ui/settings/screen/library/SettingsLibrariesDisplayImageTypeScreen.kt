@@ -22,14 +22,14 @@ import java.util.UUID
 @Composable
 fun SettingsLibrariesDisplayImageTypeScreen(itemId: UUID, displayPreferencesId: String) {
 	val router = LocalRouter.current
-	val userView = rememberUserView(itemId)
+	val item = rememberBaseItemDto(itemId)
 	val libraryPreferences = rememberLibraryPreferences(displayPreferencesId) ?: return
 	var imageType by rememberPreference(libraryPreferences, LibraryPreferences.imageType)
 
 	SettingsColumn {
 		item {
 			ListSection(
-				overlineContent = { Text(userView?.name.orEmpty().uppercase()) },
+				overlineContent = { Text(item?.name.orEmpty().uppercase()) },
 				headingContent = { Text(stringResource(R.string.lbl_image_type)) },
 			)
 		}
