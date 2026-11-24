@@ -106,6 +106,19 @@ class PlaybackSubtitleTest : FunSpec({
 	}
 
 	withTests(transitions.mapKeys { (template, _) ->
+		template.format("preferred server default")
+	}) { method ->
+		val preferred = subtitle(language = "eng", isDefault = true)
+
+		playback.play(
+			media(video(), audio(), subtitle(language = "eng", isDefault = true)),
+			media(video(), audio(), subtitle(language = "eng"), preferred),
+		)
+		method(playback)
+		playback.assertSubtitle(preferred)
+	}
+
+	withTests(transitions.mapKeys { (template, _) ->
 		template.format("non-default subtitles in a different language")
 	}) { method ->
 		val fstDefault = subtitle(language = "eng", isDefault = true)

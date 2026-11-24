@@ -53,6 +53,19 @@ class PlaybackAudioTest : FunSpec({
 	}
 
 	withTests(transitions.mapKeys { (template, _) ->
+		template.format("preferred server default")
+	}) { method ->
+		val preferred = audio(language = "eng", isDefault = true)
+
+		playback.play(
+			media(video(), audio(language = "eng", isDefault = true)),
+			media(video(), audio(language = "eng"), preferred),
+		)
+		method(playback)
+		playback.assertAudio(preferred)
+	}
+
+	withTests(transitions.mapKeys { (template, _) ->
 		template.format("non-default audio in a different language")
 	}) { method ->
 		val fstDubbed = audio(language = "eng", isDefault = true)
