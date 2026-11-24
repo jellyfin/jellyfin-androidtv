@@ -97,6 +97,7 @@ fun createDeviceProfile(
 ) = createDeviceProfile(
 	mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled]),
 	maxBitrate = userPreferences.getMaxBitrate(),
+	isAACPrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.AAC),
 	isAC3PrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.AC3),
 	isEAC3PrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.EAC3),
 	isDTSPrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.DTS),
@@ -113,6 +114,7 @@ fun createDeviceProfile(
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
 	maxBitrate: Int,
+	isAACPrefEnabled: Boolean,
 	isAC3PrefEnabled: Boolean,
 	isEAC3PrefEnabled: Boolean,
 	isDTSPrefEnabled: Boolean,
@@ -130,6 +132,7 @@ fun createDeviceProfile(
 		else -> supportedAudioCodecs
 	}.filter { supportedPassthroughAudioCodecs ->
 		when (supportedPassthroughAudioCodecs) {
+			Codec.Audio.AAC -> isAACPrefEnabled
 			Codec.Audio.AC3 -> isAC3PrefEnabled
 			Codec.Audio.EAC3 -> isEAC3PrefEnabled
 			Codec.Audio.TRUEHD -> isTrueHDPrefEnabled

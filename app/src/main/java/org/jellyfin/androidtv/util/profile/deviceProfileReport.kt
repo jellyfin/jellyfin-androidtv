@@ -167,6 +167,7 @@ fun createDeviceProfileReport(
 	}
 
 	appendDetails("Audio passthrough capabilities") {
+		appendLine("***AAC (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_AAC)}")
 		appendLine("***AC3 (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_AC3)}")
 		appendLine("***EAC3 (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_E_AC3)}")
 		appendLine("***DTS (2.0)***: ${isPassthroughAudioAvailable(context, MimeTypes.AUDIO_DTS)}")
