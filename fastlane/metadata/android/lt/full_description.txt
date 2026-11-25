@@ -9,6 +9,6 @@ Su Jellyfin serveriu galite:
 * Žiūrėti tiesioginę TV ir įrašytas laidas iš savo Jellyfin serverio (reikalinga papildoma įranga / paslaugos)
 * Siųsti srautu į Chromecast įrenginį savo tinkle
 * Siųsti srautu savo mediją į savo Android įrenginį
-* Peržiūrėti savo kolekciją su paprasta naudoti vartotojo sąsasaja.
+* Peržiūrėti savo kolekciją su paprasta naudoti naudotojo sąsaja
 
 Tai yra oficialioji Jellyfin programėlė Android TV. Ačiū, kad naudojatės Jellyfin!
