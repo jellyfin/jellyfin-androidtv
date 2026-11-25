@@ -528,8 +528,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setAlwaysBurnInSubtitleWhenTranscoding(userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode()));
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
-        internalOptions.setAudioStreamIndex(restoreAudioStreamIndex());
-        internalOptions.setSubtitleStreamIndex(restoreSubtitleStreamIndex());
+        if (Objects.equals(getWorkId(), videoQueueManager.getValue().getLastPlayedWorkId())) {
+            internalOptions.setAudioStreamIndex(restoreAudioStreamIndex());
+            internalOptions.setSubtitleStreamIndex(restoreSubtitleStreamIndex());
+        }
         if (subtitleIndexOverride != null) {
             internalOptions.setSubtitleStreamIndex(subtitleIndexOverride);
         }
@@ -624,6 +626,20 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 : null;
     }
 
+    @Nullable
+    private Integer getServerStreamIndex(MediaStreamType type) {
+        switch (type) {
+            case AUDIO:
+                return Optional.ofNullable(getCurrentMediaSource()).map(MediaSourceInfo::getDefaultAudioStreamIndex)
+                        .orElse(null);
+            case SUBTITLE:
+                return Optional.ofNullable(getCurrentMediaSource()).map(MediaSourceInfo::getDefaultSubtitleStreamIndex)
+                        .orElse(null);
+            default:
+                return null;
+        }
+    }
+
     void setLastPlayedStreams(int audioIndex, int subtitleIndex) {
         List<MediaStream> streams = Optional.ofNullable(getCurrentMediaSource())
                 .map(MediaSourceInfo::getMediaStreams)
@@ -645,11 +661,13 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Nullable
     private Integer findMatchingStreamIndex(MediaStream previous) {
+        Integer serverIndex = getServerStreamIndex(previous.getType());
         String language = previous.getLanguage();
         String title = previous.getTitle();
         Predicate<String> hasValue = value -> value != null && !value.isEmpty();
         Predicate<MediaStream> matchesTitle = stream -> hasValue.test(title) && title.equals(stream.getTitle());
         Predicate<MediaStream> matchesIndex = stream -> stream.getIndex() == previous.getIndex();
+        Predicate<MediaStream> matchesServer = stream -> Objects.equals(stream.getIndex(), serverIndex);
 
         NormalizedLevenshtein algorithm = new NormalizedLevenshtein();
         Comparator<MediaStream> titleSimilarity = Comparator.comparingDouble(
@@ -659,7 +677,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 .thenComparing(stream -> hasValue.test(title) && !hasValue.test(stream.getTitle())
                         && matchesIndex.test(stream))
                 .thenComparing(titleSimilarity)
-                .thenComparing(matchesIndex::test);
+                .thenComparing(matchesIndex::test)
+                .thenComparing(matchesServer::test);
 
         return Optional.ofNullable(getCurrentMediaSource())
                 .map(MediaSourceInfo::getMediaStreams)
@@ -704,14 +723,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private int selectAudioStreamIndex() {
-        MediaSourceInfo source = mCurrentStreamInfo.getMediaSource();
         return Stream
                 .of(mCurrentOptions.getAudioStreamIndex(),
                         restoreAudioStreamIndex(),
-                        source.getDefaultAudioStreamIndex())
+                        getServerStreamIndex(MediaStreamType.AUDIO))
                 .filter(Objects::nonNull)
                 .findFirst()
-                .orElseGet(() -> Optional.ofNullable(source.getMediaStreams())
+                .orElseGet(() -> Optional.ofNullable(getCurrentMediaSource())
+                        .map(MediaSourceInfo::getMediaStreams)
                         .map(Collection::stream)
                         .orElseGet(Stream::empty)
                         .filter(stream -> stream.getType() == MediaStreamType.AUDIO)
@@ -724,7 +743,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return Stream
                 .of(mCurrentOptions.getSubtitleStreamIndex(),
                         restoreSubtitleStreamIndex(),
-                        mCurrentStreamInfo.getMediaSource().getDefaultSubtitleStreamIndex())
+                        getServerStreamIndex(MediaStreamType.SUBTITLE))
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(-1);

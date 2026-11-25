@@ -2,14 +2,12 @@ package org.jellyfin.androidtv.ui.settings.screen.library
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.preference.LibraryPreferences
-import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.form.Checkbox
 import org.jellyfin.androidtv.ui.base.list.ListButton
@@ -26,17 +24,16 @@ import java.util.UUID
 fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 	val router = LocalRouter.current
 	val userViewsRepository = koinInject<UserViewsRepository>()
-	val preferencesRepository = koinInject<PreferencesRepository>()
-	val userView = rememberUserView(itemId)
-	val libraryPreferences = remember(displayPreferencesId) { preferencesRepository.getLibraryPreferences(displayPreferencesId) }
+	val item = rememberBaseItemDto(itemId)
+	val libraryPreferences = rememberLibraryPreferences(displayPreferencesId) ?: return
 
-	val allowViewSelection = userViewsRepository.allowViewSelection(userView?.collectionType)
+	val allowViewSelection = item != null && userViewsRepository.allowViewSelection(item.collectionType)
 
 	SettingsColumn {
 		item {
 			ListSection(
 				overlineContent = { Text(stringResource(R.string.pref_libraries).uppercase()) },
-				headingContent = { Text(userView?.name.orEmpty()) },
+				headingContent = { Text(item?.name.orEmpty()) },
 			)
 		}
 
@@ -52,7 +49,7 @@ fun SettingsLibrariesDisplayScreen(itemId: UUID, displayPreferencesId: String) {
 						mapOf("itemId" to itemId.toString(), "displayPreferencesId" to displayPreferencesId)
 					)
 				},
-				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_IMAGE_SIZE)
+				modifier = Modifier.focusKey(Routes.LIBRARIES_DISPLAY_IMAGE_SIZE, initialFocus = true)
 			)
 		}
 

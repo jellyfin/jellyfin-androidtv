@@ -82,7 +82,7 @@
     <string name="lbl_now_playing_track">%1$s מתוך %2$s</string>
     <string name="lbl_add_favorite">הוסף למועדפים</string>
     <string name="lbl_remove_favorite">הסר ממועדפים</string>
-    <string name="lbl_mark_played">סמן כנוגן</string>
+    <string name="lbl_mark_played">סמן כנצפה</string>
     <string name="lbl_mark_unplayed">סמן כלא נצפה</string>
     <string name="lbl_play_first_unwatched">נגן תחילה את מה שלא נצפה</string>
     <string name="lbl_search_hint">טקסט לחיפוש (בחר לפתיחת מקלדת)</string>
@@ -105,7 +105,7 @@
     <string name="lbl_play_trailers">נגן טריילר(ים)</string>
     <string name="lbl_trailer">"טריילר "</string>
     <string name="lbl_bracket_unknown">לא ידוע</string>
-    <string name="msg_video_playback_error">"שגיאת בניגון וידאו - "</string>
+    <string name="msg_video_playback_error">"שגיאה בניגון וידאו - "</string>
     <string name="lbl_none">ללא</string>
     <string name="lbl_recordings">הקלטות</string>
     <string name="lbl_videos">סרטונים</string>
@@ -227,7 +227,7 @@
     <string name="no_player">אין נגן</string>
     <string name="mark_watched_message">נדמה שהפריט לא התנגן למלוא אורכו. סמן כנצפה?</string>
     <string name="mark_watched">סמן כנצפה</string>
-    <string name="lbl_Reset">הפעל מחדש</string>
+    <string name="lbl_Reset">איפוס</string>
     <string name="pref_button_remapping_description">לחץ על מקש כלשהו בשלט כדי לקבוע אותו</string>
     <string name="pref_subtitle_track_button">כפתור כתוביות</string>
     <string name="pref_audio_track_button">כפתור רצועת שמע</string>
@@ -281,8 +281,8 @@
     <string name="user_picker_disable_summary">הצג את מסך ההתחברות תמיד</string>
     <string name="user_picker_disable_title">כיבוי</string>
     <string name="auto_sign_in">התחברות אוטומטית</string>
-    <string name="lbl_use_series_thumbnails_description">השתמש בתמונה הממוזערת של העונה בתצוגת הפרקים</string>
-    <string name="lbl_use_series_thumbnails">העדף תמונה ממוזערת של העונה</string>
+    <string name="lbl_use_series_thumbnails_description">השתמש בתמונה הממוזערת של הסדרה בתצוגת הפרקים</string>
+    <string name="lbl_use_series_thumbnails">העדף תמונה ממוזערת של הסדרה</string>
     <string name="lbl_hide_unwatched_count">כאשר הפריט נצפה</string>
     <string name="pref_watched_indicator">הצג סימן עבור פריטים שנצפו</string>
     <string name="login_help_description">Jellyfin זקוק לשרת להתחבר אליו. בקר בתיעוד שלנו ב-docs.jellyfin.org או סרוק את קוד ה-QR בכדי להתחיל להשתמש ב-Jellyfin.</string>
@@ -465,9 +465,8 @@
     </plurals>
     <string name="enable_reactive_homepage">הפעלת עמוד בית מסתגל</string>
     <plurals name="seconds">
-        <item quantity="one">שניה %1$s</item>
+        <item quantity="one">שנייה %1$s</item>
         <item quantity="two">%1$s שניות</item>
-        <item quantity="many">%1$s שניות</item>
         <item quantity="other">%1$s שניות</item>
     </plurals>
     <string name="not_set">לא הוגדר</string>
@@ -532,7 +531,7 @@
     </plurals>
     <string name="continue_listening">המשך האזנה</string>
     <string name="random">אקראי</string>
-    <string name="pref_screensaver_ageratingrequired_title">דרוש הגבלת גיל</string>
+    <string name="pref_screensaver_ageratingrequired_title">דרישת הגבלת גיל</string>
     <plurals name="items">
         <item quantity="one">פריט %1$s</item>
         <item quantity="two">%1$s פריטים</item>
@@ -588,7 +587,7 @@
     <string name="speech_error_no_permission">אין הרשאה להשתמש במיקרופון. אנא אפשר זאת בהגדרות המערכת.</string>
     <string name="speech_error_unknown">שגיאה בלתי צפויה התרחשה במהלך זיהוי הדיבור.</string>
     <string name="pref_subtitles_bold">טקסט מודגש</string>
-    <string name="preference_enable_pgs">נגן ישירות כתוביות מסוג PSG</string>
+    <string name="preference_enable_pgs">נגן ישירות כתוביות מסוג PGS</string>
     <string name="lbl_exit">יציאה</string>
     <string name="pref_still_watching_behavior_title">הצג הודעה קופצת לאחר חוסר שימוש ממושך</string>
     <string name="lbl_still_watching_default">3 פרקים או 90 דקות</string>
@@ -599,7 +598,7 @@
     <string name="pref_subtitles_position">היסט מלמטה</string>
     <string name="settings">הגדרות</string>
     <string name="settings_description">שנה את האפליקציה לפי טעמך האישי</string>
-    <string name="copied_to_clipboard">העתק ללוח</string>
+    <string name="copied_to_clipboard">הועתק ללוח</string>
     <string name="pref_media_queueing_description">הוספת פרקים נוספים לתור בעת הפעלת סדרות טלוויזיה</string>
     <string name="pref_playback_next_up">הבא בתור</string>
     <string name="pref_playback_media_segments">פלחי מדיה</string>
@@ -674,7 +673,7 @@
     <string name="preference_enable_ass">נגן כתוביות ASS</string>
     <string name="preference_enable_pgs_description">דורש המרת מדיה כאשר הוא מושבת</string>
     <string name="preference_enable_ass_description">תכונה ניסיונית, ייתכן שלא תפעל בצורה אמינה</string>
-    <string name="pref_software_codecs_enabled">תשתמש בcodec תוכנה</string>
+    <string name="pref_software_codecs_enabled">שימוש במקודדי תוכנה</string>
     <string name="pref_software_codecs_enabled_description">חלק מהיישומים מבוססי התוכנה עלולים לפגוע בביצועים. השבתת אפשרות זו מגדילה את הסבירות להמרת קידוד.</string>
     <string name="lbl_date_show_added">תאריך הוספת הסדרה</string>
     <string name="lbl_date_episode_added">תאריך הוספת הפרק</string>
@@ -699,4 +698,17 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <string name="bitstream_eac3">הזרמה ישירה של שמע בפורמט Dolby Digital Plus</string>
+    <string name="bitstream_dts">הזרמה ישירה של שמע בפורמט Digital Theater System</string>
+    <string name="bitstream_truehd">הזרמה ישירה של שמע בפורמט Dolby TrueHD</string>
+    <string name="home_next_up_max_days">מגבלת ימים ב\'הבא בתור\'</string>
+    <string name="home_next_up_max_days_disabled">מושבת</string>
+    <plurals name="days">
+        <item quantity="one">יום %1$s</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%1$s ימים</item>
+    </plurals>
+    <string name="tv_provider_enabled">שילוב במסך הבית של Android TV</string>
+    <string name="tv_provider_enabled_description">הצגת ערוצים והמלצות של Jellyfin במסך הבית של Android TV</string>
+    <string name="lbl_3d">3D</string>
 </resources>
