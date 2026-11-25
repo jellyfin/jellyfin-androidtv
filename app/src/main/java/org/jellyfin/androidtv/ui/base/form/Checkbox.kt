@@ -22,8 +22,8 @@ fun Checkbox(
 	checked: Boolean,
 	modifier: Modifier = Modifier,
 	shape: Shape = JellyfinTheme.shapes.extraSmall,
-	containerColor: Color = JellyfinTheme.colorScheme.badge,
-	contentColor: Color = JellyfinTheme.colorScheme.onBadge
+	containerColor: Color = JellyfinTheme.colorScheme.selectionControl,
+	contentColor: Color = JellyfinTheme.colorScheme.onSelectionControl
 ) {
 	Box(
 		modifier = modifier

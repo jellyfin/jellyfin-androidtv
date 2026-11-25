@@ -20,6 +20,8 @@ fun colorScheme(): ColorScheme = ColorScheme(
 	onInput = Color(0xE6CCCCCC),
 	inputFocused = Color(0xE6CCCCCC),
 	onInputFocused = Color(0xFFDDDDDD),
+	selectionControl = Tokens.Color.colorCyan500,
+	onSelectionControl = Tokens.Color.colorBluegrey100,
 	rangeControlBackground = Tokens.Color.colorBluegrey700,
 	rangeControlFill = Tokens.Color.colorCyan500,
 	rangeControlKnob = Tokens.Color.colorBluegrey100,
@@ -56,6 +58,9 @@ data class ColorScheme(
 	val onInput: Color,
 	val inputFocused: Color,
 	val onInputFocused: Color,
+
+	val selectionControl: Color,
+	val onSelectionControl: Color,
 
 	val rangeControlBackground: Color,
 	val rangeControlFill: Color,
