@@ -130,10 +130,10 @@ fun createDeviceProfile(
 		else -> supportedAudioCodecs
 	}.filter { supportedPassthroughAudioCodecs ->
 		when (supportedPassthroughAudioCodecs) {
-			Codec.Audio.AC3 -> isAC3PrefEnabled
-			Codec.Audio.EAC3 -> isEAC3PrefEnabled
-			Codec.Audio.TRUEHD -> isTrueHDPrefEnabled
-			Codec.Audio.DTS -> isDTSPrefEnabled
+			Codec.Audio.AC3 -> isAC3PrefEnabled || mediaTest.supportsCodec(MimeTypes.AUDIO_AC3)
+			Codec.Audio.EAC3 -> isEAC3PrefEnabled || mediaTest.supportsCodec(MimeTypes.AUDIO_E_AC3)
+			Codec.Audio.TRUEHD -> isTrueHDPrefEnabled || mediaTest.supportsCodec(MimeTypes.AUDIO_TRUEHD)
+			Codec.Audio.DTS -> isDTSPrefEnabled || mediaTest.supportsCodec(MimeTypes.AUDIO_DTS)
 			else -> true
 		}
 	}.toTypedArray()
