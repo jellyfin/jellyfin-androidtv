@@ -526,10 +526,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
             internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
         }
+        MediaSourceInfo currentMediaSource = getCurrentMediaSource();
         if (forcedSubtitleIndex != null) {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
+        } else if (currentMediaSource != null && videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode() != null) {
+            // Apply the saved subtitle preference to the request itself. Otherwise the server picks its default
+            // subtitle, which may get burned into the video even though the user previously disabled subtitles.
+            Integer subtitleIndex = resolveSubtitleIndex(currentMediaSource, internalOptions.getSubtitleStreamIndex());
+            internalOptions.setSubtitleStreamIndex(subtitleIndex != null ? subtitleIndex : -1);
         }
-        MediaSourceInfo currentMediaSource = getCurrentMediaSource();
         if (forcedAudioLanguage != null) {
             // find the first audio stream with the requested language
             for (MediaStream stream : currentMediaSource.getMediaStreams()) {
@@ -549,6 +554,37 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
+    }
+
+    /**
+     * Resolve the subtitle stream to use, preferring the saved language preference over the server default.
+     *
+     * @return the subtitle stream index, or null when subtitles should be disabled
+     */
+    @Nullable
+    private Integer resolveSubtitleIndex(@NonNull MediaSourceInfo mediaSource, @Nullable Integer requestedIndex) {
+        Integer defaultSubtitleIndex = mediaSource.getDefaultSubtitleStreamIndex();
+        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
+
+        // No saved preference, use server default
+        if (lastSubtitleLanguage == null) return defaultSubtitleIndex;
+        // User explicitly disabled subtitles
+        if (lastSubtitleLanguage.isEmpty()) return null;
+        if (mediaSource.getMediaStreams() == null) return requestedIndex;
+
+        // Within the saved language, prefer the requested stream, then the server default.
+        Integer matchingIndex = null;
+        for (MediaStream stream : mediaSource.getMediaStreams()) {
+            if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
+                if (matchingIndex == null || (defaultSubtitleIndex != null && defaultSubtitleIndex == stream.getIndex())) {
+                    matchingIndex = stream.getIndex();
+                }
+                if (requestedIndex != null && requestedIndex == stream.getIndex()) {
+                    return requestedIndex;
+                }
+            }
+        }
+        return matchingIndex;
     }
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions internalOptions) {
@@ -644,33 +680,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         // get subtitle info - prefer saved language preference over server default
-        Integer defaultSubtitleIndex = response.getMediaSource().getDefaultSubtitleStreamIndex();
-        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
-        if (lastSubtitleLanguage != null) {
-            if (lastSubtitleLanguage.isEmpty()) {
-                // User explicitly disabled subtitles
-                mCurrentOptions.setSubtitleStreamIndex(null);
-            } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Within the saved language, prefer the requested stream, then the server default.
-                Integer requestedIndex = mCurrentOptions.getSubtitleStreamIndex();
-                Integer matchingIndex = null;
-                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        if (matchingIndex == null || (defaultSubtitleIndex != null && defaultSubtitleIndex == stream.getIndex())) {
-                            matchingIndex = stream.getIndex();
-                        }
-                        if (requestedIndex != null && requestedIndex == stream.getIndex()) {
-                            matchingIndex = requestedIndex;
-                            break;
-                        }
-                    }
-                }
-                mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
-            }
-        } else {
-            // No saved preference, use server default
-            mCurrentOptions.setSubtitleStreamIndex(defaultSubtitleIndex);
-        }
+        mCurrentOptions.setSubtitleStreamIndex(resolveSubtitleIndex(response.getMediaSource(), mCurrentOptions.getSubtitleStreamIndex()));
         setDefaultAudioIndex(response);
         Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
         Timber.i("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
