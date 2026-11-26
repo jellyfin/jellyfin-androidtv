@@ -29,5 +29,20 @@ fun isPassthroughAudioAvailable(context: Context, mimetype: String): Boolean {
 		.setSampleRate(Format.NO_VALUE)
 		.build()
 
-	return capabilities.isPassthroughPlaybackSupported(format, attributes)
+	if (capabilities.isPassthroughPlaybackSupported(format, attributes)) {
+		return true
+	}
+
+	if (mimetype == androidx.media3.common.MimeTypes.AUDIO_DTS) {
+		val dtsHdFormat = Format.Builder()
+			.setSampleMimeType(androidx.media3.common.MimeTypes.AUDIO_DTS_HD)
+			.setChannelCount(Integer.bitCount(AudioFormat.CHANNEL_OUT_STEREO))
+			.setSampleRate(Format.NO_VALUE)
+			.build()
+		if (capabilities.isPassthroughPlaybackSupported(dtsHdFormat, attributes)) {
+			return true
+		}
+	}
+
+	return false
 }
