@@ -59,6 +59,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
+    // Includes the 1000/1001 difference between fractional and integer display rates.
+    private static final double REFRESH_RATE_TOLERANCE = 0.0011;
 
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -290,55 +292,47 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     @Nullable
-    private Display.Mode findBestDisplayMode(@Nullable MediaStream videoStream) {
-        if (mFragment == null || mDisplayModes == null || videoStream == null || videoStream.getRealFrameRate() == null || videoStream.getWidth() == null || videoStream.getHeight() == null)
+    static Display.Mode findBestDisplayMode(Display.Mode[] displayModes, Display.Mode defaultMode,
+                                            int width, int height, float frameRate,
+                                            RefreshRateSwitchingBehavior refreshRateSwitchingBehavior) {
+        if (refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.DISABLED
+                || frameRate <= 0 || Float.isNaN(frameRate) || Float.isInfinite(frameRate))
             return null;
 
-        int curWeight = 0;
+        double[] targetRates = {frameRate, frameRate * 2.0, frameRate * 2.5};
+        double bestScore = Double.POSITIVE_INFINITY;
+        double bestRateError = Double.POSITIVE_INFINITY;
         Display.Mode bestMode = null;
-        int sourceRate = Math.round(videoStream.getRealFrameRate() * 100);
 
-        Display.Mode defaultMode = mFragment.requireActivity().getWindowManager().getDefaultDisplay().getMode();
-
-        Timber.d("trying to find display mode for video: %dx%d@%f", videoStream.getWidth(), videoStream.getHeight(), videoStream.getRealFrameRate());
-        for (Display.Mode mode : mDisplayModes) {
+        Timber.d("trying to find display mode for video: %dx%d@%f", width, height, frameRate);
+        for (Display.Mode mode : displayModes) {
             Timber.d("considering display mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
 
             // Skip unwanted display modes
             if (mode.getPhysicalWidth() < 1280 || mode.getPhysicalHeight() < 720)  // Skip non-HD
                 continue;
 
-            if (mode.getPhysicalWidth() < videoStream.getWidth() || mode.getPhysicalHeight() < videoStream.getHeight())  // Disallow resolution downgrade
+            if (mode.getPhysicalWidth() < width || mode.getPhysicalHeight() < height)  // Disallow resolution downgrade
                 continue;
 
-            int rate = Math.round(mode.getRefreshRate() * 100);
-            if (rate != sourceRate && rate != sourceRate * 2 && rate != Math.round(sourceRate * 2.5)) // Skip inappropriate rates
-                continue;
-
-            Timber.i("qualifying display mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
-
-            // if scaling on-device, keep native resolution modes at diff 0 (best score)
-            // for other resolutions when scaling on device, or if scaling on tv, score based on distance from media resolution
-
-            // use -1 as the default so, with SCALE_ON_DEVICE, a mode at native resolution will rank higher than
-            // a mode with equal refresh rate and the same resolution as the media
-            int resolutionDifference = -1;
-            if ((refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_DEVICE &&
-                    !(mode.getPhysicalWidth() == defaultMode.getPhysicalWidth() && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight())) ||
-
-                    refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_TV) {
-
-                resolutionDifference = Math.abs(mode.getPhysicalWidth() - videoStream.getWidth());
-            }
-            int refreshRateDifference = rate - sourceRate;
-
-            // use 100,000 to account for refresh rates 120Hz+ (at 120Hz rate == 12,000)
-            int weight = 100000 - refreshRateDifference + 100000 - resolutionDifference;
-
-            if (weight > curWeight) {
-                Timber.d("preferring mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
-                curWeight = weight;
-                bestMode = mode;
+            boolean preferNative = refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_DEVICE
+                    && mode.getPhysicalWidth() == defaultMode.getPhysicalWidth()
+                    && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight();
+            int resolutionDifference = preferNative ? -1 : mode.getPhysicalWidth() - width;
+            for (double targetRate : targetRates) {
+                double rateError = Math.abs(mode.getRefreshRate() - targetRate);
+                if (rateError <= targetRate * REFRESH_RATE_TOLERANCE) {
+                    Timber.i("qualifying display mode: %s - %dx%d@%f", mode.getModeId(),
+                            mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
+                    // Keep the existing balance of hundredths of a Hz to pixels. Prefer the closest rate on ties.
+                    double score = (targetRate - frameRate) * 100 + resolutionDifference;
+                    if (score < bestScore || (score == bestScore && rateError < bestRateError)) {
+                        bestScore = score;
+                        bestRateError = rateError;
+                        bestMode = mode;
+                    }
+                    break;
+                }
             }
         }
 
@@ -346,13 +340,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void setRefreshRate(MediaStream videoStream) {
-        if (videoStream == null || mFragment == null) {
-            Timber.e("Null video stream attempting to set refresh rate");
+        if (mFragment == null || mDisplayModes == null || videoStream == null || videoStream.getRealFrameRate() == null
+                || videoStream.getWidth() == null || videoStream.getHeight() == null) {
+            Timber.d("Missing display modes or video stream information for refresh rate switching");
             return;
         }
 
         Display.Mode current = mFragment.requireActivity().getWindowManager().getDefaultDisplay().getMode();
-        Display.Mode best = findBestDisplayMode(videoStream);
+        Display.Mode best = findBestDisplayMode(mDisplayModes, current, videoStream.getWidth(), videoStream.getHeight(),
+                videoStream.getRealFrameRate(), refreshRateSwitchingBehavior);
         if (best != null) {
             Timber.i("*** Best refresh mode is: %s - %dx%d/%f",
                     best.getModeId(), best.getPhysicalWidth(), best.getPhysicalHeight(), best.getRefreshRate());
