@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncherHelper
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -23,6 +24,7 @@ import org.jellyfin.androidtv.ui.playback.setSubtitleIndex
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.sockets.subscribe
@@ -33,6 +35,7 @@ import org.jellyfin.sdk.model.api.GeneralCommandType
 import org.jellyfin.sdk.model.api.LibraryChangedMessage
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.PlayCommand
 import org.jellyfin.sdk.model.api.PlayMessage
 import org.jellyfin.sdk.model.api.PlaystateCommand
 import org.jellyfin.sdk.model.api.PlaystateMessage
@@ -170,15 +173,43 @@ class SocketHandler(
 			dataRefreshService.lastLibraryChange = Instant.now()
 	}
 
-	private fun onPlayMessage(message: PlayMessage) {
-		val itemIds = message.data?.itemIds ?: return
+	internal suspend fun onPlayMessage(message: PlayMessage) {
+		val data = message.data ?: return
+		val itemIds = data.itemIds?.takeIf { it.isNotEmpty() } ?: return
+
+		if (data.playCommand == PlayCommand.PLAY_LAST) {
+			val queued = runCatching {
+				val items = withContext(Dispatchers.IO) {
+					api.itemsApi.getItems(
+						ids = itemIds,
+						fields = ItemRepository.itemFields,
+					).content.items
+				}
+
+				when {
+					items.isEmpty() -> true
+					items.any { it.mediaType == MediaType.AUDIO } -> {
+						withContext(Dispatchers.Main) {
+							mediaManager.addToAudioQueue(items)
+						}
+						true
+					}
+
+					else -> false
+				}
+			}.onFailure {
+				Timber.w(it, "Failed to add items to queue")
+			}.getOrDefault(true)
+
+			if (queued) return
+		}
 
 		runCatching {
 			playbackHelper.retrieveAndPlay(
 				itemIds,
 				false,
-				message.data?.startPositionTicks,
-				message.data?.startIndex,
+				data.startPositionTicks,
+				data.startIndex,
 				context
 			)
 		}.onFailure { Timber.w(it, "Failed to start playback") }
