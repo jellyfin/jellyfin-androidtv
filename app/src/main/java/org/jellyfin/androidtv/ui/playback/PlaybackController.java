@@ -771,8 +771,22 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
+        boolean audioRequested = mCurrentOptions.getAudioStreamIndex() != null;
+        boolean subtitleRequested = mCurrentOptions.getSubtitleStreamIndex() != null;
         mCurrentOptions.setAudioStreamIndex(selectAudioStreamIndex());
         mCurrentOptions.setSubtitleStreamIndex(selectSubtitleStreamIndex());
+
+        boolean retryAudio = isTranscoding() && !audioRequested
+                && !Objects.equals(mCurrentOptions.getAudioStreamIndex(),
+                        getServerStreamIndex(MediaStreamType.AUDIO));
+        boolean retrySubtitles = burningSubs && !subtitleRequested
+                && !Objects.equals(mCurrentOptions.getSubtitleStreamIndex(),
+                        getServerStreamIndex(MediaStreamType.SUBTITLE));
+        if (retryAudio || retrySubtitles) {
+            playInternal(item, position, mCurrentOptions);
+            return;
+        }
+
         setLastPlayedStreams(mCurrentOptions.getAudioStreamIndex(), mCurrentOptions.getSubtitleStreamIndex());
         Timber.i("default audio index set to %s remote default %s",
                 mCurrentOptions.getAudioStreamIndex(), response.getMediaSource().getDefaultAudioStreamIndex());

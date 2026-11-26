@@ -181,6 +181,10 @@ internal class PlaybackFixture(private val method: PlayMethod = PlayMethod.DIREC
 
 	fun getSubtitleIndex(): Int = controller.subtitleStreamIndex
 
+	fun getAudioServerIndex(): Int? = controller.currentStreamInfo.mediaSource.defaultAudioStreamIndex
+
+	fun getSubtitleServerIndex(): Int? = controller.currentStreamInfo.mediaSource.defaultSubtitleStreamIndex
+
 	fun getStreamIndex(stream: MediaStream?): Int = stream?.let { streams.getValue(it).index } ?: -1
 
 	fun isCurrentStream(stream: MediaStream?): Boolean =
@@ -196,6 +200,9 @@ internal class PlaybackFixture(private val method: PlayMethod = PlayMethod.DIREC
 		withClue(message) {
 			isCurrentStream(stream) shouldBe true
 			getAudioIndex() shouldBe getStreamIndex(stream)
+			if (controller.isTranscoding) {
+				getAudioServerIndex() shouldBe getStreamIndex(stream)
+			}
 		}
 	}
 
@@ -203,6 +210,9 @@ internal class PlaybackFixture(private val method: PlayMethod = PlayMethod.DIREC
 		withClue(message) {
 			isCurrentStream(stream) shouldBe true
 			getSubtitleIndex() shouldBe getStreamIndex(stream)
+			if (controller.burningSubs) {
+				getSubtitleServerIndex() shouldBe getStreamIndex(stream)
+			}
 		}
 	}
 
