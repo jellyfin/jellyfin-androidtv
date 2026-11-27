@@ -14,11 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import org.jellyfin.androidtv.util.locale
 import timber.log.Timber
 
 @Composable
@@ -47,6 +47,7 @@ fun rememberSpeechRecognizer(
 	onError: ((status: SpeechRecognizerStatus) -> Unit)? = null,
 ): SpeechRecognizerState {
 	val context = LocalContext.current
+	val language = LocalConfiguration.current.locales[0].toLanguageTag()
 	val available = rememberSpeechRecognizerAvailability(context)
 
 	var status by remember { mutableStateOf<SpeechRecognizerStatus>(SpeechRecognizerStatus.Idle) }
@@ -112,7 +113,6 @@ fun rememberSpeechRecognizer(
 	}
 
 	fun startListening() {
-		val language = context.locale.toLanguageTag()
 		Timber.i("Starting to listen for $language speech")
 
 		val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {

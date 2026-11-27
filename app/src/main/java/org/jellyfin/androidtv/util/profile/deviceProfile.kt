@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.preference.constant.HdrOverrideMode
 import org.jellyfin.androidtv.util.profile.codec.isPassthroughAudioAvailable
 import org.jellyfin.sdk.model.ServerVersion
 import org.jellyfin.sdk.model.api.CodecType
+import org.jellyfin.sdk.model.api.DeviceProfile
 import org.jellyfin.sdk.model.api.DlnaProfileType
 import org.jellyfin.sdk.model.api.EncodingContext
 import org.jellyfin.sdk.model.api.MediaStreamProtocol
@@ -83,32 +84,39 @@ private fun UserPreferences.getHdrRangeTypesFor(mode: HdrOverrideMode): Set<Vide
 		.filter { this[it.preference] == mode }
 		.flatMapTo(mutableSetOf()) { it.videoRangeTypes }
 
-private fun UserPreferences.isBitstreamAudioEnabled(context: Context, format: BitstreamAudioFormat): Boolean =
-	when (this[format.preference]) {
-		BitstreamAudioMode.AUTO -> isPassthroughAudioAvailable(context, format.mimeType)
-		BitstreamAudioMode.ENABLE -> true
-		BitstreamAudioMode.DISABLE -> false
-	}
+private fun UserPreferences.isAudioCodecEnabled(
+	context: Context,
+	format: BitstreamAudioFormat,
+	mediaTest: MediaCodecCapabilitiesTest,
+): Boolean = when (this[format.preference]) {
+	BitstreamAudioMode.AUTO -> isPassthroughAudioAvailable(context, format.mimeType) || mediaTest.hasAudioDecoder(format.mimeType)
+	BitstreamAudioMode.ENABLE -> true
+	BitstreamAudioMode.DISABLE -> false
+}
 
 fun createDeviceProfile(
 	context: Context,
 	userPreferences: UserPreferences,
 	serverVersion: ServerVersion,
-) = createDeviceProfile(
-	mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled]),
-	maxBitrate = userPreferences.getMaxBitrate(),
-	isAC3PrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.AC3),
-	isEAC3PrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.EAC3),
-	isDTSPrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.DTS),
-	isTrueHDPrefEnabled = userPreferences.isBitstreamAudioEnabled(context, BitstreamAudioFormat.TRUEHD),
-	downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
-	assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
-	pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
-	userAVCLevel = userPreferences[UserPreferences.userAVCLevel].level,
-	userHEVCLevel = userPreferences[UserPreferences.userHEVCLevel].level,
-	forceEnabledHdr = userPreferences.getHdrRangeTypesFor(HdrOverrideMode.ENABLE),
-	forceDisabledHdr = userPreferences.getHdrRangeTypesFor(HdrOverrideMode.DISABLE),
-)
+): DeviceProfile {
+	val mediaTest = MediaCodecCapabilitiesTest(userPreferences[UserPreferences.softwareCodecsEnabled])
+
+	return createDeviceProfile(
+		mediaTest = mediaTest,
+		maxBitrate = userPreferences.getMaxBitrate(),
+		isAC3PrefEnabled = userPreferences.isAudioCodecEnabled(context, BitstreamAudioFormat.AC3, mediaTest),
+		isEAC3PrefEnabled = userPreferences.isAudioCodecEnabled(context, BitstreamAudioFormat.EAC3, mediaTest),
+		isDTSPrefEnabled = userPreferences.isAudioCodecEnabled(context, BitstreamAudioFormat.DTS, mediaTest),
+		isTrueHDPrefEnabled = userPreferences.isAudioCodecEnabled(context, BitstreamAudioFormat.TRUEHD, mediaTest),
+		downMixAudio = userPreferences[UserPreferences.audioBehaviour] == AudioBehavior.DOWNMIX_TO_STEREO,
+		assDirectPlay = userPreferences[UserPreferences.assDirectPlay],
+		pgsDirectPlay = userPreferences[UserPreferences.pgsDirectPlay],
+		userAVCLevel = userPreferences[UserPreferences.userAVCLevel].level,
+		userHEVCLevel = userPreferences[UserPreferences.userHEVCLevel].level,
+		forceEnabledHdr = userPreferences.getHdrRangeTypesFor(HdrOverrideMode.ENABLE),
+		forceDisabledHdr = userPreferences.getHdrRangeTypesFor(HdrOverrideMode.DISABLE),
+	)
+}
 
 fun createDeviceProfile(
 	mediaTest: MediaCodecCapabilitiesTest,
@@ -128,12 +136,12 @@ fun createDeviceProfile(
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
 		else -> supportedAudioCodecs
-	}.filter { supportedPassthroughAudioCodecs ->
-		when (supportedPassthroughAudioCodecs) {
+	}.filter { codec ->
+		when (codec) {
 			Codec.Audio.AC3 -> isAC3PrefEnabled
 			Codec.Audio.EAC3 -> isEAC3PrefEnabled
 			Codec.Audio.TRUEHD -> isTrueHDPrefEnabled
-			Codec.Audio.DTS -> isDTSPrefEnabled
+			Codec.Audio.DTS, Codec.Audio.DCA -> isDTSPrefEnabled
 			else -> true
 		}
 	}.toTypedArray()

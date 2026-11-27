@@ -183,11 +183,11 @@ class ExoPlayerBackend(
 				exoPlayer.playbackState == Player.STATE_IDLE || exoPlayer.playbackState == Player.STATE_ENDED -> PlayState.STOPPED
 				else -> PlayState.PAUSED
 			}
-			listener?.onPlayStateChange(state)
+			reportPlayState(state)
 		}
 
 		override fun onPlayerError(error: PlaybackException) {
-			listener?.onPlayStateChange(PlayState.ERROR)
+			reportPlayState(PlayState.ERROR)
 		}
 
 		override fun onVideoSizeChanged(size: VideoSize) {
@@ -229,7 +229,7 @@ class ExoPlayerBackend(
 
 		override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
 			if (reason == Player.PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM) {
-				listener?.onMediaStreamEnd(requireNotNull(currentStream))
+				listener?.onMediaStreamEnd(requireNotNull(currentStream), exoPlayer.currentPosition.milliseconds)
 			}
 		}
 
@@ -343,8 +343,10 @@ class ExoPlayerBackend(
 
 	override fun playItem(item: QueueEntry) {
 		val stream = requireNotNull(item.mediaStream)
-		if (currentStream == stream) return
+		val previousStream = currentStream
+		if (previousStream == stream) return
 
+		if (previousStream != null) listener?.onMediaStreamReplaced(previousStream, exoPlayer.currentPosition.milliseconds)
 		currentStream = stream
 
 		var preparedItemIndex = (0 until exoPlayer.mediaItemCount).firstOrNull { index ->
@@ -430,5 +432,12 @@ class ExoPlayerBackend(
 
 	override fun setTimedEvents(timedEvents: List<TimedEvent>) {
 		timedEventState.setTimedEvents(exoPlayer, timedEvents)
+	}
+
+	private fun reportPlayState(state: PlayState) {
+		val entry = exoPlayer.currentMediaItem?.localConfiguration?.tag as? QueueEntry
+		val stream = entry?.mediaStream
+		val position = stream?.let { exoPlayer.currentPosition.milliseconds }
+		listener?.onPlayStateChange(state, stream, position)
 	}
 }

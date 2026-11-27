@@ -718,4 +718,7 @@
     <string name="bitstream_eac3">Bitstream Dolby Digital Plus</string>
     <string name="bitstream_dts">Bitstream Digital Theater System</string>
     <string name="bitstream_truehd">Bitstream Dolby TrueHD</string>
+    <string name="lbl_3d">3D</string>
+    <string name="tv_provider_enabled">Інтегрувати з головним екраном Android TV</string>
+    <string name="tv_provider_enabled_description">Показувати канали та рекомендації Jellyfin на головному екрані Android TV</string>
 </resources>

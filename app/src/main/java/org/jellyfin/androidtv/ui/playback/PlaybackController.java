@@ -644,19 +644,21 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
 
         // get subtitle info - prefer saved language preference over server default
+        Integer defaultSubtitleIndex = response.getMediaSource().getDefaultSubtitleStreamIndex();
         String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
         if (lastSubtitleLanguage != null) {
             if (lastSubtitleLanguage.isEmpty()) {
                 // User explicitly disabled subtitles
                 mCurrentOptions.setSubtitleStreamIndex(null);
             } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Find subtitle stream matching saved language, keeping the requested stream if it matches
-                // (e.g. when playback restarts to switch between baked and non-baked subtitles)
+                // Within the saved language, prefer the requested stream, then the server default.
                 Integer requestedIndex = mCurrentOptions.getSubtitleStreamIndex();
                 Integer matchingIndex = null;
                 for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
                     if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        if (matchingIndex == null) matchingIndex = stream.getIndex();
+                        if (matchingIndex == null || (defaultSubtitleIndex != null && defaultSubtitleIndex == stream.getIndex())) {
+                            matchingIndex = stream.getIndex();
+                        }
                         if (requestedIndex != null && requestedIndex == stream.getIndex()) {
                             matchingIndex = requestedIndex;
                             break;
@@ -667,7 +669,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             }
         } else {
             // No saved preference, use server default
-            mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
+            mCurrentOptions.setSubtitleStreamIndex(defaultSubtitleIndex);
         }
         setDefaultAudioIndex(response);
         Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());

@@ -25,7 +25,7 @@
     <string name="lbl_other_channels">Další kanály</string>
     <string name="lbl_collections">Kolekce</string>
     <string name="lbl_movies">Filmy</string>
-    <string name="lbl_tv_series">Seriály</string>
+    <string name="lbl_tv_series">Televizní seriály</string>
     <string name="lbl_other">Ostatní</string>
     <string name="lbl_play_all">Přehrát vše</string>
     <string name="lbl_shuffle_all">Náhodně</string>
@@ -710,4 +710,5 @@
     </plurals>
     <string name="tv_provider_enabled">Integrace s úvodní obrazovkou Android TV</string>
     <string name="tv_provider_enabled_description">Zobrazit kanály a doporučení Jellyfin na úvodní obrazovce Android TV</string>
+    <string name="lbl_3d">3D</string>
 </resources>

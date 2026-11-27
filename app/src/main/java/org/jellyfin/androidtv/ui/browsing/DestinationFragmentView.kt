@@ -134,13 +134,11 @@ class DestinationFragmentView @JvmOverloads constructor(
 		// Create if there is no existing fragment
 		if (fragment == null) {
 			fragment = fragmentManager.fragmentFactory.instantiate(context.classLoader, entry.name.name).apply {
+				arguments = entry.arguments
 				setInitialSavedState(entry.savedState)
 			}
 			entry.fragment = fragment
-		}
-
-		// Update arguments
-		if (!fragmentManager.isStateSaved) {
+		} else if (!fragmentManager.isStateSaved) {
 			fragment.arguments = entry.arguments
 		}
 

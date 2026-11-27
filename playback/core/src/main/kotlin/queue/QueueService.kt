@@ -1,14 +1,16 @@
 package org.jellyfin.playback.core.queue
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.PlaybackManager
-import org.jellyfin.playback.core.backend.PlayerBackendEventListener
-import org.jellyfin.playback.core.mediastream.PlayableMediaStream
+import org.jellyfin.playback.core.backend.PlayerBackendEvent
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
@@ -18,6 +20,7 @@ import org.jellyfin.playback.core.queue.order.RandomOrderIndexProvider
 import org.jellyfin.playback.core.queue.order.ShuffleOrderIndexProvider
 import org.jellyfin.playback.core.queue.supplier.QueueSupplier
 import kotlin.math.max
+import kotlin.time.Duration
 
 class QueueService internal constructor() : PlayerService(), Queue {
 	private val suppliers = mutableListOf<QueueSupplier>()
@@ -43,23 +46,32 @@ class QueueService internal constructor() : PlayerService(), Queue {
 
 	override suspend fun onInitialize() {
 		// Reset calculated next-up indices when playback order changes
-		state.playbackOrder.onEach { playbackOrder ->
-			orderIndexProvider = when (playbackOrder) {
-				PlaybackOrder.DEFAULT -> defaultOrderIndexProvider
-				PlaybackOrder.RANDOM -> RandomOrderIndexProvider()
-				PlaybackOrder.SHUFFLE -> ShuffleOrderIndexProvider()
-			}
-		}.launchIn(coroutineScope)
-
-		// Automatically advance when current stream ends
-		manager.backendService.addListener(object : PlayerBackendEventListener() {
-			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
-				coroutineScope.launch {
-					val nextEntry = next(usePlaybackOrder = true, useRepeatMode = true)
-					if (nextEntry == null && _entryIndex.value != Queue.INDEX_NONE) setIndex(Queue.INDEX_NONE, true)
+		state.playbackOrder
+			.onEach { playbackOrder ->
+				orderIndexProvider = when (playbackOrder) {
+					PlaybackOrder.DEFAULT -> defaultOrderIndexProvider
+					PlaybackOrder.RANDOM -> RandomOrderIndexProvider()
+					PlaybackOrder.SHUFFLE -> ShuffleOrderIndexProvider()
 				}
 			}
-		})
+			.launchIn(coroutineScope)
+
+		// Automatically advance or repeat when the current stream ends
+		state.backendEvents
+			.filterIsInstance<PlayerBackendEvent.MediaStreamEnded>()
+			.onEach { event ->
+				val currentEntry = event.stream.queueEntry
+				val repeat = state.repeatMode.value != RepeatMode.NONE
+				val nextEntry = next(usePlaybackOrder = true, useRepeatMode = true)
+
+				if (nextEntry === currentEntry && repeat) withContext(Dispatchers.Main) {
+					state.seek(Duration.ZERO)
+					state.play()
+				} else if (nextEntry == null && _entryIndex.value != Queue.INDEX_NONE) {
+					setIndex(Queue.INDEX_NONE, true)
+				}
+			}
+			.launchIn(coroutineScope)
 	}
 
 	// Entry management

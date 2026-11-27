@@ -10,6 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.withStarted
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.ui.browsing.DestinationFragmentView
@@ -23,6 +26,7 @@ fun AppNavigationHost(
 	navigationRepository: NavigationRepository = koinInject(),
 ) {
 	val factory = remember { AppNavigationHostViewFactory() }
+	val lifecycle = LocalLifecycleOwner.current.lifecycle
 
 	val canGoBack by remember {
 		navigationRepository.currentAction.map { navigationRepository.canGoBack }.distinctUntilChanged()
@@ -35,12 +39,14 @@ fun AppNavigationHost(
 		modifier = modifier,
 	)
 
-	LaunchedEffect(Unit) {
-		navigationRepository.currentAction.collect { action ->
-			when (action) {
-				is NavigationAction.NavigateFragment -> factory.view.navigate(action)
-				NavigationAction.GoBack -> factory.view.goBack()
-				NavigationAction.Nothing -> Unit
+	LaunchedEffect(navigationRepository, lifecycle) {
+		navigationRepository.currentAction.collectLatest { action ->
+			lifecycle.withStarted {
+				when (action) {
+					is NavigationAction.NavigateFragment -> factory.view.navigate(action)
+					NavigationAction.GoBack -> factory.view.goBack()
+					NavigationAction.Nothing -> Unit
+				}
 			}
 		}
 	}

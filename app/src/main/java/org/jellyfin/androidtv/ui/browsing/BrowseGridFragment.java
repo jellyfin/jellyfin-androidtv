@@ -234,10 +234,14 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mGridView.setHorizontalSpacing(mGridItemSpacingHorizontal);
         mGridView.setVerticalSpacing(mGridItemSpacingVertical);
         mGridView.setFocusable(true);
+        mGridView.setOnUnhandledKeyListener(event -> BrowseGridFragmentHelperKt.moveGridFocus(mGridView, event));
         binding.rowsFragment.removeAllViews();
         binding.rowsFragment.addView(mGridViewHolder.view);
 
         updateAdapter();
+
+        // Focus the grid by default
+        mGridView.requestFocus();
     }
 
     private void updateAdapter() {
@@ -674,6 +678,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 }
                 mLetterButton.setVisibility(ItemSortBy.SORT_NAME.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 if (mAdapter.getItemsLoaded() == 0) {
+                    binding.toolBar.requestFocus();
                     mGridView.setFocusable(false);
                     mHandler.postDelayed(() -> {
                         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))

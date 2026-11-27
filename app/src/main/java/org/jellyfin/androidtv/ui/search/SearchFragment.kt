@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.compose.AndroidFragment
 import androidx.fragment.compose.content
 import androidx.leanback.app.RowsSupportFragment
+import androidx.lifecycle.Lifecycle
 import org.jellyfin.androidtv.ui.search.composable.SearchTextInput
 import org.jellyfin.androidtv.ui.search.composable.SearchVoiceInput
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
@@ -130,6 +131,7 @@ class SearchFragment : Fragment() {
 					}
 					.padding(top = 5.dp)
 					.fillMaxSize(),
+				maxLifecycle = Lifecycle.State.RESUMED,
 				onUpdate = { fragment ->
 					rowsSupportFragment = fragment
 					fragment.adapter = searchFragmentDelegate.rowsAdapter
