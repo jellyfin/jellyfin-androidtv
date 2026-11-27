@@ -1,21 +1,25 @@
 package org.jellyfin.androidtv.integration.provider
 
 import android.content.ContentProvider
+import android.content.ContentResolver
 import android.content.ContentValues
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import coil3.ImageLoader
-import coil3.asDrawable
+import coil3.request.ErrorResult
 import coil3.request.ImageRequest
+import coil3.request.allowHardware
 import coil3.request.error
+import coil3.toBitmap
+import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.util.AndroidVersion
 import org.koin.android.ext.android.inject
+import timber.log.Timber
+import java.io.FileNotFoundException
 import java.io.IOException
 
 class ImageProvider : ContentProvider() {
@@ -23,60 +27,79 @@ class ImageProvider : ContentProvider() {
 
 	override fun onCreate(): Boolean = true
 
-	override fun getType(uri: Uri) = null
-	override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?) = null
-	override fun insert(uri: Uri, values: ContentValues?) = null
-	override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?) = 0
-	override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) = 0
+	override fun getType(uri: Uri) = MIME_TYPE
 
-	override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor? {
-		val src = requireNotNull(uri.getQueryParameter("src")).toUri()
+	override fun query(
+		uri: Uri,
+		projection: Array<out String>?,
+		selection: String?,
+		selectionArgs: Array<out String>?,
+		sortOrder: String?
+	) = null
 
-		val (read, write) = ParcelFileDescriptor.createPipe()
-		val outputStream = ParcelFileDescriptor.AutoCloseOutputStream(write)
+	override fun insert(uri: Uri, values: ContentValues?): Uri =
+		throw UnsupportedOperationException("Images are read-only")
 
-		imageLoader.enqueue(ImageRequest.Builder(context!!).apply {
-			data(src)
-			error(R.drawable.placeholder_icon)
-			target(
-				onSuccess = { image -> writeDrawable(image.asDrawable(context!!.resources), outputStream) },
-				onError = { image -> writeDrawable(requireNotNull(image?.asDrawable(context!!.resources)), outputStream) }
-			)
-		}.build())
+	override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int =
+		throw UnsupportedOperationException("Images are read-only")
 
-		return read
-	}
+	override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int =
+		throw UnsupportedOperationException("Images are read-only")
 
-	private fun writeDrawable(
-		drawable: Drawable,
-		outputStream: ParcelFileDescriptor.AutoCloseOutputStream
-	) {
-		@Suppress("DEPRECATION")
-		val format = when {
-			AndroidVersion.isAtLeastR -> Bitmap.CompressFormat.WEBP_LOSSY
-			else -> Bitmap.CompressFormat.WEBP
+	override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
+		if (mode != "r") throw FileNotFoundException("Images can only be opened for reading")
+
+		val source = uri.getQueryParameter(SOURCE_PARAMETER)
+			?.takeIf { it.isNotBlank() }
+			?.toUri()
+			?.normalizeScheme()
+			?: throw FileNotFoundException("Missing image source")
+
+		if (source.scheme !in setOf("http", "https", ContentResolver.SCHEME_ANDROID_RESOURCE) || source.authority.isNullOrBlank()) {
+			throw FileNotFoundException("Unsupported image source")
 		}
 
-		try {
-			outputStream.use {
-				drawable.toBitmap().compress(format, COMPRESSION_QUALITY, outputStream)
+		return openPipeHelper(uri, MIME_TYPE, null, source) { output, _, _, _, _ ->
+			try {
+				ParcelFileDescriptor.AutoCloseOutputStream(output).use { stream ->
+					val context = requireNotNull(context)
+					val result = runBlocking {
+						imageLoader.execute(ImageRequest.Builder(context).apply {
+							data(source)
+							allowHardware(false)
+							error(R.drawable.placeholder_icon)
+						}.build())
+					}
+					if (result is ErrorResult) Timber.w(result.throwable, "Unable to load image $source")
+					val bitmap = requireNotNull(result.image).toBitmap()
+
+					@Suppress("DEPRECATION")
+					val format = if (AndroidVersion.isAtLeastR) Bitmap.CompressFormat.WEBP_LOSSY else Bitmap.CompressFormat.WEBP
+					check(bitmap.compress(format, COMPRESSION_QUALITY, stream)) {
+						"Unable to compress image"
+					}
+				}
+			} catch (_: IOException) {
+				// The requester may close the pipe before the image has been written.
+			} catch (error: Exception) {
+				Timber.w(error, "Unable to write provider image")
 			}
-		} catch (_: IOException) {
-			// Ignore IOException as this is commonly thrown when the load request is cancelled
 		}
 	}
 
 	companion object {
+		private const val MIME_TYPE = "image/webp"
+		private const val SOURCE_PARAMETER = "src"
 		private const val COMPRESSION_QUALITY = 95
 
 		/**
 		 * Get a [Uri] that uses the [ImageProvider] to load an image. The input should be a valid
-		 * Jellyfin image URL created using the SDK.
+		 * Jellyfin image URL created using the SDK, or an android.resource URL for fallback artwork.
 		 */
 		fun getImageUri(src: String): Uri = Uri.Builder()
 			.scheme("content")
 			.authority("${BuildConfig.APPLICATION_ID}.integration.provider.ImageProvider")
-			.appendQueryParameter("src", src)
+			.appendQueryParameter(SOURCE_PARAMETER, src)
 			.appendQueryParameter("v", BuildConfig.VERSION_NAME)
 			.build()
 	}

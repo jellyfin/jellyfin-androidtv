@@ -43,13 +43,11 @@ class Av1CodecCapabilities(
 		level5,
 	)
 
-	fun supportsAv1DolbyVision(): Boolean =
-		AndroidVersion.isAtLeastN &&
-			query.hasDecoder(
-				MIME_DOLBY_VISION,
-				dolbyVisionProfile10,
-				CodecProfileLevel.DolbyVisionLevelHd24,
-			)
+	fun supportsAv1DolbyVision(): Boolean = query.hasDecoder(
+		MIME_DOLBY_VISION,
+		dolbyVisionProfile10,
+		CodecProfileLevel.DolbyVisionLevelHd24,
+	)
 
 	fun supportsAv1HDR10(): Boolean = query.hasDecoder(
 		MIME_AV1,

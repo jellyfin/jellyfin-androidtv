@@ -47,7 +47,7 @@
     <string name="lbl_items">Элементы</string>
     <string name="lbl_item">Элемент</string>
     <string name="lbl_seasons">Сезоны</string>
-    <string name="lbl_upcoming">Чаканае</string>
+    <string name="lbl_upcoming">Бліжэйшае</string>
     <string name="lbl_favorite">Абранае</string>
     <string name="lbl_watched">Прагледжанае</string>
     <string name="lbl_sd">SD</string>
@@ -140,7 +140,7 @@
     <string name="login_invalid_credentials">Няправільнае імя карыстальніка і/або пароль</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">На %1$s</string>
-    <string name="always_authenticate_description">Уключэнне гэтай функцыі адключае аўтаматычны ўваход</string>
+    <string name="always_authenticate_description">Уключэнне гэтай функцыі адключае аўтаўваход</string>
     <string name="advanced_settings">Пашыраны</string>
     <string name="license_artifact">Артэфакт</string>
     <string name="license_author">Аўтар</string>
@@ -178,7 +178,7 @@
     <string name="btn_got_it">Зразумела</string>
     <string name="lbl_new_premieres">Новыя прэм\'еры</string>
     <string name="lbl_next_item">Наступны элемент</string>
-    <string name="lbl_auto_crop">Аўтаматычнае кадраванне</string>
+    <string name="lbl_auto_crop">Аўтаабрэзка</string>
     <string name="lbl_quality_profile">Профіль якасці</string>
     <string name="login_username_field_empty">Імя карыстальніка не можа быць пустым</string>
     <string name="lbl_remove_server">Выдаліць сервер</string>
@@ -683,7 +683,7 @@
     <string name="playback_buffer_large">Вялікі</string>
     <string name="pref_burn_subtitles_when_transcoding">Ушыць субтытры пры транскадаванні</string>
     <string name="pref_burn_subtitles_when_transcoding_description">Заўсёды ўшываць субтытры ў відэа пры транскадаванні. Гэта можа выправіць праблемы сінхранізацыі субтытраў, але адключае іх наладку.</string>
-    <string name="codec_level_warning">Змена аўтаматычнага значэння можа выклікаць праблемы з прайграваннем, калі ваша прылада на самай справе не падтрымлівае выбраны ўзровень.</string>
+    <string name="codec_level_warning">Змена \"Аўта\" можа выклікаць праблемы з прайграваннем, калі ваша прылада на самай справе не падтрымлівае выбраны ўзровень.</string>
     <string name="preference_codecs_summary">Замяніць кодэкі, якія паведамляе прылада</string>
     <string name="hdr_override_auto">Аўта (вызначэнне прылады)</string>
     <string name="dovi_profile_5">Dolby Vision, Профіль 5</string>

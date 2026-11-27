@@ -1,9 +1,13 @@
 package org.jellyfin.playback.core
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jellyfin.playback.core.backend.BackendService
+import org.jellyfin.playback.core.backend.PlayerBackendEvent
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
@@ -22,6 +26,7 @@ interface PlayerState {
 	val playbackOrder: StateFlow<PlaybackOrder>
 	val repeatMode: StateFlow<RepeatMode>
 	val scrubbing: StateFlow<Boolean>
+	val backendEvents: SharedFlow<PlayerBackendEvent>
 
 	/**
 	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
@@ -80,29 +85,36 @@ class MutablePlayerState(
 	private val _scrubbing = MutableStateFlow(false)
 	override val scrubbing: StateFlow<Boolean> get() = _scrubbing.asStateFlow()
 
+	private val _backendEvents = MutableSharedFlow<PlayerBackendEvent>(extraBufferCapacity = Int.MAX_VALUE)
+	override val backendEvents: SharedFlow<PlayerBackendEvent> = _backendEvents.asSharedFlow()
+
 	override val positionInfo: PositionInfo
 		get() = backendService.backend?.getPositionInfo() ?: PositionInfo.EMPTY
 
 	init {
+		volume = options.playerVolumeState
+
 		backendService.addListener(object : PlayerBackendEventListener() {
-			override fun onPlayStateChange(state: PlayState) {
+			override fun onPlayStateChange(state: PlayState, stream: PlayableMediaStream?, position: Duration?) {
 				_playState.value = state
+
+				_backendEvents.tryEmit(PlayerBackendEvent.PlayStateChanged(state, stream, position))
 			}
 
 			override fun onVideoSizeChange(width: Int, height: Int) {
 				_videoSize.value = VideoSize(width, height)
+
+				_backendEvents.tryEmit(PlayerBackendEvent.VideoSizeChanged(width, height))
 			}
 
-			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
-				// Make sure to start stream again if repeat mode is turned on
-				// Note: the QueueService is responsible for changing REPEAT_ENTRY_ONCE to NONE
-				if (_repeatMode.value != RepeatMode.NONE) {
-					backendService.backend?.play()
-				}
+			override fun onMediaStreamEnd(mediaStream: PlayableMediaStream, position: Duration) {
+				_backendEvents.tryEmit(PlayerBackendEvent.MediaStreamEnded(mediaStream, position))
+			}
+
+			override fun onMediaStreamReplaced(mediaStream: PlayableMediaStream, position: Duration) {
+				_backendEvents.tryEmit(PlayerBackendEvent.MediaStreamReplaced(mediaStream, position))
 			}
 		})
-
-		volume = options.playerVolumeState
 	}
 
 	override fun play() {

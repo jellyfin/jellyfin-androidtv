@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.seriesThumbImage
 import org.jellyfin.androidtv.util.getTimeFormatter
-import org.jellyfin.androidtv.util.locale
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -44,6 +43,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 	override val showCardInfoOverlay
 		get() = when (baseItem?.type) {
 			BaseItemKind.FOLDER,
+			BaseItemKind.CHANNEL_FOLDER_ITEM,
 			BaseItemKind.PHOTO_ALBUM,
 			BaseItemKind.USER_VIEW,
 			BaseItemKind.COLLECTION_FOLDER,
@@ -92,7 +92,7 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 			).joinToString(" - ")
 
 			val timestamp = buildString {
-				append(DateTimeFormatter.ofPattern("d MMM", context.locale).format(baseItem.startDate))
+				append(DateTimeFormatter.ofPattern("d MMM", context.resources.configuration.locales[0]).format(baseItem.startDate))
 				append(" ")
 				append(context.getTimeFormatter().format(baseItem.startDate))
 				append(" - ")
@@ -118,6 +118,9 @@ open class BaseItemDtoBaseRowItem @JvmOverloads constructor(
 
 			baseItem?.type == BaseItemKind.SEASON -> baseItem.itemImages[ImageType.PRIMARY]
 				?: baseItem.seriesPrimaryImage
+
+			baseItem?.type == BaseItemKind.USER_VIEW -> baseItem.itemImages[ImageType.PRIMARY]
+				?: baseItem.parentImages[ImageType.PRIMARY]
 
 			baseItem?.type == BaseItemKind.PROGRAM -> baseItem.itemImages[ImageType.THUMB]
 			baseItem?.type == BaseItemKind.AUDIO -> baseItem.albumPrimaryImage
