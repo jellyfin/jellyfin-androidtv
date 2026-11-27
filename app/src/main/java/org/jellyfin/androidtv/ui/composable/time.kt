@@ -6,9 +6,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
-import org.jellyfin.androidtv.util.locale
 import java.util.Date
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -20,8 +20,8 @@ fun rememberCurrentTime(
 	updateFrequency: Duration = 1.minutes,
 ): State<String> {
 	val context = LocalContext.current
-	val locale = context.locale
-	val format = remember(context, locale) {
+	val configuration = LocalConfiguration.current
+	val format = remember(context, configuration, format12, format24) {
 		when (DateFormat.is24HourFormat(context)) {
 			true -> format24
 			false -> format12
