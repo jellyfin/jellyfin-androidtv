@@ -530,7 +530,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         }
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
-        if (forcedAudioLanguage != null) {
+        if (forcedAudioLanguage != null && currentMediaSource != null && currentMediaSource.getMediaStreams() != null) {
             // find the first audio stream with the requested language
             for (MediaStream stream : currentMediaSource.getMediaStreams()) {
                 if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
