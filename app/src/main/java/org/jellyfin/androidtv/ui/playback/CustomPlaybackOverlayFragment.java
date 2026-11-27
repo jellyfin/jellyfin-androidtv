@@ -709,7 +709,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             playbackControllerContainer.getValue().getPlaybackController().endPlayback();
         }
 
-        closePlayer();
+        // when this fragment is being removed, the navigation away from it has already happened. going back here would
+        // close whatever replaced it, such as a new player started by a remote play command
+        if (!isRemoving()) closePlayer();
     }
 
     public void show() {
@@ -1334,6 +1336,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        // Leave the window alone when another player has already replaced this one
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        if (playbackController != null && playbackController.hasFragment() && playbackController.getFragment() != this) return;
 
         // Show system bars
         WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), true);
