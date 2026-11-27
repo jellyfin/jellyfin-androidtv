@@ -5,6 +5,7 @@ import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.ui.PlayerSubtitleView
 import org.jellyfin.playback.core.ui.PlayerSurfaceView
+import kotlin.time.Duration
 
 /**
  * Service keeping track of the current playback backend and its related surface view.
@@ -83,16 +84,20 @@ class BackendService {
 			body: PlayerBackendEventListener.() -> T
 		): List<T> = listeners.map { listener -> listener.body() }
 
-		override fun onPlayStateChange(state: PlayState) {
-			callListeners { onPlayStateChange(state) }
+		override fun onPlayStateChange(state: PlayState, stream: PlayableMediaStream?, position: Duration?) {
+			callListeners { onPlayStateChange(state, stream, position) }
 		}
 
 		override fun onVideoSizeChange(width: Int, height: Int) {
 			callListeners { onVideoSizeChange(width, height) }
 		}
 
-		override fun onMediaStreamEnd(mediaStream: PlayableMediaStream) {
-			callListeners { onMediaStreamEnd(mediaStream) }
+		override fun onMediaStreamEnd(mediaStream: PlayableMediaStream, position: Duration) {
+			callListeners { onMediaStreamEnd(mediaStream, position) }
+		}
+
+		override fun onMediaStreamReplaced(mediaStream: PlayableMediaStream, position: Duration) {
+			callListeners { onMediaStreamReplaced(mediaStream, position) }
 		}
 	}
 }

@@ -22,9 +22,6 @@ object AndroidVersion {
 	 */
 	val sdkInt: Int get() = Build.VERSION.SDK_INT
 
-	/** At least Android 7 Nougat, API 24. @see Build.VERSION_CODES.N */
-	val isAtLeastN: Boolean get() = sdkInt >= Build.VERSION_CODES.N
-
 	/** At least Android 8 Oreo, API 26. @see Build.VERSION_CODES.O */
 	val isAtLeastO: Boolean get() = sdkInt >= Build.VERSION_CODES.O
 

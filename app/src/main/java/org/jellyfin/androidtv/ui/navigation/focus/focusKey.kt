@@ -142,6 +142,7 @@ private class FocusKeyNode(
 	}
 
 	override fun onPlaced(coordinates: LayoutCoordinates) {
+		manager.requestRestoredFocus(fullKey, focusRequester)
 		if (initialFocus) manager.requestInitialFocus(focusRequester)
 	}
 }

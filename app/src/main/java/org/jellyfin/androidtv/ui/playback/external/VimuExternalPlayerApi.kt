@@ -13,6 +13,7 @@ class VimuExternalPlayerApi : ExternalPlayerApi {
 	companion object {
 		val PACKAGE_NAMES = arrayOf(
 			"net.gtvbox.videoplayer",
+			"net.gtvbox.vimuhd",
 		)
 
 		private const val EXTRA_TITLE = "forcename"
