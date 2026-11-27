@@ -19,7 +19,8 @@ interface PlayerBackend {
 
 	// UI
 	fun setSurfaceView(surfaceView: PlayerSurfaceView?)
-	fun setSubtitleView(surfaceView: PlayerSubtitleView?)
+	fun setSubtitleViews(surfaceViews: List<PlayerSubtitleView>)
+	val subtitleTrackSelector: SubtitleTrackSelector
 
 	// Data retrieval
 
@@ -42,4 +43,3 @@ interface PlayerBackend {
 
 	fun setTimedEvents(timedEvents: List<TimedEvent>)
 }
-

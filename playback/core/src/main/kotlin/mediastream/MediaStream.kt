@@ -60,4 +60,12 @@ data class MediaStreamVideoTrack(
 	val videoRange: String?,
 ) : MediaStreamTrack
 
-// TODO: Add subtitle track
+data class MediaStreamSubtitleTrack(
+	override val codec: String,
+	val index: Int,
+	val label: String?,
+	val language: String?,
+	val url: String,
+	val isDefault: Boolean,
+	val isForced: Boolean,
+) : MediaStreamTrack

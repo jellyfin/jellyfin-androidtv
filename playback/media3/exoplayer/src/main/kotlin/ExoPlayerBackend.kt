@@ -2,16 +2,21 @@ package org.jellyfin.playback.media3.exoplayer
 
 import android.app.ActivityManager
 import android.content.Context
+import android.net.Uri
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.core.content.getSystemService
 import androidx.media3.common.C
+import androidx.media3.common.MimeTypes
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.TrackSelectionParameters
+import androidx.media3.common.Tracks
 import androidx.media3.common.VideoSize
+import androidx.media3.common.text.Cue
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
@@ -31,7 +36,9 @@ import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
 import io.github.peerless2012.ass.media.type.AssRenderType
 import io.github.peerless2012.ass.media.widget.AssSubtitleView
 import org.jellyfin.playback.core.backend.BasePlayerBackend
+import org.jellyfin.playback.core.backend.SubtitleTrackSelector
 import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.mediastream.MediaStreamSubtitleTrack
 import org.jellyfin.playback.core.mediastream.PlayableMediaStream
 import org.jellyfin.playback.core.mediastream.mediaStream
 import org.jellyfin.playback.core.mediastream.mediatype.MediaType
@@ -39,6 +46,7 @@ import org.jellyfin.playback.core.mediastream.mediatype.mediaType
 import org.jellyfin.playback.core.mediastream.normalizationGain
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
+import org.jellyfin.playback.core.model.SubtitleTrack
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.support.PlaySupportReport
 import org.jellyfin.playback.core.timedevent.TimedEvent
@@ -47,14 +55,28 @@ import org.jellyfin.playback.core.ui.PlayerSurfaceView
 import org.jellyfin.playback.media3.exoplayer.support.getPlaySupportReport
 import org.jellyfin.playback.media3.exoplayer.support.toFormats
 import timber.log.Timber
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+
+private fun subtitleMimeType(codec: String): String? = when (codec.lowercase()) {
+	"ass", "ssa" -> MimeTypes.TEXT_SSA
+	"dvbsub" -> MimeTypes.APPLICATION_DVBSUBS
+	"idx", "dvdsub" -> MimeTypes.APPLICATION_VOBSUB
+	"pgs", "pgssub" -> MimeTypes.APPLICATION_PGS
+	"srt", "subrip" -> MimeTypes.APPLICATION_SUBRIP
+	"ttml" -> MimeTypes.APPLICATION_TTML
+	"vtt", "webvtt" -> MimeTypes.TEXT_VTT
+	else -> MimeTypes.getTextMediaMimeType(codec)
+}
 
 @OptIn(UnstableApi::class)
 class ExoPlayerBackend(
 	private val context: Context,
 	private val exoPlayerOptions: ExoPlayerOptions,
-) : BasePlayerBackend() {
+) : BasePlayerBackend(), SubtitleTrackSelector {
 	companion object {
 		const val TS_SEARCH_BYTES_LM = TsExtractor.TS_PACKET_SIZE * 1800
 		const val TS_SEARCH_BYTES_HM = TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
@@ -62,7 +84,13 @@ class ExoPlayerBackend(
 	}
 
 	private var currentStream: PlayableMediaStream? = null
-	private var subtitleView: SubtitleView? = null
+	private var subtitleViews = emptyList<SubtitleView>()
+	private var subtitleCues = emptyList<Cue>()
+	private val _subtitleTracks = MutableStateFlow<List<SubtitleTrack>>(emptyList())
+	override val tracks: StateFlow<List<SubtitleTrack>> = _subtitleTracks.asStateFlow()
+	override val subtitleTrackSelector: SubtitleTrackSelector
+		get() = this
+	private var subtitleTrackGroups = emptyMap<String, Pair<Int, Int>>()
 	private val audioPipeline = ExoPlayerAudioPipeline()
 	private val audioAttributeState = AudioAttributeState()
 	private val timedEventState = TimedEventState()
@@ -169,7 +197,30 @@ class ExoPlayerBackend(
 		}
 
 		override fun onCues(cueGroup: CueGroup) {
-			subtitleView?.setCues(cueGroup.cues)
+			subtitleCues = cueGroup.cues
+			subtitleViews.forEach { it.setCues(subtitleCues) }
+		}
+
+		override fun onTracksChanged(tracks: Tracks) {
+			val trackGroups = mutableMapOf<String, Pair<Int, Int>>()
+			_subtitleTracks.value = tracks.groups.flatMapIndexed { groupIndex, group ->
+				if (group.type != C.TRACK_TYPE_TEXT) return@flatMapIndexed emptyList()
+
+				(0 until group.length).mapNotNull { trackIndex ->
+					if (!group.isTrackSupported(trackIndex)) return@mapNotNull null
+
+					val id = "$groupIndex:$trackIndex"
+					trackGroups[id] = groupIndex to trackIndex
+					val format = group.getTrackFormat(trackIndex)
+					SubtitleTrack(
+						id = id,
+						label = format.label,
+						language = format.language,
+						selected = group.isTrackSelected(trackIndex),
+					)
+				}
+			}
+			subtitleTrackGroups = trackGroups
 		}
 
 		override fun onPlaybackStateChanged(playbackState: Int) {
@@ -211,21 +262,43 @@ class ExoPlayerBackend(
 		exoPlayer.setVideoSurfaceView(surfaceView?.surface)
 	}
 
-	override fun setSubtitleView(surfaceView: PlayerSubtitleView?) {
-		if (surfaceView != null) {
-			if (subtitleView == null) {
-				subtitleView = SubtitleView(surfaceView.context).apply {
-					if (exoPlayerOptions.enableLibass) {
-						addView(AssSubtitleView(surfaceView.context, assHandler))
-					}
+	override fun setSubtitleViews(surfaceViews: List<PlayerSubtitleView>) {
+		subtitleViews.forEach { (it.parent as? ViewGroup)?.removeView(it) }
+		subtitleViews = surfaceViews.map { surfaceView ->
+			SubtitleView(surfaceView.context).apply {
+				if (exoPlayerOptions.enableLibass) {
+					addView(AssSubtitleView(surfaceView.context, assHandler))
 				}
+				setCues(subtitleCues)
+			}.also(surfaceView::addView)
+		}
+	}
+
+	override fun select(trackId: String?) {
+		val parameters = exoPlayer.trackSelectionParameters.buildUpon()
+			.clearOverridesOfType(C.TRACK_TYPE_TEXT)
+			.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, trackId == null)
+
+		if (trackId != null) {
+			val indices = subtitleTrackGroups[trackId]
+			if (indices == null) {
+				Timber.w("Subtitle track %s is no longer available", trackId)
+				return
 			}
 
-			surfaceView.addView(subtitleView)
-		} else {
-			(subtitleView?.parent as? ViewGroup)?.removeView(subtitleView)
-			subtitleView = null
+			val (groupIndex, trackIndex) = indices
+			val group = exoPlayer.currentTracks.groups.getOrNull(groupIndex)
+			if (group == null || group.type != C.TRACK_TYPE_TEXT || !group.isTrackSupported(trackIndex)) {
+				Timber.w("Subtitle track %s is no longer supported", trackId)
+				return
+			}
+
+			parameters
+				.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
+				.addOverride(TrackSelectionOverride(group.mediaTrackGroup, trackIndex))
 		}
+
+		exoPlayer.trackSelectionParameters = parameters.build()
 	}
 
 	override fun prepareItem(item: QueueEntry) {
@@ -234,6 +307,28 @@ class ExoPlayerBackend(
 			setTag(item)
 			setMediaId(stream.hashCode().toString())
 			setUri(stream.url)
+			setSubtitleConfigurations(
+				stream.tracks
+					.filterIsInstance<MediaStreamSubtitleTrack>()
+					.mapNotNull { track ->
+						val mimeType = subtitleMimeType(track.codec)
+						if (mimeType == null) {
+							Timber.w("Unsupported external subtitle format: %s", track.codec)
+							return@mapNotNull null
+						}
+
+						MediaItem.SubtitleConfiguration.Builder(Uri.parse(track.url))
+							.setId("JF_EXTERNAL:${track.index}")
+							.setMimeType(mimeType)
+							.setLanguage(track.language)
+							.setLabel(track.label)
+							.setSelectionFlags(
+								(if (track.isDefault) C.SELECTION_FLAG_DEFAULT else 0) or
+									(if (track.isForced) C.SELECTION_FLAG_FORCED else 0)
+							)
+							.build()
+					}
+			)
 		}.build()
 
 		// Remove any excessive items from the start

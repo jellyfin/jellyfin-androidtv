@@ -27,6 +27,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.SortOrder
+import org.jellyfin.sdk.model.api.Video3dFormat
 import java.util.UUID
 
 @Suppress("TooManyFunctions")
@@ -135,8 +136,9 @@ object Destinations {
 		putInt("Position", position ?: 0)
 	}
 
-	fun videoPlayerNew(position: Int?) = fragmentDestination<VideoPlayerFragment> {
+	fun videoPlayerNew(position: Int?, video3dFormat: Video3dFormat? = null) = fragmentDestination<VideoPlayerFragment> {
 		putInt(VideoPlayerFragment.EXTRA_POSITION, position ?: 0)
+		video3dFormat?.let { putString(VideoPlayerFragment.EXTRA_VIDEO_3D_FORMAT, it.serialName) }
 	}
 
 	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment> {

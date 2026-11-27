@@ -22,12 +22,13 @@ import org.jellyfin.androidtv.ui.player.base.toast.MediaToastRegistry
 import org.jellyfin.androidtv.ui.player.video.toast.rememberPlaybackManagerMediaToastEmitter
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.sdk.model.api.Video3dFormat
 import org.koin.compose.koinInject
 
 private const val DefaultVideoAspectRatio = 16f / 9f
 
 @Composable
-fun VideoPlayerScreen() {
+fun VideoPlayerScreen(video3dFormat: Video3dFormat? = null) {
 	val playbackManager = koinInject<PlaybackManager>()
 
 	val backgroundService = koinInject<BackgroundService>()
@@ -65,10 +66,12 @@ fun VideoPlayerScreen() {
 		VideoPlayerOverlay(
 			playbackManager = playbackManager,
 			mediaToastRegistry = mediaToastRegistry,
+			video3dFormat = video3dFormat,
 		)
 
 		PlayerSubtitles(
 			playbackManager = playbackManager,
+			video3dFormat = video3dFormat,
 			modifier = Modifier
 				.aspectRatio(aspectRatio, videoSize.height < videoSize.width)
 				.fillMaxSize()

@@ -2,6 +2,7 @@ package org.jellyfin.playback.jellyfin.mediastream
 
 import org.jellyfin.playback.core.mediastream.MediaStreamAudioTrack
 import org.jellyfin.playback.core.mediastream.MediaStreamContainer
+import org.jellyfin.playback.core.mediastream.MediaStreamSubtitleTrack
 import org.jellyfin.playback.core.mediastream.MediaStreamVideoTrack
 import org.jellyfin.sdk.model.api.MediaStream
 import org.jellyfin.sdk.model.api.MediaStreamType
@@ -41,5 +42,4 @@ private fun getVideoTrack(stream: MediaStream) = MediaStreamVideoTrack(
 	videoRange = stream.videoRangeType.name,
 )
 
-// TODO Implement Subtitle track type
 private fun getSubtitleTrack(stream: MediaStream) = null
