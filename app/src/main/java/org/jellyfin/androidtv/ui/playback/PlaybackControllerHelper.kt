@@ -183,6 +183,9 @@ fun PlaybackController.applyMediaSegments(
 			mediaSegmentRepository.getSegmentsForItem(item)
 		}.getOrNull().orEmpty()
 
+		// Playback may have ended while the media segments were loading
+		if (!hasFragment()) return@launch
+
 		for (mediaSegment in mediaSegments) {
 			val action = mediaSegmentRepository.getMediaSegmentAction(mediaSegment)
 
