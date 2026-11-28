@@ -66,7 +66,7 @@ class SdkPlaybackHelper(
 		}
 	}
 
-	private suspend fun getItems(
+	internal suspend fun getItems(
 		mainItem: BaseItemDto,
 		allowIntros: Boolean,
 		shuffle: Boolean,
@@ -83,9 +83,9 @@ class SdkPlaybackHelper(
 						fields = ItemRepository.itemFields
 					)
 
-					response.items
+					response.items.flatMap { getParts(it) }
 				} else {
-					listOf(mainItem)
+					getParts(mainItem)
 				}
 			}
 
@@ -97,7 +97,7 @@ class SdkPlaybackHelper(
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields,
 				)
-				response.items
+				response.items.flatMap { getParts(it) }
 			}
 
 			BaseItemKind.SEASON -> {
@@ -109,7 +109,7 @@ class SdkPlaybackHelper(
 					limit = ITEM_QUERY_LIMIT,
 					fields = ItemRepository.itemFields,
 				)
-				response.items
+				response.items.flatMap { getParts(it) }
 			}
 
 			BaseItemKind.FOLDER -> {
