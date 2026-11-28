@@ -709,7 +709,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             playbackControllerContainer.getValue().getPlaybackController().endPlayback();
         }
 
-        closePlayer();
+        CustomPlaybackOverlayFragmentHelperKt.closePlayerOnStop(this);
     }
 
     public void show() {
