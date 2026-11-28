@@ -78,6 +78,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.Response;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.BaseItemPersonExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -535,7 +536,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(BaseItemPersonExtensionsKt.mergeCrewRoles(mBaseItem.getPeople()), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, castAdapter, 1, getString(R.string.lbl_cast_crew));
                 }
 
@@ -566,7 +567,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(BaseItemPersonExtensionsKt.mergeCrewRoles(mBaseItem.getPeople()), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
@@ -607,7 +608,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null && !mBaseItem.getPeople().isEmpty()) {
-                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), requireContext(), new CardPresenter(true, 130), adapter);
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(BaseItemPersonExtensionsKt.mergeCrewRoles(mBaseItem.getPeople()), requireContext(), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
                 }
 
