@@ -7,6 +7,7 @@ import org.jellyfin.sdk.model.api.PlayMethod;
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class StreamInfo {
@@ -70,10 +71,21 @@ public class StreamInfo {
         MediaSource = value;
     }
 
-    public final org.jellyfin.sdk.model.api.SubtitleDeliveryMethod getSubtitleDeliveryMethod() {
+    public final SubtitleDeliveryMethod getSubtitleDeliveryMethod() {
+        if (MediaSource == null) return SubtitleDeliveryMethod.DROP;
         Integer subtitleStreamIndex = MediaSource.getDefaultSubtitleStreamIndex();
-        if (subtitleStreamIndex == null || subtitleStreamIndex == -1) return SubtitleDeliveryMethod.DROP;
-        return MediaSource.getMediaStreams().get(subtitleStreamIndex).getDeliveryMethod();
+        if (subtitleStreamIndex == null || subtitleStreamIndex < 0) return SubtitleDeliveryMethod.DROP;
+        List<MediaStream> mediaStreams = MediaSource.getMediaStreams();
+        if (mediaStreams == null) return SubtitleDeliveryMethod.DROP;
+
+        for (MediaStream stream : mediaStreams) {
+            if (stream.getType() == MediaStreamType.SUBTITLE && stream.getIndex() == subtitleStreamIndex) {
+                SubtitleDeliveryMethod deliveryMethod = stream.getDeliveryMethod();
+                return deliveryMethod != null ? deliveryMethod : SubtitleDeliveryMethod.DROP;
+            }
+        }
+
+        return SubtitleDeliveryMethod.DROP;
     }
 
     private String PlaySessionId;
