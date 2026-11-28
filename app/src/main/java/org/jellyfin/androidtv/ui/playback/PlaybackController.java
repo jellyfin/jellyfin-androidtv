@@ -49,8 +49,17 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
+import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 import kotlin.Lazy;
 import timber.log.Timber;
 
@@ -83,7 +92,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Boolean spinnerOff = false;
 
     protected VideoOptions mCurrentOptions;
-    private int mDefaultAudioIndex = -1;
     protected boolean burningSubs = false;
 
     // The server does not update the subtitle delivery method when alwaysBurnInSubtitleWhenTranscoding
@@ -405,9 +413,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         play(position, null);
     }
 
-    protected void play(long position, @Nullable Integer forcedSubtitleIndex) {
-        String forcedAudioLanguage = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
-        Timber.i("Play called from state: %s with pos: %d, sub index: %d and forced audio: %s", mPlaybackState, position, forcedSubtitleIndex, forcedAudioLanguage);
+    protected void play(long position, @Nullable Integer subtitleIndexOverride) {
+        Timber.i("Play called from state: %s with pos: %d, sub index: %d", mPlaybackState, position, subtitleIndexOverride);
 
         if (mFragment == null) {
             Timber.w("mFragment is null, returning");
@@ -496,7 +503,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, forcedAudioLanguage, item);
+                VideoOptions internalOptions = buildExoPlayerOptions(subtitleIndexOverride, item);
 
                 playInternal(getCurrentlyPlayingItem(), position, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -513,8 +520,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @NonNull
     private VideoOptions buildExoPlayerOptions(
-            @Nullable Integer forcedSubtitleIndex,
-            @Nullable String forcedAudioLanguage,
+            @Nullable Integer subtitleIndexOverride,
             BaseItemDto item) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
@@ -522,23 +528,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setAlwaysBurnInSubtitleWhenTranscoding(userPreferences.getValue().get(UserPreferences.Companion.getSubtitlesBurnDuringTranscode()));
         if (playbackRetries > 0 || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectPlay(false);
         if (playbackRetries > 1) internalOptions.setEnableDirectStream(false);
-        if (mCurrentOptions != null) {
-            internalOptions.setSubtitleStreamIndex(mCurrentOptions.getSubtitleStreamIndex());
-            internalOptions.setAudioStreamIndex(mCurrentOptions.getAudioStreamIndex());
+        if (Objects.equals(getWorkId(), videoQueueManager.getValue().getLastPlayedWorkId())) {
+            internalOptions.setAudioStreamIndex(restoreAudioStreamIndex());
+            internalOptions.setSubtitleStreamIndex(restoreSubtitleStreamIndex());
         }
-        if (forcedSubtitleIndex != null) {
-            internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
+        if (subtitleIndexOverride != null) {
+            internalOptions.setSubtitleStreamIndex(subtitleIndexOverride);
         }
         MediaSourceInfo currentMediaSource = getCurrentMediaSource();
-        if (forcedAudioLanguage != null) {
-            // find the first audio stream with the requested language
-            for (MediaStream stream : currentMediaSource.getMediaStreams()) {
-                if (stream.getType() == MediaStreamType.AUDIO && forcedAudioLanguage.equals(stream.getLanguage())) {
-                    internalOptions.setAudioStreamIndex(stream.getIndex());
-                    break;
-                }
-            }
-        }
         if (!isLiveTv && currentMediaSource != null) {
             internalOptions.setMediaSourceId(currentMediaSource.getId());
         }
@@ -619,13 +616,144 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mFragment != null) mFragment.closePlayer();
     }
 
+    @Nullable
+    private UUID getWorkId() {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        return item != null
+                ? item.getSeriesId() != null
+                        ? item.getSeriesId()
+                        : item.getId()
+                : null;
+    }
+
+    @Nullable
+    private Integer getServerStreamIndex(MediaStreamType type) {
+        switch (type) {
+            case AUDIO:
+                return Optional.ofNullable(getCurrentMediaSource()).map(MediaSourceInfo::getDefaultAudioStreamIndex)
+                        .orElse(null);
+            case SUBTITLE:
+                return Optional.ofNullable(getCurrentMediaSource()).map(MediaSourceInfo::getDefaultSubtitleStreamIndex)
+                        .orElse(null);
+            default:
+                return null;
+        }
+    }
+
+    void setLastPlayedStreams(int audioIndex, int subtitleIndex) {
+        List<MediaStream> streams = Optional.ofNullable(getCurrentMediaSource())
+                .map(MediaSourceInfo::getMediaStreams)
+                .orElseGet(Collections::emptyList);
+        MediaStream audio = streams.stream()
+                .filter(stream -> stream.getType() == MediaStreamType.AUDIO && stream.getIndex() == audioIndex)
+                .findFirst().orElse(null);
+        MediaStream subtitle = streams.stream()
+                .filter(stream -> stream.getType() == MediaStreamType.SUBTITLE && stream.getIndex() == subtitleIndex)
+                .findFirst().orElse(null);
+        UUID workId = getWorkId();
+
+        if (workId != null && !streams.isEmpty()
+                && (audioIndex < 0 || audio != null)
+                && (subtitleIndex < 0 || subtitle != null)) {
+            videoQueueManager.getValue().setLastPlayedStreams(workId, audio, subtitle);
+        }
+    }
+
+    @Nullable
+    private Integer findMatchingStreamIndex(MediaStream previous) {
+        Integer serverIndex = getServerStreamIndex(previous.getType());
+        String language = previous.getLanguage();
+        String title = previous.getTitle();
+        Predicate<String> hasValue = value -> value != null && !value.isEmpty();
+        Predicate<MediaStream> matchesTitle = stream -> hasValue.test(title) && title.equals(stream.getTitle());
+        Predicate<MediaStream> matchesIndex = stream -> stream.getIndex() == previous.getIndex();
+        Predicate<MediaStream> matchesServer = stream -> Objects.equals(stream.getIndex(), serverIndex);
+
+        NormalizedLevenshtein algorithm = new NormalizedLevenshtein();
+        Comparator<MediaStream> titleSimilarity = Comparator.comparingDouble(
+                stream -> hasValue.test(title) && hasValue.test(stream.getTitle())
+                        ? algorithm.similarity(title, stream.getTitle()) : 0);
+        Comparator<MediaStream> priorityOrder = Comparator.comparing(matchesTitle::test)
+                .thenComparing(stream -> hasValue.test(title) && !hasValue.test(stream.getTitle())
+                        && matchesIndex.test(stream))
+                .thenComparing(titleSimilarity)
+                .thenComparing(matchesIndex::test)
+                .thenComparing(matchesServer::test);
+
+        return Optional.ofNullable(getCurrentMediaSource())
+                .map(MediaSourceInfo::getMediaStreams)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .filter(stream -> stream.getType() == previous.getType())
+                .filter(stream -> !hasValue.test(language) || language.equals(stream.getLanguage()))
+                .filter(stream -> hasValue.test(language) || hasValue.test(title) || matchesIndex.test(stream))
+                .max(priorityOrder)
+                .map(MediaStream::getIndex)
+                .orElse(null);
+    }
+
+    @Nullable
+    private Integer restoreAudioStreamIndex() {
+        VideoQueueManager queue = videoQueueManager.getValue();
+        MediaStream previous = queue.getLastPlayedAudioStream();
+        UUID workId = getWorkId();
+
+        return previous != null && workId != null
+                ? workId.equals(queue.getLastPlayedWorkId())
+                        ? findMatchingStreamIndex(previous)
+                        : findMatchingStreamIndex(JavaCompat.copyWithIndexAndTitle(previous, -1, null))
+                : null;
+    }
+
+    @Nullable
+    private Integer restoreSubtitleStreamIndex() {
+        VideoQueueManager queue = videoQueueManager.getValue();
+        MediaStream previous = queue.getLastPlayedSubtitleStream();
+        UUID workId = getWorkId();
+
+        if (previous == null && workId != null && workId.equals(queue.getLastPlayedWorkId())) {
+            return -1;
+        }
+
+        return previous != null && workId != null
+                ? workId.equals(queue.getLastPlayedWorkId())
+                        ? findMatchingStreamIndex(previous)
+                        : findMatchingStreamIndex(JavaCompat.copyWithIndexAndTitle(previous, -1, null))
+                : null;
+    }
+
+    private int selectAudioStreamIndex() {
+        return Stream
+                .of(mCurrentOptions.getAudioStreamIndex(),
+                        restoreAudioStreamIndex(),
+                        getServerStreamIndex(MediaStreamType.AUDIO))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElseGet(() -> Optional.ofNullable(getCurrentMediaSource())
+                        .map(MediaSourceInfo::getMediaStreams)
+                        .map(Collection::stream)
+                        .orElseGet(Stream::empty)
+                        .filter(stream -> stream.getType() == MediaStreamType.AUDIO)
+                        .max(Comparator.comparing(MediaStream::isDefault))
+                        .map(MediaStream::getIndex)
+                        .orElse(-1));
+    }
+
+    private int selectSubtitleStreamIndex() {
+        return Stream
+                .of(mCurrentOptions.getSubtitleStreamIndex(),
+                        restoreSubtitleStreamIndex(),
+                        getServerStreamIndex(MediaStreamType.SUBTITLE))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(-1);
+    }
+
     private void startItem(BaseItemDto item, long position, StreamInfo response) {
         if (!hasInitializedVideoManager() || !hasFragment()) {
             Timber.w("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
             return;
         }
-
-        mCurrentOptions.setAudioStreamIndex(null); // reset audio stream index to allow auto selection on new item
 
         mStartPosition = position;
         mCurrentStreamInfo = response;
@@ -643,37 +771,27 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        // get subtitle info - prefer saved language preference over server default
-        Integer defaultSubtitleIndex = response.getMediaSource().getDefaultSubtitleStreamIndex();
-        String lastSubtitleLanguage = videoQueueManager.getValue().getLastPlayedSubtitleLanguageIsoCode();
-        if (lastSubtitleLanguage != null) {
-            if (lastSubtitleLanguage.isEmpty()) {
-                // User explicitly disabled subtitles
-                mCurrentOptions.setSubtitleStreamIndex(null);
-            } else if (response.getMediaSource().getMediaStreams() != null) {
-                // Within the saved language, prefer the requested stream, then the server default.
-                Integer requestedIndex = mCurrentOptions.getSubtitleStreamIndex();
-                Integer matchingIndex = null;
-                for (MediaStream stream : response.getMediaSource().getMediaStreams()) {
-                    if (stream.getType() == MediaStreamType.SUBTITLE && lastSubtitleLanguage.equals(stream.getLanguage())) {
-                        if (matchingIndex == null || (defaultSubtitleIndex != null && defaultSubtitleIndex == stream.getIndex())) {
-                            matchingIndex = stream.getIndex();
-                        }
-                        if (requestedIndex != null && requestedIndex == stream.getIndex()) {
-                            matchingIndex = requestedIndex;
-                            break;
-                        }
-                    }
-                }
-                mCurrentOptions.setSubtitleStreamIndex(matchingIndex);
-            }
-        } else {
-            // No saved preference, use server default
-            mCurrentOptions.setSubtitleStreamIndex(defaultSubtitleIndex);
+        boolean audioRequested = mCurrentOptions.getAudioStreamIndex() != null;
+        boolean subtitleRequested = mCurrentOptions.getSubtitleStreamIndex() != null;
+        mCurrentOptions.setAudioStreamIndex(selectAudioStreamIndex());
+        mCurrentOptions.setSubtitleStreamIndex(selectSubtitleStreamIndex());
+
+        boolean retryAudio = isTranscoding() && !audioRequested
+                && !Objects.equals(mCurrentOptions.getAudioStreamIndex(),
+                        getServerStreamIndex(MediaStreamType.AUDIO));
+        boolean retrySubtitles = burningSubs && !subtitleRequested
+                && !Objects.equals(mCurrentOptions.getSubtitleStreamIndex(),
+                        getServerStreamIndex(MediaStreamType.SUBTITLE));
+        if (retryAudio || retrySubtitles) {
+            playInternal(item, position, mCurrentOptions);
+            return;
         }
-        setDefaultAudioIndex(response);
-        Timber.i("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
-        Timber.i("default sub index set to %s remote default %s", mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
+
+        setLastPlayedStreams(mCurrentOptions.getAudioStreamIndex(), mCurrentOptions.getSubtitleStreamIndex());
+        Timber.i("default audio index set to %s remote default %s",
+                mCurrentOptions.getAudioStreamIndex(), response.getMediaSource().getDefaultAudioStreamIndex());
+        Timber.i("default sub index set to %s remote default %s",
+                mCurrentOptions.getSubtitleStreamIndex(), response.getMediaSource().getDefaultSubtitleStreamIndex());
 
         Long mbPos = position * 10000;
 
@@ -742,58 +860,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return currIndex;
     }
 
-    private Integer bestGuessAudioTrack(MediaSourceInfo info) {
-        if (info == null)
-            return null;
-
-        boolean videoFound = false;
-        for (MediaStream track : info.getMediaStreams()) {
-            if (track.getType() == MediaStreamType.VIDEO) {
-                videoFound = true;
-            } else {
-                if (videoFound && track.getType() == MediaStreamType.AUDIO)
-                    return track.getIndex();
-            }
-        }
-        return null;
-    }
-
-    private Integer lastChosenLanguageAudioTrack(MediaSourceInfo info) {
-        if (info == null)
-            return null;
-
-        boolean videoFound = false;
-        for (MediaStream track : info.getMediaStreams()) {
-            if (track.getType() == MediaStreamType.VIDEO) {
-                videoFound = true;
-            } else {
-                if (videoFound
-                    && track.getType() == MediaStreamType.AUDIO
-                    && (track.getLanguage() != null && track.getLanguage().equals(videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode()))
-                )
-                    return track.getIndex();
-            }
-        }
-        return null;
-    }
-
-    private void setDefaultAudioIndex(StreamInfo info) {
-        if (mDefaultAudioIndex != -1)
-            return;
-
-        Integer lastChosenLanguage = lastChosenLanguageAudioTrack(info.getMediaSource());
-        Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
-        Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
-
-        if (lastChosenLanguage != null)
-            mDefaultAudioIndex = lastChosenLanguage;
-        else if (remoteDefault != null)
-            mDefaultAudioIndex = remoteDefault;
-        else if (bestGuess != null)
-            mDefaultAudioIndex = bestGuess;
-        Timber.d("default audio index set to %s", mDefaultAudioIndex);
-    }
-
     public void switchAudioStream(int index) {
         if (!(isPlaying() || isPaused()) || index < 0)
             return;
@@ -805,15 +871,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        String lastAudioIsoCode = videoQueueManager.getValue().getLastPlayedAudioLanguageIsoCode();
-        String currentAudioIsoCode = currentMediaSource.getMediaStreams().get(index).getLanguage();
-
-        if (currentAudioIsoCode != null
-                && (lastAudioIsoCode == null || !lastAudioIsoCode.equals(currentAudioIsoCode))) {
-            videoQueueManager.getValue().setLastPlayedAudioLanguageIsoCode(
-                    currentAudioIsoCode
-            );
-        }
+        setLastPlayedStreams(index, getSubtitleStreamIndex());
 
         int currAudioIndex = getAudioStreamIndex();
         Timber.i("trying to switch audio stream from %s to %s", currAudioIndex, index);
@@ -920,7 +978,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void clearPlaybackSessionOptions() {
-        mDefaultAudioIndex = -1;
         mSeekPosition = -1;
         finishedInitialSeek = false;
         wasSeeking = false;
@@ -1255,17 +1312,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 PlaybackControllerHelperKt.disableDefaultSubtitles(this);
             }
 
-            // select an audio track
-            int eligibleAudioTrack = mDefaultAudioIndex;
-
-            // if track switching is done without rebuilding the stream, mCurrentOptions is updated
-            // otherwise, use the server default
-            if (mCurrentOptions.getAudioStreamIndex() != null) {
-                eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
-            } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
-                eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
+            Integer requestedAudioIndex = mCurrentOptions.getAudioStreamIndex();
+            if (requestedAudioIndex != null) {
+                // Clear the cached index so switchAudioStream compares against the active audio track
+                mCurrentOptions.setAudioStreamIndex(null);
+                switchAudioStream(requestedAudioIndex);
             }
-            switchAudioStream(eligibleAudioTrack);
         }
     }
 
