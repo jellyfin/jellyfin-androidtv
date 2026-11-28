@@ -292,11 +292,11 @@ public class KeyProcessor {
                     playbackHelper.getValue().retrieveAndPlay(item.getId(), true, activity);
                     return true;
                 case MENU_ADD_QUEUE:
-                    playbackHelper.getValue().getItemsToPlay(activity, item, false, false, new Response<List<BaseItemDto>>(activity.getLifecycle()) {
+                    playbackHelper.getValue().getItemsToPlay(activity, item, false, false, new Response<ItemsToPlay>(activity.getLifecycle()) {
                         @Override
-                        public void onResponse(List<BaseItemDto> response) {
+                        public void onResponse(ItemsToPlay response) {
                             if (!isActive()) return;
-                            mediaManager.getValue().addToAudioQueue(response);
+                            mediaManager.getValue().addToAudioQueue(response.getItems());
                         }
 
                         @Override

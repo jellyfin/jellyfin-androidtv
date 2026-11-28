@@ -33,7 +33,6 @@ import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
 import org.jellyfin.sdk.model.extensions.inWholeTicks
 import org.jellyfin.sdk.model.extensions.ticks
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
@@ -95,7 +94,8 @@ class ExternalPlayerActivity : FragmentActivity() {
 	private fun playNext(position: Duration = Duration.ZERO) {
 		val currentPosition = videoQueueManager.getCurrentMediaPosition()
 		val item = videoQueueManager.getCurrentVideoQueue().getOrNull(currentPosition) ?: return finish()
-		val mediaSource = item.mediaSources?.firstOrNull { it.id?.toUUIDOrNull() == item.id }
+		// The server orders the media sources so the version that should play comes first
+		val mediaSource = item.mediaSources?.firstOrNull()
 
 		if (mediaSource == null) {
 			Toast.makeText(this, R.string.msg_no_playable_items, Toast.LENGTH_LONG).show()

@@ -14,6 +14,7 @@ import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
+import org.jellyfin.playback.jellyfin.queue.mediaSourceId
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
 import org.jellyfin.sdk.model.api.PlayMethod
@@ -119,6 +120,7 @@ class PlaySessionService(
 			api.playStateApi.reportPlaybackStart(
 				PlaybackStartInfo(
 					itemId = item.id,
+					mediaSourceId = entry.mediaSourceId,
 					playSessionId = stream.identifier,
 					playlistItemId = item.playlistItemId,
 					canSeek = true,
@@ -148,6 +150,7 @@ class PlaySessionService(
 			api.playStateApi.reportPlaybackProgress(
 				PlaybackProgressInfo(
 					itemId = item.id,
+					mediaSourceId = entry.mediaSourceId,
 					playSessionId = stream.identifier,
 					playlistItemId = item.playlistItemId,
 					canSeek = true,
@@ -181,6 +184,7 @@ class PlaySessionService(
 			api.playStateApi.reportPlaybackStopped(
 				PlaybackStopInfo(
 					itemId = item.id,
+					mediaSourceId = entry.mediaSourceId,
 					playSessionId = stream.identifier,
 					playlistItemId = item.playlistItemId,
 					positionTicks = position.inWholeTicks,

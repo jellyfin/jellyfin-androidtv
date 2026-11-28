@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.data.repository.ItemRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
+import org.jellyfin.androidtv.util.ItemsToPlay
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.Response
 import org.jellyfin.sdk.api.client.ApiClient
@@ -47,15 +48,17 @@ class SdkPlaybackHelper(
 		mainItem: BaseItemDto,
 		allowIntros: Boolean,
 		shuffle: Boolean,
-		outerResponse: Response<List<BaseItemDto>>
+		outerResponse: Response<ItemsToPlay>
 	) {
 		getScope(context).launch {
 			runCatching {
 				val items = getItems(mainItem, allowIntros, shuffle)
-				if (items.isEmpty() && !mainItem.mediaSources.isNullOrEmpty()) listOf(mainItem)
+				val itemsToPlay = if (items.isEmpty() && !mainItem.mediaSources.isNullOrEmpty()) listOf(mainItem)
 				else items
+
+				ItemsToPlay(itemsToPlay, mainItem.versionMediaSourceId)
 			}.fold(
-				onSuccess = { items -> outerResponse.onResponse(items) },
+				onSuccess = { itemsToPlay -> outerResponse.onResponse(itemsToPlay) },
 				onFailure = { exception ->
 					when (exception) {
 						is Exception -> outerResponse.onError(exception)
@@ -281,6 +284,7 @@ class SdkPlaybackHelper(
 				playbackControllerContainer.playbackController?.hasFragment() == true,
 				0,
 				shuffle,
+				item.versionMediaSourceId,
 			)
 		}
 	}
@@ -309,6 +313,7 @@ class SdkPlaybackHelper(
 				playbackControllerContainer.playbackController?.hasFragment() == true,
 				index ?: 0,
 				shuffle,
+				items.getOrNull(index ?: 0)?.versionMediaSourceId,
 			)
 		}
 	}

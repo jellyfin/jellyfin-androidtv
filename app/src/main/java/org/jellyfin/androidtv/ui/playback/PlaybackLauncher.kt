@@ -43,6 +43,7 @@ class PlaybackLauncher(
 		replace: Boolean = false,
 		itemsPosition: Int = 0,
 		shuffle: Boolean = false,
+		mediaSourceId: String? = null,
 	) {
 		val isAudio = items.any { it.mediaType == MediaType.AUDIO }
 
@@ -54,6 +55,7 @@ class PlaybackLauncher(
 
 			videoQueueManager.setCurrentVideoQueue(items.toList())
 			videoQueueManager.setCurrentMediaPosition(itemsPosition)
+			videoQueueManager.setCurrentMediaSourceId(mediaSourceId)
 
 			if (items.isEmpty()) return
 
