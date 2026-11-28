@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -117,6 +118,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private Animation hidePopup;
     private final Handler mHandler = new Handler();
     private Runnable mHideTask;
+    private final Runnable mHideSkipIndicator = () -> {
+        if (binding != null) binding.skipIndicator.setVisibility(View.GONE);
+    };
 
     private AudioManager mAudioManager;
 
@@ -135,6 +139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
+    private final Lazy<UserSettingPreferences> userSettingPreferences = inject(UserSettingPreferences.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -570,6 +575,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             return false;
                         }
                     }
+
+                    if (handleSmartSkipKey(keyCode, event)) return true;
 
                     // Control fast forward and rewind if overlay hidden and not showing live TV
                     if (!playbackControllerContainer.getValue().getPlaybackController().isLiveTv()) {
@@ -1271,6 +1278,33 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 prepareChapterAdapter();
             }
         }
+    }
+
+    // Key repeats are swallowed so holding a key does not run up the whole ladder.
+    private boolean handleSmartSkipKey(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_DPAD_LEFT && keyCode != KeyEvent.KEYCODE_DPAD_RIGHT) return false;
+
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
+        if (playbackController.isLiveTv() || !userSettingPreferences.getValue().get(UserSettingPreferences.Companion.getSmartSkipEnabled())) return false;
+        View overlay = leanbackOverlayFragment.getView();
+        View seekBar = overlay == null ? null : overlay.findViewById(androidx.leanback.R.id.playback_progress);
+        if (mIsVisible && (seekBar == null || !seekBar.isFocused())) return false;
+        if (event.getRepeatCount() != 0) return true;
+
+        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) playbackController.fastForward();
+        else playbackController.rewind();
+        setFadingEnabled(true);
+        // leanback shows the controls with focus on the actions row after this listener returns, move it to the seek bar so repeated presses keep skipping
+        if (!mIsVisible && seekBar != null) mHandler.post(seekBar::requestFocus);
+        return true;
+    }
+
+    public void showSkipIndicator(long offsetMs) {
+        if (binding == null) return;
+        binding.skipIndicator.setText((offsetMs < 0 ? "-" : "+") + TimeUtils.formatMillis(Math.abs(offsetMs)));
+        binding.skipIndicator.setVisibility(View.VISIBLE);
+        mHandler.removeCallbacks(mHideSkipIndicator);
+        mHandler.postDelayed(mHideSkipIndicator, 1500);
     }
 
     public void clearSkipOverlay() {
