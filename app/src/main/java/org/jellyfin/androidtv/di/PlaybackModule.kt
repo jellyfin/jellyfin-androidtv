@@ -37,7 +37,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManag
 
 val playbackModule = module {
 	single { LegacyPlaybackManager(get()) }
-	single { VideoQueueManager() }
+	single { VideoQueueManager(get()) }
 	single<MediaManager> { RewriteMediaManager(get(), get()) }
 
 	single { PlaybackLauncher(get(), get(), get(), get()) }
