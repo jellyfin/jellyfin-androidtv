@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticateMethod
@@ -54,6 +53,7 @@ interface AuthenticationRepository {
 class AuthenticationRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val sessionRepository: SessionRepository,
+	private val serverRepository: ServerRepository,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: ApiClient,
 	private val authenticationPreferences: AuthenticationPreferences,
@@ -71,14 +71,19 @@ class AuthenticationRepositoryImpl(
 		Timber.i("Authenticating user ${user.id}")
 
 		// Automatic logic is disabled when the always authenticate preference is enabled
-		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
+		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return requireSignIn(server)
 
 		val authStoreUser = authenticationStore.getUser(server.id, user.id)
 		// Try login with access token
 		return if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
 		// Require login
-		else flowOf(RequireSignInState)
+		else requireSignIn(server)
 	}
+
+	private fun requireSignIn(server: Server) = flow {
+		if (serverRepository.isServerReachable(server)) emit(RequireSignInState)
+		else emit(ServerUnavailableState)
+	}.flowOn(Dispatchers.IO)
 
 	private fun authenticateCredential(server: Server, username: String, password: String) = flow {
 		val api = jellyfin.createApi(server.address, deviceInfo = defaultDeviceInfo.forUser(username))
@@ -145,7 +150,7 @@ class AuthenticationRepositoryImpl(
 		val success = setActiveSession(user, server)
 		if (!success) {
 			if (!server.versionSupported) emit(ServerVersionNotSupported(server))
-			else emit(RequireSignInState)
+			else emitAll(requireSignIn(server))
 		} else try {
 			// Update user info
 			val userInfo by userApiClient.userApi.getCurrentUser()

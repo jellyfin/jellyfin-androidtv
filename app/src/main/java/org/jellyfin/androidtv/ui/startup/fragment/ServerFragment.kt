@@ -17,6 +17,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -44,10 +45,12 @@ import org.jellyfin.androidtv.util.createBundle
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import kotlin.time.Duration.Companion.seconds
 
 class ServerFragment : Fragment() {
 	companion object {
 		const val ARG_SERVER_ID = "server_id"
+		private val SERVER_REACHABLE_RETRY_DELAY = 10.seconds
 	}
 
 	private val startupViewModel: StartupViewModel by activityViewModel()
@@ -57,6 +60,8 @@ class ServerFragment : Fragment() {
 	private val backgroundService: BackgroundService by inject()
 	private var _binding: FragmentServerBinding? = null
 	private val binding get() = _binding!!
+
+	private var serverReachable = true
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
 
@@ -118,6 +123,8 @@ class ServerFragment : Fragment() {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				val updated = startupViewModel.updateServer(server)
 				if (updated) startupViewModel.getServer(server.id)?.let(::onServerChange)
+
+				while (!checkServerReachable(server)) delay(SERVER_REACHABLE_RETRY_DELAY)
 			}
 		}
 
@@ -141,19 +148,42 @@ class ServerFragment : Fragment() {
 		}
 
 		binding.addUserButton.setOnClickListener {
-			navigateFragment<UserLoginFragment>(
-				args = createBundle {
-					putString(UserLoginFragment.ARG_SERVER_ID, server.id.toString())
-					putString(UserLoginFragment.ARG_USERNAME, null)
+			viewLifecycleOwner.lifecycleScope.launch {
+				if (!checkServerReachable(server)) {
+					Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+					return@launch
 				}
-			)
+
+				navigateFragment<UserLoginFragment>(
+					args = createBundle {
+						putString(UserLoginFragment.ARG_SERVER_ID, server.id.toString())
+						putString(UserLoginFragment.ARG_USERNAME, null)
+					}
+				)
+			}
 		}
 
 		binding.serverButton.setOnClickListener {
 			navigateFragment<SelectServerFragment>(keepToolbar = true)
 		}
 
-		if (!server.versionSupported) {
+		updateNotification(server)
+	}
+
+	private suspend fun checkServerReachable(server: Server): Boolean {
+		val reachable = startupViewModel.isServerReachable(server)
+		if (reachable != serverReachable) {
+			serverReachable = reachable
+			if (_binding != null) updateNotification(startupViewModel.getServer(server.id) ?: server)
+		}
+		return reachable
+	}
+
+	private fun updateNotification(server: Server) {
+		if (!serverReachable) {
+			binding.notification.isVisible = true
+			binding.notification.text = getString(R.string.server_unreachable_notification, server.name)
+		} else if (!server.versionSupported) {
 			binding.notification.isVisible = true
 			binding.notification.text = getString(
 				R.string.server_unsupported_notification,
