@@ -105,8 +105,7 @@ fun DreamContentNowPlaying(
 		if (primaryImage != null) {
 			AsyncImage(
 				url = primaryImage.getUrl(api),
-				blurHash = primaryImage.blurHash,
-				scaleType = ImageView.ScaleType.CENTER_CROP,
+				scaleType = ContentScale.Crop,
 				modifier = Modifier
 					.size(128.dp)
 					.clip(RoundedCornerShape(5.dp))
