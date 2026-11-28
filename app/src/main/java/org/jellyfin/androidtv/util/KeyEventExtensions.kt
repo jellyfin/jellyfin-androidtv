@@ -23,3 +23,8 @@ fun KeyEvent.isMediaSessionKeyEvent(): Boolean = when {
 		else -> false
 	}
 }
+
+/**
+ * Returns whether this key event is a play key that opens the item shown in the screensaver.
+ */
+fun KeyEvent.isOpenItemKeyEvent(): Boolean = keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE

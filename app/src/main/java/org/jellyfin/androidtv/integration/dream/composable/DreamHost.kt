@@ -1,19 +1,25 @@
 package org.jellyfin.androidtv.integration.dream.composable
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
+import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun DreamHost() {
+fun DreamHost(
+	onContentChange: (DreamContent) -> Unit = {},
+) {
 	val viewModel = koinViewModel<DreamViewModel>()
 	val userPreferences = koinInject<UserPreferences>()
 	val content by viewModel.content.collectAsState()
+
+	LaunchedEffect(content) { onContentChange(content) }
 
 	DreamView(
 		content = content,
