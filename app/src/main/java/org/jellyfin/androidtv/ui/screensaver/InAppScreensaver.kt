@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.screensaver
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,6 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 fun InAppScreensaver() {
 	val interactionTrackerViewModel = koinViewModel<InteractionTrackerViewModel>()
 	val visible by interactionTrackerViewModel.visible.collectAsState()
+	val activity = LocalActivity.current
 
 	DialogBase(
 		visible = visible,
@@ -43,13 +45,16 @@ fun InAppScreensaver() {
 				interactionTrackerViewModel.notifyInteraction(canCancel = true, userInitiated = false)
 			}
 			.onKeyEvent { event ->
-				if (!event.nativeKeyEvent.isMediaSessionKeyEvent()) {
+				if (event.nativeKeyEvent.isMediaSessionKeyEvent()) {
+					// Forward media keys to the activity behind the screensaver window so the player can handle them
+					activity?.dispatchKeyEvent(event.nativeKeyEvent) ?: false
+				} else {
 					interactionTrackerViewModel.notifyInteraction(
 						canCancel = event.type == KeyEventType.KeyUp,
 						userInitiated = true,
 					)
+					false
 				}
-				false
 			}
 	) {
 		DreamHost()
