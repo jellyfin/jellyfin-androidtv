@@ -1229,6 +1229,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onPrepared() {
+        if (mCurrentStreamInfo == null) {
+            Timber.w("Ignoring onPrepared because stream info is missing");
+            return;
+        }
+
         if (mPlaybackState == PlaybackState.BUFFERING) {
             if (mFragment != null) {
                 mFragment.setFadingEnabled(true);
