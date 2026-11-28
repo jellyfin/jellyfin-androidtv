@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.ui.browsing.DestinationFragmentView
+import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.koin.compose.koinInject
@@ -28,11 +29,20 @@ fun AppNavigationHost(
 	val factory = remember { AppNavigationHostViewFactory() }
 	val lifecycle = LocalLifecycleOwner.current.lifecycle
 
+	val currentDestination by navigationRepository.currentDestination.collectAsState()
 	val canGoBack by remember {
 		navigationRepository.currentAction.map { navigationRepository.canGoBack }.distinctUntilChanged()
 	}.collectAsState(navigationRepository.canGoBack)
 
-	BackHandler(canGoBack) { navigationRepository.goBack() }
+	// The back button is only disabled on the home screen, on all other screens it navigates back
+	// to the previous screen or falls back to the home screen. Without this the app would be closed
+	// when the back stack is empty, for example after the activity was restored from a saved state.
+	val isHome = currentDestination?.fragment == Destinations.home.fragment
+
+	BackHandler(canGoBack || !isHome) {
+		// Fall back to the home screen if there is no previous screen to navigate back to
+		if (!navigationRepository.goBack()) navigationRepository.reset(Destinations.home, clearHistory = true)
+	}
 
 	AndroidView(
 		factory = factory,
