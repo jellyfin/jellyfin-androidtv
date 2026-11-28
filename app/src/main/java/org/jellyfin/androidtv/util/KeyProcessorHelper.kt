@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.ItemFilter
 import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
@@ -22,7 +22,7 @@ fun FragmentActivity.playFirstUnwatchedItem(parentId: UUID) {
 
 	lifecycleScope.launch(Dispatchers.IO) {
 		runCatching {
-			api.itemsApi.getItems(
+			api.libraryApi.getItems(
 				parentId = parentId,
 				recursive = true,
 				isMissing = false,

@@ -3,7 +3,7 @@ package org.jellyfin.playback.jellyfin.queue
 import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.supplier.PagedQueueSupplier
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
@@ -22,7 +22,7 @@ class AudioAlbumQueueSupplier(
 		private set
 
 	override suspend fun loadPage(offset: Int, size: Int): Collection<QueueEntry> {
-		val result by api.itemsApi.getItems(
+		val result by api.libraryApi.getItems(
 			parentId = album.id,
 			recursive = true,
 			mediaTypes = listOf(MediaType.AUDIO),

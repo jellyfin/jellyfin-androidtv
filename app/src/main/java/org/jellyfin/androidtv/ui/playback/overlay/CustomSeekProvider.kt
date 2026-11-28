@@ -17,7 +17,7 @@ import coil3.toBitmap
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.util.coil.SubsetTransformation
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.trickplayApi
+import org.jellyfin.sdk.api.client.extensions.trickPlayApi
 import org.jellyfin.sdk.api.client.util.AuthorizationHeaderBuilder
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
@@ -92,7 +92,7 @@ class CustomSeekProvider(
 		val offsetX = tileOffsetX * trickPlayInfo.width
 		val offsetY = tileOffsetY * trickPlayInfo.height
 
-		val url = api.trickplayApi.getTrickplayTileImageUrl(
+		val url = api.trickPlayApi.getTrickplayTileImageUrl(
 			itemId = item.id,
 			width = trickPlayInfo.width,
 			index = tileIndex,

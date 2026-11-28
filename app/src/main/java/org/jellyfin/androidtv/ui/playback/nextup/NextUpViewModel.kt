@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.UUID
 import org.jellyfin.sdk.model.api.ImageType
 
@@ -46,7 +46,7 @@ class NextUpViewModel(
 	}
 
 	private suspend fun loadItemData(id: UUID) = withContext(Dispatchers.IO) {
-		val item by api.userLibraryApi.getItem(itemId = id)
+		val item by api.libraryApi.getItem(itemId = id)
 
 		val thumbnail = item.itemImages[ImageType.PRIMARY]
 			.takeIf { userPreferences[UserPreferences.nextUpBehavior] == NextUpBehavior.EXTENDED }

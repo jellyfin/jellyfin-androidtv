@@ -15,7 +15,7 @@ import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.playStateApi
+import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackOrder
 import org.jellyfin.sdk.model.api.PlaybackProgressInfo
@@ -116,7 +116,7 @@ class PlaySessionService(
 
 		Timber.d("Reporting playback start for ${item.id} at $position")
 		runCatching {
-			api.playStateApi.reportPlaybackStart(
+			api.sessionApi.reportPlaybackStart(
 				PlaybackStartInfo(
 					itemId = item.id,
 					playSessionId = stream.identifier,
@@ -145,7 +145,7 @@ class PlaySessionService(
 
 		Timber.d("Reporting playback progress for ${item.id} at $position")
 		runCatching {
-			api.playStateApi.reportPlaybackProgress(
+			api.sessionApi.reportPlaybackProgress(
 				PlaybackProgressInfo(
 					itemId = item.id,
 					playSessionId = stream.identifier,
@@ -178,7 +178,7 @@ class PlaySessionService(
 
 		Timber.d("Reporting playback stop for ${item.id} at $position")
 		runCatching {
-			api.playStateApi.reportPlaybackStopped(
+			api.sessionApi.reportPlaybackStopped(
 				PlaybackStopInfo(
 					itemId = item.id,
 					playSessionId = stream.identifier,

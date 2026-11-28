@@ -8,7 +8,7 @@ import org.jellyfin.playback.core.queue.QueueEntry
 import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.lyricsApi
+import org.jellyfin.sdk.api.client.extensions.lyricApi
 
 class LyricsPlayerService(
 	private val api: ApiClient,
@@ -30,7 +30,7 @@ class LyricsPlayerService(
 		if (baseItem.hasLyrics != true) return
 
 		// Get via API
-		val lyrics by api.lyricsApi.getLyrics(baseItem.id)
+		val lyrics by api.lyricApi.getLyrics(baseItem.id)
 		entry.lyrics = lyrics
 	}
 }

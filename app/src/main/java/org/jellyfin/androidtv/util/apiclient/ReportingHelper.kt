@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.api.client.extensions.playStateApi
+import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.PlaybackOrder
@@ -51,7 +51,7 @@ class ReportingHelper(
 		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
 			Timber.i("Reporting ${item.name} playback started at $position")
 			runCatching {
-				api.playStateApi.reportPlaybackStart(info)
+				api.sessionApi.reportPlaybackStart(info)
 			}.onFailure { error -> Timber.e(error, "Failed to report started playback!") }
 		}
 	}
@@ -83,7 +83,7 @@ class ReportingHelper(
 		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
 			Timber.d("Reporting ${item.name} playback progress at $position")
 			runCatching {
-				api.playStateApi.reportPlaybackProgress(info)
+				api.sessionApi.reportPlaybackProgress(info)
 			}.onFailure { error -> Timber.w(error, "Failed to report playback progress") }
 		}
 	}
@@ -101,7 +101,7 @@ class ReportingHelper(
 		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
 			Timber.i("Reporting ${item.name} playback stopped at $position")
 			runCatching {
-				api.playStateApi.reportPlaybackStopped(info)
+				api.sessionApi.reportPlaybackStopped(info)
 			}.onFailure { error -> Timber.e(error, "Failed to report stopped playback!") }
 		}
 
